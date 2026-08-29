@@ -14,7 +14,8 @@ Phase 1 is complete only when all of the following are true:
 - The CLI completes work-item creation, handoff, transition, and closeout while rejecting invalid gates.
 - Codex tasks and threads can be registered with stable IDs and projected with suggested titles, revisions, attention signals, and archive readiness.
 - Checksum-aware upgrade migrates legacy package identity and renamed managed Skills without overwriting project-owned state.
-- Codex discovers `$temple-work`, `$decision-interview` with conversational and evidence-backed modes, `$domain-modeling`, and `$project-documentation` locally in the repository.
+- Codex discovers `$temple-work`, `$decision-interview` with conversational and evidence-backed modes, `$domain-modeling`, `$project-documentation`, and `$skill-authoring` locally in the repository.
+- Project and third-party Skill files remain project-owned unless their exact paths appear in `temple.lock.managed_files`; untracked collisions stop before writes.
 - Core init does not expand development Skills automatically. The Build Quality pack supports dry-run, explicit installation, status observation, checksum-aware upgrade, and safe removal.
 - At least one real low-risk work item completes the full Developer, Independent QA, and release-gate flow.
 - CI runs all tests in a clean environment.
@@ -36,4 +37,5 @@ Phase 1 is complete only when all of the following are true:
 2. FlowDeck completed the first Phase 1.5 greenfield lifecycle closeout and is frozen as a validation sample; see the [retrospective](pilots/flowdeck-greenfield-retrospective.md).
 3. Alpha.8 addresses unresolved-item resolution, candidate-revision projection, CLI discoverability, and the pilot stop boundary.
 4. Alpha.8 implements and forward-tests `$project-documentation` against the public README redesign.
-5. Validate read-only context recovery in a new Codex task. Enter Phase 2 affected-path ownership, Observer, and evidence-adapter work only after that remaining Phase 1.5 exit gate is complete.
+5. Alpha.9 establishes governed `$skill-authoring`, public extension rules, and exact-path ownership without claiming a Skill CLI, registry, custom-pack installer, or automated routing evaluation.
+6. Validate read-only context recovery in a new Codex task. Enter Phase 2 affected-path ownership, Observer, and evidence-adapter work only after that remaining Phase 1.5 exit gate is complete.

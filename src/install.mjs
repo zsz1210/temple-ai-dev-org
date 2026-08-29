@@ -5,18 +5,28 @@ import {
   GENERATED_PATHS,
   KNOWN_PACKAGE_NAMES,
   MANAGED_EXACT_PATHS,
-  MANAGED_PATH_PREFIXES,
+  MANAGED_SOURCE_PREFIXES,
   PACKAGE_NAME,
   PROJECT_OVERLAY_ROOT,
   PROJECT_OWNED_PATHS,
   TEMPLATE_REPOSITORY,
   TEMPLATE_VERSION
 } from "./constants.mjs";
-import { atomicWrite, formatJson, pathExists, readJson, sha256File, walkFiles } from "./files.mjs";
+import {
+  atomicCreate,
+  atomicWrite,
+  formatJson,
+  pathExists,
+  readJson,
+  rollbackFileChanges,
+  sha256,
+  sha256File,
+  walkFiles
+} from "./files.mjs";
 import { buildProjectState } from "./model.mjs";
 
 function isManaged(relativePath) {
-  return MANAGED_EXACT_PATHS.has(relativePath) || MANAGED_PATH_PREFIXES.some((prefix) => relativePath.startsWith(prefix));
+  return MANAGED_EXACT_PATHS.has(relativePath) || MANAGED_SOURCE_PREFIXES.some((prefix) => relativePath.startsWith(prefix));
 }
 
 function sameJson(left, right) {
@@ -46,6 +56,7 @@ export async function planInit(target, config, { integrateAgents = false } = {})
       );
     }
   }
+  const existingManagedPaths = new Set((existingLock?.managed_files ?? []).map((entry) => entry.path));
 
   for (const relativePath of templateFiles) {
     if (relativePath === "AGENTS.md") {
@@ -59,7 +70,9 @@ export async function planInit(target, config, { integrateAgents = false } = {})
     }
 
     if (isManaged(relativePath)) {
-      if (await compareFile(sourcePath, destinationPath)) {
+      if (!existingManagedPaths.has(relativePath)) {
+        conflicts.push(`untracked file blocks new managed path: ${relativePath}`);
+      } else if (await compareFile(sourcePath, destinationPath)) {
         actions.push({ type: "skip-identical", ownership: "managed", path: relativePath });
       } else {
         conflicts.push(`managed file has different content: ${relativePath}`);
@@ -167,81 +180,103 @@ export async function executeInit(plan) {
   }
 
   await fs.mkdir(plan.target, { recursive: true });
-
-  for (const action of plan.actions) {
-    const destinationPath = path.join(plan.target, action.path);
-    if (action.type === "copy") {
-      const sourcePath = path.join(PROJECT_OVERLAY_ROOT, action.path);
-      await fs.mkdir(path.dirname(destinationPath), { recursive: true });
-      await fs.copyFile(sourcePath, destinationPath);
-    } else if (action.type === "write") {
-      const stateByPath = {
-        ".ai-org/project/project.json": plan.state.project,
-        ".ai-org/project/agents.json": plan.state.agents,
-        ".ai-org/project/assignments.json": plan.state.assignments,
-        ".ai-org/project/tasks.json": plan.state.tasks
-      };
-      await atomicWrite(destinationPath, formatJson(stateByPath[action.path]));
-    } else if (action.type === "write-empty") {
-      await atomicWrite(destinationPath, "");
-    } else if (action.type === "copy-agents" || action.type === "copy-agents-snippet") {
-      await atomicWrite(destinationPath, await fs.readFile(path.join(PROJECT_OVERLAY_ROOT, "AGENTS.md"), "utf8"));
-    } else if (action.type === "append-agents") {
-      const current = await fs.readFile(destinationPath, "utf8");
-      const templeBlock = (await fs.readFile(path.join(PROJECT_OVERLAY_ROOT, "AGENTS.md"), "utf8")).trim();
-      await atomicWrite(destinationPath, `${current.trimEnd()}\n\n${templeBlock}\n`);
-    }
-  }
-
-  const managedFiles = [];
-  for (const relativePath of plan.templateFiles.filter(isManaged)) {
-    managedFiles.push({
-      path: relativePath,
-      sha256: await sha256File(path.join(plan.target, relativePath))
-    });
-  }
-  const optionalManagedPaths = new Set(
-    (plan.existingLock?.optional_packs ?? []).flatMap((pack) => pack.managed_files ?? [])
-  );
-  for (const entry of plan.existingLock?.managed_files ?? []) {
-    if (optionalManagedPaths.has(entry.path)) managedFiles.push(entry);
-  }
-  managedFiles.sort((left, right) => left.path.localeCompare(right.path));
-
-  const lock = {
-    schema_version: "temple.lock/v1",
-    template: {
-      name: PACKAGE_NAME,
-      version: TEMPLATE_VERSION,
-      repository: TEMPLATE_REPOSITORY,
-      installed_at: plan.existingLock?.template?.installed_at ?? new Date().toISOString()
-    },
-    project_id: plan.config.project.id,
-    boundaries: {
-      managed: [...MANAGED_PATH_PREFIXES, ...MANAGED_EXACT_PATHS],
-      project_owned: PROJECT_OWNED_PATHS,
-      generated: GENERATED_PATHS
-    },
-    integrations: {
-      agents_md: plan.agentsIntegration,
-      archify: {
-        status: "available_not_enabled",
-        pinned_tag: "v2.15.0",
-        pinned_commit: "e1ac748f19cf805e44bf74fb93c796662152e273"
+  const changes = [];
+  try {
+    for (const action of plan.actions) {
+      const destinationPath = path.join(plan.target, action.path);
+      let before = null;
+      let content = null;
+      if (action.type === "copy") {
+        content = await fs.readFile(path.join(PROJECT_OVERLAY_ROOT, action.path));
+      } else if (action.type === "write") {
+        const stateByPath = {
+          ".ai-org/project/project.json": plan.state.project,
+          ".ai-org/project/agents.json": plan.state.agents,
+          ".ai-org/project/assignments.json": plan.state.assignments,
+          ".ai-org/project/tasks.json": plan.state.tasks
+        };
+        content = formatJson(stateByPath[action.path]);
+      } else if (action.type === "write-empty") {
+        content = "";
+      } else if (action.type === "copy-agents" || action.type === "copy-agents-snippet") {
+        content = await fs.readFile(path.join(PROJECT_OVERLAY_ROOT, "AGENTS.md"));
+      } else if (action.type === "append-agents") {
+        before = await fs.readFile(destinationPath);
+        const templeBlock = (await fs.readFile(path.join(PROJECT_OVERLAY_ROOT, "AGENTS.md"), "utf8")).trim();
+        content = `${before.toString("utf8").trimEnd()}\n\n${templeBlock}\n`;
       }
-    },
-    capabilities: {
-      work_item_cli: true,
-      task_registry: true,
-      checksum_upgrade: true,
-      optional_packs: true
-    },
-    optional_packs: plan.existingLock?.optional_packs ?? [],
-    managed_files: managedFiles
-  };
+      if (content === null) continue;
+      if (before === null) await atomicCreate(destinationPath, content);
+      else await atomicWrite(destinationPath, content);
+      changes.push({ path: destinationPath, before, afterHash: sha256(content) });
+    }
 
-  await atomicWrite(path.join(plan.target, "temple.lock"), formatJson(lock));
-  return { lock, actions: plan.actions, warnings: plan.warnings };
+    const managedFiles = [];
+    for (const relativePath of plan.templateFiles.filter(isManaged)) {
+      managedFiles.push({
+        path: relativePath,
+        sha256: await sha256File(path.join(plan.target, relativePath))
+      });
+    }
+    const optionalManagedPaths = new Set(
+      (plan.existingLock?.optional_packs ?? []).flatMap((pack) => pack.managed_files ?? [])
+    );
+    for (const entry of plan.existingLock?.managed_files ?? []) {
+      if (optionalManagedPaths.has(entry.path)) managedFiles.push(entry);
+    }
+    managedFiles.sort((left, right) => left.path.localeCompare(right.path));
+
+    const lock = {
+      schema_version: "temple.lock/v1",
+      template: {
+        name: PACKAGE_NAME,
+        version: TEMPLATE_VERSION,
+        repository: TEMPLATE_REPOSITORY,
+        installed_at: plan.existingLock?.template?.installed_at ?? new Date().toISOString()
+      },
+      project_id: plan.config.project.id,
+      boundaries: {
+        managed_files_authoritative: true,
+        allowed_managed_roots: MANAGED_SOURCE_PREFIXES,
+        allowed_managed_exact_paths: [...MANAGED_EXACT_PATHS],
+        ownership_precedence: "exact managed_files entry, otherwise project-owned",
+        project_owned: PROJECT_OWNED_PATHS,
+        generated: GENERATED_PATHS
+      },
+      integrations: {
+        agents_md: plan.agentsIntegration,
+        archify: {
+          status: "available_not_enabled",
+          pinned_tag: "v2.15.0",
+          pinned_commit: "e1ac748f19cf805e44bf74fb93c796662152e273"
+        }
+      },
+      capabilities: {
+        work_item_cli: true,
+        task_registry: true,
+        checksum_upgrade: true,
+        optional_packs: true
+      },
+      optional_packs: plan.existingLock?.optional_packs ?? [],
+      managed_files: managedFiles
+    };
+
+    const lockPath = path.join(plan.target, "temple.lock");
+    if (plan.existingLock) {
+      if (!sameJson(await readJson(lockPath), plan.existingLock)) {
+        throw new Error("temple.lock changed after initialization planning");
+      }
+      await atomicWrite(lockPath, formatJson(lock));
+    } else await atomicCreate(lockPath, formatJson(lock));
+    return { lock, actions: plan.actions, warnings: plan.warnings };
+  } catch (error) {
+    try {
+      await rollbackFileChanges(changes);
+    } catch (rollbackError) {
+      throw new AggregateError([error, rollbackError], "Initialization failed and rollback was incomplete");
+    }
+    throw error;
+  }
 }
 
 export function formatInitPlan(plan) {

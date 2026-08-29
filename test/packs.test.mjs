@@ -5,6 +5,12 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import {
+  executePackInstall,
+  executePackRemove,
+  planPackInstall,
+  planPackRemove
+} from "../src/packs.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const cli = path.join(root, "bin/temple.mjs");
@@ -83,7 +89,7 @@ test("build-quality pack dry-run, install, re-init, and removal preserve checksu
   const doctor = run(["doctor", target]);
   assert.equal(doctor.status, 0, doctor.stderr || doctor.stdout);
   assert.match(doctor.stdout, /1 optional packs are valid/);
-  assert.match(doctor.stdout, /5 core and 2 optional repository Skills/);
+  assert.match(doctor.stdout, /6 core and 2 optional repository Skills/);
   const installedStatus = await fs.readFile(path.join(target, ".ai-org/views/status.md"), "utf8");
   assert.match(installedStatus, /Optional Skill packs: 1 installed/);
   assert.match(installedStatus, /build-quality.*tdd, diagnosing-bugs/);
@@ -139,7 +145,7 @@ test("upgrade carries installed pack files and refreshes pack metadata", async (
   const upgraded = run(["upgrade", target]);
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = await readJson(lockPath);
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.8");
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.9");
   assert.equal(upgradedLock.optional_packs[0].version, "0.1.0-alpha.1");
   await fs.access(path.join(target, ".agents/skills/tdd/SKILL.md"));
   assert.equal(run(["doctor", target]).status, 0);
@@ -158,6 +164,63 @@ test("pack install refuses a conflicting project file without partial writes", a
   assert.equal(await fs.readFile(conflictPath, "utf8"), "project-owned test skill\n");
   await assert.rejects(() => fs.access(path.join(target, ".agents/skills/diagnosing-bugs/SKILL.md")));
   assert.deepEqual((await readJson(path.join(target, "temple.lock"))).optional_packs, []);
+});
+
+test("pack install refuses to adopt an identical untracked project Skill", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  const relativePath = ".agents/skills/tdd/SKILL.md";
+  const conflictPath = path.join(target, relativePath);
+  const sourcePath = path.join(root, "packs/build-quality", relativePath);
+  const original = await fs.readFile(sourcePath, "utf8");
+  await fs.mkdir(path.dirname(conflictPath), { recursive: true });
+  await fs.writeFile(conflictPath, original);
+
+  const installed = run(["pack", "install", target, "--pack", "build-quality"]);
+  assert.equal(installed.status, 1);
+  assert.match(installed.stdout, /untracked file blocks optional pack/);
+  assert.equal(await fs.readFile(conflictPath, "utf8"), original);
+  await assert.rejects(() => fs.access(path.join(target, ".agents/skills/diagnosing-bugs/SKILL.md")));
+  const lock = await readJson(path.join(target, "temple.lock"));
+  assert.deepEqual(lock.optional_packs, []);
+  assert.ok(!lock.managed_files.some((entry) => entry.path === relativePath));
+});
+
+test("pack install rolls back earlier files when a later path appears after planning", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  const lockPath = path.join(target, "temple.lock");
+  const lockBefore = await fs.readFile(lockPath, "utf8");
+  const plan = await planPackInstall(target, "build-quality");
+  const copies = plan.actions.filter((action) => action.type === "copy-pack-file");
+  const firstPath = path.join(target, copies[0].path);
+  const racePath = path.join(target, copies.at(-1).path);
+  await fs.mkdir(path.dirname(racePath), { recursive: true });
+  await fs.writeFile(racePath, "late project pack collision\n");
+
+  await assert.rejects(() => executePackInstall(plan), (error) => error.code === "EEXIST");
+  await assert.rejects(() => fs.access(firstPath));
+  assert.equal(await fs.readFile(racePath, "utf8"), "late project pack collision\n");
+  assert.equal(await fs.readFile(lockPath, "utf8"), lockBefore);
+});
+
+test("pack removal rolls back earlier removals when a later file changes", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  assert.equal(run(["pack", "install", target, "--pack", "build-quality"]).status, 0);
+  const lockPath = path.join(target, "temple.lock");
+  const lockBefore = await fs.readFile(lockPath, "utf8");
+  const plan = await planPackRemove(target, "build-quality");
+  const removals = plan.actions.filter((action) => action.type === "remove-pack-file");
+  const firstPath = path.join(target, removals[0].path);
+  const secondPath = path.join(target, removals.at(-1).path);
+  const firstBefore = await fs.readFile(firstPath, "utf8");
+  await fs.appendFile(secondPath, "late external edit\n");
+
+  await assert.rejects(() => executePackRemove(plan), /changed before removal/);
+  assert.equal(await fs.readFile(firstPath, "utf8"), firstBefore);
+  assert.match(await fs.readFile(secondPath, "utf8"), /late external edit/);
+  assert.equal(await fs.readFile(lockPath, "utf8"), lockBefore);
 });
 
 test("pack removal never trusts lock paths outside the known manifest", async (context) => {

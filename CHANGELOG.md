@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.9
+
+- Repositioned Temple as an **AI Development Organization Framework** spanning product intent, organization and authority, engineering methods, work orchestration, verification and delivery, and durable state and observability.
+- Added and independently forward-tested the core `$skill-authoring` Skill and public project-extension guide with discriminating triggers, explicit authority, progressive disclosure, dependency and provenance disclosure, scenario design, completion-scope limits, and a validation ladder.
+- Accepted ADR-0013 and separated four capability distribution classes: core, official pack, project extension, and third-party extension. Candidate development Skills remain preserved without expanding every project's default context.
+- Made `temple.lock.managed_files` exact membership authoritative. Re-init, pack installation, removal, and upgrade now refuse to silently adopt or overwrite late untracked collisions, use exclusive creation and lock rechecks, and roll back earlier file mutations when a later operation fails, while unique project Skills remain untouched and untracked.
+- Aligned the English, Japanese, and Traditional Chinese READMEs, Vision, Roadmap, architecture, usage, capability catalog, and installed instructions with the scalable and extensible framework contract and its current alpha limits.
+
 ## 0.1.0-alpha.8
 
 - Added `temple work-item unresolved` for read-only listing plus exact-match resolution, merge, and deduplication under the project mutation lock; invalid or overlapping requests stop before writing and append evidence only when state changes.

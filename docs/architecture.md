@@ -3,7 +3,7 @@
 ## Three-layer identity model
 
 ```text
-Position (toolkit-defined)
+Position (framework-defined)
     │ assignment
     ▼
 Agent Identity (project-defined at init)
@@ -12,7 +12,7 @@ Agent Identity (project-defined at init)
 Work Item + Evidence (project-owned)
 ```
 
-- The central toolkit defines each Position's ID, responsibilities, and gates.
+- The central framework defines each Position's ID, responsibilities, and gates.
 - An Agent Identity has a stable `agent_id` and mutable `display_name`; renaming must not change its historical ID.
 - An Assignment has an activation state and maps one Identity to one or more Positions.
 
@@ -20,24 +20,24 @@ Codex `.codex/agents/*.toml` files are runtime configuration for Positions, not 
 
 ## Naming boundary
 
-`Temple` is the name of the central toolkit, CLI, and technical namespace. It is not the name of an installed project or AI team.
+`Temple` is the name of the central framework, CLI, and technical namespace. It is not the name of an installed project or AI team.
 
 - The central repository, `temple` CLI, `temple.lock`, `temple.*` schemas, CLI-specific Skill IDs, and compatibility markers retain stable names. General-purpose Skills use neutral names.
 - After installation, project-facing instructions, status, artifacts, and Agent descriptions use the project name or "this project's AI development organization."
-- Project members are not called the Temple team, and the central toolkit brand does not replace product identity.
+- Project members are not called the Temple team, and the central framework brand does not replace product identity.
 - `TEMPLE.md` remains temporarily as a compatibility filename, but its contents are the repository's organizational operating contract, not another external project.
 
-This boundary allows safe central toolkit upgrades while making installed content a natural part of the product repository.
+This boundary allows safe central framework upgrades while making installed content a natural part of the product repository.
 
 ## File boundaries
 
 | Type | Path | Ownership | Upgrade rule |
 |---|---|---|---|
-| Managed | `.ai-org/core/**`, `.ai-org/templates/**`, `.agents/skills/**`, `.codex/agents/**`, `TEMPLE.md` | Central toolkit | Update only when the checksum matches the expected value |
-| Project-owned | `.ai-org/project/**`, `work-items/**`, `decisions/**`, `events/**`, `artifacts/**`, root `AGENTS.md` | Project | Never overwritten by upgrade |
+| Managed | Exact files listed in `temple.lock.managed_files`, drawn from `.ai-org/core/**`, `.ai-org/templates/**`, core or installed-pack `.agents/skills/**`, `.codex/agents/**`, and `TEMPLE.md` | Central framework | Update only when the locked checksum matches the installed file |
+| Project-owned | Every unlisted file, including repository-local `.agents/skills/**`; `.ai-org/project/**`, work items, decisions, events, artifacts, and root `AGENTS.md` | Project | Never overwritten or silently adopted by init, pack install, or upgrade |
 | Generated | `.ai-org/views/**` | CLI/Observer | Rebuildable from canonical state |
 
-`temple.lock` records the toolkit version, managed-file checksums, installed optional packs, feature states, and `AGENTS.md` integration state. It provides the foundation for `temple upgrade`.
+`temple.lock` records the framework version, exact managed-file checksums, installed optional packs, feature states, and `AGENTS.md` integration state. Directory prefixes are allowed source roots, not ownership claims. An untracked collision stops before writing even when its contents match the proposed managed file. See [ADR-0013](adr/0013-governed-skill-extensions.md).
 
 ## Canonical state
 
@@ -73,10 +73,10 @@ Read canonical state and output work items, the task registry, revisions, attent
 - `temple work-item create` allocates the next durable ID.
 - `temple handoff` produces an evidence-backed handoff document.
 - `temple transition` allows only edges defined by the workflow, and every `requires` entry must have a named evidence reference.
-- `temple close` produces a release record and requires the exact tested revision, rollback plan, and approval record; it does not perform an external release.
+- `temple close` produces a release record and requires a caller-supplied tested revision reference, rollback plan, and approval record; it does not yet resolve that reference as a Git object or perform an external release.
 - `temple task register/update/list` maintains the task and thread registry and suggested titles, but does not directly operate the Codex app.
 
-Every lifecycle and task mutation acquires a short-lived exclusive lock in the system temporary directory, named from a hash of the project path. Other processes wait briefly and stop on timeout. A lock older than five minutes is treated as crash residue and may be cleared by the next command. The lock is outside the repository and is not canonical state.
+Every lifecycle and task mutation acquires a short-lived exclusive lock in the system temporary directory, named from a hash of the project path. Init, upgrade, and pack mutations re-plan under the same lock. New files use exclusive creation, existing managed files and the lock are rechecked before mutation, and a file journal rolls back completed steps when a later write fails. Rollback never overwrites content changed again by an external writer; it reports an incomplete rollback for manual review instead. Other processes wait briefly and stop on timeout. A lock older than five minutes is treated as crash residue and may be cleared by the next command. The lock is outside the repository and is not canonical state.
 
 ### Optional pack commands
 
@@ -88,7 +88,7 @@ Pack sources live in central `packs/<pack-id>/`, not `project-overlay/`. Core in
 
 ### `temple upgrade`
 
-Upgrade first validates every installed managed file against the old `temple.lock`. Only core and optional-pack managed files with unchanged checksums may be updated. New managed paths must either not exist or already match the central content. Installed packs update their metadata and source; uninstalled packs are not enabled automatically. Project-owned files are never overwritten, and generated status may be rebuilt.
+Upgrade first validates every installed managed file against the old `temple.lock`. Only core and optional-pack managed files with unchanged checksums may be updated. A proposed new managed path must not already exist unless its exact path is already managed by the installed lock. Installed packs update their metadata and source; uninstalled packs are not enabled automatically. Project-owned files are never overwritten or silently adopted, and generated status may be rebuilt.
 
 ## Archify Adapter
 

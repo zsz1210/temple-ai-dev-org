@@ -6,6 +6,7 @@ import path from "node:path";
 import { spawn, spawnSync } from "node:child_process";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import { executeUpgrade, planUpgrade } from "../src/upgrade.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const cli = path.join(root, "bin/temple.mjs");
@@ -358,7 +359,7 @@ test("upgrade migrates legacy identity and safely removes obsolete managed skill
 
   const dryRun = run(["upgrade", target, "--dry-run"]);
   assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
-  assert.match(dryRun.stdout, /0\.1\.0-alpha\.3 -> 0\.1\.0-alpha\.8/);
+  assert.match(dryRun.stdout, /0\.1\.0-alpha\.3 -> 0\.1\.0-alpha\.9/);
   assert.match(dryRun.stdout, /remove-managed: 3/);
   assert.equal(await fs.readFile(installedTemple, "utf8"), oldContent);
   await fs.access(path.join(target, obsoleteSkills[0]));
@@ -367,7 +368,7 @@ test("upgrade migrates legacy identity and safely removes obsolete managed skill
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = await fs.readFile(lockPath, "utf8");
   assert.equal(JSON.parse(upgradedLock).template.name, "@zsz1210/temple-ai-dev-org");
-  assert.equal(JSON.parse(upgradedLock).template.version, "0.1.0-alpha.8");
+  assert.equal(JSON.parse(upgradedLock).template.version, "0.1.0-alpha.9");
   assert.match(await fs.readFile(installedTemple, "utf8"), /Project AI development organization operating contract/);
   assert.equal((await readJson(path.join(target, ".ai-org/work-items/WI-0001.json"))).title, "Preserve me");
   for (const relativePath of obsoleteSkills) {
@@ -392,6 +393,57 @@ test("upgrade stops before overwriting a changed managed file", async (context) 
   assert.equal(upgraded.status, 1);
   assert.match(upgraded.stdout, /managed file changed/);
   assert.equal(await fs.readFile(managedPath, "utf8"), before);
+});
+
+test("upgrade refuses to adopt an identical destination missing from managed_files", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  const relativePath = ".agents/skills/domain-modeling/SKILL.md";
+  const installedPath = path.join(target, relativePath);
+  const installedContent = await fs.readFile(installedPath, "utf8");
+  const lockPath = path.join(target, "temple.lock");
+  const lock = await readJson(lockPath);
+  lock.managed_files = lock.managed_files.filter((entry) => entry.path !== relativePath);
+  const editedLock = `${JSON.stringify(lock, null, 2)}\n`;
+  await fs.writeFile(lockPath, editedLock);
+
+  const upgraded = run(["upgrade", target]);
+  assert.equal(upgraded.status, 1);
+  assert.match(upgraded.stdout, /untracked file blocks new managed path/);
+  assert.equal(await fs.readFile(installedPath, "utf8"), installedContent);
+  assert.equal(await fs.readFile(lockPath, "utf8"), editedLock);
+});
+
+test("upgrade rolls back earlier updates when a later managed file changes", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  const lockPath = path.join(target, "temple.lock");
+  const lock = await readJson(lockPath);
+  lock.template.version = "0.1.0-alpha.8";
+  const candidatePaths = [".agents/skills/domain-modeling/SKILL.md", "TEMPLE.md"];
+  const oldContents = new Map();
+  for (const relativePath of candidatePaths) {
+    const content = `old managed content for ${relativePath}\n`;
+    oldContents.set(relativePath, content);
+    await fs.writeFile(path.join(target, relativePath), content);
+    lock.managed_files.find((entry) => entry.path === relativePath).sha256 = crypto
+      .createHash("sha256")
+      .update(content)
+      .digest("hex");
+  }
+  const lockBefore = `${JSON.stringify(lock, null, 2)}\n`;
+  await fs.writeFile(lockPath, lockBefore);
+  const plan = await planUpgrade(target);
+  const updates = plan.actions.filter((action) => action.type === "update-managed");
+  assert.equal(updates.length, 2);
+  const first = updates[0].path;
+  const second = updates[1].path;
+  await fs.writeFile(path.join(target, second), "late external managed edit\n");
+
+  await assert.rejects(() => executeUpgrade(plan), /changed before update/);
+  assert.equal(await fs.readFile(path.join(target, first), "utf8"), oldContents.get(first));
+  assert.equal(await fs.readFile(path.join(target, second), "utf8"), "late external managed edit\n");
+  assert.equal(await fs.readFile(lockPath, "utf8"), lockBefore);
 });
 
 test("upgrade rejects a managed path that escapes the project", async (context) => {

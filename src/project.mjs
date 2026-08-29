@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { atomicWrite, formatJson, pathExists, readJson, sha256 } from "./files.mjs";
+import { atomicCreate, atomicWrite, formatJson, pathExists, readJson, sha256 } from "./files.mjs";
 
 export async function loadProjectContext(target) {
   const lockPath = path.join(target, "temple.lock");
@@ -91,15 +91,24 @@ export async function appendEvent(target, event) {
 
 export async function ensureTaskRegistry(target) {
   const registryPath = path.join(target, ".ai-org/project/tasks.json");
+  let created = false;
+  let afterHash = null;
   if (!(await pathExists(registryPath))) {
-    await atomicWrite(registryPath, formatJson({ schema_version: "temple.tasks/v1", tasks: [] }));
+    const content = formatJson({ schema_version: "temple.tasks/v1", tasks: [] });
+    try {
+      await atomicCreate(registryPath, content);
+      created = true;
+      afterHash = sha256(content);
+    } catch (error) {
+      if (error.code !== "EEXIST") throw error;
+    }
   }
-  return registryPath;
+  return { path: registryPath, created, afterHash };
 }
 
 export async function readTaskRegistry(target) {
-  await ensureTaskRegistry(target);
-  return readJson(path.join(target, ".ai-org/project/tasks.json"));
+  const registry = await ensureTaskRegistry(target);
+  return readJson(registry.path);
 }
 
 export async function writeTaskRegistry(target, registry) {

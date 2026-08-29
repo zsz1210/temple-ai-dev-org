@@ -1,6 +1,6 @@
 # Skill design policy
 
-This policy applies when Temple adds or changes a repository Skill. It turns the useful ideas behind `writing-great-skills` and the linked talk into project-specific maintenance rules without copying or vendoring their implementation.
+This maintainer policy applies when Temple adds or changes a core Skill or official pack. Project authors should start with [Extending a project with Skills](skill-authoring.md) and the installed `$skill-authoring` Skill. The rules below turn useful ideas behind `writing-great-skills` and the linked talk into project-specific maintenance rules without copying or vendoring their implementation.
 
 ## Design rules
 
@@ -11,7 +11,7 @@ This policy applies when Temple adds or changes a repository Skill. It turns the
 5. **Make completion observable.** Name the repository artifact, evidence, unresolved state, or verification needed before the Skill can finish.
 6. **Keep authority explicit.** A Skill never expands permission to implement, publish, message externally, spend money, or perform an irreversible action.
 7. **Prefer progressive disclosure.** Keep the installed Skill concise; move optional examples or technology-specific procedures into referenced resources only when repeated use justifies them.
-8. **Classify distribution.** Core Skills follow every project, optional Skills are installed by a deliberate pack, and maintainer Skills stay in the central toolkit.
+8. **Classify distribution and ownership.** Core Skills follow every project, official packs are installed deliberately, project and third-party extensions remain project-owned, and maintainer guidance stays in the central repository.
 9. **Do not turn every pilot friction into a Skill.** First decide whether the behavior is a reusable procedure, a Position responsibility, a CLI defect, or a one-time fixture prerequisite. A successful pilot can finish without installing another Skill.
 
 ## Review checklist
@@ -28,6 +28,10 @@ This policy applies when Temple adds or changes a repository Skill. It turns the
 Structural checks and scenario-contract checks are necessary but do not prove model routing behavior. Record real project forward tests separately and do not label a designed scenario as independent QA evidence.
 
 See [Skill scenario matrix](skill-scenarios.md) for the current routing, authority, and completion contract.
+
+## Promotion gate
+
+A project extension is not automatically a Temple capability. Promotion into core or an official pack requires repeated cross-project evidence, a distinct trigger, provenance and license review, an ADR, scenario coverage, packaging support, and install, remove, re-init, and upgrade tests. Transfer of ownership must be explicit; matching file contents do not authorize silent adoption.
 
 ## Sources of inspiration
 

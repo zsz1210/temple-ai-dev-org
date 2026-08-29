@@ -24,6 +24,18 @@
     "repository_mutation": true
   },
   {
+    "id": "repeated-project-procedure-needs-skill",
+    "expected_skill": "skill-authoring",
+    "mode": "project-skill-authoring",
+    "repository_mutation": true
+  },
+  {
+    "id": "perform-existing-skill-target-procedure",
+    "expected_skill": null,
+    "mode": "normal-capability-execution",
+    "repository_mutation": false
+  },
+  {
     "id": "status-only",
     "expected_skill": null,
     "mode": "read-only",

@@ -1,7 +1,16 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { KNOWN_PACKAGE_NAMES, PACKS_ROOT, TEMPLATE_VERSION } from "./constants.mjs";
-import { atomicWrite, formatJson, pathExists, readJson, sha256File } from "./files.mjs";
+import {
+  atomicCreate,
+  atomicWrite,
+  formatJson,
+  pathExists,
+  readJson,
+  rollbackFileChanges,
+  sha256,
+  sha256File
+} from "./files.mjs";
 
 const PACK_ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
@@ -120,10 +129,12 @@ export async function planPackInstall(target, packId) {
       if (!expectedHash || installedHash !== expectedHash) conflicts.push(`installed pack file changed: ${file.relativePath}`);
       else if (sourceHash === installedHash) actions.push({ type: "skip-identical", path: file.relativePath });
       else conflicts.push(`pack source changed without an upgrade: ${file.relativePath}`);
-    } else if (sourceHash === installedHash) {
-      actions.push({ type: "adopt-identical", path: file.relativePath });
     } else {
-      conflicts.push(`untracked file blocks optional pack: ${file.relativePath}`);
+      conflicts.push(
+        managed.has(file.relativePath)
+          ? `managed file blocks optional pack: ${file.relativePath}`
+          : `untracked file blocks optional pack: ${file.relativePath}`
+      );
     }
   }
   actions.push({ type: existing ? "skip-installed-pack" : "update-lock", path: "temple.lock" });
@@ -134,38 +145,52 @@ export async function executePackInstall(plan) {
   if (plan.conflicts.length > 0) throw new Error(`Pack installation stopped before writing:\n- ${plan.conflicts.join("\n- ")}`);
   if (plan.existing) return plan.lock;
 
-  for (const action of plan.actions.filter((entry) => entry.type === "copy-pack-file")) {
-    const source = plan.definition.files.find((file) => file.relativePath === action.path).sourcePath;
-    const destination = path.join(plan.target, action.path);
-    await fs.mkdir(path.dirname(destination), { recursive: true });
-    await fs.copyFile(source, destination);
-  }
-
-  const packPaths = new Set(plan.definition.manifest.files);
-  const managedFiles = (plan.lock.managed_files ?? []).filter((entry) => !packPaths.has(entry.path));
-  for (const relativePath of plan.definition.manifest.files) {
-    managedFiles.push({ path: relativePath, sha256: await sha256File(path.join(plan.target, relativePath)) });
-  }
-  managedFiles.sort((left, right) => left.path.localeCompare(right.path));
-  const timestamp = new Date().toISOString();
-  const optionalPacks = [
-    ...(plan.lock.optional_packs ?? []).filter((entry) => entry.id !== plan.definition.manifest.id),
-    {
-      id: plan.definition.manifest.id,
-      version: plan.definition.manifest.version,
-      installed_at: timestamp,
-      skills: plan.definition.manifest.skills,
-      managed_files: plan.definition.manifest.files
+  const changes = [];
+  try {
+    for (const action of plan.actions.filter((entry) => entry.type === "copy-pack-file")) {
+      const source = plan.definition.files.find((file) => file.relativePath === action.path).sourcePath;
+      const destination = path.join(plan.target, action.path);
+      const content = await fs.readFile(source);
+      await atomicCreate(destination, content);
+      changes.push({ path: destination, before: null, afterHash: sha256(content) });
     }
-  ].sort((left, right) => left.id.localeCompare(right.id));
-  const lock = {
-    ...plan.lock,
-    capabilities: { ...(plan.lock.capabilities ?? {}), optional_packs: true },
-    optional_packs: optionalPacks,
-    managed_files: managedFiles
-  };
-  await atomicWrite(plan.lockPath, formatJson(lock));
-  return lock;
+
+    const packPaths = new Set(plan.definition.manifest.files);
+    const managedFiles = (plan.lock.managed_files ?? []).filter((entry) => !packPaths.has(entry.path));
+    for (const relativePath of plan.definition.manifest.files) {
+      managedFiles.push({ path: relativePath, sha256: await sha256File(path.join(plan.target, relativePath)) });
+    }
+    managedFiles.sort((left, right) => left.path.localeCompare(right.path));
+    const timestamp = new Date().toISOString();
+    const optionalPacks = [
+      ...(plan.lock.optional_packs ?? []).filter((entry) => entry.id !== plan.definition.manifest.id),
+      {
+        id: plan.definition.manifest.id,
+        version: plan.definition.manifest.version,
+        installed_at: timestamp,
+        skills: plan.definition.manifest.skills,
+        managed_files: plan.definition.manifest.files
+      }
+    ].sort((left, right) => left.id.localeCompare(right.id));
+    const lock = {
+      ...plan.lock,
+      capabilities: { ...(plan.lock.capabilities ?? {}), optional_packs: true },
+      optional_packs: optionalPacks,
+      managed_files: managedFiles
+    };
+    if (JSON.stringify(await readJson(plan.lockPath)) !== JSON.stringify(plan.lock)) {
+      throw new Error("temple.lock changed after pack installation planning");
+    }
+    await atomicWrite(plan.lockPath, formatJson(lock));
+    return lock;
+  } catch (error) {
+    try {
+      await rollbackFileChanges(changes);
+    } catch (rollbackError) {
+      throw new AggregateError([error, rollbackError], "Pack installation failed and rollback was incomplete");
+    }
+    throw error;
+  }
 }
 
 export async function planPackRemove(target, packId) {
@@ -193,16 +218,39 @@ export async function planPackRemove(target, packId) {
 export async function executePackRemove(plan) {
   if (plan.conflicts.length > 0) throw new Error(`Pack removal stopped before writing:\n- ${plan.conflicts.join("\n- ")}`);
   const removedPaths = new Set(plan.actions.filter((entry) => entry.type === "remove-pack-file").map((entry) => entry.path));
-  for (const relativePath of removedPaths) await fs.unlink(path.join(plan.target, relativePath));
-  const optionalPacks = (plan.lock.optional_packs ?? []).filter((entry) => entry.id !== plan.existing.id);
-  const lock = {
-    ...plan.lock,
-    capabilities: { ...(plan.lock.capabilities ?? {}), optional_packs: true },
-    optional_packs: optionalPacks,
-    managed_files: (plan.lock.managed_files ?? []).filter((entry) => !removedPaths.has(entry.path))
-  };
-  await atomicWrite(plan.lockPath, formatJson(lock));
-  return lock;
+  const managed = managedFileMap(plan.lock);
+  const changes = [];
+  try {
+    for (const relativePath of removedPaths) {
+      const targetPath = path.join(plan.target, relativePath);
+      const expectedHash = managed.get(relativePath);
+      if (!expectedHash || (await sha256File(targetPath)) !== expectedHash) {
+        throw new Error(`Installed pack file changed before removal: ${relativePath}`);
+      }
+      const before = await fs.readFile(targetPath);
+      await fs.unlink(targetPath);
+      changes.push({ path: targetPath, before, afterHash: null });
+    }
+    const optionalPacks = (plan.lock.optional_packs ?? []).filter((entry) => entry.id !== plan.existing.id);
+    const lock = {
+      ...plan.lock,
+      capabilities: { ...(plan.lock.capabilities ?? {}), optional_packs: true },
+      optional_packs: optionalPacks,
+      managed_files: (plan.lock.managed_files ?? []).filter((entry) => !removedPaths.has(entry.path))
+    };
+    if (JSON.stringify(await readJson(plan.lockPath)) !== JSON.stringify(plan.lock)) {
+      throw new Error("temple.lock changed after pack removal planning");
+    }
+    await atomicWrite(plan.lockPath, formatJson(lock));
+    return lock;
+  } catch (error) {
+    try {
+      await rollbackFileChanges(changes);
+    } catch (rollbackError) {
+      throw new AggregateError([error, rollbackError], "Pack removal failed and rollback was incomplete");
+    }
+    throw error;
+  }
 }
 
 export function formatPackPlan(plan, verb) {

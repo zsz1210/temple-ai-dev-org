@@ -244,16 +244,24 @@ function printResult(parsed, result, lines) {
 async function runInit(parsed) {
   const target = await assertSafeTarget(parsed.target);
   const config = await validateInitConfig(await loadConfig(parsed.options["--config"], target));
-  const plan = await planInit(target, config, { integrateAgents: parsed.flags.has("--integrate-agents") });
+  const options = { integrateAgents: parsed.flags.has("--integrate-agents") };
+  const plan = await planInit(target, config, options);
   console.log(formatInitPlan(plan));
   if (plan.conflicts.length > 0) return 1;
   if (parsed.flags.has("--dry-run")) {
     console.log("Dry run complete; no files were written.");
     return 0;
   }
-  await executeInit(plan);
-  const doctor = await runDoctor(target);
-  const statusPath = await writeStatus(target, await buildStatus(target));
+  const { doctor, statusPath } = await withProjectMutationLock(target, async () => {
+    const lockedPlan = await planInit(target, config, options);
+    if (lockedPlan.conflicts.length > 0) {
+      throw new Error(`Initialization stopped before writing:\n- ${lockedPlan.conflicts.join("\n- ")}`);
+    }
+    await executeInit(lockedPlan);
+    const lockedDoctor = await runDoctor(target);
+    const lockedStatusPath = await writeStatus(target, await buildStatus(target));
+    return { doctor: lockedDoctor, statusPath: lockedStatusPath };
+  });
   console.log(`Initialized Temple ${TEMPLATE_VERSION}.`);
   console.log(formatDoctor(doctor));
   console.log(`Status view: ${statusPath}`);

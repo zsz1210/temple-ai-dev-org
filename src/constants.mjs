@@ -8,7 +8,7 @@ export const PROJECT_OVERLAY_ROOT = path.join(REPOSITORY_ROOT, "project-overlay"
 export const PACKS_ROOT = path.join(REPOSITORY_ROOT, "packs");
 export const PACKAGE_NAME = "@zsz1210/temple-ai-dev-org";
 export const KNOWN_PACKAGE_NAMES = new Set([PACKAGE_NAME, "@zsz1210/ai-development-org-template"]);
-export const TEMPLATE_VERSION = "0.1.0-alpha.8";
+export const TEMPLATE_VERSION = "0.1.0-alpha.9";
 export const TEMPLATE_REPOSITORY = "zsz1210/temple-ai-dev-org";
 
 export const REQUIRED_SKILLS = [
@@ -16,7 +16,8 @@ export const REQUIRED_SKILLS = [
   "temple-work",
   "decision-interview",
   "domain-modeling",
-  "project-documentation"
+  "project-documentation",
+  "skill-authoring"
 ];
 
 export const REQUIRED_POSITIONS = [
@@ -31,7 +32,7 @@ export const REQUIRED_POSITIONS = [
   "observer"
 ];
 
-export const MANAGED_PATH_PREFIXES = [
+export const MANAGED_SOURCE_PREFIXES = [
   ".ai-org/core/",
   ".ai-org/templates/",
   ".agents/skills/",
@@ -42,6 +43,7 @@ export const MANAGED_EXACT_PATHS = new Set(["TEMPLE.md"]);
 
 export const PROJECT_OWNED_PATHS = [
   "AGENTS.md",
+  ".agents/skills/** unless listed in temple.lock.managed_files",
   ".ai-org/project/**",
   ".ai-org/work-items/**",
   ".ai-org/decisions/**",

@@ -1,37 +1,41 @@
-# Temple — AI Development Organization Toolkit
+# Temple — AI Development Organization Framework
 
 **English** | [日本語](README.ja.md) | [繁體中文](README.zh-TW.md)
 
-**An installable, repository-native operating model for AI development teams using Codex.**
+**Turn product intent into trustworthy software with an AI development organization that can think, build, verify, continue, and evolve.**
 
-Temple helps separate Codex tasks participate in one observable workflow. It gives each task repository state for recovering context, a defined Position to work through, and evidence-based handoffs tied to a recorded revision reference.
+Temple is a repository-native framework for Codex. It connects product thinking, stable responsibilities, reusable engineering methods, evidence-based delivery, and durable project state. The current implementation is an early alpha intended for low-risk validation.
 
 ```text
-Goal → Spec → Design → Build → Test → Eval → Independent QA → Release Gate
+Intent → Shared model → Bounded work → Method-assisted build → Independent evidence → Durable continuation
 ```
-
-Temple does not try to make agents share chat memory. It makes the repository the source of truth.
 
 ## Why Temple?
 
-Adding more AI tasks does not create a team. It creates more isolated conversations. Each task may be capable on its own, but none automatically knows what the others decided, which revision reference is under review, or whether a completion claim was independently verified.
+Coding agents can produce code quickly. That does not automatically create a development organization. An AI task can begin implementation before the product is understood, use a different method from the task beside it, blur responsibility with approval, declare success without reproducible evidence, or lose important decisions when its conversation ends.
 
-When coordination lives only in chat:
+Adding more tasks or more Skills can amplify those problems when nothing connects them. Temple provides that connection: product intent is clarified before it becomes scope, responsibilities remain stable even when the executing Agent changes, engineering methods operate inside explicit authority boundaries, delivery claims pass through evidence gates, and later tasks recover state from the repository instead of reconstructing it from chat.
 
-- two tasks can repeat the same work or quietly take the product in different directions;
-- decisions, ownership, and unresolved questions disappear when a conversation ends;
-- understanding progress requires opening tasks one by one and reconstructing the story manually;
-- “done” can mean implementation, testing, approval, or merely a confident message.
+Temple is not a shared-chat-memory system and not a collection of prompts. It is an operating framework for turning an idea into work that an AI development organization can continue and verify.
 
-The missing layer is organizational, not conversational. Temple installs that layer into the repository: Positions define responsibility, work items define scope and state, handoffs carry revision references and evidence, and generated status reconstructs what is active, blocked, unresolved, or ready for review.
+## The framework
 
-This gives a new task the durable inputs needed to continue without trusting a chat title or hidden conversation history, while consequential approvals remain human responsibilities. Temple is most useful when a project outlives one conversation, uses multiple tasks, or requires independent review. For a single short-lived throwaway task, a lighter workflow may be enough.
+| Layer | What Temple provides today |
+|---|---|
+| Product intent and domain | `$decision-interview` challenges ambiguity; `$domain-modeling` establishes shared language, boundaries, rules, and invariants; Specs, Decision Ledger entries, and ADRs preserve decisions |
+| Organization and authority | Nine stable Positions, project-specific Agent Identities, Assignments, explicit human approval boundaries, and separation between Developer and Independent QA |
+| Engineering methods | Core Skills plus the opt-in Build Quality pack with `$tdd` and `$diagnosing-bugs` |
+| Work orchestration | A fixed `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle with durable work items and handoffs |
+| Verification and delivery | Named gate evidence, evaluation, independent reproduction, revision references, approval records, rollback plans, and bounded closeout |
+| Durable state and observability | Repository-owned decisions, work items, events, task registry, generated status, and conflict-aware upgrades |
+
+A Position defines responsibility and approval limits. An Agent Identity is the project-specific executor assigned to that Position. A Skill is a reusable method for performing a kind of work; it never grants additional authority or replaces an evidence gate.
 
 ## Getting started
 
-Requirements: Git, Node.js 20 or later, and a target project directory.
+Requirements: Git, Node.js 20 or later, Codex, and a target project directory.
 
-### 1. Install the toolkit
+### 1. Install Temple
 
 ```bash
 git clone https://github.com/zsz1210/temple-ai-dev-org.git
@@ -40,19 +44,17 @@ npm run verify
 npm link
 ```
 
-The repository is currently private during early alpha, so the clone command requires GitHub access. Making it public is a separate release step.
+The repository is private during early alpha, so cloning currently requires GitHub access.
 
 ### 2. Initialize a project
 
-The recommended path is to open the Temple checkout in Codex and ask:
+Open the Temple checkout in Codex and ask:
 
 > Use `$temple-init` to initialize `/absolute/path/to/my-project`. Propose English names for the five Agent Identities and wait for my confirmation before making changes.
 
-The init workflow inspects the target, proposes names and Position assignments, performs a dry run, installs the project organization, and runs its health and status checks.
+Temple inspects the target, proposes names and Position Assignments, performs a dry run, installs the organization, and runs health and status checks. Interactive and config-file setup are documented in the [usage guide](docs/usage.md).
 
-For interactive or config-file setup, see the [usage guide](docs/usage.md).
-
-### 3. Start observable work
+### 3. Start one bounded work item
 
 ```bash
 cd /absolute/path/to/my-project
@@ -60,41 +62,40 @@ cd /absolute/path/to/my-project
 temple work-item create . \
   --title "Ship one bounded outcome" \
   --scope "One verified user flow" \
-  --acceptance "Independent QA verifies the exact revision"
+  --acceptance "Independent QA verifies the candidate revision"
 
 temple doctor .
 temple status .
 ```
 
-Use `temple handoff`, `temple transition`, and `temple close` as the work moves through its lifecycle. Run `temple --help` for the complete command list.
+Use `temple handoff`, `temple transition`, and `temple close` as the work moves through the lifecycle. Run `temple --help` for the complete command list.
 
-## What you get
+## Engineering methods and extension
 
-| Capability | What it provides |
-|---|---|
-| Durable context | Repository-owned work items, decisions, events, and evidence |
-| Defined accountability | Nine stable Positions assigned to project-specific Agent Identities |
-| Evidence-based handoffs | Recorded revision references, completed work, evidence, and unresolved items |
-| Observable status | A generated project view plus a Codex task registry |
-| Safe maintenance | Conflict-aware init and upgrades, with optional managed Skill packs |
+Temple keeps the default installation focused. Product-thinking and organizational Skills are installed as core capabilities; development procedures are opt-in. The shipped Build Quality pack adds TDD and bounded bug diagnosis without changing Position ownership or lifecycle authority.
 
-Small projects begin with five Agent Identities covering all nine Positions. As the team grows, Positions can be reassigned without rewriting the workflow or its history. Developer and Independent QA always remain separate Identities.
+Temple also includes `$skill-authoring` and a [Skill authoring guide](docs/skill-authoring.md) for creating clearly bounded, project-owned Skills. A Temple-compatible Skill should define a distinct trigger, authority boundary, evidence inputs, procedure, output, stopping condition, and verification.
 
-## How it fits your project
+This is the beginning of the extension model, not a complete Skill ecosystem. Temple does not yet provide a Skill CLI, capability registry, custom-pack publisher, or third-party Skill installer. Architecture, exploration, review, security, Git, and retrospective packs remain evaluated candidates rather than shipped capabilities. See the [capability catalog](docs/capability-catalog.md).
 
-Temple is installed into a project; the project is not forked from this repository. The installed organization becomes part of that project's own instructions and state, while the central toolkit remains independently upgradeable.
+## Scale and current boundaries
 
-Temple deliberately does not create, rename, or archive Codex tasks, and it does not perform external releases. High-risk approvals, business priorities, sensitive data, and irreversible actions remain human responsibilities.
+The current small-team configuration assigns all nine Positions to five Agent Identities. The data model is designed to preserve Position vocabulary and historical Identity IDs as staffing grows, while Developer and Independent QA remain separate. The current alpha does not yet provide a reassignment CLI or a risk-based staffing workflow.
 
-Temple is currently an early alpha. Start with a low-risk project before relying on it for critical delivery.
+Temple is designed to grow beyond that starting point, but support for every project size has not been proven. The current release has one fixed lifecycle and one optional development pack. Risk-based Lite, Standard, and High-Assurance profiles are planned, as are broader capability packs, exact Git and external-evidence adapters, stronger cross-task recovery proof, live observation, and multi-project views.
+
+Temple records revision references today; the CLI does not yet resolve every reference as an exact Git object. It does not create, rename, or archive Codex tasks, and it does not deploy or publish externally. Business truth, priorities, sensitive data, material cost, irreversible actions, and high-risk approval remain human responsibilities.
+
+Temple is installed into a project; the project is not forked from this repository. Its organization and state become part of the project, while the central framework remains independently upgradeable.
 
 ## Documentation
 
 - [Usage guide](docs/usage.md) — initialization, daily commands, upgrades, and troubleshooting
-- [Vision and operating model](docs/vision.md) — Positions, responsibilities, and lifecycle
-- [Architecture](docs/architecture.md) — identity model, ownership boundaries, and canonical state
-- [Capability catalog](docs/capability-catalog.md) — core and optional Skills
-- [Roadmap](docs/roadmap.md) — current direction and planned validation
+- [Vision and operating model](docs/vision.md) — framework layers, Positions, and lifecycle
+- [Architecture](docs/architecture.md) — identity, ownership, extension, and canonical-state boundaries
+- [Skill authoring guide](docs/skill-authoring.md) — project-owned Skill design and verification
+- [Capability catalog](docs/capability-catalog.md) — shipped, optional, and candidate engineering methods
+- [Roadmap](docs/roadmap.md) — validated scope and planned work
 - [Architecture decisions](docs/adr/README.md) — design decisions and rationale
 
 ## License

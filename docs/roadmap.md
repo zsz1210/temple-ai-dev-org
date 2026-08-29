@@ -1,6 +1,12 @@
-# Roadmap: From toolkit to an observable AI development organization
+# Roadmap: From installable framework to an observable AI development organization
 
 These are engineering phases and exit gates, not date commitments. Expand automation only after the preceding phase has supporting evidence.
+
+## Cross-cutting framework tracks
+
+Every phase advances the same six layers: product intent, organization and authority, engineering methods, work orchestration, verification and delivery, and durable state and observability. Scale is introduced through evidence-backed profiles and extensions rather than by claiming that one fixed process already fits every project.
+
+The capability track begins with a small core, one opt-in Build Quality pack, and project-owned Skills. Later work may add architecture, review, exploration, Git and improvement, and security packs only after bounded pilots. A capability registry, richer pack manifests, dependency declarations, project and third-party lifecycle commands, and automated routing evaluation remain planned.
 
 ## Phase 1: Installable, operational organization skeleton (current release)
 
@@ -8,11 +14,11 @@ Goal: Give any repository the same Positions, identity model, workflow, and chec
 
 Deliverables:
 
-- Central toolkit repository, MIT License, and third-party provenance.
+- Central framework repository, MIT License, and third-party provenance.
 - `init`, checksum-aware `upgrade`, `doctor`, `status`, and `temple.lock`.
 - Nine Positions, naming during first project initialization, and a small five-Identity configuration.
 - Managed, project-owned, and generated boundaries.
-- Decision interview, domain modeling, Decision Ledger, ADR, and handoff and QA templates.
+- Decision interview, domain modeling, governed project Skill authoring, Decision Ledger, ADR, and handoff and QA templates.
 - Opt-in Archify adapter contract.
 - Sample project, CI, and no-overwrite tests.
 - Work-item, handoff, transition, and close CLI commands with named gate evidence.
@@ -34,10 +40,11 @@ The private FlowDeck pilot completed:
 - The first work item completed Spec -> Design -> Build -> Test -> Eval -> Independent QA -> Release Gate.
 - The Build Quality pack preserved red/green and diagnosis evidence in a real iOS vertical slice.
 - The exact candidate revision passed automated tests, Simulator system integration, Independent QA, and closeout in a clean checkout.
-- Project-facing instructions, status, and artifacts used the project name or "this project's AI development organization." `Temple` remained only in the central toolkit brand, CLI, CLI-specific Skill IDs, schemas, lock, and compatibility identifiers.
+- Project-facing instructions, status, and artifacts used the project name or "this project's AI development organization." `Temple` remained only in the central framework brand, CLI, CLI-specific Skill IDs, schemas, lock, and compatibility identifiers.
 - The pilot is frozen under [ADR-0011](adr/0011-pilot-stop-boundary.md); the sample app will not be extended as a formal product.
 - Alpha.8 adds exact-match unresolved-item listing, resolution, merge, and deduplication; Developer handoff candidate-revision projection; and copyable post-init doctor and status commands.
 - Alpha.8 also installs the independently implemented `$project-documentation` core Skill. A read-only forward-test against the trilingual public README found and drove corrections to stale capability state, prerequisites, verification, repository visibility, and revision wording.
+- Alpha.9 adds and forward-tests the core `$skill-authoring` procedure, a public project-extension contract, four distribution classes, and exact-path protection so an untracked project Skill cannot be silently adopted by init, pack installation, or upgrade.
 
 Phase 1.5 is not yet complete:
 
@@ -54,6 +61,9 @@ Goal: Add scope-conflict detection, external evidence adapters, and a stronger O
 Planned deliverables:
 
 - Affected-path ownership and duplicate active-scope warnings.
+- A project capability registry that observes project and third-party Skills without claiming ownership of their files.
+- Pack manifest v2 for references, scripts, assets, declared dependencies, and compatibility metadata.
+- Evidence-backed project profiles that vary staffing, artifact depth, methods, and gates by risk while preserving the nine Position responsibilities.
 - More complete JSON Schema runtime validation and a migration registry.
 - Evidence adapters for exact Git revisions, tests, runtime, unverified claims, risk, and rollback.
 - Observer projections for timeline, staleness, and pending approval.
@@ -87,7 +97,7 @@ Planned deliverables:
 - A multi-repository registry while each project retains project-local canonical truth.
 - Read-only portfolio view with capacity and cost aggregation.
 - Secret redaction, data retention, audit export, and notification throttling.
-- Migration rehearsal and rollback for toolkit `upgrade`.
+- Migration rehearsal and rollback for framework `upgrade`.
 
 Exit gate: At least ten work items of different types complete; every policy-violation test is blocked or escalated; a clean environment can recover from backup; and the user manages daily work through the Overview and Human Inbox.
 

@@ -1,7 +1,7 @@
 {
   "name": "@zsz1210/temple-ai-dev-org",
-  "version": "0.1.0-alpha.8",
-  "description": "An installable, observable AI development organization toolkit for Codex projects.",
+  "version": "0.1.0-alpha.9",
+  "description": "A repository-native, extensible AI development organization framework for Codex projects.",
   "private": true,
   "license": "MIT",
   "repository": {

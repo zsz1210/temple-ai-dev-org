@@ -1,6 +1,6 @@
 # Usage guide
 
-## 1. Install the central toolkit
+## 1. Install the central framework
 
 ```bash
 git clone git@github.com:zsz1210/temple-ai-dev-org.git
@@ -11,17 +11,17 @@ npm link
 temple --version
 ```
 
-Clone the central toolkit once. Install it into each product repository with `temple init`; no fork is required. `project-overlay/` is only the installation source inside the central repository. Its contents are installed directly at the product repository root.
+Clone the central framework once. Install it into each product repository with `temple init`; no fork is required. `project-overlay/` is only the installation source inside the central repository. Its contents are installed directly at the product repository root.
 
 ## 2. First initialization
 
 ### Recommended: use Codex assistance
 
-For the first run, open Codex in the central toolkit repository and provide the absolute path to the target repository:
+For the first run, open Codex in the central framework repository and provide the absolute path to the target repository:
 
 > Use temple-init with `/absolute/path/to/target`. Suggest English names for the five Assignment slots, wait for my confirmation, and then initialize the project.
 
-The AI must display Position mappings and proposed names first. It may create the configuration and run `init` only after confirmation. After installation, the target repository receives `$temple-init`, `$temple-work`, `$decision-interview`, `$domain-modeling`, and `$project-documentation`. The central repository itself contains no default names.
+The AI must display Position mappings and proposed names first. It may create the configuration and run `init` only after confirmation. After installation, the target repository receives `$temple-init`, `$temple-work`, `$decision-interview`, `$domain-modeling`, `$project-documentation`, and `$skill-authoring`. The central repository itself contains no default names.
 
 ### Manual configuration
 
@@ -78,7 +78,17 @@ temple pack remove . --pack build-quality
 
 Pack files are checksum-managed. If a project modifies one, install, upgrade, or remove stops. Do not bypass the guard by editing `temple.lock` manually.
 
-## 4. Create a work item
+## 4. Add a project-owned Skill
+
+When a repeated project procedure deserves its own capability, invoke `$skill-authoring` and provide the intended outcome plus the target repository. The Skill first distinguishes a reusable procedure from a Position responsibility, project fact, one-time workaround, or missing deterministic tool.
+
+Project extensions live at collision-free `.agents/skills/<skill-name>/` paths. Before editing, inspect the exact entries in `temple.lock.managed_files`; do not replace a managed Skill or hand-edit the lock. Re-init and upgrade preserve unlisted project files and stop if a future core or pack path collides with one.
+
+The authoring procedure defines the trigger, neighboring non-trigger, authority, dependencies, provenance, completion boundary, scenarios, and validation evidence. It does not authorize dependency installation, publication, external actions, the Skill's target operation, or promotion into core or an official pack. See [Extending a project with Skills](skill-authoring.md).
+
+The current alpha does not provide `temple skill` commands, a Skill registry, custom-pack publishing, dependency resolution, automated routing evaluation, or third-party update management.
+
+## 5. Create a work item
 
 ```bash
 temple work-item create . \
@@ -118,7 +128,7 @@ Resolution uses exact normalized text and rejects a missing entry before writing
 
 ### Pilot or example work item
 
-If a work item exists only to validate the toolkit, workflow, architecture, or technical feasibility, its scope and acceptance criteria must also state:
+If a work item exists only to validate the framework, workflow, architecture, or technical feasibility, its scope and acceptance criteria must also state:
 
 - Experiment purpose: what this run must prove.
 - Stop condition: which evidence means work should stop.
@@ -126,7 +136,7 @@ If a work item exists only to validate the toolkit, workflow, architecture, or t
 
 A release-gate `go` accepts only the bounded experiment. After the stop condition is met, freeze the sample, write a retrospective, and return control to the Engineering Manager and user. Do not continue product development without a new explicit request. See [ADR-0011](adr/0011-pilot-stop-boundary.md).
 
-## 5. Register a Codex task
+## 6. Register a Codex task
 
 The Temple CLI does not directly create Codex app tasks. After the user or Codex app creates a task, register its actual ID:
 
@@ -151,7 +161,7 @@ temple task list .
 
 Valid states are `setup`, `active`, `waiting`, `attention`, `completed`, and `archived`. When the work item is terminal and the task is completed, status reports archive-ready. Actual archiving still requires an explicit Codex app operation.
 
-## 6. Handoff and transition
+## 7. Handoff and transition
 
 A handoff records a caller-supplied revision reference, completed work, evidence, and unresolved issues:
 
@@ -177,7 +187,7 @@ temple transition . \
 
 The CLI rejects the operation before writing if a requirement is missing, a state is skipped, or the actor does not hold the current Position. Phase 1 records revision references but does not yet resolve them as Git objects; exact Git-revision validation remains a Phase 2 evidence-adapter responsibility.
 
-## 7. Release gate and closeout
+## 8. Release gate and closeout
 
 `temple close` completes only organizational closeout. It does not deploy, publish, send external messages, or obtain high-risk approval:
 
@@ -198,7 +208,7 @@ Use `--approval not-required` only when policies contain no production-change, e
 
 `--decision no-go` requires at least one `--reason` and returns the work item to the Engineering Manager in the `blocked` state.
 
-## 8. Observation and health checks
+## 9. Observation and health checks
 
 ```bash
 temple status .
@@ -214,7 +224,7 @@ temple doctor .
 - The eight most recent canonical events.
 - Position Assignments and optional-integration states.
 
-## 9. Upgrade from an older version
+## 10. Upgrade from an older version
 
 ```bash
 temple upgrade /absolute/path/to/project --dry-run
@@ -227,24 +237,25 @@ Upgrade rules:
 
 - Validate every managed checksum against the old `temple.lock` first.
 - Update only managed files that the project has not modified.
-- A new managed path must not exist or must already match the central content.
+- A proposed new managed path must not already exist unless its exact path is already managed by the installed lock; byte-identical untracked files are not silently adopted.
 - Preserve installed optional packs and update them to the current pack version. Upgrade does not enable an uninstalled pack automatically.
 - Preserve `.ai-org/project/**`, work items, events, decisions, artifacts, Agent names, and product files.
-- Any conflict stops before writing; no partial upgrade occurs.
+- Detected preflight conflicts stop before writing. Late file races trigger a rollback journal; if another writer changes a just-written path again, the CLI preserves that content and reports incomplete rollback for manual review.
 
-## 10. Use Decision, Domain, Documentation, and Development Skills
+## 11. Use Decision, Domain, Documentation, Authoring, and Development Skills
 
 - `$decision-interview`: Break an ambiguous idea into known facts, options, decisions, and unknowns. If repository documents, code, or Git state constrain the choice, the same Skill switches to evidence-backed mode and cites actual paths.
 - `$domain-modeling`: Organize ubiquitous language, bounded contexts, rules, and invariants, then preserve confirmed terms in the project-owned glossary.
 - `$project-documentation`: Create or update human-facing README, setup, usage, contribution, and documentation-index files from repository evidence. It checks commands, links, shipped claims, audience, and language policy without taking over Agent instructions or product specifications.
+- `$skill-authoring`: Create, revise, or audit a repository-local reusable procedure with explicit routing, authority, dependencies, provenance, validation, and completion. It keeps project extensions project-owned and does not silently promote or distribute them.
 
-These Skills are read-only by default. Write confirmed decisions or glossary entries to files only when the user requests it or when the currently authorized work item includes repository updates. Otherwise, show the proposed target and contents. They do not start implementation by themselves.
+Each Skill preserves the request's authority boundary. Inspection, classification, and proposals are read-only by default; a Skill may change only its declared target artifacts when the user or current work item explicitly authorizes that mutation. Otherwise, show the proposed target and contents. Selecting a Skill never authorizes unrelated implementation or external action.
 
 `$tdd` and `$diagnosing-bugs` are available only when the Build Quality pack is installed. They improve development procedure but do not replace Positions, work-item gates, release authority, or Independent QA.
 
-## 11. Troubleshooting
+## 12. Troubleshooting
 
-- `managed file changed`: Inspect the diff first. Do not bypass it by re-running init or editing the lock. Decide whether to retain it as a project extension or contribute the change back to the central toolkit.
+- `managed file changed`: Inspect the diff first. Do not bypass it by re-running init or editing the lock. A locked file cannot become a project extension merely by modifying it; restore or rename it through an explicit migration, or contribute the change back to the central framework.
 - `missing gate evidence`: Add real evidence, then use `--satisfy requirement=reference`. Do not enter a fabricated path.
 - `actor does not hold Position`: Return to Assignments and use the correct Agent and Position, or record an explicit human action.
 - `agents_md_pending_merge`: Inspect `.ai-org/project/AGENTS.temple.md`, then obtain human approval for integration.

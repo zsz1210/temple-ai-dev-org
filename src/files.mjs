@@ -35,6 +35,49 @@ export async function atomicWrite(targetPath, content) {
   await fs.rename(temporaryPath, targetPath);
 }
 
+export async function atomicCreate(targetPath, content) {
+  await fs.mkdir(path.dirname(targetPath), { recursive: true });
+  const temporaryPath = path.join(
+    path.dirname(targetPath),
+    `.temple-tmp-${process.pid}-${crypto.randomBytes(5).toString("hex")}`
+  );
+  await fs.writeFile(temporaryPath, content);
+  try {
+    await fs.link(temporaryPath, targetPath);
+  } finally {
+    await fs.unlink(temporaryPath).catch((error) => {
+      if (error.code !== "ENOENT") throw error;
+    });
+  }
+}
+
+export async function rollbackFileChanges(changes) {
+  const failures = [];
+  for (const change of [...changes].reverse()) {
+    try {
+      const exists = await pathExists(change.path);
+      if (change.afterHash === null) {
+        if (!exists) await atomicCreate(change.path, change.before);
+        else failures.push(`${change.path}: a new file blocks restoration`);
+        continue;
+      }
+      if (!exists) {
+        if (change.before !== null) await atomicCreate(change.path, change.before);
+        continue;
+      }
+      if ((await sha256File(change.path)) !== change.afterHash) {
+        failures.push(`${change.path}: content changed again after this operation wrote it`);
+        continue;
+      }
+      if (change.before === null) await fs.unlink(change.path);
+      else await atomicWrite(change.path, change.before);
+    } catch (error) {
+      failures.push(`${change.path}: ${error.message}`);
+    }
+  }
+  if (failures.length > 0) throw new Error(`Rollback could not safely restore every file:\n- ${failures.join("\n- ")}`);
+}
+
 export async function walkFiles(root) {
   const output = [];
 

@@ -10,6 +10,7 @@ All candidates recorded in the earlier review remain preserved below. A candidat
 |---|---|---|---|
 | `domain-modeling` | Product Manager, Tech Lead | Core, independently implemented and greenfield-validated | FlowDeck used it for the Project Charter, ubiquitous language, product boundary, Spec, and ADR baseline. |
 | `project-documentation` | Product Manager, Tech Lead, Quality & Evaluation Engineer | Core, independently implemented and forward-tested | Grounds human-facing README, setup, usage, contribution, and documentation-index work in executable commands, repository links, shipped behavior, audience needs, and explicit authority. It does not own Agent instructions, product specifications, or generic prose. |
+| `skill-authoring` | Any Position authoring a reusable capability; Tech Lead for promotion review | Core, independently implemented and forward-tested | Classifies whether a repeated procedure is a Skill, checks exact lock ownership, defines trigger and authority, preserves provenance, and applies a validation ladder. It creates only authorized project-owned extensions and does not install, publish, edit the lock, or promote them. |
 | `tdd` | Developer, Quality & Evaluation Engineer | Build Quality optional pack; independently implemented and forward-validated | Requires observable red/green evidence, pre-agreed public test seams, and one vertical slice at a time. AiPet and FlowDeck both produced real red/green cases without copying upstream code. |
 | `diagnosing-bugs` | Developer, Quality & Evaluation Engineer | Build Quality optional pack; independently implemented | Uses bounded reproduction, ranked hypotheses, a red-capable feedback loop, regression evidence, and cleanup. It is opt-in and addresses the failure pattern observed during the AiPet pilot. |
 | `codebase-design` | Tech Lead, Developer | Development foundation candidate | Preserve the deep-module, small-interface, adapter, and test-seam vocabulary. Adapt it to ADRs, bounded contexts, and project authority rather than treating it as an automatic refactor command. |
@@ -18,10 +19,10 @@ All candidates recorded in the earlier review remain preserved below. A candidat
 | `resolving-merge-conflicts` | Developer, Tech Lead | Optional candidate | Useful for an active merge or rebase, but adapt its unconditional “never abort” and automatic commit behavior to project intent, user-owned changes, and explicit completion authority. |
 | `code-review` | Tech Lead, Independent QA | Adaptation candidate | The concept fits independent review, but upstream assumptions about subagents, setup, and issue trackers must not become hidden requirements. |
 | `improve-codebase-architecture` | Tech Lead | Adaptation candidate | Preserve the deep-module and locality lens; validate how it interacts with ADRs, bounded contexts, and existing architecture. |
-| `retro` | Engineering Manager, Toolkit maintainer | Maintainer adaptation candidate | Use completed work-item evidence to find navigation, verification, and tool-economy improvements. Do not require private session logs, auto-edit instructions, or make a retrospective part of every product task. |
+| `retro` | Engineering Manager, Framework maintainer | Maintainer adaptation candidate | Use completed work-item evidence to find navigation, verification, and tool-economy improvements. Do not require private session logs, auto-edit instructions, or make a retrospective part of every product task. |
 | `security-review` | Quality & Evaluation Engineer, Independent QA | Optional pack candidate | Adapt the OWASP review taxonomy for security-sensitive changes and explicit audits. Keep it out of the default core; a future implementation needs CC-BY-4.0 attribution and project-specific threat boundaries. |
-| `writing-great-skills` | Toolkit maintainer | Maintainer inspiration | Apply centrally through `docs/skill-design.md`; do not install it into every product repository. |
-| `writing-for-agents` | Toolkit maintainer | Maintainer inspiration | Use for project-facing instruction quality; do not add another runtime capability without a distinct trigger. |
+| `writing-great-skills` | Framework maintainer | Independently applied inspiration | Its trigger, progressive-disclosure, and validation ideas inform `$skill-authoring` and `docs/skill-authoring.md`; no upstream source is copied or invoked. |
+| `writing-for-agents` | Framework maintainer | Maintainer inspiration | Use for project-facing instruction quality; do not add another runtime capability without a distinct trigger. |
 | `handoff` | Engineering Manager | Do not adopt as-is | Temple already stores canonical handoffs in the repository; temporary handoff documents would create a competing truth. |
 | `to-spec` | Product Manager, Tech Lead | Do not adopt as-is | Overlaps the Temple lifecycle and assumes a separate planning model. Revisit only if a pilot exposes a concrete gap. |
 | `to-tickets` | Engineering Manager | Do not adopt as-is | Depends on an issue-tracker workflow that Phase 1 intentionally does not require. |
@@ -42,6 +43,19 @@ Development Skills are a separate layer from Temple's organization lifecycle. A 
 
 These packs are not role replacements. Owen can still hold Developer while invoking a build-quality Skill, and Stella can still independently evaluate its evidence. Packs change reusable development procedure; Position assignment determines responsibility and approval boundaries.
 
+## Distribution and extension classes
+
+Capabilities and their origins are separate concerns:
+
+| Distribution class | Default | Owner under the current release | Examples |
+|---|---|---|---|
+| Core | Installed by `init` | Framework through exact lock entries | Decision, domain, documentation, Skill authoring, lifecycle |
+| Official pack | Explicit opt-in | Framework after installation | Build Quality |
+| Project extension | Created locally | Product repository | A domain- or stack-specific repeated procedure |
+| Third-party extension | Selected locally | Product repository until a dedicated lifecycle exists | A separately reviewed external Skill |
+
+An initialized repository can create collision-free project Skills under `.agents/skills/<name>/`. It must not edit `temple.lock` to claim them as managed. The current alpha has no Skill registry, custom-pack installer, dependency resolver, automated routing evaluator, or third-party updater; see [Extending a project with Skills](skill-authoring.md).
+
 ## Adoption gate
 
 A candidate moves into an optional pack or the core overlay only after:
@@ -54,7 +68,7 @@ A candidate moves into an optional pack or the core overlay only after:
 
 AiPet completed the second existing-repository portability pilot through `WI-0001`. The accepted Simulator slice produced a real red-to-green test-observation failure, a six-test public-seam suite, screenshot evidence, a clean detached exact-revision QA run, and organizational closeout. Alpha.6 uses that evidence for the independently implemented Build Quality pack; it remains opt-in and does not copy or load upstream source.
 
-FlowDeck then exercised `domain-modeling` and the Build Quality pack in a greenfield iOS lifecycle through exact-revision closeout. It also showed that a human-facing README must be grounded in executable commands and actual product boundaries. Alpha.8 independently implements `$project-documentation` and forward-tests it against Temple's trilingual README redesign; the audit found stale Skill-state claims, a failing documented verification command, missing Git and repository-access prerequisites, and an overstated revision guarantee before the documents were accepted. The pilot did not justify installing `research`, merge-conflict help, architecture, review, security, retrospective, or a new system-permission Skill. Those candidates remain preserved without adding recurring context to every project now.
+FlowDeck then exercised `domain-modeling` and the Build Quality pack in a greenfield iOS lifecycle through exact-revision closeout. It also showed that a human-facing README must be grounded in executable commands and actual product boundaries. Alpha.8 independently implements `$project-documentation` and forward-tests it against Temple's trilingual README redesign; the audit found stale Skill-state claims, a failing documented verification command, missing Git and repository-access prerequisites, and an overstated revision guarantee before the documents were accepted. The pilot did not justify installing `research`, merge-conflict help, architecture, review, security, retrospective, or a new system-permission Skill. Those candidates remain preserved without adding recurring context to every project now. Alpha.9 adds a governed way for a project to create its own Skills without making every candidate part of core.
 
 ## Sources reviewed but not adopted
 
