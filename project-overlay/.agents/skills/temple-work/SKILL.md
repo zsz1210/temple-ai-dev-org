@@ -1,11 +1,17 @@
 ---
 name: temple-work
-description: Operate an initialized repository's work items, evidence-bearing handoffs, workflow gates, closeout, and Codex task registration with the temple CLI. Use for ordinary delivery work; do not use for first-time initialization or open-ended decision interviews.
+description: Mutate an initialized repository's canonical work-item, handoff, workflow, closeout, or Codex task state with the temple CLI. Use only when the request authorizes a lifecycle state change; do not use for status-only reporting, implementation itself, or first-time initialization.
 ---
 
 # Project Delivery Work
 
 Use the `temple` CLI as the mutation boundary for supported canonical state. Do not hand-edit a work item, event stream, task registry, or generated status merely because it is faster.
+
+## Authority boundary
+
+- A request to inspect, explain, diagnose, review, or report status is read-only. Use `temple status --no-write`, `temple doctor`, and repository evidence without mutating lifecycle state.
+- Creating or changing a work item, handoff, transition, closeout, or task record requires an authorized target and action from the user or current work item.
+- This Skill records lifecycle state; it does not authorize implementation, deployment, publication, external messages, spending, or irreversible operations.
 
 ## Start and route work
 

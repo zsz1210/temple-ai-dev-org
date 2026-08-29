@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
-import { REQUIRED_POSITIONS, TEMPLATE_VERSION } from "../src/constants.mjs";
+import { REQUIRED_POSITIONS, REQUIRED_SKILLS, TEMPLATE_VERSION } from "../src/constants.mjs";
 import { pathExists, readJson, walkFiles } from "../src/files.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -25,7 +25,7 @@ for (const file of projectOverlayFiles) {
 
 const positionsDocument = await readJson(path.join(projectOverlayRoot, ".ai-org/core/positions.json"));
 const actualPositions = positionsDocument.positions.map((position) => position.id);
-check(actualPositions.length === REQUIRED_POSITIONS.length, "template must define exactly nine Positions");
+check(actualPositions.length === REQUIRED_POSITIONS.length, "organization system must define exactly nine Positions");
 check(REQUIRED_POSITIONS.every((positionId) => actualPositions.includes(positionId)), "required Position is missing");
 
 const agentConfigs = projectOverlayFiles.filter((file) => file.startsWith(".codex/agents/") && file.endsWith(".toml"));
@@ -38,13 +38,16 @@ for (const configPath of agentConfigs) {
   check(/^developer_instructions = """/m.test(content), `${configPath} is missing developer_instructions`);
 }
 
-for (const skillName of [
-  "temple-init",
-  "temple-work",
-  "decision-interview",
-  "evidence-backed-decision-interview",
-  "domain-modeling"
-]) {
+const skillRoot = path.join(projectOverlayRoot, ".agents/skills");
+const installedSkills = (await fs.readdir(skillRoot, { withFileTypes: true }))
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => entry.name)
+  .sort();
+check(
+  JSON.stringify(installedSkills) === JSON.stringify([...REQUIRED_SKILLS].sort()),
+  `repository Skills differ from the canonical registry: ${installedSkills.join(", ")}`
+);
+for (const skillName of REQUIRED_SKILLS) {
   const skillPath = path.join(projectOverlayRoot, `.agents/skills/${skillName}/SKILL.md`);
   check(await pathExists(skillPath), `missing repository skill: ${skillName}`);
   if (await pathExists(skillPath)) {

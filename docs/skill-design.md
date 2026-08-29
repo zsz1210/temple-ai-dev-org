@@ -23,6 +23,10 @@ This policy applies when Temple adds or changes a repository Skill. It turns the
 - Is there a concrete completion boundary?
 - Has the Skill passed structural validation and a realistic scenario test?
 
+Structural checks and scenario-contract checks are necessary but do not prove model routing behavior. Record real project forward tests separately and do not label a designed scenario as independent QA evidence.
+
+See [Skill scenario matrix](skill-scenarios.md) for the current routing, authority, and completion contract.
+
 ## Sources of inspiration
 
 - Matt Pocock Skills repository, pinned review commit `6654f6b60cd9d5be8b54c6fafe44346dabeb3b76`: <https://github.com/mattpocock/skills/tree/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76>

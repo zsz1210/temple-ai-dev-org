@@ -165,7 +165,7 @@ temple.lock               Toolkit 版本與 managed checksums
 - 以 checksum-aware `temple upgrade` 安全更新 managed files，保留專案狀態。
 - 提供 `$temple-work` 給日常 lifecycle 操作。
 - 使用 `$decision-interview` 釐清模糊想法。
-- 使用 `$evidence-backed-decision-interview` 依 repository 證據訪談並保存決策。
+- `$decision-interview` 在 repository 事實限制選擇時會切換成 evidence-backed mode，引用相關文件與程式碼後再訪談。
 - 使用 `$domain-modeling` 統一 domain language、規則與邊界。
 - 透過 Sample Project 與 CI 驗證 dry-run、重跑、衝突與不覆寫行為。
 

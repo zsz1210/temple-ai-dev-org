@@ -10,6 +10,8 @@ Before acting:
 4. Stay inside that Position's ownership and approval limits.
 5. If the work runs in a separate Codex task, use the suggested `WI-#### · Position · Agent Name` title and register the real task/thread ID in `.ai-org/project/tasks.json` through `temple task register`.
 
+When the request is only to inspect, explain, diagnose, review, or report status, remain read-only. Repository mutation requires explicit authorization from the request or current work item.
+
 Before handoff:
 
 1. Update canonical project files, not only the conversation.
@@ -28,4 +30,4 @@ temple work-item create → temple handoff → temple transition
 
 Each transition must carry named gate evidence. `temple status` projects work items, assigned Agents, revisions, task status, attention signals, recent events, and archive readiness. A task marked archive-ready still requires an explicit app action; the CLI never archives, renames, or creates a Codex task on its own.
 
-Use the repository-local `$temple-work` Skill for ordinary lifecycle operations, `$decision-interview` for an open decision, `$evidence-backed-decision-interview` when repository evidence must be included, and `$domain-modeling` when shared terminology or domain boundaries are unclear.
+Use the repository-local `$temple-work` Skill only for authorized lifecycle mutations, `$decision-interview` for an open decision (including its evidence-backed mode when repository facts constrain the choice), and `$domain-modeling` when shared terminology or domain boundaries are unclear.

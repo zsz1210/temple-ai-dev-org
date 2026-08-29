@@ -37,7 +37,7 @@ Exit Gate：乾淨與既有 repository 都能初始化；九個 Position 可觀�
 - 產品決策、ADR、initial roadmap、acceptance criteria 與第一張 durable work item 都保存在新 repository，不依賴創始對話。
 - 第一張 work item 完成 Spec → Design → Build → Test → Eval → Independent QA → Release Gate。
 - 以新的 Codex task 只讀 repository canonical state 後接續工作，驗證換對話仍能恢復產品意圖與組織狀態。
-- 專案面向的 instructions、status 與 artifacts 使用專案名稱或「本專案的 AI 開發組織」；`Temple` 只保留在中央工具品牌、CLI、Skill ID、schema、lock 與相容性識別。
+- 專案面向的 instructions、status 與 artifacts 使用專案名稱或「本專案的 AI 開發組織」；`Temple` 只保留在中央工具品牌、CLI、CLI 專用 Skill ID、schema、lock 與相容性識別。
 
 Exit Gate：一個非範例、可回復、不碰 production 的全新產品 repository 從點子走到第一張 work item closeout；Developer 與 Independent QA 驗證同一 revision；新的對話不需使用創始聊天即可接續；使用者沒有手動重建 Position、交接或觀測機制。
 

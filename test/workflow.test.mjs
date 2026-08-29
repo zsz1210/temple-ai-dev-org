@@ -211,7 +211,7 @@ test("transition refuses missing named gate evidence without changing state", as
   assert.equal((await readJson(path.join(target, ".ai-org/work-items/WI-0001.json"))).state, "intake");
 });
 
-test("alpha.3 upgrade migrates legacy identity and safely removes renamed managed skills", async (context) => {
+test("upgrade migrates legacy identity and safely removes obsolete managed skills", async (context) => {
   const { temporaryRoot, target } = await fixture();
   context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
   assert.equal(run(["work-item", "create", target, "--title", "Preserve me"]).status, 0);
@@ -221,7 +221,8 @@ test("alpha.3 upgrade migrates legacy identity and safely removes renamed manage
   await fs.writeFile(installedTemple, oldContent);
   const obsoleteSkills = [
     ".agents/skills/temple-grill/SKILL.md",
-    ".agents/skills/temple-grill-with-docs/SKILL.md"
+    ".agents/skills/temple-grill-with-docs/SKILL.md",
+    ".agents/skills/evidence-backed-decision-interview/SKILL.md"
   ];
   for (const relativePath of obsoleteSkills) {
     const absolutePath = path.join(target, relativePath);
@@ -242,8 +243,8 @@ test("alpha.3 upgrade migrates legacy identity and safely removes renamed manage
 
   const dryRun = run(["upgrade", target, "--dry-run"]);
   assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
-  assert.match(dryRun.stdout, /0\.1\.0-alpha\.3 -> 0\.1\.0-alpha\.4/);
-  assert.match(dryRun.stdout, /remove-managed: 2/);
+  assert.match(dryRun.stdout, /0\.1\.0-alpha\.3 -> 0\.1\.0-alpha\.5/);
+  assert.match(dryRun.stdout, /remove-managed: 3/);
   assert.equal(await fs.readFile(installedTemple, "utf8"), oldContent);
   await fs.access(path.join(target, obsoleteSkills[0]));
 
@@ -251,7 +252,7 @@ test("alpha.3 upgrade migrates legacy identity and safely removes renamed manage
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = await fs.readFile(lockPath, "utf8");
   assert.equal(JSON.parse(upgradedLock).template.name, "@zsz1210/temple-ai-dev-org");
-  assert.equal(JSON.parse(upgradedLock).template.version, "0.1.0-alpha.4");
+  assert.equal(JSON.parse(upgradedLock).template.version, "0.1.0-alpha.5");
   assert.match(await fs.readFile(installedTemple, "utf8"), /Project AI development organization operating contract/);
   assert.equal((await readJson(path.join(target, ".ai-org/work-items/WI-0001.json"))).title, "Preserve me");
   for (const relativePath of obsoleteSkills) {

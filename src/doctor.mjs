@@ -1,6 +1,12 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { AGENTS_MARKER_START, REQUIRED_POSITIONS, TASK_STATUSES, TEMPLATE_VERSION } from "./constants.mjs";
+import {
+  AGENTS_MARKER_START,
+  REQUIRED_POSITIONS,
+  REQUIRED_SKILLS,
+  TASK_STATUSES,
+  TEMPLATE_VERSION
+} from "./constants.mjs";
 import { pathExists, readJson, sha256File } from "./files.mjs";
 import { validateProjectState } from "./model.mjs";
 
@@ -81,7 +87,7 @@ export async function runDoctor(target) {
   checks.push({
     id: "position_catalog",
     status: exactPositions ? "pass" : "fail",
-    message: exactPositions ? "All nine template Positions are present" : "Position catalog differs from the required nine Positions"
+    message: exactPositions ? "All nine required Positions are present" : "Position catalog differs from the required nine Positions"
   });
 
   const [project, agents, assignments] = await Promise.all([
@@ -172,15 +178,8 @@ export async function runDoctor(target) {
     });
   }
 
-  const requiredSkills = [
-    "temple-init",
-    "temple-work",
-    "decision-interview",
-    "evidence-backed-decision-interview",
-    "domain-modeling"
-  ];
   const missingSkills = [];
-  for (const skill of requiredSkills) {
+  for (const skill of REQUIRED_SKILLS) {
     if (!(await pathExists(path.join(target, `.agents/skills/${skill}/SKILL.md`)))) {
       missingSkills.push(skill);
     }

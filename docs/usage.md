@@ -21,7 +21,7 @@ temple --version
 
 > 使用 temple-init，讀取 `/absolute/path/to/target`，替五個 assignment slots 建議英文名字，等我確認後初始化。
 
-AI 必須先顯示 Position 對應與名字提案，取得確認後才建立設定檔並執行 `init`。安裝後，目標 repository 會取得 `$temple-init`、`$temple-work`、`$decision-interview`、`$evidence-backed-decision-interview` 與 `$domain-modeling`。中央 repository 本身沒有任何預設名字。
+AI 必須先顯示 Position 對應與名字提案，取得確認後才建立設定檔並執行 `init`。安裝後，目標 repository 會取得 `$temple-init`、`$temple-work`、`$decision-interview` 與 `$domain-modeling`。中央 repository 本身沒有任何預設名字。
 
 ### 手動設定檔
 
@@ -177,11 +177,10 @@ Upgrade 規則：
 
 ## 9. 使用 Decision 與 Domain Skills
 
-- `$decision-interview`：把模糊想法拆成已知事實、選項、決策與未知，不需要 repository 文件也能使用。
-- `$evidence-backed-decision-interview`：先讀 repository 的相關文件與程式碼，再針對衝突、缺口、術語與 ADR 做訪談。
+- `$decision-interview`：把模糊想法拆成已知事實、選項、決策與未知；若 repository 文件、程式碼或 Git 狀態會限制選擇，同一個 Skill 會切換到 evidence-backed mode 並引用實際路徑。
 - `$domain-modeling`：整理 ubiquitous language、bounded contexts、規則與 invariants，將已確認術語保存到 project-owned glossary。
 
-Decision interview Skills 都應將已確認決策保存到 Decision Ledger，不得只留在聊天中。它們的預設行為是訪談與提案，不會直接開始實作。
+這些 Skills 預設只讀。只有使用者要求或目前已授權的 work item 包含 repository 更新時，才把已確認決策或 glossary 寫入檔案；否則必須顯示建議修改的目標與內容。它們不會自行開始實作。
 
 ## 10. 故障處理
 

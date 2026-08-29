@@ -26,3 +26,12 @@ If future versions copy or adapt upstream source, they must include the applicab
 - AsyrafHussin Agent Skills, `project-docs`: <https://github.com/AsyrafHussin/agent-skills/tree/1aa0ff717c10309226c9e678f00873976450fd76/skills/project-docs> — MIT, reviewed commit `1aa0ff717c10309226c9e678f00873976450fd76`.
 
 Temple currently records these as design references for a future independently implemented `project-documentation` Skill. Neither source is installed, copied, loaded, or invoked by Temple.
+
+## Security review inspiration
+
+- Project: <https://github.com/OWASP/secure-agent-playbook>
+- Capability reviewed: `code-review-security`
+- License: CC-BY-4.0
+- Reviewed commit: `79fea6b9115b55687818f8c4073844ee9ba907a6`
+
+Temple records this as provenance for a possible future optional security-review pack. No OWASP source, play, or template is currently installed, copied, loaded, or invoked. Any later adaptation must preserve attribution and clearly identify changes under the applicable license.

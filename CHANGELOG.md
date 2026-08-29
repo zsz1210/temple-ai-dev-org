@@ -1,8 +1,12 @@
 # Changelog
 
-## Unreleased
+## 0.1.0-alpha.5
 
 - 保留 `project-documentation` 作為 Phase 1.5 core candidate，明確分離人類 README／專案文件與 AI-facing instructions，並記錄兩個外部參考實作的 pinned provenance 與 license。
+- 將兩個重疊的訪談 Skills 合併為具 conversational 與 evidence-backed modes 的 `$decision-interview`，升級時只移除 checksum 未變的舊 managed Skill。
+- 將 `$temple-work` 收斂為明確授權的 lifecycle mutation，並為 instructions、Position configs、decision 與 domain Skills 加入 read-only／persistence 權限邊界。
+- 新增 canonical Skill registry、repository Skill 精確集合檢查、Skill scenario matrix 與升級移除測試。
+- 保留 Matt Pocock 的 `research`、`resolving-merge-conflicts`、`wayfinder`、`triage` 與 OWASP security review 作為分層候選，不直接擴張核心安裝。
 
 ## 0.1.0-alpha.4
 

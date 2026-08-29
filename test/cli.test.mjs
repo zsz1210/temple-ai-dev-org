@@ -39,7 +39,7 @@ function run(args) {
 test("version is available without dependencies", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /^0\.1\.0-alpha\.4/m);
+  assert.match(result.stdout, /^0\.1\.0-alpha\.5/m);
 });
 
 test("dry-run writes nothing", async (context) => {

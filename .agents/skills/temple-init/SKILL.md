@@ -9,7 +9,7 @@ Initialize one target repository without inventing project facts or overwriting 
 
 ## Required outcome
 
-- All nine template Positions remain stable.
+- All nine required Positions remain stable.
 - The target project receives its own Agent Identities only after the user confirms their English display names.
 - One Identity may hold multiple Positions.
 - Developer and Independent QA must use different Identities.
@@ -17,7 +17,7 @@ Initialize one target repository without inventing project facts or overwriting 
 
 ## Workflow
 
-1. Resolve the target repository and the central template checkout containing `bin/temple.mjs`. Never assume they are the same directory.
+1. Resolve the target repository and the central Toolkit checkout containing `bin/temple.mjs`. Never assume they are the same directory.
 2. Inspect the target read-only: repository name, current `AGENTS.md`, language/build clues, and whether `.ai-org` or `temple.lock` already exists.
 3. If `temple.lock` already identifies an initialized organization, stop treating this as first init and run `doctor`; do not create new identities.
 4. Show the user the recommended five assignment slots:
@@ -33,4 +33,4 @@ Initialize one target repository without inventing project facts or overwriting 
 9. Run the real init, then `doctor` and `status`. Remove only the exact temporary config you created.
 10. Report the target path, assigned identities, doctor result, generated status path, and any remaining manual integration. Do not claim a GitHub push, CI pass, or runtime verification without evidence.
 
-The template must never acquire these project names as defaults. Do not modify the central Position definitions to store them.
+The central Toolkit must never acquire these project names as defaults. Do not modify the central Position definitions to store them.

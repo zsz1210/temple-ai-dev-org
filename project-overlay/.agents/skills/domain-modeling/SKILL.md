@@ -26,7 +26,11 @@ For every term that changes behavior, establish:
 
 Use established Domain-Driven Design constructs only when they clarify the model. Do not force labels such as Entity, Value Object, Aggregate, Domain Event, or Bounded Context without supporting behavior and evidence.
 
-## Persist the result
+## Authority boundary
+
+Evidence gathering and model clarification are read-only by default. Persist glossary or ADR changes only when the user's request or current authorized work item includes repository updates; otherwise propose the exact entries and affected paths. Do not refactor code or rename interfaces without an explicit implementation request.
+
+## Persist or propose the result
 
 - Record confirmed vocabulary in `.ai-org/project/domain-glossary.md`, using `.ai-org/templates/domain-glossary.md` when the file does not exist.
 - Record long-lived architectural consequences as an ADR under `.ai-org/decisions/`.
@@ -35,4 +39,4 @@ Use established Domain-Driven Design constructs only when they clarify the model
 
 Do not implement a refactor unless the user explicitly requests implementation.
 
-Finish when confirmed vocabulary, unresolved conflicts, owners, and downstream impacts are visible in repository files.
+Finish when confirmed vocabulary, unresolved conflicts, owners, and downstream impacts are visible in repository files or in an explicit proposed change when persistence was not authorized.

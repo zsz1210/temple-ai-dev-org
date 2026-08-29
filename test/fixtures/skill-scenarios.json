@@ -1,0 +1,50 @@
+[
+  {
+    "id": "fuzzy-product-decision",
+    "expected_skill": "decision-interview",
+    "mode": "conversational",
+    "repository_mutation": false
+  },
+  {
+    "id": "repository-constrained-decision",
+    "expected_skill": "decision-interview",
+    "mode": "evidence-backed",
+    "repository_mutation": false
+  },
+  {
+    "id": "domain-term-conflict",
+    "expected_skill": "domain-modeling",
+    "mode": "evidence-backed-proposal",
+    "repository_mutation": false
+  },
+  {
+    "id": "status-only",
+    "expected_skill": null,
+    "mode": "read-only",
+    "repository_mutation": false
+  },
+  {
+    "id": "authorized-work-item-transition",
+    "expected_skill": "temple-work",
+    "mode": "lifecycle-mutation",
+    "repository_mutation": true
+  },
+  {
+    "id": "unconfirmed-init-names",
+    "expected_skill": "temple-init",
+    "mode": "confirmation-gate",
+    "repository_mutation": false
+  },
+  {
+    "id": "authorized-decision-persistence",
+    "expected_skill": "decision-interview",
+    "mode": "persistence-authorized",
+    "repository_mutation": true
+  },
+  {
+    "id": "approved-feature-implementation",
+    "expected_skill": null,
+    "mode": "normal-implementation",
+    "repository_mutation": true
+  }
+]
