@@ -35,6 +35,7 @@ Phase 1 使用 Git 友善的 JSON 與 Markdown：
 - `project.json`：專案識別與初始化時間。
 - `agents.json`：Agent Identity。
 - `assignments.json`：Position 到 Identity 的映射。
+- `tasks.json`：Codex task/thread 的 stable ID、Position、Agent、revision 與狀態；不是 App 控制 API。
 - `work-items/*.json`：工作狀態與 evidence pointer。
 - `decisions/*.md`：Decision Ledger 與 ADR proposal。
 - `events/events.jsonl`：可追加的事件流。
@@ -54,7 +55,21 @@ Phase 1 使用 Git 友善的 JSON 與 Markdown：
 
 ### `temple status`
 
-只讀 canonical state，輸出人類可讀摘要，並可更新 `.ai-org/views/status.md`。它不把 view 反寫成決策。
+只讀 canonical state，輸出 work item、task registry、revision、attention、recent events 與 archive readiness，並可更新 `.ai-org/views/status.md`。它不把 view 反寫成決策。
+
+### Lifecycle commands
+
+- `temple work-item create` 配發下一個 durable ID。
+- `temple handoff` 產生證據化交接文件。
+- `temple transition` 只允許 workflow 中存在的 edge，且每項 `requires` 都必須有具名 evidence reference。
+- `temple close` 產生 release record，要求 exact tested revision、rollback 與 approval record；它不執行 external release。
+- `temple task register/update/list` 維持 task/thread registry 與建議標題，但不直接操作 Codex App。
+
+所有 lifecycle 與 task mutation 會在系統暫存目錄取得以 project path 雜湊命名的短時 exclusive lock。其他 process 會短暫等待，逾時則停止；超過五分鐘的 lock 視為 crash residue 並可由下一個命令清理。Lock 不在 repository 內，也不屬於 canonical state。
+
+### `temple upgrade`
+
+Upgrade 先以舊 `temple.lock` 驗證每個已安裝 managed file。只有 checksum 未改變的 managed files 才能更新；新 managed paths 必須不存在或與中央內容相同。Project-owned files 永不覆蓋，generated status 可以重建。
 
 ## Archify Adapter
 

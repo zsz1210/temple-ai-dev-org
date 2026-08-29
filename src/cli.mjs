@@ -1,4 +1,3 @@
-import fs from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import readline from "node:readline/promises";
@@ -8,52 +7,113 @@ import { runDoctor, formatDoctor } from "./doctor.mjs";
 import { assertSafeTarget, readJson } from "./files.mjs";
 import { executeInit, formatInitPlan, planInit } from "./install.mjs";
 import { validateInitConfig } from "./model.mjs";
-import { buildStatus, writeStatus } from "./status.mjs";
+import { withProjectMutationLock } from "./project.mjs";
+import { buildStatus, renderStatusMarkdown, writeStatus } from "./status.mjs";
+import { listTasks, registerTask, updateTask } from "./tasks.mjs";
+import { executeUpgrade, formatUpgradePlan, planUpgrade } from "./upgrade.mjs";
+import { closeWorkItem, createHandoff, createWorkItem, transitionWorkItem } from "./work-items.mjs";
 
 const HELP = `Temple ${TEMPLATE_VERSION}
 
 Usage:
   temple init [target] [--config path] [--dry-run] [--integrate-agents]
+  temple upgrade [target] [--dry-run]
   temple doctor [target] [--json]
   temple status [target] [--json] [--no-write]
+  temple work-item create [target] --title text [--scope text] [--acceptance text]
+  temple handoff [target] --work-item WI-0001 --to position --input-revision ref --completed text --evidence ref
+  temple transition [target] --work-item WI-0001 --to state --satisfy requirement=reference
+  temple close [target] --work-item WI-0001 --decision go|no-go --tested-revision ref --rollback text --approval record
+  temple task register [target] --work-item WI-0001 --position developer --thread-id id
+  temple task update [target] --task-id task-0001 --status completed
+  temple task list [target] [--json]
   temple --version
 
-Commands:
-  init     Install the organization template and project-specific identities.
-  doctor   Validate managed files, identity/assignment rules, and integrations.
-  status   Project canonical state into a readable status view.
+Core commands:
+  init        Install Temple and project-specific Agent Identities.
+  upgrade     Update only checksum-clean managed files; preserve project-owned state.
+  doctor      Validate managed files, identities, work items, tasks, and integrations.
+  status      Rebuild the observable project status from canonical files.
+  work-item   Create a durable work item with the next stable WI number.
+  handoff     Create an evidence-bearing Position handoff artifact.
+  transition  Enforce the workflow edge and its named gate requirements.
+  close       Record release readiness and close or block a release-gate item.
+  task        Register Codex task/thread identity, status, revision, and archive readiness.
 
-Run init with --config for AI-suggested names. Without --config, an interactive
-terminal asks for five manually chosen English names. Existing user files are
-not overwritten; use --integrate-agents only after approving an append to an
-existing root AGENTS.md.
+Repeat --scope, --acceptance, --completed, --evidence, --unresolved, --rollback,
+--reason, or --satisfy as needed. Temple never creates, renames, or archives a
+Codex task by itself; task registry entries make those app actions observable.
 `;
+
+const BOOLEAN_FLAGS = new Set(["--dry-run", "--integrate-agents", "--json", "--no-write", "--help"]);
+const VALUE_FLAGS = new Set([
+  "--config",
+  "--title",
+  "--actor",
+  "--work-item",
+  "--to",
+  "--input-revision",
+  "--decision",
+  "--tested-revision",
+  "--approval",
+  "--position",
+  "--thread-id",
+  "--client-thread-id",
+  "--host-id",
+  "--status",
+  "--revision",
+  "--task-id",
+  "--notes",
+  "--scope",
+  "--acceptance",
+  "--completed",
+  "--evidence",
+  "--unresolved",
+  "--rollback",
+  "--reason",
+  "--satisfy"
+]);
+const REPEATABLE_FLAGS = new Set([
+  "--scope",
+  "--acceptance",
+  "--completed",
+  "--evidence",
+  "--unresolved",
+  "--rollback",
+  "--reason",
+  "--satisfy"
+]);
+const NESTED_COMMANDS = new Set(["work-item", "task"]);
 
 function parseCommand(argv) {
   if (argv.length === 0 || argv[0] === "--help" || argv[0] === "-h") {
-    return { command: "help", target: ".", flags: new Set(), options: {} };
+    return { command: "help", action: null, target: ".", flags: new Set(), options: {} };
   }
   if (argv[0] === "--version" || argv[0] === "-v") {
-    return { command: "version", target: ".", flags: new Set(), options: {} };
+    return { command: "version", action: null, target: ".", flags: new Set(), options: {} };
   }
 
   const command = argv[0];
+  let action = null;
+  let start = 1;
+  if (NESTED_COMMANDS.has(command)) {
+    action = argv[1];
+    if (!action || action.startsWith("--")) throw new Error(`${command} requires an action`);
+    start = 2;
+  }
+
   const flags = new Set();
   const options = {};
   const positionals = [];
-  const booleanFlags = new Set(["--dry-run", "--integrate-agents", "--json", "--no-write", "--help"]);
-  const valueFlags = new Set(["--config"]);
-
-  for (let index = 1; index < argv.length; index += 1) {
+  for (let index = start; index < argv.length; index += 1) {
     const token = argv[index];
-    if (booleanFlags.has(token)) {
+    if (BOOLEAN_FLAGS.has(token)) {
       flags.add(token);
-    } else if (valueFlags.has(token)) {
+    } else if (VALUE_FLAGS.has(token)) {
       const value = argv[index + 1];
-      if (!value || value.startsWith("--")) {
-        throw new Error(`${token} requires a value`);
-      }
-      options[token] = value;
+      if (!value || value.startsWith("--")) throw new Error(`${token} requires a value`);
+      if (REPEATABLE_FLAGS.has(token)) options[token] = [...(options[token] ?? []), value];
+      else options[token] = value;
       index += 1;
     } else if (token.startsWith("--")) {
       throw new Error(`Unknown option: ${token}`);
@@ -61,11 +121,27 @@ function parseCommand(argv) {
       positionals.push(token);
     }
   }
+  if (positionals.length > 1) throw new Error(`Unexpected arguments: ${positionals.slice(1).join(" ")}`);
+  return { command, action, target: positionals[0] ?? ".", flags, options };
+}
 
-  if (positionals.length > 1) {
-    throw new Error(`Unexpected arguments: ${positionals.slice(1).join(" ")}`);
+function listOption(parsed, flag) {
+  const value = parsed.options[flag];
+  return value === undefined ? [] : Array.isArray(value) ? value : [value];
+}
+
+function parseSatisfied(values) {
+  const output = {};
+  for (const value of values) {
+    const separator = value.indexOf("=");
+    if (separator <= 0 || separator === value.length - 1) {
+      throw new Error(`Invalid --satisfy value ${value}; use requirement=reference`);
+    }
+    const requirement = value.slice(0, separator).trim();
+    const reference = value.slice(separator + 1).trim();
+    output[requirement] = [...(output[requirement] ?? []), reference];
   }
-  return { command, target: positionals[0] ?? ".", flags, options };
+  return output;
 }
 
 function projectIdFromDirectory(target) {
@@ -87,7 +163,6 @@ async function collectInteractiveConfig(target) {
       "Non-interactive init requires --config. Use $temple-init in Codex for AI-suggested names or provide a temple.init/v1 JSON file."
     );
   }
-
   const prompt = readline.createInterface({ input, output });
   try {
     output.write("Temple will create project-specific identities. No names come from the template.\n");
@@ -108,45 +183,68 @@ async function collectInteractiveConfig(target) {
 async function readStandardInput() {
   let content = "";
   input.setEncoding("utf8");
-  for await (const chunk of input) {
-    content += chunk;
-  }
+  for await (const chunk of input) content += chunk;
   return JSON.parse(content);
 }
 
 async function loadConfig(configPath, target) {
-  if (!configPath) {
-    return collectInteractiveConfig(target);
-  }
-  if (configPath === "-") {
-    return readStandardInput();
-  }
+  if (!configPath) return collectInteractiveConfig(target);
+  if (configPath === "-") return readStandardInput();
   return readJson(path.resolve(configPath));
+}
+
+async function refreshStatus(target) {
+  const status = await buildStatus(target);
+  await writeStatus(target, status);
+  return status;
+}
+
+function printResult(parsed, result, lines) {
+  if (parsed.flags.has("--json")) console.log(JSON.stringify(result, null, 2));
+  else console.log(lines.join("\n"));
 }
 
 async function runInit(parsed) {
   const target = await assertSafeTarget(parsed.target);
   const config = await validateInitConfig(await loadConfig(parsed.options["--config"], target));
-  const plan = await planInit(target, config, {
-    integrateAgents: parsed.flags.has("--integrate-agents")
-  });
+  const plan = await planInit(target, config, { integrateAgents: parsed.flags.has("--integrate-agents") });
   console.log(formatInitPlan(plan));
-
-  if (plan.conflicts.length > 0) {
-    return 1;
-  }
+  if (plan.conflicts.length > 0) return 1;
   if (parsed.flags.has("--dry-run")) {
     console.log("Dry run complete; no files were written.");
     return 0;
   }
-
   await executeInit(plan);
   const doctor = await runDoctor(target);
-  const status = await buildStatus(target);
-  const statusPath = await writeStatus(target, status);
+  const statusPath = await writeStatus(target, await buildStatus(target));
   console.log(`Initialized Temple ${TEMPLATE_VERSION}.`);
   console.log(formatDoctor(doctor));
   console.log(`Status view: ${statusPath}`);
+  return doctor.healthy ? 0 : 1;
+}
+
+async function runUpgrade(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  const plan = await planUpgrade(target);
+  console.log(formatUpgradePlan(plan));
+  if (plan.conflicts.length > 0) return 1;
+  if (parsed.flags.has("--dry-run")) {
+    console.log("Dry run complete; no files were written.");
+    return 0;
+  }
+  await withProjectMutationLock(target, async () => {
+    const lockedPlan = await planUpgrade(target);
+    if (lockedPlan.conflicts.length > 0) throw new Error(`Upgrade stopped before writing:\n- ${lockedPlan.conflicts.join("\n- ")}`);
+    await executeUpgrade(lockedPlan);
+    await refreshStatus(target);
+  });
+  const doctor = await runDoctor(target);
+  console.log(
+    plan.actions.some((action) => action.type === "update-lock")
+      ? `Upgraded Temple to ${TEMPLATE_VERSION}.`
+      : `Temple is already current at ${TEMPLATE_VERSION}.`
+  );
+  console.log(formatDoctor(doctor));
   return doctor.healthy ? 0 : 1;
 }
 
@@ -160,16 +258,151 @@ async function runDoctorCommand(parsed) {
 async function runStatusCommand(parsed) {
   const target = await assertSafeTarget(parsed.target);
   const status = await buildStatus(target);
-  if (!parsed.flags.has("--no-write")) {
-    await writeStatus(target, status);
-  }
-  if (parsed.flags.has("--json")) {
-    console.log(JSON.stringify(status, null, 2));
-  } else {
-    const { renderStatusMarkdown } = await import("./status.mjs");
-    console.log(renderStatusMarkdown(status));
-  }
+  if (!parsed.flags.has("--no-write")) await writeStatus(target, status);
+  console.log(parsed.flags.has("--json") ? JSON.stringify(status, null, 2) : renderStatusMarkdown(status));
   return 0;
+}
+
+async function runWorkItemCreate(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  const result = await withProjectMutationLock(target, async () => {
+    const created = await createWorkItem(target, {
+      title: parsed.options["--title"],
+      actor: parsed.options["--actor"],
+      scope: listOption(parsed, "--scope"),
+      acceptance: listOption(parsed, "--acceptance"),
+      evidence: listOption(parsed, "--evidence"),
+      unresolved: listOption(parsed, "--unresolved")
+    });
+    await refreshStatus(target);
+    return created;
+  });
+  printResult(parsed, result, [
+    `Created ${result.item.id}: ${result.item.title}`,
+    `State: ${result.item.state} (${result.item.owner_position})`,
+    `Suggested Codex title: ${result.suggested_title}`
+  ]);
+  return 0;
+}
+
+async function runHandoff(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  const result = await withProjectMutationLock(target, async () => {
+    const handoff = await createHandoff(target, {
+      workItemId: parsed.options["--work-item"],
+      toPosition: parsed.options["--to"],
+      inputRevision: parsed.options["--input-revision"],
+      actor: parsed.options["--actor"],
+      completed: listOption(parsed, "--completed"),
+      evidence: listOption(parsed, "--evidence"),
+      unresolved: listOption(parsed, "--unresolved")
+    });
+    await refreshStatus(target);
+    return handoff;
+  });
+  printResult(parsed, result, [
+    `Created handoff: ${result.artifact}`,
+    `Next Position: ${result.item.next_position}`,
+    `Suggested Codex title: ${result.suggested_title}`
+  ]);
+  return 0;
+}
+
+async function runTransition(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  const result = await withProjectMutationLock(target, async () => {
+    const transitioned = await transitionWorkItem(target, {
+      workItemId: parsed.options["--work-item"],
+      toState: parsed.options["--to"],
+      actor: parsed.options["--actor"],
+      satisfied: parseSatisfied(listOption(parsed, "--satisfy")),
+      evidence: listOption(parsed, "--evidence")
+    });
+    await refreshStatus(target);
+    return transitioned;
+  });
+  printResult(parsed, result, [
+    `${result.item.id}: ${result.item.state}`,
+    `Owner: ${result.item.owner_position} (${result.item.assigned_agent_id})`,
+    `Suggested Codex title: ${result.suggested_title}`
+  ]);
+  return 0;
+}
+
+async function runClose(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  const result = await withProjectMutationLock(target, async () => {
+    const closed = await closeWorkItem(target, {
+      workItemId: parsed.options["--work-item"],
+      decision: parsed.options["--decision"],
+      testedRevision: parsed.options["--tested-revision"],
+      approval: parsed.options["--approval"],
+      actor: parsed.options["--actor"],
+      rollback: listOption(parsed, "--rollback"),
+      reason: listOption(parsed, "--reason"),
+      evidence: listOption(parsed, "--evidence"),
+      satisfied: parseSatisfied(listOption(parsed, "--satisfy"))
+    });
+    await refreshStatus(target);
+    return closed;
+  });
+  printResult(parsed, result, [
+    `${result.item.id}: ${result.item.state}`,
+    `Release gate: ${result.item.release_gate_result}`,
+    `Record: ${result.artifact}`,
+    "External release: not performed"
+  ]);
+  return 0;
+}
+
+async function runTask(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (parsed.action === "register") {
+    const task = await withProjectMutationLock(target, async () => {
+      const registered = await registerTask(target, {
+        workItemId: parsed.options["--work-item"],
+        positionId: parsed.options["--position"],
+        threadId: parsed.options["--thread-id"],
+        clientThreadId: parsed.options["--client-thread-id"],
+        hostId: parsed.options["--host-id"],
+        status: parsed.options["--status"],
+        revision: parsed.options["--revision"],
+        notes: parsed.options["--notes"],
+        actor: parsed.options["--actor"]
+      });
+      await refreshStatus(target);
+      return registered;
+    });
+    printResult(parsed, task, [
+      `Registered ${task.id} for ${task.work_item_id}`,
+      `Suggested Codex title: ${task.suggested_title}`,
+      `Status: ${task.status}`
+    ]);
+    return 0;
+  }
+  if (parsed.action === "update") {
+    const task = await withProjectMutationLock(target, async () => {
+      const updated = await updateTask(target, {
+        taskId: parsed.options["--task-id"],
+        status: parsed.options["--status"],
+        revision: parsed.options["--revision"],
+        notes: parsed.options["--notes"],
+        actor: parsed.options["--actor"]
+      });
+      await refreshStatus(target);
+      return updated;
+    });
+    printResult(parsed, task, [`Updated ${task.id}: ${task.status}`, `Revision: ${task.current_revision ?? "not recorded"}`]);
+    return 0;
+  }
+  if (parsed.action === "list") {
+    const tasks = await listTasks(target);
+    if (parsed.flags.has("--json")) console.log(JSON.stringify(tasks, null, 2));
+    else if (tasks.length === 0) console.log("No Codex tasks registered.");
+    else for (const task of tasks) console.log(`${task.id}\t${task.status}\t${task.suggested_title}\tarchive=${task.archive_ready}`);
+    return 0;
+  }
+  throw new Error(`Unknown task action: ${parsed.action}`);
 }
 
 export async function main(argv) {
@@ -182,14 +415,14 @@ export async function main(argv) {
     console.log(TEMPLATE_VERSION);
     return 0;
   }
-  if (parsed.command === "init") {
-    return runInit(parsed);
-  }
-  if (parsed.command === "doctor") {
-    return runDoctorCommand(parsed);
-  }
-  if (parsed.command === "status") {
-    return runStatusCommand(parsed);
-  }
-  throw new Error(`Unknown command: ${parsed.command}\n\n${HELP}`);
+  if (parsed.command === "init") return runInit(parsed);
+  if (parsed.command === "upgrade") return runUpgrade(parsed);
+  if (parsed.command === "doctor") return runDoctorCommand(parsed);
+  if (parsed.command === "status") return runStatusCommand(parsed);
+  if (parsed.command === "work-item" && parsed.action === "create") return runWorkItemCreate(parsed);
+  if (parsed.command === "handoff") return runHandoff(parsed);
+  if (parsed.command === "transition") return runTransition(parsed);
+  if (parsed.command === "close") return runClose(parsed);
+  if (parsed.command === "task") return runTask(parsed);
+  throw new Error(`Unknown command: ${parsed.command}${parsed.action ? ` ${parsed.action}` : ""}\n\n${HELP}`);
 }

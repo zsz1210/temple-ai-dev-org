@@ -73,6 +73,23 @@ temple doctor .
 temple status .
 ```
 
+日常工作由 Temple 命令維持，不必再手改 work item JSON：
+
+```bash
+temple work-item create . --title "Outcome-oriented title" \
+  --scope "Bounded scope" \
+  --acceptance "Observable acceptance criterion"
+
+temple handoff . --work-item WI-0001 --to developer \
+  --input-revision abc123 \
+  --completed "Approved design is ready" \
+  --evidence docs/design.md
+
+temple transition . --work-item WI-0001 --to build \
+  --satisfy technical_design=docs/design.md \
+  --satisfy risk_review=docs/design.md
+```
+
 如果沒有執行 `npm link`，可改用中央 checkout 的完整路徑：
 
 ```bash
@@ -105,6 +122,7 @@ temple.lock               Template 版本與 managed checksums
 .ai-org/
   core/                   Position、workflow、policy、schema
   project/                專案自己的 Agent 與 assignment
+    tasks.json             Codex task/thread registry
   work-items/             有穩定 ID 的工作項目
   decisions/              Decision Ledger 與 ADR proposal
   events/                 可追加的事件紀錄
@@ -122,6 +140,7 @@ temple.lock               Template 版本與 managed checksums
 - Managed 檔案由 checksum 保護；內容不同時停止，不強制覆寫。
 - Agent 名字、產品文件與工作歷史屬於專案，未來升級不得覆蓋。
 - 生成的 status 或視覺化只是 projection，不會取代 canonical state。
+- Temple 只登錄 Codex task/thread，不會自行建立、改名或封存 App 裡的 task。
 - 商業事實、優先順序、外部承諾、敏感資料、不可逆操作與高風險 release 仍由人類批准。
 - Archify 目前只是關閉狀態的選配 Adapter 合約，不是控制平面。
 
@@ -130,12 +149,29 @@ temple.lock               Template 版本與 managed checksums
 - 安全初始化新專案或既有 repository。
 - 第一次 init 才建立並命名 Agent Identity。
 - 驗證九個 Position、身份分離、managed files 與 work item 格式。
-- 產生 assignment 與 work item 狀態總覽。
+- 用 CLI 建立 work item、handoff、具名 gate transition 與 release closeout。
+- 登錄 Codex task/thread、建議穩定標題並計算 archive readiness。
+- 產生 assignment、work item、task、revision、attention 與最近事件總覽。
+- 以 checksum-aware `temple upgrade` 安全更新 managed files，保留專案狀態。
+- 提供 `$temple-work` 給日常 lifecycle 操作。
 - 使用 `$temple-grill` 釐清模糊想法。
 - 使用 `$temple-grill-with-docs` 依 repository 證據訪談並保存決策。
 - 透過 Sample Project 與 CI 驗證 dry-run、重跑、衝突與不覆寫行為。
 
-Phase 1 還沒有 `temple upgrade`、背景自動派工、即時 Dashboard 或自動安裝 Archify。這些會在狀態模型通過真實 pilot 後逐步加入。
+Phase 1 不會背景自動派工、不會直接操作 Codex sidebar、不會發布 production，也沒有跨專案即時 Web Dashboard。Archify 仍是關閉狀態的選配 Adapter。
+
+## 從 alpha.1 升級
+
+先預演，再正式升級：
+
+```bash
+temple upgrade /absolute/path/to/project --dry-run
+temple upgrade /absolute/path/to/project
+temple doctor /absolute/path/to/project
+temple status /absolute/path/to/project
+```
+
+Upgrade 只更新與 `temple.lock` checksum 一致的 managed files。任何缺失或被專案修改過的 managed file 都會在寫入前停止；Agent 名字、work items、events、artifacts、decisions、task registry 與產品檔案不會被覆蓋。
 
 ## 進一步閱讀
 

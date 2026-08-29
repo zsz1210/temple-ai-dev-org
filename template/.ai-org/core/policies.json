@@ -16,6 +16,12 @@
   "handoff": {
     "required_fields": ["work_item_id", "input_revision", "completed", "evidence", "unresolved", "next_position"]
   },
+  "codex_tasks": {
+    "canonical_registry": ".ai-org/project/tasks.json",
+    "suggested_title_format": "WI-#### · Position · Agent Name",
+    "thread_id_is_identifier": true,
+    "automatic_archive": false
+  },
   "release_gate": {
     "requires": ["accepted_scope", "test_evidence", "evaluation_report", "independent_qa_report", "rollback_plan"],
     "human_approval_when": ["production_change", "external_message", "irreversible_action", "material_cost", "sensitive_data"]

@@ -6,7 +6,7 @@ const sourceDirectory = path.dirname(fileURLToPath(import.meta.url));
 export const REPOSITORY_ROOT = path.resolve(sourceDirectory, "..");
 export const TEMPLATE_ROOT = path.join(REPOSITORY_ROOT, "template");
 export const PACKAGE_NAME = "@zsz1210/ai-development-org-template";
-export const TEMPLATE_VERSION = "0.1.0-alpha.1";
+export const TEMPLATE_VERSION = "0.1.0-alpha.2";
 export const TEMPLATE_REPOSITORY = "zsz1210/ai-development-org-template";
 
 export const REQUIRED_POSITIONS = [
@@ -40,6 +40,8 @@ export const PROJECT_OWNED_PATHS = [
 ];
 
 export const GENERATED_PATHS = [".ai-org/views/**"];
+
+export const TASK_STATUSES = ["setup", "active", "waiting", "attention", "completed", "archived"];
 
 export const AGENTS_MARKER_START = "<!-- temple:instructions:start -->";
 export const AGENTS_MARKER_END = "<!-- temple:instructions:end -->";

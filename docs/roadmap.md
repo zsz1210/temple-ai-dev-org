@@ -2,33 +2,36 @@
 
 這些是工程階段與 Exit Gate，不是日期承諾。只有上一階段的證據成立，才擴張自動化。
 
-## Phase 1：可安裝的組織骨架（本版本）
+## Phase 1：可安裝、可操作的組織骨架（本版本）
 
 目標：任何 repository 都能取得同一套 Position、身份模型、工作流與檢查，不依賴聊天標題。
 
 交付：
 
 - 中央 private template repository。
-- `init`、`doctor`、`status` 與 `temple.lock`。
+- `init`、checksum-aware `upgrade`、`doctor`、`status` 與 `temple.lock`。
 - 九個 Position、專案首次 init 命名、五 Identity 精簡配置。
 - managed / project-owned / generated 邊界。
 - grill skills、Decision Ledger、ADR 與 handoff/QA 範本。
 - Archify 的 opt-in Adapter 合約。
 - Sample Project、CI 與無覆寫測試。
+- Work item、handoff、transition、close CLI 與 named gate evidence。
+- Codex task registry、穩定標題建議、revision、attention 與 archive readiness。
+- English Learning Inbox 的真實 Safari Share Extension pilot。
 
 Exit Gate：乾淨與既有 repository 都能初始化；九個 Position 可觀測；Developer/Independent QA 分離；重跑不覆寫；關閉聊天後能從檔案恢復組織狀態。
 
 ## Phase 2：營運 MVP
 
-目標：把人工更新 work item 的紀律變成可驗證命令，完成第一張低風險真實工作單。
+目標：在已驗證的 lifecycle CLI 上加入範圍衝突、外部證據 Adapter 與更強的 Observer。
 
 預定交付：
 
-- `temple new/list/show/assign/transition/handoff/qa/approve`。
-- JSON Schema runtime validation 與非法 transition 拒絕。
-- exact Git revision、test、runtime、unverified、risk、rollback evidence。
 - affected-path ownership 與重複 active scope 警告。
-- append-only event commands 與 Observer status projection。
+- 更完整的 JSON Schema runtime validation 與 migration registry。
+- exact Git revision、test、runtime、unverified、risk、rollback evidence adapter。
+- affected-path ownership 與重複 active scope 警告。
+- timeline、staleness 與 approval-pending Observer projection。
 - Archify adapter 的隔離安裝、provenance 與降級測試。
 - 本機唯讀 Overview：active、blocked、QA pending、approval pending。
 

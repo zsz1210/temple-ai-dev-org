@@ -95,6 +95,18 @@ export async function planInit(target, config, { integrateAgents = false } = {})
     }
   }
 
+  const tasksPath = path.join(target, ".ai-org/project/tasks.json");
+  if (!(await pathExists(tasksPath))) {
+    actions.push({ type: "write", ownership: "project-owned", path: ".ai-org/project/tasks.json" });
+  } else {
+    const tasks = await readJson(tasksPath);
+    if (tasks.schema_version !== "temple.tasks/v1" || !Array.isArray(tasks.tasks)) {
+      conflicts.push("project task registry is invalid: .ai-org/project/tasks.json");
+    } else {
+      actions.push({ type: "skip-existing", ownership: "project-owned", path: ".ai-org/project/tasks.json" });
+    }
+  }
+
   const eventsPath = path.join(target, ".ai-org/events/events.jsonl");
   if (await pathExists(eventsPath)) {
     actions.push({ type: "skip-existing", ownership: "project-owned", path: ".ai-org/events/events.jsonl" });
@@ -165,7 +177,8 @@ export async function executeInit(plan) {
       const stateByPath = {
         ".ai-org/project/project.json": plan.state.project,
         ".ai-org/project/agents.json": plan.state.agents,
-        ".ai-org/project/assignments.json": plan.state.assignments
+        ".ai-org/project/assignments.json": plan.state.assignments,
+        ".ai-org/project/tasks.json": plan.state.tasks
       };
       await atomicWrite(destinationPath, formatJson(stateByPath[action.path]));
     } else if (action.type === "write-empty") {
@@ -208,6 +221,11 @@ export async function executeInit(plan) {
         pinned_tag: "v2.15.0",
         pinned_commit: "e1ac748f19cf805e44bf74fb93c796662152e273"
       }
+    },
+    capabilities: {
+      work_item_cli: true,
+      task_registry: true,
+      checksum_upgrade: true
     },
     managed_files: managedFiles
   };

@@ -34,7 +34,7 @@ for (const configPath of agentConfigs) {
   check(/^developer_instructions = """/m.test(content), `${configPath} is missing developer_instructions`);
 }
 
-for (const skillName of ["temple-init", "temple-grill", "temple-grill-with-docs"]) {
+for (const skillName of ["temple-init", "temple-work", "temple-grill", "temple-grill-with-docs"]) {
   const skillPath = path.join(templateRoot, `.agents/skills/${skillName}/SKILL.md`);
   check(await pathExists(skillPath), `missing repository skill: ${skillName}`);
   if (await pathExists(skillPath)) {

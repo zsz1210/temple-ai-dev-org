@@ -39,7 +39,7 @@ function run(args) {
 test("version is available without dependencies", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /^0\.1\.0-alpha\.1/m);
+  assert.match(result.stdout, /^0\.1\.0-alpha\.2/m);
 });
 
 test("dry-run writes nothing", async (context) => {
@@ -63,6 +63,8 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
   const agents = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/agents.json"), "utf8"));
   assert.equal(agents.agents.length, 5);
   assert.equal(agents.agents[0].display_name, "Fixture Rowan");
+  const tasks = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/tasks.json"), "utf8"));
+  assert.deepEqual(tasks.tasks, []);
 
   const doctor = run(["doctor", target, "--json"]);
   assert.equal(doctor.status, 0, doctor.stderr || doctor.stdout);
@@ -71,6 +73,7 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
   const status = run(["status", target, "--json"]);
   assert.equal(status.status, 0, status.stderr);
   assert.equal(JSON.parse(status.stdout).assignments.length, 9);
+  assert.equal(JSON.parse(status.stdout).schema_version, "temple.status/v2");
   assert.match(await fs.readFile(path.join(target, ".ai-org/views/status.md"), "utf8"), /Independent QA/);
 
   const secondInit = run(["init", target, "--config", configPath]);

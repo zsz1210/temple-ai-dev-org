@@ -5,7 +5,11 @@
   "state": "intake",
   "owner_position": "engineering_manager",
   "assigned_agent_id": null,
+  "created_at": "",
+  "updated_at": "",
+  "scope": [],
   "acceptance_criteria": [],
+  "gate_evidence": {},
   "evidence": [],
   "unresolved": [],
   "next_position": "product_manager"

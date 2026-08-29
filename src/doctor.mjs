@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { AGENTS_MARKER_START, REQUIRED_POSITIONS, TEMPLATE_VERSION } from "./constants.mjs";
+import { AGENTS_MARKER_START, REQUIRED_POSITIONS, TASK_STATUSES, TEMPLATE_VERSION } from "./constants.mjs";
 import { pathExists, readJson, sha256File } from "./files.mjs";
 import { validateProjectState } from "./model.mjs";
 
@@ -96,6 +96,11 @@ export async function runDoctor(target) {
   const workflow = await safeJson(path.join(target, ".ai-org/core/workflow.json"), checks, "workflow_json");
   const workflowStates = new Set((workflow?.states ?? []).map((state) => state.id));
   const agentIds = new Set((agents?.agents ?? []).map((agent) => agent.id));
+  const ownersForDoctor = new Map(
+    (assignments?.assignments ?? [])
+      .filter((assignment) => assignment.active !== false)
+      .map((assignment) => [assignment.position_id, assignment.agent_id])
+  );
   const workItemsDirectory = path.join(target, ".ai-org/work-items");
   const invalidWorkItems = [];
   let workItemCount = 0;
@@ -129,7 +134,45 @@ export async function runDoctor(target) {
       : `${workItemCount} canonical work items are valid`
   });
 
-  const requiredSkills = ["temple-init", "temple-grill", "temple-grill-with-docs"];
+  const tasksDocument = await safeJson(path.join(target, ".ai-org/project/tasks.json"), checks, "tasks_json");
+  if (tasksDocument) {
+    const seenTaskIds = new Set();
+    const seenThreadIds = new Set();
+    const workItemIds = new Set();
+    if (await pathExists(workItemsDirectory)) {
+      for (const entry of await fs.readdir(workItemsDirectory, { withFileTypes: true })) {
+        if (entry.isFile() && entry.name.endsWith(".json")) workItemIds.add(entry.name.replace(/\.json$/, ""));
+      }
+    }
+    const invalidTasks = [];
+    for (const task of tasksDocument.tasks ?? []) {
+      const taskThreadIds = [task.thread_id, task.client_thread_id].filter(Boolean);
+      const valid =
+        /^task-[0-9]{4,}$/.test(task.id ?? "") &&
+        !seenTaskIds.has(task.id) &&
+        workItemIds.has(task.work_item_id) &&
+        positionIds.has(task.position_id) &&
+        agentIds.has(task.agent_id) &&
+        ownersForDoctor.get(task.position_id) === task.agent_id &&
+        TASK_STATUSES.includes(task.status) &&
+        taskThreadIds.length > 0 &&
+        (!task.registered_by || task.registered_by === "human" || agentIds.has(task.registered_by)) &&
+        (!task.last_updated_by || task.last_updated_by === "human" || agentIds.has(task.last_updated_by)) &&
+        taskThreadIds.every((threadId) => !seenThreadIds.has(threadId));
+      if (!valid) invalidTasks.push(task.id ?? "unknown");
+      seenTaskIds.add(task.id);
+      for (const threadId of taskThreadIds) seenThreadIds.add(threadId);
+    }
+    checks.push({
+      id: "task_registry",
+      status: invalidTasks.length ? "fail" : "pass",
+      message: invalidTasks.length
+        ? `Invalid task records: ${invalidTasks.join(", ")}`
+        : `${tasksDocument.tasks?.length ?? 0} Codex task records are valid`
+    });
+  }
+
+  const requiredSkills = ["temple-init", "temple-work", "temple-grill", "temple-grill-with-docs"];
   const missingSkills = [];
   for (const skill of requiredSkills) {
     if (!(await pathExists(path.join(target, `.agents/skills/${skill}/SKILL.md`)))) {

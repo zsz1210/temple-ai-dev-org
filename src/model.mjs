@@ -178,6 +178,10 @@ export function buildProjectState(config, initializedAt = new Date().toISOString
     assignments: {
       schema_version: "temple.assignments/v1",
       assignments
+    },
+    tasks: {
+      schema_version: "temple.tasks/v1",
+      tasks: []
     }
   };
 }
