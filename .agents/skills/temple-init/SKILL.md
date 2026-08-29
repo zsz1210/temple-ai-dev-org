@@ -9,7 +9,7 @@ Initialize one target repository without inventing project facts or overwriting 
 
 ## Required outcome
 
-- All nine required Positions remain stable.
+- All ten required Positions remain stable.
 - The target project receives its own Agent Identities only after the user confirms their English display names.
 - One Identity may hold multiple Positions.
 - Developer and Independent QA must use different Identities.
@@ -22,7 +22,7 @@ Initialize one target repository without inventing project facts or overwriting 
 3. If `temple.lock` already identifies an initialized organization, stop treating this as first init and run `doctor`; do not create new identities.
 4. Show the user the recommended five assignment slots:
    - Coordination: Engineering Manager, Release Manager, Observer.
-   - Product: Product Manager, UX Designer.
+   - Product Design: Product Manager, UX Designer, UI Designer.
    - Technical: Tech Lead.
    - Delivery: Developer.
    - Quality: Quality & Evaluation Engineer, Independent QA.

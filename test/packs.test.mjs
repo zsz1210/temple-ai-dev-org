@@ -22,7 +22,7 @@ function configDocument() {
     naming_mode: "ai-suggested",
     agents: [
       { display_name: "Fixture Rowan", positions: ["engineering_manager", "release_manager", "observer"] },
-      { display_name: "Fixture Linden", positions: ["product_manager", "ux_designer"] },
+      { display_name: "Fixture Linden", positions: ["product_manager", "ux_designer", "ui_designer"] },
       { display_name: "Fixture Ellis", positions: ["tech_lead"] },
       { display_name: "Fixture Devon", positions: ["developer"] },
       { display_name: "Fixture Hollis", positions: ["quality_evaluator", "independent_qa"] }
@@ -145,7 +145,7 @@ test("upgrade carries installed pack files and refreshes pack metadata", async (
   const upgraded = run(["upgrade", target]);
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = await readJson(lockPath);
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.10");
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.11");
   assert.equal(upgradedLock.optional_packs[0].version, "0.1.0-alpha.1");
   await fs.access(path.join(target, ".agents/skills/tdd/SKILL.md"));
   assert.equal(run(["doctor", target]).status, 0);

@@ -10,6 +10,8 @@ The Engineering Learning Loop is a cross-cutting track. Alpha.10 establishes pro
 
 The capability track begins with a small core, one opt-in Build Quality pack, and project-owned Skills. Later work may add architecture, review, exploration, Git and improvement, and security packs only after bounded pilots. A capability registry, richer pack manifests, dependency declarations, project and third-party lifecycle commands, and automated routing evaluation remain planned.
 
+The UI design track begins with an explicit UI Designer Position and code-first, preview-first, and design-led evidence contracts. Figma remains optional. Project-profile defaults, canonical work-item overrides, design-source adapters, token synchronization, and visual-regression integration require later validation.
+
 ## Phase 1: Installable, operational organization skeleton (current release)
 
 Goal: Give any repository the same Positions, identity model, workflow, and checks without depending on chat titles.
@@ -26,9 +28,10 @@ Deliverables:
 - Work-item, handoff, transition, and close CLI commands with named gate evidence.
 - Codex task registry, stable title suggestions, revisions, attention signals, and archive readiness.
 - Project-owned Engineering Learning index and records, managed Lesson and Practice templates, doctor validation, and status counts.
+- UI Designer, a tool-neutral UI delivery-mode policy, a UI design-brief template, and a backward-compatible Assignment migration.
 - A real English Learning Inbox Safari Share Extension pilot.
 
-Exit gate: Both clean and existing repositories can initialize; all nine Positions are observable; Developer and Independent QA are separate; re-running does not overwrite; and organizational state can be recovered from files after closing the chat.
+Exit gate: Both clean and existing repositories can initialize; all ten Positions are observable; Developer and Independent QA are separate; re-running does not overwrite; and organizational state can be recovered from files after closing the chat.
 
 ## Phase 1.5: Greenfield project bootstrap pilot (in progress)
 
@@ -49,6 +52,7 @@ The private FlowDeck pilot completed:
 - Alpha.8 also installs the independently implemented `$project-documentation` core Skill. A read-only forward-test against the trilingual public README found and drove corrections to stale capability state, prerequisites, verification, repository visibility, and revision wording.
 - Alpha.9 adds and forward-tests the core `$skill-authoring` procedure, a public project-extension contract, four distribution classes, and exact-path protection so an untracked project Skill cannot be silently adopted by init, pack installation, or upgrade.
 - Alpha.10 adds the minimal Engineering Learning Loop foundation without installing a retrospective Skill or automatic promotion workflow.
+- Alpha.11 adds UI Designer and risk-scaled, tool-neutral UI delivery modes without requiring Figma or a pre-implementation mockup for every project.
 
 Phase 1.5 is not yet complete:
 
@@ -67,7 +71,7 @@ Planned deliverables:
 - Affected-path ownership and duplicate active-scope warnings.
 - A project capability registry that observes project and third-party Skills without claiming ownership of their files.
 - Pack manifest v2 for references, scripts, assets, declared dependencies, and compatibility metadata.
-- Evidence-backed project profiles that vary staffing, artifact depth, methods, and gates by risk while preserving the nine Position responsibilities.
+- Evidence-backed project profiles that vary staffing, artifact depth, UI delivery mode, methods, and gates by risk while preserving the ten Position responsibilities.
 - More complete JSON Schema runtime validation and a migration registry.
 - Evidence adapters for exact Git revisions, tests, runtime, unverified claims, risk, and rollback.
 - Observer projections for timeline, staleness, and pending approval.

@@ -19,7 +19,7 @@ function configDocument(projectId = "sample-product", projectName = "Sample Prod
     naming_mode: "ai-suggested",
     agents: [
       { display_name: "Fixture Rowan", positions: ["engineering_manager", "release_manager", "observer"] },
-      { display_name: "Fixture Linden", positions: ["product_manager", "ux_designer"] },
+      { display_name: "Fixture Linden", positions: ["product_manager", "ux_designer", "ui_designer"] },
       { display_name: "Fixture Ellis", positions: ["tech_lead"] },
       { display_name: "Fixture Devon", positions: ["developer"] },
       { display_name: "Fixture Hollis", positions: ["quality_evaluator", "independent_qa"] }
@@ -46,7 +46,7 @@ function shellQuote(value) {
 test("version is available without dependencies", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /^0\.1\.0-alpha\.10/m);
+  assert.match(result.stdout, /^0\.1\.0-alpha\.11/m);
 });
 
 test("dry-run writes nothing", async (context) => {
@@ -117,7 +117,7 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
 
   const status = run(["status", target, "--json"]);
   assert.equal(status.status, 0, status.stderr);
-  assert.equal(JSON.parse(status.stdout).assignments.length, 9);
+  assert.equal(JSON.parse(status.stdout).assignments.length, 10);
   assert.equal(JSON.parse(status.stdout).schema_version, "temple.status/v2");
   assert.equal(JSON.parse(status.stdout).learning.total, 0);
   const statusView = await fs.readFile(path.join(target, ".ai-org/views/status.md"), "utf8");
@@ -192,7 +192,7 @@ test("engineering learning is indexed, observable, project-owned, and consistenc
   const lock = JSON.parse(await fs.readFile(lockPath, "utf8"));
   assert.ok(!lock.managed_files.some((entry) => entry.path === ".ai-org/learning/index.json"));
 
-  lock.template.version = "0.1.0-alpha.9";
+  lock.template.version = "0.1.0-alpha.10";
   delete lock.capabilities.engineering_learning;
   await fs.writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
   const upgraded = run(["upgrade", target]);
@@ -228,7 +228,7 @@ test("upgrade adds a missing project-owned learning index without managing it", 
   const lockPath = path.join(target, "temple.lock");
   await fs.rm(indexPath);
   const lock = JSON.parse(await fs.readFile(lockPath, "utf8"));
-  lock.template.version = "0.1.0-alpha.9";
+  lock.template.version = "0.1.0-alpha.10";
   delete lock.capabilities.engineering_learning;
   await fs.writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
 
@@ -242,9 +242,96 @@ test("upgrade adds a missing project-owned learning index without managing it", 
     entries: []
   });
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.10");
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.11");
   assert.equal(upgradedLock.capabilities.engineering_learning, true);
   assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/learning/index.json"));
+});
+
+test("upgrade assigns the new UI Designer Position to the existing UX Designer Identity", async (context) => {
+  const { temporaryRoot, target, configPath } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  assert.equal(run(["init", target, "--config", configPath]).status, 0);
+
+  const assignmentsPath = path.join(target, ".ai-org/project/assignments.json");
+  const lockPath = path.join(target, "temple.lock");
+  const positionsPath = path.join(target, ".ai-org/core/positions.json");
+  const assignments = JSON.parse(await fs.readFile(assignmentsPath, "utf8"));
+  const uxAssignment = assignments.assignments.find((assignment) => assignment.position_id === "ux_designer");
+  assignments.assignments = assignments.assignments.filter((assignment) => assignment.position_id !== "ui_designer");
+  await fs.writeFile(assignmentsPath, `${JSON.stringify(assignments, null, 2)}\n`);
+
+  const lock = JSON.parse(await fs.readFile(lockPath, "utf8"));
+  lock.template.version = "0.1.0-alpha.10";
+  delete lock.capabilities.ui_delivery_modes;
+  const alpha11ManagedPaths = [
+    ".ai-org/core/ui-design.json",
+    ".ai-org/templates/ui-design-brief.md",
+    ".codex/agents/ui-designer.toml"
+  ];
+  for (const relativePath of alpha11ManagedPaths) await fs.rm(path.join(target, relativePath));
+  lock.managed_files = lock.managed_files.filter((entry) => !alpha11ManagedPaths.includes(entry.path));
+  const positions = JSON.parse(await fs.readFile(positionsPath, "utf8"));
+  positions.positions = positions.positions.filter((position) => position.id !== "ui_designer");
+  const oldPositions = formatJson(positions);
+  await fs.writeFile(positionsPath, oldPositions);
+  lock.managed_files.find((entry) => entry.path === ".ai-org/core/positions.json").sha256 = sha256(oldPositions);
+  await fs.writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
+
+  const dryRun = run(["upgrade", target, "--dry-run"]);
+  assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
+  assert.match(dryRun.stdout, /add-ui-assignment: 1/);
+  assert.match(dryRun.stdout, /add-managed: 3/);
+  assert.ok(!JSON.parse(await fs.readFile(assignmentsPath, "utf8")).assignments.some((entry) => entry.position_id === "ui_designer"));
+
+  const upgraded = run(["upgrade", target]);
+  assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
+  const upgradedAssignments = JSON.parse(await fs.readFile(assignmentsPath, "utf8")).assignments;
+  assert.equal(
+    upgradedAssignments.find((assignment) => assignment.position_id === "ui_designer")?.agent_id,
+    uxAssignment.agent_id
+  );
+  assert.equal(upgradedAssignments.filter((assignment) => assignment.position_id === "ui_designer").length, 1);
+  for (const relativePath of alpha11ManagedPaths) await fs.access(path.join(target, relativePath));
+  assert.equal(JSON.parse(await fs.readFile(lockPath, "utf8")).capabilities.ui_delivery_modes, true);
+  assert.equal(run(["doctor", target]).status, 0);
+
+  const customizedAssignments = JSON.parse(await fs.readFile(assignmentsPath, "utf8"));
+  customizedAssignments.assignments.find((assignment) => assignment.position_id === "ui_designer").agent_id =
+    "agent-fixture-ellis";
+  await fs.writeFile(assignmentsPath, `${JSON.stringify(customizedAssignments, null, 2)}\n`);
+  const customizedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
+  customizedLock.template.version = "0.1.0-alpha.10";
+  await fs.writeFile(lockPath, `${JSON.stringify(customizedLock, null, 2)}\n`);
+  const preserved = run(["upgrade", target]);
+  assert.equal(preserved.status, 0, preserved.stderr || preserved.stdout);
+  assert.equal(
+    JSON.parse(await fs.readFile(assignmentsPath, "utf8")).assignments.find(
+      (assignment) => assignment.position_id === "ui_designer"
+    ).agent_id,
+    "agent-fixture-ellis"
+  );
+});
+
+test("upgrade refuses to guess a UI Designer owner from ambiguous UX assignments", async (context) => {
+  const { temporaryRoot, target, configPath } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  assert.equal(run(["init", target, "--config", configPath]).status, 0);
+
+  const assignmentsPath = path.join(target, ".ai-org/project/assignments.json");
+  const lockPath = path.join(target, "temple.lock");
+  const assignments = JSON.parse(await fs.readFile(assignmentsPath, "utf8"));
+  assignments.assignments = assignments.assignments.filter((assignment) => assignment.position_id !== "ui_designer");
+  assignments.assignments.push({ position_id: "ux_designer", agent_id: "agent-fixture-devon", active: true });
+  const before = `${JSON.stringify(assignments, null, 2)}\n`;
+  await fs.writeFile(assignmentsPath, before);
+  const lock = JSON.parse(await fs.readFile(lockPath, "utf8"));
+  lock.template.version = "0.1.0-alpha.10";
+  await fs.writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
+
+  const upgraded = run(["upgrade", target]);
+  assert.equal(upgraded.status, 1);
+  assert.match(upgraded.stdout, /Cannot infer UI Designer owner without exactly one active UX Designer assignment/);
+  assert.equal(await fs.readFile(assignmentsPath, "utf8"), before);
 });
 
 test("init refuses to adopt an identical untracked managed destination", async (context) => {

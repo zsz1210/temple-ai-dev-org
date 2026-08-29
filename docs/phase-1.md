@@ -6,12 +6,13 @@ Phase 1 is complete only when all of the following are true:
 
 - A new repository initializes successfully from a configuration whose names have been confirmed.
 - `project-overlay/` contains no predefined project Agent names.
-- All nine Positions have exactly one active Assignment.
+- All ten Positions have exactly one active Assignment; the lean five-Identity configuration assigns Product Manager, UX Designer, and UI Designer together.
 - Developer and Independent QA use different Identities.
 - Re-running init does not overwrite user content, and a managed conflict stops the operation.
 - Doctor detects managed tampering, model errors, and incomplete instruction integration.
 - Status generates a summary from canonical files.
 - The project-owned Engineering Learning index survives re-init and upgrade; doctor validates index-to-record consistency and status reports Lesson and Practice counts.
+- UI design has an explicit Position, three risk-scaled delivery modes, a tool-neutral evidence policy, and a project-owned brief template.
 - The CLI completes work-item creation, handoff, transition, and closeout while rejecting invalid gates.
 - Codex tasks and threads can be registered with stable IDs and projected with suggested titles, revisions, attention signals, and archive readiness.
 - Checksum-aware upgrade migrates legacy package identity and renamed managed Skills without overwriting project-owned state.
@@ -40,4 +41,5 @@ Phase 1 is complete only when all of the following are true:
 4. Alpha.8 implements and forward-tests `$project-documentation` against the public README redesign.
 5. Alpha.9 establishes governed `$skill-authoring`, public extension rules, and exact-path ownership without claiming a Skill CLI, registry, custom-pack installer, or automated routing evaluation.
 6. Alpha.10 establishes the Engineering Learning Loop's project-owned index, record templates, validation, and observation without claiming a Learning CLI, automatic retrospective, or automatic promotion.
-7. Validate the manual Learning Loop on real work and validate read-only context recovery in a new Codex task. Enter Phase 2 affected-path ownership, Observer, and evidence-adapter work only after the remaining Phase 1.5 exit gate is complete.
+7. Alpha.11 establishes UI Designer, code-first, preview-first, and design-led evidence contracts, plus deterministic migration from the existing UX Assignment.
+8. Validate the manual Learning Loop and UI delivery-mode selection on real work, then validate read-only context recovery in a new Codex task. Enter Phase 2 affected-path ownership, Observer, and evidence-adapter work only after the remaining Phase 1.5 exit gate is complete.

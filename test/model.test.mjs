@@ -9,7 +9,7 @@ function validConfig() {
     naming_mode: "ai-suggested",
     agents: [
       { display_name: "Test Rowan", positions: ["engineering_manager", "release_manager", "observer"] },
-      { display_name: "Test Linden", positions: ["product_manager", "ux_designer"] },
+      { display_name: "Test Linden", positions: ["product_manager", "ux_designer", "ui_designer"] },
       { display_name: "Test Ellis", positions: ["tech_lead"] },
       { display_name: "Test Devon", positions: ["developer"] },
       { display_name: "Test Hollis", positions: ["quality_evaluator", "independent_qa"] }
@@ -37,7 +37,7 @@ test("Developer cannot also be Independent QA", async () => {
   await assert.rejects(() => validateInitConfig(config), /Developer and Independent QA must be different/);
 });
 
-test("all nine Positions must remain assigned", async () => {
+test("all ten Positions must remain assigned", async () => {
   const config = validConfig();
   config.agents[0].positions = ["engineering_manager", "release_manager"];
   await assert.rejects(() => validateInitConfig(config), /Missing Position assignment: observer/);

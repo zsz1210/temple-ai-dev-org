@@ -14,6 +14,8 @@ When adding or modifying a Skill, follow the public contract in `docs/skill-auth
 
 When changing Engineering Learning, update the record model, `index.json` validation, doctor and status behavior, templates, and `docs/engineering-learning.md` together. Project Lessons and Practices remain project-owned and must never be promoted into framework behavior automatically.
 
+When changing Positions, update initialization examples, lean Assignment slots, Position configs, doctor checks, upgrade migration, and tests together. UI design changes must preserve the code-first, preview-first, and design-led evidence contract without imposing a mandatory vendor tool.
+
 Documentation is English except for the localized root entry points. Keep `README.md`, `README.ja.md`, and `README.zh-TW.md` structurally aligned whenever public behavior, installation, or capability claims change. See [ADR-0012](docs/adr/0012-documentation-language-policy.md).
 
 Every upgrade feature must preserve these rules: managed files may be updated, project-owned files must not be overwritten, and generated files may be rebuilt.

@@ -119,7 +119,9 @@ export async function runDoctor(target) {
   checks.push({
     id: "position_catalog",
     status: exactPositions ? "pass" : "fail",
-    message: exactPositions ? "All nine required Positions are present" : "Position catalog differs from the required nine Positions"
+    message: exactPositions
+      ? `All ${REQUIRED_POSITIONS.length} required Positions are present`
+      : `Position catalog differs from the required ${REQUIRED_POSITIONS.length} Positions`
   });
 
   const [project, agents, assignments] = await Promise.all([

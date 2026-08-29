@@ -49,6 +49,7 @@ Phase 1 uses Git-friendly JSON and Markdown:
 - `tasks.json`: stable IDs, Positions, Agents, revisions, and states for Codex tasks and threads; it is not an app-control API.
 - `learning/index.json`: compact retrieval metadata for Lessons and Practices.
 - `learning/lessons/*.md` and `learning/practices/*.md`: full project evidence, applicability, guidance, and validation history.
+- `artifacts/**`: project-owned design, evaluation, runtime, and other evidence, including UI briefs and referenced previews.
 - `work-items/*.json`: work state and evidence pointers.
 - `decisions/*.md`: Decision Ledger entries and ADR proposals.
 - `events/events.jsonl`: an append-only event stream.
@@ -91,6 +92,10 @@ Pack sources live in central `packs/<pack-id>/`, not `project-overlay/`. Core in
 ### `temple upgrade`
 
 Upgrade first validates every installed managed file against the old `temple.lock`. Only core and optional-pack managed files with unchanged checksums may be updated. A proposed new managed path must not already exist unless its exact path is already managed by the installed lock. Installed packs update their metadata and source; uninstalled packs are not enabled automatically. Project-owned files are never overwritten or silently adopted, and generated status may be rebuilt.
+
+When upgrading an organization created before UI Designer existed, the migration preserves an existing active UI Designer Assignment. Otherwise it adds UI Designer to the single active UX Designer Agent Identity. Ambiguous or invalid Assignment state stops the upgrade before the migration writes.
+
+The managed `.ai-org/core/ui-design.json` defines code-first, preview-first, and design-led evidence requirements. The selected mode and tool are recorded in a project-owned UI design brief derived from `.ai-org/templates/ui-design-brief.md`; the tool itself is not a framework dependency.
 
 ## Archify Adapter
 

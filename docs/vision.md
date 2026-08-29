@@ -21,7 +21,7 @@ No single layer is the framework by itself. Roles without engineering methods on
 
 The responsibilities remain stable as a project grows; staffing, method depth, artifacts, and gates change in proportion to risk.
 
-- A small experiment may use five Agent Identities across nine Positions, a short Spec, one vertical slice, and local verification.
+- A small experiment may use five Agent Identities across ten Positions, a short Spec, one vertical slice, and local verification.
 - A future larger-product profile can separate more Positions into dedicated Identities, install focused capability packs, require deeper design and evaluation, and integrate additional evidence sources.
 - A future high-risk profile can add specialized Skills, stricter approval policy, security review, release evidence, and external adapters without replacing the core lifecycle.
 
@@ -32,7 +32,7 @@ The same scaling principle applies to learning. Evidence from one work item begi
 ## Organizational principles
 
 1. A Position is a stable set of responsibilities and authority. An Agent Identity is a named executor in a project. An Assignment connects them.
-2. One Agent may hold multiple Positions, so a small project does not need nine AI workers running at once.
+2. One Agent may hold multiple Positions, so a small project does not need ten AI workers running at once.
 3. Every Position exists from day one. Adding Agents later changes Assignments, not workflow language or historical data.
 4. Developer and Independent QA must use different Agent Identities so one executor does not certify its own work.
 5. Humans own business truth, priorities, cost, and high-risk approval. The Engineering Manager is the primary entry point.
@@ -40,13 +40,14 @@ The same scaling principle applies to learning. Evidence from one work item begi
 7. Engineering methods are composable. A Skill changes the reusable procedure, not the Position's authority or the user's authorization.
 8. Extensions remain project-owned unless an explicit promotion process transfers them into core or an official pack.
 
-## The nine Positions
+## The ten Positions
 
 | Position | Primary responsibilities | Primary outputs | Cannot self-approve |
 |---|---|---|---|
 | Engineering Manager | Intake, decomposition, delegation, unblocking, learning triage, overall status | Work order, handoff, learning triage, status | Business priority, high-risk release |
 | Product Manager | Problem, scope, acceptance criteria | Specification, acceptance criteria | Technical design, release |
 | UX Designer | User flow, states, interaction risks | UX notes, flow, copy decisions | Implementation quality, release |
+| UI Designer | Visual hierarchy, layout, components, design-system guidance, UI delivery mode | UI brief, visual direction, preview or design source when required | Implementation quality, release |
 | Tech Lead | Architecture, interfaces, risk, technical decisions, technical Practices | Design, ADR, implementation plan, technical Practice | Product scope, independent QA |
 | Developer | Implementation, unit tests, self-verification | Code, test evidence, handoff | Independent QA of their own work |
 | Quality & Evaluation Engineer | Test design, evaluation, regression evidence | Test plan, evaluation report | Release |
@@ -56,15 +57,25 @@ The same scaling principle applies to learning. Evidence from one work item begi
 
 ## Recommended initial configuration
 
-A small project can cover nine Positions with five Agent Identities:
+A small project can cover ten Positions with five Agent Identities:
 
 1. Coordination: Engineering Manager, Release Manager, Observer.
-2. Product: Product Manager, UX Designer.
+2. Product Design: Product Manager, UX Designer, UI Designer.
 3. Technical: Tech Lead.
 4. Delivery: Developer.
 5. Quality: Quality & Evaluation Engineer, Independent QA.
 
 These are Assignment slots, not Agent names. Names are created only during the project's first initialization.
+
+## UI design depth
+
+UI design is always owned, but pre-implementation visual artifacts scale with risk:
+
+- **Code-first:** implementation is the first visual artifact; a concise UI brief, state coverage, and runtime visual review remain required.
+- **Preview-first:** review a wireframe, code preview, prototype, or equivalent artifact before full implementation.
+- **Design-led:** use an approved, versioned design source and implementation mapping for brand-sensitive, expensive, or multi-party work.
+
+The framework defines evidence rather than mandating Figma. See [UI design responsibility and delivery modes](ui-design.md).
 
 ## Work lifecycle
 

@@ -34,7 +34,7 @@ Create a JSON file that does not need to be committed to Git:
   "naming_mode": "manual",
   "agents": [
     { "display_name": "Name One", "positions": ["engineering_manager", "release_manager", "observer"] },
-    { "display_name": "Name Two", "positions": ["product_manager", "ux_designer"] },
+    { "display_name": "Name Two", "positions": ["product_manager", "ux_designer", "ui_designer"] },
     { "display_name": "Name Three", "positions": ["tech_lead"] },
     { "display_name": "Name Four", "positions": ["developer"] },
     { "display_name": "Name Five", "positions": ["quality_evaluator", "independent_qa"] }
@@ -134,6 +134,16 @@ WI-0002 · Engineering Manager · Clara
 ```
 
 The title is only a readable projection. The work item ID and subsequently registered thread ID are the actual identifiers.
+
+### Select UI design depth
+
+When the work has a user interface, copy `.ai-org/templates/ui-design-brief.md` into a project-owned artifact location, reference the work item, and choose one mode:
+
+- `code-first`: no separate pre-implementation mockup; retain the brief, required-state coverage, and runtime visual review.
+- `preview-first`: review a wireframe, code preview, prototype, partial Figma design, or equivalent artifact before full implementation.
+- `design-led`: use an approved, versioned design source and implementation mapping.
+
+Choose the lightest tool that satisfies the mode. Figma is optional. Record the artifact path or URL, revision, approval when required, accessibility and device states, and runtime comparison evidence. See [UI design responsibility and delivery modes](ui-design.md).
 
 ### Manage unresolved items
 
@@ -269,6 +279,7 @@ Upgrade rules:
 - A proposed new managed path must not already exist unless its exact path is already managed by the installed lock; byte-identical untracked files are not silently adopted.
 - Preserve installed optional packs and update them to the current pack version. Upgrade does not enable an uninstalled pack automatically.
 - Preserve `.ai-org/project/**`, `.ai-org/learning/**`, work items, events, decisions, artifacts, Agent names, and product files. If an older installation has no learning index, upgrade creates only the empty project-owned seed.
+- Preserve an existing UI Designer Assignment. If an older project has none, assign UI Designer to its single active UX Designer Agent Identity; ambiguous Assignment state stops the migration.
 - Detected preflight conflicts stop before writing. Late file races trigger a rollback journal; if another writer changes a just-written path again, the CLI preserves that content and reports incomplete rollback for manual review.
 
 ## 12. Use Decision, Domain, Documentation, Authoring, and Development Skills

@@ -47,6 +47,59 @@ async function filesEqual(leftPath, rightPath) {
   return left.equals(right);
 }
 
+async function planUiAssignmentMigration(target, conflicts) {
+  const assignmentsPath = path.join(target, ".ai-org/project/assignments.json");
+  const agentsPath = path.join(target, ".ai-org/project/agents.json");
+  if (!(await pathExists(assignmentsPath)) || !(await pathExists(agentsPath))) {
+    conflicts.push("UI Designer assignment migration requires project assignments and Agent identities");
+    return null;
+  }
+
+  try {
+    const [before, assignmentsDocument, agentsDocument] = await Promise.all([
+      fs.readFile(assignmentsPath),
+      readJson(assignmentsPath),
+      readJson(agentsPath)
+    ]);
+    if (assignmentsDocument.schema_version !== "temple.assignments/v1" || !Array.isArray(assignmentsDocument.assignments)) {
+      conflicts.push("UI Designer assignment migration requires a valid assignments document");
+      return null;
+    }
+
+    const activeAssignments = assignmentsDocument.assignments.filter((assignment) => assignment.active !== false);
+    const uiAssignments = activeAssignments.filter((assignment) => assignment.position_id === "ui_designer");
+    const agentIds = new Set((agentsDocument.agents ?? []).map((agent) => agent.id));
+    if (uiAssignments.length === 1) {
+      if (!agentIds.has(uiAssignments[0].agent_id)) {
+        conflicts.push("UI Designer assignment references an unknown Agent Identity");
+      }
+      return null;
+    }
+    if (uiAssignments.length > 1) {
+      conflicts.push("UI Designer has more than one active assignment");
+      return null;
+    }
+
+    const uxAssignments = activeAssignments.filter((assignment) => assignment.position_id === "ux_designer");
+    if (uxAssignments.length !== 1) {
+      conflicts.push("Cannot infer UI Designer owner without exactly one active UX Designer assignment");
+      return null;
+    }
+    if (!agentIds.has(uxAssignments[0].agent_id)) {
+      conflicts.push("UX Designer assignment references an unknown Agent Identity");
+      return null;
+    }
+    return {
+      path: ".ai-org/project/assignments.json",
+      agentId: uxAssignments[0].agent_id,
+      beforeHash: sha256(before)
+    };
+  } catch (error) {
+    conflicts.push(`Cannot plan UI Designer assignment migration: ${error.message}`);
+    return null;
+  }
+}
+
 export async function planUpgrade(target) {
   const lockPath = path.join(target, "temple.lock");
   if (!(await pathExists(lockPath))) throw new Error("temple.lock is missing; run temple init instead of upgrade");
@@ -111,6 +164,11 @@ export async function planUpgrade(target) {
     type: hasLearningIndex ? "skip-learning-index" : "create-learning-index",
     path: LEARNING_INDEX_RELATIVE_PATH
   });
+  const assignmentMigration = await planUiAssignmentMigration(target, conflicts);
+  actions.push({
+    type: assignmentMigration ? "add-ui-assignment" : "skip-ui-assignment",
+    path: ".ai-org/project/assignments.json"
+  });
   const managedChanges = actions.some((action) =>
     ["add-managed", "update-managed", "remove-managed"].includes(action.type)
   );
@@ -120,7 +178,8 @@ export async function planUpgrade(target) {
       JSON.stringify(definition.manifest.skills) !== JSON.stringify(installed.skills ?? []) ||
       JSON.stringify(definition.manifest.files) !== JSON.stringify(installed.managed_files ?? [])
   );
-  const capabilityChanges = lock.capabilities?.engineering_learning !== true;
+  const capabilityChanges =
+    lock.capabilities?.engineering_learning !== true || lock.capabilities?.ui_delivery_modes !== true;
   if (packMetadataChanges) actions.push({ type: "update-pack-metadata", path: "temple.lock" });
   if (capabilityChanges) actions.push({ type: "update-capabilities", path: "temple.lock" });
   actions.push({
@@ -129,6 +188,7 @@ export async function planUpgrade(target) {
       !managedChanges &&
       !packMetadataChanges &&
       !capabilityChanges &&
+      !assignmentMigration &&
       hasTasks &&
       hasLearningIndex
         ? "skip-current-lock"
@@ -144,6 +204,7 @@ export async function planUpgrade(target) {
     templateFiles,
     sourceFiles,
     packDefinitions: packSources.definitions,
+    assignmentMigration,
     actions,
     conflicts
   };
@@ -193,6 +254,27 @@ export async function executeUpgrade(plan) {
     if (learningIndex.created) {
       changes.push({ path: learningIndex.path, before: null, afterHash: learningIndex.afterHash });
     }
+    if (plan.assignmentMigration) {
+      const assignmentsPath = path.join(plan.target, plan.assignmentMigration.path);
+      const before = await fs.readFile(assignmentsPath);
+      if (sha256(before) !== plan.assignmentMigration.beforeHash) {
+        throw new Error("assignments.json changed after upgrade planning");
+      }
+      const assignmentsDocument = JSON.parse(before.toString("utf8"));
+      const activeUiAssignments = assignmentsDocument.assignments.filter(
+        (assignment) => assignment.active !== false && assignment.position_id === "ui_designer"
+      );
+      if (activeUiAssignments.length > 0) throw new Error("UI Designer assignment appeared after upgrade planning");
+      const content = formatJson({
+        ...assignmentsDocument,
+        assignments: [
+          ...assignmentsDocument.assignments,
+          { position_id: "ui_designer", agent_id: plan.assignmentMigration.agentId, active: true }
+        ].sort((left, right) => left.position_id.localeCompare(right.position_id))
+      });
+      await atomicWrite(assignmentsPath, content);
+      changes.push({ path: assignmentsPath, before, afterHash: sha256(content) });
+    }
 
     if (!plan.actions.some((action) => action.type === "update-lock")) return plan.lock;
 
@@ -234,6 +316,7 @@ export async function executeUpgrade(plan) {
         work_item_cli: true,
         task_registry: true,
         engineering_learning: true,
+        ui_delivery_modes: true,
         checksum_upgrade: true,
         optional_packs: true
       },

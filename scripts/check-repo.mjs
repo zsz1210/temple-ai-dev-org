@@ -40,7 +40,10 @@ for (const file of projectOverlayFiles) {
 
 const positionsDocument = await readJson(path.join(projectOverlayRoot, ".ai-org/core/positions.json"));
 const actualPositions = positionsDocument.positions.map((position) => position.id);
-check(actualPositions.length === REQUIRED_POSITIONS.length, "organization system must define exactly nine Positions");
+check(
+  actualPositions.length === REQUIRED_POSITIONS.length,
+  `organization system must define exactly ${REQUIRED_POSITIONS.length} Positions`
+);
 check(REQUIRED_POSITIONS.every((positionId) => actualPositions.includes(positionId)), "required Position is missing");
 
 const learningIndex = await readJson(path.join(projectOverlayRoot, ".ai-org/learning/index.json"));
@@ -49,6 +52,19 @@ check(learningValidation.valid, `learning index seed is invalid: ${learningValid
 check(
   JSON.stringify(learningIndex) === JSON.stringify(emptyLearningIndex()),
   "project overlay learning index must remain an empty seed"
+);
+
+const uiDesignPolicy = await readJson(path.join(projectOverlayRoot, ".ai-org/core/ui-design.json"));
+check(uiDesignPolicy.schema_version === "temple.ui-design-policy/v1", "UI design policy schema is invalid");
+check(
+  JSON.stringify(uiDesignPolicy.delivery_modes?.map((mode) => mode.id)) ===
+    JSON.stringify(["code-first", "preview-first", "design-led"]),
+  "UI design policy must define the three canonical delivery modes"
+);
+check(uiDesignPolicy.tool_policy?.required_tool === null, "UI design policy must not require a specific vendor tool");
+check(
+  projectOverlayFiles.includes(".ai-org/templates/ui-design-brief.md"),
+  "UI design brief template is missing"
 );
 
 const agentConfigs = projectOverlayFiles.filter((file) => file.startsWith(".codex/agents/") && file.endsWith(".toml"));

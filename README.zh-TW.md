@@ -23,13 +23,15 @@ Temple 不是共享聊天記憶的系統，也不是一組 prompt 的集合。�
 | 層級 | Temple 目前提供的能力 |
 |---|---|
 | 產品意圖與領域 | `$decision-interview` 深入釐清模糊處；`$domain-modeling` 建立共通語言、邊界、規則與 invariant；Spec、Decision Ledger 與 ADR 保存決策 |
-| 組織與權限 | 九個穩定 Position、專案自己的 Agent Identity、Assignment、明確的人類批准邊界，以及 Developer 與 Independent QA 的分離 |
+| 組織與權限 | 十個穩定 Position、專案自己的 Agent Identity、Assignment、明確的人類批准邊界，以及 Developer 與 Independent QA 的分離 |
 | 工程方法 | Core Skills，以及包含 `$tdd` 與 `$diagnosing-bugs` 的選配 Build Quality pack |
 | 工作協調 | 固定的 `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle，搭配可持續保存的 work item 與 handoff |
 | 驗證與交付 | 具名的 gate evidence、evaluation、獨立重現、revision reference、approval record、rollback plan 與有明確範圍的 closeout |
 | 持久狀態、學習與可觀測性 | 由 repository 保存的 decision、Lesson、Practice、work item、event、task registry、產生式 status，以及具 conflict 保護的 upgrade |
 
 Position 定義責任與批准邊界；Agent Identity 是被指派到 Position、屬於專案自己的執行者；Skill 則是執行某類工作時可重複使用的方法。Skill 不會擴張權限，也不能取代 evidence gate。
+
+UI Designer 是正式 Position，但 Temple 不要求每個專案都先製作 Figma。專案選擇的 [UI delivery mode（英文）](docs/ui-design.md)——code-first、preview-first 或 design-led——會依風險調整設計產物與 review evidence。
 
 ## 快速開始
 
@@ -82,7 +84,7 @@ Temple 也包含 `$skill-authoring` 與 [Skill 撰寫指南（英文）](docs/sk
 
 ## 專案規模與目前邊界
 
-目前的小型團隊設定由五個 Agent Identity 覆蓋全部九個 Position。資料模型的設計目標，是在團隊擴大後仍保留 Position 用語與歷史 Identity ID，並維持 Developer 與 Independent QA 分離。現行 alpha 尚未提供重新指派 CLI 或風險分級的人力配置流程。
+目前的小型團隊設定由五個 Agent Identity 覆蓋全部十個 Position。Product Design Identity 一開始同時負責 Product Manager、UX Designer 與 UI Designer。資料模型會在團隊擴大後保留 Position 用語與歷史 Identity ID，並維持 Developer 與 Independent QA 分離。現行 alpha 尚未提供重新指派 CLI 或風險分級的人力配置流程。
 
 Temple 的設計可以從這個起點繼續成長，但尚未證明能適用所有專案規模。目前版本只有一套固定 lifecycle 與一個選配 development pack。依風險調整的 Lite、Standard、High-Assurance profile、更完整的 capability packs、精確 Git 與外部 evidence adapter、更充分的 cross-task recovery 證明、即時觀測，以及 multi-project view 都仍在規劃中。
 
@@ -97,6 +99,7 @@ Temple 是安裝進專案，而不是要求專案 fork 這個 repository。開�
 - [架構](docs/architecture.md) — identity、ownership、extension 與 canonical-state 邊界
 - [Skill 撰寫指南](docs/skill-authoring.md) — project-owned Skill 的設計與驗證
 - [Engineering Learning Loop](docs/engineering-learning.md) — evidence、Lesson、Practice、檢索與晉升
+- [UI design modes](docs/ui-design.md) — UI ownership、code-first、preview-first、design-led 與工具原則
 - [能力目錄](docs/capability-catalog.md) — 已提供、選配與候選的 engineering method
 - [Roadmap](docs/roadmap.md) — 已驗證範圍與後續規劃
 - [架構決策](docs/adr/README.md) — 設計決策與原因

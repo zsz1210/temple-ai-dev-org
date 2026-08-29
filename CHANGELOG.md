@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.11
+
+- Added UI Designer as the tenth stable Position while retaining the lean five-Agent-Identity configuration; Product Manager, UX Designer, and UI Designer initially share the Product Design Identity.
+- Defined code-first, preview-first, and design-led UI delivery modes so pre-implementation artifacts scale with risk, collaboration cost, and visual sensitivity rather than becoming a universal requirement.
+- Added a managed, tool-neutral UI design policy and UI design-brief template. Figma is supported as one option but is not a core dependency; every mode still requires runtime visual review.
+- Added a deterministic upgrade migration that preserves an existing UI Designer Assignment or assigns the Position to the single active UX Designer Identity, stopping safely when ownership is ambiguous.
+- Added ADR-0016, a public UI design guide, aligned trilingual README and operating documentation, repository checks, and migration tests.
+
 ## 0.1.0-alpha.10
 
 - Added the Engineering Learning Loop as a governed path from work evidence to Lessons, validated Practices, and optional promotion into the appropriate mechanism.

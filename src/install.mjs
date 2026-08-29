@@ -255,6 +255,7 @@ export async function executeInit(plan) {
         work_item_cli: true,
         task_registry: true,
         engineering_learning: true,
+        ui_delivery_modes: true,
         checksum_upgrade: true,
         optional_packs: true
       },

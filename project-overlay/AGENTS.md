@@ -14,6 +14,7 @@
 - Use `$project-documentation` when human-facing README, setup, usage, contribution, or documentation-index claims must be created or reconciled with repository evidence.
 - Use `$skill-authoring` when asked to turn a reusable project procedure into a repository-local Skill. Check exact `temple.lock.managed_files` ownership first; do not edit the lock, install dependencies, publish, or promote the Skill without separate authorization.
 - Follow `Spec → Design → Build → Test → Eval → Independent QA → Release Gate`.
+- For user-interface work, resolve the UI Designer Assignment and select `code-first`, `preview-first`, or `design-led` from `.ai-org/core/ui-design.json`. Record the choice and evidence in a project-owned UI design brief. Never interpret code-first as permission to skip runtime visual review.
 - When a work item is a pilot, example, or template validation, stop when its stated evidence and closeout are complete; do not infer authorization for another product work item or continued feature development.
 - Developer and Independent QA must be different Agent Identities for the same work.
 - Do not overwrite project-owned files during an organization system upgrade.

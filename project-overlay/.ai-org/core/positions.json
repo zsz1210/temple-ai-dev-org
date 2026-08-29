@@ -23,6 +23,13 @@
       "cannot_approve": ["implementation_quality", "release"]
     },
     {
+      "id": "ui_designer",
+      "display_name": "UI Designer",
+      "purpose": "Define visual hierarchy, layout, components, design-system guidance, and the proportionate UI delivery mode.",
+      "owns": ["ui_delivery_mode", "visual_direction", "ui_spec", "design_system_guidance"],
+      "cannot_approve": ["implementation_quality", "release"]
+    },
+    {
       "id": "tech_lead",
       "display_name": "Tech Lead",
       "purpose": "Own architecture, interfaces, technical risk, and implementation design.",

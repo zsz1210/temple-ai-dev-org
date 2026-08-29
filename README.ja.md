@@ -23,13 +23,15 @@ Temple はチャット記憶の共有システムでも、prompt の寄せ集め
 | レイヤー | Temple が現在提供するもの |
 |---|---|
 | プロダクトの意図とドメイン | `$decision-interview` が曖昧さを問い直し、`$domain-modeling` が共通言語、境界、ルール、invariant を定義し、Spec、Decision Ledger、ADR が決定を保存する |
-| 組織と権限 | 9つの安定した Position、プロジェクト固有の Agent Identity、Assignment、明示的な人間の承認境界、Developer と Independent QA の分離 |
+| 組織と権限 | 10の安定した Position、プロジェクト固有の Agent Identity、Assignment、明示的な人間の承認境界、Developer と Independent QA の分離 |
 | 開発手法 | Core Skill と、`$tdd` および `$diagnosing-bugs` を含む opt-in の Build Quality pack |
 | 作業オーケストレーション | 永続的な work item と handoff を伴う、固定の `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle |
 | 検証とデリバリー | 名前付き gate evidence、evaluation、独立再現、revision reference、approval record、rollback plan、範囲を限定した closeout |
 | 永続的な状態、学習、可観測性 | リポジトリが所有する decision、Lesson、Practice、work item、event、task registry、生成 status、conflict-aware upgrade |
 
 Position は責任と承認限界を定義します。Agent Identity は、その Position に割り当てられるプロジェクト固有の実行者です。Skill は特定の仕事を行うための再利用可能な手法であり、権限を拡大したり evidence gate を置き換えたりするものではありません。
+
+UI Designer は正式な Position ですが、Temple はすべてのプロジェクトに事前の Figma 制作を求めません。選択した [UI delivery mode（英語）](docs/ui-design.md)——code-first、preview-first、design-led——により、リスクに応じて設計成果物と review evidence の深さを調整します。
 
 ## はじめ方
 
@@ -82,7 +84,7 @@ Temple には、境界が明確な project-owned Skill を作るための `$skil
 
 ## 規模と現在の境界
 
-現在の小規模チーム構成では、5つの Agent Identity が9つすべての Position を担当します。データモデルは、体制の拡大後も Position の語彙と過去の Identity ID を維持し、Developer と Independent QA の分離を保てるよう設計されています。現行 alpha には、再割り当て CLI やリスク別の人員構成ワークフローはまだありません。
+現在の小規模チーム構成では、5つの Agent Identity が10の Position すべてを担当します。Product Design Identity は当初、Product Manager、UX Designer、UI Designer を兼任します。データモデルは、体制の拡大後も Position の語彙と過去の Identity ID を維持し、Developer と Independent QA の分離を保てるよう設計されています。現行 alpha には、再割り当て CLI やリスク別の人員構成ワークフローはまだありません。
 
 Temple はこの初期構成を越えて成長できるよう設計されていますが、あらゆるプロジェクト規模への対応はまだ実証されていません。現在の release には、1つの固定 lifecycle と1つの optional development pack があります。リスクベースの Lite、Standard、High-Assurance profile、より広い capability pack、正確な Git および外部 evidence adapter、より強い cross-task recovery の実証、live observation、multi-project view は今後の計画です。
 
@@ -97,6 +99,7 @@ Temple はプロジェクトへインストールします。プロジェクト�
 - [Architecture](docs/architecture.md) — identity、ownership、extension、canonical-state boundary
 - [Skill authoring guide](docs/skill-authoring.md) — project-owned Skill の設計と検証
 - [Engineering Learning Loop](docs/engineering-learning.md) — evidence、Lesson、Practice、検索、昇格
+- [UI design modes](docs/ui-design.md) — UI ownership、code-first、preview-first、design-led、tool policy
 - [Capability catalog](docs/capability-catalog.md) — 提供済み、optional、候補の engineering method
 - [Roadmap](docs/roadmap.md) — 検証済みの scope と今後の作業
 - [Architecture decision](docs/adr/README.md) — 設計判断と理由
