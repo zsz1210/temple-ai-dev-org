@@ -124,6 +124,12 @@ use the matching --replace-*-refs flag to replace or clear a complete category. 
 Codex task by itself; task registry entries make those app actions observable.
 `;
 
+const CHAMBER = `The chamber is open.
+
+Outside: one idea.
+Inside: many Positions learn, build, challenge, and verify in parallel.
+Only evidence leaves the chamber.`;
+
 const BOOLEAN_FLAGS = new Set([
   "--dry-run",
   "--integrate-agents",
@@ -1090,6 +1096,10 @@ export async function main(argv) {
   }
   if (parsed.command === "version") {
     console.log(TEMPLATE_VERSION);
+    return 0;
+  }
+  if (parsed.command === "chamber") {
+    console.log(CHAMBER);
     return 0;
   }
   if (parsed.command === "init") return runInit(parsed);

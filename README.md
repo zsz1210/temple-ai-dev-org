@@ -2,6 +2,8 @@
 
 **English** | [日本語](README.ja.md) | [繁體中文](README.zh-TW.md)
 
+<!-- Curious? Try: temple chamber -->
+
 **Turn product intent into trustworthy software with an AI development organization that can think, build, verify, continue, and evolve.**
 
 Temple is a repository-native framework for Codex. It connects product thinking, stable responsibilities, reusable engineering methods, evidence-based delivery, and durable project state. The current implementation is an early alpha intended for low-risk validation.

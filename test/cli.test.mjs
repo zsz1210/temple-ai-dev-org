@@ -49,6 +49,25 @@ test("version is available without dependencies", () => {
   assert.match(result.stdout, /^0\.1\.0-alpha\.15/m);
 });
 
+test("the chamber remains a hidden evidence-first easter egg", () => {
+  const chamber = run(["chamber"]);
+  assert.equal(chamber.status, 0, chamber.stderr);
+  assert.equal(
+    chamber.stdout,
+    [
+      "The chamber is open.",
+      "",
+      "Outside: one idea.",
+      "Inside: many Positions learn, build, challenge, and verify in parallel.",
+      "Only evidence leaves the chamber.",
+      ""
+    ].join("\n")
+  );
+  const help = run(["--help"]);
+  assert.equal(help.status, 0, help.stderr);
+  assert.doesNotMatch(help.stdout, /temple chamber/);
+});
+
 test("dry-run writes nothing", async (context) => {
   const { temporaryRoot, target, configPath } = await fixture();
   context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
