@@ -43,6 +43,7 @@ Position は責任と承認限界を定義します。Agent Identity は、そ�
 ```bash
 git clone https://github.com/zsz1210/temple-ai-dev-org.git
 cd temple-ai-dev-org
+npm ci
 npm run verify
 npm link
 ```

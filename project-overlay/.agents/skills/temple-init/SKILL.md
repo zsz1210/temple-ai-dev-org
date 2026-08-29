@@ -17,7 +17,7 @@ Initialize one target repository without inventing project facts or overwriting 
 
 ## Workflow
 
-1. Resolve the target repository and the central Toolkit checkout containing `bin/temple.mjs`. Never assume they are the same directory.
+1. Resolve the target repository and the central Toolkit checkout containing `bin/temple.mjs`. Never assume they are the same directory. Confirm the checkout's lockfile dependencies were installed with `npm ci`; if a runtime dependency is missing, stop and report that exact prerequisite instead of guessing a global package.
 2. Inspect the target read-only: repository name, current `AGENTS.md`, language/build clues, and whether `.ai-org` or `temple.lock` already exists.
 3. If `temple.lock` already identifies an initialized organization, stop treating this as first init and run `doctor`; do not create new identities.
 4. Show the user the recommended five assignment slots:

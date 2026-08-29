@@ -12,6 +12,7 @@
 - Bound High-Assurance to each Work Item so later profile changes cannot bypass exact-revision, evidence, rollback, or approval gates; `doctor` rejects derived-contract drift and risk severity mapping is explicit.
 - Hardened the Archify adapter against dirty pinned checkouts, unsafe or duplicate manifest paths, symbolic links, and unrecorded installed files; local-hybrid semantic ranking can no longer replace canonical repository content.
 - Kept retrieval and status inspection read-only when a legacy project has not yet received its project-owned retrieval configuration.
+- Added the required `npm ci` clean-checkout prerequisite to all three README entry points, the usage guide, and `$temple-init` after clean-source validation exposed the stale dependency-free setup sequence.
 - Preserved explicit limits: real multi-human/multi-machine contention, large-repository retrieval, configured local semantic infrastructure, regulated audit acceptance, external writes, deployment, and publication remain `not_run` or not performed.
 
 ## 0.1.0-alpha.18

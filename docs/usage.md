@@ -5,13 +5,14 @@
 ```bash
 git clone git@github.com:zsz1210/temple-ai-dev-org.git
 cd temple-ai-dev-org
+npm ci
 npm run verify
 # Optional: expose the local CLI as `temple`
 npm link
 temple --version
 ```
 
-Clone the central framework once. Install it into each product repository with `temple init`; no fork is required. `project-overlay/` is only the installation source inside the central repository. Its contents are installed directly at the product repository root.
+Clone the central framework once and install its exact lockfile dependencies with `npm ci`. Install it into each product repository with `temple init`; no fork is required. `project-overlay/` is only the installation source inside the central repository. Its contents are installed directly at the product repository root.
 
 ## 2. First initialization
 

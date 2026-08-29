@@ -43,6 +43,7 @@ Position 定義責任與批准邊界；Agent Identity 是被指派到 Position�
 ```bash
 git clone https://github.com/zsz1210/temple-ai-dev-org.git
 cd temple-ai-dev-org
+npm ci
 npm run verify
 npm link
 ```
