@@ -31,6 +31,7 @@ Exit Gate：乾淨與既有 repository 都能初始化；九個 Position 可觀�
 
 - 從模糊點子到 Project Charter：問題、目標使用者、預期成果、non-goals、constraints、success criteria 與重要未知。
 - 以 `$domain-modeling` 建立 ubiquitous language、bounded contexts、重要規則與 invariants，並把未解 terminology conflict 留給明確 owner。
+- 評估 Temple-native `$project-documentation`：由已確認的 Project Charter、實際安裝流程與可執行命令建立第一版人類可讀 README，驗證範例、連結與功能聲明，不把 AI instructions 混入使用者文件。
 - Product Manager、UX Designer 與 Tech Lead 對核心流程、技術基線、風險和第一個垂直切片完成具證據的 review。
 - 在新 private repository 內執行首次 init，由使用者確認五個 Agent Identity 名字與九個 Position assignment。
 - 產品決策、ADR、initial roadmap、acceptance criteria 與第一張 durable work item 都保存在新 repository，不依賴創始對話。

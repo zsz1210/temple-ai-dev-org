@@ -19,3 +19,10 @@ Archify is not vendored or executed by Phase 1. The repository only contains an 
 The `grill-me`, `grill-with-docs`, `domain-modeling`, `writing-great-skills`, and related development Skills were reviewed as product and maintenance inspiration. Temple's Skills are independent implementations written for repository-persisted decisions, project ownership boundaries, and the Temple lifecycle. No upstream Skill source is vendored, loaded, or wrapped at runtime.
 
 If future versions copy or adapt upstream source, they must include the applicable MIT copyright and permission notice with the distributed copy or substantial portion.
+
+## README and project documentation inspiration
+
+- Hypergiant Agent Skills, `accelint-readme-writer`: <https://github.com/gohypergiant/agent-skills/tree/459a846a65544cf311164059f2ea4623ec443b02/skills/accelint-readme-writer> — Apache-2.0, reviewed commit `459a846a65544cf311164059f2ea4623ec443b02`.
+- AsyrafHussin Agent Skills, `project-docs`: <https://github.com/AsyrafHussin/agent-skills/tree/1aa0ff717c10309226c9e678f00873976450fd76/skills/project-docs> — MIT, reviewed commit `1aa0ff717c10309226c9e678f00873976450fd76`.
+
+Temple currently records these as design references for a future independently implemented `project-documentation` Skill. Neither source is installed, copied, loaded, or invoked by Temple.

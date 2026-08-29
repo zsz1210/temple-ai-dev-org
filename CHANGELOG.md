@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- 保留 `project-documentation` 作為 Phase 1.5 core candidate，明確分離人類 README／專案文件與 AI-facing instructions，並記錄兩個外部參考實作的 pinned provenance 與 license。
+
 ## 0.1.0-alpha.4
 
 - Repository identity 改為 `temple-ai-dev-org`，中央安裝來源由 `template/` 改名為 `project-overlay/`，並保留舊 package identity 的升級相容性。
