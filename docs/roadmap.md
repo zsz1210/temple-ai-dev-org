@@ -57,6 +57,7 @@ The private FlowDeck pilot completed:
 - Alpha.12 adds deterministic Progressive Context Routing, project Skill discovery without ownership transfer, bounded Context Capsules, and affected-path overlap warnings. Semantic or hybrid retrieval remains an adapter boundary rather than a default dependency.
 - Alpha.12 local and CI evidence is preserved in the [Progressive Context Routing validation record](validation/alpha-12-progressive-context-routing.md); real-project cross-task recovery, multi-maintainer behavior, large-repository retrieval quality, and semantic providers remain unverified.
 - Alpha.13 adds the Collaborative foundation: Human Principals, Agent sponsorship, Position pools with Disciplines, collision-resistant Collaborative Work Item IDs, parent/dependency and contract fields, deterministic parallel readiness, Principal-backed claims, upgrade migration, and status/doctor observability.
+- Alpha.13 bounded local evidence is preserved in the [Collaborative foundation validation record](validation/alpha-13-collaborative-foundation.md).
 - Alpha.13 local automated evidence does not replace the retained [large-scale real-environment test](validation/collaborative-large-scale-test-plan.md). Multi-human, multi-machine, Git-hosting behavior remains explicitly `not_run`.
 
 Phase 1.5 is not yet complete:
