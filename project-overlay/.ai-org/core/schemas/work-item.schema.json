@@ -26,6 +26,51 @@
       "enum": ["not-applicable", "code-first", "preview-first", "design-led", null]
     },
     "parent_work_item_id": { "type": ["string", "null"] },
+    "tracker_visibility": { "enum": ["internal", "team-visible"] },
+    "tracker_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["provider_id", "item_id", "url", "role"],
+        "properties": {
+          "provider_id": { "type": "string", "minLength": 1 },
+          "item_id": { "type": "string", "minLength": 1 },
+          "url": { "type": "string", "format": "uri", "pattern": "^https://" },
+          "role": { "enum": ["primary", "supporting"] }
+        },
+        "additionalProperties": false
+      }
+    },
+    "tracker_reconciliations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "provider_id",
+          "item_id",
+          "observation_revision",
+          "resolution",
+          "recorded_at",
+          "recorded_by",
+          "evidence_ref",
+          "external_write_performed"
+        ],
+        "properties": {
+          "provider_id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+          "item_id": { "type": "string", "minLength": 1 },
+          "observation_revision": { "type": "string", "minLength": 1 },
+          "resolution": { "enum": ["acknowledge", "keep-temple", "accept-external", "defer"] },
+          "recorded_at": { "type": "string", "format": "date-time" },
+          "recorded_by": { "type": "string", "minLength": 1 },
+          "evidence_ref": {
+            "type": "string",
+            "pattern": "^\\.ai-org/artifacts/tracker-reconciliations/[^/]+\\.json$"
+          },
+          "external_write_performed": { "const": false }
+        },
+        "additionalProperties": false
+      }
+    },
     "dependencies": { "type": "array", "items": { "type": "string" } },
     "required_disciplines": { "type": "array", "items": { "type": "string" } },
     "base_revision": { "type": ["string", "null"] },

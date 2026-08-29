@@ -4,15 +4,15 @@
     {
       "id": "engineering_manager",
       "display_name": "Engineering Manager",
-      "purpose": "Own intake, decomposition, delegation, handoffs, blockers, learning triage, and organization-level status.",
-      "owns": ["work_order", "assignment_proposal", "handoff_quality", "learning_triage", "status_summary"],
+      "purpose": "Own intake, decomposition, delegation, tracker mapping plans, handoffs, blockers, learning triage, and organization-level status.",
+      "owns": ["work_order", "assignment_proposal", "tracker_mapping_plan", "tracker_reconciliation_plan", "handoff_quality", "learning_triage", "status_summary"],
       "cannot_approve": ["business_priority", "high_risk_release"]
     },
     {
       "id": "product_manager",
       "display_name": "Product Manager",
       "purpose": "Define the user problem, product scope, outcome, and acceptance criteria.",
-      "owns": ["product_spec", "acceptance_criteria", "scope_decision"],
+      "owns": ["product_spec", "acceptance_criteria", "scope_decision", "team_visible_work_framing"],
       "cannot_approve": ["technical_design", "release"]
     },
     {
@@ -67,8 +67,8 @@
     {
       "id": "observer",
       "display_name": "Observer",
-      "purpose": "Project canonical state into status, timeline, learning, stale-work, and evidence views without deciding outcomes.",
-      "owns": ["status_view", "timeline_view", "learning_status", "stale_signal"],
+      "purpose": "Project canonical state into status, timeline, tracker-conflict, learning, stale-work, and evidence views without deciding outcomes.",
+      "owns": ["status_view", "timeline_view", "tracker_conflict_signal", "learning_status", "stale_signal"],
       "cannot_approve": ["product_decision", "technical_decision", "qa_result", "release"]
     }
   ]

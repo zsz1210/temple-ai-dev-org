@@ -8,6 +8,7 @@ import { emptyLearningIndex, validateLearningIndex } from "../src/learning.mjs";
 import { listPackDefinitions } from "../src/packs.mjs";
 import { emptyContextMap, validateContextMap } from "../src/context.mjs";
 import { emptySpecIndex, validateSpecIndex } from "../src/specifications.mjs";
+import { emptyTrackerConfig, validateTrackerConfig } from "../src/tracker.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
@@ -63,7 +64,8 @@ for (const [file, schemaId] of [
   ["retrieval-provider.schema.json", "temple.retrieval-provider/v1"],
   ["collaboration.schema.json", "temple.collaboration/v1"],
   ["parallel-readiness.schema.json", "temple.parallel-readiness/v1"],
-  ["spec-index.schema.json", "temple.spec-index/v1"]
+  ["spec-index.schema.json", "temple.spec-index/v1"],
+  ["tracker.schema.json", "temple.tracker/v1"]
 ]) {
   const schema = await readJson(path.join(projectOverlayRoot, ".ai-org/core/schemas", file));
   check(schema.$id === schemaId, `${file} has an unexpected schema ID`);
@@ -96,6 +98,14 @@ check(specIndexValidation.valid, `specification index seed is invalid: ${specInd
 check(
   JSON.stringify(specIndex) === JSON.stringify(emptySpecIndex()),
   "project overlay specification index must remain an empty project-owned seed"
+);
+
+const trackerConfig = await readJson(path.join(projectOverlayRoot, ".ai-org/project/tracker.json"));
+const trackerValidation = validateTrackerConfig(trackerConfig);
+check(trackerValidation.valid, `tracker config seed is invalid: ${trackerValidation.errors.join("; ")}`);
+check(
+  JSON.stringify(trackerConfig) === JSON.stringify(emptyTrackerConfig()),
+  "project overlay tracker config must remain an empty project-owned seed"
 );
 
 const uiDesignPolicy = await readJson(path.join(projectOverlayRoot, ".ai-org/core/ui-design.json"));

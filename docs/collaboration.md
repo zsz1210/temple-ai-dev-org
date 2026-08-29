@@ -102,6 +102,8 @@ Temple owns repository-readable organizational state: Principals, sponsorships, 
 
 Repository mutations use a short-lived local lock. That protects processes using the same checkout, not separate machines. Cross-machine safety therefore depends on collision-resistant Collaborative Work Item IDs, one work-item file per claim, normal Git conflict handling, protected branches, and pull-request review. A future remote coordination backend may strengthen this boundary; the current release does not claim distributed locking.
 
+When the company plans work in Jira, GitHub, or another tracker, map the team-visible parent outcome rather than mirroring every AI child. Frontend, backend, infrastructure, UI, UX, evaluation, and QA child Work Items can remain internal while inheriting the parent reference for context. Expose a child only when another human or team must coordinate it. The external board does not replace claims, affected-path checks, shared-contract readiness, lifecycle evidence, or Independent QA. See [Task and external tracker coordination](task-and-tracker-coordination.md).
+
 ## Configure a collaborative project
 
 ```bash

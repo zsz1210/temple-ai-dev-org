@@ -17,6 +17,15 @@ import {
   validateRepositorySpecSources,
   validateSpecIndex
 } from "./specifications.mjs";
+import {
+  TRACKER_CONFIG_RELATIVE_PATH,
+  TRACKER_VIEW_RELATIVE_PATH,
+  emptyTrackerConfig,
+  trackerVisibility,
+  validateTrackerConfig,
+  validateTrackerMappings,
+  validateTrackerView
+} from "./tracker.mjs";
 
 function markdown(value) {
   return String(value ?? "").replace(/\|/g, "\\|").replace(/\r?\n/g, " ");
@@ -35,6 +44,8 @@ async function readEvents(target) {
 
 export async function buildStatus(target, options = {}) {
   const specIndexInstalled = await pathExists(path.join(target, SPEC_INDEX_RELATIVE_PATH));
+  const trackerConfigInstalled = await pathExists(path.join(target, TRACKER_CONFIG_RELATIVE_PATH));
+  const trackerViewInstalled = await pathExists(path.join(target, TRACKER_VIEW_RELATIVE_PATH));
   const [
     lock,
     project,
@@ -47,6 +58,8 @@ export async function buildStatus(target, options = {}) {
     learningIndex,
     contextMap,
     specIndex,
+    trackerConfig,
+    trackerView,
     capabilityRegistry,
     collaboration
   ] =
@@ -68,6 +81,12 @@ export async function buildStatus(target, options = {}) {
         exists ? readContextMap(target) : emptyContextMap()
       ),
       specIndexInstalled ? readJson(path.join(target, SPEC_INDEX_RELATIVE_PATH)) : emptySpecIndex(),
+      trackerConfigInstalled
+        ? readJson(path.join(target, TRACKER_CONFIG_RELATIVE_PATH))
+        : emptyTrackerConfig(),
+      trackerViewInstalled
+        ? readJson(path.join(target, TRACKER_VIEW_RELATIVE_PATH))
+        : { schema_version: "temple.tracker-view/v1", generated_at: null, entries: [] },
       options.capabilityRegistry ?? buildCapabilityRegistry(target),
       pathExists(path.join(target, COLLABORATION_RELATIVE_PATH)).then((exists) =>
         exists ? readJson(path.join(target, COLLABORATION_RELATIVE_PATH)) : null
@@ -80,6 +99,8 @@ export async function buildStatus(target, options = {}) {
   const specSourceValidation = specIndexValidation.valid
     ? await validateRepositorySpecSources(target, specIndex)
     : { valid: false, errors: [] };
+  const trackerConfigValidation = validateTrackerConfig(trackerConfig);
+  const trackerViewValidation = validateTrackerView(trackerView);
   const assignmentMap = new Map(
     assignmentsDocument.assignments
       .filter((assignment) => assignment.active !== false)
@@ -136,6 +157,9 @@ export async function buildStatus(target, options = {}) {
           required_disciplines: item.required_disciplines ?? [],
           active_claim: item.claim?.status === "active" ? item.claim : null,
           parent_work_item_id: item.parent_work_item_id ?? null,
+          tracker_visibility: trackerVisibility(item),
+          tracker_reference_count: (item.tracker_refs ?? []).length,
+          tracker_refs: item.tracker_refs ?? [],
           dependency_count: (item.dependencies ?? []).length,
           specification_mode: item.specification_mode ?? null,
           ui_delivery_mode: item.ui_delivery_mode ?? null,
@@ -158,6 +182,9 @@ export async function buildStatus(target, options = {}) {
           evidence_count: 0,
           unresolved_count: 1,
           terminal: false,
+          tracker_visibility: "unknown",
+          tracker_reference_count: 0,
+          tracker_refs: [],
           ui_delivery_mode: null,
           specification_mode: null,
           specification_reference_count: 0,
@@ -180,6 +207,20 @@ export async function buildStatus(target, options = {}) {
     };
   });
   for (const item of workItems) item.task_count = tasks.filter((task) => task.work_item_id === item.id).length;
+
+  const trackerMappings = trackerConfigValidation.valid
+    ? validateTrackerMappings(trackerConfig, [...rawItems.values()])
+    : { valid: false, errors: [], warnings: [] };
+  const activeTrackerEntryKeys = new Set(
+    [...rawItems.values()].flatMap((item) =>
+      (item.tracker_refs ?? []).map((reference) => `${item.id}:${reference.provider_id}:${reference.item_id}`)
+    )
+  );
+  const trackerEntries = trackerViewValidation.valid
+    ? trackerView.entries.filter((entry) =>
+        activeTrackerEntryKeys.has(`${entry.work_item_id}:${entry.observation.provider_id}:${entry.observation.item_id}`)
+      )
+    : [];
 
   const byState = {};
   for (const item of workItems) byState[item.state] = (byState[item.state] ?? 0) + 1;
@@ -208,6 +249,21 @@ export async function buildStatus(target, options = {}) {
         work_item_id: item.id,
         message: `${item.id} has ${item.unapproved_specification_count} unapproved specification reference(s)`
       })),
+    ...(!trackerConfigInstalled
+      ? [{ type: "tracker_config_missing", message: "Tracker configuration is missing; run temple upgrade" }]
+      : []),
+    ...(!trackerConfigValidation.valid
+      ? [{ type: "invalid_tracker_config", message: `Tracker configuration is invalid: ${trackerConfigValidation.errors.join("; ")}` }]
+      : []),
+    ...trackerMappings.errors.map((message) => ({ type: "invalid_tracker_mapping", message })),
+    ...trackerMappings.warnings.map((message) => ({ type: "tracker_mapping_attention", message })),
+    ...trackerEntries
+      .filter((entry) => entry.plan.review_count > 0)
+      .map((entry) => ({
+        type: "tracker_reconciliation_required",
+        work_item_id: entry.work_item_id,
+        message: `${entry.work_item_id} has ${entry.plan.review_count} tracker reconciliation action(s) from ${entry.observation.observed_at}`
+      })),
     ...(!specIndexValidation.valid
       ? [{ type: "invalid_specification_index", message: `Specification index is invalid: ${specIndexValidation.errors.join("; ")}` }]
       : []),
@@ -226,7 +282,7 @@ export async function buildStatus(target, options = {}) {
   ];
 
   return {
-    schema_version: "temple.status/v5",
+    schema_version: "temple.status/v6",
     project: { id: project.id, name: project.name },
     template_version: lock.template.version,
     agents: agentsDocument.agents.map((agent) => ({ id: agent.id, display_name: agent.display_name, active: agent.active !== false })),
@@ -249,6 +305,23 @@ export async function buildStatus(target, options = {}) {
       warnings: specIndexValidation.warnings,
       sources_valid: specIndexInstalled && specSourceValidation.valid,
       source_errors: specSourceValidation.errors
+    },
+    tracker: {
+      installed: trackerConfigInstalled,
+      valid: trackerConfigInstalled && trackerConfigValidation.valid,
+      errors: trackerConfigValidation.errors,
+      warnings: trackerConfigValidation.warnings,
+      profile: trackerConfig.profile,
+      sync_granularity: trackerConfig.sync_granularity,
+      default_provider_id: trackerConfig.default_provider_id,
+      providers: trackerConfig.providers ?? [],
+      active_providers: (trackerConfig.providers ?? []).filter((provider) => provider.status === "active").length,
+      linked_work_items: workItems.filter((item) => item.tracker_reference_count > 0).length,
+      team_visible_work_items: workItems.filter((item) => item.tracker_visibility === "team-visible").length,
+      generated_view_valid: trackerViewValidation.valid,
+      observed_items: trackerEntries.length,
+      reconciliation_actions: trackerEntries.reduce((count, entry) => count + entry.plan.review_count, 0),
+      external_write_performed: false
     },
     context_routing: {
       routes: contextMap.routes?.length ?? 0,
@@ -289,6 +362,7 @@ export function renderStatusMarkdown(status) {
     `- Context routes: ${status.context_routing.active_routes} active (${status.context_routing.provider_id}, semantic=${status.context_routing.semantic})`,
     `- Engineering learning: ${status.learning.lessons} Lessons, ${status.learning.practices} Practices`,
     `- Specifications: ${status.specifications.total_entries} indexed, ${status.specifications.approved_entries} approved (${status.specifications.adoption_profile})`,
+    `- Tracker: \`${status.tracker.profile}\` (${status.tracker.active_providers} active provider(s), ${status.tracker.linked_work_items} linked Work Item(s))`,
     `- Attention signals: ${status.attention.length}`,
     "",
     "## Collaboration",
@@ -309,12 +383,12 @@ export function renderStatusMarkdown(status) {
     lines.push("No work items yet.");
   } else {
     lines.push(
-      "| ID | Title | State | Owner | Agent | Parallel | Spec mode | UI | Specs | Stale | Unapproved | Claim | Revision | Tasks | Evidence | Unresolved |",
-      "|---|---|---|---|---|---|---|---|---:|---:|---:|---|---|---:|---:|---:|"
+      "| ID | Title | State | Owner | Agent | Parallel | Tracker | Links | Spec mode | UI | Specs | Stale | Unapproved | Claim | Revision | Tasks | Evidence | Unresolved |",
+      "|---|---|---|---|---|---|---|---:|---|---|---:|---:|---:|---|---|---:|---:|---:|"
     );
     for (const item of status.work_items.items) {
       lines.push(
-        `| ${item.id} | ${markdown(item.title)} | ${item.state} | ${markdown(item.owner_name)} | ${markdown(item.assigned_agent_name)} | ${item.parallel_mode} | ${markdown(item.specification_mode ?? "legacy")} | ${markdown(item.ui_delivery_mode ?? "undecided")} | ${item.specification_reference_count} | ${item.stale_specification_count} | ${item.unapproved_specification_count} | ${item.active_claim ? markdown(item.active_claim.id) : "—"} | \`${shortRevision(item.latest_revision)}\` | ${item.task_count} | ${item.evidence_count} | ${item.unresolved_count} |`
+        `| ${item.id} | ${markdown(item.title)} | ${item.state} | ${markdown(item.owner_name)} | ${markdown(item.assigned_agent_name)} | ${item.parallel_mode} | ${markdown(item.tracker_visibility)} | ${item.tracker_reference_count} | ${markdown(item.specification_mode ?? "legacy")} | ${markdown(item.ui_delivery_mode ?? "undecided")} | ${item.specification_reference_count} | ${item.stale_specification_count} | ${item.unapproved_specification_count} | ${item.active_claim ? markdown(item.active_claim.id) : "—"} | \`${shortRevision(item.latest_revision)}\` | ${item.task_count} | ${item.evidence_count} | ${item.unresolved_count} |`
       );
     }
   }
@@ -339,6 +413,19 @@ export function renderStatusMarkdown(status) {
   else for (const signal of status.attention) lines.push(`- ${signal.message}`);
 
   lines.push(
+    "",
+    "## External tracker coordination",
+    "",
+    `- Profile: \`${status.tracker.profile}\``,
+    `- Sync granularity: \`${status.tracker.sync_granularity}\``,
+    `- Active providers: ${status.tracker.active_providers}`,
+    `- Team-visible Work Items: ${status.tracker.team_visible_work_items}`,
+    `- Linked Work Items: ${status.tracker.linked_work_items}`,
+    `- Observed external items: ${status.tracker.observed_items}`,
+    `- Reconciliation actions: ${status.tracker.reconciliation_actions}`,
+    `- External write performed by status: no`,
+    `- Configuration: \`${TRACKER_CONFIG_RELATIVE_PATH}\``,
+    `- Generated observations: \`${TRACKER_VIEW_RELATIVE_PATH}\``,
     "",
     "## Product specifications",
     "",

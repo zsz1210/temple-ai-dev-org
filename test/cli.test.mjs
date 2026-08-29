@@ -46,7 +46,7 @@ function shellQuote(value) {
 test("version is available without dependencies", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /^0\.1\.0-alpha\.14/m);
+  assert.match(result.stdout, /^0\.1\.0-alpha\.15/m);
 });
 
 test("dry-run writes nothing", async (context) => {
@@ -109,8 +109,15 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
   assert.equal(lock.capabilities.ui_delivery_mode_overrides, true);
   assert.equal(lock.capabilities.ui_evidence_gates, true);
   assert.equal(lock.capabilities.iterative_delivery_contract, true);
+  assert.equal(lock.capabilities.tracker_contract, true);
+  assert.equal(lock.capabilities.tracker_field_ownership, true);
+  assert.equal(lock.capabilities.work_item_tracker_links, true);
+  assert.equal(lock.capabilities.tracker_observations, true);
+  assert.equal(lock.capabilities.tracker_reconciliation, true);
+  assert.equal(lock.capabilities.github_tracker_adapter, true);
   assert.ok(!lock.managed_files.some((entry) => entry.path === ".ai-org/learning/index.json"));
   assert.ok(!lock.managed_files.some((entry) => entry.path === ".ai-org/project/spec-index.json"));
+  assert.ok(!lock.managed_files.some((entry) => entry.path === ".ai-org/project/tracker.json"));
 
   const agents = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/agents.json"), "utf8"));
   assert.equal(agents.agents.length, 5);
@@ -131,9 +138,13 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
   const status = run(["status", target, "--json"]);
   assert.equal(status.status, 0, status.stderr);
   assert.equal(JSON.parse(status.stdout).assignments.length, 10);
-  assert.equal(JSON.parse(status.stdout).schema_version, "temple.status/v5");
+  assert.equal(JSON.parse(status.stdout).schema_version, "temple.status/v6");
   assert.equal(JSON.parse(status.stdout).learning.total, 0);
   assert.equal(JSON.parse(status.stdout).specifications.total_entries, 0);
+  assert.equal(JSON.parse(status.stdout).tracker.profile, "repository-only");
+  const trackerConfig = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/tracker.json"), "utf8"));
+  assert.equal(trackerConfig.profile, "repository-only");
+  assert.deepEqual(trackerConfig.providers, []);
   const statusView = await fs.readFile(path.join(target, ".ai-org/views/status.md"), "utf8");
   assert.match(statusView, /^# Sample Product — AI development organization status/m);
   assert.match(statusView, /Independent QA/);
@@ -243,9 +254,11 @@ test("upgrade adds a missing project-owned learning index without managing it", 
 
   const indexPath = path.join(target, ".ai-org/learning/index.json");
   const specIndexPath = path.join(target, ".ai-org/project/spec-index.json");
+  const trackerConfigPath = path.join(target, ".ai-org/project/tracker.json");
   const lockPath = path.join(target, "temple.lock");
   await fs.rm(indexPath);
   await fs.rm(specIndexPath);
+  await fs.rm(trackerConfigPath);
   const lock = JSON.parse(await fs.readFile(lockPath, "utf8"));
   lock.template.version = "0.1.0-alpha.10";
   delete lock.capabilities.engineering_learning;
@@ -255,6 +268,7 @@ test("upgrade adds a missing project-owned learning index without managing it", 
   assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
   assert.match(dryRun.stdout, /create-learning-index: 1/);
   assert.match(dryRun.stdout, /create-spec-index: 1/);
+  assert.match(dryRun.stdout, /create-tracker-config: 1/);
   const upgraded = run(["upgrade", target]);
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   assert.deepEqual(JSON.parse(await fs.readFile(indexPath, "utf8")), {
@@ -267,11 +281,13 @@ test("upgrade adds a missing project-owned learning index without managing it", 
     delivery_method: "contract-guided-iterative",
     entries: []
   });
+  assert.equal(JSON.parse(await fs.readFile(trackerConfigPath, "utf8")).profile, "repository-only");
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.14");
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.15");
   assert.equal(upgradedLock.capabilities.engineering_learning, true);
   assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/learning/index.json"));
   assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/project/spec-index.json"));
+  assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/project/tracker.json"));
 });
 
 test("upgrade preserves an existing project-owned specification index byte-for-byte", async (context) => {
@@ -298,6 +314,40 @@ test("upgrade preserves an existing project-owned specification index byte-for-b
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
   assert.equal(upgradedLock.capabilities.product_specifications, true);
   assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/project/spec-index.json"));
+});
+
+test("upgrade preserves an existing project-owned tracker configuration byte-for-byte", async (context) => {
+  const { temporaryRoot, target, configPath } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  assert.equal(run(["init", target, "--config", configPath]).status, 0);
+  const trackerPath = path.join(target, ".ai-org/project/tracker.json");
+  const customTracker = `{
+    "schema_version": "temple.tracker/v1",
+    "profile": "repository-only",
+    "sync_granularity": "parent-only",
+    "default_provider_id": null,
+    "providers": [],
+    "field_ownership": {
+      "temple": ["lifecycle_state", "specification_refs", "interface_contracts", "gate_evidence", "claim", "tested_revision", "release_decision"],
+      "external": ["priority", "iteration", "estimate", "due_date", "business_assignee", "labels"],
+      "negotiated": ["title", "parent", "dependencies"]
+    },
+    "updated_at": null,
+    "updated_by": null
+  }\n`;
+  await fs.writeFile(trackerPath, customTracker);
+  const lockPath = path.join(target, "temple.lock");
+  const lock = JSON.parse(await fs.readFile(lockPath, "utf8"));
+  lock.template.version = "0.1.0-alpha.14";
+  delete lock.capabilities.tracker_contract;
+  await fs.writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
+
+  const upgraded = run(["upgrade", target]);
+  assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
+  assert.equal(await fs.readFile(trackerPath, "utf8"), customTracker);
+  const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
+  assert.equal(upgradedLock.capabilities.tracker_contract, true);
+  assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/project/tracker.json"));
 });
 
 test("upgrade assigns the new UI Designer Position to the existing UX Designer Identity", async (context) => {

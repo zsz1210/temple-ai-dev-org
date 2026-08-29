@@ -26,6 +26,7 @@ import { packSourcesForLock } from "./packs.mjs";
 import { CONTEXT_MAP_RELATIVE_PATH, ensureContextMap } from "./context.mjs";
 import { ensureLearningIndex, LEARNING_INDEX_RELATIVE_PATH } from "./learning.mjs";
 import { ensureSpecIndex, SPEC_INDEX_RELATIVE_PATH } from "./specifications.mjs";
+import { ensureTrackerConfig, TRACKER_CONFIG_RELATIVE_PATH } from "./tracker.mjs";
 import { ensureTaskRegistry } from "./project.mjs";
 import {
   COLLABORATION_RELATIVE_PATH,
@@ -181,6 +182,11 @@ export async function planUpgrade(target) {
     type: hasSpecIndex ? "skip-spec-index" : "create-spec-index",
     path: SPEC_INDEX_RELATIVE_PATH
   });
+  const hasTrackerConfig = await pathExists(path.join(target, TRACKER_CONFIG_RELATIVE_PATH));
+  actions.push({
+    type: hasTrackerConfig ? "skip-tracker-config" : "create-tracker-config",
+    path: TRACKER_CONFIG_RELATIVE_PATH
+  });
   const hasCollaboration = await pathExists(path.join(target, COLLABORATION_RELATIVE_PATH));
   actions.push({
     type: hasCollaboration ? "skip-collaboration-state" : "create-collaboration-state",
@@ -242,6 +248,12 @@ export async function planUpgrade(target) {
     lock.capabilities?.ui_delivery_mode_overrides !== true ||
     lock.capabilities?.ui_evidence_gates !== true ||
     lock.capabilities?.iterative_delivery_contract !== true ||
+    lock.capabilities?.tracker_contract !== true ||
+    lock.capabilities?.tracker_field_ownership !== true ||
+    lock.capabilities?.work_item_tracker_links !== true ||
+    lock.capabilities?.tracker_observations !== true ||
+    lock.capabilities?.tracker_reconciliation !== true ||
+    lock.capabilities?.github_tracker_adapter !== true ||
     lock.capabilities?.progressive_context_routing !== true ||
     lock.capabilities?.capability_registry !== true ||
     lock.capabilities?.retrieval_provider_contract !== true;
@@ -266,6 +278,7 @@ export async function planUpgrade(target) {
       hasLearningIndex &&
       hasContextMap &&
       hasSpecIndex &&
+      hasTrackerConfig &&
       hasCollaboration
         ? "skip-current-lock"
         : "update-lock",
@@ -338,6 +351,10 @@ export async function executeUpgrade(plan) {
     const specIndex = await ensureSpecIndex(plan.target);
     if (specIndex.created) {
       changes.push({ path: specIndex.path, before: null, afterHash: specIndex.afterHash });
+    }
+    const trackerConfig = await ensureTrackerConfig(plan.target);
+    if (trackerConfig.created) {
+      changes.push({ path: trackerConfig.path, before: null, afterHash: trackerConfig.afterHash });
     }
     if (plan.assignmentMigration) {
       const assignmentsPath = path.join(plan.target, plan.assignmentMigration.path);
@@ -423,6 +440,12 @@ export async function executeUpgrade(plan) {
         ui_delivery_mode_overrides: true,
         ui_evidence_gates: true,
         iterative_delivery_contract: true,
+        tracker_contract: true,
+        tracker_field_ownership: true,
+        work_item_tracker_links: true,
+        tracker_observations: true,
+        tracker_reconciliation: true,
+        github_tracker_adapter: true,
         progressive_context_routing: true,
         capability_registry: true,
         retrieval_provider_contract: true,

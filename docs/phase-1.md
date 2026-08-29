@@ -18,6 +18,7 @@ Phase 1 is complete only when all of the following are true:
 - Core, optional-pack, and project-owned Skills are discoverable without changing exact-path ownership, and work-item context resolution reports likely affected-path overlap.
 - The CLI completes work-item creation, handoff, transition, and closeout while rejecting invalid gates.
 - Codex tasks and threads can be registered with stable IDs and projected with suggested titles, revisions, attention signals, and archive readiness.
+- Company tracker items, repository Work Items, and Codex tasks have separate identities; project-owned mappings and field ownership preserve AI-only decomposition, bounded observations, and explicit reconciliation without external writes.
 - Checksum-aware upgrade migrates legacy package identity and renamed managed Skills without overwriting project-owned state.
 - Codex discovers `$temple-work`, `$decision-interview` with conversational and evidence-backed modes, `$domain-modeling`, `$project-documentation`, and `$skill-authoring` locally in the repository.
 - Project and third-party Skill files remain project-owned unless their exact paths appear in `temple.lock.managed_files`; untracked collisions stop before writes.
@@ -34,6 +35,7 @@ Phase 1 is complete only when all of the following are true:
 - Directly creating, renaming, opening, or archiving Codex app tasks.
 - A web dashboard, real-time event streaming, or a cross-repository portfolio view.
 - Automatic production release or bypassing human release approval.
+- Creating, assigning, transitioning, commenting on, or closing external tracker items.
 - Turning an ambiguous product idea into a Project Charter, product and technical baselines, and a first vertical slice. That belongs to Phase 1.5; the "new repository" criterion in Phase 1 proves only technical initialization.
 
 ## Next steps
@@ -48,4 +50,5 @@ Phase 1 is complete only when all of the following are true:
 8. Alpha.12 establishes deterministic Progressive Context Routing, a generated Capability Registry, work-item Context Capsules, and affected-path overlap warnings without adding a model or vector database dependency.
 9. Alpha.13 establishes a backward-compatible Collaborative foundation with Human Principals, Agent sponsorship, Position pools and Disciplines, Work Item planning and claims, parallel-readiness checks, and explicit `not_run` large-scale validation status.
 10. Alpha.14 establishes revisioned product-specification authority, enterprise document adoption, Work Item contract references, explicit no-UI handling, and tool-neutral UI interaction contracts.
-11. Validate the manual Learning Loop, UI delivery-mode selection, specification adoption, bounded context recovery, and retained multi-human/multi-machine collaboration plan on real work and in a new Codex task. Continue Phase 2 Observer, coordination, retrieval-evaluation, and evidence-adapter work only after the remaining Phase 1.5 exit gate is complete.
+11. Alpha.15 establishes task-and-tracker coordination, bounded GitHub Issue observation, manual provider observations, explicit field ownership, and repository reconciliation while retaining external writes as out of scope.
+12. Validate the manual Learning Loop, UI delivery-mode selection, specification adoption, tracker mapping, bounded context recovery, and retained multi-human/multi-machine collaboration plan on real work and in a new Codex task. Continue Phase 2 Observer, coordination, retrieval-evaluation, and evidence-adapter work only after the remaining Phase 1.5 exit gate is complete.

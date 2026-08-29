@@ -14,6 +14,8 @@ The UI design track begins with an explicit UI Designer Position and four explic
 
 The product-specification track begins with an alpha.14 project-owned authority registry, revisioned Work Item references, contract-guided iterative delivery, and federated, hybrid, or Temple-native document adoption. External synchronization, semantic contract validation, and organization-specific approval adapters remain outside the current implementation.
 
+The task-coordination track begins with an alpha.15 project-owned tracker contract, explicit company/Work Item/Codex-task layers, configurable visibility and granularity, a bounded GitHub Issues read adapter, normalized manual observations, conflict plans, and evidence-backed repository reconciliation. External writes, Jira live access, and automatic bidirectional synchronization remain outside the current implementation.
+
 ## Phase 1: Installable, operational organization skeleton (current release)
 
 Goal: Give any repository the same Positions, identity model, workflow, and checks without depending on chat titles.
@@ -33,6 +35,7 @@ Deliverables:
 - UI Designer, a tool-neutral UI delivery-mode policy, a UI design-brief template, and a backward-compatible Assignment migration.
 - A project-owned Context Map, generated Capability Registry and work-item Context Capsules, deterministic Retrieval Provider contract, and affected-path overlap warnings.
 - A project-owned specification index, revisioned product/UX/UI/API/technical references, contract-guided iterative delivery, enterprise document-adoption guidance, and stale-reference enforcement.
+- A project-owned external-tracker configuration, team-visible and internal Work Item mappings, bounded observations, explicit field ownership, reconciliation evidence, doctor/status/context projection, and a read-only GitHub Issues adapter.
 - A real English Learning Inbox Safari Share Extension pilot.
 
 Exit gate: Both clean and existing repositories can initialize; all ten Positions are observable; Developer and Independent QA are separate; re-running does not overwrite; and organizational state can be recovered from files after closing the chat.
@@ -63,6 +66,7 @@ The private FlowDeck pilot completed:
 - Alpha.13 bounded local evidence is preserved in the [Collaborative foundation validation record](validation/alpha-13-collaborative-foundation.md).
 - Alpha.13 local automated evidence does not replace the retained [large-scale real-environment test](validation/collaborative-large-scale-test-plan.md). Multi-human, multi-machine, Git-hosting behavior remains explicitly `not_run`.
 - Alpha.14 adds product-specification authority and revision contracts, enterprise document-adoption modes, Work Item specification references, explicit no-UI handling, tool-neutral interaction contracts, doctor/status/context observability, and upgrade-safe project-owned seeding.
+- Alpha.15 adds the task-and-tracker coordination model: separate company planning, repository Work Items, and Codex sessions; preserve AI-only child decomposition; configure mapping granularity; inspect GitHub Issues or supplied observations; plan conflicts; and record reconciliation evidence without external writes.
 
 Phase 1.5 is not yet complete:
 
@@ -74,7 +78,7 @@ See the [FlowDeck Greenfield Pilot Retrospective](pilots/flowdeck-greenfield-ret
 
 ## Phase 2: Operational MVP
 
-Goal: Strengthen scope coordination, external evidence adapters, and the Observer beyond the alpha.14 collaboration, routing, and specification foundation.
+Goal: Strengthen scope coordination, external evidence adapters, and the Observer beyond the alpha.15 collaboration, routing, specification, and tracker foundation.
 
 Groundwork already available:
 
@@ -83,6 +87,7 @@ Groundwork already available:
 - A project-owned Context Map, generated Context Capsules, and a deterministic Retrieval Provider with a future semantic-adapter contract.
 - Solo and Collaborative profile selection, Human Principal sponsorship, Position pools with technical Disciplines, bounded work claims, and deterministic parallel-readiness checks.
 - A project-owned specification authority registry with revision-pinned Work Item contracts and stale-reference blocking.
+- Team-visible Work Item mappings, protected field ownership, a bounded GitHub Issues observation adapter, generated conflict plans, and explicit repository reconciliation.
 
 Planned deliverables:
 
@@ -130,7 +135,7 @@ Exit gate: At least ten work items of different types complete; every policy-vio
 
 ## Phase 5: Enterprise-system integration (optional)
 
-Add issue trackers, CI/CD write actions, organizational RBAC, remote workers, a centralized audit store, Slack or email notifications, and cross-team portfolios only after Phase 4 proves the workflow. External systems must not replace project-local truth or the Human Approval boundary.
+Add approved issue-tracker write actions, richer provider adapters, CI/CD write actions, organizational RBAC, remote workers, a centralized audit store, Slack or email notifications, and cross-team portfolios only after Phase 4 proves the workflow. External systems must not replace project-local truth or the Human Approval boundary.
 
 ## First-pilot selection criteria
 

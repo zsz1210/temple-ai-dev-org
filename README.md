@@ -26,6 +26,7 @@ Temple is not a shared-chat-memory system and not a collection of prompts. It is
 | Organization and authority | Ten stable Positions, project-specific Agent Identities, default Assignments, Human Principals, Agent sponsorship, Position pools with Disciplines, explicit human approval boundaries, and separation between Developer and Independent QA |
 | Engineering methods | Core Skills plus the opt-in Build Quality pack with `$tdd` and `$diagnosing-bugs` |
 | Work orchestration | A fixed `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle with durable work items and handoffs |
+| Team and tracker coordination | Separate company tracker, team-visible outcome, internal AI decomposition, and Codex session layers; explicit mappings, field ownership, bounded observations, and evidence-backed reconciliation |
 | Verification and delivery | Named gate evidence, evaluation, independent reproduction, revision references, approval records, rollback plans, and bounded closeout |
 | Durable state, learning, and observability | Repository-owned decisions, Context Map, Lessons and Practices, work items, events, task registry, generated Capability Registry and Context Capsules, status, and conflict-aware upgrades |
 
@@ -94,6 +95,8 @@ Solo and Collaborative are selectable profiles; High-Assurance is reserved but n
 
 Temple records revision references today; the CLI does not yet resolve every reference as an exact Git object. It does not create, rename, or archive Codex tasks, and it does not deploy or publish externally. Business truth, priorities, sensitive data, material cost, irreversible actions, and high-risk approval remain human responsibilities.
 
+Company teams may keep Jira, GitHub Issues, or another tracker as their planning surface while Temple keeps AI execution and evidence in repository Work Items. Team-visible parents can map externally while internal child items remain quiet; external completion never bypasses QA or the Release Gate. Alpha.15 can read bounded GitHub Issue data or supplied observations and record reconciliation evidence, but it performs no external writes.
+
 Temple is installed into a project; the project is not forked from this repository. Its organization and state become part of the project, while the central framework remains independently upgradeable.
 
 ## Documentation
@@ -102,6 +105,7 @@ Temple is installed into a project; the project is not forked from this reposito
 - [Vision and operating model](docs/vision.md) — framework layers, Positions, and lifecycle
 - [Architecture](docs/architecture.md) — identity, ownership, extension, and canonical-state boundaries
 - [Collaborative development model](docs/collaboration.md) — Human Principals, Position pools, task slicing, parallel readiness, claims, and diagrams
+- [Task and external tracker coordination](docs/task-and-tracker-coordination.md) — company boards, internal AI work, field ownership, mappings, and reconciliation
 - [Product specification system](docs/product-specifications.md) — product truth, revisioned Work Item references, and iterative delivery
 - [Enterprise document adoption](docs/enterprise-document-adoption.md) — preserve, bridge, or migrate existing document systems without dual authority
 - [UI interaction contracts](docs/ui-interaction-contracts.md) — connect interface behavior, design artifacts, implementation, and backend contracts

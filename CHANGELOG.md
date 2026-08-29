@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.15
+
+- Added a project-owned external-tracker contract with `repository-only`, `linked-tracker`, and `externally-planned` profiles plus parent-only, team-visible, and full mapping granularity.
+- Separated company tracker items, Temple Work Items, and Codex tasks; root Work Items default to team-visible while child decomposition defaults to internal and inherits parent references only as context.
+- Added explicit field ownership, provider and mapping validation, bounded normalized observations, reconciliation plans, project-owned evidence artifacts, generated tracker views, and protected lifecycle behavior that cannot be advanced by an external completion.
+- Added tracker CLI commands for configuration, mapping, read-only inspection, planning, and explicit repository reconciliation; GitHub Issues supports bounded live reads through `gh`, while Jira and generic providers accept reproducible manual observations.
+- Extended init, upgrade, doctor, status v6, Context Capsules, managed policies and Position instructions, trilingual README entry points, architecture, usage, collaboration guidance, ADR-0020, and end-to-end tests. This release performs no external tracker writes and stores no credentials.
+
 ## 0.1.0-alpha.14
 
 - Added a project-owned specification index for product charters, requirements, Feature Specs, UX flows, UI contracts, API contracts, and technical designs, with explicit repository, external, derived, and unresolved legacy authority.

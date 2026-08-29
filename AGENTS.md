@@ -11,5 +11,6 @@ This repository builds the Temple AI Development Organization Framework.
 - Follow `docs/skill-authoring.md` and `docs/skill-design.md` when creating or promoting a Skill.
 - Follow `docs/engineering-learning.md` when changing the learning schema, templates, promotion rules, or retrieval behavior; do not treat one Lesson as a framework-wide rule.
 - Follow `docs/ui-design.md` and ADR-0016 when changing UI ownership, delivery modes, evidence, or tool policy; do not make one design vendor a core dependency.
+- Follow `docs/task-and-tracker-coordination.md` and ADR-0020 when changing external-tracker mapping, field ownership, observations, reconciliation, or write policy; never store credentials or infer permission to mutate an external system.
 - Use `apply_patch` for edits and run `npm run verify` before claiming completion.
 - Do not vendor or activate optional integrations without an ADR, pinned version, license review, and tests.

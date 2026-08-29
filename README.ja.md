@@ -26,6 +26,7 @@ Temple はチャット記憶の共有システムでも、prompt の寄せ集め
 | 組織と権限 | 10の安定した Position、プロジェクト固有の Agent Identity、default Assignment、Human Principal、Agent sponsorship、Discipline 付き Position pool、明示的な人間の承認境界、Developer と Independent QA の分離 |
 | 開発手法 | Core Skill と、`$tdd` および `$diagnosing-bugs` を含む opt-in の Build Quality pack |
 | 作業オーケストレーション | 永続的な work item と handoff を伴う、固定の `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle |
+| チームと tracker の連携 | 会社 tracker、team-visible outcome、AI 内部の分解、Codex session を分離し、明示的な mapping、field ownership、限定された observation、evidence-backed reconciliation で接続 |
 | 検証とデリバリー | 名前付き gate evidence、evaluation、独立再現、revision reference、approval record、rollback plan、範囲を限定した closeout |
 | 永続的な状態、学習、可観測性 | リポジトリが所有する decision、Context Map、Lesson、Practice、work item、event、task registry、生成 Capability Registry、Context Capsule、status、conflict-aware upgrade |
 
@@ -94,6 +95,8 @@ Solo と Collaborative は選択可能です。High-Assurance は定義のみを
 
 Temple は現在 revision reference を記録しますが、CLI はまだすべての reference を正確な Git object として解決しません。Codex task の作成、名前変更、archive は行わず、外部への deploy や publish も実行しません。ビジネス上の事実、優先順位、機密データ、重大なコスト、不可逆な操作、高リスクな承認は人間が管理します。
 
+会社のチームは Jira、GitHub Issues、または別の tracker を計画面として維持し、Temple は AI の実行と evidence を repository Work Item に保持できます。Team-visible parent だけを外部項目へ対応させ、内部 child item を会社ボードへ大量に出さずに済みます。外部の完了状態が QA や Release Gate を迂回することもありません。Alpha.15 は限定された GitHub Issue 読み取りまたは supplied observation と reconciliation evidence を扱いますが、外部への書き込みは行いません。
+
 Temple はプロジェクトへインストールします。プロジェクトをこの repository から fork する必要はありません。組織と state は導入先プロジェクトの一部になり、中央 framework は独立して upgrade できます。
 
 ## ドキュメント
@@ -102,6 +105,7 @@ Temple はプロジェクトへインストールします。プロジェクト�
 - [Vision と operating model](docs/vision.md) — framework layer、Position、lifecycle
 - [Architecture](docs/architecture.md) — identity、ownership、extension、canonical-state boundary
 - [Collaborative development model](docs/collaboration.md) — Human Principal、Position pool、task slicing、parallel readiness、claim、diagram
+- [Task and external tracker coordination](docs/task-and-tracker-coordination.md) — 会社ボード、AI 内部作業、field ownership、mapping、reconciliation
 - [Product specification system](docs/product-specifications.md) — product truth、revision 付き Work Item reference、iterative delivery
 - [Enterprise document adoption](docs/enterprise-document-adoption.md) — 二重の authority を作らず既存ドキュメントを維持・接続・移行する方法
 - [UI interaction contracts](docs/ui-interaction-contracts.md) — interface behavior、design artifact、implementation、backend contract の接続

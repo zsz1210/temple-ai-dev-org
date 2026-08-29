@@ -33,6 +33,17 @@ import {
 import { withProjectMutationLock } from "./project.mjs";
 import { buildStatus, renderStatusMarkdown, writeStatus } from "./status.mjs";
 import { listTasks, registerTask, updateTask } from "./tasks.mjs";
+import {
+  configureTracker,
+  inspectAndPlanTrackerItem,
+  linkTrackerItem,
+  readTrackerConfig,
+  reconcileTrackerItem,
+  removeTrackerProvider,
+  setTrackerVisibility,
+  unlinkTrackerItem,
+  writeTrackerView
+} from "./tracker.mjs";
 import { executeUpgrade, formatUpgradePlan, planUpgrade } from "./upgrade.mjs";
 import {
   closeWorkItem,
@@ -60,7 +71,7 @@ Usage:
   temple collaboration add-agent [target] --agent-id agent-name --name "Agent Name"
   temple collaboration sponsor [target] --principal-id principal-name --agent-id agent-name
   temple collaboration add-membership [target] --agent-id agent-name --position developer [--discipline backend]
-  temple work-item create [target] --title text [--scope text] [--acceptance text] [--affected-path path] [--context-ref id] [--spec-mode gate-evidence|indexed] [--spec-ref ID@revision] [--ui-mode mode]
+  temple work-item create [target] --title text [--scope text] [--acceptance text] [--affected-path path] [--context-ref id] [--spec-mode gate-evidence|indexed] [--spec-ref ID@revision] [--ui-mode mode] [--tracker-visibility internal|team-visible]
   temple work-item configure [target] --work-item WI-ID [--parent WI-ID] [--depends-on WI-ID] [--agent-id agent-name] [--discipline backend] [--base-revision ref] [--parallel-mode mode] [--spec-ref ID@revision] [--replace-spec-refs]
   temple work-item claim [target] --work-item WI-ID --agent-id agent-name --principal-id principal-name --base-revision ref --branch name [--worktree path]
   temple work-item release [target] --work-item WI-ID [--agent-id agent-name] [--principal-id principal-name] [--reason text]
@@ -72,6 +83,15 @@ Usage:
   temple task register [target] --work-item WI-0001 --position developer --thread-id id
   temple task update [target] --task-id task-0001 --status completed
   temple task list [target] [--json]
+  temple tracker show [target] [--json]
+  temple tracker configure [target] --tracker-profile linked-tracker --provider-id github-main --provider-kind github --project owner/repository [--write-policy plan-only]
+  temple tracker remove-provider [target] --provider-id github-main
+  temple tracker set-visibility [target] --work-item WI-0001 --visibility internal|team-visible
+  temple tracker link [target] --work-item WI-0001 --provider-id github-main --item-id 123 --url https://github.com/owner/repository/issues/123 [--role primary]
+  temple tracker unlink [target] --work-item WI-0001 --provider-id github-main --item-id 123
+  temple tracker inspect [target] --work-item WI-0001 [--provider-id github-main] [--observation path] [--no-write] [--json]
+  temple tracker plan [target] --work-item WI-0001 [--provider-id github-main] [--observation path] [--no-write] [--json]
+  temple tracker reconcile [target] --work-item WI-0001 --observation path --resolution resolution --reason text
   temple pack list [target] [--json]
   temple pack install [target] --pack build-quality [--dry-run]
   temple pack remove [target] --pack build-quality [--dry-run]
@@ -92,6 +112,7 @@ Core commands:
   transition  Enforce the workflow edge and its named gate requirements.
   close       Record release readiness and close or block a release-gate item.
   task        Register Codex task/thread identity, status, revision, and archive readiness.
+  tracker     Link team-visible Work Items to external trackers through inspect, plan, and explicit reconciliation.
   pack        List, install, or remove checksum-managed optional Skill packs.
   capability  Discover installed repository Skills without taking ownership of project extensions.
   context     Resolve a bounded work-item Context Capsule through the configured Retrieval Provider.
@@ -167,7 +188,24 @@ const VALUE_FLAGS = new Set([
   "--contract-status",
   "--overlap-resolution",
   "--branch",
-  "--worktree"
+  "--worktree",
+  "--tracker-profile",
+  "--sync-granularity",
+  "--provider-id",
+  "--provider-kind",
+  "--project",
+  "--base-url",
+  "--provider-status",
+  "--read-policy",
+  "--write-policy",
+  "--default-provider",
+  "--tracker-visibility",
+  "--visibility",
+  "--item-id",
+  "--url",
+  "--role",
+  "--observation",
+  "--resolution"
 ]);
 const REPEATABLE_FLAGS = new Set([
   "--scope",
@@ -191,7 +229,7 @@ const REPEATABLE_FLAGS = new Set([
   "--shared-contract-ref",
   "--overlap-resolution"
 ]);
-const NESTED_COMMANDS = new Set(["work-item", "task", "pack", "capability", "context", "collaboration", "parallel"]);
+const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel"]);
 
 function parseCommand(argv) {
   if (argv.length === 0 || argv[0] === "--help" || argv[0] === "-h") {
@@ -454,7 +492,8 @@ async function runWorkItemCreate(parsed) {
       contractStatus: parsed.options["--contract-status"],
       overlapResolution: listOption(parsed, "--overlap-resolution"),
       evidence: listOption(parsed, "--evidence"),
-      unresolved: listOption(parsed, "--unresolved")
+      unresolved: listOption(parsed, "--unresolved"),
+      trackerVisibility: parsed.options["--tracker-visibility"]
     });
     await refreshViews(target);
     return created;
@@ -775,6 +814,151 @@ async function runTask(parsed) {
   throw new Error(`Unknown task action: ${parsed.action}`);
 }
 
+async function runTracker(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (parsed.action === "show") {
+    const config = await readTrackerConfig(target);
+    printResult(parsed, config, [
+      `Tracker profile: ${config.profile}`,
+      `Sync granularity: ${config.sync_granularity}`,
+      `Providers: ${(config.providers ?? []).map((provider) => provider.id).join(", ") || "none"}`
+    ]);
+    return 0;
+  }
+  if (parsed.action === "configure") {
+    const config = await withProjectMutationLock(target, async () => {
+      const updated = await configureTracker(target, {
+        profile: parsed.options["--tracker-profile"],
+        syncGranularity: parsed.options["--sync-granularity"],
+        defaultProviderId: parsed.options["--default-provider"],
+        providerId: parsed.options["--provider-id"],
+        providerKind: parsed.options["--provider-kind"],
+        project: parsed.options["--project"],
+        baseUrl: parsed.options["--base-url"],
+        providerStatus: parsed.options["--provider-status"],
+        readPolicy: parsed.options["--read-policy"],
+        writePolicy: parsed.options["--write-policy"],
+        actor: parsed.options["--actor"]
+      });
+      await refreshViews(target);
+      return updated;
+    });
+    printResult(parsed, config, [
+      `Tracker profile: ${config.profile}`,
+      `Sync granularity: ${config.sync_granularity}`,
+      `Default provider: ${config.default_provider_id ?? "none"}`
+    ]);
+    return 0;
+  }
+  if (parsed.action === "remove-provider") {
+    const config = await withProjectMutationLock(target, async () => {
+      const updated = await removeTrackerProvider(target, {
+        providerId: parsed.options["--provider-id"],
+        actor: parsed.options["--actor"]
+      });
+      await refreshViews(target);
+      return updated;
+    });
+    printResult(parsed, config, [`Removed tracker provider`, `Tracker profile: ${config.profile}`]);
+    return 0;
+  }
+  if (parsed.action === "set-visibility") {
+    const item = await withProjectMutationLock(target, async () => {
+      const updated = await setTrackerVisibility(target, {
+        workItemId: parsed.options["--work-item"],
+        visibility: parsed.options["--visibility"],
+        actor: parsed.options["--actor"]
+      });
+      await refreshViews(target);
+      return updated;
+    });
+    printResult(parsed, item, [`${item.id} tracker visibility: ${item.tracker_visibility}`]);
+    return 0;
+  }
+  if (parsed.action === "link") {
+    const result = await withProjectMutationLock(target, async () => {
+      const linked = await linkTrackerItem(target, {
+        workItemId: parsed.options["--work-item"],
+        providerId: parsed.options["--provider-id"],
+        itemId: parsed.options["--item-id"],
+        url: parsed.options["--url"],
+        role: parsed.options["--role"],
+        actor: parsed.options["--actor"]
+      });
+      await refreshViews(target);
+      return linked;
+    });
+    printResult(parsed, result, [
+      `Linked ${result.item.id} to ${result.reference.provider_id}:${result.reference.item_id}`,
+      `External write: not performed`
+    ]);
+    return 0;
+  }
+  if (parsed.action === "unlink") {
+    const item = await withProjectMutationLock(target, async () => {
+      const updated = await unlinkTrackerItem(target, {
+        workItemId: parsed.options["--work-item"],
+        providerId: parsed.options["--provider-id"],
+        itemId: parsed.options["--item-id"],
+        actor: parsed.options["--actor"]
+      });
+      await refreshViews(target);
+      return updated;
+    });
+    printResult(parsed, item, [`Unlinked tracker item from ${item.id}`, `External write: not performed`]);
+    return 0;
+  }
+  if (["inspect", "plan"].includes(parsed.action)) {
+    const result = await inspectAndPlanTrackerItem(target, {
+      workItemId: parsed.options["--work-item"],
+      providerId: parsed.options["--provider-id"],
+      observationPath: parsed.options["--observation"],
+      writeView: false
+    });
+    if (!parsed.flags.has("--no-write")) {
+      await withProjectMutationLock(target, async () => {
+        await writeTrackerView(target, result.item, result.observation, result.plan);
+        await refreshViews(target);
+      });
+    }
+    if (parsed.flags.has("--json")) {
+      console.log(JSON.stringify(parsed.action === "inspect" ? result.observation : result.plan, null, 2));
+    } else if (parsed.action === "inspect") {
+      console.log(`${result.observation.provider_id}:${result.observation.item_id} ${result.observation.status}`);
+      console.log(`Title: ${result.observation.title}`);
+      console.log(`Revision: ${result.observation.revision}`);
+      console.log(`External write: not performed`);
+    } else {
+      console.log(`${result.plan.work_item_id}: ${result.plan.review_count} tracker action(s)`);
+      for (const action of result.plan.actions) console.log(`[${action.severity.toUpperCase()}] ${action.id}: ${action.reason}`);
+      console.log(`External write: not performed`);
+    }
+    return 0;
+  }
+  if (parsed.action === "reconcile") {
+    if (!parsed.options["--observation"]) throw new Error("tracker reconcile requires --observation for reproducible evidence");
+    const result = await withProjectMutationLock(target, async () => {
+      const reconciled = await reconcileTrackerItem(target, {
+        workItemId: parsed.options["--work-item"],
+        providerId: parsed.options["--provider-id"],
+        observationPath: parsed.options["--observation"],
+        resolution: parsed.options["--resolution"],
+        reason: listOption(parsed, "--reason").join("; "),
+        actor: parsed.options["--actor"]
+      });
+      await refreshViews(target);
+      return reconciled;
+    });
+    printResult(parsed, result, [
+      `Reconciled ${result.item.id}: ${result.resolution}`,
+      `Evidence: ${result.artifact}`,
+      `External write: not performed`
+    ]);
+    return 0;
+  }
+  throw new Error(`Unknown tracker action: ${parsed.action}`);
+}
+
 async function runPack(parsed) {
   const target = await assertSafeTarget(parsed.target);
   if (parsed.action === "list") {
@@ -923,6 +1107,7 @@ export async function main(argv) {
   if (parsed.command === "transition") return runTransition(parsed);
   if (parsed.command === "close") return runClose(parsed);
   if (parsed.command === "task") return runTask(parsed);
+  if (parsed.command === "tracker") return runTracker(parsed);
   if (parsed.command === "pack") return runPack(parsed);
   if (parsed.command === "capability") return runCapability(parsed);
   if (parsed.command === "context") return runContext(parsed);

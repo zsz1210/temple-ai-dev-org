@@ -316,7 +316,42 @@ If a work item exists only to validate the framework, workflow, architecture, or
 
 A release-gate `go` accepts only the bounded experiment. After the stop condition is met, freeze the sample, write a retrospective, and return control to the Engineering Manager and user. Do not continue product development without a new explicit request. See [ADR-0011](adr/0011-pilot-stop-boundary.md).
 
-## 9. Register a Codex task
+## 9. Coordinate with an external tracker
+
+Keep the company tracker, repository Work Items, and Codex tasks as separate layers. Configure no provider for repository-only work. When the company uses GitHub Issues:
+
+```bash
+temple tracker configure . \
+  --tracker-profile linked-tracker \
+  --sync-granularity team-visible \
+  --provider-id github-main \
+  --provider-kind github \
+  --project owner/repository \
+  --write-policy plan-only
+
+temple tracker link . \
+  --work-item WI-0001 \
+  --provider-id github-main \
+  --item-id 381 \
+  --url https://github.com/owner/repository/issues/381
+
+temple tracker inspect . --work-item WI-0001 --no-write --json
+temple tracker plan . --work-item WI-0001 --no-write --json
+```
+
+Root Work Items default to `team-visible`; children default to `internal`. Keep AI-only implementation and verification slices internal unless another person or team must coordinate them. Jira and generic providers currently accept a normalized observation file rather than contacting the service directly:
+
+```bash
+temple tracker reconcile . \
+  --work-item WI-0001 \
+  --observation /absolute/path/to/observation.json \
+  --resolution keep-temple \
+  --reason "Repository lifecycle evidence remains incomplete"
+```
+
+The command records repository evidence and never writes externally. External completion cannot satisfy Temple lifecycle gates. See [Task and external tracker coordination](task-and-tracker-coordination.md) for profiles, field ownership, manual observation format, and company-team responsibilities.
+
+## 10. Register a Codex task
 
 The Temple CLI does not directly create Codex app tasks. After the user or Codex app creates a task, register its actual ID:
 
@@ -341,7 +376,7 @@ temple task list .
 
 Valid states are `setup`, `active`, `waiting`, `attention`, `completed`, and `archived`. When the work item is terminal and the task is completed, status reports archive-ready. Actual archiving still requires an explicit Codex app operation.
 
-## 10. Handoff and transition
+## 11. Handoff and transition
 
 A handoff records a caller-supplied revision reference, completed work, evidence, and unresolved issues:
 
@@ -367,7 +402,7 @@ temple transition . \
 
 The CLI rejects the operation before writing if a requirement is missing, a state is skipped, or the actor does not hold the current Position. Phase 1 records revision references but does not yet resolve them as Git objects; exact Git-revision validation remains a Phase 2 evidence-adapter responsibility.
 
-## 11. Release gate and closeout
+## 12. Release gate and closeout
 
 `temple close` completes only organizational closeout. It does not deploy, publish, send external messages, or obtain high-risk approval:
 
@@ -388,7 +423,7 @@ Use `--approval not-required` only when policies contain no production-change, e
 
 `--decision no-go` requires at least one `--reason` and returns the work item to the Engineering Manager in the `blocked` state.
 
-## 12. Observation and health checks
+## 13. Observation and health checks
 
 ```bash
 temple status .
@@ -407,7 +442,7 @@ temple doctor .
 - The eight most recent canonical events.
 - Position Assignments and optional-integration states.
 
-## 13. Upgrade from an older version
+## 14. Upgrade from an older version
 
 ```bash
 temple upgrade /absolute/path/to/project --dry-run
@@ -426,7 +461,7 @@ Upgrade rules:
 - Preserve an existing UI Designer Assignment. If an older project has none, assign UI Designer to its single active UX Designer Agent Identity; ambiguous Assignment state stops the migration.
 - Detected preflight conflicts stop before writing. Late file races trigger a rollback journal; if another writer changes a just-written path again, the CLI preserves that content and reports incomplete rollback for manual review.
 
-## 14. Use Decision, Domain, Documentation, Authoring, and Development Skills
+## 15. Use Decision, Domain, Documentation, Authoring, and Development Skills
 
 - `$decision-interview`: Break an ambiguous idea into known facts, options, decisions, and unknowns. If repository documents, code, or Git state constrain the choice, the same Skill switches to evidence-backed mode and cites actual paths.
 - `$domain-modeling`: Organize ubiquitous language, bounded contexts, rules, and invariants, then preserve confirmed terms in the project-owned glossary.
@@ -437,7 +472,7 @@ Each Skill preserves the request's authority boundary. Inspection, classificatio
 
 `$tdd` and `$diagnosing-bugs` are available only when the Build Quality pack is installed. They improve development procedure but do not replace Positions, work-item gates, release authority, or Independent QA.
 
-## 15. Troubleshooting
+## 16. Troubleshooting
 
 - `managed file changed`: Inspect the diff first. Do not bypass it by re-running init or editing the lock. A locked file cannot become a project extension merely by modifying it; restore or rename it through an explicit migration, or contribute the change back to the central framework.
 - `missing gate evidence`: Add real evidence, then use `--satisfy requirement=reference`. Do not enter a fabricated path.

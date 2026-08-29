@@ -37,6 +37,14 @@ import {
   validateRepositorySpecSources,
   validateSpecIndex
 } from "./specifications.mjs";
+import {
+  TRACKER_CONFIG_RELATIVE_PATH,
+  TRACKER_VIEW_RELATIVE_PATH,
+  validateTrackerConfig,
+  validateTrackerMappings,
+  validateTrackerReconciliationArtifact,
+  validateTrackerView
+} from "./tracker.mjs";
 
 function summarize(checks) {
   return checks.reduce(
@@ -178,6 +186,22 @@ export async function runDoctor(target) {
         : `${specSummary.total_entries} specifications are indexed (${specSummary.approved_entries} approved, profile=${specSummary.adoption_profile})${
             specIndexValidation.warnings.length ? `; ${specIndexValidation.warnings.join("; ")}` : ""
           }`
+    });
+  }
+
+  const trackerConfig = await safeJson(path.join(target, TRACKER_CONFIG_RELATIVE_PATH), checks, "tracker_config_json");
+  const trackerConfigValidation = trackerConfig
+    ? validateTrackerConfig(trackerConfig)
+    : { valid: false, errors: ["tracker config is missing"], warnings: [] };
+  if (trackerConfig) {
+    checks.push({
+      id: "tracker_configuration",
+      status: trackerConfigValidation.valid ? (trackerConfigValidation.warnings.length ? "warn" : "pass") : "fail",
+      message: trackerConfigValidation.valid
+        ? `${trackerConfig.profile} profile has ${(trackerConfig.providers ?? []).length} provider(s); granularity=${trackerConfig.sync_granularity}${
+            trackerConfigValidation.warnings.length ? `; ${trackerConfigValidation.warnings.join("; ")}` : ""
+          }`
+        : trackerConfigValidation.errors.join("; ")
     });
   }
 
@@ -365,6 +389,79 @@ export async function runDoctor(target) {
       ? `Invalid work item files: ${uniqueInvalidWorkItems.join(", ")}`
       : `${workItemCount} canonical work items are valid`
   });
+  if (trackerConfig && trackerConfigValidation.valid) {
+    const trackerMappings = validateTrackerMappings(trackerConfig, [...workItemsForDoctor.values()]);
+    checks.push({
+      id: "tracker_mappings",
+      status: trackerMappings.errors.length ? "fail" : trackerMappings.warnings.length ? "warn" : "pass",
+      message: trackerMappings.errors.length
+        ? trackerMappings.errors.join("; ")
+        : trackerMappings.warnings.length
+          ? trackerMappings.warnings.join("; ")
+          : "Work Item tracker mappings are valid"
+    });
+  }
+  const trackerEvidenceIssues = [];
+  for (const item of workItemsForDoctor.values()) {
+    for (const reconciliation of item.tracker_reconciliations ?? []) {
+      const evidenceRef = reconciliation?.evidence_ref;
+      if (
+        typeof evidenceRef !== "string" ||
+        !evidenceRef.startsWith(".ai-org/artifacts/tracker-reconciliations/") ||
+        evidenceRef.split(/[\\/]+/).includes("..")
+      ) {
+        continue;
+      }
+      if (!(item.evidence ?? []).includes(evidenceRef)) {
+        trackerEvidenceIssues.push(`${item.id}:${evidenceRef} is not linked from evidence`);
+      }
+      const evidencePath = path.join(target, evidenceRef);
+      if (!(await pathExists(evidencePath))) {
+        trackerEvidenceIssues.push(`${item.id}:${evidenceRef} is missing`);
+        continue;
+      }
+      try {
+        const artifact = await readJson(evidencePath);
+        const validation = validateTrackerReconciliationArtifact(artifact);
+        if (!validation.valid) {
+          trackerEvidenceIssues.push(`${item.id}:${evidenceRef} is invalid: ${validation.errors.join("; ")}`);
+        } else if (
+          artifact.work_item_id !== item.id ||
+          artifact.provider_id !== reconciliation.provider_id ||
+          String(artifact.item_id) !== String(reconciliation.item_id) ||
+          artifact.observation_revision !== reconciliation.observation_revision ||
+          artifact.resolution !== reconciliation.resolution ||
+          artifact.recorded_at !== reconciliation.recorded_at ||
+          artifact.recorded_by !== reconciliation.recorded_by
+        ) {
+          trackerEvidenceIssues.push(`${item.id}:${evidenceRef} does not match its Work Item reconciliation record`);
+        }
+      } catch (error) {
+        trackerEvidenceIssues.push(`${item.id}:${evidenceRef} cannot be read: ${error.message}`);
+      }
+    }
+  }
+  checks.push({
+    id: "tracker_reconciliation_evidence",
+    status: trackerEvidenceIssues.length ? "fail" : "pass",
+    message: trackerEvidenceIssues.length
+      ? trackerEvidenceIssues.join("; ")
+      : "Tracker reconciliation evidence is present and consistent"
+  });
+  const trackerViewPath = path.join(target, TRACKER_VIEW_RELATIVE_PATH);
+  if (await pathExists(trackerViewPath)) {
+    const trackerView = await safeJson(trackerViewPath, checks, "tracker_view_json");
+    if (trackerView) {
+      const trackerViewValidation = validateTrackerView(trackerView);
+      checks.push({
+        id: "tracker_view",
+        status: trackerViewValidation.valid ? "pass" : "warn",
+        message: trackerViewValidation.valid
+          ? `${trackerView.entries.length} generated tracker observation(s) are valid`
+          : `Generated tracker view can be rebuilt: ${trackerViewValidation.errors.join("; ")}`
+      });
+    }
+  }
   if (staleSpecificationWorkItems.length > 0) {
     checks.push({
       id: "specification_reference_staleness",

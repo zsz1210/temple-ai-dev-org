@@ -4,7 +4,7 @@ This repository's AI development organization separates responsibility from iden
 
 Before acting:
 
-1. Read `.ai-org/project/project.json`, `agents.json`, `assignments.json`, `collaboration.json`, and `spec-index.json`.
+1. Read `.ai-org/project/project.json`, `agents.json`, `assignments.json`, `collaboration.json`, `spec-index.json`, and `tracker.json`.
 2. Identify the Position you are acting as and the durable work item ID.
 3. Preview the bounded route with `temple context resolve . --work-item <work-item-id> --position <position> --no-write --json`.
 4. Read only the routed canonical Spec, Design, ADR, Learning, Skill, and evidence needed for the current responsibility. Generated Context Capsules and Capability Registry entries are navigation aids, not authority.
@@ -28,6 +28,12 @@ temple work-item create → configure/readiness → claim → handoff → transi
                               release claim ↓
                                          temple close
 ```
+
+## External tracker coordination
+
+Treat the company issue tracker, this repository's Work Items, and Codex tasks as three connected but distinct layers. Jira, GitHub Issues, or another configured provider may remain the human team's planning surface. A team-visible Work Item maps one bounded outcome to that surface; internal child Work Items hold AI-only decomposition. A Codex task is only an execution session for a Work Item.
+
+Read `.ai-org/project/tracker.json` before using an external reference. Never store tracker credentials in the repository. Use `temple tracker inspect` or `temple tracker plan` to create a bounded observation and reconciliation plan. `temple tracker reconcile` records a human-readable resolution and repository evidence; in this release it never writes externally. External `done` or `cancelled` state cannot bypass lifecycle evidence, Independent QA, or the Release Gate. Any future write-back requires explicit authorization for the exact mutation.
 
 Each transition must carry named gate evidence. `temple status` projects work items, assigned Agents, revisions, task status, context-routing and capability counts, installed optional Skill packs, attention signals, recent events, and archive readiness. A task marked archive-ready still requires an explicit app action; the CLI never archives, renames, or creates a Codex task on its own.
 

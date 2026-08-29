@@ -27,6 +27,7 @@ import {
 
 const UI_DELIVERY_MODES = ["not-applicable", "code-first", "preview-first", "design-led"];
 const SPECIFICATION_MODES = ["gate-evidence", "indexed"];
+const TRACKER_VISIBILITIES = ["internal", "team-visible"];
 
 function workItemPath(target, workItemId) {
   if (!isWorkItemId(workItemId)) {
@@ -354,6 +355,10 @@ export async function createWorkItem(target, options) {
   const parentWorkItemId = String(options.parentWorkItemId ?? "").trim() || null;
   const dependencies = uniqueStrings(options.dependencies);
   for (const reference of [parentWorkItemId, ...dependencies].filter(Boolean)) await readWorkItem(target, reference);
+  const trackerVisibility = options.trackerVisibility ?? (parentWorkItemId ? "internal" : "team-visible");
+  if (!TRACKER_VISIBILITIES.includes(trackerVisibility)) {
+    throw new Error(`Tracker visibility must be one of: ${TRACKER_VISIBILITIES.join(", ")}`);
+  }
   const requiredDisciplines = uniqueStrings(options.requiredDisciplines);
   const unsupportedDisciplines = requiredDisciplines.filter((value) => !DISCIPLINES.includes(value));
   if (unsupportedDisciplines.length > 0) {
@@ -405,6 +410,9 @@ export async function createWorkItem(target, options) {
     specification_mode: specificationMode,
     ui_delivery_mode: uiDeliveryMode,
     parent_work_item_id: parentWorkItemId,
+    tracker_visibility: trackerVisibility,
+    tracker_refs: [],
+    tracker_reconciliations: [],
     dependencies,
     required_disciplines: requiredDisciplines,
     base_revision: String(options.baseRevision ?? "").trim() || null,

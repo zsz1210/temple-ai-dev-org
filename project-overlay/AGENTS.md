@@ -1,7 +1,7 @@
 <!-- temple:instructions:start -->
 # Project AI development organization instructions
 
-- Read `TEMPLE.md`, `.ai-org/project/assignments.json`, `.ai-org/project/collaboration.json`, and `.ai-org/project/spec-index.json` before taking a Position.
+- Read `TEMPLE.md`, `.ai-org/project/assignments.json`, `.ai-org/project/collaboration.json`, `.ai-org/project/spec-index.json`, and `.ai-org/project/tracker.json` before taking a Position.
 - A Codex custom agent name in `.codex/agents` is a Position configuration, not the project's Agent display name.
 - Use durable work item IDs. Do not use chat titles as identifiers.
 - Use `$temple-work` and `temple` CLI commands for work items, handoffs, state transitions, closeout, and Codex task registration instead of hand-editing canonical JSON when the CLI supports the operation.
@@ -9,6 +9,7 @@
 - Before scoped work, preview `temple context resolve . --work-item WI-#### --position <position> --no-write --json`; open only the routed canonical sources needed for the current responsibility.
 - Use `temple capability find` when the relevant repository Skill is uncertain. A discovered Skill does not grant authority, approve dependencies, or change its lifecycle ownership.
 - Treat `.ai-org/project/context-map.json` as a project-owned routing index. Treat `.ai-org/views/capabilities.json` and `.ai-org/views/work-items/**` as rebuildable projections, never as stronger authority than their canonical sources.
+- Keep company-visible tracker items, repository Work Items, and Codex tasks distinct. Use team-visible parent Work Items for external mappings and internal child Work Items for AI-only decomposition unless the configured granularity says otherwise. External tracker observations and `.ai-org/views/tracker.json` are projections, not lifecycle authority. Never store tracker credentials, infer permission to write externally, or accept an external completion as QA or Release Gate evidence.
 - When asked only to inspect, explain, diagnose, review, or report status, keep the task read-only.
 - Persist confirmed specs, decisions, handoffs, and evidence only when the request or current authorized work item includes repository updates; otherwise propose the exact change.
 - Treat `.ai-org/project/spec-index.json` as the compact authority registry, not as a copy of each document. Use `indexed` mode to pin at least one approved current product-specification revision and any supporting UX, UI, API, or technical-design revisions. Use explicit `gate-evidence` mode for a bounded lightweight item that relies on named approved-scope and acceptance evidence instead of an indexed product specification; supporting indexed contracts may still govern their declared subjects. A derived projection cannot satisfy authority; approved repository-native sources pin a content digest; stale, unapproved, or drifted references must be reconciled and intentionally repinned before delivery continues.

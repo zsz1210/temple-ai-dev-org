@@ -11,7 +11,7 @@ It does not try to make every AI conversation remember everything. It gives ever
 | Product intent and domain | What problem, language, boundary, and outcome are real? | Decision interview, domain modeling, revisioned specification authority, glossary, ADRs |
 | Organization and authority | Who is responsible, and who may approve what? | Positions, Agent Identities, Assignments, human approval boundaries |
 | Engineering methods and capabilities | How should this kind of work be performed? | Core Skills, official packs, project and third-party extensions |
-| Work orchestration | What is happening now, and what comes next? | Work items, lifecycle transitions, handoffs, task registry |
+| Work orchestration | What is happening now, what is visible to the company, and what comes next? | External tracker mappings, Work Items, lifecycle transitions, handoffs, task registry |
 | Verification and delivery | What evidence supports completion? | Tests, evaluation, Independent QA, exact revision, release gate |
 | Durable state and observability | Can another task recover, learn from, and inspect the truth? | Project files, Context Map, Capability Registry, Context Capsules, Learning Loop, event log, status projections, checksums, future adapters |
 
@@ -25,7 +25,7 @@ The responsibilities remain stable as a project grows; staffing, method depth, a
 - A future larger-product profile can separate more Positions into dedicated Identities, install focused capability packs, require deeper design and evaluation, and integrate additional evidence sources.
 - A future high-risk profile can add specialized Skills, stricter approval policy, security review, release evidence, and external adapters without replacing the core lifecycle.
 
-The current alpha proves a lean configuration, core Skills, one optional Build Quality pack, project-local state, bounded pilots, deterministic Progressive Context Routing, and a locally tested Collaborative foundation. Solo and Collaborative profiles are selectable; High-Assurance, custom Positions and workflows, custom packs, semantic Retrieval Providers, multi-repository operation, large multi-machine collaboration evidence, and full cross-task recovery evidence remain planned or explicitly unverified rather than claimed as shipped.
+The current alpha proves a lean configuration, core Skills, one optional Build Quality pack, project-local state, bounded pilots, deterministic Progressive Context Routing, a locally tested Collaborative foundation, and read-only external-tracker coordination with explicit repository reconciliation. Solo and Collaborative profiles are selectable; High-Assurance, custom Positions and workflows, custom packs, semantic Retrieval Providers, external tracker writes, multi-repository operation, large multi-machine collaboration evidence, and full cross-task recovery evidence remain planned or explicitly unverified rather than claimed as shipped.
 
 The same scaling principle applies to learning. Evidence from one work item begins as a project Lesson, not a universal rule. Repeated and validated learning may become a Practice, then the project may deliberately promote it to a Skill, automated check, ADR, or instruction. See the [Engineering Learning Loop](engineering-learning.md).
 
@@ -44,8 +44,8 @@ The same scaling principle applies to learning. Evidence from one work item begi
 
 | Position | Primary responsibilities | Primary outputs | Cannot self-approve |
 |---|---|---|---|
-| Engineering Manager | Intake, decomposition, delegation, unblocking, learning triage, overall status | Work order, handoff, learning triage, status | Business priority, high-risk release |
-| Product Manager | Problem, scope, acceptance criteria | Specification, acceptance criteria | Technical design, release |
+| Engineering Manager | Intake, decomposition, tracker mapping plans, delegation, unblocking, learning triage, overall status | Work order, mapping and reconciliation plan, handoff, learning triage, status | Business priority, high-risk release |
+| Product Manager | Problem, scope, acceptance criteria, team-visible outcome framing | Specification, acceptance criteria | Technical design, business priority without authority, release |
 | UX Designer | User flow, states, interaction risks | UX notes, flow, copy decisions | Implementation quality, release |
 | UI Designer | Visual hierarchy, layout, components, design-system guidance, UI delivery mode | UI brief, visual direction, preview or design source when required | Implementation quality, release |
 | Tech Lead | Architecture, interfaces, risk, technical decisions, technical Practices | Design, ADR, implementation plan, technical Practice | Product scope, independent QA |
@@ -53,7 +53,7 @@ The same scaling principle applies to learning. Evidence from one work item begi
 | Quality & Evaluation Engineer | Test design, evaluation, regression evidence | Test plan, evaluation report | Release |
 | Independent QA | Independent reproduction, acceptance, counterexample search | QA report, pass or fail | Their own upstream implementation |
 | Release Manager | Release gate, versioning, rollback readiness | Release record, go or no-go proposal | High-risk human approval |
-| Observer | Observable views derived from canonical state | Status, timeline, learning signals, stale alerts | Any product or release decision |
+| Observer | Observable views derived from canonical state | Status, timeline, tracker conflicts, learning signals, stale alerts | Any product or release decision |
 
 ## Recommended initial configuration
 
@@ -97,3 +97,7 @@ Intake
 ```
 
 Every handoff must include the work item ID, input revision, completed work, evidence location, unresolved issues, and next Position. Without those fields, conversation content is context—not proof of completion.
+
+## Company planning and AI execution
+
+An external tracker may remain the human planning surface while Work Items preserve bounded AI execution, contracts, evidence, and lifecycle. Team-visible parent outcomes map externally; internal children represent AI-only decomposition; Codex tasks represent execution sessions. Explicit field ownership prevents automatic synchronization from turning company status into release authority. See [Task and external tracker coordination](task-and-tracker-coordination.md).

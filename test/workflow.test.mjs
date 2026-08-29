@@ -967,7 +967,7 @@ test("upgrade migrates legacy identity and safely removes obsolete managed skill
 
   const dryRun = run(["upgrade", target, "--dry-run"]);
   assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
-  assert.match(dryRun.stdout, /0\.1\.0-alpha\.3 -> 0\.1\.0-alpha\.14/);
+  assert.match(dryRun.stdout, /0\.1\.0-alpha\.3 -> 0\.1\.0-alpha\.15/);
   assert.match(dryRun.stdout, /remove-managed: 3/);
   assert.equal(await fs.readFile(installedTemple, "utf8"), oldContent);
   await fs.access(path.join(target, obsoleteSkills[0]));
@@ -976,7 +976,7 @@ test("upgrade migrates legacy identity and safely removes obsolete managed skill
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = await fs.readFile(lockPath, "utf8");
   assert.equal(JSON.parse(upgradedLock).template.name, "@zsz1210/temple-ai-dev-org");
-  assert.equal(JSON.parse(upgradedLock).template.version, "0.1.0-alpha.14");
+  assert.equal(JSON.parse(upgradedLock).template.version, "0.1.0-alpha.15");
   assert.match(await fs.readFile(installedTemple, "utf8"), /Project AI development organization operating contract/);
   assert.equal((await readJson(path.join(target, ".ai-org/work-items/WI-0001.json"))).title, "Preserve me");
   for (const relativePath of obsoleteSkills) {
@@ -1054,11 +1054,13 @@ test("upgrade rolls back earlier updates when a later managed file changes", asy
   assert.equal(await fs.readFile(lockPath, "utf8"), lockBefore);
 });
 
-test("upgrade rollback removes a newly seeded specification index after a later migration race", async (context) => {
+test("upgrade rollback removes newly seeded specification and tracker state after a later migration race", async (context) => {
   const { temporaryRoot, target } = await fixture();
   context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
   const specIndexPath = path.join(target, ".ai-org/project/spec-index.json");
+  const trackerConfigPath = path.join(target, ".ai-org/project/tracker.json");
   await fs.rm(specIndexPath);
+  await fs.rm(trackerConfigPath);
   const assignmentsPath = path.join(target, ".ai-org/project/assignments.json");
   const assignments = await readJson(assignmentsPath);
   assignments.assignments = assignments.assignments.filter((entry) => entry.position_id !== "ui_designer");
@@ -1072,11 +1074,13 @@ test("upgrade rollback removes a newly seeded specification index after a later 
   const plan = await planUpgrade(target);
   assert.ok(plan.assignmentMigration);
   assert.ok(plan.actions.some((action) => action.type === "create-spec-index"));
+  assert.ok(plan.actions.some((action) => action.type === "create-tracker-config"));
   const racedAssignments = `${await fs.readFile(assignmentsPath, "utf8")}\n`;
   await fs.writeFile(assignmentsPath, racedAssignments);
 
   await assert.rejects(() => executeUpgrade(plan), /assignments\.json changed after upgrade planning/);
   await assert.rejects(() => fs.access(specIndexPath));
+  await assert.rejects(() => fs.access(trackerConfigPath));
   assert.equal(await fs.readFile(assignmentsPath, "utf8"), racedAssignments);
   assert.equal(await fs.readFile(lockPath, "utf8"), lockBefore);
 });

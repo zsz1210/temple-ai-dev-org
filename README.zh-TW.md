@@ -26,6 +26,7 @@ Temple 不是共享聊天記憶的系統，也不是一組 prompt 的集合。�
 | 組織與權限 | 十個穩定 Position、專案自己的 Agent Identity、default Assignment、Human Principal、Agent sponsorship、帶 Discipline 的 Position pool、明確的人類批准邊界，以及 Developer 與 Independent QA 的分離 |
 | 工程方法 | Core Skills，以及包含 `$tdd` 與 `$diagnosing-bugs` 的選配 Build Quality pack |
 | 工作協調 | 固定的 `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle，搭配可持續保存的 work item 與 handoff |
+| 團隊與 tracker 協調 | 區分公司 tracker、team-visible outcome、AI 內部拆解與 Codex session；透過明確 mapping、欄位權限、有限 observation 與 evidence-backed reconciliation 串接 |
 | 驗證與交付 | 具名的 gate evidence、evaluation、獨立重現、revision reference、approval record、rollback plan 與有明確範圍的 closeout |
 | 持久狀態、學習與可觀測性 | 由 repository 保存的 decision、Context Map、Lesson、Practice、work item、event、task registry、產生式 Capability Registry、Context Capsule、status，以及具 conflict 保護的 upgrade |
 
@@ -94,6 +95,8 @@ Solo 與 Collaborative 已可選擇；High-Assurance 只先保留定義，尚不
 
 Temple 目前會記錄 revision reference，但 CLI 還不會將每個 reference 驗證為精確的 Git object。它不會建立、重新命名或封存 Codex task，也不會執行外部 deploy 或 publish。商業事實、優先順序、敏感資料、重大成本、不可逆操作與高風險批准仍由人類負責。
 
+公司團隊可以繼續使用 Jira、GitHub Issues 或其他 tracker 作為規劃介面，Temple 則把 AI 執行與 evidence 保存在 repository Work Item。Team-visible parent 可以對應到外部項目，AI 內部 child item 不必污染公司看板；外部的完成狀態也不能跳過 QA 或 Release Gate。Alpha.15 可以有限度讀取 GitHub Issue 或匯入 observation，並保存 reconciliation evidence，但不會對外部系統進行寫入。
+
 Temple 是安裝進專案，而不是要求專案 fork 這個 repository。開發組織與狀態會成為該專案的一部分，中央 framework 則可以獨立升級。
 
 ## 文件
@@ -102,6 +105,7 @@ Temple 是安裝進專案，而不是要求專案 fork 這個 repository。開�
 - [願景與運作模型](docs/vision.md) — framework layer、Position 與 lifecycle
 - [架構](docs/architecture.md) — identity、ownership、extension 與 canonical-state 邊界
 - [協作開發模型](docs/collaboration.md) — Human Principal、Position pool、task slicing、parallel readiness、claim 與流程圖
+- [Task 與 external tracker 協調](docs/task-and-tracker-coordination.md) — 公司看板、AI 內部工作、欄位權限、mapping 與 reconciliation
 - [產品規格系統](docs/product-specifications.md) — product truth、帶版本的 Work Item reference 與 iterative delivery
 - [企業文件導入](docs/enterprise-document-adoption.md) — 在不產生雙重權威的前提下保留、橋接或遷移既有文件系統
 - [UI interaction contract](docs/ui-interaction-contracts.md) — 串接介面行為、設計產物、實作與後端契約

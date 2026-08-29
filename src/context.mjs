@@ -12,6 +12,16 @@ import {
   validateRepositorySpecSources,
   validateSpecIndex
 } from "./specifications.mjs";
+import {
+  TRACKER_CONFIG_RELATIVE_PATH,
+  TRACKER_VIEW_RELATIVE_PATH,
+  emptyTrackerConfig,
+  inheritedTrackerReferences,
+  trackerVisibility,
+  validateTrackerConfig,
+  validateTrackerView,
+  validateWorkItemTrackerRefs
+} from "./tracker.mjs";
 
 export const CONTEXT_MAP_RELATIVE_PATH = ".ai-org/project/context-map.json";
 export const CAPABILITY_REGISTRY_RELATIVE_PATH = ".ai-org/views/capabilities.json";
@@ -474,6 +484,23 @@ export async function resolveWorkItemContext(target, options) {
   if (!specificationEvaluation.valid) {
     throw new Error(`Invalid Work Item specification references:\n- ${specificationEvaluation.errors.join("\n- ")}`);
   }
+  const trackerConfigInstalled = await pathExists(path.join(target, TRACKER_CONFIG_RELATIVE_PATH));
+  const trackerConfig = trackerConfigInstalled
+    ? await readJson(path.join(target, TRACKER_CONFIG_RELATIVE_PATH))
+    : emptyTrackerConfig();
+  const trackerConfigValidation = validateTrackerConfig(trackerConfig);
+  if (!trackerConfigValidation.valid) {
+    throw new Error(`Invalid tracker configuration:\n- ${trackerConfigValidation.errors.join("\n- ")}`);
+  }
+  const trackerReferenceValidation = validateWorkItemTrackerRefs(item, trackerConfig);
+  if (!trackerReferenceValidation.valid) {
+    throw new Error(`Invalid Work Item tracker references:\n- ${trackerReferenceValidation.errors.join("\n- ")}`);
+  }
+  const inheritedTrackerRefs = await inheritedTrackerReferences(target, item, trackerConfig);
+  const trackerView = (await pathExists(path.join(target, TRACKER_VIEW_RELATIVE_PATH)))
+    ? await readJson(path.join(target, TRACKER_VIEW_RELATIVE_PATH))
+    : { schema_version: "temple.tracker-view/v1", generated_at: null, entries: [] };
+  const trackerViewValidation = validateTrackerView(trackerView);
   const provider = options.provider ?? createRepositoryRetrievalProvider();
   const providerValidation = validateRetrievalProvider(provider);
   if (!providerValidation.valid) throw new Error(`Invalid Retrieval Provider:\n- ${providerValidation.errors.join("\n- ")}`);
@@ -512,7 +539,21 @@ export async function resolveWorkItemContext(target, options) {
   if (deprecatedContextRefs.length) warnings.push(`Deprecated context routes: ${deprecatedContextRefs.join(", ")}`);
   if (overlaps.length) warnings.push(`${overlaps.length} active work item(s) overlap affected paths`);
   warnings.push(...specificationEvaluation.warnings);
+  warnings.push(...trackerReferenceValidation.warnings);
+  if (!trackerConfigInstalled) warnings.push("Tracker configuration is missing; run temple upgrade");
+  if (!trackerViewValidation.valid) warnings.push("Generated tracker view is invalid and should be rebuilt");
   const specificationsById = new Map(specIndex.entries.map((entry) => [entry.id, entry]));
+  const trackerKeys = new Set([
+    ...(item.tracker_refs ?? []).map((reference) => `${item.id}:${reference.provider_id}:${reference.item_id}`),
+    ...inheritedTrackerRefs.map(
+      (reference) => `${reference.inherited_from}:${reference.provider_id}:${reference.item_id}`
+    )
+  ]);
+  const trackerEntries = trackerViewValidation.valid
+    ? trackerView.entries.filter((entry) =>
+        trackerKeys.has(`${entry.work_item_id}:${entry.observation.provider_id}:${entry.observation.item_id}`)
+      )
+    : [];
 
   return {
     schema_version: CONTEXT_CAPSULE_SCHEMA,
@@ -524,6 +565,7 @@ export async function resolveWorkItemContext(target, options) {
       state: item.state,
       specification_mode: item.specification_mode ?? null,
       ui_delivery_mode: item.ui_delivery_mode ?? null,
+      tracker_visibility: trackerVisibility(item),
       scope: item.scope ?? [],
       acceptance_criteria: item.acceptance_criteria ?? [],
       unresolved: item.unresolved ?? []
@@ -537,6 +579,25 @@ export async function resolveWorkItemContext(target, options) {
       title: specificationsById.get(reference.id)?.title,
       source: specificationsById.get(reference.id)?.source
     })),
+    tracker: {
+      profile: trackerConfig.profile,
+      sync_granularity: trackerConfig.sync_granularity,
+      visibility: trackerVisibility(item),
+      direct_refs: item.tracker_refs ?? [],
+      inherited_refs: inheritedTrackerRefs,
+      observations: trackerEntries.map((entry) => ({
+        provider_id: entry.observation.provider_id,
+        item_id: entry.observation.item_id,
+        url: entry.observation.url,
+        observed_at: entry.observation.observed_at,
+        revision: entry.observation.revision,
+        status: entry.observation.status,
+        title: entry.observation.title,
+        fields: entry.observation.fields,
+        review_count: entry.plan.review_count,
+        external_write_performed: false
+      }))
+    },
     context_routes: routeResults.map((result) => ({
       id: result.id,
       kind: result.source.kind,
