@@ -34,7 +34,7 @@ This boundary allows safe central framework upgrades while making installed cont
 | Type | Path | Ownership | Upgrade rule |
 |---|---|---|---|
 | Managed | Exact files listed in `temple.lock.managed_files`, drawn from `.ai-org/core/**`, `.ai-org/templates/**`, core or installed-pack `.agents/skills/**`, `.codex/agents/**`, and `TEMPLE.md` | Central framework | Update only when the locked checksum matches the installed file |
-| Project-owned | Every unlisted file, including repository-local `.agents/skills/**`; `.ai-org/project/**`, work items, decisions, events, artifacts, and root `AGENTS.md` | Project | Never overwritten or silently adopted by init, pack install, or upgrade |
+| Project-owned | Every unlisted file, including repository-local `.agents/skills/**`; `.ai-org/project/**`, learning records and index, work items, decisions, events, artifacts, and root `AGENTS.md` | Project | Never overwritten or silently adopted by init, pack install, or upgrade |
 | Generated | `.ai-org/views/**` | CLI/Observer | Rebuildable from canonical state |
 
 `temple.lock` records the framework version, exact managed-file checksums, installed optional packs, feature states, and `AGENTS.md` integration state. Directory prefixes are allowed source roots, not ownership claims. An untracked collision stops before writing even when its contents match the proposed managed file. See [ADR-0013](adr/0013-governed-skill-extensions.md).
@@ -47,6 +47,8 @@ Phase 1 uses Git-friendly JSON and Markdown:
 - `agents.json`: Agent Identities.
 - `assignments.json`: mappings from Positions to Identities.
 - `tasks.json`: stable IDs, Positions, Agents, revisions, and states for Codex tasks and threads; it is not an app-control API.
+- `learning/index.json`: compact retrieval metadata for Lessons and Practices.
+- `learning/lessons/*.md` and `learning/practices/*.md`: full project evidence, applicability, guidance, and validation history.
 - `work-items/*.json`: work state and evidence pointers.
 - `decisions/*.md`: Decision Ledger entries and ADR proposals.
 - `events/events.jsonl`: an append-only event stream.
@@ -62,11 +64,11 @@ Validate initialization configuration, preview the file plan, reject managed con
 
 ### `temple doctor`
 
-Validate managed checksums, the JSON model, Position completeness, Agent-name uniqueness, Developer and Independent QA separation, Skills, and `AGENTS.md` integration.
+Validate managed checksums, the JSON model, Position completeness, Agent-name uniqueness, Developer and Independent QA separation, the learning index and record references, Skills, and `AGENTS.md` integration.
 
 ### `temple status`
 
-Read canonical state and output work items, the task registry, revisions, attention signals, recent events, and archive readiness. It may update `.ai-org/views/status.md`, but never turns the view back into a decision.
+Read canonical state and output work items, the task registry, learning counts, revisions, attention signals, recent events, and archive readiness. It may update `.ai-org/views/status.md`, but never turns the view back into a decision.
 
 ### Lifecycle commands
 

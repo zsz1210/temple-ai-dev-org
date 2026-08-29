@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.10
+
+- Added the Engineering Learning Loop as a governed path from work evidence to Lessons, validated Practices, and optional promotion into the appropriate mechanism.
+- Added a compact project-owned `.ai-org/learning/index.json`, managed Lesson and Practice templates, strict metadata and record-reference validation in `temple doctor`, and learning counts in `temple status`.
+- Preserved learning across re-init and upgrade without adding it to framework-managed files; older installations receive only an empty seed when the index is missing.
+- Clarified Position responsibilities, retrieval guidance, privacy and cross-project boundaries, and the distinction between a retrospective, Lesson, Practice, Skill, automated check, ADR, and instruction.
+- Kept the retrospective Skill, Learning CLI, semantic retrieval, automatic promotion, and cross-project synchronization as unshipped candidates pending real project validation.
+
 ## 0.1.0-alpha.9
 
 - Repositioned Temple as an **AI Development Organization Framework** spanning product intent, organization and authority, engineering methods, work orchestration, verification and delivery, and durable state and observability.

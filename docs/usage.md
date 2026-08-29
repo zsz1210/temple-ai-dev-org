@@ -88,7 +88,35 @@ The authoring procedure defines the trigger, neighboring non-trigger, authority,
 
 The current alpha does not provide `temple skill` commands, a Skill registry, custom-pack publishing, dependency resolution, automated routing evaluation, or third-party update management.
 
-## 5. Create a work item
+## 5. Retrieve and preserve engineering learning
+
+Search `.ai-org/learning/index.json` before repeating similar work. The index contains compact retrieval fields—summary, tags, applicability, status, source work items, validation dates, and the full record path—rather than duplicating the complete evidence. Read only entries relevant to the current Position, work item, and technical area.
+
+When the user or an authorized work item asks to preserve learning, copy `.ai-org/templates/lesson.md` to `.ai-org/learning/lessons/LESSON-####.md` and add the matching index entry. A valid entry has this shape:
+
+```json
+{
+  "id": "LESSON-0001",
+  "kind": "lesson",
+  "title": "Keep runtime evidence revision-specific",
+  "summary": "Runtime evidence is trustworthy only when its tested revision is recorded.",
+  "status": "candidate",
+  "confidence": "medium",
+  "tags": ["verification", "revision"],
+  "applies_to": ["release-gate", "independent-qa"],
+  "source_work_items": ["WI-0001"],
+  "path": ".ai-org/learning/lessons/LESSON-0001.md",
+  "updated_at": "2026-08-29",
+  "last_validated_at": null,
+  "promotion": { "target": "none", "status": "none", "reference": null }
+}
+```
+
+Keep the Markdown record and index entry consistent. Lesson states are `candidate`, `validated`, and `deprecated`; Practice states are `candidate`, `active`, and `deprecated`. Promotion is separate and optional. A Skill is appropriate only for a reusable, non-obvious procedure; use an automated check for a deterministic condition, an ADR for a decision, or an instruction for an explicitly approved recurring rule. See the [Engineering Learning Loop](engineering-learning.md).
+
+The current alpha validates and reports learning but has no `temple learning` mutation command, automatic retrospective, semantic retrieval, or automatic promotion.
+
+## 6. Create a work item
 
 ```bash
 temple work-item create . \
@@ -136,7 +164,7 @@ If a work item exists only to validate the framework, workflow, architecture, or
 
 A release-gate `go` accepts only the bounded experiment. After the stop condition is met, freeze the sample, write a retrospective, and return control to the Engineering Manager and user. Do not continue product development without a new explicit request. See [ADR-0011](adr/0011-pilot-stop-boundary.md).
 
-## 6. Register a Codex task
+## 7. Register a Codex task
 
 The Temple CLI does not directly create Codex app tasks. After the user or Codex app creates a task, register its actual ID:
 
@@ -161,7 +189,7 @@ temple task list .
 
 Valid states are `setup`, `active`, `waiting`, `attention`, `completed`, and `archived`. When the work item is terminal and the task is completed, status reports archive-ready. Actual archiving still requires an explicit Codex app operation.
 
-## 7. Handoff and transition
+## 8. Handoff and transition
 
 A handoff records a caller-supplied revision reference, completed work, evidence, and unresolved issues:
 
@@ -187,7 +215,7 @@ temple transition . \
 
 The CLI rejects the operation before writing if a requirement is missing, a state is skipped, or the actor does not hold the current Position. Phase 1 records revision references but does not yet resolve them as Git objects; exact Git-revision validation remains a Phase 2 evidence-adapter responsibility.
 
-## 8. Release gate and closeout
+## 9. Release gate and closeout
 
 `temple close` completes only organizational closeout. It does not deploy, publish, send external messages, or obtain high-risk approval:
 
@@ -208,7 +236,7 @@ Use `--approval not-required` only when policies contain no production-change, e
 
 `--decision no-go` requires at least one `--reason` and returns the work item to the Engineering Manager in the `blocked` state.
 
-## 9. Observation and health checks
+## 10. Observation and health checks
 
 ```bash
 temple status .
@@ -220,11 +248,12 @@ temple doctor .
 
 - Work-item state, owner, Agent, latest revision, evidence, and unresolved issues.
 - Codex tasks and threads, suggested titles, status, revision, and archive readiness.
+- Engineering Learning Loop counts and the retrieval-index path.
 - Blocked, attention, and archive-ready signals.
 - The eight most recent canonical events.
 - Position Assignments and optional-integration states.
 
-## 10. Upgrade from an older version
+## 11. Upgrade from an older version
 
 ```bash
 temple upgrade /absolute/path/to/project --dry-run
@@ -239,10 +268,10 @@ Upgrade rules:
 - Update only managed files that the project has not modified.
 - A proposed new managed path must not already exist unless its exact path is already managed by the installed lock; byte-identical untracked files are not silently adopted.
 - Preserve installed optional packs and update them to the current pack version. Upgrade does not enable an uninstalled pack automatically.
-- Preserve `.ai-org/project/**`, work items, events, decisions, artifacts, Agent names, and product files.
+- Preserve `.ai-org/project/**`, `.ai-org/learning/**`, work items, events, decisions, artifacts, Agent names, and product files. If an older installation has no learning index, upgrade creates only the empty project-owned seed.
 - Detected preflight conflicts stop before writing. Late file races trigger a rollback journal; if another writer changes a just-written path again, the CLI preserves that content and reports incomplete rollback for manual review.
 
-## 11. Use Decision, Domain, Documentation, Authoring, and Development Skills
+## 12. Use Decision, Domain, Documentation, Authoring, and Development Skills
 
 - `$decision-interview`: Break an ambiguous idea into known facts, options, decisions, and unknowns. If repository documents, code, or Git state constrain the choice, the same Skill switches to evidence-backed mode and cites actual paths.
 - `$domain-modeling`: Organize ubiquitous language, bounded contexts, rules, and invariants, then preserve confirmed terms in the project-owned glossary.
@@ -253,7 +282,7 @@ Each Skill preserves the request's authority boundary. Inspection, classificatio
 
 `$tdd` and `$diagnosing-bugs` are available only when the Build Quality pack is installed. They improve development procedure but do not replace Positions, work-item gates, release authority, or Independent QA.
 
-## 12. Troubleshooting
+## 13. Troubleshooting
 
 - `managed file changed`: Inspect the diff first. Do not bypass it by re-running init or editing the lock. A locked file cannot become a project extension merely by modifying it; restore or rename it through an explicit migration, or contribute the change back to the central framework.
 - `missing gate evidence`: Add real evidence, then use `--satisfy requirement=reference`. Do not enter a fabricated path.
@@ -263,3 +292,4 @@ Each Skill preserves the request's authority boundary. Inspection, classificatio
 - `task registry` error: Confirm that the work item, Position, Agent, thread ID, and status all exist and are unique.
 - `untracked file blocks optional pack`: The target Skill path already contains different content. Confirm ownership and provenance; do not let the pack overwrite it.
 - `installed pack file changed`: Inspect the Skill diff. To retain custom content, do not remove or upgrade it. To return to the central version, explicitly resolve the difference first.
+- `engineering_learning` error: Keep each Lesson or Practice path, ID, status, and index entry consistent; remove neither side without updating the other.

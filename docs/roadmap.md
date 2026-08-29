@@ -6,6 +6,8 @@ These are engineering phases and exit gates, not date commitments. Expand automa
 
 Every phase advances the same six layers: product intent, organization and authority, engineering methods, work orchestration, verification and delivery, and durable state and observability. Scale is introduced through evidence-backed profiles and extensions rather than by claiming that one fixed process already fits every project.
 
+The Engineering Learning Loop is a cross-cutting track. Alpha.10 establishes project-owned Lessons and Practices, compact retrieval metadata, validation, and status projection. Later automation must be justified by real use: a retrospective Skill, Learning CLI, semantic retrieval, stale-practice alerts, and privacy-safe cross-project promotion are planned rather than implied by the storage foundation.
+
 The capability track begins with a small core, one opt-in Build Quality pack, and project-owned Skills. Later work may add architecture, review, exploration, Git and improvement, and security packs only after bounded pilots. A capability registry, richer pack manifests, dependency declarations, project and third-party lifecycle commands, and automated routing evaluation remain planned.
 
 ## Phase 1: Installable, operational organization skeleton (current release)
@@ -23,6 +25,7 @@ Deliverables:
 - Sample project, CI, and no-overwrite tests.
 - Work-item, handoff, transition, and close CLI commands with named gate evidence.
 - Codex task registry, stable title suggestions, revisions, attention signals, and archive readiness.
+- Project-owned Engineering Learning index and records, managed Lesson and Practice templates, doctor validation, and status counts.
 - A real English Learning Inbox Safari Share Extension pilot.
 
 Exit gate: Both clean and existing repositories can initialize; all nine Positions are observable; Developer and Independent QA are separate; re-running does not overwrite; and organizational state can be recovered from files after closing the chat.
@@ -45,6 +48,7 @@ The private FlowDeck pilot completed:
 - Alpha.8 adds exact-match unresolved-item listing, resolution, merge, and deduplication; Developer handoff candidate-revision projection; and copyable post-init doctor and status commands.
 - Alpha.8 also installs the independently implemented `$project-documentation` core Skill. A read-only forward-test against the trilingual public README found and drove corrections to stale capability state, prerequisites, verification, repository visibility, and revision wording.
 - Alpha.9 adds and forward-tests the core `$skill-authoring` procedure, a public project-extension contract, four distribution classes, and exact-path protection so an untracked project Skill cannot be silently adopted by init, pack installation, or upgrade.
+- Alpha.10 adds the minimal Engineering Learning Loop foundation without installing a retrospective Skill or automatic promotion workflow.
 
 Phase 1.5 is not yet complete:
 
@@ -67,6 +71,7 @@ Planned deliverables:
 - More complete JSON Schema runtime validation and a migration registry.
 - Evidence adapters for exact Git revisions, tests, runtime, unverified claims, risk, and rollback.
 - Observer projections for timeline, staleness, and pending approval.
+- Learning CLI mutations, Practice revalidation signals, and retrieval evaluation after project use validates the manual record model.
 - Isolated Archify adapter installation, provenance, and graceful-degradation tests.
 - A local read-only overview of active, blocked, QA-pending, and approval-pending work.
 

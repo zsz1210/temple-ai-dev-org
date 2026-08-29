@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { atomicWrite, pathExists, readJson } from "./files.mjs";
+import { emptyLearningIndex, LEARNING_INDEX_RELATIVE_PATH, summarizeLearningIndex } from "./learning.mjs";
 
 function markdown(value) {
   return String(value ?? "").replace(/\|/g, "\\|").replace(/\r?\n/g, " ");
@@ -18,7 +19,7 @@ async function readEvents(target) {
 }
 
 export async function buildStatus(target) {
-  const [lock, project, agentsDocument, assignmentsDocument, positionsDocument, workflow, tasksDocument, events] =
+  const [lock, project, agentsDocument, assignmentsDocument, positionsDocument, workflow, tasksDocument, events, learningIndex] =
     await Promise.all([
       readJson(path.join(target, "temple.lock")),
       readJson(path.join(target, ".ai-org/project/project.json")),
@@ -29,7 +30,10 @@ export async function buildStatus(target) {
       pathExists(path.join(target, ".ai-org/project/tasks.json")).then((exists) =>
         exists ? readJson(path.join(target, ".ai-org/project/tasks.json")) : { schema_version: "temple.tasks/v1", tasks: [] }
       ),
-      readEvents(target)
+      readEvents(target),
+      pathExists(path.join(target, LEARNING_INDEX_RELATIVE_PATH)).then((exists) =>
+        exists ? readJson(path.join(target, LEARNING_INDEX_RELATIVE_PATH)) : emptyLearningIndex()
+      )
     ]);
 
   const agents = new Map(agentsDocument.agents.map((agent) => [agent.id, agent]));
@@ -139,6 +143,7 @@ export async function buildStatus(target) {
       version: pack.version,
       skills: pack.skills ?? []
     })),
+    learning: summarizeLearningIndex(learningIndex),
     integrations: lock.integrations
   };
 }
@@ -154,6 +159,7 @@ export function renderStatusMarkdown(status) {
     `- Work items: ${status.work_items.total} total, ${activeItems} active`,
     `- Codex tasks: ${status.tasks.total} registered, ${status.tasks.archive_ready} archive-ready`,
     `- Optional Skill packs: ${status.optional_packs.length} installed`,
+    `- Engineering learning: ${status.learning.lessons} Lessons, ${status.learning.practices} Practices`,
     `- Attention signals: ${status.attention.length}`,
     "",
     "## Work items",
@@ -192,6 +198,18 @@ export function renderStatusMarkdown(status) {
   lines.push("", "## Attention", "");
   if (status.attention.length === 0) lines.push("No blockers, task attention requests, or archive-ready tasks.");
   else for (const signal of status.attention) lines.push(`- ${signal.message}`);
+
+  lines.push(
+    "",
+    "## Engineering learning",
+    "",
+    `- Candidate: ${status.learning.candidates}`,
+    `- Validated: ${status.learning.validated}`,
+    `- Active: ${status.learning.active}`,
+    `- Deprecated: ${status.learning.deprecated}`,
+    "- Retrieval index: `.ai-org/learning/index.json`",
+    ""
+  );
 
   lines.push("", "## Recent events", "");
   if (status.recent_events.length === 0) lines.push("No events recorded.");

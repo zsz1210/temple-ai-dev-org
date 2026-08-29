@@ -13,7 +13,7 @@ It does not try to make every AI conversation remember everything. It gives ever
 | Engineering methods and capabilities | How should this kind of work be performed? | Core Skills, official packs, project and third-party extensions |
 | Work orchestration | What is happening now, and what comes next? | Work items, lifecycle transitions, handoffs, task registry |
 | Verification and delivery | What evidence supports completion? | Tests, evaluation, Independent QA, exact revision, release gate |
-| Durable state and observability | Can another task recover and inspect the truth? | Project files, event log, status projections, checksums, future adapters |
+| Durable state and observability | Can another task recover, learn from, and inspect the truth? | Project files, Learning Loop, event log, status projections, checksums, future adapters |
 
 No single layer is the framework by itself. Roles without engineering methods only divide labor. Skills without authority and durable state become disconnected prompts. Workflow without evidence produces ceremonial completion. Temple connects these parts while keeping product truth in the repository.
 
@@ -26,6 +26,8 @@ The responsibilities remain stable as a project grows; staffing, method depth, a
 - A future high-risk profile can add specialized Skills, stricter approval policy, security review, release evidence, and external adapters without replacing the core lifecycle.
 
 The current alpha proves a lean configuration, core Skills, one optional Build Quality pack, project-local state, and bounded pilots. Risk-based profiles, custom Positions and workflows, a capability registry, custom packs, multi-repository operation, and full cross-task recovery evidence are planned rather than claimed as shipped.
+
+The same scaling principle applies to learning. Evidence from one work item begins as a project Lesson, not a universal rule. Repeated and validated learning may become a Practice, then the project may deliberately promote it to a Skill, automated check, ADR, or instruction. See the [Engineering Learning Loop](engineering-learning.md).
 
 ## Organizational principles
 
@@ -42,15 +44,15 @@ The current alpha proves a lean configuration, core Skills, one optional Build Q
 
 | Position | Primary responsibilities | Primary outputs | Cannot self-approve |
 |---|---|---|---|
-| Engineering Manager | Intake, decomposition, delegation, unblocking, overall status | Work order, handoff, status | Business priority, high-risk release |
+| Engineering Manager | Intake, decomposition, delegation, unblocking, learning triage, overall status | Work order, handoff, learning triage, status | Business priority, high-risk release |
 | Product Manager | Problem, scope, acceptance criteria | Specification, acceptance criteria | Technical design, release |
 | UX Designer | User flow, states, interaction risks | UX notes, flow, copy decisions | Implementation quality, release |
-| Tech Lead | Architecture, interfaces, risk, technical decisions | Design, ADR, implementation plan | Product scope, independent QA |
+| Tech Lead | Architecture, interfaces, risk, technical decisions, technical Practices | Design, ADR, implementation plan, technical Practice | Product scope, independent QA |
 | Developer | Implementation, unit tests, self-verification | Code, test evidence, handoff | Independent QA of their own work |
 | Quality & Evaluation Engineer | Test design, evaluation, regression evidence | Test plan, evaluation report | Release |
 | Independent QA | Independent reproduction, acceptance, counterexample search | QA report, pass or fail | Their own upstream implementation |
 | Release Manager | Release gate, versioning, rollback readiness | Release record, go or no-go proposal | High-risk human approval |
-| Observer | Observable views derived from canonical state | Status, timeline, stale alerts | Any product or release decision |
+| Observer | Observable views derived from canonical state | Status, timeline, learning signals, stale alerts | Any product or release decision |
 
 ## Recommended initial configuration
 

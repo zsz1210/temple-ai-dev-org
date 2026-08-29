@@ -4,8 +4,8 @@
     {
       "id": "engineering_manager",
       "display_name": "Engineering Manager",
-      "purpose": "Own intake, decomposition, delegation, handoffs, blockers, and organization-level status.",
-      "owns": ["work_order", "assignment_proposal", "handoff_quality", "status_summary"],
+      "purpose": "Own intake, decomposition, delegation, handoffs, blockers, learning triage, and organization-level status.",
+      "owns": ["work_order", "assignment_proposal", "handoff_quality", "learning_triage", "status_summary"],
       "cannot_approve": ["business_priority", "high_risk_release"]
     },
     {
@@ -26,7 +26,7 @@
       "id": "tech_lead",
       "display_name": "Tech Lead",
       "purpose": "Own architecture, interfaces, technical risk, and implementation design.",
-      "owns": ["technical_design", "adr", "implementation_plan", "risk_register"],
+      "owns": ["technical_design", "adr", "implementation_plan", "technical_practice", "risk_register"],
       "cannot_approve": ["product_scope", "independent_qa"]
     },
     {
@@ -60,8 +60,8 @@
     {
       "id": "observer",
       "display_name": "Observer",
-      "purpose": "Project canonical state into status, timeline, stale-work, and evidence views without deciding outcomes.",
-      "owns": ["status_view", "timeline_view", "stale_signal"],
+      "purpose": "Project canonical state into status, timeline, learning, stale-work, and evidence views without deciding outcomes.",
+      "owns": ["status_view", "timeline_view", "learning_status", "stale_signal"],
       "cannot_approve": ["product_decision", "technical_decision", "qa_result", "release"]
     }
   ]

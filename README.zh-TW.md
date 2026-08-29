@@ -27,7 +27,7 @@ Temple 不是共享聊天記憶的系統，也不是一組 prompt 的集合。�
 | 工程方法 | Core Skills，以及包含 `$tdd` 與 `$diagnosing-bugs` 的選配 Build Quality pack |
 | 工作協調 | 固定的 `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle，搭配可持續保存的 work item 與 handoff |
 | 驗證與交付 | 具名的 gate evidence、evaluation、獨立重現、revision reference、approval record、rollback plan 與有明確範圍的 closeout |
-| 持久狀態與可觀測性 | 由 repository 保存的 decision、work item、event、task registry、產生式 status，以及具 conflict 保護的 upgrade |
+| 持久狀態、學習與可觀測性 | 由 repository 保存的 decision、Lesson、Practice、work item、event、task registry、產生式 status，以及具 conflict 保護的 upgrade |
 
 Position 定義責任與批准邊界；Agent Identity 是被指派到 Position、屬於專案自己的執行者；Skill 則是執行某類工作時可重複使用的方法。Skill 不會擴張權限，也不能取代 evidence gate。
 
@@ -76,6 +76,8 @@ Temple 會維持精簡的預設安裝。產品思考與組織運作 Skills 作�
 
 Temple 也包含 `$skill-authoring` 與 [Skill 撰寫指南（英文）](docs/skill-authoring.md)，協助使用者建立邊界清楚、由專案自行管理的 Skill。Temple-compatible Skill 應定義明確且不重疊的 trigger、authority boundary、evidence input、執行程序、output、停止條件與 verification。
 
+[Engineering Learning Loop（英文）](docs/engineering-learning.md)讓已完成的工作可以循著受治理的路徑，從 evidence 形成 Lesson、正式採用的 Practice，並只在理由充分時晉升為 Skill、自動檢查、ADR 或 instruction。精簡的專案 index 讓後續 Agent 只取回相關學習，不必載入全部歷史，也不會把每個觀察都變成規則。
+
 這只是擴展模型的起點，並不是完整的 Skill ecosystem。Temple 目前沒有提供 Skill CLI、capability registry、custom-pack publisher 或 third-party Skill installer。Architecture、exploration、review、security、Git 與 retrospective packs 仍是經過評估、但尚未交付的候選能力。詳情請參考[能力目錄（英文）](docs/capability-catalog.md)。
 
 ## 專案規模與目前邊界
@@ -94,6 +96,7 @@ Temple 是安裝進專案，而不是要求專案 fork 這個 repository。開�
 - [願景與運作模型](docs/vision.md) — framework layer、Position 與 lifecycle
 - [架構](docs/architecture.md) — identity、ownership、extension 與 canonical-state 邊界
 - [Skill 撰寫指南](docs/skill-authoring.md) — project-owned Skill 的設計與驗證
+- [Engineering Learning Loop](docs/engineering-learning.md) — evidence、Lesson、Practice、檢索與晉升
 - [能力目錄](docs/capability-catalog.md) — 已提供、選配與候選的 engineering method
 - [Roadmap](docs/roadmap.md) — 已驗證範圍與後續規劃
 - [架構決策](docs/adr/README.md) — 設計決策與原因

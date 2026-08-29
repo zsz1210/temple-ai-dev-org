@@ -8,6 +8,11 @@ import {
   TEMPLATE_VERSION
 } from "./constants.mjs";
 import { pathExists, readJson, sha256File } from "./files.mjs";
+import {
+  LEARNING_INDEX_RELATIVE_PATH,
+  summarizeLearningIndex,
+  validateLearningIndex
+} from "./learning.mjs";
 import { validateProjectState } from "./model.mjs";
 import { listPackDefinitions } from "./packs.mjs";
 
@@ -204,6 +209,45 @@ export async function runDoctor(target) {
       message: invalidTasks.length
         ? `Invalid task records: ${invalidTasks.join(", ")}`
         : `${tasksDocument.tasks?.length ?? 0} Codex task records are valid`
+    });
+  }
+
+  const learningIndex = await safeJson(
+    path.join(target, LEARNING_INDEX_RELATIVE_PATH),
+    checks,
+    "learning_index_json"
+  );
+  if (learningIndex) {
+    const validation = validateLearningIndex(learningIndex);
+    const indexedPaths = new Set((learningIndex.entries ?? []).map((entry) => entry.path));
+    const missingRecords = [];
+    const orphanRecords = [];
+    if (validation.valid) {
+      for (const relativePath of indexedPaths) {
+        if (!(await pathExists(path.join(target, relativePath)))) missingRecords.push(relativePath);
+      }
+      for (const kind of ["lessons", "practices"]) {
+        const directory = path.join(target, `.ai-org/learning/${kind}`);
+        if (!(await pathExists(directory))) continue;
+        for (const entry of await fs.readdir(directory, { withFileTypes: true })) {
+          if (!entry.isFile() || !entry.name.endsWith(".md")) continue;
+          const relativePath = `.ai-org/learning/${kind}/${entry.name}`;
+          if (!indexedPaths.has(relativePath)) orphanRecords.push(relativePath);
+        }
+      }
+    }
+    const issues = [
+      ...validation.errors,
+      ...(missingRecords.length ? [`missing records: ${missingRecords.join(", ")}`] : []),
+      ...(orphanRecords.length ? [`unindexed records: ${orphanRecords.join(", ")}`] : [])
+    ];
+    const summary = summarizeLearningIndex(learningIndex);
+    checks.push({
+      id: "engineering_learning",
+      status: issues.length ? "fail" : "pass",
+      message: issues.length
+        ? issues.join("; ")
+        : `${summary.lessons} Lessons and ${summary.practices} Practices are indexed`
     });
   }
 

@@ -8,6 +8,8 @@
 - Use the suggested title `WI-#### · Position · Agent Name` when creating a Codex task, then register its stable thread ID.
 - When asked only to inspect, explain, diagnose, review, or report status, keep the task read-only.
 - Persist confirmed specs, decisions, handoffs, and evidence only when the request or current authorized work item includes repository updates; otherwise propose the exact change.
+- Search `.ai-org/learning/index.json` for active Practices and relevant validated Lessons before repeating similar work. Read only the referenced records that match the current Position, scope, and technical area.
+- When learning capture is authorized, keep the Lesson or Practice record and its index entry consistent. A Lesson is not automatically an instruction, Practice, Skill, or permission.
 - Use `$domain-modeling` when product documents, code, or people assign conflicting meanings to important terms.
 - Use `$project-documentation` when human-facing README, setup, usage, contribution, or documentation-index claims must be created or reconciled with repository evidence.
 - Use `$skill-authoring` when asked to turn a reusable project procedure into a repository-local Skill. Check exact `temple.lock.managed_files` ownership first; do not edit the lock, install dependencies, publish, or promote the Skill without separate authorization.

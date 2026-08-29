@@ -23,6 +23,7 @@ import {
   walkFiles
 } from "./files.mjs";
 import { packSourcesForLock } from "./packs.mjs";
+import { ensureLearningIndex, LEARNING_INDEX_RELATIVE_PATH } from "./learning.mjs";
 import { ensureTaskRegistry } from "./project.mjs";
 
 function isManaged(relativePath) {
@@ -105,6 +106,11 @@ export async function planUpgrade(target) {
   const tasksPath = path.join(target, ".ai-org/project/tasks.json");
   const hasTasks = await pathExists(tasksPath);
   actions.push({ type: hasTasks ? "skip-project-tasks" : "create-project-tasks", path: ".ai-org/project/tasks.json" });
+  const hasLearningIndex = await pathExists(path.join(target, LEARNING_INDEX_RELATIVE_PATH));
+  actions.push({
+    type: hasLearningIndex ? "skip-learning-index" : "create-learning-index",
+    path: LEARNING_INDEX_RELATIVE_PATH
+  });
   const managedChanges = actions.some((action) =>
     ["add-managed", "update-managed", "remove-managed"].includes(action.type)
   );
@@ -114,10 +120,17 @@ export async function planUpgrade(target) {
       JSON.stringify(definition.manifest.skills) !== JSON.stringify(installed.skills ?? []) ||
       JSON.stringify(definition.manifest.files) !== JSON.stringify(installed.managed_files ?? [])
   );
+  const capabilityChanges = lock.capabilities?.engineering_learning !== true;
   if (packMetadataChanges) actions.push({ type: "update-pack-metadata", path: "temple.lock" });
+  if (capabilityChanges) actions.push({ type: "update-capabilities", path: "temple.lock" });
   actions.push({
     type:
-      lock.template.version === TEMPLATE_VERSION && !managedChanges && !packMetadataChanges && hasTasks
+      lock.template.version === TEMPLATE_VERSION &&
+      !managedChanges &&
+      !packMetadataChanges &&
+      !capabilityChanges &&
+      hasTasks &&
+      hasLearningIndex
         ? "skip-current-lock"
         : "update-lock",
     path: "temple.lock"
@@ -176,6 +189,10 @@ export async function executeUpgrade(plan) {
     if (taskRegistry.created) {
       changes.push({ path: taskRegistry.path, before: null, afterHash: taskRegistry.afterHash });
     }
+    const learningIndex = await ensureLearningIndex(plan.target);
+    if (learningIndex.created) {
+      changes.push({ path: learningIndex.path, before: null, afterHash: learningIndex.afterHash });
+    }
 
     if (!plan.actions.some((action) => action.type === "update-lock")) return plan.lock;
 
@@ -216,6 +233,7 @@ export async function executeUpgrade(plan) {
         ...(plan.lock.capabilities ?? {}),
         work_item_cli: true,
         task_registry: true,
+        engineering_learning: true,
         checksum_upgrade: true,
         optional_packs: true
       },

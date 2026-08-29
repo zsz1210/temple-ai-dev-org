@@ -30,6 +30,10 @@ temple work-item create → temple handoff → temple transition
 
 Each transition must carry named gate evidence. `temple status` projects work items, assigned Agents, revisions, task status, installed optional Skill packs, attention signals, recent events, and archive readiness. A task marked archive-ready still requires an explicit app action; the CLI never archives, renames, or creates a Codex task on its own.
 
+## Engineering learning
+
+Before similar work, search `.ai-org/learning/index.json` and read only relevant active Practices or validated Lessons. When an authorized retrospective or work item produces reusable evidence, capture the smallest supported Lesson and keep its Markdown record and index entry consistent. A Lesson becomes a Practice only after validation and intentional adoption; promotion to a Skill, automated check, ADR, or recurring instruction is separate and never automatic.
+
 ## Pilot and experiment stop boundary
 
 When the authorized scope describes a pilot, example, proof, or template validation:

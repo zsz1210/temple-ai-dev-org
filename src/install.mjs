@@ -254,6 +254,7 @@ export async function executeInit(plan) {
       capabilities: {
         work_item_cli: true,
         task_registry: true,
+        engineering_learning: true,
         checksum_upgrade: true,
         optional_packs: true
       },

@@ -4,6 +4,7 @@ import process from "node:process";
 import { fileURLToPath } from "node:url";
 import { REQUIRED_POSITIONS, REQUIRED_SKILLS, TEMPLATE_VERSION } from "../src/constants.mjs";
 import { pathExists, readJson, walkFiles } from "../src/files.mjs";
+import { emptyLearningIndex, validateLearningIndex } from "../src/learning.mjs";
 import { listPackDefinitions } from "../src/packs.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -41,6 +42,14 @@ const positionsDocument = await readJson(path.join(projectOverlayRoot, ".ai-org/
 const actualPositions = positionsDocument.positions.map((position) => position.id);
 check(actualPositions.length === REQUIRED_POSITIONS.length, "organization system must define exactly nine Positions");
 check(REQUIRED_POSITIONS.every((positionId) => actualPositions.includes(positionId)), "required Position is missing");
+
+const learningIndex = await readJson(path.join(projectOverlayRoot, ".ai-org/learning/index.json"));
+const learningValidation = validateLearningIndex(learningIndex);
+check(learningValidation.valid, `learning index seed is invalid: ${learningValidation.errors.join("; ")}`);
+check(
+  JSON.stringify(learningIndex) === JSON.stringify(emptyLearningIndex()),
+  "project overlay learning index must remain an empty seed"
+);
 
 const agentConfigs = projectOverlayFiles.filter((file) => file.startsWith(".codex/agents/") && file.endsWith(".toml"));
 check(agentConfigs.length === REQUIRED_POSITIONS.length, "there must be one Codex Position config per Position");

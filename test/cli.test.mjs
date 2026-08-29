@@ -46,7 +46,7 @@ function shellQuote(value) {
 test("version is available without dependencies", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /^0\.1\.0-alpha\.9/m);
+  assert.match(result.stdout, /^0\.1\.0-alpha\.10/m);
 });
 
 test("dry-run writes nothing", async (context) => {
@@ -100,12 +100,16 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
   assert.equal(lock.boundaries.managed_files_authoritative, true);
   assert.equal(lock.boundaries.ownership_precedence, "exact managed_files entry, otherwise project-owned");
   assert.ok(!("managed" in lock.boundaries));
+  assert.equal(lock.capabilities.engineering_learning, true);
+  assert.ok(!lock.managed_files.some((entry) => entry.path === ".ai-org/learning/index.json"));
 
   const agents = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/agents.json"), "utf8"));
   assert.equal(agents.agents.length, 5);
   assert.equal(agents.agents[0].display_name, "Fixture Rowan");
   const tasks = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/tasks.json"), "utf8"));
   assert.deepEqual(tasks.tasks, []);
+  const learning = JSON.parse(await fs.readFile(path.join(target, ".ai-org/learning/index.json"), "utf8"));
+  assert.deepEqual(learning.entries, []);
 
   const doctor = run(["doctor", target, "--json"]);
   assert.equal(doctor.status, 0, doctor.stderr || doctor.stdout);
@@ -115,14 +119,132 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
   assert.equal(status.status, 0, status.stderr);
   assert.equal(JSON.parse(status.stdout).assignments.length, 9);
   assert.equal(JSON.parse(status.stdout).schema_version, "temple.status/v2");
+  assert.equal(JSON.parse(status.stdout).learning.total, 0);
   const statusView = await fs.readFile(path.join(target, ".ai-org/views/status.md"), "utf8");
   assert.match(statusView, /^# Sample Product — AI development organization status/m);
   assert.match(statusView, /Independent QA/);
   assert.doesNotMatch(statusView, /Temple status/);
+  assert.match(statusView, /Engineering learning: 0 Lessons, 0 Practices/);
 
   const secondInit = run(["init", target, "--config", configPath]);
   assert.equal(secondInit.status, 0, secondInit.stderr || secondInit.stdout);
   assert.match(secondInit.stdout, /skip-identical/);
+});
+
+test("engineering learning is indexed, observable, project-owned, and consistency-checked", async (context) => {
+  const { temporaryRoot, target, configPath } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  assert.equal(run(["init", target, "--config", configPath]).status, 0);
+
+  const recordPath = path.join(target, ".ai-org/learning/lessons/LESSON-0001.md");
+  const indexPath = path.join(target, ".ai-org/learning/index.json");
+  const record = "# Runtime evidence\n\nEvidence must identify the tested revision.\n";
+  const index = {
+    schema_version: "ai-org.learning-index/v1",
+    entries: [
+      {
+        id: "LESSON-0001",
+        kind: "lesson",
+        title: "Keep runtime evidence revision-specific",
+        summary: "Runtime evidence is trustworthy only when its tested revision is recorded.",
+        status: "candidate",
+        confidence: "medium",
+        tags: ["verification", "revision"],
+        applies_to: ["release-gate", "independent-qa"],
+        source_work_items: ["WI-0001"],
+        path: ".ai-org/learning/lessons/LESSON-0001.md",
+        updated_at: "2026-08-29",
+        last_validated_at: null,
+        promotion: { target: "none", status: "none", reference: null }
+      }
+    ]
+  };
+  await fs.mkdir(path.dirname(recordPath), { recursive: true });
+  await fs.writeFile(recordPath, record);
+  await fs.writeFile(indexPath, `${JSON.stringify(index, null, 2)}\n`);
+
+  const doctor = run(["doctor", target, "--json"]);
+  assert.equal(doctor.status, 0, doctor.stderr || doctor.stdout);
+  const learningCheck = JSON.parse(doctor.stdout).checks.find((check) => check.id === "engineering_learning");
+  assert.equal(learningCheck.status, "pass");
+  assert.match(learningCheck.message, /1 Lessons and 0 Practices/);
+
+  const status = run(["status", target, "--json", "--no-write"]);
+  assert.equal(status.status, 0, status.stderr || status.stdout);
+  assert.deepEqual(
+    { total: JSON.parse(status.stdout).learning.total, candidates: JSON.parse(status.stdout).learning.candidates },
+    { total: 1, candidates: 1 }
+  );
+
+  index.entries[0].status = "active";
+  await fs.writeFile(indexPath, `${JSON.stringify(index, null, 2)}\n`);
+  const invalidState = run(["doctor", target]);
+  assert.equal(invalidState.status, 1);
+  assert.match(invalidState.stdout, /status is invalid for lesson/);
+  index.entries[0].status = "candidate";
+  await fs.writeFile(indexPath, `${JSON.stringify(index, null, 2)}\n`);
+
+  const reinitialized = run(["init", target, "--config", configPath]);
+  assert.equal(reinitialized.status, 0, reinitialized.stderr || reinitialized.stdout);
+  assert.deepEqual(JSON.parse(await fs.readFile(indexPath, "utf8")), index);
+  assert.equal(await fs.readFile(recordPath, "utf8"), record);
+  const lockPath = path.join(target, "temple.lock");
+  const lock = JSON.parse(await fs.readFile(lockPath, "utf8"));
+  assert.ok(!lock.managed_files.some((entry) => entry.path === ".ai-org/learning/index.json"));
+
+  lock.template.version = "0.1.0-alpha.9";
+  delete lock.capabilities.engineering_learning;
+  await fs.writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
+  const upgraded = run(["upgrade", target]);
+  assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
+  assert.deepEqual(JSON.parse(await fs.readFile(indexPath, "utf8")), index);
+  assert.equal(await fs.readFile(recordPath, "utf8"), record);
+  assert.ok(
+    !JSON.parse(await fs.readFile(lockPath, "utf8")).managed_files.some(
+      (entry) => entry.path === ".ai-org/learning/index.json"
+    )
+  );
+
+  const orphanPath = path.join(target, ".ai-org/learning/practices/PRACTICE-0002.md");
+  await fs.mkdir(path.dirname(orphanPath), { recursive: true });
+  await fs.writeFile(orphanPath, "# Unindexed practice\n");
+  const orphaned = run(["doctor", target]);
+  assert.equal(orphaned.status, 1);
+  assert.match(orphaned.stdout, /unindexed records: \.ai-org\/learning\/practices\/PRACTICE-0002\.md/);
+  await fs.rm(orphanPath);
+
+  await fs.rm(recordPath);
+  const inconsistent = run(["doctor", target]);
+  assert.equal(inconsistent.status, 1);
+  assert.match(inconsistent.stdout, /missing records: \.ai-org\/learning\/lessons\/LESSON-0001\.md/);
+});
+
+test("upgrade adds a missing project-owned learning index without managing it", async (context) => {
+  const { temporaryRoot, target, configPath } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  assert.equal(run(["init", target, "--config", configPath]).status, 0);
+
+  const indexPath = path.join(target, ".ai-org/learning/index.json");
+  const lockPath = path.join(target, "temple.lock");
+  await fs.rm(indexPath);
+  const lock = JSON.parse(await fs.readFile(lockPath, "utf8"));
+  lock.template.version = "0.1.0-alpha.9";
+  delete lock.capabilities.engineering_learning;
+  await fs.writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
+
+  const dryRun = run(["upgrade", target, "--dry-run"]);
+  assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
+  assert.match(dryRun.stdout, /create-learning-index: 1/);
+  const upgraded = run(["upgrade", target]);
+  assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
+  assert.deepEqual(JSON.parse(await fs.readFile(indexPath, "utf8")), {
+    schema_version: "ai-org.learning-index/v1",
+    entries: []
+  });
+  const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.10");
+  assert.equal(upgradedLock.capabilities.engineering_learning, true);
+  assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/learning/index.json"));
 });
 
 test("init refuses to adopt an identical untracked managed destination", async (context) => {
