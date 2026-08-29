@@ -1,4 +1,4 @@
-# Temple
+# Temple — AI Development Organization Toolkit
 
 **English** | [日本語](README.ja.md) | [繁體中文](README.zh-TW.md)
 
@@ -14,14 +14,18 @@ Temple does not try to make agents share chat memory. It makes the repository th
 
 ## Why Temple?
 
-Multiple Codex tasks are useful, but conversations are poor state stores. Without a shared operating model:
+Adding more AI tasks does not create a team. It creates more isolated conversations. Each task may be capable on its own, but none automatically knows what the others decided, which revision reference is under review, or whether a completion claim was independently verified.
 
-- work gets repeated or abandoned between tasks;
-- decisions and unresolved questions disappear into chat history;
-- a task title becomes a fragile substitute for real identity;
-- “done” can be claimed without a tested revision or reproducible evidence.
+When coordination lives only in chat:
 
-Temple keeps work items, assignments, decisions, handoffs, revisions, and verification evidence inside the project so a new task has durable state from which to resume.
+- two tasks can repeat the same work or quietly take the product in different directions;
+- decisions, ownership, and unresolved questions disappear when a conversation ends;
+- understanding progress requires opening tasks one by one and reconstructing the story manually;
+- “done” can mean implementation, testing, approval, or merely a confident message.
+
+The missing layer is organizational, not conversational. Temple installs that layer into the repository: Positions define responsibility, work items define scope and state, handoffs carry revision references and evidence, and generated status reconstructs what is active, blocked, unresolved, or ready for review.
+
+This gives a new task the durable inputs needed to continue without trusting a chat title or hidden conversation history, while consequential approvals remain human responsibilities. Temple is most useful when a project outlives one conversation, uses multiple tasks, or requires independent review. For a single short-lived throwaway task, a lighter workflow may be enough.
 
 ## Getting started
 
