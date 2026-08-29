@@ -7,4 +7,5 @@ Validation records preserve bounded evidence for framework capabilities. They id
 - [Alpha.14 Product specification contracts](alpha-14-product-specification-contracts.md)
 - [Alpha.15 Task and tracker coordination](alpha-15-task-and-tracker-coordination.md)
 - [Alpha.16 Safe group parallel orchestration](alpha-16-safe-group-parallel-orchestration.md)
+- [Greenfield cold-task recovery test plan — planned / not run](greenfield-cold-task-recovery-test-plan.md)
 - [Collaborative large-scale real-environment test plan — planned / not run](collaborative-large-scale-test-plan.md)

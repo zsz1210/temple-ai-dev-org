@@ -74,7 +74,7 @@ The private FlowDeck pilot completed:
 
 Phase 1.5 is not yet complete:
 
-- Continue from repository canonical state in a new Codex task and verify that a new conversation can recover product intent and organizational state. FlowDeck did not perform this step and must not be developed further merely to satisfy the gate.
+- Run the retained [greenfield cold-task recovery test](validation/greenfield-cold-task-recovery-test-plan.md): continue from repository canonical state in a new Codex task and verify that a new conversation can recover product intent and organizational state. FlowDeck did not perform this step and must not be developed further merely to satisfy the gate.
 
 Exit gate: A new, non-example, recoverable product repository that does not touch production moves from idea to first work-item closeout; Developer and Independent QA verify the same revision; a new conversation continues without the originating chat; and the user does not manually rebuild Positions, handoffs, or observation mechanisms.
 
