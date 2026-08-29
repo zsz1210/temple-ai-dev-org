@@ -48,10 +48,12 @@ Observable pilot results include 14 unit and persistence tests, two UI tests, a 
 - Alpha.8 projects the Developer candidate revision in status before closeout.
 - Alpha.8 outputs copyable doctor and status commands for the active POSIX shell or PowerShell CLI path after init.
 
-### Remaining Phase 1.5 exit-gate work
+### Phase 1.5 exit-gate follow-up
 
 - Without continuing FlowDeck development, use another suitable task or sample to validate read-only context recovery and the task registry from a new Codex task.
 - Declare Phase 1.5 complete only after that cross-task recovery gate passes.
+
+This follow-up completed later in the retained [IdeaDock cold-task recovery test](../validation/greenfield-cold-task-recovery-result.md). FlowDeck remained frozen throughout.
 
 ## Skill conclusions
 

@@ -8,6 +8,8 @@
 - Strengthened overlap resolution so an individual Work Item must name the exact conflict ID and a same-wave group exception requires bidirectional acknowledgement.
 - Updated the core `$temple-work` Skill and Position instructions for parallel-by-default execution when scope is already authorized and runtime capacity exists, safe sequential fallback, explicit claims and task registration, and Integration Owner evidence joins.
 - Added ADR-0021, parallel-orchestration documentation, trilingual README entry points, managed schema and capability flags, upgrade coverage, the hidden `temple chamber` easter egg, and focused automated tests for waves, dependencies, conflicts, capacity, blockers, no-write behavior, freshness, status, doctor, and context.
+- Completed the retained greenfield cold-task recovery test in the private IdeaDock repository. A fresh task recovered product and organizational state without an old-chat summary, consumed a three-worker wave, joined exact revisions, rebuilt stale plans, and closed the first slice after distinct Quality Evaluation and Independent QA runs.
+- Marked the Phase 1.5 exit gate complete with a `passed_with_limits` framework result. Clean-host CLI bootstrap, internal-subagent task correlation, lifecycle-stage discipline eligibility, shared Simulator scheduling, and real multi-human or multi-machine execution remain explicit follow-up scope rather than implied capability.
 
 ## 0.1.0-alpha.15
 

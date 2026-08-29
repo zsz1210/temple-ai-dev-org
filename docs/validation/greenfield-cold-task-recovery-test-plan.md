@@ -1,6 +1,7 @@
 # Greenfield cold-task recovery test plan
 
-- Status: **planned / not run**
+- Status: **completed / passed with limits**
+- Result: [Greenfield cold-task recovery result](greenfield-cold-task-recovery-result.md)
 - Capability: Phase 1.5 greenfield continuity and Alpha.16 runtime consumption
 - Evidence class: new private product repository, fresh Codex task, exact Git revisions
 - Framework baseline: `0.1.0-alpha.16` at `804de31aec791546693abc8b52549f0eaf23b1ec`

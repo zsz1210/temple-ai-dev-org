@@ -43,7 +43,7 @@ Deliverables:
 
 Exit gate: Both clean and existing repositories can initialize; all ten Positions are observable; Developer and Independent QA are separate; re-running does not overwrite; and organizational state can be recovered from files after closing the chat.
 
-## Phase 1.5: Greenfield project bootstrap pilot (in progress)
+## Phase 1.5: Greenfield project bootstrap pilot (exit gate complete)
 
 Goal: Starting with an unstructured product idea, create a new private repository, establish product and technical baselines, and deliver the first independently verifiable vertical slice without making the user redesign the development organization.
 
@@ -71,10 +71,16 @@ The private FlowDeck pilot completed:
 - Alpha.14 adds product-specification authority and revision contracts, enterprise document-adoption modes, Work Item specification references, explicit no-UI handling, tool-neutral interaction contracts, doctor/status/context observability, and upgrade-safe project-owned seeding.
 - Alpha.15 adds the task-and-tracker coordination model: separate company planning, repository Work Items, and Codex sessions; preserve AI-only child decomposition; configure mapping granularity; inspect GitHub Issues or supplied observations; plan conflicts; and record reconciliation evidence without external writes.
 - Alpha.16 adds group-level parallel planning, deterministic safe waves, explicit runtime-capacity handling, plan-only dispatch manifests, source-fingerprint staleness, Context Capsule routing, and Integration Owner join gates without making the CLI a task runtime.
+- The retained IdeaDock test created a new private product from an unstructured idea, stopped the originating task before implementation, and asked a fresh Codex task to recover from repository state without a prior-chat summary.
+- The fresh task reconstructed product intent, organization, specifications, Work Items, plan, acceptance, ownership, and the stop boundary; consumed a real three-worker first wave; joined exact candidate revisions; rebuilt stale plans; and completed distinct Quality Evaluation and Independent QA runs against the same revision.
+- IdeaDock closed all five Work Items with 28/28 Developer, Quality Evaluation, and Independent QA results, a clean 27/27 doctor result, no active claims, and no production release. The product is frozen after its first slice.
+- The bounded result is preserved in the [Greenfield cold-task recovery result](validation/greenfield-cold-task-recovery-result.md). It does not validate a clean-host CLI bootstrap, user-owned task records for internal subagents, stage-specific discipline rules, shared Simulator scheduling, or multi-human and multi-machine execution.
 
-Phase 1.5 is not yet complete:
+Phase 1.5 exit gate is complete:
 
-- Run the retained [greenfield cold-task recovery test](validation/greenfield-cold-task-recovery-test-plan.md): continue from repository canonical state in a new Codex task and verify that a new conversation can recover product intent and organizational state. FlowDeck did not perform this step and must not be developed further merely to satisfy the gate.
+- A new, non-example product moved from idea to first-slice closeout, Developer and Independent QA verified the same exact revision, a new conversation continued without the originating chat, and the user did not manually rebuild Positions, handoffs, or observation state.
+- FlowDeck remains frozen. IdeaDock is also frozen at the declared experiment boundary until a new explicit product request.
+- The retained [large-scale real-environment test](validation/collaborative-large-scale-test-plan.md) remains `not_run` and is not implied by Phase 1.5 completion.
 
 Exit gate: A new, non-example, recoverable product repository that does not touch production moves from idea to first work-item closeout; Developer and Independent QA verify the same revision; a new conversation continues without the originating chat; and the user does not manually rebuild Positions, handoffs, or observation mechanisms.
 
@@ -96,6 +102,7 @@ Groundwork already available:
 
 Planned deliverables:
 
+- Alpha.17 recovery hardening candidates: a discoverable version-pinned CLI bootstrap contract, atomic claim-before-worker dispatch, runtime-worker correlation for internal subagents versus user-owned Codex tasks, lifecycle-stage discipline preflight, and observable shared verification-resource constraints.
 - Validate affected-path coordination and resolution state under real multi-machine Git and pull-request contention.
 - Retrieval-quality evaluation, stale-route detection, and a privacy-preserving local hybrid provider only if real projects justify it.
 - Pack manifest v2 for references, scripts, assets, declared dependencies, and compatibility metadata.
