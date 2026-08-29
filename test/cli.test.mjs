@@ -46,7 +46,7 @@ function shellQuote(value) {
 test("version is available without dependencies", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /^0\.1\.0-alpha\.20/m);
+  assert.match(result.stdout, /^0\.1\.0-alpha\.21/m);
 });
 
 test("the chamber remains a hidden evidence-first easter egg", () => {
@@ -317,7 +317,7 @@ test("upgrade adds a missing project-owned learning index without managing it", 
   });
   assert.equal(JSON.parse(await fs.readFile(trackerConfigPath, "utf8")).profile, "repository-only");
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.20");
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.21");
   assert.equal(upgradedLock.capabilities.engineering_learning, true);
   assert.equal(upgradedLock.capabilities.group_parallel_planning, true);
   assert.equal(upgradedLock.capabilities.parallel_join_gate, true);

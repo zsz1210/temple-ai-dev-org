@@ -4,6 +4,12 @@ import path from "node:path";
 import { URL } from "node:url";
 import { TEMPLATE_VERSION } from "./constants.mjs";
 import { readControlPlaneConfig } from "./control-plane-config.mjs";
+import { buildConditionProjection } from "./control-plane-conditions.mjs";
+import { renderControlPlaneDashboard } from "./control-plane-dashboard.mjs";
+import {
+  codexAppServerProviderContract,
+  startCodexAppServerProvider
+} from "./codex-app-server-provider.mjs";
 import {
   createProviderRegistry,
   ingestProviderFixture,
@@ -14,6 +20,7 @@ import {
   startRepositoryProvider
 } from "./control-plane-providers.mjs";
 import { buildObserverProjection } from "./observer.mjs";
+import { buildLiveObserverProjection } from "./live-observer.mjs";
 import {
   acquireControlPlaneLease,
   openTelemetryJournal,
@@ -48,24 +55,6 @@ function htmlResponse(response, body) {
   response.end(body);
 }
 
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
-}
-
-function readOnlyHtml(projectName) {
-  return `<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${escapeHtml(projectName)} Control Plane</title>
-<style>:root{color-scheme:dark;font-family:ui-sans-serif,system-ui,sans-serif;background:#0d1117;color:#e6edf3}body{max-width:1000px;margin:auto;padding:2rem}pre{white-space:pre-wrap;background:#161b22;border:1px solid #30363d;border-radius:12px;padding:1rem;overflow:auto}.status{color:#7ee787}</style></head>
-<body><p class="status">Read-only live connection</p><h1>${escapeHtml(projectName)} Control Plane</h1><p>Phase 3A exposes canonical projection and replay-safe telemetry. Mutation controls are intentionally unavailable.</p><pre id="snapshot">Loading…</pre>
-<script>const output=document.getElementById("snapshot");async function load(){const response=await fetch("/api/v1/snapshot");output.textContent=JSON.stringify(await response.json(),null,2)}load();const events=new EventSource("/api/v1/events");events.onmessage=load;events.addEventListener("temple.snapshot",load);</script></body></html>\n`;
-}
-
 function sendSseRecord(response, record) {
   response.write(`id: ${record.templecursor}\n`);
   response.write(`data: ${JSON.stringify(record)}\n\n`);
@@ -83,6 +72,15 @@ export async function buildControlPlaneSnapshot(target, journal, registry, optio
     buildObserverProjection(target),
     options.stateDirectory ? readDaemonMetadata(options.stateDirectory) : null
   ]);
+  const config = options.config ?? await readControlPlaneConfig(target);
+  const [liveObserver, conditions] = await Promise.all([
+    buildLiveObserverProjection(target, observer, journal, registry, { now: options.now }),
+    buildConditionProjection(target, observer, journal, registry, config, {
+      stateDirectory: options.stateDirectory,
+      persist: options.persistConditions,
+      now: options.now
+    })
+  ]);
   const journalSnapshot = journal.snapshot();
   const eventWindow = journal.readAfter(Math.max(0, journalSnapshot.last_cursor - (options.eventLimit ?? 100)));
   return {
@@ -99,6 +97,8 @@ export async function buildControlPlaneSnapshot(target, journal, registry, optio
     journal: journalSnapshot,
     providers: registry.document(),
     observer,
+    live_observer: liveObserver,
+    conditions,
     recent_events: eventWindow.records,
     canonical_state_changed: false,
     external_action_performed: false
@@ -138,6 +138,7 @@ export async function startControlPlaneServer(target, options = {}) {
   const lease = await acquireControlPlaneLease(stateDirectory);
   let journal = null;
   let repositoryProvider = null;
+  let codexProvider = null;
   let server = null;
   const clients = new Set();
   const startedAt = new Date().toISOString();
@@ -147,11 +148,24 @@ export async function startControlPlaneServer(target, options = {}) {
       maxEvents: config.retention.max_events,
       privacy: config.privacy
     });
-    const registry = createProviderRegistry([repositoryProviderContract()]);
+    const registry = createProviderRegistry([
+      repositoryProviderContract(),
+      codexAppServerProviderContract({ status: "disabled", degradedReason: "explicit opt-in required" })
+    ]);
     repositoryProvider = startRepositoryProvider(projectRoot, journal, registry, {
       intervalMs: options.repositoryIntervalMs
     });
     await repositoryProvider.start();
+    const configuredCodex = config.providers.find((provider) => provider.kind === "codex-app-server" && provider.enabled);
+    if (options.enableCodex || configuredCodex) {
+      codexProvider = await startCodexAppServerProvider(projectRoot, journal, registry, {
+        ...(configuredCodex?.options ?? {}),
+        command: options.codexCommand ?? configuredCodex?.options?.command,
+        commandArgs: options.codexCommandArgs ?? configuredCodex?.options?.command_args,
+        resumeThreads: options.resumeCodexThreads ?? configuredCodex?.options?.resume_threads ?? true
+      });
+      await codexProvider.start();
+    }
     if (options.fixturePath) {
       const fixture = await readProviderFixture(options.fixturePath);
       await ingestProviderFixture(fixture, journal, registry);
@@ -172,9 +186,18 @@ export async function startControlPlaneServer(target, options = {}) {
           });
           return;
         }
+        if (request.method === "GET" && requestUrl.pathname === "/favicon.ico") {
+          response.writeHead(204, { "cache-control": "public, max-age=86400" });
+          response.end();
+          return;
+        }
         if (request.method === "GET" && requestUrl.pathname === "/api/v1/snapshot") {
           await persistProviderRegistry(stateDirectory, registry);
-          jsonResponse(response, 200, await buildControlPlaneSnapshot(projectRoot, journal, registry, { stateDirectory }));
+          jsonResponse(response, 200, await buildControlPlaneSnapshot(projectRoot, journal, registry, {
+            stateDirectory,
+            config,
+            persistConditions: true
+          }));
           return;
         }
         if (request.method === "GET" && requestUrl.pathname === "/api/v1/events") {
@@ -190,7 +213,11 @@ export async function startControlPlaneServer(target, options = {}) {
           response.write("retry: 1000\n\n");
           if (replay.reset_required) {
             response.write("event: temple.snapshot\n");
-            response.write(`data: ${JSON.stringify(await buildControlPlaneSnapshot(projectRoot, journal, registry, { stateDirectory }))}\n\n`);
+            response.write(`data: ${JSON.stringify(await buildControlPlaneSnapshot(projectRoot, journal, registry, {
+              stateDirectory,
+              config,
+              persistConditions: true
+            }))}\n\n`);
           }
           for (const record of replay.records) sendSseRecord(response, record);
           const unsubscribe = journal.subscribe((record) => sendSseRecord(response, record));
@@ -205,11 +232,11 @@ export async function startControlPlaneServer(target, options = {}) {
           return;
         }
         if (request.method === "GET" && requestUrl.pathname === "/") {
-          htmlResponse(response, readOnlyHtml(project.name));
+          htmlResponse(response, renderControlPlaneDashboard(project.name));
           return;
         }
         if (request.method !== "GET") {
-          jsonResponse(response, 405, { error: "Phase 3A control plane is read-only" });
+          jsonResponse(response, 405, { error: "Phase 3B control plane is read-only" });
           return;
         }
         jsonResponse(response, 404, { error: "Not found" });
@@ -240,11 +267,14 @@ export async function startControlPlaneServer(target, options = {}) {
       stateDirectory,
       journal,
       registry,
+      codexProvider,
       async close() {
         if (closed) return;
         closed = true;
         for (const close of [...clients]) close();
+        if (codexProvider) await codexProvider.stop();
         await repositoryProvider.stop();
+        await persistProviderRegistry(stateDirectory, registry);
         await closeHttpServer(server);
         await journal.close();
         await fs.unlink(path.join(stateDirectory, "daemon.json")).catch((error) => {
@@ -254,6 +284,7 @@ export async function startControlPlaneServer(target, options = {}) {
       }
     };
   } catch (error) {
+    if (codexProvider) await codexProvider.stop().catch(() => {});
     if (repositoryProvider) await repositoryProvider.stop().catch(() => {});
     if (server) await closeHttpServer(server).catch(() => {});
     if (journal) await journal.close().catch(() => {});
@@ -271,13 +302,28 @@ export async function inspectControlPlane(target, options = {}) {
     privacy: config.privacy,
     readOnly: true
   });
-  const registry = createProviderRegistry([repositoryProviderContract()]);
+  const registry = createProviderRegistry([
+    repositoryProviderContract(),
+    codexAppServerProviderContract({ status: "disabled", degradedReason: "explicit opt-in required" })
+  ]);
   const providerPath = path.join(stateDirectory, "providers.json");
   if (await pathExists(providerPath)) {
     const persisted = await readJson(providerPath);
     for (const provider of persisted.providers ?? []) registry.set(provider);
   }
-  const snapshot = await buildControlPlaneSnapshot(projectRoot, journal, registry, { stateDirectory });
+  if (!(await readDaemonMetadata(stateDirectory))) {
+    for (const provider of registry.list().filter((entry) => entry.kind === "codex-app-server" && entry.status === "ready")) {
+      registry.update(provider.id, {
+        status: "offline",
+        degraded_reason: "control-plane daemon is not running; persisted live status is stale"
+      });
+    }
+  }
+  const snapshot = await buildControlPlaneSnapshot(projectRoot, journal, registry, {
+    stateDirectory,
+    config,
+    persistConditions: false
+  });
   await journal.close();
   return { stateDirectory, snapshot };
 }
@@ -292,7 +338,10 @@ export async function ingestControlPlaneFixture(target, fixturePath, options = {
       maxEvents: config.retention.max_events,
       privacy: config.privacy
     });
-    const registry = createProviderRegistry([repositoryProviderContract()]);
+    const registry = createProviderRegistry([
+      repositoryProviderContract(),
+      codexAppServerProviderContract({ status: "disabled", degradedReason: "explicit opt-in required" })
+    ]);
     const providerPath = path.join(stateDirectory, "providers.json");
     if (await pathExists(providerPath)) {
       const persisted = await readJson(providerPath);
@@ -301,7 +350,11 @@ export async function ingestControlPlaneFixture(target, fixturePath, options = {
     await ingestRepositoryEvents(projectRoot, journal, registry);
     const result = await ingestProviderFixture(await readProviderFixture(fixturePath), journal, registry);
     await persistProviderRegistry(stateDirectory, registry);
-    const snapshot = await buildControlPlaneSnapshot(projectRoot, journal, registry, { stateDirectory });
+    const snapshot = await buildControlPlaneSnapshot(projectRoot, journal, registry, {
+      stateDirectory,
+      config,
+      persistConditions: true
+    });
     await journal.close();
     return { stateDirectory, result, snapshot };
   } finally {
@@ -327,10 +380,17 @@ export async function rebuildControlPlane(target, options = {}) {
       maxEvents: config.retention.max_events,
       privacy: config.privacy
     });
-    const registry = createProviderRegistry([repositoryProviderContract()]);
+    const registry = createProviderRegistry([
+      repositoryProviderContract(),
+      codexAppServerProviderContract({ status: "disabled", degradedReason: "explicit opt-in required" })
+    ]);
     const repository = await ingestRepositoryEvents(projectRoot, journal, registry);
     await persistProviderRegistry(stateDirectory, registry);
-    const snapshot = await buildControlPlaneSnapshot(projectRoot, journal, registry, { stateDirectory });
+    const snapshot = await buildControlPlaneSnapshot(projectRoot, journal, registry, {
+      stateDirectory,
+      config,
+      persistConditions: true
+    });
     await journal.close();
     return { stateDirectory, archivePath, repository, snapshot };
   } finally {

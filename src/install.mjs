@@ -324,6 +324,9 @@ export async function executeInit(plan) {
         repository_telemetry_provider: true,
         fixture_telemetry_provider: true,
         control_plane_http_sse: true,
+        live_observer: true,
+        codex_app_server_adapter: true,
+        control_plane_conditions: true,
         checksum_upgrade: true,
         optional_packs: true
       },

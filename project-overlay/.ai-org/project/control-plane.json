@@ -8,6 +8,12 @@
   "retention": {
     "max_events": 10000
   },
+  "alerts": {
+    "stalled_after_ms": 300000,
+    "pending_for_ms": 30000,
+    "cooldown_ms": 60000,
+    "token_budget": null
+  },
   "privacy": {
     "capture_raw_payloads": false,
     "max_data_bytes": 16384,

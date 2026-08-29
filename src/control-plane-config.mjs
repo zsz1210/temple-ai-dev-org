@@ -16,6 +16,12 @@ export function defaultControlPlaneConfig() {
     retention: {
       max_events: 10000
     },
+    alerts: {
+      stalled_after_ms: 300000,
+      pending_for_ms: 30000,
+      cooldown_ms: 60000,
+      token_budget: null
+    },
     privacy: {
       capture_raw_payloads: false,
       max_data_bytes: 16384,
@@ -60,6 +66,19 @@ export function validateControlPlaneConfig(document) {
     document.retention.max_events > 1000000
   ) {
     errors.push("retention.max_events must be an integer from 100 to 1000000");
+  }
+  if (document?.alerts !== undefined) {
+    for (const field of ["stalled_after_ms", "pending_for_ms", "cooldown_ms"]) {
+      if (!Number.isInteger(document.alerts?.[field]) || document.alerts[field] < 0 || document.alerts[field] > 604800000) {
+        errors.push(`alerts.${field} must be an integer from 0 to 604800000`);
+      }
+    }
+    if (
+      document.alerts?.token_budget !== null &&
+      (!Number.isInteger(document.alerts?.token_budget) || document.alerts.token_budget < 1)
+    ) {
+      errors.push("alerts.token_budget must be null or a positive integer");
+    }
   }
   if (document?.privacy?.capture_raw_payloads !== false) {
     errors.push("privacy.capture_raw_payloads must remain false in Phase 3");
@@ -119,5 +138,11 @@ export async function readControlPlaneConfig(target) {
   const document = await readJson(configPath);
   const validation = validateControlPlaneConfig(document);
   if (!validation.valid) throw new Error(`Invalid control-plane configuration: ${validation.errors.join("; ")}`);
-  return document;
+  return {
+    ...document,
+    alerts: {
+      ...defaultControlPlaneConfig().alerts,
+      ...(document.alerts ?? {})
+    }
+  };
 }

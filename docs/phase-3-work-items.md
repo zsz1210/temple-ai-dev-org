@@ -1,7 +1,7 @@
 # Phase 3 work items
 
 - Status: Accepted
-- Implementation status: Phase 3A complete; Phase 3B and 3C in progress
+- Implementation status: Phase 3A and 3B complete; Phase 3C next
 - Parent design: [Phase 3 real-time control plane](phase-3-control-plane.md)
 
 The increments below are deliberately ordered. Each one must retain a working repository provider and deterministic fixtures so Temple remains useful when Codex or GitHub integration is absent.
@@ -44,7 +44,7 @@ Stop after the event spine, repository provider, fixture provider, and read-only
 ## Phase 3B — Live Observer, Codex adapter, and alerts
 
 - Delivery target: `0.1.0-alpha.21`
-- Status: In progress
+- Status: Complete with the retained limits in its validation record
 
 ### Goal
 
@@ -78,7 +78,7 @@ Stop after read-only live observation and alert recovery pass. Do not answer run
 ## Phase 3C — Human Inbox and GitHub evidence
 
 - Delivery target: `0.1.0-alpha.22`
-- Status: Planned after the Phase 3B gate
+- Status: Next after the Phase 3B gate
 
 ### Goal
 

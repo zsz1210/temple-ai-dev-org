@@ -90,7 +90,7 @@ Usage:
   temple control-plane snapshot [target] [--state-dir path] [--json]
   temple control-plane ingest [target] --fixture path [--state-dir path] [--json]
   temple control-plane rebuild [target] [--state-dir path] [--json]
-  temple control-plane start [target] [--host 127.0.0.1] [--port number] [--state-dir path] [--fixture path]
+  temple control-plane start [target] [--host 127.0.0.1] [--port number] [--state-dir path] [--fixture path] [--codex]
   temple collaboration show [target] [--json]
   temple collaboration set-profile [target] --profile solo|collaborative|high-assurance
   temple collaboration add-principal [target] --principal-id principal-name --name "Human Name"
@@ -201,7 +201,8 @@ const BOOLEAN_FLAGS = new Set([
   "--replace-spec-refs",
   "--replace-ux-refs",
   "--replace-ui-refs",
-  "--replace-contract-refs"
+  "--replace-contract-refs",
+  "--codex"
 ]);
 const VALUE_FLAGS = new Set([
   "--config",
@@ -692,7 +693,8 @@ async function runControlPlane(parsed) {
       ...options,
       host: parsed.options["--host"],
       port: controlPlanePort(parsed),
-      repositoryIntervalMs: controlPlaneInterval(parsed)
+      repositoryIntervalMs: controlPlaneInterval(parsed),
+      enableCodex: parsed.flags.has("--codex")
     });
     console.log(`Control plane: ${controlPlane.url}`);
     console.log(`State: ${controlPlane.stateDirectory}`);

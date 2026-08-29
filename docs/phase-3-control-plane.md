@@ -2,7 +2,7 @@
 
 - Status: Accepted design
 - Design date: 2026-08-30
-- Implementation status: Phase 3A delivered in Alpha.20; Phase 3B and 3C in progress
+- Implementation status: Phase 3A delivered in Alpha.20 and Phase 3B delivered in Alpha.21; Phase 3C next
 - Depends on: Phase 2A runtime coordination, Phase 2B evidence and Observer, Phase 2C extension contracts
 - Research: [Phase 3 control-plane research](research/phase-3-control-plane-research.md)
 - Work breakdown: [Phase 3 work items](phase-3-work-items.md)

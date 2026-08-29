@@ -17,6 +17,15 @@ const SENSITIVE_VALUE_PATTERNS = [
   /\bgh[oprsu]_[A-Za-z0-9]{20,}\b/g,
   /\bsk-[A-Za-z0-9_-]{16,}\b/g
 ];
+const NON_SECRET_TOKEN_METRICS = new Set([
+  "inputtokens",
+  "cachedinputtokens",
+  "outputtokens",
+  "reasoningoutputtokens",
+  "totaltokens",
+  "modelcontextwindow",
+  "tokenbudget"
+]);
 
 function isWithin(parent, candidate) {
   const relative = path.relative(parent, candidate);
@@ -67,7 +76,8 @@ function redactValue(value, sensitiveKeys, depth = 0) {
   const output = {};
   for (const [key, entry] of Object.entries(value)) {
     const candidate = normalizedKey(key);
-    output[key] = sensitiveKeys.some((sensitive) => candidate.includes(sensitive))
+    const numericTokenMetric = typeof entry === "number" && NON_SECRET_TOKEN_METRICS.has(candidate);
+    output[key] = !numericTokenMetric && sensitiveKeys.some((sensitive) => candidate.includes(sensitive))
       ? "[REDACTED]"
       : redactValue(entry, sensitiveKeys, depth + 1);
   }

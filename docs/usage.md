@@ -512,9 +512,10 @@ Start or inspect the local replay-safe control plane:
 ```bash
 temple control-plane snapshot . --json
 temple control-plane start .
+temple control-plane start . --codex
 ```
 
-Alpha.20 keeps this surface read-only. Its telemetry journal is generated below the Git common directory, shared by linked worktrees in one clone, redacted by default, and incapable of satisfying a lifecycle gate. See the [local control-plane guide](control-plane.md).
+Alpha.21 keeps this surface read-only while adding live Work Item detail, provider health, Codex App Server observation, reconciliation, and stateful conditions. Its telemetry journal is generated below the Git common directory, shared by linked worktrees in one clone, redacted by default, and incapable of satisfying a lifecycle gate. See the [local control-plane guide](control-plane.md).
 
 `status.md` includes:
 

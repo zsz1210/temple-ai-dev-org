@@ -23,6 +23,17 @@
       },
       "additionalProperties": false
     },
+    "alerts": {
+      "type": "object",
+      "required": ["stalled_after_ms", "pending_for_ms", "cooldown_ms", "token_budget"],
+      "properties": {
+        "stalled_after_ms": { "type": "integer", "minimum": 0, "maximum": 604800000 },
+        "pending_for_ms": { "type": "integer", "minimum": 0, "maximum": 604800000 },
+        "cooldown_ms": { "type": "integer", "minimum": 0, "maximum": 604800000 },
+        "token_budget": { "type": ["integer", "null"], "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
     "privacy": {
       "type": "object",
       "required": ["capture_raw_payloads", "max_data_bytes", "redact_keys"],

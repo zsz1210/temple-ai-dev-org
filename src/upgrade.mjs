@@ -328,7 +328,10 @@ export async function planUpgrade(target) {
     lock.capabilities?.provider_capability_contract !== true ||
     lock.capabilities?.repository_telemetry_provider !== true ||
     lock.capabilities?.fixture_telemetry_provider !== true ||
-    lock.capabilities?.control_plane_http_sse !== true;
+    lock.capabilities?.control_plane_http_sse !== true ||
+    lock.capabilities?.live_observer !== true ||
+    lock.capabilities?.codex_app_server_adapter !== true ||
+    lock.capabilities?.control_plane_conditions !== true;
   if (packMetadataChanges) actions.push({ type: "update-pack-metadata", path: "temple.lock" });
   if (capabilityChanges || collaborationCapabilityChanges) actions.push({ type: "update-capabilities", path: "temple.lock" });
   if (migrationPlan.pending.length > 0) actions.push({ type: "record-migrations", path: "temple.lock" });
@@ -579,6 +582,9 @@ export async function executeUpgrade(plan) {
         repository_telemetry_provider: true,
         fixture_telemetry_provider: true,
         control_plane_http_sse: true,
+        live_observer: true,
+        codex_app_server_adapter: true,
+        control_plane_conditions: true,
         checksum_upgrade: true,
         optional_packs: true
       },

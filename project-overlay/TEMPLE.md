@@ -37,7 +37,7 @@ Read `.ai-org/project/tracker.json` before using an external reference. Never st
 
 Each transition must carry named gate evidence. `temple status` projects work items, risk contracts, assigned Agents, revisions, task status, context and retrieval configuration, Learning revalidation, optional packs and adapters, attention signals, recent events, and archive readiness. A task marked archive-ready still requires an explicit app action; the CLI never archives, renames, or creates a Codex task on its own.
 
-The local control plane combines this canonical state with generated telemetry below the Git common directory. Treat provider events, cursors, plans, diffs, usage, health, alerts, and browser projections as observations only. They cannot satisfy a gate or replace the Work Item, Evidence Registry, approval record, or canonical audit stream. Unsupported provider capabilities must remain `unknown` or unavailable rather than being inferred from task registration.
+The local control plane combines this canonical state with generated telemetry below the Git common directory. Treat provider events, cursors, bounded plans and diff summaries, usage, health, alerts, and browser projections as observations only. They cannot satisfy a gate or replace the Work Item, Evidence Registry, approval record, or canonical audit stream. Unsupported provider capabilities and disconnected registered tasks must remain `unknown` or unavailable rather than being inferred from task registration.
 
 ## Product specification authority
 
