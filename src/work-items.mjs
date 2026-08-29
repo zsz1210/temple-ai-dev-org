@@ -77,7 +77,7 @@ async function writeWorkItem(target, item) {
   await atomicWrite(workItemPath(target, item.id), formatJson(item));
 }
 
-async function listWorkItemDocuments(target) {
+export async function listWorkItemDocuments(target) {
   const directory = path.join(target, ".ai-org/work-items");
   if (!(await pathExists(directory))) return [];
   const entries = await fs.readdir(directory, { withFileTypes: true });
@@ -85,7 +85,7 @@ async function listWorkItemDocuments(target) {
   for (const entry of entries.filter((candidate) => candidate.isFile() && candidate.name.endsWith(".json"))) {
     items.push(await readJson(path.join(directory, entry.name)));
   }
-  return items;
+  return items.sort((left, right) => String(left.id).localeCompare(String(right.id)));
 }
 
 export async function updateUnresolvedItems(target, options) {
@@ -448,8 +448,23 @@ export async function createWorkItem(target, options) {
   };
 }
 
+function overlapStem(value) {
+  return String(value ?? "").split("*")[0].replace(/\/+$/, "");
+}
+
 function pathsOverlap(left, right) {
-  return left === right || left.startsWith(`${right}/`) || right.startsWith(`${left}/`);
+  const leftStem = overlapStem(left);
+  const rightStem = overlapStem(right);
+  if (!leftStem || !rightStem) return false;
+  return leftStem === rightStem || leftStem.startsWith(`${rightStem}/`) || rightStem.startsWith(`${leftStem}/`);
+}
+
+function overlapResolutionNamesWorkItem(item, workItemId) {
+  return (item.overlap_resolution ?? []).some((entry) =>
+    String(entry)
+      .split(/[^A-Za-z0-9-]+/)
+      .includes(workItemId)
+  );
 }
 
 function dependencyCycleFrom(itemId, itemsById, visiting = new Set(), visited = new Set()) {
@@ -503,7 +518,7 @@ export async function evaluateParallelReadiness(target, workItemId, options = {}
     },
     {
       id: "overlap_resolved",
-      pass: overlaps.length === 0 || (item.overlap_resolution ?? []).length > 0
+      pass: overlaps.every((overlap) => overlapResolutionNamesWorkItem(item, overlap.work_item_id))
     },
     { id: "integration_owner_assigned", pass: Boolean(item.integration_owner_agent_id) },
     { id: "unresolved_items_cleared", pass: (item.unresolved ?? []).length === 0 },

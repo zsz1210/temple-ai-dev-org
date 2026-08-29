@@ -26,7 +26,7 @@ All candidates recorded in the earlier review remain preserved below. A candidat
 | `handoff` | Engineering Manager | Do not adopt as-is | Temple already stores canonical handoffs in the repository; temporary handoff documents would create a competing truth. |
 | `to-spec` | Product Manager, Tech Lead | Do not adopt as-is | Overlaps the Temple lifecycle and assumes a separate planning model. Revisit only if a pilot exposes a concrete gap. |
 | `to-tickets` | Engineering Manager | Do not adopt as-is | Depends on an issue-tracker workflow that Phase 1 intentionally does not require. |
-| `wayfinder` | Engineering Manager, Product Manager, Tech Lead | Do not adopt as-is | Its decision-map idea is useful for work larger than one context window, but its issue-tracker canonical state, subagent assumptions, and ticket model overlap Temple work items and Phase 3 planning. |
+| `wayfinder` | Engineering Manager, Product Manager, Tech Lead | Do not adopt as-is | Its decision-map idea is useful for work larger than one context window, but its issue-tracker canonical state, subagent assumptions, and ticket model overlap Work Items, Progressive Context Routing, and alpha.16 group dispatch plans. |
 | `triage` | Engineering Manager, Product Manager | Defer to Phase 5 | Requires configured issue-tracker labels, comments, and external writes. Revisit only when Temple intentionally adds issue-tracker integration and approval policy. |
 
 ## Development capability packs

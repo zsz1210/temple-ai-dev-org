@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0-alpha.16
+
+- Added `temple parallel plan` for all active Work Items or one parent's recursive descendants, with deterministic dependency-safe waves, affected-path conflict separation, optional worker limits, and explicit active, sequential, and blocked dispositions.
+- Added plan-only dispatch manifests with bounded Context Capsule commands, suggested task titles, Agent and Integration Owner identity, base revisions, paths, dependencies, and explicit proof that planning created no task, claim, or external action.
+- Added repository-wide source fingerprints, stale-plan warnings in status v7 and doctor, and per-Work-Item parallel disposition in Context Capsules. Only the first wave of a fresh plan is immediately dispatchable, and every join requires replanning.
+- Strengthened overlap resolution so an individual Work Item must name the exact conflict ID and a same-wave group exception requires bidirectional acknowledgement.
+- Updated the core `$temple-work` Skill and Position instructions for parallel-by-default execution when scope is already authorized and runtime capacity exists, safe sequential fallback, explicit claims and task registration, and Integration Owner evidence joins.
+- Added ADR-0021, parallel-orchestration documentation, trilingual README entry points, managed schema and capability flags, upgrade coverage, the hidden `temple chamber` easter egg, and focused automated tests for waves, dependencies, conflicts, capacity, blockers, no-write behavior, freshness, status, doctor, and context.
+
 ## 0.1.0-alpha.15
 
 - Added a project-owned external-tracker contract with `repository-only`, `linked-tracker`, and `externally-planned` profiles plus parent-only, team-visible, and full mapping granularity.

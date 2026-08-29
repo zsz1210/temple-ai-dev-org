@@ -46,7 +46,7 @@ function shellQuote(value) {
 test("version is available without dependencies", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /^0\.1\.0-alpha\.15/m);
+  assert.match(result.stdout, /^0\.1\.0-alpha\.16/m);
 });
 
 test("the chamber remains a hidden evidence-first easter egg", () => {
@@ -134,6 +134,13 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
   assert.equal(lock.capabilities.tracker_observations, true);
   assert.equal(lock.capabilities.tracker_reconciliation, true);
   assert.equal(lock.capabilities.github_tracker_adapter, true);
+  assert.equal(lock.capabilities.group_parallel_planning, true);
+  assert.equal(lock.capabilities.parallel_dispatch_manifest, true);
+  assert.equal(lock.capabilities.parallel_plan_freshness, true);
+  assert.equal(lock.capabilities.parallel_join_gate, true);
+  assert.ok(
+    lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/parallel-plan.schema.json")
+  );
   assert.ok(!lock.managed_files.some((entry) => entry.path === ".ai-org/learning/index.json"));
   assert.ok(!lock.managed_files.some((entry) => entry.path === ".ai-org/project/spec-index.json"));
   assert.ok(!lock.managed_files.some((entry) => entry.path === ".ai-org/project/tracker.json"));
@@ -157,7 +164,7 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
   const status = run(["status", target, "--json"]);
   assert.equal(status.status, 0, status.stderr);
   assert.equal(JSON.parse(status.stdout).assignments.length, 10);
-  assert.equal(JSON.parse(status.stdout).schema_version, "temple.status/v6");
+  assert.equal(JSON.parse(status.stdout).schema_version, "temple.status/v7");
   assert.equal(JSON.parse(status.stdout).learning.total, 0);
   assert.equal(JSON.parse(status.stdout).specifications.total_entries, 0);
   assert.equal(JSON.parse(status.stdout).tracker.profile, "repository-only");
@@ -302,8 +309,10 @@ test("upgrade adds a missing project-owned learning index without managing it", 
   });
   assert.equal(JSON.parse(await fs.readFile(trackerConfigPath, "utf8")).profile, "repository-only");
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.15");
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.16");
   assert.equal(upgradedLock.capabilities.engineering_learning, true);
+  assert.equal(upgradedLock.capabilities.group_parallel_planning, true);
+  assert.equal(upgradedLock.capabilities.parallel_join_gate, true);
   assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/learning/index.json"));
   assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/project/spec-index.json"));
   assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/project/tracker.json"));

@@ -64,7 +64,8 @@ flowchart TD
     BE --> READY
     INFRA --> READY
 
-    READY -->|parallel| CLAIMS[Principal-backed claims]
+    READY -->|parallel candidate| PLAN[Deterministic safe waves]
+    PLAN --> CLAIMS[Principal-backed claims]
     READY -->|shared write overlap| SEQ[Sequential or explicit coordination]
     READY -->|dependency or unstable contract| BLOCK[Blocked]
 
@@ -81,14 +82,22 @@ A work item is parallel-ready only when all readiness checks pass:
 1. scope and acceptance criteria are explicit;
 2. an eligible owner is available;
 3. the base revision and affected paths are recorded;
-4. dependencies are terminal;
+4. dependencies are terminal for an individual check, or selected for an earlier group wave;
 5. any shared contract is stable;
-6. affected-path overlap is absent or has an explicit coordination record;
+6. affected-path overlap is absent or has an explicit coordination record naming the conflicting Work Item ID;
 7. an integration owner is named;
 8. unresolved items are cleared; and
 9. the selected Agent's Position Membership covers every required Discipline.
 
-`temple parallel check` returns `parallel`, `sequential`, or `blocked` guidance with individual pass/fail checks. Declaring `parallel` through `work-item configure` is rejected if any check fails. The result is a coordination gate, not proof that two changes are semantically independent.
+`temple parallel check` returns `parallel`, `sequential`, or `blocked` guidance with individual pass/fail checks. Declaring `parallel` through `work-item configure` is rejected if any check fails. `temple parallel plan` evaluates a group, moves selected dependencies into later waves, separates unresolved path conflicts, and applies an optional worker limit. The results are coordination gates, not proof that two changes are semantically independent.
+
+## Safe waves and runtime dispatch
+
+A generated plan is a rebuildable projection, not execution authority. It contains plan-only manifests with Work Item, Position, Agent, base revision, paths, dependencies, Integration Owner, suggested task title, and bounded context command. The CLI creates no Codex task, claim, or external action.
+
+When implementation is already authorized and concurrent workers are available, the Agent runtime dispatches the first fresh safe wave up to capacity without asking again merely because the work can run in parallel. If concurrency is unavailable, it preserves the wave boundary and executes sequentially. Real tasks are then registered, and Collaborative work receives explicit Principal-backed claims.
+
+The Integration Owner joins exact candidate revisions, verification, and unresolved items before dependent work or lifecycle advancement. The join changes canonical state, so the runtime rebuilds the plan before using another wave. Exact overlap IDs are required for individual readiness; both overlapping Work Items must name each other before group planning can place them in the same wave. See [Parallel orchestration](parallel-orchestration.md).
 
 ## Company team examples
 
@@ -153,6 +162,10 @@ temple work-item configure . \
   --shared-contract-ref docs/checkout-api.md \
   --parallel-mode parallel
 
+temple parallel plan . \
+  --parent WI-YYYYMMDD-1111111111 \
+  --max-workers 3
+
 temple work-item claim . \
   --work-item WI-YYYYMMDD-RANDOM \
   --agent-id agent-taylor \
@@ -166,4 +179,4 @@ Do not copy placeholder IDs, revisions, or evidence paths literally. The created
 
 ## Current evidence boundary
 
-Automated tests prove local initialization, migration, model validation, readiness checks, overlap detection, pooled membership, claims, task registration, release, and status projection. They do not prove multi-human behavior on several machines under real Git and pull-request contention. The retained [large-scale collaborative test plan](validation/collaborative-large-scale-test-plan.md) is an explicit release-evidence gap and remains `not_run`.
+Automated tests prove local initialization, migration, model validation, readiness checks, deterministic group waves, dependency and overlap separation, capacity limits, plan staleness, pooled membership, claims, task registration, release, and status projection. They do not prove multi-human behavior on several machines under real Git and pull-request contention. The retained [large-scale collaborative test plan](validation/collaborative-large-scale-test-plan.md) is an explicit release-evidence gap and remains `not_run`.

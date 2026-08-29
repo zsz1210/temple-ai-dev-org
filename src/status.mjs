@@ -9,6 +9,7 @@ import {
 import { atomicWrite, pathExists, readJson } from "./files.mjs";
 import { emptyLearningIndex, LEARNING_INDEX_RELATIVE_PATH, summarizeLearningIndex } from "./learning.mjs";
 import { COLLABORATION_RELATIVE_PATH, buildCollaborationState } from "./collaboration.mjs";
+import { inspectParallelPlan, PARALLEL_PLAN_RELATIVE_PATH } from "./orchestration.mjs";
 import {
   SPEC_INDEX_RELATIVE_PATH,
   emptySpecIndex,
@@ -225,6 +226,27 @@ export async function buildStatus(target, options = {}) {
   const byState = {};
   for (const item of workItems) byState[item.state] = (byState[item.state] ?? 0) + 1;
   const collaborationState = collaboration ?? buildCollaborationState(assignmentsDocument);
+  const parallelInspection = await inspectParallelPlan(target);
+  const parallelPlan = parallelInspection.plan;
+  const orchestration = {
+    installed: parallelInspection.installed,
+    path: parallelInspection.path,
+    valid: parallelInspection.valid,
+    fresh: parallelInspection.fresh,
+    errors: parallelInspection.errors,
+    generated_at: parallelPlan?.generated_at ?? null,
+    scope: parallelPlan?.scope ?? null,
+    max_workers: parallelPlan?.max_workers ?? null,
+    waves: parallelPlan?.summary?.waves ?? 0,
+    dispatchable: parallelPlan?.summary?.dispatchable ?? 0,
+    active: parallelPlan?.summary?.active ?? 0,
+    sequential: parallelPlan?.summary?.sequential ?? 0,
+    blocked: parallelPlan?.summary?.blocked ?? 0,
+    next_wave: parallelPlan?.waves?.[0]?.dispatch?.map((entry) => entry.work_item_id) ?? [],
+    task_creation_performed: false,
+    claim_performed: false,
+    external_action_performed: false
+  };
   const attention = [
     ...workItems
       .filter((item) => item.state === "blocked")
@@ -273,6 +295,15 @@ export async function buildStatus(target, options = {}) {
     ...(!specSourceValidation.valid && specSourceValidation.errors.length > 0
       ? [{ type: "invalid_specification_source", message: `Specification source is invalid: ${specSourceValidation.errors.join("; ")}` }]
       : []),
+    ...(orchestration.installed && !orchestration.valid
+      ? [{ type: "invalid_parallel_plan", message: `Generated parallel plan is invalid: ${orchestration.errors.join("; ")}` }]
+      : []),
+    ...(orchestration.installed && orchestration.valid && orchestration.fresh === false
+      ? [{ type: "stale_parallel_plan", message: "Generated parallel plan is stale; rebuild it before dispatch" }]
+      : []),
+    ...(orchestration.installed && orchestration.valid && orchestration.blocked > 0
+      ? [{ type: "parallel_plan_blocked", message: `Parallel plan has ${orchestration.blocked} blocked Work Item(s)` }]
+      : []),
     ...(collaborationState.profile === "collaborative" && collaborationState.large_scale_validation?.status !== "passed"
       ? [{
           type: "large_collaboration_validation_pending",
@@ -282,7 +313,7 @@ export async function buildStatus(target, options = {}) {
   ];
 
   return {
-    schema_version: "temple.status/v6",
+    schema_version: "temple.status/v7",
     project: { id: project.id, name: project.name },
     template_version: lock.template.version,
     agents: agentsDocument.agents.map((agent) => ({ id: agent.id, display_name: agent.display_name, active: agent.active !== false })),
@@ -342,6 +373,7 @@ export async function buildStatus(target, options = {}) {
       membership_items: (collaborationState.memberships ?? []).filter((entry) => entry.active !== false),
       large_scale_validation: collaborationState.large_scale_validation ?? { status: "not_run" }
     },
+    orchestration,
     integrations: lock.integrations
   };
 }
@@ -355,6 +387,7 @@ export function renderStatusMarkdown(status) {
     `- Organization system version: \`${status.template_version}\``,
     `- Active Agent Identities: ${status.agents.filter((agent) => agent.active).length}`,
     `- Collaboration profile: \`${status.collaboration.profile}\` (${status.collaboration.principals} Human Principals, ${status.collaboration.active_claims} active claims)`,
+    `- Parallel plan: ${status.orchestration.installed ? `${status.orchestration.waves} wave(s), fresh=${status.orchestration.fresh}` : "not generated"}`,
     `- Work items: ${status.work_items.total} total, ${activeItems} active`,
     `- Codex tasks: ${status.tasks.total} registered, ${status.tasks.archive_ready} archive-ready`,
     `- Optional Skill packs: ${status.optional_packs.length} installed`,
@@ -374,6 +407,18 @@ export function renderStatusMarkdown(status) {
     `- Active Position memberships: ${status.collaboration.memberships}`,
     `- Active Work Item claims: ${status.collaboration.active_claims}`,
     `- Large-scale validation: \`${status.collaboration.large_scale_validation.status}\` (${status.collaboration.large_scale_validation.plan ?? "no plan recorded"})`,
+    "",
+    "## Parallel orchestration",
+    "",
+    `- Generated plan: \`${PARALLEL_PLAN_RELATIVE_PATH}\``,
+    `- Installed: ${status.orchestration.installed ? "yes" : "no"}`,
+    `- Valid: ${status.orchestration.installed ? (status.orchestration.valid ? "yes" : "no") : "not generated"}`,
+    `- Fresh: ${status.orchestration.fresh === null ? "not generated" : status.orchestration.fresh ? "yes" : "no"}`,
+    `- Safe waves: ${status.orchestration.waves}`,
+    `- Dispatchable Work Items: ${status.orchestration.dispatchable}`,
+    `- Active / sequential / blocked: ${status.orchestration.active} / ${status.orchestration.sequential} / ${status.orchestration.blocked}`,
+    `- Next wave: ${status.orchestration.next_wave.join(", ") || "none"}`,
+    `- Codex tasks, claims, or external actions performed by planning: no`,
     "",
     "## Work items",
     ""

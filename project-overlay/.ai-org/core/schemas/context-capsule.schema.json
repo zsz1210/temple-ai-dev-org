@@ -15,6 +15,7 @@
     "learning",
     "capabilities",
     "affected_path_overlaps",
+    "parallel_execution",
     "retrieval",
     "warnings"
   ],
@@ -32,6 +33,7 @@
     "learning": { "type": "array" },
     "capabilities": { "type": "array" },
     "affected_path_overlaps": { "type": "array" },
+    "parallel_execution": { "type": "object" },
     "retrieval": { "type": "object" },
     "warnings": { "type": "array", "items": { "type": "string" } }
   },

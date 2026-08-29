@@ -6,6 +6,7 @@ import { emptyLearningIndex, LEARNING_INDEX_RELATIVE_PATH } from "./learning.mjs
 import { assignedAgent, loadProjectContext } from "./project.mjs";
 import { readWorkItem } from "./work-items.mjs";
 import { isWorkItemId } from "./ids.mjs";
+import { parallelExecutionForWorkItem } from "./orchestration.mjs";
 import {
   evaluateWorkItemSpecRefs,
   readSpecIndex,
@@ -533,6 +534,7 @@ export async function resolveWorkItemContext(target, options) {
   );
   const terminalStates = new Set(context.workflow.terminal_states ?? []);
   const overlaps = await findAffectedPathOverlaps(target, item, terminalStates);
+  const parallelExecution = await parallelExecutionForWorkItem(target, item.id);
   const agent = assignedAgent(context, positionId);
   const warnings = [];
   if (missingContextRefs.length) warnings.push(`Missing context routes: ${missingContextRefs.join(", ")}`);
@@ -542,6 +544,11 @@ export async function resolveWorkItemContext(target, options) {
   warnings.push(...trackerReferenceValidation.warnings);
   if (!trackerConfigInstalled) warnings.push("Tracker configuration is missing; run temple upgrade");
   if (!trackerViewValidation.valid) warnings.push("Generated tracker view is invalid and should be rebuilt");
+  if (parallelExecution.plan_installed && !parallelExecution.plan_valid) {
+    warnings.push("Generated parallel plan is invalid and should be rebuilt");
+  } else if (parallelExecution.plan_installed && parallelExecution.plan_fresh === false) {
+    warnings.push("Generated parallel plan is stale; rebuild it before dispatch");
+  }
   const specificationsById = new Map(specIndex.entries.map((entry) => [entry.id, entry]));
   const trackerKeys = new Set([
     ...(item.tracker_refs ?? []).map((reference) => `${item.id}:${reference.provider_id}:${reference.item_id}`),
@@ -629,6 +636,7 @@ export async function resolveWorkItemContext(target, options) {
       reasons: result.reasons
     })),
     affected_path_overlaps: overlaps,
+    parallel_execution: parallelExecution,
     retrieval: {
       provider_schema: provider.schema_version,
       provider_id: provider.id,

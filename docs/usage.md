@@ -265,6 +265,10 @@ temple work-item configure . \
 
 temple parallel check . --work-item WI-20260829-A1B2C3D4E5
 
+temple parallel plan . \
+  --parent WI-20260829-1111111111 \
+  --max-workers 3
+
 temple work-item claim . \
   --work-item WI-20260829-A1B2C3D4E5 \
   --agent-id agent-taylor \
@@ -274,7 +278,11 @@ temple work-item claim . \
   --worktree /absolute/path/to/worktree
 ```
 
-The example IDs and revision are placeholders. Complete the normal lifecycle gates until the Work Item's owner Position matches the planned Agent's membership; a Developer claim therefore occurs after transition to Build. `work-item configure --parallel-mode parallel` is rejected unless scope, acceptance, ownership, base revision, affected paths, dependencies, shared-contract state, overlaps, integration ownership, unresolved items, and Discipline eligibility all pass. Use `work-item release` at handoff, abandonment, or completion.
+The example IDs and revision are placeholders. Complete the normal lifecycle gates until the Work Item's owner Position matches the planned Agent's membership; a Developer claim therefore occurs after transition to Build. `work-item configure --parallel-mode parallel` is rejected unless scope, acceptance, ownership, base revision, affected paths, dependencies, shared-contract state, overlaps, integration ownership, unresolved items, and Discipline eligibility all pass. An overlap resolution must name the exact conflicting Work Item ID.
+
+`parallel plan` recursively selects the named parent's non-terminal descendants, places selected dependencies in later waves, keeps unresolved path conflicts out of the same wave, and limits each wave when `--max-workers` is present. Without `--parent` it evaluates every active Work Item; without `--max-workers` it leaves capacity to the runtime. Add `--no-write` for a read-only preview. The resulting `.ai-org/views/parallel-plan.json` is generated and source-fingerprinted. It creates no task or claim.
+
+When implementation is already authorized, a runtime with concurrent workers should dispatch only the first wave of a fresh plan, then establish claims and register the real tasks. If the runtime cannot dispatch concurrently, execute that wave sequentially. The Integration Owner joins exact revisions, verification, and unresolved items, then rebuilds the plan before dependent work. Use `work-item release` at handoff, abandonment, or completion. See [Parallel orchestration](parallel-orchestration.md).
 
 ### Select UI design depth
 

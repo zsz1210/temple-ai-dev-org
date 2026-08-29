@@ -30,6 +30,7 @@ import {
   validateCollaborationState
 } from "./collaboration.mjs";
 import { isWorkItemId } from "./ids.mjs";
+import { inspectParallelPlan } from "./orchestration.mjs";
 import {
   SPEC_INDEX_RELATIVE_PATH,
   evaluateWorkItemSpecRefs,
@@ -462,6 +463,21 @@ export async function runDoctor(target) {
       });
     }
   }
+  const parallelInspection = await inspectParallelPlan(target);
+  checks.push({
+    id: "parallel_plan",
+    status:
+      !parallelInspection.installed || (parallelInspection.valid && parallelInspection.fresh)
+        ? "pass"
+        : "warn",
+    message: !parallelInspection.installed
+      ? "No generated parallel plan is present; planning remains optional until a group is ready"
+      : !parallelInspection.valid
+        ? `Generated parallel plan can be rebuilt: ${parallelInspection.errors.join("; ")}`
+        : parallelInspection.fresh
+          ? `${parallelInspection.plan.summary.waves} generated parallel wave(s) match current canonical state`
+          : "Generated parallel plan is stale and must be rebuilt before dispatch"
+  });
   if (staleSpecificationWorkItems.length > 0) {
     checks.push({
       id: "specification_reference_staleness",

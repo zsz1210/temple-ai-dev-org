@@ -288,6 +288,10 @@ export async function executeInit(plan) {
         position_memberships: true,
         work_item_claims: true,
         parallel_readiness: true,
+        group_parallel_planning: true,
+        parallel_dispatch_manifest: true,
+        parallel_plan_freshness: true,
+        parallel_join_gate: true,
         checksum_upgrade: true,
         optional_packs: true
       },

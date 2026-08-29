@@ -19,6 +19,7 @@ Phase 1 is complete only when all of the following are true:
 - The CLI completes work-item creation, handoff, transition, and closeout while rejecting invalid gates.
 - Codex tasks and threads can be registered with stable IDs and projected with suggested titles, revisions, attention signals, and archive readiness.
 - Company tracker items, repository Work Items, and Codex tasks have separate identities; project-owned mappings and field ownership preserve AI-only decomposition, bounded observations, and explicit reconciliation without external writes.
+- A decomposed Work Item group can produce deterministic dependency- and conflict-safe waves, plan-only dispatch manifests, stale-plan warnings, and Integration Owner join gates without granting task-runtime authority.
 - Checksum-aware upgrade migrates legacy package identity and renamed managed Skills without overwriting project-owned state.
 - Codex discovers `$temple-work`, `$decision-interview` with conversational and evidence-backed modes, `$domain-modeling`, `$project-documentation`, and `$skill-authoring` locally in the repository.
 - Project and third-party Skill files remain project-owned unless their exact paths appear in `temple.lock.managed_files`; untracked collisions stop before writes.
@@ -29,7 +30,7 @@ Phase 1 is complete only when all of the following are true:
 
 ## Out of scope for this phase
 
-- Automatically starting multiple persistent Agents or background schedules.
+- Having the CLI itself start persistent Agents, create Codex tasks, or run background schedules. An authorized Agent runtime may consume a fresh generated wave when concurrency is available.
 - Having the CLI call a model directly to name Agents.
 - Automatically installing Archify, third-party Skills, or any optional pack.
 - Directly creating, renaming, opening, or archiving Codex app tasks.
@@ -51,4 +52,5 @@ Phase 1 is complete only when all of the following are true:
 9. Alpha.13 establishes a backward-compatible Collaborative foundation with Human Principals, Agent sponsorship, Position pools and Disciplines, Work Item planning and claims, parallel-readiness checks, and explicit `not_run` large-scale validation status.
 10. Alpha.14 establishes revisioned product-specification authority, enterprise document adoption, Work Item contract references, explicit no-UI handling, and tool-neutral UI interaction contracts.
 11. Alpha.15 establishes task-and-tracker coordination, bounded GitHub Issue observation, manual provider observations, explicit field ownership, and repository reconciliation while retaining external writes as out of scope.
-12. Validate the manual Learning Loop, UI delivery-mode selection, specification adoption, tracker mapping, bounded context recovery, and retained multi-human/multi-machine collaboration plan on real work and in a new Codex task. Continue Phase 2 Observer, coordination, retrieval-evaluation, and evidence-adapter work only after the remaining Phase 1.5 exit gate is complete.
+12. Alpha.16 establishes deterministic group dispatch waves, plan-only manifests, source-fingerprint staleness, runtime-capacity fallback, and Integration Owner join gates while retaining real multi-machine validation as `not_run`.
+13. Validate the manual Learning Loop, UI delivery-mode selection, specification adoption, tracker mapping, bounded context recovery, and retained multi-human/multi-machine collaboration plan on real work and in a new Codex task. Continue Phase 2 Observer, coordination, retrieval-evaluation, and evidence-adapter work only after the remaining Phase 1.5 exit gate is complete.

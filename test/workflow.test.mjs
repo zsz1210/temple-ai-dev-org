@@ -967,7 +967,7 @@ test("upgrade migrates legacy identity and safely removes obsolete managed skill
 
   const dryRun = run(["upgrade", target, "--dry-run"]);
   assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
-  assert.match(dryRun.stdout, /0\.1\.0-alpha\.3 -> 0\.1\.0-alpha\.15/);
+  assert.match(dryRun.stdout, /0\.1\.0-alpha\.3 -> 0\.1\.0-alpha\.16/);
   assert.match(dryRun.stdout, /remove-managed: 3/);
   assert.equal(await fs.readFile(installedTemple, "utf8"), oldContent);
   await fs.access(path.join(target, obsoleteSkills[0]));
@@ -976,7 +976,14 @@ test("upgrade migrates legacy identity and safely removes obsolete managed skill
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = await fs.readFile(lockPath, "utf8");
   assert.equal(JSON.parse(upgradedLock).template.name, "@zsz1210/temple-ai-dev-org");
-  assert.equal(JSON.parse(upgradedLock).template.version, "0.1.0-alpha.15");
+  assert.equal(JSON.parse(upgradedLock).template.version, "0.1.0-alpha.16");
+  assert.equal(JSON.parse(upgradedLock).capabilities.group_parallel_planning, true);
+  assert.equal(JSON.parse(upgradedLock).capabilities.parallel_plan_freshness, true);
+  assert.ok(
+    JSON.parse(upgradedLock).managed_files.some(
+      (entry) => entry.path === ".ai-org/core/schemas/parallel-plan.schema.json"
+    )
+  );
   assert.match(await fs.readFile(installedTemple, "utf8"), /Project AI development organization operating contract/);
   assert.equal((await readJson(path.join(target, ".ai-org/work-items/WI-0001.json"))).title, "Preserve me");
   for (const relativePath of obsoleteSkills) {
@@ -1258,6 +1265,11 @@ test("collaborative profile supports principals, pooled membership, readiness, a
   ]);
   assert.equal(claimed.status, 0, claimed.stderr || claimed.stdout);
   assert.match(claimed.stdout, /Principal: principal-alice/);
+
+  const activePlan = run(["parallel", "plan", target, "--no-write", "--json"]);
+  assert.equal(activePlan.status, 0, activePlan.stderr || activePlan.stdout);
+  assert.deepEqual(JSON.parse(activePlan.stdout).active.map((entry) => entry.work_item_id), [workItemId]);
+  assert.equal(JSON.parse(activePlan.stdout).summary.dispatchable, 0);
 
   const readiness = run(["parallel", "check", target, "--work-item", workItemId, "--agent-id", "agent-taylor", "--json"]);
   assert.equal(readiness.status, 0, readiness.stderr || readiness.stdout);

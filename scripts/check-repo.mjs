@@ -63,6 +63,7 @@ for (const [file, schemaId] of [
   ["context-map.schema.json", "temple.context-map/v1"],
   ["retrieval-provider.schema.json", "temple.retrieval-provider/v1"],
   ["collaboration.schema.json", "temple.collaboration/v1"],
+  ["parallel-plan.schema.json", "temple.parallel-plan/v1"],
   ["parallel-readiness.schema.json", "temple.parallel-readiness/v1"],
   ["spec-index.schema.json", "temple.spec-index/v1"],
   ["tracker.schema.json", "temple.tracker/v1"]
@@ -125,6 +126,15 @@ check(
 check(
   projectOverlayFiles.includes(".ai-org/templates/ui-design-brief.md"),
   "UI design brief template is missing"
+);
+
+const organizationPolicies = await readJson(path.join(projectOverlayRoot, ".ai-org/core/policies.json"));
+check(
+  organizationPolicies.parallel_orchestration?.parallel_by_default_when_safe === true &&
+    organizationPolicies.parallel_orchestration?.only_first_fresh_wave_is_dispatchable === true &&
+    organizationPolicies.parallel_orchestration?.cli_creates_tasks_or_claims === false &&
+    organizationPolicies.parallel_orchestration?.integration_join_required_before_dependent_work === true,
+  "parallel orchestration policy must preserve safe-wave, plan-only, and join-gate boundaries"
 );
 
 const agentConfigs = projectOverlayFiles.filter((file) => file.startsWith(".codex/agents/") && file.endsWith(".toml"));

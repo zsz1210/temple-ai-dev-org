@@ -45,6 +45,7 @@ import {
   writeTrackerView
 } from "./tracker.mjs";
 import { executeUpgrade, formatUpgradePlan, planUpgrade } from "./upgrade.mjs";
+import { buildParallelPlan, writeParallelPlan } from "./orchestration.mjs";
 import {
   closeWorkItem,
   claimWorkItem,
@@ -77,6 +78,7 @@ Usage:
   temple work-item release [target] --work-item WI-ID [--agent-id agent-name] [--principal-id principal-name] [--reason text]
   temple work-item unresolved [target] --work-item WI-0001 [--resolve text] [--merge text]
   temple parallel check [target] --work-item WI-ID [--agent-id agent-name] [--json]
+  temple parallel plan [target] [--parent WI-ID] [--max-workers number] [--json] [--no-write]
   temple handoff [target] --work-item WI-0001 --to position --input-revision ref --completed text --evidence ref
   temple transition [target] --work-item WI-0001 --to state --satisfy requirement=reference
   temple close [target] --work-item WI-0001 --decision go|no-go --tested-revision ref --rollback text --approval record
@@ -107,7 +109,7 @@ Core commands:
   status      Rebuild the observable project status from canonical files.
   collaboration Configure Human Principals, Agent sponsorship, Position membership, and the operating profile.
   work-item   Create and configure work items, revisioned contracts, UI mode, claims, and unresolved items.
-  parallel    Evaluate whether a work item is safe to execute concurrently.
+  parallel    Check one item or build deterministic safe dispatch waves for a group.
   handoff     Create an evidence-bearing Position handoff artifact.
   transition  Enforce the workflow edge and its named gate requirements.
   close       Record release readiness and close or block a release-gate item.
@@ -162,6 +164,7 @@ const VALUE_FLAGS = new Set([
   "--pack",
   "--query",
   "--limit",
+  "--max-workers",
   "--scope",
   "--acceptance",
   "--completed",
@@ -393,6 +396,11 @@ function positiveIntegerOption(parsed, flag, fallback = 5) {
     throw new Error(`${flag} must be an integer from 1 to 50`);
   }
   return value;
+}
+
+function optionalPositiveIntegerOption(parsed, flag) {
+  if (parsed.options[flag] === undefined) return null;
+  return positiveIntegerOption(parsed, flag, null);
 }
 
 function printResult(parsed, result, lines) {
@@ -652,8 +660,33 @@ async function runWorkItemRelease(parsed) {
 }
 
 async function runParallel(parsed) {
-  if (parsed.action !== "check") throw new Error(`Unknown parallel action: ${parsed.action}`);
   const target = await assertSafeTarget(parsed.target);
+  if (parsed.action === "plan") {
+    const plan = await buildParallelPlan(target, {
+      parentWorkItemId: parsed.options["--parent"],
+      maxWorkers: optionalPositiveIntegerOption(parsed, "--max-workers")
+    });
+    let outputPath = null;
+    if (!parsed.flags.has("--no-write")) {
+      outputPath = await writeParallelPlan(target, plan);
+      await refreshViews(target);
+    }
+    if (parsed.flags.has("--json")) console.log(JSON.stringify(plan, null, 2));
+    else {
+      console.log(
+        `Parallel plan: ${plan.summary.waves} wave(s), ${plan.summary.dispatchable} dispatchable, ${plan.summary.active} active, ${plan.summary.sequential} sequential, ${plan.summary.blocked} blocked`
+      );
+      for (const wave of plan.waves) {
+        console.log(`[${wave.id}] ${wave.dispatch.map((entry) => entry.work_item_id).join(", ")}`);
+      }
+      for (const entry of plan.sequential) console.log(`[SEQUENTIAL] ${entry.work_item_id}: ${entry.reasons.join(", ")}`);
+      for (const entry of plan.blocked) console.log(`[BLOCKED] ${entry.work_item_id}: ${entry.reasons.join(", ")}`);
+      console.log("No Codex task, claim, or external action was performed.");
+      if (outputPath) console.log(`Parallel plan: ${path.relative(target, outputPath).split(path.sep).join("/")}`);
+    }
+    return 0;
+  }
+  if (parsed.action !== "check") throw new Error(`Unknown parallel action: ${parsed.action}`);
   const result = await evaluateParallelReadiness(target, parsed.options["--work-item"], {
     agentId: parsed.options["--agent-id"]
   });
@@ -1081,6 +1114,9 @@ async function runContext(parsed) {
     console.log(`Learning: ${capsule.learning.map((entry) => entry.id).join(", ") || "none"}`);
     console.log(`Capabilities: ${capsule.capabilities.map((entry) => entry.id).join(", ") || "none"}`);
     console.log(`Affected-path overlaps: ${capsule.affected_path_overlaps.length}`);
+    console.log(
+      `Parallel execution: ${capsule.parallel_execution.disposition ?? "unplanned"} (fresh=${capsule.parallel_execution.plan_fresh ?? "n/a"})`
+    );
     console.log(`Retrieval: ${capsule.retrieval.provider_id} (semantic=${capsule.retrieval.semantic})`);
     if (outputPath) console.log(`Context Capsule: ${path.relative(target, outputPath).split(path.sep).join("/")}`);
     if (capsule.warnings.length) console.log(`Warnings: ${capsule.warnings.join(" | ")}`);

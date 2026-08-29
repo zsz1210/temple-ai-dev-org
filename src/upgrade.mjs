@@ -262,7 +262,11 @@ export async function planUpgrade(target) {
     lock.capabilities?.human_principals !== true ||
     lock.capabilities?.position_memberships !== true ||
     lock.capabilities?.work_item_claims !== true ||
-    lock.capabilities?.parallel_readiness !== true;
+    lock.capabilities?.parallel_readiness !== true ||
+    lock.capabilities?.group_parallel_planning !== true ||
+    lock.capabilities?.parallel_dispatch_manifest !== true ||
+    lock.capabilities?.parallel_plan_freshness !== true ||
+    lock.capabilities?.parallel_join_gate !== true;
   if (packMetadataChanges) actions.push({ type: "update-pack-metadata", path: "temple.lock" });
   if (capabilityChanges || collaborationCapabilityChanges) actions.push({ type: "update-capabilities", path: "temple.lock" });
   actions.push({
@@ -454,6 +458,10 @@ export async function executeUpgrade(plan) {
         position_memberships: true,
         work_item_claims: true,
         parallel_readiness: true,
+        group_parallel_planning: true,
+        parallel_dispatch_manifest: true,
+        parallel_plan_freshness: true,
+        parallel_join_gate: true,
         checksum_upgrade: true,
         optional_packs: true
       },

@@ -11,7 +11,7 @@ It does not try to make every AI conversation remember everything. It gives ever
 | Product intent and domain | What problem, language, boundary, and outcome are real? | Decision interview, domain modeling, revisioned specification authority, glossary, ADRs |
 | Organization and authority | Who is responsible, and who may approve what? | Positions, Agent Identities, Assignments, human approval boundaries |
 | Engineering methods and capabilities | How should this kind of work be performed? | Core Skills, official packs, project and third-party extensions |
-| Work orchestration | What is happening now, what is visible to the company, and what comes next? | External tracker mappings, Work Items, lifecycle transitions, handoffs, task registry |
+| Work orchestration | What is happening now, what can safely run together, what is visible to the company, and what comes next? | External tracker mappings, Work Items, lifecycle transitions, safe dispatch waves, handoffs, task registry |
 | Verification and delivery | What evidence supports completion? | Tests, evaluation, Independent QA, exact revision, release gate |
 | Durable state and observability | Can another task recover, learn from, and inspect the truth? | Project files, Context Map, Capability Registry, Context Capsules, Learning Loop, event log, status projections, checksums, future adapters |
 
@@ -25,7 +25,7 @@ The responsibilities remain stable as a project grows; staffing, method depth, a
 - A future larger-product profile can separate more Positions into dedicated Identities, install focused capability packs, require deeper design and evaluation, and integrate additional evidence sources.
 - A future high-risk profile can add specialized Skills, stricter approval policy, security review, release evidence, and external adapters without replacing the core lifecycle.
 
-The current alpha proves a lean configuration, core Skills, one optional Build Quality pack, project-local state, bounded pilots, deterministic Progressive Context Routing, a locally tested Collaborative foundation, and read-only external-tracker coordination with explicit repository reconciliation. Solo and Collaborative profiles are selectable; High-Assurance, custom Positions and workflows, custom packs, semantic Retrieval Providers, external tracker writes, multi-repository operation, large multi-machine collaboration evidence, and full cross-task recovery evidence remain planned or explicitly unverified rather than claimed as shipped.
+The current alpha proves a lean configuration, core Skills, one optional Build Quality pack, project-local state, bounded pilots, deterministic Progressive Context Routing, locally tested group dispatch planning, a Collaborative foundation, and read-only external-tracker coordination with explicit repository reconciliation. Solo and Collaborative profiles are selectable; High-Assurance, custom Positions and workflows, custom packs, semantic Retrieval Providers, external tracker writes, multi-repository operation, large multi-machine collaboration evidence, and full cross-task recovery evidence remain planned or explicitly unverified rather than claimed as shipped.
 
 The same scaling principle applies to learning. Evidence from one work item begins as a project Lesson, not a universal rule. Repeated and validated learning may become a Practice, then the project may deliberately promote it to a Skill, automated check, ADR, or instruction. See the [Engineering Learning Loop](engineering-learning.md).
 
@@ -39,6 +39,7 @@ The same scaling principle applies to learning. Evidence from one work item begi
 6. Approved documents, their recorded authority and revisions, Git state, test results, runtime evidence, and approval records—not chat memory or generated projections—are canonical state.
 7. Engineering methods are composable. A Skill changes the reusable procedure, not the Position's authority or the user's authorization.
 8. Extensions remain project-owned unless an explicit promotion process transfers them into core or an official pack.
+9. Independent authorized work runs in parallel when a fresh plan and runtime capacity make it safe. Sequential work remains explicit, and every wave rejoins through evidence before dependent work advances.
 
 ## The ten Positions
 
@@ -97,6 +98,8 @@ Intake
 ```
 
 Every handoff must include the work item ID, input revision, completed work, evidence location, unresolved issues, and next Position. Without those fields, conversation content is context—not proof of completion.
+
+One lifecycle outcome may contain several child Work Items. The Engineering Manager defines their boundaries; `temple parallel plan` derives safe waves; an authorized runtime dispatches the first fresh wave up to capacity; and the Integration Owner joins exact revisions and verification before replanning. The generated plan never grants new scope or creates tasks by itself. See [Parallel orchestration](parallel-orchestration.md).
 
 ## Company planning and AI execution
 

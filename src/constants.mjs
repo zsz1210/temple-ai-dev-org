@@ -8,7 +8,7 @@ export const PROJECT_OVERLAY_ROOT = path.join(REPOSITORY_ROOT, "project-overlay"
 export const PACKS_ROOT = path.join(REPOSITORY_ROOT, "packs");
 export const PACKAGE_NAME = "@zsz1210/temple-ai-dev-org";
 export const KNOWN_PACKAGE_NAMES = new Set([PACKAGE_NAME, "@zsz1210/ai-development-org-template"]);
-export const TEMPLATE_VERSION = "0.1.0-alpha.15";
+export const TEMPLATE_VERSION = "0.1.0-alpha.16";
 export const TEMPLATE_REPOSITORY = "zsz1210/temple-ai-dev-org";
 
 export const REQUIRED_SKILLS = [

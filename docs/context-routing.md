@@ -18,12 +18,13 @@ Canonical Specs / ADRs / Skills / Work Items / Learning
 
 ## Source and ownership model
 
-Humans and authorized Agents maintain canonical project files, the thin `.ai-org/project/spec-index.json` authority registry, and the thin `.ai-org/project/context-map.json` routing map. The specification index answers which product or interface document governs a revision; the Context Map answers when an Agent should read a source. Neither stores the source body. The CLI derives two disposable views:
+Humans and authorized Agents maintain canonical project files, the thin `.ai-org/project/spec-index.json` authority registry, and the thin `.ai-org/project/context-map.json` routing map. The specification index answers which product or interface document governs a revision; the Context Map answers when an Agent should read a source. Neither stores the source body. The CLI derives disposable views:
 
 - `.ai-org/views/capabilities.json` inventories repository Skills and their lifecycle ownership.
+- `.ai-org/views/parallel-plan.json` derives safe dispatch waves and freshness from canonical coordination state.
 - `.ai-org/views/work-items/WI-####.json` records the bounded Context Capsule resolved for one work item and Position.
 
-Both files can be rebuilt. They never override the Spec, ADR, Skill, Learning record, work item, Assignment, or evidence to which they point.
+These files can be rebuilt. They never override the Spec, ADR, Skill, Learning record, work item, Assignment, or evidence to which they point.
 
 The Capability Registry classifies exact managed Skill paths as `core`, `optional-pack`, or another framework-managed distribution. An unlisted repository Skill is observed as a `project-extension`; discovery does not add it to `temple.lock`, install it, approve its dependencies, or transfer ownership to Temple.
 
@@ -99,6 +100,7 @@ Remove `--no-write` to persist the generated capsule. A capsule contains:
 - active Practices and validated Lessons relevant to the query;
 - matching repository Skills and their distribution class;
 - affected-path overlaps with other non-terminal work items;
+- the Work Item's current parallel-plan disposition, wave, and plan freshness;
 - the provider ID, retrieval mode, scores, reasons, and warnings.
 
 The resolver does not read every routed document into a prompt. It returns paths and reasons so the Agent can open only the sources necessary for the current responsibility.

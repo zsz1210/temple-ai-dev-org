@@ -48,6 +48,12 @@
     "repository_mutation": true
   },
   {
+    "id": "authorized-parallel-dispatch-plan",
+    "expected_skill": "temple-work",
+    "mode": "group-dispatch-planning",
+    "repository_mutation": true
+  },
+  {
     "id": "unconfirmed-init-names",
     "expected_skill": "temple-init",
     "mode": "confirmation-gate",
