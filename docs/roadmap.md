@@ -2,6 +2,8 @@
 
 These are engineering phases and exit gates, not date commitments. Expand automation only after the preceding phase has supporting evidence.
 
+Current implemented framework version: `0.1.0-alpha.22`. Phases 1 through 3 have bounded local exit evidence; retained live, large-scale, and production validations remain explicit and the [Pre-Phase 4 closeout review](pre-phase-4-closeout-review.md) governs entry into Phase 4 implementation.
+
 ## Cross-cutting framework tracks
 
 Every phase advances the same six layers: product intent, organization and authority, engineering methods, work orchestration, verification and delivery, and durable state and observability. Scale is introduced through evidence-backed profiles and extensions rather than by claiming that one fixed process already fits every project.
@@ -18,7 +20,7 @@ The task-coordination track begins with an alpha.15 project-owned tracker contra
 
 The parallel-orchestration track begins with alpha.16 deterministic group planning, dependency- and conflict-safe waves, optional capacity limits, plan-only dispatch manifests, source-fingerprint staleness, and Integration Owner join gates. The CLI remains runtime-neutral and performs no task creation or claim. Real multi-human, multi-machine dispatch and Git-hosting contention remain retained validation rather than claimed production evidence.
 
-## Phase 1: Installable, operational organization skeleton (current release)
+## Phase 1: Installable, operational organization skeleton (foundation delivered)
 
 Goal: Give any repository the same Positions, identity model, workflow, and checks without depending on chat titles.
 
@@ -139,7 +141,7 @@ Goal: Show progress, failures, and pending approvals without opening every Codex
 
 The accepted [Phase 3 design](phase-3-control-plane.md) and [work-item breakdown](phase-3-work-items.md) separate canonical project state, generated local telemetry, and disposable views; expose provider capabilities honestly; and keep runtime permission, business fact, and governance approval authority distinct. Phase 3A, 3B, and 3C are delivered locally with explicit retained limits.
 
-Proposed increments:
+Delivered increments:
 
 - **Phase 3A — Event spine and provider foundation (`0.1.0-alpha.20`, delivered locally):** versioned normalized events, Git-common-dir replay journal, cursor and checkpoint recovery, provider capability contracts, repository and fixture providers, redaction, single-writer lease, rebuild archive, and read-only HTTP/SSE.
 - **Phase 3B — Live Observer, Codex adapter, and alerts (`0.1.0-alpha.21`, delivered locally):** provenance-aware live views, a pinned capability-proven Codex App Server adapter, disconnect reconciliation, and stateful actionable conditions.
@@ -152,6 +154,8 @@ Local exit gate: satisfied by replay, reconnect, authority-separation, exact-rev
 ## Phase 4: Reliability and everyday multi-project use
 
 Goal: Advance from a single pilot to a personal enterprise-grade development organization that can be trusted every day.
+
+Implementation entry is currently held at Closeout-0. Release reproducibility, the bounded live Phase 3 checks, and a data-bearing upgrade rehearsal must pass or receive an explicit retained-validation decision before this phase expands the state and operational surface.
 
 Planned deliverables:
 

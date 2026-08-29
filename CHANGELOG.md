@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.1.0-alpha.22
+
+- Added three authority-separated Human Inbox queues for still-live runtime requests, local business-fact proposals, and revision-bound Human Principal governance decisions. None of the three can substitute for another authority class or advance a lifecycle gate by itself.
+- Added a loopback-only command gateway with same-origin and per-session-secret checks, bounded JSON requests, named routes, idempotency keys, and refusal of arbitrary mutation endpoints.
+- Added explicit business-fact incorporation and High-Assurance governance checks for current state, exact candidate revision, active Principals, approval counts, and Developer-sponsor independence.
+- Added an opt-in, read-only GitHub PR and Check Runs provider bound to one exact head SHA, environment-only credentials, ETag and rate-limit visibility, wrong-head degradation, deterministic fixtures, and a separate explicit normalized-evidence capture step.
+- Added responsive Human Inbox and governance surfaces to the local dashboard and corrected mobile-width overflow found during headed browser validation.
+- Added Phase 3C documentation and regression coverage. Repository verification passed all 129 tests at the feature revision.
+- Preserved explicit limits: no live interactive Codex permission or business-question round trip and no live GitHub PR/Checks integration were forced; GitHub writes, remote access, long-duration soak, crash-at-every-write-point, and large multi-machine operation remain unimplemented or `not_run`.
+
+## 0.1.0-alpha.21
+
+- Added a provenance-aware live Observer that combines canonical repository state with generated runtime telemetry without transferring lifecycle or gate authority to the control plane.
+- Added a pinned, capability-proven Codex App Server provider with initialization, bounded thread observation, explicit resume, disconnect reconciliation, safe plan and diff summaries, and in-memory-only runtime requests.
+- Added stateful conditions for provider health, scope conflicts, orphaned runtime work, and explicit usage-budget anomalies, including cooldown and unknown-state handling that avoids fabricated certainty.
+- Expanded the loopback HTTP/SSE dashboard with live provider capability labels, runtime freshness, operational metrics, canonical-versus-observed timeline provenance, and honest registered-only or unknown task states.
+- Added Phase 3B documentation and regression coverage. Repository verification passed all 122 tests at the feature revision, and headed browser validation completed without console errors or warnings.
+- Preserved explicit limits: Human Inbox commands and GitHub evidence remained Phase 3C work; universal Codex Desktop visibility, long-duration soak, large-journal performance, cross-clone convergence, remote access, and multi-machine validation remained outside the increment.
+
+## 0.1.0-alpha.20
+
+- Added a versioned normalized control-plane event model and replay journal below the Git common directory, with stable identities, monotonic cursors, bounded redacted data, checkpoint retention, single-writer exclusion, and linked-worktree state sharing.
+- Added project-owned control-plane configuration and schemas, upgrade-safe seeding, provider capability contracts, canonical repository and deterministic fixture providers, and recoverable rebuild archiving.
+- Added a loopback-only read surface for health, canonical snapshots, and SSE replay while explicitly rejecting mutation requests and preserving repository files as lifecycle authority.
+- Added Phase 3 design, work-item, research, ADR, operating, and usage documentation plus Phase 3A regression coverage. Repository verification passed all 118 tests at the feature revision.
+- Preserved explicit limits: the live Codex provider, Human Inbox, GitHub evidence, remote access, cross-clone consensus, long-running soak, and broader performance claims were not part of this foundation increment.
+
 ## 0.1.0-alpha.19
 
 - Added Pack manifest v2 with explicit Skill entrypoints, references, scripts, assets, dependencies, provenance, compatibility metadata, full lock metadata, and checksum-safe install, upgrade, and removal.
