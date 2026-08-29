@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.12
+
+- Added Progressive Context Routing with a project-owned Context Map and generated work-item Context Capsules that route Agents to bounded canonical sources instead of treating chat or generated views as truth.
+- Added `temple capability list/find` and a generated Capability Registry that observes core, optional-pack, and project-owned repository Skills without silently adopting extension files into `temple.lock`.
+- Added `--affected-path` and `--context-ref` to work-item creation, safe pre-write validation, and overlap warnings for non-terminal work items that may edit the same scope.
+- Added the local `repository-deterministic` Retrieval Provider plus a versioned provider contract for future semantic or hybrid adapters; this release installs no model, embeddings, vector database, daemon, or remote retrieval service.
+- Extended doctor, status v3, upgrade migration, schemas, installed Agent instructions, trilingual README, architecture, usage, roadmap, ADR-0017, repository checks, and end-to-end tests for the new routing boundary.
+
 ## 0.1.0-alpha.11
 
 - Added UI Designer as the tenth stable Position while retaining the lean five-Agent-Identity configuration; Product Manager, UX Designer, and UI Designer initially share the Product Design Identity.

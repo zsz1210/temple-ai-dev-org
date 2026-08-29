@@ -1,5 +1,11 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import {
+  buildCapabilityRegistry,
+  CONTEXT_MAP_RELATIVE_PATH,
+  emptyContextMap,
+  readContextMap
+} from "./context.mjs";
 import { atomicWrite, pathExists, readJson } from "./files.mjs";
 import { emptyLearningIndex, LEARNING_INDEX_RELATIVE_PATH, summarizeLearningIndex } from "./learning.mjs";
 
@@ -18,8 +24,20 @@ async function readEvents(target) {
   return lines.map((line) => JSON.parse(line));
 }
 
-export async function buildStatus(target) {
-  const [lock, project, agentsDocument, assignmentsDocument, positionsDocument, workflow, tasksDocument, events, learningIndex] =
+export async function buildStatus(target, options = {}) {
+  const [
+    lock,
+    project,
+    agentsDocument,
+    assignmentsDocument,
+    positionsDocument,
+    workflow,
+    tasksDocument,
+    events,
+    learningIndex,
+    contextMap,
+    capabilityRegistry
+  ] =
     await Promise.all([
       readJson(path.join(target, "temple.lock")),
       readJson(path.join(target, ".ai-org/project/project.json")),
@@ -33,7 +51,11 @@ export async function buildStatus(target) {
       readEvents(target),
       pathExists(path.join(target, LEARNING_INDEX_RELATIVE_PATH)).then((exists) =>
         exists ? readJson(path.join(target, LEARNING_INDEX_RELATIVE_PATH)) : emptyLearningIndex()
-      )
+      ),
+      pathExists(path.join(target, CONTEXT_MAP_RELATIVE_PATH)).then((exists) =>
+        exists ? readContextMap(target) : emptyContextMap()
+      ),
+      options.capabilityRegistry ?? buildCapabilityRegistry(target)
     ]);
 
   const agents = new Map(agentsDocument.agents.map((agent) => [agent.id, agent]));
@@ -129,7 +151,7 @@ export async function buildStatus(target) {
   ];
 
   return {
-    schema_version: "temple.status/v2",
+    schema_version: "temple.status/v3",
     project: { id: project.id, name: project.name },
     template_version: lock.template.version,
     agents: agentsDocument.agents.map((agent) => ({ id: agent.id, display_name: agent.display_name, active: agent.active !== false })),
@@ -144,6 +166,13 @@ export async function buildStatus(target) {
       skills: pack.skills ?? []
     })),
     learning: summarizeLearningIndex(learningIndex),
+    context_routing: {
+      routes: contextMap.routes?.length ?? 0,
+      active_routes: (contextMap.routes ?? []).filter((route) => route.status === "active").length,
+      provider_id: "repository-deterministic",
+      semantic: false
+    },
+    capabilities: capabilityRegistry.counts,
     integrations: lock.integrations
   };
 }
@@ -159,6 +188,8 @@ export function renderStatusMarkdown(status) {
     `- Work items: ${status.work_items.total} total, ${activeItems} active`,
     `- Codex tasks: ${status.tasks.total} registered, ${status.tasks.archive_ready} archive-ready`,
     `- Optional Skill packs: ${status.optional_packs.length} installed`,
+    `- Repository capabilities: ${status.capabilities.available} available, ${status.capabilities.invalid} invalid`,
+    `- Context routes: ${status.context_routing.active_routes} active (${status.context_routing.provider_id}, semantic=${status.context_routing.semantic})`,
     `- Engineering learning: ${status.learning.lessons} Lessons, ${status.learning.practices} Practices`,
     `- Attention signals: ${status.attention.length}`,
     "",
@@ -200,6 +231,15 @@ export function renderStatusMarkdown(status) {
   else for (const signal of status.attention) lines.push(`- ${signal.message}`);
 
   lines.push(
+    "",
+    "## Progressive context routing",
+    "",
+    `- Context Map: \`${CONTEXT_MAP_RELATIVE_PATH}\``,
+    `- Active routes: ${status.context_routing.active_routes}`,
+    `- Capability Registry: \`.ai-org/views/capabilities.json\``,
+    `- Available capabilities: ${status.capabilities.available}`,
+    `- Retrieval Provider: \`${status.context_routing.provider_id}\``,
+    `- Semantic retrieval: ${status.context_routing.semantic ? "enabled" : "disabled"}`,
     "",
     "## Engineering learning",
     "",

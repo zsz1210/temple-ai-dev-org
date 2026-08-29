@@ -27,7 +27,7 @@ Temple はチャット記憶の共有システムでも、prompt の寄せ集め
 | 開発手法 | Core Skill と、`$tdd` および `$diagnosing-bugs` を含む opt-in の Build Quality pack |
 | 作業オーケストレーション | 永続的な work item と handoff を伴う、固定の `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle |
 | 検証とデリバリー | 名前付き gate evidence、evaluation、独立再現、revision reference、approval record、rollback plan、範囲を限定した closeout |
-| 永続的な状態、学習、可観測性 | リポジトリが所有する decision、Lesson、Practice、work item、event、task registry、生成 status、conflict-aware upgrade |
+| 永続的な状態、学習、可観測性 | リポジトリが所有する decision、Context Map、Lesson、Practice、work item、event、task registry、生成 Capability Registry、Context Capsule、status、conflict-aware upgrade |
 
 Position は責任と承認限界を定義します。Agent Identity は、その Position に割り当てられるプロジェクト固有の実行者です。Skill は特定の仕事を行うための再利用可能な手法であり、権限を拡大したり evidence gate を置き換えたりするものではありません。
 
@@ -64,8 +64,11 @@ cd /absolute/path/to/my-project
 temple work-item create . \
   --title "Ship one bounded outcome" \
   --scope "One verified user flow" \
-  --acceptance "Independent QA verifies the candidate revision"
+  --acceptance "Independent QA verifies the candidate revision" \
+  --affected-path "src/verified-flow/**"
 
+temple capability find . --query "verify one user flow"
+temple context resolve . --work-item WI-0001 --no-write
 temple doctor .
 temple status .
 ```
@@ -80,7 +83,7 @@ Temple には、境界が明確な project-owned Skill を作るための `$skil
 
 [Engineering Learning Loop（英語）](docs/engineering-learning.md)は、完了した作業の evidence を Lesson、採用された Practice、そして根拠がある場合に限って Skill、自動チェック、ADR、instruction へ進める管理された経路です。簡潔な project index により、後続の Agent は全履歴を読み込んだり、すべての観察をルール化したりせず、関連する学習だけを取得できます。
 
-これは拡張モデルの出発点であり、完成した Skill ecosystem ではありません。Temple はまだ Skill CLI、capability registry、custom-pack publisher、third-party Skill installer を提供していません。Architecture、exploration、review、security、Git、retrospective の pack は、提供済み機能ではなく評価中の候補です。[Capability catalog（英語）](docs/capability-catalog.md)を参照してください。
+生成される Capability Registry は、core、optional-pack、project-owned の repository Skill を、extension の ownership を奪わずに一覧化します。`temple capability find` と work-item Context Capsule は、Agent が範囲を限定した evidence と利用候補の method を選ぶ助けになりますが、選択によって権限が増えたり dependency が導入されたりすることはありません。Temple はまだ Skill mutation command、custom-pack publisher、third-party Skill installer、automated model-routing evaluation を提供していません。Architecture、exploration、review、security、Git、retrospective の pack は、提供済み機能ではなく評価中の候補です。[Capability catalog（英語）](docs/capability-catalog.md)と[context routing guide（英語）](docs/context-routing.md)を参照してください。
 
 ## 規模と現在の境界
 
@@ -99,6 +102,7 @@ Temple はプロジェクトへインストールします。プロジェクト�
 - [Architecture](docs/architecture.md) — identity、ownership、extension、canonical-state boundary
 - [Skill authoring guide](docs/skill-authoring.md) — project-owned Skill の設計と検証
 - [Engineering Learning Loop](docs/engineering-learning.md) — evidence、Lesson、Practice、検索、昇格
+- [Progressive context routing](docs/context-routing.md) — Context Map、Capability Registry、Context Capsule、affected-path overlap、将来の Retrieval Provider
 - [UI design modes](docs/ui-design.md) — UI ownership、code-first、preview-first、design-led、tool policy
 - [Capability catalog](docs/capability-catalog.md) — 提供済み、optional、候補の engineering method
 - [Roadmap](docs/roadmap.md) — 検証済みの scope と今後の作業

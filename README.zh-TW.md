@@ -27,7 +27,7 @@ Temple 不是共享聊天記憶的系統，也不是一組 prompt 的集合。�
 | 工程方法 | Core Skills，以及包含 `$tdd` 與 `$diagnosing-bugs` 的選配 Build Quality pack |
 | 工作協調 | 固定的 `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle，搭配可持續保存的 work item 與 handoff |
 | 驗證與交付 | 具名的 gate evidence、evaluation、獨立重現、revision reference、approval record、rollback plan 與有明確範圍的 closeout |
-| 持久狀態、學習與可觀測性 | 由 repository 保存的 decision、Lesson、Practice、work item、event、task registry、產生式 status，以及具 conflict 保護的 upgrade |
+| 持久狀態、學習與可觀測性 | 由 repository 保存的 decision、Context Map、Lesson、Practice、work item、event、task registry、產生式 Capability Registry、Context Capsule、status，以及具 conflict 保護的 upgrade |
 
 Position 定義責任與批准邊界；Agent Identity 是被指派到 Position、屬於專案自己的執行者；Skill 則是執行某類工作時可重複使用的方法。Skill 不會擴張權限，也不能取代 evidence gate。
 
@@ -64,8 +64,11 @@ cd /absolute/path/to/my-project
 temple work-item create . \
   --title "Ship one bounded outcome" \
   --scope "One verified user flow" \
-  --acceptance "Independent QA verifies the candidate revision"
+  --acceptance "Independent QA verifies the candidate revision" \
+  --affected-path "src/verified-flow/**"
 
+temple capability find . --query "verify one user flow"
+temple context resolve . --work-item WI-0001 --no-write
 temple doctor .
 temple status .
 ```
@@ -80,7 +83,7 @@ Temple 也包含 `$skill-authoring` 與 [Skill 撰寫指南（英文）](docs/sk
 
 [Engineering Learning Loop（英文）](docs/engineering-learning.md)讓已完成的工作可以循著受治理的路徑，從 evidence 形成 Lesson、正式採用的 Practice，並只在理由充分時晉升為 Skill、自動檢查、ADR 或 instruction。精簡的專案 index 讓後續 Agent 只取回相關學習，不必載入全部歷史，也不會把每個觀察都變成規則。
 
-這只是擴展模型的起點，並不是完整的 Skill ecosystem。Temple 目前沒有提供 Skill CLI、capability registry、custom-pack publisher 或 third-party Skill installer。Architecture、exploration、review、security、Git 與 retrospective packs 仍是經過評估、但尚未交付的候選能力。詳情請參考[能力目錄（英文）](docs/capability-catalog.md)。
+目前產生的 Capability Registry 可以列出 core、optional-pack 與 project-owned repository Skills，且不會奪走 extension 的 ownership。`temple capability find` 與 work-item Context Capsule 能協助 Agent 選出範圍明確的 evidence 與可能適用的方法，但選取結果不會擴張權限或安裝 dependency。Temple 目前仍沒有提供 Skill mutation command、custom-pack publisher、third-party Skill installer 或 automated model-routing evaluation。Architecture、exploration、review、security、Git 與 retrospective packs 仍是經過評估、但尚未交付的候選能力。詳情請參考[能力目錄（英文）](docs/capability-catalog.md)與[context routing guide（英文）](docs/context-routing.md)。
 
 ## 專案規模與目前邊界
 
@@ -99,6 +102,7 @@ Temple 是安裝進專案，而不是要求專案 fork 這個 repository。開�
 - [架構](docs/architecture.md) — identity、ownership、extension 與 canonical-state 邊界
 - [Skill 撰寫指南](docs/skill-authoring.md) — project-owned Skill 的設計與驗證
 - [Engineering Learning Loop](docs/engineering-learning.md) — evidence、Lesson、Practice、檢索與晉升
+- [Progressive context routing](docs/context-routing.md) — Context Map、Capability Registry、Context Capsule、affected-path overlap 與未來的 Retrieval Provider
 - [UI design modes](docs/ui-design.md) — UI ownership、code-first、preview-first、design-led 與工具原則
 - [能力目錄](docs/capability-catalog.md) — 已提供、選配與候選的 engineering method
 - [Roadmap](docs/roadmap.md) — 已驗證範圍與後續規劃

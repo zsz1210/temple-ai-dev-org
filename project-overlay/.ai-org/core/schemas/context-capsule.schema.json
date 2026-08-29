@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "temple.context-capsule/v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "work_item",
+    "position",
+    "agent",
+    "revision",
+    "affected_paths",
+    "context_routes",
+    "learning",
+    "capabilities",
+    "affected_path_overlaps",
+    "retrieval",
+    "warnings"
+  ],
+  "properties": {
+    "schema_version": { "const": "temple.context-capsule/v1" },
+    "generated_at": { "type": "string" },
+    "work_item": { "type": "object" },
+    "position": { "type": "object" },
+    "agent": { "type": "object" },
+    "revision": { "type": ["string", "null"] },
+    "affected_paths": { "type": "array", "items": { "type": "string" } },
+    "context_routes": { "type": "array" },
+    "learning": { "type": "array" },
+    "capabilities": { "type": "array" },
+    "affected_path_overlaps": { "type": "array" },
+    "retrieval": { "type": "object" },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": false
+}

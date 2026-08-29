@@ -256,6 +256,9 @@ export async function executeInit(plan) {
         task_registry: true,
         engineering_learning: true,
         ui_delivery_modes: true,
+        progressive_context_routing: true,
+        capability_registry: true,
+        retrieval_provider_contract: true,
         checksum_upgrade: true,
         optional_packs: true
       },

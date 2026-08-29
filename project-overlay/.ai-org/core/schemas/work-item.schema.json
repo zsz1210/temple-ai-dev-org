@@ -14,6 +14,8 @@
     "updated_at": { "type": "string" },
     "scope": { "type": "array", "items": { "type": "string" } },
     "acceptance_criteria": { "type": "array", "items": { "type": "string" } },
+    "affected_paths": { "type": "array", "items": { "type": "string" } },
+    "context_refs": { "type": "array", "items": { "type": "string" } },
     "gate_evidence": {
       "type": "object",
       "additionalProperties": { "type": "array", "items": { "type": "string" } }

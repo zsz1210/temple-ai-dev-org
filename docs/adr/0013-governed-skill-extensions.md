@@ -47,5 +47,5 @@ This decision does not claim support for `temple skill` commands, project or thi
 - Users can extend the repository without giving the framework ownership of their files.
 - Core and official pack upgrades remain checksum-safe and stop on name collisions instead of silently changing ownership.
 - Skill quality becomes part of the public framework contract rather than maintainer-only guidance.
-- Project and third-party Skills remain only partially observable until a capability registry and validation CLI are implemented.
+- At the time of this decision, project and third-party Skills remained only partially observable. ADR-0017 later added generated discovery and validation without changing this decision's exact-path ownership boundary.
 - The framework can include broad engineering methods without forcing every project to install every capability.

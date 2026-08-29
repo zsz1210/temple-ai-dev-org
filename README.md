@@ -27,7 +27,7 @@ Temple is not a shared-chat-memory system and not a collection of prompts. It is
 | Engineering methods | Core Skills plus the opt-in Build Quality pack with `$tdd` and `$diagnosing-bugs` |
 | Work orchestration | A fixed `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle with durable work items and handoffs |
 | Verification and delivery | Named gate evidence, evaluation, independent reproduction, revision references, approval records, rollback plans, and bounded closeout |
-| Durable state, learning, and observability | Repository-owned decisions, Lessons and Practices, work items, events, task registry, generated status, and conflict-aware upgrades |
+| Durable state, learning, and observability | Repository-owned decisions, Context Map, Lessons and Practices, work items, events, task registry, generated Capability Registry and Context Capsules, status, and conflict-aware upgrades |
 
 A Position defines responsibility and approval limits. An Agent Identity is the project-specific executor assigned to that Position. A Skill is a reusable method for performing a kind of work; it never grants additional authority or replaces an evidence gate.
 
@@ -64,8 +64,11 @@ cd /absolute/path/to/my-project
 temple work-item create . \
   --title "Ship one bounded outcome" \
   --scope "One verified user flow" \
-  --acceptance "Independent QA verifies the candidate revision"
+  --acceptance "Independent QA verifies the candidate revision" \
+  --affected-path "src/verified-flow/**"
 
+temple capability find . --query "verify one user flow"
+temple context resolve . --work-item WI-0001 --no-write
 temple doctor .
 temple status .
 ```
@@ -80,7 +83,7 @@ Temple also includes `$skill-authoring` and a [Skill authoring guide](docs/skill
 
 The [Engineering Learning Loop](docs/engineering-learning.md) gives completed work a governed path from evidence to Lesson, adopted Practice, and—only when justified—a Skill, automated check, ADR, or instruction. Its compact project index helps later Agents retrieve relevant learning without loading the full history or turning every observation into a rule.
 
-This is the beginning of the extension model, not a complete Skill ecosystem. Temple does not yet provide a Skill CLI, capability registry, custom-pack publisher, or third-party Skill installer. Architecture, exploration, review, security, Git, and retrospective packs remain evaluated candidates rather than shipped capabilities. See the [capability catalog](docs/capability-catalog.md).
+The generated Capability Registry now inventories core, optional-pack, and project-owned repository Skills without taking ownership of extensions. `temple capability find` and work-item Context Capsules help an Agent select a bounded evidence set and likely methods; selection never grants authority or installs dependencies. Temple still does not provide Skill mutation commands, a custom-pack publisher, a third-party Skill installer, or automated model-routing evaluation. Architecture, exploration, review, security, Git, and retrospective packs remain evaluated candidates rather than shipped capabilities. See the [capability catalog](docs/capability-catalog.md) and [context routing guide](docs/context-routing.md).
 
 ## Scale and current boundaries
 
@@ -99,6 +102,7 @@ Temple is installed into a project; the project is not forked from this reposito
 - [Architecture](docs/architecture.md) — identity, ownership, extension, and canonical-state boundaries
 - [Skill authoring guide](docs/skill-authoring.md) — project-owned Skill design and verification
 - [Engineering Learning Loop](docs/engineering-learning.md) — evidence, Lessons, Practices, retrieval, and promotion
+- [Progressive context routing](docs/context-routing.md) — Context Map, Capability Registry, Context Capsules, affected-path overlap, and future Retrieval Providers
 - [UI design modes](docs/ui-design.md) — UI ownership, code-first, preview-first, design-led, and tool policy
 - [Capability catalog](docs/capability-catalog.md) — shipped, optional, and candidate engineering methods
 - [Roadmap](docs/roadmap.md) — validated scope and planned work

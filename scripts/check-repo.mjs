@@ -6,6 +6,7 @@ import { REQUIRED_POSITIONS, REQUIRED_SKILLS, TEMPLATE_VERSION } from "../src/co
 import { pathExists, readJson, walkFiles } from "../src/files.mjs";
 import { emptyLearningIndex, validateLearningIndex } from "../src/learning.mjs";
 import { listPackDefinitions } from "../src/packs.mjs";
+import { emptyContextMap, validateContextMap } from "../src/context.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
@@ -45,6 +46,23 @@ check(
   `organization system must define exactly ${REQUIRED_POSITIONS.length} Positions`
 );
 check(REQUIRED_POSITIONS.every((positionId) => actualPositions.includes(positionId)), "required Position is missing");
+
+const contextMap = await readJson(path.join(projectOverlayRoot, ".ai-org/project/context-map.json"));
+const contextMapValidation = validateContextMap(contextMap, new Set(actualPositions));
+check(contextMapValidation.valid, `context map seed is invalid: ${contextMapValidation.errors.join("; ")}`);
+check(
+  JSON.stringify(contextMap) === JSON.stringify(emptyContextMap()),
+  "project overlay context map must remain an empty project-owned seed"
+);
+for (const [file, schemaId] of [
+  ["capability-registry.schema.json", "temple.capability-registry/v1"],
+  ["context-capsule.schema.json", "temple.context-capsule/v1"],
+  ["context-map.schema.json", "temple.context-map/v1"],
+  ["retrieval-provider.schema.json", "temple.retrieval-provider/v1"]
+]) {
+  const schema = await readJson(path.join(projectOverlayRoot, ".ai-org/core/schemas", file));
+  check(schema.$id === schemaId, `${file} has an unexpected schema ID`);
+}
 
 const learningIndex = await readJson(path.join(projectOverlayRoot, ".ai-org/learning/index.json"));
 const learningValidation = validateLearningIndex(learningIndex);

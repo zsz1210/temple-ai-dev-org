@@ -16,5 +16,6 @@
 - [ADR-0014: Define Temple as an AI Development Organization Framework](0014-framework-category-and-layers.md)
 - [ADR-0015: Preserve engineering learning as project-owned canonical state](0015-engineering-learning-loop.md)
 - [ADR-0016: Own UI design explicitly and scale its artifacts by risk](0016-ui-design-position-and-delivery-modes.md)
+- [ADR-0017: Route bounded project context through generated views](0017-progressive-context-routing.md)
 
 An ADR is an Architecture Decision Record. It preserves the context, decision, rationale, and consequences of an important technical or organizational choice so that later Agents do not have to infer why it was made from chat memory.

@@ -8,7 +8,7 @@ Every phase advances the same six layers: product intent, organization and autho
 
 The Engineering Learning Loop is a cross-cutting track. Alpha.10 establishes project-owned Lessons and Practices, compact retrieval metadata, validation, and status projection. Later automation must be justified by real use: a retrospective Skill, Learning CLI, semantic retrieval, stale-practice alerts, and privacy-safe cross-project promotion are planned rather than implied by the storage foundation.
 
-The capability track begins with a small core, one opt-in Build Quality pack, and project-owned Skills. Later work may add architecture, review, exploration, Git and improvement, and security packs only after bounded pilots. A capability registry, richer pack manifests, dependency declarations, project and third-party lifecycle commands, and automated routing evaluation remain planned.
+The capability track begins with a small core, one opt-in Build Quality pack, project-owned Skills, and an alpha.12 generated Capability Registry that observes repository Skills without claiming extension ownership. Later work may add architecture, review, exploration, Git and improvement, and security packs only after bounded pilots. Richer pack manifests, dependency declarations, project and third-party lifecycle commands, and automated model-routing evaluation remain planned.
 
 The UI design track begins with an explicit UI Designer Position and code-first, preview-first, and design-led evidence contracts. Figma remains optional. Project-profile defaults, canonical work-item overrides, design-source adapters, token synchronization, and visual-regression integration require later validation.
 
@@ -29,6 +29,7 @@ Deliverables:
 - Codex task registry, stable title suggestions, revisions, attention signals, and archive readiness.
 - Project-owned Engineering Learning index and records, managed Lesson and Practice templates, doctor validation, and status counts.
 - UI Designer, a tool-neutral UI delivery-mode policy, a UI design-brief template, and a backward-compatible Assignment migration.
+- A project-owned Context Map, generated Capability Registry and work-item Context Capsules, deterministic Retrieval Provider contract, and affected-path overlap warnings.
 - A real English Learning Inbox Safari Share Extension pilot.
 
 Exit gate: Both clean and existing repositories can initialize; all ten Positions are observable; Developer and Independent QA are separate; re-running does not overwrite; and organizational state can be recovered from files after closing the chat.
@@ -53,6 +54,7 @@ The private FlowDeck pilot completed:
 - Alpha.9 adds and forward-tests the core `$skill-authoring` procedure, a public project-extension contract, four distribution classes, and exact-path protection so an untracked project Skill cannot be silently adopted by init, pack installation, or upgrade.
 - Alpha.10 adds the minimal Engineering Learning Loop foundation without installing a retrospective Skill or automatic promotion workflow.
 - Alpha.11 adds UI Designer and risk-scaled, tool-neutral UI delivery modes without requiring Figma or a pre-implementation mockup for every project.
+- Alpha.12 adds deterministic Progressive Context Routing, project Skill discovery without ownership transfer, bounded Context Capsules, and affected-path overlap warnings. Semantic or hybrid retrieval remains an adapter boundary rather than a default dependency.
 
 Phase 1.5 is not yet complete:
 
@@ -64,12 +66,18 @@ See the [FlowDeck Greenfield Pilot Retrospective](pilots/flowdeck-greenfield-ret
 
 ## Phase 2: Operational MVP
 
-Goal: Add scope-conflict detection, external evidence adapters, and a stronger Observer to the validated lifecycle CLI.
+Goal: Strengthen scope coordination, external evidence adapters, and the Observer beyond the alpha.12 routing foundation.
+
+Alpha.12 groundwork already available:
+
+- Affected-path overlap warnings across non-terminal work items.
+- A project Capability Registry that observes project and third-party Skills without claiming ownership of their files.
+- A project-owned Context Map, generated Context Capsules, and a deterministic Retrieval Provider with a future semantic-adapter contract.
 
 Planned deliverables:
 
-- Affected-path ownership and duplicate active-scope warnings.
-- A project capability registry that observes project and third-party Skills without claiming ownership of their files.
+- Explicit affected-path coordination and resolution state beyond advisory overlap warnings.
+- Retrieval-quality evaluation, stale-route detection, and a privacy-preserving local hybrid provider only if real projects justify it.
 - Pack manifest v2 for references, scripts, assets, declared dependencies, and compatibility metadata.
 - Evidence-backed project profiles that vary staffing, artifact depth, UI delivery mode, methods, and gates by risk while preserving the ten Position responsibilities.
 - More complete JSON Schema runtime validation and a migration registry.

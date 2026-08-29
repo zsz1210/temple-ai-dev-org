@@ -6,9 +6,10 @@ Before acting:
 
 1. Read `.ai-org/project/project.json`, `agents.json`, and `assignments.json`.
 2. Identify the Position you are acting as and the durable work item ID.
-3. Read the relevant Spec, Design, ADR, and evidence.
-4. Stay inside that Position's ownership and approval limits.
-5. If the work runs in a separate Codex task, use the suggested `WI-#### · Position · Agent Name` title and register the real task/thread ID in `.ai-org/project/tasks.json` through `temple task register`.
+3. Preview the bounded route with `temple context resolve . --work-item WI-#### --position <position> --no-write --json`.
+4. Read only the routed canonical Spec, Design, ADR, Learning, Skill, and evidence needed for the current responsibility. Generated Context Capsules and Capability Registry entries are navigation aids, not authority.
+5. Stay inside that Position's ownership and approval limits.
+6. If the work runs in a separate Codex task, use the suggested `WI-#### · Position · Agent Name` title and register the real task/thread ID in `.ai-org/project/tasks.json` through `temple task register`.
 
 When the request is only to inspect, explain, diagnose, review, or report status, remain read-only. Repository mutation requires explicit authorization from the request or current work item.
 
@@ -28,7 +29,11 @@ temple work-item create → temple handoff → temple transition
                               temple close
 ```
 
-Each transition must carry named gate evidence. `temple status` projects work items, assigned Agents, revisions, task status, installed optional Skill packs, attention signals, recent events, and archive readiness. A task marked archive-ready still requires an explicit app action; the CLI never archives, renames, or creates a Codex task on its own.
+Each transition must carry named gate evidence. `temple status` projects work items, assigned Agents, revisions, task status, context-routing and capability counts, installed optional Skill packs, attention signals, recent events, and archive readiness. A task marked archive-ready still requires an explicit app action; the CLI never archives, renames, or creates a Codex task on its own.
+
+## Context routing and parallel work
+
+Keep `.ai-org/project/context-map.json` concise and project-owned. It points to canonical files; it does not copy them. Use `temple capability find` when a reusable method may apply, but selecting a Skill never expands the request's authorization. Record planned write scope through work-item `affected_paths`. When context resolution reports overlap with another non-terminal item, coordinate the work before changing shared paths; the warning does not assign ownership or stop either item automatically.
 
 ## Engineering learning
 

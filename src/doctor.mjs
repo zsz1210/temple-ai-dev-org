@@ -7,6 +7,14 @@ import {
   TASK_STATUSES,
   TEMPLATE_VERSION
 } from "./constants.mjs";
+import {
+  buildCapabilityRegistry,
+  CONTEXT_MAP_RELATIVE_PATH,
+  createRepositoryRetrievalProvider,
+  isSafeRepositoryPath,
+  validateContextMap,
+  validateRetrievalProvider
+} from "./context.mjs";
 import { pathExists, readJson, sha256File } from "./files.mjs";
 import {
   LEARNING_INDEX_RELATIVE_PATH,
@@ -133,6 +141,46 @@ export async function runDoctor(target) {
     checks.push(...validateProjectState(project, agents, assignments, positionIds));
   }
 
+  const contextMap = await safeJson(
+    path.join(target, CONTEXT_MAP_RELATIVE_PATH),
+    checks,
+    "context_map_json"
+  );
+  const contextRouteIds = new Set();
+  if (contextMap) {
+    const validation = validateContextMap(contextMap, positionIds);
+    const missingPaths = [];
+    for (const route of contextMap.routes ?? []) {
+      contextRouteIds.add(route.id);
+      if (route.status !== "active") continue;
+      for (const relativePath of route.paths ?? []) {
+        if (isSafeRepositoryPath(relativePath) && !(await pathExists(path.join(target, relativePath)))) {
+          missingPaths.push(`${route.id}:${relativePath}`);
+        }
+      }
+    }
+    const issues = [
+      ...validation.errors,
+      ...(missingPaths.length ? [`active route paths are missing: ${missingPaths.join(", ")}`] : [])
+    ];
+    checks.push({
+      id: "context_map",
+      status: issues.length ? "fail" : "pass",
+      message: issues.length
+        ? issues.join("; ")
+        : `${contextMap.routes.filter((route) => route.status === "active").length} active context routes are valid`
+    });
+  }
+
+  const providerValidation = validateRetrievalProvider(createRepositoryRetrievalProvider());
+  checks.push({
+    id: "retrieval_provider",
+    status: providerValidation.valid ? "pass" : "fail",
+    message: providerValidation.valid
+      ? "Default repository-deterministic Retrieval Provider contract is valid; semantic retrieval is disabled"
+      : providerValidation.errors.join("; ")
+  });
+
   const workflow = await safeJson(path.join(target, ".ai-org/core/workflow.json"), checks, "workflow_json");
   const workflowStates = new Set((workflow?.states ?? []).map((state) => state.id));
   const agentIds = new Set((agents?.agents ?? []).map((agent) => agent.id));
@@ -159,6 +207,11 @@ export async function runDoctor(target) {
           positionIds.has(item.owner_position) &&
           (item.assigned_agent_id === null || item.assigned_agent_id === undefined || agentIds.has(item.assigned_agent_id)) &&
           Array.isArray(item.evidence) &&
+          (item.affected_paths === undefined ||
+            (Array.isArray(item.affected_paths) && item.affected_paths.every(isSafeRepositoryPath))) &&
+          (item.context_refs === undefined ||
+            (Array.isArray(item.context_refs) &&
+              item.context_refs.every((value) => typeof value === "string" && contextRouteIds.has(value)))) &&
           (item.unresolved === undefined ||
             (Array.isArray(item.unresolved) && item.unresolved.every((value) => typeof value === "string")));
         if (!valid) invalidWorkItems.push(entry.name);
@@ -175,6 +228,19 @@ export async function runDoctor(target) {
       ? `Invalid work item files: ${invalidWorkItems.join(", ")}`
       : `${workItemCount} canonical work items are valid`
   });
+
+  try {
+    const capabilityRegistry = await buildCapabilityRegistry(target);
+    checks.push({
+      id: "capability_registry",
+      status: capabilityRegistry.issues.length ? "fail" : "pass",
+      message: capabilityRegistry.issues.length
+        ? capabilityRegistry.issues.join("; ")
+        : `${capabilityRegistry.counts.available} repository capabilities are discoverable without changing project ownership`
+    });
+  } catch (error) {
+    checks.push({ id: "capability_registry", status: "fail", message: error.message });
+  }
 
   const tasksDocument = await safeJson(path.join(target, ".ai-org/project/tasks.json"), checks, "tasks_json");
   if (tasksDocument) {

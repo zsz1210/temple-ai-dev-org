@@ -19,6 +19,19 @@ function workItemPath(target, workItemId) {
   return path.join(target, ".ai-org/work-items", `${workItemId}.json`);
 }
 
+function isSafeRepositoryPath(value) {
+  return (
+    typeof value === "string" &&
+    value.length > 0 &&
+    !path.isAbsolute(value) &&
+    !path.win32.isAbsolute(value) &&
+    !value.includes("\\") &&
+    path.posix.normalize(value) === value &&
+    value !== ".." &&
+    !value.startsWith("../")
+  );
+}
+
 export async function readWorkItem(target, workItemId) {
   const itemPath = workItemPath(target, workItemId);
   if (!(await pathExists(itemPath))) throw new Error(`Work item not found: ${workItemId}`);
@@ -142,6 +155,17 @@ export async function createWorkItem(target, options) {
   const title = String(options.title ?? "").trim();
   if (!title) throw new Error("--title is required");
 
+  const affectedPaths = uniqueStrings(options.affectedPaths);
+  const unsafePaths = affectedPaths.filter((value) => !isSafeRepositoryPath(value));
+  if (unsafePaths.length > 0) throw new Error(`Unsafe affected path: ${unsafePaths.join(", ")}`);
+  const contextRefs = uniqueStrings(options.contextRefs);
+  const contextMap = await readJson(path.join(target, ".ai-org/project/context-map.json"));
+  const routeIds = new Set((contextMap.routes ?? []).map((route) => route.id));
+  const missingContextRefs = contextRefs.filter((value) => !routeIds.has(value));
+  if (missingContextRefs.length > 0) {
+    throw new Error(`Unknown context route: ${missingContextRefs.join(", ")}`);
+  }
+
   const workItemId = await nextWorkItemId(target);
   const state = context.workflow.initial_state;
   const ownerPosition = context.states.get(state)?.owner_position;
@@ -160,6 +184,8 @@ export async function createWorkItem(target, options) {
     updated_at: timestamp,
     scope: uniqueStrings(options.scope),
     acceptance_criteria: uniqueStrings(options.acceptance),
+    affected_paths: affectedPaths,
+    context_refs: contextRefs,
     gate_evidence: {},
     evidence: uniqueStrings(options.evidence),
     unresolved: uniqueStrings(options.unresolved),

@@ -81,6 +81,6 @@ Ideas may inform an independent implementation, but provenance must describe tha
 
 ## Current limits
 
-The current alpha has no `temple skill` command, capability registry, custom-pack installer, dependency resolver, automated model-routing evaluation, or third-party update manager. Official pack v1 supports only one `SKILL.md` per Skill. Project extensions can still use supporting resources, but promotion requires a future packaging path plus repeated project evidence, an ADR, license review, scenario coverage, and install/remove/upgrade tests.
+The current alpha has no Skill mutation command, custom-pack installer, dependency resolver, automated model-routing evaluation, or third-party update manager. It does generate a read-only Capability Registry and can retrieve likely Skills; discovery does not install, approve, publish, or take ownership of a project extension. Official pack v1 supports only one `SKILL.md` per Skill. Project extensions can still use supporting resources, but promotion requires a future packaging path plus repeated project evidence, an ADR, license review, scenario coverage, and install/remove/upgrade tests.
 
 See [ADR-0013](adr/0013-governed-skill-extensions.md) for the ownership decision and [Skill scenario matrix](skill-scenarios.md) for the installed routing contract.

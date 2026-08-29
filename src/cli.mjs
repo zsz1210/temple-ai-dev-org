@@ -3,6 +3,13 @@ import process from "node:process";
 import readline from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 import { LEAN_ASSIGNMENT_SLOTS, TEMPLATE_VERSION } from "./constants.mjs";
+import {
+  buildCapabilityRegistry,
+  findCapabilities,
+  resolveWorkItemContext,
+  writeCapabilityRegistry,
+  writeContextCapsule
+} from "./context.mjs";
 import { runDoctor, formatDoctor } from "./doctor.mjs";
 import { assertSafeTarget, readJson } from "./files.mjs";
 import { executeInit, formatInitPlan, planInit } from "./install.mjs";
@@ -35,7 +42,7 @@ Usage:
   temple upgrade [target] [--dry-run]
   temple doctor [target] [--json]
   temple status [target] [--json] [--no-write]
-  temple work-item create [target] --title text [--scope text] [--acceptance text]
+  temple work-item create [target] --title text [--scope text] [--acceptance text] [--affected-path path] [--context-ref id]
   temple work-item unresolved [target] --work-item WI-0001 [--resolve text] [--merge text]
   temple handoff [target] --work-item WI-0001 --to position --input-revision ref --completed text --evidence ref
   temple transition [target] --work-item WI-0001 --to state --satisfy requirement=reference
@@ -46,6 +53,9 @@ Usage:
   temple pack list [target] [--json]
   temple pack install [target] --pack build-quality [--dry-run]
   temple pack remove [target] --pack build-quality [--dry-run]
+  temple capability list [target] [--json]
+  temple capability find [target] --query text [--position position] [--limit number] [--json]
+  temple context resolve [target] --work-item WI-0001 [--position position] [--query text] [--revision ref] [--limit number] [--json] [--no-write]
   temple --version
 
 Core commands:
@@ -59,9 +69,11 @@ Core commands:
   close       Record release readiness and close or block a release-gate item.
   task        Register Codex task/thread identity, status, revision, and archive readiness.
   pack        List, install, or remove checksum-managed optional Skill packs.
+  capability  Discover installed repository Skills without taking ownership of project extensions.
+  context     Resolve a bounded work-item Context Capsule through the configured Retrieval Provider.
 
 Repeat --scope, --acceptance, --completed, --evidence, --unresolved, --resolve,
---merge, --rollback, --reason, or --satisfy as needed. Temple never creates, renames, or archives a
+--merge, --affected-path, --context-ref, --rollback, --reason, or --satisfy as needed. Temple never creates, renames, or archives a
 Codex task by itself; task registry entries make those app actions observable.
 `;
 
@@ -85,6 +97,8 @@ const VALUE_FLAGS = new Set([
   "--task-id",
   "--notes",
   "--pack",
+  "--query",
+  "--limit",
   "--scope",
   "--acceptance",
   "--completed",
@@ -94,7 +108,9 @@ const VALUE_FLAGS = new Set([
   "--merge",
   "--rollback",
   "--reason",
-  "--satisfy"
+  "--satisfy",
+  "--affected-path",
+  "--context-ref"
 ]);
 const REPEATABLE_FLAGS = new Set([
   "--scope",
@@ -106,9 +122,11 @@ const REPEATABLE_FLAGS = new Set([
   "--merge",
   "--rollback",
   "--reason",
-  "--satisfy"
+  "--satisfy",
+  "--affected-path",
+  "--context-ref"
 ]);
-const NESTED_COMMANDS = new Set(["work-item", "task", "pack"]);
+const NESTED_COMMANDS = new Set(["work-item", "task", "pack", "capability", "context"]);
 
 function parseCommand(argv) {
   if (argv.length === 0 || argv[0] === "--help" || argv[0] === "-h") {
@@ -230,10 +248,24 @@ async function loadConfig(configPath, target) {
   return readJson(path.resolve(configPath));
 }
 
-async function refreshStatus(target) {
-  const status = await buildStatus(target);
-  await writeStatus(target, status);
-  return status;
+async function refreshViews(target) {
+  const registry = await buildCapabilityRegistry(target);
+  const status = await buildStatus(target, { capabilityRegistry: registry });
+  const [statusPath, capabilityPath] = await Promise.all([
+    writeStatus(target, status),
+    writeCapabilityRegistry(target, registry)
+  ]);
+  return { status, statusPath, capabilityPath };
+}
+
+function positiveIntegerOption(parsed, flag, fallback = 5) {
+  const raw = parsed.options[flag];
+  if (raw === undefined) return fallback;
+  const value = Number(raw);
+  if (!Number.isInteger(value) || value < 1 || value > 50) {
+    throw new Error(`${flag} must be an integer from 1 to 50`);
+  }
+  return value;
 }
 
 function printResult(parsed, result, lines) {
@@ -259,8 +291,8 @@ async function runInit(parsed) {
     }
     await executeInit(lockedPlan);
     const lockedDoctor = await runDoctor(target);
-    const lockedStatusPath = await writeStatus(target, await buildStatus(target));
-    return { doctor: lockedDoctor, statusPath: lockedStatusPath };
+    const views = await refreshViews(target);
+    return { doctor: lockedDoctor, statusPath: views.statusPath };
   });
   console.log(`Initialized Temple ${TEMPLATE_VERSION}.`);
   console.log(formatDoctor(doctor));
@@ -284,7 +316,7 @@ async function runUpgrade(parsed) {
     const lockedPlan = await planUpgrade(target);
     if (lockedPlan.conflicts.length > 0) throw new Error(`Upgrade stopped before writing:\n- ${lockedPlan.conflicts.join("\n- ")}`);
     await executeUpgrade(lockedPlan);
-    await refreshStatus(target);
+    await refreshViews(target);
   });
   const doctor = await runDoctor(target);
   console.log(
@@ -305,8 +337,11 @@ async function runDoctorCommand(parsed) {
 
 async function runStatusCommand(parsed) {
   const target = await assertSafeTarget(parsed.target);
-  const status = await buildStatus(target);
-  if (!parsed.flags.has("--no-write")) await writeStatus(target, status);
+  const registry = await buildCapabilityRegistry(target);
+  const status = await buildStatus(target, { capabilityRegistry: registry });
+  if (!parsed.flags.has("--no-write")) {
+    await Promise.all([writeStatus(target, status), writeCapabilityRegistry(target, registry)]);
+  }
   console.log(parsed.flags.has("--json") ? JSON.stringify(status, null, 2) : renderStatusMarkdown(status));
   return 0;
 }
@@ -319,10 +354,12 @@ async function runWorkItemCreate(parsed) {
       actor: parsed.options["--actor"],
       scope: listOption(parsed, "--scope"),
       acceptance: listOption(parsed, "--acceptance"),
+      affectedPaths: listOption(parsed, "--affected-path"),
+      contextRefs: listOption(parsed, "--context-ref"),
       evidence: listOption(parsed, "--evidence"),
       unresolved: listOption(parsed, "--unresolved")
     });
-    await refreshStatus(target);
+    await refreshViews(target);
     return created;
   });
   printResult(parsed, result, [
@@ -355,7 +392,7 @@ async function runWorkItemUnresolved(parsed) {
       resolve: resolutions,
       merge: additions
     });
-    if (updated.changed) await refreshStatus(target);
+    if (updated.changed) await refreshViews(target);
     return updated;
   });
   printResult(parsed, result, [
@@ -379,7 +416,7 @@ async function runHandoff(parsed) {
       evidence: listOption(parsed, "--evidence"),
       unresolved: listOption(parsed, "--unresolved")
     });
-    await refreshStatus(target);
+    await refreshViews(target);
     return handoff;
   });
   printResult(parsed, result, [
@@ -400,7 +437,7 @@ async function runTransition(parsed) {
       satisfied: parseSatisfied(listOption(parsed, "--satisfy")),
       evidence: listOption(parsed, "--evidence")
     });
-    await refreshStatus(target);
+    await refreshViews(target);
     return transitioned;
   });
   printResult(parsed, result, [
@@ -425,7 +462,7 @@ async function runClose(parsed) {
       evidence: listOption(parsed, "--evidence"),
       satisfied: parseSatisfied(listOption(parsed, "--satisfy"))
     });
-    await refreshStatus(target);
+    await refreshViews(target);
     return closed;
   });
   printResult(parsed, result, [
@@ -452,7 +489,7 @@ async function runTask(parsed) {
         notes: parsed.options["--notes"],
         actor: parsed.options["--actor"]
       });
-      await refreshStatus(target);
+      await refreshViews(target);
       return registered;
     });
     printResult(parsed, task, [
@@ -471,7 +508,7 @@ async function runTask(parsed) {
         notes: parsed.options["--notes"],
         actor: parsed.options["--actor"]
       });
-      await refreshStatus(target);
+      await refreshViews(target);
       return updated;
     });
     printResult(parsed, task, [`Updated ${task.id}: ${task.status}`, `Revision: ${task.current_revision ?? "not recorded"}`]);
@@ -516,7 +553,7 @@ async function runPack(parsed) {
         throw new Error(`Pack installation stopped before writing:\n- ${lockedPlan.conflicts.join("\n- ")}`);
       }
       await executePackInstall(lockedPlan);
-      await refreshStatus(target);
+      await refreshViews(target);
     });
     const doctor = await runDoctor(target);
     console.log(`Installed optional pack ${parsed.options["--pack"]}.`);
@@ -537,7 +574,7 @@ async function runPack(parsed) {
         throw new Error(`Pack removal stopped before writing:\n- ${lockedPlan.conflicts.join("\n- ")}`);
       }
       await executePackRemove(lockedPlan);
-      await refreshStatus(target);
+      await refreshViews(target);
     });
     const doctor = await runDoctor(target);
     console.log(`Removed optional pack ${parsed.options["--pack"]}.`);
@@ -545,6 +582,69 @@ async function runPack(parsed) {
     return doctor.healthy ? 0 : 1;
   }
   throw new Error(`Unknown pack action: ${parsed.action}`);
+}
+
+async function runCapability(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  const registry = await buildCapabilityRegistry(target);
+  if (parsed.action === "list") {
+    if (parsed.flags.has("--json")) console.log(JSON.stringify(registry, null, 2));
+    else if (registry.capabilities.length === 0) console.log("No repository Skills discovered.");
+    else {
+      for (const capability of registry.capabilities) {
+        console.log(
+          `${capability.id}\t${capability.status}\t${capability.distribution}\t${capability.invocation}\t${capability.path}`
+        );
+      }
+    }
+    return registry.issues.length ? 1 : 0;
+  }
+  if (parsed.action === "find") {
+    const query = String(parsed.options["--query"] ?? "").trim();
+    if (!query) throw new Error("capability find requires --query");
+    const results = await findCapabilities(target, {
+      query,
+      position: parsed.options["--position"],
+      limit: positiveIntegerOption(parsed, "--limit"),
+      registry
+    });
+    if (parsed.flags.has("--json")) console.log(JSON.stringify(results, null, 2));
+    else if (results.length === 0) console.log("No matching repository capability found.");
+    else {
+      for (const result of results) {
+        console.log(`${result.id}\t${result.score}\t${result.reasons.join(",")}\t${result.source.path}`);
+      }
+    }
+    return registry.issues.length ? 1 : 0;
+  }
+  throw new Error(`Unknown capability action: ${parsed.action}`);
+}
+
+async function runContext(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (parsed.action !== "resolve") throw new Error(`Unknown context action: ${parsed.action}`);
+  if (!parsed.options["--work-item"]) throw new Error("context resolve requires --work-item");
+  const capsule = await resolveWorkItemContext(target, {
+    workItemId: parsed.options["--work-item"],
+    position: parsed.options["--position"],
+    query: parsed.options["--query"],
+    revision: parsed.options["--revision"],
+    limit: positiveIntegerOption(parsed, "--limit")
+  });
+  const outputPath = parsed.flags.has("--no-write") ? null : await writeContextCapsule(target, capsule);
+  if (parsed.flags.has("--json")) console.log(JSON.stringify(capsule, null, 2));
+  else {
+    console.log(`${capsule.work_item.id} context for ${capsule.position.name} / ${capsule.agent.display_name}`);
+    console.log(`Revision: ${capsule.revision ?? "not recorded"}`);
+    console.log(`Context routes: ${capsule.context_routes.map((entry) => entry.id).join(", ") || "none"}`);
+    console.log(`Learning: ${capsule.learning.map((entry) => entry.id).join(", ") || "none"}`);
+    console.log(`Capabilities: ${capsule.capabilities.map((entry) => entry.id).join(", ") || "none"}`);
+    console.log(`Affected-path overlaps: ${capsule.affected_path_overlaps.length}`);
+    console.log(`Retrieval: ${capsule.retrieval.provider_id} (semantic=${capsule.retrieval.semantic})`);
+    if (outputPath) console.log(`Context Capsule: ${path.relative(target, outputPath).split(path.sep).join("/")}`);
+    if (capsule.warnings.length) console.log(`Warnings: ${capsule.warnings.join(" | ")}`);
+  }
+  return 0;
 }
 
 export async function main(argv) {
@@ -568,5 +668,7 @@ export async function main(argv) {
   if (parsed.command === "close") return runClose(parsed);
   if (parsed.command === "task") return runTask(parsed);
   if (parsed.command === "pack") return runPack(parsed);
+  if (parsed.command === "capability") return runCapability(parsed);
+  if (parsed.command === "context") return runContext(parsed);
   throw new Error(`Unknown command: ${parsed.command}${parsed.action ? ` ${parsed.action}` : ""}\n\n${HELP}`);
 }

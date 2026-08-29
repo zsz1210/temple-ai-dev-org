@@ -23,6 +23,7 @@ import {
   walkFiles
 } from "./files.mjs";
 import { packSourcesForLock } from "./packs.mjs";
+import { CONTEXT_MAP_RELATIVE_PATH, ensureContextMap } from "./context.mjs";
 import { ensureLearningIndex, LEARNING_INDEX_RELATIVE_PATH } from "./learning.mjs";
 import { ensureTaskRegistry } from "./project.mjs";
 
@@ -164,6 +165,11 @@ export async function planUpgrade(target) {
     type: hasLearningIndex ? "skip-learning-index" : "create-learning-index",
     path: LEARNING_INDEX_RELATIVE_PATH
   });
+  const hasContextMap = await pathExists(path.join(target, CONTEXT_MAP_RELATIVE_PATH));
+  actions.push({
+    type: hasContextMap ? "skip-context-map" : "create-context-map",
+    path: CONTEXT_MAP_RELATIVE_PATH
+  });
   const assignmentMigration = await planUiAssignmentMigration(target, conflicts);
   actions.push({
     type: assignmentMigration ? "add-ui-assignment" : "skip-ui-assignment",
@@ -179,7 +185,11 @@ export async function planUpgrade(target) {
       JSON.stringify(definition.manifest.files) !== JSON.stringify(installed.managed_files ?? [])
   );
   const capabilityChanges =
-    lock.capabilities?.engineering_learning !== true || lock.capabilities?.ui_delivery_modes !== true;
+    lock.capabilities?.engineering_learning !== true ||
+    lock.capabilities?.ui_delivery_modes !== true ||
+    lock.capabilities?.progressive_context_routing !== true ||
+    lock.capabilities?.capability_registry !== true ||
+    lock.capabilities?.retrieval_provider_contract !== true;
   if (packMetadataChanges) actions.push({ type: "update-pack-metadata", path: "temple.lock" });
   if (capabilityChanges) actions.push({ type: "update-capabilities", path: "temple.lock" });
   actions.push({
@@ -190,7 +200,8 @@ export async function planUpgrade(target) {
       !capabilityChanges &&
       !assignmentMigration &&
       hasTasks &&
-      hasLearningIndex
+      hasLearningIndex &&
+      hasContextMap
         ? "skip-current-lock"
         : "update-lock",
     path: "temple.lock"
@@ -253,6 +264,10 @@ export async function executeUpgrade(plan) {
     const learningIndex = await ensureLearningIndex(plan.target);
     if (learningIndex.created) {
       changes.push({ path: learningIndex.path, before: null, afterHash: learningIndex.afterHash });
+    }
+    const contextMap = await ensureContextMap(plan.target);
+    if (contextMap.created) {
+      changes.push({ path: contextMap.path, before: null, afterHash: contextMap.afterHash });
     }
     if (plan.assignmentMigration) {
       const assignmentsPath = path.join(plan.target, plan.assignmentMigration.path);
@@ -317,6 +332,9 @@ export async function executeUpgrade(plan) {
         task_registry: true,
         engineering_learning: true,
         ui_delivery_modes: true,
+        progressive_context_routing: true,
+        capability_registry: true,
+        retrieval_provider_contract: true,
         checksum_upgrade: true,
         optional_packs: true
       },
