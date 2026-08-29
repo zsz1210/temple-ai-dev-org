@@ -16,7 +16,7 @@ Archify is not vendored or executed by Phase 1. The repository only contains an 
 - Reviewed commit: `6654f6b60cd9d5be8b54c6fafe44346dabeb3b76`
 - Upstream copyright: Copyright (c) 2026 Matt Pocock
 
-The `grill-me`, `grill-with-docs`, `domain-modeling`, `writing-great-skills`, and related development Skills were reviewed as product and maintenance inspiration. Temple's Skills are independent implementations written for repository-persisted decisions, project ownership boundaries, and the Temple lifecycle. No upstream Skill source is vendored, loaded, or wrapped at runtime.
+The `grill-me`, `grill-with-docs`, `domain-modeling`, `tdd`, `diagnosing-bugs`, `codebase-design`, `code-review`, `prototype`, `retro`, `writing-great-skills`, and related development Skills were reviewed as product and maintenance inspiration. Temple's Skills are independent implementations written for repository-persisted decisions, project ownership boundaries, and the Temple lifecycle. No upstream Skill source is vendored, loaded, or wrapped at runtime.
 
 If future versions copy or adapt upstream source, they must include the applicable MIT copyright and permission notice with the distributed copy or substantial portion.
 

@@ -25,7 +25,7 @@ Exit Gate：乾淨與既有 repository 都能初始化；九個 Position 可觀�
 
 目標：從一個尚未整理的產品點子開始，建立全新 private repository、完成產品與技術基線，並交付第一個可獨立驗證的垂直切片；使用者不需要重新設計一次開發組織。
 
-進入條件：先以 AiPet 完成第二個既有 repository 的可攜性驗證，確認目前骨架不只適用於 English Learning Inbox。
+進入條件：AiPet 已以 `WI-0001` 完成第二個既有 repository 的可攜性驗證，包含完整 lifecycle、六項 Simulator 測試、畫面附件、exact-revision Independent QA 與 release closeout；Phase 1.5 可以開始。
 
 預定交付：
 
@@ -41,7 +41,7 @@ Exit Gate：乾淨與既有 repository 都能初始化；九個 Position 可觀�
 
 Exit Gate：一個非範例、可回復、不碰 production 的全新產品 repository 從點子走到第一張 work item closeout；Developer 與 Independent QA 驗證同一 revision；新的對話不需使用創始聊天即可接續；使用者沒有手動重建 Position、交接或觀測機制。
 
-AiPet portability pilot 同時評估 `tdd`、`diagnosing-bugs` 與 `prototype` 哪一項最適合成為第一個 optional Skill pack；未通過真實 work item 與獨立 QA 前不預設安裝。
+AiPet portability pilot 的真實紅綠測試與診斷過程已選出 `tdd` + `diagnosing-bugs` 作為第一個 optional Build Quality pack；下一步是 Temple-native 獨立實作、scenario tests 與 pack 安裝邊界，仍不直接複製上游 Skill。`prototype` 保留在後續 Exploration pack。
 
 ## Phase 2：營運 MVP
 

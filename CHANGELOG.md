@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- 以 AiPet `WI-0001` 完成第二個既有 repository pilot：Simulator lifecycle、六項測試、四張 UI 證據、clean detached exact-revision Independent QA 與 release closeout。
+- 將 Matt Pocock catalog 的開發能力整理為 Build Quality、Architecture、Review、Exploration、Git and Improvement 五個 optional pack；根據 pilot 選定 `tdd` + `diagnosing-bugs` 作為第一個 Temple-native 實作方向。
+- 新增 `codebase-design` 與 `retro` 候選，並明確拒絕把過度寬廣、in-progress、Claude-specific 或 Node-specific Skills 當成通用核心。
+
 ## 0.1.0-alpha.5
 
 - 保留 `project-documentation` 作為 Phase 1.5 core candidate，明確分離人類 README／專案文件與 AI-facing instructions，並記錄兩個外部參考實作的 pinned provenance 與 license。
