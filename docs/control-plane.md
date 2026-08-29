@@ -48,14 +48,62 @@ node ./templew.mjs control-plane start . --codex
 
 The server exposes:
 
-- `GET /` — the local read-only live Observer;
+- `GET /` — the local live Observer and bounded Human Inbox;
 - `GET /healthz` — process and journal health;
-- `GET /api/v1/snapshot` — canonical Observer, live projection, stateful conditions, provider health, and journal state;
+- `GET /api/v1/snapshot` — canonical Observer, live projection, stateful conditions, safe Inbox projection, provider health, and journal state;
 - `GET /api/v1/events` — SSE replay and live local events.
+- `GET /api/v1/inbox` — the same safe, credential-free Inbox projection;
+- `POST /api/v1/inbox/runtime-permission` — answer one still-live provider permission request;
+- `POST /api/v1/inbox/business-fact` — answer a live question and retain a redacted local proposal;
+- `POST /api/v1/inbox/business-incorporation` — explicitly add one proposal as a canonical Work Item context reference;
+- `POST /api/v1/inbox/governance-approval` — create one policy-checked approval record for the current exact revision.
 
 An SSE client may send `Last-Event-ID` or `?after=<cursor>`. A retained cursor receives only newer records. If retention has removed the requested cursor, the server sends a fresh `temple.snapshot` event before continuing with retained events.
 
-Phase 3B rejects non-GET requests. Human Inbox commands are not available until the authority gateway and its tests are present.
+All other mutation routes return `405`. The browser receives only a new per-process Inbox session secret; provider credentials and GitHub tokens never enter the page or snapshot. Every command POST must come from the exact loopback origin, use JSON no larger than 64 KiB, provide the session secret, and repeat the same idempotency key in its header and body.
+
+## Human Inbox authority
+
+The three queues look similar but cannot substitute for one another:
+
+- **Runtime permission** answers only the original request while the Codex App Server connection and request remain live. Disconnect or request replacement makes the action stale. A provider response is not a repository approval.
+- **Business fact** first answers the live question and stores a generated local proposal. Secret answers are represented only by an omission marker. A separate incorporation action checks the actor, current Work Item state, and exact revision, then adds a Markdown context reference without changing scope, acceptance criteria, specifications, decisions, or lifecycle state.
+- **Governance approval** is available only for a Work Item currently at `release_gate`. It creates `temple.approval/v1`, checks the exact candidate revision and active Human Principals, enforces the risk-derived approval count, and applies High-Assurance sponsor independence. It does not close the Work Item or perform a release.
+
+Accepted and rejected commands are audited below the generated control-plane state directory. Repeating a completed command with the same idempotency key returns its prior result; reusing that key for different input is rejected. Canonical mutations also run through the project mutation lock and their own duplicate guards.
+
+## GitHub PR and Checks provider
+
+Add an explicit provider to `.ai-org/project/control-plane.json`:
+
+```json
+{
+  "id": "github-pr-42",
+  "kind": "github",
+  "enabled": true,
+  "options": {
+    "repository": "owner/repository",
+    "pull_number": 42,
+    "head_sha": "0123456789abcdef0123456789abcdef01234567",
+    "work_item_id": "WI-0001",
+    "token_env": "GH_TOKEN",
+    "poll_interval_ms": 30000
+  }
+}
+```
+
+The configured SHA must be a full lowercase commit. `token_env` names an environment variable; never place the credential itself in project configuration. The provider performs only GitHub REST `GET` requests for the configured pull request and Check Runs at that exact SHA, uses ETags, reports rate-limit state, and becomes degraded instead of reading checks when the observed PR head differs. An optional `fixture_path` must remain inside the project repository and replaces network polling for deterministic tests.
+
+After reviewing the observation, capture it explicitly:
+
+```bash
+node ./templew.mjs control-plane capture-github . \
+  --provider-id github-pr-42 \
+  --work-item WI-0001 \
+  --revision 0123456789abcdef0123456789abcdef01234567
+```
+
+Capture rechecks the configured, observed, and locally resolvable Git commit, then appends normalized `github` evidence. It performs no GitHub write and does not populate Work Item gate evidence or transition lifecycle state.
 
 ## Live observation and alert semantics
 
@@ -104,4 +152,4 @@ A rebuild restores canonical history projection. Provider-only transient history
 
 ## Current capability boundary
 
-Alpha.21 adds the read-only live Observer, capability-proven Codex App Server adapter, safe plan and diff summaries, token usage, reconnect reconciliation, provider-health view, and stateful alert engine. It does not yet claim the Human Inbox mutation gateway or GitHub PR and Checks evidence adapter. See the accepted [Phase 3 design](phase-3-control-plane.md) and [work breakdown](phase-3-work-items.md).
+Alpha.22 completes the local Phase 3 increments: replay-safe telemetry, the live Observer, capability-proven Codex App Server observation, stateful conditions, the authority-separated Human Inbox, and an exact-SHA read-only GitHub PR and Checks provider with explicit evidence capture. It does not provide remote access, notifications, tracker or PR writes, merge, deployment, production operations, universal visibility into existing Codex Desktop tasks, cross-clone consensus, or production-grade retention. See the accepted [Phase 3 design](phase-3-control-plane.md), [work breakdown](phase-3-work-items.md), and validation records.

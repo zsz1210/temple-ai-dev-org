@@ -327,6 +327,10 @@ export async function executeInit(plan) {
         live_observer: true,
         codex_app_server_adapter: true,
         control_plane_conditions: true,
+        human_inbox: true,
+        inbox_command_gateway: true,
+        github_pr_checks_provider: true,
+        github_evidence_capture: true,
         checksum_upgrade: true,
         optional_packs: true
       },

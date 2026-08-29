@@ -13,7 +13,7 @@
         "properties": {
           "id": { "type": "string", "pattern": "^EVID-[0-9]{8}T[0-9]{6}Z-[A-F0-9]{8}$" },
           "work_item_id": { "type": "string", "pattern": "^WI-(?:[0-9]{4,}|[0-9]{8}-[A-F0-9]{10})$" },
-          "kind": { "enum": ["git-revision", "test", "runtime", "unverified-claim", "risk", "rollback"] },
+          "kind": { "enum": ["git-revision", "test", "runtime", "unverified-claim", "risk", "rollback", "github"] },
           "title": { "type": "string", "minLength": 1 },
           "outcome": { "type": "string", "minLength": 1 },
           "scope_revision": { "type": ["string", "null"], "pattern": "^[0-9a-f]{40}$" },

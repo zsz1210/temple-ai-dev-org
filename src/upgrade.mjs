@@ -331,7 +331,11 @@ export async function planUpgrade(target) {
     lock.capabilities?.control_plane_http_sse !== true ||
     lock.capabilities?.live_observer !== true ||
     lock.capabilities?.codex_app_server_adapter !== true ||
-    lock.capabilities?.control_plane_conditions !== true;
+    lock.capabilities?.control_plane_conditions !== true ||
+    lock.capabilities?.human_inbox !== true ||
+    lock.capabilities?.inbox_command_gateway !== true ||
+    lock.capabilities?.github_pr_checks_provider !== true ||
+    lock.capabilities?.github_evidence_capture !== true;
   if (packMetadataChanges) actions.push({ type: "update-pack-metadata", path: "temple.lock" });
   if (capabilityChanges || collaborationCapabilityChanges) actions.push({ type: "update-capabilities", path: "temple.lock" });
   if (migrationPlan.pending.length > 0) actions.push({ type: "record-migrations", path: "temple.lock" });
@@ -585,6 +589,10 @@ export async function executeUpgrade(plan) {
         live_observer: true,
         codex_app_server_adapter: true,
         control_plane_conditions: true,
+        human_inbox: true,
+        inbox_command_gateway: true,
+        github_pr_checks_provider: true,
+        github_evidence_capture: true,
         checksum_upgrade: true,
         optional_packs: true
       },

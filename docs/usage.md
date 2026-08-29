@@ -513,9 +513,15 @@ Start or inspect the local replay-safe control plane:
 temple control-plane snapshot . --json
 temple control-plane start .
 temple control-plane start . --codex
+temple control-plane capture-github . \
+  --provider-id github-pr-42 \
+  --work-item WI-0001 \
+  --revision 0123456789abcdef0123456789abcdef01234567
 ```
 
-Alpha.21 keeps this surface read-only while adding live Work Item detail, provider health, Codex App Server observation, reconciliation, and stateful conditions. Its telemetry journal is generated below the Git common directory, shared by linked worktrees in one clone, redacted by default, and incapable of satisfying a lifecycle gate. See the [local control-plane guide](control-plane.md).
+Alpha.22 adds three visibly separate Human Inbox queues for live runtime permissions, local business-fact proposals, and revision-bound governance approvals. Only the still-live provider can receive a runtime answer; a business response requires a second explicit incorporation step before it becomes a canonical context reference; governance records enforce current Work Item state, exact revision, active Human Principals, approval counts, and High-Assurance separation. The loopback gateway requires a per-process session secret, same-origin request, matching idempotency key, and bounded JSON body.
+
+The GitHub PR and Checks provider is opt-in, read-only, exact-SHA-bound, and configured in `.ai-org/project/control-plane.json`. It stores only the environment-variable name for its token. A reviewed local observation enters the Evidence Registry only through `capture-github`; capture does not add gate evidence or advance the Work Item. The telemetry journal remains generated below the Git common directory, shared by linked worktrees in one clone, redacted by default, and incapable of satisfying a lifecycle gate. See the [local control-plane guide](control-plane.md).
 
 `status.md` includes:
 

@@ -28,7 +28,7 @@ Temple 不是共享聊天記憶的系統，也不是一組 prompt 的集合。�
 | 工作協調 | 固定的 `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle、可持續保存的 work item 與 handoff、deterministic safe dispatch wave、claim-before-worker preparation，以及可觀測的共享 runtime capacity |
 | 團隊與 tracker 協調 | 區分公司 tracker、team-visible outcome、AI 內部拆解與 Codex session；透過明確 mapping、欄位權限、有限 observation 與 evidence-backed reconciliation 串接 |
 | 驗證與交付 | 具名的 gate evidence、evaluation、獨立重現、revision reference、approval record、rollback plan 與有明確範圍的 closeout |
-| 持久狀態、學習與可觀測性 | 由 repository 保存的 decision、Context Map、Lesson、Practice、work item、event、task registry、產生式 Capability Registry、Context Capsule、status，以及具 conflict 保護的 upgrade |
+| 持久狀態、學習與可觀測性 | 由 repository 保存的 decision、Context Map、Lesson、Practice、work item、event、task 與 evidence registry、產生式 Capability Registry、Context Capsule、status、static Observer、具有權限分離 Human Inbox 的 local live control plane，以及具 conflict 保護的 upgrade |
 
 Position 定義責任與批准邊界；Agent Identity 是被指派到 Position、屬於專案自己的執行者；Skill 則是執行某類工作時可重複使用的方法。Skill 不會擴張權限，也不能取代 evidence gate。
 
@@ -82,6 +82,8 @@ node ./templew.mjs status .
 
 Alpha.19 完成 Phase 2C：Pack v2 可攜帶有版本與 provenance 的 reference、script 與 asset；runtime JSON Schema 與 migration plan 可直接檢查；Learning 提供原子化新增、revalidation 與 retrieval evaluation；High-Assurance 可在通過人類責任與風險 gate 後選用；選配的 Archify adapter 只接受 exact local source 並隔離安裝、檢查 digest。預設不會安裝 semantic model、vector database、daemon、第三方下載或執行外部動作。
 
+Alpha.20–22 提供 local Phase 3 control plane：replay-safe generated telemetry、帶 capability label 的 live observation、pinned Codex App Server adapter、stateful condition、三種不可互相取代的 Human Inbox queue，以及選配的 exact-SHA GitHub PR／Checks reader。runtime answer 只能回覆原本仍在線的 request；business answer 在明確導入前只會是 local proposal；governance approval 則會驗證當前 state、exact revision、Human Principal 與 High-Assurance policy。GitHub capture 必須透過另一個明確命令才會建立 normalized evidence，不會寫入 GitHub，也不會推進 lifecycle gate。詳見 [Local control plane（英文）](docs/control-plane.md)。
+
 ## 工程方法與擴展
 
 Temple 會維持精簡的預設安裝。產品思考與組織運作 Skills 作為 core capability 安裝，開發程序則採選配方式。目前提供的 Build Quality pack 會加入 TDD 與範圍明確的 bug diagnosis，但不會改變 Position ownership 或 lifecycle authority。
@@ -112,6 +114,7 @@ Temple 是安裝進專案，而不是要求專案 fork 這個 repository。開�
 - [協作開發模型](docs/collaboration.md) — Human Principal、Position pool、task slicing、parallel readiness、claim 與流程圖
 - [平行編排](docs/parallel-orchestration.md) — safe wave、runtime dispatch、staleness 與 Integration Owner join gate
 - [Runtime coordination and recovery](docs/runtime-coordination.md) — pinned launcher、stage requirement、shared resource 與 worker/task correlation
+- [Local control plane](docs/control-plane.md) — live provider、replay、condition、Human Inbox authority 與 read-only GitHub evidence
 - [Task 與 external tracker 協調](docs/task-and-tracker-coordination.md) — 公司看板、AI 內部工作、欄位權限、mapping 與 reconciliation
 - [產品規格系統](docs/product-specifications.md) — product truth、帶版本的 Work Item reference 與 iterative delivery
 - [企業文件導入](docs/enterprise-document-adoption.md) — 在不產生雙重權威的前提下保留、橋接或遷移既有文件系統

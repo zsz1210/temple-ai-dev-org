@@ -199,6 +199,69 @@ function safeRuntimeRequest(method, requestId, params) {
   };
 }
 
+function safeRequestView(eventData, params) {
+  return {
+    ...eventData,
+    questions: (params?.questions ?? []).slice(0, 20).map((question) => ({
+      id: boundedText(question?.id, 120),
+      header: boundedText(question?.header, 120),
+      question: boundedText(question?.question, 500),
+      is_secret: question?.isSecret === true,
+      options: (question?.options ?? []).slice(0, 20).map((option) => ({
+        label: boundedText(option?.label, 160),
+        description: boundedText(option?.description, 300)
+      }))
+    })).filter((question) => question.id && question.question)
+  };
+}
+
+export function buildCodexRuntimeRequestResponse(method, params, action) {
+  const request = { method, params };
+  if (request.method === "item/commandExecution/requestApproval" || request.method === "item/fileChange/requestApproval") {
+    const decision = String(action?.decision ?? "");
+    const allowed = new Set(["accept", "acceptForSession", "decline", "cancel"]);
+    if (!allowed.has(decision)) throw new Error(`Unsupported runtime decision: ${decision || "missing"}`);
+    if (
+      request.params?.availableDecisions?.length &&
+      !request.params.availableDecisions.some((entry) => (typeof entry === "string" ? entry : entry?.type) === decision)
+    ) {
+      throw new Error(`Runtime provider did not offer decision ${decision}`);
+    }
+    return { decision };
+  }
+  if (request.method === "item/permissions/requestApproval") {
+    const decision = String(action?.decision ?? "");
+    if (!new Set(["accept", "decline"]).has(decision)) throw new Error("Permission requests accept only accept or decline");
+    return {
+      permissions: decision === "accept" ? structuredClone(request.params?.permissions ?? {}) : {},
+      scope: "turn"
+    };
+  }
+  if (request.method === "item/tool/requestUserInput") {
+    const answers = action?.answers;
+    if (!answers || typeof answers !== "object" || Array.isArray(answers)) throw new Error("Business response answers are required");
+    const questions = request.params?.questions ?? [];
+    const expectedIds = new Set(questions.map((question) => question.id));
+    if (Object.keys(answers).some((id) => !expectedIds.has(id)) || [...expectedIds].some((id) => !Object.hasOwn(answers, id))) {
+      throw new Error("Business response must answer every current question exactly once");
+    }
+    const normalized = {};
+    for (const question of questions) {
+      const values = answers[question.id];
+      if (!Array.isArray(values) || values.length === 0 || values.length > 20) throw new Error(`Question ${question.id} requires one or more answers`);
+      normalized[question.id] = {
+        answers: values.map((value) => {
+          const bounded = boundedText(String(value), 1000);
+          if (!bounded) throw new Error(`Question ${question.id} contains an empty answer`);
+          return bounded;
+        })
+      };
+    }
+    return { answers: normalized };
+  }
+  throw new Error(`Unsupported live runtime request method: ${request.method}`);
+}
+
 function eventId(method, data, occurredAt) {
   const identity = [
     CODEX_APP_SERVER_PROTOCOL_PROFILE,
@@ -472,7 +535,7 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
               method: message.method,
               params: message.params,
               responder,
-              safe: safe.data,
+              safe: safeRequestView(safe.data, message.params),
               observed_at: new Date().toISOString()
             });
             void journal.append(safe).catch((error) => {
@@ -548,14 +611,15 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
     pendingRequests() {
       return [...pendingRuntimeRequests.values()].map((request) => ({ ...request.safe, observed_at: request.observed_at }));
     },
-    answerRuntimeRequest(requestId, result) {
+    answerRuntimeRequest(requestId, action) {
       const request = pendingRuntimeRequests.get(String(requestId));
       if (!request || !request.safe.answerable || !connection) throw new Error("Runtime request is no longer live or answerable");
+      const result = buildCodexRuntimeRequestResponse(request.method, request.params, action);
       request.responder.respond(result);
       request.safe.answerable = false;
       request.safe.status = "answered";
       pendingRuntimeRequests.delete(String(requestId));
-      return { request_id: String(requestId), method: request.method, answered: true };
+      return { request_id: String(requestId), method: request.method, answered: true, request_class: request.safe.request_class };
     },
     async reconnect() {
       if (connection) await connection.close();

@@ -40,6 +40,9 @@ import {
   rebuildControlPlane,
   startControlPlaneServer
 } from "./control-plane-server.mjs";
+import { readControlPlaneConfig } from "./control-plane-config.mjs";
+import { captureGitHubEvidence } from "./github-control-plane-provider.mjs";
+import { resolveControlPlaneStateDirectory } from "./telemetry.mjs";
 import { validateProjectSchemas } from "./schema-validation.mjs";
 import { buildMigrationPlan } from "./migrations.mjs";
 import {
@@ -90,6 +93,7 @@ Usage:
   temple control-plane snapshot [target] [--state-dir path] [--json]
   temple control-plane ingest [target] --fixture path [--state-dir path] [--json]
   temple control-plane rebuild [target] [--state-dir path] [--json]
+  temple control-plane capture-github [target] --provider-id id --work-item WI-ID --revision commit [--state-dir path] [--actor id] [--title text] [--summary text] [--json]
   temple control-plane start [target] [--host 127.0.0.1] [--port number] [--state-dir path] [--fixture path] [--codex]
   temple collaboration show [target] [--json]
   temple collaboration set-profile [target] --profile solo|collaborative|high-assurance
@@ -688,6 +692,32 @@ async function runControlPlane(parsed) {
     ]);
     return 0;
   }
+  if (parsed.action === "capture-github") {
+    if (!parsed.options["--provider-id"] || !parsed.options["--work-item"] || !parsed.options["--revision"]) {
+      throw new Error("control-plane capture-github requires --provider-id, --work-item, and --revision");
+    }
+    const config = await readControlPlaneConfig(target);
+    const stateDirectory = resolveControlPlaneStateDirectory(
+      target,
+      parsed.options["--state-dir"] ?? config.state_directory
+    );
+    const entry = await captureGitHubEvidence(target, stateDirectory, {
+      providerId: parsed.options["--provider-id"],
+      workItemId: parsed.options["--work-item"],
+      revision: parsed.options["--revision"],
+      actor: parsed.options["--actor"],
+      title: parsed.options["--title"],
+      summary: parsed.options["--summary"]
+    });
+    printResult(parsed, entry, [
+      `Captured GitHub evidence: ${entry.id}`,
+      `Work Item / revision: ${entry.work_item_id} / ${entry.scope_revision}`,
+      `Outcome: ${entry.outcome}`,
+      "Lifecycle gate changed: no",
+      "External action: not performed"
+    ]);
+    return 0;
+  }
   if (parsed.action === "start") {
     const controlPlane = await startControlPlaneServer(target, {
       ...options,
@@ -707,7 +737,7 @@ async function runControlPlane(parsed) {
     await controlPlane.close();
     return 0;
   }
-  throw new Error("control-plane action must be snapshot, ingest, rebuild, or start");
+  throw new Error("control-plane action must be snapshot, ingest, rebuild, capture-github, or start");
 }
 
 async function runEvidence(parsed) {

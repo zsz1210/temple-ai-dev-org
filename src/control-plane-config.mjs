@@ -107,6 +107,42 @@ export function validateControlPlaneConfig(document) {
       }
       if (!CONTROL_PLANE_PROVIDER_KINDS.includes(provider?.kind)) errors.push("providers contain an unsupported kind");
       if (typeof provider?.enabled !== "boolean") errors.push("provider.enabled must be boolean");
+      if (provider?.kind === "github" && provider?.enabled === true) {
+        const options = provider.options;
+        if (!options || typeof options !== "object" || Array.isArray(options)) {
+          errors.push(`GitHub provider ${provider.id} requires an options object`);
+        } else {
+          if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(options.repository ?? "")) {
+            errors.push(`GitHub provider ${provider.id} options.repository must use owner/repository`);
+          }
+          if (!Number.isInteger(options.pull_number) || options.pull_number < 1) {
+            errors.push(`GitHub provider ${provider.id} options.pull_number must be a positive integer`);
+          }
+          if (!/^[0-9a-f]{40}$/.test(options.head_sha ?? "")) {
+            errors.push(`GitHub provider ${provider.id} options.head_sha must be an exact lowercase commit SHA`);
+          }
+          if (typeof options.work_item_id !== "string" || !options.work_item_id.trim()) {
+            errors.push(`GitHub provider ${provider.id} options.work_item_id is required`);
+          }
+          if (options.token_env !== undefined && !/^[A-Za-z_][A-Za-z0-9_]*$/.test(options.token_env)) {
+            errors.push(`GitHub provider ${provider.id} options.token_env must be an environment-variable name`);
+          }
+          if (
+            options.poll_interval_ms !== undefined &&
+            (!Number.isInteger(options.poll_interval_ms) || options.poll_interval_ms < 5000 || options.poll_interval_ms > 3600000)
+          ) {
+            errors.push(`GitHub provider ${provider.id} options.poll_interval_ms must be from 5000 to 3600000`);
+          }
+          if (options.api_url !== undefined) {
+            try {
+              const apiUrl = new URL(options.api_url);
+              if (apiUrl.protocol !== "https:" || apiUrl.username || apiUrl.password) throw new Error("unsafe URL");
+            } catch {
+              errors.push(`GitHub provider ${provider.id} options.api_url must be an HTTPS URL without credentials`);
+            }
+          }
+        }
+      }
       providerIds.add(provider?.id);
     }
     const repository = document.providers.find((entry) => entry.id === "repository");

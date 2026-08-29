@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import http from "node:http";
 import path from "node:path";
@@ -10,6 +11,16 @@ import {
   codexAppServerProviderContract,
   startCodexAppServerProvider
 } from "./codex-app-server-provider.mjs";
+import {
+  buildHumanInbox,
+  createHumanInboxGateway,
+  generateInboxSessionSecret,
+  InboxCommandError
+} from "./control-plane-inbox.mjs";
+import {
+  githubControlPlaneProviderContract,
+  startGitHubControlPlaneProvider
+} from "./github-control-plane-provider.mjs";
 import {
   createProviderRegistry,
   ingestProviderFixture,
@@ -67,19 +78,85 @@ function numericCursor(value) {
   return cursor;
 }
 
+function baseProviderContracts(config) {
+  const contracts = [repositoryProviderContract()];
+  const codexProviders = config.providers.filter((provider) => provider.kind === "codex-app-server");
+  if (codexProviders.length === 0) {
+    contracts.push(codexAppServerProviderContract({ status: "disabled", degradedReason: "explicit opt-in required" }));
+  } else {
+    for (const provider of codexProviders) {
+      contracts.push(codexAppServerProviderContract({
+        id: provider.id,
+        status: "disabled",
+        degradedReason: provider.enabled ? "daemon not started" : "disabled by project configuration"
+      }));
+    }
+  }
+  for (const provider of config.providers.filter((entry) => entry.kind === "github")) {
+    contracts.push(githubControlPlaneProviderContract({
+      id: provider.id,
+      status: "disabled",
+      degradedReason: provider.enabled ? "daemon not started" : "disabled by project configuration"
+    }));
+  }
+  return contracts;
+}
+
+function isLoopbackHost(hostHeader, port) {
+  if (typeof hostHeader !== "string") return false;
+  return new Set([`127.0.0.1:${port}`, `localhost:${port}`]).has(hostHeader.toLowerCase());
+}
+
+function constantTimeEqual(left, right) {
+  const leftBuffer = Buffer.from(String(left ?? ""));
+  const rightBuffer = Buffer.from(String(right ?? ""));
+  return leftBuffer.length === rightBuffer.length && crypto.timingSafeEqual(leftBuffer, rightBuffer);
+}
+
+async function readJsonRequest(request, maximumBytes = 65536) {
+  const chunks = [];
+  let total = 0;
+  for await (const chunk of request) {
+    total += chunk.length;
+    if (total > maximumBytes) throw new InboxCommandError("Inbox request exceeds the 64 KiB limit", 413);
+    chunks.push(chunk);
+  }
+  try {
+    return JSON.parse(Buffer.concat(chunks).toString("utf8"));
+  } catch {
+    throw new InboxCommandError("Inbox request body must be valid JSON");
+  }
+}
+
+function assertGatewayRequest(request, origin, sessionSecret, body) {
+  if (request.headers.origin !== origin) throw new InboxCommandError("Inbox command origin is not the active loopback server", 403);
+  if (request.headers["content-type"]?.split(";")[0].trim().toLowerCase() !== "application/json") {
+    throw new InboxCommandError("Inbox commands require application/json", 415);
+  }
+  if (!constantTimeEqual(request.headers["x-temple-session"], sessionSecret)) {
+    throw new InboxCommandError("Inbox session secret is missing or invalid", 403);
+  }
+  if (!constantTimeEqual(request.headers["x-idempotency-key"], body.idempotency_key)) {
+    throw new InboxCommandError("Inbox idempotency header and body do not match", 400);
+  }
+}
+
 export async function buildControlPlaneSnapshot(target, journal, registry, options = {}) {
   const [observer, daemon] = await Promise.all([
     buildObserverProjection(target),
     options.stateDirectory ? readDaemonMetadata(options.stateDirectory) : null
   ]);
   const config = options.config ?? await readControlPlaneConfig(target);
-  const [liveObserver, conditions] = await Promise.all([
+  const [liveObserver, conditions, inbox] = await Promise.all([
     buildLiveObserverProjection(target, observer, journal, registry, { now: options.now }),
     buildConditionProjection(target, observer, journal, registry, config, {
       stateDirectory: options.stateDirectory,
       persist: options.persistConditions,
       now: options.now
-    })
+    }),
+    options.stateDirectory
+      ? buildHumanInbox(target, options.stateDirectory, options.codexProvider)
+      : null
   ]);
   const journalSnapshot = journal.snapshot();
   const eventWindow = journal.readAfter(Math.max(0, journalSnapshot.last_cursor - (options.eventLimit ?? 100)));
@@ -99,6 +176,7 @@ export async function buildControlPlaneSnapshot(target, journal, registry, optio
     observer,
     live_observer: liveObserver,
     conditions,
+    inbox,
     recent_events: eventWindow.records,
     canonical_state_changed: false,
     external_action_performed: false
@@ -139,7 +217,9 @@ export async function startControlPlaneServer(target, options = {}) {
   let journal = null;
   let repositoryProvider = null;
   let codexProvider = null;
+  const githubProviders = [];
   let server = null;
+  let serverOrigin = null;
   const clients = new Set();
   const startedAt = new Date().toISOString();
 
@@ -148,10 +228,7 @@ export async function startControlPlaneServer(target, options = {}) {
       maxEvents: config.retention.max_events,
       privacy: config.privacy
     });
-    const registry = createProviderRegistry([
-      repositoryProviderContract(),
-      codexAppServerProviderContract({ status: "disabled", degradedReason: "explicit opt-in required" })
-    ]);
+    const registry = createProviderRegistry(baseProviderContracts(config));
     repositoryProvider = startRepositoryProvider(projectRoot, journal, registry, {
       intervalMs: options.repositoryIntervalMs
     });
@@ -160,11 +237,24 @@ export async function startControlPlaneServer(target, options = {}) {
     if (options.enableCodex || configuredCodex) {
       codexProvider = await startCodexAppServerProvider(projectRoot, journal, registry, {
         ...(configuredCodex?.options ?? {}),
+        providerId: configuredCodex?.id,
         command: options.codexCommand ?? configuredCodex?.options?.command,
         commandArgs: options.codexCommandArgs ?? configuredCodex?.options?.command_args,
         resumeThreads: options.resumeCodexThreads ?? configuredCodex?.options?.resume_threads ?? true
       });
       await codexProvider.start();
+    }
+    for (const githubConfig of config.providers.filter((provider) => provider.kind === "github" && provider.enabled)) {
+      const provider = await startGitHubControlPlaneProvider(
+        projectRoot,
+        stateDirectory,
+        journal,
+        registry,
+        githubConfig,
+        options.githubProviderOptions?.[githubConfig.id] ?? {}
+      );
+      await provider.start();
+      githubProviders.push(provider);
     }
     if (options.fixturePath) {
       const fixture = await readProviderFixture(options.fixturePath);
@@ -173,10 +263,23 @@ export async function startControlPlaneServer(target, options = {}) {
     await persistProviderRegistry(stateDirectory, registry);
 
     const project = await readJson(path.join(projectRoot, ".ai-org/project/project.json"));
+    const sessionSecret = generateInboxSessionSecret();
+    const inboxGateway = createHumanInboxGateway({
+      target: projectRoot,
+      stateDirectory,
+      codexProvider,
+      privacy: config.privacy
+    });
 
     server = http.createServer(async (request, response) => {
       try {
         const requestUrl = new URL(request.url ?? "/", `http://${request.headers.host ?? "127.0.0.1"}`);
+        const address = server.address();
+        const requestPort = typeof address === "object" && address ? address.port : port;
+        if (!isLoopbackHost(request.headers.host, requestPort)) {
+          jsonResponse(response, 403, { error: "Control-plane Host must be the active loopback listener" });
+          return;
+        }
         if (request.method === "GET" && requestUrl.pathname === "/healthz") {
           jsonResponse(response, 200, {
             status: "ok",
@@ -196,7 +299,8 @@ export async function startControlPlaneServer(target, options = {}) {
           jsonResponse(response, 200, await buildControlPlaneSnapshot(projectRoot, journal, registry, {
             stateDirectory,
             config,
-            persistConditions: true
+            persistConditions: true,
+            codexProvider
           }));
           return;
         }
@@ -216,7 +320,8 @@ export async function startControlPlaneServer(target, options = {}) {
             response.write(`data: ${JSON.stringify(await buildControlPlaneSnapshot(projectRoot, journal, registry, {
               stateDirectory,
               config,
-              persistConditions: true
+              persistConditions: true,
+              codexProvider
             }))}\n\n`);
           }
           for (const record of replay.records) sendSseRecord(response, record);
@@ -232,16 +337,33 @@ export async function startControlPlaneServer(target, options = {}) {
           return;
         }
         if (request.method === "GET" && requestUrl.pathname === "/") {
-          htmlResponse(response, renderControlPlaneDashboard(project.name));
+          htmlResponse(response, renderControlPlaneDashboard(project.name, { sessionSecret, inboxEnabled: true }));
+          return;
+        }
+        if (request.method === "GET" && requestUrl.pathname === "/api/v1/inbox") {
+          jsonResponse(response, 200, await buildHumanInbox(projectRoot, stateDirectory, codexProvider));
+          return;
+        }
+        const inboxRoutes = new Map([
+          ["/api/v1/inbox/runtime-permission", "runtime-permission"],
+          ["/api/v1/inbox/business-fact", "business-fact"],
+          ["/api/v1/inbox/business-incorporation", "business-incorporation"],
+          ["/api/v1/inbox/governance-approval", "governance-approval"]
+        ]);
+        if (request.method === "POST" && inboxRoutes.has(requestUrl.pathname)) {
+          const body = await readJsonRequest(request);
+          assertGatewayRequest(request, serverOrigin, sessionSecret, body);
+          const result = await inboxGateway.submit(inboxRoutes.get(requestUrl.pathname), body);
+          jsonResponse(response, 200, result);
           return;
         }
         if (request.method !== "GET") {
-          jsonResponse(response, 405, { error: "Phase 3B control plane is read-only" });
+          jsonResponse(response, 405, { error: "Phase 3C accepts mutations only through bounded Human Inbox routes" });
           return;
         }
         jsonResponse(response, 404, { error: "Not found" });
       } catch (error) {
-        if (!response.headersSent) jsonResponse(response, 400, { error: error.message });
+        if (!response.headersSent) jsonResponse(response, error.statusCode ?? 400, { error: error.message });
         else response.destroy(error);
       }
     });
@@ -250,6 +372,7 @@ export async function startControlPlaneServer(target, options = {}) {
     const address = server.address();
     const actualPort = typeof address === "object" && address ? address.port : port;
     const url = `http://${host}:${actualPort}`;
+    serverOrigin = url;
     await writeDaemonMetadata(stateDirectory, {
       host,
       port: actualPort,
@@ -268,11 +391,14 @@ export async function startControlPlaneServer(target, options = {}) {
       journal,
       registry,
       codexProvider,
+      githubProviders,
+      sessionSecret,
       async close() {
         if (closed) return;
         closed = true;
         for (const close of [...clients]) close();
         if (codexProvider) await codexProvider.stop();
+        for (const provider of githubProviders) await provider.stop();
         await repositoryProvider.stop();
         await persistProviderRegistry(stateDirectory, registry);
         await closeHttpServer(server);
@@ -285,6 +411,7 @@ export async function startControlPlaneServer(target, options = {}) {
     };
   } catch (error) {
     if (codexProvider) await codexProvider.stop().catch(() => {});
+    for (const provider of githubProviders) await provider.stop().catch(() => {});
     if (repositoryProvider) await repositoryProvider.stop().catch(() => {});
     if (server) await closeHttpServer(server).catch(() => {});
     if (journal) await journal.close().catch(() => {});
@@ -302,17 +429,14 @@ export async function inspectControlPlane(target, options = {}) {
     privacy: config.privacy,
     readOnly: true
   });
-  const registry = createProviderRegistry([
-    repositoryProviderContract(),
-    codexAppServerProviderContract({ status: "disabled", degradedReason: "explicit opt-in required" })
-  ]);
+  const registry = createProviderRegistry(baseProviderContracts(config));
   const providerPath = path.join(stateDirectory, "providers.json");
   if (await pathExists(providerPath)) {
     const persisted = await readJson(providerPath);
     for (const provider of persisted.providers ?? []) registry.set(provider);
   }
   if (!(await readDaemonMetadata(stateDirectory))) {
-    for (const provider of registry.list().filter((entry) => entry.kind === "codex-app-server" && entry.status === "ready")) {
+    for (const provider of registry.list().filter((entry) => ["codex-app-server", "github"].includes(entry.kind) && entry.status === "ready")) {
       registry.update(provider.id, {
         status: "offline",
         degraded_reason: "control-plane daemon is not running; persisted live status is stale"
@@ -322,7 +446,8 @@ export async function inspectControlPlane(target, options = {}) {
   const snapshot = await buildControlPlaneSnapshot(projectRoot, journal, registry, {
     stateDirectory,
     config,
-    persistConditions: false
+    persistConditions: false,
+    codexProvider: null
   });
   await journal.close();
   return { stateDirectory, snapshot };
@@ -338,10 +463,7 @@ export async function ingestControlPlaneFixture(target, fixturePath, options = {
       maxEvents: config.retention.max_events,
       privacy: config.privacy
     });
-    const registry = createProviderRegistry([
-      repositoryProviderContract(),
-      codexAppServerProviderContract({ status: "disabled", degradedReason: "explicit opt-in required" })
-    ]);
+    const registry = createProviderRegistry(baseProviderContracts(config));
     const providerPath = path.join(stateDirectory, "providers.json");
     if (await pathExists(providerPath)) {
       const persisted = await readJson(providerPath);
@@ -353,7 +475,8 @@ export async function ingestControlPlaneFixture(target, fixturePath, options = {
     const snapshot = await buildControlPlaneSnapshot(projectRoot, journal, registry, {
       stateDirectory,
       config,
-      persistConditions: true
+      persistConditions: true,
+      codexProvider: null
     });
     await journal.close();
     return { stateDirectory, result, snapshot };
@@ -380,16 +503,14 @@ export async function rebuildControlPlane(target, options = {}) {
       maxEvents: config.retention.max_events,
       privacy: config.privacy
     });
-    const registry = createProviderRegistry([
-      repositoryProviderContract(),
-      codexAppServerProviderContract({ status: "disabled", degradedReason: "explicit opt-in required" })
-    ]);
+    const registry = createProviderRegistry(baseProviderContracts(config));
     const repository = await ingestRepositoryEvents(projectRoot, journal, registry);
     await persistProviderRegistry(stateDirectory, registry);
     const snapshot = await buildControlPlaneSnapshot(projectRoot, journal, registry, {
       stateDirectory,
       config,
-      persistConditions: true
+      persistConditions: true,
+      codexProvider: null
     });
     await journal.close();
     return { stateDirectory, archivePath, repository, snapshot };

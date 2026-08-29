@@ -1,8 +1,8 @@
 # Phase 3: Real-time control plane
 
-- Status: Accepted design
+- Status: Delivered locally with retained validation limits
 - Design date: 2026-08-30
-- Implementation status: Phase 3A delivered in Alpha.20 and Phase 3B delivered in Alpha.21; Phase 3C next
+- Implementation status: Phase 3A delivered in Alpha.20, Phase 3B in Alpha.21, and Phase 3C in Alpha.22
 - Depends on: Phase 2A runtime coordination, Phase 2B evidence and Observer, Phase 2C extension contracts
 - Research: [Phase 3 control-plane research](research/phase-3-control-plane-research.md)
 - Work breakdown: [Phase 3 work items](phase-3-work-items.md)

@@ -6,6 +6,7 @@ import { spawnSync } from "node:child_process";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import {
+  buildCodexRuntimeRequestResponse,
   normalizeCodexMessage,
   startCodexAppServerProvider,
   summarizeUnifiedDiff
@@ -116,6 +117,49 @@ test("Codex normalization retains bounded summaries and excludes raw prompts, co
   assert.equal(request.data.command_present, true);
   assert.equal(request.data.raw_request_retained, false);
   assert.doesNotMatch(JSON.stringify(request), /print-super-secret/);
+});
+
+test("Codex runtime-request responses match the pinned App Server response shapes", () => {
+  assert.deepEqual(
+    buildCodexRuntimeRequestResponse(
+      "item/commandExecution/requestApproval",
+      { availableDecisions: ["accept", "acceptForSession", "decline"] },
+      { decision: "acceptForSession" }
+    ),
+    { decision: "acceptForSession" }
+  );
+  assert.deepEqual(
+    buildCodexRuntimeRequestResponse(
+      "item/permissions/requestApproval",
+      { permissions: { network: { enabled: true } } },
+      { decision: "accept" }
+    ),
+    { permissions: { network: { enabled: true } }, scope: "turn" }
+  );
+  assert.deepEqual(
+    buildCodexRuntimeRequestResponse(
+      "item/permissions/requestApproval",
+      { permissions: { network: { enabled: true } } },
+      { decision: "decline" }
+    ),
+    { permissions: {}, scope: "turn" }
+  );
+  assert.deepEqual(
+    buildCodexRuntimeRequestResponse(
+      "item/tool/requestUserInput",
+      { questions: [{ id: "region" }] },
+      { answers: { region: ["Japan"] } }
+    ),
+    { answers: { region: { answers: ["Japan"] } } }
+  );
+  assert.throws(
+    () => buildCodexRuntimeRequestResponse(
+      "item/tool/requestUserInput",
+      { questions: [{ id: "region" }] },
+      { answers: {} }
+    ),
+    /answer every current question/
+  );
 });
 
 test("live projection labels unobserved tasks honestly and terminal item state wins over later transient deltas", async (context) => {

@@ -139,6 +139,10 @@ test("init installs the safe control-plane config and fixture ingestion is repla
   assert.equal(lock.capabilities.live_observer, true);
   assert.equal(lock.capabilities.codex_app_server_adapter, true);
   assert.equal(lock.capabilities.control_plane_conditions, true);
+  assert.equal(lock.capabilities.human_inbox, true);
+  assert.equal(lock.capabilities.inbox_command_gateway, true);
+  assert.equal(lock.capabilities.github_pr_checks_provider, true);
+  assert.equal(lock.capabilities.github_evidence_capture, true);
 
   const fixturePath = path.join(temporaryRoot, "provider-fixture.json");
   await writeJson(fixturePath, {
@@ -177,7 +181,7 @@ test("upgrade seeds missing project-owned control-plane configuration without ma
   const upgraded = run(["upgrade", target]);
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.21");
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.22");
   assert.equal(upgradedLock.capabilities.local_telemetry_journal, true);
   assert.equal(upgradedLock.capabilities.live_observer, true);
   assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/project/control-plane.json"));
@@ -190,7 +194,7 @@ test("upgrade seeds missing project-owned control-plane configuration without ma
   assert.equal(await fs.readFile(configPath, "utf8"), before);
 });
 
-test("read-only HTTP snapshot and SSE replay expose local events without accepting mutation", async (context) => {
+test("HTTP snapshot and SSE replay expose local events while arbitrary mutation stays unavailable", async (context) => {
   const { target, stateDirectory } = await fixture(context);
   const controlPlane = await startControlPlaneServer(target, {
     stateDirectory,
@@ -228,7 +232,7 @@ test("read-only HTTP snapshot and SSE replay expose local events without accepti
 
   const mutation = await fetch(`${controlPlane.url}/api/v1/snapshot`, { method: "POST" });
   assert.equal(mutation.status, 405);
-  assert.equal((await mutation.json()).error, "Phase 3B control plane is read-only");
+  assert.equal((await mutation.json()).error, "Phase 3C accepts mutations only through bounded Human Inbox routes");
   await controlPlane.close();
 });
 

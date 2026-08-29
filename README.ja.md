@@ -28,7 +28,7 @@ Temple はチャット記憶の共有システムでも、prompt の寄せ集め
 | 作業オーケストレーション | 永続的な work item と handoff、固定の `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle、deterministic safe dispatch wave、claim-before-worker preparation、共有 runtime capacity の可視化 |
 | チームと tracker の連携 | 会社 tracker、team-visible outcome、AI 内部の分解、Codex session を分離し、明示的な mapping、field ownership、限定された observation、evidence-backed reconciliation で接続 |
 | 検証とデリバリー | 名前付き gate evidence、evaluation、独立再現、revision reference、approval record、rollback plan、範囲を限定した closeout |
-| 永続的な状態、学習、可観測性 | リポジトリが所有する decision、Context Map、Lesson、Practice、work item、event、task registry、生成 Capability Registry、Context Capsule、status、conflict-aware upgrade |
+| 永続的な状態、学習、可観測性 | リポジトリが所有する decision、Context Map、Lesson、Practice、work item、event、task／evidence registry、生成 Capability Registry、Context Capsule、status、static Observer、権限を分離した Human Inbox を持つ local live control plane、conflict-aware upgrade |
 
 Position は責任と承認限界を定義します。Agent Identity は、その Position に割り当てられるプロジェクト固有の実行者です。Skill は特定の仕事を行うための再利用可能な手法であり、権限を拡大したり evidence gate を置き換えたりするものではありません。
 
@@ -82,6 +82,8 @@ node ./templew.mjs status .
 
 Alpha.19 で Phase 2C が完了しました。Pack v2 は version、provenance、reference、script、asset を扱い、runtime JSON Schema と migration plan を検査できます。Learning は atomic capture、revalidation、retrieval evaluation を提供します。High-Assurance は人間の accountability と risk gate を満たした場合に選択でき、optional Archify adapter は exact local source のみを隔離導入して digest を検証します。semantic model、vector database、daemon、第三者 download、外部 action はデフォルトで導入されません。
 
+Alpha.20–22 では local Phase 3 control plane を提供します。replay-safe な generated telemetry、capability label 付き live observation、pinned Codex App Server adapter、stateful condition、相互に代用できない3種類の Human Inbox queue、opt-in の exact-SHA GitHub PR／Checks reader が含まれます。runtime answer は元の live request にだけ返され、business answer は明示的に取り込むまで local proposal のままです。governance approval は現在 state、exact revision、Human Principal、High-Assurance policy を検証します。GitHub capture は別コマンドで normalized evidence を作りますが、GitHub への書き込みや lifecycle gate の進行は行いません。[Local control plane（英語）](docs/control-plane.md)を参照してください。
+
 ## 開発手法と拡張
 
 Temple はデフォルト導入を限定的に保ちます。プロダクト思考と組織運用の Skill は core capability として導入し、開発手順は opt-in にします。現在提供される Build Quality pack は、Position の ownership や lifecycle authority を変えずに、TDD と範囲を限定した bug diagnosis を追加します。
@@ -112,6 +114,7 @@ Temple はプロジェクトへインストールします。プロジェクト�
 - [Collaborative development model](docs/collaboration.md) — Human Principal、Position pool、task slicing、parallel readiness、claim、diagram
 - [Parallel orchestration](docs/parallel-orchestration.md) — safe wave、runtime dispatch、staleness、Integration Owner join gate
 - [Runtime coordination and recovery](docs/runtime-coordination.md) — pinned launcher、stage requirement、shared resource、worker/task correlation
+- [Local control plane](docs/control-plane.md) — live provider、replay、condition、Human Inbox authority、read-only GitHub evidence
 - [Task and external tracker coordination](docs/task-and-tracker-coordination.md) — 会社ボード、AI 内部作業、field ownership、mapping、reconciliation
 - [Product specification system](docs/product-specifications.md) — product truth、revision 付き Work Item reference、iterative delivery
 - [Enterprise document adoption](docs/enterprise-document-adoption.md) — 二重の authority を作らず既存ドキュメントを維持・接続・移行する方法

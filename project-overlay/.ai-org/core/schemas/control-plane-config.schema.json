@@ -61,6 +61,37 @@
           "enabled": { "type": "boolean" },
           "options": { "type": "object" }
         },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "kind": { "const": "github" },
+                "enabled": { "const": true }
+              },
+              "required": ["kind", "enabled"]
+            },
+            "then": {
+              "required": ["options"],
+              "properties": {
+                "options": {
+                  "type": "object",
+                  "required": ["repository", "pull_number", "head_sha", "work_item_id"],
+                  "properties": {
+                    "repository": { "type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$" },
+                    "pull_number": { "type": "integer", "minimum": 1 },
+                    "head_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+                    "work_item_id": { "type": "string", "minLength": 1 },
+                    "api_url": { "type": "string", "pattern": "^https://" },
+                    "poll_interval_ms": { "type": "integer", "minimum": 5000, "maximum": 3600000 },
+                    "token_env": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$" },
+                    "fixture_path": { "type": "string", "minLength": 1 }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        ],
         "additionalProperties": false
       }
     }

@@ -137,17 +137,17 @@ Local exit gate: satisfied through the recoverable lifecycle pilots, determinist
 
 Goal: Show progress, failures, and pending approvals without opening every Codex task individually.
 
-The accepted [Phase 3 design](phase-3-control-plane.md) and [work-item breakdown](phase-3-work-items.md) separate canonical project state, generated local telemetry, and disposable views; expose provider capabilities honestly; and keep runtime permission, business fact, and governance approval authority distinct. Phase 3A and 3B are delivered locally; Phase 3C remains next.
+The accepted [Phase 3 design](phase-3-control-plane.md) and [work-item breakdown](phase-3-work-items.md) separate canonical project state, generated local telemetry, and disposable views; expose provider capabilities honestly; and keep runtime permission, business fact, and governance approval authority distinct. Phase 3A, 3B, and 3C are delivered locally with explicit retained limits.
 
 Proposed increments:
 
 - **Phase 3A — Event spine and provider foundation (`0.1.0-alpha.20`, delivered locally):** versioned normalized events, Git-common-dir replay journal, cursor and checkpoint recovery, provider capability contracts, repository and fixture providers, redaction, single-writer lease, rebuild archive, and read-only HTTP/SSE.
 - **Phase 3B — Live Observer, Codex adapter, and alerts (`0.1.0-alpha.21`, delivered locally):** provenance-aware live views, a pinned capability-proven Codex App Server adapter, disconnect reconciliation, and stateful actionable conditions.
-- **Phase 3C — Human Inbox and GitHub evidence:** authority-separated requests, a policy-checked idempotent command gateway, runtime-request bridging, and an exact-SHA read-only GitHub PR and Checks adapter.
+- **Phase 3C — Human Inbox and GitHub evidence (`0.1.0-alpha.22`, delivered locally):** authority-separated requests, a policy-checked idempotent command gateway, runtime-request bridging, explicit business-fact incorporation, revision-bound Human Principal approvals, and an exact-SHA read-only GitHub PR and Checks adapter with explicit evidence capture.
 
 Phase 3 does not promise live access to every task already running in Codex Desktop. Registered or unsupported tasks remain visibly snapshot-only, registered-only, or unknown unless a documented and tested provider proves stronger capabilities.
 
-Exit gate: Events appear within reasonable latency; reconnection neither repeats gates nor loses canonical state; interruptions and failures correctly become blocked; and approvals are visible, recorded, and constrain subsequent execution.
+Local exit gate: satisfied by replay, reconnect, authority-separation, exact-revision, idempotency, provider-failure, browser, and deterministic GitHub adapter evidence. An explicitly authorized live GitHub PR run, long-duration soak, crash-at-every-write-point testing, remote access, and large multi-machine operation remain retained work rather than implied production readiness.
 
 ## Phase 4: Reliability and everyday multi-project use
 

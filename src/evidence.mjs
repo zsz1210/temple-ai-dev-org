@@ -10,7 +10,7 @@ import { readWorkItem } from "./work-items.mjs";
 
 export const EVIDENCE_REGISTRY_RELATIVE_PATH = ".ai-org/project/evidence.json";
 export const EVIDENCE_SCHEMA = "temple.evidence/v1";
-export const EVIDENCE_KINDS = ["git-revision", "test", "runtime", "unverified-claim", "risk", "rollback"];
+export const EVIDENCE_KINDS = ["git-revision", "test", "runtime", "unverified-claim", "risk", "rollback", "github"];
 
 const SHA = /^[0-9a-f]{40}$/;
 const DIGEST = /^[0-9a-f]{64}$/;
@@ -32,7 +32,7 @@ function uniqueStrings(values) {
   return [...new Set((values ?? []).map((value) => String(value).trim()).filter(Boolean))];
 }
 
-function evidenceId(now = new Date()) {
+export function evidenceId(now = new Date()) {
   const stamp = now.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
   return `EVID-${stamp}-${crypto.randomBytes(4).toString("hex").toUpperCase()}`;
 }
@@ -294,11 +294,15 @@ async function buildEvidence(target, kind, options) {
 }
 
 export async function recordEvidence(target, kind, options) {
+  const entry = await buildEvidence(target, kind, options);
+  return appendNormalizedEvidence(target, entry);
+}
+
+export async function appendNormalizedEvidence(target, entry) {
   const registryPath = path.join(target, EVIDENCE_REGISTRY_RELATIVE_PATH);
   const registry = await readEvidenceRegistry(target);
   const validation = validateEvidenceRegistry(registry);
   if (!validation.valid) throw new Error(`Invalid evidence registry: ${validation.errors.join("; ")}`);
-  const entry = await buildEvidence(target, kind, options);
   const updated = { ...registry, entries: [...registry.entries, entry] };
   const updatedValidation = validateEvidenceRegistry(updated);
   if (!updatedValidation.valid) throw new Error(`Invalid evidence entry: ${updatedValidation.errors.join("; ")}`);

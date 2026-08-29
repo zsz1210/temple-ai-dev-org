@@ -30,7 +30,7 @@ Temple is not a shared-chat-memory system and not a collection of prompts. It is
 | Work orchestration | A fixed `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle, durable work items and handoffs, deterministic safe dispatch waves, claim-before-worker preparation, and observable shared runtime capacity |
 | Team and tracker coordination | Separate company tracker, team-visible outcome, internal AI decomposition, and Codex session layers; explicit mappings, field ownership, bounded observations, and evidence-backed reconciliation |
 | Verification and delivery | Named gate evidence, normalized exact-revision test and runtime observations, explicit unverified claims and risks, evaluation, independent reproduction, approval records, rollback plans, and bounded closeout |
-| Durable state, learning, and observability | Repository-owned decisions, Context Map, Lessons and Practices, work items, events, task and evidence registries, generated Capability Registry, Context Capsules, status, read-only Observer overview, and conflict-aware upgrades |
+| Durable state, learning, and observability | Repository-owned decisions, Context Map, Lessons and Practices, work items, events, task and evidence registries, generated Capability Registry, Context Capsules, status, a static Observer, a local live control plane with an authority-separated Human Inbox, and conflict-aware upgrades |
 
 A Position defines responsibility and approval limits. An Agent Identity is the project-specific executor assigned to that Position. A Skill is a reusable method for performing a kind of work; it never grants additional authority or replaces an evidence gate.
 
@@ -87,6 +87,8 @@ Alpha.18 adds local evidence adapters and an Observer projection. Capturing a Gi
 
 Alpha.19 completes Phase 2C: Pack v2 can distribute declared references, scripts, and assets with provenance and compatibility; runtime JSON Schema and migration plans are inspectable; Learning has atomic capture, revalidation, and retrieval evaluation; High-Assurance is selectable behind human-accountability and risk gates; and the optional Archify adapter accepts only an exact local source into an isolated digest-checked directory. No semantic model, vector database, daemon, third-party download, or external action is enabled by default.
 
+Alpha.20–22 deliver the local Phase 3 control plane: replay-safe generated telemetry, capability-labelled live observation, the pinned Codex App Server adapter, stateful conditions, three non-interchangeable Human Inbox queues, and an opt-in exact-SHA GitHub PR and Checks reader. Runtime answers require the original live request; business answers remain local proposals until explicitly incorporated; governance approvals enforce current state, exact revision, Human Principals, and High-Assurance policy. GitHub capture creates normalized evidence only after a separate command and never mutates GitHub or advances a lifecycle gate. See the [local control-plane guide](docs/control-plane.md).
+
 ## Engineering methods and extension
 
 Temple keeps the default installation focused. Product-thinking and organizational Skills are installed as core capabilities; development procedures are opt-in. The shipped Build Quality pack adds TDD and bounded bug diagnosis without changing Position ownership or lifecycle authority.
@@ -103,7 +105,7 @@ The default Solo configuration assigns all ten Positions to five Agent Identitie
 
 Solo, Collaborative, and High-Assurance are selectable profiles. Collaborative mode adds collision-resistant Work Item IDs, parent/dependency and shared-contract fields, parallel-readiness checks, Principal-backed claims, and status warnings. High-Assurance requires at least two active Human Principals, sponsorship for every active Agent Identity, separation of Developer from Independent QA and Release Manager, and risk-scaled exact-revision evidence, rollback, and approval gates. The retained large multi-human, multi-machine test is still `not_run`, so these local contracts are not evidence that every company topology, distributed race, regulated audit, or production release is ready. See the [Collaborative development model](docs/collaboration.md) and [High-Assurance profile](docs/high-assurance.md).
 
-Temple resolves normalized Git, test, runtime, rollback, and High-Assurance handoff/closeout scope to exact commits; lightweight references outside those gates may remain caller supplied. It does not create, rename, or archive Codex tasks, and it does not deploy or publish externally. Business truth, priorities, sensitive data, material cost, irreversible actions, and high-risk approval remain human responsibilities.
+Temple resolves normalized Git, GitHub, test, runtime, rollback, and High-Assurance handoff/closeout scope to exact commits; lightweight references outside those gates may remain caller supplied. It does not create, rename, or archive Codex tasks, and it does not deploy or publish externally. Business truth, priorities, sensitive data, material cost, irreversible actions, and high-risk approval remain human responsibilities.
 
 Company teams may keep Jira, GitHub Issues, or another tracker as their planning surface while Temple keeps AI execution and evidence in repository Work Items. Team-visible parents can map externally while internal child items remain quiet; external completion never bypasses QA or the Release Gate. Alpha.15 can read bounded GitHub Issue data or supplied observations and record reconciliation evidence, but it performs no external writes.
 
@@ -118,6 +120,7 @@ Temple is installed into a project; the project is not forked from this reposito
 - [Parallel orchestration](docs/parallel-orchestration.md) — safe waves, runtime dispatch, staleness, and Integration Owner join gates
 - [Runtime coordination and recovery](docs/runtime-coordination.md) — pinned launcher, stage requirements, shared resources, and worker/task correlation
 - [Evidence and Observer](docs/evidence-and-observer.md) — normalized observations, revision staleness, approval state, and read-only recovery views
+- [Local control plane](docs/control-plane.md) — live providers, replay, conditions, Human Inbox authority, and read-only GitHub evidence
 - [Task and external tracker coordination](docs/task-and-tracker-coordination.md) — company boards, internal AI work, field ownership, mappings, and reconciliation
 - [Product specification system](docs/product-specifications.md) — product truth, revisioned Work Item references, and iterative delivery
 - [Enterprise document adoption](docs/enterprise-document-adoption.md) — preserve, bridge, or migrate existing document systems without dual authority
