@@ -10,5 +10,6 @@ Validation records preserve bounded evidence for framework capabilities. They id
 - [Alpha.17 Recoverable runtime coordination](alpha-17-recoverable-runtime-coordination.md)
 - [Alpha.18 Evidence and Observer](alpha-18-evidence-observer.md)
 - [Alpha.19 Extension and retrieval maturity](alpha-19-extension-and-retrieval-maturity.md)
+- [Alpha.20 Control-plane event spine](alpha-20-control-plane-event-spine.md)
 - [Greenfield cold-task recovery — passed with limits](greenfield-cold-task-recovery-result.md) ([test plan](greenfield-cold-task-recovery-test-plan.md))
 - [Collaborative large-scale real-environment test plan — planned / not run](collaborative-large-scale-test-plan.md)
