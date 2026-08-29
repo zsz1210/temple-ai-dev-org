@@ -20,13 +20,13 @@ Before handoff:
 3. Never let the Developer certify Independent QA for the same work.
 4. Request human approval for business truth, priority, external commitments, material cost, irreversible actions, sensitive data, or high-risk release.
 
-Use CLI mutations instead of hand-editing canonical JSON when supported:
+Use the repository-pinned `node ./templew.mjs` launcher instead of hand-editing canonical JSON when supported:
 
 ```text
-temple work-item create → configure/readiness → claim → handoff → transition
-                         temple task register/update
-                              release claim ↓
-                                         temple close
+work-item create → configure/readiness → parallel plan → parallel prepare
+                                                     ├→ internal worker attach/update
+                                                     └→ user task register/update
+                      handoff → release claim → transition → close
 ```
 
 ## External tracker coordination
@@ -47,7 +47,7 @@ Use `contract_refs` for governed API or technical-design specification IDs and r
 
 Keep `.ai-org/project/context-map.json` concise and project-owned. It points to canonical files; it does not copy them. Use `temple capability find` when a reusable method may apply, but selecting a Skill never expands the request's authorization. Record planned write scope through work-item `affected_paths`. When context resolution reports overlap with another non-terminal item, coordinate the work before changing shared paths.
 
-In Collaborative mode, a Human Principal sponsors an Agent Identity, and Position Membership plus Disciplines determine eligibility. Before parallel execution, record scope, acceptance, dependencies, base revision, affected paths, contract status, integration owner, required Disciplines, and overlap resolutions that name the conflicting Work Item IDs. Use `temple parallel check` for one item and `temple parallel plan` for a decomposed group. A fresh plan places safe work into deterministic waves; it does not create tasks or claims. When implementation is authorized and concurrent workers exist, dispatch the first safe wave up to runtime capacity. Otherwise preserve the same wave boundary and work sequentially. The named Integration Owner joins revisions, verification, and unresolved items before dependent work or lifecycle advancement, then the group must be replanned. The local mutation lock does not coordinate separate machines; use claims, branches, pull requests, protected rules, CI, and explicit Git conflict resolution.
+In Collaborative mode, a Human Principal sponsors an Agent Identity, and Position Membership plus Disciplines determine eligibility. Before parallel execution, record scope, acceptance, dependencies, base revision, affected paths, contract status, integration owner, stage-specific Disciplines, shared runtime or verification resources, and overlap resolutions that name the conflicting Work Item IDs. Use `parallel check` for one item and `parallel plan` for a decomposed group. A plan places safe work into deterministic waves but creates no task or claim. Before creating each first-wave runtime, `parallel prepare` atomically records the eligible claim, resource reservations, and runtime-worker reservation. Attach internal subagents with `worker attach`; register only separate user-owned tasks with the reserved worker ID. A terminal worker releases resources but does not forge a handoff, claim release, lifecycle transition, or independent verification. When implementation is authorized and concurrent workers exist, dispatch the prepared first wave up to runtime capacity. Otherwise preserve the same wave boundary and work sequentially. The named Integration Owner joins revisions, verification, and unresolved items before dependent work or lifecycle advancement, then the group must be replanned. The local mutation lock does not coordinate separate machines; use claims, branches, pull requests, protected rules, CI, and explicit Git conflict resolution.
 
 ## Engineering learning
 

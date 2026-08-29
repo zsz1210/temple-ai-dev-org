@@ -24,10 +24,78 @@ import {
   validateRepositorySpecSources,
   validateSpecIndex
 } from "./specifications.mjs";
+import { readResourceRegistry, resourceAvailability } from "./resources.mjs";
 
 const UI_DELIVERY_MODES = ["not-applicable", "code-first", "preview-first", "design-led"];
 const SPECIFICATION_MODES = ["gate-evidence", "indexed"];
 const TRACKER_VISIBILITIES = ["internal", "team-visible"];
+
+function normalizeResourceRequirements(values = []) {
+  const byId = new Map();
+  for (const value of values) {
+    const resourceId = String(value?.resource_id ?? "").trim();
+    const units = Number(value?.units ?? 1);
+    if (!resourceId) throw new Error("Stage resource ID is required");
+    if (!Number.isInteger(units) || units < 1 || units > 100) throw new Error(`Stage resource ${resourceId} units must be from 1 to 100`);
+    if (byId.has(resourceId)) throw new Error(`Duplicate stage resource: ${resourceId}`);
+    byId.set(resourceId, { resource_id: resourceId, units });
+  }
+  return [...byId.values()].sort((left, right) => left.resource_id.localeCompare(right.resource_id));
+}
+
+function normalizedStageRequirements(document = {}) {
+  const output = {};
+  for (const [stage, requirement] of Object.entries(document ?? {}).sort(([left], [right]) => left.localeCompare(right))) {
+    output[stage] = {
+      disciplines: uniqueStrings(requirement?.disciplines),
+      resources: normalizeResourceRequirements(requirement?.resources)
+    };
+  }
+  return output;
+}
+
+async function validateStageRequirements(target, context, document) {
+  const normalized = normalizedStageRequirements(document);
+  const resourceRegistry = await readResourceRegistry(target);
+  const resourceIds = new Set((resourceRegistry.resources ?? []).filter((entry) => entry.active !== false).map((entry) => entry.id));
+  for (const [stage, requirement] of Object.entries(normalized)) {
+    if (!context.states.has(stage)) throw new Error(`Unknown lifecycle stage in execution requirements: ${stage}`);
+    const unsupported = requirement.disciplines.filter((value) => !DISCIPLINES.includes(value));
+    if (unsupported.length > 0) throw new Error(`Unsupported disciplines for ${stage}: ${unsupported.join(", ")}`);
+    const missingResources = requirement.resources.filter((entry) => !resourceIds.has(entry.resource_id));
+    if (missingResources.length > 0) {
+      throw new Error(`Undefined shared resources for ${stage}: ${missingResources.map((entry) => entry.resource_id).join(", ")}`);
+    }
+  }
+  return normalized;
+}
+
+function mergeStageRequirements(existing, changes) {
+  if (changes === undefined) return normalizedStageRequirements(existing);
+  const output = normalizedStageRequirements(existing);
+  for (const [stage, change] of Object.entries(changes)) {
+    if (change === null) {
+      delete output[stage];
+      continue;
+    }
+    output[stage] = {
+      disciplines:
+        change.disciplines === undefined ? output[stage]?.disciplines ?? [] : uniqueStrings(change.disciplines),
+      resources:
+        change.resources === undefined ? output[stage]?.resources ?? [] : normalizeResourceRequirements(change.resources)
+    };
+  }
+  return output;
+}
+
+export function activeExecutionRequirements(item, stage = item.state) {
+  const stageRequirement = item.stage_requirements?.[stage];
+  return {
+    stage,
+    disciplines: stageRequirement ? uniqueStrings(stageRequirement.disciplines) : uniqueStrings(item.required_disciplines),
+    resources: stageRequirement ? normalizeResourceRequirements(stageRequirement.resources) : []
+  };
+}
 
 function workItemPath(target, workItemId) {
   if (!isWorkItemId(workItemId)) {
@@ -364,6 +432,7 @@ export async function createWorkItem(target, options) {
   if (unsupportedDisciplines.length > 0) {
     throw new Error(`Unsupported disciplines: ${unsupportedDisciplines.join(", ")}`);
   }
+  const stageRequirements = await validateStageRequirements(target, context, options.stageRequirements ?? {});
   const parallelMode = options.parallelMode ?? "pending";
   if (!["pending", "parallel", "sequential", "blocked"].includes(parallelMode)) {
     throw new Error("--parallel-mode must be pending, parallel, sequential, or blocked");
@@ -415,6 +484,7 @@ export async function createWorkItem(target, options) {
     tracker_reconciliations: [],
     dependencies,
     required_disciplines: requiredDisciplines,
+    stage_requirements: stageRequirements,
     base_revision: String(options.baseRevision ?? "").trim() || null,
     parallel_mode: parallelMode,
     integration_owner_agent_id: integrationOwner,
@@ -495,6 +565,8 @@ export async function evaluateParallelReadiness(target, workItemId, options = {}
       return shared.length ? [{ work_item_id: candidate.id, paths: shared }] : [];
     });
   const agentId = options.agentId ?? item.claim?.agent_id ?? item.planned_agent_id ?? item.assigned_agent_id;
+  const activeRequirements = activeExecutionRequirements(item);
+  const resourceState = await resourceAvailability(target, activeRequirements.resources);
   const { evaluation: specificationEvaluation } = await evaluateSpecificationReferences(target, item);
   const specificationModeValid =
     item.specification_mode === undefined ||
@@ -533,8 +605,10 @@ export async function evaluateParallelReadiness(target, workItemId, options = {}
     },
     {
       id: "agent_membership_eligible",
-      pass: Boolean(agentId) && agentIsEligible(collaboration, agentId, item.owner_position, item.required_disciplines ?? [])
-    }
+      pass: Boolean(agentId) && agentIsEligible(collaboration, agentId, item.owner_position, activeRequirements.disciplines)
+    },
+    { id: "shared_resources_defined", pass: resourceState.defined },
+    { id: "shared_resources_available", pass: resourceState.available }
   ];
   const blocked = checks.some(
     (check) =>
@@ -546,7 +620,9 @@ export async function evaluateParallelReadiness(target, workItemId, options = {}
         "unresolved_items_cleared",
         "specification_contract_ready",
         "specification_references_current",
-        "specification_references_approved"
+        "specification_references_approved",
+        "shared_resources_defined",
+        "shared_resources_available"
       ].includes(check.id)
   );
   const ready = checks.every((check) => check.pass);
@@ -559,6 +635,8 @@ export async function evaluateParallelReadiness(target, workItemId, options = {}
     agent_id: agentId ?? null,
     checks,
     overlaps,
+    active_requirements: activeRequirements,
+    shared_resources: resourceState,
     specification_references: specificationEvaluation
   };
 }
@@ -576,6 +654,18 @@ export async function configureWorkItem(target, options) {
     options.requiredDisciplines === undefined ? item.required_disciplines ?? [] : uniqueStrings(options.requiredDisciplines);
   const unsupported = disciplines.filter((value) => !DISCIPLINES.includes(value));
   if (unsupported.length > 0) throw new Error(`Unsupported disciplines: ${unsupported.join(", ")}`);
+  const stageRequirements = await validateStageRequirements(
+    target,
+    context,
+    mergeStageRequirements(item.stage_requirements ?? {}, options.stageRequirements)
+  );
+  if (item.claim?.status === "active") {
+    const current = activeExecutionRequirements(item);
+    const proposed = activeExecutionRequirements({ ...item, required_disciplines: disciplines, stage_requirements: stageRequirements });
+    if (JSON.stringify(current) !== JSON.stringify(proposed)) {
+      throw new Error(`Active execution requirements cannot change while ${item.id} is claimed`);
+    }
+  }
   const parallelMode = options.parallelMode ?? item.parallel_mode ?? "pending";
   if (!["pending", "parallel", "sequential", "blocked"].includes(parallelMode)) throw new Error("Invalid parallel mode");
   const contractStatus = options.contractStatus ?? item.contract_status ?? "not_required";
@@ -622,6 +712,7 @@ export async function configureWorkItem(target, options) {
     parent_work_item_id: parent,
     dependencies,
     required_disciplines: disciplines,
+    stage_requirements: stageRequirements,
     base_revision: options.baseRevision === undefined ? item.base_revision ?? null : String(options.baseRevision).trim() || null,
     parallel_mode: parallelMode,
     integration_owner_agent_id: integrationOwner,
@@ -683,8 +774,9 @@ export async function claimWorkItem(target, options) {
   if (item.planned_agent_id && item.planned_agent_id !== agentId) {
     throw new Error(`${item.id} is planned for ${item.planned_agent_id}, not ${agentId}`);
   }
-  if (!agentIsEligible(collaboration, agentId, item.owner_position, item.required_disciplines ?? [])) {
-    throw new Error(`${agentId} is not eligible for ${item.owner_position} with disciplines ${(item.required_disciplines ?? []).join(", ") || "none"}`);
+  const activeRequirements = activeExecutionRequirements(item);
+  if (!agentIsEligible(collaboration, agentId, item.owner_position, activeRequirements.disciplines)) {
+    throw new Error(`${agentId} is not eligible for ${item.owner_position} with disciplines ${activeRequirements.disciplines.join(", ") || "none"}`);
   }
   if (item.claim?.status === "active") throw new Error(`${item.id} is already claimed by ${item.claim.agent_id}`);
   if (!["intake", "spec"].includes(item.state)) {

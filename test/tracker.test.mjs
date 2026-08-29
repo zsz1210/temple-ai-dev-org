@@ -408,7 +408,7 @@ test("CLI keeps company tracking above internal AI tasks and records explicit re
   assert.equal(JSON.parse(capsule.stdout).tracker.inherited_refs[0].inherited_from, "WI-0001");
 
   const status = JSON.parse(run(["status", target, "--json", "--no-write"]).stdout);
-  assert.equal(status.schema_version, "temple.status/v7");
+  assert.equal(status.schema_version, "temple.status/v8");
   assert.equal(status.tracker.profile, "linked-tracker");
   assert.equal(status.tracker.linked_work_items, 1);
   assert.equal(status.tracker.external_write_performed, false);

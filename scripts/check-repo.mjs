@@ -9,6 +9,8 @@ import { listPackDefinitions } from "../src/packs.mjs";
 import { emptyContextMap, validateContextMap } from "../src/context.mjs";
 import { emptySpecIndex, validateSpecIndex } from "../src/specifications.mjs";
 import { emptyTrackerConfig, validateTrackerConfig } from "../src/tracker.mjs";
+import { emptyResourceRegistry, validateResourceRegistry } from "../src/resources.mjs";
+import { emptyRuntimeWorkerRegistry, validateRuntimeWorkerRegistry } from "../src/workers.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
@@ -66,7 +68,9 @@ for (const [file, schemaId] of [
   ["parallel-plan.schema.json", "temple.parallel-plan/v1"],
   ["parallel-readiness.schema.json", "temple.parallel-readiness/v1"],
   ["spec-index.schema.json", "temple.spec-index/v1"],
-  ["tracker.schema.json", "temple.tracker/v1"]
+  ["tracker.schema.json", "temple.tracker/v1"],
+  ["resource-registry.schema.json", "temple.resources/v1"],
+  ["runtime-worker-registry.schema.json", "temple.runtime-workers/v1"]
 ]) {
   const schema = await readJson(path.join(projectOverlayRoot, ".ai-org/core/schemas", file));
   check(schema.$id === schemaId, `${file} has an unexpected schema ID`);
@@ -109,6 +113,22 @@ check(
   "project overlay tracker config must remain an empty project-owned seed"
 );
 
+const resourceRegistry = await readJson(path.join(projectOverlayRoot, ".ai-org/project/resources.json"));
+const resourceRegistryValidation = validateResourceRegistry(resourceRegistry);
+check(resourceRegistryValidation.valid, `resource registry seed is invalid: ${resourceRegistryValidation.errors.join("; ")}`);
+check(
+  JSON.stringify(resourceRegistry) === JSON.stringify(emptyResourceRegistry()),
+  "project overlay shared resource registry must remain an empty project-owned seed"
+);
+
+const workerRegistry = await readJson(path.join(projectOverlayRoot, ".ai-org/project/runtime-workers.json"));
+const workerRegistryValidation = validateRuntimeWorkerRegistry(workerRegistry);
+check(workerRegistryValidation.valid, `runtime worker registry seed is invalid: ${workerRegistryValidation.errors.join("; ")}`);
+check(
+  JSON.stringify(workerRegistry) === JSON.stringify(emptyRuntimeWorkerRegistry()),
+  "project overlay runtime worker registry must remain an empty project-owned seed"
+);
+
 const uiDesignPolicy = await readJson(path.join(projectOverlayRoot, ".ai-org/core/ui-design.json"));
 check(uiDesignPolicy.schema_version === "temple.ui-design-policy/v1", "UI design policy schema is invalid");
 check(
@@ -132,7 +152,9 @@ const organizationPolicies = await readJson(path.join(projectOverlayRoot, ".ai-o
 check(
   organizationPolicies.parallel_orchestration?.parallel_by_default_when_safe === true &&
     organizationPolicies.parallel_orchestration?.only_first_fresh_wave_is_dispatchable === true &&
-    organizationPolicies.parallel_orchestration?.cli_creates_tasks_or_claims === false &&
+    organizationPolicies.parallel_orchestration?.planning_creates_tasks_or_claims === false &&
+    organizationPolicies.parallel_orchestration?.preparation_records_claim_and_resources === true &&
+    organizationPolicies.parallel_orchestration?.preparation_creates_runtime === false &&
     organizationPolicies.parallel_orchestration?.integration_join_required_before_dependent_work === true,
   "parallel orchestration policy must preserve safe-wave, plan-only, and join-gate boundaries"
 );

@@ -26,6 +26,7 @@
           "base_revision": { "type": ["string", "null"] },
           "branch": { "type": ["string", "null"] },
           "worktree": { "type": ["string", "null"] },
+          "worker_id": { "type": ["string", "null"], "pattern": "^worker-" },
           "registered_by": { "type": ["string", "null"] },
           "last_updated_by": { "type": ["string", "null"] }
         },

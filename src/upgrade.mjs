@@ -33,6 +33,9 @@ import {
   ensureCollaborationState,
   synchronizeDefaultMembershipDocument
 } from "./collaboration.mjs";
+import { buildCliBootstrapMetadata } from "./bootstrap.mjs";
+import { ensureResourceRegistry, RESOURCE_REGISTRY_RELATIVE_PATH } from "./resources.mjs";
+import { ensureRuntimeWorkerRegistry, RUNTIME_WORKER_REGISTRY_RELATIVE_PATH } from "./workers.mjs";
 
 function isManaged(relativePath) {
   return MANAGED_EXACT_PATHS.has(relativePath) || MANAGED_SOURCE_PREFIXES.some((prefix) => relativePath.startsWith(prefix));
@@ -192,6 +195,16 @@ export async function planUpgrade(target) {
     type: hasCollaboration ? "skip-collaboration-state" : "create-collaboration-state",
     path: COLLABORATION_RELATIVE_PATH
   });
+  const hasResourceRegistry = await pathExists(path.join(target, RESOURCE_REGISTRY_RELATIVE_PATH));
+  actions.push({
+    type: hasResourceRegistry ? "skip-resource-registry" : "create-resource-registry",
+    path: RESOURCE_REGISTRY_RELATIVE_PATH
+  });
+  const hasWorkerRegistry = await pathExists(path.join(target, RUNTIME_WORKER_REGISTRY_RELATIVE_PATH));
+  actions.push({
+    type: hasWorkerRegistry ? "skip-runtime-worker-registry" : "create-runtime-worker-registry",
+    path: RUNTIME_WORKER_REGISTRY_RELATIVE_PATH
+  });
   const assignmentMigration = await planUiAssignmentMigration(target, conflicts);
   actions.push({
     type: assignmentMigration ? "add-ui-assignment" : "skip-ui-assignment",
@@ -266,7 +279,12 @@ export async function planUpgrade(target) {
     lock.capabilities?.group_parallel_planning !== true ||
     lock.capabilities?.parallel_dispatch_manifest !== true ||
     lock.capabilities?.parallel_plan_freshness !== true ||
-    lock.capabilities?.parallel_join_gate !== true;
+    lock.capabilities?.parallel_join_gate !== true ||
+    lock.capabilities?.version_pinned_cli_bootstrap !== true ||
+    lock.capabilities?.atomic_worker_preparation !== true ||
+    lock.capabilities?.runtime_worker_registry !== true ||
+    lock.capabilities?.stage_execution_requirements !== true ||
+    lock.capabilities?.shared_resource_coordination !== true;
   if (packMetadataChanges) actions.push({ type: "update-pack-metadata", path: "temple.lock" });
   if (capabilityChanges || collaborationCapabilityChanges) actions.push({ type: "update-capabilities", path: "temple.lock" });
   actions.push({
@@ -283,7 +301,9 @@ export async function planUpgrade(target) {
       hasContextMap &&
       hasSpecIndex &&
       hasTrackerConfig &&
-      hasCollaboration
+      hasCollaboration &&
+      hasResourceRegistry &&
+      hasWorkerRegistry
         ? "skip-current-lock"
         : "update-lock",
     path: "temple.lock"
@@ -360,6 +380,14 @@ export async function executeUpgrade(plan) {
     if (trackerConfig.created) {
       changes.push({ path: trackerConfig.path, before: null, afterHash: trackerConfig.afterHash });
     }
+    const resourceRegistry = await ensureResourceRegistry(plan.target);
+    if (resourceRegistry.created) {
+      changes.push({ path: resourceRegistry.path, before: null, afterHash: resourceRegistry.afterHash });
+    }
+    const workerRegistry = await ensureRuntimeWorkerRegistry(plan.target);
+    if (workerRegistry.created) {
+      changes.push({ path: workerRegistry.path, before: null, afterHash: workerRegistry.afterHash });
+    }
     if (plan.assignmentMigration) {
       const assignmentsPath = path.join(plan.target, plan.assignmentMigration.path);
       const before = await fs.readFile(assignmentsPath);
@@ -412,12 +440,14 @@ export async function executeUpgrade(plan) {
       skills: definition.manifest.skills,
       managed_files: definition.manifest.files
     }));
+    const bootstrap = await buildCliBootstrapMetadata();
     const lock = {
       ...plan.lock,
       template: {
         name: PACKAGE_NAME,
         version: TEMPLATE_VERSION,
         repository: TEMPLATE_REPOSITORY,
+        bootstrap,
         installed_at: plan.lock.template.installed_at,
         upgraded_at: timestamp,
         upgraded_from: plan.fromVersion
@@ -462,6 +492,11 @@ export async function executeUpgrade(plan) {
         parallel_dispatch_manifest: true,
         parallel_plan_freshness: true,
         parallel_join_gate: true,
+        version_pinned_cli_bootstrap: true,
+        atomic_worker_preparation: true,
+        runtime_worker_registry: true,
+        stage_execution_requirements: true,
+        shared_resource_coordination: true,
         checksum_upgrade: true,
         optional_packs: true
       },

@@ -33,7 +33,8 @@ The terms are deliberately separate:
 - **Discipline** describes technical capability inside a Position, such as frontend, backend, full-stack, infrastructure, mobile, UI, or UX.
 - **Position Membership** makes an Agent eligible to work in a Position with declared Disciplines. Several Agents may belong to the same Position pool.
 - **Assignment** in `assignments.json` remains the single default owner for backward compatibility. A claim may select another eligible pool member for one Work Item.
-- **Codex task record** is the observable Agent Session: thread identity, host, revision, status, and work-item link.
+- **Runtime worker** is the execution reservation tied to a plan, claim, and optional scarce resources. It is either an internal subagent or a separate user-owned Codex task.
+- **Codex task record** exists only for a separate task visible to the user: thread identity, host, revision, status, work-item link, and runtime-worker correlation. An internal subagent never enters this registry.
 - **Work claim** records the selected Principal, Agent, base revision, branch, optional worktree, and timestamps for one bounded Work Item.
 
 ## Profiles are governance intensity, not team size
@@ -65,7 +66,7 @@ flowchart TD
     INFRA --> READY
 
     READY -->|parallel candidate| PLAN[Deterministic safe waves]
-    PLAN --> CLAIMS[Principal-backed claims]
+    PLAN --> CLAIMS[Prepared claim + resources + worker]
     READY -->|shared write overlap| SEQ[Sequential or explicit coordination]
     READY -->|dependency or unstable contract| BLOCK[Blocked]
 
@@ -87,15 +88,16 @@ A work item is parallel-ready only when all readiness checks pass:
 6. affected-path overlap is absent or has an explicit coordination record naming the conflicting Work Item ID;
 7. an integration owner is named;
 8. unresolved items are cleared; and
-9. the selected Agent's Position Membership covers every required Discipline.
+9. the selected Agent's Position Membership covers every Discipline required by the current lifecycle stage; and
+10. every stage-specific shared resource is defined and has enough available capacity.
 
-`temple parallel check` returns `parallel`, `sequential`, or `blocked` guidance with individual pass/fail checks. Declaring `parallel` through `work-item configure` is rejected if any check fails. `temple parallel plan` evaluates a group, moves selected dependencies into later waves, separates unresolved path conflicts, and applies an optional worker limit. The results are coordination gates, not proof that two changes are semantically independent.
+`parallel check` returns `parallel`, `sequential`, or `blocked` guidance with individual pass/fail checks. Declaring `parallel` through `work-item configure` is rejected if any check fails. `parallel plan` evaluates a group, moves selected dependencies into later waves, separates unresolved path or resource-capacity conflicts, and applies an optional worker limit. The results are coordination gates, not proof that two changes are semantically independent.
 
 ## Safe waves and runtime dispatch
 
-A generated plan is a rebuildable projection, not execution authority. It contains plan-only manifests with Work Item, Position, Agent, base revision, paths, dependencies, Integration Owner, suggested task title, and bounded context command. The CLI creates no Codex task, claim, or external action.
+A generated plan is a rebuildable projection, not execution authority. It contains plan-only manifests with Work Item, Position, Agent, base revision, paths, dependencies, active stage requirements, Integration Owner, suggested task title, bounded context command, and preparation fingerprint. Planning creates no Codex task, claim, or external action.
 
-When implementation is already authorized and concurrent workers are available, the Agent runtime dispatches the first fresh safe wave up to capacity without asking again merely because the work can run in parallel. If concurrency is unavailable, it preserves the wave boundary and executes sequentially. Real tasks are then registered, and Collaborative work receives explicit Principal-backed claims.
+When implementation is already authorized, `parallel prepare` atomically records an eligible Principal-backed claim, required shared-resource reservations, and a runtime-worker reservation before any runtime is created. The Agent runtime then dispatches the prepared first wave up to capacity without asking again merely because the work can run in parallel. If concurrency is unavailable, it preserves the wave boundary and executes sequentially. Internal subagents attach a runtime ID; only separate user-owned tasks are registered with a real thread ID.
 
 The Integration Owner joins exact candidate revisions, verification, and unresolved items before dependent work or lifecycle advancement. The join changes canonical state, so the runtime rebuilds the plan before using another wave. Exact overlap IDs are required for individual readiness; both overlapping Work Items must name each other before group planning can place them in the same wave. See [Parallel orchestration](parallel-orchestration.md).
 
@@ -103,7 +105,7 @@ The Integration Owner joins exact candidate revisions, verification, and unresol
 
 Frontend, backend, full-stack, and infrastructure engineers normally join the Developer Position with different Disciplines. A full-stack Agent may have both `frontend` and `backend`; a backend specialist may have only `backend`. UI Designer and UX Designer remain separate Positions because their responsibilities, outputs, and approval questions differ from implementation.
 
-If several backend engineers participate, give each one a distinct Agent Identity and Developer membership. The Engineering Manager decomposes the parent feature into bounded child Work Items. Each Work Item declares the required Disciplines, affected paths, dependencies, shared-contract status, and integration owner. An eligible Agent then claims it under its Human Principal. This keeps technical specialization flexible without inventing a new Position for every technology.
+If several backend engineers participate, give each one a distinct Agent Identity and Developer membership. The Engineering Manager decomposes the parent feature into bounded child Work Items. Each Work Item declares stage-specific Disciplines and shared resources, affected paths, dependencies, shared-contract status, and integration owner. Preparation then claims it through an eligible Agent and Human Principal before a runtime begins. This keeps technical specialization flexible without inventing a new Position for every technology.
 
 ## Repository and GitHub responsibilities
 
@@ -116,67 +118,69 @@ When the company plans work in Jira, GitHub, or another tracker, map the team-vi
 ## Configure a collaborative project
 
 ```bash
-temple collaboration add-principal . \
+node ./templew.mjs collaboration add-principal . \
   --principal-id principal-alice \
   --name "Alice Morgan"
 
-temple collaboration add-agent . \
+node ./templew.mjs collaboration add-agent . \
   --agent-id agent-taylor \
   --name "Taylor Brooks"
 
-temple collaboration sponsor . \
+node ./templew.mjs collaboration sponsor . \
   --principal-id principal-alice \
   --agent-id agent-taylor
 
-temple collaboration add-membership . \
+node ./templew.mjs collaboration add-membership . \
   --agent-id agent-taylor \
   --position developer \
   --discipline backend
 
-temple collaboration set-profile . --profile collaborative
-temple doctor .
-temple status .
+node ./templew.mjs collaboration set-profile . --profile collaborative
+node ./templew.mjs doctor .
+node ./templew.mjs status .
 ```
 
 Create and configure bounded work before claiming it:
 
 ```bash
-temple work-item create . \
+node ./templew.mjs work-item create . \
   --title "Implement checkout totals" \
   --scope "Checkout total API and tests" \
   --acceptance "Independent QA reproduces the total" \
   --affected-path "src/checkout" \
   --discipline backend \
+  --stage-discipline test=quality \
   --base-revision abc123 \
   --integration-owner agent-taylor
 
 # Complete the normal Spec and Design gates, then move the item to Build.
-temple transition . --work-item WI-YYYYMMDD-RANDOM --to spec --satisfy work_order=docs/work-order.md
-temple transition . --work-item WI-YYYYMMDD-RANDOM --to design --satisfy approved_scope=docs/spec.md --satisfy acceptance_criteria=docs/spec.md
-temple transition . --work-item WI-YYYYMMDD-RANDOM --to build --satisfy technical_design=docs/design.md --satisfy risk_review=docs/design.md
+node ./templew.mjs transition . --work-item WI-YYYYMMDD-RANDOM --to spec --satisfy work_order=docs/work-order.md
+node ./templew.mjs transition . --work-item WI-YYYYMMDD-RANDOM --to design --satisfy approved_scope=docs/spec.md --satisfy acceptance_criteria=docs/spec.md
+node ./templew.mjs transition . --work-item WI-YYYYMMDD-RANDOM --to build --satisfy technical_design=docs/design.md --satisfy risk_review=docs/design.md
 
-temple work-item configure . \
+node ./templew.mjs work-item configure . \
   --work-item WI-YYYYMMDD-RANDOM \
   --agent-id agent-taylor \
   --contract-status stable \
   --shared-contract-ref docs/checkout-api.md \
   --parallel-mode parallel
 
-temple parallel plan . \
+node ./templew.mjs parallel plan . \
   --parent WI-YYYYMMDD-1111111111 \
   --max-workers 3
 
-temple work-item claim . \
+node ./templew.mjs parallel prepare . \
   --work-item WI-YYYYMMDD-RANDOM \
   --agent-id agent-taylor \
   --principal-id principal-alice \
   --base-revision abc123 \
   --branch alice/checkout-totals \
-  --worktree /absolute/path/to/worktree
+  --worktree /absolute/path/to/worktree \
+  --runtime-kind user-task
 ```
 
-Do not copy placeholder IDs, revisions, or evidence paths literally. The created Work Item prints its generated ID. The selected Agent must be a member of the Work Item's current owner Position, so a Developer claim occurs after the lifecycle reaches Build. Release the claim at handoff, abandonment, or completion so status does not imply active ownership.
+Do not copy placeholder IDs, revisions, or evidence paths literally. The created Work Item prints its generated ID. The selected Agent must be a member of the Work Item's current owner Position, so Developer preparation occurs after the lifecycle reaches Build and only for a Work Item in the stored first wave. After creating a separate Codex task, attach it with `task register --worker-id <reserved-worker-id>`. Release the claim at handoff, abandonment, or completion so status does not imply active ownership.
 
 ## Current evidence boundary
 
-Automated tests prove local initialization, migration, model validation, readiness checks, deterministic group waves, dependency and overlap separation, capacity limits, plan staleness, pooled membership, claims, task registration, release, and status projection. They do not prove multi-human behavior on several machines under real Git and pull-request contention. The retained [large-scale collaborative test plan](validation/collaborative-large-scale-test-plan.md) is an explicit release-evidence gap and remains `not_run`.
+Automated tests prove local initialization, migration, model validation, readiness checks, deterministic group waves, dependency and overlap separation, stage requirements, declared resource capacity, atomic first-wave preparation and rollback, pooled membership, runtime/task correlation, resource release, stale-plan rejection, and status projection. They do not prove multi-human behavior on several machines under real Git and pull-request contention. The retained [large-scale collaborative test plan](validation/collaborative-large-scale-test-plan.md) is an explicit release-evidence gap and remains `not_run`.

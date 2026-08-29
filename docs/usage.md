@@ -49,7 +49,11 @@ temple init . --config /path/to/config.json --dry-run
 temple init . --config /path/to/config.json
 ```
 
-After a successful init, the CLI prints directly copyable `doctor` and `status` commands using the active CLI path. It labels POSIX-shell output on macOS and Linux and PowerShell output on Windows.
+After a successful init, the CLI prints directly copyable `doctor` and `status` commands through the target repository's `templew.mjs` launcher. The launcher reads `temple.cli-bootstrap/v1` from `temple.lock`, pins the installed framework version, and rejects a development override with a different version. From a clean framework source checkout, the lock also pins an exact Git source revision for recovery.
+
+### Command notation after init
+
+Run durable project commands from the project root as `node ./templew.mjs <command> .`. Some older examples below retain the shorter `temple` spelling for readability and for contributors who used `npm link`; substitute the repository launcher when copying them into an initialized project. The launcher does not bundle Node.js, Git credentials, or network access. See [Runtime coordination and recovery](runtime-coordination.md).
 
 If the target already has `AGENTS.md`, Temple leaves it unchanged by default and doctor reports a pending-integration warning. Add `--integrate-agents` only after confirming that Temple may append its managed block.
 
@@ -248,15 +252,22 @@ The title is only a readable projection. The work item ID and subsequently regis
 
 In Collaborative mode the printed ID instead resembles `WI-20260829-A1B2C3D4E5`. Do not predict it; use the value returned by `work-item create`.
 
-For parallel candidates, record the coordination contract and inspect every readiness check before a claim:
+For parallel candidates, record the coordination contract and inspect every readiness check before runtime preparation. Stage requirements replace the legacy Discipline only at the named lifecycle stage. Define a shared resource first when work needs scarce local or remote capacity:
 
 ```bash
+node ./templew.mjs resource define . \
+  --resource-id ios-simulator \
+  --name "iOS Simulator" \
+  --capacity 1
+
 temple work-item configure . \
   --work-item WI-20260829-A1B2C3D4E5 \
   --parent WI-20260829-1111111111 \
   --depends-on WI-20260829-2222222222 \
   --agent-id agent-taylor \
   --discipline backend \
+  --stage-discipline test=quality \
+  --stage-resource test=ios-simulator \
   --base-revision abc123 \
   --integration-owner agent-taylor \
   --shared-contract-ref docs/checkout-api.md \
@@ -269,20 +280,21 @@ temple parallel plan . \
   --parent WI-20260829-1111111111 \
   --max-workers 3
 
-temple work-item claim . \
+node ./templew.mjs parallel prepare . \
   --work-item WI-20260829-A1B2C3D4E5 \
   --agent-id agent-taylor \
   --principal-id principal-alice \
   --base-revision abc123 \
   --branch alice/checkout-totals \
-  --worktree /absolute/path/to/worktree
+  --worktree /absolute/path/to/worktree \
+  --runtime-kind user-task
 ```
 
-The example IDs and revision are placeholders. Complete the normal lifecycle gates until the Work Item's owner Position matches the planned Agent's membership; a Developer claim therefore occurs after transition to Build. `work-item configure --parallel-mode parallel` is rejected unless scope, acceptance, ownership, base revision, affected paths, dependencies, shared-contract state, overlaps, integration ownership, unresolved items, and Discipline eligibility all pass. An overlap resolution must name the exact conflicting Work Item ID.
+The example IDs and revision are placeholders. Complete the normal lifecycle gates until the Work Item's owner Position matches the planned Agent's membership; Developer preparation therefore occurs after transition to Build. `work-item configure --parallel-mode parallel` is rejected unless scope, acceptance, ownership, base revision, affected paths, dependencies, shared-contract state, overlaps, integration ownership, unresolved items, active-stage Discipline eligibility, and shared-resource availability all pass. An overlap resolution must name the exact conflicting Work Item ID.
 
-`parallel plan` recursively selects the named parent's non-terminal descendants, places selected dependencies in later waves, keeps unresolved path conflicts out of the same wave, and limits each wave when `--max-workers` is present. Without `--parent` it evaluates every active Work Item; without `--max-workers` it leaves capacity to the runtime. Add `--no-write` for a read-only preview. The resulting `.ai-org/views/parallel-plan.json` is generated and source-fingerprinted. It creates no task or claim.
+`parallel plan` recursively selects the named parent's non-terminal descendants, places selected dependencies in later waves, keeps unresolved path or shared-resource-capacity conflicts out of the same wave, and limits each wave when `--max-workers` is present. Without `--parent` it evaluates every active Work Item; without `--max-workers` it leaves undeclared runtime capacity to the runtime. Add `--no-write` for a read-only preview. The resulting `.ai-org/views/parallel-plan.json` is generated and source-fingerprinted. Planning creates no task or claim.
 
-When implementation is already authorized, a runtime with concurrent workers should dispatch only the first wave of a fresh plan, then establish claims and register the real tasks. If the runtime cannot dispatch concurrently, execute that wave sequentially. The Integration Owner joins exact revisions, verification, and unresolved items, then rebuilds the plan before dependent work. Use `work-item release` at handoff, abandonment, or completion. See [Parallel orchestration](parallel-orchestration.md).
+When implementation is already authorized, call `parallel prepare` for each worker in the stored first wave before creating it. Preparation atomically records its eligible claim, resource reservations, and runtime-worker reservation. Attach an internal subagent with `worker attach --runtime-id`; attach a separate user-owned Codex task with `task register --worker-id`. If the runtime cannot dispatch concurrently, preserve the wave and execute prepared work sequentially. The Integration Owner joins exact revisions, verification, and unresolved items, then rebuilds the plan before dependent work. A terminal worker releases resources but does not advance the lifecycle or release an attached claim; use `work-item release` at handoff, abandonment, or completion. See [Parallel orchestration](parallel-orchestration.md) and [Runtime coordination and recovery](runtime-coordination.md).
 
 ### Select UI design depth
 
@@ -361,18 +373,19 @@ The command records repository evidence and never writes externally. External co
 
 ## 10. Register a Codex task
 
-The Temple CLI does not directly create Codex app tasks. After the user or Codex app creates a task, register its actual ID:
+The Temple CLI does not directly create Codex app tasks. After the user or Codex app creates a separate user-owned task, register its actual ID. If it was prepared from a parallel wave, pass the reserved worker ID:
 
 ```bash
 temple task register . \
   --work-item WI-0002 \
   --position developer \
   --thread-id 01example \
+  --worker-id worker-example \
   --host-id local \
   --revision abc123
 ```
 
-By default, `task register` attributes the registration action to the Engineering Manager. Use `--actor` to specify an Agent who holds that Position or `human`. By default, `task update` is performed by the task's Agent; the Engineering Manager and `human` may also update registry metadata. The task owner and the actor who performs registration are stored separately.
+Omit `--worker-id` only for a task that was not created through the parallel-preparation protocol. Internal subagents use `worker attach` and must never be added to `.ai-org/project/tasks.json`. By default, `task register` attributes the registration action to the Engineering Manager. Use `--actor` to specify an Agent who holds that Position or `human`. By default, `task update` is performed by the task's Agent; the Engineering Manager and `human` may also update registry metadata. The task owner and the actor who performs registration are stored separately.
 
 Update progress:
 

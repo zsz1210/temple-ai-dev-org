@@ -1,7 +1,8 @@
 import path from "node:path";
 import { atomicWrite, formatJson, pathExists, readJson, sha256, sha256File } from "./files.mjs";
 import { loadProjectContext, positionName } from "./project.mjs";
-import { evaluateParallelReadiness, listWorkItemDocuments, readWorkItem } from "./work-items.mjs";
+import { activeExecutionRequirements, evaluateParallelReadiness, listWorkItemDocuments, readWorkItem } from "./work-items.mjs";
+import { readResourceRegistry } from "./resources.mjs";
 
 export const PARALLEL_PLAN_RELATIVE_PATH = ".ai-org/views/parallel-plan.json";
 export const PARALLEL_PLAN_SCHEMA = "temple.parallel-plan/v1";
@@ -17,6 +18,26 @@ const HARD_BLOCKING_CHECKS = new Set([
 
 function uniqueStrings(values) {
   return [...new Set((values ?? []).filter((value) => typeof value === "string" && value.length > 0))];
+}
+
+export function dispatchPreparationFingerprint(item, readiness, context, resourceRegistry) {
+  return sha256(
+    JSON.stringify({
+      schema_version: "temple.dispatch-preparation/v1",
+      work_item: item,
+      active_requirements: readiness.active_requirements,
+      readiness_checks: readiness.checks,
+      specification_references: readiness.specification_references,
+      template: context.lock.template,
+      agents: context.agentsDocument,
+      assignments: context.assignmentsDocument,
+      workflow: context.workflow,
+      policies: context.policies,
+      shared_resource_definitions: [...(resourceRegistry.resources ?? [])].sort((left, right) =>
+        left.id.localeCompare(right.id)
+      )
+    })
+  );
 }
 
 function overlapStem(value) {
@@ -78,7 +99,7 @@ function ancestorsOf(item, itemsById) {
   return ancestors;
 }
 
-function canonicalSourceProjection(items, collaboration, assignments, agents, workflow, policies, lock, specIndex, sourceDigests) {
+function canonicalSourceProjection(items, collaboration, assignments, agents, workflow, policies, lock, specIndex, sourceDigests, resources) {
   return {
     work_items: [...items].sort((left, right) => left.id.localeCompare(right.id)),
     collaboration,
@@ -88,7 +109,8 @@ function canonicalSourceProjection(items, collaboration, assignments, agents, wo
     policies,
     template: lock.template,
     specification_index: specIndex,
-    specification_source_digests: sourceDigests
+    specification_source_digests: sourceDigests,
+    shared_resources: resources
   };
 }
 
@@ -120,7 +142,7 @@ async function specificationSourceDigests(target, specIndex) {
 }
 
 export async function parallelPlanSourceFingerprint(target) {
-  const [items, collaboration, assignments, agents, workflow, policies, lock, specIndex] = await Promise.all([
+  const [items, collaboration, assignments, agents, workflow, policies, lock, specIndex, resources] = await Promise.all([
     listWorkItemDocuments(target),
     readJson(path.join(target, ".ai-org/project/collaboration.json")),
     readJson(path.join(target, ".ai-org/project/assignments.json")),
@@ -128,17 +150,18 @@ export async function parallelPlanSourceFingerprint(target) {
     readJson(path.join(target, ".ai-org/core/workflow.json")),
     readJson(path.join(target, ".ai-org/core/policies.json")),
     readJson(path.join(target, "temple.lock")),
-    readJson(path.join(target, ".ai-org/project/spec-index.json"))
+    readJson(path.join(target, ".ai-org/project/spec-index.json")),
+    readResourceRegistry(target)
   ]);
   const sourceDigests = await specificationSourceDigests(target, specIndex);
   return sha256(
     JSON.stringify(
-      canonicalSourceProjection(items, collaboration, assignments, agents, workflow, policies, lock, specIndex, sourceDigests)
+      canonicalSourceProjection(items, collaboration, assignments, agents, workflow, policies, lock, specIndex, sourceDigests, resources)
     )
   );
 }
 
-function dispatchManifest(context, item, readiness) {
+function dispatchManifest(context, item, readiness, resourceRegistry) {
   const agent = context.agents.get(readiness.agent_id);
   return {
     work_item_id: item.id,
@@ -150,9 +173,11 @@ function dispatchManifest(context, item, readiness) {
     base_revision: item.base_revision,
     affected_paths: item.affected_paths ?? [],
     dependencies: item.dependencies ?? [],
-    required_disciplines: item.required_disciplines ?? [],
+    required_disciplines: readiness.active_requirements.disciplines,
+    active_requirements: readiness.active_requirements,
+    preparation_fingerprint: dispatchPreparationFingerprint(item, readiness, context, resourceRegistry),
     integration_owner_agent_id: item.integration_owner_agent_id,
-    context_command: `temple context resolve . --work-item ${item.id} --position ${item.owner_position} --no-write --json`,
+    context_command: `node ./templew.mjs context resolve . --work-item ${item.id} --position ${item.owner_position} --no-write --json`,
     claim_required_before_work: true,
     task_registration_required_after_creation: true,
     task_creation_performed: false,
@@ -253,6 +278,9 @@ export function validateParallelPlan(document) {
       ]) {
         if (typeof entry[field] !== "string" || !entry[field]) errors.push(`waves[${index}] dispatch entry ${field} is required`);
       }
+      if (!/^[a-f0-9]{64}$/.test(entry.preparation_fingerprint ?? "")) {
+        errors.push(`waves[${index}] dispatch entry preparation_fingerprint must be a SHA-256 digest`);
+      }
       for (const field of ["affected_paths", "dependencies", "required_disciplines"]) {
         if (!Array.isArray(entry[field]) || entry[field].some((value) => typeof value !== "string")) {
           errors.push(`waves[${index}] dispatch entry ${field} must be an array of strings`);
@@ -308,6 +336,7 @@ export function validateParallelPlan(document) {
 
 export async function buildParallelPlan(target, options = {}) {
   const context = await loadProjectContext(target);
+  const resourceRegistry = await readResourceRegistry(target);
   const allItems = await listWorkItemDocuments(target);
   const itemsById = new Map(allItems.map((item) => [item.id, item]));
   const terminalStates = new Set(context.workflow.terminal_states ?? []);
@@ -334,11 +363,35 @@ export async function buildParallelPlan(target, options = {}) {
       const matches = overlapDetails(left, right);
       if (matches.length === 0) continue;
       conflicts.push({
+        kind: "affected-path",
         left_work_item_id: left.id,
         right_work_item_id: right.id,
         paths: matches,
         resolution: overlapIsBidirectionallyResolved(left, right) ? "explicit-bidirectional" : "separate-waves"
       });
+    }
+  }
+  const capacities = new Map(
+    (resourceRegistry.resources ?? []).filter((entry) => entry.active !== false).map((entry) => [entry.id, entry.capacity])
+  );
+  for (let leftIndex = 0; leftIndex < selectedItems.length; leftIndex += 1) {
+    for (let rightIndex = leftIndex + 1; rightIndex < selectedItems.length; rightIndex += 1) {
+      const left = selectedItems[leftIndex];
+      const right = selectedItems[rightIndex];
+      const leftResources = new Map(activeExecutionRequirements(left).resources.map((entry) => [entry.resource_id, entry.units]));
+      for (const requirement of activeExecutionRequirements(right).resources) {
+        if (!leftResources.has(requirement.resource_id)) continue;
+        const capacity = capacities.get(requirement.resource_id);
+        if (capacity && leftResources.get(requirement.resource_id) + requirement.units <= capacity) continue;
+        conflicts.push({
+          kind: "shared-resource-capacity",
+          left_work_item_id: left.id,
+          right_work_item_id: right.id,
+          resource_id: requirement.resource_id,
+          capacity: capacity ?? null,
+          resolution: "separate-waves"
+        });
+      }
     }
   }
 
@@ -419,6 +472,15 @@ export async function buildParallelPlan(target, options = {}) {
       .filter((conflict) => conflict.resolution === "separate-waves")
       .map((conflict) => [conflict.left_work_item_id, conflict.right_work_item_id].sort().join("|"))
   );
+  function fitsResourceCapacity(chosen, candidate) {
+    const used = new Map();
+    for (const item of [...chosen, candidate]) {
+      for (const requirement of activeExecutionRequirements(item).resources) {
+        used.set(requirement.resource_id, (used.get(requirement.resource_id) ?? 0) + requirement.units);
+      }
+    }
+    return [...used].every(([resourceId, units]) => units <= (capacities.get(resourceId) ?? 0));
+  }
   const scheduled = new Set();
   const pending = new Map([...candidates].sort(([left], [right]) => left.localeCompare(right)));
   const waves = [];
@@ -440,11 +502,11 @@ export async function buildParallelPlan(target, options = {}) {
     for (const item of dependencyReady.sort((left, right) => left.id.localeCompare(right.id))) {
       if (maxWorkers !== null && chosen.length >= maxWorkers) break;
       const conflictsWithWave = chosen.some((other) => conflictKeys.has([item.id, other.id].sort().join("|")));
-      if (!conflictsWithWave) chosen.push(item);
+      if (!conflictsWithWave && fitsResourceCapacity(chosen, item)) chosen.push(item);
     }
     if (chosen.length === 0) chosen.push(dependencyReady.sort((left, right) => left.id.localeCompare(right.id))[0]);
     const order = waves.length + 1;
-    const dispatch = chosen.map((item) => dispatchManifest(context, item, readinessById.get(item.id)));
+    const dispatch = chosen.map((item) => dispatchManifest(context, item, readinessById.get(item.id), resourceRegistry));
     waves.push({
       id: `wave-${String(order).padStart(3, "0")}`,
       order,

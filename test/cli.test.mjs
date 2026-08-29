@@ -46,7 +46,7 @@ function shellQuote(value) {
 test("version is available without dependencies", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /^0\.1\.0-alpha\.16/m);
+  assert.match(result.stdout, /^0\.1\.0-alpha\.17/m);
 });
 
 test("the chamber remains a hidden evidence-first easter egg", () => {
@@ -95,14 +95,22 @@ test("init prints copyable direct commands that survive shell-sensitive paths", 
 
   const initialized = run(["init", target, "--config", configPath]);
   assert.equal(initialized.status, 0, initialized.stderr || initialized.stdout);
-  const doctorCommand = [process.execPath, cli, "doctor", target].map(shellQuote).join(" ");
-  const statusCommand = [process.execPath, cli, "status", target].map(shellQuote).join(" ");
+  const projectLauncher = path.join(target, "templew.mjs");
+  const doctorCommand = [process.execPath, projectLauncher, "doctor", target].map(shellQuote).join(" ");
+  const statusCommand = [process.execPath, projectLauncher, "status", target].map(shellQuote).join(" ");
   assert.match(initialized.stdout, new RegExp(`Doctor: ${doctorCommand.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
   assert.match(initialized.stdout, new RegExp(`Status: ${statusCommand.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
 
-  const copiedDoctor = spawnSync("/bin/sh", ["-c", doctorCommand], { encoding: "utf8" });
+  const wrapperEnvironment = { ...process.env, TEMPLE_CLI_PATH: cli };
+  const copiedDoctor = spawnSync("/bin/sh", ["-c", doctorCommand], {
+    encoding: "utf8",
+    env: wrapperEnvironment
+  });
   assert.equal(copiedDoctor.status, 0, copiedDoctor.stderr || copiedDoctor.stdout);
-  const copiedStatus = spawnSync("/bin/sh", ["-c", `${statusCommand} --json --no-write`], { encoding: "utf8" });
+  const copiedStatus = spawnSync("/bin/sh", ["-c", `${statusCommand} --json --no-write`], {
+    encoding: "utf8",
+    env: wrapperEnvironment
+  });
   assert.equal(copiedStatus.status, 0, copiedStatus.stderr || copiedStatus.stdout);
   assert.equal(JSON.parse(copiedStatus.stdout).project.id, "sample-product");
 });
@@ -164,7 +172,7 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
   const status = run(["status", target, "--json"]);
   assert.equal(status.status, 0, status.stderr);
   assert.equal(JSON.parse(status.stdout).assignments.length, 10);
-  assert.equal(JSON.parse(status.stdout).schema_version, "temple.status/v7");
+  assert.equal(JSON.parse(status.stdout).schema_version, "temple.status/v8");
   assert.equal(JSON.parse(status.stdout).learning.total, 0);
   assert.equal(JSON.parse(status.stdout).specifications.total_entries, 0);
   assert.equal(JSON.parse(status.stdout).tracker.profile, "repository-only");
@@ -309,7 +317,7 @@ test("upgrade adds a missing project-owned learning index without managing it", 
   });
   assert.equal(JSON.parse(await fs.readFile(trackerConfigPath, "utf8")).profile, "repository-only");
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.16");
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.17");
   assert.equal(upgradedLock.capabilities.engineering_learning, true);
   assert.equal(upgradedLock.capabilities.group_parallel_planning, true);
   assert.equal(upgradedLock.capabilities.parallel_join_gate, true);

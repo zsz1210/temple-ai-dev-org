@@ -73,6 +73,30 @@
     },
     "dependencies": { "type": "array", "items": { "type": "string" } },
     "required_disciplines": { "type": "array", "items": { "type": "string" } },
+    "stage_requirements": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["disciplines", "resources"],
+        "properties": {
+          "disciplines": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+          "resources": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "object",
+              "required": ["resource_id", "units"],
+              "properties": {
+                "resource_id": { "type": "string", "minLength": 1 },
+                "units": { "type": "integer", "minimum": 1, "maximum": 100 }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
     "base_revision": { "type": ["string", "null"] },
     "parallel_mode": { "enum": ["pending", "parallel", "sequential", "blocked"] },
     "integration_owner_agent_id": { "type": ["string", "null"] },

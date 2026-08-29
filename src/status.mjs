@@ -27,6 +27,9 @@ import {
   validateTrackerMappings,
   validateTrackerView
 } from "./tracker.mjs";
+import { RESOURCE_REGISTRY_RELATIVE_PATH, emptyResourceRegistry } from "./resources.mjs";
+import { RUNTIME_WORKER_REGISTRY_RELATIVE_PATH, emptyRuntimeWorkerRegistry } from "./workers.mjs";
+import { activeExecutionRequirements } from "./work-items.mjs";
 
 function markdown(value) {
   return String(value ?? "").replace(/\|/g, "\\|").replace(/\r?\n/g, " ");
@@ -62,7 +65,9 @@ export async function buildStatus(target, options = {}) {
     trackerConfig,
     trackerView,
     capabilityRegistry,
-    collaboration
+    collaboration,
+    resourceRegistry,
+    workerRegistry
   ] =
     await Promise.all([
       readJson(path.join(target, "temple.lock")),
@@ -91,6 +96,12 @@ export async function buildStatus(target, options = {}) {
       options.capabilityRegistry ?? buildCapabilityRegistry(target),
       pathExists(path.join(target, COLLABORATION_RELATIVE_PATH)).then((exists) =>
         exists ? readJson(path.join(target, COLLABORATION_RELATIVE_PATH)) : null
+      ),
+      pathExists(path.join(target, RESOURCE_REGISTRY_RELATIVE_PATH)).then((exists) =>
+        exists ? readJson(path.join(target, RESOURCE_REGISTRY_RELATIVE_PATH)) : emptyResourceRegistry()
+      ),
+      pathExists(path.join(target, RUNTIME_WORKER_REGISTRY_RELATIVE_PATH)).then((exists) =>
+        exists ? readJson(path.join(target, RUNTIME_WORKER_REGISTRY_RELATIVE_PATH)) : emptyRuntimeWorkerRegistry()
       )
     ]);
 
@@ -142,6 +153,7 @@ export async function buildStatus(target, options = {}) {
           item.dispatch_revision ??
           null;
         const specificationReferences = evaluateWorkItemSpecRefs(item, specIndex);
+        const activeRequirements = activeExecutionRequirements(item);
         workItems.push({
           id: item.id ?? entry.name.replace(/\.json$/, ""),
           title: item.title ?? "Untitled",
@@ -156,6 +168,7 @@ export async function buildStatus(target, options = {}) {
           terminal: terminalStates.has(item.state),
           parallel_mode: item.parallel_mode ?? "pending",
           required_disciplines: item.required_disciplines ?? [],
+          active_requirements: activeRequirements,
           active_claim: item.claim?.status === "active" ? item.claim : null,
           parent_work_item_id: item.parent_work_item_id ?? null,
           tracker_visibility: trackerVisibility(item),
@@ -207,6 +220,11 @@ export async function buildStatus(target, options = {}) {
       archive_ready: task.status === "completed" && terminalStates.has(workItem?.state)
     };
   });
+  const workers = (workerRegistry.workers ?? []).map((worker) => ({
+    ...worker,
+    agent_name: agents.get(worker.agent_id)?.display_name ?? worker.agent_id,
+    position_name: positions.get(worker.position_id)?.display_name ?? worker.position_id
+  }));
   for (const item of workItems) item.task_count = tasks.filter((task) => task.work_item_id === item.id).length;
 
   const trackerMappings = trackerConfigValidation.valid
@@ -257,6 +275,14 @@ export async function buildStatus(target, options = {}) {
     ...tasks
       .filter((task) => task.archive_ready)
       .map((task) => ({ type: "archive_ready", work_item_id: task.work_item_id, task_id: task.id, message: `${task.id} can be archived` })),
+    ...workers
+      .filter((worker) => worker.status === "attention" || worker.status === "failed")
+      .map((worker) => ({
+        type: "runtime_worker_attention",
+        work_item_id: worker.work_item_id,
+        worker_id: worker.id,
+        message: `${worker.id} is ${worker.status}`
+      })),
     ...workItems
       .filter((item) => item.stale_specification_count > 0)
       .map((item) => ({
@@ -313,13 +339,28 @@ export async function buildStatus(target, options = {}) {
   ];
 
   return {
-    schema_version: "temple.status/v7",
+    schema_version: "temple.status/v8",
     project: { id: project.id, name: project.name },
     template_version: lock.template.version,
     agents: agentsDocument.agents.map((agent) => ({ id: agent.id, display_name: agent.display_name, active: agent.active !== false })),
     assignments,
     work_items: { total: workItems.length, by_state: byState, items: workItems },
     tasks: { total: tasks.length, archive_ready: tasks.filter((task) => task.archive_ready).length, items: tasks },
+    runtime_workers: {
+      total: workers.length,
+      reserved: workers.filter((worker) => worker.status === "reserved").length,
+      active: workers.filter((worker) => ["active", "waiting", "attention"].includes(worker.status)).length,
+      terminal: workers.filter((worker) => ["completed", "failed", "cancelled"].includes(worker.status)).length,
+      internal_subagents: workers.filter((worker) => worker.runtime_kind === "internal-subagent").length,
+      user_tasks: workers.filter((worker) => worker.runtime_kind === "user-task").length,
+      items: workers
+    },
+    shared_resources: {
+      defined: (resourceRegistry.resources ?? []).filter((entry) => entry.active !== false).length,
+      active_reservations: (resourceRegistry.reservations ?? []).filter((entry) => entry.status === "active").length,
+      resources: resourceRegistry.resources ?? [],
+      reservations: resourceRegistry.reservations ?? []
+    },
     attention,
     recent_events: events.slice(-8).reverse(),
     optional_packs: (lock.optional_packs ?? []).map((pack) => ({
@@ -374,6 +415,7 @@ export async function buildStatus(target, options = {}) {
       large_scale_validation: collaborationState.large_scale_validation ?? { status: "not_run" }
     },
     orchestration,
+    cli_bootstrap: lock.template.bootstrap ?? null,
     integrations: lock.integrations
   };
 }
@@ -390,6 +432,8 @@ export function renderStatusMarkdown(status) {
     `- Parallel plan: ${status.orchestration.installed ? `${status.orchestration.waves} wave(s), fresh=${status.orchestration.fresh}` : "not generated"}`,
     `- Work items: ${status.work_items.total} total, ${activeItems} active`,
     `- Codex tasks: ${status.tasks.total} registered, ${status.tasks.archive_ready} archive-ready`,
+    `- Runtime workers: ${status.runtime_workers.total} registered, ${status.runtime_workers.reserved} reserved, ${status.runtime_workers.active} active`,
+    `- Shared resources: ${status.shared_resources.defined} defined, ${status.shared_resources.active_reservations} active reservation(s)`,
     `- Optional Skill packs: ${status.optional_packs.length} installed`,
     `- Repository capabilities: ${status.capabilities.available} available, ${status.capabilities.invalid} invalid`,
     `- Context routes: ${status.context_routing.active_routes} active (${status.context_routing.provider_id}, semantic=${status.context_routing.semantic})`,
@@ -452,6 +496,26 @@ export function renderStatusMarkdown(status) {
       );
     }
   }
+
+  lines.push("", "## Runtime workers and shared resources", "");
+  if (status.runtime_workers.items.length === 0) lines.push("No runtime workers registered yet.");
+  else {
+    lines.push(
+      "| Worker | Kind | Work item | Position / Agent | Status | Correlation | Revision | Resources |",
+      "|---|---|---|---|---|---|---|---:|"
+    );
+    for (const worker of status.runtime_workers.items) {
+      lines.push(
+        `| ${worker.id} | ${worker.runtime_kind} | ${worker.work_item_id} | ${markdown(worker.position_name)} / ${markdown(worker.agent_name)} | ${worker.status} | ${markdown(worker.task_id ?? worker.runtime_id ?? "reserved")} | \`${shortRevision(worker.current_revision)}\` | ${worker.resource_reservation_ids.length} |`
+      );
+    }
+  }
+  lines.push(
+    "",
+    `- Shared resource registry: \`${RESOURCE_REGISTRY_RELATIVE_PATH}\``,
+    `- Runtime worker registry: \`${RUNTIME_WORKER_REGISTRY_RELATIVE_PATH}\``,
+    `- Active resource reservations: ${status.shared_resources.active_reservations}`
+  );
 
   lines.push("", "## Attention", "");
   if (status.attention.length === 0) lines.push("No blockers, task attention requests, or archive-ready tasks.");

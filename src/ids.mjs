@@ -14,3 +14,7 @@ export function collaborativeWorkItemId(now = new Date()) {
 export function claimId(now = new Date()) {
   return `claim-${now.toISOString().replace(/[-:.TZ]/g, "").slice(0, 14)}-${crypto.randomBytes(4).toString("hex")}`;
 }
+
+export function runtimeWorkerId(now = new Date()) {
+  return `worker-${now.toISOString().replace(/[-:.TZ]/g, "").slice(0, 14)}-${crypto.randomBytes(4).toString("hex")}`;
+}

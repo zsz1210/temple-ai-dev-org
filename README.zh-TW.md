@@ -25,7 +25,7 @@ Temple 不是共享聊天記憶的系統，也不是一組 prompt 的集合。�
 | 產品意圖與領域 | `$decision-interview` 深入釐清模糊處；`$domain-modeling` 建立共通語言、邊界、規則與 invariant；Spec、Decision Ledger 與 ADR 保存決策 |
 | 組織與權限 | 十個穩定 Position、專案自己的 Agent Identity、default Assignment、Human Principal、Agent sponsorship、帶 Discipline 的 Position pool、明確的人類批准邊界，以及 Developer 與 Independent QA 的分離 |
 | 工程方法 | Core Skills，以及包含 `$tdd` 與 `$diagnosing-bugs` 的選配 Build Quality pack |
-| 工作協調 | 固定的 `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle、可持續保存的 work item 與 handoff，以及針對已拆解工作的 deterministic safe dispatch wave |
+| 工作協調 | 固定的 `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle、可持續保存的 work item 與 handoff、deterministic safe dispatch wave、claim-before-worker preparation，以及可觀測的共享 runtime capacity |
 | 團隊與 tracker 協調 | 區分公司 tracker、team-visible outcome、AI 內部拆解與 Codex session；透過明確 mapping、欄位權限、有限 observation 與 evidence-backed reconciliation 串接 |
 | 驗證與交付 | 具名的 gate evidence、evaluation、獨立重現、revision reference、approval record、rollback plan 與有明確範圍的 closeout |
 | 持久狀態、學習與可觀測性 | 由 repository 保存的 decision、Context Map、Lesson、Practice、work item、event、task registry、產生式 Capability Registry、Context Capsule、status，以及具 conflict 保護的 upgrade |
@@ -62,22 +62,22 @@ Temple 會檢查目標專案、提出名字和 Position Assignment、執行 dry 
 ```bash
 cd /absolute/path/to/my-project
 
-temple work-item create . \
+node ./templew.mjs work-item create . \
   --title "Ship one bounded outcome" \
   --scope "One verified user flow" \
   --acceptance "Independent QA verifies the candidate revision" \
   --ui-mode code-first \
   --affected-path "src/verified-flow/**"
 
-temple capability find . --query "verify one user flow"
-temple context resolve . --work-item WI-0001 --no-write
-temple doctor .
-temple status .
+node ./templew.mjs capability find . --query "verify one user flow"
+node ./templew.mjs context resolve . --work-item WI-0001 --no-write
+node ./templew.mjs doctor .
+node ./templew.mjs status .
 ```
 
-工作進入不同 lifecycle 階段時，使用 `temple handoff`、`temple transition` 與 `temple close`。執行 `temple --help` 可查看完整命令。
+工作進入不同 lifecycle 階段時，透過 repository launcher 使用 `handoff`、`transition` 與 `close`。launcher 會固定已安裝的 framework 版本，讓後續 task 不必依賴剛好存在的 global CLI。執行 `node ./templew.mjs --help` 可查看完整命令。
 
-當一個 parent outcome 已拆成邊界清楚的 child Work Item，可以使用 `temple parallel plan . --parent <WI-ID>` 產生 fresh、capacity-aware 的 dispatch manifest。這個指令不會建立 Codex task 或 claim；已有實作權限的 Agent runtime 會派送第一個 safe wave，指定的 Integration Owner 完成 evidence join 後再重新規劃。詳見[平行編排（英文）](docs/parallel-orchestration.md)。
+當一個 parent outcome 已拆成邊界清楚的 child Work Item，可以使用 `node ./templew.mjs parallel plan . --parent <WI-ID>` 產生 fresh、capacity-aware 的 dispatch manifest。這個指令不會建立 Codex task 或 claim。建立每一個 first-wave runtime 前，`parallel prepare` 會把符合資格的 claim、稀缺 resource reservation 與 runtime-worker correlation 一起記錄。internal subagent 與獨立的 user-owned Codex task 會保持區分，而指定的 Integration Owner 仍須完成 exact evidence join 後再重新規劃。詳見[平行編排（英文）](docs/parallel-orchestration.md)與[runtime coordination（英文）](docs/runtime-coordination.md)。
 
 ## 工程方法與擴展
 
@@ -93,7 +93,7 @@ Temple 也包含 `$skill-authoring` 與 [Skill 撰寫指南（英文）](docs/sk
 
 預設 Solo 設定由五個 Agent Identity 覆蓋全部十個 Position。Product Design Identity 一開始同時負責 Product Manager、UX Designer 與 UI Designer。Collaborative 基礎可以加入 Human Principal、額外 Agent Identity、sponsorship，以及帶有 frontend、backend、full-stack、infrastructure、UI、UX 等 Discipline 的多成員 Position pool。既有 default Assignment 保持相容，而單一有邊界的 Work Item 可以由其他符合資格的 pool member 認領。
 
-Solo 與 Collaborative 已可選擇；High-Assurance 只先保留定義，尚不可選。Collaborative mode 提供較不易跨 clone 碰撞的 Work Item ID、parent/dependency 與 shared-contract 欄位、parallel-readiness 檢查、由 Principal 背書的 claim，以及 status warning。Alpha.16 加入 deterministic group planning、safe wave、plan-only dispatch manifest、staleness detection 與 Integration Owner join gate。大型多人、多機器實測仍是 `not_run`，所以目前還不能宣稱已經證明適用所有公司拓撲與 distributed race。詳見[協作開發模型（英文）](docs/collaboration.md)。
+Solo 與 Collaborative 已可選擇；High-Assurance 只先保留定義，尚不可選。Collaborative mode 提供較不易跨 clone 碰撞的 Work Item ID、parent/dependency 與 shared-contract 欄位、parallel-readiness 檢查、由 Principal 背書的 claim，以及 status warning。Alpha.16 加入 deterministic group planning 與 Integration Owner join gate；Alpha.17 加入 repository-pinned launcher、stage-specific Discipline 與 resource requirement、atomic first-wave preparation，以及 runtime-worker correlation。大型多人、多機器實測仍是 `not_run`，所以目前還不能宣稱已經證明適用所有公司拓撲與 distributed race。詳見[協作開發模型（英文）](docs/collaboration.md)。
 
 Temple 目前會記錄 revision reference，但 CLI 還不會將每個 reference 驗證為精確的 Git object。它不會建立、重新命名或封存 Codex task，也不會執行外部 deploy 或 publish。商業事實、優先順序、敏感資料、重大成本、不可逆操作與高風險批准仍由人類負責。
 
@@ -108,6 +108,7 @@ Temple 是安裝進專案，而不是要求專案 fork 這個 repository。開�
 - [架構](docs/architecture.md) — identity、ownership、extension 與 canonical-state 邊界
 - [協作開發模型](docs/collaboration.md) — Human Principal、Position pool、task slicing、parallel readiness、claim 與流程圖
 - [平行編排](docs/parallel-orchestration.md) — safe wave、runtime dispatch、staleness 與 Integration Owner join gate
+- [Runtime coordination and recovery](docs/runtime-coordination.md) — pinned launcher、stage requirement、shared resource 與 worker/task correlation
 - [Task 與 external tracker 協調](docs/task-and-tracker-coordination.md) — 公司看板、AI 內部工作、欄位權限、mapping 與 reconciliation
 - [產品規格系統](docs/product-specifications.md) — product truth、帶版本的 Work Item reference 與 iterative delivery
 - [企業文件導入](docs/enterprise-document-adoption.md) — 在不產生雙重權威的前提下保留、橋接或遷移既有文件系統

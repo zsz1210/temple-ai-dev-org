@@ -31,6 +31,16 @@ import {
 } from "./collaboration.mjs";
 import { isWorkItemId } from "./ids.mjs";
 import { inspectParallelPlan } from "./orchestration.mjs";
+import { activeExecutionRequirements } from "./work-items.mjs";
+import { validateCliBootstrapMetadata } from "./bootstrap.mjs";
+import {
+  RESOURCE_REGISTRY_RELATIVE_PATH,
+  validateResourceRegistry
+} from "./resources.mjs";
+import {
+  RUNTIME_WORKER_REGISTRY_RELATIVE_PATH,
+  validateRuntimeWorkerRegistry
+} from "./workers.mjs";
 import {
   SPEC_INDEX_RELATIVE_PATH,
   evaluateWorkItemSpecRefs,
@@ -99,6 +109,14 @@ export async function runDoctor(target) {
       message: `Unsupported or mismatched organization lock version: ${lock.template?.version ?? "unknown"}`
     });
   }
+  const bootstrapValidation = validateCliBootstrapMetadata(lock.template?.bootstrap, lock.template?.version);
+  checks.push({
+    id: "cli_bootstrap",
+    status: bootstrapValidation.valid ? "pass" : "fail",
+    message: bootstrapValidation.valid
+      ? `Repository launcher pins Temple ${lock.template.version}`
+      : bootstrapValidation.errors.join("; ")
+  });
 
   const changedManaged = [];
   const missingManaged = [];
@@ -271,6 +289,26 @@ export async function runDoctor(target) {
 
   const workflow = await safeJson(path.join(target, ".ai-org/core/workflow.json"), checks, "workflow_json");
   const workflowStates = new Set((workflow?.states ?? []).map((state) => state.id));
+  const resourceRegistry = await safeJson(
+    path.join(target, RESOURCE_REGISTRY_RELATIVE_PATH),
+    checks,
+    "resource_registry_json"
+  );
+  const resourceValidation = resourceRegistry
+    ? validateResourceRegistry(resourceRegistry)
+    : { valid: false, errors: ["resource registry unavailable"] };
+  checks.push({
+    id: "shared_resources",
+    status: resourceValidation.valid ? "pass" : "fail",
+    message: resourceValidation.valid
+      ? `${resourceRegistry.resources.length} shared resource(s), ${resourceRegistry.reservations.filter((entry) => entry.status === "active").length} active reservation(s)`
+      : resourceValidation.errors.join("; ")
+  });
+  const resourceIds = new Set(
+    (Array.isArray(resourceRegistry?.resources) ? resourceRegistry.resources : [])
+      .filter((entry) => entry.active !== false)
+      .map((entry) => entry.id)
+  );
   const agentIds = new Set((agents?.agents ?? []).map((agent) => agent.id));
   const ownersForDoctor = new Map(
     (assignments?.assignments ?? [])
@@ -313,6 +351,21 @@ export async function runDoctor(target) {
             (Array.isArray(item.dependencies) && item.dependencies.every(isWorkItemId))) &&
           (item.required_disciplines === undefined ||
             (Array.isArray(item.required_disciplines) && item.required_disciplines.every((value) => DISCIPLINES.includes(value)))) &&
+          (item.stage_requirements === undefined ||
+            (item.stage_requirements &&
+              typeof item.stage_requirements === "object" &&
+              !Array.isArray(item.stage_requirements) &&
+              Object.entries(item.stage_requirements).every(
+                ([stage, requirement]) =>
+                  workflowStates.has(stage) &&
+                  Array.isArray(requirement?.disciplines) &&
+                  requirement.disciplines.every((value) => DISCIPLINES.includes(value)) &&
+                  Array.isArray(requirement?.resources) &&
+                  requirement.resources.every(
+                    (value) =>
+                      resourceIds.has(value?.resource_id) && Number.isInteger(value?.units) && value.units > 0
+                  )
+              ))) &&
           (item.parallel_mode === undefined || ["pending", "parallel", "sequential", "blocked"].includes(item.parallel_mode)) &&
           (item.contract_status === undefined || ["not_required", "draft", "stable"].includes(item.contract_status)) &&
           (item.integration_owner_agent_id === undefined || item.integration_owner_agent_id === null || agentIds.has(item.integration_owner_agent_id));
@@ -344,12 +397,13 @@ export async function runDoctor(target) {
         if (specificationReferences.unapproved_count > 0) {
           unapprovedSpecificationWorkItems.push({ id: item.id, count: specificationReferences.unapproved_count });
         }
+        const currentRequirements = activeExecutionRequirements(item);
         const plannedValid =
           item.planned_agent_id === undefined ||
           item.planned_agent_id === null ||
           (agentIds.has(item.planned_agent_id) &&
             Boolean(collaboration) &&
-            agentIsEligible(collaboration, item.planned_agent_id, item.owner_position, item.required_disciplines ?? []));
+            agentIsEligible(collaboration, item.planned_agent_id, item.owner_position, currentRequirements.disciplines));
         let claimValid = true;
         if (item.claim?.status === "active") {
           claimValid =
@@ -360,7 +414,7 @@ export async function runDoctor(target) {
             typeof item.claim.branch === "string" &&
             item.claim.branch.length > 0 &&
             Boolean(collaboration) &&
-            agentIsEligible(collaboration, item.claim.agent_id, item.owner_position, item.required_disciplines ?? []) &&
+            agentIsEligible(collaboration, item.claim.agent_id, item.owner_position, currentRequirements.disciplines) &&
             !activeClaimBranches.has(item.claim.branch) &&
             (!item.claim.worktree || !activeClaimWorktrees.has(item.claim.worktree));
           activeClaimBranches.add(item.claim.branch);
@@ -531,6 +585,49 @@ export async function runDoctor(target) {
     checks.push({ id: "capability_registry", status: "fail", message: error.message });
   }
 
+  const workersDocument = await safeJson(
+    path.join(target, RUNTIME_WORKER_REGISTRY_RELATIVE_PATH),
+    checks,
+    "runtime_workers_json"
+  );
+  const workerValidation = workersDocument
+    ? validateRuntimeWorkerRegistry(workersDocument)
+    : { valid: false, errors: ["runtime worker registry unavailable"] };
+  const workersById = new Map((workersDocument?.workers ?? []).map((worker) => [worker.id, worker]));
+  const reservationIds = new Set((resourceRegistry?.reservations ?? []).map((entry) => entry.id));
+  const invalidWorkerReferences = [];
+  if (workerValidation.valid) {
+    for (const worker of workersDocument.workers) {
+      const item = workItemsForDoctor.get(worker.work_item_id);
+      if (!item) invalidWorkerReferences.push(`${worker.id}: unknown Work Item`);
+      else if (!(item.claim?.id === worker.claim_id || (item.claims ?? []).some((claim) => claim.id === worker.claim_id))) {
+        invalidWorkerReferences.push(`${worker.id}: unknown claim`);
+      }
+      if (!positionIds.has(worker.position_id) || !agentIds.has(worker.agent_id)) {
+        invalidWorkerReferences.push(`${worker.id}: unknown Position or Agent Identity`);
+      }
+      if (worker.resource_reservation_ids.some((id) => !reservationIds.has(id))) {
+        invalidWorkerReferences.push(`${worker.id}: unknown resource reservation`);
+      }
+      const reservations = (resourceRegistry?.reservations ?? []).filter((entry) => entry.worker_id === worker.id);
+      if (worker.resource_reservation_ids.some((id) => !reservations.some((entry) => entry.id === id))) {
+        invalidWorkerReferences.push(`${worker.id}: resource reservation ownership mismatch`);
+      }
+      if (["completed", "failed", "cancelled"].includes(worker.status) && reservations.some((entry) => entry.status === "active")) {
+        invalidWorkerReferences.push(`${worker.id}: terminal worker retains an active resource reservation`);
+      }
+    }
+  }
+  checks.push({
+    id: "runtime_workers",
+    status: !workerValidation.valid || invalidWorkerReferences.length ? "fail" : "pass",
+    message: !workerValidation.valid
+      ? workerValidation.errors.join("; ")
+      : invalidWorkerReferences.length
+        ? invalidWorkerReferences.join("; ")
+        : `${workersDocument.workers.length} runtime worker record(s) are valid`
+  });
+
   const tasksDocument = await safeJson(path.join(target, ".ai-org/project/tasks.json"), checks, "tasks_json");
   if (tasksDocument) {
     const seenTaskIds = new Set();
@@ -557,11 +654,14 @@ export async function runDoctor(target) {
         taskThreadIds.length > 0 &&
         (!task.registered_by || task.registered_by === "human" || agentIds.has(task.registered_by)) &&
         (!task.last_updated_by || task.last_updated_by === "human" || agentIds.has(task.last_updated_by)) &&
-        (!task.principal_id || principalIds.has(task.principal_id)) &&
+        (!task.principal_id || task.principal_id === "human" || principalIds.has(task.principal_id)) &&
         (!task.claim_id ||
           workItemsForDoctor.get(task.work_item_id)?.claim?.id === task.claim_id ||
           (workItemsForDoctor.get(task.work_item_id)?.claims ?? []).some((claim) => claim.id === task.claim_id)) &&
         (!task.branch || typeof task.branch === "string") &&
+        (!task.worker_id ||
+          (workersById.get(task.worker_id)?.runtime_kind === "user-task" &&
+            workersById.get(task.worker_id)?.task_id === task.id)) &&
         taskThreadIds.every((threadId) => !seenThreadIds.has(threadId));
       if (!valid) invalidTasks.push(task.id ?? "unknown");
       seenTaskIds.add(task.id);
@@ -573,6 +673,19 @@ export async function runDoctor(target) {
       message: invalidTasks.length
         ? `Invalid task records: ${invalidTasks.join(", ")}`
         : `${tasksDocument.tasks?.length ?? 0} Codex task records are valid`
+    });
+  }
+  if (workersDocument && tasksDocument) {
+    const tasksById = new Map((tasksDocument.tasks ?? []).map((task) => [task.id, task]));
+    const danglingTaskWorkers = workersDocument.workers
+      .filter((worker) => worker.task_id && tasksById.get(worker.task_id)?.worker_id !== worker.id)
+      .map((worker) => worker.id);
+    checks.push({
+      id: "runtime_task_correlation",
+      status: danglingTaskWorkers.length ? "fail" : "pass",
+      message: danglingTaskWorkers.length
+        ? `Runtime workers have invalid Codex task correlation: ${danglingTaskWorkers.join(", ")}`
+        : "Internal subagents and user-owned Codex tasks have distinct valid correlation"
     });
   }
 

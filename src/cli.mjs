@@ -46,6 +46,8 @@ import {
 } from "./tracker.mjs";
 import { executeUpgrade, formatUpgradePlan, planUpgrade } from "./upgrade.mjs";
 import { buildParallelPlan, writeParallelPlan } from "./orchestration.mjs";
+import { defineResource, readResourceRegistry } from "./resources.mjs";
+import { attachInternalWorker, listRuntimeWorkers, prepareWorkerDispatch, updateRuntimeWorker } from "./workers.mjs";
 import {
   closeWorkItem,
   claimWorkItem,
@@ -72,17 +74,23 @@ Usage:
   temple collaboration add-agent [target] --agent-id agent-name --name "Agent Name"
   temple collaboration sponsor [target] --principal-id principal-name --agent-id agent-name
   temple collaboration add-membership [target] --agent-id agent-name --position developer [--discipline backend]
-  temple work-item create [target] --title text [--scope text] [--acceptance text] [--affected-path path] [--context-ref id] [--spec-mode gate-evidence|indexed] [--spec-ref ID@revision] [--ui-mode mode] [--tracker-visibility internal|team-visible]
-  temple work-item configure [target] --work-item WI-ID [--parent WI-ID] [--depends-on WI-ID] [--agent-id agent-name] [--discipline backend] [--base-revision ref] [--parallel-mode mode] [--spec-ref ID@revision] [--replace-spec-refs]
+  temple work-item create [target] --title text [--scope text] [--acceptance text] [--affected-path path] [--context-ref id] [--spec-mode gate-evidence|indexed] [--spec-ref ID@revision] [--ui-mode mode] [--discipline backend] [--stage-discipline build=backend] [--stage-resource test=ios-simulator[:units]] [--tracker-visibility internal|team-visible]
+  temple work-item configure [target] --work-item WI-ID [--parent WI-ID] [--depends-on WI-ID] [--agent-id agent-name] [--discipline backend] [--stage-discipline build=backend] [--stage-resource test=ios-simulator[:units]] [--clear-stage-requirement test] [--base-revision ref] [--parallel-mode mode] [--spec-ref ID@revision] [--replace-spec-refs]
   temple work-item claim [target] --work-item WI-ID --agent-id agent-name --principal-id principal-name --base-revision ref --branch name [--worktree path]
   temple work-item release [target] --work-item WI-ID [--agent-id agent-name] [--principal-id principal-name] [--reason text]
   temple work-item unresolved [target] --work-item WI-0001 [--resolve text] [--merge text]
   temple parallel check [target] --work-item WI-ID [--agent-id agent-name] [--json]
   temple parallel plan [target] [--parent WI-ID] [--max-workers number] [--json] [--no-write]
+  temple parallel prepare [target] --work-item WI-ID --agent-id agent-name --principal-id principal-name --base-revision ref --branch name --runtime-kind internal-subagent|user-task [--worktree path]
+  temple resource define [target] --resource-id id --name "Display name" --capacity number [--description text]
+  temple resource list [target] [--json]
+  temple worker attach [target] --worker-id id --runtime-id id
+  temple worker update [target] --worker-id id --status active|waiting|attention|completed|failed|cancelled [--revision ref] [--evidence ref]
+  temple worker list [target] [--json]
   temple handoff [target] --work-item WI-0001 --to position --input-revision ref --completed text --evidence ref
   temple transition [target] --work-item WI-0001 --to state --satisfy requirement=reference
   temple close [target] --work-item WI-0001 --decision go|no-go --tested-revision ref --rollback text --approval record
-  temple task register [target] --work-item WI-0001 --position developer --thread-id id
+  temple task register [target] --work-item WI-0001 --position developer --thread-id id [--worker-id worker-id]
   temple task update [target] --task-id task-0001 --status completed
   temple task list [target] [--json]
   temple tracker show [target] [--json]
@@ -110,6 +118,8 @@ Core commands:
   collaboration Configure Human Principals, Agent sponsorship, Position membership, and the operating profile.
   work-item   Create and configure work items, revisioned contracts, UI mode, claims, and unresolved items.
   parallel    Check one item or build deterministic safe dispatch waves for a group.
+  resource    Define and inspect shared runtime or verification capacity.
+  worker      Correlate reserved work with internal subagents or user-owned Codex tasks.
   handoff     Create an evidence-bearing Position handoff artifact.
   transition  Enforce the workflow edge and its named gate requirements.
   close       Record release readiness and close or block a release-gate item.
@@ -121,7 +131,8 @@ Core commands:
 
 Repeat --scope, --acceptance, --completed, --evidence, --unresolved, --resolve,
 --merge, --affected-path, --context-ref, --spec-ref, --ux-ref, --ui-ref,
---contract-ref, --rollback, --reason, or --satisfy as needed. Configure merges document refs by ID;
+--contract-ref, --stage-discipline, --stage-resource, --clear-stage-requirement, --rollback, --reason,
+or --satisfy as needed. Configure merges document refs by ID;
 use the matching --replace-*-refs flag to replace or clear a complete category. Temple never creates, renames, or archives a
 Codex task by itself; task registry entries make those app actions observable.
 `;
@@ -188,6 +199,9 @@ const VALUE_FLAGS = new Set([
   "--name",
   "--agent-id",
   "--discipline",
+  "--stage-discipline",
+  "--stage-resource",
+  "--clear-stage-requirement",
   "--parent",
   "--depends-on",
   "--base-revision",
@@ -214,7 +228,13 @@ const VALUE_FLAGS = new Set([
   "--url",
   "--role",
   "--observation",
-  "--resolution"
+  "--resolution",
+  "--resource-id",
+  "--capacity",
+  "--description",
+  "--runtime-kind",
+  "--worker-id",
+  "--runtime-id"
 ]);
 const REPEATABLE_FLAGS = new Set([
   "--scope",
@@ -234,11 +254,14 @@ const REPEATABLE_FLAGS = new Set([
   "--ui-ref",
   "--contract-ref",
   "--discipline",
+  "--stage-discipline",
+  "--stage-resource",
+  "--clear-stage-requirement",
   "--depends-on",
   "--shared-contract-ref",
   "--overlap-resolution"
 ]);
-const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel"]);
+const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker"]);
 
 function parseCommand(argv) {
   if (argv.length === 0 || argv[0] === "--help" || argv[0] === "-h") {
@@ -317,6 +340,42 @@ function parseDocumentReferences(values, flag) {
   return references;
 }
 
+function parseStageRequirements(disciplineValues, resourceValues, clearStages = []) {
+  if (disciplineValues.length === 0 && resourceValues.length === 0 && clearStages.length === 0) return undefined;
+  const output = {};
+  for (const value of clearStages) {
+    const stage = String(value).trim();
+    if (!stage) throw new Error("--clear-stage-requirement requires a lifecycle stage");
+    output[stage] = null;
+  }
+  for (const value of disciplineValues) {
+    const separator = value.indexOf("=");
+    if (separator <= 0 || separator === value.length - 1) {
+      throw new Error(`Invalid --stage-discipline value ${value}; use stage=discipline`);
+    }
+    const stage = value.slice(0, separator).trim();
+    const discipline = value.slice(separator + 1).trim();
+    output[stage] = { ...(output[stage] ?? {}), disciplines: [...(output[stage]?.disciplines ?? []), discipline] };
+  }
+  for (const value of resourceValues) {
+    const separator = value.indexOf("=");
+    if (separator <= 0 || separator === value.length - 1) {
+      throw new Error(`Invalid --stage-resource value ${value}; use stage=resource-id[:units]`);
+    }
+    const stage = value.slice(0, separator).trim();
+    const resourceValue = value.slice(separator + 1).trim();
+    const unitsSeparator = resourceValue.lastIndexOf(":");
+    const hasUnits = unitsSeparator > 0 && /^[0-9]+$/.test(resourceValue.slice(unitsSeparator + 1));
+    const resourceId = hasUnits ? resourceValue.slice(0, unitsSeparator) : resourceValue;
+    const units = hasUnits ? Number(resourceValue.slice(unitsSeparator + 1)) : 1;
+    output[stage] = {
+      ...(output[stage] ?? {}),
+      resources: [...(output[stage]?.resources ?? []), { resource_id: resourceId, units }]
+    };
+  }
+  return output;
+}
+
 function projectIdFromDirectory(target) {
   const fallback = path.basename(path.resolve(target))
     .toLowerCase()
@@ -331,7 +390,7 @@ function shellQuote(value) {
 }
 
 function directCliCommand(command, target) {
-  const invocation = [process.execPath, path.resolve(process.argv[1]), command, path.resolve(target)]
+  const invocation = [process.execPath, path.join(path.resolve(target), "templew.mjs"), command, path.resolve(target)]
     .map(shellQuote)
     .join(" ");
   return process.platform === "win32" ? `& ${invocation}` : invocation;
@@ -500,6 +559,11 @@ async function runWorkItemCreate(parsed) {
       parentWorkItemId: parsed.options["--parent"],
       dependencies: listOption(parsed, "--depends-on"),
       requiredDisciplines: listOption(parsed, "--discipline"),
+      stageRequirements: parseStageRequirements(
+        listOption(parsed, "--stage-discipline"),
+        listOption(parsed, "--stage-resource"),
+        listOption(parsed, "--clear-stage-requirement")
+      ),
       baseRevision: parsed.options["--base-revision"],
       integrationOwnerAgentId: parsed.options["--integration-owner"],
       sharedContractRefs: listOption(parsed, "--shared-contract-ref"),
@@ -577,6 +641,11 @@ async function runWorkItemConfigure(parsed) {
       parentWorkItemId: parsed.options["--parent"],
       dependencies: parsed.options["--depends-on"] === undefined ? undefined : listOption(parsed, "--depends-on"),
       requiredDisciplines: parsed.options["--discipline"] === undefined ? undefined : listOption(parsed, "--discipline"),
+      stageRequirements: parseStageRequirements(
+        listOption(parsed, "--stage-discipline"),
+        listOption(parsed, "--stage-resource"),
+        listOption(parsed, "--clear-stage-requirement")
+      ),
       baseRevision: parsed.options["--base-revision"],
       parallelMode: parsed.options["--parallel-mode"],
       integrationOwnerAgentId: parsed.options["--integration-owner"],
@@ -661,6 +730,28 @@ async function runWorkItemRelease(parsed) {
 
 async function runParallel(parsed) {
   const target = await assertSafeTarget(parsed.target);
+  if (parsed.action === "prepare") {
+    const prepared = await withProjectMutationLock(target, async () => {
+      const result = await prepareWorkerDispatch(target, {
+        workItemId: parsed.options["--work-item"],
+        agentId: parsed.options["--agent-id"],
+        principalId: parsed.options["--principal-id"],
+        baseRevision: parsed.options["--base-revision"],
+        branch: parsed.options["--branch"],
+        worktree: parsed.options["--worktree"],
+        runtimeKind: parsed.options["--runtime-kind"]
+      });
+      await refreshViews(target);
+      return result;
+    });
+    printResult(parsed, prepared, [
+      `Prepared ${prepared.worker.id} for ${prepared.worker.work_item_id}`,
+      `Runtime kind: ${prepared.worker.runtime_kind}`,
+      `Claim: ${prepared.claim.id}`,
+      prepared.instruction
+    ]);
+    return 0;
+  }
   if (parsed.action === "plan") {
     const plan = await buildParallelPlan(target, {
       parentWorkItemId: parsed.options["--parent"],
@@ -697,6 +788,65 @@ async function runParallel(parsed) {
     for (const overlap of result.overlaps) console.log(`[OVERLAP] ${overlap.work_item_id}: ${overlap.paths.join(", ")}`);
   }
   return result.ready ? 0 : 2;
+}
+
+async function runWorker(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (parsed.action === "list") {
+    const workers = await listRuntimeWorkers(target);
+    if (parsed.flags.has("--json")) console.log(JSON.stringify(workers, null, 2));
+    else if (workers.length === 0) console.log("No runtime workers registered.");
+    else for (const worker of workers) console.log(`${worker.id}\t${worker.runtime_kind}\t${worker.status}\t${worker.work_item_id}`);
+    return 0;
+  }
+  const worker = await withProjectMutationLock(target, async () => {
+    let result;
+    if (parsed.action === "attach") {
+      result = await attachInternalWorker(target, {
+        workerId: parsed.options["--worker-id"],
+        runtimeId: parsed.options["--runtime-id"]
+      });
+    } else if (parsed.action === "update") {
+      result = await updateRuntimeWorker(target, {
+        workerId: parsed.options["--worker-id"],
+        status: parsed.options["--status"],
+        revision: parsed.options["--revision"],
+        evidence: listOption(parsed, "--evidence"),
+        actor: parsed.options["--actor"]
+      });
+    } else throw new Error(`Unknown worker action: ${parsed.action}`);
+    await refreshViews(target);
+    return result;
+  });
+  printResult(parsed, worker, [`${worker.id}: ${worker.status}`, `Work Item: ${worker.work_item_id}`]);
+  return 0;
+}
+
+async function runResource(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (parsed.action === "list") {
+    const registry = await readResourceRegistry(target);
+    printResult(parsed, registry, [
+      `Shared resources: ${(registry.resources ?? []).length}`,
+      `Active reservations: ${(registry.reservations ?? []).filter((entry) => entry.status === "active").length}`
+    ]);
+    return 0;
+  }
+  if (parsed.action !== "define") throw new Error(`Unknown resource action: ${parsed.action}`);
+  const result = await withProjectMutationLock(target, async () => {
+    const capacity = Number(parsed.options["--capacity"]);
+    const defined = await defineResource(target, {
+      resourceId: parsed.options["--resource-id"],
+      displayName: parsed.options["--name"],
+      capacity,
+      description: parsed.options["--description"],
+      actor: parsed.options["--actor"]
+    });
+    await refreshViews(target);
+    return defined;
+  });
+  printResult(parsed, result, [`Defined shared resource ${result.id}: capacity ${result.capacity}`]);
+  return 0;
 }
 
 async function runWorkItemUnresolved(parsed) {
@@ -816,6 +966,7 @@ async function runTask(parsed) {
         status: parsed.options["--status"],
         revision: parsed.options["--revision"],
         notes: parsed.options["--notes"],
+        workerId: parsed.options["--worker-id"],
         actor: parsed.options["--actor"]
       });
       await refreshViews(target);
@@ -1149,6 +1300,8 @@ export async function main(argv) {
   if (parsed.command === "work-item" && parsed.action === "release") return runWorkItemRelease(parsed);
   if (parsed.command === "work-item" && parsed.action === "unresolved") return runWorkItemUnresolved(parsed);
   if (parsed.command === "parallel") return runParallel(parsed);
+  if (parsed.command === "resource") return runResource(parsed);
+  if (parsed.command === "worker") return runWorker(parsed);
   if (parsed.command === "handoff") return runHandoff(parsed);
   if (parsed.command === "transition") return runTransition(parsed);
   if (parsed.command === "close") return runClose(parsed);

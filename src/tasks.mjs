@@ -1,4 +1,7 @@
+import fs from "node:fs/promises";
+import path from "node:path";
 import { TASK_STATUSES } from "./constants.mjs";
+import { atomicWrite, pathExists } from "./files.mjs";
 import {
   appendEvent,
   assignedAgent,
@@ -9,6 +12,7 @@ import {
   writeTaskRegistry
 } from "./project.mjs";
 import { readWorkItem } from "./work-items.mjs";
+import { attachUserTaskWorker, syncUserTaskWorker, validateUserTaskReservation } from "./workers.mjs";
 
 function nextTaskId(tasks) {
   const numbers = tasks.map((task) => /^task-([0-9]+)$/.exec(task.id)?.[1]).filter(Boolean).map(Number);
@@ -17,6 +21,31 @@ function nextTaskId(tasks) {
 
 function validateStatus(status) {
   if (!TASK_STATUSES.includes(status)) throw new Error(`Invalid task status ${status}; use ${TASK_STATUSES.join(", ")}`);
+}
+
+async function snapshotTaskMutationFiles(target) {
+  const paths = [
+    path.join(target, ".ai-org/project/tasks.json"),
+    path.join(target, ".ai-org/project/runtime-workers.json"),
+    path.join(target, ".ai-org/project/resources.json"),
+    path.join(target, ".ai-org/events/events.jsonl")
+  ];
+  return Promise.all(
+    paths.map(async (filePath) => ({
+      path: filePath,
+      before: (await pathExists(filePath)) ? await fs.readFile(filePath) : null
+    }))
+  );
+}
+
+async function restoreTaskMutationFiles(snapshots) {
+  for (const snapshot of [...snapshots].reverse()) {
+    if (snapshot.before === null) {
+      await fs.unlink(snapshot.path).catch((error) => {
+        if (error.code !== "ENOENT") throw error;
+      });
+    } else await atomicWrite(snapshot.path, snapshot.before);
+  }
 }
 
 export async function registerTask(target, options) {
@@ -49,6 +78,15 @@ export async function registerTask(target, options) {
     throw new Error(`Actor ${actor} cannot register a task for ${positionId}; expected ${agent.id}, ${manager.id}, or human`);
   }
   const timestamp = new Date().toISOString();
+  const workerId = String(options.workerId ?? "").trim() || null;
+  if (workerId) {
+    await validateUserTaskReservation(target, workerId, {
+      work_item_id: item.id,
+      position_id: positionId,
+      agent_id: agent.id,
+      claim_id: item.claim?.status === "active" ? item.claim.id : null
+    });
+  }
   const task = {
     id: nextTaskId(registry.tasks ?? []),
     work_item_id: item.id,
@@ -68,24 +106,32 @@ export async function registerTask(target, options) {
     base_revision: item.claim?.status === "active" ? item.claim.base_revision : null,
     branch: item.claim?.status === "active" ? item.claim.branch : null,
     worktree: item.claim?.status === "active" ? item.claim.worktree : null,
+    worker_id: workerId,
     created_at: timestamp,
     updated_at: timestamp,
     registered_by: actor,
     notes: options.notes ?? null
   };
-  registry.tasks = [...(registry.tasks ?? []), task];
-  await writeTaskRegistry(target, registry);
-  await appendEvent(target, {
-    timestamp,
-    event_type: "task_registered",
-    actor,
-    task_id: task.id,
-    work_item_id: item.id,
-    position: positionId,
-    thread_id: task.thread_id,
-    status,
-    refs: [".ai-org/project/tasks.json"]
-  });
+  const snapshots = await snapshotTaskMutationFiles(target);
+  try {
+    registry.tasks = [...(registry.tasks ?? []), task];
+    await writeTaskRegistry(target, registry);
+    if (workerId) await attachUserTaskWorker(target, workerId, task);
+    await appendEvent(target, {
+      timestamp,
+      event_type: "task_registered",
+      actor,
+      task_id: task.id,
+      work_item_id: item.id,
+      position: positionId,
+      thread_id: task.thread_id,
+      status,
+      refs: [".ai-org/project/tasks.json"]
+    });
+  } catch (error) {
+    await restoreTaskMutationFiles(snapshots);
+    throw error;
+  }
   return task;
 }
 
@@ -118,19 +164,26 @@ export async function updateTask(target, options) {
     last_updated_by: actor,
     updated_at: timestamp
   };
-  registry.tasks[index] = updated;
-  await writeTaskRegistry(target, registry);
-  await appendEvent(target, {
-    timestamp,
-    event_type: current.status === status ? "task_metadata_updated" : "task_status_changed",
-    actor,
-    task_id: current.id,
-    work_item_id: current.work_item_id,
-    from_status: current.status,
-    to_status: status,
-    revision: updated.current_revision,
-    refs: [".ai-org/project/tasks.json"]
-  });
+  const snapshots = await snapshotTaskMutationFiles(target);
+  try {
+    registry.tasks[index] = updated;
+    await writeTaskRegistry(target, registry);
+    if (updated.worker_id) await syncUserTaskWorker(target, updated.worker_id, status, updated.current_revision);
+    await appendEvent(target, {
+      timestamp,
+      event_type: current.status === status ? "task_metadata_updated" : "task_status_changed",
+      actor,
+      task_id: current.id,
+      work_item_id: current.work_item_id,
+      from_status: current.status,
+      to_status: status,
+      revision: updated.current_revision,
+      refs: [".ai-org/project/tasks.json"]
+    });
+  } catch (error) {
+    await restoreTaskMutationFiles(snapshots);
+    throw error;
+  }
   return updated;
 }
 

@@ -25,7 +25,7 @@ Temple はチャット記憶の共有システムでも、prompt の寄せ集め
 | プロダクトの意図とドメイン | `$decision-interview` が曖昧さを問い直し、`$domain-modeling` が共通言語、境界、ルール、invariant を定義し、Spec、Decision Ledger、ADR が決定を保存する |
 | 組織と権限 | 10の安定した Position、プロジェクト固有の Agent Identity、default Assignment、Human Principal、Agent sponsorship、Discipline 付き Position pool、明示的な人間の承認境界、Developer と Independent QA の分離 |
 | 開発手法 | Core Skill と、`$tdd` および `$diagnosing-bugs` を含む opt-in の Build Quality pack |
-| 作業オーケストレーション | 永続的な work item と handoff、固定の `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle、分解済み作業の deterministic safe dispatch wave |
+| 作業オーケストレーション | 永続的な work item と handoff、固定の `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle、deterministic safe dispatch wave、claim-before-worker preparation、共有 runtime capacity の可視化 |
 | チームと tracker の連携 | 会社 tracker、team-visible outcome、AI 内部の分解、Codex session を分離し、明示的な mapping、field ownership、限定された observation、evidence-backed reconciliation で接続 |
 | 検証とデリバリー | 名前付き gate evidence、evaluation、独立再現、revision reference、approval record、rollback plan、範囲を限定した closeout |
 | 永続的な状態、学習、可観測性 | リポジトリが所有する decision、Context Map、Lesson、Practice、work item、event、task registry、生成 Capability Registry、Context Capsule、status、conflict-aware upgrade |
@@ -62,22 +62,22 @@ Temple は導入先を調査し、名前と Position Assignment を提案して 
 ```bash
 cd /absolute/path/to/my-project
 
-temple work-item create . \
+node ./templew.mjs work-item create . \
   --title "Ship one bounded outcome" \
   --scope "One verified user flow" \
   --acceptance "Independent QA verifies the candidate revision" \
   --ui-mode code-first \
   --affected-path "src/verified-flow/**"
 
-temple capability find . --query "verify one user flow"
-temple context resolve . --work-item WI-0001 --no-write
-temple doctor .
-temple status .
+node ./templew.mjs capability find . --query "verify one user flow"
+node ./templew.mjs context resolve . --work-item WI-0001 --no-write
+node ./templew.mjs doctor .
+node ./templew.mjs status .
 ```
 
-作業が lifecycle を進む際は、`temple handoff`、`temple transition`、`temple close` を使用します。全コマンドは `temple --help` で確認できます。
+作業が lifecycle を進む際は、repository launcher 経由で `handoff`、`transition`、`close` を使用します。launcher は導入済み framework version を固定するため、後続 task が偶然存在する global CLI に依存しません。全コマンドは `node ./templew.mjs --help` で確認できます。
 
-1つの parent outcome が明確な child Work Item に分解されたら、`temple parallel plan . --parent <WI-ID>` で fresh かつ capacity-aware な dispatch manifest を生成できます。この操作は Codex task や claim を作成しません。権限を持つ Agent runtime が最初の safe wave を dispatch し、指定された Integration Owner が evidence を join した後に再計画します。[Parallel orchestration（英語）](docs/parallel-orchestration.md)を参照してください。
+1つの parent outcome が明確な child Work Item に分解されたら、`node ./templew.mjs parallel plan . --parent <WI-ID>` で fresh かつ capacity-aware な dispatch manifest を生成できます。この操作は Codex task や claim を作成しません。各 first-wave runtime を作る前に、`parallel prepare` が適格な claim、希少 resource の reservation、runtime-worker correlation を一体として記録します。internal subagent と別の user-owned Codex task は区別され、指定された Integration Owner は引き続き exact evidence を join してから再計画します。[Parallel orchestration（英語）](docs/parallel-orchestration.md)と[runtime coordination（英語）](docs/runtime-coordination.md)を参照してください。
 
 ## 開発手法と拡張
 
@@ -93,7 +93,7 @@ Temple には、境界が明確な project-owned Skill を作るための `$skil
 
 既定の Solo 構成では、5つの Agent Identity が10の Position すべてを担当します。Product Design Identity は当初、Product Manager、UX Designer、UI Designer を兼任します。Collaborative foundation では、Human Principal、追加の Agent Identity、sponsorship、frontend、backend、full-stack、infrastructure、UI、UX などの Discipline を持つ複数メンバーの Position pool を追加できます。既存の default Assignment は互換性を保ち、範囲を限定した Work Item は別の適格な pool member が claim できます。
 
-Solo と Collaborative は選択可能です。High-Assurance は定義のみを予約し、まだ選択できません。Collaborative mode は、clone 間で衝突しにくい Work Item ID、parent/dependency と shared-contract field、parallel-readiness check、Principal-backed claim、status warning を提供します。Alpha.16 は deterministic group planning、safe wave、plan-only dispatch manifest、staleness detection、Integration Owner join gate を追加します。大規模な複数人・複数マシンの実機テストはまだ `not_run` のため、すべての企業構成や distributed race に対応済みとは主張しません。[Collaborative development model（英語）](docs/collaboration.md)を参照してください。
+Solo と Collaborative は選択可能です。High-Assurance は定義のみを予約し、まだ選択できません。Collaborative mode は、clone 間で衝突しにくい Work Item ID、parent/dependency と shared-contract field、parallel-readiness check、Principal-backed claim、status warning を提供します。Alpha.16 は deterministic group planning と Integration Owner join gate を追加し、Alpha.17 は repository-pinned launcher、stage-specific Discipline と resource requirement、atomic first-wave preparation、runtime-worker correlation を追加します。大規模な複数人・複数マシンの実機テストはまだ `not_run` のため、すべての企業構成や distributed race に対応済みとは主張しません。[Collaborative development model（英語）](docs/collaboration.md)を参照してください。
 
 Temple は現在 revision reference を記録しますが、CLI はまだすべての reference を正確な Git object として解決しません。Codex task の作成、名前変更、archive は行わず、外部への deploy や publish も実行しません。ビジネス上の事実、優先順位、機密データ、重大なコスト、不可逆な操作、高リスクな承認は人間が管理します。
 
@@ -108,6 +108,7 @@ Temple はプロジェクトへインストールします。プロジェクト�
 - [Architecture](docs/architecture.md) — identity、ownership、extension、canonical-state boundary
 - [Collaborative development model](docs/collaboration.md) — Human Principal、Position pool、task slicing、parallel readiness、claim、diagram
 - [Parallel orchestration](docs/parallel-orchestration.md) — safe wave、runtime dispatch、staleness、Integration Owner join gate
+- [Runtime coordination and recovery](docs/runtime-coordination.md) — pinned launcher、stage requirement、shared resource、worker/task correlation
 - [Task and external tracker coordination](docs/task-and-tracker-coordination.md) — 会社ボード、AI 内部作業、field ownership、mapping、reconciliation
 - [Product specification system](docs/product-specifications.md) — product truth、revision 付き Work Item reference、iterative delivery
 - [Enterprise document adoption](docs/enterprise-document-adoption.md) — 二重の authority を作らず既存ドキュメントを維持・接続・移行する方法

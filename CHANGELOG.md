@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0-alpha.17
+
+- Added a project-local `templew.mjs` launcher and `temple.cli-bootstrap/v1` lock contract that pins the framework version and, from a clean source checkout, the exact Git source revision. Development overrides are accepted only after an exact version check.
+- Added lifecycle-stage Discipline and shared-resource requirements, project-owned resource definitions and reservations, capacity-aware wave construction, status and doctor observability, and explicit automatic release at terminal worker state.
+- Added atomic `parallel prepare` as the claim-before-worker boundary. It validates a fresh deterministic plan, records claim, resources, and a runtime reservation together, restores touched state on failure, and uses per-entry fingerprints so every member of the same verified first wave can be prepared safely.
+- Added a runtime-worker registry that distinguishes internal subagents from user-owned Codex tasks. Internal workers attach a runtime ID without entering the task registry; user tasks attach through `task register --worker-id` and remain visible as app tasks.
+- Added ADR-0022, runtime-coordination documentation, managed schemas, status v8 projections, upgrade-safe project-owned seeds, trilingual README updates, and end-to-end tests for bootstrap mismatch, stage routing, capacity, rollback, multi-member preparation, runtime correlation, resource release, and stale-plan rejection.
+- Kept lifecycle authority explicit: worker completion does not release an attached claim, create a handoff, advance workflow, certify Independent QA, or perform an external action. Real multi-machine contention remains retained and `not_run`.
+
 ## 0.1.0-alpha.16
 
 - Added `temple parallel plan` for all active Work Items or one parent's recursive descendants, with deterministic dependency-safe waves, affected-path conflict separation, optional worker limits, and explicit active, sequential, and blocked dispositions.

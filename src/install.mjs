@@ -25,6 +25,7 @@ import {
 } from "./files.mjs";
 import { buildProjectState } from "./model.mjs";
 import { buildCollaborationState } from "./collaboration.mjs";
+import { buildCliBootstrapMetadata } from "./bootstrap.mjs";
 
 function isManaged(relativePath) {
   return MANAGED_EXACT_PATHS.has(relativePath) || MANAGED_SOURCE_PREFIXES.some((prefix) => relativePath.startsWith(prefix));
@@ -236,12 +237,14 @@ export async function executeInit(plan) {
     }
     managedFiles.sort((left, right) => left.path.localeCompare(right.path));
 
+    const bootstrap = await buildCliBootstrapMetadata();
     const lock = {
       schema_version: "temple.lock/v1",
       template: {
         name: PACKAGE_NAME,
         version: TEMPLATE_VERSION,
         repository: TEMPLATE_REPOSITORY,
+        bootstrap,
         installed_at: plan.existingLock?.template?.installed_at ?? new Date().toISOString()
       },
       project_id: plan.config.project.id,
@@ -292,6 +295,11 @@ export async function executeInit(plan) {
         parallel_dispatch_manifest: true,
         parallel_plan_freshness: true,
         parallel_join_gate: true,
+        version_pinned_cli_bootstrap: true,
+        atomic_worker_preparation: true,
+        runtime_worker_registry: true,
+        stage_execution_requirements: true,
+        shared_resource_coordination: true,
         checksum_upgrade: true,
         optional_packs: true
       },

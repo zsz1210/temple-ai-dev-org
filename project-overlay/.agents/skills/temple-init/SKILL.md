@@ -30,7 +30,7 @@ Initialize one target repository without inventing project facts or overwriting 
 6. Wait for explicit confirmation of the names and mappings. Do not initialize on an unconfirmed proposal.
 7. Build a `temple.init/v1` JSON config with `naming_mode` set accurately. Use a temporary file outside the target repository when possible; do not commit it.
 8. Run the dry-run first. Surface existing-file conflicts and the `AGENTS.md` integration plan. Only use `--integrate-agents` after the user has approved changing an existing `AGENTS.md`.
-9. Run the real init, then `doctor` and `status`. Remove only the exact temporary config you created.
+9. Run the real init, verify that the target contains `templew.mjs` and a matching `temple.cli-bootstrap/v1` lock record, then run `doctor` and `status` through `node ./templew.mjs` from the target. Do not substitute an unversioned global CLI if the launcher reports a version or source failure. Remove only the exact temporary config you created.
 10. Report the target path, assigned identities, doctor result, generated status path, and any remaining manual integration. Do not claim a GitHub push, CI pass, or runtime verification without evidence.
 
 The central Toolkit must never acquire these project names as defaults. Do not modify the central Position definitions to store them.

@@ -27,7 +27,7 @@ Temple is not a shared-chat-memory system and not a collection of prompts. It is
 | Product intent and domain | `$decision-interview` challenges ambiguity; `$domain-modeling` establishes shared language, boundaries, rules, and invariants; Specs, Decision Ledger entries, and ADRs preserve decisions |
 | Organization and authority | Ten stable Positions, project-specific Agent Identities, default Assignments, Human Principals, Agent sponsorship, Position pools with Disciplines, explicit human approval boundaries, and separation between Developer and Independent QA |
 | Engineering methods | Core Skills plus the opt-in Build Quality pack with `$tdd` and `$diagnosing-bugs` |
-| Work orchestration | A fixed `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle, durable work items and handoffs, and deterministic safe dispatch waves for decomposed work |
+| Work orchestration | A fixed `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle, durable work items and handoffs, deterministic safe dispatch waves, claim-before-worker preparation, and observable shared runtime capacity |
 | Team and tracker coordination | Separate company tracker, team-visible outcome, internal AI decomposition, and Codex session layers; explicit mappings, field ownership, bounded observations, and evidence-backed reconciliation |
 | Verification and delivery | Named gate evidence, evaluation, independent reproduction, revision references, approval records, rollback plans, and bounded closeout |
 | Durable state, learning, and observability | Repository-owned decisions, Context Map, Lessons and Practices, work items, events, task registry, generated Capability Registry and Context Capsules, status, and conflict-aware upgrades |
@@ -64,22 +64,22 @@ Temple inspects the target, proposes names and Position Assignments, performs a 
 ```bash
 cd /absolute/path/to/my-project
 
-temple work-item create . \
+node ./templew.mjs work-item create . \
   --title "Ship one bounded outcome" \
   --scope "One verified user flow" \
   --acceptance "Independent QA verifies the candidate revision" \
   --ui-mode code-first \
   --affected-path "src/verified-flow/**"
 
-temple capability find . --query "verify one user flow"
-temple context resolve . --work-item WI-0001 --no-write
-temple doctor .
-temple status .
+node ./templew.mjs capability find . --query "verify one user flow"
+node ./templew.mjs context resolve . --work-item WI-0001 --no-write
+node ./templew.mjs doctor .
+node ./templew.mjs status .
 ```
 
-Use `temple handoff`, `temple transition`, and `temple close` as the work moves through the lifecycle. Run `temple --help` for the complete command list.
+Use the repository launcher for `handoff`, `transition`, and `close` as the work moves through the lifecycle. It pins the installed framework version so a later task does not depend on whichever global CLI happens to be available. Run `node ./templew.mjs --help` for the complete command list.
 
-When one parent outcome has clean child Work Items, `temple parallel plan . --parent <WI-ID>` builds a fresh, capacity-aware dispatch manifest. It creates no Codex tasks or claims; an authorized Agent runtime dispatches the first safe wave, and the named Integration Owner joins its evidence before replanning. See [Parallel orchestration](docs/parallel-orchestration.md).
+When one parent outcome has clean child Work Items, `node ./templew.mjs parallel plan . --parent <WI-ID>` builds a fresh, capacity-aware dispatch manifest. It creates no Codex tasks or claims. Before creating each first-wave runtime, `parallel prepare` atomically records its eligible claim, scarce-resource reservations, and runtime-worker correlation. Internal subagents stay distinct from separate user-owned Codex tasks, and the named Integration Owner still joins exact evidence before replanning. See [Parallel orchestration](docs/parallel-orchestration.md) and [runtime coordination](docs/runtime-coordination.md).
 
 ## Engineering methods and extension
 
@@ -95,7 +95,7 @@ The generated Capability Registry now inventories core, optional-pack, and proje
 
 The default Solo configuration assigns all ten Positions to five Agent Identities. The Product Design Identity initially holds Product Manager, UX Designer, and UI Designer. The Collaborative foundation can add Human Principals, additional Agent Identities, sponsorships, and multiple Position members with frontend, backend, full-stack, infrastructure, UI, UX, and other Disciplines. Default Assignments remain backward compatible while a bounded Work Item may be claimed by another eligible pool member.
 
-Solo and Collaborative are selectable profiles; High-Assurance is reserved but not yet selectable. Collaborative mode adds collision-resistant Work Item IDs, parent/dependency and shared-contract fields, parallel-readiness checks, Principal-backed claims, and status warnings. Alpha.16 adds deterministic group planning, safe waves, plan-only dispatch manifests, staleness detection, and Integration Owner join gates. The retained large multi-human, multi-machine test is still `not_run`, so this foundation is not yet evidence that every company topology or distributed race is production-ready. See the [Collaborative development model](docs/collaboration.md).
+Solo and Collaborative are selectable profiles; High-Assurance is reserved but not yet selectable. Collaborative mode adds collision-resistant Work Item IDs, parent/dependency and shared-contract fields, parallel-readiness checks, Principal-backed claims, and status warnings. Alpha.16 adds deterministic group planning and Integration Owner join gates. Alpha.17 adds the repository-pinned launcher, stage-specific Discipline and resource requirements, atomic first-wave preparation, and explicit runtime-worker correlation. The retained large multi-human, multi-machine test is still `not_run`, so this foundation is not yet evidence that every company topology or distributed race is production-ready. See the [Collaborative development model](docs/collaboration.md).
 
 Temple records revision references today; the CLI does not yet resolve every reference as an exact Git object. It does not create, rename, or archive Codex tasks, and it does not deploy or publish externally. Business truth, priorities, sensitive data, material cost, irreversible actions, and high-risk approval remain human responsibilities.
 
@@ -110,6 +110,7 @@ Temple is installed into a project; the project is not forked from this reposito
 - [Architecture](docs/architecture.md) — identity, ownership, extension, and canonical-state boundaries
 - [Collaborative development model](docs/collaboration.md) — Human Principals, Position pools, task slicing, parallel readiness, claims, and diagrams
 - [Parallel orchestration](docs/parallel-orchestration.md) — safe waves, runtime dispatch, staleness, and Integration Owner join gates
+- [Runtime coordination and recovery](docs/runtime-coordination.md) — pinned launcher, stage requirements, shared resources, and worker/task correlation
 - [Task and external tracker coordination](docs/task-and-tracker-coordination.md) — company boards, internal AI work, field ownership, mappings, and reconciliation
 - [Product specification system](docs/product-specifications.md) — product truth, revisioned Work Item references, and iterative delivery
 - [Enterprise document adoption](docs/enterprise-document-adoption.md) — preserve, bridge, or migrate existing document systems without dual authority

@@ -21,5 +21,6 @@
 - [ADR-0019: Product specifications and external source contracts](0019-product-specification-and-external-source-contracts.md)
 - [ADR-0020: Separate external planning, Work Items, and Agent sessions](0020-external-tracker-coordination.md)
 - [ADR-0021: Derive safe group dispatch waves without taking runtime authority](0021-safe-group-parallel-orchestration.md)
+- [ADR-0022: Reserve governed work before creating a runtime worker](0022-recoverable-runtime-dispatch.md)
 
 An ADR is an Architecture Decision Record. It preserves the context, decision, rationale, and consequences of an important technical or organizational choice so that later Agents do not have to infer why it was made from chat memory.

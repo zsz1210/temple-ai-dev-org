@@ -102,17 +102,34 @@ Groundwork already available:
 
 Planned deliverables:
 
-- Alpha.17 recovery hardening candidates: a discoverable version-pinned CLI bootstrap contract, atomic claim-before-worker dispatch, runtime-worker correlation for internal subagents versus user-owned Codex tasks, lifecycle-stage discipline preflight, and observable shared verification-resource constraints.
-- Validate affected-path coordination and resolution state under real multi-machine Git and pull-request contention.
-- Retrieval-quality evaluation, stale-route detection, and a privacy-preserving local hybrid provider only if real projects justify it.
-- Pack manifest v2 for references, scripts, assets, declared dependencies, and compatibility metadata.
-- Complete the High-Assurance profile contract and risk-based defaults for artifact depth, UI delivery mode, methods, and gates while preserving the ten Position responsibilities.
-- More complete JSON Schema runtime validation and a migration registry.
-- Evidence adapters for exact Git revisions, tests, runtime, unverified claims, risk, and rollback.
-- Observer projections for timeline, staleness, and pending approval.
-- Learning CLI mutations, Practice revalidation signals, and retrieval evaluation after project use validates the manual record model.
-- Isolated Archify adapter installation, provenance, and graceful-degradation tests.
+### Phase 2A — Recoverable runtime coordination (`0.1.0-alpha.17`)
+
+- Delivered a repository-visible, version-pinned CLI launcher with exact clean-source Git recovery metadata and no unversioned global fallback.
+- Delivered stage-specific Discipline and shared-resource requirements, capacity-aware waves, and observable reservations.
+- Delivered atomic claim-before-worker preparation with rollback, per-entry continuation for one verified first wave, and stale or edited plan rejection.
+- Delivered separate runtime correlation for internal subagents and user-owned Codex tasks. Worker completion releases resources but does not forge lifecycle progress.
+- Local tests cover the declared process boundary. Real multi-machine Git and pull-request contention remains `not_run`.
+
+### Phase 2B — Evidence and Observer surface (`0.1.0-alpha.18`)
+
+- Evidence adapters for exact Git revisions, tests, runtime observations, explicitly unverified claims, risk, and rollback.
+- Observer projections for lifecycle timeline, evidence staleness, pending approval, and recovery-oriented attention signals.
 - A local read-only overview of active, blocked, QA-pending, and approval-pending work.
+- Preserve external writes and live production actions as explicit authorization boundaries.
+
+### Phase 2C — Extension and retrieval maturity (`0.1.0-alpha.19`)
+
+- Pack manifest v2 for references, scripts, assets, declared dependencies, provenance, and compatibility metadata.
+- More complete JSON Schema runtime validation plus an explicit migration registry.
+- Learning CLI mutations, Practice revalidation signals, and deterministic retrieval-quality evaluation.
+- Isolated Archify adapter installation, provenance, and graceful-degradation tests.
+- Complete the High-Assurance profile contract and risk-based defaults for artifact depth, UI delivery mode, methods, and gates while preserving the ten Position responsibilities.
+- Keep a privacy-preserving local hybrid Retrieval Provider as an adapter boundary until real evaluation evidence justifies selecting it; do not install a model, embeddings, vector database, or daemon by default.
+
+Retained evidence work:
+
+- Validate affected-path coordination and resolution state under real multi-machine Git and pull-request contention.
+- Evaluate large-repository retrieval quality and any local hybrid provider with real project corpora before claiming production readiness.
 
 Exit gate: At least one real, recoverable work item that does not touch production completes the full lifecycle; two parallel work items do not overwrite each other; and every gate is traceable to an actor, revision, and evidence.
 
