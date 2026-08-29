@@ -1,0 +1,18 @@
+{
+  "schema_version": "temple.adapter/v1",
+  "id": "archify",
+  "status": "contract-only",
+  "enabled_by_default": false,
+  "source": "https://github.com/tt-a1i/archify",
+  "license": "MIT",
+  "pin": {
+    "tag": "v2.15.0",
+    "commit": "e1ac748f19cf805e44bf74fb93c796662152e273"
+  },
+  "permissions": {
+    "read": ["selected architecture and workflow inputs"],
+    "write": ["generated artifacts only"],
+    "forbidden": ["canonical project state", "assignments", "qa result", "release approval"]
+  },
+  "provenance_required": ["source_revision", "generated_at", "adapter_version", "archify_version"]
+}

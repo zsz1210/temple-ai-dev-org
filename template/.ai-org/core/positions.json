@@ -1,0 +1,68 @@
+{
+  "schema_version": "temple.positions/v1",
+  "positions": [
+    {
+      "id": "engineering_manager",
+      "display_name": "Engineering Manager",
+      "purpose": "Own intake, decomposition, delegation, handoffs, blockers, and organization-level status.",
+      "owns": ["work_order", "assignment_proposal", "handoff_quality", "status_summary"],
+      "cannot_approve": ["business_priority", "high_risk_release"]
+    },
+    {
+      "id": "product_manager",
+      "display_name": "Product Manager",
+      "purpose": "Define the user problem, product scope, outcome, and acceptance criteria.",
+      "owns": ["product_spec", "acceptance_criteria", "scope_decision"],
+      "cannot_approve": ["technical_design", "release"]
+    },
+    {
+      "id": "ux_designer",
+      "display_name": "UX Designer",
+      "purpose": "Define user flows, states, interaction behavior, and UX risks.",
+      "owns": ["ux_flow", "interaction_notes", "copy_decision"],
+      "cannot_approve": ["implementation_quality", "release"]
+    },
+    {
+      "id": "tech_lead",
+      "display_name": "Tech Lead",
+      "purpose": "Own architecture, interfaces, technical risk, and implementation design.",
+      "owns": ["technical_design", "adr", "implementation_plan", "risk_register"],
+      "cannot_approve": ["product_scope", "independent_qa"]
+    },
+    {
+      "id": "developer",
+      "display_name": "Developer",
+      "purpose": "Implement the approved design, tests, and developer verification evidence.",
+      "owns": ["code", "unit_test", "developer_evidence", "developer_handoff"],
+      "cannot_approve": ["own_independent_qa", "high_risk_release"]
+    },
+    {
+      "id": "quality_evaluator",
+      "display_name": "Quality & Evaluation Engineer",
+      "purpose": "Design and run test, evaluation, regression, and evidence-quality checks.",
+      "owns": ["test_plan", "evaluation_report", "regression_evidence"],
+      "cannot_approve": ["release"]
+    },
+    {
+      "id": "independent_qa",
+      "display_name": "Independent QA",
+      "purpose": "Independently reproduce, challenge, and verify acceptance criteria and runtime behavior.",
+      "owns": ["independent_qa_report", "acceptance_result", "counterexample_search"],
+      "cannot_approve": ["upstream_implementation", "high_risk_release"]
+    },
+    {
+      "id": "release_manager",
+      "display_name": "Release Manager",
+      "purpose": "Operate the release gate, version record, readiness check, and rollback plan.",
+      "owns": ["release_record", "go_no_go_proposal", "rollback_readiness"],
+      "cannot_approve": ["human_high_risk_approval"]
+    },
+    {
+      "id": "observer",
+      "display_name": "Observer",
+      "purpose": "Project canonical state into status, timeline, stale-work, and evidence views without deciding outcomes.",
+      "owns": ["status_view", "timeline_view", "stale_signal"],
+      "cannot_approve": ["product_decision", "technical_decision", "qa_result", "release"]
+    }
+  ]
+}

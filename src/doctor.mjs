@@ -1,0 +1,188 @@
+import fs from "node:fs/promises";
+import path from "node:path";
+import { AGENTS_MARKER_START, REQUIRED_POSITIONS, TEMPLATE_VERSION } from "./constants.mjs";
+import { pathExists, readJson, sha256File } from "./files.mjs";
+import { validateProjectState } from "./model.mjs";
+
+function summarize(checks) {
+  return checks.reduce(
+    (summary, check) => {
+      summary[check.status] += 1;
+      return summary;
+    },
+    { pass: 0, warn: 0, fail: 0 }
+  );
+}
+
+async function safeJson(targetPath, checks, id) {
+  try {
+    return await readJson(targetPath);
+  } catch (error) {
+    checks.push({ id, status: "fail", message: error.message });
+    return null;
+  }
+}
+
+export async function runDoctor(target) {
+  const checks = [];
+  const lockPath = path.join(target, "temple.lock");
+  if (!(await pathExists(lockPath))) {
+    checks.push({ id: "temple_lock", status: "fail", message: "temple.lock is missing; run temple init first" });
+    return { target, checks, summary: summarize(checks), healthy: false };
+  }
+
+  const lock = await safeJson(lockPath, checks, "temple_lock");
+  if (!lock) {
+    return { target, checks, summary: summarize(checks), healthy: false };
+  }
+  if (lock.schema_version === "temple.lock/v1" && lock.template?.version === TEMPLATE_VERSION) {
+    checks.push({ id: "temple_lock", status: "pass", message: `Temple ${lock.template.version} lock is valid` });
+  } else {
+    checks.push({
+      id: "temple_lock",
+      status: "fail",
+      message: `Unsupported or mismatched Temple lock version: ${lock.template?.version ?? "unknown"}`
+    });
+  }
+
+  const changedManaged = [];
+  const missingManaged = [];
+  for (const entry of lock.managed_files ?? []) {
+    const managedPath = path.join(target, entry.path);
+    if (!(await pathExists(managedPath))) {
+      missingManaged.push(entry.path);
+    } else if ((await sha256File(managedPath)) !== entry.sha256) {
+      changedManaged.push(entry.path);
+    }
+  }
+  if (missingManaged.length || changedManaged.length) {
+    checks.push({
+      id: "managed_files",
+      status: "fail",
+      message: [
+        missingManaged.length ? `missing: ${missingManaged.join(", ")}` : null,
+        changedManaged.length ? `changed: ${changedManaged.join(", ")}` : null
+      ]
+        .filter(Boolean)
+        .join("; ")
+    });
+  } else {
+    checks.push({ id: "managed_files", status: "pass", message: `${lock.managed_files?.length ?? 0} managed files match checksums` });
+  }
+
+  const positionsDocument = await safeJson(
+    path.join(target, ".ai-org/core/positions.json"),
+    checks,
+    "positions_document"
+  );
+  const positionIds = new Set((positionsDocument?.positions ?? []).map((position) => position.id));
+  const exactPositions =
+    positionIds.size === REQUIRED_POSITIONS.length && REQUIRED_POSITIONS.every((positionId) => positionIds.has(positionId));
+  checks.push({
+    id: "position_catalog",
+    status: exactPositions ? "pass" : "fail",
+    message: exactPositions ? "All nine template Positions are present" : "Position catalog differs from the required nine Positions"
+  });
+
+  const [project, agents, assignments] = await Promise.all([
+    safeJson(path.join(target, ".ai-org/project/project.json"), checks, "project_json"),
+    safeJson(path.join(target, ".ai-org/project/agents.json"), checks, "agents_json"),
+    safeJson(path.join(target, ".ai-org/project/assignments.json"), checks, "assignments_json")
+  ]);
+  if (project && agents && assignments) {
+    checks.push(...validateProjectState(project, agents, assignments, positionIds));
+  }
+
+  const workflow = await safeJson(path.join(target, ".ai-org/core/workflow.json"), checks, "workflow_json");
+  const workflowStates = new Set((workflow?.states ?? []).map((state) => state.id));
+  const agentIds = new Set((agents?.agents ?? []).map((agent) => agent.id));
+  const workItemsDirectory = path.join(target, ".ai-org/work-items");
+  const invalidWorkItems = [];
+  let workItemCount = 0;
+  if (await pathExists(workItemsDirectory)) {
+    const entries = await fs.readdir(workItemsDirectory, { withFileTypes: true });
+    const seenWorkItemIds = new Set();
+    for (const entry of entries.filter((item) => item.isFile() && item.name.endsWith(".json"))) {
+      workItemCount += 1;
+      try {
+        const item = await readJson(path.join(workItemsDirectory, entry.name));
+        const valid =
+          item.schema_version === "temple.work-item/v1" &&
+          /^WI-[0-9]{4,}$/.test(item.id) &&
+          !seenWorkItemIds.has(item.id) &&
+          workflowStates.has(item.state) &&
+          positionIds.has(item.owner_position) &&
+          (item.assigned_agent_id === null || item.assigned_agent_id === undefined || agentIds.has(item.assigned_agent_id)) &&
+          Array.isArray(item.evidence);
+        if (!valid) invalidWorkItems.push(entry.name);
+        seenWorkItemIds.add(item.id);
+      } catch {
+        invalidWorkItems.push(entry.name);
+      }
+    }
+  }
+  checks.push({
+    id: "work_items",
+    status: invalidWorkItems.length ? "fail" : "pass",
+    message: invalidWorkItems.length
+      ? `Invalid work item files: ${invalidWorkItems.join(", ")}`
+      : `${workItemCount} canonical work items are valid`
+  });
+
+  const requiredSkills = ["temple-init", "temple-grill", "temple-grill-with-docs"];
+  const missingSkills = [];
+  for (const skill of requiredSkills) {
+    if (!(await pathExists(path.join(target, `.agents/skills/${skill}/SKILL.md`)))) {
+      missingSkills.push(skill);
+    }
+  }
+  checks.push({
+    id: "repository_skills",
+    status: missingSkills.length ? "fail" : "pass",
+    message: missingSkills.length ? `Missing repository skills: ${missingSkills.join(", ")}` : "All Temple repository skills are installed"
+  });
+
+  const agentsPath = path.join(target, "AGENTS.md");
+  const agentsIntegrated =
+    (await pathExists(agentsPath)) && (await fs.readFile(agentsPath, "utf8")).includes(AGENTS_MARKER_START);
+  checks.push({
+    id: "agents_md_integration",
+    status: agentsIntegrated ? "pass" : "warn",
+    message: agentsIntegrated
+      ? "Root AGENTS.md includes Temple instructions"
+      : "Temple instructions are not in root AGENTS.md; review .ai-org/project/AGENTS.temple.md"
+  });
+
+  const eventsPath = path.join(target, ".ai-org/events/events.jsonl");
+  if (!(await pathExists(eventsPath))) {
+    checks.push({ id: "events_stream", status: "fail", message: "events.jsonl is missing" });
+  } else {
+    const lines = (await fs.readFile(eventsPath, "utf8")).split(/\r?\n/).filter((line) => line.trim());
+    const badLines = [];
+    for (const [index, line] of lines.entries()) {
+      try {
+        JSON.parse(line);
+      } catch {
+        badLines.push(index + 1);
+      }
+    }
+    checks.push({
+      id: "events_stream",
+      status: badLines.length ? "fail" : "pass",
+      message: badLines.length ? `Invalid JSONL at event lines: ${badLines.join(", ")}` : `${lines.length} event records are valid`
+    });
+  }
+
+  const summary = summarize(checks);
+  return { target, checks, summary, healthy: summary.fail === 0 };
+}
+
+export function formatDoctor(result) {
+  const lines = [`Temple doctor — ${result.target}`];
+  for (const check of result.checks) {
+    const symbol = check.status === "pass" ? "PASS" : check.status === "warn" ? "WARN" : "FAIL";
+    lines.push(`[${symbol}] ${check.id}: ${check.message}`);
+  }
+  lines.push(`Summary: ${result.summary.pass} pass, ${result.summary.warn} warn, ${result.summary.fail} fail`);
+  return lines.join("\n");
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "temple.work-item/v1",
+  "type": "object",
+  "required": ["schema_version", "id", "title", "state", "owner_position", "evidence"],
+  "properties": {
+    "schema_version": { "const": "temple.work-item/v1" },
+    "id": { "type": "string", "pattern": "^WI-[0-9]{4,}$" },
+    "title": { "type": "string", "minLength": 1 },
+    "state": { "type": "string" },
+    "owner_position": { "type": "string" },
+    "assigned_agent_id": { "type": ["string", "null"] },
+    "acceptance_criteria": { "type": "array", "items": { "type": "string" } },
+    "evidence": { "type": "array", "items": { "type": "string" } },
+    "unresolved": { "type": "array", "items": { "type": "string" } },
+    "next_position": { "type": ["string", "null"] }
+  },
+  "additionalProperties": true
+}

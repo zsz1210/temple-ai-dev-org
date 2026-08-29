@@ -1,0 +1,23 @@
+{
+  "schema_version": "temple.policies/v1",
+  "canonical_state": {
+    "chat_is_canonical": false,
+    "chat_title_is_identifier": false,
+    "required_sources": ["repository_files", "git_state", "verification_evidence", "approval_records"]
+  },
+  "staffing": {
+    "all_positions_must_be_assigned": true,
+    "one_agent_may_hold_multiple_positions": true,
+    "developer_and_independent_qa_must_differ": true
+  },
+  "human_authority": {
+    "owns": ["business_truth", "priority", "budget", "external_commitment", "high_risk_release_approval"]
+  },
+  "handoff": {
+    "required_fields": ["work_item_id", "input_revision", "completed", "evidence", "unresolved", "next_position"]
+  },
+  "release_gate": {
+    "requires": ["accepted_scope", "test_evidence", "evaluation_report", "independent_qa_report", "rollback_plan"],
+    "human_approval_when": ["production_change", "external_message", "irreversible_action", "material_cost", "sensitive_data"]
+  }
+}

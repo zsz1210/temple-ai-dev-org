@@ -1,0 +1,12 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0001",
+  "title": "Replace with a durable outcome-oriented title",
+  "state": "intake",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": null,
+  "acceptance_criteria": [],
+  "evidence": [],
+  "unresolved": [],
+  "next_position": "product_manager"
+}
