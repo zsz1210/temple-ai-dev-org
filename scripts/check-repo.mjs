@@ -7,6 +7,7 @@ import { pathExists, readJson, walkFiles } from "../src/files.mjs";
 import { emptyLearningIndex, validateLearningIndex } from "../src/learning.mjs";
 import { listPackDefinitions } from "../src/packs.mjs";
 import { emptyContextMap, validateContextMap } from "../src/context.mjs";
+import { emptySpecIndex, validateSpecIndex } from "../src/specifications.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
@@ -61,7 +62,8 @@ for (const [file, schemaId] of [
   ["context-map.schema.json", "temple.context-map/v1"],
   ["retrieval-provider.schema.json", "temple.retrieval-provider/v1"],
   ["collaboration.schema.json", "temple.collaboration/v1"],
-  ["parallel-readiness.schema.json", "temple.parallel-readiness/v1"]
+  ["parallel-readiness.schema.json", "temple.parallel-readiness/v1"],
+  ["spec-index.schema.json", "temple.spec-index/v1"]
 ]) {
   const schema = await readJson(path.join(projectOverlayRoot, ".ai-org/core/schemas", file));
   check(schema.$id === schemaId, `${file} has an unexpected schema ID`);
@@ -88,14 +90,28 @@ check(
   "project overlay learning index must remain an empty seed"
 );
 
+const specIndex = await readJson(path.join(projectOverlayRoot, ".ai-org/project/spec-index.json"));
+const specIndexValidation = validateSpecIndex(specIndex, new Set(actualPositions));
+check(specIndexValidation.valid, `specification index seed is invalid: ${specIndexValidation.errors.join("; ")}`);
+check(
+  JSON.stringify(specIndex) === JSON.stringify(emptySpecIndex()),
+  "project overlay specification index must remain an empty project-owned seed"
+);
+
 const uiDesignPolicy = await readJson(path.join(projectOverlayRoot, ".ai-org/core/ui-design.json"));
 check(uiDesignPolicy.schema_version === "temple.ui-design-policy/v1", "UI design policy schema is invalid");
 check(
   JSON.stringify(uiDesignPolicy.delivery_modes?.map((mode) => mode.id)) ===
-    JSON.stringify(["code-first", "preview-first", "design-led"]),
-  "UI design policy must define the three canonical delivery modes"
+    JSON.stringify(["not-applicable", "code-first", "preview-first", "design-led"]),
+  "UI design policy must define no-UI plus the three interface delivery modes"
 );
 check(uiDesignPolicy.tool_policy?.required_tool === null, "UI design policy must not require a specific vendor tool");
+check(
+  uiDesignPolicy.delivery_modes?.every(
+    (mode) => Array.isArray(mode.prebuild_evidence) && Array.isArray(mode.minimum_evidence)
+  ),
+  "Every UI delivery mode must define prebuild and minimum evidence"
+);
 check(
   projectOverlayFiles.includes(".ai-org/templates/ui-design-brief.md"),
   "UI design brief template is missing"

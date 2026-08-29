@@ -5,6 +5,7 @@ Temple keeps project truth in ordinary repository files and routes each Agent to
 ```text
 Canonical Specs / ADRs / Skills / Work Items / Learning
                        │
+                       ├── specification authority index
                        ▼
          project-owned Context Map
                        │
@@ -17,7 +18,7 @@ Canonical Specs / ADRs / Skills / Work Items / Learning
 
 ## Source and ownership model
 
-Humans and authorized Agents maintain only canonical project files and the thin `.ai-org/project/context-map.json` routing map. The CLI derives two disposable views:
+Humans and authorized Agents maintain canonical project files, the thin `.ai-org/project/spec-index.json` authority registry, and the thin `.ai-org/project/context-map.json` routing map. The specification index answers which product or interface document governs a revision; the Context Map answers when an Agent should read a source. Neither stores the source body. The CLI derives two disposable views:
 
 - `.ai-org/views/capabilities.json` inventories repository Skills and their lifecycle ownership.
 - `.ai-org/views/work-items/WI-####.json` records the bounded Context Capsule resolved for one work item and Position.
@@ -92,6 +93,7 @@ temple context resolve . \
 Remove `--no-write` to persist the generated capsule. A capsule contains:
 
 - the canonical work-item path, scope, acceptance criteria, and unresolved items;
+- the Work Item's revisioned product, UX, UI, API, and technical-design references, resolved to their current authority metadata with stale-reference warnings;
 - the Position, assigned Agent Identity, and caller-supplied or inferred revision reference;
 - matching Context Map routes;
 - active Practices and validated Lessons relevant to the query;

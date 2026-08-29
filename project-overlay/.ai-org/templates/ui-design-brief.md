@@ -3,7 +3,7 @@
 - Work item:
 - UI Designer Position owner:
 - Agent Identity:
-- Delivery mode: `code-first | preview-first | design-led`
+- Delivery mode: `not-applicable | code-first | preview-first | design-led`
 - Selected tool or medium:
 - Artifact path or URL:
 - Artifact revision:
@@ -37,3 +37,5 @@ Explain the risk, collaboration cost, visual sensitivity, and expected rework th
 - Visual acceptance criteria:
 
 Code-first removes the requirement for a separate pre-implementation mockup; it never removes runtime visual review or required-state coverage.
+
+For `not-applicable`, record why the Work Item has no user-facing interface and omit the remaining visual sections. If interface scope appears later, replace this mode before implementation.

@@ -174,7 +174,60 @@ The result routes to matching Context Map entries, active Practices, validated L
 
 The shipped Retrieval Provider is deterministic, repository-local, and `semantic: false`. A versioned adapter contract reserves future local semantic or hybrid retrieval, but the current CLI does not install or select a model, embedding index, vector database, daemon, or remote search service. See [Progressive context routing](context-routing.md).
 
-## 7. Create a work item
+## 7. Register product specifications
+
+Maintain `.ai-org/project/spec-index.json` as a compact project-owned authority registry. The document body may remain in the repository or in an approved external system; the index stores only stable identity, kind, authority, status, revision, source, ownership, approval, and relationships. Choose `federated` when existing external systems remain authoritative, `temple-native` when governed documents live in the repository, or `hybrid` when both are used.
+
+Copy the relevant managed template into a project-owned document location, or register an existing external source. For example:
+
+```json
+{
+  "id": "FEATURE-CHECKOUT",
+  "kind": "feature_spec",
+  "title": "Checkout totals",
+  "authority": "authoritative_external",
+  "status": "approved",
+  "revision": "confluence-v12",
+  "source": {
+    "kind": "external",
+    "location": "https://docs.example.com/checkout",
+    "system": "confluence",
+    "content_sha256": null
+  },
+  "owner_position": "product_manager",
+  "approved_by": "product-owner",
+  "approved_at": "2026-08-29T10:00:00Z",
+  "approval_ref": "https://docs.example.com/checkout/approvals/12",
+  "source_refs": [],
+  "related_work_items": [],
+  "updated_at": "2026-08-29T10:00:00Z"
+}
+```
+
+Do not treat a repository summary of an external business document as equal authority. Mark that summary `derived_projection` and pin its `source_refs` to the current authoritative entry revision. Mark uncertain legacy material `legacy_unverified` until its owner resolves it. Approved entries require an attributable actor, ISO UTC approval time, and `approval_ref`. Approved `temple_native` sources also record `content_sha256`; `temple doctor` checks all indexed repository sources, while lifecycle and context commands check the sources referenced by the active Work Item. External systems are not contacted automatically, and the current alpha requires an HTTP(S) URL for an `external` source location.
+
+Pin the exact approved contracts when work is created or configured:
+
+```bash
+temple work-item create . \
+  --title "Verify checkout totals" \
+  --scope "One checkout calculation slice" \
+  --acceptance "Independent QA reproduces the approved totals" \
+  --spec-mode indexed \
+  --spec-ref FEATURE-CHECKOUT@confluence-v12 \
+  --contract-ref API-CHECKOUT@openapi-v4 \
+  --ui-mode code-first
+```
+
+Use repeatable `--spec-ref`, `--ux-ref`, `--ui-ref`, and `--contract-ref` values. Configure updates matching IDs and preserves sibling references. Use `--replace-spec-refs`, `--replace-ux-refs`, `--replace-ui-refs`, or `--replace-contract-refs` only when intentionally replacing or clearing that complete category. Temple requires supplied references to be approved and current at their lifecycle boundaries; a changed, superseded, or content-drifted source blocks later delivery until it is reconciled and intentionally repinned. `contract_refs` are governed API or technical-design entries. Collaborative `shared_contract_refs` are coordination paths or surfaces and do not replace the governed reference.
+
+Governance cannot be weakened in place after delivery begins. At Design, the specification mode and `spec_refs` IDs are fixed; at Build, the UI delivery mode and `ux_refs`, `ui_refs`, and `contract_refs` IDs are also fixed. `work-item configure` may repin the same ID only to its current approved revision. Stop and replan the Work Item before changing its governing contract identity or delivery mode.
+
+Without `--spec-ref`, a new Work Item records `specification_mode: gate-evidence`. That lightweight path still requires named approved-scope and acceptance evidence at the Spec gate, but it does not claim index-based product-scope revision protection. Supporting indexed UX, UI, API, or technical contracts may still be attached and enforced. Use it deliberately for bounded low-risk or migrate-on-touch work; use `--spec-mode indexed` with at least one approved `--spec-ref` for maintained, multi-party, or long-lived product behavior.
+
+For existing organizations, preserve trusted documents first and migrate only when ownership, consumers, and acceptance are clear. See [Product specification system](product-specifications.md) and [Enterprise document adoption](enterprise-document-adoption.md).
+
+## 8. Create a work item
 
 ```bash
 temple work-item create . \
@@ -225,13 +278,14 @@ The example IDs and revision are placeholders. Complete the normal lifecycle gat
 
 ### Select UI design depth
 
-When the work has a user interface, copy `.ai-org/templates/ui-design-brief.md` into a project-owned artifact location, reference the work item, and choose one mode:
+Select one explicit Work Item value:
 
+- `not-applicable`: no user-facing interface changes; do not attach `ui_refs`.
 - `code-first`: no separate pre-implementation mockup; retain the brief, required-state coverage, and runtime visual review.
 - `preview-first`: review a wireframe, code preview, prototype, partial Figma design, or equivalent artifact before full implementation.
 - `design-led`: use an approved, versioned design source and implementation mapping.
 
-Choose the lightest tool that satisfies the mode. Figma is optional. Record the artifact path or URL, revision, approval when required, accessibility and device states, and runtime comparison evidence. See [UI design responsibility and delivery modes](ui-design.md).
+For interface work, copy `.ai-org/templates/ui-design-brief.md` into a project-owned artifact location and record its rationale and evidence. Choose the lightest tool that satisfies the mode. Figma is optional. Preview-first and design-led require an approved `ui_ref`; any `ui_ref` requires an explicit mode. Code-first may begin without a UI source, but it still requires state coverage and runtime visual review. Record the mode-specific evidence with named `--satisfy` values: prebuild evidence is enforced before Build, and all `minimum_evidence` from `.ai-org/core/ui-design.json` is enforced before a `go` closeout. See [UI design responsibility and delivery modes](ui-design.md) and [UI interaction contracts](ui-interaction-contracts.md).
 
 ### Manage unresolved items
 
@@ -262,7 +316,7 @@ If a work item exists only to validate the framework, workflow, architecture, or
 
 A release-gate `go` accepts only the bounded experiment. After the stop condition is met, freeze the sample, write a retrospective, and return control to the Engineering Manager and user. Do not continue product development without a new explicit request. See [ADR-0011](adr/0011-pilot-stop-boundary.md).
 
-## 8. Register a Codex task
+## 9. Register a Codex task
 
 The Temple CLI does not directly create Codex app tasks. After the user or Codex app creates a task, register its actual ID:
 
@@ -287,7 +341,7 @@ temple task list .
 
 Valid states are `setup`, `active`, `waiting`, `attention`, `completed`, and `archived`. When the work item is terminal and the task is completed, status reports archive-ready. Actual archiving still requires an explicit Codex app operation.
 
-## 9. Handoff and transition
+## 10. Handoff and transition
 
 A handoff records a caller-supplied revision reference, completed work, evidence, and unresolved issues:
 
@@ -313,7 +367,7 @@ temple transition . \
 
 The CLI rejects the operation before writing if a requirement is missing, a state is skipped, or the actor does not hold the current Position. Phase 1 records revision references but does not yet resolve them as Git objects; exact Git-revision validation remains a Phase 2 evidence-adapter responsibility.
 
-## 10. Release gate and closeout
+## 11. Release gate and closeout
 
 `temple close` completes only organizational closeout. It does not deploy, publish, send external messages, or obtain high-risk approval:
 
@@ -334,7 +388,7 @@ Use `--approval not-required` only when policies contain no production-change, e
 
 `--decision no-go` requires at least one `--reason` and returns the work item to the Engineering Manager in the `blocked` state.
 
-## 11. Observation and health checks
+## 12. Observation and health checks
 
 ```bash
 temple status .
@@ -347,12 +401,13 @@ temple doctor .
 - Work-item state, owner, Agent, latest revision, evidence, and unresolved issues.
 - Codex tasks and threads, suggested titles, status, revision, and archive readiness.
 - Context Map route counts, default provider mode, and Capability Registry counts.
+- Product-specification authority, approval, and source counts plus stale Work Item references.
 - Engineering Learning Loop counts and the retrieval-index path.
 - Blocked, attention, and archive-ready signals.
 - The eight most recent canonical events.
 - Position Assignments and optional-integration states.
 
-## 12. Upgrade from an older version
+## 13. Upgrade from an older version
 
 ```bash
 temple upgrade /absolute/path/to/project --dry-run
@@ -367,11 +422,11 @@ Upgrade rules:
 - Update only managed files that the project has not modified.
 - A proposed new managed path must not already exist unless its exact path is already managed by the installed lock; byte-identical untracked files are not silently adopted.
 - Preserve installed optional packs and update them to the current pack version. Upgrade does not enable an uninstalled pack automatically.
-- Preserve `.ai-org/project/**`, `.ai-org/learning/**`, work items, events, decisions, artifacts, Agent names, and product files. If an older installation has no learning index or Context Map, upgrade creates only the corresponding empty project-owned seed.
+- Preserve `.ai-org/project/**`, `.ai-org/learning/**`, work items, events, decisions, artifacts, Agent names, and product files. If an older installation has no specification index, learning index, or Context Map, upgrade creates only the corresponding empty project-owned seed.
 - Preserve an existing UI Designer Assignment. If an older project has none, assign UI Designer to its single active UX Designer Agent Identity; ambiguous Assignment state stops the migration.
 - Detected preflight conflicts stop before writing. Late file races trigger a rollback journal; if another writer changes a just-written path again, the CLI preserves that content and reports incomplete rollback for manual review.
 
-## 13. Use Decision, Domain, Documentation, Authoring, and Development Skills
+## 14. Use Decision, Domain, Documentation, Authoring, and Development Skills
 
 - `$decision-interview`: Break an ambiguous idea into known facts, options, decisions, and unknowns. If repository documents, code, or Git state constrain the choice, the same Skill switches to evidence-backed mode and cites actual paths.
 - `$domain-modeling`: Organize ubiquitous language, bounded contexts, rules, and invariants, then preserve confirmed terms in the project-owned glossary.
@@ -382,7 +437,7 @@ Each Skill preserves the request's authority boundary. Inspection, classificatio
 
 `$tdd` and `$diagnosing-bugs` are available only when the Build Quality pack is installed. They improve development procedure but do not replace Positions, work-item gates, release authority, or Independent QA.
 
-## 14. Troubleshooting
+## 15. Troubleshooting
 
 - `managed file changed`: Inspect the diff first. Do not bypass it by re-running init or editing the lock. A locked file cannot become a project extension merely by modifying it; restore or rename it through an explicit migration, or contribute the change back to the central framework.
 - `missing gate evidence`: Add real evidence, then use `--satisfy requirement=reference`. Do not enter a fabricated path.
@@ -394,5 +449,7 @@ Each Skill preserves the request's authority boundary. Inspection, classificatio
 - `installed pack file changed`: Inspect the Skill diff. To retain custom content, do not remove or upgrade it. To return to the central version, explicitly resolve the difference first.
 - `engineering_learning` error: Keep each Lesson or Practice path, ID, status, and index entry consistent; remove neither side without updating the other.
 - `context_map` error: Correct unsafe or missing active route paths, unknown Positions, or malformed route metadata in `.ai-org/project/context-map.json`.
+- `spec_index` error: Correct malformed IDs, authority/source mismatches, missing approval evidence, unsafe repository paths, or invalid source references in `.ai-org/project/spec-index.json`.
+- Stale specification warning: Reconcile the governing document change, then intentionally repin the Work Item to the approved current revision; do not edit the revision merely to silence the warning.
 - `capability_registry` error: Repair the named repository `SKILL.md` frontmatter or align its `name` with the containing directory. Do not add a project Skill to `temple.lock` merely to silence the error.
 - Affected-path overlap warning: Coordinate the two non-terminal work items before editing shared paths. The warning is not an automatic cancellation or ownership transfer.

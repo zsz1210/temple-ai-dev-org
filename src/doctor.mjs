@@ -30,6 +30,13 @@ import {
   validateCollaborationState
 } from "./collaboration.mjs";
 import { isWorkItemId } from "./ids.mjs";
+import {
+  SPEC_INDEX_RELATIVE_PATH,
+  evaluateWorkItemSpecRefs,
+  summarizeSpecIndex,
+  validateRepositorySpecSources,
+  validateSpecIndex
+} from "./specifications.mjs";
 
 function summarize(checks) {
   return checks.reduce(
@@ -151,6 +158,29 @@ export async function runDoctor(target) {
       : `Position catalog differs from the required ${REQUIRED_POSITIONS.length} Positions`
   });
 
+  const specIndex = await safeJson(path.join(target, SPEC_INDEX_RELATIVE_PATH), checks, "spec_index_json");
+  let specIndexValidation = { valid: false, errors: ["spec index is missing"], warnings: [] };
+  if (specIndex) {
+    specIndexValidation = validateSpecIndex(specIndex, positionIds);
+    const repositorySourceValidation = specIndexValidation.valid
+      ? await validateRepositorySpecSources(target, specIndex)
+      : { valid: false, errors: [] };
+    const issues = [
+      ...specIndexValidation.errors,
+      ...repositorySourceValidation.errors
+    ];
+    const specSummary = summarizeSpecIndex(specIndex);
+    checks.push({
+      id: "specification_index",
+      status: issues.length ? "fail" : specIndexValidation.warnings.length ? "warn" : "pass",
+      message: issues.length
+        ? issues.join("; ")
+        : `${specSummary.total_entries} specifications are indexed (${specSummary.approved_entries} approved, profile=${specSummary.adoption_profile})${
+            specIndexValidation.warnings.length ? `; ${specIndexValidation.warnings.join("; ")}` : ""
+          }`
+    });
+  }
+
   const [project, agents, assignments, collaboration] = await Promise.all([
     safeJson(path.join(target, ".ai-org/project/project.json"), checks, "project_json"),
     safeJson(path.join(target, ".ai-org/project/agents.json"), checks, "agents_json"),
@@ -224,6 +254,8 @@ export async function runDoctor(target) {
   );
   const workItemsDirectory = path.join(target, ".ai-org/work-items");
   const invalidWorkItems = [];
+  const staleSpecificationWorkItems = [];
+  const unapprovedSpecificationWorkItems = [];
   const workItemsForDoctor = new Map();
   const activeClaimBranches = new Set();
   const activeClaimWorktrees = new Set();
@@ -259,6 +291,34 @@ export async function runDoctor(target) {
           (item.parallel_mode === undefined || ["pending", "parallel", "sequential", "blocked"].includes(item.parallel_mode)) &&
           (item.contract_status === undefined || ["not_required", "draft", "stable"].includes(item.contract_status)) &&
           (item.integration_owner_agent_id === undefined || item.integration_owner_agent_id === null || agentIds.has(item.integration_owner_agent_id));
+        const uiModeValid =
+          ((item.ui_delivery_mode === undefined || item.ui_delivery_mode === null) &&
+            (item.ui_refs ?? []).length === 0 &&
+            !(
+              Object.hasOwn(item, "ui_delivery_mode") &&
+              ["build", "test", "eval", "independent_qa", "release_gate", "done"].includes(item.state)
+            )) ||
+          (["not-applicable", "code-first", "preview-first", "design-led"].includes(item.ui_delivery_mode) &&
+            !(item.ui_delivery_mode === "not-applicable" && (item.ui_refs ?? []).length > 0) &&
+            !(["preview-first", "design-led"].includes(item.ui_delivery_mode) && (item.ui_refs ?? []).length === 0));
+        const specificationModeValid =
+          item.specification_mode === undefined ||
+          (["gate-evidence", "indexed"].includes(item.specification_mode) &&
+            !(item.specification_mode === "gate-evidence" && (item.spec_refs ?? []).length > 0) &&
+            !(
+              item.specification_mode === "indexed" &&
+              (item.spec_refs ?? []).length === 0 &&
+              ["design", "build", "test", "eval", "independent_qa", "release_gate", "done"].includes(item.state)
+            ));
+        const specificationReferences = specIndex
+          ? evaluateWorkItemSpecRefs(item, specIndex)
+          : { valid: false, errors: ["spec index unavailable"], warnings: [], stale_count: 0, unapproved_count: 0 };
+        if (specificationReferences.stale_count > 0 || specificationReferences.warnings.length > 0) {
+          staleSpecificationWorkItems.push({ id: item.id, warnings: specificationReferences.warnings });
+        }
+        if (specificationReferences.unapproved_count > 0) {
+          unapprovedSpecificationWorkItems.push({ id: item.id, count: specificationReferences.unapproved_count });
+        }
         const plannedValid =
           item.planned_agent_id === undefined ||
           item.planned_agent_id === null ||
@@ -281,7 +341,9 @@ export async function runDoctor(target) {
           activeClaimBranches.add(item.claim.branch);
           if (item.claim.worktree) activeClaimWorktrees.add(item.claim.worktree);
         }
-        if (!valid || !plannedValid || !claimValid) invalidWorkItems.push(entry.name);
+        if (!valid || !uiModeValid || !specificationModeValid || !specificationReferences.valid || !plannedValid || !claimValid) {
+          invalidWorkItems.push(entry.name);
+        }
         workItemsForDoctor.set(item.id, item);
         seenWorkItemIds.add(item.id);
       } catch {
@@ -303,6 +365,45 @@ export async function runDoctor(target) {
       ? `Invalid work item files: ${uniqueInvalidWorkItems.join(", ")}`
       : `${workItemCount} canonical work items are valid`
   });
+  if (staleSpecificationWorkItems.length > 0) {
+    checks.push({
+      id: "specification_reference_staleness",
+      status: "warn",
+      message: staleSpecificationWorkItems
+        .map((entry) => `${entry.id}: ${entry.warnings.join("; ")}`)
+        .join(" | ")
+    });
+  } else {
+    checks.push({
+      id: "specification_reference_staleness",
+      status: "pass",
+      message: "All Work Item specification references use current indexed revisions"
+    });
+  }
+  checks.push({
+    id: "specification_reference_approval",
+    status: unapprovedSpecificationWorkItems.length ? "warn" : "pass",
+    message: unapprovedSpecificationWorkItems.length
+      ? unapprovedSpecificationWorkItems
+          .map((entry) => `${entry.id}: ${entry.count} unapproved reference(s)`)
+          .join(" | ")
+      : "All referenced Work Item specifications are approved"
+  });
+
+  if (specIndex && specIndexValidation.valid) {
+    const missingWorkItemLinks = (specIndex.entries ?? []).flatMap((entry) =>
+      (entry.related_work_items ?? [])
+        .filter((workItemId) => !isWorkItemId(workItemId) || !workItemsForDoctor.has(workItemId))
+        .map((workItemId) => `${entry.id}:${workItemId}`)
+    );
+    checks.push({
+      id: "specification_work_item_links",
+      status: missingWorkItemLinks.length ? "fail" : "pass",
+      message: missingWorkItemLinks.length
+        ? `Specification index references missing Work Items: ${missingWorkItemLinks.join(", ")}`
+        : "Specification-to-Work-Item links are valid"
+    });
+  }
 
   try {
     const capabilityRegistry = await buildCapabilityRegistry(target);

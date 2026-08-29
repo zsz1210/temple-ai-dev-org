@@ -70,7 +70,9 @@ test("work item lifecycle, handoff, task registry, close, and observer status wo
     "--scope",
     "Local fixture only",
     "--acceptance",
-    "Every gate is evidence-backed"
+    "Every gate is evidence-backed",
+    "--ui-mode",
+    "not-applicable"
   ]);
   assert.equal(created.status, 0, created.stderr || created.stdout);
   assert.match(created.stdout, /WI-0001 · Engineering Manager · Fixture Rowan/);
@@ -327,6 +329,612 @@ test("transition refuses missing named gate evidence without changing state", as
   assert.equal((await readJson(path.join(target, ".ai-org/work-items/WI-0001.json"))).state, "intake");
 });
 
+test("legacy Build work remains configurable when UI mode did not exist", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  assert.equal(run(["work-item", "create", target, "--title", "Legacy build record"]).status, 0);
+  const itemPath = path.join(target, ".ai-org/work-items/WI-0001.json");
+  const legacy = await readJson(itemPath);
+  delete legacy.ui_delivery_mode;
+  legacy.state = "build";
+  legacy.owner_position = "developer";
+  legacy.assigned_agent_id = "agent-fixture-devon";
+  await fs.writeFile(itemPath, `${JSON.stringify(legacy, null, 2)}\n`);
+
+  const configured = run([
+    "work-item",
+    "configure",
+    target,
+    "--work-item",
+    "WI-0001",
+    "--base-revision",
+    "legacy-base"
+  ]);
+  assert.equal(configured.status, 0, configured.stderr || configured.stdout);
+  const configuredItem = await readJson(itemPath);
+  assert.equal(Object.hasOwn(configuredItem, "ui_delivery_mode"), false);
+
+  const claimed = run([
+    "work-item",
+    "claim",
+    target,
+    "--work-item",
+    "WI-0001",
+    "--agent-id",
+    "agent-fixture-devon",
+    "--principal-id",
+    "human",
+    "--base-revision",
+    "legacy-base",
+    "--branch",
+    "legacy/build"
+  ]);
+  assert.equal(claimed.status, 0, claimed.stderr || claimed.stdout);
+});
+
+test("lifecycle mutations reject an invalid specification authority registry", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  const specIndexPath = path.join(target, ".ai-org/project/spec-index.json");
+  const invalidIndex = {
+    schema_version: "temple.spec-index/v1",
+    adoption_profile: "hybrid",
+    delivery_method: "contract-guided-iterative",
+    entries: [
+      {
+        id: "SPEC-INVALID",
+        kind: "feature_spec",
+        title: "Invalid authority",
+        authority: "made_up_authority",
+        status: "approved",
+        revision: "rev-1",
+        source: {
+          kind: "repository",
+          location: "../outside.md",
+          system: "git",
+          content_sha256: "a".repeat(64)
+        },
+        owner_position: "unknown_position",
+        approved_by: "agent-self",
+        approved_at: "not-a-date",
+        approval_ref: "self",
+        source_refs: [],
+        related_work_items: [],
+        updated_at: "2026-08-29T00:00:00.000Z"
+      }
+    ]
+  };
+  await fs.writeFile(specIndexPath, `${JSON.stringify(invalidIndex, null, 2)}\n`);
+
+  const created = run([
+    "work-item",
+    "create",
+    target,
+    "--title",
+    "Must not trust invalid authority",
+    "--spec-mode",
+    "indexed",
+    "--spec-ref",
+    "SPEC-INVALID@rev-1",
+    "--ui-mode",
+    "not-applicable"
+  ]);
+  assert.equal(created.status, 1);
+  assert.match(created.stderr, /Invalid specification index/);
+  assert.deepEqual((await fs.readdir(path.join(target, ".ai-org/work-items"))).filter((entry) => entry.endsWith(".json")), []);
+
+  const status = JSON.parse(run(["status", target, "--json", "--no-write"]).stdout);
+  assert.ok(status.attention.some((entry) => entry.type === "invalid_specification_index"));
+  assert.equal(run(["doctor", target]).status, 1);
+});
+
+test("go closeout rechecks specification revisions while no-go remains available", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  const source = "# Approved bounded scope\n";
+  await fs.mkdir(path.join(target, "docs"), { recursive: true });
+  await fs.writeFile(path.join(target, "docs/spec.md"), source);
+  const specIndexPath = path.join(target, ".ai-org/project/spec-index.json");
+  const specIndex = {
+    schema_version: "temple.spec-index/v1",
+    adoption_profile: "temple-native",
+    delivery_method: "contract-guided-iterative",
+    entries: [
+      {
+        id: "SPEC-CLOSE",
+        kind: "feature_spec",
+        title: "Closeout contract",
+        authority: "temple_native",
+        status: "approved",
+        revision: "rev-1",
+        source: {
+          kind: "repository",
+          location: "docs/spec.md",
+          system: "git",
+          content_sha256: crypto.createHash("sha256").update(source).digest("hex")
+        },
+        owner_position: "product_manager",
+        approved_by: "human-product-owner",
+        approved_at: "2026-08-29T00:00:00.000Z",
+        approval_ref: "docs/spec.md",
+        source_refs: [],
+        related_work_items: [],
+        updated_at: "2026-08-29T00:00:00.000Z"
+      }
+    ]
+  };
+  await fs.writeFile(specIndexPath, `${JSON.stringify(specIndex, null, 2)}\n`);
+  assert.equal(
+    run([
+      "work-item",
+      "create",
+      target,
+      "--title",
+      "Recheck before close",
+      "--spec-ref",
+      "SPEC-CLOSE@rev-1",
+      "--ui-mode",
+      "not-applicable"
+    ]).status,
+    0
+  );
+  const itemPath = path.join(target, ".ai-org/work-items/WI-0001.json");
+  const item = await readJson(itemPath);
+  item.state = "release_gate";
+  item.owner_position = "release_manager";
+  item.assigned_agent_id = "agent-fixture-rowan";
+  await fs.writeFile(itemPath, `${JSON.stringify(item, null, 2)}\n`);
+  specIndex.entries[0].revision = "rev-2";
+  await fs.writeFile(specIndexPath, `${JSON.stringify(specIndex, null, 2)}\n`);
+
+  const evidenceArgs = [
+    "--tested-revision",
+    "candidate-1",
+    "--approval",
+    "not-required",
+    "--rollback",
+    "git revert candidate-1",
+    "--satisfy",
+    "accepted_scope=docs/spec.md",
+    "--satisfy",
+    "test_evidence=docs/test.md",
+    "--satisfy",
+    "evaluation_report=docs/eval.md",
+    "--satisfy",
+    "independent_qa_report=docs/qa.md"
+  ];
+  const staleGo = run(["close", target, "--work-item", "WI-0001", "--decision", "go", ...evidenceArgs]);
+  assert.equal(staleGo.status, 1);
+  assert.match(staleGo.stderr, /requires current specification revisions/);
+
+  const noGo = run([
+    "close",
+    target,
+    "--work-item",
+    "WI-0001",
+    "--decision",
+    "no-go",
+    "--reason",
+    "Specification revision changed",
+    ...evidenceArgs
+  ]);
+  assert.equal(noGo.status, 0, noGo.stderr || noGo.stdout);
+  assert.equal((await readJson(itemPath)).state, "blocked");
+});
+
+test("go closeout enforces the selected UI mode evidence contract", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  assert.equal(
+    run(["work-item", "create", target, "--title", "Verify UI evidence", "--ui-mode", "code-first"]).status,
+    0
+  );
+  const itemPath = path.join(target, ".ai-org/work-items/WI-0001.json");
+  const item = await readJson(itemPath);
+  item.state = "release_gate";
+  item.owner_position = "release_manager";
+  item.assigned_agent_id = "agent-fixture-rowan";
+  await fs.writeFile(itemPath, `${JSON.stringify(item, null, 2)}\n`);
+  const baseArgs = [
+    "close",
+    target,
+    "--work-item",
+    "WI-0001",
+    "--decision",
+    "go",
+    "--tested-revision",
+    "candidate-ui",
+    "--approval",
+    "not-required",
+    "--rollback",
+    "git revert candidate-ui",
+    "--satisfy",
+    "accepted_scope=docs/spec.md",
+    "--satisfy",
+    "test_evidence=docs/test.md",
+    "--satisfy",
+    "evaluation_report=docs/eval.md",
+    "--satisfy",
+    "independent_qa_report=docs/qa.md"
+  ];
+  const missingUiEvidence = run(baseArgs);
+  assert.equal(missingUiEvidence.status, 1);
+  assert.match(missingUiEvidence.stderr, /Close requires UI evidence for code-first/);
+
+  const closed = run([
+    ...baseArgs,
+    "--satisfy",
+    "ui_brief=docs/ui-brief.md",
+    "--satisfy",
+    "required_state_coverage=docs/ui-states.md",
+    "--satisfy",
+    "runtime_visual_review=docs/ui-runtime.md"
+  ]);
+  assert.equal(closed.status, 0, closed.stderr || closed.stdout);
+  assert.equal((await readJson(itemPath)).state, "done");
+});
+
+test("versioned product, UX, UI, and API references stay observable and stale revisions stop delivery", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+
+  const sourcePaths = ["docs/spec.md", "docs/ux.md", "docs/ui.md", "docs/api.yaml", "docs/requirements.md"];
+  await fs.mkdir(path.join(target, "docs"), { recursive: true });
+  for (const sourcePath of sourcePaths) await fs.writeFile(path.join(target, sourcePath), `# ${sourcePath}\n`);
+  const approved = {
+    status: "approved",
+    approved_by: "human-product-owner",
+    approved_at: "2026-08-29T00:00:00.000Z",
+    approval_ref: "docs/approval-record.md",
+    source_refs: [],
+    related_work_items: [],
+    updated_at: "2026-08-29T00:00:00.000Z"
+  };
+  const specIndexPath = path.join(target, ".ai-org/project/spec-index.json");
+  const specIndex = {
+    schema_version: "temple.spec-index/v1",
+    adoption_profile: "hybrid",
+    delivery_method: "contract-guided-iterative",
+    entries: [
+      {
+        ...approved,
+        id: "SPEC-0001",
+        kind: "feature_spec",
+        title: "Checkout slice",
+        authority: "temple_native",
+        revision: "spec-1",
+        source: {
+          kind: "repository",
+          location: sourcePaths[0],
+          system: "git",
+          content_sha256: crypto.createHash("sha256").update(`# ${sourcePaths[0]}\n`).digest("hex")
+        },
+        owner_position: "product_manager"
+      },
+      {
+        ...approved,
+        id: "UX-0001",
+        kind: "ux_flow",
+        title: "Checkout journey",
+        authority: "temple_native",
+        revision: "ux-1",
+        source: {
+          kind: "repository",
+          location: sourcePaths[1],
+          system: "git",
+          content_sha256: crypto.createHash("sha256").update(`# ${sourcePaths[1]}\n`).digest("hex")
+        },
+        owner_position: "ux_designer"
+      },
+      {
+        ...approved,
+        id: "UI-0001",
+        kind: "ui_contract",
+        title: "Checkout interaction contract",
+        authority: "temple_native",
+        revision: "ui-1",
+        source: {
+          kind: "repository",
+          location: sourcePaths[2],
+          system: "git",
+          content_sha256: crypto.createHash("sha256").update(`# ${sourcePaths[2]}\n`).digest("hex")
+        },
+        owner_position: "ui_designer"
+      },
+      {
+        ...approved,
+        id: "API-0001",
+        kind: "api_contract",
+        title: "Checkout API",
+        authority: "temple_native",
+        revision: "api-1",
+        source: {
+          kind: "repository",
+          location: sourcePaths[3],
+          system: "git",
+          content_sha256: crypto.createHash("sha256").update(`# ${sourcePaths[3]}\n`).digest("hex")
+        },
+        owner_position: "tech_lead"
+      },
+      {
+        ...approved,
+        id: "REQ-0001",
+        kind: "product_requirements",
+        title: "Checkout requirements",
+        authority: "temple_native",
+        revision: "req-1",
+        source: {
+          kind: "repository",
+          location: sourcePaths[4],
+          system: "git",
+          content_sha256: crypto.createHash("sha256").update(`# ${sourcePaths[4]}\n`).digest("hex")
+        },
+        owner_position: "product_manager"
+      }
+    ]
+  };
+  await fs.writeFile(specIndexPath, `${JSON.stringify(specIndex, null, 2)}\n`);
+
+  const created = run([
+    "work-item",
+    "create",
+    target,
+    "--title",
+    "Deliver one checkout slice",
+    "--spec-ref",
+    "SPEC-0001@spec-1",
+    "--spec-ref",
+    "REQ-0001@req-1",
+    "--ux-ref",
+    "UX-0001@ux-1",
+    "--ui-ref",
+    "UI-0001@ui-1",
+    "--contract-ref",
+    "API-0001@api-1",
+    "--ui-mode",
+    "preview-first"
+  ]);
+  assert.equal(created.status, 0, created.stderr || created.stdout);
+
+  assert.equal(
+    run(["transition", target, "--work-item", "WI-0001", "--to", "spec", "--satisfy", "work_order=docs/work-order.md"]).status,
+    0
+  );
+  const designed = run([
+    "transition",
+    target,
+    "--work-item",
+    "WI-0001",
+    "--to",
+    "design",
+    "--satisfy",
+    "approved_scope=docs/spec.md",
+    "--satisfy",
+    "acceptance_criteria=docs/spec.md"
+  ]);
+  assert.equal(designed.status, 0, designed.stderr || designed.stdout);
+
+  const status = JSON.parse(run(["status", target, "--json", "--no-write"]).stdout);
+  assert.equal(status.work_items.items[0].ui_delivery_mode, "preview-first");
+  assert.equal(status.work_items.items[0].specification_reference_count, 5);
+  assert.equal(status.work_items.items[0].stale_specification_count, 0);
+  const capsule = JSON.parse(
+    run(["context", "resolve", target, "--work-item", "WI-0001", "--position", "tech_lead", "--no-write", "--json"]).stdout
+  );
+  assert.deepEqual(capsule.specifications.map((entry) => entry.id), ["SPEC-0001", "REQ-0001", "UX-0001", "UI-0001", "API-0001"]);
+
+  specIndex.entries[0].revision = "spec-2";
+  await fs.writeFile(specIndexPath, `${JSON.stringify(specIndex, null, 2)}\n`);
+  const doctor = run(["doctor", target, "--json"]);
+  assert.equal(doctor.status, 0, doctor.stderr || doctor.stdout);
+  assert.equal(
+    JSON.parse(doctor.stdout).checks.find((check) => check.id === "specification_reference_staleness").status,
+    "warn"
+  );
+  const staleStatus = JSON.parse(run(["status", target, "--json", "--no-write"]).stdout);
+  assert.ok(staleStatus.attention.some((entry) => entry.type === "stale_specification_reference"));
+
+  const blocked = run([
+    "transition",
+    target,
+    "--work-item",
+    "WI-0001",
+    "--to",
+    "build",
+    "--satisfy",
+    "technical_design=docs/design.md",
+    "--satisfy",
+    "risk_review=docs/design.md"
+  ]);
+  assert.equal(blocked.status, 1);
+  assert.match(blocked.stderr, /requires current specification revisions/);
+
+  const repinned = run(["work-item", "configure", target, "--work-item", "WI-0001", "--spec-ref", "SPEC-0001@spec-2"]);
+  assert.equal(repinned.status, 0, repinned.stderr || repinned.stdout);
+  const repinnedItem = await readJson(path.join(target, ".ai-org/work-items/WI-0001.json"));
+  assert.deepEqual(repinnedItem.spec_refs, [
+    { id: "SPEC-0001", revision: "spec-2" },
+    { id: "REQ-0001", revision: "req-1" }
+  ]);
+  const missingUiEvidence = run([
+    "transition",
+    target,
+    "--work-item",
+    "WI-0001",
+    "--to",
+    "build",
+    "--satisfy",
+    "technical_design=docs/design.md",
+    "--satisfy",
+    "risk_review=docs/design.md"
+  ]);
+  assert.equal(missingUiEvidence.status, 1);
+  assert.match(missingUiEvidence.stderr, /requires UI evidence for preview-first/);
+
+  const built = run([
+    "transition",
+    target,
+    "--work-item",
+    "WI-0001",
+    "--to",
+    "build",
+    "--satisfy",
+    "technical_design=docs/design.md",
+    "--satisfy",
+    "risk_review=docs/design.md",
+    "--satisfy",
+    "ui_brief=docs/ui-brief.md",
+    "--satisfy",
+    "preview_artifact=docs/ui-preview.png",
+    "--satisfy",
+    "review_record=docs/ui-review.md"
+  ]);
+  assert.equal(built.status, 0, built.stderr || built.stdout);
+
+  await fs.writeFile(path.join(target, sourcePaths[3]), "changed without an indexed revision\n");
+  const driftedSource = run([
+    "transition",
+    target,
+    "--work-item",
+    "WI-0001",
+    "--to",
+    "test",
+    "--satisfy",
+    "developer_handoff=docs/handoff.md",
+    "--satisfy",
+    "developer_evidence=docs/developer-test.md"
+  ]);
+  assert.equal(driftedSource.status, 1);
+  assert.match(driftedSource.stderr, /content does not match source\.content_sha256/);
+  const driftedStatus = JSON.parse(run(["status", target, "--json", "--no-write"]).stdout);
+  assert.ok(driftedStatus.attention.some((entry) => entry.type === "invalid_specification_source"));
+  await fs.writeFile(path.join(target, sourcePaths[3]), `# ${sourcePaths[3]}\n`);
+
+  specIndex.entries.find((entry) => entry.id === "API-0001").status = "draft";
+  await fs.writeFile(specIndexPath, `${JSON.stringify(specIndex, null, 2)}\n`);
+  const approvalRevoked = run([
+    "transition",
+    target,
+    "--work-item",
+    "WI-0001",
+    "--to",
+    "test",
+    "--satisfy",
+    "developer_handoff=docs/handoff.md",
+    "--satisfy",
+    "developer_evidence=docs/developer-test.md"
+  ]);
+  assert.equal(approvalRevoked.status, 1);
+  assert.match(approvalRevoked.stderr, /requires approved referenced contracts: API-0001/);
+  const unapprovedStatus = JSON.parse(run(["status", target, "--json", "--no-write"]).stdout);
+  assert.ok(unapprovedStatus.attention.some((entry) => entry.type === "unapproved_specification_reference"));
+  specIndex.entries.find((entry) => entry.id === "API-0001").status = "approved";
+  await fs.writeFile(specIndexPath, `${JSON.stringify(specIndex, null, 2)}\n`);
+
+  const staleRepin = run([
+    "work-item",
+    "configure",
+    target,
+    "--work-item",
+    "WI-0001",
+    "--spec-ref",
+    "SPEC-0001@spec-1"
+  ]);
+  assert.equal(staleRepin.status, 1);
+  assert.match(staleRepin.stderr, /requires current specification revisions/);
+
+  const specificationDowngrade = run([
+    "work-item",
+    "configure",
+    target,
+    "--work-item",
+    "WI-0001",
+    "--replace-spec-refs",
+    "--spec-mode",
+    "gate-evidence"
+  ]);
+  assert.equal(specificationDowngrade.status, 1);
+  assert.match(specificationDowngrade.stderr, /Specification mode cannot change after entering build/);
+
+  const uiDowngrade = run([
+    "work-item",
+    "configure",
+    target,
+    "--work-item",
+    "WI-0001",
+    "--replace-ui-refs",
+    "--ui-mode",
+    "not-applicable"
+  ]);
+  assert.equal(uiDowngrade.status, 1);
+  assert.match(uiDowngrade.stderr, /UI delivery mode cannot change after entering build/);
+
+  const governancePreserved = await readJson(path.join(target, ".ai-org/work-items/WI-0001.json"));
+  assert.equal(governancePreserved.specification_mode, "indexed");
+  assert.deepEqual(governancePreserved.spec_refs, [
+    { id: "SPEC-0001", revision: "spec-2" },
+    { id: "REQ-0001", revision: "req-1" }
+  ]);
+  assert.equal(governancePreserved.ui_delivery_mode, "preview-first");
+  assert.deepEqual(governancePreserved.ui_refs, [{ id: "UI-0001", revision: "ui-1" }]);
+
+  const contradictory = run([
+    "work-item",
+    "create",
+    target,
+    "--title",
+    "Reject contradictory UI scope",
+    "--ui-mode",
+    "not-applicable",
+    "--ui-ref",
+    "UI-0001@ui-1"
+  ]);
+  assert.equal(contradictory.status, 1);
+  assert.match(contradictory.stderr, /not-applicable cannot have ui_refs/);
+
+  const missingMode = run([
+    "work-item",
+    "create",
+    target,
+    "--title",
+    "Reject an unclassified interface",
+    "--ui-ref",
+    "UI-0001@ui-1"
+  ]);
+  assert.equal(missingMode.status, 1);
+  assert.match(missingMode.stderr, /require an explicit UI delivery mode/);
+
+  const noInterface = run([
+    "work-item",
+    "create",
+    target,
+    "--title",
+    "Change a backend-only rule",
+    "--contract-ref",
+    "API-0001@api-1",
+    "--ui-mode",
+    "not-applicable"
+  ]);
+  assert.equal(noInterface.status, 0, noInterface.stderr || noInterface.stdout);
+  const noInterfaceItem = await readJson(path.join(target, ".ai-org/work-items/WI-0002.json"));
+  assert.equal(noInterfaceItem.ui_delivery_mode, "not-applicable");
+  assert.deepEqual(noInterfaceItem.ui_refs, []);
+
+  const codeFirst = run([
+    "work-item",
+    "create",
+    target,
+    "--title",
+    "Prototype an inexpensive interface",
+    "--ui-mode",
+    "code-first"
+  ]);
+  assert.equal(codeFirst.status, 0, codeFirst.stderr || codeFirst.stdout);
+  const codeFirstItem = await readJson(path.join(target, ".ai-org/work-items/WI-0003.json"));
+  assert.equal(codeFirstItem.ui_delivery_mode, "code-first");
+  assert.deepEqual(codeFirstItem.ui_refs, []);
+});
+
 test("upgrade migrates legacy identity and safely removes obsolete managed skills", async (context) => {
   const { temporaryRoot, target } = await fixture();
   context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
@@ -359,7 +967,7 @@ test("upgrade migrates legacy identity and safely removes obsolete managed skill
 
   const dryRun = run(["upgrade", target, "--dry-run"]);
   assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
-  assert.match(dryRun.stdout, /0\.1\.0-alpha\.3 -> 0\.1\.0-alpha\.13/);
+  assert.match(dryRun.stdout, /0\.1\.0-alpha\.3 -> 0\.1\.0-alpha\.14/);
   assert.match(dryRun.stdout, /remove-managed: 3/);
   assert.equal(await fs.readFile(installedTemple, "utf8"), oldContent);
   await fs.access(path.join(target, obsoleteSkills[0]));
@@ -368,7 +976,7 @@ test("upgrade migrates legacy identity and safely removes obsolete managed skill
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = await fs.readFile(lockPath, "utf8");
   assert.equal(JSON.parse(upgradedLock).template.name, "@zsz1210/temple-ai-dev-org");
-  assert.equal(JSON.parse(upgradedLock).template.version, "0.1.0-alpha.13");
+  assert.equal(JSON.parse(upgradedLock).template.version, "0.1.0-alpha.14");
   assert.match(await fs.readFile(installedTemple, "utf8"), /Project AI development organization operating contract/);
   assert.equal((await readJson(path.join(target, ".ai-org/work-items/WI-0001.json"))).title, "Preserve me");
   for (const relativePath of obsoleteSkills) {
@@ -443,6 +1051,33 @@ test("upgrade rolls back earlier updates when a later managed file changes", asy
   await assert.rejects(() => executeUpgrade(plan), /changed before update/);
   assert.equal(await fs.readFile(path.join(target, first), "utf8"), oldContents.get(first));
   assert.equal(await fs.readFile(path.join(target, second), "utf8"), "late external managed edit\n");
+  assert.equal(await fs.readFile(lockPath, "utf8"), lockBefore);
+});
+
+test("upgrade rollback removes a newly seeded specification index after a later migration race", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  const specIndexPath = path.join(target, ".ai-org/project/spec-index.json");
+  await fs.rm(specIndexPath);
+  const assignmentsPath = path.join(target, ".ai-org/project/assignments.json");
+  const assignments = await readJson(assignmentsPath);
+  assignments.assignments = assignments.assignments.filter((entry) => entry.position_id !== "ui_designer");
+  await fs.writeFile(assignmentsPath, `${JSON.stringify(assignments, null, 2)}\n`);
+  const lockPath = path.join(target, "temple.lock");
+  const lock = await readJson(lockPath);
+  lock.template.version = "0.1.0-alpha.13";
+  delete lock.capabilities.product_specifications;
+  const lockBefore = `${JSON.stringify(lock, null, 2)}\n`;
+  await fs.writeFile(lockPath, lockBefore);
+  const plan = await planUpgrade(target);
+  assert.ok(plan.assignmentMigration);
+  assert.ok(plan.actions.some((action) => action.type === "create-spec-index"));
+  const racedAssignments = `${await fs.readFile(assignmentsPath, "utf8")}\n`;
+  await fs.writeFile(assignmentsPath, racedAssignments);
+
+  await assert.rejects(() => executeUpgrade(plan), /assignments\.json changed after upgrade planning/);
+  await assert.rejects(() => fs.access(specIndexPath));
+  assert.equal(await fs.readFile(assignmentsPath, "utf8"), racedAssignments);
   assert.equal(await fs.readFile(lockPath, "utf8"), lockBefore);
 });
 
@@ -566,7 +1201,9 @@ test("collaborative profile supports principals, pooled membership, readiness, a
     "--base-revision",
     "abc123",
     "--integration-owner",
-    "agent-taylor"
+    "agent-taylor",
+    "--ui-mode",
+    "not-applicable"
   ]);
   assert.equal(created.status, 0, created.stderr || created.stdout);
   const workItemId = /Created (WI-[0-9]{8}-[A-F0-9]{10}):/.exec(created.stdout)?.[1];

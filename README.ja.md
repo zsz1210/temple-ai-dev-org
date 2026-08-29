@@ -31,7 +31,7 @@ Temple はチャット記憶の共有システムでも、prompt の寄せ集め
 
 Position は責任と承認限界を定義します。Agent Identity は、その Position に割り当てられるプロジェクト固有の実行者です。Skill は特定の仕事を行うための再利用可能な手法であり、権限を拡大したり evidence gate を置き換えたりするものではありません。
 
-UI Designer は正式な Position ですが、Temple はすべてのプロジェクトに事前の Figma 制作を求めません。選択した [UI delivery mode（英語）](docs/ui-design.md)——code-first、preview-first、design-led——により、リスクに応じて設計成果物と review evidence の深さを調整します。
+インターフェース範囲がある場合、UI Designer は正式な Position ですが、Temple はすべてのプロジェクトに事前の Figma 制作を求めません。Work Item は UI なし、担当 AI による code-first、preview-first、または承認済み設計ソースを使う design-led を選択でき、[UI delivery mode（英語）](docs/ui-design.md) により evidence をリスクに合わせます。
 
 ## はじめ方
 
@@ -65,6 +65,7 @@ temple work-item create . \
   --title "Ship one bounded outcome" \
   --scope "One verified user flow" \
   --acceptance "Independent QA verifies the candidate revision" \
+  --ui-mode code-first \
   --affected-path "src/verified-flow/**"
 
 temple capability find . --query "verify one user flow"
@@ -101,10 +102,13 @@ Temple はプロジェクトへインストールします。プロジェクト�
 - [Vision と operating model](docs/vision.md) — framework layer、Position、lifecycle
 - [Architecture](docs/architecture.md) — identity、ownership、extension、canonical-state boundary
 - [Collaborative development model](docs/collaboration.md) — Human Principal、Position pool、task slicing、parallel readiness、claim、diagram
+- [Product specification system](docs/product-specifications.md) — product truth、revision 付き Work Item reference、iterative delivery
+- [Enterprise document adoption](docs/enterprise-document-adoption.md) — 二重の authority を作らず既存ドキュメントを維持・接続・移行する方法
+- [UI interaction contracts](docs/ui-interaction-contracts.md) — interface behavior、design artifact、implementation、backend contract の接続
 - [Skill authoring guide](docs/skill-authoring.md) — project-owned Skill の設計と検証
 - [Engineering Learning Loop](docs/engineering-learning.md) — evidence、Lesson、Practice、検索、昇格
 - [Progressive context routing](docs/context-routing.md) — Context Map、Capability Registry、Context Capsule、affected-path overlap、将来の Retrieval Provider
-- [UI design modes](docs/ui-design.md) — UI ownership、code-first、preview-first、design-led、tool policy
+- [UI design modes](docs/ui-design.md) — UI なしの記録、code-first、preview-first、design-led、tool policy
 - [Capability catalog](docs/capability-catalog.md) — 提供済み、optional、候補の engineering method
 - [Roadmap](docs/roadmap.md) — 検証済みの scope と今後の作業
 - [Architecture decision](docs/adr/README.md) — 設計判断と理由

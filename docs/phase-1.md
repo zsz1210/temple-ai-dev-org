@@ -12,7 +12,8 @@ Phase 1 is complete only when all of the following are true:
 - Doctor detects managed tampering, model errors, and incomplete instruction integration.
 - Status generates a summary from canonical files.
 - The project-owned Engineering Learning index survives re-init and upgrade; doctor validates index-to-record consistency and status reports Lesson and Practice counts.
-- UI design has an explicit Position, three risk-scaled delivery modes, a tool-neutral evidence policy, and a project-owned brief template.
+- UI design has an explicit Position, one no-interface outcome, three risk-scaled interface delivery modes, a tool-neutral evidence policy, and a project-owned brief template.
+- The project-owned specification index preserves repository, external, derived, and unresolved legacy authority; Work Items pin approved current product, UX, UI, API, and technical-design revisions without copying document bodies.
 - The project-owned Context Map survives re-init and upgrade; doctor validates active routes and work-item references; generated Registry and Capsule views never replace canonical sources.
 - Core, optional-pack, and project-owned Skills are discoverable without changing exact-path ownership, and work-item context resolution reports likely affected-path overlap.
 - The CLI completes work-item creation, handoff, transition, and closeout while rejecting invalid gates.
@@ -46,4 +47,5 @@ Phase 1 is complete only when all of the following are true:
 7. Alpha.11 establishes UI Designer, code-first, preview-first, and design-led evidence contracts, plus deterministic migration from the existing UX Assignment.
 8. Alpha.12 establishes deterministic Progressive Context Routing, a generated Capability Registry, work-item Context Capsules, and affected-path overlap warnings without adding a model or vector database dependency.
 9. Alpha.13 establishes a backward-compatible Collaborative foundation with Human Principals, Agent sponsorship, Position pools and Disciplines, Work Item planning and claims, parallel-readiness checks, and explicit `not_run` large-scale validation status.
-10. Validate the manual Learning Loop, UI delivery-mode selection, bounded context recovery, and retained multi-human/multi-machine collaboration plan on real work and in a new Codex task. Continue Phase 2 Observer, coordination, retrieval-evaluation, and evidence-adapter work only after the remaining Phase 1.5 exit gate is complete.
+10. Alpha.14 establishes revisioned product-specification authority, enterprise document adoption, Work Item contract references, explicit no-UI handling, and tool-neutral UI interaction contracts.
+11. Validate the manual Learning Loop, UI delivery-mode selection, specification adoption, bounded context recovery, and retained multi-human/multi-machine collaboration plan on real work and in a new Codex task. Continue Phase 2 Observer, coordination, retrieval-evaluation, and evidence-adapter work only after the remaining Phase 1.5 exit gate is complete.

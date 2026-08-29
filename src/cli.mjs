@@ -60,8 +60,8 @@ Usage:
   temple collaboration add-agent [target] --agent-id agent-name --name "Agent Name"
   temple collaboration sponsor [target] --principal-id principal-name --agent-id agent-name
   temple collaboration add-membership [target] --agent-id agent-name --position developer [--discipline backend]
-  temple work-item create [target] --title text [--scope text] [--acceptance text] [--affected-path path] [--context-ref id]
-  temple work-item configure [target] --work-item WI-ID [--parent WI-ID] [--depends-on WI-ID] [--agent-id agent-name] [--discipline backend] [--base-revision ref] [--parallel-mode mode]
+  temple work-item create [target] --title text [--scope text] [--acceptance text] [--affected-path path] [--context-ref id] [--spec-mode gate-evidence|indexed] [--spec-ref ID@revision] [--ui-mode mode]
+  temple work-item configure [target] --work-item WI-ID [--parent WI-ID] [--depends-on WI-ID] [--agent-id agent-name] [--discipline backend] [--base-revision ref] [--parallel-mode mode] [--spec-ref ID@revision] [--replace-spec-refs]
   temple work-item claim [target] --work-item WI-ID --agent-id agent-name --principal-id principal-name --base-revision ref --branch name [--worktree path]
   temple work-item release [target] --work-item WI-ID [--agent-id agent-name] [--principal-id principal-name] [--reason text]
   temple work-item unresolved [target] --work-item WI-0001 [--resolve text] [--merge text]
@@ -86,7 +86,7 @@ Core commands:
   doctor      Validate managed files, identities, work items, tasks, and integrations.
   status      Rebuild the observable project status from canonical files.
   collaboration Configure Human Principals, Agent sponsorship, Position membership, and the operating profile.
-  work-item   Create work items and safely manage their unresolved-item lifecycle.
+  work-item   Create and configure work items, revisioned contracts, UI mode, claims, and unresolved items.
   parallel    Evaluate whether a work item is safe to execute concurrently.
   handoff     Create an evidence-bearing Position handoff artifact.
   transition  Enforce the workflow edge and its named gate requirements.
@@ -97,11 +97,23 @@ Core commands:
   context     Resolve a bounded work-item Context Capsule through the configured Retrieval Provider.
 
 Repeat --scope, --acceptance, --completed, --evidence, --unresolved, --resolve,
---merge, --affected-path, --context-ref, --rollback, --reason, or --satisfy as needed. Temple never creates, renames, or archives a
+--merge, --affected-path, --context-ref, --spec-ref, --ux-ref, --ui-ref,
+--contract-ref, --rollback, --reason, or --satisfy as needed. Configure merges document refs by ID;
+use the matching --replace-*-refs flag to replace or clear a complete category. Temple never creates, renames, or archives a
 Codex task by itself; task registry entries make those app actions observable.
 `;
 
-const BOOLEAN_FLAGS = new Set(["--dry-run", "--integrate-agents", "--json", "--no-write", "--help"]);
+const BOOLEAN_FLAGS = new Set([
+  "--dry-run",
+  "--integrate-agents",
+  "--json",
+  "--no-write",
+  "--help",
+  "--replace-spec-refs",
+  "--replace-ux-refs",
+  "--replace-ui-refs",
+  "--replace-contract-refs"
+]);
 const VALUE_FLAGS = new Set([
   "--config",
   "--title",
@@ -135,6 +147,12 @@ const VALUE_FLAGS = new Set([
   "--satisfy",
   "--affected-path",
   "--context-ref",
+  "--spec-ref",
+  "--ux-ref",
+  "--ui-ref",
+  "--contract-ref",
+  "--spec-mode",
+  "--ui-mode",
   "--profile",
   "--principal-id",
   "--name",
@@ -164,6 +182,10 @@ const REPEATABLE_FLAGS = new Set([
   "--satisfy",
   "--affected-path",
   "--context-ref",
+  "--spec-ref",
+  "--ux-ref",
+  "--ui-ref",
+  "--contract-ref",
   "--discipline",
   "--depends-on",
   "--shared-contract-ref",
@@ -228,6 +250,24 @@ function parseSatisfied(values) {
     output[requirement] = [...(output[requirement] ?? []), reference];
   }
   return output;
+}
+
+function parseDocumentReferences(values, flag) {
+  const references = [];
+  const seen = new Set();
+  for (const value of values) {
+    const separator = value.indexOf("@");
+    if (separator <= 0 || separator === value.length - 1) {
+      throw new Error(`Invalid ${flag} value ${value}; use ID@revision`);
+    }
+    const id = value.slice(0, separator).trim();
+    const revision = value.slice(separator + 1).trim();
+    if (!id || !revision) throw new Error(`Invalid ${flag} value ${value}; use ID@revision`);
+    if (seen.has(id)) throw new Error(`${flag} contains duplicate reference: ${id}`);
+    seen.add(id);
+    references.push({ id, revision });
+  }
+  return references;
 }
 
 function projectIdFromDirectory(target) {
@@ -399,6 +439,12 @@ async function runWorkItemCreate(parsed) {
       acceptance: listOption(parsed, "--acceptance"),
       affectedPaths: listOption(parsed, "--affected-path"),
       contextRefs: listOption(parsed, "--context-ref"),
+      specRefs: parseDocumentReferences(listOption(parsed, "--spec-ref"), "--spec-ref"),
+      uxRefs: parseDocumentReferences(listOption(parsed, "--ux-ref"), "--ux-ref"),
+      uiRefs: parseDocumentReferences(listOption(parsed, "--ui-ref"), "--ui-ref"),
+      contractRefs: parseDocumentReferences(listOption(parsed, "--contract-ref"), "--contract-ref"),
+      specificationMode: parsed.options["--spec-mode"],
+      uiDeliveryMode: parsed.options["--ui-mode"],
       parentWorkItemId: parsed.options["--parent"],
       dependencies: listOption(parsed, "--depends-on"),
       requiredDisciplines: listOption(parsed, "--discipline"),
@@ -486,7 +532,29 @@ async function runWorkItemConfigure(parsed) {
         parsed.options["--shared-contract-ref"] === undefined ? undefined : listOption(parsed, "--shared-contract-ref"),
       contractStatus: parsed.options["--contract-status"],
       overlapResolution:
-        parsed.options["--overlap-resolution"] === undefined ? undefined : listOption(parsed, "--overlap-resolution")
+        parsed.options["--overlap-resolution"] === undefined ? undefined : listOption(parsed, "--overlap-resolution"),
+      specRefs:
+        parsed.options["--spec-ref"] === undefined
+          ? undefined
+          : parseDocumentReferences(listOption(parsed, "--spec-ref"), "--spec-ref"),
+      replaceSpecRefs: parsed.flags.has("--replace-spec-refs"),
+      uxRefs:
+        parsed.options["--ux-ref"] === undefined
+          ? undefined
+          : parseDocumentReferences(listOption(parsed, "--ux-ref"), "--ux-ref"),
+      replaceUxRefs: parsed.flags.has("--replace-ux-refs"),
+      uiRefs:
+        parsed.options["--ui-ref"] === undefined
+          ? undefined
+          : parseDocumentReferences(listOption(parsed, "--ui-ref"), "--ui-ref"),
+      replaceUiRefs: parsed.flags.has("--replace-ui-refs"),
+      contractRefs:
+        parsed.options["--contract-ref"] === undefined
+          ? undefined
+          : parseDocumentReferences(listOption(parsed, "--contract-ref"), "--contract-ref"),
+      replaceContractRefs: parsed.flags.has("--replace-contract-refs"),
+      specificationMode: parsed.options["--spec-mode"],
+      uiDeliveryMode: parsed.options["--ui-mode"]
     });
     await refreshViews(target);
     return configured;

@@ -6,6 +6,12 @@ import { emptyLearningIndex, LEARNING_INDEX_RELATIVE_PATH } from "./learning.mjs
 import { assignedAgent, loadProjectContext } from "./project.mjs";
 import { readWorkItem } from "./work-items.mjs";
 import { isWorkItemId } from "./ids.mjs";
+import {
+  evaluateWorkItemSpecRefs,
+  readSpecIndex,
+  validateRepositorySpecSources,
+  validateSpecIndex
+} from "./specifications.mjs";
 
 export const CONTEXT_MAP_RELATIVE_PATH = ".ai-org/project/context-map.json";
 export const CAPABILITY_REGISTRY_RELATIVE_PATH = ".ai-org/views/capabilities.json";
@@ -452,6 +458,22 @@ export async function resolveWorkItemContext(target, options) {
   const learningIndex = (await pathExists(path.join(target, LEARNING_INDEX_RELATIVE_PATH)))
     ? await readJson(path.join(target, LEARNING_INDEX_RELATIVE_PATH))
     : emptyLearningIndex();
+  const specIndex = await readSpecIndex(target);
+  const specIndexValidation = validateSpecIndex(specIndex, new Set(context.positions.keys()));
+  if (!specIndexValidation.valid) {
+    throw new Error(`Invalid specification index:\n- ${specIndexValidation.errors.join("\n- ")}`);
+  }
+  const referencedIds = ["spec_refs", "ux_refs", "ui_refs", "contract_refs"].flatMap((field) =>
+    (item[field] ?? []).map((reference) => reference?.id).filter(Boolean)
+  );
+  const sourceValidation = await validateRepositorySpecSources(target, specIndex, referencedIds);
+  if (!sourceValidation.valid) {
+    throw new Error(`Invalid repository specification sources:\n- ${sourceValidation.errors.join("\n- ")}`);
+  }
+  const specificationEvaluation = evaluateWorkItemSpecRefs(item, specIndex);
+  if (!specificationEvaluation.valid) {
+    throw new Error(`Invalid Work Item specification references:\n- ${specificationEvaluation.errors.join("\n- ")}`);
+  }
   const provider = options.provider ?? createRepositoryRetrievalProvider();
   const providerValidation = validateRetrievalProvider(provider);
   if (!providerValidation.valid) throw new Error(`Invalid Retrieval Provider:\n- ${providerValidation.errors.join("\n- ")}`);
@@ -489,6 +511,8 @@ export async function resolveWorkItemContext(target, options) {
   if (missingContextRefs.length) warnings.push(`Missing context routes: ${missingContextRefs.join(", ")}`);
   if (deprecatedContextRefs.length) warnings.push(`Deprecated context routes: ${deprecatedContextRefs.join(", ")}`);
   if (overlaps.length) warnings.push(`${overlaps.length} active work item(s) overlap affected paths`);
+  warnings.push(...specificationEvaluation.warnings);
+  const specificationsById = new Map(specIndex.entries.map((entry) => [entry.id, entry]));
 
   return {
     schema_version: CONTEXT_CAPSULE_SCHEMA,
@@ -498,6 +522,8 @@ export async function resolveWorkItemContext(target, options) {
       path: `.ai-org/work-items/${item.id}.json`,
       title: item.title,
       state: item.state,
+      specification_mode: item.specification_mode ?? null,
+      ui_delivery_mode: item.ui_delivery_mode ?? null,
       scope: item.scope ?? [],
       acceptance_criteria: item.acceptance_criteria ?? [],
       unresolved: item.unresolved ?? []
@@ -506,6 +532,11 @@ export async function resolveWorkItemContext(target, options) {
     agent: { id: agent.id, display_name: agent.display_name },
     revision: inferredRevision(item, options.revision),
     affected_paths: item.affected_paths ?? [],
+    specifications: specificationEvaluation.resolved_refs.map((reference) => ({
+      ...reference,
+      title: specificationsById.get(reference.id)?.title,
+      source: specificationsById.get(reference.id)?.source
+    })),
     context_routes: routeResults.map((result) => ({
       id: result.id,
       kind: result.source.kind,

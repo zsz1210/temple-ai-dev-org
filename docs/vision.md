@@ -8,7 +8,7 @@ It does not try to make every AI conversation remember everything. It gives ever
 
 | Layer | Question it answers | Primary mechanisms |
 |---|---|---|
-| Product intent and domain | What problem, language, boundary, and outcome are real? | Decision interview, domain modeling, specs, glossary, ADRs |
+| Product intent and domain | What problem, language, boundary, and outcome are real? | Decision interview, domain modeling, revisioned specification authority, glossary, ADRs |
 | Organization and authority | Who is responsible, and who may approve what? | Positions, Agent Identities, Assignments, human approval boundaries |
 | Engineering methods and capabilities | How should this kind of work be performed? | Core Skills, official packs, project and third-party extensions |
 | Work orchestration | What is happening now, and what comes next? | Work items, lifecycle transitions, handoffs, task registry |
@@ -36,7 +36,7 @@ The same scaling principle applies to learning. Evidence from one work item begi
 3. Every Position exists from day one. Adding Agents later changes Assignments, not workflow language or historical data.
 4. Developer and Independent QA must use different Agent Identities so one executor does not certify its own work.
 5. Humans own business truth, priorities, cost, and high-risk approval. The Engineering Manager is the primary entry point.
-6. Documents, Git state, test results, runtime evidence, and approval records—not chat memory—are canonical state.
+6. Approved documents, their recorded authority and revisions, Git state, test results, runtime evidence, and approval records—not chat memory or generated projections—are canonical state.
 7. Engineering methods are composable. A Skill changes the reusable procedure, not the Position's authority or the user's authorization.
 8. Extensions remain project-owned unless an explicit promotion process transfers them into core or an official pack.
 
@@ -69,13 +69,18 @@ These are Assignment slots, not Agent names. Names are created only during the p
 
 ## UI design depth
 
-UI design is always owned, but pre-implementation visual artifacts scale with risk:
+Interface scope is explicit, and pre-implementation visual artifacts scale with risk:
 
+- **Not applicable:** the Work Item has no user-facing interface change and carries no UI specification reference.
 - **Code-first:** implementation is the first visual artifact; a concise UI brief, state coverage, and runtime visual review remain required.
 - **Preview-first:** review a wireframe, code preview, prototype, or equivalent artifact before full implementation.
 - **Design-led:** use an approved, versioned design source and implementation mapping for brand-sensitive, expensive, or multi-party work.
 
-The framework defines evidence rather than mandating Figma. See [UI design responsibility and delivery modes](ui-design.md).
+The framework defines evidence rather than mandating Figma. An interaction contract may link behavior and states to any design medium, code surface, backend contract, and runtime evidence. See [UI design responsibility and delivery modes](ui-design.md) and [UI interaction contracts](ui-interaction-contracts.md).
+
+## Product specification depth
+
+Temple establishes the smallest approved product truth needed for a bounded vertical slice, then preserves what was learned through an intentional revision. The project-owned specification index can point to repository-native documents, approved external systems, non-authoritative projections, and unresolved legacy material without forcing a company to replace its existing business workflow. Work Items pin the exact approved revisions they depend on; a stale or superseded reference stops later delivery until it is reconciled. See [Product specification system](product-specifications.md) and [Enterprise document adoption](enterprise-document-adoption.md).
 
 ## Work lifecycle
 

@@ -9,6 +9,14 @@ import {
 import { atomicWrite, pathExists, readJson } from "./files.mjs";
 import { emptyLearningIndex, LEARNING_INDEX_RELATIVE_PATH, summarizeLearningIndex } from "./learning.mjs";
 import { COLLABORATION_RELATIVE_PATH, buildCollaborationState } from "./collaboration.mjs";
+import {
+  SPEC_INDEX_RELATIVE_PATH,
+  emptySpecIndex,
+  evaluateWorkItemSpecRefs,
+  summarizeSpecIndex,
+  validateRepositorySpecSources,
+  validateSpecIndex
+} from "./specifications.mjs";
 
 function markdown(value) {
   return String(value ?? "").replace(/\|/g, "\\|").replace(/\r?\n/g, " ");
@@ -26,6 +34,7 @@ async function readEvents(target) {
 }
 
 export async function buildStatus(target, options = {}) {
+  const specIndexInstalled = await pathExists(path.join(target, SPEC_INDEX_RELATIVE_PATH));
   const [
     lock,
     project,
@@ -37,6 +46,7 @@ export async function buildStatus(target, options = {}) {
     events,
     learningIndex,
     contextMap,
+    specIndex,
     capabilityRegistry,
     collaboration
   ] =
@@ -57,6 +67,7 @@ export async function buildStatus(target, options = {}) {
       pathExists(path.join(target, CONTEXT_MAP_RELATIVE_PATH)).then((exists) =>
         exists ? readContextMap(target) : emptyContextMap()
       ),
+      specIndexInstalled ? readJson(path.join(target, SPEC_INDEX_RELATIVE_PATH)) : emptySpecIndex(),
       options.capabilityRegistry ?? buildCapabilityRegistry(target),
       pathExists(path.join(target, COLLABORATION_RELATIVE_PATH)).then((exists) =>
         exists ? readJson(path.join(target, COLLABORATION_RELATIVE_PATH)) : null
@@ -65,6 +76,10 @@ export async function buildStatus(target, options = {}) {
 
   const agents = new Map(agentsDocument.agents.map((agent) => [agent.id, agent]));
   const positions = new Map(positionsDocument.positions.map((position) => [position.id, position]));
+  const specIndexValidation = validateSpecIndex(specIndex, new Set(positions.keys()));
+  const specSourceValidation = specIndexValidation.valid
+    ? await validateRepositorySpecSources(target, specIndex)
+    : { valid: false, errors: [] };
   const assignmentMap = new Map(
     assignmentsDocument.assignments
       .filter((assignment) => assignment.active !== false)
@@ -104,6 +119,7 @@ export async function buildStatus(target, options = {}) {
           item.developer_candidate_revision ??
           item.dispatch_revision ??
           null;
+        const specificationReferences = evaluateWorkItemSpecRefs(item, specIndex);
         workItems.push({
           id: item.id ?? entry.name.replace(/\.json$/, ""),
           title: item.title ?? "Untitled",
@@ -120,7 +136,14 @@ export async function buildStatus(target, options = {}) {
           required_disciplines: item.required_disciplines ?? [],
           active_claim: item.claim?.status === "active" ? item.claim : null,
           parent_work_item_id: item.parent_work_item_id ?? null,
-          dependency_count: (item.dependencies ?? []).length
+          dependency_count: (item.dependencies ?? []).length,
+          specification_mode: item.specification_mode ?? null,
+          ui_delivery_mode: item.ui_delivery_mode ?? null,
+          specification_reference_count: specificationReferences.resolved_refs.length,
+          stale_specification_count: specificationReferences.stale_count,
+          unapproved_specification_count: specificationReferences.unapproved_count,
+          specification_references: specificationReferences.resolved_refs,
+          specification_warnings: specificationReferences.warnings
         });
       } catch (error) {
         workItems.push({
@@ -134,7 +157,14 @@ export async function buildStatus(target, options = {}) {
           latest_revision: null,
           evidence_count: 0,
           unresolved_count: 1,
-          terminal: false
+          terminal: false,
+          ui_delivery_mode: null,
+          specification_mode: null,
+          specification_reference_count: 0,
+          stale_specification_count: 0,
+          unapproved_specification_count: 0,
+          specification_references: [],
+          specification_warnings: []
         });
       }
     }
@@ -164,6 +194,29 @@ export async function buildStatus(target, options = {}) {
     ...tasks
       .filter((task) => task.archive_ready)
       .map((task) => ({ type: "archive_ready", work_item_id: task.work_item_id, task_id: task.id, message: `${task.id} can be archived` })),
+    ...workItems
+      .filter((item) => item.stale_specification_count > 0)
+      .map((item) => ({
+        type: "stale_specification_reference",
+        work_item_id: item.id,
+        message: `${item.id} has ${item.stale_specification_count} stale specification reference(s)`
+      })),
+    ...workItems
+      .filter((item) => item.unapproved_specification_count > 0)
+      .map((item) => ({
+        type: "unapproved_specification_reference",
+        work_item_id: item.id,
+        message: `${item.id} has ${item.unapproved_specification_count} unapproved specification reference(s)`
+      })),
+    ...(!specIndexValidation.valid
+      ? [{ type: "invalid_specification_index", message: `Specification index is invalid: ${specIndexValidation.errors.join("; ")}` }]
+      : []),
+    ...(!specIndexInstalled
+      ? [{ type: "specification_index_missing", message: "Specification index is missing; run temple upgrade" }]
+      : []),
+    ...(!specSourceValidation.valid && specSourceValidation.errors.length > 0
+      ? [{ type: "invalid_specification_source", message: `Specification source is invalid: ${specSourceValidation.errors.join("; ")}` }]
+      : []),
     ...(collaborationState.profile === "collaborative" && collaborationState.large_scale_validation?.status !== "passed"
       ? [{
           type: "large_collaboration_validation_pending",
@@ -173,7 +226,7 @@ export async function buildStatus(target, options = {}) {
   ];
 
   return {
-    schema_version: "temple.status/v4",
+    schema_version: "temple.status/v5",
     project: { id: project.id, name: project.name },
     template_version: lock.template.version,
     agents: agentsDocument.agents.map((agent) => ({ id: agent.id, display_name: agent.display_name, active: agent.active !== false })),
@@ -188,6 +241,15 @@ export async function buildStatus(target, options = {}) {
       skills: pack.skills ?? []
     })),
     learning: summarizeLearningIndex(learningIndex),
+    specifications: {
+      ...summarizeSpecIndex(specIndex),
+      installed: specIndexInstalled,
+      valid: specIndexInstalled && specIndexValidation.valid,
+      errors: specIndexValidation.errors,
+      warnings: specIndexValidation.warnings,
+      sources_valid: specIndexInstalled && specSourceValidation.valid,
+      source_errors: specSourceValidation.errors
+    },
     context_routing: {
       routes: contextMap.routes?.length ?? 0,
       active_routes: (contextMap.routes ?? []).filter((route) => route.status === "active").length,
@@ -226,6 +288,7 @@ export function renderStatusMarkdown(status) {
     `- Repository capabilities: ${status.capabilities.available} available, ${status.capabilities.invalid} invalid`,
     `- Context routes: ${status.context_routing.active_routes} active (${status.context_routing.provider_id}, semantic=${status.context_routing.semantic})`,
     `- Engineering learning: ${status.learning.lessons} Lessons, ${status.learning.practices} Practices`,
+    `- Specifications: ${status.specifications.total_entries} indexed, ${status.specifications.approved_entries} approved (${status.specifications.adoption_profile})`,
     `- Attention signals: ${status.attention.length}`,
     "",
     "## Collaboration",
@@ -246,12 +309,12 @@ export function renderStatusMarkdown(status) {
     lines.push("No work items yet.");
   } else {
     lines.push(
-      "| ID | Title | State | Owner | Agent | Parallel | Claim | Revision | Tasks | Evidence | Unresolved |",
-      "|---|---|---|---|---|---|---|---|---:|---:|---:|"
+      "| ID | Title | State | Owner | Agent | Parallel | Spec mode | UI | Specs | Stale | Unapproved | Claim | Revision | Tasks | Evidence | Unresolved |",
+      "|---|---|---|---|---|---|---|---|---:|---:|---:|---|---|---:|---:|---:|"
     );
     for (const item of status.work_items.items) {
       lines.push(
-        `| ${item.id} | ${markdown(item.title)} | ${item.state} | ${markdown(item.owner_name)} | ${markdown(item.assigned_agent_name)} | ${item.parallel_mode} | ${item.active_claim ? markdown(item.active_claim.id) : "—"} | \`${shortRevision(item.latest_revision)}\` | ${item.task_count} | ${item.evidence_count} | ${item.unresolved_count} |`
+        `| ${item.id} | ${markdown(item.title)} | ${item.state} | ${markdown(item.owner_name)} | ${markdown(item.assigned_agent_name)} | ${item.parallel_mode} | ${markdown(item.specification_mode ?? "legacy")} | ${markdown(item.ui_delivery_mode ?? "undecided")} | ${item.specification_reference_count} | ${item.stale_specification_count} | ${item.unapproved_specification_count} | ${item.active_claim ? markdown(item.active_claim.id) : "—"} | \`${shortRevision(item.latest_revision)}\` | ${item.task_count} | ${item.evidence_count} | ${item.unresolved_count} |`
       );
     }
   }
@@ -276,6 +339,20 @@ export function renderStatusMarkdown(status) {
   else for (const signal of status.attention) lines.push(`- ${signal.message}`);
 
   lines.push(
+    "",
+    "## Product specifications",
+    "",
+    `- Adoption profile: \`${status.specifications.adoption_profile}\``,
+    `- Delivery method: \`${status.specifications.delivery_method}\``,
+    `- Indexed: ${status.specifications.total_entries}`,
+    `- Approved: ${status.specifications.approved_entries}`,
+    `- Registry installed: ${status.specifications.installed ? "yes" : "no"}`,
+    `- Registry valid: ${status.specifications.valid ? "yes" : "no"}`,
+    `- Repository sources valid: ${status.specifications.sources_valid ? "yes" : "no"}`,
+    `- External authorities: ${status.specifications.by_authority.authoritative_external}`,
+    `- Derived projections: ${status.specifications.by_authority.derived_projection}`,
+    `- Legacy unverified: ${status.specifications.by_authority.legacy_unverified}`,
+    `- Registry: \`${SPEC_INDEX_RELATIVE_PATH}\``,
     "",
     "## Progressive context routing",
     "",

@@ -46,7 +46,7 @@ function shellQuote(value) {
 test("version is available without dependencies", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /^0\.1\.0-alpha\.13/m);
+  assert.match(result.stdout, /^0\.1\.0-alpha\.14/m);
 });
 
 test("dry-run writes nothing", async (context) => {
@@ -101,7 +101,16 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
   assert.equal(lock.boundaries.ownership_precedence, "exact managed_files entry, otherwise project-owned");
   assert.ok(!("managed" in lock.boundaries));
   assert.equal(lock.capabilities.engineering_learning, true);
+  assert.equal(lock.capabilities.product_specifications, true);
+  assert.equal(lock.capabilities.external_spec_sources, true);
+  assert.equal(lock.capabilities.work_item_spec_refs, true);
+  assert.equal(lock.capabilities.work_item_specification_modes, true);
+  assert.equal(lock.capabilities.specification_source_integrity, true);
+  assert.equal(lock.capabilities.ui_delivery_mode_overrides, true);
+  assert.equal(lock.capabilities.ui_evidence_gates, true);
+  assert.equal(lock.capabilities.iterative_delivery_contract, true);
   assert.ok(!lock.managed_files.some((entry) => entry.path === ".ai-org/learning/index.json"));
+  assert.ok(!lock.managed_files.some((entry) => entry.path === ".ai-org/project/spec-index.json"));
 
   const agents = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/agents.json"), "utf8"));
   assert.equal(agents.agents.length, 5);
@@ -110,6 +119,10 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
   assert.deepEqual(tasks.tasks, []);
   const learning = JSON.parse(await fs.readFile(path.join(target, ".ai-org/learning/index.json"), "utf8"));
   assert.deepEqual(learning.entries, []);
+  const specIndexPath = path.join(target, ".ai-org/project/spec-index.json");
+  const specIndex = JSON.parse(await fs.readFile(specIndexPath, "utf8"));
+  assert.equal(specIndex.adoption_profile, "hybrid");
+  assert.deepEqual(specIndex.entries, []);
 
   const doctor = run(["doctor", target, "--json"]);
   assert.equal(doctor.status, 0, doctor.stderr || doctor.stdout);
@@ -118,17 +131,21 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
   const status = run(["status", target, "--json"]);
   assert.equal(status.status, 0, status.stderr);
   assert.equal(JSON.parse(status.stdout).assignments.length, 10);
-  assert.equal(JSON.parse(status.stdout).schema_version, "temple.status/v4");
+  assert.equal(JSON.parse(status.stdout).schema_version, "temple.status/v5");
   assert.equal(JSON.parse(status.stdout).learning.total, 0);
+  assert.equal(JSON.parse(status.stdout).specifications.total_entries, 0);
   const statusView = await fs.readFile(path.join(target, ".ai-org/views/status.md"), "utf8");
   assert.match(statusView, /^# Sample Product — AI development organization status/m);
   assert.match(statusView, /Independent QA/);
   assert.doesNotMatch(statusView, /Temple status/);
   assert.match(statusView, /Engineering learning: 0 Lessons, 0 Practices/);
 
+  specIndex.adoption_profile = "temple-native";
+  await fs.writeFile(specIndexPath, `${JSON.stringify(specIndex, null, 2)}\n`);
   const secondInit = run(["init", target, "--config", configPath]);
   assert.equal(secondInit.status, 0, secondInit.stderr || secondInit.stdout);
   assert.match(secondInit.stdout, /skip-identical/);
+  assert.deepEqual(JSON.parse(await fs.readFile(specIndexPath, "utf8")), specIndex);
 });
 
 test("engineering learning is indexed, observable, project-owned, and consistency-checked", async (context) => {
@@ -225,8 +242,10 @@ test("upgrade adds a missing project-owned learning index without managing it", 
   assert.equal(run(["init", target, "--config", configPath]).status, 0);
 
   const indexPath = path.join(target, ".ai-org/learning/index.json");
+  const specIndexPath = path.join(target, ".ai-org/project/spec-index.json");
   const lockPath = path.join(target, "temple.lock");
   await fs.rm(indexPath);
+  await fs.rm(specIndexPath);
   const lock = JSON.parse(await fs.readFile(lockPath, "utf8"));
   lock.template.version = "0.1.0-alpha.10";
   delete lock.capabilities.engineering_learning;
@@ -235,16 +254,50 @@ test("upgrade adds a missing project-owned learning index without managing it", 
   const dryRun = run(["upgrade", target, "--dry-run"]);
   assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
   assert.match(dryRun.stdout, /create-learning-index: 1/);
+  assert.match(dryRun.stdout, /create-spec-index: 1/);
   const upgraded = run(["upgrade", target]);
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   assert.deepEqual(JSON.parse(await fs.readFile(indexPath, "utf8")), {
     schema_version: "ai-org.learning-index/v1",
     entries: []
   });
+  assert.deepEqual(JSON.parse(await fs.readFile(specIndexPath, "utf8")), {
+    schema_version: "temple.spec-index/v1",
+    adoption_profile: "hybrid",
+    delivery_method: "contract-guided-iterative",
+    entries: []
+  });
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.13");
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.14");
   assert.equal(upgradedLock.capabilities.engineering_learning, true);
   assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/learning/index.json"));
+  assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/project/spec-index.json"));
+});
+
+test("upgrade preserves an existing project-owned specification index byte-for-byte", async (context) => {
+  const { temporaryRoot, target, configPath } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  assert.equal(run(["init", target, "--config", configPath]).status, 0);
+  const specIndexPath = path.join(target, ".ai-org/project/spec-index.json");
+  const customIndex = `{
+    "schema_version": "temple.spec-index/v1",
+    "adoption_profile": "federated",
+    "delivery_method": "contract-guided-iterative",
+    "entries": []
+  }\n`;
+  await fs.writeFile(specIndexPath, customIndex);
+  const lockPath = path.join(target, "temple.lock");
+  const lock = JSON.parse(await fs.readFile(lockPath, "utf8"));
+  lock.template.version = "0.1.0-alpha.13";
+  delete lock.capabilities.product_specifications;
+  await fs.writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
+
+  const upgraded = run(["upgrade", target]);
+  assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
+  assert.equal(await fs.readFile(specIndexPath, "utf8"), customIndex);
+  const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
+  assert.equal(upgradedLock.capabilities.product_specifications, true);
+  assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/project/spec-index.json"));
 });
 
 test("upgrade assigns the new UI Designer Position to the existing UX Designer Identity", async (context) => {

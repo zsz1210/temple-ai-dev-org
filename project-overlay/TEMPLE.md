@@ -4,7 +4,7 @@ This repository's AI development organization separates responsibility from iden
 
 Before acting:
 
-1. Read `.ai-org/project/project.json`, `agents.json`, `assignments.json`, and `collaboration.json`.
+1. Read `.ai-org/project/project.json`, `agents.json`, `assignments.json`, `collaboration.json`, and `spec-index.json`.
 2. Identify the Position you are acting as and the durable work item ID.
 3. Preview the bounded route with `temple context resolve . --work-item <work-item-id> --position <position> --no-write --json`.
 4. Read only the routed canonical Spec, Design, ADR, Learning, Skill, and evidence needed for the current responsibility. Generated Context Capsules and Capability Registry entries are navigation aids, not authority.
@@ -31,6 +31,12 @@ temple work-item create → configure/readiness → claim → handoff → transi
 
 Each transition must carry named gate evidence. `temple status` projects work items, assigned Agents, revisions, task status, context-routing and capability counts, installed optional Skill packs, attention signals, recent events, and archive readiness. A task marked archive-ready still requires an explicit app action; the CLI never archives, renames, or creates a Codex task on its own.
 
+## Product specification authority
+
+Treat `.ai-org/project/spec-index.json` as the project-owned registry of governing product, UX, UI, API, and technical-design documents. It points to repository or external sources and records their authority, approval, and revision; it does not replace the documents. A generated or local projection of an external source is never equal authority. An `indexed` Work Item pins at least one approved current product entry before Design; a lightweight `gate-evidence` item instead relies on named approved-scope and acceptance evidence and cannot claim indexed product-scope revision protection. Supporting indexed UX, UI, API, or technical contracts may still govern their declared subjects. Approved repository-native entries pin a source SHA-256. When a governing revision or content digest changes, reconcile the source and intentionally repin affected Work Items rather than silently accepting stale scope.
+
+Use `contract_refs` for governed API or technical-design specification IDs and revisions. Use `shared_contract_refs` only to coordinate shared implementation surfaces in parallel work; those paths do not establish product authority.
+
 ## Context routing and parallel work
 
 Keep `.ai-org/project/context-map.json` concise and project-owned. It points to canonical files; it does not copy them. Use `temple capability find` when a reusable method may apply, but selecting a Skill never expands the request's authorization. Record planned write scope through work-item `affected_paths`. When context resolution reports overlap with another non-terminal item, coordinate the work before changing shared paths.
@@ -54,4 +60,4 @@ When the authorized scope describes a pilot, example, proof, or template validat
 
 Use the repository-local `$temple-work` Skill only for authorized lifecycle mutations, `$decision-interview` for an open decision (including its evidence-backed mode when repository facts constrain the choice), `$domain-modeling` when shared terminology or domain boundaries are unclear, `$project-documentation` when human-facing documentation must be grounded in repository evidence, and `$skill-authoring` when a repeated project procedure should become a governed repository-local Skill.
 
-For user-interface work, UI Designer owns visual direction and selects `code-first`, `preview-first`, or `design-led` from `.ai-org/core/ui-design.json`. Use `.ai-org/templates/ui-design-brief.md` to record the work-item-specific choice, tool, states, provenance, and visual evidence. No mode removes runtime visual review.
+Record `not-applicable` for work with no user-facing interface and attach no `ui_refs`. For user-interface work, UI Designer owns visual direction and selects `code-first`, `preview-first`, or `design-led` from `.ai-org/core/ui-design.json`. The choice must be explicit before Build. Record the mode on the Work Item and use `.ai-org/templates/ui-design-brief.md` for its rationale, selected medium, states, provenance, and visual evidence. Figma is only one possible medium; code-first permits the responsible AI to propose the first executable UI. Preview-first and design-led pin an approved `ui_ref`; prebuild and `go` closeout require the evidence named by the selected policy mode, and no interface mode removes runtime visual review.

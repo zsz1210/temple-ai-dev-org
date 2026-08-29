@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.1.0-alpha.14
+
+- Added a project-owned specification index for product charters, requirements, Feature Specs, UX flows, UI contracts, API contracts, and technical designs, with explicit repository, external, derived, and unresolved legacy authority.
+- Added revisioned `spec_refs`, `ux_refs`, `ui_refs`, and `contract_refs` plus Work Item `ui_delivery_mode`; approved current contracts are required at their lifecycle boundaries and stale references block later delivery until intentionally repinned.
+- Added four explicit UI outcomes: `not-applicable`, code-first, preview-first, and design-led. Figma remains optional, while preview-first and design-led require an approved UI contract reference and every interface mode retains runtime review.
+- Added contract-guided iterative product-specification guidance, enterprise federated/hybrid/Temple-native adoption, migrate-on-touch rules, tool-neutral UI interaction contracts, managed starting templates, and ADR-0019.
+- Extended init, upgrade, doctor, status v5, Context Capsules, managed capabilities, repository checks, and end-to-end tests while keeping the specification index project-owned and external verification offline.
+
+## 0.1.0-alpha.13
+
+- Added selectable Solo and Collaborative profiles while reserving High-Assurance for later validation.
+- Added Human Principals, Agent sponsorship, Position Membership pools, technical Disciplines, and Principal-backed Work Item claims without changing Position authority or default Assignments.
+- Added collision-resistant Collaborative Work Item IDs, parent and dependency relationships, shared-contract and integration fields, deterministic parallel-readiness checks, and affected-path conflict handling.
+- Extended init, upgrade, doctor, status v4, templates, schemas, documentation, and tests, while retaining large multi-human and multi-machine validation as explicitly `not_run`.
+
 ## 0.1.0-alpha.12
 
 - Added Progressive Context Routing with a project-owned Context Map and generated work-item Context Capsules that route Agents to bounded canonical sources instead of treating chat or generated views as truth.

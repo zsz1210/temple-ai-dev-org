@@ -31,7 +31,7 @@ Temple is not a shared-chat-memory system and not a collection of prompts. It is
 
 A Position defines responsibility and approval limits. An Agent Identity is the project-specific executor assigned to that Position. A Skill is a reusable method for performing a kind of work; it never grants additional authority or replaces an evidence gate.
 
-UI Designer is a formal Position, but Temple does not require every project to produce Figma designs first. The selected [UI delivery mode](docs/ui-design.md)—code-first, preview-first, or design-led—scales design artifacts and review evidence to risk.
+UI Designer is a formal Position when interface scope exists, but Temple does not require every project to produce Figma designs first. A Work Item can record no UI, let its responsible AI begin code-first, use a preview, or follow an approved design source; the selected [UI delivery mode](docs/ui-design.md) scales evidence to risk.
 
 ## Getting started
 
@@ -65,6 +65,7 @@ temple work-item create . \
   --title "Ship one bounded outcome" \
   --scope "One verified user flow" \
   --acceptance "Independent QA verifies the candidate revision" \
+  --ui-mode code-first \
   --affected-path "src/verified-flow/**"
 
 temple capability find . --query "verify one user flow"
@@ -101,10 +102,13 @@ Temple is installed into a project; the project is not forked from this reposito
 - [Vision and operating model](docs/vision.md) — framework layers, Positions, and lifecycle
 - [Architecture](docs/architecture.md) — identity, ownership, extension, and canonical-state boundaries
 - [Collaborative development model](docs/collaboration.md) — Human Principals, Position pools, task slicing, parallel readiness, claims, and diagrams
+- [Product specification system](docs/product-specifications.md) — product truth, revisioned Work Item references, and iterative delivery
+- [Enterprise document adoption](docs/enterprise-document-adoption.md) — preserve, bridge, or migrate existing document systems without dual authority
+- [UI interaction contracts](docs/ui-interaction-contracts.md) — connect interface behavior, design artifacts, implementation, and backend contracts
 - [Skill authoring guide](docs/skill-authoring.md) — project-owned Skill design and verification
 - [Engineering Learning Loop](docs/engineering-learning.md) — evidence, Lessons, Practices, retrieval, and promotion
 - [Progressive context routing](docs/context-routing.md) — Context Map, Capability Registry, Context Capsules, affected-path overlap, and future Retrieval Providers
-- [UI design modes](docs/ui-design.md) — UI ownership, code-first, preview-first, design-led, and tool policy
+- [UI design modes](docs/ui-design.md) — no-UI recording, code-first, preview-first, design-led, and tool policy
 - [Capability catalog](docs/capability-catalog.md) — shipped, optional, and candidate engineering methods
 - [Roadmap](docs/roadmap.md) — validated scope and planned work
 - [Architecture decisions](docs/adr/README.md) — design decisions and rationale

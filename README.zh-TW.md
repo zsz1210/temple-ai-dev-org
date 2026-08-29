@@ -31,7 +31,7 @@ Temple 不是共享聊天記憶的系統，也不是一組 prompt 的集合。�
 
 Position 定義責任與批准邊界；Agent Identity 是被指派到 Position、屬於專案自己的執行者；Skill 則是執行某類工作時可重複使用的方法。Skill 不會擴張權限，也不能取代 evidence gate。
 
-UI Designer 是正式 Position，但 Temple 不要求每個專案都先製作 Figma。專案選擇的 [UI delivery mode（英文）](docs/ui-design.md)——code-first、preview-first 或 design-led——會依風險調整設計產物與 review evidence。
+有介面範圍時，UI Designer 是正式 Position，但 Temple 不要求每個專案都先製作 Figma。Work Item 可以標示沒有 UI、由負責的 AI 直接 code-first、先做 preview，或依照核准的設計來源；選擇的 [UI delivery mode（英文）](docs/ui-design.md) 會依風險調整 evidence。
 
 ## 快速開始
 
@@ -65,6 +65,7 @@ temple work-item create . \
   --title "Ship one bounded outcome" \
   --scope "One verified user flow" \
   --acceptance "Independent QA verifies the candidate revision" \
+  --ui-mode code-first \
   --affected-path "src/verified-flow/**"
 
 temple capability find . --query "verify one user flow"
@@ -101,10 +102,13 @@ Temple 是安裝進專案，而不是要求專案 fork 這個 repository。開�
 - [願景與運作模型](docs/vision.md) — framework layer、Position 與 lifecycle
 - [架構](docs/architecture.md) — identity、ownership、extension 與 canonical-state 邊界
 - [協作開發模型](docs/collaboration.md) — Human Principal、Position pool、task slicing、parallel readiness、claim 與流程圖
+- [產品規格系統](docs/product-specifications.md) — product truth、帶版本的 Work Item reference 與 iterative delivery
+- [企業文件導入](docs/enterprise-document-adoption.md) — 在不產生雙重權威的前提下保留、橋接或遷移既有文件系統
+- [UI interaction contract](docs/ui-interaction-contracts.md) — 串接介面行為、設計產物、實作與後端契約
 - [Skill 撰寫指南](docs/skill-authoring.md) — project-owned Skill 的設計與驗證
 - [Engineering Learning Loop](docs/engineering-learning.md) — evidence、Lesson、Practice、檢索與晉升
 - [Progressive context routing](docs/context-routing.md) — Context Map、Capability Registry、Context Capsule、affected-path overlap 與未來的 Retrieval Provider
-- [UI design modes](docs/ui-design.md) — UI ownership、code-first、preview-first、design-led 與工具原則
+- [UI design modes](docs/ui-design.md) — 無 UI 記錄、code-first、preview-first、design-led 與工具原則
 - [能力目錄](docs/capability-catalog.md) — 已提供、選配與候選的 engineering method
 - [Roadmap](docs/roadmap.md) — 已驗證範圍與後續規劃
 - [架構決策](docs/adr/README.md) — 設計決策與原因

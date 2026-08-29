@@ -18,6 +18,15 @@ import {
   suggestedTaskTitle,
   uniqueStrings
 } from "./project.mjs";
+import {
+  evaluateWorkItemSpecRefs,
+  readSpecIndex,
+  validateRepositorySpecSources,
+  validateSpecIndex
+} from "./specifications.mjs";
+
+const UI_DELIVERY_MODES = ["not-applicable", "code-first", "preview-first", "design-led"];
+const SPECIFICATION_MODES = ["gate-evidence", "indexed"];
 
 function workItemPath(target, workItemId) {
   if (!isWorkItemId(workItemId)) {
@@ -182,6 +191,149 @@ function mergeGateEvidence(item, additions) {
   return output;
 }
 
+function normalizeDocumentReferences(values) {
+  if (!Array.isArray(values)) return [];
+  return values.map((value) => {
+    if (!value || typeof value !== "object") {
+      return value;
+    }
+    return { id: String(value.id ?? "").trim(), revision: String(value.revision ?? "").trim() };
+  });
+}
+
+function mergeDocumentReferences(existing, updates, replace = false) {
+  const normalizedExisting = normalizeDocumentReferences(existing);
+  const normalizedUpdates = normalizeDocumentReferences(updates);
+  if (replace) return normalizedUpdates;
+  if (updates === undefined) return normalizedExisting;
+  const merged = [...normalizedExisting];
+  for (const update of normalizedUpdates) {
+    const existingIndex = merged.findIndex((reference) => reference?.id === update?.id);
+    if (existingIndex === -1) merged.push(update);
+    else merged[existingIndex] = update;
+  }
+  return merged;
+}
+
+function sameReferenceIds(left, right) {
+  const ids = (values) => (values ?? []).map((reference) => reference?.id).sort();
+  return JSON.stringify(ids(left)) === JSON.stringify(ids(right));
+}
+
+function assertGovernanceChangeAllowed(item, next) {
+  const specificationLocked = ["design", "build", "test", "eval", "independent_qa", "release_gate", "done"].includes(
+    item.state
+  );
+  if (specificationLocked) {
+    if (Object.hasOwn(item, "specification_mode") && next.specificationMode !== item.specification_mode) {
+      throw new Error(`Specification mode cannot change after entering ${item.state}; replan before changing governance`);
+    }
+    if (!sameReferenceIds(item.spec_refs ?? [], next.specRefs)) {
+      throw new Error(`Specification reference IDs cannot change after entering ${item.state}; only revision repinning is allowed`);
+    }
+  }
+
+  const interfaceContractsLocked = ["build", "test", "eval", "independent_qa", "release_gate", "done"].includes(item.state);
+  if (interfaceContractsLocked) {
+    if (Object.hasOwn(item, "ui_delivery_mode") && next.uiDeliveryMode !== item.ui_delivery_mode) {
+      throw new Error(`UI delivery mode cannot change after entering ${item.state}; replan before changing interface scope`);
+    }
+    for (const [label, current, updated] of [
+      ["UX", item.ux_refs ?? [], next.uxRefs],
+      ["UI", item.ui_refs ?? [], next.uiRefs],
+      ["contract", item.contract_refs ?? [], next.contractRefs]
+    ]) {
+      if (!sameReferenceIds(current, updated)) {
+        throw new Error(`${label} reference IDs cannot change after entering ${item.state}; only revision repinning is allowed`);
+      }
+    }
+  }
+}
+
+async function evaluateSpecificationReferences(target, item) {
+  const index = await readSpecIndex(target);
+  const projectContext = await loadProjectContext(target);
+  const indexValidation = validateSpecIndex(index, new Set(projectContext.positions.keys()));
+  if (!indexValidation.valid) throw new Error(`Invalid specification index: ${indexValidation.errors.join("; ")}`);
+  const referencedIds = ["spec_refs", "ux_refs", "ui_refs", "contract_refs"].flatMap((field) =>
+    (item[field] ?? []).map((reference) => reference?.id).filter(Boolean)
+  );
+  const sourceValidation = await validateRepositorySpecSources(target, index, referencedIds);
+  if (!sourceValidation.valid) {
+    throw new Error(`Invalid repository specification sources: ${sourceValidation.errors.join("; ")}`);
+  }
+  const evaluation = evaluateWorkItemSpecRefs(item, index);
+  if (!evaluation.valid) throw new Error(`Invalid specification references: ${evaluation.errors.join("; ")}`);
+  return { index, evaluation };
+}
+
+function assertUiDeliveryMode(mode, uiRefs) {
+  if (mode !== null && mode !== undefined && !UI_DELIVERY_MODES.includes(mode)) {
+    throw new Error(`UI delivery mode must be one of: ${UI_DELIVERY_MODES.join(", ")}`);
+  }
+  if (mode === "not-applicable" && (uiRefs ?? []).length > 0) {
+    throw new Error("UI delivery mode not-applicable cannot have ui_refs");
+  }
+  if ((mode === null || mode === undefined) && (uiRefs ?? []).length > 0) {
+    throw new Error("UI specification references require an explicit UI delivery mode");
+  }
+  if (["preview-first", "design-led"].includes(mode) && (uiRefs ?? []).length === 0) {
+    throw new Error(`UI delivery mode ${mode} requires at least one ui_ref`);
+  }
+}
+
+function assertSpecificationMode(mode, specRefs, requireReady = false) {
+  if (mode === undefined || mode === null) return;
+  if (!SPECIFICATION_MODES.includes(mode)) {
+    throw new Error(`Specification mode must be one of: ${SPECIFICATION_MODES.join(", ")}`);
+  }
+  if (mode === "gate-evidence" && (specRefs ?? []).length > 0) {
+    throw new Error("Specification mode gate-evidence cannot have spec_refs");
+  }
+  if (requireReady && mode === "indexed" && (specRefs ?? []).length === 0) {
+    throw new Error("Specification mode indexed requires at least one spec_ref before Design");
+  }
+}
+
+async function assertUiEvidence(target, item, gateEvidence, stage) {
+  const mode = item.ui_delivery_mode;
+  if (mode === null || mode === undefined || mode === "not-applicable") return;
+  const policy = await readJson(path.join(target, ".ai-org/core/ui-design.json"));
+  const contract = (policy.delivery_modes ?? []).find((entry) => entry.id === mode);
+  if (!contract) throw new Error(`UI delivery mode is not defined by policy: ${mode}`);
+  const requirements = stage === "prebuild" ? contract.prebuild_evidence ?? [] : contract.minimum_evidence ?? [];
+  const missing = requirements.filter((requirement) => !(gateEvidence[requirement]?.length > 0));
+  if (missing.length > 0) {
+    throw new Error(`${stage === "prebuild" ? "Build" : "Close"} requires UI evidence for ${mode}: ${missing.join(", ")}`);
+  }
+}
+
+async function assertCurrentSpecificationReferences(target, item, action) {
+  const { index, evaluation } = await evaluateSpecificationReferences(target, item);
+  if (evaluation.stale_count > 0) {
+    throw new Error(`${action} requires current specification revisions: ${evaluation.warnings.join("; ")}`);
+  }
+  return { index, evaluation };
+}
+
+function assertApprovedSpecificationReferences(evaluation, fields, action) {
+  const unapproved = evaluation.resolved_refs.filter(
+    (reference) => fields.includes(reference.field) && !reference.approved
+  );
+  if (unapproved.length > 0) {
+    throw new Error(`${action} requires approved referenced contracts: ${unapproved.map((entry) => entry.id).join(", ")}`);
+  }
+}
+
+function assertApprovalsForState(evaluation, state, action) {
+  if (["design", "build", "test", "eval", "independent_qa", "release_gate", "done"].includes(state)) {
+    assertApprovedSpecificationReferences(evaluation, ["spec_refs"], action);
+  }
+  if (["build", "test", "eval", "independent_qa", "release_gate", "done"].includes(state)) {
+    assertApprovedSpecificationReferences(evaluation, ["ux_refs", "ui_refs", "contract_refs"], action);
+  }
+}
+
 export async function createWorkItem(target, options) {
   const context = await loadProjectContext(target);
   const collaboration = await readCollaborationState(target);
@@ -217,6 +369,14 @@ export async function createWorkItem(target, options) {
   }
   const integrationOwner = String(options.integrationOwnerAgentId ?? "").trim() || null;
   if (integrationOwner && !context.agents.has(integrationOwner)) throw new Error(`Unknown integration owner: ${integrationOwner}`);
+  const specRefs = normalizeDocumentReferences(options.specRefs);
+  const uxRefs = normalizeDocumentReferences(options.uxRefs);
+  const uiRefs = normalizeDocumentReferences(options.uiRefs);
+  const contractRefs = normalizeDocumentReferences(options.contractRefs);
+  const specificationMode = options.specificationMode ?? (specRefs.length > 0 ? "indexed" : "gate-evidence");
+  assertSpecificationMode(specificationMode, specRefs);
+  const uiDeliveryMode = options.uiDeliveryMode === undefined ? null : options.uiDeliveryMode;
+  assertUiDeliveryMode(uiDeliveryMode, uiRefs);
 
   const workItemId = await newWorkItemId(target, collaboration.profile);
   const state = context.workflow.initial_state;
@@ -238,6 +398,12 @@ export async function createWorkItem(target, options) {
     acceptance_criteria: uniqueStrings(options.acceptance),
     affected_paths: affectedPaths,
     context_refs: contextRefs,
+    spec_refs: specRefs,
+    ux_refs: uxRefs,
+    ui_refs: uiRefs,
+    contract_refs: contractRefs,
+    specification_mode: specificationMode,
+    ui_delivery_mode: uiDeliveryMode,
     parent_work_item_id: parentWorkItemId,
     dependencies,
     required_disciplines: requiredDisciplines,
@@ -255,6 +421,8 @@ export async function createWorkItem(target, options) {
     unresolved: uniqueStrings(options.unresolved),
     next_position: nextPositionForState(context, state)
   };
+
+  await evaluateSpecificationReferences(target, item);
 
   await writeWorkItem(target, item);
   await appendEvent(target, {
@@ -304,6 +472,12 @@ export async function evaluateParallelReadiness(target, workItemId, options = {}
       return shared.length ? [{ work_item_id: candidate.id, paths: shared }] : [];
     });
   const agentId = options.agentId ?? item.claim?.agent_id ?? item.planned_agent_id ?? item.assigned_agent_id;
+  const { evaluation: specificationEvaluation } = await evaluateSpecificationReferences(target, item);
+  const specificationModeValid =
+    item.specification_mode === undefined ||
+    (SPECIFICATION_MODES.includes(item.specification_mode) &&
+      !(item.specification_mode === "gate-evidence" && (item.spec_refs ?? []).length > 0) &&
+      !(item.specification_mode === "indexed" && (item.spec_refs ?? []).length === 0));
   const checks = [
     { id: "scope_defined", pass: (item.scope ?? []).length > 0 },
     { id: "acceptance_defined", pass: (item.acceptance_criteria ?? []).length > 0 },
@@ -326,6 +500,15 @@ export async function evaluateParallelReadiness(target, workItemId, options = {}
     { id: "integration_owner_assigned", pass: Boolean(item.integration_owner_agent_id) },
     { id: "unresolved_items_cleared", pass: (item.unresolved ?? []).length === 0 },
     {
+      id: "specification_references_current",
+      pass: specificationEvaluation.valid && specificationEvaluation.stale_count === 0
+    },
+    { id: "specification_contract_ready", pass: specificationModeValid },
+    {
+      id: "specification_references_approved",
+      pass: specificationEvaluation.valid && specificationEvaluation.unapproved_count === 0
+    },
+    {
       id: "agent_membership_eligible",
       pass: Boolean(agentId) && agentIsEligible(collaboration, agentId, item.owner_position, item.required_disciplines ?? [])
     }
@@ -333,7 +516,15 @@ export async function evaluateParallelReadiness(target, workItemId, options = {}
   const blocked = checks.some(
     (check) =>
       !check.pass &&
-      ["dependencies_resolved", "dependency_graph_acyclic", "shared_contract_stable", "unresolved_items_cleared"].includes(check.id)
+      [
+        "dependencies_resolved",
+        "dependency_graph_acyclic",
+        "shared_contract_stable",
+        "unresolved_items_cleared",
+        "specification_contract_ready",
+        "specification_references_current",
+        "specification_references_approved"
+      ].includes(check.id)
   );
   const ready = checks.every((check) => check.pass);
   return {
@@ -344,7 +535,8 @@ export async function evaluateParallelReadiness(target, workItemId, options = {}
     recommended_mode: ready ? "parallel" : blocked ? "blocked" : "sequential",
     agent_id: agentId ?? null,
     checks,
-    overlaps
+    overlaps,
+    specification_references: specificationEvaluation
   };
 }
 
@@ -373,6 +565,33 @@ export async function configureWorkItem(target, options) {
   const plannedAgent =
     options.agentId === undefined ? item.planned_agent_id ?? null : String(options.agentId).trim() || null;
   if (plannedAgent && !context.agents.has(plannedAgent)) throw new Error(`Unknown planned Agent Identity: ${plannedAgent}`);
+  const specRefs = mergeDocumentReferences(item.spec_refs ?? [], options.specRefs, options.replaceSpecRefs === true);
+  const uxRefs = mergeDocumentReferences(item.ux_refs ?? [], options.uxRefs, options.replaceUxRefs === true);
+  const uiRefs = mergeDocumentReferences(item.ui_refs ?? [], options.uiRefs, options.replaceUiRefs === true);
+  const contractRefs = mergeDocumentReferences(
+    item.contract_refs ?? [],
+    options.contractRefs,
+    options.replaceContractRefs === true
+  );
+  const specificationMode =
+    options.specificationMode ??
+    (options.specRefs !== undefined && specRefs.length > 0 ? "indexed" : item.specification_mode ?? "gate-evidence");
+  assertSpecificationMode(specificationMode, specRefs);
+  const uiDeliveryMode =
+    options.uiDeliveryMode === undefined
+      ? Object.hasOwn(item, "ui_delivery_mode")
+        ? item.ui_delivery_mode
+        : undefined
+      : options.uiDeliveryMode;
+  assertUiDeliveryMode(uiDeliveryMode, uiRefs);
+  assertGovernanceChangeAllowed(item, {
+    specificationMode,
+    specRefs,
+    uxRefs,
+    uiRefs,
+    contractRefs,
+    uiDeliveryMode
+  });
   const timestamp = new Date().toISOString();
   const updated = {
     ...item,
@@ -388,8 +607,23 @@ export async function configureWorkItem(target, options) {
       options.sharedContractRefs === undefined ? item.shared_contract_refs ?? [] : uniqueStrings(options.sharedContractRefs),
     contract_status: contractStatus,
     overlap_resolution:
-      options.overlapResolution === undefined ? item.overlap_resolution ?? [] : uniqueStrings(options.overlapResolution)
+      options.overlapResolution === undefined ? item.overlap_resolution ?? [] : uniqueStrings(options.overlapResolution),
+    spec_refs: specRefs,
+    ux_refs: uxRefs,
+    ui_refs: uiRefs,
+    contract_refs: contractRefs,
+    specification_mode: specificationMode,
+    ...(uiDeliveryMode === undefined ? {} : { ui_delivery_mode: uiDeliveryMode })
   };
+  const specificationState = await evaluateSpecificationReferences(target, updated);
+  if (!["intake", "spec", "blocked", "cancelled"].includes(item.state)) {
+    if (specificationState.evaluation.stale_count > 0) {
+      throw new Error(
+        `Configuring ${item.id} requires current specification revisions: ${specificationState.evaluation.warnings.join("; ")}`
+      );
+    }
+    assertApprovalsForState(specificationState.evaluation, item.state, `Configuring ${item.id}`);
+  }
   const dependencyItems = new Map((await listWorkItemDocuments(target)).map((candidate) => [candidate.id, candidate]));
   dependencyItems.set(item.id, updated);
   if (dependencyCycleFrom(item.id, dependencyItems)) throw new Error(`Dependency cycle detected from ${item.id}`);
@@ -430,6 +664,17 @@ export async function claimWorkItem(target, options) {
     throw new Error(`${agentId} is not eligible for ${item.owner_position} with disciplines ${(item.required_disciplines ?? []).join(", ") || "none"}`);
   }
   if (item.claim?.status === "active") throw new Error(`${item.id} is already claimed by ${item.claim.agent_id}`);
+  if (!["intake", "spec"].includes(item.state)) {
+    assertSpecificationMode(item.specification_mode, item.spec_refs ?? [], true);
+    if (["build", "test", "eval", "independent_qa", "release_gate", "done"].includes(item.state)) {
+      if (Object.hasOwn(item, "ui_delivery_mode") && (item.ui_delivery_mode === null || item.ui_delivery_mode === undefined)) {
+        throw new Error("An explicit UI delivery mode is required before claiming Build or later work");
+      }
+      assertUiDeliveryMode(item.ui_delivery_mode, item.ui_refs ?? []);
+    }
+    const specificationState = await assertCurrentSpecificationReferences(target, item, `Claiming ${item.id}`);
+    assertApprovalsForState(specificationState.evaluation, item.state, `Claiming ${item.id}`);
+  }
   const expectedPrincipal = sponsoredPrincipal(collaboration, agentId);
   const principalId = String(options.principalId ?? expectedPrincipal ?? "human").trim();
   if (collaboration.profile === "collaborative" && !expectedPrincipal) throw new Error(`${agentId} has no Human Principal sponsor`);
@@ -539,6 +784,33 @@ export async function transitionWorkItem(target, options) {
   const toState = String(options.toState ?? "").trim();
   if (!context.states.has(toState)) throw new Error(`Unknown workflow state: ${toState || "missing"}`);
   const transition = parseTransition(context, item, toState);
+  if (["design", "build", "test", "eval", "independent_qa", "release_gate", "done"].includes(toState)) {
+    assertSpecificationMode(item.specification_mode, item.spec_refs ?? [], true);
+  }
+  if (["build", "test", "eval", "independent_qa", "release_gate", "done"].includes(toState)) {
+    if (Object.hasOwn(item, "ui_delivery_mode") && (item.ui_delivery_mode === null || item.ui_delivery_mode === undefined)) {
+      throw new Error("An explicit UI delivery mode is required before Build; use not-applicable when there is no interface change");
+    }
+    assertUiDeliveryMode(item.ui_delivery_mode, item.ui_refs ?? []);
+  }
+  let specificationState = null;
+  if (!["intake", "spec", "blocked", "cancelled"].includes(toState)) {
+    specificationState = await assertCurrentSpecificationReferences(target, item, `Transition ${item.state} -> ${toState}`);
+  }
+  if (specificationState && ["design", "build", "test", "eval", "independent_qa", "release_gate", "done"].includes(toState)) {
+    assertApprovedSpecificationReferences(
+      specificationState.evaluation,
+      ["spec_refs"],
+      `Transition ${item.state} -> ${toState}`
+    );
+  }
+  if (specificationState && ["build", "test", "eval", "independent_qa", "release_gate", "done"].includes(toState)) {
+    assertApprovedSpecificationReferences(
+      specificationState.evaluation,
+      ["ux_refs", "ui_refs", "contract_refs"],
+      `Transition ${item.state} -> ${toState}`
+    );
+  }
   const actor = resolveActor(
     context,
     item.owner_position,
@@ -547,6 +819,7 @@ export async function transitionWorkItem(target, options) {
   );
   const additions = normalizeSatisfiedRequirements(options.satisfied);
   const mergedGates = mergeGateEvidence(item, additions);
+  if (toState === "build") await assertUiEvidence(target, item, mergedGates, "prebuild");
   const missing = (transition.requires ?? []).filter((requirement) => !(mergedGates[requirement]?.length > 0));
   if (missing.length > 0) {
     throw new Error(
@@ -711,6 +984,19 @@ export async function closeWorkItem(target, options) {
   const item = await readWorkItem(target, options.workItemId);
   if (item.state !== "release_gate") throw new Error(`temple close requires release_gate; ${item.id} is ${item.state}`);
   if (!["go", "no-go"].includes(options.decision)) throw new Error("--decision must be go or no-go");
+  if (options.decision === "go") {
+    assertSpecificationMode(item.specification_mode, item.spec_refs ?? [], true);
+    if (Object.hasOwn(item, "ui_delivery_mode") && (item.ui_delivery_mode === null || item.ui_delivery_mode === undefined)) {
+      throw new Error("An explicit UI delivery mode is required before go closeout");
+    }
+    assertUiDeliveryMode(item.ui_delivery_mode, item.ui_refs ?? []);
+    const specificationState = await assertCurrentSpecificationReferences(target, item, `Close ${item.id}`);
+    assertApprovedSpecificationReferences(
+      specificationState.evaluation,
+      ["spec_refs", "ux_refs", "ui_refs", "contract_refs"],
+      `Close ${item.id}`
+    );
+  }
   if (!String(options.testedRevision ?? "").trim()) throw new Error("--tested-revision is required");
   if (!String(options.approval ?? "").trim()) throw new Error("--approval is required (use not-required only when policy permits)");
   if (uniqueStrings(options.rollback).length === 0) throw new Error("At least one --rollback value is required");
@@ -721,6 +1007,7 @@ export async function closeWorkItem(target, options) {
   const actor = resolveActor(context, "release_manager", options.actor);
   const satisfied = normalizeSatisfiedRequirements(options.satisfied);
   const gateEvidence = mergeGateEvidence(item, satisfied);
+  if (options.decision === "go") await assertUiEvidence(target, item, gateEvidence, "close");
   const required = (context.policies.release_gate?.requires ?? []).filter((requirement) => requirement !== "rollback_plan");
   const missing = required.filter((requirement) => !(gateEvidence[requirement]?.length > 0));
   if (missing.length > 0) {

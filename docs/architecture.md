@@ -41,7 +41,7 @@ This boundary allows safe central framework upgrades while making installed cont
 | Type | Path | Ownership | Upgrade rule |
 |---|---|---|---|
 | Managed | Exact files listed in `temple.lock.managed_files`, drawn from `.ai-org/core/**`, `.ai-org/templates/**`, core or installed-pack `.agents/skills/**`, `.codex/agents/**`, and `TEMPLE.md` | Central framework | Update only when the locked checksum matches the installed file |
-| Project-owned | Every unlisted file, including repository-local `.agents/skills/**`; `.ai-org/project/**` including `context-map.json`, learning records and index, work items, decisions, events, artifacts, and root `AGENTS.md` | Project | Never overwritten or silently adopted by init, pack install, or upgrade |
+| Project-owned | Every unlisted file, including repository-local `.agents/skills/**`; `.ai-org/project/**` including `spec-index.json`, `context-map.json`, learning records and index, work items, decisions, events, artifacts, and root `AGENTS.md` | Project | Never overwritten or silently adopted by init, pack install, or upgrade |
 | Generated | `.ai-org/views/**`, including status, Capability Registry, and work-item Context Capsules | CLI/Observer | Rebuildable from canonical state |
 
 `temple.lock` records the framework version, exact managed-file checksums, installed optional packs, feature states, and `AGENTS.md` integration state. Directory prefixes are allowed source roots, not ownership claims. An untracked collision stops before writing even when its contents match the proposed managed file. See [ADR-0013](adr/0013-governed-skill-extensions.md).
@@ -55,6 +55,7 @@ Phase 1 uses Git-friendly JSON and Markdown:
 - `assignments.json`: mappings from Positions to Identities.
 - `collaboration.json`: selected profile, Human Principals, sponsorships, Position Memberships with Disciplines, and the large-scale validation status.
 - `tasks.json`: stable IDs, Positions, Agents, revisions, and states for Codex tasks and threads; it is not an app-control API.
+- `spec-index.json`: compact identity, authority, status, source, revision, approval, and relationship metadata for product, UX, UI, API, and technical specifications. It points to authoritative documents rather than copying their bodies.
 - `context-map.json`: compact project-owned routes to important Specs, ADRs, domain sources, runbooks, tests, and documentation; it contains paths and retrieval metadata, not copied source bodies.
 - `learning/index.json`: compact retrieval metadata for Lessons and Practices.
 - `learning/lessons/*.md` and `learning/practices/*.md`: full project evidence, applicability, guidance, and validation history.
@@ -67,6 +68,12 @@ Phase 1 uses Git-friendly JSON and Markdown:
 - `views/work-items/WI-####.json`: a generated bounded Context Capsule for one work item and Position.
 
 Conversations can recover context from these files; conversations themselves cannot override them.
+
+## Product specification and authority
+
+Temple uses contract-guided iterative delivery. An `indexed` Work Item pins at least one approved product-specification revision and may also pin the exact UX, UI, and implementation-contract revisions it depends on. A lightweight `gate-evidence` item instead relies on the lifecycle's named approved-scope and acceptance evidence and explicitly does not claim indexed product-scope governance; supporting indexed UX, UI, API, or technical contracts may still govern their declared subjects. `temple_native` records repository authority, `authoritative_external` preserves an existing business system as authority, `derived_projection` marks a local navigation copy that cannot govern delivery, and `legacy_unverified` keeps uncertain material visible without pretending it is approved.
+
+The specification index is an authority registry, while the Context Map is a retrieval index. Neither duplicates the source body. Work Item `contract_refs` pin governed API or technical-design entries by stable ID and revision; `shared_contract_refs` identify coordination surfaces used by parallel implementation and do not by themselves establish product authority. See [Product specification system](product-specifications.md), [Enterprise document adoption](enterprise-document-adoption.md), and [ADR-0019](adr/0019-product-specification-and-external-source-contracts.md).
 
 ## Progressive context routing
 
@@ -82,11 +89,11 @@ Validate initialization configuration, preview the file plan, reject managed con
 
 ### `temple doctor`
 
-Validate managed checksums, the JSON model, Position completeness, Agent-name uniqueness, collaboration profiles and memberships, active claims, Developer and Independent QA separation, active Context Map paths, work-item context references and affected paths, the Retrieval Provider contract, the Capability Registry, the learning index and record references, Skills, and `AGENTS.md` integration. Collaborative projects warn until the retained large-scale validation passes.
+Validate managed checksums, the JSON model, Position completeness, Agent-name uniqueness, collaboration profiles and memberships, active claims, Developer and Independent QA separation, the specification index and revisioned Work Item references, active Context Map paths, work-item context references and affected paths, the Retrieval Provider contract, the Capability Registry, the learning index and record references, Skills, and `AGENTS.md` integration. Collaborative projects warn until the retained large-scale validation passes.
 
 ### `temple status`
 
-Read canonical state and output the collaboration profile, Principal and membership counts, active claims, work items, the task registry, context-routing and capability counts, learning counts, revisions, attention signals, recent events, and archive readiness. It may update `.ai-org/views/status.md` and `.ai-org/views/capabilities.json`, but never turns a view back into a decision.
+Read canonical state and output the collaboration profile, Principal and membership counts, active claims, specification authority and status counts, stale Work Item references, the task registry, context-routing and capability counts, learning counts, revisions, attention signals, recent events, and archive readiness. It may update `.ai-org/views/status.md` and `.ai-org/views/capabilities.json`, but never turns a view back into a decision.
 
 ### Collaboration and parallel commands
 
@@ -99,11 +106,11 @@ Read canonical state and output the collaboration profile, Principal and members
 
 - `temple capability list/find` inventories repository Skills and retrieves likely methods. Project extensions remain unlisted in `temple.lock` and project-owned.
 - `temple context resolve` creates or previews a bounded Context Capsule for a work item. `--no-write` keeps the operation read-only; otherwise the output is a generated view.
-- `--affected-path` and `--context-ref` on work-item creation make coordination and explicit routing durable without copying document content into the work item.
+- `--spec-ref`, `--ux-ref`, `--ui-ref`, and `--contract-ref` pin governed specification IDs and revisions. `--affected-path` and `--context-ref` make coordination and explicit routing durable without copying document content into the work item.
 
 ### Lifecycle commands
 
-- `temple work-item create` allocates the next sequential Solo ID or a collision-resistant Collaborative ID.
+- `temple work-item create` allocates the next sequential Solo ID or a collision-resistant Collaborative ID and can record revisioned specification references plus a Work Item UI delivery mode.
 - `temple handoff` produces an evidence-backed handoff document.
 - `temple transition` allows only edges defined by the workflow, and every `requires` entry must have a named evidence reference.
 - `temple close` produces a release record and requires a caller-supplied tested revision reference, rollback plan, and approval record; it does not yet resolve that reference as a Git object or perform an external release.
@@ -123,9 +130,11 @@ Pack sources live in central `packs/<pack-id>/`, not `project-overlay/`. Core in
 
 Upgrade first validates every installed managed file against the old `temple.lock`. Only core and optional-pack managed files with unchanged checksums may be updated. A proposed new managed path must not already exist unless its exact path is already managed by the installed lock. Installed packs update their metadata and source; uninstalled packs are not enabled automatically. Project-owned files are never overwritten or silently adopted, and generated status may be rebuilt.
 
+Upgrade preserves an existing project-owned specification index. For older installations without one, it creates only an empty hybrid seed outside `temple.lock` so the project can adopt, bridge, or migrate existing documents deliberately.
+
 When upgrading an organization created before UI Designer existed, the migration preserves an existing active UI Designer Assignment. Otherwise it adds UI Designer to the single active UX Designer Agent Identity. Ambiguous or invalid Assignment state stops the upgrade before the migration writes.
 
-The managed `.ai-org/core/ui-design.json` defines code-first, preview-first, and design-led evidence requirements. The selected mode and tool are recorded in a project-owned UI design brief derived from `.ai-org/templates/ui-design-brief.md`; the tool itself is not a framework dependency.
+The managed `.ai-org/core/ui-design.json` defines `not-applicable`, code-first, preview-first, and design-led evidence requirements. The selected mode is recorded on the Work Item, while the rationale and evidence live in a project-owned UI design brief derived from `.ai-org/templates/ui-design-brief.md`. The tool itself is not a framework dependency. An approved UI interaction contract can map states and actions to design nodes, code surfaces, backend contracts, and runtime evidence without requiring Figma. See [UI interaction contracts](ui-interaction-contracts.md).
 
 ## Archify Adapter
 

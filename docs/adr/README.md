@@ -18,5 +18,6 @@
 - [ADR-0016: Own UI design explicitly and scale its artifacts by risk](0016-ui-design-position-and-delivery-modes.md)
 - [ADR-0017: Route bounded project context through generated views](0017-progressive-context-routing.md)
 - [ADR-0018: Collaborative Position pools and Work Item claims](0018-collaborative-position-pools-and-work-claims.md)
+- [ADR-0019: Product specifications and external source contracts](0019-product-specification-and-external-source-contracts.md)
 
 An ADR is an Architecture Decision Record. It preserves the context, decision, rationale, and consequences of an important technical or organizational choice so that later Agents do not have to infer why it was made from chat memory.

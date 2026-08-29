@@ -10,7 +10,8 @@
     "ready": { "type": "boolean" },
     "recommended_mode": { "enum": ["parallel", "sequential", "blocked"] },
     "checks": { "type": "array" },
-    "overlaps": { "type": "array" }
+    "overlaps": { "type": "array" },
+    "specification_references": { "type": "object" }
   },
   "additionalProperties": true
 }

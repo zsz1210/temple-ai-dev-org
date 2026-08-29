@@ -25,6 +25,7 @@ import {
 import { packSourcesForLock } from "./packs.mjs";
 import { CONTEXT_MAP_RELATIVE_PATH, ensureContextMap } from "./context.mjs";
 import { ensureLearningIndex, LEARNING_INDEX_RELATIVE_PATH } from "./learning.mjs";
+import { ensureSpecIndex, SPEC_INDEX_RELATIVE_PATH } from "./specifications.mjs";
 import { ensureTaskRegistry } from "./project.mjs";
 import {
   COLLABORATION_RELATIVE_PATH,
@@ -175,6 +176,11 @@ export async function planUpgrade(target) {
     type: hasContextMap ? "skip-context-map" : "create-context-map",
     path: CONTEXT_MAP_RELATIVE_PATH
   });
+  const hasSpecIndex = await pathExists(path.join(target, SPEC_INDEX_RELATIVE_PATH));
+  actions.push({
+    type: hasSpecIndex ? "skip-spec-index" : "create-spec-index",
+    path: SPEC_INDEX_RELATIVE_PATH
+  });
   const hasCollaboration = await pathExists(path.join(target, COLLABORATION_RELATIVE_PATH));
   actions.push({
     type: hasCollaboration ? "skip-collaboration-state" : "create-collaboration-state",
@@ -228,6 +234,14 @@ export async function planUpgrade(target) {
   const capabilityChanges =
     lock.capabilities?.engineering_learning !== true ||
     lock.capabilities?.ui_delivery_modes !== true ||
+    lock.capabilities?.product_specifications !== true ||
+    lock.capabilities?.external_spec_sources !== true ||
+    lock.capabilities?.work_item_spec_refs !== true ||
+    lock.capabilities?.work_item_specification_modes !== true ||
+    lock.capabilities?.specification_source_integrity !== true ||
+    lock.capabilities?.ui_delivery_mode_overrides !== true ||
+    lock.capabilities?.ui_evidence_gates !== true ||
+    lock.capabilities?.iterative_delivery_contract !== true ||
     lock.capabilities?.progressive_context_routing !== true ||
     lock.capabilities?.capability_registry !== true ||
     lock.capabilities?.retrieval_provider_contract !== true;
@@ -251,6 +265,7 @@ export async function planUpgrade(target) {
       hasTasks &&
       hasLearningIndex &&
       hasContextMap &&
+      hasSpecIndex &&
       hasCollaboration
         ? "skip-current-lock"
         : "update-lock",
@@ -319,6 +334,10 @@ export async function executeUpgrade(plan) {
     const contextMap = await ensureContextMap(plan.target);
     if (contextMap.created) {
       changes.push({ path: contextMap.path, before: null, afterHash: contextMap.afterHash });
+    }
+    const specIndex = await ensureSpecIndex(plan.target);
+    if (specIndex.created) {
+      changes.push({ path: specIndex.path, before: null, afterHash: specIndex.afterHash });
     }
     if (plan.assignmentMigration) {
       const assignmentsPath = path.join(plan.target, plan.assignmentMigration.path);
@@ -396,6 +415,14 @@ export async function executeUpgrade(plan) {
         task_registry: true,
         engineering_learning: true,
         ui_delivery_modes: true,
+        product_specifications: true,
+        external_spec_sources: true,
+        work_item_spec_refs: true,
+        work_item_specification_modes: true,
+        specification_source_integrity: true,
+        ui_delivery_mode_overrides: true,
+        ui_evidence_gates: true,
+        iterative_delivery_contract: true,
         progressive_context_routing: true,
         capability_registry: true,
         retrieval_provider_contract: true,

@@ -10,7 +10,9 @@ The Engineering Learning Loop is a cross-cutting track. Alpha.10 establishes pro
 
 The capability track begins with a small core, one opt-in Build Quality pack, project-owned Skills, and an alpha.12 generated Capability Registry that observes repository Skills without claiming extension ownership. Later work may add architecture, review, exploration, Git and improvement, and security packs only after bounded pilots. Richer pack manifests, dependency declarations, project and third-party lifecycle commands, and automated model-routing evaluation remain planned.
 
-The UI design track begins with an explicit UI Designer Position and code-first, preview-first, and design-led evidence contracts. Figma remains optional. Project-profile defaults, canonical work-item overrides, design-source adapters, token synchronization, and visual-regression integration require later validation.
+The UI design track begins with an explicit UI Designer Position and four explicit outcomes: `not-applicable`, code-first, preview-first, and design-led. Alpha.14 records the choice per Work Item and pins approved UI contract revisions when required. Figma remains optional. Project-profile defaults, design-source adapters, token synchronization, and visual-regression integration require later validation.
+
+The product-specification track begins with an alpha.14 project-owned authority registry, revisioned Work Item references, contract-guided iterative delivery, and federated, hybrid, or Temple-native document adoption. External synchronization, semantic contract validation, and organization-specific approval adapters remain outside the current implementation.
 
 ## Phase 1: Installable, operational organization skeleton (current release)
 
@@ -30,6 +32,7 @@ Deliverables:
 - Project-owned Engineering Learning index and records, managed Lesson and Practice templates, doctor validation, and status counts.
 - UI Designer, a tool-neutral UI delivery-mode policy, a UI design-brief template, and a backward-compatible Assignment migration.
 - A project-owned Context Map, generated Capability Registry and work-item Context Capsules, deterministic Retrieval Provider contract, and affected-path overlap warnings.
+- A project-owned specification index, revisioned product/UX/UI/API/technical references, contract-guided iterative delivery, enterprise document-adoption guidance, and stale-reference enforcement.
 - A real English Learning Inbox Safari Share Extension pilot.
 
 Exit gate: Both clean and existing repositories can initialize; all ten Positions are observable; Developer and Independent QA are separate; re-running does not overwrite; and organizational state can be recovered from files after closing the chat.
@@ -59,6 +62,7 @@ The private FlowDeck pilot completed:
 - Alpha.13 adds the Collaborative foundation: Human Principals, Agent sponsorship, Position pools with Disciplines, collision-resistant Collaborative Work Item IDs, parent/dependency and contract fields, deterministic parallel readiness, Principal-backed claims, upgrade migration, and status/doctor observability.
 - Alpha.13 bounded local evidence is preserved in the [Collaborative foundation validation record](validation/alpha-13-collaborative-foundation.md).
 - Alpha.13 local automated evidence does not replace the retained [large-scale real-environment test](validation/collaborative-large-scale-test-plan.md). Multi-human, multi-machine, Git-hosting behavior remains explicitly `not_run`.
+- Alpha.14 adds product-specification authority and revision contracts, enterprise document-adoption modes, Work Item specification references, explicit no-UI handling, tool-neutral interaction contracts, doctor/status/context observability, and upgrade-safe project-owned seeding.
 
 Phase 1.5 is not yet complete:
 
@@ -70,7 +74,7 @@ See the [FlowDeck Greenfield Pilot Retrospective](pilots/flowdeck-greenfield-ret
 
 ## Phase 2: Operational MVP
 
-Goal: Strengthen scope coordination, external evidence adapters, and the Observer beyond the alpha.13 collaboration and routing foundation.
+Goal: Strengthen scope coordination, external evidence adapters, and the Observer beyond the alpha.14 collaboration, routing, and specification foundation.
 
 Groundwork already available:
 
@@ -78,6 +82,7 @@ Groundwork already available:
 - A project Capability Registry that observes project and third-party Skills without claiming ownership of their files.
 - A project-owned Context Map, generated Context Capsules, and a deterministic Retrieval Provider with a future semantic-adapter contract.
 - Solo and Collaborative profile selection, Human Principal sponsorship, Position pools with technical Disciplines, bounded work claims, and deterministic parallel-readiness checks.
+- A project-owned specification authority registry with revision-pinned Work Item contracts and stale-reference blocking.
 
 Planned deliverables:
 
