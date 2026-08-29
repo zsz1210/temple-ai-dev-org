@@ -72,7 +72,7 @@ test("build-quality pack dry-run, install, re-init, and removal preserve checksu
 
   const dryRun = run(["pack", "install", target, "--pack", "build-quality", "--dry-run"]);
   assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
-  assert.match(dryRun.stdout, /copy-pack-file: 2/);
+  assert.match(dryRun.stdout, /copy-pack-file: 5/);
   await assert.rejects(() => fs.access(path.join(target, ".agents/skills/tdd/SKILL.md")));
 
   const installed = run(["pack", "install", target, "--pack", "build-quality"]);
@@ -83,7 +83,7 @@ test("build-quality pack dry-run, install, re-init, and removal preserve checksu
 
   const installedLock = await readJson(path.join(target, "temple.lock"));
   assert.equal(installedLock.optional_packs[0].id, "build-quality");
-  assert.equal(installedLock.optional_packs[0].version, "0.1.0-alpha.1");
+  assert.equal(installedLock.optional_packs[0].version, "0.2.0-alpha.1");
   assert.ok(installedLock.managed_files.some((entry) => entry.path === ".agents/skills/tdd/SKILL.md"));
 
   const doctor = run(["doctor", target]);
@@ -107,7 +107,7 @@ test("build-quality pack dry-run, install, re-init, and removal preserve checksu
   const tddPath = path.join(target, ".agents/skills/tdd/SKILL.md");
   const removalDryRun = run(["pack", "remove", target, "--pack", "build-quality", "--dry-run"]);
   assert.equal(removalDryRun.status, 0, removalDryRun.stderr || removalDryRun.stdout);
-  assert.match(removalDryRun.stdout, /remove-pack-file: 2/);
+  assert.match(removalDryRun.stdout, /remove-pack-file: 5/);
   await fs.access(tddPath);
 
   const original = await fs.readFile(tddPath, "utf8");
@@ -145,8 +145,8 @@ test("upgrade carries installed pack files and refreshes pack metadata", async (
   const upgraded = run(["upgrade", target]);
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = await readJson(lockPath);
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.18");
-  assert.equal(upgradedLock.optional_packs[0].version, "0.1.0-alpha.1");
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.19");
+  assert.equal(upgradedLock.optional_packs[0].version, "0.2.0-alpha.1");
   await fs.access(path.join(target, ".agents/skills/tdd/SKILL.md"));
   assert.equal(run(["doctor", target]).status, 0);
 });

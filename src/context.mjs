@@ -373,7 +373,7 @@ export function validateRetrievalProvider(provider) {
   return { valid: errors.length === 0, errors };
 }
 
-function capabilityDocuments(registry) {
+export function capabilityDocuments(registry) {
   return registry.capabilities
     .filter((entry) => entry.status === "available")
     .map((entry) => ({ ...entry, retrieval_kind: "capability", title: entry.name, summary: entry.description }));
@@ -394,11 +394,11 @@ export async function findCapabilities(target, options = {}) {
   });
 }
 
-function contextRouteDocuments(contextMap) {
+export function contextRouteDocuments(contextMap) {
   return contextMap.routes.map((route) => ({ ...route, retrieval_kind: "context-route" }));
 }
 
-function learningDocuments(index) {
+export function learningDocuments(index) {
   return (index.entries ?? [])
     .filter(
       (entry) =>
@@ -406,6 +406,85 @@ function learningDocuments(index) {
         (entry.kind === "practice" && entry.status === "active")
     )
     .map((entry) => ({ ...entry, retrieval_kind: "learning", paths: [entry.path], positions: [] }));
+}
+
+export function createLocalHybridRetrievalProvider(options = {}) {
+  const deterministicProvider = options.deterministicProvider ?? createRepositoryRetrievalProvider();
+  const semanticProvider = options.semanticProvider;
+  if (!semanticProvider || typeof semanticProvider.search !== "function" || !semanticProvider.id) {
+    throw new Error("A local hybrid provider requires an injected semanticProvider with id and search(request)");
+  }
+  return {
+    schema_version: RETRIEVAL_PROVIDER_SCHEMA,
+    id: `local-hybrid:${semanticProvider.id}`,
+    mode: "hybrid",
+    semantic: true,
+    privacy: "local-only",
+    installs_runtime: false,
+    deterministic_fallback: deterministicProvider.id,
+    async search(request) {
+      const limit = Number.isInteger(request.limit) && request.limit > 0 ? request.limit : 5;
+      const deterministicResults = await deterministicProvider.search({ ...request, limit });
+      let semanticResults;
+      try {
+        semanticResults = await semanticProvider.search({ ...request, limit });
+        if (!Array.isArray(semanticResults)) throw new Error("semantic provider did not return an array");
+      } catch (error) {
+        return deterministicResults.map((result) => ({
+          ...result,
+          provider_provenance: {
+            deterministic: { id: deterministicProvider.id, status: "used" },
+            semantic: { id: semanticProvider.id, status: "failed_fallback", error: error.message }
+          }
+        }));
+      }
+      const byId = new Map();
+      const canonicalById = new Map((request.documents ?? []).map((document) => [document.id, document]));
+      const add = (result, provider, rank) => {
+        const canonical = canonicalById.get(result?.id);
+        if (!canonical) return;
+        const canonicalResult = {
+          id: canonical.id,
+          kind: canonical.retrieval_kind,
+          score: 0,
+          score_type: "canonical-source",
+          reasons: [],
+          source: canonical
+        };
+        const current = byId.get(result.id) ?? { result: canonicalResult, fused_score: 0, sources: [] };
+        current.fused_score += 1 / (60 + rank);
+        current.sources.push(provider);
+        if (provider === "deterministic") current.result = result;
+        byId.set(result.id, current);
+      };
+      deterministicResults.forEach((result, index) => add(result, "deterministic", index + 1));
+      semanticResults.forEach((result, index) => add(result, "semantic", index + 1));
+      return [...byId.values()]
+        .sort((left, right) => right.fused_score - left.fused_score || left.result.id.localeCompare(right.result.id))
+        .slice(0, limit)
+        .map((entry) => ({
+          ...entry.result,
+          score: entry.fused_score,
+          score_type: "reciprocal-rank-fusion",
+          provider_provenance: {
+            deterministic: { id: deterministicProvider.id, status: entry.sources.includes("deterministic") ? "used" : "no-hit" },
+            semantic: { id: semanticProvider.id, status: entry.sources.includes("semantic") ? "used" : "no-hit" }
+          }
+        }));
+    }
+  };
+}
+
+export async function buildRetrievalCorpus(target, kind) {
+  if (kind === "context-route") return contextRouteDocuments(await readContextMap(target));
+  if (kind === "learning") {
+    const index = (await pathExists(path.join(target, LEARNING_INDEX_RELATIVE_PATH)))
+      ? await readJson(path.join(target, LEARNING_INDEX_RELATIVE_PATH))
+      : emptyLearningIndex();
+    return learningDocuments(index);
+  }
+  if (kind === "capability") return capabilityDocuments(await buildCapabilityRegistry(target));
+  throw new Error(`Unsupported retrieval evaluation kind: ${kind}`);
 }
 
 function inferredRevision(item, requestedRevision) {

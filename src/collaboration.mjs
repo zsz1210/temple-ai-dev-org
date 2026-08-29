@@ -2,9 +2,10 @@ import path from "node:path";
 import { atomicCreate, atomicWrite, formatJson, pathExists, readJson, sha256 } from "./files.mjs";
 import { validateDisplayName } from "./model.mjs";
 import { appendEvent, uniqueStrings } from "./project.mjs";
+import { HIGH_ASSURANCE_PROFILE, validateHighAssuranceProfilePrerequisites } from "./assurance.mjs";
 
 export const COLLABORATION_RELATIVE_PATH = ".ai-org/project/collaboration.json";
-export const COLLABORATION_PROFILES = ["solo", "collaborative"];
+export const COLLABORATION_PROFILES = ["solo", "collaborative", HIGH_ASSURANCE_PROFILE];
 export const DISCIPLINES = [
   "architecture",
   "backend",
@@ -185,13 +186,16 @@ export function validateCollaborationState(document, agentsDocument, assignments
     if (!matching) errors.push(`default membership does not match assignment for ${assignment.position_id}`);
   }
 
-  if (document?.profile === "collaborative") {
+  if (["collaborative", HIGH_ASSURANCE_PROFILE].includes(document?.profile)) {
     if (principalIds.size === 0) warnings.push("Collaborative profile has no Human Principal");
     const unsponsored = [...agentIds].filter((agentId) => !sponsoredAgents.has(agentId));
     if (unsponsored.length > 0) warnings.push(`unsponsored Agent Identities: ${unsponsored.join(", ")}`);
     if (document.large_scale_validation?.status !== "passed") {
       warnings.push("large multi-human, multi-machine validation has not passed");
     }
+  }
+  if (document?.profile === HIGH_ASSURANCE_PROFILE) {
+    errors.push(...validateHighAssuranceProfilePrerequisites(document, agentsDocument, assignmentsDocument).errors);
   }
   return { valid: errors.length === 0, errors: uniqueStrings(errors), warnings: uniqueStrings(warnings) };
 }
@@ -201,6 +205,14 @@ export async function setCollaborationProfile(target, profile) {
     throw new Error(`Unsupported profile ${profile}; use ${COLLABORATION_PROFILES.join(" or ")}`);
   }
   const document = await readCollaborationState(target);
+  if (profile === HIGH_ASSURANCE_PROFILE) {
+    const [agentsDocument, assignmentsDocument] = await Promise.all([
+      readJson(path.join(target, ".ai-org/project/agents.json")),
+      readJson(path.join(target, ".ai-org/project/assignments.json"))
+    ]);
+    const readiness = validateHighAssuranceProfilePrerequisites(document, agentsDocument, assignmentsDocument);
+    if (!readiness.valid) throw new Error(readiness.errors.join("; "));
+  }
   const updated = { ...document, profile };
   await writeCollaborationState(target, updated);
   await appendEvent(target, {

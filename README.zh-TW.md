@@ -79,6 +79,8 @@ node ./templew.mjs status .
 
 當一個 parent outcome 已拆成邊界清楚的 child Work Item，可以使用 `node ./templew.mjs parallel plan . --parent <WI-ID>` 產生 fresh、capacity-aware 的 dispatch manifest。這個指令不會建立 Codex task 或 claim。建立每一個 first-wave runtime 前，`parallel prepare` 會把符合資格的 claim、稀缺 resource reservation 與 runtime-worker correlation 一起記錄。internal subagent 與獨立的 user-owned Codex task 會保持區分，而指定的 Integration Owner 仍須完成 exact evidence join 後再重新規劃。詳見[平行編排（英文）](docs/parallel-orchestration.md)與[runtime coordination（英文）](docs/runtime-coordination.md)。
 
+Alpha.19 完成 Phase 2C：Pack v2 可攜帶有版本與 provenance 的 reference、script 與 asset；runtime JSON Schema 與 migration plan 可直接檢查；Learning 提供原子化新增、revalidation 與 retrieval evaluation；High-Assurance 可在通過人類責任與風險 gate 後選用；選配的 Archify adapter 只接受 exact local source 並隔離安裝、檢查 digest。預設不會安裝 semantic model、vector database、daemon、第三方下載或執行外部動作。
+
 ## 工程方法與擴展
 
 Temple 會維持精簡的預設安裝。產品思考與組織運作 Skills 作為 core capability 安裝，開發程序則採選配方式。目前提供的 Build Quality pack 會加入 TDD 與範圍明確的 bug diagnosis，但不會改變 Position ownership 或 lifecycle authority。
@@ -87,15 +89,15 @@ Temple 也包含 `$skill-authoring` 與 [Skill 撰寫指南（英文）](docs/sk
 
 [Engineering Learning Loop（英文）](docs/engineering-learning.md)讓已完成的工作可以循著受治理的路徑，從 evidence 形成 Lesson、正式採用的 Practice，並只在理由充分時晉升為 Skill、自動檢查、ADR 或 instruction。精簡的專案 index 讓後續 Agent 只取回相關學習，不必載入全部歷史，也不會把每個觀察都變成規則。
 
-目前產生的 Capability Registry 可以列出 core、optional-pack 與 project-owned repository Skills，且不會奪走 extension 的 ownership。`temple capability find` 與 work-item Context Capsule 能協助 Agent 選出範圍明確的 evidence 與可能適用的方法，但選取結果不會擴張權限或安裝 dependency。Temple 目前仍沒有提供 Skill mutation command、custom-pack publisher、third-party Skill installer 或 automated model-routing evaluation。Architecture、exploration、review、security、Git 與 retrospective packs 仍是經過評估、但尚未交付的候選能力。詳情請參考[能力目錄（英文）](docs/capability-catalog.md)與[context routing guide（英文）](docs/context-routing.md)。
+目前產生的 Capability Registry 可以列出 core、optional-pack 與 project-owned repository Skills，且不會奪走 extension 的 ownership。`temple capability find` 與 work-item Context Capsule 能協助 Agent 選出範圍明確的 evidence 與可能適用的方法，但選取結果不會擴張權限或安裝 dependency。Pack v2 已規範多檔 official pack；project-owned Skill 仍維持可延伸且不被中央 framework 接管。Temple 目前仍沒有提供 Skill mutation command、custom-pack publisher 或 third-party Skill installer。Architecture、exploration、review、security、Git 與 retrospective packs 仍是候選能力。詳情請參考[能力目錄（英文）](docs/capability-catalog.md)、[extension contract（英文）](docs/extension-and-migrations.md)與[context routing guide（英文）](docs/context-routing.md)。
 
 ## 專案規模與目前邊界
 
 預設 Solo 設定由五個 Agent Identity 覆蓋全部十個 Position。Product Design Identity 一開始同時負責 Product Manager、UX Designer 與 UI Designer。Collaborative 基礎可以加入 Human Principal、額外 Agent Identity、sponsorship，以及帶有 frontend、backend、full-stack、infrastructure、UI、UX 等 Discipline 的多成員 Position pool。既有 default Assignment 保持相容，而單一有邊界的 Work Item 可以由其他符合資格的 pool member 認領。
 
-Solo 與 Collaborative 已可選擇；High-Assurance 只先保留定義，尚不可選。Collaborative mode 提供較不易跨 clone 碰撞的 Work Item ID、parent/dependency 與 shared-contract 欄位、parallel-readiness 檢查、由 Principal 背書的 claim，以及 status warning。Alpha.16 加入 deterministic group planning 與 Integration Owner join gate；Alpha.17 加入 repository-pinned launcher、stage-specific Discipline 與 resource requirement、atomic first-wave preparation，以及 runtime-worker correlation；Alpha.18 加入不會自動通過 gate 的 normalized evidence，以及唯讀 Observer overview。大型多人、多機器實測仍是 `not_run`，所以目前還不能宣稱已經證明適用所有公司拓撲與 distributed race。詳見[協作開發模型（英文）](docs/collaboration.md)與[Evidence and Observer（英文）](docs/evidence-and-observer.md)。
+Solo、Collaborative 與 High-Assurance 都已可選擇。Collaborative mode 提供較不易跨 clone 碰撞的 Work Item ID、dependency、parallel readiness 與 Principal-backed claim。High-Assurance 至少需要兩位 active Human Principal、每個 active Agent Identity 都有 sponsor，且 Developer 必須和 Independent QA、Release Manager 分離；每個 Work Item 再依風險調整 exact-revision evidence、rollback 與 approval gate。大型多人、多機器實測仍是 `not_run`，所以不能據此宣稱所有公司拓撲、regulated audit 或 production release 都已準備完成。詳見[協作開發模型（英文）](docs/collaboration.md)、[High-Assurance（英文）](docs/high-assurance.md)與[Evidence and Observer（英文）](docs/evidence-and-observer.md)。
 
-Temple 目前會記錄 revision reference，但 CLI 還不會將每個 reference 驗證為精確的 Git object。它不會建立、重新命名或封存 Codex task，也不會執行外部 deploy 或 publish。商業事實、優先順序、敏感資料、重大成本、不可逆操作與高風險批准仍由人類負責。
+Temple 會把 normalized Git、test、runtime、rollback，以及 High-Assurance handoff/closeout 的 scope 解成 exact commit；其他輕量 reference 仍可能保留呼叫者提供的值。它不會建立、重新命名或封存 Codex task，也不會執行外部 deploy 或 publish。商業事實、優先順序、敏感資料、重大成本、不可逆操作與高風險批准仍由人類負責。
 
 公司團隊可以繼續使用 Jira、GitHub Issues 或其他 tracker 作為規劃介面，Temple 則把 AI 執行與 evidence 保存在 repository Work Item。Team-visible parent 可以對應到外部項目，AI 內部 child item 不必污染公司看板；外部的完成狀態也不能跳過 QA 或 Release Gate。Alpha.15 可以有限度讀取 GitHub Issue 或匯入 observation，並保存 reconciliation evidence，但不會對外部系統進行寫入。
 
@@ -115,7 +117,10 @@ Temple 是安裝進專案，而不是要求專案 fork 這個 repository。開�
 - [UI interaction contract](docs/ui-interaction-contracts.md) — 串接介面行為、設計產物、實作與後端契約
 - [Skill 撰寫指南](docs/skill-authoring.md) — project-owned Skill 的設計與驗證
 - [Engineering Learning Loop](docs/engineering-learning.md) — evidence、Lesson、Practice、檢索與晉升
-- [Progressive context routing](docs/context-routing.md) — Context Map、Capability Registry、Context Capsule、affected-path overlap 與未來的 Retrieval Provider
+- [Progressive context routing](docs/context-routing.md) — Context Map、Context Capsule、deterministic evaluation 與 local-hybrid boundary
+- [Extension 與 migration contract](docs/extension-and-migrations.md) — Pack v2、runtime schema、compatibility 與明確 migration
+- [High-Assurance profile](docs/high-assurance.md) — 前置條件、risk tier、exact evidence、rollback 與 approval
+- [Archify adapter](docs/archify-adapter.md) — pinned local installation、isolation、provenance 與 graceful degradation
 - [UI design modes](docs/ui-design.md) — 無 UI 記錄、code-first、preview-first、design-led 與工具原則
 - [能力目錄](docs/capability-catalog.md) — 已提供、選配與候選的 engineering method
 - [Roadmap](docs/roadmap.md) — 已驗證範圍與後續規劃

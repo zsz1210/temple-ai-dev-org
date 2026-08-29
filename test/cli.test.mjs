@@ -46,7 +46,7 @@ function shellQuote(value) {
 test("version is available without dependencies", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /^0\.1\.0-alpha\.18/m);
+  assert.match(result.stdout, /^0\.1\.0-alpha\.19/m);
 });
 
 test("the chamber remains a hidden evidence-first easter egg", () => {
@@ -172,7 +172,7 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
   const status = run(["status", target, "--json"]);
   assert.equal(status.status, 0, status.stderr);
   assert.equal(JSON.parse(status.stdout).assignments.length, 10);
-  assert.equal(JSON.parse(status.stdout).schema_version, "temple.status/v8");
+  assert.equal(JSON.parse(status.stdout).schema_version, "temple.status/v9");
   assert.equal(JSON.parse(status.stdout).learning.total, 0);
   assert.equal(JSON.parse(status.stdout).specifications.total_entries, 0);
   assert.equal(JSON.parse(status.stdout).tracker.profile, "repository-only");
@@ -306,7 +306,7 @@ test("upgrade adds a missing project-owned learning index without managing it", 
   const upgraded = run(["upgrade", target]);
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   assert.deepEqual(JSON.parse(await fs.readFile(indexPath, "utf8")), {
-    schema_version: "ai-org.learning-index/v1",
+    schema_version: "ai-org.learning-index/v2",
     entries: []
   });
   assert.deepEqual(JSON.parse(await fs.readFile(specIndexPath, "utf8")), {
@@ -317,7 +317,7 @@ test("upgrade adds a missing project-owned learning index without managing it", 
   });
   assert.equal(JSON.parse(await fs.readFile(trackerConfigPath, "utf8")).profile, "repository-only");
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.18");
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.19");
   assert.equal(upgradedLock.capabilities.engineering_learning, true);
   assert.equal(upgradedLock.capabilities.group_parallel_planning, true);
   assert.equal(upgradedLock.capabilities.parallel_join_gate, true);

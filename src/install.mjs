@@ -26,6 +26,7 @@ import {
 import { buildProjectState } from "./model.mjs";
 import { buildCollaborationState } from "./collaboration.mjs";
 import { buildCliBootstrapMetadata } from "./bootstrap.mjs";
+import { baselineMigrationState } from "./migrations.mjs";
 
 function isManaged(relativePath) {
   return MANAGED_EXACT_PATHS.has(relativePath) || MANAGED_SOURCE_PREFIXES.some((prefix) => relativePath.startsWith(prefix));
@@ -238,6 +239,8 @@ export async function executeInit(plan) {
     managedFiles.sort((left, right) => left.path.localeCompare(right.path));
 
     const bootstrap = await buildCliBootstrapMetadata();
+    const installedAt = plan.existingLock?.template?.installed_at ?? new Date().toISOString();
+    const migrations = plan.existingLock?.migrations ?? await baselineMigrationState(installedAt);
     const lock = {
       schema_version: "temple.lock/v1",
       template: {
@@ -245,9 +248,10 @@ export async function executeInit(plan) {
         version: TEMPLATE_VERSION,
         repository: TEMPLATE_REPOSITORY,
         bootstrap,
-        installed_at: plan.existingLock?.template?.installed_at ?? new Date().toISOString()
+        installed_at: installedAt
       },
       project_id: plan.config.project.id,
+      migrations,
       boundaries: {
         managed_files_authoritative: true,
         allowed_managed_roots: MANAGED_SOURCE_PREFIXES,
@@ -304,6 +308,15 @@ export async function executeInit(plan) {
         local_evidence_adapters: true,
         observer_projection: true,
         read_only_overview: true,
+        pack_manifest_v2: true,
+        runtime_json_schema: true,
+        migration_registry: true,
+        learning_cli: true,
+        learning_revalidation: true,
+        retrieval_evaluation: true,
+        local_hybrid_provider_contract: true,
+        archify_adapter: true,
+        high_assurance_profile: true,
         checksum_upgrade: true,
         optional_packs: true
       },

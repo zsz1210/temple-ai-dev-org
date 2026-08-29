@@ -45,7 +45,7 @@ Cross-project promotion requires human approval, private-data removal, provenanc
 
 ## Current implementation boundary
 
-This release provides an empty project index, managed record templates, doctor validation, and status counts. It does not provide Learning CLI mutations, semantic retrieval, scheduled retrospectives, stale-practice alerts, cross-project synchronization, or a `$retrospective` Skill. Manual capture must be explicitly authorized and must update the record and index together.
+Alpha.19 provides atomic Learning CLI mutations, explicit v1-to-v2 index migration, Lesson-to-Practice derivation, revalidation history, due and contradicted signals, Observer attention, and deterministic retrieval evaluation. The CLI updates the Markdown record and index together. It still does not run scheduled retrospectives, promote learning automatically, synchronize projects, install a semantic runtime, or ship a `$retrospective` Skill.
 
 ## Consequences
 
@@ -53,4 +53,4 @@ This release provides an empty project index, managed record templates, doctor v
 - Agents can retrieve relevant active guidance without loading the full history.
 - Practices can be contradicted, narrowed, revalidated, or deprecated.
 - The framework gains a governed improvement path while preserving the small core Skill set.
-- Manual index maintenance remains a temporary consistency risk until a validated CLI or Skill workflow is implemented.
+- Direct manual edits remain possible project ownership, but the CLI is the safer default because it preserves record/index consistency and event history.

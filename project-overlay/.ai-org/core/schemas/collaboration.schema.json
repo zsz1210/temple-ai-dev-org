@@ -5,7 +5,7 @@
   "required": ["schema_version", "profile", "coordination_backend", "principals", "sponsorships", "memberships"],
   "properties": {
     "schema_version": { "const": "temple.collaboration/v1" },
-    "profile": { "enum": ["solo", "collaborative"] },
+    "profile": { "enum": ["solo", "collaborative", "high-assurance"] },
     "coordination_backend": { "const": "repository" },
     "principals": { "type": "array" },
     "sponsorships": { "type": "array" },

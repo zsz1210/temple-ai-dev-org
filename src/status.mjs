@@ -30,6 +30,8 @@ import {
 import { RESOURCE_REGISTRY_RELATIVE_PATH, emptyResourceRegistry } from "./resources.mjs";
 import { RUNTIME_WORKER_REGISTRY_RELATIVE_PATH, emptyRuntimeWorkerRegistry } from "./workers.mjs";
 import { activeExecutionRequirements } from "./work-items.mjs";
+import { readRetrievalConfig, RETRIEVAL_EVALUATION_VIEW } from "./retrieval.mjs";
+import { inspectArchifyAdapter } from "./archify-adapter.mjs";
 
 function markdown(value) {
   return String(value ?? "").replace(/\|/g, "\\|").replace(/\r?\n/g, " ");
@@ -50,6 +52,7 @@ export async function buildStatus(target, options = {}) {
   const specIndexInstalled = await pathExists(path.join(target, SPEC_INDEX_RELATIVE_PATH));
   const trackerConfigInstalled = await pathExists(path.join(target, TRACKER_CONFIG_RELATIVE_PATH));
   const trackerViewInstalled = await pathExists(path.join(target, TRACKER_VIEW_RELATIVE_PATH));
+  const retrievalEvaluationInstalled = await pathExists(path.join(target, RETRIEVAL_EVALUATION_VIEW));
   const [
     lock,
     project,
@@ -67,7 +70,10 @@ export async function buildStatus(target, options = {}) {
     capabilityRegistry,
     collaboration,
     resourceRegistry,
-    workerRegistry
+    workerRegistry,
+    retrievalConfig,
+    retrievalEvaluation,
+    archifyAdapter
   ] =
     await Promise.all([
       readJson(path.join(target, "temple.lock")),
@@ -102,7 +108,12 @@ export async function buildStatus(target, options = {}) {
       ),
       pathExists(path.join(target, RUNTIME_WORKER_REGISTRY_RELATIVE_PATH)).then((exists) =>
         exists ? readJson(path.join(target, RUNTIME_WORKER_REGISTRY_RELATIVE_PATH)) : emptyRuntimeWorkerRegistry()
-      )
+      ),
+      readRetrievalConfig(target),
+      retrievalEvaluationInstalled
+        ? readJson(path.join(target, RETRIEVAL_EVALUATION_VIEW))
+        : Promise.resolve({ fixture: null, large_repository_validation: "not_run" }),
+      inspectArchifyAdapter(target)
     ]);
 
   const agents = new Map(agentsDocument.agents.map((agent) => [agent.id, agent]));
@@ -177,6 +188,8 @@ export async function buildStatus(target, options = {}) {
           dependency_count: (item.dependencies ?? []).length,
           specification_mode: item.specification_mode ?? null,
           ui_delivery_mode: item.ui_delivery_mode ?? null,
+          risk_tier: item.risk_tier ?? null,
+          assurance: item.assurance ?? null,
           specification_reference_count: specificationReferences.resolved_refs.length,
           stale_specification_count: specificationReferences.stale_count,
           unapproved_specification_count: specificationReferences.unapproved_count,
@@ -297,6 +310,15 @@ export async function buildStatus(target, options = {}) {
         work_item_id: item.id,
         message: `${item.id} has ${item.unapproved_specification_count} unapproved specification reference(s)`
       })),
+    ...(summarizeLearningIndex(learningIndex).revalidation_due > 0
+      ? [{ type: "learning_revalidation_due", message: `${summarizeLearningIndex(learningIndex).revalidation_due} learning entries require revalidation` }]
+      : []),
+    ...(summarizeLearningIndex(learningIndex).contradicted > 0
+      ? [{ type: "contradicted_learning", message: `${summarizeLearningIndex(learningIndex).contradicted} learning entries are contradicted` }]
+      : []),
+    ...(archifyAdapter.status === "invalid"
+      ? [{ type: "invalid_archify_adapter", message: archifyAdapter.reason }]
+      : []),
     ...(!trackerConfigInstalled
       ? [{ type: "tracker_config_missing", message: "Tracker configuration is missing; run temple upgrade" }]
       : []),
@@ -330,7 +352,7 @@ export async function buildStatus(target, options = {}) {
     ...(orchestration.installed && orchestration.valid && orchestration.blocked > 0
       ? [{ type: "parallel_plan_blocked", message: `Parallel plan has ${orchestration.blocked} blocked Work Item(s)` }]
       : []),
-    ...(collaborationState.profile === "collaborative" && collaborationState.large_scale_validation?.status !== "passed"
+    ...(["collaborative", "high-assurance"].includes(collaborationState.profile) && collaborationState.large_scale_validation?.status !== "passed"
       ? [{
           type: "large_collaboration_validation_pending",
           message: "Large multi-human, multi-machine collaboration validation is still pending"
@@ -339,7 +361,7 @@ export async function buildStatus(target, options = {}) {
   ];
 
   return {
-    schema_version: "temple.status/v8",
+    schema_version: "temple.status/v9",
     project: { id: project.id, name: project.name },
     template_version: lock.template.version,
     agents: agentsDocument.agents.map((agent) => ({ id: agent.id, display_name: agent.display_name, active: agent.active !== false })),
@@ -398,8 +420,11 @@ export async function buildStatus(target, options = {}) {
     context_routing: {
       routes: contextMap.routes?.length ?? 0,
       active_routes: (contextMap.routes ?? []).filter((route) => route.status === "active").length,
-      provider_id: "repository-deterministic",
-      semantic: false
+      provider_id: retrievalConfig.selected_provider,
+      semantic: retrievalConfig.selected_provider === "local-hybrid",
+      local_hybrid: retrievalConfig.local_hybrid,
+      evaluation_fixture: retrievalEvaluation.fixture,
+      large_repository_validation: retrievalEvaluation.large_repository_validation
     },
     capabilities: capabilityRegistry.counts,
     collaboration: {
@@ -416,7 +441,7 @@ export async function buildStatus(target, options = {}) {
     },
     orchestration,
     cli_bootstrap: lock.template.bootstrap ?? null,
-    integrations: lock.integrations
+    integrations: { ...lock.integrations, archify_adapter: archifyAdapter }
   };
 }
 
@@ -438,6 +463,7 @@ export function renderStatusMarkdown(status) {
     `- Repository capabilities: ${status.capabilities.available} available, ${status.capabilities.invalid} invalid`,
     `- Context routes: ${status.context_routing.active_routes} active (${status.context_routing.provider_id}, semantic=${status.context_routing.semantic})`,
     `- Engineering learning: ${status.learning.lessons} Lessons, ${status.learning.practices} Practices`,
+    `- Learning revalidation: ${status.learning.revalidation_due} due, ${status.learning.contradicted} contradicted`,
     `- Specifications: ${status.specifications.total_entries} indexed, ${status.specifications.approved_entries} approved (${status.specifications.adoption_profile})`,
     `- Tracker: \`${status.tracker.profile}\` (${status.tracker.active_providers} active provider(s), ${status.tracker.linked_work_items} linked Work Item(s))`,
     `- Attention signals: ${status.attention.length}`,
@@ -558,6 +584,8 @@ export function renderStatusMarkdown(status) {
     `- Available capabilities: ${status.capabilities.available}`,
     `- Retrieval Provider: \`${status.context_routing.provider_id}\``,
     `- Semantic retrieval: ${status.context_routing.semantic ? "enabled" : "disabled"}`,
+    `- Local hybrid boundary: \`${status.context_routing.local_hybrid.status}\` (runtime installed: no)`,
+    `- Large-repository retrieval validation: \`${status.context_routing.large_repository_validation}\``,
     "",
     "## Engineering learning",
     "",
@@ -565,6 +593,8 @@ export function renderStatusMarkdown(status) {
     `- Validated: ${status.learning.validated}`,
     `- Active: ${status.learning.active}`,
     `- Deprecated: ${status.learning.deprecated}`,
+    `- Revalidation due: ${status.learning.revalidation_due}`,
+    `- Contradicted: ${status.learning.contradicted}`,
     "- Retrieval index: `.ai-org/learning/index.json`",
     ""
   );
@@ -607,7 +637,8 @@ export function renderStatusMarkdown(status) {
     "## Integration",
     "",
     `- Root AGENTS.md: ${status.integrations?.agents_md ?? "unknown"}`,
-    `- Archify: ${status.integrations?.archify?.status ?? "unknown"}`,
+    `- Archify contract: ${status.integrations?.archify?.status ?? "unknown"}`,
+    `- Archify adapter: ${status.integrations?.archify_adapter?.status ?? "unknown"}`,
     "",
     "> This file is a generated projection. Update canonical files, then rebuild this view.",
     ""

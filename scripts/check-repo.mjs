@@ -85,8 +85,8 @@ check(
   "collaboration profiles must define Solo, Collaborative, and High-Assurance in order"
 );
 check(
-  collaborationProfiles.profiles.find((profile) => profile.id === "high-assurance")?.selectable === false,
-  "High-Assurance must remain unselectable until its contract is implemented"
+  collaborationProfiles.profiles.find((profile) => profile.id === "high-assurance")?.selectable === true,
+  "High-Assurance must be selectable after its contract is implemented"
 );
 
 const learningIndex = await readJson(path.join(projectOverlayRoot, ".ai-org/learning/index.json"));
@@ -223,7 +223,7 @@ for (const file of (await walkFiles(root)).filter(
 
 const archify = await readJson(path.join(root, "integrations/archify/manifest.json"));
 check(archify.enabled_by_default === false, "Archify must remain opt-in");
-check(archify.status === "contract-only", "Phase 1 Archify status must be contract-only");
+check(archify.status === "opt-in-isolated", "Archify status must describe the opt-in isolated adapter");
 check(archify.pin.tag === "v2.15.0", "Archify tag pin changed without review");
 check(
   archify.pin.commit === "e1ac748f19cf805e44bf74fb93c796662152e273",

@@ -9,8 +9,8 @@ Tools such as Archify can improve architecture communication, but making them co
 
 ## Decision
 
-Third-party capabilities use opt-in adapters: pin the version and commit, record the license, constrain inputs and outputs, and prohibit changes to canonical state or gate approvals. Phase 1 defines only the Archify contract and does not install it.
+Third-party capabilities use opt-in adapters: pin the version and commit, record the license, constrain inputs and outputs, and prohibit changes to canonical state or gate approvals. Alpha.19 implements the Archify contract as a local-source-only isolated installation with per-file digests and safe absence. It does not download or execute the adapter.
 
 ## Consequences
 
-The visualization can be replaced or disabled while the text and JSON workflow continues to work in full.
+The visualization can be replaced or disabled while the text and JSON workflow continues to work in full. Operators must obtain the exact third-party source through an independently authorized process, and digest drift makes the installed adapter unusable rather than silently trusted.

@@ -82,7 +82,7 @@ Recommended requirement IDs are stable and local to their owning document, such 
 | Standard | Maintained product, several collaborators, or meaningful integration risk | Approved Charter, prioritized requirements, Feature Specs with traceability, relevant interaction/API contracts | Named owners, dependency and affected-path analysis, evaluation, revision history, integration plan |
 | High-assurance guidance | Regulated, safety-sensitive, security-sensitive, or costly change | Controlled baselines, bidirectional traceability, formal approval records, explicit hazard and non-functional requirements | Stronger separation of duties, change-impact review, retained evidence, audit and rollback policy, exact external-source controls |
 
-High-assurance depth is specification guidance, not a claim that the current High-Assurance collaboration profile is selectable or validated. Projects may adopt stricter artifacts now, but must not claim framework-level High-Assurance operation until its approval and audit controls are implemented and verified.
+High-assurance depth remains specification guidance by itself. Framework-level High-Assurance operation additionally requires selecting the profile, satisfying its human-accountability prerequisites, recording a Work Item risk tier, and passing its normalized exact-revision, rollback, and approval gates. A controlled document set alone is not a High-Assurance completion claim.
 
 Small projects may combine the Charter and requirements in one project-owned document when ownership, status, IDs, and traceability remain clear. Standard and higher-risk projects should keep independently reviewable baselines. No project should create empty documents merely to satisfy the hierarchy.
 

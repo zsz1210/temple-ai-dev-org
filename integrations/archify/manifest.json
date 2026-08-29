@@ -1,10 +1,16 @@
 {
   "schema_version": "temple.adapter/v1",
   "id": "archify",
-  "status": "contract-only",
+  "status": "opt-in-isolated",
   "enabled_by_default": false,
   "source": "https://github.com/tt-a1i/archify",
   "license": "MIT",
+  "installation": {
+    "source": "local-exact-git-checkout",
+    "isolation_root": ".ai-org/adapters/archify/v2.15.0",
+    "automatic_network_access": false,
+    "automatic_execution": false
+  },
   "pin": {
     "tag": "v2.15.0",
     "commit": "e1ac748f19cf805e44bf74fb93c796662152e273"

@@ -32,6 +32,8 @@ If the test is already green, check whether the behavior already exists or the a
 
 ## Evidence and completion
 
+When the project uses normalized evidence, read [the evidence contract](references/evidence-contract.md) and use the bundled validator for a supplied `temple.test-observation/v1` artifact. The script validates a record; it does not run the command or claim that the observation is truthful.
+
 Preserve:
 
 - the public seam and accepted behavior;

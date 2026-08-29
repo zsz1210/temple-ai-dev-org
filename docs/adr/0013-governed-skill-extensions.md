@@ -40,7 +40,7 @@ Provenance is recorded independently as original, independently implemented from
 
 ### Current limits remain explicit
 
-This decision does not claim support for `temple skill` commands, project or third-party registries, custom-pack installation, dependency resolution, automated routing evaluation, or multi-file official pack manifests. Those require later schemas and implementation. Official pack v1 still supports one `SKILL.md` per Skill.
+This decision does not claim support for `temple skill` mutation commands, project or third-party registries, custom-pack publishing, generic dependency resolution, or automated routing evaluation. ADR-0024 and Alpha.19 subsequently add multi-file official Pack v2 manifests with declared dependencies, provenance, and compatibility; project-owned Skill creation and promotion boundaries remain unchanged.
 
 ## Consequences
 

@@ -4,6 +4,7 @@ import { atomicWrite, formatJson, pathExists, readJson } from "./files.mjs";
 import { readEvidenceRegistry, resolveGitRevision } from "./evidence.mjs";
 import { listWorkItemDocuments } from "./work-items.mjs";
 import { readRuntimeWorkerRegistry } from "./workers.mjs";
+import { listLearningEntries } from "./learning.mjs";
 
 export const OBSERVER_SCHEMA = "temple.observer/v1";
 export const OBSERVER_JSON_RELATIVE_PATH = ".ai-org/views/observer.json";
@@ -59,12 +60,13 @@ function attentionForEvidence(entry, stale) {
 }
 
 export async function buildObserverProjection(target) {
-  const [project, workItems, workersDocument, evidenceRegistry, events] = await Promise.all([
+  const [project, workItems, workersDocument, evidenceRegistry, events, learning] = await Promise.all([
     readJson(path.join(target, ".ai-org/project/project.json")),
     listWorkItemDocuments(target),
     readRuntimeWorkerRegistry(target),
     readEvidenceRegistry(target),
-    readEvents(target)
+    readEvents(target),
+    listLearningEntries(target)
   ]);
   const revisions = new Map(workItems.map((item) => [item.id, resolveCurrentRevision(target, item)]));
   const evidence = evidenceRegistry.entries.map((entry) => {
@@ -92,7 +94,13 @@ export async function buildObserverProjection(target) {
     ...work.filter((item) => item.category === "blocked").map((item) => ({ type: "blocked_work_item", work_item_id: item.id, message: `${item.id} is blocked` })),
     ...work.filter((item) => item.category === "approval_pending").map((item) => ({ type: "approval_pending", work_item_id: item.id, message: `${item.id} awaits release approval` })),
     ...workersDocument.workers.filter((worker) => ["attention", "failed"].includes(worker.status)).map((worker) => ({ type: "runtime_recovery", work_item_id: worker.work_item_id, worker_id: worker.id, message: `${worker.id} needs recovery (${worker.status})` })),
-    ...evidence.flatMap((entry) => attentionForEvidence(entry, entry.stale))
+    ...evidence.flatMap((entry) => attentionForEvidence(entry, entry.stale)),
+    ...learning.entries
+      .filter((entry) => entry.revalidation.signal === "overdue")
+      .map((entry) => ({ type: "learning_revalidation_overdue", learning_id: entry.id, message: `${entry.id} is overdue for revalidation` })),
+    ...learning.entries
+      .filter((entry) => entry.revalidation.signal === "contradicted")
+      .map((entry) => ({ type: "learning_contradicted", learning_id: entry.id, message: `${entry.id} has contradictory revalidation evidence` }))
   ];
   const timeline = [
     ...events.map((event) => ({ timestamp: event.timestamp, type: "event", name: event.event_type, work_item_id: event.work_item_id ?? null, actor: event.actor ?? null, reference: null })),
@@ -110,6 +118,11 @@ export async function buildObserverProjection(target) {
       unverified: evidence.filter((entry) => entry.kind === "unverified-claim").length,
       failed: evidence.filter((entry) => ["test", "runtime"].includes(entry.kind) && entry.outcome === "fail").length,
       items: evidence
+    },
+    learning: {
+      total: learning.entries.length,
+      revalidation_due: learning.entries.filter((entry) => ["due", "overdue"].includes(entry.revalidation.signal)).length,
+      contradicted: learning.entries.filter((entry) => entry.revalidation.signal === "contradicted").length
     },
     attention,
     timeline,

@@ -41,14 +41,14 @@ This boundary allows safe central framework upgrades while making installed cont
 | Type | Path | Ownership | Upgrade rule |
 |---|---|---|---|
 | Managed | Exact files listed in `temple.lock.managed_files`, drawn from `templew.mjs`, `.ai-org/core/**`, `.ai-org/templates/**`, core or installed-pack `.agents/skills/**`, `.codex/agents/**`, and `TEMPLE.md` | Central framework | Update only when the locked checksum matches the installed file |
-| Project-owned | Every unlisted file, including repository-local `.agents/skills/**`; `.ai-org/project/**` including `spec-index.json`, `context-map.json`, learning records and index, work items, decisions, events, artifacts, and root `AGENTS.md` | Project | Never overwritten or silently adopted by init, pack install, or upgrade |
+| Project-owned | Every unlisted file, including repository-local `.agents/skills/**`; `.ai-org/project/**` including `spec-index.json`, `context-map.json`, learning records and index, work items, decisions, events, artifacts, adapters, and root `AGENTS.md` | Project | Never overwritten or silently adopted by init, pack install, or upgrade |
 | Generated | `.ai-org/views/**`, including status, Capability Registry, parallel dispatch plans, tracker observations and plans, and work-item Context Capsules | CLI/Observer | Rebuildable from canonical state |
 
 `temple.lock` records the framework version, exact managed-file checksums, installed optional packs, feature states, `AGENTS.md` integration state, and a version-pinned CLI bootstrap contract. A clean source installation also records the exact Git source revision used by the project launcher. Directory prefixes are allowed source roots, not ownership claims. An untracked collision stops before writing even when its contents match the proposed managed file. See [ADR-0013](adr/0013-governed-skill-extensions.md) and [ADR-0022](adr/0022-recoverable-runtime-dispatch.md).
 
 ## Canonical state
 
-Phase 1 uses Git-friendly JSON and Markdown:
+The framework uses Git-friendly JSON and Markdown:
 
 - `project.json`: project identity and initialization time.
 - `agents.json`: Agent Identities.
@@ -60,9 +60,12 @@ Phase 1 uses Git-friendly JSON and Markdown:
 - `spec-index.json`: compact identity, authority, status, source, revision, approval, and relationship metadata for product, UX, UI, API, and technical specifications. It points to authoritative documents rather than copying their bodies.
 - `tracker.json`: selected external-planning profile, provider identities, mapping granularity, field ownership, and read/write policy. It contains no credentials.
 - `context-map.json`: compact project-owned routes to important Specs, ADRs, domain sources, runbooks, tests, and documentation; it contains paths and retrieval metadata, not copied source bodies.
+- `retrieval.json`: selected deterministic provider and the unconfigured local-hybrid privacy and fallback boundary.
+- `evidence.json`: normalized exact-revision and content-addressed evidence entries.
 - `learning/index.json`: compact retrieval metadata for Lessons and Practices.
 - `learning/lessons/*.md` and `learning/practices/*.md`: full project evidence, applicability, guidance, and validation history.
 - `artifacts/**`: project-owned design, evaluation, runtime, and other evidence, including UI briefs and referenced previews.
+- `adapters/**`: explicitly installed, isolated, project-owned third-party adapter copies and provenance manifests.
 - `work-items/*.json`: work state, parent/dependencies, coordination fields, external tracker references and reconciliation records, claims, and evidence pointers.
 - `decisions/*.md`: Decision Ledger entries and ADR proposals.
 - `events/events.jsonl`: an append-only event stream.
@@ -71,6 +74,7 @@ Phase 1 uses Git-friendly JSON and Markdown:
 - `views/tracker.json`: bounded external observations and conflict plans for currently mapped Work Items.
 - `views/parallel-plan.json`: deterministic safe waves, plan-only dispatch manifests, join gates, source and per-entry preparation fingerprints; planning creates no task or claim.
 - `views/work-items/WI-####.json`: a generated bounded Context Capsule for one work item and Position.
+- `views/retrieval-evaluation.json`: an optional generated retrieval-quality report.
 
 Conversations can recover context from these files; conversations themselves cannot override them.
 
@@ -84,7 +88,7 @@ The specification index is an authority registry, while the Context Map is a ret
 
 An Agent begins from the work item, Position, and Context Map rather than loading the whole repository. `temple context resolve` uses the default deterministic Retrieval Provider to score relevant routes, active Practices, validated Lessons, and installed repository Skills. It also compares declared `affected_paths` with other non-terminal work items and reports the Work Item's current parallel-plan disposition and freshness. The result contains paths, scores, reasons, provider provenance, and warnings; the referenced canonical files still provide the actual truth.
 
-The default provider is local and reports `semantic: false`. The `temple.retrieval-provider/v1` contract permits a future local semantic or hybrid adapter, but no model, vector database, daemon, or third-party search service is installed or selected in this release. See [Progressive context routing](context-routing.md) and [ADR-0017](adr/0017-progressive-context-routing.md).
+The default provider is local and reports `semantic: false`. Alpha.19 includes an injectable local-hybrid contract with provider provenance, reciprocal-rank fusion, and deterministic failure fallback, but keeps it unconfigured. No model, embeddings, vector database, daemon, or third-party search service is installed or selected. Checked-in evaluation cases measure routing before a project considers another provider. See [Progressive context routing](context-routing.md), [ADR-0017](adr/0017-progressive-context-routing.md), and [ADR-0025](adr/0025-measure-learning-retrieval-before-semantic-defaults.md).
 
 ## Task and external tracker boundaries
 
@@ -102,11 +106,11 @@ Validate initialization configuration, preview the file plan, reject managed con
 
 ### `temple doctor`
 
-Validate managed checksums and the pinned launcher, the JSON model, Position completeness, Agent-name uniqueness, collaboration profiles and memberships, active claims, stage requirements, worker-to-claim and worker-to-resource integrity, internal/user-task separation, Developer and Independent QA separation, the specification index and revisioned Work Item references, tracker configuration and mappings, active Context Map paths, work-item context references and affected paths, generated parallel-plan validity and freshness, the Retrieval Provider contract, the Capability Registry, the learning index and record references, Skills, and `AGENTS.md` integration. Collaborative projects warn until the retained large-scale validation passes.
+Validate managed checksums and the pinned launcher, cataloged JSON Schemas, Position completeness, Agent-name uniqueness, collaboration and High-Assurance prerequisites, active claims, stage requirements, worker-to-claim and worker-to-resource integrity, internal/user-task separation, specification and Work Item references, tracker mappings, Context Map paths, generated plans, Retrieval Provider configuration, Capability Registry, learning records and revalidation metadata, normalized evidence, optional adapter provenance and digests, Skills, and `AGENTS.md` integration. Collaborative and High-Assurance projects warn until the retained large-scale validation passes.
 
 ### `temple status`
 
-Read canonical state and output the collaboration profile, Principal and membership counts, active claims, stage requirements, runtime workers, shared-resource saturation, parallel-plan validity, freshness and disposition counts, specification authority and status counts, tracker mappings and reconciliation actions, stale Work Item references, the user-task registry, context-routing and capability counts, learning counts, revisions, attention signals, recent events, and archive readiness. It may update generated views, but never turns a view back into a decision.
+Read canonical state and output the collaboration profile, Principal and membership counts, active claims, Work Item risk tiers, stage requirements, runtime workers, shared-resource saturation, plan freshness, specification authority, tracker reconciliation, context and capability counts, Learning revalidation, Retrieval configuration and evaluation status, optional adapter status, revisions, attention signals, recent events, and archive readiness. It may update generated views, but never turns a view back into a decision.
 
 ### `temple evidence` and `temple observe`
 
@@ -137,13 +141,16 @@ Only the first wave of a verified plan is an immediate preparation candidate. Pe
 - `temple capability list/find` inventories repository Skills and retrieves likely methods. Project extensions remain unlisted in `temple.lock` and project-owned.
 - `temple context resolve` creates or previews a bounded Context Capsule for a work item. `--no-write` keeps the operation read-only; otherwise the output is a generated view.
 - `--spec-ref`, `--ux-ref`, `--ui-ref`, and `--contract-ref` pin governed specification IDs and revisions. `--affected-path` and `--context-ref` make coordination and explicit routing durable without copying document content into the work item.
+- `temple learning add-lesson/add-practice/revalidate/list/migrate/evaluate` preserves learning and measures deterministic retrieval without automatic promotion.
+- `temple schema validate` applies the managed Draft 2020-12 catalog; `temple migration plan` exposes versioned state changes.
+- `temple adapter archify-status/archify-install` inspects or copies a pinned exact local source without automatic network access or execution.
 
 ### Lifecycle commands
 
-- `temple work-item create` allocates the next sequential Solo ID or a collision-resistant Collaborative ID and can record revisioned specification references plus a Work Item UI delivery mode.
-- `temple handoff` produces an evidence-backed handoff document.
+- `temple work-item create` allocates the next sequential Solo ID or a collision-resistant Collaborative/High-Assurance ID and can record revisioned specification references, a UI delivery mode, and a High-Assurance risk contract.
+- `temple handoff` produces an evidence-backed handoff document; High-Assurance resolves the input to an exact Git commit.
 - `temple transition` allows only edges defined by the workflow, and every `requires` entry must have a named evidence reference.
-- `temple close` produces a release record and requires a caller-supplied tested revision reference, rollback plan, and approval record; it does not yet resolve that reference as a Git object or perform an external release.
+- `temple close` produces a release record and requires a tested revision, rollback, and approval record. High-Assurance resolves and cross-checks the exact commit plus normalized evidence and Human Principals. Other profiles preserve caller-supplied references. No profile performs an external release.
 - `temple task register/update/list` maintains separate user-owned task and thread records, can attach a `user-task` runtime reservation, and does not directly operate the Codex app. Internal subagents use the worker registry instead.
 
 Every lifecycle and task mutation acquires a short-lived exclusive lock in the system temporary directory, named from a hash of the project path. Init, upgrade, and pack mutations re-plan under the same lock. New files use exclusive creation, existing managed files and the lock are rechecked before mutation, and a file journal rolls back completed steps when a later write fails. Rollback never overwrites content changed again by an external writer; it reports an incomplete rollback for manual review instead. Other processes wait briefly and stop on timeout. A lock older than five minutes is treated as crash residue and may be cleared by the next command. The lock is outside the repository and is not canonical state. It coordinates processes in one checkout only; it is not a distributed lock across machines. Cross-machine collaboration must use Git branches, pull requests, protected-branch rules, CI, and explicit conflict resolution.
@@ -151,7 +158,7 @@ Every lifecycle and task mutation acquires a short-lived exclusive lock in the s
 ### Optional pack commands
 
 - `temple pack list` shows centrally available versions, installation state, and included Skills.
-- `temple pack install --pack build-quality` copies pack files only after an explicit invocation, then writes the version, Skills, managed paths, and checksums to `temple.lock`.
+- `temple pack install --pack build-quality` copies the v2 manifest's declared Skill entrypoints, references, scripts, and assets only after an explicit invocation, then writes provenance, compatibility, dependencies, paths, and checksums to `temple.lock`.
 - `temple pack remove` removes only pack files whose checksums still match the lock. Project modifications stop the operation before any write.
 
 Pack sources live in central `packs/<pack-id>/`, not `project-overlay/`. Core initialization therefore stays small, and a pack does not enter product projects merely because it exists in the central repository.
@@ -174,4 +181,4 @@ Archify is responsible only for turning selected architecture or process data in
 Canonical files → read-only adapter → Archify input → HTML/artifact
 ```
 
-The output must identify its source revision and generation time. Archify must not create work items, approve releases, or change Agent Assignments. Phase 1 pins only the contract and does not automatically install or execute third-party code.
+The output must identify its source revision and generation time. Archify must not create work items, approve releases, or change Agent Assignments. Alpha.19 can copy an explicitly supplied local checkout only when it matches the pinned commit and MIT license; the adapter is isolated and content-addressed. The framework does not download or execute it. See [Archify adapter](archify-adapter.md).

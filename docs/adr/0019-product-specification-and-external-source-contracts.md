@@ -24,7 +24,7 @@ Each artifact records a stable ID, status, owner, authoritative location, source
 
 A Work Item records one of two product-specification modes. `gate-evidence` is the lightweight default when no indexed product specification governs: the existing Spec gate's named approved-scope and acceptance references remain authoritative for that bounded item, and the item cannot carry `spec_refs` or claim index-based product-scope staleness protection. Indexed UX, UI, API, or technical contracts may still govern their declared subjects. `indexed` requires at least one approved current `spec_ref` before Design and is the expected path for maintained, multi-party, or long-lived product behavior.
 
-Artifact depth scales with product and coordination risk. Small work may combine concise baselines, Standard work uses independently reviewable and traceable specifications, and high-assurance work requires controlled baselines, approvals, retained evidence, and stronger separation. This is high-assurance specification guidance, not a claim that the current High-Assurance collaboration profile is selectable or validated.
+Artifact depth scales with product and coordination risk. Small work may combine concise baselines, Standard work uses independently reviewable and traceable specifications, and high-assurance work requires controlled baselines, approvals, retained evidence, and stronger separation. This specification depth is distinct from selecting and satisfying the implemented High-Assurance collaboration profile.
 
 ### Support federated, hybrid, and Temple-native adoption
 
@@ -52,7 +52,7 @@ The framework installs managed templates for a Product Charter, Product Requirem
 
 ## Current implementation boundary
 
-The current implementation installs the managed Markdown templates, a project-owned specification index with authority, approval, revision, and repository-content integrity metadata, versioned Work Item references, and a per-item UI delivery-mode field with prebuild and closeout evidence checks. It does not add specification-authoring CLI commands, automatic document migration, external connectors, external write-back, Figma integration, design synchronization, semantic contract validation, or a selectable High-Assurance profile. Existing collaboration readiness, Context Map, canonical ownership, and human approval boundaries remain in force.
+The current implementation installs the managed Markdown templates, a project-owned specification index with authority, approval, revision, and repository-content integrity metadata, versioned Work Item references, and a per-item UI delivery-mode field with prebuild and closeout evidence checks. Alpha.19 separately adds a selectable risk-based High-Assurance profile. It still does not add specification-authoring CLI commands, automatic document migration, external connectors, external write-back, Figma integration, design synchronization, or semantic contract validation. Existing collaboration readiness, Context Map, canonical ownership, and human approval boundaries remain in force.
 
 ## Consequences
 

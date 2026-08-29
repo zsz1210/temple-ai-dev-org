@@ -25,6 +25,15 @@ import {
   validateSpecIndex
 } from "./specifications.mjs";
 import { readResourceRegistry, resourceAvailability } from "./resources.mjs";
+import {
+  HIGH_ASSURANCE_PROFILE,
+  assertHighAssuranceCloseout,
+  assertHighAssuranceTransition,
+  assertHighAssuranceUiMode,
+  assuranceForRisk,
+  exactHandoffRevision,
+  readHighAssurancePolicy
+} from "./assurance.mjs";
 
 const UI_DELIVERY_MODES = ["not-applicable", "code-first", "preview-first", "design-led"];
 const SPECIFICATION_MODES = ["gate-evidence", "indexed"];
@@ -240,7 +249,7 @@ async function nextWorkItemId(target) {
 }
 
 async function newWorkItemId(target, profile) {
-  if (profile !== "collaborative") return nextWorkItemId(target);
+  if (!["collaborative", HIGH_ASSURANCE_PROFILE].includes(profile)) return nextWorkItemId(target);
   for (let attempt = 0; attempt < 5; attempt += 1) {
     const candidate = collaborativeWorkItemId();
     if (!(await pathExists(workItemPath(target, candidate)))) return candidate;
@@ -451,6 +460,16 @@ export async function createWorkItem(target, options) {
   assertSpecificationMode(specificationMode, specRefs);
   const uiDeliveryMode = options.uiDeliveryMode === undefined ? null : options.uiDeliveryMode;
   assertUiDeliveryMode(uiDeliveryMode, uiRefs);
+  let riskTier = null;
+  let assurance = null;
+  if (collaboration.profile === HIGH_ASSURANCE_PROFILE) {
+    const policy = await readHighAssurancePolicy(target);
+    riskTier = String(options.riskTier ?? "standard").trim();
+    assurance = assuranceForRisk(policy, riskTier);
+    assertHighAssuranceUiMode(policy, riskTier, uiDeliveryMode);
+  } else if (options.riskTier !== undefined) {
+    throw new Error("--risk-tier is available only in the high-assurance collaboration profile");
+  }
 
   const workItemId = await newWorkItemId(target, collaboration.profile);
   const state = context.workflow.initial_state;
@@ -478,6 +497,7 @@ export async function createWorkItem(target, options) {
     contract_refs: contractRefs,
     specification_mode: specificationMode,
     ui_delivery_mode: uiDeliveryMode,
+    ...(riskTier ? { risk_tier: riskTier, assurance } : {}),
     parent_work_item_id: parentWorkItemId,
     tracker_visibility: trackerVisibility,
     tracker_refs: [],
@@ -792,7 +812,7 @@ export async function claimWorkItem(target, options) {
   }
   const expectedPrincipal = sponsoredPrincipal(collaboration, agentId);
   const principalId = String(options.principalId ?? expectedPrincipal ?? "human").trim();
-  if (collaboration.profile === "collaborative" && !expectedPrincipal) throw new Error(`${agentId} has no Human Principal sponsor`);
+  if (["collaborative", HIGH_ASSURANCE_PROFILE].includes(collaboration.profile) && !expectedPrincipal) throw new Error(`${agentId} has no Human Principal sponsor`);
   if (expectedPrincipal && principalId !== expectedPrincipal) {
     throw new Error(`${agentId} is sponsored by ${expectedPrincipal}, not ${principalId}`);
   }
@@ -935,6 +955,7 @@ export async function transitionWorkItem(target, options) {
   const additions = normalizeSatisfiedRequirements(options.satisfied);
   const mergedGates = mergeGateEvidence(item, additions);
   if (toState === "build") await assertUiEvidence(target, item, mergedGates, "prebuild");
+  await assertHighAssuranceTransition(target, context, item, toState, mergedGates);
   const missing = (transition.requires ?? []).filter((requirement) => !(mergedGates[requirement]?.length > 0));
   if (missing.length > 0) {
     throw new Error(
@@ -1016,8 +1037,9 @@ export async function createHandoff(target, options) {
   if (item.next_position && item.next_position !== toPosition) {
     throw new Error(`Handoff for ${item.id} must go to next Position ${item.next_position}, not ${toPosition}`);
   }
-  const inputRevision = String(options.inputRevision ?? "").trim();
-  if (!inputRevision) throw new Error("--input-revision is required");
+  const requestedInputRevision = String(options.inputRevision ?? "").trim();
+  if (!requestedInputRevision) throw new Error("--input-revision is required");
+  const inputRevision = await exactHandoffRevision(target, item, requestedInputRevision);
   const completed = uniqueStrings(options.completed);
   const evidence = uniqueStrings(options.evidence);
   if (completed.length === 0) throw new Error("At least one --completed value is required");
@@ -1129,13 +1151,16 @@ export async function closeWorkItem(target, options) {
     throw new Error(`Release gate is missing evidence: ${missing.join(", ")}. Use --satisfy requirement=reference.`);
   }
 
+  const assuranceCloseout = await assertHighAssuranceCloseout(target, context, item, options, gateEvidence);
+  const closeOptions = { ...options, testedRevision: assuranceCloseout.testedRevision };
+
   const timestamp = new Date().toISOString();
   const relativePath = `.ai-org/artifacts/${item.id}/release-record.md`;
   gateEvidence.rollback_plan = [relativePath];
   gateEvidence.required_human_approval = [options.approval];
   await atomicWrite(
     path.join(target, relativePath),
-    releaseRecordMarkdown(context, item, options, timestamp, actor, gateEvidence)
+    releaseRecordMarkdown(context, item, closeOptions, timestamp, actor, gateEvidence)
   );
 
   const destinationState = options.decision === "go" ? "done" : "blocked";
@@ -1161,7 +1186,7 @@ export async function closeWorkItem(target, options) {
         ? [...(item.claims ?? []).filter((entry) => entry.id !== closeClaim.id), closeClaim]
         : item.claims ?? [],
     updated_at: timestamp,
-    tested_revision: options.testedRevision,
+    tested_revision: closeOptions.testedRevision,
     release_gate_result: options.decision,
     external_release_status: "not_performed",
     approval_record: options.approval,
@@ -1180,7 +1205,7 @@ export async function closeWorkItem(target, options) {
     work_item_id: item.id,
     from_state: "release_gate",
     to_state: destinationState,
-    tested_revision: options.testedRevision,
+    tested_revision: closeOptions.testedRevision,
     result: options.decision,
     approval_record: options.approval,
     external_release: false,

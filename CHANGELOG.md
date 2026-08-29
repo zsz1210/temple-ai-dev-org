@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.0-alpha.19
+
+- Added Pack manifest v2 with explicit Skill entrypoints, references, scripts, assets, dependencies, provenance, compatibility metadata, full lock metadata, and checksum-safe install, upgrade, and removal.
+- Added Draft 2020-12 runtime schema validation with exact document and instance paths plus a managed migration registry and lock-backed baseline/applied history.
+- Added atomic Learning CLI operations, explicit v1-to-v2 migration, Lesson-to-Practice derivation, revalidation history and due/contradicted signals, Observer attention, and deterministic hit-rate/MRR evaluation.
+- Added a project-owned Retrieval configuration and injectable local-hybrid provider boundary with provenance, reciprocal-rank fusion, privacy declarations, and deterministic failure fallback; no model, embeddings, vector database, daemon, or remote search is installed.
+- Made High-Assurance selectable behind two-Principal, full-sponsorship, Developer/Independent-QA, and Developer/Release-Manager separation prerequisites. New High-Assurance Work Items record a risk tier and enforce scaled UI, normalized exact-revision evidence, rollback, and independent approval gates.
+- Added an opt-in Archify adapter that accepts only an exact local Git checkout at the pinned MIT-licensed revision, installs into an isolated project-owned directory, records file digests, detects drift, and degrades safely when absent. It performs no download or execution.
+- Added status v9, capability flags, ADR-0024 through ADR-0026, extension, High-Assurance, Archify, Learning, Retrieval, architecture, usage, roadmap, trilingual README, and Alpha.19 validation documentation.
+- Bound High-Assurance to each Work Item so later profile changes cannot bypass exact-revision, evidence, rollback, or approval gates; `doctor` rejects derived-contract drift and risk severity mapping is explicit.
+- Hardened the Archify adapter against dirty pinned checkouts, unsafe or duplicate manifest paths, symbolic links, and unrecorded installed files; local-hybrid semantic ranking can no longer replace canonical repository content.
+- Kept retrieval and status inspection read-only when a legacy project has not yet received its project-owned retrieval configuration.
+- Preserved explicit limits: real multi-human/multi-machine contention, large-repository retrieval, configured local semantic infrastructure, regulated audit acceptance, external writes, deployment, and publication remain `not_run` or not performed.
+
 ## 0.1.0-alpha.18
 
 - Added a project-owned normalized Evidence Registry and local adapters for exact Git revisions, supplied test observations, supplied runtime observations, explicitly unverified claims, risks, and rollback procedures.

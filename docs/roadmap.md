@@ -6,9 +6,9 @@ These are engineering phases and exit gates, not date commitments. Expand automa
 
 Every phase advances the same six layers: product intent, organization and authority, engineering methods, work orchestration, verification and delivery, and durable state and observability. Scale is introduced through evidence-backed profiles and extensions rather than by claiming that one fixed process already fits every project.
 
-The Engineering Learning Loop is a cross-cutting track. Alpha.10 establishes project-owned Lessons and Practices, compact retrieval metadata, validation, and status projection. Later automation must be justified by real use: a retrospective Skill, Learning CLI, semantic retrieval, stale-practice alerts, and privacy-safe cross-project promotion are planned rather than implied by the storage foundation.
+The Engineering Learning Loop is a cross-cutting track. Alpha.10 established project-owned Lessons and Practices; Alpha.19 adds atomic CLI mutations, revalidation signals, explicit migration, and deterministic retrieval evaluation. Later automation still requires real evidence: a retrospective Skill, automatic promotion, scheduled review, configured semantic retrieval, and privacy-safe cross-project promotion remain planned.
 
-The capability track begins with a small core, one opt-in Build Quality pack, project-owned Skills, and an alpha.12 generated Capability Registry that observes repository Skills without claiming extension ownership. Later work may add architecture, review, exploration, Git and improvement, and security packs only after bounded pilots. Richer pack manifests, dependency declarations, project and third-party lifecycle commands, and automated model-routing evaluation remain planned.
+The capability track begins with a small core, one opt-in Build Quality pack, project-owned Skills, and an alpha.12 generated Capability Registry that observes repository Skills without claiming extension ownership. Alpha.19 adds Pack manifest v2 with multi-file composition, dependencies, provenance, and compatibility plus an isolated Archify adapter lifecycle. Architecture, review, exploration, Git and improvement, security packs, custom-pack publishing, generic third-party Skill installation, and model-routing automation still require bounded pilots.
 
 The UI design track begins with an explicit UI Designer Position and four explicit outcomes: `not-applicable`, code-first, preview-first, and design-led. Alpha.14 records the choice per Work Item and pins approved UI contract revisions when required. Figma remains optional. Project-profile defaults, design-source adapters, token synchronization, and visual-regression integration require later validation.
 
@@ -100,7 +100,7 @@ Groundwork already available:
 - A project-owned specification authority registry with revision-pinned Work Item contracts and stale-reference blocking.
 - Team-visible Work Item mappings, protected field ownership, a bounded GitHub Issues observation adapter, generated conflict plans, and explicit repository reconciliation.
 
-Planned deliverables:
+Delivered increments:
 
 ### Phase 2A — Recoverable runtime coordination (`0.1.0-alpha.17`)
 
@@ -119,19 +119,19 @@ Planned deliverables:
 
 ### Phase 2C — Extension and retrieval maturity (`0.1.0-alpha.19`)
 
-- Pack manifest v2 for references, scripts, assets, declared dependencies, provenance, and compatibility metadata.
-- More complete JSON Schema runtime validation plus an explicit migration registry.
-- Learning CLI mutations, Practice revalidation signals, and deterministic retrieval-quality evaluation.
-- Isolated Archify adapter installation, provenance, and graceful-degradation tests.
-- Complete the High-Assurance profile contract and risk-based defaults for artifact depth, UI delivery mode, methods, and gates while preserving the ten Position responsibilities.
-- Keep a privacy-preserving local hybrid Retrieval Provider as an adapter boundary until real evaluation evidence justifies selecting it; do not install a model, embeddings, vector database, or daemon by default.
+- Delivered Pack manifest v2 for references, scripts, assets, declared dependencies, provenance, and compatibility metadata.
+- Delivered Draft 2020-12 runtime validation plus an explicit migration registry that does not silently rewrite existing project-owned data.
+- Delivered atomic Learning CLI mutations, explicit v1-to-v2 migration, Practice revalidation signals, Observer attention, and deterministic retrieval-quality evaluation.
+- Delivered isolated clean-local-source Archify installation, exact provenance, a closed per-file digest set, drift detection, and graceful degradation when absent.
+- Delivered the selectable High-Assurance risk contract with human-accountability prerequisites and risk-scaled artifact, UI, normalized evidence, rollback, and approval gates while preserving the ten Position responsibilities. Existing High-Assurance Work Items retain their contract across later profile changes.
+- Delivered a privacy-preserving injectable local-hybrid Retrieval Provider boundary with deterministic fallback. The default still installs no model, embeddings, vector database, daemon, or remote retrieval service.
 
 Retained evidence work:
 
 - Validate affected-path coordination and resolution state under real multi-machine Git and pull-request contention.
 - Evaluate large-repository retrieval quality and any local hybrid provider with real project corpora before claiming production readiness.
 
-Exit gate: At least one real, recoverable work item that does not touch production completes the full lifecycle; two parallel work items do not overwrite each other; and every gate is traceable to an actor, revision, and evidence.
+Local exit gate: satisfied through the recoverable lifecycle pilots, deterministic parallel regression cases, normalized evidence, and exact-revision High-Assurance closeout. The retained real multi-machine and large-repository cases above remain required before broader production-readiness claims.
 
 ## Phase 3: Real-time control plane
 

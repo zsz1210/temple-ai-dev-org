@@ -93,7 +93,7 @@ test("init installs a repository-visible version-pinned Temple launcher", async 
   const lock = JSON.parse(await fs.readFile(path.join(target, "temple.lock"), "utf8"));
   assert.equal(lock.template.bootstrap.schema_version, "temple.cli-bootstrap/v1");
   assert.equal(lock.template.bootstrap.version, lock.template.version);
-  assert.match(lock.template.bootstrap.package_spec, /0\.1\.0-alpha\.18$/);
+  assert.match(lock.template.bootstrap.package_spec, /0\.1\.0-alpha\.19$/);
   assert.ok(lock.managed_files.some((entry) => entry.path === "templew.mjs"));
 
   const info = spawnSync(process.execPath, [wrapper, "--bootstrap-info"], { encoding: "utf8" });
@@ -144,8 +144,8 @@ test("upgrade adds the runtime coordination contract without adopting project-ow
   const upgraded = run(["upgrade", target]);
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.18");
-  assert.equal(upgradedLock.template.bootstrap.version, "0.1.0-alpha.18");
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.19");
+  assert.equal(upgradedLock.template.bootstrap.version, "0.1.0-alpha.19");
   assert.equal(upgradedLock.capabilities.atomic_worker_preparation, true);
   assert.ok(upgradedLock.managed_files.some((entry) => entry.path === "templew.mjs"));
   assert.deepEqual(JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/resources.json"), "utf8")), {

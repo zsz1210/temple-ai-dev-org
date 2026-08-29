@@ -34,6 +34,16 @@ import {
 import { withProjectMutationLock } from "./project.mjs";
 import { buildStatus, renderStatusMarkdown, writeStatus } from "./status.mjs";
 import { buildObserverProjection, writeObserverProjection } from "./observer.mjs";
+import { validateProjectSchemas } from "./schema-validation.mjs";
+import { buildMigrationPlan } from "./migrations.mjs";
+import {
+  addLearningEntry,
+  listLearningEntries,
+  migrateLearningIndex,
+  revalidateLearningEntry
+} from "./learning.mjs";
+import { evaluateRetrieval, readRetrievalConfig } from "./retrieval.mjs";
+import { installArchifyAdapter, inspectArchifyAdapter } from "./archify-adapter.mjs";
 import { listTasks, registerTask, updateTask } from "./tasks.mjs";
 import {
   configureTracker,
@@ -72,12 +82,12 @@ Usage:
   temple status [target] [--json] [--no-write]
   temple observe [target] [--json] [--no-write]
   temple collaboration show [target] [--json]
-  temple collaboration set-profile [target] --profile solo|collaborative
+  temple collaboration set-profile [target] --profile solo|collaborative|high-assurance
   temple collaboration add-principal [target] --principal-id principal-name --name "Human Name"
   temple collaboration add-agent [target] --agent-id agent-name --name "Agent Name"
   temple collaboration sponsor [target] --principal-id principal-name --agent-id agent-name
   temple collaboration add-membership [target] --agent-id agent-name --position developer [--discipline backend]
-  temple work-item create [target] --title text [--scope text] [--acceptance text] [--affected-path path] [--context-ref id] [--spec-mode gate-evidence|indexed] [--spec-ref ID@revision] [--ui-mode mode] [--discipline backend] [--stage-discipline build=backend] [--stage-resource test=ios-simulator[:units]] [--tracker-visibility internal|team-visible]
+  temple work-item create [target] --title text [--scope text] [--acceptance text] [--affected-path path] [--context-ref id] [--spec-mode gate-evidence|indexed] [--spec-ref ID@revision] [--ui-mode mode] [--risk-tier low|standard|high|critical] [--discipline backend] [--stage-discipline build=backend] [--stage-resource test=ios-simulator[:units]] [--tracker-visibility internal|team-visible]
   temple work-item configure [target] --work-item WI-ID [--parent WI-ID] [--depends-on WI-ID] [--agent-id agent-name] [--discipline backend] [--stage-discipline build=backend] [--stage-resource test=ios-simulator[:units]] [--clear-stage-requirement test] [--base-revision ref] [--parallel-mode mode] [--spec-ref ID@revision] [--replace-spec-refs]
   temple work-item claim [target] --work-item WI-ID --agent-id agent-name --principal-id principal-name --base-revision ref --branch name [--worktree path]
   temple work-item release [target] --work-item WI-ID [--agent-id agent-name] [--principal-id principal-name] [--reason text]
@@ -97,6 +107,17 @@ Usage:
   temple evidence risk [target] --work-item WI-ID --summary text --severity low|medium|high|critical --risk-status open|accepted|mitigated --mitigation text [--revision ref]
   temple evidence rollback [target] --work-item WI-ID --summary text --procedure path --rollback-status planned|verified [--revision ref]
   temple evidence list [target] [--work-item WI-ID] [--json]
+  temple schema validate [target] [--json]
+  temple migration plan [target] [--json]
+  temple learning add-lesson [target] --title text --summary text --confidence low|medium|high [--tag value] [--applies-to value] [--source-work-item WI-ID] [--evidence ref]
+  temple learning add-practice [target] --title text --summary text --confidence low|medium|high --derived-from LESSON-ID --owner-position position [--tag value] [--applies-to value]
+  temple learning revalidate [target] --learning-id ID --result confirmed|narrowed|contradicted [--evidence ref] [--review-after timestamp]
+  temple learning list [target] [--json]
+  temple learning migrate [target] [--dry-run] [--json]
+  temple learning evaluate [target] --fixture path [--no-write] [--json]
+  temple retrieval show [target] [--json]
+  temple adapter archify-status [target] [--json]
+  temple adapter archify-install [target] --source local-git-checkout [--json]
   temple handoff [target] --work-item WI-0001 --to position --input-revision ref --completed text --evidence ref
   temple transition [target] --work-item WI-0001 --to state --satisfy requirement=reference
   temple close [target] --work-item WI-0001 --decision go|no-go --tested-revision ref --rollback text --approval record
@@ -132,6 +153,11 @@ Core commands:
   resource    Define and inspect shared runtime or verification capacity.
   worker      Correlate reserved work with internal subagents or user-owned Codex tasks.
   evidence    Normalize local Git, test, runtime, claim, risk, and rollback observations without satisfying gates.
+  schema      Validate cataloged project and generated JSON through Draft 2020-12 schemas.
+  migration   Inspect versioned framework and explicit project-data migrations.
+  learning    Capture, revalidate, retrieve, and evaluate project-owned engineering learning.
+  retrieval   Inspect the deterministic default and unconfigured local-hybrid boundary.
+  adapter     Inspect or install an opt-in, pinned, isolated local adapter.
   handoff     Create an evidence-bearing Position handoff artifact.
   transition  Enforce the workflow edge and its named gate requirements.
   close       Record release readiness and close or block a release-gate item.
@@ -253,7 +279,19 @@ const VALUE_FLAGS = new Set([
   "--risk-status",
   "--mitigation",
   "--procedure",
-  "--rollback-status"
+  "--rollback-status",
+  "--risk-tier",
+  "--confidence",
+  "--tag",
+  "--applies-to",
+  "--source-work-item",
+  "--derived-from",
+  "--owner-position",
+  "--learning-id",
+  "--result",
+  "--review-after",
+  "--fixture",
+  "--source"
 ]);
 const REPEATABLE_FLAGS = new Set([
   "--scope",
@@ -278,9 +316,13 @@ const REPEATABLE_FLAGS = new Set([
   "--clear-stage-requirement",
   "--depends-on",
   "--shared-contract-ref",
-  "--overlap-resolution"
+  "--overlap-resolution",
+  "--tag",
+  "--applies-to",
+  "--source-work-item",
+  "--derived-from"
 ]);
-const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence"]);
+const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence", "schema", "migration", "learning", "retrieval", "adapter"]);
 
 function parseCommand(argv) {
   if (argv.length === 0 || argv[0] === "--help" || argv[0] === "-h") {
@@ -623,6 +665,129 @@ async function runEvidence(parsed) {
   return 0;
 }
 
+async function runSchema(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (parsed.action !== "validate") throw new Error(`Unknown schema action: ${parsed.action}`);
+  const report = await validateProjectSchemas(target);
+  if (parsed.flags.has("--json")) console.log(JSON.stringify(report, null, 2));
+  else {
+    console.log(`Runtime JSON Schema validation: ${report.valid ? "PASS" : "FAIL"}`);
+    console.log(`Documents: ${report.documents_checked}; Schemas: ${report.schemas_checked}`);
+    for (const error of report.errors) console.log(`[FAIL] ${error.document ?? error.schema}${error.instance_path}: ${error.message}`);
+  }
+  return report.valid ? 0 : 1;
+}
+
+async function runMigration(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (parsed.action !== "plan") throw new Error(`Unknown migration action: ${parsed.action}`);
+  const plan = await buildMigrationPlan(target);
+  if (parsed.flags.has("--json")) console.log(JSON.stringify(plan, null, 2));
+  else {
+    console.log(`Migration plan: ${plan.from_version} -> ${plan.to_version}`);
+    if (plan.pending.length === 0) console.log("No pending migrations.");
+    else for (const entry of plan.pending) console.log(`${entry.id}\t${entry.mode}\t${entry.description}`);
+    console.log("Project-owned content changed: no");
+    console.log("External action: not performed");
+  }
+  return 0;
+}
+
+async function runLearning(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (["add-lesson", "add-practice"].includes(parsed.action)) {
+    const kind = parsed.action === "add-lesson" ? "lesson" : "practice";
+    const entry = await withProjectMutationLock(target, () => addLearningEntry(target, kind, {
+      title: parsed.options["--title"],
+      summary: parsed.options["--summary"],
+      confidence: parsed.options["--confidence"],
+      tags: listOption(parsed, "--tag"),
+      appliesTo: listOption(parsed, "--applies-to"),
+      sourceWorkItems: listOption(parsed, "--source-work-item"),
+      evidence: listOption(parsed, "--evidence"),
+      derivedFrom: listOption(parsed, "--derived-from"),
+      ownerPosition: parsed.options["--owner-position"],
+      actor: parsed.options["--actor"]
+    }));
+    printResult(parsed, entry, [`Created ${entry.id}: ${entry.title}`, `Index: .ai-org/learning/index.json`, `Record: ${entry.path}`]);
+    return 0;
+  }
+  if (parsed.action === "revalidate") {
+    const entry = await withProjectMutationLock(target, () => revalidateLearningEntry(target, {
+      learningId: parsed.options["--learning-id"],
+      result: parsed.options["--result"],
+      evidence: listOption(parsed, "--evidence"),
+      reviewAfter: parsed.options["--review-after"],
+      actor: parsed.options["--actor"]
+    }));
+    printResult(parsed, entry, [`Revalidated ${entry.id}: ${entry.revalidation.last_result}`, `Signal: ${entry.revalidation.signal}`]);
+    return 0;
+  }
+  if (parsed.action === "list") {
+    const result = await listLearningEntries(target);
+    if (parsed.flags.has("--json")) console.log(JSON.stringify(result, null, 2));
+    else if (result.entries.length === 0) console.log("No project learning recorded.");
+    else for (const entry of result.entries) console.log(`${entry.id}\t${entry.status}\t${entry.revalidation.signal}\t${entry.title}`);
+    return 0;
+  }
+  if (parsed.action === "migrate") {
+    const result = await withProjectMutationLock(target, () => migrateLearningIndex(target, { dryRun: parsed.flags.has("--dry-run") }));
+    printResult(parsed, result, [`Learning index: ${result.from_schema} -> ${result.to_schema}`, `Changed: ${result.changed && !parsed.flags.has("--dry-run") ? "yes" : "no"}`, `Dry run: ${parsed.flags.has("--dry-run") ? "yes" : "no"}`]);
+    return 0;
+  }
+  if (parsed.action === "evaluate") {
+    if (!parsed.options["--fixture"]) throw new Error("learning evaluate requires --fixture");
+    const report = await evaluateRetrieval(target, parsed.options["--fixture"], { write: !parsed.flags.has("--no-write") });
+    if (parsed.flags.has("--json")) console.log(JSON.stringify(report, null, 2));
+    else {
+      console.log(`Retrieval evaluation: ${report.summary.passed}/${report.summary.cases} cases`);
+      console.log(`Hit rate: ${report.summary.hit_rate_at_limit}; MRR: ${report.summary.mean_reciprocal_rank}`);
+      console.log(`Large-repository validation: ${report.large_repository_validation}`);
+    }
+    return report.summary.passed === report.summary.cases ? 0 : 1;
+  }
+  throw new Error(`Unknown learning action: ${parsed.action}`);
+}
+
+async function runRetrieval(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (parsed.action !== "show") throw new Error(`Unknown retrieval action: ${parsed.action}`);
+  const config = await readRetrievalConfig(target);
+  if (parsed.flags.has("--json")) console.log(JSON.stringify(config, null, 2));
+  else {
+    console.log(`Selected provider: ${config.selected_provider}`);
+    console.log(`Local hybrid: ${config.local_hybrid.status} (${config.local_hybrid.privacy}, deterministic fallback=${config.local_hybrid.deterministic_fallback})`);
+    console.log("Installed model / embeddings / vector database / daemon: no / no / no / no");
+  }
+  return 0;
+}
+
+async function runAdapter(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (parsed.action === "archify-status") {
+    const status = await inspectArchifyAdapter(target);
+    printResult(parsed, status, [
+      `Archify adapter: ${status.status}`,
+      `Usable: ${status.usable ? "yes" : "no"}`,
+      `Reason: ${status.reason}`,
+      "External action: not performed"
+    ]);
+    return status.status === "invalid" ? 1 : 0;
+  }
+  if (parsed.action === "archify-install") {
+    if (!parsed.options["--source"]) throw new Error("adapter archify-install requires --source");
+    const manifest = await withProjectMutationLock(target, () => installArchifyAdapter(target, parsed.options["--source"]));
+    printResult(parsed, manifest, [
+      `Installed Archify ${manifest.provenance.tag} at ${manifest.provenance.commit}`,
+      `Files: ${manifest.files.length}`,
+      `Isolation root: ${manifest.isolation_root}`,
+      "External action: not performed"
+    ]);
+    return 0;
+  }
+  throw new Error(`Unknown adapter action: ${parsed.action}`);
+}
+
 async function runWorkItemCreate(parsed) {
   const target = await assertSafeTarget(parsed.target);
   const result = await withProjectMutationLock(target, async () => {
@@ -639,6 +804,7 @@ async function runWorkItemCreate(parsed) {
       contractRefs: parseDocumentReferences(listOption(parsed, "--contract-ref"), "--contract-ref"),
       specificationMode: parsed.options["--spec-mode"],
       uiDeliveryMode: parsed.options["--ui-mode"],
+      riskTier: parsed.options["--risk-tier"],
       parentWorkItemId: parsed.options["--parent"],
       dependencies: listOption(parsed, "--depends-on"),
       requiredDisciplines: listOption(parsed, "--discipline"),
@@ -1387,6 +1553,11 @@ export async function main(argv) {
   if (parsed.command === "resource") return runResource(parsed);
   if (parsed.command === "worker") return runWorker(parsed);
   if (parsed.command === "evidence") return runEvidence(parsed);
+  if (parsed.command === "schema") return runSchema(parsed);
+  if (parsed.command === "migration") return runMigration(parsed);
+  if (parsed.command === "learning") return runLearning(parsed);
+  if (parsed.command === "retrieval") return runRetrieval(parsed);
+  if (parsed.command === "adapter") return runAdapter(parsed);
   if (parsed.command === "handoff") return runHandoff(parsed);
   if (parsed.command === "transition") return runTransition(parsed);
   if (parsed.command === "close") return runClose(parsed);

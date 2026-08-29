@@ -23,5 +23,8 @@
 - [ADR-0021: Derive safe group dispatch waves without taking runtime authority](0021-safe-group-parallel-orchestration.md)
 - [ADR-0022: Reserve governed work before creating a runtime worker](0022-recoverable-runtime-dispatch.md)
 - [ADR-0023: Separate normalized evidence from lifecycle authority](0023-evidence-registry-and-observer-projection.md)
+- [ADR-0024: Version extension contracts and state migrations explicitly](0024-version-extension-contracts-and-migrations.md)
+- [ADR-0025: Measure learning retrieval before selecting a semantic default](0025-measure-learning-retrieval-before-semantic-defaults.md)
+- [ADR-0026: Make High-Assurance a risk contract, not a larger team](0026-high-assurance-is-a-risk-contract.md)
 
 An ADR is an Architecture Decision Record. It preserves the context, decision, rationale, and consequences of an important technical or organizational choice so that later Agents do not have to infer why it was made from chat memory.

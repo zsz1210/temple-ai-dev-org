@@ -7,7 +7,7 @@
 - Pinned release for the optional adapter contract: `v2.15.0`
 - Resolved commit: `e1ac748f19cf805e44bf74fb93c796662152e273`
 
-Archify is not vendored or executed by Phase 1. The repository only contains an adapter manifest and integration policy so a future implementation can be opt-in, pinned, replaceable, and unable to become the source of truth.
+Archify is not vendored, installed, downloaded, or executed by default. An operator may explicitly copy an exact local checkout into a project-owned isolated directory; that installed copy retains Archify's MIT license, pinned source provenance, and per-file digests. The adapter remains replaceable and cannot become the source of truth.
 
 ## Matt Pocock Skills inspiration
 

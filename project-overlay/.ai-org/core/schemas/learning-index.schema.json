@@ -1,10 +1,10 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "ai-org.learning-index/v1",
+  "$id": "ai-org.learning-index",
   "type": "object",
   "required": ["schema_version", "entries"],
   "properties": {
-    "schema_version": { "const": "ai-org.learning-index/v1" },
+    "schema_version": { "enum": ["ai-org.learning-index/v1", "ai-org.learning-index/v2"] },
     "entries": {
       "type": "array",
       "items": {
@@ -69,6 +69,33 @@
               "reference": { "type": ["string", "null"] }
             },
             "additionalProperties": false
+          },
+          "derived_from": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^LESSON-[0-9]{4,}$" } },
+          "owner_position": { "type": ["string", "null"] },
+          "revalidation": {
+            "type": "object",
+            "required": ["last_result", "review_after", "evidence_refs", "history"],
+            "properties": {
+              "last_result": { "enum": [null, "confirmed", "narrowed", "contradicted"] },
+              "review_after": { "type": ["string", "null"], "format": "date-time" },
+              "evidence_refs": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+              "history": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["result", "validated_at", "validated_by", "evidence_refs", "review_after"],
+                  "properties": {
+                    "result": { "enum": ["confirmed", "narrowed", "contradicted"] },
+                    "validated_at": { "type": "string", "format": "date-time" },
+                    "validated_by": { "type": "string", "minLength": 1 },
+                    "evidence_refs": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+                    "review_after": { "type": ["string", "null"], "format": "date-time" }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "additionalProperties": false
           }
         },
         "allOf": [
@@ -97,5 +124,11 @@
       }
     }
   },
+  "allOf": [
+    {
+      "if": { "properties": { "schema_version": { "const": "ai-org.learning-index/v2" } }, "required": ["schema_version"] },
+      "then": { "properties": { "entries": { "items": { "required": ["derived_from", "owner_position", "revalidation"] } } } }
+    }
+  ],
   "additionalProperties": false
 }

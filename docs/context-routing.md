@@ -109,7 +109,22 @@ The resolver does not read every routed document into a prompt. It returns paths
 
 Alpha.12 ships `repository-deterministic`, a local provider that uses explicit IDs, work-item references, Position hints, phrases, terms, tags, and paths. It is reproducible, requires no network, model, vector database, daemon, or embedding download, and reports `semantic: false`.
 
-The `temple.retrieval-provider/v1` contract reserves an adapter boundary with `id`, `mode`, `semantic`, and `search(request)`. A future local hybrid adapter may combine deterministic filters with embeddings or a local LLM when repository size and measured retrieval misses justify the operational cost. Such an adapter must preserve repository-relative citations, provider provenance, bounded result limits, project privacy, and deterministic fallback. The current CLI does not select, install, or run a semantic provider.
+The `temple.retrieval-provider/v1` contract defines an adapter boundary with `id`, `mode`, `semantic`, and `search(request)`. Alpha.19 includes an injectable local-hybrid provider contract that can combine deterministic and local semantic results through reciprocal-rank fusion. Semantic output may rank only IDs already present in the supplied canonical repository corpus; it cannot replace their paths, content, or authority metadata. The provider preserves repository-relative citations and provenance and falls back deterministically when the local semantic provider fails.
+
+The project-owned `.ai-org/project/retrieval.json` keeps `repository-deterministic` selected by default and marks local hybrid as `available_not_configured`. The framework installs no model, embeddings, vector database, daemon, or remote search. A project must supply and evaluate its own local provider before selection is considered.
+
+## Retrieval evaluation
+
+Store bounded cases in project-owned JSON and run:
+
+```bash
+node ./templew.mjs learning evaluate . \
+  --fixture .ai-org/artifacts/retrieval-evaluation.json \
+  --no-write \
+  --json
+```
+
+Each case declares a retrieval kind, query, expected IDs, optional Position, and result limit. The report records result ranks, hit rate, mean reciprocal rank, and provider provenance. Remove `--no-write` to create the rebuildable `.ai-org/views/retrieval-evaluation.json` projection. The current large-repository validation field remains `not_run`.
 
 ## Scaling and maintenance
 
@@ -124,4 +139,4 @@ This design supports small repositories without setup overhead and provides a st
 
 ## Validation evidence
 
-The bounded local and CI evidence for alpha.12 is preserved in [Alpha.12 Progressive Context Routing validation](validation/alpha-12-progressive-context-routing.md). It proves the stated deterministic installation and CLI path, not real-project cross-task recovery, multi-maintainer governance, large-repository retrieval quality, or a semantic provider.
+The bounded local and CI evidence for the original route and capsule foundation is preserved in [Alpha.12 Progressive Context Routing validation](validation/alpha-12-progressive-context-routing.md). Alpha.19 adds deterministic evaluation and local-hybrid fallback coverage in [Phase 2C validation](validation/alpha-19-extension-and-retrieval-maturity.md). Neither proves large-repository retrieval quality, production local-model operation, or multi-maintainer governance.

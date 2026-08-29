@@ -16,7 +16,7 @@ Temple adopts Progressive Context Routing with four boundaries:
 1. Canonical Specs, ADRs, Skills, work items, Learning records, and evidence remain authoritative.
 2. The project maintains one thin, project-owned Context Map at `.ai-org/project/context-map.json` containing paths and retrieval metadata rather than copied document bodies.
 3. The CLI generates a Capability Registry and per-work-item Context Capsules under `.ai-org/views/**`. These projections are disposable and never become decision authority.
-4. The default Retrieval Provider is deterministic and repository-local. A versioned provider interface permits a later semantic or hybrid adapter, but this release does not install a model, embeddings, vector database, daemon, or third-party service.
+4. The default Retrieval Provider is deterministic and repository-local. A versioned provider interface permits a semantic or hybrid adapter without making it a default dependency. Alpha.19 later adds an injectable local-hybrid boundary and deterministic evaluation while continuing to install no model, embeddings, vector database, daemon, or third-party service.
 
 Work items gain optional `affected_paths` and `context_refs`. Context resolution reports overlapping affected paths across non-terminal work items, but the warning does not assign ownership, cancel work, or authorize edits.
 
@@ -30,4 +30,4 @@ Capability discovery derives lifecycle ownership from exact `temple.lock.managed
 - Project Skills become observable without being silently adopted by framework upgrades.
 - Two active work items can surface likely affected-path conflicts before implementation proceeds.
 - Generated timestamps mean Registry and Capsule views are not stable canonical artifacts; callers that need a read-only preview use `--no-write`.
-- Deterministic token matching will miss some semantic relationships. A future adapter must be justified by measured retrieval failures and must retain deterministic fallback, source paths, privacy boundaries, and provider provenance.
+- Deterministic token matching will miss some semantic relationships. Any configured local adapter must be justified by measured retrieval failures and retain deterministic fallback, source paths, privacy boundaries, and provider provenance; Alpha.19 implements that seam but does not select a semantic runtime.

@@ -1,6 +1,6 @@
 {
   "name": "@zsz1210/temple-ai-dev-org",
-  "version": "0.1.0-alpha.18",
+  "version": "0.1.0-alpha.19",
   "description": "A repository-native, extensible AI development organization framework for Codex projects.",
   "private": true,
   "license": "MIT",
@@ -19,5 +19,9 @@
     "check": "node scripts/check-repo.mjs",
     "test": "node --test",
     "verify": "npm run check && npm test"
+  },
+  "dependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1"
   }
 }

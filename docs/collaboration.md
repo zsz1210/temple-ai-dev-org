@@ -43,9 +43,11 @@ The terms are deliberately separate:
 |---|---|---|
 | Solo | One person operates the organization with lightweight repository coordination | Stable alpha path |
 | Collaborative | Several people sponsor Agent Identities, use Position pools, and claim isolated work | Foundation implemented; large-scale validation pending |
-| High-Assurance | Risk-driven approvals, stronger separation of duties, and externally verified audit evidence | Reserved in the profile catalog; not selectable yet |
+| High-Assurance | Risk-driven evidence, rollback, human approvals, and stronger separation of duties | Selectable after its human-accountability prerequisites pass; real regulated and multi-machine validation pending |
 
 A company with five engineers may still use Solo for a low-risk experiment. One developer may choose Collaborative when several independent Agents need explicit scope isolation. Select the profile from coordination risk, not headcount alone.
+
+High-Assurance retains the same ten Positions. It requires at least two active Human Principals, a sponsor for every active Agent Identity, Developer separation from Independent QA and Release Manager, and a risk tier on every new Work Item. The tier scales artifact depth, allowed UI modes, exact-revision evidence, rollback depth, and distinct human approvals. See [High-Assurance profile](high-assurance.md).
 
 ## From feature to parallel work
 
@@ -183,4 +185,4 @@ Do not copy placeholder IDs, revisions, or evidence paths literally. The created
 
 ## Current evidence boundary
 
-Automated tests prove local initialization, migration, model validation, readiness checks, deterministic group waves, dependency and overlap separation, stage requirements, declared resource capacity, atomic first-wave preparation and rollback, pooled membership, runtime/task correlation, resource release, stale-plan rejection, and status projection. They do not prove multi-human behavior on several machines under real Git and pull-request contention. The retained [large-scale collaborative test plan](validation/collaborative-large-scale-test-plan.md) is an explicit release-evidence gap and remains `not_run`.
+Automated tests prove local initialization, migration, model validation, readiness checks, deterministic group waves, dependency and overlap separation, stage requirements, declared resource capacity, atomic first-wave preparation and rollback, pooled membership, runtime/task correlation, resource release, stale-plan rejection, status projection, and the local High-Assurance risk contract. They do not prove multi-human behavior on several machines under real Git and pull-request contention or acceptance by a regulated external auditor. The retained [large-scale collaborative test plan](validation/collaborative-large-scale-test-plan.md) is an explicit release-evidence gap and remains `not_run`.

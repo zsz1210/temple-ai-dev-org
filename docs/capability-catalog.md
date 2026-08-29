@@ -19,7 +19,7 @@ All candidates recorded in the earlier review remain preserved below. A candidat
 | `resolving-merge-conflicts` | Developer, Tech Lead | Optional candidate | Useful for an active merge or rebase, but adapt its unconditional “never abort” and automatic commit behavior to project intent, user-owned changes, and explicit completion authority. |
 | `code-review` | Tech Lead, Independent QA | Adaptation candidate | The concept fits independent review, but upstream assumptions about subagents, setup, and issue trackers must not become hidden requirements. |
 | `improve-codebase-architecture` | Tech Lead | Adaptation candidate | Preserve the deep-module and locality lens; validate how it interacts with ADRs, bounded contexts, and existing architecture. |
-| `retro` | Engineering Manager, Framework maintainer | Preserved candidate; Learning Loop foundation shipped separately | Use completed work-item evidence to propose Lessons and improvements. Alpha.10 supplies project-owned learning records and retrieval metadata, but not a retrospective procedure. Do not require private session logs, auto-edit instructions, automatic promotion, or a retrospective in every product task. |
+| `retro` | Engineering Manager, Framework maintainer | Preserved candidate; Learning Loop operations shipped separately | Use completed work-item evidence to propose Lessons and improvements. Alpha.19 supplies atomic learning capture, revalidation, and retrieval evaluation, but not an automatic retrospective procedure. Do not require private session logs, auto-edit instructions, automatic promotion, or a retrospective in every product task. |
 | `security-review` | Quality & Evaluation Engineer, Independent QA | Optional pack candidate | Adapt the OWASP review taxonomy for security-sensitive changes and explicit audits. Keep it out of the default core; a future implementation needs CC-BY-4.0 attribution and project-specific threat boundaries. |
 | `writing-great-skills` | Framework maintainer | Independently applied inspiration | Its trigger, progressive-disclosure, and validation ideas inform `$skill-authoring` and `docs/skill-authoring.md`; no upstream source is copied or invoked. |
 | `writing-for-agents` | Framework maintainer | Maintainer inspiration | Use for project-facing instruction quality; do not add another runtime capability without a distinct trigger. |
@@ -35,11 +35,11 @@ Development Skills are a separate layer from Temple's organization lifecycle. A 
 
 | Pack | Candidate capabilities | Adoption order |
 |---|---|---|
-| Build quality | `tdd`, `diagnosing-bugs` | Available opt-in. The AiPet pilot supplied a real red-to-green case; alpha.6 adds independent Skills, pack CLI, checksum boundaries, scenario tests, and clean-project install/remove/upgrade tests. |
+| Build quality | `tdd`, `diagnosing-bugs` | Available opt-in. The AiPet pilot supplied a real red-to-green case; Pack v2 now includes declared TDD references, a local observation validator, and an example asset under checksum and provenance boundaries. |
 | Architecture | `codebase-design`, `improve-codebase-architecture` | Later. Pilot on a bounded architecture work item with an ADR and measurable locality or interface outcome. |
 | Review | `code-review`, `security-review` | Later. Preserve standards/spec review separation and add the security pack only for explicit security-sensitive scope. |
 | Exploration | `prototype`, `research` | Later. Keep prototypes throwaway and research read-only unless a repository artifact is authorized. |
-| Git and improvement | `resolving-merge-conflicts`, `retro` | Later. Trigger only during an actual conflict or an explicitly requested retrospective. First validate the alpha.10 Learning Loop records before defining a retrospective Skill. |
+| Git and improvement | `resolving-merge-conflicts`, `retro` | Later. Trigger only during an actual conflict or an explicitly requested retrospective. Use Alpha.19 Learning records and revalidation evidence before defining a retrospective Skill. |
 
 These packs are not role replacements. Owen can still hold Developer while invoking a build-quality Skill, and Stella can still independently evaluate its evidence. Packs change reusable development procedure; Position assignment determines responsibility and approval boundaries.
 
@@ -54,7 +54,7 @@ Capabilities and their origins are separate concerns:
 | Project extension | Created locally | Product repository | A domain- or stack-specific repeated procedure |
 | Third-party extension | Selected locally | Product repository until a dedicated lifecycle exists | A separately reviewed external Skill |
 
-An initialized repository can create collision-free project Skills under `.agents/skills/<name>/`. It must not edit `temple.lock` to claim them as managed. The generated Capability Registry observes these extensions without taking ownership, and `temple capability find` can route to them by repository evidence. The current alpha still has no Skill mutation command, custom-pack installer, dependency resolver, automated model-routing evaluator, or third-party updater; see [Extending a project with Skills](skill-authoring.md) and [Progressive context routing](context-routing.md).
+An initialized repository can create collision-free project Skills under `.agents/skills/<name>/`. It must not edit `temple.lock` to claim them as managed. The generated Capability Registry observes these extensions without taking ownership, and `temple capability find` can route to them by repository evidence. The current alpha still has no Skill mutation command, custom-pack publisher, generic dependency resolver, automated model-routing evaluator, or third-party Skill updater. Official Pack v2 dependencies and one isolated Archify adapter are narrower implemented contracts; see [Extending a project with Skills](skill-authoring.md), [Extension and migration contracts](extension-and-migrations.md), and [Progressive context routing](context-routing.md).
 
 ## Adoption gate
 

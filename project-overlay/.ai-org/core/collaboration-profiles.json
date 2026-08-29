@@ -15,9 +15,9 @@
     },
     {
       "id": "high-assurance",
-      "status": "planned",
-      "selectable": false,
-      "description": "Risk-driven approvals, stronger separation of duties, and externally verified audit evidence."
+      "status": "stable",
+      "selectable": true,
+      "description": "Risk-driven evidence, approval, rollback, and separation-of-duties gates backed by local exact-revision records."
     }
   ]
 }

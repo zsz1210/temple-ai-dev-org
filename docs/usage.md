@@ -76,9 +76,28 @@ temple collaboration show .
 temple doctor .
 ```
 
-The original Assignment remains the default Position owner. A membership makes another Agent eligible for bounded claims; it does not replace the default Assignment or change the Position's authority. Add more `--discipline` values for a full-stack or cross-specialty Agent. High-Assurance is cataloged but cannot be selected in this release.
+The original Assignment remains the default Position owner. A membership makes another Agent eligible for bounded claims; it does not replace the default Assignment or change the Position's authority. Add more `--discipline` values for a full-stack or cross-specialty Agent.
 
 Collaborative Work Item IDs include a date and random suffix so separate clones are unlikely to allocate the same file. This is not distributed locking. Use protected branches, pull requests, CI, and normal Git conflict handling across machines. See the [Collaborative development model](collaboration.md).
+
+### Move to High-Assurance
+
+High-Assurance is selected for risk, not headcount. First register at least two active Human Principals, sponsor every active Agent Identity, and keep Developer distinct from Independent QA and Release Manager. Then:
+
+```bash
+temple collaboration set-profile . --profile high-assurance
+temple work-item create . \
+  --title "Perform one controlled migration" \
+  --scope "One reversible record" \
+  --acceptance "Exact-revision test and Independent QA pass" \
+  --affected-path src/migration \
+  --base-revision HEAD \
+  --risk-tier high \
+  --ui-mode not-applicable
+temple doctor .
+```
+
+Every new Work Item receives a `low`, `standard`, `high`, or `critical` risk contract. Later transitions require normalized risk, Git, test, and Independent QA Evidence IDs. Closeout requires revision-matched rollback and a `temple.approval/v1` repository record; it still performs no external action. See [High-Assurance profile](high-assurance.md).
 
 ## 3. Optional Build Quality pack
 
@@ -103,7 +122,20 @@ temple pack remove . --pack build-quality --dry-run
 temple pack remove . --pack build-quality
 ```
 
-Pack files are checksum-managed. If a project modifies one, install, upgrade, or remove stops. Do not bypass the guard by editing `temple.lock` manually.
+Pack files are checksum-managed. Manifest v2 covers Skill entrypoints plus declared references, scripts, and assets, and records dependencies, provenance, and compatibility in `temple.lock`. If a project modifies one, install, upgrade, or remove stops. Do not bypass the guard by editing `temple.lock` manually.
+
+### Optional Archify adapter
+
+Archify is separate from Skill packs and absent by default. Its installer accepts only an exact local Git checkout; it does not download or execute upstream code:
+
+```bash
+temple adapter archify-status .
+temple adapter archify-install . --source /absolute/path/to/archify-checkout
+temple adapter archify-status . --json
+temple doctor .
+```
+
+The isolated project-owned copy records pinned source, MIT license, and per-file digests. See [Archify adapter](archify-adapter.md).
 
 ## 4. Add a project-owned Skill
 
@@ -119,29 +151,35 @@ The current alpha does not provide Skill mutation or installation commands, cust
 
 Search `.ai-org/learning/index.json` before repeating similar work. The index contains compact retrieval fields—summary, tags, applicability, status, source work items, validation dates, and the full record path—rather than duplicating the complete evidence. Read only entries relevant to the current Position, work item, and technical area.
 
-When the user or an authorized work item asks to preserve learning, copy `.ai-org/templates/lesson.md` to `.ai-org/learning/lessons/LESSON-####.md` and add the matching index entry. A valid entry has this shape:
+When the user or an authorized Work Item asks to preserve learning, use the atomic CLI so the Markdown record, v2 index, and event history stay consistent:
 
-```json
-{
-  "id": "LESSON-0001",
-  "kind": "lesson",
-  "title": "Keep runtime evidence revision-specific",
-  "summary": "Runtime evidence is trustworthy only when its tested revision is recorded.",
-  "status": "candidate",
-  "confidence": "medium",
-  "tags": ["verification", "revision"],
-  "applies_to": ["release-gate", "independent-qa"],
-  "source_work_items": ["WI-0001"],
-  "path": ".ai-org/learning/lessons/LESSON-0001.md",
-  "updated_at": "2026-08-29",
-  "last_validated_at": null,
-  "promotion": { "target": "none", "status": "none", "reference": null }
-}
+```bash
+temple learning add-lesson . \
+  --title "Keep runtime evidence revision-specific" \
+  --summary "Runtime evidence is trustworthy only with its tested revision." \
+  --confidence medium \
+  --tag verification \
+  --applies-to independent-qa \
+  --source-work-item WI-0001
+
+temple learning add-practice . \
+  --title "Revision-bound runtime evidence" \
+  --summary "Record the exact revision for every runtime claim." \
+  --confidence medium \
+  --derived-from LESSON-0001 \
+  --owner-position tech_lead
+
+temple learning revalidate . \
+  --learning-id PRACTICE-0001 \
+  --result confirmed \
+  --review-after 2026-12-01T00:00:00.000Z
+
+temple learning list . --json
 ```
 
-Keep the Markdown record and index entry consistent. Lesson states are `candidate`, `validated`, and `deprecated`; Practice states are `candidate`, `active`, and `deprecated`. Promotion is separate and optional. A Skill is appropriate only for a reusable, non-obvious procedure; use an automated check for a deterministic condition, an ADR for a decision, or an instruction for an explicitly approved recurring rule. See the [Engineering Learning Loop](engineering-learning.md).
+Use `learning migrate --dry-run` before explicitly migrating a readable legacy v1 index to v2. Lesson states are `candidate`, `validated`, and `deprecated`; Practice states are `candidate`, `active`, and `deprecated`. Revalidation may confirm, narrow, or contradict existing guidance and can schedule a later review. Status and Observer surface due, overdue, and contradicted entries without changing them automatically.
 
-The current alpha validates and reports learning but has no `temple learning` mutation command, automatic retrospective, semantic retrieval, or automatic promotion.
+Promotion remains separate and optional. A Skill is appropriate only for a reusable, non-obvious procedure; use an automated check for a deterministic condition, an ADR for a decision, or an instruction for an explicitly approved recurring rule. The current alpha does not execute automatic retrospectives, promote learning, synchronize projects, or install semantic retrieval. See the [Engineering Learning Loop](engineering-learning.md).
 
 ## 6. Route bounded context and discover capabilities
 
@@ -178,7 +216,19 @@ temple context resolve . \
 
 The result routes to matching Context Map entries, active Practices, validated Lessons, and repository Skills. It also reports affected-path overlap with other active work items. Remove `--no-write` to save the generated view under `.ai-org/views/work-items/`; never edit that projection as canonical state.
 
-The shipped Retrieval Provider is deterministic, repository-local, and `semantic: false`. A versioned adapter contract reserves future local semantic or hybrid retrieval, but the current CLI does not install or select a model, embedding index, vector database, daemon, or remote search service. See [Progressive context routing](context-routing.md).
+The selected Retrieval Provider is deterministic, repository-local, and `semantic: false`. Alpha.19 also defines an injectable local-hybrid boundary with provenance and deterministic fallback, but leaves it `available_not_configured`. It does not install or select a model, embedding index, vector database, daemon, or remote search service.
+
+Measure routing with checked-in cases before changing providers:
+
+```bash
+temple learning evaluate . \
+  --fixture .ai-org/artifacts/retrieval-evaluation.json \
+  --no-write \
+  --json
+temple retrieval show .
+```
+
+The result reports hit rate and mean reciprocal rank. Large-repository evaluation remains `not_run`. See [Progressive context routing](context-routing.md).
 
 ## 7. Register product specifications
 
@@ -423,7 +473,7 @@ temple transition . \
   --satisfy acceptance_criteria=docs/spec.md
 ```
 
-The CLI rejects the operation before writing if a requirement is missing, a state is skipped, or the actor does not hold the current Position. Phase 1 records revision references but does not yet resolve them as Git objects; exact Git-revision validation remains a Phase 2 evidence-adapter responsibility.
+The CLI rejects the operation before writing if a requirement is missing, a state is skipped, or the actor does not hold the current Position. Evidence adapters resolve Git observations to exact commits. High-Assurance additionally resolves handoff and closeout refs and requires normalized Evidence IDs at its specified transitions; Solo and Collaborative may still preserve caller-supplied revision references where exact resolution is not a declared gate.
 
 ## 12. Release gate and closeout
 
@@ -444,6 +494,8 @@ temple close . \
 
 Use `--approval not-required` only when policies contain no production-change, external-message, irreversible-action, material-cost, or sensitive-data trigger. Otherwise, reference a human approval record.
 
+High-Assurance never accepts `not-required`. Use a valid repository `temple.approval/v1` record bound to the exact tested commit, and pass normalized rollback Evidence IDs instead of prose. High and critical tiers also enforce their approval count and rollback depth. See [High-Assurance profile](high-assurance.md).
+
 `--decision no-go` requires at least one `--reason` and returns the work item to the Engineering Manager in the `blocked` state.
 
 ## 13. Observation and health checks
@@ -458,9 +510,10 @@ temple doctor .
 
 - Work-item state, owner, Agent, latest revision, evidence, and unresolved issues.
 - Codex tasks and threads, suggested titles, status, revision, and archive readiness.
-- Context Map route counts, default provider mode, and Capability Registry counts.
+- Context Map route counts, selected provider mode, local-hybrid boundary, retrieval evaluation state, and Capability Registry counts.
 - Product-specification authority, approval, and source counts plus stale Work Item references.
-- Engineering Learning Loop counts and the retrieval-index path.
+- Engineering Learning Loop counts, revalidation-due and contradicted signals, and the retrieval-index path.
+- High-Assurance Work Item risk contracts and optional Archify adapter status.
 - Blocked, attention, and archive-ready signals.
 - The eight most recent canonical events.
 - Position Assignments and optional-integration states.
@@ -469,7 +522,9 @@ temple doctor .
 
 ```bash
 temple upgrade /absolute/path/to/project --dry-run
+temple migration plan /absolute/path/to/project --json
 temple upgrade /absolute/path/to/project
+temple schema validate /absolute/path/to/project --json
 temple doctor /absolute/path/to/project
 temple status /absolute/path/to/project
 ```
@@ -480,8 +535,10 @@ Upgrade rules:
 - Update only managed files that the project has not modified.
 - A proposed new managed path must not already exist unless its exact path is already managed by the installed lock; byte-identical untracked files are not silently adopted.
 - Preserve installed optional packs and update them to the current pack version. Upgrade does not enable an uninstalled pack automatically.
+- Validate Pack v2 provenance, compatibility, dependencies, and every declared Skill, reference, script, and asset path.
 - Preserve `.ai-org/project/**`, `.ai-org/learning/**`, work items, events, decisions, artifacts, Agent names, and product files. If an older installation has no specification index, learning index, or Context Map, upgrade creates only the corresponding empty project-owned seed.
 - Preserve an existing UI Designer Assignment. If an older project has none, assign UI Designer to its single active UX Designer Agent Identity; ambiguous Assignment state stops the migration.
+- Record applied entries from the managed migration registry. Existing project-owned Learning v1 remains readable and changes only through explicit `learning migrate`; missing empty v2 seeds may be created automatically.
 - Detected preflight conflicts stop before writing. Late file races trigger a rollback journal; if another writer changes a just-written path again, the CLI preserves that content and reports incomplete rollback for manual review.
 
 ## 15. Use Decision, Domain, Documentation, Authoring, and Development Skills

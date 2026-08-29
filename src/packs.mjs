@@ -14,19 +14,44 @@ import {
 
 const PACK_ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
-function safePackFile(relativePath) {
+function safePackPath(relativePath) {
   return (
     typeof relativePath === "string" &&
     relativePath.startsWith(".agents/skills/") &&
-    relativePath.endsWith("/SKILL.md") &&
     !relativePath.includes("\\") &&
-    path.posix.normalize(relativePath) === relativePath
+    path.posix.normalize(relativePath) === relativePath &&
+    !relativePath.split("/").includes("..")
   );
+}
+
+function versionParts(value) {
+  const match = /^(\d+)\.(\d+)\.(\d+)(?:-alpha\.(\d+))?$/.exec(String(value));
+  if (!match) return null;
+  return match.slice(1).map((entry, index) => index === 3 && entry === undefined ? Number.MAX_SAFE_INTEGER : Number(entry));
+}
+
+function compareVersions(left, right) {
+  const leftParts = versionParts(left);
+  const rightParts = versionParts(right);
+  if (!leftParts || !rightParts) return null;
+  for (let index = 0; index < leftParts.length; index += 1) {
+    if (leftParts[index] !== rightParts[index]) return leftParts[index] < rightParts[index] ? -1 : 1;
+  }
+  return 0;
+}
+
+function compatible(manifest) {
+  const minimum = manifest.compatibility.temple.min;
+  const maximum = manifest.compatibility.temple.max_exclusive;
+  const againstMinimum = compareVersions(TEMPLATE_VERSION, minimum);
+  const againstMaximum = compareVersions(TEMPLATE_VERSION, maximum);
+  return againstMinimum !== null && againstMaximum !== null && againstMinimum >= 0 && againstMaximum < 0 &&
+    Number(process.versions.node.split(".")[0]) >= manifest.compatibility.node.min_major;
 }
 
 function validateManifest(manifest, sourcePath) {
   const valid =
-    manifest?.schema_version === "temple.pack/v1" &&
+    manifest?.schema_version === "temple.pack/v2" &&
     PACK_ID_PATTERN.test(manifest.id ?? "") &&
     typeof manifest.version === "string" &&
     manifest.version.length > 0 &&
@@ -37,13 +62,57 @@ function validateManifest(manifest, sourcePath) {
     manifest.skills.length > 0 &&
     new Set(manifest.skills).size === manifest.skills.length &&
     manifest.skills.every((skill) => PACK_ID_PATTERN.test(skill)) &&
+    Array.isArray(manifest.references) &&
+    Array.isArray(manifest.scripts) &&
+    Array.isArray(manifest.assets) &&
+    [manifest.references, manifest.scripts, manifest.assets].every((values) => new Set(values).size === values.length) &&
+    manifest.references.every((value) => safePackPath(value) && value.includes("/references/")) &&
+    manifest.scripts.every((value) => safePackPath(value) && value.includes("/scripts/")) &&
+    manifest.assets.every((value) => safePackPath(value) && value.includes("/assets/")) &&
     Array.isArray(manifest.files) &&
-    manifest.files.length === manifest.skills.length &&
     new Set(manifest.files).size === manifest.files.length &&
-    manifest.files.every(safePackFile) &&
-    manifest.skills.every((skill) => manifest.files.includes(`.agents/skills/${skill}/SKILL.md`));
+    manifest.files.every(safePackPath) &&
+    manifest.skills.every((skill) => manifest.files.includes(`.agents/skills/${skill}/SKILL.md`)) &&
+    JSON.stringify([...new Set([
+      ...manifest.skills.map((skill) => `.agents/skills/${skill}/SKILL.md`),
+      ...manifest.references,
+      ...manifest.scripts,
+      ...manifest.assets
+    ])].sort()) === JSON.stringify([...manifest.files].sort()) &&
+    Array.isArray(manifest.dependencies?.packs) &&
+    manifest.dependencies.packs.every((value) => PACK_ID_PATTERN.test(value)) &&
+    Array.isArray(manifest.dependencies?.capabilities) &&
+    manifest.dependencies.capabilities.every((value) => PACK_ID_PATTERN.test(value)) &&
+    Array.isArray(manifest.dependencies?.executables) &&
+    manifest.dependencies.executables.every((entry) =>
+      typeof entry?.name === "string" && entry.name.length > 0 && typeof entry?.range === "string" && typeof entry?.required === "boolean"
+    ) &&
+    typeof manifest.provenance?.origin === "string" &&
+    typeof manifest.provenance?.repository === "string" &&
+    typeof manifest.provenance?.license === "string" &&
+    typeof manifest.provenance?.source === "string" &&
+    versionParts(manifest.compatibility?.temple?.min) !== null &&
+    versionParts(manifest.compatibility?.temple?.max_exclusive) !== null &&
+    Number.isInteger(manifest.compatibility?.node?.min_major);
   if (!valid) throw new Error(`Invalid optional pack manifest: ${sourcePath}`);
+  if (!compatible(manifest)) {
+    throw new Error(`Optional pack ${manifest.id} is incompatible with Temple ${TEMPLATE_VERSION} or Node ${process.versions.node}`);
+  }
   return manifest;
+}
+
+export function packLockMetadata(manifest) {
+  return {
+    manifest_schema: manifest.schema_version,
+    skills: manifest.skills,
+    managed_files: manifest.files,
+    references: manifest.references,
+    scripts: manifest.scripts,
+    assets: manifest.assets,
+    dependencies: manifest.dependencies,
+    provenance: manifest.provenance,
+    compatibility: manifest.compatibility
+  };
 }
 
 export async function readPackDefinition(packId) {
@@ -102,7 +171,13 @@ export async function listPackState(target) {
     enabled_by_default: false,
     installed: installed.has(manifest.id),
     installed_version: installed.get(manifest.id)?.version ?? null,
-    skills: manifest.skills
+    skills: manifest.skills,
+    references: manifest.references,
+    scripts: manifest.scripts,
+    assets: manifest.assets,
+    dependencies: manifest.dependencies,
+    provenance: manifest.provenance,
+    compatibility: manifest.compatibility
   }));
 }
 
@@ -168,8 +243,7 @@ export async function executePackInstall(plan) {
         id: plan.definition.manifest.id,
         version: plan.definition.manifest.version,
         installed_at: timestamp,
-        skills: plan.definition.manifest.skills,
-        managed_files: plan.definition.manifest.files
+        ...packLockMetadata(plan.definition.manifest)
       }
     ].sort((left, right) => left.id.localeCompare(right.id));
     const lock = {

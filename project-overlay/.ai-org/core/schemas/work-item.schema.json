@@ -25,6 +25,20 @@
       "type": ["string", "null"],
       "enum": ["not-applicable", "code-first", "preview-first", "design-led", null]
     },
+    "risk_tier": { "enum": ["low", "standard", "high", "critical"] },
+    "assurance": {
+      "type": "object",
+      "required": ["profile", "policy_schema", "artifact_depth", "minimum_approvals", "rollback_status", "external_action_performed"],
+      "properties": {
+        "profile": { "const": "high-assurance" },
+        "policy_schema": { "const": "temple.high-assurance/v1" },
+        "artifact_depth": { "enum": ["lean", "standard", "controlled"] },
+        "minimum_approvals": { "type": "integer", "minimum": 1 },
+        "rollback_status": { "enum": ["planned", "verified"] },
+        "external_action_performed": { "const": false }
+      },
+      "additionalProperties": false
+    },
     "parent_work_item_id": { "type": ["string", "null"] },
     "tracker_visibility": { "enum": ["internal", "team-visible"] },
     "tracker_refs": {
@@ -129,6 +143,10 @@
     }
   },
   "allOf": [
+    {
+      "if": { "required": ["risk_tier"] },
+      "then": { "required": ["assurance"] }
+    },
     {
       "if": { "properties": { "specification_mode": { "const": "gate-evidence" } }, "required": ["specification_mode"] },
       "then": { "properties": { "spec_refs": { "maxItems": 0 } } }

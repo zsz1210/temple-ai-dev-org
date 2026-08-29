@@ -79,6 +79,8 @@ node ./templew.mjs status .
 
 1つの parent outcome が明確な child Work Item に分解されたら、`node ./templew.mjs parallel plan . --parent <WI-ID>` で fresh かつ capacity-aware な dispatch manifest を生成できます。この操作は Codex task や claim を作成しません。各 first-wave runtime を作る前に、`parallel prepare` が適格な claim、希少 resource の reservation、runtime-worker correlation を一体として記録します。internal subagent と別の user-owned Codex task は区別され、指定された Integration Owner は引き続き exact evidence を join してから再計画します。[Parallel orchestration（英語）](docs/parallel-orchestration.md)と[runtime coordination（英語）](docs/runtime-coordination.md)を参照してください。
 
+Alpha.19 で Phase 2C が完了しました。Pack v2 は version、provenance、reference、script、asset を扱い、runtime JSON Schema と migration plan を検査できます。Learning は atomic capture、revalidation、retrieval evaluation を提供します。High-Assurance は人間の accountability と risk gate を満たした場合に選択でき、optional Archify adapter は exact local source のみを隔離導入して digest を検証します。semantic model、vector database、daemon、第三者 download、外部 action はデフォルトで導入されません。
+
 ## 開発手法と拡張
 
 Temple はデフォルト導入を限定的に保ちます。プロダクト思考と組織運用の Skill は core capability として導入し、開発手順は opt-in にします。現在提供される Build Quality pack は、Position の ownership や lifecycle authority を変えずに、TDD と範囲を限定した bug diagnosis を追加します。
@@ -87,15 +89,15 @@ Temple には、境界が明確な project-owned Skill を作るための `$skil
 
 [Engineering Learning Loop（英語）](docs/engineering-learning.md)は、完了した作業の evidence を Lesson、採用された Practice、そして根拠がある場合に限って Skill、自動チェック、ADR、instruction へ進める管理された経路です。簡潔な project index により、後続の Agent は全履歴を読み込んだり、すべての観察をルール化したりせず、関連する学習だけを取得できます。
 
-生成される Capability Registry は、core、optional-pack、project-owned の repository Skill を、extension の ownership を奪わずに一覧化します。`temple capability find` と work-item Context Capsule は、Agent が範囲を限定した evidence と利用候補の method を選ぶ助けになりますが、選択によって権限が増えたり dependency が導入されたりすることはありません。Temple はまだ Skill mutation command、custom-pack publisher、third-party Skill installer、automated model-routing evaluation を提供していません。Architecture、exploration、review、security、Git、retrospective の pack は、提供済み機能ではなく評価中の候補です。[Capability catalog（英語）](docs/capability-catalog.md)と[context routing guide（英語）](docs/context-routing.md)を参照してください。
+生成される Capability Registry は、core、optional-pack、project-owned の repository Skill を、extension の ownership を奪わずに一覧化します。`temple capability find` と work-item Context Capsule は、Agent が範囲を限定した evidence と利用候補の method を選ぶ助けになりますが、選択によって権限が増えたり dependency が導入されたりすることはありません。Pack v2 は複数ファイルの official pack を規定し、project-owned Skill は中央 framework に所有されず拡張できます。Temple はまだ Skill mutation command、custom-pack publisher、third-party Skill installer を提供していません。[Capability catalog（英語）](docs/capability-catalog.md)、[extension contract（英語）](docs/extension-and-migrations.md)、[context routing guide（英語）](docs/context-routing.md)を参照してください。
 
 ## 規模と現在の境界
 
 既定の Solo 構成では、5つの Agent Identity が10の Position すべてを担当します。Product Design Identity は当初、Product Manager、UX Designer、UI Designer を兼任します。Collaborative foundation では、Human Principal、追加の Agent Identity、sponsorship、frontend、backend、full-stack、infrastructure、UI、UX などの Discipline を持つ複数メンバーの Position pool を追加できます。既存の default Assignment は互換性を保ち、範囲を限定した Work Item は別の適格な pool member が claim できます。
 
-Solo と Collaborative は選択可能です。High-Assurance は定義のみを予約し、まだ選択できません。Collaborative mode は、clone 間で衝突しにくい Work Item ID、parent/dependency と shared-contract field、parallel-readiness check、Principal-backed claim、status warning を提供します。Alpha.16 は deterministic group planning と Integration Owner join gate を追加し、Alpha.17 は repository-pinned launcher、stage-specific Discipline と resource requirement、atomic first-wave preparation、runtime-worker correlation を追加し、Alpha.18 は gate を自動通過させない normalized evidence と read-only Observer overview を追加します。大規模な複数人・複数マシンの実機テストはまだ `not_run` のため、すべての企業構成や distributed race に対応済みとは主張しません。[Collaborative development model（英語）](docs/collaboration.md)と[Evidence and Observer（英語）](docs/evidence-and-observer.md)を参照してください。
+Solo、Collaborative、High-Assurance はすべて選択可能です。Collaborative mode は衝突しにくい Work Item ID、dependency、parallel readiness、Principal-backed claim を提供します。High-Assurance は少なくとも2人の active Human Principal、すべての active Agent Identity の sponsor、Developer と Independent QA／Release Manager の分離を要求し、Work Item の risk に応じて exact-revision evidence、rollback、approval gate を強化します。大規模な複数人・複数マシンの実機テストは `not_run` のため、すべての企業構成、regulated audit、production release への対応済みとは主張しません。[Collaborative development model（英語）](docs/collaboration.md)、[High-Assurance（英語）](docs/high-assurance.md)、[Evidence and Observer（英語）](docs/evidence-and-observer.md)を参照してください。
 
-Temple は現在 revision reference を記録しますが、CLI はまだすべての reference を正確な Git object として解決しません。Codex task の作成、名前変更、archive は行わず、外部への deploy や publish も実行しません。ビジネス上の事実、優先順位、機密データ、重大なコスト、不可逆な操作、高リスクな承認は人間が管理します。
+Temple は normalized Git、test、runtime、rollback と High-Assurance handoff/closeout の scope を exact commit に解決します。その他の軽量 reference は caller-supplied のままの場合があります。Codex task の作成、名前変更、archive は行わず、外部への deploy や publish も実行しません。ビジネス上の事実、優先順位、機密データ、重大なコスト、不可逆な操作、高リスクな承認は人間が管理します。
 
 会社のチームは Jira、GitHub Issues、または別の tracker を計画面として維持し、Temple は AI の実行と evidence を repository Work Item に保持できます。Team-visible parent だけを外部項目へ対応させ、内部 child item を会社ボードへ大量に出さずに済みます。外部の完了状態が QA や Release Gate を迂回することもありません。Alpha.15 は限定された GitHub Issue 読み取りまたは supplied observation と reconciliation evidence を扱いますが、外部への書き込みは行いません。
 
@@ -115,7 +117,10 @@ Temple はプロジェクトへインストールします。プロジェクト�
 - [UI interaction contracts](docs/ui-interaction-contracts.md) — interface behavior、design artifact、implementation、backend contract の接続
 - [Skill authoring guide](docs/skill-authoring.md) — project-owned Skill の設計と検証
 - [Engineering Learning Loop](docs/engineering-learning.md) — evidence、Lesson、Practice、検索、昇格
-- [Progressive context routing](docs/context-routing.md) — Context Map、Capability Registry、Context Capsule、affected-path overlap、将来の Retrieval Provider
+- [Progressive context routing](docs/context-routing.md) — Context Map、Context Capsule、deterministic evaluation、local-hybrid boundary
+- [Extension and migration contracts](docs/extension-and-migrations.md) — Pack v2、runtime schema、compatibility、明示的 migration
+- [High-Assurance profile](docs/high-assurance.md) — 前提条件、risk tier、exact evidence、rollback、approval
+- [Archify adapter](docs/archify-adapter.md) — pinned local installation、isolation、provenance、graceful degradation
 - [UI design modes](docs/ui-design.md) — UI なしの記録、code-first、preview-first、design-led、tool policy
 - [Capability catalog](docs/capability-catalog.md) — 提供済み、optional、候補の engineering method
 - [Roadmap](docs/roadmap.md) — 検証済みの scope と今後の作業

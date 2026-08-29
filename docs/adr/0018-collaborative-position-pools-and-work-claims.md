@@ -22,7 +22,7 @@ Keep `assignments.json` as the backward-compatible default owner for each Positi
 
 Add Work Item parent/dependency, required Discipline, base revision, affected-path, contract, integration-owner, parallel-mode, and claim fields. Collaborative mode allocates collision-resistant Work Item IDs. An eligible Agent may claim a Work Item under its sponsoring Principal with a branch and optional worktree. Parallel mode is accepted only after deterministic readiness checks pass.
 
-High-Assurance remains present in the managed profile catalog but is not selectable until its stronger approval and audit contract is implemented and tested.
+Alpha.19 makes High-Assurance selectable only after its stronger human-accountability prerequisites pass. Each High-Assurance Work Item then records a risk tier and enforces exact-revision, normalized evidence, rollback, and independent approval gates defined by ADR-0026.
 
 ## Consequences
 
@@ -32,4 +32,3 @@ High-Assurance remains present in the managed profile catalog but is not selecta
 - Work claims become attributable and observable across conversations.
 - The local mutation lock still does not coordinate separate machines. Git conflicts, protected branches, pull requests, and CI remain necessary.
 - Automated tests do not prove real multi-human operation. A retained multi-machine validation plan remains an explicit warning until completed.
-

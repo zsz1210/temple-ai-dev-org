@@ -22,7 +22,7 @@ import {
   validateLearningIndex
 } from "./learning.mjs";
 import { validateProjectState } from "./model.mjs";
-import { listPackDefinitions } from "./packs.mjs";
+import { listPackDefinitions, packLockMetadata } from "./packs.mjs";
 import {
   COLLABORATION_RELATIVE_PATH,
   DISCIPLINES,
@@ -46,6 +46,10 @@ import {
   validateEvidenceArtifacts,
   validateEvidenceRegistry
 } from "./evidence.mjs";
+import { validateProjectSchemas } from "./schema-validation.mjs";
+import { readRetrievalConfig, validateRetrievalConfig } from "./retrieval.mjs";
+import { inspectArchifyAdapter } from "./archify-adapter.mjs";
+import { validateWorkItemAssurance } from "./assurance.mjs";
 import {
   SPEC_INDEX_RELATIVE_PATH,
   evaluateWorkItemSpecRefs,
@@ -122,6 +126,18 @@ export async function runDoctor(target) {
       ? `Repository launcher pins Temple ${lock.template.version}`
       : bootstrapValidation.errors.join("; ")
   });
+  try {
+    const schemaReport = await validateProjectSchemas(target);
+    checks.push({
+      id: "runtime_json_schema",
+      status: schemaReport.valid ? "pass" : "fail",
+      message: schemaReport.valid
+        ? `${schemaReport.documents_checked} JSON document(s) match ${schemaReport.schemas_checked} cataloged Draft 2020-12 schema(s)`
+        : schemaReport.errors.map((error) => `${error.document ?? error.schema}${error.instance_path}: ${error.message}`).join("; ")
+    });
+  } catch (error) {
+    checks.push({ id: "runtime_json_schema", status: "fail", message: error.message });
+  }
 
   const changedManaged = [];
   const missingManaged = [];
@@ -158,8 +174,9 @@ export async function runDoctor(target) {
       !definition ||
       installedPackIds.has(installed.id) ||
       installed.version !== definition.manifest.version ||
-      JSON.stringify(installed.skills ?? []) !== JSON.stringify(definition.manifest.skills) ||
-      JSON.stringify(installed.managed_files ?? []) !== JSON.stringify(definition.manifest.files) ||
+      Object.entries(packLockMetadata(definition.manifest)).some(
+        ([key, value]) => JSON.stringify(installed[key]) !== JSON.stringify(value)
+      ) ||
       definition.manifest.files.some((relativePath) => !managedPaths.has(relativePath))
     ) {
       invalidPacks.push(installed.id ?? "unknown");
@@ -291,8 +308,33 @@ export async function runDoctor(target) {
       ? "Default repository-deterministic Retrieval Provider contract is valid; semantic retrieval is disabled"
       : providerValidation.errors.join("; ")
   });
+  try {
+    const retrievalConfig = await readRetrievalConfig(target);
+    const validation = validateRetrievalConfig(retrievalConfig);
+    checks.push({
+      id: "retrieval_configuration",
+      status: validation.valid ? "pass" : "fail",
+      message: validation.valid
+        ? `Selected ${retrievalConfig.selected_provider}; local hybrid=${retrievalConfig.local_hybrid.status}; no model, embeddings, vector database, daemon, or remote search installed`
+        : validation.errors.join("; ")
+    });
+  } catch (error) {
+    checks.push({ id: "retrieval_configuration", status: "fail", message: error.message });
+  }
+
+  const archify = await inspectArchifyAdapter(target);
+  checks.push({
+    id: "archify_adapter",
+    status: archify.status === "invalid" ? "fail" : "pass",
+    message: archify.reason
+  });
 
   const workflow = await safeJson(path.join(target, ".ai-org/core/workflow.json"), checks, "workflow_json");
+  const highAssurancePolicy = await safeJson(
+    path.join(target, ".ai-org/core/high-assurance.json"),
+    checks,
+    "high_assurance_policy_json"
+  );
   const workflowStates = new Set((workflow?.states ?? []).map((state) => state.id));
   const resourceRegistry = await safeJson(
     path.join(target, RESOURCE_REGISTRY_RELATIVE_PATH),
@@ -393,6 +435,9 @@ export async function runDoctor(target) {
               (item.spec_refs ?? []).length === 0 &&
               ["design", "build", "test", "eval", "independent_qa", "release_gate", "done"].includes(item.state)
             ));
+        const assuranceValid = highAssurancePolicy
+          ? validateWorkItemAssurance(highAssurancePolicy, item).valid
+          : false;
         const specificationReferences = specIndex
           ? evaluateWorkItemSpecRefs(item, specIndex)
           : { valid: false, errors: ["spec index unavailable"], warnings: [], stale_count: 0, unapproved_count: 0 };
@@ -425,7 +470,7 @@ export async function runDoctor(target) {
           activeClaimBranches.add(item.claim.branch);
           if (item.claim.worktree) activeClaimWorktrees.add(item.claim.worktree);
         }
-        if (!valid || !uiModeValid || !specificationModeValid || !specificationReferences.valid || !plannedValid || !claimValid) {
+        if (!valid || !uiModeValid || !specificationModeValid || !assuranceValid || !specificationReferences.valid || !plannedValid || !claimValid) {
           invalidWorkItems.push(entry.name);
         }
         workItemsForDoctor.set(item.id, item);

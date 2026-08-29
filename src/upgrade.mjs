@@ -22,7 +22,7 @@ import {
   sha256File,
   walkFiles
 } from "./files.mjs";
-import { packSourcesForLock } from "./packs.mjs";
+import { packLockMetadata, packSourcesForLock } from "./packs.mjs";
 import { CONTEXT_MAP_RELATIVE_PATH, ensureContextMap } from "./context.mjs";
 import { ensureLearningIndex, LEARNING_INDEX_RELATIVE_PATH } from "./learning.mjs";
 import { ensureSpecIndex, SPEC_INDEX_RELATIVE_PATH } from "./specifications.mjs";
@@ -37,6 +37,8 @@ import { buildCliBootstrapMetadata } from "./bootstrap.mjs";
 import { ensureResourceRegistry, RESOURCE_REGISTRY_RELATIVE_PATH } from "./resources.mjs";
 import { ensureRuntimeWorkerRegistry, RUNTIME_WORKER_REGISTRY_RELATIVE_PATH } from "./workers.mjs";
 import { ensureEvidenceRegistry, EVIDENCE_REGISTRY_RELATIVE_PATH } from "./evidence.mjs";
+import { applyMigrationPlanToLock, buildMigrationPlan } from "./migrations.mjs";
+import { ensureRetrievalConfig, RETRIEVAL_CONFIG_RELATIVE_PATH } from "./retrieval.mjs";
 
 function isManaged(relativePath) {
   return MANAGED_EXACT_PATHS.has(relativePath) || MANAGED_SOURCE_PREFIXES.some((prefix) => relativePath.startsWith(prefix));
@@ -120,6 +122,7 @@ export async function planUpgrade(target) {
 
   const conflicts = [];
   const actions = [];
+  const migrationPlan = await buildMigrationPlan(target, lock);
   const previousManaged = new Map((lock.managed_files ?? []).map((entry) => [entry.path, entry.sha256]));
   for (const [relativePath, expectedHash] of previousManaged) {
     if (!isSafeManagedPath(relativePath)) {
@@ -211,6 +214,11 @@ export async function planUpgrade(target) {
     type: hasEvidenceRegistry ? "skip-evidence-registry" : "create-evidence-registry",
     path: EVIDENCE_REGISTRY_RELATIVE_PATH
   });
+  const hasRetrievalConfig = await pathExists(path.join(target, RETRIEVAL_CONFIG_RELATIVE_PATH));
+  actions.push({
+    type: hasRetrievalConfig ? "skip-retrieval-config" : "create-retrieval-config",
+    path: RETRIEVAL_CONFIG_RELATIVE_PATH
+  });
   const assignmentMigration = await planUiAssignmentMigration(target, conflicts);
   actions.push({
     type: assignmentMigration ? "add-ui-assignment" : "skip-ui-assignment",
@@ -253,8 +261,9 @@ export async function planUpgrade(target) {
   const packMetadataChanges = packSources.definitions.some(
     ({ definition, installed }) =>
       definition.manifest.version !== installed.version ||
-      JSON.stringify(definition.manifest.skills) !== JSON.stringify(installed.skills ?? []) ||
-      JSON.stringify(definition.manifest.files) !== JSON.stringify(installed.managed_files ?? [])
+      Object.entries(packLockMetadata(definition.manifest)).some(
+        ([key, value]) => JSON.stringify(installed[key]) !== JSON.stringify(value)
+      )
   );
   const capabilityChanges =
     lock.capabilities?.engineering_learning !== true ||
@@ -294,9 +303,19 @@ export async function planUpgrade(target) {
     lock.capabilities?.normalized_evidence_registry !== true ||
     lock.capabilities?.local_evidence_adapters !== true ||
     lock.capabilities?.observer_projection !== true ||
-    lock.capabilities?.read_only_overview !== true;
+    lock.capabilities?.read_only_overview !== true ||
+    lock.capabilities?.pack_manifest_v2 !== true ||
+    lock.capabilities?.runtime_json_schema !== true ||
+    lock.capabilities?.migration_registry !== true ||
+    lock.capabilities?.learning_cli !== true ||
+    lock.capabilities?.learning_revalidation !== true ||
+    lock.capabilities?.retrieval_evaluation !== true ||
+    lock.capabilities?.local_hybrid_provider_contract !== true ||
+    lock.capabilities?.archify_adapter !== true ||
+    lock.capabilities?.high_assurance_profile !== true;
   if (packMetadataChanges) actions.push({ type: "update-pack-metadata", path: "temple.lock" });
   if (capabilityChanges || collaborationCapabilityChanges) actions.push({ type: "update-capabilities", path: "temple.lock" });
+  if (migrationPlan.pending.length > 0) actions.push({ type: "record-migrations", path: "temple.lock" });
   actions.push({
     type:
       lock.template.version === TEMPLATE_VERSION &&
@@ -314,7 +333,9 @@ export async function planUpgrade(target) {
       hasCollaboration &&
       hasResourceRegistry &&
       hasWorkerRegistry &&
-      hasEvidenceRegistry
+      hasEvidenceRegistry &&
+      hasRetrievalConfig &&
+      migrationPlan.pending.length === 0
         ? "skip-current-lock"
         : "update-lock",
     path: "temple.lock"
@@ -330,6 +351,7 @@ export async function planUpgrade(target) {
     packDefinitions: packSources.definitions,
     assignmentMigration,
     collaborationSync,
+    migrationPlan,
     actions,
     conflicts
   };
@@ -403,6 +425,10 @@ export async function executeUpgrade(plan) {
     if (evidenceRegistry.created) {
       changes.push({ path: evidenceRegistry.path, before: null, afterHash: evidenceRegistry.afterHash });
     }
+    const retrievalConfig = await ensureRetrievalConfig(plan.target);
+    if (retrievalConfig.created) {
+      changes.push({ path: retrievalConfig.path, before: null, afterHash: retrievalConfig.afterHash });
+    }
     if (plan.assignmentMigration) {
       const assignmentsPath = path.join(plan.target, plan.assignmentMigration.path);
       const before = await fs.readFile(assignmentsPath);
@@ -452,8 +478,7 @@ export async function executeUpgrade(plan) {
       ...(installed.version === definition.manifest.version
         ? {}
         : { upgraded_at: timestamp, upgraded_from: installed.version }),
-      skills: definition.manifest.skills,
-      managed_files: definition.manifest.files
+      ...packLockMetadata(definition.manifest)
     }));
     const bootstrap = await buildCliBootstrapMetadata();
     const lock = {
@@ -475,6 +500,7 @@ export async function executeUpgrade(plan) {
         project_owned: PROJECT_OWNED_PATHS,
         generated: GENERATED_PATHS
       },
+      migrations: applyMigrationPlanToLock(plan.lock, plan.migrationPlan, timestamp),
       capabilities: {
         ...(plan.lock.capabilities ?? {}),
         work_item_cli: true,
@@ -516,6 +542,15 @@ export async function executeUpgrade(plan) {
         local_evidence_adapters: true,
         observer_projection: true,
         read_only_overview: true,
+        pack_manifest_v2: true,
+        runtime_json_schema: true,
+        migration_registry: true,
+        learning_cli: true,
+        learning_revalidation: true,
+        retrieval_evaluation: true,
+        local_hybrid_provider_contract: true,
+        archify_adapter: true,
+        high_assurance_profile: true,
         checksum_upgrade: true,
         optional_packs: true
       },

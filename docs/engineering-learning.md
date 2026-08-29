@@ -39,7 +39,7 @@ Learning is project-owned canonical state:
     └── PRACTICE-0001.md
 ```
 
-The initialized project includes an empty `index.json`. Record templates are available in `.ai-org/templates/lesson.md` and `.ai-org/templates/practice.md`; the record directories are created only when the project has something authorized to preserve.
+The initialized project includes an empty v2 `index.json`. Record templates are available in `.ai-org/templates/lesson.md` and `.ai-org/templates/practice.md`; the record directories are created only when the project has something authorized to preserve.
 
 The machine-readable contract is `.ai-org/core/schemas/learning-index.schema.json`. `temple doctor` additionally checks ID-kind-path agreement, kind-specific states, duplicate IDs and paths, date values, and whether every indexed Markdown record exists and every record is indexed.
 
@@ -51,8 +51,10 @@ The index is a compact retrieval registry, not a copy of every record. Each entr
 - status and confidence;
 - tags and `applies_to` hints;
 - source work-item IDs;
+- Lesson derivation and the owning Position for a Practice;
 - the record path;
-- update and last-validation dates;
+- update, last-validation, next-review, and revalidation-history fields;
+- revalidation evidence and confirmed, narrowed, or contradicted result;
 - proposed or accepted promotion target.
 
 An Agent should search the index first, select entries relevant to the current Position, work item, and technical area, then read only the referenced records. It must not load the whole learning history into every task.
@@ -67,6 +69,37 @@ An Agent should search the index first, select entries relevant to the current P
 6. **Revalidate:** revisit the Practice after relevant technology, architecture, policy, or evidence changes. Deprecate it when it no longer holds.
 
 Promotion is optional. A valuable Lesson may remain a Lesson, and a simple Practice may never need a Skill.
+
+## CLI workflow
+
+Use the CLI instead of hand-editing both files when possible:
+
+```bash
+node ./templew.mjs learning add-lesson . \
+  --title "Bind runtime evidence to a revision" \
+  --summary "Runtime evidence is reusable only with its exact revision." \
+  --confidence medium \
+  --tag runtime \
+  --applies-to independent-qa
+
+node ./templew.mjs learning add-practice . \
+  --title "Revision-bound runtime evidence" \
+  --summary "Record an exact revision for every runtime claim." \
+  --confidence medium \
+  --derived-from LESSON-0001 \
+  --owner-position tech_lead
+
+node ./templew.mjs learning revalidate . \
+  --learning-id PRACTICE-0001 \
+  --result confirmed \
+  --review-after 2026-12-01T00:00:00.000Z
+
+node ./templew.mjs learning list . --json
+```
+
+`learning migrate --dry-run` reports whether a legacy v1 index would change; remove `--dry-run` for the explicit atomic v2 migration. Revalidation records history in both the index and Markdown record. Due, overdue, and contradicted entries appear in status or Observer attention; they do not rewrite guidance automatically.
+
+`learning evaluate --fixture <repository-path> --no-write --json` runs checked-in retrieval cases and reports hit rate at the case limit plus mean reciprocal rank. Evaluation measures routing; it does not validate the truth of the returned learning.
 
 ## Responsibility
 
@@ -83,4 +116,4 @@ Project learning never flows into the central framework automatically. A framewo
 
 ## Current alpha boundary
 
-The current alpha installs the project-owned index, managed templates, doctor validation, and status counts. It does not yet provide `temple learning` commands, automatic retrospective execution, semantic retrieval, stale-practice alerts, cross-project synchronization, or a `$retrospective` Skill. Until real use validates the procedure, authorized updates must keep the Markdown record and index entry consistent manually.
+Alpha.19 installs the project-owned index, managed templates, atomic Learning CLI, explicit migration, revalidation signals, deterministic retrieval evaluation, doctor validation, and status/Observer counts. It does not execute retrospectives on a schedule, promote learning automatically, synchronize projects, install or select a semantic runtime, or provide a `$retrospective` Skill. Large-repository retrieval evaluation remains `not_run`.
