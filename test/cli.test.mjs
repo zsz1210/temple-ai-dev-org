@@ -39,7 +39,7 @@ function run(args) {
 test("version is available without dependencies", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /^0\.1\.0-alpha\.3/m);
+  assert.match(result.stdout, /^0\.1\.0-alpha\.4/m);
 });
 
 test("dry-run writes nothing", async (context) => {
@@ -133,7 +133,7 @@ test("doctor rejects an invalid canonical work item", async (context) => {
   assert.match(doctor.stdout, /\[FAIL\] work_items/);
 });
 
-test("the distributable template contains no project identities", async () => {
-  await assert.rejects(() => fs.access(path.join(root, "template/.ai-org/project/agents.json")));
-  await assert.rejects(() => fs.access(path.join(root, "template/.ai-org/project/assignments.json")));
+test("the distributable project overlay contains no project identities", async () => {
+  await assert.rejects(() => fs.access(path.join(root, "project-overlay/.ai-org/project/agents.json")));
+  await assert.rejects(() => fs.access(path.join(root, "project-overlay/.ai-org/project/assignments.json")));
 });

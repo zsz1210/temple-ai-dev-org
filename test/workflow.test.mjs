@@ -211,31 +211,53 @@ test("transition refuses missing named gate evidence without changing state", as
   assert.equal((await readJson(path.join(target, ".ai-org/work-items/WI-0001.json"))).state, "intake");
 });
 
-test("checksum-aware upgrade updates clean managed files and preserves project state", async (context) => {
+test("alpha.3 upgrade migrates legacy identity and safely removes renamed managed skills", async (context) => {
   const { temporaryRoot, target } = await fixture();
   context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
   assert.equal(run(["work-item", "create", target, "--title", "Preserve me"]).status, 0);
 
   const installedTemple = path.join(target, "TEMPLE.md");
-  const oldContent = "# Simulated alpha.2 managed contract\n";
+  const oldContent = "# Simulated alpha.3 managed contract\n";
   await fs.writeFile(installedTemple, oldContent);
+  const obsoleteSkills = [
+    ".agents/skills/temple-grill/SKILL.md",
+    ".agents/skills/temple-grill-with-docs/SKILL.md"
+  ];
+  for (const relativePath of obsoleteSkills) {
+    const absolutePath = path.join(target, relativePath);
+    await fs.mkdir(path.dirname(absolutePath), { recursive: true });
+    await fs.writeFile(absolutePath, `legacy managed skill: ${relativePath}\n`);
+  }
   const lockPath = path.join(target, "temple.lock");
   const lock = await readJson(lockPath);
-  lock.template.version = "0.1.0-alpha.2";
+  lock.template.name = "@zsz1210/ai-development-org-template";
+  lock.template.version = "0.1.0-alpha.3";
+  lock.template.repository = "zsz1210/ai-development-org-template";
   lock.managed_files.find((entry) => entry.path === "TEMPLE.md").sha256 = crypto.createHash("sha256").update(oldContent).digest("hex");
+  for (const relativePath of obsoleteSkills) {
+    const content = await fs.readFile(path.join(target, relativePath));
+    lock.managed_files.push({ path: relativePath, sha256: crypto.createHash("sha256").update(content).digest("hex") });
+  }
   await fs.writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
 
   const dryRun = run(["upgrade", target, "--dry-run"]);
   assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
-  assert.match(dryRun.stdout, /0\.1\.0-alpha\.2 -> 0\.1\.0-alpha\.3/);
+  assert.match(dryRun.stdout, /0\.1\.0-alpha\.3 -> 0\.1\.0-alpha\.4/);
+  assert.match(dryRun.stdout, /remove-managed: 2/);
   assert.equal(await fs.readFile(installedTemple, "utf8"), oldContent);
+  await fs.access(path.join(target, obsoleteSkills[0]));
 
   const upgraded = run(["upgrade", target]);
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = await fs.readFile(lockPath, "utf8");
-  assert.equal(JSON.parse(upgradedLock).template.version, "0.1.0-alpha.3");
+  assert.equal(JSON.parse(upgradedLock).template.name, "@zsz1210/temple-ai-dev-org");
+  assert.equal(JSON.parse(upgradedLock).template.version, "0.1.0-alpha.4");
   assert.match(await fs.readFile(installedTemple, "utf8"), /Project AI development organization operating contract/);
   assert.equal((await readJson(path.join(target, ".ai-org/work-items/WI-0001.json"))).title, "Preserve me");
+  for (const relativePath of obsoleteSkills) {
+    await assert.rejects(() => fs.access(path.join(target, relativePath)));
+  }
+  await fs.access(path.join(target, ".agents/skills/domain-modeling/SKILL.md"));
 
   const repeated = run(["upgrade", target]);
   assert.equal(repeated.status, 0, repeated.stderr || repeated.stdout);
@@ -254,6 +276,26 @@ test("upgrade stops before overwriting a changed managed file", async (context) 
   assert.equal(upgraded.status, 1);
   assert.match(upgraded.stdout, /managed file changed/);
   assert.equal(await fs.readFile(managedPath, "utf8"), before);
+});
+
+test("upgrade rejects a managed path that escapes the project", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  const outsidePath = path.join(temporaryRoot, "outside.txt");
+  await fs.writeFile(outsidePath, "preserve me\n");
+
+  const lockPath = path.join(target, "temple.lock");
+  const lock = await readJson(lockPath);
+  lock.managed_files.push({
+    path: ".agents/skills/../../../outside.txt",
+    sha256: crypto.createHash("sha256").update("preserve me\n").digest("hex")
+  });
+  await fs.writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
+
+  const upgraded = run(["upgrade", target]);
+  assert.equal(upgraded.status, 1);
+  assert.match(upgraded.stdout, /invalid managed path in temple\.lock/);
+  assert.equal(await fs.readFile(outsidePath, "utf8"), "preserve me\n");
 });
 
 test("parallel canonical mutations are serialized without losing task records", async (context) => {

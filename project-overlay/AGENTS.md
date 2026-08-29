@@ -7,6 +7,7 @@
 - Use `$temple-work` and `temple` CLI commands for work items, handoffs, state transitions, closeout, and Codex task registration instead of hand-editing canonical JSON when the CLI supports the operation.
 - Use the suggested title `WI-#### · Position · Agent Name` when creating a Codex task, then register its stable thread ID.
 - Persist confirmed specs, decisions, handoffs, and evidence in repository files.
+- Use `$domain-modeling` when product documents, code, or people assign conflicting meanings to important terms.
 - Follow `Spec → Design → Build → Test → Eval → Independent QA → Release Gate`.
 - Developer and Independent QA must be different Agent Identities for the same work.
 - Do not overwrite project-owned files during a template update.

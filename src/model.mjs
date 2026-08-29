@@ -1,5 +1,5 @@
 import path from "node:path";
-import { REQUIRED_POSITIONS, TEMPLATE_ROOT } from "./constants.mjs";
+import { PROJECT_OVERLAY_ROOT, REQUIRED_POSITIONS } from "./constants.mjs";
 import { readJson } from "./files.mjs";
 
 const ENGLISH_NAME = /^[A-Za-z][A-Za-z .'-]*$/;
@@ -58,7 +58,7 @@ export async function validateInitConfig(rawConfig) {
     errors.push("agents must contain at least two Agent Identities");
   }
 
-  const knownPositionData = await readJson(path.join(TEMPLATE_ROOT, ".ai-org/core/positions.json"));
+  const knownPositionData = await readJson(path.join(PROJECT_OVERLAY_ROOT, ".ai-org/core/positions.json"));
   const knownPositions = new Set(knownPositionData.positions.map((position) => position.id));
   const seenNames = new Set();
   const seenIds = new Set();

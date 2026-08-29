@@ -172,7 +172,13 @@ export async function runDoctor(target) {
     });
   }
 
-  const requiredSkills = ["temple-init", "temple-work", "temple-grill", "temple-grill-with-docs"];
+  const requiredSkills = [
+    "temple-init",
+    "temple-work",
+    "decision-interview",
+    "evidence-backed-decision-interview",
+    "domain-modeling"
+  ];
   const missingSkills = [];
   for (const skill of requiredSkills) {
     if (!(await pathExists(path.join(target, `.agents/skills/${skill}/SKILL.md`)))) {

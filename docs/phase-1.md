@@ -5,7 +5,7 @@
 Phase 1 只有在以下條件成立時才算完成：
 
 - 新 repository 可以用一份已確認名字的設定檔成功初始化。
-- 模板內沒有預先定義的專案 Agent 名字。
+- `project-overlay/` 內沒有預先定義的專案 Agent 名字。
 - 九個 Position 都有唯一 active assignment。
 - Developer 與 Independent QA 是不同 Identity。
 - 重跑 init 不會覆蓋使用者內容，managed conflict 會停止。
@@ -13,11 +13,11 @@ Phase 1 只有在以下條件成立時才算完成：
 - status 能從 canonical files 產生摘要。
 - work item、handoff、transition 與 closeout 可透過 CLI 完成，非法 gate 會被拒絕。
 - Codex task/thread 能以 stable ID 登錄，並投影 suggested title、revision、attention 與 archive readiness。
-- alpha.1 可以透過 checksum-aware upgrade 升級，且 project-owned state 不被覆蓋。
-- `$temple-work` 與兩個 grill skills 可在 repository 本地被 Codex 發現。
+- 舊版 package identity 與已重新命名的 managed Skills 可以透過 checksum-aware upgrade 遷移，且 project-owned state 不被覆蓋。
+- `$temple-work`、兩個 decision interview Skills 與 `$domain-modeling` 可在 repository 本地被 Codex 發現。
 - 至少一張低風險真實 work item 完成 Developer、Independent QA 與 release gate 全流程。
 - CI 能在乾淨環境執行所有測試。
-- private GitHub repository 已建立並推送可重現的 commit。
+- GitHub repository 已建立並推送可重現的 commit；公開前具備 MIT License 與第三方來源說明。
 
 ## 本 Phase 不包含
 

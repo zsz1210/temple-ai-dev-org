@@ -1,9 +1,9 @@
 ---
-name: temple-grill-with-docs
-description: Stress-test a proposal against repository documents and code, then persist a sourced Decision Ledger and ADR proposals. Use when existing project evidence may constrain the answer.
+name: evidence-backed-decision-interview
+description: Stress-test an ambiguous proposal against repository documents and code, then persist a sourced Decision Ledger and ADR proposals. Use when existing project evidence constrains a product or technical decision.
 ---
 
-# Evidence-backed Decision Grill
+# Evidence-backed Decision Interview
 
 Run a decision interview grounded in the target repository rather than relying on chat memory.
 

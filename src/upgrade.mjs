@@ -2,12 +2,13 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import {
   GENERATED_PATHS,
+  KNOWN_PACKAGE_NAMES,
   MANAGED_EXACT_PATHS,
   MANAGED_PATH_PREFIXES,
   PACKAGE_NAME,
+  PROJECT_OVERLAY_ROOT,
   PROJECT_OWNED_PATHS,
   TEMPLATE_REPOSITORY,
-  TEMPLATE_ROOT,
   TEMPLATE_VERSION
 } from "./constants.mjs";
 import { atomicWrite, formatJson, pathExists, readJson, sha256File, walkFiles } from "./files.mjs";
@@ -15,6 +16,18 @@ import { ensureTaskRegistry } from "./project.mjs";
 
 function isManaged(relativePath) {
   return MANAGED_EXACT_PATHS.has(relativePath) || MANAGED_PATH_PREFIXES.some((prefix) => relativePath.startsWith(prefix));
+}
+
+function isSafeManagedPath(relativePath) {
+  return (
+    typeof relativePath === "string" &&
+    relativePath.length > 0 &&
+    !path.isAbsolute(relativePath) &&
+    !path.win32.isAbsolute(relativePath) &&
+    !relativePath.includes("\\") &&
+    path.posix.normalize(relativePath) === relativePath &&
+    isManaged(relativePath)
+  );
 }
 
 async function filesEqual(leftPath, rightPath) {
@@ -26,12 +39,16 @@ export async function planUpgrade(target) {
   const lockPath = path.join(target, "temple.lock");
   if (!(await pathExists(lockPath))) throw new Error("temple.lock is missing; run temple init instead of upgrade");
   const lock = await readJson(lockPath);
-  if (lock.template?.name !== PACKAGE_NAME) throw new Error("temple.lock belongs to an unknown template");
+  if (!KNOWN_PACKAGE_NAMES.has(lock.template?.name)) throw new Error("temple.lock belongs to an unknown template");
 
   const conflicts = [];
   const actions = [];
   const previousManaged = new Map((lock.managed_files ?? []).map((entry) => [entry.path, entry.sha256]));
   for (const [relativePath, expectedHash] of previousManaged) {
+    if (!isSafeManagedPath(relativePath)) {
+      conflicts.push(`invalid managed path in temple.lock: ${relativePath}`);
+      continue;
+    }
     const installedPath = path.join(target, relativePath);
     if (!(await pathExists(installedPath))) {
       conflicts.push(`managed file is missing: ${relativePath}`);
@@ -40,9 +57,10 @@ export async function planUpgrade(target) {
     }
   }
 
-  const templateFiles = (await walkFiles(TEMPLATE_ROOT)).filter(isManaged);
+  const templateFiles = (await walkFiles(PROJECT_OVERLAY_ROOT)).filter(isManaged);
+  const currentManaged = new Set(templateFiles);
   for (const relativePath of templateFiles) {
-    const sourcePath = path.join(TEMPLATE_ROOT, relativePath);
+    const sourcePath = path.join(PROJECT_OVERLAY_ROOT, relativePath);
     const installedPath = path.join(target, relativePath);
     if (!(await pathExists(installedPath))) {
       actions.push({ type: "add-managed", path: relativePath });
@@ -55,10 +73,18 @@ export async function planUpgrade(target) {
     }
   }
 
+  for (const relativePath of previousManaged.keys()) {
+    if (isSafeManagedPath(relativePath) && !currentManaged.has(relativePath)) {
+      actions.push({ type: "remove-managed", path: relativePath });
+    }
+  }
+
   const tasksPath = path.join(target, ".ai-org/project/tasks.json");
   const hasTasks = await pathExists(tasksPath);
   actions.push({ type: hasTasks ? "skip-project-tasks" : "create-project-tasks", path: ".ai-org/project/tasks.json" });
-  const managedChanges = actions.some((action) => action.type === "add-managed" || action.type === "update-managed");
+  const managedChanges = actions.some((action) =>
+    ["add-managed", "update-managed", "remove-managed"].includes(action.type)
+  );
   actions.push({
     type: lock.template.version === TEMPLATE_VERSION && !managedChanges && hasTasks ? "skip-current-lock" : "update-lock",
     path: "temple.lock"
@@ -81,9 +107,13 @@ export async function executeUpgrade(plan) {
   }
 
   for (const action of plan.actions) {
-    if (!["add-managed", "update-managed"].includes(action.type)) continue;
-    const sourcePath = path.join(TEMPLATE_ROOT, action.path);
     const installedPath = path.join(plan.target, action.path);
+    if (action.type === "remove-managed") {
+      await fs.unlink(installedPath);
+      continue;
+    }
+    if (!["add-managed", "update-managed"].includes(action.type)) continue;
+    const sourcePath = path.join(PROJECT_OVERLAY_ROOT, action.path);
     await fs.mkdir(path.dirname(installedPath), { recursive: true });
     await atomicWrite(installedPath, await fs.readFile(sourcePath));
   }

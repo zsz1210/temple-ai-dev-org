@@ -3,12 +3,13 @@ import path from "node:path";
 import {
   AGENTS_MARKER_START,
   GENERATED_PATHS,
+  KNOWN_PACKAGE_NAMES,
   MANAGED_EXACT_PATHS,
   MANAGED_PATH_PREFIXES,
   PACKAGE_NAME,
+  PROJECT_OVERLAY_ROOT,
   PROJECT_OWNED_PATHS,
   TEMPLATE_REPOSITORY,
-  TEMPLATE_ROOT,
   TEMPLATE_VERSION
 } from "./constants.mjs";
 import { atomicWrite, formatJson, pathExists, readJson, sha256File, walkFiles } from "./files.mjs";
@@ -28,7 +29,7 @@ async function compareFile(leftPath, rightPath) {
 }
 
 export async function planInit(target, config, { integrateAgents = false } = {}) {
-  const templateFiles = await walkFiles(TEMPLATE_ROOT);
+  const templateFiles = await walkFiles(PROJECT_OVERLAY_ROOT);
   const actions = [];
   const conflicts = [];
   const warnings = [];
@@ -37,7 +38,7 @@ export async function planInit(target, config, { integrateAgents = false } = {})
   const lockPath = path.join(target, "temple.lock");
   if (await pathExists(lockPath)) {
     existingLock = await readJson(lockPath);
-    if (existingLock?.template?.name !== PACKAGE_NAME) {
+    if (!KNOWN_PACKAGE_NAMES.has(existingLock?.template?.name)) {
       conflicts.push("temple.lock belongs to an unknown template");
     } else if (existingLock.template.version !== TEMPLATE_VERSION) {
       conflicts.push(
@@ -50,7 +51,7 @@ export async function planInit(target, config, { integrateAgents = false } = {})
     if (relativePath === "AGENTS.md") {
       continue;
     }
-    const sourcePath = path.join(TEMPLATE_ROOT, relativePath);
+    const sourcePath = path.join(PROJECT_OVERLAY_ROOT, relativePath);
     const destinationPath = path.join(target, relativePath);
     if (!(await pathExists(destinationPath))) {
       actions.push({ type: "copy", ownership: isManaged(relativePath) ? "managed" : "project-owned", path: relativePath });
@@ -114,7 +115,7 @@ export async function planInit(target, config, { integrateAgents = false } = {})
     actions.push({ type: "write-empty", ownership: "project-owned", path: ".ai-org/events/events.jsonl" });
   }
 
-  const sourceAgentsPath = path.join(TEMPLATE_ROOT, "AGENTS.md");
+  const sourceAgentsPath = path.join(PROJECT_OVERLAY_ROOT, "AGENTS.md");
   const targetAgentsPath = path.join(target, "AGENTS.md");
   let agentsIntegration = "installed";
   if (!(await pathExists(targetAgentsPath))) {
@@ -170,7 +171,7 @@ export async function executeInit(plan) {
   for (const action of plan.actions) {
     const destinationPath = path.join(plan.target, action.path);
     if (action.type === "copy") {
-      const sourcePath = path.join(TEMPLATE_ROOT, action.path);
+      const sourcePath = path.join(PROJECT_OVERLAY_ROOT, action.path);
       await fs.mkdir(path.dirname(destinationPath), { recursive: true });
       await fs.copyFile(sourcePath, destinationPath);
     } else if (action.type === "write") {
@@ -184,10 +185,10 @@ export async function executeInit(plan) {
     } else if (action.type === "write-empty") {
       await atomicWrite(destinationPath, "");
     } else if (action.type === "copy-agents" || action.type === "copy-agents-snippet") {
-      await atomicWrite(destinationPath, await fs.readFile(path.join(TEMPLATE_ROOT, "AGENTS.md"), "utf8"));
+      await atomicWrite(destinationPath, await fs.readFile(path.join(PROJECT_OVERLAY_ROOT, "AGENTS.md"), "utf8"));
     } else if (action.type === "append-agents") {
       const current = await fs.readFile(destinationPath, "utf8");
-      const templeBlock = (await fs.readFile(path.join(TEMPLATE_ROOT, "AGENTS.md"), "utf8")).trim();
+      const templeBlock = (await fs.readFile(path.join(PROJECT_OVERLAY_ROOT, "AGENTS.md"), "utf8")).trim();
       await atomicWrite(destinationPath, `${current.trimEnd()}\n\n${templeBlock}\n`);
     }
   }

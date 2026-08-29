@@ -3,7 +3,7 @@
 ## 三層身份模型
 
 ```text
-Position (template-defined)
+Position (toolkit-defined)
     │ assignment
     ▼
 Agent Identity (project-defined at init)
@@ -12,7 +12,7 @@ Agent Identity (project-defined at init)
 Work Item + Evidence (project-owned)
 ```
 
-- Position 的 ID、責任與 gate 由中央模板定義。
+- Position 的 ID、責任與 gate 由中央 Toolkit 定義。
 - Agent Identity 有穩定 `agent_id` 與可變 `display_name`；改名不應改掉歷史 ID。
 - Assignment 有生效狀態，把一個 Identity 配到一個或多個 Position。
 
@@ -20,9 +20,9 @@ Codex 的 `.codex/agents/*.toml` 是 Position 的 runtime configuration，不是
 
 ## 名稱邊界
 
-`Temple` 是中央 template、CLI 與技術 namespace 的名稱，不是安裝後專案或 AI 團隊的名稱。
+`Temple` 是中央 Toolkit、CLI 與技術 namespace 的名稱，不是安裝後專案或 AI 團隊的名稱。
 
-- 中央 repository、`temple` CLI、`temple.lock`、`temple.*` schema、`$temple-*` Skill ID 與相容性 marker 保留穩定名稱。
+- 中央 repository、`temple` CLI、`temple.lock`、`temple.*` schema、CLI 專用 Skill ID 與相容性 marker 保留穩定名稱；一般能力 Skill 使用中性名稱。
 - 安裝後面向專案的 instructions、status、artifact 與 Agent 說明使用專案名稱或「本專案的 AI 開發組織」。
 - 不把專案成員稱為 Temple team，也不讓中央工具品牌取代產品身份。
 - `TEMPLE.md` 暫時保留為相容性檔名，但內容是該 repository 的組織 operating contract，不是另一個外部專案。
@@ -33,11 +33,11 @@ Codex 的 `.codex/agents/*.toml` 是 Position 的 runtime configuration，不是
 
 | 類型 | 路徑 | 所有權 | 升級規則 |
 |---|---|---|---|
-| Managed | `.ai-org/core/**`、`.agents/skills/temple-*/**`、`.codex/agents/**`、`TEMPLE.md` | 中央模板 | 只在 checksum 與預期一致時更新 |
+| Managed | `.ai-org/core/**`、`.ai-org/templates/**`、`.agents/skills/**`、`.codex/agents/**`、`TEMPLE.md` | 中央 Toolkit | 只在 checksum 與預期一致時更新 |
 | Project-owned | `.ai-org/project/**`、`work-items/**`、`decisions/**`、`events/**`、`artifacts/**`、根 `AGENTS.md` | 專案 | 永不由 upgrade 覆蓋 |
 | Generated | `.ai-org/views/**` | CLI/Observer | 可由 canonical state 重建 |
 
-`temple.lock` 記錄模板版本、managed file checksums、功能狀態與 `AGENTS.md` 整合狀態，為未來 `temple upgrade` 提供基礎。
+`temple.lock` 記錄 Toolkit 版本、managed file checksums、功能狀態與 `AGENTS.md` 整合狀態，為未來 `temple upgrade` 提供基礎。
 
 ## Canonical state
 

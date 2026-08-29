@@ -1,27 +1,27 @@
 # 使用手冊
 
-## 1. 安裝中央模板
+## 1. 安裝中央 Toolkit
 
 ```bash
-git clone git@github.com:zsz1210/ai-development-org-template.git
-cd ai-development-org-template
+git clone git@github.com:zsz1210/temple-ai-dev-org.git
+cd temple-ai-dev-org
 npm run verify
 # Optional: expose the local CLI as `temple`
 npm link
 temple --version
 ```
 
-中央模板只需要 clone 一次；每個產品 repository 透過 `temple init` 安裝，不需要 fork。
+中央 Toolkit 只需要 clone 一次；每個產品 repository 透過 `temple init` 安裝，不需要 fork。`project-overlay/` 只是中央 repository 內的安裝來源；它的內容會直接進入產品 repository 根目錄。
 
 ## 2. 第一次初始化
 
 ### 建議：由 Codex 協助
 
-第一次先在中央模板 repository 開啟 Codex，並提供目標 repository 的絕對路徑：
+第一次先在中央 Toolkit repository 開啟 Codex，並提供目標 repository 的絕對路徑：
 
 > 使用 temple-init，讀取 `/absolute/path/to/target`，替五個 assignment slots 建議英文名字，等我確認後初始化。
 
-AI 必須先顯示 Position 對應與名字提案，取得確認後才建立設定檔並執行 `init`。安裝後，目標 repository 會取得 `$temple-init`、`$temple-work`、`$temple-grill` 與 `$temple-grill-with-docs`。模板 repository 本身沒有任何預設名字。
+AI 必須先顯示 Position 對應與名字提案，取得確認後才建立設定檔並執行 `init`。安裝後，目標 repository 會取得 `$temple-init`、`$temple-work`、`$decision-interview`、`$evidence-backed-decision-interview` 與 `$domain-modeling`。中央 repository 本身沒有任何預設名字。
 
 ### 手動設定檔
 
@@ -175,16 +175,17 @@ Upgrade 規則：
 - `.ai-org/project/**`、work items、events、decisions、artifacts、Agent 名字與產品檔案都保留。
 - 任一 conflict 會在寫入前停止，不進行部分升級。
 
-## 9. 使用 Grill Skills
+## 9. 使用 Decision 與 Domain Skills
 
-- `$temple-grill`：把模糊想法拆成已知事實、選項、決策與未知，不需要 repository 文件也能使用。
-- `$temple-grill-with-docs`：先讀 repository 的相關文件與程式碼，再針對衝突、缺口、術語與 ADR 做訪談。
+- `$decision-interview`：把模糊想法拆成已知事實、選項、決策與未知，不需要 repository 文件也能使用。
+- `$evidence-backed-decision-interview`：先讀 repository 的相關文件與程式碼，再針對衝突、缺口、術語與 ADR 做訪談。
+- `$domain-modeling`：整理 ubiquitous language、bounded contexts、規則與 invariants，將已確認術語保存到 project-owned glossary。
 
-兩者都應將已確認決策保存到 Decision Ledger，不得只留在聊天中。它們的預設行為是訪談與提案，不會直接開始實作。
+Decision interview Skills 都應將已確認決策保存到 Decision Ledger，不得只留在聊天中。它們的預設行為是訪談與提案，不會直接開始實作。
 
 ## 10. 故障處理
 
-- `managed file changed`：先查看 diff；不要用重跑 init 或手改 lock 繞過。確認要保留成 project extension，或把變更提交回中央模板。
+- `managed file changed`：先查看 diff；不要用重跑 init 或手改 lock 繞過。確認要保留成 project extension，或把變更提交回中央 Toolkit。
 - `missing gate evidence`：補齊真正 evidence，再使用 `--satisfy requirement=reference`；不要填虛構路徑。
 - `actor does not hold Position`：回到 assignments，使用正確 Agent/Position 或記錄明確 human action。
 - `agents_md_pending_merge`：檢視 `.ai-org/project/AGENTS.temple.md`，再由人類批准整合。

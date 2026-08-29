@@ -1,4 +1,4 @@
-# Roadmap：從模板到可日常觀測的 AI 開發組織
+# Roadmap：從 Toolkit 到可日常觀測的 AI 開發組織
 
 這些是工程階段與 Exit Gate，不是日期承諾。只有上一階段的證據成立，才擴張自動化。
 
@@ -8,11 +8,11 @@
 
 交付：
 
-- 中央 private template repository。
+- 中央 Toolkit repository、MIT License 與第三方 provenance。
 - `init`、checksum-aware `upgrade`、`doctor`、`status` 與 `temple.lock`。
 - 九個 Position、專案首次 init 命名、五 Identity 精簡配置。
 - managed / project-owned / generated 邊界。
-- grill skills、Decision Ledger、ADR 與 handoff/QA 範本。
+- decision interview、domain modeling、Decision Ledger、ADR 與 handoff/QA 範本。
 - Archify 的 opt-in Adapter 合約。
 - Sample Project、CI 與無覆寫測試。
 - Work item、handoff、transition、close CLI 與 named gate evidence。
@@ -30,6 +30,7 @@ Exit Gate：乾淨與既有 repository 都能初始化；九個 Position 可觀�
 預定交付：
 
 - 從模糊點子到 Project Charter：問題、目標使用者、預期成果、non-goals、constraints、success criteria 與重要未知。
+- 以 `$domain-modeling` 建立 ubiquitous language、bounded contexts、重要規則與 invariants，並把未解 terminology conflict 留給明確 owner。
 - Product Manager、UX Designer 與 Tech Lead 對核心流程、技術基線、風險和第一個垂直切片完成具證據的 review。
 - 在新 private repository 內執行首次 init，由使用者確認五個 Agent Identity 名字與九個 Position assignment。
 - 產品決策、ADR、initial roadmap、acceptance criteria 與第一張 durable work item 都保存在新 repository，不依賴創始對話。
@@ -38,6 +39,8 @@ Exit Gate：乾淨與既有 repository 都能初始化；九個 Position 可觀�
 - 專案面向的 instructions、status 與 artifacts 使用專案名稱或「本專案的 AI 開發組織」；`Temple` 只保留在中央工具品牌、CLI、Skill ID、schema、lock 與相容性識別。
 
 Exit Gate：一個非範例、可回復、不碰 production 的全新產品 repository 從點子走到第一張 work item closeout；Developer 與 Independent QA 驗證同一 revision；新的對話不需使用創始聊天即可接續；使用者沒有手動重建 Position、交接或觀測機制。
+
+AiPet portability pilot 同時評估 `tdd`、`diagnosing-bugs` 與 `prototype` 哪一項最適合成為第一個 optional Skill pack；未通過真實 work item 與獨立 QA 前不預設安裝。
 
 ## Phase 2：營運 MVP
 

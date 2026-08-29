@@ -1,8 +1,8 @@
 # Repository instructions
 
-This repository builds the Temple AI development organization template.
+This repository builds the Temple AI development organization toolkit.
 
-- Never add project-specific Agent display names to `template/`.
+- Never add project-specific Agent display names to `project-overlay/`.
 - Keep Position definitions separate from Agent Identity and Assignment data.
 - Treat files and evidence as canonical; chat titles and conversation memory are not state.
 - Preserve managed, project-owned, and generated boundaries.

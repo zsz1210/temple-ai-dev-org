@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.4
+
+- Repository identity 改為 `temple-ai-dev-org`，中央安裝來源由 `template/` 改名為 `project-overlay/`，並保留舊 package identity 的升級相容性。
+- 訪談 Skills 改為中性名稱 `$decision-interview` 與 `$evidence-backed-decision-interview`；upgrade 只會移除 checksum 未變的舊 managed Skill。
+- 加入獨立實作的 `$domain-modeling` 與 project-owned domain glossary 範本，支援 Phase 1.5 的 ubiquitous language、boundary 與 invariant 工作。
+- 加入 capability catalog 與 Skill design policy，保留 TDD、診斷、prototype、review 與 architecture candidates，不把整個外部 catalog 安裝到每個專案。
+- 加入 MIT License、Matt Pocock Skills 的 pinned provenance、ADR-0008 與開源採用邊界。
+
 ## 0.1.0-alpha.3
 
 - Roadmap 加入 Phase 1.5 Greenfield Project Bootstrap Pilot，安排在 AiPet 可攜性驗證後、Phase 2 營運 MVP 前。

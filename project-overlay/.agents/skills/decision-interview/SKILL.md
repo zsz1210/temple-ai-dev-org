@@ -1,9 +1,9 @@
 ---
-name: temple-grill
-description: Stress-test a product, architecture, or implementation idea through a focused decision interview and persist confirmed decisions. Use when the idea is still ambiguous; do not use merely to implement an already-approved task.
+name: decision-interview
+description: Stress-test an ambiguous product, architecture, or implementation proposal through a focused interview and persist confirmed decisions. Use before specification when consequential choices remain open; do not use merely to implement approved work.
 ---
 
-# Decision Grill
+# Decision Interview
 
 Turn a fuzzy proposal into a compact set of explicit decisions without taking over the user's intent.
 
