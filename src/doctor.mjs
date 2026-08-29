@@ -42,6 +42,11 @@ import {
   validateRuntimeWorkerRegistry
 } from "./workers.mjs";
 import {
+  EVIDENCE_REGISTRY_RELATIVE_PATH,
+  validateEvidenceArtifacts,
+  validateEvidenceRegistry
+} from "./evidence.mjs";
+import {
   SPEC_INDEX_RELATIVE_PATH,
   evaluateWorkItemSpecRefs,
   summarizeSpecIndex,
@@ -444,6 +449,25 @@ export async function runDoctor(target) {
       ? `Invalid work item files: ${uniqueInvalidWorkItems.join(", ")}`
       : `${workItemCount} canonical work items are valid`
   });
+  const evidenceRegistry = await safeJson(
+    path.join(target, EVIDENCE_REGISTRY_RELATIVE_PATH),
+    checks,
+    "evidence_registry_json"
+  );
+  if (evidenceRegistry) {
+    const registryValidation = validateEvidenceRegistry(evidenceRegistry);
+    const artifactValidation = registryValidation.valid
+      ? await validateEvidenceArtifacts(target, evidenceRegistry, new Set(workItemsForDoctor.keys()))
+      : { valid: false, errors: [] };
+    const issues = [...registryValidation.errors, ...artifactValidation.errors];
+    checks.push({
+      id: "evidence_registry",
+      status: issues.length ? "fail" : "pass",
+      message: issues.length
+        ? issues.join("; ")
+        : `${evidenceRegistry.entries.length} normalized evidence record(s) and artifact digest(s) are valid`
+    });
+  }
   if (trackerConfig && trackerConfigValidation.valid) {
     const trackerMappings = validateTrackerMappings(trackerConfig, [...workItemsForDoctor.values()]);
     checks.push({

@@ -51,6 +51,8 @@ temple init . --config /path/to/config.json
 
 After a successful init, the CLI prints directly copyable `doctor` and `status` commands through the target repository's `templew.mjs` launcher. The launcher reads `temple.cli-bootstrap/v1` from `temple.lock`, pins the installed framework version, and rejects a development override with a different version. From a clean framework source checkout, the lock also pins an exact Git source revision for recovery.
 
+Use `node ./templew.mjs observe .` when you need the local read-only overview. Use `--no-write --json` when another Agent needs only an ephemeral projection. Evidence capture and Observer usage are documented in [Evidence and Observer](evidence-and-observer.md).
+
 ### Command notation after init
 
 Run durable project commands from the project root as `node ./templew.mjs <command> .`. Some older examples below retain the shorter `temple` spelling for readability and for contributors who used `npm link`; substitute the repository launcher when copying them into an initialized project. The launcher does not bundle Node.js, Git credentials, or network access. See [Runtime coordination and recovery](runtime-coordination.md).

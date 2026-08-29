@@ -29,8 +29,8 @@ Temple is not a shared-chat-memory system and not a collection of prompts. It is
 | Engineering methods | Core Skills plus the opt-in Build Quality pack with `$tdd` and `$diagnosing-bugs` |
 | Work orchestration | A fixed `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle, durable work items and handoffs, deterministic safe dispatch waves, claim-before-worker preparation, and observable shared runtime capacity |
 | Team and tracker coordination | Separate company tracker, team-visible outcome, internal AI decomposition, and Codex session layers; explicit mappings, field ownership, bounded observations, and evidence-backed reconciliation |
-| Verification and delivery | Named gate evidence, evaluation, independent reproduction, revision references, approval records, rollback plans, and bounded closeout |
-| Durable state, learning, and observability | Repository-owned decisions, Context Map, Lessons and Practices, work items, events, task registry, generated Capability Registry and Context Capsules, status, and conflict-aware upgrades |
+| Verification and delivery | Named gate evidence, normalized exact-revision test and runtime observations, explicit unverified claims and risks, evaluation, independent reproduction, approval records, rollback plans, and bounded closeout |
+| Durable state, learning, and observability | Repository-owned decisions, Context Map, Lessons and Practices, work items, events, task and evidence registries, generated Capability Registry, Context Capsules, status, read-only Observer overview, and conflict-aware upgrades |
 
 A Position defines responsibility and approval limits. An Agent Identity is the project-specific executor assigned to that Position. A Skill is a reusable method for performing a kind of work; it never grants additional authority or replaces an evidence gate.
 
@@ -75,11 +75,14 @@ node ./templew.mjs capability find . --query "verify one user flow"
 node ./templew.mjs context resolve . --work-item WI-0001 --no-write
 node ./templew.mjs doctor .
 node ./templew.mjs status .
+node ./templew.mjs observe .
 ```
 
 Use the repository launcher for `handoff`, `transition`, and `close` as the work moves through the lifecycle. It pins the installed framework version so a later task does not depend on whichever global CLI happens to be available. Run `node ./templew.mjs --help` for the complete command list.
 
 When one parent outcome has clean child Work Items, `node ./templew.mjs parallel plan . --parent <WI-ID>` builds a fresh, capacity-aware dispatch manifest. It creates no Codex tasks or claims. Before creating each first-wave runtime, `parallel prepare` atomically records its eligible claim, scarce-resource reservations, and runtime-worker correlation. Internal subagents stay distinct from separate user-owned Codex tasks, and the named Integration Owner still joins exact evidence before replanning. See [Parallel orchestration](docs/parallel-orchestration.md) and [runtime coordination](docs/runtime-coordination.md).
+
+Alpha.18 adds local evidence adapters and an Observer projection. Capturing a Git revision, test, runtime observation, unverified claim, risk, or rollback record does not satisfy a gate; it creates normalized review material. `observe --no-write` reports lifecycle, staleness, approval, and recovery state without changing canonical files. See [Evidence and Observer](docs/evidence-and-observer.md).
 
 ## Engineering methods and extension
 
@@ -111,6 +114,7 @@ Temple is installed into a project; the project is not forked from this reposito
 - [Collaborative development model](docs/collaboration.md) — Human Principals, Position pools, task slicing, parallel readiness, claims, and diagrams
 - [Parallel orchestration](docs/parallel-orchestration.md) — safe waves, runtime dispatch, staleness, and Integration Owner join gates
 - [Runtime coordination and recovery](docs/runtime-coordination.md) — pinned launcher, stage requirements, shared resources, and worker/task correlation
+- [Evidence and Observer](docs/evidence-and-observer.md) — normalized observations, revision staleness, approval state, and read-only recovery views
 - [Task and external tracker coordination](docs/task-and-tracker-coordination.md) — company boards, internal AI work, field ownership, mappings, and reconciliation
 - [Product specification system](docs/product-specifications.md) — product truth, revisioned Work Item references, and iterative delivery
 - [Enterprise document adoption](docs/enterprise-document-adoption.md) — preserve, bridge, or migrate existing document systems without dual authority

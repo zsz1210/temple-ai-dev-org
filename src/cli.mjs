@@ -21,6 +21,7 @@ import {
 } from "./collaboration.mjs";
 import { assertSafeTarget, readJson } from "./files.mjs";
 import { executeInit, formatInitPlan, planInit } from "./install.mjs";
+import { readEvidenceRegistry, recordEvidence } from "./evidence.mjs";
 import { validateInitConfig } from "./model.mjs";
 import {
   executePackInstall,
@@ -32,6 +33,7 @@ import {
 } from "./packs.mjs";
 import { withProjectMutationLock } from "./project.mjs";
 import { buildStatus, renderStatusMarkdown, writeStatus } from "./status.mjs";
+import { buildObserverProjection, writeObserverProjection } from "./observer.mjs";
 import { listTasks, registerTask, updateTask } from "./tasks.mjs";
 import {
   configureTracker,
@@ -68,6 +70,7 @@ Usage:
   temple upgrade [target] [--dry-run]
   temple doctor [target] [--json]
   temple status [target] [--json] [--no-write]
+  temple observe [target] [--json] [--no-write]
   temple collaboration show [target] [--json]
   temple collaboration set-profile [target] --profile solo|collaborative
   temple collaboration add-principal [target] --principal-id principal-name --name "Human Name"
@@ -87,6 +90,13 @@ Usage:
   temple worker attach [target] --worker-id id --runtime-id id
   temple worker update [target] --worker-id id --status active|waiting|attention|completed|failed|cancelled [--revision ref] [--evidence ref]
   temple worker list [target] [--json]
+  temple evidence git [target] --work-item WI-ID --revision ref [--title text] [--summary text]
+  temple evidence test [target] --work-item WI-ID --observation path [--title text] [--summary text]
+  temple evidence runtime [target] --work-item WI-ID --observation path [--title text] [--summary text]
+  temple evidence unverified [target] --work-item WI-ID --summary text --reason text --expected-verification text
+  temple evidence risk [target] --work-item WI-ID --summary text --severity low|medium|high|critical --risk-status open|accepted|mitigated --mitigation text [--revision ref]
+  temple evidence rollback [target] --work-item WI-ID --summary text --procedure path --rollback-status planned|verified [--revision ref]
+  temple evidence list [target] [--work-item WI-ID] [--json]
   temple handoff [target] --work-item WI-0001 --to position --input-revision ref --completed text --evidence ref
   temple transition [target] --work-item WI-0001 --to state --satisfy requirement=reference
   temple close [target] --work-item WI-0001 --decision go|no-go --tested-revision ref --rollback text --approval record
@@ -115,11 +125,13 @@ Core commands:
   upgrade     Update only checksum-clean managed files; preserve project-owned state.
   doctor      Validate managed files, identities, work items, tasks, and integrations.
   status      Rebuild the observable project status from canonical files.
+  observe     Build a read-only lifecycle, evidence, approval, and recovery projection.
   collaboration Configure Human Principals, Agent sponsorship, Position membership, and the operating profile.
   work-item   Create and configure work items, revisioned contracts, UI mode, claims, and unresolved items.
   parallel    Check one item or build deterministic safe dispatch waves for a group.
   resource    Define and inspect shared runtime or verification capacity.
   worker      Correlate reserved work with internal subagents or user-owned Codex tasks.
+  evidence    Normalize local Git, test, runtime, claim, risk, and rollback observations without satisfying gates.
   handoff     Create an evidence-bearing Position handoff artifact.
   transition  Enforce the workflow edge and its named gate requirements.
   close       Record release readiness and close or block a release-gate item.
@@ -234,7 +246,14 @@ const VALUE_FLAGS = new Set([
   "--description",
   "--runtime-kind",
   "--worker-id",
-  "--runtime-id"
+  "--runtime-id",
+  "--summary",
+  "--expected-verification",
+  "--severity",
+  "--risk-status",
+  "--mitigation",
+  "--procedure",
+  "--rollback-status"
 ]);
 const REPEATABLE_FLAGS = new Set([
   "--scope",
@@ -261,7 +280,7 @@ const REPEATABLE_FLAGS = new Set([
   "--shared-contract-ref",
   "--overlap-resolution"
 ]);
-const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker"]);
+const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence"]);
 
 function parseCommand(argv) {
   if (argv.length === 0 || argv[0] === "--help" || argv[0] === "-h") {
@@ -537,6 +556,70 @@ async function runStatusCommand(parsed) {
     await Promise.all([writeStatus(target, status), writeCapabilityRegistry(target, registry)]);
   }
   console.log(parsed.flags.has("--json") ? JSON.stringify(status, null, 2) : renderStatusMarkdown(status));
+  return 0;
+}
+
+async function runObserveCommand(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  const projection = await buildObserverProjection(target);
+  if (!parsed.flags.has("--no-write")) await writeObserverProjection(target, projection);
+  if (parsed.flags.has("--json")) console.log(JSON.stringify(projection, null, 2));
+  else {
+    console.log(`${projection.project.name} Observer`);
+    console.log(`Work: ${projection.work.total}`);
+    console.log(`Active / blocked / QA / approval / queued: ${projection.work.categories.active} / ${projection.work.categories.blocked} / ${projection.work.categories.qa_pending} / ${projection.work.categories.approval_pending} / ${projection.work.categories.queued}`);
+    console.log(`Evidence: ${projection.evidence.total} (${projection.evidence.stale} stale, ${projection.evidence.unverified} unverified, ${projection.evidence.failed} failed)`);
+    console.log(`Attention: ${projection.attention.length}`);
+    console.log(`Canonical state changed: no`);
+    console.log(`External action: not performed`);
+  }
+  return 0;
+}
+
+async function runEvidence(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (parsed.action === "list") {
+    const registry = await readEvidenceRegistry(target);
+    const entries = parsed.options["--work-item"]
+      ? registry.entries.filter((entry) => entry.work_item_id === parsed.options["--work-item"])
+      : registry.entries;
+    if (parsed.flags.has("--json")) console.log(JSON.stringify({ ...registry, entries }, null, 2));
+    else if (entries.length === 0) console.log("No normalized evidence recorded.");
+    else for (const entry of entries) console.log(`${entry.id}\t${entry.work_item_id}\t${entry.kind}\t${entry.outcome}\t${entry.scope_revision ?? "unbound"}`);
+    return 0;
+  }
+  const kindByAction = {
+    git: "git-revision",
+    test: "test",
+    runtime: "runtime",
+    unverified: "unverified-claim",
+    risk: "risk",
+    rollback: "rollback"
+  };
+  const kind = kindByAction[parsed.action];
+  if (!kind) throw new Error(`Unknown evidence action: ${parsed.action}`);
+  if (!parsed.options["--work-item"]) throw new Error(`evidence ${parsed.action} requires --work-item`);
+  const entry = await withProjectMutationLock(target, () => recordEvidence(target, kind, {
+    workItemId: parsed.options["--work-item"],
+    actor: parsed.options["--actor"],
+    title: parsed.options["--title"],
+    summary: parsed.options["--summary"],
+    revision: parsed.options["--revision"],
+    observation: parsed.options["--observation"],
+    reason: listOption(parsed, "--reason").join("; "),
+    expectedVerification: parsed.options["--expected-verification"],
+    severity: parsed.options["--severity"],
+    riskStatus: parsed.options["--risk-status"],
+    mitigation: parsed.options["--mitigation"],
+    procedure: parsed.options["--procedure"],
+    rollbackStatus: parsed.options["--rollback-status"]
+  }));
+  printResult(parsed, entry, [
+    `Recorded ${entry.id}: ${entry.kind} (${entry.outcome})`,
+    `Scope revision: ${entry.scope_revision ?? "unbound"}`,
+    `Lifecycle gate satisfied: no`,
+    `External action: not performed`
+  ]);
   return 0;
 }
 
@@ -1293,6 +1376,7 @@ export async function main(argv) {
   if (parsed.command === "upgrade") return runUpgrade(parsed);
   if (parsed.command === "doctor") return runDoctorCommand(parsed);
   if (parsed.command === "status") return runStatusCommand(parsed);
+  if (parsed.command === "observe") return runObserveCommand(parsed);
   if (parsed.command === "collaboration") return runCollaboration(parsed);
   if (parsed.command === "work-item" && parsed.action === "create") return runWorkItemCreate(parsed);
   if (parsed.command === "work-item" && parsed.action === "configure") return runWorkItemConfigure(parsed);
@@ -1302,6 +1386,7 @@ export async function main(argv) {
   if (parsed.command === "parallel") return runParallel(parsed);
   if (parsed.command === "resource") return runResource(parsed);
   if (parsed.command === "worker") return runWorker(parsed);
+  if (parsed.command === "evidence") return runEvidence(parsed);
   if (parsed.command === "handoff") return runHandoff(parsed);
   if (parsed.command === "transition") return runTransition(parsed);
   if (parsed.command === "close") return runClose(parsed);

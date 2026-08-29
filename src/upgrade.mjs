@@ -36,6 +36,7 @@ import {
 import { buildCliBootstrapMetadata } from "./bootstrap.mjs";
 import { ensureResourceRegistry, RESOURCE_REGISTRY_RELATIVE_PATH } from "./resources.mjs";
 import { ensureRuntimeWorkerRegistry, RUNTIME_WORKER_REGISTRY_RELATIVE_PATH } from "./workers.mjs";
+import { ensureEvidenceRegistry, EVIDENCE_REGISTRY_RELATIVE_PATH } from "./evidence.mjs";
 
 function isManaged(relativePath) {
   return MANAGED_EXACT_PATHS.has(relativePath) || MANAGED_SOURCE_PREFIXES.some((prefix) => relativePath.startsWith(prefix));
@@ -205,6 +206,11 @@ export async function planUpgrade(target) {
     type: hasWorkerRegistry ? "skip-runtime-worker-registry" : "create-runtime-worker-registry",
     path: RUNTIME_WORKER_REGISTRY_RELATIVE_PATH
   });
+  const hasEvidenceRegistry = await pathExists(path.join(target, EVIDENCE_REGISTRY_RELATIVE_PATH));
+  actions.push({
+    type: hasEvidenceRegistry ? "skip-evidence-registry" : "create-evidence-registry",
+    path: EVIDENCE_REGISTRY_RELATIVE_PATH
+  });
   const assignmentMigration = await planUiAssignmentMigration(target, conflicts);
   actions.push({
     type: assignmentMigration ? "add-ui-assignment" : "skip-ui-assignment",
@@ -284,7 +290,11 @@ export async function planUpgrade(target) {
     lock.capabilities?.atomic_worker_preparation !== true ||
     lock.capabilities?.runtime_worker_registry !== true ||
     lock.capabilities?.stage_execution_requirements !== true ||
-    lock.capabilities?.shared_resource_coordination !== true;
+    lock.capabilities?.shared_resource_coordination !== true ||
+    lock.capabilities?.normalized_evidence_registry !== true ||
+    lock.capabilities?.local_evidence_adapters !== true ||
+    lock.capabilities?.observer_projection !== true ||
+    lock.capabilities?.read_only_overview !== true;
   if (packMetadataChanges) actions.push({ type: "update-pack-metadata", path: "temple.lock" });
   if (capabilityChanges || collaborationCapabilityChanges) actions.push({ type: "update-capabilities", path: "temple.lock" });
   actions.push({
@@ -303,7 +313,8 @@ export async function planUpgrade(target) {
       hasTrackerConfig &&
       hasCollaboration &&
       hasResourceRegistry &&
-      hasWorkerRegistry
+      hasWorkerRegistry &&
+      hasEvidenceRegistry
         ? "skip-current-lock"
         : "update-lock",
     path: "temple.lock"
@@ -387,6 +398,10 @@ export async function executeUpgrade(plan) {
     const workerRegistry = await ensureRuntimeWorkerRegistry(plan.target);
     if (workerRegistry.created) {
       changes.push({ path: workerRegistry.path, before: null, afterHash: workerRegistry.afterHash });
+    }
+    const evidenceRegistry = await ensureEvidenceRegistry(plan.target);
+    if (evidenceRegistry.created) {
+      changes.push({ path: evidenceRegistry.path, before: null, afterHash: evidenceRegistry.afterHash });
     }
     if (plan.assignmentMigration) {
       const assignmentsPath = path.join(plan.target, plan.assignmentMigration.path);
@@ -497,6 +512,10 @@ export async function executeUpgrade(plan) {
         runtime_worker_registry: true,
         stage_execution_requirements: true,
         shared_resource_coordination: true,
+        normalized_evidence_registry: true,
+        local_evidence_adapters: true,
+        observer_projection: true,
+        read_only_overview: true,
         checksum_upgrade: true,
         optional_packs: true
       },

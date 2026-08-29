@@ -1,0 +1,258 @@
+import assert from "node:assert/strict";
+import fs from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
+import { spawnSync } from "node:child_process";
+import test from "node:test";
+import { fileURLToPath } from "node:url";
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const cli = path.join(root, "bin/temple.mjs");
+
+function run(args) {
+  return spawnSync(process.execPath, [cli, ...args], { encoding: "utf8" });
+}
+
+function git(target, args) {
+  return spawnSync("git", ["-C", target, ...args], { encoding: "utf8" });
+}
+
+async function writeJson(target, relativePath, value) {
+  const absolute = path.join(target, relativePath);
+  await fs.mkdir(path.dirname(absolute), { recursive: true });
+  await fs.writeFile(absolute, `${JSON.stringify(value, null, 2)}\n`);
+}
+
+async function fixture(context) {
+  const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-evidence-test-"));
+  const target = path.join(temporaryRoot, "evidence-product");
+  const configPath = path.join(temporaryRoot, "init.json");
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  await writeJson(temporaryRoot, "init.json", {
+    schema_version: "temple.init/v1",
+    project: { id: "evidence-product", name: "Evidence Product" },
+    naming_mode: "manual",
+    agents: [
+      { display_name: "Fixture Rowan", positions: ["engineering_manager", "release_manager", "observer"] },
+      { display_name: "Fixture Linden", positions: ["product_manager", "ux_designer", "ui_designer"] },
+      { display_name: "Fixture Ellis", positions: ["tech_lead"] },
+      { display_name: "Fixture Devon", positions: ["developer"] },
+      { display_name: "Fixture Hollis", positions: ["quality_evaluator", "independent_qa"] }
+    ]
+  });
+  const initialized = run(["init", target, "--config", configPath]);
+  assert.equal(initialized.status, 0, initialized.stderr || initialized.stdout);
+  assert.equal(git(target, ["init", "-q"]).status, 0);
+  assert.equal(git(target, ["config", "user.email", "temple-tests@example.invalid"]).status, 0);
+  assert.equal(git(target, ["config", "user.name", "Temple Tests"]).status, 0);
+  assert.equal(git(target, ["add", "."]).status, 0);
+  assert.equal(git(target, ["commit", "-qm", "initial state"]).status, 0);
+  return { target };
+}
+
+function createWorkItem(target, title = "Evidence work") {
+  const created = run([
+    "work-item", "create", target,
+    "--title", title,
+    "--scope", "Capture trustworthy evidence",
+    "--acceptance", "Observer reports evidence state",
+    "--affected-path", "src/evidence",
+    "--base-revision", "HEAD",
+    "--integration-owner", "agent-fixture-rowan",
+    "--ui-mode", "not-applicable"
+  ]);
+  assert.equal(created.status, 0, created.stderr || created.stdout);
+  const id = /Created (WI-[A-Z0-9-]+):/.exec(created.stdout)?.[1];
+  assert.ok(id, created.stdout);
+  return id;
+}
+
+test("init owns an empty evidence registry and exact Git evidence resolves to a commit", async (context) => {
+  const { target } = await fixture(context);
+  const workItemId = createWorkItem(target);
+  const lock = JSON.parse(await fs.readFile(path.join(target, "temple.lock"), "utf8"));
+  assert.equal(lock.capabilities.normalized_evidence_registry, true);
+  assert.equal(lock.capabilities.observer_projection, true);
+  assert.ok(!lock.managed_files.some((entry) => entry.path === ".ai-org/project/evidence.json"));
+  assert.deepEqual(JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/evidence.json"), "utf8")), {
+    schema_version: "temple.evidence/v1",
+    entries: []
+  });
+
+  const recorded = run([
+    "evidence", "git", target,
+    "--work-item", workItemId,
+    "--revision", "HEAD",
+    "--title", "Candidate revision",
+    "--actor", "agent-fixture-devon"
+  ]);
+  assert.equal(recorded.status, 0, recorded.stderr || recorded.stdout);
+  const registry = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/evidence.json"), "utf8"));
+  assert.equal(registry.entries.length, 1);
+  assert.equal(registry.entries[0].kind, "git-revision");
+  assert.match(registry.entries[0].scope_revision, /^[0-9a-f]{40}$/);
+  assert.equal(registry.entries[0].adapter.id, "git-local");
+  assert.equal(registry.entries[0].external_action_performed, false);
+});
+
+test("upgrade seeds a missing evidence registry without adopting project evidence", async (context) => {
+  const { target } = await fixture(context);
+  const registryPath = path.join(target, ".ai-org/project/evidence.json");
+  const lockPath = path.join(target, "temple.lock");
+  const lock = JSON.parse(await fs.readFile(lockPath, "utf8"));
+  lock.template.version = "0.1.0-alpha.17";
+  for (const capability of ["normalized_evidence_registry", "local_evidence_adapters", "observer_projection", "read_only_overview"]) {
+    delete lock.capabilities[capability];
+  }
+  await fs.writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
+  await fs.rm(registryPath);
+  const upgraded = run(["upgrade", target]);
+  assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
+  assert.deepEqual(JSON.parse(await fs.readFile(registryPath, "utf8")), {
+    schema_version: "temple.evidence/v1",
+    entries: []
+  });
+  const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.18");
+  assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/project/evidence.json"));
+
+  const custom = { schema_version: "temple.evidence/v1", entries: [] };
+  await fs.writeFile(registryPath, `${JSON.stringify(custom, null, 4)}\n`);
+  const before = await fs.readFile(registryPath, "utf8");
+  const current = run(["upgrade", target]);
+  assert.equal(current.status, 0, current.stderr || current.stdout);
+  assert.equal(await fs.readFile(registryPath, "utf8"), before);
+});
+
+test("test and runtime observations are content-addressed and never auto-satisfy a gate", async (context) => {
+  const { target } = await fixture(context);
+  const workItemId = createWorkItem(target);
+  const testPath = ".ai-org/artifacts/test-observation.json";
+  const runtimePath = ".ai-org/artifacts/runtime-observation.json";
+  const artifactPath = ".ai-org/artifacts/test-output.txt";
+  await fs.mkdir(path.dirname(path.join(target, artifactPath)), { recursive: true });
+  await fs.writeFile(path.join(target, artifactPath), "89 tests passed\n");
+  await writeJson(target, testPath, {
+    schema_version: "temple.test-observation/v1",
+    revision: "HEAD",
+    command: ["npm", "test"],
+    result: "pass",
+    exit_code: 0,
+    started_at: "2026-08-30T00:00:00.000Z",
+    completed_at: "2026-08-30T00:01:00.000Z",
+    artifact_refs: [artifactPath]
+  });
+  await writeJson(target, runtimePath, {
+    schema_version: "temple.runtime-observation/v1",
+    revision: "HEAD",
+    environment: "iOS Simulator",
+    scenario: "Cold launch",
+    result: "pass",
+    provenance: "simulator",
+    observed_at: "2026-08-30T00:02:00.000Z",
+    artifact_refs: []
+  });
+
+  for (const [kind, observation] of [["test", testPath], ["runtime", runtimePath]]) {
+    const result = run(["evidence", kind, target, "--work-item", workItemId, "--observation", observation, "--actor", "agent-fixture-hollis"]);
+    assert.equal(result.status, 0, result.stderr || result.stdout);
+  }
+  const registry = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/evidence.json"), "utf8"));
+  assert.deepEqual(registry.entries.map((entry) => entry.kind), ["test", "runtime"]);
+  assert.ok(registry.entries.every((entry) => entry.artifacts.every((artifact) => /^[0-9a-f]{64}$/.test(artifact.sha256))));
+  const item = JSON.parse(await fs.readFile(path.join(target, `.ai-org/work-items/${workItemId}.json`), "utf8"));
+  assert.deepEqual(item.gate_evidence, {});
+  assert.deepEqual(item.evidence, []);
+});
+
+test("unverified claims, high risks, and failed observations become Observer attention", async (context) => {
+  const { target } = await fixture(context);
+  const workItemId = createWorkItem(target);
+  await writeJson(target, ".ai-org/artifacts/failing-test.json", {
+    schema_version: "temple.test-observation/v1",
+    revision: "HEAD",
+    command: ["npm", "test"],
+    result: "fail",
+    exit_code: 1,
+    started_at: "2026-08-30T00:00:00.000Z",
+    completed_at: "2026-08-30T00:01:00.000Z",
+    artifact_refs: []
+  });
+  const commands = [
+    ["evidence", "unverified", target, "--work-item", workItemId, "--summary", "Looks correct", "--reason", "No simulator available", "--expected-verification", "Run on simulator", "--actor", "agent-fixture-devon"],
+    ["evidence", "risk", target, "--work-item", workItemId, "--summary", "Migration may lose data", "--severity", "high", "--risk-status", "open", "--mitigation", "Restore from backup", "--actor", "agent-fixture-ellis"],
+    ["evidence", "test", target, "--work-item", workItemId, "--observation", ".ai-org/artifacts/failing-test.json", "--actor", "agent-fixture-hollis"]
+  ];
+  for (const command of commands) {
+    const result = run(command);
+    assert.equal(result.status, 0, result.stderr || result.stdout);
+  }
+
+  const observed = run(["observe", target, "--json", "--no-write"]);
+  assert.equal(observed.status, 0, observed.stderr || observed.stdout);
+  const overview = JSON.parse(observed.stdout);
+  assert.equal(overview.schema_version, "temple.observer/v1");
+  assert.equal(overview.external_action_performed, false);
+  assert.ok(overview.attention.some((entry) => entry.type === "unverified_claim"));
+  assert.ok(overview.attention.some((entry) => entry.type === "open_high_risk"));
+  assert.ok(overview.attention.some((entry) => entry.type === "failed_evidence"));
+});
+
+test("Observer marks revision-bound evidence stale when a moving Work Item ref advances", async (context) => {
+  const { target } = await fixture(context);
+  const workItemId = createWorkItem(target);
+  const recorded = run(["evidence", "git", target, "--work-item", workItemId, "--revision", "HEAD", "--title", "Initial candidate"]);
+  assert.equal(recorded.status, 0, recorded.stderr || recorded.stdout);
+  await fs.writeFile(path.join(target, "change.txt"), "new revision\n");
+  assert.equal(git(target, ["add", "change.txt"]).status, 0);
+  assert.equal(git(target, ["commit", "-qm", "advance candidate"]).status, 0);
+
+  const overview = JSON.parse(run(["observe", target, "--json", "--no-write"]).stdout);
+  assert.equal(overview.evidence.stale, 1);
+  assert.ok(overview.attention.some((entry) => entry.type === "stale_evidence" && entry.work_item_id === workItemId));
+});
+
+test("local overview writes generated static files only when requested", async (context) => {
+  const { target } = await fixture(context);
+  const workItemId = createWorkItem(target);
+  const noWrite = run(["observe", target, "--json", "--no-write"]);
+  assert.equal(noWrite.status, 0, noWrite.stderr || noWrite.stdout);
+  await assert.rejects(() => fs.access(path.join(target, ".ai-org/views/observer.json")));
+  await assert.rejects(() => fs.access(path.join(target, ".ai-org/views/overview.html")));
+
+  const written = run(["observe", target]);
+  assert.equal(written.status, 0, written.stderr || written.stdout);
+  const html = await fs.readFile(path.join(target, ".ai-org/views/overview.html"), "utf8");
+  assert.match(html, /Evidence Product/);
+  assert.match(html, new RegExp(workItemId));
+  assert.match(html, /Read-only Observer overview/);
+  assert.doesNotMatch(html, /<button|<form/i);
+  const projection = JSON.parse(await fs.readFile(path.join(target, ".ai-org/views/observer.json"), "utf8"));
+  assert.equal(projection.work.total, 1);
+});
+
+test("doctor detects drift in an evidence artifact", async (context) => {
+  const { target } = await fixture(context);
+  const workItemId = createWorkItem(target);
+  const artifactPath = ".ai-org/artifacts/runtime-proof.txt";
+  await fs.mkdir(path.dirname(path.join(target, artifactPath)), { recursive: true });
+  await fs.writeFile(path.join(target, artifactPath), "original\n");
+  await writeJson(target, ".ai-org/artifacts/runtime.json", {
+    schema_version: "temple.runtime-observation/v1",
+    revision: "HEAD",
+    environment: "local",
+    scenario: "health check",
+    result: "pass",
+    provenance: "live",
+    observed_at: "2026-08-30T00:02:00.000Z",
+    artifact_refs: [artifactPath]
+  });
+  const recorded = run(["evidence", "runtime", target, "--work-item", workItemId, "--observation", ".ai-org/artifacts/runtime.json"]);
+  assert.equal(recorded.status, 0, recorded.stderr || recorded.stdout);
+  await fs.writeFile(path.join(target, artifactPath), "changed\n");
+  const doctor = run(["doctor", target, "--json"]);
+  assert.equal(doctor.status, 1, doctor.stderr || doctor.stdout);
+  const check = JSON.parse(doctor.stdout).checks.find((entry) => entry.id === "evidence_registry");
+  assert.equal(check.status, "fail");
+  assert.match(check.message, /digest mismatch/);
+});

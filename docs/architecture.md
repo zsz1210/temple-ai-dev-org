@@ -90,6 +90,10 @@ The default provider is local and reports `semantic: false`. The `temple.retriev
 
 Company trackers, Temple Work Items, and Codex tasks have different identities and authority. A company item may map to a team-visible parent Work Item; internal child Work Items hold AI decomposition; registered Codex tasks record execution sessions. Tracker observations can inform planning, but an external completion cannot advance the repository lifecycle. See [Task and external tracker coordination](task-and-tracker-coordination.md) and [ADR-0020](adr/0020-external-tracker-coordination.md).
 
+## Evidence and Observer boundary
+
+Normalized evidence is project-owned canonical state; the Observer is a generated projection. Local adapters resolve exact Git commits and hash supplied test, runtime, risk, unverified, and rollback material. They never execute the observed action or satisfy a gate. The responsible Position must deliberately attach reviewed evidence to a named transition, and high-risk external authority remains human-owned. See [Evidence and Observer](evidence-and-observer.md) and [ADR-0023](adr/0023-evidence-registry-and-observer-projection.md).
+
 ## Command responsibilities
 
 ### `temple init`
@@ -103,6 +107,10 @@ Validate managed checksums and the pinned launcher, the JSON model, Position com
 ### `temple status`
 
 Read canonical state and output the collaboration profile, Principal and membership counts, active claims, stage requirements, runtime workers, shared-resource saturation, parallel-plan validity, freshness and disposition counts, specification authority and status counts, tracker mappings and reconciliation actions, stale Work Item references, the user-task registry, context-routing and capability counts, learning counts, revisions, attention signals, recent events, and archive readiness. It may update generated views, but never turns a view back into a decision.
+
+### `temple evidence` and `temple observe`
+
+`evidence` records normalized local observations in `.ai-org/project/evidence.json`; `doctor` verifies their structure and content-addressed repository artifacts. `observe` projects work categories, evidence staleness, pending approvals, and recovery attention. `observe --no-write` is read-only; the default writes only generated JSON and static HTML under `.ai-org/views/`. Neither command performs an external action or advances the workflow.
 
 ### Tracker commands
 

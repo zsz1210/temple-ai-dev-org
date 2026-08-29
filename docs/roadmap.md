@@ -112,10 +112,10 @@ Planned deliverables:
 
 ### Phase 2B — Evidence and Observer surface (`0.1.0-alpha.18`)
 
-- Evidence adapters for exact Git revisions, tests, runtime observations, explicitly unverified claims, risk, and rollback.
-- Observer projections for lifecycle timeline, evidence staleness, pending approval, and recovery-oriented attention signals.
-- A local read-only overview of active, blocked, QA-pending, and approval-pending work.
-- Preserve external writes and live production actions as explicit authorization boundaries.
+- Delivered local evidence adapters for exact Git revisions, supplied tests and runtime observations, explicitly unverified claims, risk, and rollback.
+- Delivered Observer projections for lifecycle timeline, evidence staleness, pending approval, and recovery-oriented attention signals.
+- Delivered a local read-only overview of active, blocked, QA-pending, approval-pending, and queued work.
+- Preserved external writes, command execution, and live production actions as explicit authorization boundaries.
 
 ### Phase 2C — Extension and retrieval maturity (`0.1.0-alpha.19`)
 

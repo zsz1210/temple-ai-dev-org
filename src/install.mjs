@@ -300,6 +300,10 @@ export async function executeInit(plan) {
         runtime_worker_registry: true,
         stage_execution_requirements: true,
         shared_resource_coordination: true,
+        normalized_evidence_registry: true,
+        local_evidence_adapters: true,
+        observer_projection: true,
+        read_only_overview: true,
         checksum_upgrade: true,
         optional_packs: true
       },

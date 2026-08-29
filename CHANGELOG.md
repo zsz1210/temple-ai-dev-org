@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0-alpha.18
+
+- Added a project-owned normalized Evidence Registry and local adapters for exact Git revisions, supplied test observations, supplied runtime observations, explicitly unverified claims, risks, and rollback procedures.
+- Added content-addressed repository artifacts, exact commit resolution, result-consistency checks, and doctor validation for registry structure, Work Item references, missing artifacts, and digest drift.
+- Added a read-only Observer projection for active, blocked, QA-pending, approval-pending, and queued work, with revision-staleness, failed evidence, unverified claim, open high-risk, approval, and runtime-recovery attention.
+- Added generated `.ai-org/views/observer.json` and static `.ai-org/views/overview.html`; `observe --no-write` changes no files, and neither mode exposes mutation or approval controls.
+- Added ADR-0023, evidence and Observer guidance, managed observation templates and schema, upgrade-safe project-owned seeds, and end-to-end tests.
+- Preserved authority boundaries: evidence capture never runs the observed command, satisfies a gate, writes an external tracker, performs a production action, or replaces Independent QA.
+
 ## 0.1.0-alpha.17
 
 - Added a project-local `templew.mjs` launcher and `temple.cli-bootstrap/v1` lock contract that pins the framework version and, from a clean source checkout, the exact Git source revision. Development overrides are accepted only after an exact version check.
