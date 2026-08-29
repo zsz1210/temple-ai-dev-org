@@ -137,13 +137,15 @@ Local exit gate: satisfied through the recoverable lifecycle pilots, determinist
 
 Goal: Show progress, failures, and pending approvals without opening every Codex task individually.
 
-Planned deliverables:
+The research-backed [Phase 3 design](phase-3-control-plane.md) and [work-item breakdown](phase-3-work-items.md) are proposed for review and are not implemented. The design separates canonical project state, generated local telemetry, and disposable views; exposes provider capabilities honestly; and keeps runtime permission, business fact, and governance approval authority distinct.
 
-- Codex task, turn, and tool-event correlation with replay-safe ingestion.
-- Live dashboard for Agent activity, plans, diffs, tests, QA, and release gates.
-- Alerts for stalled or orphaned work, scope conflicts, stale evidence, and cost anomalies.
-- Human Inbox for approvals, rejections, and additional business facts, written back to canonical approval records.
-- Read-only GitHub PR and Checks evidence adapter.
+Proposed increments:
+
+- **Phase 3A — Event spine and provider foundation (`0.1.0-alpha.20`, delivered locally):** versioned normalized events, Git-common-dir replay journal, cursor and checkpoint recovery, provider capability contracts, repository and fixture providers, redaction, single-writer lease, rebuild archive, and read-only HTTP/SSE.
+- **Phase 3B — Live Observer, Codex adapter, and alerts:** provenance-aware live views, a pinned capability-proven Codex App Server adapter, disconnect reconciliation, and stateful actionable conditions.
+- **Phase 3C — Human Inbox and GitHub evidence:** authority-separated requests, a policy-checked idempotent command gateway, runtime-request bridging, and an exact-SHA read-only GitHub PR and Checks adapter.
+
+Phase 3 does not promise live access to every task already running in Codex Desktop. Registered or unsupported tasks remain visibly snapshot-only, registered-only, or unknown unless a documented and tested provider proves stronger capabilities.
 
 Exit gate: Events appear within reasonable latency; reconnection neither repeats gates nor loses canonical state; interruptions and failures correctly become blocked; and approvals are visible, recorded, and constrain subsequent execution.
 

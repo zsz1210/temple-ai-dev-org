@@ -6,6 +6,7 @@
     { "id": "agents", "path": ".ai-org/project/agents.json", "schema": "agents.schema.json", "required": true, "ownership": "project" },
     { "id": "assignments", "path": ".ai-org/project/assignments.json", "schema": "assignments.schema.json", "required": true, "ownership": "project" },
     { "id": "collaboration", "path": ".ai-org/project/collaboration.json", "schema": "collaboration.schema.json", "required": true, "ownership": "project" },
+    { "id": "control-plane", "path": ".ai-org/project/control-plane.json", "schema": "control-plane-config.schema.json", "required": true, "ownership": "project" },
     { "id": "context-map", "path": ".ai-org/project/context-map.json", "schema": "context-map.schema.json", "required": true, "ownership": "project" },
     { "id": "evidence", "path": ".ai-org/project/evidence.json", "schema": "evidence-registry.schema.json", "required": true, "ownership": "project" },
     { "id": "learning", "path": ".ai-org/learning/index.json", "schema": "learning-index.schema.json", "required": true, "ownership": "project" },

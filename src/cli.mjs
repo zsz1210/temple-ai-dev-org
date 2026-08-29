@@ -34,6 +34,12 @@ import {
 import { withProjectMutationLock } from "./project.mjs";
 import { buildStatus, renderStatusMarkdown, writeStatus } from "./status.mjs";
 import { buildObserverProjection, writeObserverProjection } from "./observer.mjs";
+import {
+  ingestControlPlaneFixture,
+  inspectControlPlane,
+  rebuildControlPlane,
+  startControlPlaneServer
+} from "./control-plane-server.mjs";
 import { validateProjectSchemas } from "./schema-validation.mjs";
 import { buildMigrationPlan } from "./migrations.mjs";
 import {
@@ -81,6 +87,10 @@ Usage:
   temple doctor [target] [--json]
   temple status [target] [--json] [--no-write]
   temple observe [target] [--json] [--no-write]
+  temple control-plane snapshot [target] [--state-dir path] [--json]
+  temple control-plane ingest [target] --fixture path [--state-dir path] [--json]
+  temple control-plane rebuild [target] [--state-dir path] [--json]
+  temple control-plane start [target] [--host 127.0.0.1] [--port number] [--state-dir path] [--fixture path]
   temple collaboration show [target] [--json]
   temple collaboration set-profile [target] --profile solo|collaborative|high-assurance
   temple collaboration add-principal [target] --principal-id principal-name --name "Human Name"
@@ -147,6 +157,7 @@ Core commands:
   doctor      Validate managed files, identities, work items, tasks, and integrations.
   status      Rebuild the observable project status from canonical files.
   observe     Build a read-only lifecycle, evidence, approval, and recovery projection.
+  control-plane Run the local replay-safe telemetry journal, provider surface, snapshot API, and SSE stream.
   collaboration Configure Human Principals, Agent sponsorship, Position membership, and the operating profile.
   work-item   Create and configure work items, revisioned contracts, UI mode, claims, and unresolved items.
   parallel    Check one item or build deterministic safe dispatch waves for a group.
@@ -291,7 +302,11 @@ const VALUE_FLAGS = new Set([
   "--result",
   "--review-after",
   "--fixture",
-  "--source"
+  "--source",
+  "--state-dir",
+  "--host",
+  "--port",
+  "--repository-interval"
 ]);
 const REPEATABLE_FLAGS = new Set([
   "--scope",
@@ -322,7 +337,7 @@ const REPEATABLE_FLAGS = new Set([
   "--source-work-item",
   "--derived-from"
 ]);
-const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence", "schema", "migration", "learning", "retrieval", "adapter"]);
+const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence", "schema", "migration", "learning", "retrieval", "adapter", "control-plane"]);
 
 function parseCommand(argv) {
   if (argv.length === 0 || argv[0] === "--help" || argv[0] === "-h") {
@@ -616,6 +631,81 @@ async function runObserveCommand(parsed) {
     console.log(`External action: not performed`);
   }
   return 0;
+}
+
+function controlPlanePort(parsed) {
+  if (parsed.options["--port"] === undefined) return undefined;
+  const port = Number(parsed.options["--port"]);
+  if (!Number.isInteger(port) || port < 0 || port > 65535) throw new Error("--port must be an integer from 0 to 65535");
+  return port;
+}
+
+function controlPlaneInterval(parsed) {
+  if (parsed.options["--repository-interval"] === undefined) return undefined;
+  const interval = Number(parsed.options["--repository-interval"]);
+  if (!Number.isInteger(interval) || interval < 50 || interval > 60000) {
+    throw new Error("--repository-interval must be an integer from 50 to 60000 milliseconds");
+  }
+  return interval;
+}
+
+async function runControlPlane(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  const options = {
+    stateDirectory: parsed.options["--state-dir"],
+    fixturePath: parsed.options["--fixture"]
+  };
+  if (parsed.action === "snapshot") {
+    const result = await inspectControlPlane(target, options);
+    printResult(parsed, result.snapshot, [
+      `${result.snapshot.project.name} control plane`,
+      `State: ${result.stateDirectory}`,
+      `Events: ${result.snapshot.journal.retained_events}`,
+      `Providers: ${result.snapshot.providers.providers.map((provider) => `${provider.id}:${provider.status}`).join(", ")}`,
+      "Canonical state changed: no",
+      "External action: not performed"
+    ]);
+    return 0;
+  }
+  if (parsed.action === "ingest") {
+    if (!parsed.options["--fixture"]) throw new Error("control-plane ingest requires --fixture");
+    const result = await ingestControlPlaneFixture(target, parsed.options["--fixture"], options);
+    printResult(parsed, result, [
+      `Fixture provider: ${result.result.provider_id}`,
+      `Appended / duplicate: ${result.result.appended} / ${result.result.duplicates}`,
+      `State: ${result.stateDirectory}`
+    ]);
+    return 0;
+  }
+  if (parsed.action === "rebuild") {
+    const result = await rebuildControlPlane(target, options);
+    printResult(parsed, result, [
+      `Rebuilt control-plane journal from canonical repository state.`,
+      `Canonical events: ${result.repository.source_events}`,
+      `Archive: ${result.archivePath ?? "none"}`,
+      `State: ${result.stateDirectory}`
+    ]);
+    return 0;
+  }
+  if (parsed.action === "start") {
+    const controlPlane = await startControlPlaneServer(target, {
+      ...options,
+      host: parsed.options["--host"],
+      port: controlPlanePort(parsed),
+      repositoryIntervalMs: controlPlaneInterval(parsed)
+    });
+    console.log(`Control plane: ${controlPlane.url}`);
+    console.log(`State: ${controlPlane.stateDirectory}`);
+    console.log("Press Ctrl-C to stop.");
+    await new Promise((resolve) => {
+      const stop = () => resolve();
+      process.once("SIGINT", stop);
+      process.once("SIGTERM", stop);
+    });
+    await controlPlane.close();
+    return 0;
+  }
+  throw new Error("control-plane action must be snapshot, ingest, rebuild, or start");
 }
 
 async function runEvidence(parsed) {
@@ -1543,6 +1633,7 @@ export async function main(argv) {
   if (parsed.command === "doctor") return runDoctorCommand(parsed);
   if (parsed.command === "status") return runStatusCommand(parsed);
   if (parsed.command === "observe") return runObserveCommand(parsed);
+  if (parsed.command === "control-plane") return runControlPlane(parsed);
   if (parsed.command === "collaboration") return runCollaboration(parsed);
   if (parsed.command === "work-item" && parsed.action === "create") return runWorkItemCreate(parsed);
   if (parsed.command === "work-item" && parsed.action === "configure") return runWorkItemConfigure(parsed);

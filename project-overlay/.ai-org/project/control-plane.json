@@ -1,0 +1,31 @@
+{
+  "schema_version": "temple.control-plane-config/v1",
+  "state_directory": null,
+  "server": {
+    "host": "127.0.0.1",
+    "port": 0
+  },
+  "retention": {
+    "max_events": 10000
+  },
+  "privacy": {
+    "capture_raw_payloads": false,
+    "max_data_bytes": 16384,
+    "redact_keys": [
+      "api-key",
+      "apikey",
+      "authorization",
+      "cookie",
+      "password",
+      "secret",
+      "token"
+    ]
+  },
+  "providers": [
+    {
+      "id": "repository",
+      "kind": "repository",
+      "enabled": true
+    }
+  ]
+}

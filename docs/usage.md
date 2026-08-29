@@ -507,6 +507,15 @@ temple status . --json --no-write
 temple doctor .
 ```
 
+Start or inspect the local replay-safe control plane:
+
+```bash
+temple control-plane snapshot . --json
+temple control-plane start .
+```
+
+Alpha.20 keeps this surface read-only. Its telemetry journal is generated below the Git common directory, shared by linked worktrees in one clone, redacted by default, and incapable of satisfying a lifecycle gate. See the [local control-plane guide](control-plane.md).
+
 `status.md` includes:
 
 - Work-item state, owner, Agent, latest revision, evidence, and unresolved issues.

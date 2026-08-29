@@ -317,6 +317,13 @@ export async function executeInit(plan) {
         local_hybrid_provider_contract: true,
         archify_adapter: true,
         high_assurance_profile: true,
+        control_plane_config: true,
+        telemetry_event_envelope: true,
+        local_telemetry_journal: true,
+        provider_capability_contract: true,
+        repository_telemetry_provider: true,
+        fixture_telemetry_provider: true,
+        control_plane_http_sse: true,
         checksum_upgrade: true,
         optional_packs: true
       },

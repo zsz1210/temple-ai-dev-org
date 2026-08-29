@@ -4,7 +4,7 @@ This repository's AI development organization separates responsibility from iden
 
 Before acting:
 
-1. Read `.ai-org/project/project.json`, `agents.json`, `assignments.json`, `collaboration.json`, `spec-index.json`, `tracker.json`, `retrieval.json`, and `evidence.json` as relevant to the work.
+1. Read `.ai-org/project/project.json`, `agents.json`, `assignments.json`, `collaboration.json`, `spec-index.json`, `tracker.json`, `retrieval.json`, `evidence.json`, and `control-plane.json` as relevant to the work.
 2. Identify the Position you are acting as and the durable work item ID.
 3. Preview the bounded route with `temple context resolve . --work-item <work-item-id> --position <position> --no-write --json`.
 4. Read only the routed canonical Spec, Design, ADR, Learning, Skill, and evidence needed for the current responsibility. Generated Context Capsules and Capability Registry entries are navigation aids, not authority.
@@ -36,6 +36,8 @@ Treat the company issue tracker, this repository's Work Items, and Codex tasks a
 Read `.ai-org/project/tracker.json` before using an external reference. Never store tracker credentials in the repository. Use `temple tracker inspect` or `temple tracker plan` to create a bounded observation and reconciliation plan. `temple tracker reconcile` records a human-readable resolution and repository evidence; in this release it never writes externally. External `done` or `cancelled` state cannot bypass lifecycle evidence, Independent QA, or the Release Gate. Any future write-back requires explicit authorization for the exact mutation.
 
 Each transition must carry named gate evidence. `temple status` projects work items, risk contracts, assigned Agents, revisions, task status, context and retrieval configuration, Learning revalidation, optional packs and adapters, attention signals, recent events, and archive readiness. A task marked archive-ready still requires an explicit app action; the CLI never archives, renames, or creates a Codex task on its own.
+
+The local control plane combines this canonical state with generated telemetry below the Git common directory. Treat provider events, cursors, plans, diffs, usage, health, alerts, and browser projections as observations only. They cannot satisfy a gate or replace the Work Item, Evidence Registry, approval record, or canonical audit stream. Unsupported provider capabilities must remain `unknown` or unavailable rather than being inferred from task registration.
 
 ## Product specification authority
 

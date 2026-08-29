@@ -1,0 +1,254 @@
+import assert from "node:assert/strict";
+import fs from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
+import { spawnSync } from "node:child_process";
+import test from "node:test";
+import { fileURLToPath } from "node:url";
+import {
+  ingestControlPlaneFixture,
+  inspectControlPlane,
+  rebuildControlPlane,
+  startControlPlaneServer
+} from "../src/control-plane-server.mjs";
+import {
+  acquireControlPlaneLease,
+  openTelemetryJournal,
+  resolveControlPlaneStateDirectory
+} from "../src/telemetry.mjs";
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const cli = path.join(root, "bin/temple.mjs");
+
+function run(args) {
+  return spawnSync(process.execPath, [cli, ...args], { encoding: "utf8" });
+}
+
+function git(target, args) {
+  return spawnSync("git", ["-C", target, ...args], { encoding: "utf8" });
+}
+
+async function writeJson(targetPath, value) {
+  await fs.mkdir(path.dirname(targetPath), { recursive: true });
+  await fs.writeFile(targetPath, `${JSON.stringify(value, null, 2)}\n`);
+}
+
+async function fixture(context) {
+  const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-control-plane-test-"));
+  const target = path.join(temporaryRoot, "control-product");
+  const configPath = path.join(temporaryRoot, "init.json");
+  const stateDirectory = path.join(temporaryRoot, "runtime-state");
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  await writeJson(configPath, {
+    schema_version: "temple.init/v1",
+    project: { id: "control-product", name: "Control Product" },
+    naming_mode: "manual",
+    agents: [
+      { display_name: "Fixture Rowan", positions: ["engineering_manager", "release_manager", "observer"] },
+      { display_name: "Fixture Linden", positions: ["product_manager", "ux_designer", "ui_designer"] },
+      { display_name: "Fixture Ellis", positions: ["tech_lead"] },
+      { display_name: "Fixture Devon", positions: ["developer"] },
+      { display_name: "Fixture Hollis", positions: ["quality_evaluator", "independent_qa"] }
+    ]
+  });
+  const initialized = run(["init", target, "--config", configPath]);
+  assert.equal(initialized.status, 0, initialized.stderr || initialized.stdout);
+  assert.equal(git(target, ["init", "-q"]).status, 0);
+  assert.equal(git(target, ["config", "user.email", "temple-tests@example.invalid"]).status, 0);
+  assert.equal(git(target, ["config", "user.name", "Temple Tests"]).status, 0);
+  assert.equal(git(target, ["add", "."]).status, 0);
+  assert.equal(git(target, ["commit", "-qm", "initial state"]).status, 0);
+  return { temporaryRoot, target, stateDirectory };
+}
+
+function event(id, data = {}) {
+  return {
+    id,
+    source: "urn:temple:provider:fixture:test",
+    type: "org.temple.fixture.updated.v1",
+    subject: "project/control-product/work-item/WI-0001",
+    time: "2026-08-30T00:00:00.000Z",
+    data
+  };
+}
+
+test("telemetry journal redacts secrets, deduplicates stable identities, retains cursors, and excludes a second writer", async (context) => {
+  const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-journal-test-"));
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  const lease = await acquireControlPlaneLease(temporaryRoot);
+  await assert.rejects(() => acquireControlPlaneLease(temporaryRoot), /already running/);
+  const journal = await openTelemetryJournal(temporaryRoot, {
+    maxEvents: 2,
+    privacy: { max_data_bytes: 4096, redact_keys: ["token", "password"] }
+  });
+  const first = await journal.append(event("event-1", {
+    authorization: "Bearer live-secret-value",
+    nested: { password: "do-not-store", message: "safe" }
+  }));
+  assert.equal(first.duplicate, false);
+  assert.equal(first.record.data.authorization, "[REDACTED]");
+  assert.equal(first.record.data.nested.password, "[REDACTED]");
+  assert.equal(first.record.data.nested.message, "safe");
+  const duplicate = await journal.append(event("event-1", {
+    authorization: "Bearer another-value",
+    nested: { password: "different", message: "safe" }
+  }));
+  assert.equal(duplicate.duplicate, true);
+  await assert.rejects(() => journal.append(event("event-1", { status: "different" })), /identity collision/);
+  await journal.append(event("event-2", { status: "active" }));
+  await journal.append(event("event-3", { status: "completed" }));
+  assert.deepEqual(journal.snapshot(), {
+    schema_version: "temple.control-plane-checkpoint/v1",
+    first_cursor: 2,
+    last_cursor: 3,
+    retained_events: 2
+  });
+  assert.equal(journal.readAfter(0).reset_required, true);
+  assert.deepEqual(journal.readAfter(2).records.map((record) => record.id), ["event-3"]);
+  await journal.close();
+  await lease.release();
+});
+
+test("linked worktrees resolve one generated control-plane state directory", async (context) => {
+  const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-worktree-state-test-"));
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  const repository = path.join(temporaryRoot, "repository");
+  const linked = path.join(temporaryRoot, "linked");
+  await fs.mkdir(repository);
+  assert.equal(git(repository, ["init", "-q"]).status, 0);
+  assert.equal(git(repository, ["config", "user.email", "temple-tests@example.invalid"]).status, 0);
+  assert.equal(git(repository, ["config", "user.name", "Temple Tests"]).status, 0);
+  await fs.writeFile(path.join(repository, "README.md"), "fixture\n");
+  assert.equal(git(repository, ["add", "."]).status, 0);
+  assert.equal(git(repository, ["commit", "-qm", "initial"]).status, 0);
+  assert.equal(git(repository, ["worktree", "add", "-q", "-b", "linked-test", linked]).status, 0);
+  assert.equal(resolveControlPlaneStateDirectory(repository), resolveControlPlaneStateDirectory(linked));
+  assert.match(resolveControlPlaneStateDirectory(repository), /\.git\/temple\/control-plane$/);
+});
+
+test("init installs the safe control-plane config and fixture ingestion is replay-safe", async (context) => {
+  const { temporaryRoot, target, stateDirectory } = await fixture(context);
+  const config = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/control-plane.json"), "utf8"));
+  assert.equal(config.schema_version, "temple.control-plane-config/v1");
+  assert.equal(config.server.host, "127.0.0.1");
+  assert.equal(config.privacy.capture_raw_payloads, false);
+  const lock = JSON.parse(await fs.readFile(path.join(target, "temple.lock"), "utf8"));
+  assert.equal(lock.capabilities.local_telemetry_journal, true);
+  assert.equal(lock.capabilities.control_plane_http_sse, true);
+
+  const fixturePath = path.join(temporaryRoot, "provider-fixture.json");
+  await writeJson(fixturePath, {
+    schema_version: "temple.provider-fixture/v1",
+    provider_id: "fixture-alpha",
+    observed_at: "2026-08-30T00:00:01.000Z",
+    events: [event("fixture-event", { status: "active", token: "never-store" })]
+  });
+  const first = await ingestControlPlaneFixture(target, fixturePath, { stateDirectory });
+  const second = await ingestControlPlaneFixture(target, fixturePath, { stateDirectory });
+  assert.equal(first.result.appended, 1);
+  assert.equal(second.result.duplicates, 1);
+  const snapshot = (await inspectControlPlane(target, { stateDirectory })).snapshot;
+  assert.equal(snapshot.authority.telemetry_satisfies_gates, false);
+  assert.ok(snapshot.providers.providers.some((provider) => provider.id === "fixture-alpha"));
+  assert.equal(snapshot.recent_events.find((entry) => entry.id === "fixture-event").data.token, "[REDACTED]");
+});
+
+test("upgrade seeds missing project-owned control-plane configuration without managing later changes", async (context) => {
+  const { target } = await fixture(context);
+  const configPath = path.join(target, ".ai-org/project/control-plane.json");
+  const lockPath = path.join(target, "temple.lock");
+  const lock = JSON.parse(await fs.readFile(lockPath, "utf8"));
+  lock.template.version = "0.1.0-alpha.19";
+  for (const capability of [
+    "control_plane_config",
+    "telemetry_event_envelope",
+    "local_telemetry_journal",
+    "provider_capability_contract",
+    "repository_telemetry_provider",
+    "fixture_telemetry_provider",
+    "control_plane_http_sse"
+  ]) delete lock.capabilities[capability];
+  await fs.writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
+  await fs.rm(configPath);
+  const upgraded = run(["upgrade", target]);
+  assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
+  const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.20");
+  assert.equal(upgradedLock.capabilities.local_telemetry_journal, true);
+  assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/project/control-plane.json"));
+  const projectConfig = JSON.parse(await fs.readFile(configPath, "utf8"));
+  projectConfig.retention.max_events = 250;
+  await fs.writeFile(configPath, `${JSON.stringify(projectConfig, null, 4)}\n`);
+  const before = await fs.readFile(configPath, "utf8");
+  const current = run(["upgrade", target]);
+  assert.equal(current.status, 0, current.stderr || current.stdout);
+  assert.equal(await fs.readFile(configPath, "utf8"), before);
+});
+
+test("read-only HTTP snapshot and SSE replay expose local events without accepting mutation", async (context) => {
+  const { target, stateDirectory } = await fixture(context);
+  const controlPlane = await startControlPlaneServer(target, {
+    stateDirectory,
+    port: 0,
+    repositoryIntervalMs: 50
+  });
+  context.after(() => controlPlane.close());
+  const initialResponse = await fetch(`${controlPlane.url}/api/v1/snapshot`);
+  assert.equal(initialResponse.status, 200);
+  const initial = await initialResponse.json();
+  assert.equal(initial.schema_version, "temple.control-plane-snapshot/v1");
+  const cursor = initial.journal.last_cursor;
+  const appended = await controlPlane.journal.append(event("sse-event", { status: "active" }));
+  assert.equal(appended.record.templecursor, cursor + 1);
+
+  const controller = new AbortController();
+  const response = await fetch(`${controlPlane.url}/api/v1/events?after=${cursor}`, { signal: controller.signal });
+  assert.equal(response.status, 200);
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  let text = "";
+  const deadline = Date.now() + 2000;
+  while (!text.includes("sse-event") && Date.now() < deadline) {
+    const next = await Promise.race([
+      reader.read(),
+      new Promise((_, reject) => setTimeout(() => reject(new Error("SSE replay timed out")), 500))
+    ]);
+    if (next.done) break;
+    text += decoder.decode(next.value, { stream: true });
+  }
+  controller.abort();
+  await reader.cancel().catch(() => {});
+  assert.match(text, new RegExp(`id: ${cursor + 1}`));
+  assert.equal((text.match(/sse-event/g) ?? []).length, 1);
+
+  const mutation = await fetch(`${controlPlane.url}/api/v1/snapshot`, { method: "POST" });
+  assert.equal(mutation.status, 405);
+  assert.equal((await mutation.json()).error, "Phase 3A control plane is read-only");
+  await controlPlane.close();
+});
+
+test("rebuild preserves the previous journal and reconstructs canonical repository events", async (context) => {
+  const { target, stateDirectory } = await fixture(context);
+  const created = run([
+    "work-item", "create", target,
+    "--title", "Rebuild telemetry",
+    "--scope", "Create one canonical event",
+    "--acceptance", "Event is recoverable",
+    "--affected-path", "src/control-plane",
+    "--ui-mode", "not-applicable"
+  ]);
+  assert.equal(created.status, 0, created.stderr || created.stdout);
+  const fixturePath = path.join(path.dirname(stateDirectory), "one-event.json");
+  await writeJson(fixturePath, {
+    schema_version: "temple.provider-fixture/v1",
+    provider_id: "fixture-rebuild",
+    events: [event("transient-only", { status: "active" })]
+  });
+  await ingestControlPlaneFixture(target, fixturePath, { stateDirectory });
+  const rebuilt = await rebuildControlPlane(target, { stateDirectory });
+  assert.ok(rebuilt.archivePath);
+  assert.equal(await fs.readFile(rebuilt.archivePath, "utf8").then((value) => value.includes("transient-only")), true);
+  assert.ok(rebuilt.repository.source_events >= 1);
+  assert.ok(rebuilt.snapshot.recent_events.some((entry) => entry.source.startsWith("urn:temple:repository:")));
+  assert.ok(!rebuilt.snapshot.recent_events.some((entry) => entry.id === "transient-only"));
+});

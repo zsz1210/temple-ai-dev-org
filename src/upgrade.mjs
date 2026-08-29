@@ -39,6 +39,10 @@ import { ensureRuntimeWorkerRegistry, RUNTIME_WORKER_REGISTRY_RELATIVE_PATH } fr
 import { ensureEvidenceRegistry, EVIDENCE_REGISTRY_RELATIVE_PATH } from "./evidence.mjs";
 import { applyMigrationPlanToLock, buildMigrationPlan } from "./migrations.mjs";
 import { ensureRetrievalConfig, RETRIEVAL_CONFIG_RELATIVE_PATH } from "./retrieval.mjs";
+import {
+  CONTROL_PLANE_CONFIG_RELATIVE_PATH,
+  ensureControlPlaneConfig
+} from "./control-plane-config.mjs";
 
 function isManaged(relativePath) {
   return MANAGED_EXACT_PATHS.has(relativePath) || MANAGED_SOURCE_PREFIXES.some((prefix) => relativePath.startsWith(prefix));
@@ -219,6 +223,11 @@ export async function planUpgrade(target) {
     type: hasRetrievalConfig ? "skip-retrieval-config" : "create-retrieval-config",
     path: RETRIEVAL_CONFIG_RELATIVE_PATH
   });
+  const hasControlPlaneConfig = await pathExists(path.join(target, CONTROL_PLANE_CONFIG_RELATIVE_PATH));
+  actions.push({
+    type: hasControlPlaneConfig ? "skip-control-plane-config" : "create-control-plane-config",
+    path: CONTROL_PLANE_CONFIG_RELATIVE_PATH
+  });
   const assignmentMigration = await planUiAssignmentMigration(target, conflicts);
   actions.push({
     type: assignmentMigration ? "add-ui-assignment" : "skip-ui-assignment",
@@ -312,7 +321,14 @@ export async function planUpgrade(target) {
     lock.capabilities?.retrieval_evaluation !== true ||
     lock.capabilities?.local_hybrid_provider_contract !== true ||
     lock.capabilities?.archify_adapter !== true ||
-    lock.capabilities?.high_assurance_profile !== true;
+    lock.capabilities?.high_assurance_profile !== true ||
+    lock.capabilities?.control_plane_config !== true ||
+    lock.capabilities?.telemetry_event_envelope !== true ||
+    lock.capabilities?.local_telemetry_journal !== true ||
+    lock.capabilities?.provider_capability_contract !== true ||
+    lock.capabilities?.repository_telemetry_provider !== true ||
+    lock.capabilities?.fixture_telemetry_provider !== true ||
+    lock.capabilities?.control_plane_http_sse !== true;
   if (packMetadataChanges) actions.push({ type: "update-pack-metadata", path: "temple.lock" });
   if (capabilityChanges || collaborationCapabilityChanges) actions.push({ type: "update-capabilities", path: "temple.lock" });
   if (migrationPlan.pending.length > 0) actions.push({ type: "record-migrations", path: "temple.lock" });
@@ -335,6 +351,7 @@ export async function planUpgrade(target) {
       hasWorkerRegistry &&
       hasEvidenceRegistry &&
       hasRetrievalConfig &&
+      hasControlPlaneConfig &&
       migrationPlan.pending.length === 0
         ? "skip-current-lock"
         : "update-lock",
@@ -428,6 +445,10 @@ export async function executeUpgrade(plan) {
     const retrievalConfig = await ensureRetrievalConfig(plan.target);
     if (retrievalConfig.created) {
       changes.push({ path: retrievalConfig.path, before: null, afterHash: retrievalConfig.afterHash });
+    }
+    const controlPlaneConfig = await ensureControlPlaneConfig(plan.target);
+    if (controlPlaneConfig.created) {
+      changes.push({ path: controlPlaneConfig.path, before: null, afterHash: controlPlaneConfig.afterHash });
     }
     if (plan.assignmentMigration) {
       const assignmentsPath = path.join(plan.target, plan.assignmentMigration.path);
@@ -551,6 +572,13 @@ export async function executeUpgrade(plan) {
         local_hybrid_provider_contract: true,
         archify_adapter: true,
         high_assurance_profile: true,
+        control_plane_config: true,
+        telemetry_event_envelope: true,
+        local_telemetry_journal: true,
+        provider_capability_contract: true,
+        repository_telemetry_provider: true,
+        fixture_telemetry_provider: true,
+        control_plane_http_sse: true,
         checksum_upgrade: true,
         optional_packs: true
       },

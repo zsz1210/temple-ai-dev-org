@@ -26,5 +26,8 @@
 - [ADR-0024: Version extension contracts and state migrations explicitly](0024-version-extension-contracts-and-migrations.md)
 - [ADR-0025: Measure learning retrieval before selecting a semantic default](0025-measure-learning-retrieval-before-semantic-defaults.md)
 - [ADR-0026: Make High-Assurance a risk contract, not a larger team](0026-high-assurance-is-a-risk-contract.md)
+- [ADR-0027: Separate canonical state, runtime telemetry, and live views](0027-separate-canonical-state-runtime-telemetry-and-views.md)
+- [ADR-0028: Negotiate provider capabilities and reconcile replay](0028-negotiate-provider-capabilities-and-reconcile-replay.md)
+- [ADR-0029: Separate Human Inbox request authority](0029-separate-human-inbox-authority.md)
 
 An ADR is an Architecture Decision Record. It preserves the context, decision, rationale, and consequences of an important technical or organizational choice so that later Agents do not have to infer why it was made from chat memory.

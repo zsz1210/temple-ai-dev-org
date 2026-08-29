@@ -11,6 +11,7 @@ import { emptySpecIndex, validateSpecIndex } from "../src/specifications.mjs";
 import { emptyTrackerConfig, validateTrackerConfig } from "../src/tracker.mjs";
 import { emptyResourceRegistry, validateResourceRegistry } from "../src/resources.mjs";
 import { emptyRuntimeWorkerRegistry, validateRuntimeWorkerRegistry } from "../src/workers.mjs";
+import { defaultControlPlaneConfig, validateControlPlaneConfig } from "../src/control-plane-config.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
@@ -70,7 +71,8 @@ for (const [file, schemaId] of [
   ["spec-index.schema.json", "temple.spec-index/v1"],
   ["tracker.schema.json", "temple.tracker/v1"],
   ["resource-registry.schema.json", "temple.resources/v1"],
-  ["runtime-worker-registry.schema.json", "temple.runtime-workers/v1"]
+  ["runtime-worker-registry.schema.json", "temple.runtime-workers/v1"],
+  ["control-plane-config.schema.json", "temple.control-plane-config/v1"]
 ]) {
   const schema = await readJson(path.join(projectOverlayRoot, ".ai-org/core/schemas", file));
   check(schema.$id === schemaId, `${file} has an unexpected schema ID`);
@@ -127,6 +129,14 @@ check(workerRegistryValidation.valid, `runtime worker registry seed is invalid: 
 check(
   JSON.stringify(workerRegistry) === JSON.stringify(emptyRuntimeWorkerRegistry()),
   "project overlay runtime worker registry must remain an empty project-owned seed"
+);
+
+const controlPlaneConfig = await readJson(path.join(projectOverlayRoot, ".ai-org/project/control-plane.json"));
+const controlPlaneValidation = validateControlPlaneConfig(controlPlaneConfig);
+check(controlPlaneValidation.valid, `control-plane seed is invalid: ${controlPlaneValidation.errors.join("; ")}`);
+check(
+  JSON.stringify(controlPlaneConfig) === JSON.stringify(defaultControlPlaneConfig()),
+  "project overlay control-plane configuration must remain the safe local seed"
 );
 
 const uiDesignPolicy = await readJson(path.join(projectOverlayRoot, ".ai-org/core/ui-design.json"));
