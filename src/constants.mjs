@@ -6,7 +6,7 @@ const sourceDirectory = path.dirname(fileURLToPath(import.meta.url));
 export const REPOSITORY_ROOT = path.resolve(sourceDirectory, "..");
 export const TEMPLATE_ROOT = path.join(REPOSITORY_ROOT, "template");
 export const PACKAGE_NAME = "@zsz1210/ai-development-org-template";
-export const TEMPLATE_VERSION = "0.1.0-alpha.2";
+export const TEMPLATE_VERSION = "0.1.0-alpha.3";
 export const TEMPLATE_REPOSITORY = "zsz1210/ai-development-org-template";
 
 export const REQUIRED_POSITIONS = [

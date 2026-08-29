@@ -18,6 +18,17 @@ Work Item + Evidence (project-owned)
 
 Codex 的 `.codex/agents/*.toml` 是 Position 的 runtime configuration，不是專案中的人物姓名。專案實際名字保存在 `.ai-org/project/agents.json`。
 
+## 名稱邊界
+
+`Temple` 是中央 template、CLI 與技術 namespace 的名稱，不是安裝後專案或 AI 團隊的名稱。
+
+- 中央 repository、`temple` CLI、`temple.lock`、`temple.*` schema、`$temple-*` Skill ID 與相容性 marker 保留穩定名稱。
+- 安裝後面向專案的 instructions、status、artifact 與 Agent 說明使用專案名稱或「本專案的 AI 開發組織」。
+- 不把專案成員稱為 Temple team，也不讓中央工具品牌取代產品身份。
+- `TEMPLE.md` 暫時保留為相容性檔名，但內容是該 repository 的組織 operating contract，不是另一個外部專案。
+
+這條邊界讓中央工具可以安全升級，同時使安裝內容自然成為產品 repository 的一部分。
+
 ## 檔案邊界
 
 | 類型 | 路徑 | 所有權 | 升級規則 |

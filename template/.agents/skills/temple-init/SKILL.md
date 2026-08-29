@@ -1,9 +1,9 @@
 ---
 name: temple-init
-description: Initialize the Temple AI development organization in a software repository, including project-specific Agent names and Position assignments. Use for first-time Temple setup, not ordinary feature work.
+description: Initialize a repository's AI development organization with the temple CLI, including project-specific Agent names and Position assignments. Use for first-time organization setup, not ordinary feature work.
 ---
 
-# Temple Init
+# Project Organization Init
 
 Initialize one target repository without inventing project facts or overwriting user files.
 
@@ -17,9 +17,9 @@ Initialize one target repository without inventing project facts or overwriting 
 
 ## Workflow
 
-1. Resolve the target repository and the central Temple checkout containing `bin/temple.mjs`. Never assume they are the same directory.
+1. Resolve the target repository and the central template checkout containing `bin/temple.mjs`. Never assume they are the same directory.
 2. Inspect the target read-only: repository name, current `AGENTS.md`, language/build clues, and whether `.ai-org` or `temple.lock` already exists.
-3. If Temple is already installed, stop treating this as first init and run `doctor`; do not create new identities.
+3. If `temple.lock` already identifies an initialized organization, stop treating this as first init and run `doctor`; do not create new identities.
 4. Show the user the recommended five assignment slots:
    - Coordination: Engineering Manager, Release Manager, Observer.
    - Product: Product Manager, UX Designer.

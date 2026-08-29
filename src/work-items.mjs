@@ -112,7 +112,7 @@ function parseTransition(context, item, toState) {
   });
   if (escape) return escape;
 
-  throw new Error(`Illegal Temple transition: ${item.state} -> ${toState}`);
+  throw new Error(`Illegal work item transition: ${item.state} -> ${toState}`);
 }
 
 function normalizeSatisfiedRequirements(satisfied = {}) {
@@ -262,7 +262,7 @@ function releaseRecordMarkdown(context, item, options, timestamp, actor, gateEvi
   const gateLines = Object.entries(gateEvidence)
     .sort(([left], [right]) => left.localeCompare(right))
     .flatMap(([requirement, references]) => [`- ${requirement}:`, ...uniqueStrings(references).map((reference) => `  - ${reference}`)]);
-  return `# Release gate and closeout record — ${item.id}\n\n- Decision time: \`${timestamp}\`\n- Release Manager: ${context.agents.get(actor)?.display_name ?? actor} (\`${actor}\`)\n- Decision: **${options.decision.toUpperCase()} for organizational closeout**\n- Tested revision: \`${options.testedRevision}\`\n- External release: **not performed by Temple close**\n- Approval record: \`${options.approval}\`\n\n## Gate evidence\n\n${gateLines.join("\n")}\n\n## Supporting evidence\n\n${markdownList(evidence)}\n\n## Rollback plan\n\n${markdownList(options.rollback)}\n\n## Residual risk or no-go reason\n\n${markdownList(options.reason)}\n\n## Disposition\n\n${
+  return `# Release gate and closeout record — ${item.id}\n\n- Decision time: \`${timestamp}\`\n- Release Manager: ${context.agents.get(actor)?.display_name ?? actor} (\`${actor}\`)\n- Decision: **${options.decision.toUpperCase()} for organizational closeout**\n- Tested revision: \`${options.testedRevision}\`\n- External release: **not performed by organizational closeout**\n- Approval record: \`${options.approval}\`\n\n## Gate evidence\n\n${gateLines.join("\n")}\n\n## Supporting evidence\n\n${markdownList(evidence)}\n\n## Rollback plan\n\n${markdownList(options.rollback)}\n\n## Residual risk or no-go reason\n\n${markdownList(options.reason)}\n\n## Disposition\n\n${
     options.decision === "go"
       ? `The accepted scope is closed as \`done\`. This record is not reusable as authorization for a production or external release.`
       : `The release gate is no-go. The work item returns to Engineering Manager ownership as \`blocked\`.`

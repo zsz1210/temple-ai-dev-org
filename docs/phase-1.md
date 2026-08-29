@@ -27,11 +27,10 @@ Phase 1 只有在以下條件成立時才算完成：
 - 直接建立、改名、開啟或封存 Codex app task。
 - Web dashboard、即時事件串流、跨 repository portfolio view。
 - 自動發布 production 或繞過人類 release approval。
+- 從模糊產品點子完成 Project Charter、產品與技術基線，再交付第一個垂直切片；這屬於 Phase 1.5。Phase 1 的「新 repository」只證明技術初始化。
 
-## 下一階段候選
+## 下一步
 
-1. affected-path ownership 與重複 active scope 警告。
-2. Archify adapter 的 opt-in 安裝、輸入 schema、provenance 與 visual QA。
-3. GitHub issue/PR/CI evidence adapter。
-4. 即時 task event ingestion 與 Human Inbox。
-5. Portfolio-level read-only dashboard。
+1. 先以 AiPet 驗證第二個既有 repository 的可攜性。
+2. 執行 Phase 1.5 Greenfield Project Bootstrap Pilot，從產品點子走到第一張 work item closeout。
+3. 根據兩次 pilot 的實際摩擦整理 bootstrap 流程，再進入 Phase 2 的 affected-path ownership、Observer 與 evidence adapter。

@@ -5,7 +5,7 @@
 - Release Manager Agent ID:
 - Decision: go | no-go
 - Tested revision:
-- External release performed by Temple: no
+- External release performed by organizational closeout: no
 - Approval record: not-required | reference
 
 ## Gate evidence

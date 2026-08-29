@@ -137,7 +137,7 @@ export async function planInit(target, config, { integrateAgents = false } = {})
       } else {
         warnings.push("Existing .ai-org/project/AGENTS.temple.md differs; it will not be overwritten");
       }
-      warnings.push("Existing AGENTS.md was preserved; Temple instructions still need an approved merge");
+      warnings.push("Existing AGENTS.md was preserved; AI organization instructions still need an approved merge");
     }
   }
 

@@ -3,14 +3,14 @@ name: temple-grill-with-docs
 description: Stress-test a proposal against repository documents and code, then persist a sourced Decision Ledger and ADR proposals. Use when existing project evidence may constrain the answer.
 ---
 
-# Temple Grill with Docs
+# Evidence-backed Decision Grill
 
 Run a decision interview grounded in the target repository rather than relying on chat memory.
 
 ## Evidence pass
 
 1. Confirm the target outcome and the repository or document scope.
-2. Read the smallest authoritative set: root instructions, Temple assignments, relevant Spec/Design/ADR, nearby implementation, tests, and current Git state.
+2. Read the smallest authoritative set: root instructions, project assignments, relevant Spec/Design/ADR, nearby implementation, tests, and current Git state.
 3. Cite exact repository paths when reporting a constraint. Distinguish current evidence from historical notes and generated views.
 4. Build a short map of established facts, conflicts, missing evidence, terminology drift, and decisions that are still open.
 

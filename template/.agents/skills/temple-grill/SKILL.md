@@ -3,7 +3,7 @@ name: temple-grill
 description: Stress-test a product, architecture, or implementation idea through a focused decision interview and persist confirmed decisions. Use when the idea is still ambiguous; do not use merely to implement an already-approved task.
 ---
 
-# Temple Grill
+# Decision Grill
 
 Turn a fuzzy proposal into a compact set of explicit decisions without taking over the user's intent.
 
@@ -30,7 +30,7 @@ For technical choices, probe at least the outcome, constraints, failure modes, o
 
 When a decision becomes confirmed, persist it promptly:
 
-- If Temple is installed, create or update a focused file under `.ai-org/decisions/` using `.ai-org/templates/decision-ledger.md`.
+- If this repository has an initialized `.ai-org` organization, create or update a focused file under `.ai-org/decisions/` using `.ai-org/templates/decision-ledger.md`.
 - Link the durable work item and affected Spec, Design, or ADR.
 - Preserve the user's wording for intent, while clearly labeling any inference.
 - Never rewrite an accepted decision silently; supersede it with a reference and reason.

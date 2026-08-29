@@ -2,7 +2,7 @@
 
 把多個 Codex 對話變成一個能交接、能驗證、能看見進度的 AI 開發團隊。
 
-這套模板的內部工具稱為 **Temple**。你不需要分別記住每個 AI 對話做過什麼；你主要和 Engineering Manager 溝通，其他職位根據同一份專案狀態工作。
+這套模板的中央工具稱為 **Temple**。你不需要分別記住每個 AI 對話做過什麼；你主要和 Engineering Manager 溝通，其他職位根據同一份專案狀態工作。初始化後，這套組織就是目標專案的一部分，不會把專案或團隊改稱為 Temple。
 
 ```text
 你提出目標
@@ -58,7 +58,7 @@ Codex 會：
 4. 先執行 dry-run，確認不會覆寫既有內容。
 5. 正式執行 `init`、`doctor` 與 `status`。
 
-初始化完成後，目標 repository 自己就會擁有 Temple instructions、Skills、Position configs 與可觀測狀態。之後不需要回到中央 Template 才能工作。
+初始化完成後，目標 repository 自己就會擁有 AI 開發組織 instructions、Skills、Position configs 與可觀測狀態。之後不需要回到中央 Template 才能工作。
 
 ### 3. 開始第一張工作項目
 
@@ -73,7 +73,7 @@ temple doctor .
 temple status .
 ```
 
-日常工作由 Temple 命令維持，不必再手改 work item JSON：
+日常 canonical state 由 `temple` CLI 命令維持，不必再手改 work item JSON：
 
 ```bash
 temple work-item create . --title "Outcome-oriented title" \
@@ -117,7 +117,7 @@ Developer 與 Independent QA 必須是不同 Identity；Template 會在初始化
 
 ```text
 AGENTS.md                 Codex 進入專案時讀取的共同規則
-TEMPLE.md                 日常工作與交接契約
+TEMPLE.md                 日常工作與交接契約（保留的相容性檔名）
 temple.lock               Template 版本與 managed checksums
 .ai-org/
   core/                   Position、workflow、policy、schema
@@ -134,6 +134,10 @@ temple.lock               Template 版本與 managed checksums
 
 如果目標已經有 `AGENTS.md`，Temple 預設不會覆寫。它會留下待合併片段並由 `doctor` 顯示警告；只有在你明確批准時才附加 Temple 區塊。
 
+### 名稱原則
+
+`Temple` 只代表中央 template、CLI 與技術 namespace。安裝進產品 repository 後，狀態頁、instructions、artifact 與 Agent 說明都以產品名稱或「本專案的 AI 開發組織」表達。`temple` CLI、`temple.lock`、schema ID、Skill ID 和相容性 marker 仍保留原名，避免破壞升級與自動化。
+
 ## 安全邊界
 
 - 中央 Template 與產品 repository 分開；產品不需要 fork Template。
@@ -146,7 +150,7 @@ temple.lock               Template 版本與 managed checksums
 
 ## Phase 1 現在能做什麼
 
-- 安全初始化新專案或既有 repository。
+- 安全初始化空白或既有 repository；完整產品定義與第一個垂直切片會在 Phase 1.5 驗證。
 - 第一次 init 才建立並命名 Agent Identity。
 - 驗證九個 Position、身份分離、managed files 與 work item 格式。
 - 用 CLI 建立 work item、handoff、具名 gate transition 與 release closeout。
@@ -160,7 +164,7 @@ temple.lock               Template 版本與 managed checksums
 
 Phase 1 不會背景自動派工、不會直接操作 Codex sidebar、不會發布 production，也沒有跨專案即時 Web Dashboard。Archify 仍是關閉狀態的選配 Adapter。
 
-## 從 alpha.1 升級
+## 升級既有專案
 
 先預演，再正式升級：
 
@@ -179,5 +183,5 @@ Upgrade 只更新與 `temple.lock` checksum 一致的 managed files。任何缺�
 - [組織與技術架構](docs/architecture.md)：身份模型、檔案邊界與 canonical state。
 - [Position 與工作流程](docs/vision.md)：九個職位的責任與 gate。
 - [Phase 1 完成定義](docs/phase-1.md)：目前版本的驗收範圍。
-- [Roadmap](docs/roadmap.md)：從營運 MVP 到即時控制面與多專案管理。
+- [Roadmap](docs/roadmap.md)：從 Greenfield Pilot、營運 MVP 到即時控制面與多專案管理。
 - [ADR 索引](docs/adr/README.md)：重要決策及其理由。

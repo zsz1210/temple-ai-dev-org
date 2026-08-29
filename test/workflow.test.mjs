@@ -178,6 +178,7 @@ test("work item lifecycle, handoff, task registry, close, and observer status wo
   const releaseRecord = await fs.readFile(path.join(target, ".ai-org/artifacts/WI-0001/release-record.md"), "utf8");
   assert.match(releaseRecord, /accepted_scope:/);
   assert.match(releaseRecord, /required_human_approval:/);
+  assert.doesNotMatch(releaseRecord, /\bTemple\b/);
 
   const registry = await readJson(path.join(target, ".ai-org/project/tasks.json"));
   assert.equal(registry.tasks[0].registered_by, "agent-fixture-rowan");
@@ -216,24 +217,24 @@ test("checksum-aware upgrade updates clean managed files and preserves project s
   assert.equal(run(["work-item", "create", target, "--title", "Preserve me"]).status, 0);
 
   const installedTemple = path.join(target, "TEMPLE.md");
-  const oldContent = "# Simulated alpha.1 managed contract\n";
+  const oldContent = "# Simulated alpha.2 managed contract\n";
   await fs.writeFile(installedTemple, oldContent);
   const lockPath = path.join(target, "temple.lock");
   const lock = await readJson(lockPath);
-  lock.template.version = "0.1.0-alpha.1";
+  lock.template.version = "0.1.0-alpha.2";
   lock.managed_files.find((entry) => entry.path === "TEMPLE.md").sha256 = crypto.createHash("sha256").update(oldContent).digest("hex");
   await fs.writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
 
   const dryRun = run(["upgrade", target, "--dry-run"]);
   assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
-  assert.match(dryRun.stdout, /0\.1\.0-alpha\.1 -> 0\.1\.0-alpha\.2/);
+  assert.match(dryRun.stdout, /0\.1\.0-alpha\.2 -> 0\.1\.0-alpha\.3/);
   assert.equal(await fs.readFile(installedTemple, "utf8"), oldContent);
 
   const upgraded = run(["upgrade", target]);
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = await fs.readFile(lockPath, "utf8");
-  assert.equal(JSON.parse(upgradedLock).template.version, "0.1.0-alpha.2");
-  assert.match(await fs.readFile(installedTemple, "utf8"), /Temple operating contract/);
+  assert.equal(JSON.parse(upgradedLock).template.version, "0.1.0-alpha.3");
+  assert.match(await fs.readFile(installedTemple, "utf8"), /Project AI development organization operating contract/);
   assert.equal((await readJson(path.join(target, ".ai-org/work-items/WI-0001.json"))).title, "Preserve me");
 
   const repeated = run(["upgrade", target]);

@@ -36,12 +36,12 @@ export async function runDoctor(target) {
     return { target, checks, summary: summarize(checks), healthy: false };
   }
   if (lock.schema_version === "temple.lock/v1" && lock.template?.version === TEMPLATE_VERSION) {
-    checks.push({ id: "temple_lock", status: "pass", message: `Temple ${lock.template.version} lock is valid` });
+    checks.push({ id: "temple_lock", status: "pass", message: `Organization system ${lock.template.version} lock is valid` });
   } else {
     checks.push({
       id: "temple_lock",
       status: "fail",
-      message: `Unsupported or mismatched Temple lock version: ${lock.template?.version ?? "unknown"}`
+      message: `Unsupported or mismatched organization lock version: ${lock.template?.version ?? "unknown"}`
     });
   }
 
@@ -182,7 +182,7 @@ export async function runDoctor(target) {
   checks.push({
     id: "repository_skills",
     status: missingSkills.length ? "fail" : "pass",
-    message: missingSkills.length ? `Missing repository skills: ${missingSkills.join(", ")}` : "All Temple repository skills are installed"
+    message: missingSkills.length ? `Missing repository skills: ${missingSkills.join(", ")}` : "All AI organization repository skills are installed"
   });
 
   const agentsPath = path.join(target, "AGENTS.md");
@@ -192,8 +192,8 @@ export async function runDoctor(target) {
     id: "agents_md_integration",
     status: agentsIntegrated ? "pass" : "warn",
     message: agentsIntegrated
-      ? "Root AGENTS.md includes Temple instructions"
-      : "Temple instructions are not in root AGENTS.md; review .ai-org/project/AGENTS.temple.md"
+      ? "Root AGENTS.md includes AI organization instructions"
+      : "AI organization instructions are not in root AGENTS.md; review .ai-org/project/AGENTS.temple.md"
   });
 
   const eventsPath = path.join(target, ".ai-org/events/events.jsonl");
@@ -221,7 +221,7 @@ export async function runDoctor(target) {
 }
 
 export function formatDoctor(result) {
-  const lines = [`Temple doctor — ${result.target}`];
+  const lines = [`AI development organization doctor — ${result.target}`];
   for (const check of result.checks) {
     const symbol = check.status === "pass" ? "PASS" : check.status === "warn" ? "WARN" : "FAIL";
     lines.push(`[${symbol}] ${check.id}: ${check.message}`);

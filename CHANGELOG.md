@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.0-alpha.3
+
+- Roadmap 加入 Phase 1.5 Greenfield Project Bootstrap Pilot，安排在 AiPet 可攜性驗證後、Phase 2 營運 MVP 前。
+- 明確分離中央工具名稱與專案身份：Temple 保留為 CLI 與技術 namespace，project-facing 文字改用專案名稱或 AI 開發組織。
+- 狀態頁、operating contract、instructions、Skills、Agent 說明與 release closeout 採 project-native wording。
+- 加入 ADR-0007，記錄相容性識別與專案語言的長期邊界。
+
 ## 0.1.0-alpha.2
 
 - 加入 `work-item create`、`handoff`、具名 gate `transition` 與 `close` CLI。

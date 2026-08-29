@@ -21,6 +21,24 @@
 
 Exit Gate：乾淨與既有 repository 都能初始化；九個 Position 可觀測；Developer/Independent QA 分離；重跑不覆寫；關閉聊天後能從檔案恢復組織狀態。
 
+## Phase 1.5：Greenfield Project Bootstrap Pilot
+
+目標：從一個尚未整理的產品點子開始，建立全新 private repository、完成產品與技術基線，並交付第一個可獨立驗證的垂直切片；使用者不需要重新設計一次開發組織。
+
+進入條件：先以 AiPet 完成第二個既有 repository 的可攜性驗證，確認目前骨架不只適用於 English Learning Inbox。
+
+預定交付：
+
+- 從模糊點子到 Project Charter：問題、目標使用者、預期成果、non-goals、constraints、success criteria 與重要未知。
+- Product Manager、UX Designer 與 Tech Lead 對核心流程、技術基線、風險和第一個垂直切片完成具證據的 review。
+- 在新 private repository 內執行首次 init，由使用者確認五個 Agent Identity 名字與九個 Position assignment。
+- 產品決策、ADR、initial roadmap、acceptance criteria 與第一張 durable work item 都保存在新 repository，不依賴創始對話。
+- 第一張 work item 完成 Spec → Design → Build → Test → Eval → Independent QA → Release Gate。
+- 以新的 Codex task 只讀 repository canonical state 後接續工作，驗證換對話仍能恢復產品意圖與組織狀態。
+- 專案面向的 instructions、status 與 artifacts 使用專案名稱或「本專案的 AI 開發組織」；`Temple` 只保留在中央工具品牌、CLI、Skill ID、schema、lock 與相容性識別。
+
+Exit Gate：一個非範例、可回復、不碰 production 的全新產品 repository 從點子走到第一張 work item closeout；Developer 與 Independent QA 驗證同一 revision；新的對話不需使用創始聊天即可接續；使用者沒有手動重建 Position、交接或觀測機制。
+
 ## Phase 2：營運 MVP
 
 目標：在已驗證的 lifecycle CLI 上加入範圍衝突、外部證據 Adapter 與更強的 Observer。
@@ -30,7 +48,6 @@ Exit Gate：乾淨與既有 repository 都能初始化；九個 Position 可觀�
 - affected-path ownership 與重複 active scope 警告。
 - 更完整的 JSON Schema runtime validation 與 migration registry。
 - exact Git revision、test、runtime、unverified、risk、rollback evidence adapter。
-- affected-path ownership 與重複 active scope 警告。
 - timeline、staleness 與 approval-pending Observer projection。
 - Archify adapter 的隔離安裝、provenance 與降級測試。
 - 本機唯讀 Overview：active、blocked、QA pending、approval pending。

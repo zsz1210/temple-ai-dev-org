@@ -18,6 +18,10 @@ const templateRoot = path.join(root, "template");
 const templateFiles = await walkFiles(templateRoot);
 check(!templateFiles.includes(".ai-org/project/agents.json"), "template must not contain project Agent identities");
 check(!templateFiles.includes(".ai-org/project/assignments.json"), "template must not contain project assignments");
+for (const file of templateFiles) {
+  const content = await fs.readFile(path.join(templateRoot, file), "utf8");
+  check(!/\bTemple\b/.test(content), `${file} uses the central tool brand in project-facing template content`);
+}
 
 const positionsDocument = await readJson(path.join(templateRoot, ".ai-org/core/positions.json"));
 const actualPositions = positionsDocument.positions.map((position) => position.id);

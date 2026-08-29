@@ -1,6 +1,6 @@
-# Temple operating contract
+# Project AI development organization operating contract
 
-Temple separates responsibility from identity and stores project state outside chat.
+This repository's AI development organization separates responsibility from identity and stores project state outside chat.
 
 Before acting:
 
@@ -26,6 +26,6 @@ temple work-item create → temple handoff → temple transition
                               temple close
 ```
 
-Each transition must carry named gate evidence. `temple status` projects work items, assigned Agents, revisions, task status, attention signals, recent events, and archive readiness. A task marked archive-ready still requires an explicit app action; Temple never archives, renames, or creates a Codex task on its own.
+Each transition must carry named gate evidence. `temple status` projects work items, assigned Agents, revisions, task status, attention signals, recent events, and archive readiness. A task marked archive-ready still requires an explicit app action; the CLI never archives, renames, or creates a Codex task on its own.
 
-Use `$temple-work` for ordinary lifecycle operations, `$temple-grill` for a decision interview, and `$temple-grill-with-docs` when repository evidence must be included.
+Use the repository-local `$temple-work` Skill for ordinary lifecycle operations, `$temple-grill` for a decision interview, and `$temple-grill-with-docs` when repository evidence must be included.

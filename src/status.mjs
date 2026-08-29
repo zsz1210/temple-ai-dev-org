@@ -141,10 +141,10 @@ export async function buildStatus(target) {
 export function renderStatusMarkdown(status) {
   const activeItems = status.work_items.items.filter((item) => !item.terminal && item.state !== "cancelled").length;
   const lines = [
-    `# Temple status — ${status.project.name}`,
+    `# ${status.project.name} — AI development organization status`,
     "",
     `- Project ID: \`${status.project.id}\``,
-    `- Template: \`${status.template_version}\``,
+    `- Organization system version: \`${status.template_version}\``,
     `- Active Agent Identities: ${status.agents.filter((agent) => agent.active).length}`,
     `- Work items: ${status.work_items.total} total, ${activeItems} active`,
     `- Codex tasks: ${status.tasks.total} registered, ${status.tasks.archive_ready} archive-ready`,

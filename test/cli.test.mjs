@@ -39,7 +39,7 @@ function run(args) {
 test("version is available without dependencies", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /^0\.1\.0-alpha\.2/m);
+  assert.match(result.stdout, /^0\.1\.0-alpha\.3/m);
 });
 
 test("dry-run writes nothing", async (context) => {
@@ -74,7 +74,10 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
   assert.equal(status.status, 0, status.stderr);
   assert.equal(JSON.parse(status.stdout).assignments.length, 9);
   assert.equal(JSON.parse(status.stdout).schema_version, "temple.status/v2");
-  assert.match(await fs.readFile(path.join(target, ".ai-org/views/status.md"), "utf8"), /Independent QA/);
+  const statusView = await fs.readFile(path.join(target, ".ai-org/views/status.md"), "utf8");
+  assert.match(statusView, /^# Sample Product — AI development organization status/m);
+  assert.match(statusView, /Independent QA/);
+  assert.doesNotMatch(statusView, /Temple status/);
 
   const secondInit = run(["init", target, "--config", configPath]);
   assert.equal(secondInit.status, 0, secondInit.stderr || secondInit.stdout);
