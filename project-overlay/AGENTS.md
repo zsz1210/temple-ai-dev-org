@@ -10,6 +10,7 @@
 - Persist confirmed specs, decisions, handoffs, and evidence only when the request or current authorized work item includes repository updates; otherwise propose the exact change.
 - Use `$domain-modeling` when product documents, code, or people assign conflicting meanings to important terms.
 - Follow `Spec → Design → Build → Test → Eval → Independent QA → Release Gate`.
+- When a work item is a pilot, example, or template validation, stop when its stated evidence and closeout are complete; do not infer authorization for another product work item or continued feature development.
 - Developer and Independent QA must be different Agent Identities for the same work.
 - Do not overwrite project-owned files during an organization system upgrade.
 - Ask for human approval at the boundaries listed in `.ai-org/core/policies.json`.

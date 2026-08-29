@@ -167,7 +167,7 @@ temple.lock               Toolkit 版本與 managed checksums
 
 ## Phase 1 現在能做什麼
 
-- 安全初始化空白或既有 repository；完整產品定義與第一個垂直切片會在 Phase 1.5 驗證。
+- 安全初始化空白或既有 repository；FlowDeck 已完成 Phase 1.5 的第一個 greenfield lifecycle pilot，但跨新 Codex task 的 context recovery 與 `$project-documentation` 仍待驗證。
 - 第一次 init 才建立並命名 Agent Identity。
 - 驗證九個 Position、身份分離、managed files 與 work item 格式。
 - 用 CLI 建立 work item、handoff、具名 gate transition 與 release closeout。
@@ -203,6 +203,7 @@ Upgrade 只更新與 `temple.lock` checksum 一致的 managed files。任何缺�
 - [Position 與工作流程](docs/vision.md)：九個職位的責任與 gate。
 - [Phase 1 完成定義](docs/phase-1.md)：目前版本的驗收範圍。
 - [Roadmap](docs/roadmap.md)：從 Greenfield Pilot、營運 MVP 到即時控制面與多專案管理。
+- [FlowDeck Greenfield Pilot Retrospective](docs/pilots/flowdeck-greenfield-retrospective.md)：已證明的流程、尚未通過的 gate、停止邊界與下一輪 hardening。
 - [Capability catalog](docs/capability-catalog.md)：已納入、保留待驗證與不直接採用的 Skills。
 - [Skill design policy](docs/skill-design.md)：Skill 的觸發、內容密度與完成標準。
 - [ADR 索引](docs/adr/README.md)：重要決策及其理由。

@@ -33,5 +33,6 @@ Phase 1 只有在以下條件成立時才算完成：
 ## 下一步
 
 1. AiPet 已完成第二個既有 repository 的可攜性與 Build Quality friction 驗證。
-2. 執行 Phase 1.5 Greenfield Project Bootstrap Pilot，從產品點子走到第一張 work item closeout，並按需要選擇 Build Quality pack。
-3. 根據三次 pilot 的實際摩擦整理 bootstrap 與 optional-pack 流程，再進入 Phase 2 的 affected-path ownership、Observer 與 evidence adapter。
+2. FlowDeck 已完成 Phase 1.5 的第一個 greenfield lifecycle closeout，並凍結為驗證樣本；詳見 [retrospective](pilots/flowdeck-greenfield-retrospective.md)。
+3. 先補 unresolved resolution、candidate revision projection、CLI discoverability 與 pilot stop boundary，再驗證新 Codex task 的 context recovery。
+4. 實作並 forward-test `$project-documentation`，完成 Phase 1.5 exit gate 後，再進入 Phase 2 的 affected-path ownership、Observer 與 evidence adapter。

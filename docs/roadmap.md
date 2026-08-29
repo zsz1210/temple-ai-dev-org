@@ -21,27 +21,31 @@
 
 Exit Gate：乾淨與既有 repository 都能初始化；九個 Position 可觀測；Developer/Independent QA 分離；重跑不覆寫；關閉聊天後能從檔案恢復組織狀態。
 
-## Phase 1.5：Greenfield Project Bootstrap Pilot
+## Phase 1.5：Greenfield Project Bootstrap Pilot（進行中）
 
 目標：從一個尚未整理的產品點子開始，建立全新 private repository、完成產品與技術基線，並交付第一個可獨立驗證的垂直切片；使用者不需要重新設計一次開發組織。
 
-進入條件：AiPet 已以 `WI-0001` 完成第二個既有 repository 的可攜性驗證，包含完整 lifecycle、六項 Simulator 測試、畫面附件、exact-revision Independent QA 與 release closeout；Phase 1.5 可以開始。
+進入條件已由 AiPet `WI-0001` 的既有 repository 可攜性驗證滿足。
 
-預定交付：
+FlowDeck private pilot 已完成：
 
-- 從模糊點子到 Project Charter：問題、目標使用者、預期成果、non-goals、constraints、success criteria 與重要未知。
-- 以 `$domain-modeling` 建立 ubiquitous language、bounded contexts、重要規則與 invariants，並把未解 terminology conflict 留給明確 owner。
-- 評估 Temple-native `$project-documentation`：由已確認的 Project Charter、實際安裝流程與可執行命令建立第一版人類可讀 README，驗證範例、連結與功能聲明，不把 AI instructions 混入使用者文件。
-- Product Manager、UX Designer 與 Tech Lead 對核心流程、技術基線、風險和第一個垂直切片完成具證據的 review。
 - 在新 private repository 內執行首次 init，由使用者確認五個 Agent Identity 名字與九個 Position assignment。
-- 產品決策、ADR、initial roadmap、acceptance criteria 與第一張 durable work item 都保存在新 repository，不依賴創始對話。
+- 從模糊點子建立 Project Charter、domain language、核心流程、技術基線、ADR、acceptance criteria 與第一張 durable work item。
 - 第一張 work item 完成 Spec → Design → Build → Test → Eval → Independent QA → Release Gate。
-- 以新的 Codex task 只讀 repository canonical state 後接續工作，驗證換對話仍能恢復產品意圖與組織狀態。
+- Build Quality pack 在真實 iOS vertical slice 中保留 red／green 與 diagnosis evidence。
+- exact candidate revision 在 clean checkout 通過 automated tests、Simulator system integration、Independent QA 與 closeout。
 - 專案面向的 instructions、status 與 artifacts 使用專案名稱或「本專案的 AI 開發組織」；`Temple` 只保留在中央工具品牌、CLI、CLI 專用 Skill ID、schema、lock 與相容性識別。
+- Pilot 已依 [ADR-0011](adr/0011-pilot-stop-boundary.md) 凍結；不再把 sample app 當正式產品延伸。
+
+Phase 1.5 尚未完成：
+
+- 以新的 Codex task 只讀 repository canonical state 後接續工作，驗證換對話仍能恢復產品意圖與組織狀態；FlowDeck 沒有執行這一步，也不應為了補 gate 而繼續開發。
+- 正式實作與 forward-test Temple-native `$project-documentation`；FlowDeck README 是人工 evidence-backed 整理，不等於 Skill 已驗證。
+- 修補 FlowDeck pilot 暴露的 unresolved resolution、candidate revision projection 與 CLI discoverability 摩擦。
 
 Exit Gate：一個非範例、可回復、不碰 production 的全新產品 repository 從點子走到第一張 work item closeout；Developer 與 Independent QA 驗證同一 revision；新的對話不需使用創始聊天即可接續；使用者沒有手動重建 Position、交接或觀測機制。
 
-AiPet portability pilot 的真實紅綠測試與診斷過程已選出 `tdd` + `diagnosing-bugs`；alpha.6 已完成 Temple-native Build Quality pack、scenario tests、pack CLI、checksum upgrade/removal 與乾淨專案驗證，仍不直接複製上游 Skill。Phase 1.5 greenfield pilot 可選擇安裝它；`prototype` 保留在後續 Exploration pack。
+完整結果與缺口見 [FlowDeck Greenfield Pilot Retrospective](pilots/flowdeck-greenfield-retrospective.md)。AiPet 與 FlowDeck 都支持保留 opt-in Build Quality pack；這次 pilot 不構成直接加入其他候選 Skills 的理由。
 
 ## Phase 2：營運 MVP
 
@@ -98,6 +102,7 @@ Exit Gate：至少十張不同類型 work item 完成；政策違規測試都被
 - 不涉及帳務、正式資料、production deploy 或外部通知。
 - affected paths 明確、可回復、可以保存 exact revision。
 - 足以走完 Spec → Design → Build → Test → Eval → Independent QA → Release Gate。
+- Spec 必須寫明 experiment purpose、stop condition 與不自動延伸的 follow-on work；closeout 後依 ADR-0011 停止。
 
 ## 每一階段都追蹤的成效
 

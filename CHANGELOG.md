@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.7
+
+- 以 FlowDeck 完成第一個 greenfield lifecycle pilot，並明確凍結為 Temple 驗證樣本，不延伸成正式產品。
+- 新增 pilot retrospective，區分已證明的 init／product-definition／Build Quality／exact-revision closeout 與尚未證明的跨新 Codex task recovery、task registry、`$project-documentation`。
+- 接受 ADR-0011，將 pilot purpose、stop condition、excluded follow-on work 與 closeout 後停止規則加入 installed instructions 和 operating contract。
+- 記錄下一輪 Phase 1.5 hardening：unresolved resolution、candidate revision projection 與 CLI discoverability；不因一次 system fixture 摩擦擴張新的 Skills。
+- 更新 roadmap、usage、capability catalog、Skill policy 與 scenario evidence，使狀態不再把 FlowDeck closeout 誤報為整個 Phase 1.5 已完成。
+
 ## 0.1.0-alpha.6
 
 - 以 AiPet `WI-0001` 完成第二個既有 repository pilot：Simulator lifecycle、六項測試、四張 UI 證據、clean detached exact-revision Independent QA 與 release closeout。

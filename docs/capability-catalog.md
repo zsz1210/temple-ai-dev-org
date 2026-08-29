@@ -8,9 +8,9 @@ All candidates recorded in the earlier review remain preserved below. A candidat
 
 | Capability | Intended Position | State | Temple decision |
 |---|---|---|---|
-| `domain-modeling` | Product Manager, Tech Lead | Core, independently implemented | Install now for Project Charter, ubiquitous language, boundary, invariant, Spec, and ADR work. |
-| `project-documentation` | Product Manager, Tech Lead, Quality & Evaluation Engineer | Phase 1.5 core candidate | Independently implement human-facing README and documentation lifecycle work. Ground commands, examples, links, and claims in repository evidence; keep it distinct from AI-facing instruction design. |
-| `tdd` | Developer, Quality & Evaluation Engineer | Build Quality optional pack; independently implemented | Requires observable red/green evidence, pre-agreed public test seams, and one vertical slice at a time. It is opt-in and was derived from AiPet pilot needs without copying upstream code. |
+| `domain-modeling` | Product Manager, Tech Lead | Core, independently implemented and greenfield-validated | FlowDeck used it for the Project Charter, ubiquitous language, product boundary, Spec, and ADR baseline. |
+| `project-documentation` | Product Manager, Tech Lead, Quality & Evaluation Engineer | Phase 1.5 core candidate; not implemented | Independently implement human-facing README and documentation lifecycle work. FlowDeck's manually produced README is evidence for the need, not proof that this Skill exists or routes correctly. |
+| `tdd` | Developer, Quality & Evaluation Engineer | Build Quality optional pack; independently implemented and forward-validated | Requires observable red/green evidence, pre-agreed public test seams, and one vertical slice at a time. AiPet and FlowDeck both produced real red/green cases without copying upstream code. |
 | `diagnosing-bugs` | Developer, Quality & Evaluation Engineer | Build Quality optional pack; independently implemented | Uses bounded reproduction, ranked hypotheses, a red-capable feedback loop, regression evidence, and cleanup. It is opt-in and addresses the failure pattern observed during the AiPet pilot. |
 | `codebase-design` | Tech Lead, Developer | Development foundation candidate | Preserve the deep-module, small-interface, adapter, and test-seam vocabulary. Adapt it to ADRs, bounded contexts, and project authority rather than treating it as an automatic refactor command. |
 | `prototype` | UX Designer, Developer | Optional candidate | Evaluate for answering one risky product or technical question without turning a prototype into an implied production commitment. |
@@ -54,7 +54,7 @@ A candidate moves into an optional pack or the core overlay only after:
 
 AiPet completed the second existing-repository portability pilot through `WI-0001`. The accepted Simulator slice produced a real red-to-green test-observation failure, a six-test public-seam suite, screenshot evidence, a clean detached exact-revision QA run, and organizational closeout. Alpha.6 uses that evidence for the independently implemented Build Quality pack; it remains opt-in and does not copy or load upstream source.
 
-Phase 1.5 will exercise `domain-modeling` during a greenfield Project Charter and evaluate `project-documentation` against the first human-facing README and documentation baseline. `research`, merge-conflict help, architecture, review, security, and retrospective capabilities remain preserved for later packs without adding recurring context to every project now.
+FlowDeck then exercised `domain-modeling` and the Build Quality pack in a greenfield iOS lifecycle through exact-revision closeout. It also showed that a human-facing README must be grounded in executable commands and actual product boundaries, but `$project-documentation` was not yet implemented and therefore remains unvalidated. The pilot did not justify installing `research`, merge-conflict help, architecture, review, security, retrospective, or a new system-permission Skill. Those candidates remain preserved without adding recurring context to every project now.
 
 ## Sources reviewed but not adopted
 

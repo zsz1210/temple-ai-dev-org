@@ -12,6 +12,7 @@ This policy applies when Temple adds or changes a repository Skill. It turns the
 6. **Keep authority explicit.** A Skill never expands permission to implement, publish, message externally, spend money, or perform an irreversible action.
 7. **Prefer progressive disclosure.** Keep the installed Skill concise; move optional examples or technology-specific procedures into referenced resources only when repeated use justifies them.
 8. **Classify distribution.** Core Skills follow every project, optional Skills are installed by a deliberate pack, and maintainer Skills stay in the central toolkit.
+9. **Do not turn every pilot friction into a Skill.** First decide whether the behavior is a reusable procedure, a Position responsibility, a CLI defect, or a one-time fixture prerequisite. A successful pilot can finish without installing another Skill.
 
 ## Review checklist
 
@@ -22,6 +23,7 @@ This policy applies when Temple adds or changes a repository Skill. It turns the
 - Are dependencies, provenance, license, and required tools visible?
 - Is there a concrete completion boundary?
 - Has the Skill passed structural validation and a realistic scenario test?
+- Did more than one bounded case demonstrate a reusable trigger, or is this still a one-off workaround?
 
 Structural checks and scenario-contract checks are necessary but do not prove model routing behavior. Record real project forward tests separately and do not label a designed scenario as independent QA evidence.
 

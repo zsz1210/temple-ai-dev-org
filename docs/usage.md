@@ -95,6 +95,16 @@ WI-0002 · Engineering Manager · Clara
 
 標題只是可讀 projection。Work item ID 與後續登錄的 thread ID 才是 identifier。
 
+### Pilot／example work item
+
+如果 work item 的目的只是驗證模板、流程、架構或技術可行性，scope 與 acceptance 必須另外寫清楚：
+
+- experiment purpose：這次要證明什麼；
+- stop condition：出現哪些 evidence 就應停止；
+- excluded follow-on work：哪些新功能、第二張 work item、distribution 或正式產品化不在授權內。
+
+Release-gate `go` 只代表 bounded experiment 被接受。Stop condition 達成後，凍結 sample、整理 retrospective，並把控制權交回 Engineering Manager／使用者；沒有新的明確要求就不得繼續產品開發。詳見 [ADR-0011](adr/0011-pilot-stop-boundary.md)。
+
 ## 5. 登錄 Codex Task
 
 Temple CLI 不會直接建立 Codex App task。由使用者或 Codex App 建立 task 後，把實際 ID 登錄：

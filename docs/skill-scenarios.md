@@ -19,6 +19,6 @@ This matrix is the routing, authority, and completion contract for repository Sk
 
 - Automated: core Skill directory equality, optional pack manifest and frontmatter shape, unique descriptions, bootstrap init equality, scenario fixture references, opt-in install/remove, and checksum-aware upgrade/removal.
 - Manual design review: trigger overlap, authority wording, evidence mode, and completion boundaries.
-- Forward-test evidence: English Learning Inbox validates upgrade portability. AiPet `WI-0001` validates lifecycle routing, red-to-green test evidence, screenshot inspection, exact-revision Independent QA, and closeout in a second existing repository. The Phase 1.5 greenfield pilot will test initialization and product-definition routing.
+- Forward-test evidence: English Learning Inbox validates upgrade portability. AiPet `WI-0001` validates lifecycle routing, red-to-green test evidence, screenshot inspection, exact-revision Independent QA, and closeout in a second existing repository. FlowDeck validates greenfield initialization, product-definition routing, domain modeling, Build Quality, exact-revision closeout, and the need for an explicit pilot stop boundary; cross-task recovery and `$project-documentation` remain unverified.
 
 The first two checks verify structure and policy consistency. They do not prove that every model invocation will route correctly, and they are not Independent QA evidence.

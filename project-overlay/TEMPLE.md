@@ -30,4 +30,15 @@ temple work-item create → temple handoff → temple transition
 
 Each transition must carry named gate evidence. `temple status` projects work items, assigned Agents, revisions, task status, installed optional Skill packs, attention signals, recent events, and archive readiness. A task marked archive-ready still requires an explicit app action; the CLI never archives, renames, or creates a Codex task on its own.
 
+## Pilot and experiment stop boundary
+
+When the authorized scope describes a pilot, example, proof, or template validation:
+
+1. Record the experiment purpose, observable stop condition, and excluded follow-on product work before Build.
+2. Treat a successful release-gate closeout as acceptance of that bounded experiment only.
+3. Once the stop condition is met, freeze the sample product and return to Engineering Manager or the user for a retrospective.
+4. Do not create another product work item, continue feature development, or prepare distribution without a new explicit request.
+
+`go` at organizational closeout never means “keep developing this product.”
+
 Use the repository-local `$temple-work` Skill only for authorized lifecycle mutations, `$decision-interview` for an open decision (including its evidence-backed mode when repository facts constrain the choice), and `$domain-modeling` when shared terminology or domain boundaries are unclear.

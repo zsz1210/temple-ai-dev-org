@@ -10,5 +10,6 @@
 - [ADR-0008：Skill 分層與開源發佈](0008-capability-distribution-and-open-source.md)
 - [ADR-0009：單一 Decision Interview 與明確 Skill 權限](0009-single-decision-interview-and-skill-authority.md)
 - [ADR-0010：第一個開發 Optional Skill Pack](0010-first-development-skill-pack.md)
+- [ADR-0011：Pilot 完成後預設停止](0011-pilot-stop-boundary.md)
 
 ADR 是 Architecture Decision Record：用來保存一個重要技術或組織決策的背景、決定、理由與後果。它讓後來加入的 Agent 不必靠聊天記憶猜測「當初為什麼這樣做」。
