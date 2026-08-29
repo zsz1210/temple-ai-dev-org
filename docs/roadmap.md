@@ -20,7 +20,7 @@ Deliverables:
 
 - Central framework repository, MIT License, and third-party provenance.
 - `init`, checksum-aware `upgrade`, `doctor`, `status`, and `temple.lock`.
-- Nine Positions, naming during first project initialization, and a small five-Identity configuration.
+- Ten Positions, naming during first project initialization, and a small five-Identity configuration.
 - Managed, project-owned, and generated boundaries.
 - Decision interview, domain modeling, governed project Skill authoring, Decision Ledger, ADR, and handoff and QA templates.
 - Opt-in Archify adapter contract.
@@ -56,6 +56,8 @@ The private FlowDeck pilot completed:
 - Alpha.11 adds UI Designer and risk-scaled, tool-neutral UI delivery modes without requiring Figma or a pre-implementation mockup for every project.
 - Alpha.12 adds deterministic Progressive Context Routing, project Skill discovery without ownership transfer, bounded Context Capsules, and affected-path overlap warnings. Semantic or hybrid retrieval remains an adapter boundary rather than a default dependency.
 - Alpha.12 local and CI evidence is preserved in the [Progressive Context Routing validation record](validation/alpha-12-progressive-context-routing.md); real-project cross-task recovery, multi-maintainer behavior, large-repository retrieval quality, and semantic providers remain unverified.
+- Alpha.13 adds the Collaborative foundation: Human Principals, Agent sponsorship, Position pools with Disciplines, collision-resistant Collaborative Work Item IDs, parent/dependency and contract fields, deterministic parallel readiness, Principal-backed claims, upgrade migration, and status/doctor observability.
+- Alpha.13 local automated evidence does not replace the retained [large-scale real-environment test](validation/collaborative-large-scale-test-plan.md). Multi-human, multi-machine, Git-hosting behavior remains explicitly `not_run`.
 
 Phase 1.5 is not yet complete:
 
@@ -67,20 +69,21 @@ See the [FlowDeck Greenfield Pilot Retrospective](pilots/flowdeck-greenfield-ret
 
 ## Phase 2: Operational MVP
 
-Goal: Strengthen scope coordination, external evidence adapters, and the Observer beyond the alpha.12 routing foundation.
+Goal: Strengthen scope coordination, external evidence adapters, and the Observer beyond the alpha.13 collaboration and routing foundation.
 
-Alpha.12 groundwork already available:
+Groundwork already available:
 
 - Affected-path overlap warnings across non-terminal work items.
 - A project Capability Registry that observes project and third-party Skills without claiming ownership of their files.
 - A project-owned Context Map, generated Context Capsules, and a deterministic Retrieval Provider with a future semantic-adapter contract.
+- Solo and Collaborative profile selection, Human Principal sponsorship, Position pools with technical Disciplines, bounded work claims, and deterministic parallel-readiness checks.
 
 Planned deliverables:
 
-- Explicit affected-path coordination and resolution state beyond advisory overlap warnings.
+- Validate affected-path coordination and resolution state under real multi-machine Git and pull-request contention.
 - Retrieval-quality evaluation, stale-route detection, and a privacy-preserving local hybrid provider only if real projects justify it.
 - Pack manifest v2 for references, scripts, assets, declared dependencies, and compatibility metadata.
-- Evidence-backed project profiles that vary staffing, artifact depth, UI delivery mode, methods, and gates by risk while preserving the ten Position responsibilities.
+- Complete the High-Assurance profile contract and risk-based defaults for artifact depth, UI delivery mode, methods, and gates while preserving the ten Position responsibilities.
 - More complete JSON Schema runtime validation and a migration registry.
 - Evidence adapters for exact Git revisions, tests, runtime, unverified claims, risk, and rollback.
 - Observer projections for timeline, staleness, and pending approval.

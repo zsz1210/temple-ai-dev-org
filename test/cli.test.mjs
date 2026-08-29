@@ -46,7 +46,7 @@ function shellQuote(value) {
 test("version is available without dependencies", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /^0\.1\.0-alpha\.12/m);
+  assert.match(result.stdout, /^0\.1\.0-alpha\.13/m);
 });
 
 test("dry-run writes nothing", async (context) => {
@@ -118,7 +118,7 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
   const status = run(["status", target, "--json"]);
   assert.equal(status.status, 0, status.stderr);
   assert.equal(JSON.parse(status.stdout).assignments.length, 10);
-  assert.equal(JSON.parse(status.stdout).schema_version, "temple.status/v3");
+  assert.equal(JSON.parse(status.stdout).schema_version, "temple.status/v4");
   assert.equal(JSON.parse(status.stdout).learning.total, 0);
   const statusView = await fs.readFile(path.join(target, ".ai-org/views/status.md"), "utf8");
   assert.match(statusView, /^# Sample Product — AI development organization status/m);
@@ -242,7 +242,7 @@ test("upgrade adds a missing project-owned learning index without managing it", 
     entries: []
   });
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.12");
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.13");
   assert.equal(upgradedLock.capabilities.engineering_learning, true);
   assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/learning/index.json"));
 });

@@ -53,6 +53,27 @@ After a successful init, the CLI prints directly copyable `doctor` and `status` 
 
 If the target already has `AGENTS.md`, Temple leaves it unchanged by default and doctor reports a pending-integration warning. Add `--integrate-agents` only after confirming that Temple may append its managed block.
 
+### Move from Solo to Collaborative
+
+Initialization starts in the backward-compatible Solo profile. When several people will operate their own Agents, register the accountable Human Principals and additional Agent Identities before selecting Collaborative:
+
+```bash
+temple collaboration add-principal . --principal-id principal-alice --name "Alice Morgan"
+temple collaboration add-agent . --agent-id agent-taylor --name "Taylor Brooks"
+temple collaboration sponsor . --principal-id principal-alice --agent-id agent-taylor
+temple collaboration add-membership . \
+  --agent-id agent-taylor \
+  --position developer \
+  --discipline backend
+temple collaboration set-profile . --profile collaborative
+temple collaboration show .
+temple doctor .
+```
+
+The original Assignment remains the default Position owner. A membership makes another Agent eligible for bounded claims; it does not replace the default Assignment or change the Position's authority. Add more `--discipline` values for a full-stack or cross-specialty Agent. High-Assurance is cataloged but cannot be selected in this release.
+
+Collaborative Work Item IDs include a date and random suffix so separate clones are unlikely to allocate the same file. This is not distributed locking. Use protected branches, pull requests, CI, and normal Git conflict handling across machines. See the [Collaborative development model](collaboration.md).
+
 ## 3. Optional Build Quality pack
 
 Core init does not automatically install development Skills. When observable red-green work and bounded bug diagnosis are needed, inspect and preview the pack first:
@@ -171,6 +192,36 @@ WI-0002 · Engineering Manager · Clara
 ```
 
 The title is only a readable projection. The work item ID and subsequently registered thread ID are the actual identifiers.
+
+In Collaborative mode the printed ID instead resembles `WI-20260829-A1B2C3D4E5`. Do not predict it; use the value returned by `work-item create`.
+
+For parallel candidates, record the coordination contract and inspect every readiness check before a claim:
+
+```bash
+temple work-item configure . \
+  --work-item WI-20260829-A1B2C3D4E5 \
+  --parent WI-20260829-1111111111 \
+  --depends-on WI-20260829-2222222222 \
+  --agent-id agent-taylor \
+  --discipline backend \
+  --base-revision abc123 \
+  --integration-owner agent-taylor \
+  --shared-contract-ref docs/checkout-api.md \
+  --contract-status stable \
+  --parallel-mode parallel
+
+temple parallel check . --work-item WI-20260829-A1B2C3D4E5
+
+temple work-item claim . \
+  --work-item WI-20260829-A1B2C3D4E5 \
+  --agent-id agent-taylor \
+  --principal-id principal-alice \
+  --base-revision abc123 \
+  --branch alice/checkout-totals \
+  --worktree /absolute/path/to/worktree
+```
+
+The example IDs and revision are placeholders. Complete the normal lifecycle gates until the Work Item's owner Position matches the planned Agent's membership; a Developer claim therefore occurs after transition to Build. `work-item configure --parallel-mode parallel` is rejected unless scope, acceptance, ownership, base revision, affected paths, dependencies, shared-contract state, overlaps, integration ownership, unresolved items, and Discipline eligibility all pass. Use `work-item release` at handoff, abandonment, or completion.
 
 ### Select UI design depth
 

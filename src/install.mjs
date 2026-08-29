@@ -24,6 +24,7 @@ import {
   walkFiles
 } from "./files.mjs";
 import { buildProjectState } from "./model.mjs";
+import { buildCollaborationState } from "./collaboration.mjs";
 
 function isManaged(relativePath) {
   return MANAGED_EXACT_PATHS.has(relativePath) || MANAGED_SOURCE_PREFIXES.some((prefix) => relativePath.startsWith(prefix));
@@ -89,6 +90,7 @@ export async function planInit(target, config, { integrateAgents = false } = {})
     initializedAt = existingProject.initialized_at ?? initializedAt;
   }
   const state = buildProjectState(config, initializedAt);
+  state.collaboration = buildCollaborationState(state.assignments);
 
   const stateFiles = [
     [".ai-org/project/project.json", state.project],
@@ -108,6 +110,13 @@ export async function planInit(target, config, { integrateAgents = false } = {})
       conflicts.push(`project state differs from init config: ${relativePath}`);
     }
   }
+
+  const collaborationPath = path.join(target, ".ai-org/project/collaboration.json");
+  actions.push({
+    type: (await pathExists(collaborationPath)) ? "skip-existing" : "write",
+    ownership: "project-owned",
+    path: ".ai-org/project/collaboration.json"
+  });
 
   const tasksPath = path.join(target, ".ai-org/project/tasks.json");
   if (!(await pathExists(tasksPath))) {
@@ -193,6 +202,7 @@ export async function executeInit(plan) {
           ".ai-org/project/project.json": plan.state.project,
           ".ai-org/project/agents.json": plan.state.agents,
           ".ai-org/project/assignments.json": plan.state.assignments,
+          ".ai-org/project/collaboration.json": plan.state.collaboration,
           ".ai-org/project/tasks.json": plan.state.tasks
         };
         content = formatJson(stateByPath[action.path]);
@@ -259,6 +269,11 @@ export async function executeInit(plan) {
         progressive_context_routing: true,
         capability_registry: true,
         retrieval_provider_contract: true,
+        collaboration_profiles: true,
+        human_principals: true,
+        position_memberships: true,
+        work_item_claims: true,
+        parallel_readiness: true,
         checksum_upgrade: true,
         optional_packs: true
       },

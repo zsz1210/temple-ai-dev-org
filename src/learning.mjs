@@ -1,5 +1,6 @@
 import path from "node:path";
 import { atomicCreate, formatJson, pathExists, readJson, sha256 } from "./files.mjs";
+import { isWorkItemId } from "./ids.mjs";
 
 export const LEARNING_INDEX_RELATIVE_PATH = ".ai-org/learning/index.json";
 export const LEARNING_INDEX_SCHEMA = "ai-org.learning-index/v1";
@@ -62,7 +63,7 @@ export function validateLearningIndex(index) {
     if (!uniqueStrings(entry?.applies_to)) errors.push(`${label}.applies_to must contain unique non-empty strings`);
     if (
       !Array.isArray(entry?.source_work_items) ||
-      !entry.source_work_items.every((value) => /^WI-[0-9]{4,}$/.test(value)) ||
+      !entry.source_work_items.every(isWorkItemId) ||
       new Set(entry.source_work_items).size !== entry.source_work_items.length
     ) {
       errors.push(`${label}.source_work_items must contain unique work item IDs`);

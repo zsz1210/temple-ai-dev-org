@@ -1,6 +1,6 @@
 ---
 name: temple-work
-description: Mutate an initialized repository's canonical work-item, handoff, workflow, closeout, or Codex task state with the temple CLI. Use only when the request authorizes a lifecycle state change; do not use for status-only reporting, implementation itself, or first-time initialization.
+description: Mutate an initialized repository's canonical work-item, collaboration, claim, handoff, workflow, closeout, or Codex task state with the temple CLI. Use only when the request authorizes a lifecycle state change; do not use for status-only reporting, implementation itself, or first-time initialization.
 ---
 
 # Project Delivery Work
@@ -15,16 +15,19 @@ Use the `temple` CLI as the mutation boundary for supported canonical state. Do 
 
 ## Start and route work
 
-1. Read `AGENTS.md`, `TEMPLE.md`, the assignments, relevant project documents, and current Git state.
-2. Resolve the current Position and Agent Identity. Keep Developer and Independent QA separate.
-3. Create durable work with `temple work-item create`; use its suggested `WI-#### · Position · Agent Name` title when an app task is needed.
-4. After the app creates the task, register its real thread or client-thread ID with `temple task register`. The CLI records task identity but never creates, renames, opens, or archives the app task by itself.
-5. Use `temple handoff` to persist the exact input revision, completed work, evidence, unresolved items, and next Position.
-6. Use `temple transition` with one `--satisfy requirement=reference` for every named workflow requirement. Do not skip a state or supply invented evidence.
+1. Read `AGENTS.md`, `TEMPLE.md`, assignments, collaboration state, relevant project documents, and current Git state.
+2. Resolve the current Position, Human Principal, Agent Identity, and Position Membership. Keep Developer and Independent QA separate.
+3. Create durable work with `temple work-item create`; use its suggested `Work Item ID · Position · Agent Name` title when an app task is needed.
+4. For parallel candidates, configure parent/dependencies, required Disciplines, base revision, affected paths, shared-contract status, overlap resolution, and integration owner. Run `temple parallel check` and respect `sequential` or `blocked` results.
+5. In Collaborative mode, claim work only through an eligible Agent and its sponsoring Principal. Record branch and optional worktree. The local CLI lock is not distributed; use Git hosting controls across machines.
+6. After the app creates the task, register its real thread or client-thread ID with `temple task register`. The CLI records task identity but never creates, renames, opens, or archives the app task by itself.
+7. Use `temple handoff` to persist the exact input revision, completed work, evidence, unresolved items, and next Position.
+8. Use `temple transition` with one `--satisfy requirement=reference` for every named workflow requirement. Do not skip a state or supply invented evidence.
 
 ## Finish work
 
 - Update task status and revision with `temple task update`.
+- Release an active claim at handoff, abandonment, or completion so status does not retain false ownership.
 - Independent QA must reproduce the exact candidate and record its own evidence.
 - At `release_gate`, use `temple close` with an explicit decision, tested revision, rollback plan, gate evidence, and approval record. `--approval not-required` is valid only when no policy trigger applies.
 - `temple close` performs organizational closeout only. It does not deploy, publish, message externally, or grant high-risk approval.

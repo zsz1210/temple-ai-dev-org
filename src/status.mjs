@@ -8,6 +8,7 @@ import {
 } from "./context.mjs";
 import { atomicWrite, pathExists, readJson } from "./files.mjs";
 import { emptyLearningIndex, LEARNING_INDEX_RELATIVE_PATH, summarizeLearningIndex } from "./learning.mjs";
+import { COLLABORATION_RELATIVE_PATH, buildCollaborationState } from "./collaboration.mjs";
 
 function markdown(value) {
   return String(value ?? "").replace(/\|/g, "\\|").replace(/\r?\n/g, " ");
@@ -36,7 +37,8 @@ export async function buildStatus(target, options = {}) {
     events,
     learningIndex,
     contextMap,
-    capabilityRegistry
+    capabilityRegistry,
+    collaboration
   ] =
     await Promise.all([
       readJson(path.join(target, "temple.lock")),
@@ -55,7 +57,10 @@ export async function buildStatus(target, options = {}) {
       pathExists(path.join(target, CONTEXT_MAP_RELATIVE_PATH)).then((exists) =>
         exists ? readContextMap(target) : emptyContextMap()
       ),
-      options.capabilityRegistry ?? buildCapabilityRegistry(target)
+      options.capabilityRegistry ?? buildCapabilityRegistry(target),
+      pathExists(path.join(target, COLLABORATION_RELATIVE_PATH)).then((exists) =>
+        exists ? readJson(path.join(target, COLLABORATION_RELATIVE_PATH)) : null
+      )
     ]);
 
   const agents = new Map(agentsDocument.agents.map((agent) => [agent.id, agent]));
@@ -86,7 +91,12 @@ export async function buildStatus(target, options = {}) {
       try {
         const item = await readJson(absolute);
         rawItems.set(item.id, item);
-        const assignedAgentId = item.assigned_agent_id ?? assignmentMap.get(item.owner_position) ?? null;
+        const assignedAgentId =
+          (item.claim?.status === "active" ? item.claim.agent_id : null) ??
+          item.planned_agent_id ??
+          item.assigned_agent_id ??
+          assignmentMap.get(item.owner_position) ??
+          null;
         const latestRevision =
           item.closeout_revision ??
           item.qa_evidence_revision ??
@@ -105,7 +115,12 @@ export async function buildStatus(target, options = {}) {
           latest_revision: latestRevision,
           evidence_count: Array.isArray(item.evidence) ? item.evidence.length : 0,
           unresolved_count: Array.isArray(item.unresolved) ? item.unresolved.length : 0,
-          terminal: terminalStates.has(item.state)
+          terminal: terminalStates.has(item.state),
+          parallel_mode: item.parallel_mode ?? "pending",
+          required_disciplines: item.required_disciplines ?? [],
+          active_claim: item.claim?.status === "active" ? item.claim : null,
+          parent_work_item_id: item.parent_work_item_id ?? null,
+          dependency_count: (item.dependencies ?? []).length
         });
       } catch (error) {
         workItems.push({
@@ -138,6 +153,7 @@ export async function buildStatus(target, options = {}) {
 
   const byState = {};
   for (const item of workItems) byState[item.state] = (byState[item.state] ?? 0) + 1;
+  const collaborationState = collaboration ?? buildCollaborationState(assignmentsDocument);
   const attention = [
     ...workItems
       .filter((item) => item.state === "blocked")
@@ -147,11 +163,17 @@ export async function buildStatus(target, options = {}) {
       .map((task) => ({ type: "task_attention", work_item_id: task.work_item_id, task_id: task.id, message: `${task.id} needs attention` })),
     ...tasks
       .filter((task) => task.archive_ready)
-      .map((task) => ({ type: "archive_ready", work_item_id: task.work_item_id, task_id: task.id, message: `${task.id} can be archived` }))
+      .map((task) => ({ type: "archive_ready", work_item_id: task.work_item_id, task_id: task.id, message: `${task.id} can be archived` })),
+    ...(collaborationState.profile === "collaborative" && collaborationState.large_scale_validation?.status !== "passed"
+      ? [{
+          type: "large_collaboration_validation_pending",
+          message: "Large multi-human, multi-machine collaboration validation is still pending"
+        }]
+      : [])
   ];
 
   return {
-    schema_version: "temple.status/v3",
+    schema_version: "temple.status/v4",
     project: { id: project.id, name: project.name },
     template_version: lock.template.version,
     agents: agentsDocument.agents.map((agent) => ({ id: agent.id, display_name: agent.display_name, active: agent.active !== false })),
@@ -173,6 +195,18 @@ export async function buildStatus(target, options = {}) {
       semantic: false
     },
     capabilities: capabilityRegistry.counts,
+    collaboration: {
+      profile: collaborationState.profile,
+      coordination_backend: collaborationState.coordination_backend,
+      principals: (collaborationState.principals ?? []).length,
+      sponsorships: (collaborationState.sponsorships ?? []).length,
+      memberships: (collaborationState.memberships ?? []).filter((entry) => entry.active !== false).length,
+      active_claims: workItems.filter((item) => item.active_claim).length,
+      principal_items: collaborationState.principals ?? [],
+      sponsorship_items: collaborationState.sponsorships ?? [],
+      membership_items: (collaborationState.memberships ?? []).filter((entry) => entry.active !== false),
+      large_scale_validation: collaborationState.large_scale_validation ?? { status: "not_run" }
+    },
     integrations: lock.integrations
   };
 }
@@ -185,6 +219,7 @@ export function renderStatusMarkdown(status) {
     `- Project ID: \`${status.project.id}\``,
     `- Organization system version: \`${status.template_version}\``,
     `- Active Agent Identities: ${status.agents.filter((agent) => agent.active).length}`,
+    `- Collaboration profile: \`${status.collaboration.profile}\` (${status.collaboration.principals} Human Principals, ${status.collaboration.active_claims} active claims)`,
     `- Work items: ${status.work_items.total} total, ${activeItems} active`,
     `- Codex tasks: ${status.tasks.total} registered, ${status.tasks.archive_ready} archive-ready`,
     `- Optional Skill packs: ${status.optional_packs.length} installed`,
@@ -192,6 +227,16 @@ export function renderStatusMarkdown(status) {
     `- Context routes: ${status.context_routing.active_routes} active (${status.context_routing.provider_id}, semantic=${status.context_routing.semantic})`,
     `- Engineering learning: ${status.learning.lessons} Lessons, ${status.learning.practices} Practices`,
     `- Attention signals: ${status.attention.length}`,
+    "",
+    "## Collaboration",
+    "",
+    `- Profile: \`${status.collaboration.profile}\``,
+    `- Coordination backend: \`${status.collaboration.coordination_backend}\``,
+    `- Human Principals: ${status.collaboration.principals}`,
+    `- Agent sponsorships: ${status.collaboration.sponsorships}`,
+    `- Active Position memberships: ${status.collaboration.memberships}`,
+    `- Active Work Item claims: ${status.collaboration.active_claims}`,
+    `- Large-scale validation: \`${status.collaboration.large_scale_validation.status}\` (${status.collaboration.large_scale_validation.plan ?? "no plan recorded"})`,
     "",
     "## Work items",
     ""
@@ -201,12 +246,12 @@ export function renderStatusMarkdown(status) {
     lines.push("No work items yet.");
   } else {
     lines.push(
-      "| ID | Title | State | Owner | Agent | Revision | Tasks | Evidence | Unresolved |",
-      "|---|---|---|---|---|---|---:|---:|---:|"
+      "| ID | Title | State | Owner | Agent | Parallel | Claim | Revision | Tasks | Evidence | Unresolved |",
+      "|---|---|---|---|---|---|---|---|---:|---:|---:|"
     );
     for (const item of status.work_items.items) {
       lines.push(
-        `| ${item.id} | ${markdown(item.title)} | ${item.state} | ${markdown(item.owner_name)} | ${markdown(item.assigned_agent_name)} | \`${shortRevision(item.latest_revision)}\` | ${item.task_count} | ${item.evidence_count} | ${item.unresolved_count} |`
+        `| ${item.id} | ${markdown(item.title)} | ${item.state} | ${markdown(item.owner_name)} | ${markdown(item.assigned_agent_name)} | ${item.parallel_mode} | ${item.active_claim ? markdown(item.active_claim.id) : "—"} | \`${shortRevision(item.latest_revision)}\` | ${item.task_count} | ${item.evidence_count} | ${item.unresolved_count} |`
       );
     }
   }
@@ -216,12 +261,12 @@ export function renderStatusMarkdown(status) {
     lines.push("No Codex tasks registered yet.");
   } else {
     lines.push(
-      "| Task | Work item | Suggested title | Position / Agent | Status | Revision | Archive |",
-      "|---|---|---|---|---|---|---|"
+      "| Task | Work item | Suggested title | Position / Agent | Principal | Branch | Status | Revision | Archive |",
+      "|---|---|---|---|---|---|---|---|---|"
     );
     for (const task of status.tasks.items) {
       lines.push(
-        `| ${task.id} | ${task.work_item_id} | ${markdown(task.suggested_title)} | ${markdown(task.position_name)} / ${markdown(task.agent_name)} | ${task.status} | \`${shortRevision(task.current_revision)}\` | ${task.archive_ready ? "ready" : "—"} |`
+        `| ${task.id} | ${task.work_item_id} | ${markdown(task.suggested_title)} | ${markdown(task.position_name)} / ${markdown(task.agent_name)} | ${markdown(task.principal_id ?? "—")} | ${markdown(task.branch ?? "—")} | ${task.status} | \`${shortRevision(task.current_revision)}\` | ${task.archive_ready ? "ready" : "—"} |`
       );
     }
   }

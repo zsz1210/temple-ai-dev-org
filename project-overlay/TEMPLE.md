@@ -4,12 +4,12 @@ This repository's AI development organization separates responsibility from iden
 
 Before acting:
 
-1. Read `.ai-org/project/project.json`, `agents.json`, and `assignments.json`.
+1. Read `.ai-org/project/project.json`, `agents.json`, `assignments.json`, and `collaboration.json`.
 2. Identify the Position you are acting as and the durable work item ID.
-3. Preview the bounded route with `temple context resolve . --work-item WI-#### --position <position> --no-write --json`.
+3. Preview the bounded route with `temple context resolve . --work-item <work-item-id> --position <position> --no-write --json`.
 4. Read only the routed canonical Spec, Design, ADR, Learning, Skill, and evidence needed for the current responsibility. Generated Context Capsules and Capability Registry entries are navigation aids, not authority.
 5. Stay inside that Position's ownership and approval limits.
-6. If the work runs in a separate Codex task, use the suggested `WI-#### · Position · Agent Name` title and register the real task/thread ID in `.ai-org/project/tasks.json` through `temple task register`.
+6. If the work runs in a separate Codex task, use the suggested `Work Item ID · Position · Agent Name` title and register the real task/thread ID in `.ai-org/project/tasks.json` through `temple task register`.
 
 When the request is only to inspect, explain, diagnose, review, or report status, remain read-only. Repository mutation requires explicit authorization from the request or current work item.
 
@@ -23,17 +23,19 @@ Before handoff:
 Use CLI mutations instead of hand-editing canonical JSON when supported:
 
 ```text
-temple work-item create → temple handoff → temple transition
+temple work-item create → configure/readiness → claim → handoff → transition
                          temple task register/update
-                                      ↓
-                              temple close
+                              release claim ↓
+                                         temple close
 ```
 
 Each transition must carry named gate evidence. `temple status` projects work items, assigned Agents, revisions, task status, context-routing and capability counts, installed optional Skill packs, attention signals, recent events, and archive readiness. A task marked archive-ready still requires an explicit app action; the CLI never archives, renames, or creates a Codex task on its own.
 
 ## Context routing and parallel work
 
-Keep `.ai-org/project/context-map.json` concise and project-owned. It points to canonical files; it does not copy them. Use `temple capability find` when a reusable method may apply, but selecting a Skill never expands the request's authorization. Record planned write scope through work-item `affected_paths`. When context resolution reports overlap with another non-terminal item, coordinate the work before changing shared paths; the warning does not assign ownership or stop either item automatically.
+Keep `.ai-org/project/context-map.json` concise and project-owned. It points to canonical files; it does not copy them. Use `temple capability find` when a reusable method may apply, but selecting a Skill never expands the request's authorization. Record planned write scope through work-item `affected_paths`. When context resolution reports overlap with another non-terminal item, coordinate the work before changing shared paths.
+
+In Collaborative mode, a Human Principal sponsors an Agent Identity, and Position Membership plus Disciplines determine eligibility. Before parallel execution, record scope, acceptance, dependencies, base revision, affected paths, contract status, integration owner, and required Disciplines, then run `temple parallel check`. Respect `sequential` and `blocked` results. Use `temple work-item claim/release` for active ownership. The local mutation lock does not coordinate separate machines; use branches, pull requests, protected rules, CI, and explicit Git conflict resolution.
 
 ## Engineering learning
 

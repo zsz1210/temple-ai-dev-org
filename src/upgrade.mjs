@@ -26,6 +26,11 @@ import { packSourcesForLock } from "./packs.mjs";
 import { CONTEXT_MAP_RELATIVE_PATH, ensureContextMap } from "./context.mjs";
 import { ensureLearningIndex, LEARNING_INDEX_RELATIVE_PATH } from "./learning.mjs";
 import { ensureTaskRegistry } from "./project.mjs";
+import {
+  COLLABORATION_RELATIVE_PATH,
+  ensureCollaborationState,
+  synchronizeDefaultMembershipDocument
+} from "./collaboration.mjs";
 
 function isManaged(relativePath) {
   return MANAGED_EXACT_PATHS.has(relativePath) || MANAGED_SOURCE_PREFIXES.some((prefix) => relativePath.startsWith(prefix));
@@ -170,10 +175,46 @@ export async function planUpgrade(target) {
     type: hasContextMap ? "skip-context-map" : "create-context-map",
     path: CONTEXT_MAP_RELATIVE_PATH
   });
+  const hasCollaboration = await pathExists(path.join(target, COLLABORATION_RELATIVE_PATH));
+  actions.push({
+    type: hasCollaboration ? "skip-collaboration-state" : "create-collaboration-state",
+    path: COLLABORATION_RELATIVE_PATH
+  });
   const assignmentMigration = await planUiAssignmentMigration(target, conflicts);
   actions.push({
     type: assignmentMigration ? "add-ui-assignment" : "skip-ui-assignment",
     path: ".ai-org/project/assignments.json"
+  });
+  let collaborationSync = null;
+  if (hasCollaboration) {
+    try {
+      const collaborationPath = path.join(target, COLLABORATION_RELATIVE_PATH);
+      const assignmentsPath = path.join(target, ".ai-org/project/assignments.json");
+      const [before, collaborationDocument, assignmentsDocument] = await Promise.all([
+        fs.readFile(collaborationPath),
+        readJson(collaborationPath),
+        readJson(assignmentsPath)
+      ]);
+      const plannedAssignments = assignmentMigration
+        ? {
+            ...assignmentsDocument,
+            assignments: [
+              ...assignmentsDocument.assignments,
+              { position_id: "ui_designer", agent_id: assignmentMigration.agentId, active: true }
+            ]
+          }
+        : assignmentsDocument;
+      const expected = synchronizeDefaultMembershipDocument(collaborationDocument, plannedAssignments);
+      if (JSON.stringify(expected) !== JSON.stringify(collaborationDocument)) {
+        collaborationSync = { beforeHash: sha256(before), expected };
+      }
+    } catch (error) {
+      conflicts.push(`Cannot plan collaboration default-membership synchronization: ${error.message}`);
+    }
+  }
+  actions.push({
+    type: collaborationSync ? "sync-collaboration-defaults" : "skip-collaboration-defaults",
+    path: COLLABORATION_RELATIVE_PATH
   });
   const managedChanges = actions.some((action) =>
     ["add-managed", "update-managed", "remove-managed"].includes(action.type)
@@ -190,18 +231,27 @@ export async function planUpgrade(target) {
     lock.capabilities?.progressive_context_routing !== true ||
     lock.capabilities?.capability_registry !== true ||
     lock.capabilities?.retrieval_provider_contract !== true;
+  const collaborationCapabilityChanges =
+    lock.capabilities?.collaboration_profiles !== true ||
+    lock.capabilities?.human_principals !== true ||
+    lock.capabilities?.position_memberships !== true ||
+    lock.capabilities?.work_item_claims !== true ||
+    lock.capabilities?.parallel_readiness !== true;
   if (packMetadataChanges) actions.push({ type: "update-pack-metadata", path: "temple.lock" });
-  if (capabilityChanges) actions.push({ type: "update-capabilities", path: "temple.lock" });
+  if (capabilityChanges || collaborationCapabilityChanges) actions.push({ type: "update-capabilities", path: "temple.lock" });
   actions.push({
     type:
       lock.template.version === TEMPLATE_VERSION &&
       !managedChanges &&
       !packMetadataChanges &&
       !capabilityChanges &&
+      !collaborationCapabilityChanges &&
       !assignmentMigration &&
+      !collaborationSync &&
       hasTasks &&
       hasLearningIndex &&
-      hasContextMap
+      hasContextMap &&
+      hasCollaboration
         ? "skip-current-lock"
         : "update-lock",
     path: "temple.lock"
@@ -216,6 +266,7 @@ export async function planUpgrade(target) {
     sourceFiles,
     packDefinitions: packSources.definitions,
     assignmentMigration,
+    collaborationSync,
     actions,
     conflicts
   };
@@ -290,6 +341,19 @@ export async function executeUpgrade(plan) {
       await atomicWrite(assignmentsPath, content);
       changes.push({ path: assignmentsPath, before, afterHash: sha256(content) });
     }
+    const collaboration = await ensureCollaborationState(plan.target);
+    if (collaboration.created) {
+      changes.push({ path: collaboration.path, before: null, afterHash: collaboration.afterHash });
+    } else if (plan.collaborationSync) {
+      const collaborationPath = path.join(plan.target, COLLABORATION_RELATIVE_PATH);
+      const before = await fs.readFile(collaborationPath);
+      if (sha256(before) !== plan.collaborationSync.beforeHash) {
+        throw new Error("collaboration.json changed after upgrade planning");
+      }
+      const content = formatJson(plan.collaborationSync.expected);
+      await atomicWrite(collaborationPath, content);
+      changes.push({ path: collaborationPath, before, afterHash: sha256(content) });
+    }
 
     if (!plan.actions.some((action) => action.type === "update-lock")) return plan.lock;
 
@@ -335,6 +399,11 @@ export async function executeUpgrade(plan) {
         progressive_context_routing: true,
         capability_registry: true,
         retrieval_provider_contract: true,
+        collaboration_profiles: true,
+        human_principals: true,
+        position_memberships: true,
+        work_item_claims: true,
+        parallel_readiness: true,
         checksum_upgrade: true,
         optional_packs: true
       },

@@ -11,6 +11,14 @@ import {
   writeContextCapsule
 } from "./context.mjs";
 import { runDoctor, formatDoctor } from "./doctor.mjs";
+import {
+  addMembership,
+  addAgentIdentity,
+  addPrincipal,
+  readCollaborationState,
+  setCollaborationProfile,
+  sponsorAgent
+} from "./collaboration.mjs";
 import { assertSafeTarget, readJson } from "./files.mjs";
 import { executeInit, formatInitPlan, planInit } from "./install.mjs";
 import { validateInitConfig } from "./model.mjs";
@@ -28,9 +36,13 @@ import { listTasks, registerTask, updateTask } from "./tasks.mjs";
 import { executeUpgrade, formatUpgradePlan, planUpgrade } from "./upgrade.mjs";
 import {
   closeWorkItem,
+  claimWorkItem,
+  configureWorkItem,
   createHandoff,
   createWorkItem,
+  evaluateParallelReadiness,
   listUnresolvedItems,
+  releaseWorkItemClaim,
   transitionWorkItem,
   updateUnresolvedItems
 } from "./work-items.mjs";
@@ -42,8 +54,18 @@ Usage:
   temple upgrade [target] [--dry-run]
   temple doctor [target] [--json]
   temple status [target] [--json] [--no-write]
+  temple collaboration show [target] [--json]
+  temple collaboration set-profile [target] --profile solo|collaborative
+  temple collaboration add-principal [target] --principal-id principal-name --name "Human Name"
+  temple collaboration add-agent [target] --agent-id agent-name --name "Agent Name"
+  temple collaboration sponsor [target] --principal-id principal-name --agent-id agent-name
+  temple collaboration add-membership [target] --agent-id agent-name --position developer [--discipline backend]
   temple work-item create [target] --title text [--scope text] [--acceptance text] [--affected-path path] [--context-ref id]
+  temple work-item configure [target] --work-item WI-ID [--parent WI-ID] [--depends-on WI-ID] [--agent-id agent-name] [--discipline backend] [--base-revision ref] [--parallel-mode mode]
+  temple work-item claim [target] --work-item WI-ID --agent-id agent-name --principal-id principal-name --base-revision ref --branch name [--worktree path]
+  temple work-item release [target] --work-item WI-ID [--agent-id agent-name] [--principal-id principal-name] [--reason text]
   temple work-item unresolved [target] --work-item WI-0001 [--resolve text] [--merge text]
+  temple parallel check [target] --work-item WI-ID [--agent-id agent-name] [--json]
   temple handoff [target] --work-item WI-0001 --to position --input-revision ref --completed text --evidence ref
   temple transition [target] --work-item WI-0001 --to state --satisfy requirement=reference
   temple close [target] --work-item WI-0001 --decision go|no-go --tested-revision ref --rollback text --approval record
@@ -63,7 +85,9 @@ Core commands:
   upgrade     Update only checksum-clean managed files; preserve project-owned state.
   doctor      Validate managed files, identities, work items, tasks, and integrations.
   status      Rebuild the observable project status from canonical files.
+  collaboration Configure Human Principals, Agent sponsorship, Position membership, and the operating profile.
   work-item   Create work items and safely manage their unresolved-item lifecycle.
+  parallel    Evaluate whether a work item is safe to execute concurrently.
   handoff     Create an evidence-bearing Position handoff artifact.
   transition  Enforce the workflow edge and its named gate requirements.
   close       Record release readiness and close or block a release-gate item.
@@ -110,7 +134,22 @@ const VALUE_FLAGS = new Set([
   "--reason",
   "--satisfy",
   "--affected-path",
-  "--context-ref"
+  "--context-ref",
+  "--profile",
+  "--principal-id",
+  "--name",
+  "--agent-id",
+  "--discipline",
+  "--parent",
+  "--depends-on",
+  "--base-revision",
+  "--parallel-mode",
+  "--integration-owner",
+  "--shared-contract-ref",
+  "--contract-status",
+  "--overlap-resolution",
+  "--branch",
+  "--worktree"
 ]);
 const REPEATABLE_FLAGS = new Set([
   "--scope",
@@ -124,9 +163,13 @@ const REPEATABLE_FLAGS = new Set([
   "--reason",
   "--satisfy",
   "--affected-path",
-  "--context-ref"
+  "--context-ref",
+  "--discipline",
+  "--depends-on",
+  "--shared-contract-ref",
+  "--overlap-resolution"
 ]);
-const NESTED_COMMANDS = new Set(["work-item", "task", "pack", "capability", "context"]);
+const NESTED_COMMANDS = new Set(["work-item", "task", "pack", "capability", "context", "collaboration", "parallel"]);
 
 function parseCommand(argv) {
   if (argv.length === 0 || argv[0] === "--help" || argv[0] === "-h") {
@@ -356,6 +399,14 @@ async function runWorkItemCreate(parsed) {
       acceptance: listOption(parsed, "--acceptance"),
       affectedPaths: listOption(parsed, "--affected-path"),
       contextRefs: listOption(parsed, "--context-ref"),
+      parentWorkItemId: parsed.options["--parent"],
+      dependencies: listOption(parsed, "--depends-on"),
+      requiredDisciplines: listOption(parsed, "--discipline"),
+      baseRevision: parsed.options["--base-revision"],
+      integrationOwnerAgentId: parsed.options["--integration-owner"],
+      sharedContractRefs: listOption(parsed, "--shared-contract-ref"),
+      contractStatus: parsed.options["--contract-status"],
+      overlapResolution: listOption(parsed, "--overlap-resolution"),
       evidence: listOption(parsed, "--evidence"),
       unresolved: listOption(parsed, "--unresolved")
     });
@@ -368,6 +419,138 @@ async function runWorkItemCreate(parsed) {
     `Suggested Codex title: ${result.suggested_title}`
   ]);
   return 0;
+}
+
+async function runCollaboration(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (parsed.action === "show") {
+    const document = await readCollaborationState(target);
+    printResult(parsed, document, [
+      `Profile: ${document.profile}`,
+      `Human Principals: ${(document.principals ?? []).length}`,
+      `Sponsorships: ${(document.sponsorships ?? []).length}`,
+      `Position memberships: ${(document.memberships ?? []).filter((entry) => entry.active !== false).length}`,
+      `Large-scale validation: ${document.large_scale_validation?.status ?? "not_run"}`
+    ]);
+    return 0;
+  }
+  const result = await withProjectMutationLock(target, async () => {
+    let changed;
+    if (parsed.action === "set-profile") {
+      changed = await setCollaborationProfile(target, parsed.options["--profile"]);
+    } else if (parsed.action === "add-principal") {
+      changed = await addPrincipal(target, {
+        principalId: parsed.options["--principal-id"],
+        displayName: parsed.options["--name"]
+      });
+    } else if (parsed.action === "add-agent") {
+      changed = await addAgentIdentity(target, {
+        agentId: parsed.options["--agent-id"],
+        displayName: parsed.options["--name"]
+      });
+    } else if (parsed.action === "sponsor") {
+      changed = await sponsorAgent(target, {
+        principalId: parsed.options["--principal-id"],
+        agentId: parsed.options["--agent-id"]
+      });
+    } else if (parsed.action === "add-membership") {
+      changed = await addMembership(target, {
+        agentId: parsed.options["--agent-id"],
+        positionId: parsed.options["--position"],
+        disciplines: listOption(parsed, "--discipline")
+      });
+    } else {
+      throw new Error(`Unknown collaboration action: ${parsed.action}`);
+    }
+    await refreshViews(target);
+    return changed;
+  });
+  printResult(parsed, result, [`Updated collaboration state: ${parsed.action}`]);
+  return 0;
+}
+
+async function runWorkItemConfigure(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  const result = await withProjectMutationLock(target, async () => {
+    const configured = await configureWorkItem(target, {
+      workItemId: parsed.options["--work-item"],
+      actor: parsed.options["--actor"],
+      parentWorkItemId: parsed.options["--parent"],
+      dependencies: parsed.options["--depends-on"] === undefined ? undefined : listOption(parsed, "--depends-on"),
+      requiredDisciplines: parsed.options["--discipline"] === undefined ? undefined : listOption(parsed, "--discipline"),
+      baseRevision: parsed.options["--base-revision"],
+      parallelMode: parsed.options["--parallel-mode"],
+      integrationOwnerAgentId: parsed.options["--integration-owner"],
+      agentId: parsed.options["--agent-id"],
+      sharedContractRefs:
+        parsed.options["--shared-contract-ref"] === undefined ? undefined : listOption(parsed, "--shared-contract-ref"),
+      contractStatus: parsed.options["--contract-status"],
+      overlapResolution:
+        parsed.options["--overlap-resolution"] === undefined ? undefined : listOption(parsed, "--overlap-resolution")
+    });
+    await refreshViews(target);
+    return configured;
+  });
+  printResult(parsed, result, [
+    `Configured ${result.item.id}: ${result.item.parallel_mode}`,
+    `Parallel ready: ${result.readiness.ready ? "yes" : "no"}`,
+    `Recommendation: ${result.readiness.recommended_mode}`
+  ]);
+  return 0;
+}
+
+async function runWorkItemClaim(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  const result = await withProjectMutationLock(target, async () => {
+    const claimed = await claimWorkItem(target, {
+      workItemId: parsed.options["--work-item"],
+      agentId: parsed.options["--agent-id"],
+      principalId: parsed.options["--principal-id"],
+      baseRevision: parsed.options["--base-revision"],
+      branch: parsed.options["--branch"],
+      worktree: parsed.options["--worktree"]
+    });
+    await refreshViews(target);
+    return claimed;
+  });
+  printResult(parsed, result, [
+    `Claimed ${result.item.id}: ${result.item.claim.id}`,
+    `Agent: ${result.item.claim.agent_id}`,
+    `Principal: ${result.item.claim.principal_id}`,
+    `Base revision: ${result.item.claim.base_revision}`
+  ]);
+  return 0;
+}
+
+async function runWorkItemRelease(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  const item = await withProjectMutationLock(target, async () => {
+    const released = await releaseWorkItemClaim(target, {
+      workItemId: parsed.options["--work-item"],
+      agentId: parsed.options["--agent-id"],
+      principalId: parsed.options["--principal-id"],
+      reason: parsed.options["--reason"]
+    });
+    await refreshViews(target);
+    return released;
+  });
+  printResult(parsed, item, [`Released ${item.id}: ${item.claim.id}`, `Reason: ${item.claim.release_reason}`]);
+  return 0;
+}
+
+async function runParallel(parsed) {
+  if (parsed.action !== "check") throw new Error(`Unknown parallel action: ${parsed.action}`);
+  const target = await assertSafeTarget(parsed.target);
+  const result = await evaluateParallelReadiness(target, parsed.options["--work-item"], {
+    agentId: parsed.options["--agent-id"]
+  });
+  if (parsed.flags.has("--json")) console.log(JSON.stringify(result, null, 2));
+  else {
+    console.log(`${result.work_item_id}: ${result.ready ? "parallel-ready" : result.recommended_mode}`);
+    for (const check of result.checks) console.log(`[${check.pass ? "PASS" : "FAIL"}] ${check.id}`);
+    for (const overlap of result.overlaps) console.log(`[OVERLAP] ${overlap.work_item_id}: ${overlap.paths.join(", ")}`);
+  }
+  return result.ready ? 0 : 2;
 }
 
 async function runWorkItemUnresolved(parsed) {
@@ -661,8 +844,13 @@ export async function main(argv) {
   if (parsed.command === "upgrade") return runUpgrade(parsed);
   if (parsed.command === "doctor") return runDoctorCommand(parsed);
   if (parsed.command === "status") return runStatusCommand(parsed);
+  if (parsed.command === "collaboration") return runCollaboration(parsed);
   if (parsed.command === "work-item" && parsed.action === "create") return runWorkItemCreate(parsed);
+  if (parsed.command === "work-item" && parsed.action === "configure") return runWorkItemConfigure(parsed);
+  if (parsed.command === "work-item" && parsed.action === "claim") return runWorkItemClaim(parsed);
+  if (parsed.command === "work-item" && parsed.action === "release") return runWorkItemRelease(parsed);
   if (parsed.command === "work-item" && parsed.action === "unresolved") return runWorkItemUnresolved(parsed);
+  if (parsed.command === "parallel") return runParallel(parsed);
   if (parsed.command === "handoff") return runHandoff(parsed);
   if (parsed.command === "transition") return runTransition(parsed);
   if (parsed.command === "close") return runClose(parsed);

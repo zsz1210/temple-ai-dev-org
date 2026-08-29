@@ -12,7 +12,7 @@
         "required": ["id", "work_item_id", "position_id", "agent_id", "suggested_title", "status"],
         "properties": {
           "id": { "type": "string", "pattern": "^task-[0-9]{4,}$" },
-          "work_item_id": { "type": "string", "pattern": "^WI-[0-9]{4,}$" },
+          "work_item_id": { "type": "string", "pattern": "^WI-(?:[0-9]{4,}|[0-9]{8}-[A-F0-9]{10})$" },
           "position_id": { "type": "string" },
           "agent_id": { "type": "string" },
           "suggested_title": { "type": "string" },
@@ -21,6 +21,11 @@
           "client_thread_id": { "type": ["string", "null"] },
           "host_id": { "type": ["string", "null"] },
           "current_revision": { "type": ["string", "null"] },
+          "principal_id": { "type": ["string", "null"] },
+          "claim_id": { "type": ["string", "null"] },
+          "base_revision": { "type": ["string", "null"] },
+          "branch": { "type": ["string", "null"] },
+          "worktree": { "type": ["string", "null"] },
           "registered_by": { "type": ["string", "null"] },
           "last_updated_by": { "type": ["string", "null"] }
         },

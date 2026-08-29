@@ -23,7 +23,7 @@ Temple 不是共享聊天記憶的系統，也不是一組 prompt 的集合。�
 | 層級 | Temple 目前提供的能力 |
 |---|---|
 | 產品意圖與領域 | `$decision-interview` 深入釐清模糊處；`$domain-modeling` 建立共通語言、邊界、規則與 invariant；Spec、Decision Ledger 與 ADR 保存決策 |
-| 組織與權限 | 十個穩定 Position、專案自己的 Agent Identity、Assignment、明確的人類批准邊界，以及 Developer 與 Independent QA 的分離 |
+| 組織與權限 | 十個穩定 Position、專案自己的 Agent Identity、default Assignment、Human Principal、Agent sponsorship、帶 Discipline 的 Position pool、明確的人類批准邊界，以及 Developer 與 Independent QA 的分離 |
 | 工程方法 | Core Skills，以及包含 `$tdd` 與 `$diagnosing-bugs` 的選配 Build Quality pack |
 | 工作協調 | 固定的 `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle，搭配可持續保存的 work item 與 handoff |
 | 驗證與交付 | 具名的 gate evidence、evaluation、獨立重現、revision reference、approval record、rollback plan 與有明確範圍的 closeout |
@@ -87,9 +87,9 @@ Temple 也包含 `$skill-authoring` 與 [Skill 撰寫指南（英文）](docs/sk
 
 ## 專案規模與目前邊界
 
-目前的小型團隊設定由五個 Agent Identity 覆蓋全部十個 Position。Product Design Identity 一開始同時負責 Product Manager、UX Designer 與 UI Designer。資料模型會在團隊擴大後保留 Position 用語與歷史 Identity ID，並維持 Developer 與 Independent QA 分離。現行 alpha 尚未提供重新指派 CLI 或風險分級的人力配置流程。
+預設 Solo 設定由五個 Agent Identity 覆蓋全部十個 Position。Product Design Identity 一開始同時負責 Product Manager、UX Designer 與 UI Designer。Collaborative 基礎可以加入 Human Principal、額外 Agent Identity、sponsorship，以及帶有 frontend、backend、full-stack、infrastructure、UI、UX 等 Discipline 的多成員 Position pool。既有 default Assignment 保持相容，而單一有邊界的 Work Item 可以由其他符合資格的 pool member 認領。
 
-Temple 的設計可以從這個起點繼續成長，但尚未證明能適用所有專案規模。目前版本只有一套固定 lifecycle 與一個選配 development pack。依風險調整的 Lite、Standard、High-Assurance profile、更完整的 capability packs、精確 Git 與外部 evidence adapter、更充分的 cross-task recovery 證明、即時觀測，以及 multi-project view 都仍在規劃中。
+Solo 與 Collaborative 已可選擇；High-Assurance 只先保留定義，尚不可選。Collaborative mode 提供較不易跨 clone 碰撞的 Work Item ID、parent/dependency 與 shared-contract 欄位、parallel-readiness 檢查、由 Principal 背書的 claim，以及 status warning。大型多人、多機器實測仍是 `not_run`，所以目前還不能宣稱已經證明適用所有公司拓撲與 distributed race。詳見[協作開發模型（英文）](docs/collaboration.md)。
 
 Temple 目前會記錄 revision reference，但 CLI 還不會將每個 reference 驗證為精確的 Git object。它不會建立、重新命名或封存 Codex task，也不會執行外部 deploy 或 publish。商業事實、優先順序、敏感資料、重大成本、不可逆操作與高風險批准仍由人類負責。
 
@@ -100,6 +100,7 @@ Temple 是安裝進專案，而不是要求專案 fork 這個 repository。開�
 - [使用手冊](docs/usage.md) — 初始化、日常命令、升級與故障處理
 - [願景與運作模型](docs/vision.md) — framework layer、Position 與 lifecycle
 - [架構](docs/architecture.md) — identity、ownership、extension 與 canonical-state 邊界
+- [協作開發模型](docs/collaboration.md) — Human Principal、Position pool、task slicing、parallel readiness、claim 與流程圖
 - [Skill 撰寫指南](docs/skill-authoring.md) — project-owned Skill 的設計與驗證
 - [Engineering Learning Loop](docs/engineering-learning.md) — evidence、Lesson、Practice、檢索與晉升
 - [Progressive context routing](docs/context-routing.md) — Context Map、Capability Registry、Context Capsule、affected-path overlap 與未來的 Retrieval Provider

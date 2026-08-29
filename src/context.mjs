@@ -5,6 +5,7 @@ import { atomicCreate, atomicWrite, formatJson, pathExists, readJson, sha256 } f
 import { emptyLearningIndex, LEARNING_INDEX_RELATIVE_PATH } from "./learning.mjs";
 import { assignedAgent, loadProjectContext } from "./project.mjs";
 import { readWorkItem } from "./work-items.mjs";
+import { isWorkItemId } from "./ids.mjs";
 
 export const CONTEXT_MAP_RELATIVE_PATH = ".ai-org/project/context-map.json";
 export const CAPABILITY_REGISTRY_RELATIVE_PATH = ".ai-org/views/capabilities.json";
@@ -29,7 +30,6 @@ export const CONTEXT_KINDS = [
 const CONTEXT_STATUSES = ["active", "deprecated"];
 const SKILL_NAME = /^[a-z0-9][a-z0-9-]{0,63}$/;
 const CONTEXT_ID = /^[a-z0-9][a-z0-9-]{0,79}$/;
-const WORK_ITEM_ID = /^WI-[0-9]{4,}$/;
 const EXCLUDED_QUERY_WORDS = new Set([
   "and",
   "for",
@@ -107,7 +107,7 @@ export function validateContextMap(contextMap, positionIds = null) {
     if (route?.positions?.some((value) => positionIds && !positionIds.has(value))) {
       errors.push(`${label}.positions contains an unknown Position`);
     }
-    if (route?.work_items?.some((value) => !WORK_ITEM_ID.test(value))) {
+    if (route?.work_items?.some((value) => !isWorkItemId(value))) {
       errors.push(`${label}.work_items must contain work item IDs`);
     }
     if (!(route?.owner_position === null || typeof route?.owner_position === "string")) {

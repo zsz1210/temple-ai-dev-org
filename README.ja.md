@@ -23,7 +23,7 @@ Temple はチャット記憶の共有システムでも、prompt の寄せ集め
 | レイヤー | Temple が現在提供するもの |
 |---|---|
 | プロダクトの意図とドメイン | `$decision-interview` が曖昧さを問い直し、`$domain-modeling` が共通言語、境界、ルール、invariant を定義し、Spec、Decision Ledger、ADR が決定を保存する |
-| 組織と権限 | 10の安定した Position、プロジェクト固有の Agent Identity、Assignment、明示的な人間の承認境界、Developer と Independent QA の分離 |
+| 組織と権限 | 10の安定した Position、プロジェクト固有の Agent Identity、default Assignment、Human Principal、Agent sponsorship、Discipline 付き Position pool、明示的な人間の承認境界、Developer と Independent QA の分離 |
 | 開発手法 | Core Skill と、`$tdd` および `$diagnosing-bugs` を含む opt-in の Build Quality pack |
 | 作業オーケストレーション | 永続的な work item と handoff を伴う、固定の `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle |
 | 検証とデリバリー | 名前付き gate evidence、evaluation、独立再現、revision reference、approval record、rollback plan、範囲を限定した closeout |
@@ -87,9 +87,9 @@ Temple には、境界が明確な project-owned Skill を作るための `$skil
 
 ## 規模と現在の境界
 
-現在の小規模チーム構成では、5つの Agent Identity が10の Position すべてを担当します。Product Design Identity は当初、Product Manager、UX Designer、UI Designer を兼任します。データモデルは、体制の拡大後も Position の語彙と過去の Identity ID を維持し、Developer と Independent QA の分離を保てるよう設計されています。現行 alpha には、再割り当て CLI やリスク別の人員構成ワークフローはまだありません。
+既定の Solo 構成では、5つの Agent Identity が10の Position すべてを担当します。Product Design Identity は当初、Product Manager、UX Designer、UI Designer を兼任します。Collaborative foundation では、Human Principal、追加の Agent Identity、sponsorship、frontend、backend、full-stack、infrastructure、UI、UX などの Discipline を持つ複数メンバーの Position pool を追加できます。既存の default Assignment は互換性を保ち、範囲を限定した Work Item は別の適格な pool member が claim できます。
 
-Temple はこの初期構成を越えて成長できるよう設計されていますが、あらゆるプロジェクト規模への対応はまだ実証されていません。現在の release には、1つの固定 lifecycle と1つの optional development pack があります。リスクベースの Lite、Standard、High-Assurance profile、より広い capability pack、正確な Git および外部 evidence adapter、より強い cross-task recovery の実証、live observation、multi-project view は今後の計画です。
+Solo と Collaborative は選択可能です。High-Assurance は定義のみを予約し、まだ選択できません。Collaborative mode は、clone 間で衝突しにくい Work Item ID、parent/dependency と shared-contract field、parallel-readiness check、Principal-backed claim、status warning を提供します。大規模な複数人・複数マシンの実機テストはまだ `not_run` のため、すべての企業構成や distributed race に対応済みとは主張しません。[Collaborative development model（英語）](docs/collaboration.md)を参照してください。
 
 Temple は現在 revision reference を記録しますが、CLI はまだすべての reference を正確な Git object として解決しません。Codex task の作成、名前変更、archive は行わず、外部への deploy や publish も実行しません。ビジネス上の事実、優先順位、機密データ、重大なコスト、不可逆な操作、高リスクな承認は人間が管理します。
 
@@ -100,6 +100,7 @@ Temple はプロジェクトへインストールします。プロジェクト�
 - [使用ガイド](docs/usage.md) — 初期化、日常コマンド、upgrade、トラブルシューティング
 - [Vision と operating model](docs/vision.md) — framework layer、Position、lifecycle
 - [Architecture](docs/architecture.md) — identity、ownership、extension、canonical-state boundary
+- [Collaborative development model](docs/collaboration.md) — Human Principal、Position pool、task slicing、parallel readiness、claim、diagram
 - [Skill authoring guide](docs/skill-authoring.md) — project-owned Skill の設計と検証
 - [Engineering Learning Loop](docs/engineering-learning.md) — evidence、Lesson、Practice、検索、昇格
 - [Progressive context routing](docs/context-routing.md) — Context Map、Capability Registry、Context Capsule、affected-path overlap、将来の Retrieval Provider

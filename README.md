@@ -23,7 +23,7 @@ Temple is not a shared-chat-memory system and not a collection of prompts. It is
 | Layer | What Temple provides today |
 |---|---|
 | Product intent and domain | `$decision-interview` challenges ambiguity; `$domain-modeling` establishes shared language, boundaries, rules, and invariants; Specs, Decision Ledger entries, and ADRs preserve decisions |
-| Organization and authority | Ten stable Positions, project-specific Agent Identities, Assignments, explicit human approval boundaries, and separation between Developer and Independent QA |
+| Organization and authority | Ten stable Positions, project-specific Agent Identities, default Assignments, Human Principals, Agent sponsorship, Position pools with Disciplines, explicit human approval boundaries, and separation between Developer and Independent QA |
 | Engineering methods | Core Skills plus the opt-in Build Quality pack with `$tdd` and `$diagnosing-bugs` |
 | Work orchestration | A fixed `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle with durable work items and handoffs |
 | Verification and delivery | Named gate evidence, evaluation, independent reproduction, revision references, approval records, rollback plans, and bounded closeout |
@@ -87,9 +87,9 @@ The generated Capability Registry now inventories core, optional-pack, and proje
 
 ## Scale and current boundaries
 
-The current small-team configuration assigns all ten Positions to five Agent Identities. The Product Design Identity initially holds Product Manager, UX Designer, and UI Designer. The data model preserves Position vocabulary and historical Identity IDs as staffing grows, while Developer and Independent QA remain separate. The current alpha does not yet provide a reassignment CLI or a risk-based staffing workflow.
+The default Solo configuration assigns all ten Positions to five Agent Identities. The Product Design Identity initially holds Product Manager, UX Designer, and UI Designer. The Collaborative foundation can add Human Principals, additional Agent Identities, sponsorships, and multiple Position members with frontend, backend, full-stack, infrastructure, UI, UX, and other Disciplines. Default Assignments remain backward compatible while a bounded Work Item may be claimed by another eligible pool member.
 
-Temple is designed to grow beyond that starting point, but support for every project size has not been proven. The current release has one fixed lifecycle and one optional development pack. Risk-based Lite, Standard, and High-Assurance profiles are planned, as are broader capability packs, exact Git and external-evidence adapters, stronger cross-task recovery proof, live observation, and multi-project views.
+Solo and Collaborative are selectable profiles; High-Assurance is reserved but not yet selectable. Collaborative mode adds collision-resistant Work Item IDs, parent/dependency and shared-contract fields, parallel-readiness checks, Principal-backed claims, and status warnings. The retained large multi-human, multi-machine test is still `not_run`, so this foundation is not yet evidence that every company topology or distributed race is production-ready. See the [Collaborative development model](docs/collaboration.md).
 
 Temple records revision references today; the CLI does not yet resolve every reference as an exact Git object. It does not create, rename, or archive Codex tasks, and it does not deploy or publish externally. Business truth, priorities, sensitive data, material cost, irreversible actions, and high-risk approval remain human responsibilities.
 
@@ -100,6 +100,7 @@ Temple is installed into a project; the project is not forked from this reposito
 - [Usage guide](docs/usage.md) — initialization, daily commands, upgrades, and troubleshooting
 - [Vision and operating model](docs/vision.md) — framework layers, Positions, and lifecycle
 - [Architecture](docs/architecture.md) — identity, ownership, extension, and canonical-state boundaries
+- [Collaborative development model](docs/collaboration.md) — Human Principals, Position pools, task slicing, parallel readiness, claims, and diagrams
 - [Skill authoring guide](docs/skill-authoring.md) — project-owned Skill design and verification
 - [Engineering Learning Loop](docs/engineering-learning.md) — evidence, Lessons, Practices, retrieval, and promotion
 - [Progressive context routing](docs/context-routing.md) — Context Map, Capability Registry, Context Capsules, affected-path overlap, and future Retrieval Providers

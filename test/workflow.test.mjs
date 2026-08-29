@@ -359,7 +359,7 @@ test("upgrade migrates legacy identity and safely removes obsolete managed skill
 
   const dryRun = run(["upgrade", target, "--dry-run"]);
   assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
-  assert.match(dryRun.stdout, /0\.1\.0-alpha\.3 -> 0\.1\.0-alpha\.12/);
+  assert.match(dryRun.stdout, /0\.1\.0-alpha\.3 -> 0\.1\.0-alpha\.13/);
   assert.match(dryRun.stdout, /remove-managed: 3/);
   assert.equal(await fs.readFile(installedTemple, "utf8"), oldContent);
   await fs.access(path.join(target, obsoleteSkills[0]));
@@ -368,7 +368,7 @@ test("upgrade migrates legacy identity and safely removes obsolete managed skill
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = await fs.readFile(lockPath, "utf8");
   assert.equal(JSON.parse(upgradedLock).template.name, "@zsz1210/temple-ai-dev-org");
-  assert.equal(JSON.parse(upgradedLock).template.version, "0.1.0-alpha.12");
+  assert.equal(JSON.parse(upgradedLock).template.version, "0.1.0-alpha.13");
   assert.match(await fs.readFile(installedTemple, "utf8"), /Project AI development organization operating contract/);
   assert.equal((await readJson(path.join(target, ".ai-org/work-items/WI-0001.json"))).title, "Preserve me");
   for (const relativePath of obsoleteSkills) {
@@ -501,4 +501,220 @@ test("parallel canonical mutations are serialized without losing task records", 
   const registry = await readJson(path.join(target, ".ai-org/project/tasks.json"));
   assert.equal(registry.tasks.length, 2);
   assert.deepEqual(new Set(registry.tasks.map((task) => task.thread_id)), new Set(["parallel-developer", "parallel-qa"]));
+});
+
+test("collaborative profile supports principals, pooled membership, readiness, and explicit claims", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+
+  const addPrincipal = run([
+    "collaboration",
+    "add-principal",
+    target,
+    "--principal-id",
+    "principal-alice",
+    "--name",
+    "Alice Morgan"
+  ]);
+  assert.equal(addPrincipal.status, 0, addPrincipal.stderr || addPrincipal.stdout);
+  assert.equal(
+    run(["collaboration", "add-agent", target, "--agent-id", "agent-taylor", "--name", "Taylor Brooks"]).status,
+    0
+  );
+  assert.equal(
+    run([
+      "collaboration",
+      "sponsor",
+      target,
+      "--principal-id",
+      "principal-alice",
+      "--agent-id",
+      "agent-taylor"
+    ]).status,
+    0
+  );
+  assert.equal(
+    run([
+      "collaboration",
+      "add-membership",
+      target,
+      "--agent-id",
+      "agent-taylor",
+      "--position",
+      "developer",
+      "--discipline",
+      "backend"
+    ]).status,
+    0
+  );
+  assert.equal(run(["collaboration", "set-profile", target, "--profile", "collaborative"]).status, 0);
+
+  const created = run([
+    "work-item",
+    "create",
+    target,
+    "--title",
+    "Coordinate a bounded company change",
+    "--scope",
+    "One repository-owned module",
+    "--acceptance",
+    "Independent evidence identifies the exact revision",
+    "--affected-path",
+    "src/company",
+    "--discipline",
+    "backend",
+    "--base-revision",
+    "abc123",
+    "--integration-owner",
+    "agent-taylor"
+  ]);
+  assert.equal(created.status, 0, created.stderr || created.stdout);
+  const workItemId = /Created (WI-[0-9]{8}-[A-F0-9]{10}):/.exec(created.stdout)?.[1];
+  assert.ok(workItemId, created.stdout);
+
+  const transitions = [
+    ["spec", ["work_order=docs/work-order.md"]],
+    ["design", ["approved_scope=docs/spec.md", "acceptance_criteria=docs/spec.md"]],
+    ["build", ["technical_design=docs/design.md", "risk_review=docs/design.md"]]
+  ];
+  for (const [state, requirements] of transitions) {
+    const args = ["transition", target, "--work-item", workItemId, "--to", state];
+    for (const requirement of requirements) args.push("--satisfy", requirement);
+    const transitioned = run(args);
+    assert.equal(transitioned.status, 0, transitioned.stderr || transitioned.stdout);
+  }
+
+  const configured = run([
+    "work-item",
+    "configure",
+    target,
+    "--work-item",
+    workItemId,
+    "--agent-id",
+    "agent-taylor",
+    "--parallel-mode",
+    "parallel"
+  ]);
+  assert.equal(configured.status, 0, configured.stderr || configured.stdout);
+  assert.match(configured.stdout, /Parallel ready: yes/);
+
+  const claimed = run([
+    "work-item",
+    "claim",
+    target,
+    "--work-item",
+    workItemId,
+    "--agent-id",
+    "agent-taylor",
+    "--principal-id",
+    "principal-alice",
+    "--base-revision",
+    "abc123",
+    "--branch",
+    "alice/company-change",
+    "--worktree",
+    "/tmp/company-change"
+  ]);
+  assert.equal(claimed.status, 0, claimed.stderr || claimed.stdout);
+  assert.match(claimed.stdout, /Principal: principal-alice/);
+
+  const readiness = run(["parallel", "check", target, "--work-item", workItemId, "--agent-id", "agent-taylor", "--json"]);
+  assert.equal(readiness.status, 0, readiness.stderr || readiness.stdout);
+  assert.equal(JSON.parse(readiness.stdout).ready, true);
+
+  const task = run([
+    "task",
+    "register",
+    target,
+    "--work-item",
+    workItemId,
+    "--position",
+    "developer",
+    "--thread-id",
+    "thread-collaborative-taylor"
+  ]);
+  assert.equal(task.status, 0, task.stderr || task.stdout);
+  assert.match(task.stdout, /Taylor Brooks/);
+  const taskRegistry = await readJson(path.join(target, ".ai-org/project/tasks.json"));
+  assert.equal(taskRegistry.tasks[0].principal_id, "principal-alice");
+  assert.equal(taskRegistry.tasks[0].branch, "alice/company-change");
+
+  const activeStatus = JSON.parse(run(["status", target, "--json", "--no-write"]).stdout);
+  assert.equal(activeStatus.collaboration.profile, "collaborative");
+  assert.equal(activeStatus.collaboration.active_claims, 1);
+  assert.equal(activeStatus.collaboration.large_scale_validation.status, "not_run");
+  const collaborationState = await readJson(path.join(target, ".ai-org/project/collaboration.json"));
+  assert.equal(
+    collaborationState.large_scale_validation.plan,
+    ".ai-org/templates/collaborative-large-scale-test-plan.md"
+  );
+  await fs.access(path.join(target, collaborationState.large_scale_validation.plan));
+
+  const released = run([
+    "work-item",
+    "release",
+    target,
+    "--work-item",
+    workItemId,
+    "--agent-id",
+    "agent-taylor",
+    "--principal-id",
+    "principal-alice",
+    "--reason",
+    "handoff"
+  ]);
+  assert.equal(released.status, 0, released.stderr || released.stdout);
+  assert.equal(JSON.parse(run(["status", target, "--json", "--no-write"]).stdout).collaboration.active_claims, 0);
+
+  const doctor = run(["doctor", target, "--json"]);
+  assert.equal(doctor.status, 0, doctor.stderr || doctor.stdout);
+  const doctorDocument = JSON.parse(doctor.stdout);
+  assert.equal(doctorDocument.summary.fail, 0);
+  assert.ok(doctorDocument.checks.some((check) => check.id === "collaboration_validation" && check.status === "warn"));
+});
+
+test("parallel readiness detects unresolved affected-path overlap", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  for (const title of ["First overlapping change", "Second overlapping change"]) {
+    const created = run([
+      "work-item",
+      "create",
+      target,
+      "--title",
+      title,
+      "--scope",
+      "One shared module",
+      "--acceptance",
+      "The module passes tests",
+      "--affected-path",
+      "src/shared",
+      "--base-revision",
+      "abc123",
+      "--integration-owner",
+      "agent-fixture-rowan"
+    ]);
+    assert.equal(created.status, 0, created.stderr || created.stdout);
+  }
+  assert.equal(
+    run(["work-item", "configure", target, "--work-item", "WI-0001", "--depends-on", "WI-0002"]).status,
+    0
+  );
+  const cycle = run([
+    "work-item",
+    "configure",
+    target,
+    "--work-item",
+    "WI-0002",
+    "--depends-on",
+    "WI-0001"
+  ]);
+  assert.equal(cycle.status, 1);
+  assert.match(cycle.stderr, /Dependency cycle detected/);
+  const readiness = run(["parallel", "check", target, "--work-item", "WI-0002", "--json"]);
+  assert.equal(readiness.status, 2, readiness.stderr || readiness.stdout);
+  const result = JSON.parse(readiness.stdout);
+  assert.equal(result.ready, false);
+  assert.equal(result.recommended_mode, "sequential");
+  assert.deepEqual(result.overlaps.map((entry) => entry.work_item_id), ["WI-0001"]);
 });

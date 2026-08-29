@@ -38,7 +38,11 @@ export async function registerTask(target, options) {
     throw new Error(`Client thread is already registered: ${clientThreadId}`);
   }
 
-  const agent = assignedAgent(context, positionId);
+  const defaultAgent = assignedAgent(context, positionId);
+  const claimedAgentId =
+    item.claim?.status === "active" && item.owner_position === positionId ? item.claim.agent_id : null;
+  const agent = claimedAgentId ? context.agents.get(claimedAgentId) : defaultAgent;
+  if (!agent) throw new Error(`Claim references unknown Agent Identity ${claimedAgentId}`);
   const manager = assignedAgent(context, "engineering_manager");
   const actor = options.actor ?? manager.id;
   if (![agent.id, manager.id, "human"].includes(actor)) {
@@ -50,12 +54,20 @@ export async function registerTask(target, options) {
     work_item_id: item.id,
     position_id: positionId,
     agent_id: agent.id,
-    suggested_title: suggestedTaskTitle(context, item.id, positionId),
+    suggested_title:
+      agent.id === defaultAgent.id
+        ? suggestedTaskTitle(context, item.id, positionId)
+        : `${item.id} · ${positionName(context, positionId)} · ${agent.display_name}`,
     status,
     thread_id: threadId || null,
     client_thread_id: clientThreadId || null,
     host_id: options.hostId ?? null,
     current_revision: options.revision ?? null,
+    principal_id: item.claim?.status === "active" ? item.claim.principal_id : null,
+    claim_id: item.claim?.status === "active" ? item.claim.id : null,
+    base_revision: item.claim?.status === "active" ? item.claim.base_revision : null,
+    branch: item.claim?.status === "active" ? item.claim.branch : null,
+    worktree: item.claim?.status === "active" ? item.claim.worktree : null,
     created_at: timestamp,
     updated_at: timestamp,
     registered_by: actor,
@@ -83,7 +95,7 @@ export async function updateTask(target, options) {
   const index = (registry.tasks ?? []).findIndex((task) => task.id === options.taskId);
   if (index < 0) throw new Error(`Task not found: ${options.taskId}`);
   const current = registry.tasks[index];
-  const taskAgent = assignedAgent(context, current.position_id);
+  const taskAgent = context.agents.get(current.agent_id) ?? assignedAgent(context, current.position_id);
   const manager = assignedAgent(context, "engineering_manager");
   const actor = options.actor ?? taskAgent.id;
   if (![taskAgent.id, manager.id, "human"].includes(actor)) {

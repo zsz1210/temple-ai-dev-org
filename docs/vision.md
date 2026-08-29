@@ -25,7 +25,7 @@ The responsibilities remain stable as a project grows; staffing, method depth, a
 - A future larger-product profile can separate more Positions into dedicated Identities, install focused capability packs, require deeper design and evaluation, and integrate additional evidence sources.
 - A future high-risk profile can add specialized Skills, stricter approval policy, security review, release evidence, and external adapters without replacing the core lifecycle.
 
-The current alpha proves a lean configuration, core Skills, one optional Build Quality pack, project-local state, bounded pilots, and deterministic Progressive Context Routing. Risk-based profiles, custom Positions and workflows, custom packs, semantic Retrieval Providers, multi-repository operation, and full cross-task recovery evidence are planned rather than claimed as shipped.
+The current alpha proves a lean configuration, core Skills, one optional Build Quality pack, project-local state, bounded pilots, deterministic Progressive Context Routing, and a locally tested Collaborative foundation. Solo and Collaborative profiles are selectable; High-Assurance, custom Positions and workflows, custom packs, semantic Retrieval Providers, multi-repository operation, large multi-machine collaboration evidence, and full cross-task recovery evidence remain planned or explicitly unverified rather than claimed as shipped.
 
 The same scaling principle applies to learning. Evidence from one work item begins as a project Lesson, not a universal rule. Repeated and validated learning may become a Practice, then the project may deliberately promote it to a Skill, automated check, ADR, or instruction. See the [Engineering Learning Loop](engineering-learning.md).
 

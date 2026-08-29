@@ -1,6 +1,13 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import {
+  DISCIPLINES,
+  agentIsEligible,
+  readCollaborationState,
+  sponsoredPrincipal
+} from "./collaboration.mjs";
 import { atomicWrite, formatJson, pathExists, readJson } from "./files.mjs";
+import { claimId, collaborativeWorkItemId, isWorkItemId } from "./ids.mjs";
 import {
   appendEvent,
   assignedAgentId,
@@ -13,7 +20,7 @@ import {
 } from "./project.mjs";
 
 function workItemPath(target, workItemId) {
-  if (!/^WI-[0-9]{4,}$/.test(workItemId ?? "")) {
+  if (!isWorkItemId(workItemId)) {
     throw new Error(`Invalid work item ID: ${workItemId ?? "missing"}`);
   }
   return path.join(target, ".ai-org/work-items", `${workItemId}.json`);
@@ -60,6 +67,17 @@ async function writeWorkItem(target, item) {
   await atomicWrite(workItemPath(target, item.id), formatJson(item));
 }
 
+async function listWorkItemDocuments(target) {
+  const directory = path.join(target, ".ai-org/work-items");
+  if (!(await pathExists(directory))) return [];
+  const entries = await fs.readdir(directory, { withFileTypes: true });
+  const items = [];
+  for (const entry of entries.filter((candidate) => candidate.isFile() && candidate.name.endsWith(".json"))) {
+    items.push(await readJson(path.join(directory, entry.name)));
+  }
+  return items;
+}
+
 export async function updateUnresolvedItems(target, options) {
   const context = await loadProjectContext(target);
   const item = await readWorkItem(target, options.workItemId);
@@ -79,7 +97,12 @@ export async function updateUnresolvedItems(target, options) {
     throw new Error(`Unresolved item not found on ${item.id}: ${missing.join(", ")}`);
   }
 
-  const actor = resolveActor(context, item.owner_position, options.actor);
+  const actor = resolveActor(
+    context,
+    item.owner_position,
+    options.actor ?? (item.claim?.status === "active" ? item.claim.agent_id : undefined),
+    item.claim?.status === "active" ? [item.claim.agent_id] : []
+  );
   const resolved = new Set(resolutions);
   const remaining = existing.filter((entry) => !resolved.has(entry));
   const merged = additions.filter((addition) => !remaining.includes(addition));
@@ -138,6 +161,15 @@ async function nextWorkItemId(target) {
   return `WI-${String(next).padStart(4, "0")}`;
 }
 
+async function newWorkItemId(target, profile) {
+  if (profile !== "collaborative") return nextWorkItemId(target);
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    const candidate = collaborativeWorkItemId();
+    if (!(await pathExists(workItemPath(target, candidate)))) return candidate;
+  }
+  throw new Error("Could not allocate a collision-resistant work item ID");
+}
+
 function normalizedEvidence(item, additions) {
   return uniqueStrings([...(item.evidence ?? []), ...(additions ?? [])]);
 }
@@ -152,6 +184,7 @@ function mergeGateEvidence(item, additions) {
 
 export async function createWorkItem(target, options) {
   const context = await loadProjectContext(target);
+  const collaboration = await readCollaborationState(target);
   const title = String(options.title ?? "").trim();
   if (!title) throw new Error("--title is required");
 
@@ -166,7 +199,26 @@ export async function createWorkItem(target, options) {
     throw new Error(`Unknown context route: ${missingContextRefs.join(", ")}`);
   }
 
-  const workItemId = await nextWorkItemId(target);
+  const parentWorkItemId = String(options.parentWorkItemId ?? "").trim() || null;
+  const dependencies = uniqueStrings(options.dependencies);
+  for (const reference of [parentWorkItemId, ...dependencies].filter(Boolean)) await readWorkItem(target, reference);
+  const requiredDisciplines = uniqueStrings(options.requiredDisciplines);
+  const unsupportedDisciplines = requiredDisciplines.filter((value) => !DISCIPLINES.includes(value));
+  if (unsupportedDisciplines.length > 0) {
+    throw new Error(`Unsupported disciplines: ${unsupportedDisciplines.join(", ")}`);
+  }
+  const parallelMode = options.parallelMode ?? "pending";
+  if (!["pending", "parallel", "sequential", "blocked"].includes(parallelMode)) {
+    throw new Error("--parallel-mode must be pending, parallel, sequential, or blocked");
+  }
+  const contractStatus = options.contractStatus ?? "not_required";
+  if (!["not_required", "draft", "stable"].includes(contractStatus)) {
+    throw new Error("--contract-status must be not_required, draft, or stable");
+  }
+  const integrationOwner = String(options.integrationOwnerAgentId ?? "").trim() || null;
+  if (integrationOwner && !context.agents.has(integrationOwner)) throw new Error(`Unknown integration owner: ${integrationOwner}`);
+
+  const workItemId = await newWorkItemId(target, collaboration.profile);
   const state = context.workflow.initial_state;
   const ownerPosition = context.states.get(state)?.owner_position;
   if (!ownerPosition) throw new Error(`Workflow initial state ${state} has no owner Position`);
@@ -186,6 +238,18 @@ export async function createWorkItem(target, options) {
     acceptance_criteria: uniqueStrings(options.acceptance),
     affected_paths: affectedPaths,
     context_refs: contextRefs,
+    parent_work_item_id: parentWorkItemId,
+    dependencies,
+    required_disciplines: requiredDisciplines,
+    base_revision: String(options.baseRevision ?? "").trim() || null,
+    parallel_mode: parallelMode,
+    integration_owner_agent_id: integrationOwner,
+    planned_agent_id: null,
+    shared_contract_refs: uniqueStrings(options.sharedContractRefs),
+    contract_status: contractStatus,
+    overlap_resolution: uniqueStrings(options.overlapResolution),
+    claim: null,
+    claims: [],
     gate_evidence: {},
     evidence: uniqueStrings(options.evidence),
     unresolved: uniqueStrings(options.unresolved),
@@ -206,6 +270,243 @@ export async function createWorkItem(target, options) {
     item,
     suggested_title: suggestedTaskTitle(context, workItemId, ownerPosition)
   };
+}
+
+function pathsOverlap(left, right) {
+  return left === right || left.startsWith(`${right}/`) || right.startsWith(`${left}/`);
+}
+
+function dependencyCycleFrom(itemId, itemsById, visiting = new Set(), visited = new Set()) {
+  if (visiting.has(itemId)) return true;
+  if (visited.has(itemId)) return false;
+  visiting.add(itemId);
+  for (const dependencyId of itemsById.get(itemId)?.dependencies ?? []) {
+    if (itemsById.has(dependencyId) && dependencyCycleFrom(dependencyId, itemsById, visiting, visited)) return true;
+  }
+  visiting.delete(itemId);
+  visited.add(itemId);
+  return false;
+}
+
+export async function evaluateParallelReadiness(target, workItemId, options = {}) {
+  const context = await loadProjectContext(target);
+  const collaboration = await readCollaborationState(target);
+  const item = await readWorkItem(target, workItemId);
+  const terminalStates = new Set(context.workflow.terminal_states ?? []);
+  const allItems = await listWorkItemDocuments(target);
+  const dependencyItems = new Map(allItems.map((candidate) => [candidate.id, candidate]));
+  const overlaps = allItems
+    .filter((candidate) => candidate.id !== item.id && !terminalStates.has(candidate.state))
+    .flatMap((candidate) => {
+      const shared = (item.affected_paths ?? []).filter((left) =>
+        (candidate.affected_paths ?? []).some((right) => pathsOverlap(left, right))
+      );
+      return shared.length ? [{ work_item_id: candidate.id, paths: shared }] : [];
+    });
+  const agentId = options.agentId ?? item.claim?.agent_id ?? item.planned_agent_id ?? item.assigned_agent_id;
+  const checks = [
+    { id: "scope_defined", pass: (item.scope ?? []).length > 0 },
+    { id: "acceptance_defined", pass: (item.acceptance_criteria ?? []).length > 0 },
+    { id: "owner_assigned", pass: Boolean(agentId) },
+    { id: "base_revision_recorded", pass: Boolean(item.base_revision) },
+    { id: "affected_paths_declared", pass: (item.affected_paths ?? []).length > 0 },
+    {
+      id: "dependencies_resolved",
+      pass: (item.dependencies ?? []).every((id) => terminalStates.has(dependencyItems.get(id)?.state))
+    },
+    { id: "dependency_graph_acyclic", pass: !dependencyCycleFrom(item.id, dependencyItems) },
+    {
+      id: "shared_contract_stable",
+      pass: item.contract_status === "not_required" || item.contract_status === "stable"
+    },
+    {
+      id: "overlap_resolved",
+      pass: overlaps.length === 0 || (item.overlap_resolution ?? []).length > 0
+    },
+    { id: "integration_owner_assigned", pass: Boolean(item.integration_owner_agent_id) },
+    { id: "unresolved_items_cleared", pass: (item.unresolved ?? []).length === 0 },
+    {
+      id: "agent_membership_eligible",
+      pass: Boolean(agentId) && agentIsEligible(collaboration, agentId, item.owner_position, item.required_disciplines ?? [])
+    }
+  ];
+  const blocked = checks.some(
+    (check) =>
+      !check.pass &&
+      ["dependencies_resolved", "dependency_graph_acyclic", "shared_contract_stable", "unresolved_items_cleared"].includes(check.id)
+  );
+  const ready = checks.every((check) => check.pass);
+  return {
+    schema_version: "temple.parallel-readiness/v1",
+    work_item_id: item.id,
+    requested_mode: item.parallel_mode ?? "pending",
+    ready,
+    recommended_mode: ready ? "parallel" : blocked ? "blocked" : "sequential",
+    agent_id: agentId ?? null,
+    checks,
+    overlaps
+  };
+}
+
+export async function configureWorkItem(target, options) {
+  const context = await loadProjectContext(target);
+  const item = await readWorkItem(target, options.workItemId);
+  const dependencies = options.dependencies === undefined ? item.dependencies ?? [] : uniqueStrings(options.dependencies);
+  const parent = options.parentWorkItemId === undefined ? item.parent_work_item_id ?? null : String(options.parentWorkItemId).trim() || null;
+  for (const reference of [parent, ...dependencies].filter(Boolean)) {
+    if (reference === item.id) throw new Error(`${item.id} cannot depend on itself`);
+    await readWorkItem(target, reference);
+  }
+  const disciplines =
+    options.requiredDisciplines === undefined ? item.required_disciplines ?? [] : uniqueStrings(options.requiredDisciplines);
+  const unsupported = disciplines.filter((value) => !DISCIPLINES.includes(value));
+  if (unsupported.length > 0) throw new Error(`Unsupported disciplines: ${unsupported.join(", ")}`);
+  const parallelMode = options.parallelMode ?? item.parallel_mode ?? "pending";
+  if (!["pending", "parallel", "sequential", "blocked"].includes(parallelMode)) throw new Error("Invalid parallel mode");
+  const contractStatus = options.contractStatus ?? item.contract_status ?? "not_required";
+  if (!["not_required", "draft", "stable"].includes(contractStatus)) throw new Error("Invalid contract status");
+  const integrationOwner =
+    options.integrationOwnerAgentId === undefined
+      ? item.integration_owner_agent_id ?? null
+      : String(options.integrationOwnerAgentId).trim() || null;
+  if (integrationOwner && !context.agents.has(integrationOwner)) throw new Error(`Unknown integration owner: ${integrationOwner}`);
+  const plannedAgent =
+    options.agentId === undefined ? item.planned_agent_id ?? null : String(options.agentId).trim() || null;
+  if (plannedAgent && !context.agents.has(plannedAgent)) throw new Error(`Unknown planned Agent Identity: ${plannedAgent}`);
+  const timestamp = new Date().toISOString();
+  const updated = {
+    ...item,
+    updated_at: timestamp,
+    parent_work_item_id: parent,
+    dependencies,
+    required_disciplines: disciplines,
+    base_revision: options.baseRevision === undefined ? item.base_revision ?? null : String(options.baseRevision).trim() || null,
+    parallel_mode: parallelMode,
+    integration_owner_agent_id: integrationOwner,
+    planned_agent_id: plannedAgent,
+    shared_contract_refs:
+      options.sharedContractRefs === undefined ? item.shared_contract_refs ?? [] : uniqueStrings(options.sharedContractRefs),
+    contract_status: contractStatus,
+    overlap_resolution:
+      options.overlapResolution === undefined ? item.overlap_resolution ?? [] : uniqueStrings(options.overlapResolution)
+  };
+  const dependencyItems = new Map((await listWorkItemDocuments(target)).map((candidate) => [candidate.id, candidate]));
+  dependencyItems.set(item.id, updated);
+  if (dependencyCycleFrom(item.id, dependencyItems)) throw new Error(`Dependency cycle detected from ${item.id}`);
+  await writeWorkItem(target, updated);
+  let readiness;
+  try {
+    readiness = await evaluateParallelReadiness(target, item.id);
+    if (parallelMode === "parallel" && !readiness.ready) {
+      throw new Error(
+        `Parallel mode rejected; failed checks: ${readiness.checks.filter((check) => !check.pass).map((check) => check.id).join(", ")}`
+      );
+    }
+  } catch (error) {
+    await writeWorkItem(target, item);
+    throw error;
+  }
+  await appendEvent(target, {
+    timestamp,
+    event_type: "work_item_coordination_configured",
+    actor: options.actor ?? item.assigned_agent_id ?? "human",
+    work_item_id: item.id,
+    parallel_mode: parallelMode,
+    refs: [`.ai-org/work-items/${item.id}.json`]
+  });
+  return { item: updated, readiness };
+}
+
+export async function claimWorkItem(target, options) {
+  const context = await loadProjectContext(target);
+  const collaboration = await readCollaborationState(target);
+  const item = await readWorkItem(target, options.workItemId);
+  const agentId = String(options.agentId ?? "").trim();
+  if (!context.agents.has(agentId)) throw new Error(`Unknown Agent Identity: ${agentId || "missing"}`);
+  if (item.planned_agent_id && item.planned_agent_id !== agentId) {
+    throw new Error(`${item.id} is planned for ${item.planned_agent_id}, not ${agentId}`);
+  }
+  if (!agentIsEligible(collaboration, agentId, item.owner_position, item.required_disciplines ?? [])) {
+    throw new Error(`${agentId} is not eligible for ${item.owner_position} with disciplines ${(item.required_disciplines ?? []).join(", ") || "none"}`);
+  }
+  if (item.claim?.status === "active") throw new Error(`${item.id} is already claimed by ${item.claim.agent_id}`);
+  const expectedPrincipal = sponsoredPrincipal(collaboration, agentId);
+  const principalId = String(options.principalId ?? expectedPrincipal ?? "human").trim();
+  if (collaboration.profile === "collaborative" && !expectedPrincipal) throw new Error(`${agentId} has no Human Principal sponsor`);
+  if (expectedPrincipal && principalId !== expectedPrincipal) {
+    throw new Error(`${agentId} is sponsored by ${expectedPrincipal}, not ${principalId}`);
+  }
+  const baseRevision = String(options.baseRevision ?? item.base_revision ?? "").trim();
+  const branch = String(options.branch ?? "").trim();
+  if (!baseRevision) throw new Error("--base-revision is required");
+  if (!branch) throw new Error("--branch is required");
+  const readiness = await evaluateParallelReadiness(target, item.id, { agentId });
+  if ((item.parallel_mode ?? "pending") === "parallel" && !readiness.ready) {
+    throw new Error(`Cannot claim parallel work; failed checks: ${readiness.checks.filter((check) => !check.pass).map((check) => check.id).join(", ")}`);
+  }
+  const timestamp = new Date().toISOString();
+  const claim = {
+    id: claimId(),
+    status: "active",
+    principal_id: principalId,
+    agent_id: agentId,
+    base_revision: baseRevision,
+    branch,
+    worktree: String(options.worktree ?? "").trim() || null,
+    claimed_at: timestamp,
+    released_at: null
+  };
+  const priorClaims = (item.claims ?? []).filter((entry) => entry.id !== item.claim?.id);
+  if (item.claim) priorClaims.push(item.claim);
+  const updated = {
+    ...item,
+    assigned_agent_id: agentId,
+    base_revision: baseRevision,
+    claim,
+    claims: [...priorClaims, claim],
+    updated_at: timestamp
+  };
+  await writeWorkItem(target, updated);
+  await appendEvent(target, {
+    timestamp,
+    event_type: "work_item_claimed",
+    actor: principalId,
+    agent_id: agentId,
+    work_item_id: item.id,
+    claim_id: claim.id,
+    base_revision: baseRevision,
+    branch,
+    refs: [`.ai-org/work-items/${item.id}.json`]
+  });
+  return { item: updated, readiness };
+}
+
+export async function releaseWorkItemClaim(target, options) {
+  const context = await loadProjectContext(target);
+  const item = await readWorkItem(target, options.workItemId);
+  if (item.claim?.status !== "active") throw new Error(`${item.id} has no active claim`);
+  if (options.agentId && options.agentId !== item.claim.agent_id) throw new Error(`Claim belongs to ${item.claim.agent_id}`);
+  if (options.principalId && options.principalId !== item.claim.principal_id) throw new Error(`Claim belongs to ${item.claim.principal_id}`);
+  const timestamp = new Date().toISOString();
+  const claim = { ...item.claim, status: "released", released_at: timestamp, release_reason: options.reason ?? "completed" };
+  const updated = {
+    ...item,
+    assigned_agent_id: assignedAgentId(context, item.owner_position),
+    claim,
+    claims: [...(item.claims ?? []).filter((entry) => entry.id !== claim.id), claim],
+    updated_at: timestamp
+  };
+  await writeWorkItem(target, updated);
+  await appendEvent(target, {
+    timestamp,
+    event_type: "work_item_claim_released",
+    actor: item.claim.principal_id,
+    agent_id: item.claim.agent_id,
+    work_item_id: item.id,
+    claim_id: item.claim.id,
+    refs: [`.ai-org/work-items/${item.id}.json`]
+  });
+  return updated;
 }
 
 function parseTransition(context, item, toState) {
@@ -238,7 +539,12 @@ export async function transitionWorkItem(target, options) {
   const toState = String(options.toState ?? "").trim();
   if (!context.states.has(toState)) throw new Error(`Unknown workflow state: ${toState || "missing"}`);
   const transition = parseTransition(context, item, toState);
-  const actor = resolveActor(context, item.owner_position, options.actor);
+  const actor = resolveActor(
+    context,
+    item.owner_position,
+    options.actor ?? (item.claim?.status === "active" ? item.claim.agent_id : undefined),
+    item.claim?.status === "active" ? [item.claim.agent_id] : []
+  );
   const additions = normalizeSatisfiedRequirements(options.satisfied);
   const mergedGates = mergeGateEvidence(item, additions);
   const missing = (transition.requires ?? []).filter((requirement) => !(mergedGates[requirement]?.length > 0));
@@ -251,11 +557,27 @@ export async function transitionWorkItem(target, options) {
   const timestamp = new Date().toISOString();
   const ownerPosition = context.states.get(toState).owner_position;
   const previousState = toState === "blocked" ? item.state : item.previous_state;
+  const ownerChanged = ownerPosition !== item.owner_position;
+  const releasedClaim =
+    ownerChanged && item.claim?.status === "active"
+      ? {
+          ...item.claim,
+          status: "released",
+          released_at: timestamp,
+          release_reason: "position_transition"
+        }
+      : item.claim ?? null;
   const updated = {
     ...item,
     state: toState,
     owner_position: ownerPosition,
     assigned_agent_id: assignedAgentId(context, ownerPosition),
+    planned_agent_id: ownerChanged ? null : item.planned_agent_id ?? null,
+    claim: releasedClaim,
+    claims:
+      ownerChanged && item.claim?.status === "active"
+        ? [...(item.claims ?? []).filter((entry) => entry.id !== releasedClaim.id), releasedClaim]
+        : item.claims ?? [],
     updated_at: timestamp,
     gate_evidence: mergedGates,
     evidence: normalizedEvidence(item, [
@@ -313,7 +635,12 @@ export async function createHandoff(target, options) {
   if (completed.length === 0) throw new Error("At least one --completed value is required");
   if (evidence.length === 0) throw new Error("At least one --evidence value is required");
 
-  const actor = resolveActor(context, item.owner_position, options.actor);
+  const actor = resolveActor(
+    context,
+    item.owner_position,
+    options.actor ?? (item.claim?.status === "active" ? item.claim.agent_id : undefined),
+    item.claim?.status === "active" ? [item.claim.agent_id] : []
+  );
   const artifactDirectory = path.join(target, ".ai-org/artifacts", item.id);
   await fs.mkdir(artifactDirectory, { recursive: true });
   const entries = await fs.readdir(artifactDirectory, { withFileTypes: true });
@@ -411,11 +738,26 @@ export async function closeWorkItem(target, options) {
 
   const destinationState = options.decision === "go" ? "done" : "blocked";
   const ownerPosition = context.states.get(destinationState).owner_position;
+  const closeClaim =
+    item.claim?.status === "active"
+      ? {
+          ...item.claim,
+          status: "released",
+          released_at: timestamp,
+          release_reason: "work_item_closed"
+        }
+      : item.claim ?? null;
   const updated = {
     ...item,
     state: destinationState,
     owner_position: ownerPosition,
     assigned_agent_id: assignedAgentId(context, ownerPosition),
+    planned_agent_id: null,
+    claim: closeClaim,
+    claims:
+      item.claim?.status === "active"
+        ? [...(item.claims ?? []).filter((entry) => entry.id !== closeClaim.id), closeClaim]
+        : item.claims ?? [],
     updated_at: timestamp,
     tested_revision: options.testedRevision,
     release_gate_result: options.decision,

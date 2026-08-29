@@ -44,7 +44,7 @@
           "source_work_items": {
             "type": "array",
             "uniqueItems": true,
-            "items": { "type": "string", "pattern": "^WI-[0-9]{4,}$" }
+            "items": { "type": "string", "pattern": "^WI-(?:[0-9]{4,}|[0-9]{8}-[A-F0-9]{10})$" }
           },
           "path": { "type": "string" },
           "updated_at": {

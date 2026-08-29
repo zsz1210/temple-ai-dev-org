@@ -58,11 +58,13 @@ export function assignedAgent(context, positionId) {
   return agent;
 }
 
-export function resolveActor(context, positionId, requestedActor) {
+export function resolveActor(context, positionId, requestedActor, eligibleAgentIds = []) {
   const expected = assignedAgentId(context, positionId);
   const actor = requestedActor ?? expected;
-  if (actor !== expected && actor !== "human") {
-    throw new Error(`Actor ${actor} does not hold ${positionId}; expected ${expected} or human`);
+  if (actor !== expected && actor !== "human" && !eligibleAgentIds.includes(actor)) {
+    throw new Error(
+      `Actor ${actor} does not hold ${positionId}; expected ${[expected, ...eligibleAgentIds, "human"].join(", ")}`
+    );
   }
   return actor;
 }

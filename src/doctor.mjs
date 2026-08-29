@@ -23,6 +23,13 @@ import {
 } from "./learning.mjs";
 import { validateProjectState } from "./model.mjs";
 import { listPackDefinitions } from "./packs.mjs";
+import {
+  COLLABORATION_RELATIVE_PATH,
+  DISCIPLINES,
+  agentIsEligible,
+  validateCollaborationState
+} from "./collaboration.mjs";
+import { isWorkItemId } from "./ids.mjs";
 
 function summarize(checks) {
   return checks.reduce(
@@ -41,6 +48,18 @@ async function safeJson(targetPath, checks, id) {
     checks.push({ id, status: "fail", message: error.message });
     return null;
   }
+}
+
+function hasDependencyCycle(itemId, itemsById, visiting = new Set(), visited = new Set()) {
+  if (visiting.has(itemId)) return true;
+  if (visited.has(itemId)) return false;
+  visiting.add(itemId);
+  for (const dependencyId of itemsById.get(itemId)?.dependencies ?? []) {
+    if (itemsById.has(dependencyId) && hasDependencyCycle(dependencyId, itemsById, visiting, visited)) return true;
+  }
+  visiting.delete(itemId);
+  visited.add(itemId);
+  return false;
 }
 
 export async function runDoctor(target) {
@@ -132,13 +151,27 @@ export async function runDoctor(target) {
       : `Position catalog differs from the required ${REQUIRED_POSITIONS.length} Positions`
   });
 
-  const [project, agents, assignments] = await Promise.all([
+  const [project, agents, assignments, collaboration] = await Promise.all([
     safeJson(path.join(target, ".ai-org/project/project.json"), checks, "project_json"),
     safeJson(path.join(target, ".ai-org/project/agents.json"), checks, "agents_json"),
-    safeJson(path.join(target, ".ai-org/project/assignments.json"), checks, "assignments_json")
+    safeJson(path.join(target, ".ai-org/project/assignments.json"), checks, "assignments_json"),
+    safeJson(path.join(target, COLLABORATION_RELATIVE_PATH), checks, "collaboration_json")
   ]);
   if (project && agents && assignments) {
     checks.push(...validateProjectState(project, agents, assignments, positionIds));
+  }
+  if (collaboration && agents && assignments) {
+    const validation = validateCollaborationState(collaboration, agents, assignments, positionIds);
+    checks.push({
+      id: "collaboration_model",
+      status: validation.valid ? "pass" : "fail",
+      message: validation.valid
+        ? `${collaboration.profile} profile has ${(collaboration.principals ?? []).length} Human Principals and ${(collaboration.memberships ?? []).length} Position memberships`
+        : validation.errors.join("; ")
+    });
+    if (validation.warnings.length > 0) {
+      checks.push({ id: "collaboration_validation", status: "warn", message: validation.warnings.join("; ") });
+    }
   }
 
   const contextMap = await safeJson(
@@ -191,6 +224,9 @@ export async function runDoctor(target) {
   );
   const workItemsDirectory = path.join(target, ".ai-org/work-items");
   const invalidWorkItems = [];
+  const workItemsForDoctor = new Map();
+  const activeClaimBranches = new Set();
+  const activeClaimWorktrees = new Set();
   let workItemCount = 0;
   if (await pathExists(workItemsDirectory)) {
     const entries = await fs.readdir(workItemsDirectory, { withFileTypes: true });
@@ -201,7 +237,8 @@ export async function runDoctor(target) {
         const item = await readJson(path.join(workItemsDirectory, entry.name));
         const valid =
           item.schema_version === "temple.work-item/v1" &&
-          /^WI-[0-9]{4,}$/.test(item.id) &&
+          isWorkItemId(item.id) &&
+          entry.name === `${item.id}.json` &&
           !seenWorkItemIds.has(item.id) &&
           workflowStates.has(item.state) &&
           positionIds.has(item.owner_position) &&
@@ -213,19 +250,57 @@ export async function runDoctor(target) {
             (Array.isArray(item.context_refs) &&
               item.context_refs.every((value) => typeof value === "string" && contextRouteIds.has(value)))) &&
           (item.unresolved === undefined ||
-            (Array.isArray(item.unresolved) && item.unresolved.every((value) => typeof value === "string")));
-        if (!valid) invalidWorkItems.push(entry.name);
+            (Array.isArray(item.unresolved) && item.unresolved.every((value) => typeof value === "string"))) &&
+          (item.parent_work_item_id === undefined || item.parent_work_item_id === null || isWorkItemId(item.parent_work_item_id)) &&
+          (item.dependencies === undefined ||
+            (Array.isArray(item.dependencies) && item.dependencies.every(isWorkItemId))) &&
+          (item.required_disciplines === undefined ||
+            (Array.isArray(item.required_disciplines) && item.required_disciplines.every((value) => DISCIPLINES.includes(value)))) &&
+          (item.parallel_mode === undefined || ["pending", "parallel", "sequential", "blocked"].includes(item.parallel_mode)) &&
+          (item.contract_status === undefined || ["not_required", "draft", "stable"].includes(item.contract_status)) &&
+          (item.integration_owner_agent_id === undefined || item.integration_owner_agent_id === null || agentIds.has(item.integration_owner_agent_id));
+        const plannedValid =
+          item.planned_agent_id === undefined ||
+          item.planned_agent_id === null ||
+          (agentIds.has(item.planned_agent_id) &&
+            Boolean(collaboration) &&
+            agentIsEligible(collaboration, item.planned_agent_id, item.owner_position, item.required_disciplines ?? []));
+        let claimValid = true;
+        if (item.claim?.status === "active") {
+          claimValid =
+            agentIds.has(item.claim.agent_id) &&
+            typeof item.claim.principal_id === "string" &&
+            typeof item.claim.base_revision === "string" &&
+            item.claim.base_revision.length > 0 &&
+            typeof item.claim.branch === "string" &&
+            item.claim.branch.length > 0 &&
+            Boolean(collaboration) &&
+            agentIsEligible(collaboration, item.claim.agent_id, item.owner_position, item.required_disciplines ?? []) &&
+            !activeClaimBranches.has(item.claim.branch) &&
+            (!item.claim.worktree || !activeClaimWorktrees.has(item.claim.worktree));
+          activeClaimBranches.add(item.claim.branch);
+          if (item.claim.worktree) activeClaimWorktrees.add(item.claim.worktree);
+        }
+        if (!valid || !plannedValid || !claimValid) invalidWorkItems.push(entry.name);
+        workItemsForDoctor.set(item.id, item);
         seenWorkItemIds.add(item.id);
       } catch {
         invalidWorkItems.push(entry.name);
       }
     }
+    for (const [itemId, item] of workItemsForDoctor) {
+      const references = [item.parent_work_item_id, ...(item.dependencies ?? [])].filter(Boolean);
+      if (references.some((reference) => !workItemsForDoctor.has(reference)) || hasDependencyCycle(itemId, workItemsForDoctor)) {
+        invalidWorkItems.push(`${itemId}.json`);
+      }
+    }
   }
+  const uniqueInvalidWorkItems = [...new Set(invalidWorkItems)];
   checks.push({
     id: "work_items",
-    status: invalidWorkItems.length ? "fail" : "pass",
-    message: invalidWorkItems.length
-      ? `Invalid work item files: ${invalidWorkItems.join(", ")}`
+    status: uniqueInvalidWorkItems.length ? "fail" : "pass",
+    message: uniqueInvalidWorkItems.length
+      ? `Invalid work item files: ${uniqueInvalidWorkItems.join(", ")}`
       : `${workItemCount} canonical work items are valid`
   });
 
@@ -253,6 +328,7 @@ export async function runDoctor(target) {
       }
     }
     const invalidTasks = [];
+    const principalIds = new Set((collaboration?.principals ?? []).map((principal) => principal.id));
     for (const task of tasksDocument.tasks ?? []) {
       const taskThreadIds = [task.thread_id, task.client_thread_id].filter(Boolean);
       const valid =
@@ -261,11 +337,17 @@ export async function runDoctor(target) {
         workItemIds.has(task.work_item_id) &&
         positionIds.has(task.position_id) &&
         agentIds.has(task.agent_id) &&
-        ownersForDoctor.get(task.position_id) === task.agent_id &&
+        (ownersForDoctor.get(task.position_id) === task.agent_id ||
+          (collaboration && agentIsEligible(collaboration, task.agent_id, task.position_id))) &&
         TASK_STATUSES.includes(task.status) &&
         taskThreadIds.length > 0 &&
         (!task.registered_by || task.registered_by === "human" || agentIds.has(task.registered_by)) &&
         (!task.last_updated_by || task.last_updated_by === "human" || agentIds.has(task.last_updated_by)) &&
+        (!task.principal_id || principalIds.has(task.principal_id)) &&
+        (!task.claim_id ||
+          workItemsForDoctor.get(task.work_item_id)?.claim?.id === task.claim_id ||
+          (workItemsForDoctor.get(task.work_item_id)?.claims ?? []).some((claim) => claim.id === task.claim_id)) &&
+        (!task.branch || typeof task.branch === "string") &&
         taskThreadIds.every((threadId) => !seenThreadIds.has(threadId));
       if (!valid) invalidTasks.push(task.id ?? "unknown");
       seenTaskIds.add(task.id);

@@ -34,6 +34,7 @@ const projectOverlayRoot = path.join(root, "project-overlay");
 const projectOverlayFiles = await walkFiles(projectOverlayRoot);
 check(!projectOverlayFiles.includes(".ai-org/project/agents.json"), "project overlay must not contain Agent identities");
 check(!projectOverlayFiles.includes(".ai-org/project/assignments.json"), "project overlay must not contain assignments");
+check(!projectOverlayFiles.includes(".ai-org/project/collaboration.json"), "project overlay must not contain collaboration identities");
 for (const file of projectOverlayFiles) {
   const content = await fs.readFile(path.join(projectOverlayRoot, file), "utf8");
   check(!/\bTemple\b/.test(content), `${file} uses the central tool brand in project-facing overlay content`);
@@ -58,11 +59,26 @@ for (const [file, schemaId] of [
   ["capability-registry.schema.json", "temple.capability-registry/v1"],
   ["context-capsule.schema.json", "temple.context-capsule/v1"],
   ["context-map.schema.json", "temple.context-map/v1"],
-  ["retrieval-provider.schema.json", "temple.retrieval-provider/v1"]
+  ["retrieval-provider.schema.json", "temple.retrieval-provider/v1"],
+  ["collaboration.schema.json", "temple.collaboration/v1"],
+  ["parallel-readiness.schema.json", "temple.parallel-readiness/v1"]
 ]) {
   const schema = await readJson(path.join(projectOverlayRoot, ".ai-org/core/schemas", file));
   check(schema.$id === schemaId, `${file} has an unexpected schema ID`);
 }
+
+const collaborationProfiles = await readJson(
+  path.join(projectOverlayRoot, ".ai-org/core/collaboration-profiles.json")
+);
+check(
+  JSON.stringify(collaborationProfiles.profiles?.map((profile) => profile.id)) ===
+    JSON.stringify(["solo", "collaborative", "high-assurance"]),
+  "collaboration profiles must define Solo, Collaborative, and High-Assurance in order"
+);
+check(
+  collaborationProfiles.profiles.find((profile) => profile.id === "high-assurance")?.selectable === false,
+  "High-Assurance must remain unselectable until its contract is implemented"
+);
 
 const learningIndex = await readJson(path.join(projectOverlayRoot, ".ai-org/learning/index.json"));
 const learningValidation = validateLearningIndex(learningIndex);
