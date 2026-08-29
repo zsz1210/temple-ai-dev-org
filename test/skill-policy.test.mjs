@@ -4,6 +4,7 @@ import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { REQUIRED_SKILLS } from "../src/constants.mjs";
+import { listPackDefinitions } from "../src/packs.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const skillRoot = path.join(root, "project-overlay/.agents/skills");
@@ -21,14 +22,35 @@ test("repository Skill set and scenario contract match the canonical registry", 
     assert.match(content, new RegExp(`^---\\nname: ${skillName}\\ndescription: [^\\n]+\\n---\\n`));
     descriptions.push(content.match(/^description: (.+)$/m)[1]);
   }
+  const packDefinitions = await listPackDefinitions();
+  const optionalSkills = [];
+  for (const definition of packDefinitions) {
+    assert.equal(definition.manifest.enabled_by_default, false);
+    for (const skillName of definition.manifest.skills) {
+      const content = await fs.readFile(
+        path.join(root, `packs/${definition.manifest.id}/.agents/skills/${skillName}/SKILL.md`),
+        "utf8"
+      );
+      assert.match(content, new RegExp(`^---\\nname: ${skillName}\\ndescription: [^\\n]+\\n---\\n`));
+      descriptions.push(content.match(/^description: (.+)$/m)[1]);
+      optionalSkills.push({ skillName, packId: definition.manifest.id });
+    }
+  }
   assert.equal(new Set(descriptions).size, descriptions.length);
 
   const scenarios = JSON.parse(await fs.readFile(path.join(root, "test/fixtures/skill-scenarios.json"), "utf8"));
+  const knownSkills = new Set([...REQUIRED_SKILLS, ...optionalSkills.map((entry) => entry.skillName)]);
   for (const scenario of scenarios) {
-    assert.ok(scenario.expected_skill === null || REQUIRED_SKILLS.includes(scenario.expected_skill));
+    assert.ok(scenario.expected_skill === null || knownSkills.has(scenario.expected_skill));
   }
   for (const skillName of REQUIRED_SKILLS) {
     assert.ok(scenarios.some((scenario) => scenario.expected_skill === skillName), `${skillName} has no scenario`);
+  }
+  for (const { skillName, packId } of optionalSkills) {
+    assert.ok(
+      scenarios.some((scenario) => scenario.expected_skill === skillName && scenario.required_pack === packId),
+      `${skillName} has no optional-pack scenario`
+    );
   }
   assert.ok(
     scenarios.some(

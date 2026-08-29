@@ -17,7 +17,7 @@ AiPet `WI-0001` 提供了第一個可觀察的開發案例：新的 UI vertical-
 - `diagnosing-bugs` 要求可重現問題、提出排名假設、建立 red-capable feedback loop、修正最小原因、加入 regression evidence，並清除臨時 instrumentation。
 - Pack 不取代 Developer、Tech Lead、Quality Evaluator 或 Independent QA Position，也不自動改變 work-item state。
 - 實作必須獨立撰寫；Matt Pocock Skills 保持 pinned MIT inspiration，不 vendor、不 runtime load。
-- 在 pack 有自己的 registry、installer boundary、scenario tests、upgrade tests 和另一個真實 project pilot 前，不加入預設 `project-overlay/`。
+- Pack 必須有自己的 manifest、installer boundary、scenario tests 與 upgrade tests；它不加入預設 `project-overlay/`，並在下一個真實 project pilot 持續驗證使用效果。
 
 Architecture、Review、Exploration、Git and Improvement 保留為後續 packs。`implement`、`implement-spec`、`setup-pre-commit`、`git-guardrails-claude-code` 與 `wizard` 不作為通用核心採用。
 
@@ -25,5 +25,5 @@ Architecture、Review、Exploration、Git and Improvement 保留為後續 packs�
 
 - 開發能力不再和組織流程混成同一層，專案可按需要安裝。
 - AiPet 的真實 friction 決定第一個 pack，而不是 catalog popularity。
-- 現階段候選仍不會被複製到每個專案；下一步需要實作與安裝機制，不能只改文件後宣稱已提供 Skill。
+- Alpha.6 已提供 opt-in 安裝與 checksum lifecycle，但候選仍不會被複製到每個專案，也不能用 pack 安裝取代真實 red/green 或 Independent QA evidence。
 - Phase 1.5 greenfield pilot 可以繼續使用精簡 core，同時在第一個 vertical slice 評估是否需要啟用 Build Quality pack。

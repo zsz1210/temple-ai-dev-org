@@ -37,7 +37,7 @@ Codex 的 `.codex/agents/*.toml` 是 Position 的 runtime configuration，不是
 | Project-owned | `.ai-org/project/**`、`work-items/**`、`decisions/**`、`events/**`、`artifacts/**`、根 `AGENTS.md` | 專案 | 永不由 upgrade 覆蓋 |
 | Generated | `.ai-org/views/**` | CLI/Observer | 可由 canonical state 重建 |
 
-`temple.lock` 記錄 Toolkit 版本、managed file checksums、功能狀態與 `AGENTS.md` 整合狀態，為未來 `temple upgrade` 提供基礎。
+`temple.lock` 記錄 Toolkit 版本、managed file checksums、已安裝 optional pack、功能狀態與 `AGENTS.md` 整合狀態，為未來 `temple upgrade` 提供基礎。
 
 ## Canonical state
 
@@ -78,9 +78,17 @@ Phase 1 使用 Git 友善的 JSON 與 Markdown：
 
 所有 lifecycle 與 task mutation 會在系統暫存目錄取得以 project path 雜湊命名的短時 exclusive lock。其他 process 會短暫等待，逾時則停止；超過五分鐘的 lock 視為 crash residue 並可由下一個命令清理。Lock 不在 repository 內，也不屬於 canonical state。
 
+### Optional pack commands
+
+- `temple pack list` 顯示中央可用版本、安裝狀態與包含的 Skills。
+- `temple pack install --pack build-quality` 只在明確呼叫後複製 pack files，並把版本、Skills、managed paths 與 checksums 寫入 `temple.lock`。
+- `temple pack remove` 只移除 checksum 仍與 lock 相符的 pack files；專案修改會使操作在寫入前停止。
+
+Pack source 位於中央 `packs/<pack-id>/`，不在 `project-overlay/`。因此 core init 維持精簡，pack 也不會因為存在中央 repository 就自動進入產品專案。
+
 ### `temple upgrade`
 
-Upgrade 先以舊 `temple.lock` 驗證每個已安裝 managed file。只有 checksum 未改變的 managed files 才能更新；新 managed paths 必須不存在或與中央內容相同。Project-owned files 永不覆蓋，generated status 可以重建。
+Upgrade 先以舊 `temple.lock` 驗證每個已安裝 managed file。只有 checksum 未改變的 core 與 optional-pack managed files 才能更新；新 managed paths 必須不存在或與中央內容相同。已安裝 pack 會更新 metadata 和來源，未安裝 pack 不會自動啟用。Project-owned files 永不覆蓋，generated status 可以重建。
 
 ## Archify Adapter
 

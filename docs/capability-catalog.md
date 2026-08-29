@@ -10,8 +10,8 @@ All candidates recorded in the earlier review remain preserved below. A candidat
 |---|---|---|---|
 | `domain-modeling` | Product Manager, Tech Lead | Core, independently implemented | Install now for Project Charter, ubiquitous language, boundary, invariant, Spec, and ADR work. |
 | `project-documentation` | Product Manager, Tech Lead, Quality & Evaluation Engineer | Phase 1.5 core candidate | Independently implement human-facing README and documentation lifecycle work. Ground commands, examples, links, and claims in repository evidence; keep it distinct from AI-facing instruction design. |
-| `tdd` | Developer, Quality & Evaluation Engineer | First optional pack candidate; AiPet-validated | Independently implement observable red/green evidence, pre-agreed public test seams, and one vertical slice at a time. The AiPet pilot demonstrated the need without installing upstream code. |
-| `diagnosing-bugs` | Developer, Quality & Evaluation Engineer | First optional pack candidate; AiPet-validated | Independently implement bounded reproduction, ranked hypotheses, a red-capable feedback loop, regression evidence, and cleanup. The AiPet pilot exposed and corrected a LazyVStack observation failure through this discipline. |
+| `tdd` | Developer, Quality & Evaluation Engineer | Build Quality optional pack; independently implemented | Requires observable red/green evidence, pre-agreed public test seams, and one vertical slice at a time. It is opt-in and was derived from AiPet pilot needs without copying upstream code. |
+| `diagnosing-bugs` | Developer, Quality & Evaluation Engineer | Build Quality optional pack; independently implemented | Uses bounded reproduction, ranked hypotheses, a red-capable feedback loop, regression evidence, and cleanup. It is opt-in and addresses the failure pattern observed during the AiPet pilot. |
 | `codebase-design` | Tech Lead, Developer | Development foundation candidate | Preserve the deep-module, small-interface, adapter, and test-seam vocabulary. Adapt it to ADRs, bounded contexts, and project authority rather than treating it as an automatic refactor command. |
 | `prototype` | UX Designer, Developer | Optional candidate | Evaluate for answering one risky product or technical question without turning a prototype into an implied production commitment. |
 | `research` | Product Manager, Tech Lead | Adaptation candidate | Preserve the primary-source and cited-artifact discipline. Remove upstream assumptions that a background agent is always available and that every research request authorizes a repository write. |
@@ -34,7 +34,7 @@ Development Skills are a separate layer from Temple's organization lifecycle. A 
 
 | Pack | Candidate capabilities | Adoption order |
 |---|---|---|
-| Build quality | `tdd`, `diagnosing-bugs` | First. The AiPet pilot supplied a real red-to-green case and exact-revision QA evidence. Implement Temple-native versions before installation. |
+| Build quality | `tdd`, `diagnosing-bugs` | Available opt-in. The AiPet pilot supplied a real red-to-green case; alpha.6 adds independent Skills, pack CLI, checksum boundaries, scenario tests, and clean-project install/remove/upgrade tests. |
 | Architecture | `codebase-design`, `improve-codebase-architecture` | Later. Pilot on a bounded architecture work item with an ADR and measurable locality or interface outcome. |
 | Review | `code-review`, `security-review` | Later. Preserve standards/spec review separation and add the security pack only for explicit security-sensitive scope. |
 | Exploration | `prototype`, `research` | Later. Keep prototypes throwaway and research read-only unless a repository artifact is authorized. |
@@ -52,7 +52,7 @@ A candidate moves into an optional pack or the core overlay only after:
 4. the Temple-native behavior preserves canonical state and human approval boundaries;
 5. tests and independent QA show that it improves the outcome without creating hidden tools or services.
 
-AiPet completed the second existing-repository portability pilot through `WI-0001`. The accepted Simulator slice produced a real red-to-green test-observation failure, a six-test public-seam suite, screenshot evidence, a clean detached exact-revision QA run, and organizational closeout. That evidence selects `tdd` plus `diagnosing-bugs` as the first pack to implement, but it does not authorize copying upstream source or installing an untested pack.
+AiPet completed the second existing-repository portability pilot through `WI-0001`. The accepted Simulator slice produced a real red-to-green test-observation failure, a six-test public-seam suite, screenshot evidence, a clean detached exact-revision QA run, and organizational closeout. Alpha.6 uses that evidence for the independently implemented Build Quality pack; it remains opt-in and does not copy or load upstream source.
 
 Phase 1.5 will exercise `domain-modeling` during a greenfield Project Charter and evaluate `project-documentation` against the first human-facing README and documentation baseline. `research`, merge-conflict help, architecture, review, security, and retrospective capabilities remain preserved for later packs without adding recurring context to every project now.
 

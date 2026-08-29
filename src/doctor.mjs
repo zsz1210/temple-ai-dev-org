@@ -9,6 +9,7 @@ import {
 } from "./constants.mjs";
 import { pathExists, readJson, sha256File } from "./files.mjs";
 import { validateProjectState } from "./model.mjs";
+import { listPackDefinitions } from "./packs.mjs";
 
 function summarize(checks) {
   return checks.reduce(
@@ -75,6 +76,32 @@ export async function runDoctor(target) {
   } else {
     checks.push({ id: "managed_files", status: "pass", message: `${lock.managed_files?.length ?? 0} managed files match checksums` });
   }
+
+  const availablePacks = new Map((await listPackDefinitions()).map((definition) => [definition.manifest.id, definition]));
+  const invalidPacks = [];
+  const installedPackIds = new Set();
+  const managedPaths = new Set((lock.managed_files ?? []).map((entry) => entry.path));
+  for (const installed of lock.optional_packs ?? []) {
+    const definition = availablePacks.get(installed.id);
+    if (
+      !definition ||
+      installedPackIds.has(installed.id) ||
+      installed.version !== definition.manifest.version ||
+      JSON.stringify(installed.skills ?? []) !== JSON.stringify(definition.manifest.skills) ||
+      JSON.stringify(installed.managed_files ?? []) !== JSON.stringify(definition.manifest.files) ||
+      definition.manifest.files.some((relativePath) => !managedPaths.has(relativePath))
+    ) {
+      invalidPacks.push(installed.id ?? "unknown");
+    }
+    installedPackIds.add(installed.id);
+  }
+  checks.push({
+    id: "optional_packs",
+    status: invalidPacks.length ? "fail" : "pass",
+    message: invalidPacks.length
+      ? `Invalid or outdated optional packs: ${invalidPacks.join(", ")}`
+      : `${installedPackIds.size} optional packs are valid`
+  });
 
   const positionsDocument = await safeJson(
     path.join(target, ".ai-org/core/positions.json"),
@@ -178,8 +205,10 @@ export async function runDoctor(target) {
     });
   }
 
+  const optionalSkills = [...installedPackIds].flatMap((packId) => availablePacks.get(packId)?.manifest.skills ?? []);
+  const expectedSkills = [...REQUIRED_SKILLS, ...optionalSkills];
   const missingSkills = [];
-  for (const skill of REQUIRED_SKILLS) {
+  for (const skill of expectedSkills) {
     if (!(await pathExists(path.join(target, `.agents/skills/${skill}/SKILL.md`)))) {
       missingSkills.push(skill);
     }
@@ -187,7 +216,9 @@ export async function runDoctor(target) {
   checks.push({
     id: "repository_skills",
     status: missingSkills.length ? "fail" : "pass",
-    message: missingSkills.length ? `Missing repository skills: ${missingSkills.join(", ")}` : "All AI organization repository skills are installed"
+    message: missingSkills.length
+      ? `Missing repository skills: ${missingSkills.join(", ")}`
+      : `All ${REQUIRED_SKILLS.length} core and ${optionalSkills.length} optional repository Skills are installed`
   });
 
   const agentsPath = path.join(target, "AGENTS.md");

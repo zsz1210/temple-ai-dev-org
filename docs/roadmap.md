@@ -41,7 +41,7 @@ Exit Gate：乾淨與既有 repository 都能初始化；九個 Position 可觀�
 
 Exit Gate：一個非範例、可回復、不碰 production 的全新產品 repository 從點子走到第一張 work item closeout；Developer 與 Independent QA 驗證同一 revision；新的對話不需使用創始聊天即可接續；使用者沒有手動重建 Position、交接或觀測機制。
 
-AiPet portability pilot 的真實紅綠測試與診斷過程已選出 `tdd` + `diagnosing-bugs` 作為第一個 optional Build Quality pack；下一步是 Temple-native 獨立實作、scenario tests 與 pack 安裝邊界，仍不直接複製上游 Skill。`prototype` 保留在後續 Exploration pack。
+AiPet portability pilot 的真實紅綠測試與診斷過程已選出 `tdd` + `diagnosing-bugs`；alpha.6 已完成 Temple-native Build Quality pack、scenario tests、pack CLI、checksum upgrade/removal 與乾淨專案驗證，仍不直接複製上游 Skill。Phase 1.5 greenfield pilot 可選擇安裝它；`prototype` 保留在後續 Exploration pack。
 
 ## Phase 2：營運 MVP
 

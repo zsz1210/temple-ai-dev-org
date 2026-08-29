@@ -4,6 +4,7 @@ import process from "node:process";
 import { fileURLToPath } from "node:url";
 import { REQUIRED_POSITIONS, REQUIRED_SKILLS, TEMPLATE_VERSION } from "../src/constants.mjs";
 import { pathExists, readJson, walkFiles } from "../src/files.mjs";
+import { listPackDefinitions } from "../src/packs.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
@@ -55,6 +56,21 @@ for (const skillName of REQUIRED_SKILLS) {
     check(content.startsWith("---\n"), `${skillName} frontmatter is missing`);
     check(content.includes(`\nname: ${skillName}\n`), `${skillName} frontmatter name is invalid`);
     check(/\ndescription: .+\n/.test(content), `${skillName} frontmatter description is missing`);
+  }
+}
+
+const packDefinitions = await listPackDefinitions();
+check(packDefinitions.some((definition) => definition.manifest.id === "build-quality"), "build-quality pack is missing");
+for (const definition of packDefinitions) {
+  check(definition.manifest.enabled_by_default === false, `${definition.manifest.id} must remain opt-in`);
+  for (const skillName of definition.manifest.skills) {
+    check(!REQUIRED_SKILLS.includes(skillName), `${skillName} cannot be both core and optional`);
+    const skillPath = path.join(definition.root, `.agents/skills/${skillName}/SKILL.md`);
+    const content = await fs.readFile(skillPath, "utf8");
+    check(content.startsWith("---\n"), `${definition.manifest.id}/${skillName} frontmatter is missing`);
+    check(content.includes(`\nname: ${skillName}\n`), `${definition.manifest.id}/${skillName} name is invalid`);
+    check(/\ndescription: .+\n/.test(content), `${definition.manifest.id}/${skillName} description is missing`);
+    check(!/\bTemple\b/.test(content), `${definition.manifest.id}/${skillName} uses the central tool brand`);
   }
 }
 

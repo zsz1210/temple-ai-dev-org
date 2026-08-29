@@ -134,6 +134,11 @@ export async function buildStatus(target) {
     tasks: { total: tasks.length, archive_ready: tasks.filter((task) => task.archive_ready).length, items: tasks },
     attention,
     recent_events: events.slice(-8).reverse(),
+    optional_packs: (lock.optional_packs ?? []).map((pack) => ({
+      id: pack.id,
+      version: pack.version,
+      skills: pack.skills ?? []
+    })),
     integrations: lock.integrations
   };
 }
@@ -148,6 +153,7 @@ export function renderStatusMarkdown(status) {
     `- Active Agent Identities: ${status.agents.filter((agent) => agent.active).length}`,
     `- Work items: ${status.work_items.total} total, ${activeItems} active`,
     `- Codex tasks: ${status.tasks.total} registered, ${status.tasks.archive_ready} archive-ready`,
+    `- Optional Skill packs: ${status.optional_packs.length} installed`,
     `- Attention signals: ${status.attention.length}`,
     "",
     "## Work items",
@@ -207,6 +213,20 @@ export function renderStatusMarkdown(status) {
     ...status.assignments.map(
       (assignment) => `| ${assignment.position_name} | ${assignment.agent_name} | \`${assignment.agent_id}\` |`
     ),
+    "",
+    "## Optional Skill packs",
+    ""
+  );
+  if (status.optional_packs.length === 0) {
+    lines.push("No optional Skill packs installed.");
+  } else {
+    lines.push("| Pack | Version | Skills |", "|---|---|---|");
+    for (const pack of status.optional_packs) {
+      lines.push(`| ${markdown(pack.id)} | \`${markdown(pack.version)}\` | ${markdown(pack.skills.join(", "))} |`);
+    }
+  }
+
+  lines.push(
     "",
     "## Integration",
     "",

@@ -7,6 +7,14 @@ import { runDoctor, formatDoctor } from "./doctor.mjs";
 import { assertSafeTarget, readJson } from "./files.mjs";
 import { executeInit, formatInitPlan, planInit } from "./install.mjs";
 import { validateInitConfig } from "./model.mjs";
+import {
+  executePackInstall,
+  executePackRemove,
+  formatPackPlan,
+  listPackState,
+  planPackInstall,
+  planPackRemove
+} from "./packs.mjs";
 import { withProjectMutationLock } from "./project.mjs";
 import { buildStatus, renderStatusMarkdown, writeStatus } from "./status.mjs";
 import { listTasks, registerTask, updateTask } from "./tasks.mjs";
@@ -27,6 +35,9 @@ Usage:
   temple task register [target] --work-item WI-0001 --position developer --thread-id id
   temple task update [target] --task-id task-0001 --status completed
   temple task list [target] [--json]
+  temple pack list [target] [--json]
+  temple pack install [target] --pack build-quality [--dry-run]
+  temple pack remove [target] --pack build-quality [--dry-run]
   temple --version
 
 Core commands:
@@ -39,6 +50,7 @@ Core commands:
   transition  Enforce the workflow edge and its named gate requirements.
   close       Record release readiness and close or block a release-gate item.
   task        Register Codex task/thread identity, status, revision, and archive readiness.
+  pack        List, install, or remove checksum-managed optional Skill packs.
 
 Repeat --scope, --acceptance, --completed, --evidence, --unresolved, --rollback,
 --reason, or --satisfy as needed. Temple never creates, renames, or archives a
@@ -64,6 +76,7 @@ const VALUE_FLAGS = new Set([
   "--revision",
   "--task-id",
   "--notes",
+  "--pack",
   "--scope",
   "--acceptance",
   "--completed",
@@ -83,7 +96,7 @@ const REPEATABLE_FLAGS = new Set([
   "--reason",
   "--satisfy"
 ]);
-const NESTED_COMMANDS = new Set(["work-item", "task"]);
+const NESTED_COMMANDS = new Set(["work-item", "task", "pack"]);
 
 function parseCommand(argv) {
   if (argv.length === 0 || argv[0] === "--help" || argv[0] === "-h") {
@@ -405,6 +418,66 @@ async function runTask(parsed) {
   throw new Error(`Unknown task action: ${parsed.action}`);
 }
 
+async function runPack(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (parsed.action === "list") {
+    const packs = await listPackState(target);
+    if (parsed.flags.has("--json")) console.log(JSON.stringify(packs, null, 2));
+    else {
+      for (const pack of packs) {
+        console.log(
+          `${pack.id}\t${pack.installed ? `installed@${pack.installed_version}` : "available"}\t${pack.skills.join(",")}`
+        );
+      }
+    }
+    return 0;
+  }
+  if (!parsed.options["--pack"]) throw new Error(`pack ${parsed.action ?? "command"} requires --pack`);
+  if (parsed.action === "install") {
+    const plan = await planPackInstall(target, parsed.options["--pack"]);
+    console.log(formatPackPlan(plan, "install"));
+    if (plan.conflicts.length > 0) return 1;
+    if (parsed.flags.has("--dry-run")) {
+      console.log("Dry run complete; no files were written.");
+      return 0;
+    }
+    await withProjectMutationLock(target, async () => {
+      const lockedPlan = await planPackInstall(target, parsed.options["--pack"]);
+      if (lockedPlan.conflicts.length > 0) {
+        throw new Error(`Pack installation stopped before writing:\n- ${lockedPlan.conflicts.join("\n- ")}`);
+      }
+      await executePackInstall(lockedPlan);
+      await refreshStatus(target);
+    });
+    const doctor = await runDoctor(target);
+    console.log(`Installed optional pack ${parsed.options["--pack"]}.`);
+    console.log(formatDoctor(doctor));
+    return doctor.healthy ? 0 : 1;
+  }
+  if (parsed.action === "remove") {
+    const plan = await planPackRemove(target, parsed.options["--pack"]);
+    console.log(formatPackPlan(plan, "remove"));
+    if (plan.conflicts.length > 0) return 1;
+    if (parsed.flags.has("--dry-run")) {
+      console.log("Dry run complete; no files were written.");
+      return 0;
+    }
+    await withProjectMutationLock(target, async () => {
+      const lockedPlan = await planPackRemove(target, parsed.options["--pack"]);
+      if (lockedPlan.conflicts.length > 0) {
+        throw new Error(`Pack removal stopped before writing:\n- ${lockedPlan.conflicts.join("\n- ")}`);
+      }
+      await executePackRemove(lockedPlan);
+      await refreshStatus(target);
+    });
+    const doctor = await runDoctor(target);
+    console.log(`Removed optional pack ${parsed.options["--pack"]}.`);
+    console.log(formatDoctor(doctor));
+    return doctor.healthy ? 0 : 1;
+  }
+  throw new Error(`Unknown pack action: ${parsed.action}`);
+}
+
 export async function main(argv) {
   const parsed = parseCommand(argv);
   if (parsed.command === "help" || parsed.flags.has("--help")) {
@@ -424,5 +497,6 @@ export async function main(argv) {
   if (parsed.command === "transition") return runTransition(parsed);
   if (parsed.command === "close") return runClose(parsed);
   if (parsed.command === "task") return runTask(parsed);
+  if (parsed.command === "pack") return runPack(parsed);
   throw new Error(`Unknown command: ${parsed.command}${parsed.action ? ` ${parsed.action}` : ""}\n\n${HELP}`);
 }

@@ -1,0 +1,13 @@
+{
+  "schema_version": "temple.pack/v1",
+  "id": "build-quality",
+  "version": "0.1.0-alpha.1",
+  "display_name": "Build Quality",
+  "description": "Observable red-green implementation and bounded fault diagnosis at public test seams.",
+  "enabled_by_default": false,
+  "skills": ["tdd", "diagnosing-bugs"],
+  "files": [
+    ".agents/skills/tdd/SKILL.md",
+    ".agents/skills/diagnosing-bugs/SKILL.md"
+  ]
+}

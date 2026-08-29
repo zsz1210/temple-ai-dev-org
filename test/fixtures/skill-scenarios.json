@@ -46,5 +46,19 @@
     "expected_skill": null,
     "mode": "normal-implementation",
     "repository_mutation": true
+  },
+  {
+    "id": "approved-behavior-with-public-test-seam",
+    "expected_skill": "tdd",
+    "required_pack": "build-quality",
+    "mode": "red-green-implementation",
+    "repository_mutation": true
+  },
+  {
+    "id": "reproducible-failure-needs-cause",
+    "expected_skill": "diagnosing-bugs",
+    "required_pack": "build-quality",
+    "mode": "fault-isolation",
+    "repository_mutation": false
   }
 ]

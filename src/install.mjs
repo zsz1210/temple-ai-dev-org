@@ -200,6 +200,13 @@ export async function executeInit(plan) {
       sha256: await sha256File(path.join(plan.target, relativePath))
     });
   }
+  const optionalManagedPaths = new Set(
+    (plan.existingLock?.optional_packs ?? []).flatMap((pack) => pack.managed_files ?? [])
+  );
+  for (const entry of plan.existingLock?.managed_files ?? []) {
+    if (optionalManagedPaths.has(entry.path)) managedFiles.push(entry);
+  }
+  managedFiles.sort((left, right) => left.path.localeCompare(right.path));
 
   const lock = {
     schema_version: "temple.lock/v1",
@@ -226,8 +233,10 @@ export async function executeInit(plan) {
     capabilities: {
       work_item_cli: true,
       task_registry: true,
-      checksum_upgrade: true
+      checksum_upgrade: true,
+      optional_packs: true
     },
+    optional_packs: plan.existingLock?.optional_packs ?? [],
     managed_files: managedFiles
   };
 

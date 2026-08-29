@@ -28,6 +28,6 @@ temple work-item create → temple handoff → temple transition
                               temple close
 ```
 
-Each transition must carry named gate evidence. `temple status` projects work items, assigned Agents, revisions, task status, attention signals, recent events, and archive readiness. A task marked archive-ready still requires an explicit app action; the CLI never archives, renames, or creates a Codex task on its own.
+Each transition must carry named gate evidence. `temple status` projects work items, assigned Agents, revisions, task status, installed optional Skill packs, attention signals, recent events, and archive readiness. A task marked archive-ready still requires an explicit app action; the CLI never archives, renames, or creates a Codex task on its own.
 
 Use the repository-local `$temple-work` Skill only for authorized lifecycle mutations, `$decision-interview` for an open decision (including its evidence-backed mode when repository facts constrain the choice), and `$domain-modeling` when shared terminology or domain boundaries are unclear.

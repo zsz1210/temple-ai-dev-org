@@ -12,6 +12,7 @@ import {
   TEMPLATE_VERSION
 } from "./constants.mjs";
 import { atomicWrite, formatJson, pathExists, readJson, sha256File, walkFiles } from "./files.mjs";
+import { packSourcesForLock } from "./packs.mjs";
 import { ensureTaskRegistry } from "./project.mjs";
 
 function isManaged(relativePath) {
@@ -57,10 +58,20 @@ export async function planUpgrade(target) {
     }
   }
 
-  const templateFiles = (await walkFiles(PROJECT_OVERLAY_ROOT)).filter(isManaged);
+  const sourceFiles = new Map();
+  for (const relativePath of (await walkFiles(PROJECT_OVERLAY_ROOT)).filter(isManaged)) {
+    sourceFiles.set(relativePath, path.join(PROJECT_OVERLAY_ROOT, relativePath));
+  }
+  const packSources = await packSourcesForLock(lock);
+  conflicts.push(...packSources.conflicts);
+  for (const [relativePath, sourcePath] of packSources.sources) {
+    if (sourceFiles.has(relativePath)) conflicts.push(`optional pack overlaps core managed path: ${relativePath}`);
+    else sourceFiles.set(relativePath, sourcePath);
+  }
+  const templateFiles = [...sourceFiles.keys()].sort();
   const currentManaged = new Set(templateFiles);
   for (const relativePath of templateFiles) {
-    const sourcePath = path.join(PROJECT_OVERLAY_ROOT, relativePath);
+    const sourcePath = sourceFiles.get(relativePath);
     const installedPath = path.join(target, relativePath);
     if (!(await pathExists(installedPath))) {
       actions.push({ type: "add-managed", path: relativePath });
@@ -85,8 +96,18 @@ export async function planUpgrade(target) {
   const managedChanges = actions.some((action) =>
     ["add-managed", "update-managed", "remove-managed"].includes(action.type)
   );
+  const packMetadataChanges = packSources.definitions.some(
+    ({ definition, installed }) =>
+      definition.manifest.version !== installed.version ||
+      JSON.stringify(definition.manifest.skills) !== JSON.stringify(installed.skills ?? []) ||
+      JSON.stringify(definition.manifest.files) !== JSON.stringify(installed.managed_files ?? [])
+  );
+  if (packMetadataChanges) actions.push({ type: "update-pack-metadata", path: "temple.lock" });
   actions.push({
-    type: lock.template.version === TEMPLATE_VERSION && !managedChanges && hasTasks ? "skip-current-lock" : "update-lock",
+    type:
+      lock.template.version === TEMPLATE_VERSION && !managedChanges && !packMetadataChanges && hasTasks
+        ? "skip-current-lock"
+        : "update-lock",
     path: "temple.lock"
   });
 
@@ -96,6 +117,8 @@ export async function planUpgrade(target) {
     fromVersion: lock.template.version,
     toVersion: TEMPLATE_VERSION,
     templateFiles,
+    sourceFiles,
+    packDefinitions: packSources.definitions,
     actions,
     conflicts
   };
@@ -113,7 +136,7 @@ export async function executeUpgrade(plan) {
       continue;
     }
     if (!["add-managed", "update-managed"].includes(action.type)) continue;
-    const sourcePath = path.join(PROJECT_OVERLAY_ROOT, action.path);
+    const sourcePath = plan.sourceFiles.get(action.path);
     await fs.mkdir(path.dirname(installedPath), { recursive: true });
     await atomicWrite(installedPath, await fs.readFile(sourcePath));
   }
@@ -125,6 +148,15 @@ export async function executeUpgrade(plan) {
   for (const relativePath of plan.templateFiles) {
     managedFiles.push({ path: relativePath, sha256: await sha256File(path.join(plan.target, relativePath)) });
   }
+  const timestamp = new Date().toISOString();
+  const optionalPacks = plan.packDefinitions.map(({ definition, installed }) => ({
+    id: definition.manifest.id,
+    version: definition.manifest.version,
+    installed_at: installed.installed_at ?? timestamp,
+    ...(installed.version === definition.manifest.version ? {} : { upgraded_at: timestamp, upgraded_from: installed.version }),
+    skills: definition.manifest.skills,
+    managed_files: definition.manifest.files
+  }));
   const lock = {
     ...plan.lock,
     template: {
@@ -132,7 +164,7 @@ export async function executeUpgrade(plan) {
       version: TEMPLATE_VERSION,
       repository: TEMPLATE_REPOSITORY,
       installed_at: plan.lock.template.installed_at,
-      upgraded_at: new Date().toISOString(),
+      upgraded_at: timestamp,
       upgraded_from: plan.fromVersion
     },
     boundaries: {
@@ -141,10 +173,13 @@ export async function executeUpgrade(plan) {
       generated: GENERATED_PATHS
     },
     capabilities: {
+      ...(plan.lock.capabilities ?? {}),
       work_item_cli: true,
       task_registry: true,
-      checksum_upgrade: true
+      checksum_upgrade: true,
+      optional_packs: true
     },
+    optional_packs: optionalPacks,
     managed_files: managedFiles
   };
   await atomicWrite(path.join(plan.target, "temple.lock"), formatJson(lock));

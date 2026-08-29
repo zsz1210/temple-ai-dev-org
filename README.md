@@ -73,6 +73,17 @@ temple doctor .
 temple status .
 ```
 
+需要開發期 red-green 與 bug diagnosis 時，再選擇安裝 Build Quality pack；它不會隨 core init 自動進入每個專案：
+
+```bash
+temple pack list .
+temple pack install . --pack build-quality --dry-run
+temple pack install . --pack build-quality
+temple doctor .
+```
+
+安裝後才會增加 `$tdd` 與 `$diagnosing-bugs`。Pack 檔案和版本會記錄在 `temple.lock`，由 checksum-aware upgrade 管理；專案修改過的 pack file 不會被覆寫或移除。
+
 日常 canonical state 由 `temple` CLI 命令維持，不必再手改 work item JSON：
 
 ```bash
@@ -134,7 +145,7 @@ temple.lock               Toolkit 版本與 managed checksums
   events/                 可追加的事件紀錄
   artifacts/              測試、QA 與視覺化證據
   views/status.md          可重建的狀態總覽
-.agents/skills/           lifecycle、decision interview 與 domain modeling Skills
+.agents/skills/           core Skills；可選 pack 安裝後才增加 development Skills
 .codex/agents/            九個 Position 的 Codex runtime config
 ```
 
@@ -167,6 +178,7 @@ temple.lock               Toolkit 版本與 managed checksums
 - 使用 `$decision-interview` 釐清模糊想法。
 - `$decision-interview` 在 repository 事實限制選擇時會切換成 evidence-backed mode，引用相關文件與程式碼後再訪談。
 - 使用 `$domain-modeling` 統一 domain language、規則與邊界。
+- 透過 `temple pack install` 選擇安裝 Build Quality pack，提供 `$tdd` 與 `$diagnosing-bugs`，預設維持關閉。
 - 透過 Sample Project 與 CI 驗證 dry-run、重跑、衝突與不覆寫行為。
 
 Phase 1 不會背景自動派工、不會直接操作 Codex sidebar、不會發布 production，也沒有跨專案即時 Web Dashboard。Archify 仍是關閉狀態的選配 Adapter。

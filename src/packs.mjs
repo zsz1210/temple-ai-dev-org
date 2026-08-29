@@ -1,0 +1,240 @@
+import fs from "node:fs/promises";
+import path from "node:path";
+import { KNOWN_PACKAGE_NAMES, PACKS_ROOT, TEMPLATE_VERSION } from "./constants.mjs";
+import { atomicWrite, formatJson, pathExists, readJson, sha256File } from "./files.mjs";
+
+const PACK_ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+function safePackFile(relativePath) {
+  return (
+    typeof relativePath === "string" &&
+    relativePath.startsWith(".agents/skills/") &&
+    relativePath.endsWith("/SKILL.md") &&
+    !relativePath.includes("\\") &&
+    path.posix.normalize(relativePath) === relativePath
+  );
+}
+
+function validateManifest(manifest, sourcePath) {
+  const valid =
+    manifest?.schema_version === "temple.pack/v1" &&
+    PACK_ID_PATTERN.test(manifest.id ?? "") &&
+    typeof manifest.version === "string" &&
+    manifest.version.length > 0 &&
+    typeof manifest.display_name === "string" &&
+    typeof manifest.description === "string" &&
+    manifest.enabled_by_default === false &&
+    Array.isArray(manifest.skills) &&
+    manifest.skills.length > 0 &&
+    new Set(manifest.skills).size === manifest.skills.length &&
+    manifest.skills.every((skill) => PACK_ID_PATTERN.test(skill)) &&
+    Array.isArray(manifest.files) &&
+    manifest.files.length === manifest.skills.length &&
+    new Set(manifest.files).size === manifest.files.length &&
+    manifest.files.every(safePackFile) &&
+    manifest.skills.every((skill) => manifest.files.includes(`.agents/skills/${skill}/SKILL.md`));
+  if (!valid) throw new Error(`Invalid optional pack manifest: ${sourcePath}`);
+  return manifest;
+}
+
+export async function readPackDefinition(packId) {
+  if (!PACK_ID_PATTERN.test(packId ?? "")) throw new Error(`Invalid pack ID: ${packId ?? "missing"}`);
+  const root = path.join(PACKS_ROOT, packId);
+  const manifestPath = path.join(root, "manifest.json");
+  if (!(await pathExists(manifestPath))) throw new Error(`Unknown optional pack: ${packId}`);
+  const manifest = validateManifest(await readJson(manifestPath), manifestPath);
+  if (manifest.id !== packId) throw new Error(`Pack directory and manifest ID differ: ${packId}`);
+  const files = [];
+  for (const relativePath of manifest.files) {
+    const sourcePath = path.join(root, relativePath);
+    if (!(await pathExists(sourcePath))) throw new Error(`Pack ${packId} is missing source file: ${relativePath}`);
+    files.push({ relativePath, sourcePath });
+  }
+  return { manifest, root, files };
+}
+
+export async function listPackDefinitions() {
+  if (!(await pathExists(PACKS_ROOT))) return [];
+  const entries = await fs.readdir(PACKS_ROOT, { withFileTypes: true });
+  const definitions = [];
+  for (const entry of entries.filter((candidate) => candidate.isDirectory()).sort((left, right) => left.name.localeCompare(right.name))) {
+    definitions.push(await readPackDefinition(entry.name));
+  }
+  return definitions;
+}
+
+async function readCurrentLock(target) {
+  const lockPath = path.join(target, "temple.lock");
+  if (!(await pathExists(lockPath))) throw new Error("temple.lock is missing; run temple init before managing packs");
+  const lock = await readJson(lockPath);
+  if (!KNOWN_PACKAGE_NAMES.has(lock.template?.name)) throw new Error("temple.lock belongs to an unknown template");
+  if (lock.template?.version !== TEMPLATE_VERSION) {
+    throw new Error(`Installed organization version is ${lock.template?.version ?? "unknown"}; run temple upgrade before managing packs`);
+  }
+  return { lock, lockPath };
+}
+
+function installedPack(lock, packId) {
+  return (lock.optional_packs ?? []).find((entry) => entry.id === packId);
+}
+
+function managedFileMap(lock) {
+  return new Map((lock.managed_files ?? []).map((entry) => [entry.path, entry.sha256]));
+}
+
+export async function listPackState(target) {
+  const { lock } = await readCurrentLock(target);
+  const installed = new Map((lock.optional_packs ?? []).map((entry) => [entry.id, entry]));
+  return (await listPackDefinitions()).map(({ manifest }) => ({
+    id: manifest.id,
+    display_name: manifest.display_name,
+    description: manifest.description,
+    available_version: manifest.version,
+    enabled_by_default: false,
+    installed: installed.has(manifest.id),
+    installed_version: installed.get(manifest.id)?.version ?? null,
+    skills: manifest.skills
+  }));
+}
+
+export async function planPackInstall(target, packId) {
+  const [{ lock, lockPath }, definition] = await Promise.all([readCurrentLock(target), readPackDefinition(packId)]);
+  const existing = installedPack(lock, packId);
+  if (existing && existing.version !== definition.manifest.version) {
+    throw new Error(`Pack ${packId} is ${existing.version}; run temple upgrade to reach ${definition.manifest.version}`);
+  }
+
+  const conflicts = [];
+  const actions = [];
+  const managed = managedFileMap(lock);
+  for (const file of definition.files) {
+    const destinationPath = path.join(target, file.relativePath);
+    if (!(await pathExists(destinationPath))) {
+      if (existing) conflicts.push(`installed pack file is missing: ${file.relativePath}`);
+      else actions.push({ type: "copy-pack-file", path: file.relativePath });
+      continue;
+    }
+    const [sourceHash, installedHash] = await Promise.all([sha256File(file.sourcePath), sha256File(destinationPath)]);
+    if (existing) {
+      const expectedHash = managed.get(file.relativePath);
+      if (!expectedHash || installedHash !== expectedHash) conflicts.push(`installed pack file changed: ${file.relativePath}`);
+      else if (sourceHash === installedHash) actions.push({ type: "skip-identical", path: file.relativePath });
+      else conflicts.push(`pack source changed without an upgrade: ${file.relativePath}`);
+    } else if (sourceHash === installedHash) {
+      actions.push({ type: "adopt-identical", path: file.relativePath });
+    } else {
+      conflicts.push(`untracked file blocks optional pack: ${file.relativePath}`);
+    }
+  }
+  actions.push({ type: existing ? "skip-installed-pack" : "update-lock", path: "temple.lock" });
+  return { target, lock, lockPath, definition, existing, actions, conflicts };
+}
+
+export async function executePackInstall(plan) {
+  if (plan.conflicts.length > 0) throw new Error(`Pack installation stopped before writing:\n- ${plan.conflicts.join("\n- ")}`);
+  if (plan.existing) return plan.lock;
+
+  for (const action of plan.actions.filter((entry) => entry.type === "copy-pack-file")) {
+    const source = plan.definition.files.find((file) => file.relativePath === action.path).sourcePath;
+    const destination = path.join(plan.target, action.path);
+    await fs.mkdir(path.dirname(destination), { recursive: true });
+    await fs.copyFile(source, destination);
+  }
+
+  const packPaths = new Set(plan.definition.manifest.files);
+  const managedFiles = (plan.lock.managed_files ?? []).filter((entry) => !packPaths.has(entry.path));
+  for (const relativePath of plan.definition.manifest.files) {
+    managedFiles.push({ path: relativePath, sha256: await sha256File(path.join(plan.target, relativePath)) });
+  }
+  managedFiles.sort((left, right) => left.path.localeCompare(right.path));
+  const timestamp = new Date().toISOString();
+  const optionalPacks = [
+    ...(plan.lock.optional_packs ?? []).filter((entry) => entry.id !== plan.definition.manifest.id),
+    {
+      id: plan.definition.manifest.id,
+      version: plan.definition.manifest.version,
+      installed_at: timestamp,
+      skills: plan.definition.manifest.skills,
+      managed_files: plan.definition.manifest.files
+    }
+  ].sort((left, right) => left.id.localeCompare(right.id));
+  const lock = {
+    ...plan.lock,
+    capabilities: { ...(plan.lock.capabilities ?? {}), optional_packs: true },
+    optional_packs: optionalPacks,
+    managed_files: managedFiles
+  };
+  await atomicWrite(plan.lockPath, formatJson(lock));
+  return lock;
+}
+
+export async function planPackRemove(target, packId) {
+  const { lock, lockPath } = await readCurrentLock(target);
+  const existing = installedPack(lock, packId);
+  if (!existing) throw new Error(`Optional pack is not installed: ${packId}`);
+  const definition = await readPackDefinition(packId);
+  const managed = managedFileMap(lock);
+  const conflicts = [];
+  const actions = [];
+  if (JSON.stringify(existing.managed_files ?? []) !== JSON.stringify(definition.manifest.files)) {
+    conflicts.push(`installed pack metadata differs from the known manifest: ${packId}`);
+  }
+  for (const relativePath of definition.manifest.files) {
+    const destinationPath = path.join(target, relativePath);
+    if (!(await pathExists(destinationPath))) conflicts.push(`installed pack file is missing: ${relativePath}`);
+    else if (!managed.has(relativePath) || (await sha256File(destinationPath)) !== managed.get(relativePath)) {
+      conflicts.push(`installed pack file changed: ${relativePath}`);
+    } else actions.push({ type: "remove-pack-file", path: relativePath });
+  }
+  actions.push({ type: "update-lock", path: "temple.lock" });
+  return { target, lock, lockPath, definition, existing, actions, conflicts };
+}
+
+export async function executePackRemove(plan) {
+  if (plan.conflicts.length > 0) throw new Error(`Pack removal stopped before writing:\n- ${plan.conflicts.join("\n- ")}`);
+  const removedPaths = new Set(plan.actions.filter((entry) => entry.type === "remove-pack-file").map((entry) => entry.path));
+  for (const relativePath of removedPaths) await fs.unlink(path.join(plan.target, relativePath));
+  const optionalPacks = (plan.lock.optional_packs ?? []).filter((entry) => entry.id !== plan.existing.id);
+  const lock = {
+    ...plan.lock,
+    capabilities: { ...(plan.lock.capabilities ?? {}), optional_packs: true },
+    optional_packs: optionalPacks,
+    managed_files: (plan.lock.managed_files ?? []).filter((entry) => !removedPaths.has(entry.path))
+  };
+  await atomicWrite(plan.lockPath, formatJson(lock));
+  return lock;
+}
+
+export function formatPackPlan(plan, verb) {
+  const lines = [`Optional pack ${verb} plan for ${plan.target}`, `- pack: ${plan.definition.manifest.id}@${plan.definition.manifest.version}`];
+  const counts = new Map();
+  for (const action of plan.actions) counts.set(action.type, (counts.get(action.type) ?? 0) + 1);
+  for (const [type, count] of [...counts].sort(([left], [right]) => left.localeCompare(right))) lines.push(`- ${type}: ${count}`);
+  if (plan.conflicts.length > 0) lines.push("Conflicts:", ...plan.conflicts.map((conflict) => `- ${conflict}`));
+  return lines.join("\n");
+}
+
+export async function packSourcesForLock(lock) {
+  const definitions = [];
+  const sources = new Map();
+  const conflicts = [];
+  const seen = new Set();
+  for (const entry of lock.optional_packs ?? []) {
+    if (seen.has(entry.id)) {
+      conflicts.push(`duplicate optional pack in temple.lock: ${entry.id}`);
+      continue;
+    }
+    seen.add(entry.id);
+    try {
+      const definition = await readPackDefinition(entry.id);
+      definitions.push({ definition, installed: entry });
+      for (const file of definition.files) {
+        if (sources.has(file.relativePath)) conflicts.push(`optional packs overlap managed path: ${file.relativePath}`);
+        else sources.set(file.relativePath, file.sourcePath);
+      }
+    } catch (error) {
+      conflicts.push(error.message);
+    }
+  }
+  return { definitions, sources, conflicts };
+}

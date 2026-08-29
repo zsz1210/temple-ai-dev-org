@@ -12,10 +12,12 @@ This matrix is the routing, authority, and completion contract for repository Sk
 | A new project needs names but the proposed mapping is unconfirmed | `$temple-init` | confirmation gate | Inspect and suggest only; do not initialize | User confirms five names and nine Position mappings, or an explicit blocker remains |
 | A confirmed decision must be recorded by an authorized work item | `$decision-interview` | persistence authorized | Update only the focused Decision Ledger or ADR described by the work item | Changed path, source references, revision, and verification are reported |
 | The user asks to implement an already approved feature | none | normal implementation | Follow the Position and task scope; `$temple-work` is used only for a separate lifecycle mutation | Implementation and requested verification, without invented lifecycle state |
+| An approved behavior can be expressed at a stable public test seam | `$tdd` from Build Quality | red-green implementation | Production mutation must already be authorized; pack use does not change lifecycle state | Real red reason, minimal green change, regression result, exact revision, and unresolved environments |
+| A reproducible test or runtime symptom has no supported cause yet | `$diagnosing-bugs` from Build Quality | fault isolation | Diagnosis is read-only unless the user or work item also authorizes a fix | Reproduction, ranked hypotheses, discriminating evidence, supported cause or explicit uncertainty |
 
 ## Validation status
 
-- Automated: required Skill directory equality, frontmatter shape, unique descriptions, bootstrap init equality, scenario fixture references, and checksum-aware removal of obsolete managed Skills.
+- Automated: core Skill directory equality, optional pack manifest and frontmatter shape, unique descriptions, bootstrap init equality, scenario fixture references, opt-in install/remove, and checksum-aware upgrade/removal.
 - Manual design review: trigger overlap, authority wording, evidence mode, and completion boundaries.
 - Forward-test evidence: English Learning Inbox validates upgrade portability. AiPet `WI-0001` validates lifecycle routing, red-to-green test evidence, screenshot inspection, exact-revision Independent QA, and closeout in a second existing repository. The Phase 1.5 greenfield pilot will test initialization and product-definition routing.
 
