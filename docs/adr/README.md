@@ -1,15 +1,16 @@
 # Architecture Decision Records
 
-- [ADR-0001：init 而非 fork](0001-init-not-fork.md)
-- [ADR-0002：Position 與 Agent Identity 分離](0002-position-identity-assignment.md)
-- [ADR-0003：外部 canonical state](0003-canonical-state-outside-chat.md)
-- [ADR-0004：三種檔案所有權邊界](0004-file-ownership-boundaries.md)
-- [ADR-0005：第三方能力使用 Adapter](0005-third-party-adapters.md)
-- [ADR-0006：Lifecycle CLI 與 Codex task registry](0006-lifecycle-cli-and-task-registry.md)
-- [ADR-0007：中央工具名稱與專案身份分離](0007-tool-name-project-identity.md)
-- [ADR-0008：Skill 分層與開源發佈](0008-capability-distribution-and-open-source.md)
-- [ADR-0009：單一 Decision Interview 與明確 Skill 權限](0009-single-decision-interview-and-skill-authority.md)
-- [ADR-0010：第一個開發 Optional Skill Pack](0010-first-development-skill-pack.md)
-- [ADR-0011：Pilot 完成後預設停止](0011-pilot-stop-boundary.md)
+- [ADR-0001: Init instead of fork](0001-init-not-fork.md)
+- [ADR-0002: Separate Position and Agent Identity](0002-position-identity-assignment.md)
+- [ADR-0003: External canonical state](0003-canonical-state-outside-chat.md)
+- [ADR-0004: Three file-ownership boundaries](0004-file-ownership-boundaries.md)
+- [ADR-0005: Third-party capabilities use adapters](0005-third-party-adapters.md)
+- [ADR-0006: Lifecycle CLI and Codex task registry](0006-lifecycle-cli-and-task-registry.md)
+- [ADR-0007: Separate the toolkit name from project identity](0007-tool-name-project-identity.md)
+- [ADR-0008: Skill tiers and open-source distribution](0008-capability-distribution-and-open-source.md)
+- [ADR-0009: One Decision Interview and explicit Skill authority](0009-single-decision-interview-and-skill-authority.md)
+- [ADR-0010: The first optional development Skill pack](0010-first-development-skill-pack.md)
+- [ADR-0011: Stop by default when a pilot is complete](0011-pilot-stop-boundary.md)
+- [ADR-0012: English canonical documentation with localized README entry points](0012-documentation-language-policy.md)
 
-ADR 是 Architecture Decision Record：用來保存一個重要技術或組織決策的背景、決定、理由與後果。它讓後來加入的 Agent 不必靠聊天記憶猜測「當初為什麼這樣做」。
+An ADR is an Architecture Decision Record. It preserves the context, decision, rationale, and consequences of an important technical or organizational choice so that later Agents do not have to infer why it was made from chat memory.

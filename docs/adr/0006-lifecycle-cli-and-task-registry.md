@@ -1,21 +1,21 @@
-# ADR-0006：Lifecycle mutation 經由 CLI，Codex task 採 registry 而非聊天標題
+# ADR-0006: Use the CLI for lifecycle mutation and a registry for Codex tasks
 
 - Status: Accepted
 - Date: 2026-08-29
 
 ## Context
 
-第一個 English Learning Inbox pilot 證明 repository canonical state 能跨 Developer 與 Independent QA 接續，但 work item、event、release closeout 仍有人工編輯，Codex task ID 也沒有被正式連回 work item。只靠聊天標題仍可能造成重複工作、錯誤交接與 sidebar 雜亂。
+The first English Learning Inbox pilot showed that repository canonical state can carry work from Developer to Independent QA. However, work items, events, and release closeout still required manual editing, and Codex task IDs were not formally linked back to work items. Relying on chat titles alone can still cause duplicate work, incorrect handoffs, and sidebar clutter.
 
 ## Decision
 
-Temple 提供 `work-item create`、`handoff`、`transition` 與 `close` 作為 lifecycle mutation boundary。Transition 必須對 workflow 的每個 named requirement 提供 evidence reference，CLI 拒絕非法 edge 或缺少 gate evidence。
+Temple provides `work-item create`, `handoff`, `transition`, and `close` as the lifecycle mutation boundary. A transition must provide an evidence reference for every named workflow requirement. The CLI rejects invalid edges and missing gate evidence.
 
-Codex task/thread 以 `.ai-org/project/tasks.json` 登錄 stable task ID、work item、Position、Agent、thread/client-thread ID、revision 與 status。標題只使用可重建的建議格式 `WI-#### · Position · Agent Name`；真正 identifier 是 work item ID 與 thread ID。Temple 計算 archive readiness，但不直接建立、改名或封存 Codex App task。
+Codex tasks and threads are registered in `.ai-org/project/tasks.json` with a stable task ID, work item, Position, Agent, thread or client-thread ID, revision, and status. Titles use only the reproducible suggested format `WI-#### · Position · Agent Name`; the actual identifiers are the work item ID and thread ID. Temple calculates archive readiness but does not directly create, rename, or archive Codex app tasks.
 
 ## Consequences
 
-- 新對話可以從 work item、registry 與 exact revision 恢復工作，不依賴標題或聊天記憶。
-- 手工 JSON 漂移與跳過 gate 的機會降低，但使用者或 Agent 必須明確提供 evidence mapping。
-- Codex App 的實際 task mutation 仍透過產品工具並遵守使用者授權；CLI 只保存 canonical registry。
-- Observer 可以指出 blocked、attention 與 archive-ready，但不能代替 Manager、QA 或 Release Manager 做決策。
+- A new conversation can recover work from the work item, registry, and exact revision without depending on a title or chat memory.
+- Manual JSON drift and skipped gates become less likely, but the user or Agent must explicitly provide evidence mappings.
+- Actual Codex app task mutations still use product tools and follow user authorization; the CLI only maintains the canonical registry.
+- The Observer can identify blocked, attention, and archive-ready states, but cannot make decisions for the Manager, QA, or Release Manager.

@@ -1,16 +1,16 @@
-# ADR-0001：中央模板以 init 安裝，不以 fork 為主要流程
+# ADR-0001: Install the central toolkit with init, not primarily by fork
 
 - Status: Accepted
 - Date: 2026-08-29
 
 ## Context
 
-若每個產品都 fork 模板，產品歷史與模板歷史會混在一起，上游升級、專案客製與權限管理都更困難。
+If every product forks the template, product history and template history become intertwined. Upstream upgrades, project customization, and permission management all become harder.
 
 ## Decision
 
-中央 private repository 發布版本。產品 repository 使用 `temple init` 安裝，並以 `temple.lock` 記錄來源與 managed checksums。GitHub 的「Use this template」只作為全新 repository 的次要入口。
+The central private repository publishes versions. Product repositories install them with `temple init`, and `temple.lock` records the source and managed checksums. GitHub's "Use this template" remains only a secondary entry point for a new repository.
 
 ## Consequences
 
-未來必須提供明確的 upgrade/migration 工具；同時可以保持每個產品自己的乾淨 Git 歷史。
+The toolkit must provide explicit upgrade and migration tools. In return, each product can retain a clean Git history of its own.

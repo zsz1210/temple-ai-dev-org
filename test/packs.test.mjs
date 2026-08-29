@@ -83,7 +83,7 @@ test("build-quality pack dry-run, install, re-init, and removal preserve checksu
   const doctor = run(["doctor", target]);
   assert.equal(doctor.status, 0, doctor.stderr || doctor.stdout);
   assert.match(doctor.stdout, /1 optional packs are valid/);
-  assert.match(doctor.stdout, /4 core and 2 optional repository Skills/);
+  assert.match(doctor.stdout, /5 core and 2 optional repository Skills/);
   const installedStatus = await fs.readFile(path.join(target, ".ai-org/views/status.md"), "utf8");
   assert.match(installedStatus, /Optional Skill packs: 1 installed/);
   assert.match(installedStatus, /build-quality.*tdd, diagnosing-bugs/);
@@ -139,7 +139,7 @@ test("upgrade carries installed pack files and refreshes pack metadata", async (
   const upgraded = run(["upgrade", target]);
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = await readJson(lockPath);
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.7");
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.8");
   assert.equal(upgradedLock.optional_packs[0].version, "0.1.0-alpha.1");
   await fs.access(path.join(target, ".agents/skills/tdd/SKILL.md"));
   assert.equal(run(["doctor", target]).status, 0);

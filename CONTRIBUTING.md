@@ -1,15 +1,17 @@
 # Contributing
 
-這個 repository 是中央 Toolkit，不應放入任何實際專案的 Agent 名字、產品規格、工作項目或驗證證據。
+This repository is the central toolkit. Do not add Agent names, product specifications, work items, or verification evidence from any real project.
 
-變更流程：
+Change workflow:
 
-1. 先更新 Spec 或 ADR。
-2. 更新 `project-overlay/`、中央文件或 CLI。
-3. 執行 `npm run verify`。
-4. 在暫存目錄執行一次 `init → doctor → status`。
-5. 更新 Changelog 後才建立版本標籤。
+1. Update the relevant specification or ADR first.
+2. Update `project-overlay/`, the central documentation, or the CLI.
+3. Run `npm run verify`.
+4. Run `init -> doctor -> status` once in a temporary directory.
+5. Update the changelog before creating a version tag.
 
-新增或修改 Skill 時同時遵守 `docs/skill-design.md`，並更新 `docs/capability-catalog.md` 的採用狀態與第三方 provenance。
+When adding or modifying a Skill, also follow `docs/skill-design.md` and update the adoption state and third-party provenance in `docs/capability-catalog.md`.
 
-任何升級功能都必須遵守：Managed 可以更新；Project-owned 不得覆蓋；Generated 可以重建。
+Documentation is English except for the localized root entry points. Keep `README.md`, `README.ja.md`, and `README.zh-TW.md` structurally aligned whenever public behavior, installation, or capability claims change. See [ADR-0012](docs/adr/0012-documentation-language-policy.md).
+
+Every upgrade feature must preserve these rules: managed files may be updated, project-owned files must not be overwritten, and generated files may be rebuilt.

@@ -36,10 +36,14 @@ function run(args) {
   return spawnSync(process.execPath, [cli, ...args], { encoding: "utf8" });
 }
 
+function shellQuote(value) {
+  return `'${String(value).replaceAll("'", `'"'"'`)}'`;
+}
+
 test("version is available without dependencies", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /^0\.1\.0-alpha\.7/m);
+  assert.match(result.stdout, /^0\.1\.0-alpha\.8/m);
 });
 
 test("dry-run writes nothing", async (context) => {
@@ -48,6 +52,27 @@ test("dry-run writes nothing", async (context) => {
   const result = run(["init", target, "--config", configPath, "--dry-run"]);
   assert.equal(result.status, 0, result.stderr);
   await assert.rejects(() => fs.access(path.join(target, "temple.lock")));
+});
+
+test("init prints copyable direct commands that survive shell-sensitive paths", async (context) => {
+  const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-command-test-"));
+  const target = path.join(temporaryRoot, "sample product's repo");
+  const configPath = path.join(temporaryRoot, "init config.json");
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  await fs.writeFile(configPath, `${JSON.stringify(configDocument(), null, 2)}\n`);
+
+  const initialized = run(["init", target, "--config", configPath]);
+  assert.equal(initialized.status, 0, initialized.stderr || initialized.stdout);
+  const doctorCommand = [process.execPath, cli, "doctor", target].map(shellQuote).join(" ");
+  const statusCommand = [process.execPath, cli, "status", target].map(shellQuote).join(" ");
+  assert.match(initialized.stdout, new RegExp(`Doctor: ${doctorCommand.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
+  assert.match(initialized.stdout, new RegExp(`Status: ${statusCommand.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
+
+  const copiedDoctor = spawnSync("/bin/sh", ["-c", doctorCommand], { encoding: "utf8" });
+  assert.equal(copiedDoctor.status, 0, copiedDoctor.stderr || copiedDoctor.stdout);
+  const copiedStatus = spawnSync("/bin/sh", ["-c", `${statusCommand} --json --no-write`], { encoding: "utf8" });
+  assert.equal(copiedStatus.status, 0, copiedStatus.stderr || copiedStatus.stdout);
+  assert.equal(JSON.parse(copiedStatus.stdout).project.id, "sample-product");
 });
 
 test("init, doctor, status, and idempotent re-init succeed", async (context) => {

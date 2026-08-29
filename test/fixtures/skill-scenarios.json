@@ -18,6 +18,12 @@
     "repository_mutation": false
   },
   {
+    "id": "evidence-backed-readme-update",
+    "expected_skill": "project-documentation",
+    "mode": "human-documentation-mutation",
+    "repository_mutation": true
+  },
+  {
     "id": "status-only",
     "expected_skill": null,
     "mode": "read-only",

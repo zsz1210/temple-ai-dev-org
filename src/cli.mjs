@@ -19,7 +19,14 @@ import { withProjectMutationLock } from "./project.mjs";
 import { buildStatus, renderStatusMarkdown, writeStatus } from "./status.mjs";
 import { listTasks, registerTask, updateTask } from "./tasks.mjs";
 import { executeUpgrade, formatUpgradePlan, planUpgrade } from "./upgrade.mjs";
-import { closeWorkItem, createHandoff, createWorkItem, transitionWorkItem } from "./work-items.mjs";
+import {
+  closeWorkItem,
+  createHandoff,
+  createWorkItem,
+  listUnresolvedItems,
+  transitionWorkItem,
+  updateUnresolvedItems
+} from "./work-items.mjs";
 
 const HELP = `Temple ${TEMPLATE_VERSION}
 
@@ -29,6 +36,7 @@ Usage:
   temple doctor [target] [--json]
   temple status [target] [--json] [--no-write]
   temple work-item create [target] --title text [--scope text] [--acceptance text]
+  temple work-item unresolved [target] --work-item WI-0001 [--resolve text] [--merge text]
   temple handoff [target] --work-item WI-0001 --to position --input-revision ref --completed text --evidence ref
   temple transition [target] --work-item WI-0001 --to state --satisfy requirement=reference
   temple close [target] --work-item WI-0001 --decision go|no-go --tested-revision ref --rollback text --approval record
@@ -45,15 +53,15 @@ Core commands:
   upgrade     Update only checksum-clean managed files; preserve project-owned state.
   doctor      Validate managed files, identities, work items, tasks, and integrations.
   status      Rebuild the observable project status from canonical files.
-  work-item   Create a durable work item with the next stable WI number.
+  work-item   Create work items and safely manage their unresolved-item lifecycle.
   handoff     Create an evidence-bearing Position handoff artifact.
   transition  Enforce the workflow edge and its named gate requirements.
   close       Record release readiness and close or block a release-gate item.
   task        Register Codex task/thread identity, status, revision, and archive readiness.
   pack        List, install, or remove checksum-managed optional Skill packs.
 
-Repeat --scope, --acceptance, --completed, --evidence, --unresolved, --rollback,
---reason, or --satisfy as needed. Temple never creates, renames, or archives a
+Repeat --scope, --acceptance, --completed, --evidence, --unresolved, --resolve,
+--merge, --rollback, --reason, or --satisfy as needed. Temple never creates, renames, or archives a
 Codex task by itself; task registry entries make those app actions observable.
 `;
 
@@ -82,6 +90,8 @@ const VALUE_FLAGS = new Set([
   "--completed",
   "--evidence",
   "--unresolved",
+  "--resolve",
+  "--merge",
   "--rollback",
   "--reason",
   "--satisfy"
@@ -92,6 +102,8 @@ const REPEATABLE_FLAGS = new Set([
   "--completed",
   "--evidence",
   "--unresolved",
+  "--resolve",
+  "--merge",
   "--rollback",
   "--reason",
   "--satisfy"
@@ -165,6 +177,18 @@ function projectIdFromDirectory(target) {
   return fallback || "software-project";
 }
 
+function shellQuote(value) {
+  if (process.platform === "win32") return `'${String(value).replaceAll("'", "''")}'`;
+  return `'${String(value).replaceAll("'", `'"'"'`)}'`;
+}
+
+function directCliCommand(command, target) {
+  const invocation = [process.execPath, path.resolve(process.argv[1]), command, path.resolve(target)]
+    .map(shellQuote)
+    .join(" ");
+  return process.platform === "win32" ? `& ${invocation}` : invocation;
+}
+
 async function askWithDefault(interfaceInstance, prompt, defaultValue) {
   const answer = (await interfaceInstance.question(`${prompt} [${defaultValue}]: `)).trim();
   return answer || defaultValue;
@@ -233,6 +257,9 @@ async function runInit(parsed) {
   console.log(`Initialized Temple ${TEMPLATE_VERSION}.`);
   console.log(formatDoctor(doctor));
   console.log(`Status view: ${statusPath}`);
+  console.log(`Copyable project commands (${process.platform === "win32" ? "PowerShell" : "POSIX shell"}):`);
+  console.log(`  Doctor: ${directCliCommand("doctor", target)}`);
+  console.log(`  Status: ${directCliCommand("status", target)}`);
   return doctor.healthy ? 0 : 1;
 }
 
@@ -294,6 +321,40 @@ async function runWorkItemCreate(parsed) {
     `Created ${result.item.id}: ${result.item.title}`,
     `State: ${result.item.state} (${result.item.owner_position})`,
     `Suggested Codex title: ${result.suggested_title}`
+  ]);
+  return 0;
+}
+
+async function runWorkItemUnresolved(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  const resolutions = listOption(parsed, "--resolve");
+  const additions = listOption(parsed, "--merge");
+  if (resolutions.length === 0 && additions.length === 0) {
+    const result = await listUnresolvedItems(target, parsed.options["--work-item"]);
+    if (parsed.flags.has("--json")) console.log(JSON.stringify(result, null, 2));
+    else if (result.unresolved.length === 0) console.log(`No unresolved items for ${result.work_item_id}.`);
+    else {
+      console.log(`${result.work_item_id} unresolved items:`);
+      result.unresolved.forEach((entry, index) => console.log(`${index + 1}. ${entry}`));
+    }
+    return 0;
+  }
+
+  const result = await withProjectMutationLock(target, async () => {
+    const updated = await updateUnresolvedItems(target, {
+      workItemId: parsed.options["--work-item"],
+      actor: parsed.options["--actor"],
+      resolve: resolutions,
+      merge: additions
+    });
+    if (updated.changed) await refreshStatus(target);
+    return updated;
+  });
+  printResult(parsed, result, [
+    `${result.item.id} unresolved items: ${result.item.unresolved.length}`,
+    `Resolved: ${result.resolved.length ? result.resolved.join(" | ") : "none"}`,
+    `Merged: ${result.merged.length ? result.merged.join(" | ") : "none"}`,
+    `Changed: ${result.changed ? "yes" : "no"}`
   ]);
   return 0;
 }
@@ -493,6 +554,7 @@ export async function main(argv) {
   if (parsed.command === "doctor") return runDoctorCommand(parsed);
   if (parsed.command === "status") return runStatusCommand(parsed);
   if (parsed.command === "work-item" && parsed.action === "create") return runWorkItemCreate(parsed);
+  if (parsed.command === "work-item" && parsed.action === "unresolved") return runWorkItemUnresolved(parsed);
   if (parsed.command === "handoff") return runHandoff(parsed);
   if (parsed.command === "transition") return runTransition(parsed);
   if (parsed.command === "close") return runClose(parsed);

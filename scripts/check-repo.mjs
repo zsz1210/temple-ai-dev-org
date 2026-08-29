@@ -15,6 +15,19 @@ const check = (condition, message) => {
 const packageDocument = await readJson(path.join(root, "package.json"));
 check(packageDocument.version === TEMPLATE_VERSION, "package.json and CLI template versions differ");
 
+const localizedReadmes = new Set(["README.md", "README.ja.md", "README.zh-TW.md"]);
+const cjkText = /[\u3040-\u30ff\u3400-\u9fff\uf900-\ufaff]/;
+for (const file of (await walkFiles(root)).filter(
+  (candidate) =>
+    candidate.endsWith(".md") &&
+    !candidate.startsWith(".git/") &&
+    !candidate.startsWith("node_modules/") &&
+    !localizedReadmes.has(candidate)
+)) {
+  const content = await fs.readFile(path.join(root, file), "utf8");
+  check(!cjkText.test(content), `${file} contains CJK text; non-localized documentation must use English`);
+}
+
 const projectOverlayRoot = path.join(root, "project-overlay");
 const projectOverlayFiles = await walkFiles(projectOverlayRoot);
 check(!projectOverlayFiles.includes(".ai-org/project/agents.json"), "project overlay must not contain Agent identities");

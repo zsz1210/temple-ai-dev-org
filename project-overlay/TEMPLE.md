@@ -41,4 +41,4 @@ When the authorized scope describes a pilot, example, proof, or template validat
 
 `go` at organizational closeout never means “keep developing this product.”
 
-Use the repository-local `$temple-work` Skill only for authorized lifecycle mutations, `$decision-interview` for an open decision (including its evidence-backed mode when repository facts constrain the choice), and `$domain-modeling` when shared terminology or domain boundaries are unclear.
+Use the repository-local `$temple-work` Skill only for authorized lifecycle mutations, `$decision-interview` for an open decision (including its evidence-backed mode when repository facts constrain the choice), `$domain-modeling` when shared terminology or domain boundaries are unclear, and `$project-documentation` when human-facing documentation must be grounded in repository evidence.

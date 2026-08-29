@@ -119,6 +119,9 @@ test("work item lifecycle, handoff, task registry, close, and observer status wo
     "artifacts/developer-test.md"
   ]);
   assert.equal(handoff.status, 0, handoff.stderr || handoff.stdout);
+  const candidateStatus = run(["status", target, "--json", "--no-write"]);
+  assert.equal(candidateStatus.status, 0, candidateStatus.stderr || candidateStatus.stdout);
+  assert.equal(JSON.parse(candidateStatus.stdout).work_items.items[0].latest_revision, "candidate-123");
 
   const laterTransitions = [
     ["test", []],
@@ -174,6 +177,7 @@ test("work item lifecycle, handoff, task registry, close, and observer status wo
   const item = await readJson(path.join(target, ".ai-org/work-items/WI-0001.json"));
   assert.equal(item.state, "done");
   assert.equal(item.release_gate_result, "go");
+  assert.equal(item.developer_candidate_revision, "candidate-123");
   assert.ok(item.evidence.includes(".ai-org/artifacts/WI-0001/release-record.md"));
   const releaseRecord = await fs.readFile(path.join(target, ".ai-org/artifacts/WI-0001/release-record.md"), "utf8");
   assert.match(releaseRecord, /accepted_scope:/);
@@ -198,6 +202,117 @@ test("work item lifecycle, handoff, task registry, close, and observer status wo
   const reinit = run(["init", target, "--config", configPath]);
   assert.equal(reinit.status, 0, reinit.stderr || reinit.stdout);
   assert.equal((await readJson(path.join(target, ".ai-org/project/tasks.json"))).tasks.length, 1);
+});
+
+test("unresolved items can be listed, resolved, merged, and deduplicated safely", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+
+  const created = run([
+    "work-item",
+    "create",
+    target,
+    "--title",
+    "Manage unresolved items",
+    "--unresolved",
+    "Simulator coverage is pending",
+    "--unresolved",
+    "API contract needs review"
+  ]);
+  assert.equal(created.status, 0, created.stderr || created.stdout);
+
+  const listed = run(["work-item", "unresolved", target, "--work-item", "WI-0001", "--json"]);
+  assert.equal(listed.status, 0, listed.stderr || listed.stdout);
+  assert.deepEqual(JSON.parse(listed.stdout), {
+    work_item_id: "WI-0001",
+    unresolved: ["Simulator coverage is pending", "API contract needs review"]
+  });
+
+  const updated = run([
+    "work-item",
+    "unresolved",
+    target,
+    "--work-item",
+    "WI-0001",
+    "--resolve",
+    "API contract needs review",
+    "--merge",
+    "Device coverage is pending",
+    "--merge",
+    " Device coverage is pending "
+  ]);
+  assert.equal(updated.status, 0, updated.stderr || updated.stdout);
+  assert.match(updated.stdout, /Resolved: API contract needs review/);
+  assert.match(updated.stdout, /Merged: Device coverage is pending/);
+  const itemPath = path.join(target, ".ai-org/work-items/WI-0001.json");
+  const item = await readJson(itemPath);
+  assert.deepEqual(item.unresolved, ["Simulator coverage is pending", "Device coverage is pending"]);
+
+  const beforeRejectedResolution = await fs.readFile(itemPath, "utf8");
+  const rejected = run([
+    "work-item",
+    "unresolved",
+    target,
+    "--work-item",
+    "WI-0001",
+    "--resolve",
+    "Unknown issue"
+  ]);
+  assert.equal(rejected.status, 1);
+  assert.match(rejected.stderr, /Unresolved item not found on WI-0001: Unknown issue/);
+  assert.equal(await fs.readFile(itemPath, "utf8"), beforeRejectedResolution);
+
+  const idempotent = run([
+    "work-item",
+    "unresolved",
+    target,
+    "--work-item",
+    "WI-0001",
+    "--merge",
+    "Device coverage is pending"
+  ]);
+  assert.equal(idempotent.status, 0, idempotent.stderr || idempotent.stdout);
+  assert.match(idempotent.stdout, /Merged: none/);
+  assert.match(idempotent.stdout, /Changed: no/);
+
+  const overlapping = run([
+    "work-item",
+    "unresolved",
+    target,
+    "--work-item",
+    "WI-0001",
+    "--resolve",
+    "Device coverage is pending",
+    "--merge",
+    "Device coverage is pending"
+  ]);
+  assert.equal(overlapping.status, 1);
+  assert.match(overlapping.stderr, /Cannot resolve and merge the same unresolved item/);
+  assert.equal(await fs.readFile(itemPath, "utf8"), beforeRejectedResolution);
+
+  const events = (await fs.readFile(path.join(target, ".ai-org/events/events.jsonl"), "utf8"))
+    .trim()
+    .split("\n")
+    .map((line) => JSON.parse(line));
+  assert.equal(events.at(-1).event_type, "work_item_unresolved_updated");
+  assert.deepEqual(events.at(-1).resolved, ["API contract needs review"]);
+  assert.deepEqual(events.at(-1).merged, ["Device coverage is pending"]);
+
+  await fs.writeFile(itemPath, `${JSON.stringify({ ...item, unresolved: "not-an-array" }, null, 2)}\n`);
+  const malformedDoctor = run(["doctor", target]);
+  assert.equal(malformedDoctor.status, 1);
+  assert.match(malformedDoctor.stdout, /Invalid work item files: WI-0001.json/);
+  const malformedList = run(["work-item", "unresolved", target, "--work-item", "WI-0001"]);
+  assert.equal(malformedList.status, 1);
+  assert.match(malformedList.stderr, /invalid unresolved items; expected an array of strings/);
+
+  await fs.writeFile(itemPath, `${JSON.stringify({ ...item, unresolved: ["valid", { invalid: true }] }, null, 2)}\n`);
+  const malformedElementDoctor = run(["doctor", target]);
+  assert.equal(malformedElementDoctor.status, 1);
+  assert.match(malformedElementDoctor.stdout, /Invalid work item files: WI-0001.json/);
+  const malformedElementList = run(["work-item", "unresolved", target, "--work-item", "WI-0001"]);
+  assert.equal(malformedElementList.status, 1);
+  assert.match(malformedElementList.stderr, /invalid unresolved items; expected an array of strings/);
 });
 
 test("transition refuses missing named gate evidence without changing state", async (context) => {
@@ -243,7 +358,7 @@ test("upgrade migrates legacy identity and safely removes obsolete managed skill
 
   const dryRun = run(["upgrade", target, "--dry-run"]);
   assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
-  assert.match(dryRun.stdout, /0\.1\.0-alpha\.3 -> 0\.1\.0-alpha\.7/);
+  assert.match(dryRun.stdout, /0\.1\.0-alpha\.3 -> 0\.1\.0-alpha\.8/);
   assert.match(dryRun.stdout, /remove-managed: 3/);
   assert.equal(await fs.readFile(installedTemple, "utf8"), oldContent);
   await fs.access(path.join(target, obsoleteSkills[0]));
@@ -252,7 +367,7 @@ test("upgrade migrates legacy identity and safely removes obsolete managed skill
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = await fs.readFile(lockPath, "utf8");
   assert.equal(JSON.parse(upgradedLock).template.name, "@zsz1210/temple-ai-dev-org");
-  assert.equal(JSON.parse(upgradedLock).template.version, "0.1.0-alpha.7");
+  assert.equal(JSON.parse(upgradedLock).template.version, "0.1.0-alpha.8");
   assert.match(await fs.readFile(installedTemple, "utf8"), /Project AI development organization operating contract/);
   assert.equal((await readJson(path.join(target, ".ai-org/work-items/WI-0001.json"))).title, "Preserve me");
   for (const relativePath of obsoleteSkills) {

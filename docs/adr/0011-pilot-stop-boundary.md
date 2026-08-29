@@ -1,29 +1,29 @@
-# ADR-0011：Pilot 完成後預設停止
+# ADR-0011: Stop by default when a pilot is complete
 
 - Status: Accepted
 - Date: 2026-08-29
 
 ## Context
 
-FlowDeck greenfield pilot 的目的，是驗證 Temple 能否從模糊點子建立新 repository、完成產品與技術基線，並讓第一張 work item 經過完整 lifecycle。當 callback、測試、exact-revision QA 與 closeout 都成立後，實驗目的已達成；但對話仍把 sample app 當成需要繼續發展的產品，讓「release gate 通過」被誤讀成「可以繼續做下一階段」。
+The FlowDeck greenfield pilot was intended to verify that Temple could turn an ambiguous idea into a new repository, establish product and technical baselines, and take the first work item through the complete lifecycle. Once the callback, tests, exact-revision QA, and closeout all succeeded, the experiment had achieved its purpose. The conversation nevertheless continued treating the sample app as a product that needed further development, misreading "release gate passed" as "continue to the next phase."
 
-這種範圍漂移不只浪費時間，也會讓使用者誤以為 Temple 自動取得了建立新 work item、擴張產品 roadmap 或準備發布的授權。
+This scope drift wastes time and may also make users believe that Temple automatically gained authority to create a new work item, expand the product roadmap, or prepare a release.
 
 ## Decision
 
-當 work item 被定義為 pilot、example、proof 或 template validation 時：
+When a work item is defined as a pilot, example, proof, or template validation:
 
-- Spec 必須寫明 experiment purpose、observable stop condition 與 excluded follow-on work。
-- Release-gate `go` 只接受該次 bounded experiment，不授權下一張產品 work item。
-- Stop condition 達成後，預設動作是凍結 sample、回到 Engineering Manager／使用者、整理 retrospective。
-- 新功能、第二張 work item、distribution 或把 sample 升格成正式產品，都需要新的明確要求。
-- Toolkit 可以保存匿名化或不含產品私有內容的學習，但不得把 private pilot repository 的程式碼或資料複製回開源模板。
+- The specification must state the experiment purpose, observable stop condition, and excluded follow-on work.
+- A release-gate `go` accepts only the bounded experiment; it does not authorize the next product work item.
+- After the stop condition is met, the default action is to freeze the sample, return control to the Engineering Manager and user, and write a retrospective.
+- New features, a second work item, distribution, or promotion of the sample into a formal product all require a new explicit request.
+- The toolkit may preserve anonymized lessons or lessons without private product content, but must not copy code or data from a private pilot repository into the open-source toolkit.
 
-此規則加入專案 operating contract 與共用 instructions。後續 CLI／status 可以增加 pilot projection，但不是本決策生效的前提。
+This rule belongs in the project operating contract and shared instructions. The CLI or status output may add a pilot projection later, but that is not a prerequisite for this decision to take effect.
 
 ## Consequences
 
-- 完成 lifecycle 不再被當成無限延伸產品的授權。
-- Pilot closeout 後會有清楚的停止點與回顧時機。
-- 使用者若真的想把 sample 變成產品，需要明確說明新的目標與風險範圍。
-- Greenfield pilot 可以成功驗證 Temple，同時仍保持 disposable、private、non-production 的定位。
+- Completing the lifecycle no longer grants authority for unlimited product expansion.
+- Pilot closeout has a clear stop point and retrospective opportunity.
+- A user who wants to turn the sample into a product must explicitly define the new goal and risk boundary.
+- A greenfield pilot can validate Temple successfully while remaining disposable, private, and non-production.

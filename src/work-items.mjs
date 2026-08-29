@@ -25,8 +25,91 @@ export async function readWorkItem(target, workItemId) {
   return readJson(itemPath);
 }
 
+function unresolvedItems(item) {
+  if (
+    item.unresolved !== undefined &&
+    (!Array.isArray(item.unresolved) || item.unresolved.some((value) => typeof value !== "string"))
+  ) {
+    throw new Error(`Work item ${item.id} has invalid unresolved items; expected an array of strings`);
+  }
+  return uniqueStrings(item.unresolved);
+}
+
+export async function listUnresolvedItems(target, workItemId) {
+  const item = await readWorkItem(target, workItemId);
+  return {
+    work_item_id: item.id,
+    unresolved: unresolvedItems(item)
+  };
+}
+
 async function writeWorkItem(target, item) {
   await atomicWrite(workItemPath(target, item.id), formatJson(item));
+}
+
+export async function updateUnresolvedItems(target, options) {
+  const context = await loadProjectContext(target);
+  const item = await readWorkItem(target, options.workItemId);
+  const resolutions = uniqueStrings(options.resolve);
+  const additions = uniqueStrings(options.merge);
+  if (resolutions.length === 0 && additions.length === 0) {
+    throw new Error("Provide at least one --resolve or --merge value");
+  }
+  const overlap = resolutions.filter((resolution) => additions.includes(resolution));
+  if (overlap.length > 0) {
+    throw new Error(`Cannot resolve and merge the same unresolved item: ${overlap.join(", ")}`);
+  }
+
+  const existing = unresolvedItems(item);
+  const missing = resolutions.filter((resolution) => !existing.includes(resolution));
+  if (missing.length > 0) {
+    throw new Error(`Unresolved item not found on ${item.id}: ${missing.join(", ")}`);
+  }
+
+  const actor = resolveActor(context, item.owner_position, options.actor);
+  const resolved = new Set(resolutions);
+  const remaining = existing.filter((entry) => !resolved.has(entry));
+  const merged = additions.filter((addition) => !remaining.includes(addition));
+  const unresolved = uniqueStrings([...remaining, ...merged]);
+  const original = Array.isArray(item.unresolved) ? item.unresolved : [];
+  const changed = JSON.stringify(original) !== JSON.stringify(unresolved);
+  const deduplicatedCount = Math.max(0, original.length - existing.length);
+
+  if (!changed) {
+    return {
+      item: { ...item, unresolved },
+      resolved: resolutions,
+      merged,
+      deduplicated_count: deduplicatedCount,
+      changed: false
+    };
+  }
+
+  const timestamp = new Date().toISOString();
+  const updated = {
+    ...item,
+    updated_at: timestamp,
+    unresolved
+  };
+  await writeWorkItem(target, updated);
+  await appendEvent(target, {
+    timestamp,
+    event_type: "work_item_unresolved_updated",
+    actor,
+    work_item_id: item.id,
+    resolved: resolutions,
+    merged,
+    deduplicated_count: deduplicatedCount,
+    refs: [`.ai-org/work-items/${item.id}.json`]
+  });
+
+  return {
+    item: updated,
+    resolved: resolutions,
+    merged,
+    deduplicated_count: deduplicatedCount,
+    changed: true
+  };
 }
 
 async function nextWorkItemId(target) {
@@ -238,6 +321,7 @@ export async function createHandoff(target, options) {
     unresolved: uniqueStrings([...(item.unresolved ?? []), ...unresolved]),
     next_position: toPosition
   };
+  if (item.owner_position === "developer") updated.developer_candidate_revision = inputRevision;
   await writeWorkItem(target, updated);
   await appendEvent(target, {
     timestamp,

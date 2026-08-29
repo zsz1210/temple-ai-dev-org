@@ -1,16 +1,16 @@
-# ADR-0004：Managed、Project-owned、Generated 三種邊界
+# ADR-0004: Managed, project-owned, and generated boundaries
 
 - Status: Accepted
 - Date: 2026-08-29
 
 ## Context
 
-中央模板需要更新規則與 Skill，但不能覆蓋產品規格、Agent 名字或工作歷史。
+The central toolkit needs to update rules and Skills without overwriting product specifications, Agent names, or work history.
 
 ## Decision
 
-每個安裝檔案都歸類為 managed、project-owned 或 generated。`temple.lock` 記錄 managed checksum；不同內容的 managed file 必須停止而非強制覆蓋。
+Every installed file is classified as managed, project-owned, or generated. `temple.lock` records managed checksums; an operation must stop rather than forcibly overwrite a managed file whose contents differ.
 
 ## Consequences
 
-升級較可預測，也需要明確的 extension point 與 conflict resolution 流程。
+Upgrades become more predictable, but they also require explicit extension points and a conflict-resolution process.

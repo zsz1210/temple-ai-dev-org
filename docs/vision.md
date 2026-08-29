@@ -1,45 +1,45 @@
-# 願景與 operating model
+# Vision and operating model
 
-## 要解決的問題
+## Problem to solve
 
-多個 AI 對話各自擁有局部脈絡時，常見結果是重複實作、決策遺失、任務無法延續、對話數量失控，以及標題取代真正的工作識別。Temple 的目標不是讓每個對話記得所有事情，而是讓每個職位都能從同一份外部狀態恢復工作。
+When multiple AI conversations each hold only local context, common outcomes include duplicate implementation, lost decisions, broken continuity, uncontrolled conversation growth, and titles replacing real work identifiers. Temple does not try to make every conversation remember everything. It enables every Position to recover work from the same external state.
 
-## 組織原則
+## Organizational principles
 
-1. Position 是穩定的責任與權限；Agent Identity 是某個專案中的具名執行者；Assignment 才把兩者連起來。
-2. 一個 Agent 可以兼任多個 Position，因此小型專案不需要同時運行九個 AI。
-3. Position 從第一天就完整存在，未來增加 Agent 時只改 Assignment，不改流程語言與歷史資料。
-4. Developer 和 Independent QA 必須是不同 Agent Identity，避免同一執行者自行證明自己的成果。
-5. 人類擁有商業真相、優先順序、成本與高風險批准；Engineering Manager 是主要入口。
-6. 文件、Git 狀態、測試結果、runtime evidence 與 approval record 才是 canonical state。
+1. A Position is a stable set of responsibilities and authority. An Agent Identity is a named executor in a project. An Assignment connects them.
+2. One Agent may hold multiple Positions, so a small project does not need nine AI workers running at once.
+3. Every Position exists from day one. Adding Agents later changes only Assignments, not workflow language or historical data.
+4. Developer and Independent QA must use different Agent Identities so that one executor does not certify its own work.
+5. Humans own business truth, priorities, cost, and high-risk approval. The Engineering Manager is the primary entry point.
+6. Documents, Git state, test results, runtime evidence, and approval records are canonical state.
 
-## 九個 Position
+## The nine Positions
 
-| Position | 主要責任 | 主要輸出 | 不可自行批准 |
+| Position | Primary responsibilities | Primary outputs | Cannot self-approve |
 |---|---|---|---|
-| Engineering Manager | intake、拆分、委派、解阻、整體狀態 | work order、handoff、status | 商業優先級、高風險 release |
-| Product Manager | 問題、範圍、驗收條件 | spec、acceptance criteria | 技術設計與 release |
-| UX Designer | 使用者流程、狀態與互動風險 | UX notes、flow、copy decisions | 實作品質與 release |
-| Tech Lead | 架構、介面、風險與技術決策 | design、ADR、implementation plan | 產品範圍與獨立 QA |
-| Developer | 實作、單元測試、自我驗證 | code、test evidence、handoff | 自己工作的獨立 QA |
-| Quality & Evaluation Engineer | 測試設計、eval、回歸證據 | test plan、eval report | release |
-| Independent QA | 獨立重現、驗收、反例搜尋 | QA report、pass/fail | 自己的 upstream 實作 |
-| Release Manager | release gate、版本、rollback readiness | release record、go/no-go proposal | 高風險人類批准 |
-| Observer | 從 canonical state 建立可觀測 view | status、timeline、stale alerts | 任何產品或 release 決策 |
+| Engineering Manager | Intake, decomposition, delegation, unblocking, overall status | Work order, handoff, status | Business priority, high-risk release |
+| Product Manager | Problem, scope, acceptance criteria | Specification, acceptance criteria | Technical design, release |
+| UX Designer | User flow, states, interaction risks | UX notes, flow, copy decisions | Implementation quality, release |
+| Tech Lead | Architecture, interfaces, risk, technical decisions | Design, ADR, implementation plan | Product scope, independent QA |
+| Developer | Implementation, unit tests, self-verification | Code, test evidence, handoff | Independent QA of their own work |
+| Quality & Evaluation Engineer | Test design, evaluation, regression evidence | Test plan, evaluation report | Release |
+| Independent QA | Independent reproduction, acceptance, counterexample search | QA report, pass or fail | Their own upstream implementation |
+| Release Manager | Release gate, versioning, rollback readiness | Release record, go or no-go proposal | High-risk human approval |
+| Observer | Observable views derived from canonical state | Status, timeline, stale alerts | Any product or release decision |
 
-## 建議的第一個配置
+## Recommended initial configuration
 
-小型專案可以用五個 Agent Identity 覆蓋九個 Position：
+A small project can cover nine Positions with five Agent Identities:
 
-1. Coordination：Engineering Manager、Release Manager、Observer。
-2. Product：Product Manager、UX Designer。
-3. Technical：Tech Lead。
-4. Delivery：Developer。
-5. Quality：Quality & Evaluation Engineer、Independent QA。
+1. Coordination: Engineering Manager, Release Manager, Observer.
+2. Product: Product Manager, UX Designer.
+3. Technical: Tech Lead.
+4. Delivery: Developer.
+5. Quality: Quality & Evaluation Engineer, Independent QA.
 
-這些是 assignment slots，不是 Agent 名字。名字只在專案第一次初始化時建立。
+These are Assignment slots, not Agent names. Names are created only during the project's first initialization.
 
-## 工作生命週期
+## Work lifecycle
 
 ```text
 Intake
@@ -53,4 +53,4 @@ Intake
   → Done
 ```
 
-每次 handoff 都必須包含：work item ID、輸入版本、已完成內容、證據位置、未解決問題、下一位 Position。缺少這些欄位時，不應把聊天內容當作完成證明。
+Every handoff must include the work item ID, input revision, completed work, evidence location, unresolved issues, and next Position. Without these fields, chat content must not be treated as proof of completion.

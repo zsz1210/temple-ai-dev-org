@@ -1,9 +1,9 @@
-# 官方來源與格式依據
+# Official sources and format references
 
-- Codex Skills：<https://developers.openai.com/codex/skills>
-- Codex `AGENTS.md`：<https://developers.openai.com/codex/guides/agents-md>
-- Codex custom agents / subagents：<https://learn.chatgpt.com/docs/agent-configuration/subagents>
-- Archify repository：<https://github.com/tt-a1i/archify>
-- Matt Pocock Skills（設計靈感與 capability review）：<https://github.com/mattpocock/skills>
+- Codex Skills: <https://developers.openai.com/codex/skills>
+- Codex `AGENTS.md`: <https://developers.openai.com/codex/guides/agents-md>
+- Codex custom agents and subagents: <https://learn.chatgpt.com/docs/agent-configuration/subagents>
+- Archify repository: <https://github.com/tt-a1i/archify>
+- Matt Pocock Skills (design inspiration and capability review): <https://github.com/mattpocock/skills>
 
-Phase 1 根據目前官方 Codex 規則，把 repository skills 放在 `.agents/skills`、repository instructions 放在根 `AGENTS.md`，並把 project custom agents 放在 `.codex/agents/*.toml`。這些外部格式可能演進，因此每次中央 Toolkit 升級前都應重新核對官方文件。
+Under the current official Codex conventions, Phase 1 places repository Skills in `.agents/skills`, repository instructions in the root `AGENTS.md`, and project custom agents in `.codex/agents/*.toml`. These external formats may evolve, so verify them against the official documentation before every central toolkit upgrade.

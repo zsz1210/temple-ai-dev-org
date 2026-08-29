@@ -1,23 +1,23 @@
-# ADR-0008：Skill 分層與開源發佈
+# ADR-0008: Skill tiers and open-source distribution
 
 - Status: Accepted
 - Date: 2026-08-29
 
 ## Context
 
-外部 Skill catalogs 包含許多有價值的開發能力，但把整個 catalog 複製進每個專案，會增加重疊 trigger、持續上下文成本、依賴與授權維護。Temple 同時預計公開發佈，因此需要讓使用者分清楚自有實作、外部靈感、vendored code 與選配整合。
+External Skill catalogs contain many valuable development capabilities, but copying an entire catalog into every project creates overlapping triggers, recurring context cost, dependencies, and license maintenance. Temple is also intended for public distribution, so users must be able to distinguish original implementations, external inspiration, vendored code, and optional integrations.
 
 ## Decision
 
-Temple 將能力分為三層：所有專案都需要的 core Skills、經實證後才安裝的 optional packs，以及只存在中央 repository 的 maintainer guidance。
+Temple divides capabilities into three tiers: core Skills needed by every project, optional packs installed only after empirical validation, and maintainer guidance that exists only in the central repository.
 
-本版本把獨立實作的 `domain-modeling` 納入 core；把 TDD、診斷、prototype、code review 與架構改善保存在 capability catalog；把 Skill 寫作原則放在中央維護文件。外部來源必須記錄 URL、pin、license 與採用狀態。除非另有明確決策，不直接 vendor 外部 Skill。
+This version includes the independently implemented `domain-modeling` Skill in core. It preserves TDD, diagnosis, prototyping, code review, and architecture improvement in the capability catalog, while Skill-authoring principles remain in central maintainer documentation. External sources must record their URL, pin, license, and adoption state. Do not vendor an external Skill without an explicit decision.
 
-Repository 採 MIT License。若未來複製或修改第三方程式碼，必須保留其授權要求與 notice，不能只用本 repository 的 LICENSE 取代。
+The repository uses the MIT License. If third-party code is copied or modified in the future, its license requirements and notices must be preserved; this repository's LICENSE cannot replace them.
 
 ## Consequences
 
-- 重要候選能力不會因暫緩安裝而遺失。
-- 新專案的預設上下文維持精簡，Skill trigger 比較不會互相競爭。
-- 第三方靈感、自有實作與未來 vendoring 有可稽核邊界。
-- Optional pack 需要真實 pilot、license review、測試與 ADR，導入速度會比直接複製慢，但可避免長期升級與來源不明問題。
+- Important candidate capabilities are not lost merely because installation is deferred.
+- New projects retain a small default context with fewer competing Skill triggers.
+- Third-party inspiration, original implementations, and future vendoring have auditable boundaries.
+- Optional packs require a real pilot, license review, tests, and an ADR. Adoption is slower than direct copying, but avoids long-term upgrade and provenance problems.

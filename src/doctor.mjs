@@ -151,7 +151,9 @@ export async function runDoctor(target) {
           workflowStates.has(item.state) &&
           positionIds.has(item.owner_position) &&
           (item.assigned_agent_id === null || item.assigned_agent_id === undefined || agentIds.has(item.assigned_agent_id)) &&
-          Array.isArray(item.evidence);
+          Array.isArray(item.evidence) &&
+          (item.unresolved === undefined ||
+            (Array.isArray(item.unresolved) && item.unresolved.every((value) => typeof value === "string")));
         if (!valid) invalidWorkItems.push(entry.name);
         seenWorkItemIds.add(item.id);
       } catch {
