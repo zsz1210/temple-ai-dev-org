@@ -117,3 +117,7 @@ The `temple.retrieval-provider/v1` contract reserves an adapter boundary with `i
 - Evaluate retrieval failures from real work before adding semantic infrastructure.
 
 This design supports small repositories without setup overhead and provides a stable seam for larger repositories without making RAG a dependency of every project.
+
+## Validation evidence
+
+The bounded local and CI evidence for alpha.12 is preserved in [Alpha.12 Progressive Context Routing validation](validation/alpha-12-progressive-context-routing.md). It proves the stated deterministic installation and CLI path, not real-project cross-task recovery, multi-maintainer governance, large-repository retrieval quality, or a semantic provider.

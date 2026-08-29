@@ -55,6 +55,7 @@ The private FlowDeck pilot completed:
 - Alpha.10 adds the minimal Engineering Learning Loop foundation without installing a retrospective Skill or automatic promotion workflow.
 - Alpha.11 adds UI Designer and risk-scaled, tool-neutral UI delivery modes without requiring Figma or a pre-implementation mockup for every project.
 - Alpha.12 adds deterministic Progressive Context Routing, project Skill discovery without ownership transfer, bounded Context Capsules, and affected-path overlap warnings. Semantic or hybrid retrieval remains an adapter boundary rather than a default dependency.
+- Alpha.12 local and CI evidence is preserved in the [Progressive Context Routing validation record](validation/alpha-12-progressive-context-routing.md); real-project cross-task recovery, multi-maintainer behavior, large-repository retrieval quality, and semantic providers remain unverified.
 
 Phase 1.5 is not yet complete:
 
