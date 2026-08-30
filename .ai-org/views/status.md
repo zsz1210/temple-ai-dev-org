@@ -4,8 +4,8 @@
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=true
-- Work items: 30 total, 2 active
+- Parallel plan: 0 wave(s), fresh=false
+- Work items: 35 total, 7 active
 - Codex tasks: 4 registered, 3 archive-ready
 - Runtime workers: 22 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -16,7 +16,7 @@
 - Learning revalidation: 0 due, 0 contradicted
 - Specifications: 0 indexed, 0 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 7
+- Attention signals: 8
 
 ## Collaboration
 
@@ -33,7 +33,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: yes
+- Fresh: no
 - Safe waves: 0
 - Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 2 / 0
@@ -74,6 +74,11 @@
 | WI-0028 | Publish Alpha.27 private release checkpoint | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5e90ba28` | 0 | 8 | 0 |
 | WI-0029 | Prototype local Agent Command Gateway | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `38a185eb` | 1 | 8 | 2 |
 | WI-0030 | Prevent complete command retention | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `ba066d73` | 0 | 11 | 2 |
+| WI-0031 | Harden Temple before the next release | spec | Product Manager | Yuna | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 0 |
+| WI-0032 | Sandbox federation participant Git inspection | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
+| WI-0033 | Establish operator-owned provider trust | spec | Product Manager | Yuna | blocked | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 1 |
+| WI-0034 | Make Dashboard current-state interaction trustworthy | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `—` | 0 | 3 | 0 |
+| WI-0035 | Reduce CI cost without hiding behavioral results | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 
 ## Codex task registry
 
@@ -124,6 +129,7 @@
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
+- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
@@ -178,14 +184,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-30T13:20:54.003Z | learning_added | — | human |
-| 2026-08-30T13:20:45.038Z | learning_added | — | human |
-| 2026-08-30T13:14:27.420Z | work_item_transitioned | WI-0030 | agent-lulu |
-| 2026-08-30T13:14:22.447Z | evidence_recorded | WI-0030 | human |
-| 2026-08-30T13:14:22.185Z | evidence_recorded | WI-0030 | human |
-| 2026-08-30T13:14:10.031Z | work_item_claimed | WI-0030 | human |
-| 2026-08-30T13:07:13.381Z | work_item_transitioned | WI-0030 | agent-lulu |
-| 2026-08-30T13:07:09.151Z | work_item_transitioned | WI-0030 | agent-lulu |
+| 2026-08-30T13:57:26.270Z | work_item_coordination_configured | WI-0035 | agent-rikku |
+| 2026-08-30T13:57:26.004Z | work_item_transitioned | WI-0035 | agent-tidus |
+| 2026-08-30T13:57:25.746Z | work_item_transitioned | WI-0035 | agent-yuna |
+| 2026-08-30T13:57:25.486Z | work_item_transitioned | WI-0035 | agent-mog |
+| 2026-08-30T13:57:25.213Z | work_item_coordination_configured | WI-0035 | agent-mog |
+| 2026-08-30T13:57:24.948Z | work_item_coordination_configured | WI-0034 | agent-rikku |
+| 2026-08-30T13:57:15.320Z | work_item_transitioned | WI-0034 | agent-tidus |
+| 2026-08-30T13:57:15.061Z | work_item_transitioned | WI-0034 | agent-yuna |
 
 ## Assignments
 

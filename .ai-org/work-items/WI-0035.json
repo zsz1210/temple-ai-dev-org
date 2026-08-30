@@ -1,0 +1,69 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0035",
+  "title": "Reduce CI cost without hiding behavioral results",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T13:55:48.150Z",
+  "updated_at": "2026-08-30T13:57:26.270Z",
+  "scope": [
+    "Separate governance/document signal from behavioral test signal, add a strict evidence/state-only verification scope, and preserve fail-closed full verification for executable, schema, workflow, package, test, unknown, rename, deletion, or mode changes."
+  ],
+  "acceptance_criteria": [
+    "A governance failure remains release-blocking but does not prevent the behavioral lane from producing its result; job summary reports both outcomes and the chosen scope.",
+    "Strict evidence/state-only changes run repository checks, fast contracts, schema, Doctor, and focused evidence/status verification without all integration tests; adversarial scope tests prove unsafe or ambiguous changes select full verification."
+  ],
+  "affected_paths": [
+    ".github/workflows/ci.yml",
+    "scripts/ci-scope.mjs",
+    "test/ci-scope.test.mjs",
+    "docs/getting-started/testing.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": "WI-0031",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "6bb7e17e465b1fb94be7cbe63f6dfe4ec5aa00cd",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": "agent-rikku",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0035.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0035.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0035.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0035.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0035.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0035.md",
+    ".ai-org/work-items/WI-0035.json"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

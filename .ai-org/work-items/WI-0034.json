@@ -1,0 +1,81 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0034",
+  "title": "Make Dashboard current-state interaction trustworthy",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T13:55:47.894Z",
+  "updated_at": "2026-08-30T13:57:24.948Z",
+  "scope": [
+    "Preserve in-progress Agent Command input across unrelated live refreshes and make current, approval, QA, stale, and attention states truthful and discoverable before terminal history."
+  ],
+  "acceptance_criteria": [
+    "Unrelated SSE refreshes preserve dirty instruction text, selection, and focus; target-state changes invalidate confirmation visibly without silently discarding the draft.",
+    "Dashboard metrics and attention surfaces agree with canonical status, repository-origin timeline events are not duplicated as fresh observations, and current work appears before terminal history at desktop and 420px."
+  ],
+  "affected_paths": [
+    "src/control-plane-dashboard.mjs",
+    "src/observer.mjs",
+    "src/live-observer.mjs",
+    "src/control-plane-inbox.mjs",
+    "test/control-plane-live.test.mjs",
+    "test/control-plane-inbox.test.mjs",
+    "docs/operations/control-plane.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "code-first",
+  "parent_work_item_id": "WI-0031",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "6bb7e17e465b1fb94be7cbe63f6dfe4ec5aa00cd",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": "agent-rikku",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0029 and WI-0030 retain Agent Command release authority; WI-0033 owns provider trust sections and remains out of Build; WI-0034 owns only review-found Dashboard state preservation, attention, ordering, freshness, accessibility, and timeline correction."
+  ],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0034.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0034.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0034.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0034.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0034.md"
+    ],
+    "ui_brief": [
+      ".ai-org/artifacts/WI-0034/ui-brief.md"
+    ],
+    "required_state_coverage": [
+      ".ai-org/artifacts/WI-0034/ui-brief.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0034.md",
+    ".ai-org/work-items/WI-0034.json",
+    ".ai-org/artifacts/WI-0034/ui-brief.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

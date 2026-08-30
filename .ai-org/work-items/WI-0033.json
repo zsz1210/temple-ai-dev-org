@@ -1,0 +1,63 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0033",
+  "title": "Establish operator-owned provider trust",
+  "state": "spec",
+  "owner_position": "product_manager",
+  "assigned_agent_id": "agent-yuna",
+  "created_at": "2026-08-30T13:55:47.632Z",
+  "updated_at": "2026-08-30T13:57:03.121Z",
+  "scope": [
+    "Move executable selection, credential binding, and approved provider origins outside repository-controlled configuration before enterprise or untrusted-repository adoption."
+  ],
+  "acceptance_criteria": [
+    "A checked-in repository cannot select an arbitrary ambient secret, send it to an unapproved origin, or execute an arbitrary provider command merely by starting the control plane.",
+    "The design retains an explicit path for approved GitHub Enterprise origins and approved Codex executables without storing credentials in the repository."
+  ],
+  "affected_paths": [
+    "src/control-plane-config.mjs",
+    "src/github-control-plane-provider.mjs",
+    "src/codex-app-server-provider.mjs",
+    "src/control-plane-server.mjs",
+    ".ai-org/core/schemas/control-plane-config.schema.json",
+    "docs/operations/control-plane.md",
+    "SECURITY.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": "WI-0031",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "6bb7e17e465b1fb94be7cbe63f6dfe4ec5aa00cd",
+  "parallel_mode": "blocked",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": "agent-yuna",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0032 owns federation Git SECURITY sections; WI-0033 owns provider-trust SECURITY sections and remains out of Build pending approval."
+  ],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0033.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0033.md"
+  ],
+  "unresolved": [
+    "Product decision required: choose the operator-local approval model for provider origins, credential handles, executable path and argument pinning before Build."
+  ],
+  "next_position": "tech_lead"
+}

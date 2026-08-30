@@ -1,0 +1,71 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0032",
+  "title": "Sandbox federation participant Git inspection",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T13:55:47.366Z",
+  "updated_at": "2026-08-30T13:57:02.072Z",
+  "scope": [
+    "Prevent participant-controlled Git configuration, ambient credentials, nested repository discovery, and partial-clone lazy fetch from violating the read-only federation boundary."
+  ],
+  "acceptance_criteria": [
+    "Federation verifies that each participant path is the exact Git worktree root, disables executable repository Git configuration, uses a scrubbed noninteractive environment, forbids lazy fetch, and fails closed under hostile fixtures.",
+    "Focused federation tests, full verification, schema, Doctor, and independent hostile-repository QA pass without network or external side effects."
+  ],
+  "affected_paths": [
+    "src/federation.mjs",
+    "test/federation.test.mjs",
+    "docs/operations/multi-repository-federation.md",
+    "SECURITY.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": "WI-0031",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "6bb7e17e465b1fb94be7cbe63f6dfe4ec5aa00cd",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": "agent-rikku",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0033 owns provider-trust SECURITY sections; WI-0032 owns federation Git SECURITY sections and Mog joins both."
+  ],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0032.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0032.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0032.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0032.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0032.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0032.md",
+    ".ai-org/work-items/WI-0032.json"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

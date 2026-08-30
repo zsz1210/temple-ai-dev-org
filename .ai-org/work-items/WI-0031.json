@@ -1,0 +1,52 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0031",
+  "title": "Harden Temple before the next release",
+  "state": "spec",
+  "owner_position": "product_manager",
+  "assigned_agent_id": "agent-yuna",
+  "created_at": "2026-08-30T13:55:47.107Z",
+  "updated_at": "2026-08-30T13:56:48.241Z",
+  "scope": [
+    "Coordinate the pre-release corrective program produced by the integrated Dashboard, federation, CI, and measurement review without closing or publishing any existing release gate."
+  ],
+  "acceptance_criteria": [
+    "Every P0 security boundary has an exact corrective Work Item and independent evidence; Dashboard and CI corrections remain separately reviewable; unresolved product decisions stay explicit."
+  ],
+  "affected_paths": [
+    "docs/planning/pre-release-hardening.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "6bb7e17e465b1fb94be7cbe63f6dfe4ec5aa00cd",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0031.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0031.md"
+  ],
+  "unresolved": [],
+  "next_position": "tech_lead"
+}
