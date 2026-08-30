@@ -4,7 +4,7 @@
     {
       "id": "worker-20260830072608-b7b8004f",
       "runtime_kind": "internal-subagent",
-      "status": "active",
+      "status": "completed",
       "work_item_id": "WI-0016",
       "position_id": "developer",
       "agent_id": "agent-rikku",
@@ -20,17 +20,20 @@
       "runtime_id": "/root/framework_docs_review",
       "task_id": null,
       "resource_reservation_ids": [],
-      "current_revision": null,
-      "evidence": [],
+      "current_revision": "88652ecc2f3b8d86f529e6bb8291d3f9e671fd23",
+      "evidence": [
+        "focused Phase 4A tests 18/18",
+        "full verification 173/173"
+      ],
       "reserved_at": "2026-08-30T07:26:08.992Z",
       "attached_at": "2026-08-30T07:26:16.736Z",
-      "completed_at": null,
-      "updated_at": "2026-08-30T07:26:16.736Z"
+      "completed_at": "2026-08-30T07:45:13.411Z",
+      "updated_at": "2026-08-30T07:45:13.411Z"
     },
     {
       "id": "worker-20260830072609-1d5724c1",
       "runtime_kind": "internal-subagent",
-      "status": "active",
+      "status": "completed",
       "work_item_id": "WI-0017",
       "position_id": "developer",
       "agent_id": "agent-rikku",
@@ -46,17 +49,20 @@
       "runtime_id": "/root/ownership_code_review",
       "task_id": null,
       "resource_reservation_ids": [],
-      "current_revision": null,
-      "evidence": [],
+      "current_revision": "ab96c713c15622cd39fe19c1609b7758c9696acd",
+      "evidence": [
+        "focused Phase 4B tests 19/19",
+        "full verification 168/168"
+      ],
       "reserved_at": "2026-08-30T07:26:09.259Z",
       "attached_at": "2026-08-30T07:26:17.005Z",
-      "completed_at": null,
-      "updated_at": "2026-08-30T07:26:17.005Z"
+      "completed_at": "2026-08-30T07:42:01.747Z",
+      "updated_at": "2026-08-30T07:42:01.747Z"
     },
     {
       "id": "worker-20260830072609-5c71b9c9",
       "runtime_kind": "internal-subagent",
-      "status": "active",
+      "status": "completed",
       "work_item_id": "WI-0018",
       "position_id": "developer",
       "agent_id": "agent-rikku",
@@ -72,12 +78,15 @@
       "runtime_id": "/root/skill_forward_test",
       "task_id": null,
       "resource_reservation_ids": [],
-      "current_revision": null,
-      "evidence": [],
+      "current_revision": "48cc6697b76fd9f3ead5a79d65630fbbfbe3138d",
+      "evidence": [
+        "focused federation tests 5/5",
+        "full verification 170/170"
+      ],
       "reserved_at": "2026-08-30T07:26:09.540Z",
       "attached_at": "2026-08-30T07:26:17.263Z",
-      "completed_at": null,
-      "updated_at": "2026-08-30T07:26:17.263Z"
+      "completed_at": "2026-08-30T07:41:13.231Z",
+      "updated_at": "2026-08-30T07:41:13.231Z"
     }
   ]
 }

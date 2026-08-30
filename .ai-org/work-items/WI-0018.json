@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-08-30T07:23:06.292Z",
-  "updated_at": "2026-08-30T07:26:09.543Z",
+  "updated_at": "2026-08-30T07:41:13.517Z",
   "scope": [
     "Implement project-owned participant registries, composite cross-project references, compatibility waves, and a read-only unknown-safe portfolio projection."
   ],
@@ -51,26 +51,32 @@
   "overlap_resolution": [],
   "claim": {
     "id": "claim-20260830072609-f350ca4c",
-    "status": "active",
+    "status": "released",
     "principal_id": "project-owner",
     "agent_id": "agent-rikku",
     "base_revision": "dfebc7fb4a683395fea36950e90b9c40ea118487",
     "branch": "phase4/wi-0018",
     "worktree": "/tmp/temple-phase4.slCwlE/wi-0018",
     "claimed_at": "2026-08-30T07:26:09.543Z",
-    "released_at": null
+    "released_at": "2026-08-30T07:41:13.517Z",
+    "release_reason": [
+      "Developer worker completed; exact commit handed to Integration Owner Mog"
+    ]
   },
   "claims": [
     {
       "id": "claim-20260830072609-f350ca4c",
-      "status": "active",
+      "status": "released",
       "principal_id": "project-owner",
       "agent_id": "agent-rikku",
       "base_revision": "dfebc7fb4a683395fea36950e90b9c40ea118487",
       "branch": "phase4/wi-0018",
       "worktree": "/tmp/temple-phase4.slCwlE/wi-0018",
       "claimed_at": "2026-08-30T07:26:09.543Z",
-      "released_at": null
+      "released_at": "2026-08-30T07:41:13.517Z",
+      "release_reason": [
+        "Developer worker completed; exact commit handed to Integration Owner Mog"
+      ]
     }
   ],
   "gate_evidence": {

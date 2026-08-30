@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-08-30T07:23:06.023Z",
-  "updated_at": "2026-08-30T07:26:09.262Z",
+  "updated_at": "2026-08-30T07:42:02.040Z",
   "scope": [
     "Stabilize provider-aware usage observation, natural-work-item longitudinal qualification, and fail-closed model and budget recommendations without fabricating Token evidence."
   ],
@@ -53,26 +53,32 @@
   "overlap_resolution": [],
   "claim": {
     "id": "claim-20260830072609-47604ca3",
-    "status": "active",
+    "status": "released",
     "principal_id": "project-owner",
     "agent_id": "agent-rikku",
     "base_revision": "dfebc7fb4a683395fea36950e90b9c40ea118487",
     "branch": "phase4/wi-0017",
     "worktree": "/tmp/temple-phase4.slCwlE/wi-0017",
     "claimed_at": "2026-08-30T07:26:09.262Z",
-    "released_at": null
+    "released_at": "2026-08-30T07:42:02.040Z",
+    "release_reason": [
+      "Developer worker completed; exact commit handed to Integration Owner Mog"
+    ]
   },
   "claims": [
     {
       "id": "claim-20260830072609-47604ca3",
-      "status": "active",
+      "status": "released",
       "principal_id": "project-owner",
       "agent_id": "agent-rikku",
       "base_revision": "dfebc7fb4a683395fea36950e90b9c40ea118487",
       "branch": "phase4/wi-0017",
       "worktree": "/tmp/temple-phase4.slCwlE/wi-0017",
       "claimed_at": "2026-08-30T07:26:09.262Z",
-      "released_at": null
+      "released_at": "2026-08-30T07:42:02.040Z",
+      "release_reason": [
+        "Developer worker completed; exact commit handed to Integration Owner Mog"
+      ]
     }
   ],
   "gate_evidence": {
