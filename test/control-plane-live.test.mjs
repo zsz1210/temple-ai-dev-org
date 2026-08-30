@@ -599,6 +599,7 @@ test("Codex App Server Agent commands enforce registered state, exact active tur
   assert.equal(turnStarts.length, 1);
   assert.equal(turnSteers.length, 2);
   assert.deepEqual(Object.keys(turnStarts[0].params).sort(), ["clientUserMessageId", "input", "threadId", "turnTrigger"]);
+  assert.equal(turnStarts[0].params.input[0].text, "Start the deterministic fixture turn");
   assert.deepEqual(Object.keys(turnSteers[0].params).sort(), ["clientUserMessageId", "expectedTurnId", "input", "threadId"]);
   assert.equal(calls.filter((entry) => entry.method === "turn/interrupt").length, 1);
 });

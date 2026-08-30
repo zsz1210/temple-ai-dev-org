@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -362,6 +363,7 @@ test("Agent command gateway is opt-in, idempotent, privacy-bounded, and preserve
   assert.equal(accepted.provider_turn_id, "turn-created-1");
   assert.equal(accepted.automatic_retry, false);
   assert.equal(provider.calls.length, 1);
+  assert.equal(provider.calls[0].instruction, instruction);
   const replay = await gateway.submit("agent-command", acceptedPayload);
   assert.equal(replay.idempotent_replay, true);
   assert.equal(replay.status, "turn-started");
@@ -391,9 +393,12 @@ test("Agent command gateway is opt-in, idempotent, privacy-bounded, and preserve
   assert.doesNotMatch(storedText, /sk-ABCDEFGHIJKLMNOPQRSTUVWX/);
   assert.equal(storedText.includes(instruction), false);
   const stored = JSON.parse(storedText).entries.find((entry) => entry.idempotency_key === acceptedPayload.idempotency_key);
-  assert.match(stored.instruction_preview, /\[REDACTED\]/);
+  assert.equal(stored.instruction_summary, `Instruction content omitted · ${instruction.length} characters`);
   assert.equal(stored.instruction_length, instruction.length);
-  assert.match(stored.instruction_sha256, /^[0-9a-f]{64}$/);
+  assert.equal(stored.instruction_content_retained, false);
+  for (const forbidden of ["instruction", "instruction_preview", "instruction_sha256", "preview_truncated", "request_digest"]) {
+    assert.equal(Object.hasOwn(stored, forbidden), false, `${forbidden} must not be retained`);
+  }
   assert.equal(stored.automatic_retry, false);
   const inbox = await buildHumanInbox(target, stateDirectory, provider, {
     agentCommands: { enabled: true, max_instruction_chars: 200 }
@@ -431,6 +436,113 @@ test("Agent command gateway is opt-in, idempotent, privacy-bounded, and preserve
   assert.equal(completed.transport_status, "provider-accepted");
   assert.equal(completed.execution_status, "completed");
   assert.equal(completed.updated_at, "2026-08-30T12:00:00.000Z");
+});
+
+test("Agent command durable state keeps only non-content metadata across adversarial instruction lengths", async (context) => {
+  const { target, stateDirectory, workItemId } = await fixture(context);
+  const commandTarget = {
+    task_id: "task-command-privacy",
+    work_item_id: workItemId,
+    work_item_title: "Bounded Inbox decision",
+    position_id: "developer",
+    agent_id: "agent-fixture-devon",
+    provider_thread_id: "thread-command-privacy",
+    task_status: "active",
+    work_item_state: "intake",
+    active_turn_id: null,
+    operations: ["new-turn"],
+    available: true,
+    unavailable_reason: null
+  };
+  const provider = fakeAgentCommandProvider(commandTarget);
+  const gateway = createHumanInboxGateway({
+    target,
+    stateDirectory,
+    codexProvider: provider,
+    privacy: defaultControlPlaneConfig().privacy,
+    agentCommands: { enabled: true, max_instruction_chars: 4000 }
+  });
+  const instructions = [
+    "§",
+    "Q7?",
+    "B".repeat(240),
+    "L".repeat(241),
+    "M".repeat(4000),
+    "Use sk-ABCDEFGHIJKLMNOPQRSTUVWX exactly once"
+  ];
+  const payloadFor = (instruction, index) => ({
+    idempotency_key: `agent-privacy-${String(index).padStart(4, "0")}`,
+    task_id: commandTarget.task_id,
+    work_item_id: commandTarget.work_item_id,
+    operation: "new-turn",
+    instruction,
+    expected_task_status: commandTarget.task_status,
+    expected_work_item_state: commandTarget.work_item_state,
+    expected_provider_thread_id: commandTarget.provider_thread_id,
+    expected_active_turn_id: null,
+    confirmed: true
+  });
+
+  for (const [index, instruction] of instructions.entries()) {
+    const result = await gateway.submit("agent-command", payloadFor(instruction, index));
+    assert.equal(result.status, "turn-started");
+  }
+  assert.deepEqual(provider.calls.map((call) => call.instruction), instructions);
+  assert.equal(provider.calls.length, instructions.length);
+
+  const replayPayload = payloadFor(instructions[1], 1);
+  assert.equal((await gateway.submit("agent-command", replayPayload)).idempotent_replay, true);
+  assert.equal(provider.calls.length, instructions.length);
+  await assert.rejects(
+    () => gateway.submit("agent-command", { ...replayPayload, instruction: "R8!" }),
+    /different request/
+  );
+  assert.equal(provider.calls.length, instructions.length);
+  await assert.rejects(
+    () => gateway.submit("agent-command", payloadFor("X".repeat(4001), 9999)),
+    /exceeds 4000 characters/
+  );
+  assert.equal(provider.calls.length, instructions.length);
+
+  const commandsPath = path.join(stateDirectory, "inbox", "commands.json");
+  const legacy = JSON.parse(await fs.readFile(commandsPath, "utf8"));
+  legacy.entries[0] = {
+    ...legacy.entries[0],
+    instruction: instructions[0],
+    instruction_preview: instructions[0],
+    instruction_sha256: crypto.createHash("sha256").update(instructions[0]).digest("hex"),
+    preview_truncated: false,
+    request_digest: crypto.createHash("sha256").update(JSON.stringify(replayPayload)).digest("hex")
+  };
+  await fs.writeFile(commandsPath, `${JSON.stringify(legacy, null, 2)}\n`);
+
+  const inbox = await buildHumanInbox(target, stateDirectory, provider, {
+    agentCommands: { enabled: true, max_instruction_chars: 4000 }
+  });
+  const storedText = await fs.readFile(commandsPath, "utf8");
+  const stored = JSON.parse(storedText);
+  assert.equal(stored.entries.length, instructions.length);
+  for (const [index, record] of stored.entries.entries()) {
+    const instruction = instructions[index];
+    assert.equal(record.instruction_summary, `Instruction content omitted · ${instruction.length} character${instruction.length === 1 ? "" : "s"}`);
+    assert.equal(record.instruction_length, instruction.length);
+    assert.equal(record.instruction_content_retained, false);
+    for (const forbidden of ["instruction", "instruction_preview", "instruction_sha256", "preview_truncated", "request_digest"]) {
+      assert.equal(Object.hasOwn(record, forbidden), false, `${forbidden} must not be retained`);
+    }
+    assert.equal(Object.values(record).some((value) => value === instruction), false);
+    assert.equal(storedText.includes(crypto.createHash("sha256").update(instruction).digest("hex")), false);
+    if (instruction.length > 3) assert.equal(storedText.includes(instruction), false);
+  }
+  const publicText = JSON.stringify(inbox.agent_commands.recent_commands);
+  assert.doesNotMatch(publicText, /sk-ABCDEFGHIJKLMNOPQRSTUVWX/);
+  assert.equal(inbox.agent_commands.recent_commands.every((record) =>
+    record.instruction_content_retained === false &&
+    !Object.hasOwn(record, "instruction_preview") &&
+    !Object.hasOwn(record, "instruction_sha256")
+  ), true);
+  const auditText = await fs.readFile(path.join(stateDirectory, "inbox", "audit.jsonl"), "utf8");
+  assert.doesNotMatch(auditText, /sk-ABCDEFGHIJKLMNOPQRSTUVWX/);
 });
 
 test("governance approval enforces current state, exact revision, active principals, and High-Assurance independence", async (context) => {
@@ -551,6 +663,9 @@ test("loopback command gateway rejects cross-origin, unauthenticated, and arbitr
   assert.match(dashboard, /Agent Commands · local and opt-in/);
   assert.match(dashboard, /Delivery is unknown/);
   assert.match(dashboard, /I reviewed the exact target, operation, and local preview/);
+  assert.match(dashboard, /History retains only a non-content summary and instruction length/);
+  assert.match(dashboard, /Retained summary/);
+  assert.doesNotMatch(dashboard, /Retained preview|instruction_sha256|bounded redacted preview/);
 
   const body = {
     idempotency_key: "server-command-0001",

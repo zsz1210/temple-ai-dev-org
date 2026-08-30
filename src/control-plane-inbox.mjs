@@ -20,6 +20,7 @@ export const AGENT_COMMAND_OPERATIONS = ["new-turn", "steer", "interrupt"];
 
 const IDEMPOTENCY_KEY = /^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$/;
 const SUBMISSION_ID = /^submission-[a-f0-9]{16}$/;
+const commandStoreQueues = new Map();
 
 export class InboxCommandError extends Error {
   constructor(message, statusCode = 400) {
@@ -68,15 +69,64 @@ function auditPath(stateDirectory) {
 }
 
 async function readCommands(stateDirectory) {
-  const filePath = commandsPath(stateDirectory);
-  return (await pathExists(filePath))
-    ? readJson(filePath)
-    : { schema_version: INBOX_COMMANDS_SCHEMA, entries: [] };
+  const previous = commandStoreQueues.get(stateDirectory) ?? Promise.resolve();
+  let release;
+  const current = new Promise((resolve) => { release = resolve; });
+  const tail = previous.then(() => current);
+  commandStoreQueues.set(stateDirectory, tail);
+  await previous;
+  try {
+    const filePath = commandsPath(stateDirectory);
+    if (!(await pathExists(filePath))) return { schema_version: INBOX_COMMANDS_SCHEMA, entries: [] };
+    const document = await readJson(filePath);
+    const entries = (document.entries ?? []).map((record) => sanitizeStoredAgentCommand(record));
+    const sanitized = { ...document, entries };
+    if (JSON.stringify(sanitized) !== JSON.stringify(document)) {
+      await atomicWrite(filePath, formatJson(sanitized));
+    }
+    return sanitized;
+  } finally {
+    release();
+    if (commandStoreQueues.get(stateDirectory) === tail) commandStoreQueues.delete(stateDirectory);
+  }
 }
 
-function safeInstructionPreview(instruction, privacy, limit = 240) {
-  const prefix = String(instruction ?? "").slice(0, limit);
-  return boundedText(redactTelemetryData({ value: prefix }, privacy).value, limit);
+function instructionSummary(length) {
+  if (length === 0) return "No instruction content (interrupt)";
+  return `Instruction content omitted · ${length} character${length === 1 ? "" : "s"}`;
+}
+
+function sanitizeStoredAgentCommand(record) {
+  if (record?.request_class !== "agent-command") return record;
+  const {
+    instruction: _instruction,
+    instruction_preview: _instructionPreview,
+    instruction_sha256: _instructionSha256,
+    preview_truncated: _previewTruncated,
+    request_digest: _requestDigest,
+    ...metadata
+  } = record;
+  const length = Number.isInteger(record.instruction_length) && record.instruction_length >= 0
+    ? record.instruction_length
+    : 0;
+  return {
+    ...metadata,
+    instruction_summary: instructionSummary(length),
+    instruction_length: length,
+    instruction_content_retained: false
+  };
+}
+
+function agentCommandMetadataMatches(record, payload, instruction) {
+  return record.request_class === "agent-command" &&
+    record.task_id === payload.task_id &&
+    record.work_item_id === payload.work_item_id &&
+    record.operation === payload.operation &&
+    record.expected_task_status === payload.expected_task_status &&
+    record.expected_work_item_state === payload.expected_work_item_state &&
+    record.provider_thread_id === payload.expected_provider_thread_id &&
+    (record.expected_active_turn_id ?? null) === (payload.expected_active_turn_id ?? null) &&
+    record.instruction_length === instruction.length;
 }
 
 function terminalCommandObservations(journal) {
@@ -116,10 +166,9 @@ function publicAgentCommand(record, terminalObservations = new Map()) {
     status: observedTerminal ? observation.status : record.status,
     transport_status: record.transport_status,
     execution_status: observedTerminal ? observation.status : record.execution_status,
-    instruction_preview: record.instruction_preview,
+    instruction_summary: record.instruction_summary,
     instruction_length: record.instruction_length,
-    instruction_sha256: record.instruction_sha256,
-    preview_truncated: record.preview_truncated,
+    instruction_content_retained: false,
     provider_method: record.provider_method,
     rejection_code: record.rejection_code,
     automatic_retry: false,
@@ -535,10 +584,10 @@ export function createHumanInboxGateway(options) {
   const { target, stateDirectory, codexProvider, privacy } = options;
   const agentCommands = options.agentCommands ?? { enabled: false, max_instruction_chars: 4000 };
   const journal = options.journal ?? null;
+  const transientAgentRequestDigests = new Map();
   let queue = Promise.resolve();
 
-  async function executeAgentCommand(payload, idempotencyKey, requestDigest, commands) {
-    const instruction = assertAgentCommandPayload(payload, agentCommands);
+  async function executeAgentCommand(payload, instruction, idempotencyKey, requestDigest, commands) {
     if (!codexProvider?.prepareAgentCommand || !codexProvider?.dispatchAgentCommand) {
       throw new InboxCommandError("Codex provider does not expose the bounded Agent command contract", 409);
     }
@@ -551,7 +600,6 @@ export function createHumanInboxGateway(options) {
     const record = {
       command_id: `agent-command-${sha256(idempotencyKey).slice(0, 16)}`,
       idempotency_key: idempotencyKey,
-      request_digest: requestDigest,
       request_class: "agent-command",
       task_id: targetView.task_id,
       work_item_id: targetView.work_item_id,
@@ -568,16 +616,16 @@ export function createHumanInboxGateway(options) {
       status: "submitted",
       transport_status: "submitted",
       execution_status: "pending",
-      instruction_preview: instruction ? safeInstructionPreview(instruction, privacy) : null,
+      instruction_summary: instructionSummary(instruction.length),
       instruction_length: instruction.length,
-      instruction_sha256: instruction ? sha256(instruction) : null,
-      preview_truncated: instruction.length > 240,
+      instruction_content_retained: false,
       provider_method: null,
       rejection_code: null,
       automatic_retry: false,
       external_action_performed: false
     };
     await atomicWrite(commandsPath(stateDirectory), formatJson({ ...commands, entries: [...(commands.entries ?? []), record] }));
+    transientAgentRequestDigests.set(idempotencyKey, requestDigest);
     let dispatched;
     try {
       dispatched = await codexProvider.dispatchAgentCommand({
@@ -603,7 +651,7 @@ export function createHumanInboxGateway(options) {
         task_id: rejected.task_id,
         operation: rejected.operation,
         result: "rejected",
-        error: boundedText(error.message, 500),
+        error: "Agent command provider error omitted from durable audit",
         canonical_state_changed: false,
         external_action_performed: false
       });
@@ -635,11 +683,23 @@ export function createHumanInboxGateway(options) {
     const idempotencyKey = String(payload?.idempotency_key ?? "");
     if (!IDEMPOTENCY_KEY.test(idempotencyKey)) throw new InboxCommandError("A valid 8-to-128-character idempotency_key is required");
     const requestDigest = sha256(JSON.stringify(stableValue({ requestClass, payload })));
+    const agentInstruction = requestClass === "agent-command"
+      ? assertAgentCommandPayload(payload, agentCommands)
+      : null;
     const commands = await readCommands(stateDirectory);
     const existing = (commands.entries ?? []).find((entry) => entry.idempotency_key === idempotencyKey);
     if (existing) {
-      if (existing.request_digest !== requestDigest) throw new InboxCommandError("Idempotency key was already used for a different request", 409);
-      if (existing.request_class === "agent-command") {
+      if (existing.request_class === "agent-command" || requestClass === "agent-command") {
+        if (
+          requestClass !== "agent-command" ||
+          !agentCommandMetadataMatches(existing, payload, agentInstruction)
+        ) {
+          throw new InboxCommandError("Idempotency key was already used for a different request", 409);
+        }
+        const transientDigest = transientAgentRequestDigests.get(idempotencyKey);
+        if (transientDigest && transientDigest !== requestDigest) {
+          throw new InboxCommandError("Idempotency key was already used for a different request", 409);
+        }
         if (existing.status === "submitted") {
           const unknown = await updateAgentCommand(stateDirectory, idempotencyKey, {
             updated_at: new Date().toISOString(),
@@ -653,11 +713,12 @@ export function createHumanInboxGateway(options) {
         }
         return { ...publicAgentCommand(existing, terminalCommandObservations(journal)), idempotent_replay: true };
       }
+      if (existing.request_digest !== requestDigest) throw new InboxCommandError("Idempotency key was already used for a different request", 409);
       return { ...existing.result, idempotent_replay: true };
     }
 
     if (requestClass === "agent-command") {
-      return executeAgentCommand(payload, idempotencyKey, requestDigest, commands);
+      return executeAgentCommand(payload, agentInstruction, idempotencyKey, requestDigest, commands);
     }
 
     let result;
@@ -755,7 +816,9 @@ export function createHumanInboxGateway(options) {
         expected_state: payload.expected_state ?? null,
         expected_revision: payload.expected_revision ?? payload.scope_revision ?? null,
         result: "rejected",
-        error: boundedText(error.message, 500),
+        error: requestClass === "agent-command"
+          ? "Agent command error omitted from durable audit"
+          : boundedText(error.message, 500),
         canonical_state_changed: false
       });
       throw error;

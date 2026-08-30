@@ -1,0 +1,103 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0030",
+  "title": "Prevent complete command retention",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T12:33:56.699Z",
+  "updated_at": "2026-08-30T12:34:40.183Z",
+  "scope": [
+    "Correct the WI-0029 Quality NO-GO by ensuring durable command records and Dashboard history never retain or reconstruct the complete instruction, including ordinary one-character and short instructions.",
+    "Preserve transient pre-send confirmation and exact provider delivery after explicit confirmation; do not execute a real Codex task, add remote control, push, release, publish, or expand command scope."
+  ],
+  "acceptance_criteria": [
+    "Durable commands.json records contain no complete raw normalized instruction for one-character, short, long, or secret-bearing inputs; history uses a non-content privacy-safe summary.",
+    "Focused tests prove transient confirmation still shows the exact pending instruction, the provider receives it exactly once after confirmation, and durable/history state cannot reproduce it.",
+    "Fresh focused, full, schema, Doctor, and local Dashboard runtime verification pass on an exact candidate revision without mutating a real Codex task."
+  ],
+  "affected_paths": [
+    "src/control-plane-inbox.mjs",
+    "src/control-plane-dashboard.mjs",
+    "test/control-plane-inbox.test.mjs",
+    "test/control-plane-live.test.mjs",
+    "docs/operations/control-plane.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "code-first",
+  "parent_work_item_id": "WI-0029",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "cfefd8a3e64757688ca85a34f6d47bbd45418409",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0029 retains parent lifecycle authority; WI-0030 owns only the complete-instruction non-retention correction."
+  ],
+  "claim": {
+    "id": "claim-20260830123440-35272262",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "cfefd8a3e64757688ca85a34f6d47bbd45418409",
+    "branch": "main",
+    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "claimed_at": "2026-08-30T12:34:40.183Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260830123440-35272262",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "cfefd8a3e64757688ca85a34f6d47bbd45418409",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-08-30T12:34:40.183Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0030.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0030.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0030.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0030.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0030.md"
+    ],
+    "ui_brief": [
+      ".ai-org/artifacts/WI-0030/ui-brief.md"
+    ],
+    "required_state_coverage": [
+      ".ai-org/artifacts/WI-0030/ui-brief.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0030.md",
+    ".ai-org/work-items/WI-0030.json",
+    ".ai-org/artifacts/WI-0030/ui-brief.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

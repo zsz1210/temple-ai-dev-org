@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 29 total, 1 active
+- Work items: 30 total, 2 active
 - Codex tasks: 4 registered, 3 archive-ready
 - Runtime workers: 22 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -73,6 +73,7 @@
 | WI-0027 | Resolve terminal historical-evidence dashboard noise | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `591b4369` | 0 | 8 | 0 |
 | WI-0028 | Publish Alpha.27 private release checkpoint | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5e90ba28` | 0 | 8 | 0 |
 | WI-0029 | Prototype local Agent Command Gateway | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `38a185eb` | 1 | 8 | 2 |
+| WI-0030 | Prevent complete command retention | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260830123440-35272262 | `—` | 0 | 3 | 0 |
 
 ## Codex task registry
 
@@ -178,14 +179,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-30T12:34:40.183Z | work_item_claimed | WI-0030 | human |
+| 2026-08-30T12:34:39.910Z | work_item_transitioned | WI-0030 | agent-tidus |
+| 2026-08-30T12:34:39.648Z | work_item_transitioned | WI-0030 | agent-yuna |
+| 2026-08-30T12:34:39.385Z | work_item_transitioned | WI-0030 | agent-mog |
+| 2026-08-30T12:34:39.123Z | work_item_coordination_configured | WI-0030 | agent-mog |
+| 2026-08-30T12:33:56.964Z | work_item_coordination_configured | WI-0030 | agent-mog |
+| 2026-08-30T12:33:56.699Z | work_item_created | WI-0030 | agent-mog |
 | 2026-08-30T12:30:50.018Z | work_item_claim_released | WI-0029 | human |
-| 2026-08-30T12:30:37.985Z | work_item_unresolved_updated | WI-0029 | agent-lulu |
-| 2026-08-30T12:30:29.346Z | evidence_recorded | WI-0029 | human |
-| 2026-08-30T12:30:24.280Z | evidence_recorded | WI-0029 | human |
-| 2026-08-30T12:19:21.097Z | work_item_claimed | WI-0029 | human |
-| 2026-08-30T12:07:19.585Z | task_status_changed | WI-0029 | agent-rikku |
-| 2026-08-30T12:07:13.217Z | work_item_transitioned | WI-0029 | agent-rikku |
-| 2026-08-30T12:07:01.867Z | handoff_created | WI-0029 | agent-rikku |
 
 ## Assignments
 

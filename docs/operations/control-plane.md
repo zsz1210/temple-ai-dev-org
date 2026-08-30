@@ -89,7 +89,7 @@ The Codex App Server provider must also be explicitly enabled and ready. A targe
 
 An idle eligible target offers `new-turn`. A target with an observed active turn offers only `steer` and `interrupt`, bound to that exact turn ID. Every submission carries the expected task status, Work Item state, provider thread, active turn, an idempotency key, and an explicit confirmation. The route accepts no provider executable, shell command, model override, host, arbitrary thread ID, or new-task request.
 
-The Dashboard shows the complete instruction only in the transient local preview. Generated history retains the target identity, operation, timestamps, instruction length and SHA-256, and at most a 240-character privacy-filtered preview. It does not retain the complete instruction or provider credentials. Do not enter credentials or secrets.
+The Dashboard shows the complete normalized instruction only in the transient local preview. Generated command state and history retain the target identity, operation, timestamps, instruction length, and a fixed non-content omission summary. They retain no instruction prefix, suffix, content-derived digest, or provider credentials, so even one-character and short instructions cannot be recovered from history. Do not enter credentials or secrets.
 
 The server exposes:
 
@@ -116,7 +116,7 @@ The three queues look similar but cannot substitute for one another:
 - **Business fact** first answers the live question and stores a generated local proposal. Secret answers are represented only by an omission marker. A separate incorporation action checks the actor, current Work Item state, and exact revision, then writes a Markdown source, registers a project-owned Context Map route, and pins that route ID to the Work Item without changing scope, acceptance criteria, specifications, decisions, or lifecycle state.
 - **Governance approval** is available only for a Work Item currently at `release_gate`. It creates `temple.approval/v1`, checks the exact candidate revision and active Human Principals, enforces the risk-derived approval count, and applies High-Assurance sponsor independence. It does not close the Work Item or perform a release.
 
-Accepted and rejected commands are audited below the generated control-plane state directory. Repeating a completed command with the same idempotency key returns its prior result; reusing that key for different input is rejected. Canonical mutations also run through the project mutation lock and their own duplicate guards.
+Accepted and rejected commands are audited below the generated control-plane state directory without raw instruction or provider-error content. Repeating a completed command with the same idempotency key returns its prior result without another provider call. During the originating process, reuse with different instruction content is rejected; after restart, retained non-content metadata can reject shape changes while an equal-shape reuse returns the prior result and still never dispatches. Canonical mutations also run through the project mutation lock and their own duplicate guards.
 
 ## Agent Command delivery states
 
