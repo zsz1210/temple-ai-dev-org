@@ -1,0 +1,16 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "0e9891cfe4d9d92881e8614b6eaf75ccdbc1bcc6",
+  "command": [
+    "quality-evidence-check",
+    "manifest + restore ledger + upgraded Doctor + primary checkout"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-30T04:58:09Z",
+  "completed_at": "2026-08-30T04:58:09Z",
+  "artifact_refs": [
+    "docs/validation/alpha-24-aipet-recovery.md",
+    ".ai-org/artifacts/WI-0008/developer-evidence.md"
+  ]
+}

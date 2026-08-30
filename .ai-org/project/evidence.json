@@ -798,6 +798,129 @@
         "exit_code": 0,
         "started_at": "2026-08-30T03:58:33.220Z"
       }
+    },
+    {
+      "id": "EVID-20260830T045649Z-5BFE0A81",
+      "work_item_id": "WI-0008",
+      "recorded_at": "2026-08-30T04:56:49.759Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "AiPet recovery rehearsal candidate",
+      "outcome": "verified",
+      "scope_revision": "0e9891cfe4d9d92881e8614b6eaf75ccdbc1bcc6",
+      "observed_at": "2026-08-30T04:56:49.759Z",
+      "summary": "Exact committed candidate containing the bounded recovery validation record and Phase 4 evidence update.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "0e9891cfe4d9d92881e8614b6eaf75ccdbc1bcc6"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "0e9891cfe4d9d92881e8614b6eaf75ccdbc1bcc6",
+        "working_tree_dirty": false
+      }
+    },
+    {
+      "id": "EVID-20260830T045843Z-567DB796",
+      "work_item_id": "WI-0008",
+      "recorded_at": "2026-08-30T04:58:43.070Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "AiPet recovery quality evidence check",
+      "outcome": "pass",
+      "scope_revision": "0e9891cfe4d9d92881e8614b6eaf75ccdbc1bcc6",
+      "observed_at": "2026-08-30T04:58:09Z",
+      "summary": "Manifest, terminal restore ledger, upgraded Doctor, and primary checkout preservation checks passed for the exact candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/alpha-24-aipet-recovery-quality.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/alpha-24-aipet-recovery-quality.json",
+          "sha256": "44ae34abfb9bbdabf94c2002ea1ceb29effc9cd52fabeec3986a6912d44b0534"
+        },
+        {
+          "path": "docs/validation/alpha-24-aipet-recovery.md",
+          "sha256": "191a575c9961b2a2cd3df89511760d76680d95ca016919c309ef75670e5264fe"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0008/developer-evidence.md",
+          "sha256": "fb8a7457d833afc9a720eeb67545a26e1cd5dee34bda6e62a72a6b1acf820c77"
+        }
+      ],
+      "details": {
+        "command": [
+          "quality-evidence-check",
+          "manifest + restore ledger + upgraded Doctor + primary checkout"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T04:58:09Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T050206Z-62C7846E",
+      "work_item_id": "WI-0008",
+      "recorded_at": "2026-08-30T05:02:06.984Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent AiPet recovery and upgrade reproduction",
+      "outcome": "pass",
+      "scope_revision": "0e9891cfe4d9d92881e8614b6eaf75ccdbc1bcc6",
+      "observed_at": "2026-08-30T05:01:09Z",
+      "summary": "Fresh detached worktrees reproduced stale-plan refusal, 21-of-21 digest recovery, Alpha.5-to-Alpha.24 upgrade, 36-pass Doctor, and primary checkout preservation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/alpha-24-aipet-recovery-independent-qa.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/alpha-24-aipet-recovery-independent-qa.json",
+          "sha256": "9765501a4f9ebbcb067377122d79e7a337bca6c7afd077d974dd1deb6a53f1ad"
+        },
+        {
+          "path": "docs/validation/alpha-24-aipet-recovery.md",
+          "sha256": "191a575c9961b2a2cd3df89511760d76680d95ca016919c309ef75670e5264fe"
+        },
+        {
+          "path": "docs/planning/phase-4.md",
+          "sha256": "c1888f626e4a826a5fa46983aadcc2c879d287b050911624eea41ec5cb5a6cd4"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "367ccf9841eb368f160831df956a1f8171af7103f3d7838294540213a0041cba"
+        },
+        {
+          "path": "package.json",
+          "sha256": "e94f52985c68c80ce45c6a8d7b521ee3eddc94b600a21944b51c61fc6f72c085"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh-detached-reproduction",
+          "backup + stale-plan + restore + digest comparison + upgrade + doctor"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T05:01:08Z"
+      }
     }
   ]
 }

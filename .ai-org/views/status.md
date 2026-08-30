@@ -5,8 +5,8 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 8 total, 1 active
-- Codex tasks: 1 registered, 0 archive-ready
+- Work items: 8 total, 0 active
+- Codex tasks: 1 registered, 1 archive-ready
 - Runtime workers: 0 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
@@ -16,7 +16,7 @@
 - Learning revalidation: 0 due, 0 contradicted
 - Specifications: 0 indexed, 0 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 0
+- Attention signals: 1
 
 ## Collaboration
 
@@ -36,7 +36,7 @@
 - Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 1 / 0
+- Active / sequential / blocked: 0 / 0 / 0
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -51,13 +51,13 @@
 | WI-0005 | Validate historical evidence at its recorded revision | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `891e3ab6` | 0 | 9 | 0 |
 | WI-0006 | Design Phase 4 reliability, token efficiency, and model routing | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `7b6a7abe` | 0 | 9 | 0 |
 | WI-0007 | Implement Phase 4A backup and crash-safe restore | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ffba88a` | 0 | 12 | 0 |
-| WI-0008 | Validate Phase 4A recovery with AiPet | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 1 | 2 | 0 |
+| WI-0008 | Validate Phase 4A recovery with AiPet | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0e9891cf` | 1 | 10 | 0 |
 
 ## Codex task registry
 
 | Task | Work item | Suggested title | Position / Agent | Principal | Branch | Status | Revision | Archive |
 |---|---|---|---|---|---|---|---|---|
-| task-0001 | WI-0008 | WI-0008 · Developer · Rikku | Developer / Rikku | — | — | active | `fc23facc` | — |
+| task-0001 | WI-0008 | WI-0008 · Developer · Rikku | Developer / Rikku | — | — | completed | `0e9891cf` | ready |
 
 ## Runtime workers and shared resources
 
@@ -69,7 +69,7 @@ No runtime workers registered yet.
 
 ## Attention
 
-No blockers, task attention requests, or archive-ready tasks.
+- task-0001 can be archived
 
 ## External tracker coordination
 
@@ -124,14 +124,14 @@ No blockers, task attention requests, or archive-ready tasks.
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-30T04:49:44.986Z | task_registered | WI-0008 | agent-mog |
-| 2026-08-30T04:48:48.767Z | work_item_transitioned | WI-0008 | agent-tidus |
-| 2026-08-30T04:48:48.515Z | work_item_transitioned | WI-0008 | agent-yuna |
-| 2026-08-30T04:48:48.263Z | work_item_transitioned | WI-0008 | agent-mog |
-| 2026-08-30T04:48:42.612Z | work_item_coordination_configured | WI-0008 | agent-mog |
-| 2026-08-30T04:48:02.139Z | work_item_created | WI-0008 | agent-mog |
-| 2026-08-30T04:24:14.178Z | work_item_closed | WI-0007 | agent-mog |
-| 2026-08-30T04:24:14.178Z | release_gate_completed | WI-0007 | agent-mog |
+| 2026-08-30T05:02:27.089Z | work_item_closed | WI-0008 | agent-mog |
+| 2026-08-30T05:02:27.089Z | release_gate_completed | WI-0008 | agent-mog |
+| 2026-08-30T05:02:07.235Z | work_item_transitioned | WI-0008 | agent-lulu |
+| 2026-08-30T05:02:06.984Z | evidence_recorded | WI-0008 | human |
+| 2026-08-30T04:58:43.614Z | work_item_transitioned | WI-0008 | agent-lulu |
+| 2026-08-30T04:58:43.336Z | work_item_transitioned | WI-0008 | agent-lulu |
+| 2026-08-30T04:58:43.070Z | evidence_recorded | WI-0008 | human |
+| 2026-08-30T04:56:50.586Z | task_status_changed | WI-0008 | agent-rikku |
 
 ## Assignments
 

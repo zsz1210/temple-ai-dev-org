@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0008",
   "title": "Validate Phase 4A recovery with AiPet",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T04:48:02.139Z",
-  "updated_at": "2026-08-30T04:48:48.767Z",
+  "updated_at": "2026-08-30T05:02:27.089Z",
   "scope": [
     "Run the retained Phase 4A recovery rehearsal against a clean, isolated AiPet checkout without upgrading or modifying the primary AiPet working tree."
   ],
@@ -62,12 +62,63 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/work-orders/WI-0008.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0008/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0008/developer-evidence.md",
+      "docs/validation/alpha-24-aipet-recovery.md",
+      "npm run verify at 0e9891c: 148 passed, 0 failed"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0008/quality-test-report.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0008/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0008/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/work-orders/WI-0008.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0008/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0008/release-record.md"
+    ],
+    "required_human_approval": [
+      "The project owner explicitly requested continued development of this bounded Temple validation. This approval closes only WI-0008 as local organizational evidence and grants no external release or AiPet product authority."
     ]
   },
   "evidence": [
     ".ai-org/artifacts/work-orders/WI-0008.md",
-    ".ai-org/work-items/WI-0008.json"
+    ".ai-org/work-items/WI-0008.json",
+    ".ai-org/artifacts/WI-0008/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0008/developer-evidence.md",
+    "docs/validation/alpha-24-aipet-recovery.md",
+    "npm run verify at 0e9891c: 148 passed, 0 failed",
+    ".ai-org/artifacts/WI-0008/quality-test-report.md",
+    ".ai-org/artifacts/WI-0008/evaluation-report.md",
+    ".ai-org/artifacts/WI-0008/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0008/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "0e9891cfe4d9d92881e8614b6eaf75ccdbc1bcc6",
+      "artifact": ".ai-org/artifacts/WI-0008/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-30T04:56:50.043Z"
+    }
+  ],
+  "developer_candidate_revision": "0e9891cfe4d9d92881e8614b6eaf75ccdbc1bcc6",
+  "tested_revision": "0e9891cfe4d9d92881e8614b6eaf75ccdbc1bcc6",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "The project owner explicitly requested continued development of this bounded Temple validation. This approval closes only WI-0008 as local organizational evidence and grants no external release or AiPet product authority."
 }

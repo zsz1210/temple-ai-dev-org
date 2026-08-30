@@ -1,0 +1,18 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "0e9891cfe4d9d92881e8614b6eaf75ccdbc1bcc6",
+  "command": [
+    "fresh-detached-reproduction",
+    "backup + stale-plan + restore + digest comparison + upgrade + doctor"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-30T05:01:08Z",
+  "completed_at": "2026-08-30T05:01:09Z",
+  "artifact_refs": [
+    "docs/validation/alpha-24-aipet-recovery.md",
+    "docs/planning/phase-4.md",
+    "package-lock.json",
+    "package.json"
+  ]
+}

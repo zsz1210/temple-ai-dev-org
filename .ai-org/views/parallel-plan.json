@@ -1,38 +1,24 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T04:48:56.460Z",
-  "source_fingerprint": "333cadb6c4907d4fd82db9edd31eb323a08fd4462af822ca09190553e40b9b5f",
+  "generated_at": "2026-08-30T05:02:36.967Z",
+  "source_fingerprint": "c46b9db0c968ea0991de8c78e662baf9ee46293a316378b5da32b27b746f783e",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
-    "selected_work_item_ids": [
-      "WI-0008"
-    ]
+    "selected_work_item_ids": []
   },
   "max_workers": null,
   "summary": {
-    "selected": 1,
+    "selected": 0,
     "dispatchable": 0,
     "active": 0,
-    "sequential": 1,
+    "sequential": 0,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
   "active": [],
-  "sequential": [
-    {
-      "work_item_id": "WI-0008",
-      "title": "Validate Phase 4A recovery with AiPet",
-      "disposition": "sequential",
-      "position_id": "developer",
-      "agent_id": "agent-rikku",
-      "integration_owner_agent_id": null,
-      "reasons": [
-        "requested_mode_sequential"
-      ]
-    }
-  ],
+  "sequential": [],
   "blocked": [],
   "conflicts": [],
   "execution_policy": {
