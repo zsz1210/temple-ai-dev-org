@@ -256,3 +256,61 @@ test("doctor detects drift in an evidence artifact", async (context) => {
   assert.equal(check.status, "fail");
   assert.match(check.message, /digest mismatch/);
 });
+
+test("doctor validates tracked evidence artifacts at their recorded revision", async (context) => {
+  const { target } = await fixture(context);
+  const artifactPath = "README.md";
+  await fs.writeFile(path.join(target, artifactPath), "historical README\n");
+  assert.equal(git(target, ["add", artifactPath]).status, 0);
+  assert.equal(git(target, ["commit", "-qm", "add historical artifact"]).status, 0);
+  const evidenceRevision = git(target, ["rev-parse", "HEAD"]).stdout.trim();
+  const workItemId = createWorkItem(target);
+  const observationPath = ".ai-org/artifacts/historical-test.json";
+  await writeJson(target, observationPath, {
+    schema_version: "temple.test-observation/v1",
+    revision: evidenceRevision,
+    command: ["npm", "test"],
+    result: "pass",
+    exit_code: 0,
+    started_at: "2026-08-30T00:00:00.000Z",
+    completed_at: "2026-08-30T00:01:00.000Z",
+    artifact_refs: [artifactPath]
+  });
+  const recorded = run([
+    "evidence", "test", target,
+    "--work-item", workItemId,
+    "--observation", observationPath,
+    "--actor", "agent-fixture-hollis"
+  ]);
+  assert.equal(recorded.status, 0, recorded.stderr || recorded.stdout);
+
+  await fs.writeFile(path.join(target, artifactPath), "current README\n");
+  assert.equal(git(target, ["add", artifactPath]).status, 0);
+  assert.equal(git(target, ["commit", "-qm", "advance tracked artifact"]).status, 0);
+
+  const currentDoctor = run(["doctor", target, "--json"]);
+  assert.equal(currentDoctor.status, 0, currentDoctor.stderr || currentDoctor.stdout);
+
+  const registryPath = path.join(target, ".ai-org/project/evidence.json");
+  const registry = JSON.parse(await fs.readFile(registryPath, "utf8"));
+  const trackedArtifact = registry.entries[0].artifacts.find((artifact) => artifact.path === artifactPath);
+  const historicalDigest = trackedArtifact.sha256;
+  trackedArtifact.sha256 = "0".repeat(64);
+  await fs.writeFile(registryPath, `${JSON.stringify(registry, null, 2)}\n`);
+  const wrongDigestDoctor = run(["doctor", target, "--json"]);
+  assert.equal(wrongDigestDoctor.status, 1, wrongDigestDoctor.stderr || wrongDigestDoctor.stdout);
+  assert.match(
+    JSON.parse(wrongDigestDoctor.stdout).checks.find((entry) => entry.id === "evidence_registry").message,
+    /digest mismatch.*recorded revision/
+  );
+
+  trackedArtifact.sha256 = historicalDigest;
+  registry.entries[0].scope_revision = "f".repeat(40);
+  await fs.writeFile(registryPath, `${JSON.stringify(registry, null, 2)}\n`);
+  const unavailableRevisionDoctor = run(["doctor", target, "--json"]);
+  assert.equal(unavailableRevisionDoctor.status, 1, unavailableRevisionDoctor.stderr || unavailableRevisionDoctor.stdout);
+  assert.match(
+    JSON.parse(unavailableRevisionDoctor.stdout).checks.find((entry) => entry.id === "evidence_registry").message,
+    /recorded revision .* is unavailable/
+  );
+});

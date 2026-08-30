@@ -19,6 +19,7 @@ const RISK_SEVERITIES = ["low", "medium", "high", "critical"];
 const RISK_STATUSES = ["open", "accepted", "mitigated"];
 const ROLLBACK_STATUSES = ["planned", "verified"];
 const RUNTIME_PROVENANCE = ["live", "device", "simulator", "fixture", "build-time"];
+const GIT_ARTIFACT_MAX_BUFFER = 256 * 1024 * 1024;
 
 function nonEmpty(value) {
   return typeof value === "string" && value.trim().length > 0;
@@ -99,11 +100,49 @@ export function validateEvidenceRegistry(registry) {
   return { valid: errors.length === 0, errors };
 }
 
+function gitObjectExists(target, object) {
+  const result = spawnSync("git", ["-C", target, "cat-file", "-e", object], { encoding: "utf8" });
+  return result.status === 0;
+}
+
+function gitArtifactAtRevision(target, revision, relativePath) {
+  const gitPath = relativePath.split(/[\\/]+/).join("/");
+  const object = `${revision}:${gitPath}`;
+  if (!gitObjectExists(target, object)) return { status: "absent" };
+  const result = spawnSync("git", ["-C", target, "cat-file", "blob", object], {
+    encoding: null,
+    maxBuffer: GIT_ARTIFACT_MAX_BUFFER
+  });
+  if (result.status !== 0 || result.error) {
+    return { status: "error", message: result.error?.message ?? result.stderr?.toString().trim() ?? "unknown Git error" };
+  }
+  return { status: "found", content: result.stdout };
+}
+
 export async function validateEvidenceArtifacts(target, registry, workItemIds = null) {
   const errors = [];
   for (const entry of registry?.entries ?? []) {
     if (workItemIds && !workItemIds.has(entry.work_item_id)) errors.push(`${entry.id}: unknown Work Item ${entry.work_item_id}`);
+    if (entry.scope_revision && !gitObjectExists(target, `${entry.scope_revision}^{commit}`)) {
+      errors.push(`${entry.id}: recorded revision ${entry.scope_revision} is unavailable`);
+      continue;
+    }
     for (const artifact of entry.artifacts ?? []) {
+      if (entry.scope_revision) {
+        const historical = gitArtifactAtRevision(target, entry.scope_revision, artifact.path);
+        if (historical.status === "found") {
+          if (sha256(historical.content) !== artifact.sha256) {
+            errors.push(`${entry.id}:${artifact.path} digest mismatch at recorded revision ${entry.scope_revision}`);
+          }
+          continue;
+        }
+        if (historical.status === "error") {
+          errors.push(
+            `${entry.id}:${artifact.path} cannot be read at recorded revision ${entry.scope_revision}: ${historical.message}`
+          );
+          continue;
+        }
+      }
       const absolute = path.join(target, artifact.path);
       if (!(await pathExists(absolute))) errors.push(`${entry.id}:${artifact.path} is missing`);
       else if ((await sha256File(absolute)) !== artifact.sha256) errors.push(`${entry.id}:${artifact.path} digest mismatch`);

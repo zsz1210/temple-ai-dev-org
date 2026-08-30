@@ -9,7 +9,7 @@
 
 | Criterion | Evidence | Result |
 |---|---|---|
-| The section states who Temple is for | `Who is Temple for?`, `Temple 適合誰？`, and `Temple は誰のためのもの？` | pass |
+| The section states who Temple is for | The English heading and its natural Japanese and Traditional Chinese equivalents | pass |
 | Audience labels are concise | Individual developers, development teams, and enterprises use natural equivalents in all three languages | pass |
 | Copy begins with reader situations | Each block leads with continuity, team coordination, or existing-enterprise adoption before framework terminology | pass |
 | Capability boundaries remain accurate | Solo validation, pending multi-human validation, and future enterprise extensions remain explicit | pass |
