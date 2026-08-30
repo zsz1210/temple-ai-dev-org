@@ -1,0 +1,54 @@
+{
+  "schema_version": "temple.phase4-alpha27-federation-cli-rehearsal/v1",
+  "revisions": {
+    "orders_api": "e02dd72c50da1d00426772dcc694ed2c0a4491e2",
+    "checkout": "1be13f40cd429a573ac8ec8cc59fd1ca991a78f1"
+  },
+  "validation": { "valid": true, "errors": [] },
+  "current_projection": {
+    "summary": {
+      "participants": 2,
+      "current": 2,
+      "unknown": 0,
+      "work_items_projected": 2,
+      "overall_completion": null
+    },
+    "initiative_resolution": "current",
+    "contract_resolution": "current",
+    "rollout_wave_resolutions": ["current", "current"],
+    "no_write_created_portfolio": false,
+    "written_summary": {
+      "participants": 2,
+      "current": 2,
+      "unknown": 0,
+      "work_items_projected": 2,
+      "overall_completion": null
+    },
+    "participant_hashes_unchanged": true,
+    "participant_portfolio_created": false
+  },
+  "degraded_projection": {
+    "summary": {
+      "participants": 2,
+      "current": 1,
+      "unknown": 1,
+      "work_items_projected": 1,
+      "overall_completion": null
+    },
+    "checkout_status": "unknown",
+    "checkout_diagnostics": [{ "code": "canonical_state_dirty" }],
+    "checkout_project": null,
+    "checkout_work_items": 0,
+    "initiative_resolution": "unknown",
+    "contract_resolution": "unknown",
+    "overall_completion": null
+  },
+  "authority": {
+    "mode": "read-only-projection",
+    "lifecycle_owner": "participant-repositories",
+    "coordination_owner": "coordinator-repository",
+    "lifecycle_mutations_performed": false,
+    "external_actions_performed": false
+  },
+  "external_actions_performed": false
+}

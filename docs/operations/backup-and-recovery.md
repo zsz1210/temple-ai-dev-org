@@ -87,19 +87,19 @@ The root must be an existing real directory outside the project worktree. Each d
 
 Retention is project-aware. It keeps at least the requested number of newest backups for the target project, ordered by parsed creation time and then name. Explicitly named backups and every backup belonging to another project are also preserved. The minimum must be at least one. A partial filesystem failure stops further deletion, reports the names already deleted and still pending, and requires a new preview before retry.
 
-The integration owner will expose these APIs through the shared CLI. The intended command shape is:
+Alpha.27 exposes these APIs through the shared CLI. Preview before apply and retain the exact returned digest:
 
 ```bash
-# Proposed integration surface; not shipped by this module-only Work Item.
-node ./templew.mjs backup set inspect . \
+# Inspect the complete set without mutation.
+node ./templew.mjs backup set-inspect . \
   --root /absolute/recovery/location/project-backups
 
-node ./templew.mjs backup retention preview . \
+node ./templew.mjs backup retention-preview . \
   --root /absolute/recovery/location/project-backups \
   --minimum-to-keep 3 \
   --preserve backup-before-release
 
-node ./templew.mjs backup retention apply . \
+node ./templew.mjs backup retention-apply . \
   --root /absolute/recovery/location/project-backups \
   --minimum-to-keep 3 \
   --preserve backup-before-release \
@@ -123,10 +123,9 @@ The event projection is deliberately conservative. It allow-lists defined token-
 
 The export never includes raw prompts or responses, hidden reasoning, credentials, runtime secrets, provider payload bodies, raw command output, tool arguments or results, recovery before-images, per-file recovery paths, or recovery failure bodies. It is still an unencrypted file containing project identifiers and event metadata. Review it under the project's data-handling policy before sharing.
 
-The intended CLI integration surface is:
+Alpha.27 exposes audit export through the shared CLI:
 
 ```bash
-# Proposed integration surface; not shipped by this module-only Work Item.
 node ./templew.mjs audit export . \
   --output /absolute/audit/location/temple-audit.json \
   --work-item WI-0016 \
@@ -155,12 +154,6 @@ This procedure demonstrates the local software boundaries. It must not be presen
 
 Automated fixtures cover boundary selection, payload tampering, deterministic retention ordering and preservation, stale retention and restore plans, explicit deletion and replacement consent, traversal and link refusal, partial retention failure, target-only preservation, project and version conflicts, interruption rollback, post-interruption human changes, conservative audit projection, recursive redaction, event and recovery bounds, exclusive audit-file creation, and a post-upgrade rollback rehearsal confined to disposable copies.
 
-The following Phase 4A exit evidence remains separate:
+The bounded local Phase 4A exit has restored and upgraded a real data-bearing AiPet organization-state copy, reproduced canonical digests, exercised exact rollback and simulated interruption recovery, run the Alpha.27 retention and audit CLI, and passed schema validation plus Doctor. See [Phase 4 bounded local completion](../validation/phase-4-local-completion.md).
 
-- restore a real data-bearing project checkout in a clean environment and reproduce canonical digests;
-- run Doctor after generated views are rebuilt;
-- independently reproduce the new retention, audit-export, and disposable rollback fixtures after CLI integration;
-- rehearse a real post-upgrade rollback and meaningful interruption boundary outside synthetic fixtures;
-- exercise broader operating-system and actual machine-loss conditions.
-
-Until that evidence exists, describe this capability as local alpha recovery rather than production disaster recovery.
+Physical power loss, corrupted storage, remote or encrypted transport, another operating system, multi-machine disaster recovery, and production recovery remain separate qualification. Describe this capability as local alpha recovery, never production disaster recovery, until those named environments are exercised.

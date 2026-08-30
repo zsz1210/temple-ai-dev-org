@@ -2,8 +2,11 @@
 
 - Work Item: `WI-0017`
 - Scope: local App Server attachment reliability and usage qualification
+- Status: integrated into Alpha.27; local behavior complete, longitudinal qualification remains `not-qualified`
 - External model calls or artificial tasks: none
 - Canonical lifecycle mutation by this implementation: none
+
+The final bounded result and retained qualification are summarized in [Phase 4 bounded local completion](phase-4-local-completion.md).
 
 ## Implemented boundary
 

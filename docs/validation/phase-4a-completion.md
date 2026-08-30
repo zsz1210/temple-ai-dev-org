@@ -1,8 +1,8 @@
-# Phase 4A durability operations — Developer completion record
+# Phase 4A durability operations — historical Developer record
 
 - Work Item: `WI-0016`
 - Date: 2026-08-30
-- Status: Developer implementation complete; integration and Independent QA pending
+- Status: integrated into Alpha.27; see [Phase 4 bounded local completion](phase-4-local-completion.md) for final local evidence and retained limits
 - Revision: the commit containing this record on `phase4/wi-0016`
 - Environment: local macOS, Node.js, disposable test directories
 
@@ -77,4 +77,4 @@ Repository-wide verification must be rerun against the final integrated revision
 - The rollback and interruption evidence uses synthetic disposable copies on one local machine. It does not claim real power loss, filesystem corruption, cross-machine recovery, remote transport, production data, or production readiness.
 - Real-project post-upgrade rollback, broader operating-system coverage, and Independent QA remain required before closing Phase 4A.
 
-The supported claim is a locally Developer-verified Phase 4A module slice with retained operational limits.
+This record preserves the original worker-branch evidence. The supported current claim is the bounded Alpha.27 local result in [Phase 4 bounded local completion](phase-4-local-completion.md), with the listed broader operational limits still retained.

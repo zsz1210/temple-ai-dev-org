@@ -1,0 +1,35 @@
+{
+  "schema_version": "temple.phase4-alpha27-usage-preflight-summary/v1",
+  "observed_at": "2026-08-30T09:01:53.685Z",
+  "provider_status": "ready",
+  "registered_tasks": 3,
+  "terminal_tasks": 3,
+  "live_resumable_tasks": 0,
+  "detailed_observations": 0,
+  "correlated_observations": 0,
+  "qualification": {
+    "status": "not-qualified",
+    "qualified_completed_work_items": 0,
+    "required_completed_work_items": 10,
+    "remaining_completed_work_items": 10
+  },
+  "totals": {
+    "total_tokens": null,
+    "monetary_cost": null,
+    "cost_status": "unknown"
+  },
+  "claims_allowed": {
+    "token_savings": false,
+    "cost_savings": false,
+    "model_quality": false,
+    "automatic_routing": false
+  },
+  "measurement": {
+    "account_probe_requested": false,
+    "model_generation_requested": false,
+    "token_counting_model_call_performed": false,
+    "canonical_state_changed": false,
+    "external_read_performed": false,
+    "external_action_performed": false
+  }
+}

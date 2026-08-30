@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T09:00:56.058Z",
-  "source_fingerprint": "e488e9dd470ef104e6d41c3b0e80abdccc9f7d378417c7419ae7cfb97254d03d",
+  "generated_at": "2026-08-30T09:11:15.708Z",
+  "source_fingerprint": "cf199ed821762aafc61187761cc8c8cdfaef869daff250e3e591cd08a80136e3",
   "scope": {
     "mode": "parent-descendants",
     "parent_work_item_id": "WI-0019",
@@ -31,7 +31,7 @@
           "agent_id": "agent-lulu",
           "agent_name": "Lulu",
           "suggested_task_title": "WI-0025 · Independent QA · Lulu",
-          "base_revision": "7dda4c6b3e1fc9fd16b1fcc55b794e1f1c5d5de5",
+          "base_revision": "d6833dc2eb25949d067e83a53e47344c9e8c131f",
           "affected_paths": [
             "src/cli.mjs",
             "test/phase4-cli.test.mjs"
@@ -43,7 +43,7 @@
             "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "6613dee5db3899c94c9e0e75429d493d57baca95989d55f1d19073058f81adf2",
+          "preparation_fingerprint": "db40776ed5fa9b5924ef8579cc0c392a843b768f2d97e235807982d0ec30d2c5",
           "integration_owner_agent_id": "agent-mog",
           "context_command": "node ./templew.mjs context resolve . --work-item WI-0025 --position independent_qa --no-write --json",
           "claim_required_before_work": true,
@@ -59,7 +59,7 @@
           "agent_id": "agent-lulu",
           "agent_name": "Lulu",
           "suggested_task_title": "WI-0026 · Independent QA · Lulu",
-          "base_revision": "7dda4c6b3e1fc9fd16b1fcc55b794e1f1c5d5de5",
+          "base_revision": "d6833dc2eb25949d067e83a53e47344c9e8c131f",
           "affected_paths": [
             "src/federation.mjs",
             "src/upgrade.mjs",
@@ -78,7 +78,7 @@
             "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "a4160d69d656e6d7985d84c7a33f23b90447d80e566eb2fad5a7a137878b183a",
+          "preparation_fingerprint": "d9a196223887b1057b067b7c97483d1f4a29b53c50eea1e5148592b7cb2444bd",
           "integration_owner_agent_id": "agent-mog",
           "context_command": "node ./templew.mjs context resolve . --work-item WI-0026 --position independent_qa --no-write --json",
           "claim_required_before_work": true,

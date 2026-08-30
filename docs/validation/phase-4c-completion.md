@@ -1,9 +1,11 @@
 # Phase 4C multi-repository federation implementation
 
 - Work Item: `WI-0018`
-- Scope: isolated Developer implementation
-- Result: focused implementation checks passed
+- Scope: original isolated Developer implementation, now integrated into Alpha.27
+- Result: bounded local federation and CLI rehearsal passed; enterprise multi-machine qualification remains retained
 - External actions: none
+
+See [Phase 4 bounded local completion](phase-4-local-completion.md) for the integrated two-participant rehearsal, generated-view schema boundary, and retained qualification.
 
 ## Implemented behavior
 

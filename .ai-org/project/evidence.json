@@ -2649,11 +2649,11 @@
         },
         {
           "path": "src/cli.mjs",
-          "sha256": "5b9d7d2551d5765198cc25b0a96f2030e327e647ad9bee0a0d289a5bbe0792f9"
+          "sha256": "47f78057ed3190202883c0248c6366b18f4048981d301a1e87cf3a6e93e85f24"
         },
         {
           "path": "test/phase4-cli.test.mjs",
-          "sha256": "44e3b1cf184ceee4bf155a4d81717696ee20f1b754187e5549cb57538b60a33b"
+          "sha256": "867da33eb1b38114b834bcdac90b439148bf1acb1f4e6f6a6d39711a66b9d9c9"
         },
         {
           "path": ".ai-org/artifacts/work-orders/WI-0025.md",
@@ -2701,15 +2701,15 @@
         },
         {
           "path": "src/cli.mjs",
-          "sha256": "5b9d7d2551d5765198cc25b0a96f2030e327e647ad9bee0a0d289a5bbe0792f9"
+          "sha256": "47f78057ed3190202883c0248c6366b18f4048981d301a1e87cf3a6e93e85f24"
         },
         {
           "path": "project-overlay/.ai-org/core/schemas/schema-catalog.json",
-          "sha256": "4363286863c4a96d04816bfe12f429d57880f96c40c94c43b54b347c5958aca4"
+          "sha256": "fb0a55ba7f183a5ae64fdffa984de6a7b186aa24d162704b6ac0ee260428783f"
         },
         {
           "path": "test/phase4-installation.test.mjs",
-          "sha256": "deb5f16741ac2865cc13c2fdff6dd86af1f29b0e2888b0d284df547ae67b3df7"
+          "sha256": "18869e1262f3fb3e7f8fe8844634c0eceed82b1ab214de5dfc42acf2769bbc02"
         }
       ],
       "details": {
@@ -2719,6 +2719,86 @@
         ],
         "exit_code": 1,
         "started_at": "2026-08-30T09:01:12.915Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T091637Z-3C56BCD2",
+      "work_item_id": "WI-0025",
+      "recorded_at": "2026-08-30T09:16:37.627Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA CLI correction rerun",
+      "outcome": "fail",
+      "scope_revision": "d6833dc2eb25949d067e83a53e47344c9e8c131f",
+      "observed_at": "2026-08-30T09:16:11.000Z",
+      "summary": "NO-GO: CLI defects closed but repository Doctor exposed evidence provenance mismatch",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0025/independent-qa-observation-002.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0025/independent-qa-observation-002.json",
+          "sha256": "f3af5cf990eeeb2ede3b57071b2a8785a91167b6d631b59287e0d4c2c71fff51"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0025/independent-qa-report-002.md",
+          "sha256": "b1af614154d258015b99e53f30b5d1d4b847c8b4f597b9e84a2d734eb437d71c"
+        }
+      ],
+      "details": {
+        "command": [
+          "independent-qa",
+          "phase4-cli-contract-rerun"
+        ],
+        "exit_code": 1,
+        "started_at": "2026-08-30T09:11:23.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T091637Z-A43A6C7D",
+      "work_item_id": "WI-0026",
+      "recorded_at": "2026-08-30T09:16:37.933Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA installation correction rerun",
+      "outcome": "fail",
+      "scope_revision": "d6833dc2eb25949d067e83a53e47344c9e8c131f",
+      "observed_at": "2026-08-30T09:16:11.000Z",
+      "summary": "NO-GO: schema defect closed but repository Doctor exposed evidence provenance mismatch",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0026/independent-qa-observation-002.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0026/independent-qa-observation-002.json",
+          "sha256": "76056eb722496fbfdaa80a886118de1c950be97735881192d91a3e5f2821c6fe"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0026/independent-qa-report-002.md",
+          "sha256": "9b28af3363af78f8ce5dfc3aa0c86a3b4aee3fb6c076a6958e273338802d0760"
+        }
+      ],
+      "details": {
+        "command": [
+          "independent-qa",
+          "phase4-installation-contract-rerun"
+        ],
+        "exit_code": 1,
+        "started_at": "2026-08-30T09:11:23.000Z"
       }
     }
   ]

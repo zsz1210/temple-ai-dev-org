@@ -1,0 +1,41 @@
+{
+  "schema_version": "temple.phase4-alpha27-aipet-cli-rehearsal/v1",
+  "source": {
+    "revision": "28d53b483d0e5c5a21d9b483221393c3dd83ef77",
+    "branch": "codex/lifecycle-memory-journal",
+    "clean_before": true,
+    "primary_revision_after": "28d53b483d0e5c5a21d9b483221393c3dd83ef77",
+    "primary_clean_after": true,
+    "primary_mutated": false
+  },
+  "versions": {
+    "before": "0.1.0-alpha.5",
+    "after": "0.1.0-alpha.27"
+  },
+  "backup": {
+    "before_digest": "c1de191bd5f0b6c0e39e4d6896aed3089fa1324eb55d6cd13e1378df76ba3f68",
+    "before_inspection_digest": "c1de191bd5f0b6c0e39e4d6896aed3089fa1324eb55d6cd13e1378df76ba3f68",
+    "after_digests": [
+      "74b070ec8177f8e2ab4524411d1548ae16519272cd22220e8929fa709a3440a5",
+      "74b070ec8177f8e2ab4524411d1548ae16519272cd22220e8929fa709a3440a5"
+    ],
+    "count_before_retention": 3,
+    "preview_delete_count": 1,
+    "deleted": ["after-alpha27-a"],
+    "count_after_retention": 2,
+    "preserved_before": true
+  },
+  "audit": {
+    "schema_version": "temple.audit-export/v1",
+    "output": "audit.json",
+    "event_count": 11,
+    "recovery_transaction_count": 0
+  },
+  "doctor": {
+    "healthy": true,
+    "summary": { "pass": 36, "warn": 0, "fail": 0 }
+  },
+  "schema_valid": true,
+  "external_actions_performed": false,
+  "model_generation_requested": false
+}

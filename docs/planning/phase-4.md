@@ -1,9 +1,9 @@
 # Phase 4: reliability at daily and multi-project scale
 
-- Status: implementation in progress; Alpha.26 adds telemetry qualification to the Phase 4B evaluation and usage-attribution foundation, while longitudinal evidence, rollback, retention/audit export, real interruption, federation, and broader environments remain open
+- Status: bounded local implementation complete in Alpha.27; enterprise and longitudinal qualification remain retained validations, not completed claims
 - Entry baseline: `0.1.0-alpha.23`
-- Governing Work Item: `WI-0006`
-- Recovery validation Work Item: `WI-0008`
+- Governing Work Item: `WI-0015`
+- Alpha.27 integration Work Item: `WI-0019`
 
 Phase 4 turns Temple's locally proven organization model into a system that can survive failure, expose policy mistakes, and coordinate several authoritative repositories. It is an evidence phase, not a promise that adding more features makes Temple enterprise-ready.
 
@@ -38,7 +38,7 @@ The accepted decisions are:
 
 Generated views are rebuilt after restore. Runtime telemetry is exported separately and is not required to recover canonical project truth.
 
-Alpha.24 implements the local versioned manifest, integrity inspection, stale-safe restore preview, explicit replacement consent, external recovery ledger, automatic rollback, and guarded interrupted-restore recovery. The [AiPet recovery rehearsal](../validation/alpha-24-aipet-recovery.md) restored all 21 included organization-state files into an isolated clean checkout, rejected a stale plan, upgraded the restored project from Alpha.5 to Alpha.24, and passed Doctor without changing the primary AiPet worktree. That closes one real-project restore and one forward-migration evidence gap; it does not close Phase 4A because post-upgrade rollback, retention/audit export policy, real interruption boundaries, and broader environments remain unverified.
+Alpha.24 established the local versioned manifest, integrity inspection, stale-safe restore preview, explicit replacement consent, external recovery ledger, automatic rollback, and guarded interrupted-restore recovery. Alpha.27 adds deterministic backup-set inspection, preview-and-consent retention, bounded audit export, and shared CLI contracts. The final isolated AiPet rehearsal upgraded an Alpha.5 organization copy to Alpha.27, preserved the exact pre-upgrade digest, applied retention only after a fresh reviewed digest and explicit consent, produced a redacted audit export, and passed Doctor 36/0/0 without changing the primary AiPet worktree.
 
 ### Exit evidence
 
@@ -47,7 +47,7 @@ Alpha.24 implements the local versioned manifest, integrity inspection, stale-sa
 - Inject failure at meaningful write boundaries and prove that recovery neither duplicates a mutation nor overwrites project-owned data.
 - Exercise one forward migration and one rollback with documented stop conditions.
 
-Current evidence: one forward migration passed in the AiPet rehearsal; the rollback half of this requirement remains open.
+Current local evidence: forward migration, exact rollback, simulated interrupted recovery, retention, audit export, schema validation, and primary-worktree immutability passed. Physical power-loss, corrupted media, encrypted or remote backup transport, production recovery, and multi-machine disaster recovery remain retained validations.
 
 ## Phase 4B — policy, evaluation, and daily reliability
 
@@ -65,7 +65,7 @@ Current evidence: one forward migration passed in the AiPet rehearsal; the rollb
 - Demonstrate that a budget warning or model recommendation cannot skip required context, evidence, Independent QA, or human approval.
 - Establish a baseline before claiming any reduction in Token usage, cost, elapsed time, or rework.
 
-Alpha.25 implements the managed seven-scenario catalog, fail-closed `evaluation run` scorecard, Solo/Collaborative/High-Assurance deterministic fixtures, provider usage attribution, and `usage report` baseline view. Alpha.26 adds `usage preflight`, proves that terminal tasks are history-only, and keeps optional Codex account activity account-wide and unallocated. Fixture and capability evidence prove the observation contract, not the real-operation exit gate. The ten real Work Items, varied task shapes, longitudinal comparison, and live organizational exercises remain open.
+Alpha.25 implements the managed seven-scenario catalog, fail-closed `evaluation run` scorecard, Solo/Collaborative/High-Assurance deterministic fixtures, provider usage attribution, and `usage report` baseline view. Alpha.26 adds `usage preflight`, proves that terminal tasks are history-only, and keeps optional Codex account activity account-wide and unallocated. Alpha.27 completes the local contract and reports the real self-host result truthfully: zero live-resumable registered tasks, zero correlated Token observations, `not-qualified`, unknown monetary cost, and no routing or savings claim. The ten qualified completed Work Items, varied task shapes, longitudinal comparison, and live organizational exercises remain retained qualification work rather than blockers to the bounded local implementation.
 
 ## Phase 4C — multi-repository federation
 
@@ -78,6 +78,8 @@ Alpha.25 implements the managed seven-scenario catalog, fail-closed `evaluation 
 - Compatibility and rollout waves for cross-repository changes; no assumed atomic multi-repository commit.
 
 Every repository keeps its own `.ai-org/` lifecycle authority, credentials, Human Principals, evidence, and release decision.
+
+Alpha.27 adds the project-owned federation registry, strict schemas, explicit `--allowed-root` boundary, and coordinator-only portfolio output. A two-participant disposable rehearsal resolved both exact revisions as current, left both participant content hashes unchanged, then degraded one intentionally dirty participant and all dependent coordination references to `unknown`. The portfolio never claimed lifecycle or external-action authority.
 
 ### Exit evidence
 
@@ -99,14 +101,15 @@ Automatic adaptive routing, autonomous price selection, and organization-wide sp
 
 ## Retained validations
 
-The following remain visible until executed in the named environment:
+The following remain visible until executed in the named environment. They do not become passing evidence merely because the local Phase 4 release line is closed:
 
 - long-duration control-plane soak, large-journal performance, disconnect, and crash-at-write-boundary tests;
 - large-repository deterministic retrieval and any configured local-hybrid or RAG provider;
 - broader operating-system support beyond the published matrix;
+- real multi-human and multi-machine federation through separate clones, branches, pull requests, protected rules, CI, conflicts, and an Integration Owner;
 - regulated audit acceptance and production release operation;
 - statistically meaningful Token and cost comparisons across representative real projects.
 
 ## Stop condition
 
-Phase 4 is complete only when the exit evidence is reproducible across repeated real use. A schema, dashboard, model selector, or successful local fixture does not close the phase by itself.
+The bounded local Phase 4 release line is complete when one exact Alpha.27 candidate passes focused and full verification, schema validation, Doctor, real-project recovery rehearsal, isolated multi-repository rehearsal, and fresh Independent QA. Enterprise qualification remains explicitly open until its named real environments are exercised. A schema, dashboard, model selector, or isolated fixture alone is never evidence for those broader claims.

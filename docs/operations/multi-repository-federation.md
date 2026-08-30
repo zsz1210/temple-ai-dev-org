@@ -78,9 +78,22 @@ Every signal has `authoritative: false`: the aggregate is a projection, while it
 
 The portfolio excludes participant paths, credentials, principals, worker identities, raw evidence titles and bodies, artifact paths, business-source bodies, prompts, provider payloads, claim bodies, approvals, and release decisions.
 
-## Integration API
+## CLI and integration API
 
-Phase 4C provides a self-contained module and intentionally leaves shared CLI wiring to the Integration Owner:
+Alpha.27 exposes validation and bounded portfolio generation through the project launcher:
+
+```bash
+node ./templew.mjs federation validate . --json
+
+node ./templew.mjs portfolio build . \
+  --allowed-root /absolute/organization-checkouts \
+  --no-write \
+  --json
+```
+
+Remove `--no-write` to write only the coordinator's generated `.ai-org/views/portfolio.json`. That exact output is registered in the schema catalog. `--allowed-root` constrains the coordinator and all participants to one explicit real filesystem boundary.
+
+The same behavior is available as a module API:
 
 ```js
 import {
@@ -98,7 +111,7 @@ const portfolio = await buildFederatedPortfolio(projectRoot, {
 });
 ```
 
-The CLI should print or explicitly write the returned projection only when requested. It must not acquire the project mutation lock or call participant lifecycle commands. A default federation root is the real parent directory of the coordination repository; production callers should pass an explicit, narrowly scoped `allowedRoot`.
+The CLI prints or explicitly writes the returned projection only when requested. It does not acquire the project mutation lock or call participant lifecycle commands. The default federation root is the real parent directory of the coordination repository; operators should pass an explicit, narrowly scoped `--allowed-root`.
 
 ## Unknown diagnostics
 
@@ -116,4 +129,4 @@ An unknown participant has no projected Work Items and every signal remains unkn
 
 ## Current limits
 
-This alpha implementation supports local filesystem repositories and Git revisions. It does not fetch repositories, verify hosted-provider identity, perform organization-wide RBAC, write participant state, encrypt registry data, coordinate atomic commits, or prove multi-machine availability. Filesystem and Git checks reduce local authority leakage but do not provide a hardened defense against a repository being replaced during the same read. Real multi-human and multi-machine evidence remains a separate Phase 4C exit activity.
+This alpha implementation supports local filesystem repositories and Git revisions. The bounded local two-participant rehearsal passed current-to-unknown degradation and participant immutability checks. It does not fetch repositories, verify hosted-provider identity, perform organization-wide RBAC, write participant state, encrypt registry data, coordinate atomic commits, or prove multi-machine availability. Filesystem and Git checks reduce local authority leakage but do not provide a hardened defense against a repository being replaced during the same read. Real multi-human and multi-machine evidence remains separate enterprise qualification.

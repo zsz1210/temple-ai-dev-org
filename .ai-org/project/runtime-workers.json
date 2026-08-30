@@ -513,6 +513,62 @@
       "attached_at": "2026-08-30T09:01:12.915Z",
       "completed_at": "2026-08-30T09:07:25.455Z",
       "updated_at": "2026-08-30T09:07:25.455Z"
+    },
+    {
+      "id": "worker-20260830091123-8cde42d0",
+      "runtime_kind": "internal-subagent",
+      "status": "failed",
+      "work_item_id": "WI-0025",
+      "position_id": "independent_qa",
+      "agent_id": "agent-lulu",
+      "principal_id": "project-owner",
+      "claim_id": "claim-20260830091123-fca600ce",
+      "base_revision": "d6833dc2eb25949d067e83a53e47344c9e8c131f",
+      "branch": "phase4/qa2-wi-0025",
+      "worktree": "/tmp/temple-phase4.slCwlE/qa2-wi-0025",
+      "plan_fingerprint": "cf199ed821762aafc61187761cc8c8cdfaef869daff250e3e591cd08a80136e3",
+      "plan_digest": "d95a582fe2c38a07d7f831c7ad7dc09baec7cb07a1f054689f4662d343f7fcda",
+      "preparation_fingerprint": "db40776ed5fa9b5924ef8579cc0c392a843b768f2d97e235807982d0ec30d2c5",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/framework_docs_review:qa2-wi-0025",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "d6833dc2eb25949d067e83a53e47344c9e8c131f",
+      "evidence": [
+        ".ai-org/artifacts/WI-0025/independent-qa-report-002.md"
+      ],
+      "reserved_at": "2026-08-30T09:11:23.500Z",
+      "attached_at": "2026-08-30T09:11:32.845Z",
+      "completed_at": "2026-08-30T09:16:36.275Z",
+      "updated_at": "2026-08-30T09:16:36.275Z"
+    },
+    {
+      "id": "worker-20260830091123-055ffa0e",
+      "runtime_kind": "internal-subagent",
+      "status": "failed",
+      "work_item_id": "WI-0026",
+      "position_id": "independent_qa",
+      "agent_id": "agent-lulu",
+      "principal_id": "project-owner",
+      "claim_id": "claim-20260830091123-f1011bb5",
+      "base_revision": "d6833dc2eb25949d067e83a53e47344c9e8c131f",
+      "branch": "phase4/qa2-wi-0026",
+      "worktree": "/tmp/temple-phase4.slCwlE/qa2-wi-0026",
+      "plan_fingerprint": "cf199ed821762aafc61187761cc8c8cdfaef869daff250e3e591cd08a80136e3",
+      "plan_digest": "d95a582fe2c38a07d7f831c7ad7dc09baec7cb07a1f054689f4662d343f7fcda",
+      "preparation_fingerprint": "d9a196223887b1057b067b7c97483d1f4a29b53c50eea1e5148592b7cb2444bd",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/skill_forward_test:qa2-wi-0026",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "d6833dc2eb25949d067e83a53e47344c9e8c131f",
+      "evidence": [
+        ".ai-org/artifacts/WI-0026/independent-qa-report-002.md"
+      ],
+      "reserved_at": "2026-08-30T09:11:23.831Z",
+      "attached_at": "2026-08-30T09:11:33.204Z",
+      "completed_at": "2026-08-30T09:16:36.967Z",
+      "updated_at": "2026-08-30T09:16:36.967Z"
     }
   ]
 }
