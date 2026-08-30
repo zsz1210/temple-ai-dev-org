@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=false
 - Work items: 37 total, 9 active
 - Codex tasks: 4 registered, 3 archive-ready
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -80,7 +80,7 @@
 | WI-0034 | Make Dashboard current-state interaction trustworthy | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `—` | 0 | 3 | 0 |
 | WI-0035 | Reduce CI cost without hiding behavioral results | test | Quality & Evaluation Engineer | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0b02e1c5` | 0 | 7 | 1 |
 | WI-0036 | Add a private read-only Dashboard viewer | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `f68186ba` | 0 | 9 | 0 |
-| WI-0037 | Make private Dashboard shutdown cleanup signal-safe | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830155851-5f04cc03 | `—` | 0 | 2 | 1 |
+| WI-0037 | Make private Dashboard shutdown cleanup signal-safe | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2b48a14a` | 0 | 9 | 0 |
 
 ## Codex task registry
 
@@ -191,14 +191,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-30T16:02:34.386Z | work_item_unresolved_updated | WI-0037 | agent-rikku |
-| 2026-08-30T15:58:51.642Z | work_item_claimed | WI-0037 | human |
-| 2026-08-30T15:58:51.368Z | work_item_transitioned | WI-0037 | agent-tidus |
-| 2026-08-30T15:58:51.103Z | work_item_claimed | WI-0037 | human |
-| 2026-08-30T15:58:50.824Z | work_item_transitioned | WI-0037 | agent-yuna |
-| 2026-08-30T15:58:50.558Z | work_item_claimed | WI-0037 | human |
-| 2026-08-30T15:58:50.283Z | work_item_transitioned | WI-0037 | agent-mog |
-| 2026-08-30T15:58:50.009Z | work_item_claimed | WI-0037 | human |
+| 2026-08-30T16:08:59.132Z | work_item_transitioned | WI-0037 | agent-lulu |
+| 2026-08-30T16:08:55.807Z | evidence_recorded | WI-0037 | human |
+| 2026-08-30T16:07:20.157Z | work_item_claimed | WI-0037 | human |
+| 2026-08-30T16:07:14.542Z | work_item_transitioned | WI-0037 | agent-lulu |
+| 2026-08-30T16:07:14.263Z | work_item_transitioned | WI-0037 | agent-lulu |
+| 2026-08-30T16:07:14.004Z | evidence_recorded | WI-0037 | human |
+| 2026-08-30T16:06:23.691Z | work_item_claimed | WI-0037 | human |
+| 2026-08-30T16:06:19.111Z | work_item_transitioned | WI-0037 | agent-rikku |
 
 ## Assignments
 

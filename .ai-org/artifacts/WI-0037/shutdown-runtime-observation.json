@@ -1,0 +1,12 @@
+{
+  "schema_version": "temple.runtime-observation/v1",
+  "revision": "2b48a14aca01c0e98200c0b0424fb5b47636f9fc",
+  "environment": "Temple self-host repository on macOS with the version-pinned project launcher, Tailscale CLI 1.98.8, and tailnet-only HTTPS Serve",
+  "scenario": "Start the real Control Plane through templew.mjs with --codex --tailscale-viewer, send Ctrl-C to the PTY, wait for process completion, then inspect Serve state and the former loopback port",
+  "result": "pass",
+  "provenance": "live",
+  "observed_at": "2026-08-30T16:05:18Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0037/developer-verification.md"
+  ]
+}

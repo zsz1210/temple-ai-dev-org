@@ -4094,6 +4094,191 @@
         "exit_code": 0,
         "started_at": "2026-08-30T15:40:55Z"
       }
+    },
+    {
+      "id": "EVID-20260830T160545Z-E49737B1",
+      "work_item_id": "WI-0037",
+      "recorded_at": "2026-08-30T16:05:45.094Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Signal-safe shutdown candidate",
+      "outcome": "verified",
+      "scope_revision": "2b48a14aca01c0e98200c0b0424fb5b47636f9fc",
+      "observed_at": "2026-08-30T16:05:45.094Z",
+      "summary": "Core and launcher shutdown sequencing fixed at the exact candidate revision.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "2b48a14aca01c0e98200c0b0424fb5b47636f9fc"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "2b48a14aca01c0e98200c0b0424fb5b47636f9fc",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260830T160545Z-A3798CF9",
+      "work_item_id": "WI-0037",
+      "recorded_at": "2026-08-30T16:05:45.407Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer verification",
+      "outcome": "pass",
+      "scope_revision": "2b48a14aca01c0e98200c0b0424fb5b47636f9fc",
+      "observed_at": "2026-08-30T16:05:06Z",
+      "summary": "Focused 40/40 and full 216/216 verification passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0037/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0037/developer-test-observation.json",
+          "sha256": "36a41c248a42f72501cd76cdb7ae55257a3dc9fff8604fcd0455f81309391776"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0037/developer-verification.md",
+          "sha256": "665fe026080e9b960cdc78d3a9bb38f7907121a91c413d12b4c7b73f18166215"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/runtime-coordination.test.mjs test/cli.test.mjs test/control-plane-private-viewer.test.mjs",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T16:04:22Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T160545Z-5C42AB87",
+      "work_item_id": "WI-0037",
+      "recorded_at": "2026-08-30T16:05:45.675Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Live Tailscale shutdown cleanup",
+      "outcome": "pass",
+      "scope_revision": "2b48a14aca01c0e98200c0b0424fb5b47636f9fc",
+      "observed_at": "2026-08-30T16:05:18Z",
+      "summary": "Real launcher exited 0, Serve reset to empty, and the former loopback port closed.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0037/shutdown-runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0037/shutdown-runtime-observation.json",
+          "sha256": "30133f7d6080d9474891b2218e9260e45d3e9aff0e4a80883e8c34f39b5b8be8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0037/developer-verification.md",
+          "sha256": "665fe026080e9b960cdc78d3a9bb38f7907121a91c413d12b4c7b73f18166215"
+        }
+      ],
+      "details": {
+        "environment": "Temple self-host repository on macOS with the version-pinned project launcher, Tailscale CLI 1.98.8, and tailnet-only HTTPS Serve",
+        "scenario": "Start the real Control Plane through templew.mjs with --codex --tailscale-viewer, send Ctrl-C to the PTY, wait for process completion, then inspect Serve state and the former loopback port",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260830T160714Z-680301D3",
+      "work_item_id": "WI-0037",
+      "recorded_at": "2026-08-30T16:07:14.004Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality counterexample suite",
+      "outcome": "pass",
+      "scope_revision": "2b48a14aca01c0e98200c0b0424fb5b47636f9fc",
+      "observed_at": "2026-08-30T16:06:52Z",
+      "summary": "Fresh focused quality run passed 40/40 at the exact candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0037/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0037/quality-test-observation.json",
+          "sha256": "35b571cdf7b560bb6a7357beeaf0ba241129c3068df28eb0cd003a2d9fa277f4"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0037/quality-test-report.md",
+          "sha256": "973fd2871c0d68a96525cc6f97c0fa153e12f42a62719a8a7c657b7b76a1ee35"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/runtime-coordination.test.mjs test/cli.test.mjs test/control-plane-private-viewer.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T16:06:36Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T160855Z-85B55411",
+      "work_item_id": "WI-0037",
+      "recorded_at": "2026-08-30T16:08:55.807Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Fresh exact-candidate Independent QA",
+      "outcome": "pass",
+      "scope_revision": "2b48a14aca01c0e98200c0b0424fb5b47636f9fc",
+      "observed_at": "2026-08-30T16:08:21Z",
+      "summary": "Detached candidate passed 216/216, schema validation, Doctor, and clean-tree checks.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0037/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0037/independent-qa-observation.json",
+          "sha256": "5205467e8e74382792ee9fbf80a43979ff07797196584ed12489e2ea5bbb288d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0037/independent-qa-report.md",
+          "sha256": "0977f05ad3ae520ab668b60b4a06a0ae356fa0efde3e4bd1ba48cda5c709012d"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T16:07:36Z"
+      }
     }
   ]
 }
