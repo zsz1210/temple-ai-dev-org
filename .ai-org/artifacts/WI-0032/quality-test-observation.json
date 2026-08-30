@@ -1,0 +1,21 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "8ae349e072c25297810c9e5320a782d5199fbc8c",
+  "command": [
+    "node --test test/federation.test.mjs",
+    "fresh disposable adversarial harness for external core.fsmonitor, nested participant root, ambient Git injection, missing promisor object, loopback request count, and participant content immutability",
+    "npm run verify",
+    "node ./templew.mjs schema validate . --json",
+    "node ./templew.mjs doctor . --json",
+    "git diff --check",
+    "git diff --exit-code 27d735d89d30915ee2399f80f85ad563477d420c..8ae349e072c25297810c9e5320a782d5199fbc8c -- src/federation.mjs test/federation.test.mjs docs/operations/multi-repository-federation.md SECURITY.md"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-30T14:16:02.000Z",
+  "completed_at": "2026-08-30T14:19:01.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0032/quality-test-report.md",
+    ".ai-org/artifacts/WI-0032/evaluation-report.md"
+  ]
+}

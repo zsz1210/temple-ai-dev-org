@@ -690,7 +690,7 @@
     {
       "id": "worker-20260830141322-d00f540f",
       "runtime_kind": "internal-subagent",
-      "status": "active",
+      "status": "completed",
       "work_item_id": "WI-0032",
       "position_id": "quality_evaluator",
       "agent_id": "agent-lulu",
@@ -706,12 +706,17 @@
       "runtime_id": "/root/qa_wi_0032_lulu",
       "task_id": null,
       "resource_reservation_ids": [],
-      "current_revision": null,
-      "evidence": [],
+      "current_revision": "8ae349e072c25297810c9e5320a782d5199fbc8c",
+      "evidence": [
+        "EVID-20260830T142014Z-4D19FAEF",
+        "EVID-20260830T142014Z-36949B00",
+        ".ai-org/artifacts/WI-0032/quality-test-report.md",
+        ".ai-org/artifacts/WI-0032/evaluation-report.md"
+      ],
       "reserved_at": "2026-08-30T14:13:22.201Z",
       "attached_at": "2026-08-30T14:13:28.594Z",
-      "completed_at": null,
-      "updated_at": "2026-08-30T14:13:28.594Z"
+      "completed_at": "2026-08-30T14:20:59.971Z",
+      "updated_at": "2026-08-30T14:20:59.971Z"
     }
   ]
 }
