@@ -258,6 +258,147 @@
         "exit_code": 0,
         "started_at": "2026-08-30T02:47:52.360Z"
       }
+    },
+    {
+      "id": "EVID-20260830T031116Z-BF17E81F",
+      "work_item_id": "WI-0003",
+      "recorded_at": "2026-08-30T03:11:16.069Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "README layout candidate",
+      "outcome": "verified",
+      "scope_revision": "f77b44e5d13048a39d4c68901f20938a2ebad26b",
+      "observed_at": "2026-08-30T03:11:16.069Z",
+      "summary": "Exact committed candidate for the trilingual article-layout pass",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "f77b44e5d13048a39d4c68901f20938a2ebad26b"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "f77b44e5d13048a39d4c68901f20938a2ebad26b",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260830T031116Z-D44A390B",
+      "work_item_id": "WI-0003",
+      "recorded_at": "2026-08-30T03:11:16.356Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "README layout repository checks",
+      "outcome": "pass",
+      "scope_revision": "f77b44e5d13048a39d4c68901f20938a2ebad26b",
+      "observed_at": "2026-08-30T03:10:55.684Z",
+      "summary": "Repository policy and all local Markdown links passed on the candidate revision",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/alpha-23-readme-layout-developer-check.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/alpha-23-readme-layout-developer-check.json",
+          "sha256": "e86622ffe240c8b563e85441e0b94bd59c3a189fcc94a94e22fd36ccee29a622"
+        },
+        {
+          "path": "README.md",
+          "sha256": "475619dc0768c8584548c1c71932e5a33c2162004f885a772168063fd41f39b5"
+        },
+        {
+          "path": "README.ja.md",
+          "sha256": "2cabad03ae4a5ee083fac14d3c65214953dfb884df371b5b03a986057fe82f55"
+        },
+        {
+          "path": "README.zh-TW.md",
+          "sha256": "cb71525b27341b4324dd6362717dcfe66fc6455cd3bd9290a12f6e4f10ccc43a"
+        },
+        {
+          "path": "scripts/check-repo.mjs",
+          "sha256": "31e0108a456a5ae53e60d1b25c9958d9c3e1e67ebda007f0d6354c4bcefec170"
+        },
+        {
+          "path": "scripts/check-doc-links.mjs",
+          "sha256": "9c901ddbbbee35843b04f9d1f761840e875f80311468d55a4f46d37b3ee0a16d"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T03:10:55.217Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T031240Z-60E4A8C3",
+      "work_item_id": "WI-0003",
+      "recorded_at": "2026-08-30T03:12:40.509Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "README layout independent QA",
+      "outcome": "pass",
+      "scope_revision": "f77b44e5d13048a39d4c68901f20938a2ebad26b",
+      "observed_at": "2026-08-30T03:12:09.115Z",
+      "summary": "Fresh detached-worktree repository checks and GitHub GFM rendering passed for all maintained languages",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/alpha-23-readme-layout-independent-qa.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/alpha-23-readme-layout-independent-qa.json",
+          "sha256": "47b7636ffe53bc98c4de79d2b695f645b0ef7d60d89ce453582f229a00ef770f"
+        },
+        {
+          "path": "README.md",
+          "sha256": "475619dc0768c8584548c1c71932e5a33c2162004f885a772168063fd41f39b5"
+        },
+        {
+          "path": "README.ja.md",
+          "sha256": "2cabad03ae4a5ee083fac14d3c65214953dfb884df371b5b03a986057fe82f55"
+        },
+        {
+          "path": "README.zh-TW.md",
+          "sha256": "cb71525b27341b4324dd6362717dcfe66fc6455cd3bd9290a12f6e4f10ccc43a"
+        },
+        {
+          "path": "scripts/check-repo.mjs",
+          "sha256": "31e0108a456a5ae53e60d1b25c9958d9c3e1e67ebda007f0d6354c4bcefec170"
+        },
+        {
+          "path": "scripts/check-doc-links.mjs",
+          "sha256": "9c901ddbbbee35843b04f9d1f761840e875f80311468d55a4f46d37b3ee0a16d"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T03:12:08.775Z"
+      }
     }
   ]
 }

@@ -1,0 +1,16 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "f77b44e",
+  "command": ["npm", "run", "check"],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-30T03:10:55.217Z",
+  "completed_at": "2026-08-30T03:10:55.684Z",
+  "artifact_refs": [
+    "README.md",
+    "README.ja.md",
+    "README.zh-TW.md",
+    "scripts/check-repo.mjs",
+    "scripts/check-doc-links.mjs"
+  ]
+}
