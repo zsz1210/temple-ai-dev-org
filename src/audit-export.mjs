@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import { createReadStream } from "node:fs";
 import path from "node:path";
 import readline from "node:readline";
-import { durableAtomicCreate, formatJson, pathExists, readJson, sha256 } from "./files.mjs";
+import { durableAtomicCreate, formatJson, readJson, sha256 } from "./files.mjs";
 import { RECOVERY_LEDGER_SCHEMA, resolveRecoveryStateDirectory } from "./recovery.mjs";
 import { redactTelemetryData } from "./telemetry.mjs";
 
@@ -23,6 +23,35 @@ const SAFE_RECOVERY_STATUSES = new Set([
   "rolled_back",
   "recovery_blocked"
 ]);
+const SAFE_EVENT_TYPE = /^[a-z][a-z0-9]*(?:_[a-z0-9]+){0,15}$/;
+const SAFE_POSITION_OR_STATE = /^[a-z][a-z0-9]*(?:_[a-z0-9]+){0,7}$/;
+const SAFE_AGENT_ID = /^agent-[a-z0-9][a-z0-9-]{0,62}$/;
+const SAFE_PRINCIPAL_ID = /^principal-[a-z0-9][a-z0-9-]{0,58}$/;
+const SAFE_WORK_ITEM_ID = /^WI-(?:[0-9]{4,}|[0-9]{8}-[A-F0-9]{10})$/;
+const SAFE_TASK_ID = /^task-[0-9]{4,}$/;
+const SAFE_WORKER_ID = /^worker-[0-9]{14}-[a-f0-9]{8}$/;
+const SAFE_RUNTIME_ID = /^\/root\/[a-z0-9_]+(?::[a-z0-9][a-z0-9_-]{0,127})?$/;
+const SAFE_CLAIM_ID = /^claim-[0-9]{14}-[a-f0-9]{8}$/;
+const SAFE_SLUG_ID = /^[a-z][a-z0-9-]{0,63}$/;
+const SAFE_EVIDENCE_ID = /^EVID-[0-9]{8}T[0-9]{6}Z-[A-F0-9]{8}$/;
+const SAFE_LEARNING_ID = /^(?:LESSON|PRACTICE)-[0-9]{4,}$/;
+const SAFE_REVISION = /^[a-f0-9]{7,64}$/;
+const SAFE_REQUIREMENT = /^[a-z][a-z0-9]*(?:[_-][a-z0-9]+){0,15}$/;
+const SAFE_EVIDENCE_KINDS = new Set(["git-revision", "test", "runtime", "unverified-claim", "risk", "rollback", "github"]);
+const SAFE_LEARNING_KINDS = new Set(["lesson", "practice"]);
+const SAFE_STATUSES = new Set([
+  "setup",
+  "reserved",
+  "active",
+  "waiting",
+  "attention",
+  "completed",
+  "archived",
+  "failed",
+  "cancelled"
+]);
+const SAFE_RESULTS = new Set(["pass", "fail", "go", "no-go", "confirmed", "narrowed", "contradicted", "accepted", "rejected"]);
+const SAFE_OUTCOMES = new Set(["pass", "fail", "verified", "unverified", "open", "accepted", "mitigated", "planned", "pending", "stale"]);
 const ALLOWED_EVENT_FIELDS = [
   "timestamp",
   "event_type",
@@ -138,7 +167,15 @@ function safeAuditRef(value) {
   ) {
     return "[REDACTED_REF]";
   }
-  return value;
+  return /^(?:[A-Za-z0-9._@:+-]+\/)*[A-Za-z0-9._@:+-]+$/.test(value) ? value : "[REDACTED_REF]";
+}
+
+function safeApprovalRecord(value) {
+  const reference = safeAuditRef(value);
+  if (reference === "[REDACTED_REF]") return reference;
+  if (/^https?:\/\//i.test(reference) || reference === "not-required" || reference.includes("/")) return reference;
+  if (SAFE_WORK_ITEM_ID.test(reference) || SAFE_EVIDENCE_ID.test(reference)) return reference;
+  return "[REDACTED_REF]";
 }
 
 function boundedAuditString(value) {
@@ -150,6 +187,45 @@ function boundedAuditToken(value) {
   const bounded = boundedAuditString(value);
   if (bounded === null || bounded === "[REDACTED_OVERSIZE]") return bounded;
   return /^[A-Za-z0-9][A-Za-z0-9._:@,+/-]{0,511}$/.test(bounded) ? bounded : "[REDACTED_TEXT]";
+}
+
+function safeActor(value) {
+  const identities = value.split(",");
+  if (identities.length > 20) return false;
+  return identities.every((identity) =>
+    identity === "human" || identity === "project-owner" || SAFE_AGENT_ID.test(identity) || SAFE_PRINCIPAL_ID.test(identity)
+  );
+}
+
+function validAuditFieldValue(key, value) {
+  if (key === "event_type") return SAFE_EVENT_TYPE.test(value);
+  if (key === "actor") return safeActor(value);
+  if (["position", "from_position", "to_position", "from_state", "to_state", "state"].includes(key)) {
+    return SAFE_POSITION_OR_STATE.test(value);
+  }
+  if (key === "principal_id") return SAFE_PRINCIPAL_ID.test(value);
+  if (key === "agent_id") return SAFE_AGENT_ID.test(value);
+  if (key === "work_item_id") return SAFE_WORK_ITEM_ID.test(value);
+  if (key === "task_id") return SAFE_TASK_ID.test(value);
+  if (key === "worker_id") return SAFE_WORKER_ID.test(value);
+  if (key === "runtime_id") return SAFE_RUNTIME_ID.test(value);
+  if (key === "claim_id") return SAFE_CLAIM_ID.test(value);
+  if (key === "resource_id" || key === "provider_id") return SAFE_SLUG_ID.test(value);
+  if (key === "evidence_id") return SAFE_EVIDENCE_ID.test(value);
+  if (key === "evidence_kind") return SAFE_EVIDENCE_KINDS.has(value);
+  if (key === "learning_id") return SAFE_LEARNING_ID.test(value);
+  if (key === "learning_kind") return SAFE_LEARNING_KINDS.has(value);
+  if (key === "status") return SAFE_STATUSES.has(value);
+  if (key === "result") return SAFE_RESULTS.has(value);
+  if (key === "outcome") return SAFE_OUTCOMES.has(value);
+  if (key === "input_revision" || key === "tested_revision") return SAFE_REVISION.test(value);
+  return false;
+}
+
+function projectAuditField(key, value) {
+  const bounded = boundedAuditString(value);
+  if (bounded === null || bounded === "[REDACTED_OVERSIZE]") return bounded ?? "[REDACTED_TEXT]";
+  return validAuditFieldValue(key, bounded) ? bounded : "[REDACTED_TEXT]";
 }
 
 function uniqueSortedStrings(values, label) {
@@ -186,20 +262,24 @@ function projectEvent(event, privacy) {
     }
     if (key === "satisfied_requirements") {
       allowed.satisfied_requirements = Array.isArray(event.satisfied_requirements)
-        ? event.satisfied_requirements.slice(0, 100).map(boundedAuditToken).filter((value) => value !== null)
+        ? event.satisfied_requirements.slice(0, 100).map((value) => {
+            const bounded = boundedAuditString(value);
+            return bounded !== null && bounded !== "[REDACTED_OVERSIZE]" && SAFE_REQUIREMENT.test(bounded)
+              ? bounded
+              : "[REDACTED_TEXT]";
+          })
         : [];
       continue;
     }
     if (key === "approval_record") {
-      allowed.approval_record = safeAuditRef(event.approval_record);
+      allowed.approval_record = safeApprovalRecord(event.approval_record);
       continue;
     }
-    if (typeof event[key] === "boolean" || typeof event[key] === "number") {
-      allowed[key] = event[key];
+    if (key === "external_release" || key === "external_action_performed") {
+      allowed[key] = typeof event[key] === "boolean" ? event[key] : "[REDACTED_TEXT]";
       continue;
     }
-    const value = boundedAuditToken(event[key]);
-    if (value !== null) allowed[key] = value;
+    allowed[key] = projectAuditField(key, event[key]);
   }
   return stableValue(
     redactTelemetryData(removeExcludedFields(allowed), {
@@ -211,12 +291,20 @@ function projectEvent(event, privacy) {
 
 async function readCanonicalEvents(target, selection, privacy) {
   const eventPath = path.join(target, ".ai-org/events/events.jsonl");
-  if (!(await pathExists(eventPath))) {
-    return { source_count: 0, matched_count: 0, selected: [] };
+  let current = target;
+  for (const [index, component] of [".ai-org", "events", "events.jsonl"].entries()) {
+    current = path.join(current, component);
+    const stat = await lstatOrNull(current);
+    if (!stat) return { source_count: 0, matched_count: 0, selected: [] };
+    const final = index === 2;
+    if (stat.isSymbolicLink() || (final ? !stat.isFile() : !stat.isDirectory())) {
+      throw new Error(`Canonical event source ${final ? "file" : "parent"} must be a real ${final ? "file" : "directory"}`);
+    }
   }
-  const eventStat = await fs.lstat(eventPath);
-  if (eventStat.isSymbolicLink() || !eventStat.isFile()) {
-    throw new Error("Canonical event source must be a real file");
+  const realEventPath = await fs.realpath(eventPath);
+  const relativeEventPath = path.relative(target, realEventPath);
+  if (realEventPath !== eventPath || relativeEventPath.startsWith("..") || path.isAbsolute(relativeEventPath)) {
+    throw new Error("Canonical event source must resolve to its repository path");
   }
   const selected = [];
   let sourceCount = 0;

@@ -52,9 +52,9 @@ test("audit export is deterministic, bounded, filtered, and recursively redacted
     {
       timestamp: "2026-08-02T00:00:00.000Z",
       event_type: "provider_observed",
-      actor: "Bearer abcdefghijklmnopqrstuvwxyz",
+      actor: "credential-secret-marker-123456789",
       work_item_id: "WI-0001",
-      result: "pass",
+      result: "password-marker-123456789",
       refs: [
         ".ai-org/artifacts/evidence.json",
         "/Users/alice/private/provider-body.json",
@@ -70,14 +70,14 @@ test("audit export is deterministic, bounded, filtered, and recursively redacted
       },
       provider_body: { innocent_key: "another provider body" },
       approval_record: { innocent_key: "not a scalar approval reference" },
-      outcome: "provider business response in a scalar field"
+      outcome: "private-provider-response-123456789"
     },
     {
       timestamp: "2026-08-03T00:00:00.000Z",
       event_type: "evidence_recorded",
       actor: "agent-rikku",
       work_item_id: "WI-0002",
-      evidence_id: "EVIDENCE-0001",
+      evidence_id: "EVID-20260803T000000Z-ABCDEF12",
       outcome: "pass",
       refs: [".ai-org/project/evidence.json"]
     },
@@ -117,11 +117,15 @@ test("audit export is deterministic, bounded, filtered, and recursively redacted
     "relative-secret",
     "approval-secret",
     "not a scalar approval reference",
-    "provider business response in a scalar field"
+    "credential-secret-marker-123456789",
+    "private-provider-response-123456789",
+    "password-marker-123456789"
   ]) {
     assert.equal(encoded.includes(forbidden), false, forbidden);
   }
   assert.equal(first.events[0].actor, "[REDACTED_TEXT]");
+  assert.equal(first.events[0].outcome, "[REDACTED_TEXT]");
+  assert.equal(first.events[0].result, "[REDACTED_TEXT]");
   assert.deepEqual(first.events[0].refs, [
     ".ai-org/artifacts/evidence.json",
     "[REDACTED_REF]",
@@ -132,6 +136,9 @@ test("audit export is deterministic, bounded, filtered, and recursively redacted
     "[REDACTED_REF]"
   ]);
   assert.equal(Object.hasOwn(first.events[0], "metadata"), false);
+  assert.equal(first.events[1].actor, "agent-hollis");
+  assert.equal(first.events[1].from_state, "in_progress");
+  assert.equal(first.events[1].to_state, "implemented");
   assert.equal(first.events[1].approval_record, "https://example.test/approval");
 
   const outputOne = path.join(state.temporaryRoot, "audit-one.json");
@@ -217,6 +224,23 @@ test("audit export fails closed for linked sources and oversized canonical event
   await assert.rejects(() => buildAuditExport(state.target), /real file/);
 
   await fs.unlink(eventPath);
+  const externalEventsDirectory = path.join(state.temporaryRoot, "external-events");
+  await fs.mkdir(externalEventsDirectory);
+  await fs.writeFile(
+    path.join(externalEventsDirectory, "events.jsonl"),
+    `${JSON.stringify({
+      timestamp: "2026-08-01T00:00:00.000Z",
+      event_type: "external_event",
+      actor: "human",
+      result: "external-source-marker"
+    })}\n`
+  );
+  await fs.rmdir(path.join(state.target, ".ai-org/events"));
+  await fs.symlink(externalEventsDirectory, path.join(state.target, ".ai-org/events"));
+  await assert.rejects(() => buildAuditExport(state.target), /source parent must be a real directory/);
+
+  await fs.unlink(path.join(state.target, ".ai-org/events"));
+  await fs.mkdir(path.join(state.target, ".ai-org/events"));
   await writeEvents(state.target, [{
     timestamp: "2026-08-01T00:00:00.000Z",
     event_type: "oversized_event",
