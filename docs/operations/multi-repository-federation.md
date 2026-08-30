@@ -9,6 +9,9 @@ The coordination repository owns `.ai-org/project/federation.json`. It may defin
 The federation module:
 
 - reads each participant at an exact Git revision;
+- requires the participant path to resolve to that Git worktree's exact top level rather than a nested directory discovered through a parent repository;
+- invokes Git noninteractively with an allowlisted environment, ignores ambient Git directory, credential, object, config, and transport injection variables, and skips global and system Git configuration;
+- disables external `core.fsmonitor`, repository hooks, credential helpers, replacement objects, and lazy fetching for every inspection command;
 - rejects bare Work Item IDs in favor of `project_id + work_item_id + revision`;
 - checks the participant's `temple.lock` and project identity;
 - rejects dirty participant canonical state;
@@ -20,7 +23,7 @@ The federation module:
 
 ## Participant registry
 
-The registry uses `temple.federation/v1` and contains only coordination metadata. A participant path is relative to the coordination repository. Sibling paths such as `../orders-api` are supported only when their resolved real path remains below the caller-supplied federation root. Absolute paths, Windows-style paths, malformed paths, and symlink escapes are rejected.
+The registry uses `temple.federation/v1` and contains only coordination metadata. A participant path is relative to the coordination repository. Sibling paths such as `../orders-api` are supported only when their resolved real path remains below the caller-supplied federation root and is the exact top level reported by Git. A nested directory inside a repository is not a participant root. Absolute paths, Windows-style paths, malformed paths, and symlink escapes are rejected.
 
 ```json
 {
@@ -119,6 +122,7 @@ Participant diagnostics are bounded codes rather than raw filesystem or Git erro
 
 - `participant_missing`, `participant_unreadable`, or `participant_invalid`;
 - `unsafe_path`;
+- `repository_root_mismatch`;
 - `identity_mismatch`;
 - `source_revision_unavailable` or `source_revision_mismatch`;
 - `stale_revision_observation`;
@@ -129,4 +133,4 @@ An unknown participant has no projected Work Items and every signal remains unkn
 
 ## Current limits
 
-This alpha implementation supports local filesystem repositories and Git revisions. The bounded local two-participant rehearsal passed current-to-unknown degradation and participant immutability checks. It does not fetch repositories, verify hosted-provider identity, perform organization-wide RBAC, write participant state, encrypt registry data, coordinate atomic commits, or prove multi-machine availability. Filesystem and Git checks reduce local authority leakage but do not provide a hardened defense against a repository being replaced during the same read. Real multi-human and multi-machine evidence remains separate enterprise qualification.
+This alpha implementation supports local filesystem repositories and Git revisions. The bounded local two-participant rehearsal passed current-to-unknown degradation and participant immutability checks. Inspection does not fetch repositories: a missing promisor object fails closed as an unknown participant without contacting its remote. It does not verify hosted-provider identity, perform organization-wide RBAC, write participant state, encrypt registry data, coordinate atomic commits, or prove multi-machine availability. Filesystem and Git checks reduce local authority leakage but do not provide a hardened defense against a repository being replaced during the same read. Real multi-human and multi-machine evidence remains separate enterprise qualification.

@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import fs from "node:fs/promises";
+import http from "node:http";
 import os from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
@@ -529,6 +530,143 @@ test("expected revisions ignore local Git replacement objects", async (testConte
   assert.equal(portfolio.participants[0].project, null);
   assert.equal(portfolio.participants[0].work_items.length, 0);
   assert.equal(JSON.stringify(portfolio).includes(projectB.name), false);
+});
+
+test("participant Git configuration cannot execute an external fsmonitor", async (testContext) => {
+  const { root, coordinator } = await fixture(testContext);
+  const participantRoot = path.join(root, "fsmonitor-attack");
+  const revision = await createRepository(participantRoot, {
+    projectId: "fsmonitor-attack",
+    workItems: [{ id: "WI-0001" }]
+  });
+  const hookPath = path.join(participantRoot, ".git/fsmonitor-attack");
+  const markerPath = `${hookPath}.ran`;
+  await fs.writeFile(hookPath, "#!/bin/sh\n: > \"$0.ran\"\nexit 1\n", { mode: 0o755 });
+  git(participantRoot, ["config", "core.fsmonitor", hookPath]);
+
+  const before = await contentDigest(participantRoot);
+  const portfolio = await buildFederatedPortfolio(coordinator, {
+    registry: registry([participant("fsmonitor-attack", "../fsmonitor-attack", revision)]),
+    allowedRoot: root,
+    now: NOW
+  });
+  const after = await contentDigest(participantRoot);
+
+  assert.equal(await fs.stat(markerPath).then(() => true, () => false), false, "fsmonitor must not execute");
+  assert.equal(after, before, "fsmonitor hardening must preserve participant content");
+  assert.equal(portfolio.participants[0].status, "current");
+});
+
+test("participant paths must resolve to the exact Git worktree root", async (testContext) => {
+  const { root, coordinator } = await fixture(testContext);
+  const participantRoot = path.join(root, "nested-attack");
+  const revision = await createRepository(participantRoot, {
+    projectId: "nested-attack",
+    workItems: [{ id: "WI-0001" }]
+  });
+  await fs.mkdir(path.join(participantRoot, "nested/participant"), { recursive: true });
+
+  const portfolio = await buildFederatedPortfolio(coordinator, {
+    registry: registry([participant("nested-attack", "../nested-attack/nested/participant", revision)]),
+    allowedRoot: root,
+    now: NOW
+  });
+
+  assert.equal(portfolio.summary.current, 0);
+  assert.equal(portfolio.summary.unknown, 1);
+  assert.equal(portfolio.participants[0].diagnostics[0].code, "repository_root_mismatch");
+  assert.equal(portfolio.participants[0].provenance.source_revision, null);
+  assert.equal(portfolio.participants[0].project, null);
+  assert.deepEqual(portfolio.participants[0].work_items, []);
+});
+
+test("ambient Git injection variables cannot redirect participant inspection", async (testContext) => {
+  const { root, coordinator } = await fixture(testContext);
+  const participantRoot = path.join(root, "environment-target");
+  const decoyRoot = path.join(root, "environment-decoy");
+  const revision = await createRepository(participantRoot, {
+    projectId: "environment-target",
+    workItems: [{ id: "WI-0001" }]
+  });
+  await createRepository(decoyRoot, {
+    projectId: "environment-decoy",
+    workItems: [{ id: "WI-0002" }]
+  });
+  const hookPath = path.join(participantRoot, ".git/environment-attack");
+  const markerPath = `${hookPath}.ran`;
+  await fs.writeFile(hookPath, "#!/bin/sh\n: > \"$0.ran\"\nexit 1\n", { mode: 0o755 });
+
+  const injected = {
+    GIT_DIR: path.join(decoyRoot, ".git"),
+    GIT_WORK_TREE: participantRoot,
+    GIT_CONFIG_COUNT: "1",
+    GIT_CONFIG_KEY_0: "core.fsmonitor",
+    GIT_CONFIG_VALUE_0: hookPath,
+    GIT_ASKPASS: hookPath,
+    GIT_SSH_COMMAND: hookPath,
+    SSH_AUTH_SOCK: path.join(root, "credential-agent.sock")
+  };
+  const previous = Object.fromEntries(Object.keys(injected).map((key) => [key, process.env[key]]));
+  Object.assign(process.env, injected);
+  let portfolio;
+  try {
+    portfolio = await buildFederatedPortfolio(coordinator, {
+      registry: registry([participant("environment-target", "../environment-target", revision)]),
+      allowedRoot: root,
+      now: NOW
+    });
+  } finally {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+  }
+
+  assert.equal(await fs.stat(markerPath).then(() => true, () => false), false, "injected commands must not execute");
+  assert.equal(portfolio.participants[0].status, "current");
+  assert.equal(portfolio.participants[0].project.id, "environment-target");
+  assert.equal(portfolio.participants[0].provenance.source_revision, revision);
+});
+
+test("missing promisor objects fail closed without a lazy fetch", async (testContext) => {
+  const { root, coordinator } = await fixture(testContext);
+  const participantRoot = path.join(root, "promisor-attack");
+  const revision = await createRepository(participantRoot, {
+    projectId: "promisor-attack",
+    workItems: [{ id: "WI-0001" }]
+  });
+  let requests = 0;
+  const server = http.createServer((_request, response) => {
+    requests += 1;
+    response.writeHead(500, { "content-type": "text/plain" });
+    response.end("network access is forbidden\n");
+  });
+  await new Promise((resolve, reject) => {
+    server.once("error", reject);
+    server.listen(0, "127.0.0.1", resolve);
+  });
+  testContext.after(() => new Promise((resolve) => server.close(resolve)));
+  const address = server.address();
+  assert.ok(address && typeof address === "object");
+  git(participantRoot, ["remote", "add", "origin", `http://127.0.0.1:${address.port}/participant.git`]);
+  git(participantRoot, ["config", "remote.origin.promisor", "true"]);
+  git(participantRoot, ["config", "remote.origin.partialclonefilter", "blob:none"]);
+  const missingObject = git(participantRoot, ["rev-parse", `${revision}:.ai-org/project/project.json`]);
+  const missingObjectPath = path.join(participantRoot, ".git/objects", missingObject.slice(0, 2), missingObject.slice(2));
+  await fs.rm(missingObjectPath);
+
+  const portfolio = await buildFederatedPortfolio(coordinator, {
+    registry: registry([participant("promisor-attack", "../promisor-attack", revision)]),
+    allowedRoot: root,
+    now: NOW
+  });
+
+  assert.equal(requests, 0, "federation inspection must not make a promisor remote request");
+  assert.equal(portfolio.summary.current, 0);
+  assert.equal(portfolio.summary.unknown, 1);
+  assert.equal(portfolio.participants[0].diagnostics[0].code, "participant_invalid");
+  assert.equal(portfolio.participants[0].project, null);
+  assert.deepEqual(portfolio.participants[0].work_items, []);
 });
 
 test("missing, stale, invalid, mismatched, dirty, and escaped participants remain unknown", async (testContext) => {
