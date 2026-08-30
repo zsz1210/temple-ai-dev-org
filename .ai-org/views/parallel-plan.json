@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T08:14:08.372Z",
-  "source_fingerprint": "7cb6e5563385a2ec9686aa128434774f1638674fa5dac4bebfac01fb95ca8876",
+  "generated_at": "2026-08-30T08:21:28.556Z",
+  "source_fingerprint": "629e2ff5bae65d543199ed38dd853174222fe330fe1bf90e41abdc6848fb7916",
   "scope": {
     "mode": "parent-descendants",
     "parent_work_item_id": "WI-0015",
@@ -10,18 +10,17 @@
       "WI-0017",
       "WI-0018",
       "WI-0019",
-      "WI-0020",
-      "WI-0021",
-      "WI-0022"
+      "WI-0022",
+      "WI-0023"
     ]
   },
   "max_workers": 3,
   "summary": {
-    "selected": 7,
-    "dispatchable": 3,
+    "selected": 6,
+    "dispatchable": 1,
     "active": 0,
     "sequential": 0,
-    "blocked": 4,
+    "blocked": 5,
     "waves": 1
   },
   "waves": [
@@ -30,70 +29,13 @@
       "order": 1,
       "dispatch": [
         {
-          "work_item_id": "WI-0020",
-          "title": "Harden audit export after Independent QA",
-          "position_id": "independent_qa",
-          "agent_id": "agent-lulu",
-          "agent_name": "Lulu",
-          "suggested_task_title": "WI-0020 · Independent QA · Lulu",
-          "base_revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
-          "affected_paths": [
-            "src/audit-export.mjs",
-            "test/audit-export.test.mjs",
-            "docs/validation"
-          ],
-          "dependencies": [],
-          "required_disciplines": [],
-          "active_requirements": {
-            "stage": "independent_qa",
-            "disciplines": [],
-            "resources": []
-          },
-          "preparation_fingerprint": "9f9f62e76e13cb5fb5d894cf3ac634763c22c156c080f7f5948018584da3977b",
-          "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0020 --position independent_qa --no-write --json",
-          "claim_required_before_work": true,
-          "task_registration_required_after_creation": true,
-          "task_creation_performed": false,
-          "claim_performed": false,
-          "external_action_performed": false
-        },
-        {
-          "work_item_id": "WI-0021",
-          "title": "Fix usage preflight exact correlation",
-          "position_id": "independent_qa",
-          "agent_id": "agent-lulu",
-          "agent_name": "Lulu",
-          "suggested_task_title": "WI-0021 · Independent QA · Lulu",
-          "base_revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
-          "affected_paths": [
-            "src/usage-attribution.mjs",
-            "test/phase-4b.test.mjs"
-          ],
-          "dependencies": [],
-          "required_disciplines": [],
-          "active_requirements": {
-            "stage": "independent_qa",
-            "disciplines": [],
-            "resources": []
-          },
-          "preparation_fingerprint": "95b33b9b68a0941a27c31290b7b8a755ccf93d7c9d5337eac5256df91eee48d7",
-          "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0021 --position independent_qa --no-write --json",
-          "claim_required_before_work": true,
-          "task_registration_required_after_creation": true,
-          "task_creation_performed": false,
-          "claim_performed": false,
-          "external_action_performed": false
-        },
-        {
-          "work_item_id": "WI-0022",
-          "title": "Bind federation reads to the expected revision",
-          "position_id": "independent_qa",
-          "agent_id": "agent-lulu",
-          "agent_name": "Lulu",
-          "suggested_task_title": "WI-0022 · Independent QA · Lulu",
-          "base_revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
+          "work_item_id": "WI-0023",
+          "title": "Disable Git replacement objects in federation",
+          "position_id": "developer",
+          "agent_id": "agent-rikku",
+          "agent_name": "Rikku",
+          "suggested_task_title": "WI-0023 · Developer · Rikku",
+          "base_revision": "126b3158f08a4e35bd368c11931185f1c54a3bc6",
           "affected_paths": [
             "src/federation.mjs",
             "test/federation.test.mjs"
@@ -101,13 +43,13 @@
           "dependencies": [],
           "required_disciplines": [],
           "active_requirements": {
-            "stage": "independent_qa",
+            "stage": "build",
             "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "d7749a8f51a5d4d6db274c41d5d7fa85ffa7e1d781041d06622add201650740c",
+          "preparation_fingerprint": "0e89b16c2beec3af561aa82569a7b66951677580285d306173ee5dc8dee9cfa4",
           "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0022 --position independent_qa --no-write --json",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0023 --position developer --no-write --json",
           "claim_required_before_work": true,
           "task_registration_required_after_creation": true,
           "task_creation_performed": false,
@@ -176,73 +118,56 @@
         "dependency_not_dispatchable:WI-0017",
         "dependency_not_dispatchable:WI-0018"
       ]
+    },
+    {
+      "work_item_id": "WI-0022",
+      "title": "Bind federation reads to the expected revision",
+      "disposition": "blocked",
+      "position_id": "engineering_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": "agent-mog",
+      "reasons": [
+        "unresolved_items_cleared"
+      ]
     }
   ],
   "conflicts": [
     {
       "kind": "affected-path",
-      "left_work_item_id": "WI-0016",
-      "right_work_item_id": "WI-0020",
-      "paths": [
-        {
-          "left_path": "src/audit-export.mjs",
-          "right_path": "src/audit-export.mjs"
-        },
-        {
-          "left_path": "test/audit-export.test.mjs",
-          "right_path": "test/audit-export.test.mjs"
-        },
-        {
-          "left_path": "docs/validation/phase-4a-completion.md",
-          "right_path": "docs/validation"
-        }
-      ],
-      "resolution": "explicit-bidirectional"
-    },
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0017",
-      "right_work_item_id": "WI-0020",
-      "paths": [
-        {
-          "left_path": "docs/validation/phase-4b-completion.md",
-          "right_path": "docs/validation"
-        }
-      ],
-      "resolution": "explicit-bidirectional"
-    },
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0017",
-      "right_work_item_id": "WI-0021",
-      "paths": [
-        {
-          "left_path": "src/usage-attribution.mjs",
-          "right_path": "src/usage-attribution.mjs"
-        },
-        {
-          "left_path": "test/phase-4b.test.mjs",
-          "right_path": "test/phase-4b.test.mjs"
-        }
-      ],
-      "resolution": "explicit-bidirectional"
-    },
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0018",
-      "right_work_item_id": "WI-0020",
-      "paths": [
-        {
-          "left_path": "docs/validation/phase-4c-completion.md",
-          "right_path": "docs/validation"
-        }
-      ],
-      "resolution": "explicit-bidirectional"
-    },
-    {
-      "kind": "affected-path",
       "left_work_item_id": "WI-0018",
       "right_work_item_id": "WI-0022",
+      "paths": [
+        {
+          "left_path": "src/federation.mjs",
+          "right_path": "src/federation.mjs"
+        },
+        {
+          "left_path": "test/federation.test.mjs",
+          "right_path": "test/federation.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0018",
+      "right_work_item_id": "WI-0023",
+      "paths": [
+        {
+          "left_path": "src/federation.mjs",
+          "right_path": "src/federation.mjs"
+        },
+        {
+          "left_path": "test/federation.test.mjs",
+          "right_path": "test/federation.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0022",
+      "right_work_item_id": "WI-0023",
       "paths": [
         {
           "left_path": "src/federation.mjs",

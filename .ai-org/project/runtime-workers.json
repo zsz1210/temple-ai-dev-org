@@ -342,6 +342,32 @@
       "attached_at": "2026-08-30T08:14:22.448Z",
       "completed_at": "2026-08-30T08:19:56.191Z",
       "updated_at": "2026-08-30T08:19:56.191Z"
+    },
+    {
+      "id": "worker-20260830082136-290711c9",
+      "runtime_kind": "internal-subagent",
+      "status": "active",
+      "work_item_id": "WI-0023",
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
+      "principal_id": "project-owner",
+      "claim_id": "claim-20260830082136-a791c194",
+      "base_revision": "126b3158f08a4e35bd368c11931185f1c54a3bc6",
+      "branch": "phase4/fix-wi-0023",
+      "worktree": "/tmp/temple-phase4.slCwlE/fix-wi-0023",
+      "plan_fingerprint": "629e2ff5bae65d543199ed38dd853174222fe330fe1bf90e41abdc6848fb7916",
+      "plan_digest": "6c1c6ecb450a7807f5f23e3b36556cfa08fe1c2d199b20128b2ddd130060e116",
+      "preparation_fingerprint": "0e89b16c2beec3af561aa82569a7b66951677580285d306173ee5dc8dee9cfa4",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/skill_forward_test:fix-wi-0023",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": null,
+      "evidence": [],
+      "reserved_at": "2026-08-30T08:21:36.059Z",
+      "attached_at": "2026-08-30T08:21:39.791Z",
+      "completed_at": null,
+      "updated_at": "2026-08-30T08:21:39.791Z"
     }
   ]
 }

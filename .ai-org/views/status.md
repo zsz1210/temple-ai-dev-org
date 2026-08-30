@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.26`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 1 wave(s), fresh=false
 - Work items: 23 total, 7 active
 - Codex tasks: 3 registered, 3 archive-ready
-- Runtime workers: 12 registered, 0 reserved, 0 active
+- Runtime workers: 13 registered, 0 reserved, 1 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -35,9 +35,9 @@
 - Valid: yes
 - Fresh: no
 - Safe waves: 1
-- Dispatchable Work Items: 3
-- Active / sequential / blocked: 0 / 0 / 4
-- Next wave: WI-0020, WI-0021, WI-0022
+- Dispatchable Work Items: 1
+- Active / sequential / blocked: 0 / 0 / 5
+- Next wave: WI-0023
 - Codex tasks, claims, or external actions performed by planning: no
 
 ## Work items
@@ -65,8 +65,8 @@
 | WI-0019 | Integrate the Phase 4 CLI, schemas, and release line | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 | WI-0020 | Harden audit export after Independent QA | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5733bb25` | 0 | 11 | 0 |
 | WI-0021 | Fix usage preflight exact correlation | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5733bb25` | 0 | 11 | 0 |
-| WI-0022 | Bind federation reads to the expected revision | blocked | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5fb81a86` | 0 | 9 | 1 |
-| WI-0023 | Disable Git replacement objects in federation | build | Developer | Rikku | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
+| WI-0022 | Bind federation reads to the expected revision | blocked | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5fb81a86` | 0 | 9 | 1 |
+| WI-0023 | Disable Git replacement objects in federation | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830082136-a791c194 | `—` | 0 | 2 | 0 |
 
 ## Codex task registry
 
@@ -92,6 +92,7 @@
 | worker-20260830081415-9000dc59 | internal-subagent | WI-0020 | Independent QA / Lulu | completed | /root/skill_forward_test:qa-wi-0020 | `5733bb25` | 0 |
 | worker-20260830081415-d6db2068 | internal-subagent | WI-0021 | Independent QA / Lulu | completed | /root/framework_docs_review:qa-wi-0021 | `5733bb25` | 0 |
 | worker-20260830081416-59664aaf | internal-subagent | WI-0022 | Independent QA / Lulu | completed | /root/ownership_code_review:qa-wi-0022 | `5733bb25` | 0 |
+| worker-20260830082136-290711c9 | internal-subagent | WI-0023 | Developer / Rikku | active | /root/skill_forward_test:fix-wi-0023 | `—` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -107,7 +108,7 @@
 - task-0002 can be archived
 - task-0003 can be archived
 - Generated parallel plan is stale; rebuild it before dispatch
-- Parallel plan has 4 blocked Work Item(s)
+- Parallel plan has 5 blocked Work Item(s)
 
 ## External tracker coordination
 
@@ -162,14 +163,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-30T08:21:39.791Z | runtime_worker_attached | WI-0023 | agent-rikku |
+| 2026-08-30T08:21:36.059Z | runtime_worker_reserved | WI-0023 | project-owner |
+| 2026-08-30T08:21:36.061Z | work_item_claimed | WI-0023 | project-owner |
+| 2026-08-30T08:21:28.213Z | work_item_coordination_configured | WI-0023 | agent-rikku |
+| 2026-08-30T08:21:27.908Z | work_item_coordination_configured | WI-0022 | agent-mog |
+| 2026-08-30T08:21:27.540Z | work_item_coordination_configured | WI-0018 | agent-mog |
+| 2026-08-30T08:21:27.228Z | work_item_coordination_configured | WI-0023 | agent-rikku |
 | 2026-08-30T08:21:14.399Z | work_item_transitioned | WI-0023 | agent-tidus |
-| 2026-08-30T08:21:14.108Z | work_item_transitioned | WI-0023 | agent-yuna |
-| 2026-08-30T08:21:13.796Z | work_item_transitioned | WI-0023 | agent-mog |
-| 2026-08-30T08:21:13.471Z | work_item_coordination_configured | WI-0023 | agent-mog |
-| 2026-08-30T08:20:58.270Z | work_item_created | WI-0023 | agent-mog |
-| 2026-08-30T08:20:57.962Z | work_item_transitioned | WI-0022 | agent-lulu |
-| 2026-08-30T08:20:57.658Z | work_item_unresolved_updated | WI-0022 | agent-lulu |
-| 2026-08-30T08:20:45.459Z | work_item_closed | WI-0021 | agent-mog |
 
 ## Assignments
 
