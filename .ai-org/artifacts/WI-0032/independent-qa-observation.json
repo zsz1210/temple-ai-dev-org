@@ -1,0 +1,21 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "024af6123163c52d4aa06b051c2d39de9fb2ace1",
+  "command": [
+    "node .temple-tmp/wi-0032-independent-qa.mjs",
+    "node --test test/federation.test.mjs",
+    "npm run verify",
+    "node ./templew.mjs schema validate . --json",
+    "node ./templew.mjs doctor . --json",
+    "git diff --check",
+    "git diff --exit-code 27d735d89d30915ee2399f80f85ad563477d420c..024af6123163c52d4aa06b051c2d39de9fb2ace1 -- src/federation.mjs test/federation.test.mjs docs/operations/multi-repository-federation.md SECURITY.md",
+    "git diff --exit-code 8ae349e072c25297810c9e5320a782d5199fbc8c..024af6123163c52d4aa06b051c2d39de9fb2ace1 -- src/federation.mjs test/federation.test.mjs docs/operations/multi-repository-federation.md SECURITY.md"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-30T14:28:32.000Z",
+  "completed_at": "2026-08-30T14:29:46.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0032/independent-qa-report.md"
+  ]
+}

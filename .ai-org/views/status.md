@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=false
 - Work items: 35 total, 7 active
 - Codex tasks: 4 registered, 3 archive-ready
-- Runtime workers: 26 registered, 0 reserved, 1 active
+- Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -75,7 +75,7 @@
 | WI-0029 | Prototype local Agent Command Gateway | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `38a185eb` | 1 | 8 | 2 |
 | WI-0030 | Prevent complete command retention | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `ba066d73` | 0 | 11 | 2 |
 | WI-0031 | Harden Temple before the next release | spec | Product Manager | Yuna | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 0 |
-| WI-0032 | Sandbox federation participant Git inspection | independent_qa | Independent QA | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830142454-3d27b8c6 | `27d735d8` | 0 | 11 | 0 |
+| WI-0032 | Sandbox federation participant Git inspection | release_gate | Release Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `27d735d8` | 0 | 14 | 0 |
 | WI-0033 | Establish operator-owned provider trust | spec | Product Manager | Yuna | blocked | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 1 |
 | WI-0034 | Make Dashboard current-state interaction trustworthy | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `—` | 0 | 3 | 0 |
 | WI-0035 | Reduce CI cost without hiding behavioral results | test | Quality & Evaluation Engineer | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0b02e1c5` | 0 | 7 | 1 |
@@ -118,7 +118,7 @@
 | worker-20260830135829-7e772ea8 | internal-subagent | WI-0032 | Developer / Rikku | completed | /root/wi_0032_rikku_federation | `27d735d8` | 0 |
 | worker-20260830135829-d6868b66 | internal-subagent | WI-0035 | Developer / Rikku | completed | /root/wi_0035_rikku_ci | `0b02e1c5` | 0 |
 | worker-20260830141322-d00f540f | internal-subagent | WI-0032 | Quality & Evaluation Engineer / Lulu | completed | /root/qa_wi_0032_lulu | `8ae349e0` | 0 |
-| worker-20260830142454-8bb19075 | internal-subagent | WI-0032 | Independent QA / Lulu | active | /root/independent_qa_wi_0032_lulu | `—` | 0 |
+| worker-20260830142454-8bb19075 | internal-subagent | WI-0032 | Independent QA / Lulu | completed | /root/independent_qa_wi_0032_lulu | `024af612` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -189,14 +189,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-30T14:31:45.951Z | runtime_worker_status_changed | WI-0032 | agent-lulu |
+| 2026-08-30T14:31:45.695Z | work_item_transitioned | WI-0032 | agent-lulu |
+| 2026-08-30T14:31:37.511Z | evidence_recorded | WI-0032 | agent-lulu |
+| 2026-08-30T14:31:37.251Z | evidence_recorded | WI-0032 | agent-lulu |
 | 2026-08-30T14:24:55.292Z | runtime_worker_attached | WI-0032 | agent-lulu |
 | 2026-08-30T14:24:54.791Z | runtime_worker_reserved | WI-0032 | human |
 | 2026-08-30T14:24:54.795Z | work_item_claimed | WI-0032 | human |
 | 2026-08-30T14:20:59.971Z | runtime_worker_status_changed | WI-0032 | agent-lulu |
-| 2026-08-30T14:20:48.847Z | work_item_transitioned | WI-0032 | agent-lulu |
-| 2026-08-30T14:20:48.587Z | handoff_created | WI-0032 | agent-lulu |
-| 2026-08-30T14:20:48.327Z | work_item_transitioned | WI-0032 | agent-lulu |
-| 2026-08-30T14:20:14.812Z | evidence_recorded | WI-0032 | agent-lulu |
 
 ## Assignments
 

@@ -721,7 +721,7 @@
     {
       "id": "worker-20260830142454-8bb19075",
       "runtime_kind": "internal-subagent",
-      "status": "active",
+      "status": "completed",
       "work_item_id": "WI-0032",
       "position_id": "independent_qa",
       "agent_id": "agent-lulu",
@@ -737,12 +737,17 @@
       "runtime_id": "/root/independent_qa_wi_0032_lulu",
       "task_id": null,
       "resource_reservation_ids": [],
-      "current_revision": null,
-      "evidence": [],
+      "current_revision": "024af6123163c52d4aa06b051c2d39de9fb2ace1",
+      "evidence": [
+        "EVID-20260830T143137Z-8CFE173F",
+        "EVID-20260830T143137Z-32893E8B",
+        ".ai-org/artifacts/WI-0032/independent-qa-report.md",
+        ".ai-org/artifacts/WI-0032/independent-qa-observation.json"
+      ],
       "reserved_at": "2026-08-30T14:24:54.791Z",
       "attached_at": "2026-08-30T14:24:55.292Z",
-      "completed_at": null,
-      "updated_at": "2026-08-30T14:24:55.292Z"
+      "completed_at": "2026-08-30T14:31:45.951Z",
+      "updated_at": "2026-08-30T14:31:45.951Z"
     }
   ]
 }

@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0032",
   "title": "Sandbox federation participant Git inspection",
-  "state": "independent_qa",
-  "owner_position": "independent_qa",
-  "assigned_agent_id": "agent-lulu",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T13:55:47.366Z",
-  "updated_at": "2026-08-30T14:24:54.795Z",
+  "updated_at": "2026-08-30T14:31:45.695Z",
   "scope": [
     "Prevent participant-controlled Git configuration, ambient credentials, nested repository discovery, and partial-clone lazy fetch from violating the read-only federation boundary."
   ],
@@ -45,14 +45,15 @@
   ],
   "claim": {
     "id": "claim-20260830142454-3d27b8c6",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-lulu",
     "base_revision": "68d4cf448df8f76ba08ce9b64ddf2c27967a39a0",
     "branch": "review/independent-qa-wi-0032-federation",
     "worktree": "/Users/zsz1210/.codex/worktrees/temple-independent-qa-wi-0032-federation",
     "claimed_at": "2026-08-30T14:24:54.795Z",
-    "released_at": null
+    "released_at": "2026-08-30T14:31:45.695Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
@@ -81,14 +82,15 @@
     },
     {
       "id": "claim-20260830142454-3d27b8c6",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-lulu",
       "base_revision": "68d4cf448df8f76ba08ce9b64ddf2c27967a39a0",
       "branch": "review/independent-qa-wi-0032-federation",
       "worktree": "/Users/zsz1210/.codex/worktrees/temple-independent-qa-wi-0032-federation",
       "claimed_at": "2026-08-30T14:24:54.795Z",
-      "released_at": null
+      "released_at": "2026-08-30T14:31:45.695Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -120,6 +122,9 @@
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0032/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0032/independent-qa-report.md"
     ]
   },
   "evidence": [
@@ -133,10 +138,13 @@
     ".ai-org/artifacts/WI-0032/handoff-002-quality_evaluator-to-independent_qa.md",
     "EVID-20260830T142014Z-4D19FAEF",
     ".ai-org/artifacts/WI-0032/quality-test-report.md",
-    ".ai-org/artifacts/WI-0032/evaluation-report.md"
+    ".ai-org/artifacts/WI-0032/evaluation-report.md",
+    "EVID-20260830T143137Z-8CFE173F",
+    "EVID-20260830T143137Z-32893E8B",
+    ".ai-org/artifacts/WI-0032/independent-qa-report.md"
   ],
   "unresolved": [],
-  "next_position": "release_manager",
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "developer",
