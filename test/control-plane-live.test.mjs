@@ -276,6 +276,51 @@ test("repository observer classifies completed and cancelled work as terminal", 
   assert.ok(observer.work.items.every((entry) => entry.category === "terminal"));
 });
 
+test("live projection forwards current attention and does not replay canonical repository events as fresh timeline rows", async (context) => {
+  const { target, stateDirectory, workItemId } = await fixture(context);
+  const journal = await openTelemetryJournal(stateDirectory, {
+    maxEvents: 100,
+    privacy: defaultControlPlaneConfig().privacy
+  });
+  context.after(() => journal.close());
+  await journal.append({
+    id: "canonical-replay-1",
+    source: "urn:temple:repository:live-product",
+    type: "org.temple.repository.work.item.created.v1",
+    subject: `project/live-product/work-item/${workItemId}`,
+    time: "2026-08-30T00:00:00.000Z",
+    data: {
+      canonical: true,
+      event_type: "work_item_created",
+      work_item_id: workItemId
+    }
+  });
+  const observer = await buildObserverProjection(target);
+  observer.attention.push({
+    type: "approval_pending",
+    work_item_id: workItemId,
+    message: `${workItemId} needs a current decision`
+  });
+  const live = await buildLiveObserverProjection(
+    target,
+    observer,
+    journal,
+    createProviderRegistry([repositoryProviderContract()]),
+    { now: "2026-08-30T00:01:00.000Z" }
+  );
+  assert.ok(live.attention.some((entry) => entry.type === "approval_pending" && entry.work_item_id === workItemId));
+  assert.equal(
+    live.timeline.some((entry) => entry.name === "org.temple.repository.work.item.created.v1"),
+    false,
+    "repository telemetry must not duplicate the canonical occurrence"
+  );
+  assert.ok(live.timeline.some((entry) => entry.provenance === "canonical" && entry.work_item_id === workItemId));
+  assert.deepEqual(
+    [...live.timeline].sort((left, right) => String(right.timestamp ?? right.observed_at).localeCompare(String(left.timestamp ?? left.observed_at))),
+    live.timeline
+  );
+});
+
 test("condition engine alerts on nonterminal stale evidence but keeps terminal evidence as history", async (context) => {
   const { target, stateDirectory, workItemId } = await fixture(context);
   const itemPath = path.join(target, `.ai-org/work-items/${workItemId}.json`);

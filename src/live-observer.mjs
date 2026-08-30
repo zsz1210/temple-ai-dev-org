@@ -45,6 +45,23 @@ function itemReducer(records) {
   return [...items.values()];
 }
 
+function uniqueAttention(items) {
+  const seen = new Set();
+  return items.filter((item) => {
+    const key = JSON.stringify([
+      item.type ?? null,
+      item.work_item_id ?? null,
+      item.worker_id ?? null,
+      item.evidence_id ?? null,
+      item.learning_id ?? null,
+      item.message ?? null
+    ]);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 function taskProjection(task, records, providers, now, liveResumableIds) {
   const taskRecords = records.filter((record) =>
     record.data?.task_id === task.id || (task.thread_id && record.data?.provider_thread_id === task.thread_id)
@@ -153,7 +170,9 @@ export async function buildLiveObserverProjection(target, observer, journal, reg
       live_attention: itemTasks.flatMap((task) => task.attention ? [task.attention] : [])
     };
   });
-  const liveTimeline = records.slice(-200).reverse().map((record) => ({
+  const liveAttention = tasks.flatMap((task) => task.attention ? [{ ...task.attention, work_item_id: task.work_item_id, task_id: task.id }] : []);
+  const attention = uniqueAttention([...(observer.attention ?? []), ...liveAttention]);
+  const liveTimeline = records.filter((record) => record.data?.canonical !== true).slice(-200).reverse().map((record) => ({
     timestamp: record.time,
     observed_at: record.templeobservedat,
     cursor: record.templecursor,
@@ -168,7 +187,7 @@ export async function buildLiveObserverProjection(target, observer, journal, reg
   const combinedTimeline = [
     ...observer.timeline.map((entry) => ({ ...entry, provenance: "canonical", observed_at: entry.timestamp, cursor: null })),
     ...liveTimeline
-  ].sort((left, right) => String(right.observed_at ?? right.timestamp).localeCompare(String(left.observed_at ?? left.timestamp))).slice(0, 200);
+  ].sort((left, right) => String(right.timestamp ?? right.observed_at).localeCompare(String(left.timestamp ?? left.observed_at))).slice(0, 200);
   return {
     schema_version: LIVE_OBSERVER_SCHEMA,
     generated_at: new Date(now).toISOString(),
@@ -190,6 +209,7 @@ export async function buildLiveObserverProjection(target, observer, journal, reg
       items: tasks
     },
     providers,
+    attention,
     timeline: combinedTimeline,
     privacy: {
       raw_prompts_retained: false,

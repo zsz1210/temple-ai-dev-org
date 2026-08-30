@@ -243,6 +243,34 @@ test("Observer uses the tested revision for terminal work while keeping older ev
   );
 });
 
+test("terminal failed evidence remains auditable without becoming current attention", async (context) => {
+  const { target } = await fixture(context);
+  const workItemId = createWorkItem(target);
+  await writeJson(target, ".ai-org/artifacts/terminal-failing-test.json", {
+    schema_version: "temple.test-observation/v1",
+    revision: "HEAD",
+    command: ["npm", "test"],
+    result: "fail",
+    exit_code: 1,
+    started_at: "2026-08-30T00:00:00.000Z",
+    completed_at: "2026-08-30T00:01:00.000Z",
+    artifact_refs: []
+  });
+  const recorded = run(["evidence", "test", target, "--work-item", workItemId, "--observation", ".ai-org/artifacts/terminal-failing-test.json", "--actor", "agent-fixture-hollis"]);
+  assert.equal(recorded.status, 0, recorded.stderr || recorded.stdout);
+  const itemPath = path.join(target, `.ai-org/work-items/${workItemId}.json`);
+  const item = JSON.parse(await fs.readFile(itemPath, "utf8"));
+  item.state = "done";
+  await writeJson(target, `.ai-org/work-items/${workItemId}.json`, item);
+
+  const overview = JSON.parse(run(["observe", target, "--json", "--no-write"]).stdout);
+  assert.equal(overview.evidence.failed, 1);
+  assert.equal(
+    overview.attention.some((entry) => entry.type === "failed_evidence" && entry.work_item_id === workItemId),
+    false
+  );
+});
+
 test("local overview writes generated static files only when requested", async (context) => {
   const { target } = await fixture(context);
   const workItemId = createWorkItem(target);

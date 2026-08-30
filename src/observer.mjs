@@ -97,11 +97,10 @@ export async function buildObserverProjection(target) {
   const attention = [
     ...work.filter((item) => item.category === "blocked").map((item) => ({ type: "blocked_work_item", work_item_id: item.id, message: `${item.id} is blocked` })),
     ...work.filter((item) => item.category === "approval_pending").map((item) => ({ type: "approval_pending", work_item_id: item.id, message: `${item.id} awaits release approval` })),
-    ...workersDocument.workers.filter((worker) => ["attention", "failed"].includes(worker.status)).map((worker) => ({ type: "runtime_recovery", work_item_id: worker.work_item_id, worker_id: worker.id, message: `${worker.id} needs recovery (${worker.status})` })),
-    ...evidence.flatMap((entry) => attentionForEvidence(
-      entry,
-      entry.stale && !terminalWorkItemIds.has(entry.work_item_id)
-    )),
+    ...workersDocument.workers
+      .filter((worker) => ["attention", "failed"].includes(worker.status) && !terminalWorkItemIds.has(worker.work_item_id))
+      .map((worker) => ({ type: "runtime_recovery", work_item_id: worker.work_item_id, worker_id: worker.id, message: `${worker.id} needs recovery (${worker.status})` })),
+    ...evidence.flatMap((entry) => terminalWorkItemIds.has(entry.work_item_id) ? [] : attentionForEvidence(entry, entry.stale)),
     ...learning.entries
       .filter((entry) => entry.revalidation.signal === "overdue")
       .map((entry) => ({ type: "learning_revalidation_overdue", learning_id: entry.id, message: `${entry.id} is overdue for revalidation` })),

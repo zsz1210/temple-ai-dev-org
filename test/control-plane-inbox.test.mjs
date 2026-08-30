@@ -12,6 +12,11 @@ import {
   readInboxSubmissions
 } from "../src/control-plane-inbox.mjs";
 import { defaultControlPlaneConfig } from "../src/control-plane-config.mjs";
+import {
+  agentCommandTargetFingerprint,
+  reconcileAgentCommandDraft,
+  renderControlPlaneDashboard
+} from "../src/control-plane-dashboard.mjs";
 import { startControlPlaneServer } from "../src/control-plane-server.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -29,6 +34,52 @@ async function writeJson(targetPath, value) {
   await fs.mkdir(path.dirname(targetPath), { recursive: true });
   await fs.writeFile(targetPath, `${JSON.stringify(value, null, 2)}\n`);
 }
+
+test("Dashboard command drafts survive unrelated refreshes and invalidate changed targets", () => {
+  const firstTarget = {
+    task_id: "task-0001",
+    work_item_id: "WI-0001",
+    task_status: "active",
+    work_item_state: "build",
+    provider_thread_id: "thread-1",
+    active_turn_id: "turn-1",
+    operations: ["steer", "interrupt"]
+  };
+  const draft = {
+    targetTaskId: firstTarget.task_id,
+    operation: "steer",
+    instruction: "Keep this bounded instruction",
+    selectionStart: 5,
+    selectionEnd: 12,
+    focusedControl: "instruction",
+    confirmed: true,
+    targetFingerprint: agentCommandTargetFingerprint(firstTarget)
+  };
+  assert.deepEqual(reconcileAgentCommandDraft(draft, [firstTarget]), {
+    ...draft,
+    staleReason: null
+  });
+
+  const changed = reconcileAgentCommandDraft(draft, [{ ...firstTarget, active_turn_id: "turn-2" }]);
+  assert.equal(changed.instruction, draft.instruction);
+  assert.equal(changed.selectionStart, 5);
+  assert.equal(changed.selectionEnd, 12);
+  assert.equal(changed.focusedControl, "instruction");
+  assert.equal(changed.confirmed, false);
+  assert.match(changed.staleReason, /active turn changed|active turn/i);
+
+  const replacement = reconcileAgentCommandDraft(draft, [{ ...firstTarget, task_id: "task-0002" }]);
+  assert.equal(replacement.targetTaskId, "task-0002");
+  assert.equal(replacement.instruction, draft.instruction);
+  assert.equal(replacement.confirmed, false);
+  assert.match(replacement.staleReason, /no longer eligible/i);
+
+  const dashboard = renderControlPlaneDashboard("Dashboard fixture", { inboxEnabled: true, sessionSecret: "fixture-secret" });
+  assert.match(dashboard, /Skip to current status/);
+  assert.match(dashboard, /Needs attention now/);
+  assert.match(dashboard, /Snapshot stale/);
+  assert.match(dashboard, /Terminal history/);
+});
 
 async function fixture(context) {
   const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-inbox-test-"));
