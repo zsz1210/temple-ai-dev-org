@@ -1,6 +1,6 @@
 # Phase 4: reliability at daily and multi-project scale
 
-- Status: accepted design; implementation has not started
+- Status: implementation in progress; the Alpha.24 local Phase 4A mechanism is shipped, while real data-bearing restore, migration rehearsal, and broader failure evidence remain open
 - Entry baseline: `0.1.0-alpha.23`
 - Governing Work Item: `WI-0006`
 
@@ -36,6 +36,8 @@ The accepted decisions are:
 - Retention and audit-export rules that reapply secret redaction at every boundary.
 
 Generated views are rebuilt after restore. Runtime telemetry is exported separately and is not required to recover canonical project truth.
+
+Alpha.24 implements the local versioned manifest, integrity inspection, stale-safe restore preview, explicit replacement consent, external recovery ledger, automatic rollback, and guarded interrupted-restore recovery. It intentionally does not close Phase 4A: the real clean-environment recovery, migration rehearsal, retention/audit export policy, and broader crash validation below remain required.
 
 ### Exit evidence
 

@@ -6,8 +6,8 @@ Temple 正在從已通過 local 驗證的 AI Development Organization Framework�
 
 ## 目前位置
 
-- **目前 release line：** `0.1.0-alpha.23`
-- **目前階段：** Phase 4 準備與 reliability 改善
+- **目前 release line：** `0.1.0-alpha.24`
+- **目前階段：** Phase 4A local recovery 已實作；real-project recovery evidence 仍未完成
 - **現在適合：** 有人類監督的低風險 local project 與 bounded pilot
 - **尚未宣稱：** production-grade distributed coordination、regulated operation 或無人監督的外部操作
 
@@ -41,11 +41,11 @@ Temple 正在從已通過 local 驗證的 AI Development Organization Framework�
 - Public package 發布前，先定義支援的 Node.js 與 operating-system matrix。
 - 檢查 package contents、security reporting、contribution guidance 與 public branch protection。
 
-### Durability 與 recovery design
+### Durability 與 recovery
 
-- 新增 persistence format 前，先定義 backup、restore、checksum、migration rehearsal 與 crash recovery。
-- 保留 project-local canonical truth，generated telemetry 與 view 必須可以重建。
-- 在重要 write boundary 測試 failure，並證明 recovery 不會覆蓋 project-owned data。
+- Alpha.24 已提供 local versioned backup manifest、完整 payload verification、stale-safe restore preview，以及可恢復的 multi-file apply，範圍只涵蓋 project-owned Temple state。
+- Generated view 維持可重建；framework-managed file、application source 與 data、external system、control-plane telemetry 都不在這份 backup 邊界內。
+- Automated interruption test 已證明會保留較新的 human change，但 clean-environment data-bearing restore、migration rehearsal 與更廣泛的 crash evidence 仍未完成。
 
 ### 日常運作訊號
 

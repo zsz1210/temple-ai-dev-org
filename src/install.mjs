@@ -378,6 +378,10 @@ export async function executeInit(plan) {
         inbox_command_gateway: true,
         github_pr_checks_provider: true,
         github_evidence_capture: true,
+        versioned_project_backup: true,
+        backup_integrity_verification: true,
+        restore_preview: true,
+        transactional_restore_recovery: true,
         checksum_upgrade: true,
         optional_packs: true,
         toolkit_self_hosting: true

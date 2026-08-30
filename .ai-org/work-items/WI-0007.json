@@ -1,0 +1,134 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0007",
+  "title": "Implement Phase 4A backup and crash-safe restore",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T04:07:05.055Z",
+  "updated_at": "2026-08-30T04:07:45.451Z",
+  "scope": [
+    "Deliver the first Phase 4A vertical slice: versioned directory backups of Temple project-owned canonical state, content verification, restore preview with a stale-plan digest, explicit replacement, crash-safe transactional apply, recovery rollback, and bounded audit ledgers."
+  ],
+  "acceptance_criteria": [
+    "Backup creation captures the declared Temple project-owned boundary, project-owned Skills, AGENTS.md, and temple.lock while excluding generated views, runtime telemetry, managed Skill files, and application source.",
+    "Every backup records project identity, Temple version, source revision, dirty-state visibility, sorted file paths, byte sizes, modes, SHA-256 digests, exclusions, and one deterministic content digest.",
+    "Inspection rejects traversal, symlinks, extra payload files, missing files, duplicate paths, digest drift, unsupported schemas, and unsafe size or file-count bounds without mutating the project.",
+    "Restore preview reports new, identical, and replacement actions, preserved extra target files, project/version compatibility, and a deterministic plan digest without writing.",
+    "Restore apply requires the exact preview digest, refuses replacements without explicit permission, rechecks stale targets, never deletes extra project files, and rolls back ordinary failures.",
+    "An interrupted restore leaves a recoverable external ledger; recover safely restores only files still matching Temple's partial writes and refuses to overwrite subsequent human changes.",
+    "A clean-environment same-version recovery and an older-version upgrade-required rehearsal pass, generated views remain rebuildable, and no external service or credential is required.",
+    "The CLI, documentation, changelog, capability metadata, and all repository tests describe delivered behavior without claiming remote disaster recovery or distributed exactly-once execution."
+  ],
+  "affected_paths": [
+    "src/recovery.mjs",
+    "src/cli.mjs",
+    "src/install.mjs",
+    "src/upgrade.mjs",
+    "src/constants.mjs",
+    "src/files.mjs",
+    "test/recovery.test.mjs",
+    "test/cli.test.mjs",
+    "test/runtime-coordination.test.mjs",
+    "test/control-plane-foundation.test.mjs",
+    "test/evidence-observer.test.mjs",
+    "test/packs.test.mjs",
+    "test/phase2c-extension.test.mjs",
+    "test/workflow.test.mjs",
+    "docs/operations/backup-and-recovery.md",
+    "docs/planning/phase-4.md",
+    "docs/README.md",
+    "CHANGELOG.md",
+    "package.json",
+    "package-lock.json",
+    "temple.lock",
+    "docs/planning/roadmap.md",
+    "docs/planning/roadmap.ja.md",
+    "docs/planning/roadmap.zh-TW.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [
+    "general-development"
+  ],
+  "stage_requirements": {
+    "build": {
+      "disciplines": [
+        "general-development"
+      ],
+      "resources": []
+    },
+    "design": {
+      "disciplines": [
+        "architecture"
+      ],
+      "resources": []
+    },
+    "eval": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "independent_qa": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "release_gate": {
+      "disciplines": [
+        "release"
+      ],
+      "resources": []
+    },
+    "test": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "ff47236b3988aca8d3f1b65cc294ad51cdcb7938",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0007.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0007.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0007.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0007.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0007.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0007.md",
+    ".ai-org/work-items/WI-0007.json"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

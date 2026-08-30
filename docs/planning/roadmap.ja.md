@@ -6,8 +6,8 @@ Temple は、local で実証された AI Development Organization Framework か�
 
 ## 現在地
 
-- **現在の release line:** `0.1.0-alpha.23`
-- **現在の段階:** Phase 4 の準備と reliability 改善
+- **現在の release line:** `0.1.0-alpha.24`
+- **現在の段階:** Phase 4A の local recovery は実装済み。Real-project recovery evidence は未完了
 - **現在適している用途:** 人間が監督する低リスクの local project と bounded pilot
 - **まだ主張しないもの:** production-grade の distributed coordination、regulated operation、無人の外部操作
 
@@ -41,11 +41,11 @@ Temple は、local で実証された AI Development Organization Framework か�
 - Public package 公開前に、対応 Node.js／OS matrix を定義。
 - Package contents、security reporting、contribution guide、public branch protection を review。
 
-### Durability と recovery design
+### Durability と recovery
 
-- 新しい persistence format を追加する前に、backup、restore、checksum、migration rehearsal、crash recovery を仕様化。
-- Project-local canonical truth を維持し、generated telemetry と view は rebuildable に保つ。
-- 重要な write boundary で failure をテストし、project-owned data を上書きせず recovery できることを証明。
+- Alpha.24 は project-owned Temple state を対象に、local versioned backup manifest、完全な payload verification、stale-safe restore preview、recoverable な multi-file apply を提供します。
+- Generated view は rebuildable のまま維持し、framework-managed file、application source / data、external system、control-plane telemetry はこの backup 境界に含めません。
+- Automated interruption test では新しい human change を保護しますが、clean-environment data-bearing restore、migration rehearsal、より広範な crash evidence は未完了です。
 
 ### 日常運用の signal
 

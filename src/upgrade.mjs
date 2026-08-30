@@ -335,7 +335,11 @@ export async function planUpgrade(target) {
     lock.capabilities?.human_inbox !== true ||
     lock.capabilities?.inbox_command_gateway !== true ||
     lock.capabilities?.github_pr_checks_provider !== true ||
-    lock.capabilities?.github_evidence_capture !== true;
+    lock.capabilities?.github_evidence_capture !== true ||
+    lock.capabilities?.versioned_project_backup !== true ||
+    lock.capabilities?.backup_integrity_verification !== true ||
+    lock.capabilities?.restore_preview !== true ||
+    lock.capabilities?.transactional_restore_recovery !== true;
   if (packMetadataChanges) actions.push({ type: "update-pack-metadata", path: "temple.lock" });
   if (capabilityChanges || collaborationCapabilityChanges) actions.push({ type: "update-capabilities", path: "temple.lock" });
   if (migrationPlan.pending.length > 0) actions.push({ type: "record-migrations", path: "temple.lock" });
@@ -593,6 +597,10 @@ export async function executeUpgrade(plan) {
         inbox_command_gateway: true,
         github_pr_checks_provider: true,
         github_evidence_capture: true,
+        versioned_project_backup: true,
+        backup_integrity_verification: true,
+        restore_preview: true,
+        transactional_restore_recovery: true,
         checksum_upgrade: true,
         optional_packs: true,
         toolkit_self_hosting: true

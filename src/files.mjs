@@ -51,6 +51,85 @@ export async function atomicCreate(targetPath, content) {
   }
 }
 
+async function syncDirectory(directoryPath) {
+  let handle;
+  try {
+    handle = await fs.open(directoryPath, "r");
+    await handle.sync();
+  } catch (error) {
+    if (!["EINVAL", "ENOTSUP", "EPERM", "EISDIR", "EBADF"].includes(error.code)) throw error;
+  } finally {
+    await handle?.close();
+  }
+}
+
+async function writeAndSync(targetPath, content) {
+  const handle = await fs.open(targetPath, "wx", 0o600);
+  try {
+    await handle.writeFile(content);
+    await handle.sync();
+  } finally {
+    await handle.close();
+  }
+}
+
+export async function durableAtomicWrite(targetPath, content) {
+  const directoryPath = path.dirname(targetPath);
+  await fs.mkdir(directoryPath, { recursive: true });
+  const temporaryPath = path.join(
+    directoryPath,
+    `.temple-durable-${process.pid}-${crypto.randomBytes(8).toString("hex")}`
+  );
+  try {
+    await writeAndSync(temporaryPath, content);
+    await fs.rename(temporaryPath, targetPath);
+    await syncDirectory(directoryPath);
+  } finally {
+    await fs.unlink(temporaryPath).catch((error) => {
+      if (error.code !== "ENOENT") throw error;
+    });
+  }
+}
+
+export async function durableAtomicCreate(targetPath, content) {
+  const directoryPath = path.dirname(targetPath);
+  await fs.mkdir(directoryPath, { recursive: true });
+  const temporaryPath = path.join(
+    directoryPath,
+    `.temple-durable-${process.pid}-${crypto.randomBytes(8).toString("hex")}`
+  );
+  try {
+    await writeAndSync(temporaryPath, content);
+    await fs.link(temporaryPath, targetPath);
+    await syncDirectory(directoryPath);
+  } finally {
+    await fs.unlink(temporaryPath).catch((error) => {
+      if (error.code !== "ENOENT") throw error;
+    });
+  }
+}
+
+export async function durableChmod(targetPath, mode) {
+  const handle = await fs.open(targetPath, "r");
+  try {
+    await handle.chmod(mode);
+    await handle.sync();
+  } finally {
+    await handle.close();
+  }
+}
+
+export async function durableUnlink(targetPath) {
+  await fs.unlink(targetPath);
+  await syncDirectory(path.dirname(targetPath));
+}
+
+export async function durableRename(sourcePath, targetPath) {
+  await fs.rename(sourcePath, targetPath);
+  await syncDirectory(path.dirname(targetPath));
+  if (path.dirname(sourcePath) !== path.dirname(targetPath)) await syncDirectory(path.dirname(sourcePath));
+}
+
 export async function rollbackFileChanges(changes) {
   const failures = [];
   for (const change of [...changes].reverse()) {

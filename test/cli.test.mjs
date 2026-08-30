@@ -75,7 +75,59 @@ function shellQuote(value) {
 test("version is available without dependencies", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /^0\.1\.0-alpha\.23/m);
+  assert.match(result.stdout, /^0\.1\.0-alpha\.24/m);
+});
+
+test("backup and restore CLI require an inspected plan before replacement", async (context) => {
+  const { temporaryRoot, target, configPath } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  const backup = path.join(temporaryRoot, "project-backup");
+  const initialized = run(["init", target, "--config", configPath]);
+  assert.equal(initialized.status, 0, initialized.stderr || initialized.stdout);
+
+  const created = run(["backup", "create", target, "--output", backup, "--json"]);
+  assert.equal(created.status, 0, created.stderr || created.stdout);
+  assert.equal(JSON.parse(created.stdout).valid, undefined);
+  const inspected = run(["backup", "inspect", target, "--backup", backup, "--json"]);
+  assert.equal(inspected.status, 0, inspected.stderr || inspected.stdout);
+  assert.equal(JSON.parse(inspected.stdout).valid, true);
+
+  const projectPath = path.join(target, ".ai-org/project/project.json");
+  const original = await fs.readFile(projectPath, "utf8");
+  await fs.writeFile(projectPath, original.replace("Sample Product", "Changed Product"));
+  const preview = run(["restore", "preview", target, "--backup", backup, "--json"]);
+  assert.equal(preview.status, 0, preview.stderr || preview.stdout);
+  const plan = JSON.parse(preview.stdout);
+  assert.equal(plan.canonical_state_changed, false);
+  assert.ok(plan.actions.some((entry) => entry.action === "replace"));
+
+  const withoutConsent = run([
+    "restore",
+    "apply",
+    target,
+    "--backup",
+    backup,
+    "--expected-plan",
+    plan.plan_digest,
+    "--json"
+  ]);
+  assert.equal(withoutConsent.status, 1, withoutConsent.stderr || withoutConsent.stdout);
+  assert.match(withoutConsent.stderr, /--allow-replace/);
+
+  const restored = run([
+    "restore",
+    "apply",
+    target,
+    "--backup",
+    backup,
+    "--expected-plan",
+    plan.plan_digest,
+    "--allow-replace",
+    "--json"
+  ]);
+  assert.equal(restored.status, 0, restored.stderr || restored.stdout);
+  assert.equal(JSON.parse(restored.stdout).status, "completed");
+  assert.equal(await fs.readFile(projectPath, "utf8"), original);
 });
 
 test("the chamber remains a hidden evidence-first easter egg", () => {
@@ -235,6 +287,10 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
   assert.equal(lock.capabilities.parallel_dispatch_manifest, true);
   assert.equal(lock.capabilities.parallel_plan_freshness, true);
   assert.equal(lock.capabilities.parallel_join_gate, true);
+  assert.equal(lock.capabilities.versioned_project_backup, true);
+  assert.equal(lock.capabilities.backup_integrity_verification, true);
+  assert.equal(lock.capabilities.restore_preview, true);
+  assert.equal(lock.capabilities.transactional_restore_recovery, true);
   assert.ok(
     lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/parallel-plan.schema.json")
   );
@@ -406,7 +462,7 @@ test("upgrade adds a missing project-owned learning index without managing it", 
   });
   assert.equal(JSON.parse(await fs.readFile(trackerConfigPath, "utf8")).profile, "repository-only");
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.23");
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.24");
   assert.equal(upgradedLock.capabilities.engineering_learning, true);
   assert.equal(upgradedLock.capabilities.group_parallel_planning, true);
   assert.equal(upgradedLock.capabilities.parallel_join_gate, true);

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0-alpha.24
+
+- Added a transparent versioned backup format for project-owned Temple state with explicit inclusions and exclusions, installed-version and Git metadata, sorted file records, modes, sizes, per-file SHA-256 checksums, and a deterministic content digest.
+- Added `backup create` and `backup inspect`; creation stages outside the worktree and publishes only after complete payload verification, while inspection rejects missing, extra, linked, special, oversized, or checksum-mismatched content.
+- Added mandatory read-only `restore preview` with project and installed-version compatibility checks, create/replace/identical actions, preserved target-only files, and a content-derived digest that invalidates stale plans.
+- Added consent-gated `restore apply` with durable before-images and an external transaction ledger, automatic rollback for ordinary errors, and `restore recover` that refuses to overwrite changes made after an interruption.
+- Added recovery CLI, boundary, tampering, stale-plan, compatibility, crash-injection, and post-crash human-change coverage plus operating documentation and Phase 4 status updates.
+- Preserved explicit limits: this is local alpha recovery for Temple-owned organization state, not an encrypted or remote backup, full repository or application-data recovery, distributed transaction system, or production disaster-recovery claim. Clean-environment data-bearing restore and migration rehearsal remain Phase 4A exit evidence.
+
 ## 0.1.0-alpha.23
 
 - Added explicit toolkit-only self-host initialization with a recorded source/project boundary, narrowly allowlisted byte-identical bootstrap adoption, doctor validation, and end-to-end refusal tests for ordinary or misplaced targets.

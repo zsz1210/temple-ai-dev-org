@@ -6,8 +6,8 @@ Temple is moving from a locally proven AI development organization framework tow
 
 ## Current position
 
-- **Current release line:** `0.1.0-alpha.23`
-- **Current stage:** Phase 4 preparation and reliability work
+- **Current release line:** `0.1.0-alpha.24`
+- **Current stage:** Phase 4A local recovery implemented; real-project recovery evidence remains open
 - **Suitable today:** low-risk local projects and bounded pilots with human supervision
 - **Not yet claimed:** production-grade distributed coordination, regulated operation, or unattended external actions
 
@@ -41,11 +41,11 @@ The immediate priority is to turn the proven local foundation into something a d
 - Define the supported Node.js and operating-system matrix before public package publication.
 - Review package contents, security reporting, contribution guidance, and public branch protection.
 
-### Durability and recovery design
+### Durability and recovery
 
-- Specify backup, restore, checksums, migration rehearsal, and crash recovery before adding new persistence formats.
-- Preserve project-local canonical truth while generated telemetry and views remain rebuildable.
-- Test failure at meaningful write boundaries and prove recovery without overwriting project-owned data.
+- Alpha.24 ships a local versioned backup manifest, complete payload verification, stale-safe restore preview, and recoverable multi-file apply for project-owned Temple state.
+- Generated views remain rebuildable; framework-managed files, application source and data, external systems, and control-plane telemetry remain outside this backup boundary.
+- Automated interruption tests now preserve newer human changes, but a clean-environment data-bearing restore, migration rehearsal, and broader crash evidence are still required.
 
 ### Everyday operating signals
 

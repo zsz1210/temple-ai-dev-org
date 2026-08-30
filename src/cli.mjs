@@ -66,6 +66,7 @@ import {
   writeTrackerView
 } from "./tracker.mjs";
 import { executeUpgrade, formatUpgradePlan, planUpgrade } from "./upgrade.mjs";
+import { applyRestore, createBackup, inspectBackup, planRestore, recoverRestore } from "./recovery.mjs";
 import { buildParallelPlan, writeParallelPlan } from "./orchestration.mjs";
 import { defineResource, readResourceRegistry } from "./resources.mjs";
 import { attachInternalWorker, listRuntimeWorkers, prepareWorkerDispatch, updateRuntimeWorker } from "./workers.mjs";
@@ -87,6 +88,11 @@ const HELP = `Temple ${TEMPLATE_VERSION}
 Usage:
   temple init [target] [--config path] [--dry-run] [--integrate-agents] [--self-host]
   temple upgrade [target] [--dry-run]
+  temple backup create [target] --output directory [--json]
+  temple backup inspect [target] --backup directory [--json]
+  temple restore preview [target] --backup directory [--json]
+  temple restore apply [target] --backup directory --expected-plan sha256 [--allow-replace] [--json]
+  temple restore recover [target] [--json]
   temple doctor [target] [--json]
   temple status [target] [--json] [--no-write]
   temple observe [target] [--json] [--no-write]
@@ -158,6 +164,8 @@ Usage:
 Core commands:
   init        Install Temple and project-specific Agent Identities.
   upgrade     Update only checksum-clean managed files; preserve project-owned state.
+  backup      Create and verify a transparent, content-addressed backup of project-owned Temple state.
+  restore     Preview, apply, or safely recover an interrupted project-owned-state restore.
   doctor      Validate managed files, identities, work items, tasks, and integrations.
   status      Rebuild the observable project status from canonical files.
   observe     Build a read-only lifecycle, evidence, approval, and recovery projection.
@@ -207,7 +215,8 @@ const BOOLEAN_FLAGS = new Set([
   "--replace-ux-refs",
   "--replace-ui-refs",
   "--replace-contract-refs",
-  "--codex"
+  "--codex",
+  "--allow-replace"
 ]);
 const VALUE_FLAGS = new Set([
   "--config",
@@ -312,7 +321,10 @@ const VALUE_FLAGS = new Set([
   "--state-dir",
   "--host",
   "--port",
-  "--repository-interval"
+  "--repository-interval",
+  "--output",
+  "--backup",
+  "--expected-plan"
 ]);
 const REPEATABLE_FLAGS = new Set([
   "--scope",
@@ -343,7 +355,7 @@ const REPEATABLE_FLAGS = new Set([
   "--source-work-item",
   "--derived-from"
 ]);
-const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence", "schema", "migration", "learning", "retrieval", "adapter", "control-plane"]);
+const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence", "schema", "migration", "learning", "retrieval", "adapter", "control-plane", "backup", "restore"]);
 
 function parseCommand(argv) {
   if (argv.length === 0 || argv[0] === "--help" || argv[0] === "-h") {
@@ -605,6 +617,93 @@ async function runUpgrade(parsed) {
   );
   console.log(formatDoctor(doctor));
   return doctor.healthy ? 0 : 1;
+}
+
+async function runBackup(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (parsed.action === "create") {
+    if (!parsed.options["--output"]) throw new Error("backup create requires --output");
+    const result = await withProjectMutationLock(target, () => createBackup(target, parsed.options["--output"]));
+    printResult(parsed, result, [
+      `Created Temple backup: ${result.backup}`,
+      `Project / version: ${result.project_id} / ${result.temple_version}`,
+      `Files / bytes: ${result.file_count} / ${result.total_size}`,
+      `Content digest: ${result.content_digest}`,
+      "Application source and external systems: not included"
+    ]);
+    return 0;
+  }
+  if (parsed.action === "inspect") {
+    if (!parsed.options["--backup"]) throw new Error("backup inspect requires --backup");
+    const result = await inspectBackup(parsed.options["--backup"]);
+    printResult(parsed, result, [
+      `Valid Temple backup: ${result.backup}`,
+      `Project / version: ${result.project_id} / ${result.temple_version}`,
+      `Files / bytes: ${result.file_count} / ${result.total_size}`,
+      `Manifest digest: ${result.manifest_digest}`,
+      "Canonical state changed: no"
+    ]);
+    return 0;
+  }
+  throw new Error(`Unknown backup action: ${parsed.action}`);
+}
+
+async function runRestore(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (parsed.action === "preview") {
+    if (!parsed.options["--backup"]) throw new Error("restore preview requires --backup");
+    const plan = await planRestore(target, parsed.options["--backup"]);
+    const counts = Object.fromEntries(
+      ["create", "replace", "identical"].map((action) => [
+        action,
+        plan.actions.filter((entry) => entry.action === action).length
+      ])
+    );
+    printResult(parsed, plan, [
+      `Temple restore preview for ${target}`,
+      `Create / replace / identical: ${counts.create} / ${counts.replace} / ${counts.identical}`,
+      `Target-only files preserved: ${plan.extras.length}`,
+      `Upgrade required after restore: ${plan.compatibility.upgrade_required ? "yes" : "no"}`,
+      `Conflicts: ${plan.conflicts.length}`,
+      `Plan digest: ${plan.plan_digest}`,
+      "Canonical state changed: no"
+    ]);
+    return plan.conflicts.length > 0 ? 1 : 0;
+  }
+  if (parsed.action === "apply") {
+    if (!parsed.options["--backup"] || !parsed.options["--expected-plan"]) {
+      throw new Error("restore apply requires --backup and --expected-plan");
+    }
+    const result = await withProjectMutationLock(target, async () => {
+      const restored = await applyRestore(target, parsed.options["--backup"], {
+        expectedPlan: parsed.options["--expected-plan"],
+        allowReplace: parsed.flags.has("--allow-replace")
+      });
+      await refreshViews(target);
+      return restored;
+    });
+    printResult(parsed, result, [
+      `Restore transaction ${result.transaction_id}: ${result.status}`,
+      `Created / replaced / identical: ${result.created} / ${result.replaced} / ${result.identical}`,
+      `Target-only files preserved: ${result.extras_preserved}`,
+      `Upgrade required: ${result.upgrade_required ? "yes" : "no"}`
+    ]);
+    return 0;
+  }
+  if (parsed.action === "recover") {
+    const result = await withProjectMutationLock(target, async () => {
+      const recovered = await recoverRestore(target);
+      if (recovered.status === "rolled_back") await refreshViews(target);
+      return recovered;
+    });
+    printResult(parsed, result, [
+      result.status === "clean"
+        ? `No interrupted Temple restore exists for ${target}`
+        : `Restore transaction ${result.transaction_id}: ${result.status}`
+    ]);
+    return 0;
+  }
+  throw new Error(`Unknown restore action: ${parsed.action}`);
 }
 
 async function runDoctorCommand(parsed) {
@@ -1666,6 +1765,8 @@ export async function main(argv) {
   }
   if (parsed.command === "init") return runInit(parsed);
   if (parsed.command === "upgrade") return runUpgrade(parsed);
+  if (parsed.command === "backup") return runBackup(parsed);
+  if (parsed.command === "restore") return runRestore(parsed);
   if (parsed.command === "doctor") return runDoctorCommand(parsed);
   if (parsed.command === "status") return runStatusCommand(parsed);
   if (parsed.command === "observe") return runObserveCommand(parsed);

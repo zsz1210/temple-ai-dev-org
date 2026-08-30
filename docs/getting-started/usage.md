@@ -553,7 +553,19 @@ The GitHub PR and Checks provider is opt-in, read-only, exact-SHA-bound, and con
 - The eight most recent canonical events.
 - Position Assignments and optional-integration states.
 
-## 14. Upgrade from an older version
+## 14. Back up and recover Temple project state
+
+Create a verified backup outside the repository before a risky framework or project-state change:
+
+```bash
+node ./templew.mjs backup create . --output /absolute/recovery/location/project-backup
+node ./templew.mjs backup inspect . --backup /absolute/recovery/location/project-backup
+node ./templew.mjs restore preview . --backup /absolute/recovery/location/project-backup
+```
+
+Restore requires the exact preview digest and explicit `--allow-replace` consent whenever existing files would change. Target-only files are preserved; application source, managed framework files, generated views, external systems, and application data are not in this backup. See [Backup and recovery](../operations/backup-and-recovery.md) before relying on it.
+
+## 15. Upgrade from an older version
 
 ```bash
 temple upgrade /absolute/path/to/project --dry-run
@@ -576,7 +588,7 @@ Upgrade rules:
 - Record applied entries from the managed migration registry. Existing project-owned Learning v1 remains readable and changes only through explicit `learning migrate`; missing empty v2 seeds may be created automatically.
 - Detected preflight conflicts stop before writing. Late file races trigger a rollback journal; if another writer changes a just-written path again, the CLI preserves that content and reports incomplete rollback for manual review.
 
-## 15. Use Decision, Domain, Documentation, Authoring, and Development Skills
+## 16. Use Decision, Domain, Documentation, Authoring, and Development Skills
 
 - `$decision-interview`: Break an ambiguous idea into known facts, options, decisions, and unknowns. If repository documents, code, or Git state constrain the choice, the same Skill switches to evidence-backed mode and cites actual paths.
 - `$domain-modeling`: Organize ubiquitous language, bounded contexts, rules, and invariants, then preserve confirmed terms in the project-owned glossary.
@@ -587,7 +599,7 @@ Each Skill preserves the request's authority boundary. Inspection, classificatio
 
 `$tdd` and `$diagnosing-bugs` are available only when the Build Quality pack is installed. They improve development procedure but do not replace Positions, work-item gates, release authority, or Independent QA.
 
-## 16. Troubleshooting
+## 17. Troubleshooting
 
 - `managed file changed`: Inspect the diff first. Do not bypass it by re-running init or editing the lock. A locked file cannot become a project extension merely by modifying it; restore or rename it through an explicit migration, or contribute the change back to the central framework.
 - `missing gate evidence`: Add real evidence, then use `--satisfy requirement=reference`. Do not enter a fabricated path.

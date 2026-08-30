@@ -1,11 +1,11 @@
 # Temple AI Development Organization Framework — AI development organization status
 
 - Project ID: `temple`
-- Organization system version: `0.1.0-alpha.23`
+- Organization system version: `0.1.0-alpha.24`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=true
-- Work items: 6 total, 0 active
+- Parallel plan: 0 wave(s), fresh=false
+- Work items: 7 total, 1 active
 - Codex tasks: 0 registered, 0 archive-ready
 - Runtime workers: 0 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -16,7 +16,7 @@
 - Learning revalidation: 0 due, 0 contradicted
 - Specifications: 0 indexed, 0 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 0
+- Attention signals: 1
 
 ## Collaboration
 
@@ -33,10 +33,10 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: yes
+- Fresh: no
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 0 / 0
+- Active / sequential / blocked: 0 / 1 / 0
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -50,6 +50,7 @@
 | WI-0004 | Rewrite README audience scenarios | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `815b43ae` | 0 | 11 | 0 |
 | WI-0005 | Validate historical evidence at its recorded revision | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `891e3ab6` | 0 | 9 | 0 |
 | WI-0006 | Design Phase 4 reliability, token efficiency, and model routing | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `7b6a7abe` | 0 | 9 | 0 |
+| WI-0007 | Implement Phase 4A backup and crash-safe restore | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 
 ## Codex task registry
 
@@ -65,14 +66,14 @@ No runtime workers registered yet.
 
 ## Attention
 
-No blockers, task attention requests, or archive-ready tasks.
+- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 5
+- Team-visible Work Items: 6
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -120,14 +121,14 @@ No blockers, task attention requests, or archive-ready tasks.
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-30T04:07:45.451Z | work_item_transitioned | WI-0007 | agent-tidus |
+| 2026-08-30T04:07:45.135Z | work_item_transitioned | WI-0007 | agent-yuna |
+| 2026-08-30T04:07:44.821Z | work_item_transitioned | WI-0007 | agent-mog |
+| 2026-08-30T04:07:05.386Z | work_item_coordination_configured | WI-0007 | agent-mog |
+| 2026-08-30T04:07:05.055Z | work_item_created | WI-0007 | agent-mog |
 | 2026-08-30T03:59:53.330Z | work_item_closed | WI-0006 | agent-mog |
 | 2026-08-30T03:59:53.330Z | release_gate_completed | WI-0006 | agent-mog |
 | 2026-08-30T03:59:39.763Z | work_item_transitioned | WI-0006 | agent-lulu |
-| 2026-08-30T03:59:34.427Z | evidence_recorded | WI-0006 | human |
-| 2026-08-30T03:58:18.465Z | work_item_transitioned | WI-0006 | agent-lulu |
-| 2026-08-30T03:58:04.331Z | work_item_transitioned | WI-0006 | agent-lulu |
-| 2026-08-30T03:57:59.871Z | work_item_transitioned | WI-0006 | agent-rikku |
-| 2026-08-30T03:57:59.546Z | handoff_created | WI-0006 | agent-rikku |
 
 ## Assignments
 

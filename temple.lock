@@ -2,20 +2,22 @@
   "schema_version": "temple.lock/v1",
   "template": {
     "name": "@zsz1210/temple-ai-dev-org",
-    "version": "0.1.0-alpha.23",
+    "version": "0.1.0-alpha.24",
     "repository": "zsz1210/temple-ai-dev-org",
     "bootstrap": {
       "schema_version": "temple.cli-bootstrap/v1",
-      "version": "0.1.0-alpha.23",
+      "version": "0.1.0-alpha.24",
       "node": ">=20",
       "launcher": "templew.mjs",
-      "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.23",
+      "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.24",
       "repository_spec": null,
-      "source_revision": "032f1e060fa5791ebb05497025ebc150fb6d2271",
+      "source_revision": "ff47236b3988aca8d3f1b65cc294ad51cdcb7938",
       "source_clean": false,
       "invocation": "node ./templew.mjs <command> ."
     },
-    "installed_at": "2026-08-30T02:28:18.355Z"
+    "installed_at": "2026-08-30T02:28:18.355Z",
+    "upgraded_at": "2026-08-30T04:15:31.591Z",
+    "upgraded_from": "0.1.0-alpha.23"
   },
   "installation": {
     "mode": "toolkit-self-host",
@@ -142,7 +144,11 @@
     "github_evidence_capture": true,
     "checksum_upgrade": true,
     "optional_packs": true,
-    "toolkit_self_hosting": true
+    "toolkit_self_hosting": true,
+    "versioned_project_backup": true,
+    "backup_integrity_verification": true,
+    "restore_preview": true,
+    "transactional_restore_recovery": true
   },
   "optional_packs": [],
   "managed_files": [
@@ -159,12 +165,12 @@
       "sha256": "fa366000d024dd67734974b909ed581fab236d266b4106cd6aa4e28f23bd0728"
     },
     {
-      "path": ".agents/skills/skill-authoring/references/authoring-contract.md",
-      "sha256": "11fb7d3a8aa9284e3c863b11c618ab3d5524e9304d1644d95b7ac09507959997"
-    },
-    {
       "path": ".agents/skills/skill-authoring/SKILL.md",
       "sha256": "218e2d02c86859eaf43a7d82eecbd220eef337781704bed4011ec4d5033e1da9"
+    },
+    {
+      "path": ".agents/skills/skill-authoring/references/authoring-contract.md",
+      "sha256": "11fb7d3a8aa9284e3c863b11c618ab3d5524e9304d1644d95b7ac09507959997"
     },
     {
       "path": ".agents/skills/temple-init/SKILL.md",
