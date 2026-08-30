@@ -1,43 +1,29 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T03:55:50.445Z",
-  "source_fingerprint": "37650ad142a88adf2aa8eb4e03270f6d494baf4e33d1f820aa95e3e2d7a2fc06",
+  "generated_at": "2026-08-30T04:00:00.196Z",
+  "source_fingerprint": "ab43741838002e4ce688c2b3f71830caef97a12c07c12dceb4e32e3c0611d758",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
-    "selected_work_item_ids": [
-      "WI-0006"
-    ]
+    "selected_work_item_ids": []
   },
-  "max_workers": null,
+  "max_workers": 1,
   "summary": {
-    "selected": 1,
+    "selected": 0,
     "dispatchable": 0,
     "active": 0,
-    "sequential": 1,
+    "sequential": 0,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
   "active": [],
-  "sequential": [
-    {
-      "work_item_id": "WI-0006",
-      "title": "Design Phase 4 reliability, token efficiency, and model routing",
-      "disposition": "sequential",
-      "position_id": "developer",
-      "agent_id": "agent-rikku",
-      "integration_owner_agent_id": null,
-      "reasons": [
-        "requested_mode_sequential"
-      ]
-    }
-  ],
+  "sequential": [],
   "blocked": [],
   "conflicts": [],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": null,
+    "runtime_capacity_limit": 1,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,

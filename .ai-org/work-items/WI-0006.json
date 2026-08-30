@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0006",
   "title": "Design Phase 4 reliability, token efficiency, and model routing",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T03:52:09.713Z",
-  "updated_at": "2026-08-30T03:55:49.817Z",
+  "updated_at": "2026-08-30T03:59:53.330Z",
   "scope": [
     "Define the accepted Phase 4 contracts for durability and recovery, adversarial policy evaluation, multi-repository federation, operational metrics, token attribution, and policy-constrained model routing before feature implementation."
   ],
@@ -84,7 +84,7 @@
   "base_revision": "2caaff5eb3b93b85522d0d0b01700066fa169b3c",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
-  "planned_agent_id": "agent-rikku",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
@@ -105,12 +105,61 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/work-orders/WI-0006.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0006/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260830T035751Z-5D699844",
+      "EVID-20260830T035752Z-C2077E00"
+    ],
+    "test_evidence": [
+      "EVID-20260830T035752Z-C2077E00"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0006/evaluation-001.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260830T035934Z-61B43304"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/work-orders/WI-0006.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0006/independent-qa-001.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0006/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/work-orders/WI-0006.md",
-    ".ai-org/work-items/WI-0006.json"
+    ".ai-org/work-items/WI-0006.json",
+    ".ai-org/artifacts/WI-0006/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260830T035751Z-5D699844",
+    "EVID-20260830T035752Z-C2077E00",
+    ".ai-org/artifacts/WI-0006/evaluation-001.md",
+    "EVID-20260830T035934Z-61B43304",
+    ".ai-org/artifacts/WI-0006/release-record.md",
+    ".ai-org/artifacts/WI-0006/independent-qa-001.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "7b6a7abe67e5c274161f7ceab1c475a3ddb2ccfe",
+      "artifact": ".ai-org/artifacts/WI-0006/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-30T03:57:59.546Z"
+    }
+  ],
+  "developer_candidate_revision": "7b6a7abe67e5c274161f7ceab1c475a3ddb2ccfe",
+  "tested_revision": "7b6a7abe67e5c274161f7ceab1c475a3ddb2ccfe",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

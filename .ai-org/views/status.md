@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 6 total, 1 active
+- Work items: 6 total, 0 active
 - Codex tasks: 0 registered, 0 archive-ready
 - Runtime workers: 0 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -36,7 +36,7 @@
 - Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 1 / 0
+- Active / sequential / blocked: 0 / 0 / 0
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -49,7 +49,7 @@
 | WI-0003 | Polish the trilingual README layout | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f77b44e5` | 0 | 9 | 0 |
 | WI-0004 | Rewrite README audience scenarios | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `815b43ae` | 0 | 11 | 0 |
 | WI-0005 | Validate historical evidence at its recorded revision | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `891e3ab6` | 0 | 9 | 0 |
-| WI-0006 | Design Phase 4 reliability, token efficiency, and model routing | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
+| WI-0006 | Design Phase 4 reliability, token efficiency, and model routing | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `7b6a7abe` | 0 | 9 | 0 |
 
 ## Codex task registry
 
@@ -120,14 +120,14 @@ No blockers, task attention requests, or archive-ready tasks.
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-30T03:55:49.817Z | work_item_coordination_configured | WI-0006 | agent-rikku |
-| 2026-08-30T03:53:29.001Z | work_item_transitioned | WI-0006 | agent-tidus |
-| 2026-08-30T03:53:04.348Z | work_item_transitioned | WI-0006 | agent-yuna |
-| 2026-08-30T03:53:04.031Z | work_item_transitioned | WI-0006 | agent-mog |
-| 2026-08-30T03:52:10.040Z | work_item_coordination_configured | WI-0006 | agent-mog |
-| 2026-08-30T03:52:09.713Z | work_item_created | WI-0006 | agent-mog |
-| 2026-08-30T03:39:02.466Z | work_item_transitioned | WI-0004 | agent-mog |
-| 2026-08-30T03:38:16.565Z | work_item_closed | WI-0005 | agent-mog |
+| 2026-08-30T03:59:53.330Z | work_item_closed | WI-0006 | agent-mog |
+| 2026-08-30T03:59:53.330Z | release_gate_completed | WI-0006 | agent-mog |
+| 2026-08-30T03:59:39.763Z | work_item_transitioned | WI-0006 | agent-lulu |
+| 2026-08-30T03:59:34.427Z | evidence_recorded | WI-0006 | human |
+| 2026-08-30T03:58:18.465Z | work_item_transitioned | WI-0006 | agent-lulu |
+| 2026-08-30T03:58:04.331Z | work_item_transitioned | WI-0006 | agent-lulu |
+| 2026-08-30T03:57:59.871Z | work_item_transitioned | WI-0006 | agent-rikku |
+| 2026-08-30T03:57:59.546Z | handoff_created | WI-0006 | agent-rikku |
 
 ## Assignments
 

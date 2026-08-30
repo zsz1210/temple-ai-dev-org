@@ -1,0 +1,16 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "7b6a7abe67e5c274161f7ceab1c475a3ddb2ccfe",
+  "command": ["npm", "run", "verify"],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-30T03:56:51.017Z",
+  "completed_at": "2026-08-30T03:57:29.689Z",
+  "artifact_refs": [
+    "docs/planning/phase-4.md",
+    "docs/operations/token-efficiency-and-model-routing.md",
+    "docs/adr/README.md",
+    "docs/README.md",
+    "package.json"
+  ]
+}

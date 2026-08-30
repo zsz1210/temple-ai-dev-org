@@ -1,0 +1,16 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "7b6a7abe67e5c274161f7ceab1c475a3ddb2ccfe",
+  "command": ["zsh", "-lc", "npm ci --ignore-scripts && npm run verify"],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-30T03:58:33.220Z",
+  "completed_at": "2026-08-30T03:59:13.717Z",
+  "artifact_refs": [
+    "docs/planning/phase-4.md",
+    "docs/operations/token-efficiency-and-model-routing.md",
+    "docs/adr/README.md",
+    "docs/README.md",
+    "package-lock.json"
+  ]
+}
