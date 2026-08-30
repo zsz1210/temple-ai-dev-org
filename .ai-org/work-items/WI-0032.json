@@ -6,7 +6,7 @@
   "owner_position": "quality_evaluator",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-08-30T13:55:47.366Z",
-  "updated_at": "2026-08-30T14:08:42.307Z",
+  "updated_at": "2026-08-30T14:13:22.204Z",
   "scope": [
     "Prevent participant-controlled Git configuration, ambient credentials, nested repository discovery, and partial-clone lazy fetch from violating the read-only federation boundary."
   ],
@@ -44,16 +44,15 @@
     "WI-0033 owns provider-trust SECURITY sections; WI-0032 owns federation Git SECURITY sections and Mog joins both."
   ],
   "claim": {
-    "id": "claim-20260830135829-9e13f0d4",
-    "status": "released",
+    "id": "claim-20260830141322-3f9bfcdc",
+    "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
+    "agent_id": "agent-lulu",
     "base_revision": "68d4cf448df8f76ba08ce9b64ddf2c27967a39a0",
-    "branch": "review/wi-0032-federation-sandbox",
-    "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0032-federation",
-    "claimed_at": "2026-08-30T13:58:29.106Z",
-    "released_at": "2026-08-30T14:08:42.307Z",
-    "release_reason": "position_transition"
+    "branch": "review/qa-wi-0032-federation",
+    "worktree": "/Users/zsz1210/.codex/worktrees/temple-qa-wi-0032-federation",
+    "claimed_at": "2026-08-30T14:13:22.204Z",
+    "released_at": null
   },
   "claims": [
     {
@@ -67,6 +66,17 @@
       "claimed_at": "2026-08-30T13:58:29.106Z",
       "released_at": "2026-08-30T14:08:42.307Z",
       "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260830141322-3f9bfcdc",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "68d4cf448df8f76ba08ce9b64ddf2c27967a39a0",
+      "branch": "review/qa-wi-0032-federation",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-qa-wi-0032-federation",
+      "claimed_at": "2026-08-30T14:13:22.204Z",
+      "released_at": null
     }
   ],
   "gate_evidence": {
