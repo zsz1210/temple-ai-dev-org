@@ -2880,6 +2880,46 @@
         "exit_code": 0,
         "started_at": "2026-08-30T09:17:37.000Z"
       }
+    },
+    {
+      "id": "EVID-20260830T092943Z-32271DBD",
+      "work_item_id": "WI-0015",
+      "recorded_at": "2026-08-30T09:29:43.910Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA bounded Phase 4 closeout",
+      "outcome": "pass",
+      "scope_revision": "48679e9886205c3451a8d220d557d667003d45db",
+      "observed_at": "2026-08-30T09:30:00.000Z",
+      "summary": "GO: exact-revision implementation, rehearsals, evidence provenance, documentation claims, full verification, schemas, Doctor, and Git state passed",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0015/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0015/independent-qa-observation.json",
+          "sha256": "e15a1cedc818b8be17cb52cd44c18e5fe1c965b50ec8db16d7bf9e0061eab9aa"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0015/independent-qa-report.md",
+          "sha256": "21f3de16819fa0598949a215c70b2b2dddd597014fe76f7f7554e45743a4af4c"
+        }
+      ],
+      "details": {
+        "command": [
+          "independent-qa",
+          "phase4-bounded-local-closeout"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T09:23:44.000Z"
+      }
     }
   ]
 }

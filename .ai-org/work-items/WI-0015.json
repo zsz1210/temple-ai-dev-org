@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0015",
   "title": "Complete Phase 4 reliability and federation exit",
-  "state": "independent_qa",
-  "owner_position": "independent_qa",
-  "assigned_agent_id": "agent-lulu",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T07:23:05.496Z",
-  "updated_at": "2026-08-30T09:22:55.150Z",
+  "updated_at": "2026-08-30T09:29:50.234Z",
   "scope": [
     "Integrate Phase 4A durability, Phase 4B policy and usage reliability, and Phase 4C multi-repository federation into one reproducible release candidate."
   ],
@@ -48,15 +48,43 @@
       "resources": []
     }
   },
-  "base_revision": "dfebc7fb4a683395fea36950e90b9c40ea118487",
+  "base_revision": "48679e9886205c3451a8d220d557d667003d45db",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
-  "claim": null,
-  "claims": [],
+  "claim": {
+    "id": "claim-20260830092344-fde06fd0",
+    "status": "released",
+    "principal_id": "project-owner",
+    "agent_id": "agent-lulu",
+    "base_revision": "48679e9886205c3451a8d220d557d667003d45db",
+    "branch": "phase4/qa-final-wi-0015",
+    "worktree": "/tmp/temple-phase4.slCwlE/qa-final-wi-0015",
+    "claimed_at": "2026-08-30T09:23:44.675Z",
+    "released_at": "2026-08-30T09:29:44.212Z",
+    "release_reason": [
+      "Final Independent QA GO at exact candidate 48679e9"
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260830092344-fde06fd0",
+      "status": "released",
+      "principal_id": "project-owner",
+      "agent_id": "agent-lulu",
+      "base_revision": "48679e9886205c3451a8d220d557d667003d45db",
+      "branch": "phase4/qa-final-wi-0015",
+      "worktree": "/tmp/temple-phase4.slCwlE/qa-final-wi-0015",
+      "claimed_at": "2026-08-30T09:23:44.675Z",
+      "released_at": "2026-08-30T09:29:44.212Z",
+      "release_reason": [
+        "Final Independent QA GO at exact candidate 48679e9"
+      ]
+    }
+  ],
   "gate_evidence": {
     "work_order": [
       ".ai-org/artifacts/work-orders/WI-0015.md"
@@ -84,6 +112,21 @@
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0015/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0015/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/work-orders/WI-0015.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0015/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0015/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -92,10 +135,12 @@
     ".ai-org/artifacts/WI-0015/handoff-001-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0015/developer-evidence.md",
     ".ai-org/artifacts/WI-0015/quality-test-report.md",
-    ".ai-org/artifacts/WI-0015/evaluation-report.md"
+    ".ai-org/artifacts/WI-0015/evaluation-report.md",
+    ".ai-org/artifacts/WI-0015/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0015/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "release_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -105,5 +150,9 @@
       "created_at": "2026-08-30T09:22:54.174Z"
     }
   ],
-  "developer_candidate_revision": "0d48f087b12dfa1b96d4f3bb5ed73375cb67407c"
+  "developer_candidate_revision": "0d48f087b12dfa1b96d4f3bb5ed73375cb67407c",
+  "tested_revision": "48679e9886205c3451a8d220d557d667003d45db",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

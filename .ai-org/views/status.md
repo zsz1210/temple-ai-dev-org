@@ -4,8 +4,8 @@
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 1 wave(s), fresh=false
-- Work items: 26 total, 1 active
+- Parallel plan: 0 wave(s), fresh=true
+- Work items: 26 total, 0 active
 - Codex tasks: 3 registered, 3 archive-ready
 - Runtime workers: 22 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -16,7 +16,7 @@
 - Learning revalidation: 0 due, 0 contradicted
 - Specifications: 0 indexed, 0 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 8
+- Attention signals: 7
 
 ## Collaboration
 
@@ -33,11 +33,11 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: no
-- Safe waves: 1
-- Dispatchable Work Items: 2
+- Fresh: yes
+- Safe waves: 0
+- Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 0 / 0
-- Next wave: WI-0025, WI-0026
+- Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
 ## Work items
@@ -58,7 +58,7 @@
 | WI-0012 | Keep reconciled Codex history out of live task signals | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `3872ac71` | 0 | 13 | 0 |
 | WI-0013 | Bind toolkit self-host launcher to the current worktree | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `835dc57d` | 0 | 14 | 0 |
 | WI-0014 | Establish the first correlated active-task usage baseline | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `23768e74` | 2 | 14 | 0 |
-| WI-0015 | Complete Phase 4 reliability and federation exit | independent_qa | Independent QA | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0d48f087` | 0 | 6 | 0 |
+| WI-0015 | Complete Phase 4 reliability and federation exit | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `48679e98` | 0 | 8 | 0 |
 | WI-0016 | Complete Phase 4A durability operations | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2bf07c0d` | 0 | 12 | 0 |
 | WI-0017 | Complete Phase 4B policy and usage reliability | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5733bb25` | 0 | 12 | 0 |
 | WI-0018 | Implement Phase 4C multi-repository federation | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `db40145c` | 0 | 11 | 0 |
@@ -119,7 +119,6 @@
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
-- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
@@ -174,14 +173,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-30T09:29:50.234Z | work_item_closed | WI-0015 | agent-mog |
+| 2026-08-30T09:29:50.234Z | release_gate_completed | WI-0015 | agent-mog |
+| 2026-08-30T09:29:44.566Z | work_item_transitioned | WI-0015 | agent-lulu |
+| 2026-08-30T09:29:44.212Z | work_item_claim_released | WI-0015 | project-owner |
+| 2026-08-30T09:29:43.910Z | evidence_recorded | WI-0015 | human |
+| 2026-08-30T09:23:44.675Z | work_item_claimed | WI-0015 | project-owner |
+| 2026-08-30T09:23:32.792Z | work_item_coordination_configured | WI-0015 | agent-lulu |
 | 2026-08-30T09:22:55.150Z | work_item_transitioned | WI-0015 | agent-lulu |
-| 2026-08-30T09:22:54.852Z | work_item_transitioned | WI-0015 | agent-lulu |
-| 2026-08-30T09:22:54.518Z | work_item_transitioned | WI-0015 | agent-rikku |
-| 2026-08-30T09:22:54.174Z | handoff_created | WI-0015 | agent-rikku |
-| 2026-08-30T09:22:30.243Z | work_item_transitioned | WI-0015 | agent-tidus |
-| 2026-08-30T09:22:23.616Z | work_item_closed | WI-0019 | agent-mog |
-| 2026-08-30T09:22:23.616Z | release_gate_completed | WI-0019 | agent-mog |
-| 2026-08-30T09:22:18.130Z | work_item_transitioned | WI-0019 | agent-lulu |
 
 ## Assignments
 

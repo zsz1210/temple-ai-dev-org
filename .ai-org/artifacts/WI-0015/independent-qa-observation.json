@@ -1,0 +1,10 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "48679e9886205c3451a8d220d557d667003d45db",
+  "command": ["independent-qa", "phase4-bounded-local-closeout"],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-30T09:23:44.000Z",
+  "completed_at": "2026-08-30T09:30:00.000Z",
+  "artifact_refs": [".ai-org/artifacts/WI-0015/independent-qa-report.md"]
+}

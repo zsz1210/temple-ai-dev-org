@@ -1,113 +1,29 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T09:17:31.334Z",
-  "source_fingerprint": "f010c1135ccbb2c797b576fad3d70e098d79fdaeb26d36dd96d845ac8315199c",
+  "generated_at": "2026-08-30T09:29:57.984Z",
+  "source_fingerprint": "93a198911382f69c54e0d30f9498710c253f224b777ed978ecbd02366f2ad550",
   "scope": {
-    "mode": "parent-descendants",
-    "parent_work_item_id": "WI-0019",
-    "selected_work_item_ids": [
-      "WI-0025",
-      "WI-0026"
-    ]
+    "mode": "all-active",
+    "parent_work_item_id": null,
+    "selected_work_item_ids": []
   },
-  "max_workers": 2,
+  "max_workers": 3,
   "summary": {
-    "selected": 2,
-    "dispatchable": 2,
+    "selected": 0,
+    "dispatchable": 0,
     "active": 0,
     "sequential": 0,
     "blocked": 0,
-    "waves": 1
+    "waves": 0
   },
-  "waves": [
-    {
-      "id": "wave-001",
-      "order": 1,
-      "dispatch": [
-        {
-          "work_item_id": "WI-0025",
-          "title": "Expose Phase 4 operational CLI",
-          "position_id": "independent_qa",
-          "agent_id": "agent-lulu",
-          "agent_name": "Lulu",
-          "suggested_task_title": "WI-0025 · Independent QA · Lulu",
-          "base_revision": "0d48f087b12dfa1b96d4f3bb5ed73375cb67407c",
-          "affected_paths": [
-            "src/cli.mjs",
-            "test/phase4-cli.test.mjs"
-          ],
-          "dependencies": [],
-          "required_disciplines": [],
-          "active_requirements": {
-            "stage": "independent_qa",
-            "disciplines": [],
-            "resources": []
-          },
-          "preparation_fingerprint": "23c1f5ea24971768910dfb698770486334e43b76a6c536d032e81a18eb727074",
-          "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0025 --position independent_qa --no-write --json",
-          "claim_required_before_work": true,
-          "task_registration_required_after_creation": true,
-          "task_creation_performed": false,
-          "claim_performed": false,
-          "external_action_performed": false
-        },
-        {
-          "work_item_id": "WI-0026",
-          "title": "Ship Phase 4 project contracts and Alpha.27 metadata",
-          "position_id": "independent_qa",
-          "agent_id": "agent-lulu",
-          "agent_name": "Lulu",
-          "suggested_task_title": "WI-0026 · Independent QA · Lulu",
-          "base_revision": "0d48f087b12dfa1b96d4f3bb5ed73375cb67407c",
-          "affected_paths": [
-            "src/federation.mjs",
-            "src/upgrade.mjs",
-            "project-overlay/.ai-org/core/schemas",
-            "project-overlay/.ai-org/project/federation.json",
-            "test/phase4-installation.test.mjs",
-            "src/constants.mjs",
-            "package.json",
-            "package-lock.json",
-            "CHANGELOG.md"
-          ],
-          "dependencies": [],
-          "required_disciplines": [],
-          "active_requirements": {
-            "stage": "independent_qa",
-            "disciplines": [],
-            "resources": []
-          },
-          "preparation_fingerprint": "98409d2abc6ccff1e55c9a912b7fb4a7359caf1c9e6d6baa599b093e7a07e9fb",
-          "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0026 --position independent_qa --no-write --json",
-          "claim_required_before_work": true,
-          "task_registration_required_after_creation": true,
-          "task_creation_performed": false,
-          "claim_performed": false,
-          "external_action_performed": false
-        }
-      ],
-      "join_gate": {
-        "integration_owner_agent_ids": [
-          "agent-mog"
-        ],
-        "required_evidence": [
-          "exact_candidate_revision",
-          "verification_results",
-          "unresolved_items"
-        ],
-        "rule": "Join every dispatched Work Item through its Integration Owner before dispatching dependent work or advancing the lifecycle."
-      }
-    }
-  ],
+  "waves": [],
   "active": [],
   "sequential": [],
   "blocked": [],
   "conflicts": [],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": 2,
+    "runtime_capacity_limit": 3,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,

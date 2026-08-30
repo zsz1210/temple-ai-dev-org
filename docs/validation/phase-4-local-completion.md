@@ -43,13 +43,15 @@ Evidence: `.ai-org/artifacts/WI-0015/alpha27-federation-cli-rehearsal.json`.
 
 ## Verification gates
 
-The final release candidate must retain all of the following before its Work Items close:
+Final Independent QA passed at exact clean candidate `48679e9886205c3451a8d220d557d667003d45db`:
 
-- the accepted `--root` retention syntax and the explicit portfolio `--allowed-root` boundary;
-- schema validation of the actual generated `.ai-org/views/portfolio.json` path;
-- focused Phase 4 tests and the full repository verification suite;
-- valid cataloged schemas, checksum-clean managed files, and a healthy Doctor result;
-- fresh Independent QA from an exact-revision clean worktree, separate from the Developer identity.
+- accepted `--root` retention syntax and the explicit portfolio `--allowed-root` boundary passed;
+- the actual generated `.ai-org/views/portfolio.json` path was schema-validated and unsafe mutations were rejected;
+- full repository verification passed 193/193;
+- 45 documents matched 24 schemas with zero errors;
+- Doctor reported 35 pass, 1 stale generated-plan warning, and 0 fail, with 72 evidence records and digests valid;
+- exact HEAD, diff, index, worktree, and porcelain checks were clean;
+- Independent QA used an Agent Identity separate from the Developer identity.
 
 ## Retained qualification
 
