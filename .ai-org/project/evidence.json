@@ -1827,6 +1827,214 @@
         "exit_code": 0,
         "started_at": "2026-08-30T07:46:59.000Z"
       }
+    },
+    {
+      "id": "EVID-20260830T081318Z-0EC873BE",
+      "work_item_id": "WI-0020",
+      "recorded_at": "2026-08-30T08:13:18.983Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Audit correction candidate",
+      "outcome": "verified",
+      "scope_revision": "5fb81a86bd9828f561ad9611daef3b0e2eab9b9c",
+      "observed_at": "2026-08-30T08:13:18.983Z",
+      "summary": "Corrective implementation integrated at exact revision.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "5fb81a86bd9828f561ad9611daef3b0e2eab9b9c"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "5fb81a86bd9828f561ad9611daef3b0e2eab9b9c",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260830T081319Z-91FB6C16",
+      "work_item_id": "WI-0020",
+      "recorded_at": "2026-08-30T08:13:19.303Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Audit correction verification",
+      "outcome": "pass",
+      "scope_revision": "5fb81a86bd9828f561ad9611daef3b0e2eab9b9c",
+      "observed_at": "2026-08-30T08:12:13.000Z",
+      "summary": "Integrated full verification passed 184/184.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0020/developer-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0020/developer-observation.json",
+          "sha256": "6ebe243a99d97e27e29bb37f7df70db1a2aa25d4ee9236ef64f903c97a11be8a"
+        },
+        {
+          "path": "test/audit-export.test.mjs",
+          "sha256": "4ef24416ac7b885e89a7aa57588db83b6cf473f6aeab52d5d41af9b969447748"
+        },
+        {
+          "path": "test/recovery.test.mjs",
+          "sha256": "c8923c75c4837494402c8ad783f81f066db02858b064b66ac8852edb29a71460"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T08:11:35.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T081319Z-B9B431A1",
+      "work_item_id": "WI-0021",
+      "recorded_at": "2026-08-30T08:13:19.634Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Usage correlation correction candidate",
+      "outcome": "verified",
+      "scope_revision": "5fb81a86bd9828f561ad9611daef3b0e2eab9b9c",
+      "observed_at": "2026-08-30T08:13:19.634Z",
+      "summary": "Corrective implementation integrated at exact revision.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "5fb81a86bd9828f561ad9611daef3b0e2eab9b9c"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "5fb81a86bd9828f561ad9611daef3b0e2eab9b9c",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260830T081319Z-3D3FE880",
+      "work_item_id": "WI-0021",
+      "recorded_at": "2026-08-30T08:13:19.959Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Usage correlation correction verification",
+      "outcome": "pass",
+      "scope_revision": "5fb81a86bd9828f561ad9611daef3b0e2eab9b9c",
+      "observed_at": "2026-08-30T08:12:13.000Z",
+      "summary": "Integrated full verification passed 184/184.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0021/developer-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0021/developer-observation.json",
+          "sha256": "abe19e11d9456b1314e00ec501252768d39beaeaef3864ffbe99043bcccffb2b"
+        },
+        {
+          "path": "test/phase-4b.test.mjs",
+          "sha256": "3c7abe5660fdbfae174fc4b4a4e0cd9c9ca7cf9d2e4ce0b139fbf8844958dda2"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T08:11:35.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T081320Z-C84985BB",
+      "work_item_id": "WI-0022",
+      "recorded_at": "2026-08-30T08:13:20.262Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Federation revision correction candidate",
+      "outcome": "verified",
+      "scope_revision": "5fb81a86bd9828f561ad9611daef3b0e2eab9b9c",
+      "observed_at": "2026-08-30T08:13:20.262Z",
+      "summary": "Corrective implementation integrated at exact revision.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "5fb81a86bd9828f561ad9611daef3b0e2eab9b9c"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "5fb81a86bd9828f561ad9611daef3b0e2eab9b9c",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260830T081320Z-43B20AA3",
+      "work_item_id": "WI-0022",
+      "recorded_at": "2026-08-30T08:13:20.587Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Federation revision correction verification",
+      "outcome": "pass",
+      "scope_revision": "5fb81a86bd9828f561ad9611daef3b0e2eab9b9c",
+      "observed_at": "2026-08-30T08:12:13.000Z",
+      "summary": "Integrated full verification passed 184/184.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0022/developer-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0022/developer-observation.json",
+          "sha256": "35dee5dae52891c762b228c83301d210517f78699e51c83318afa5c22605bca1"
+        },
+        {
+          "path": "test/federation.test.mjs",
+          "sha256": "6bef16de26104c8c830dad53a2447ad2c8111822f5d3b44a2ab3924c892693c0"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T08:11:35.000Z"
+      }
     }
   ]
 }

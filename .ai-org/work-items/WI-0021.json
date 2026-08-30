@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0021",
   "title": "Fix usage preflight exact correlation",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-08-30T08:01:08.608Z",
-  "updated_at": "2026-08-30T08:07:12.422Z",
+  "updated_at": "2026-08-30T08:13:49.255Z",
   "scope": [
     "Require every preflight correlated observation to match one registered task and its canonical Work Item."
   ],
@@ -34,7 +34,7 @@
   "base_revision": "b34c8b8efa3e59d0cc44bb1864f19a45596ef0fa",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
-  "planned_agent_id": "agent-rikku",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [
@@ -85,12 +85,42 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/work-orders/WI-0021.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0021/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260830T081319Z-B9B431A1",
+      "EVID-20260830T081319Z-3D3FE880",
+      ".ai-org/artifacts/WI-0021/developer-evidence.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0021/quality-test-report.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0021/evaluation-report.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/work-orders/WI-0021.md",
-    ".ai-org/work-items/WI-0021.json"
+    ".ai-org/work-items/WI-0021.json",
+    ".ai-org/artifacts/WI-0021/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260830T081319Z-B9B431A1",
+    "EVID-20260830T081319Z-3D3FE880",
+    ".ai-org/artifacts/WI-0021/developer-evidence.md",
+    ".ai-org/artifacts/WI-0021/quality-test-report.md",
+    ".ai-org/artifacts/WI-0021/evaluation-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "release_manager",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "5fb81a86bd9828f561ad9611daef3b0e2eab9b9c",
+      "artifact": ".ai-org/artifacts/WI-0021/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-30T08:13:29.507Z"
+    }
+  ],
+  "developer_candidate_revision": "5fb81a86bd9828f561ad9611daef3b0e2eab9b9c"
 }
