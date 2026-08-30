@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0042",
   "title": "Add a private home-LAN read-only Dashboard viewer",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T23:19:27.179Z",
-  "updated_at": "2026-08-30T23:21:58.190Z",
+  "updated_at": "2026-08-30T23:31:28.729Z",
   "scope": [
     "Expose the redacted read-only Dashboard on one explicitly configured RFC1918 address while preserving the loopback control plane and the existing tailnet-only Tailscale viewer."
   ],
@@ -78,7 +78,7 @@
       "resources": []
     }
   },
-  "base_revision": "af4801eae3d6ee32a9896a61a1617213a92b7087",
+  "base_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -94,15 +94,16 @@
     "WI-0041 is integrated at current HEAD; WI-0042 must preserve refresh coalescing and refresh-only private SSE semantics."
   ],
   "claim": {
-    "id": "claim-20260830232158-f7730e5f",
-    "status": "active",
+    "id": "claim-20260830233044-54953e98",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "af4801eae3d6ee32a9896a61a1617213a92b7087",
+    "agent_id": "agent-lulu",
+    "base_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-08-30T23:21:58.190Z",
-    "released_at": null
+    "claimed_at": "2026-08-30T23:30:44.636Z",
+    "released_at": "2026-08-30T23:31:28.729Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
@@ -143,14 +144,39 @@
     },
     {
       "id": "claim-20260830232158-f7730e5f",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "af4801eae3d6ee32a9896a61a1617213a92b7087",
       "branch": "main",
       "worktree": null,
       "claimed_at": "2026-08-30T23:21:58.190Z",
-      "released_at": null
+      "released_at": "2026-08-30T23:28:04.519Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260830232820-0ba7f608",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T23:28:20.620Z",
+      "released_at": "2026-08-30T23:30:44.059Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260830233044-54953e98",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T23:30:44.636Z",
+      "released_at": "2026-08-30T23:31:28.729Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -174,6 +200,24 @@
     ],
     "required_state_coverage": [
       ".ai-org/artifacts/WI-0042/product-spec.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0042/handoff-003-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0042/developer-report.md",
+      "EVID-20260830T232746Z-84638945",
+      "EVID-20260830T232746Z-9E03FDB3",
+      "EVID-20260830T232746Z-13594D48"
+    ],
+    "test_evidence": [
+      "EVID-20260830T232943Z-01232830"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0042/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260830T233121Z-F3CBC060"
     ]
   },
   "evidence": [
@@ -183,10 +227,23 @@
     ".ai-org/artifacts/WI-0042/ui-brief.md",
     ".ai-org/artifacts/WI-0042/handoff-002-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0042/technical-design.md",
-    "docs/adr/0036-dedicated-private-lan-dashboard-listener.md"
+    "docs/adr/0036-dedicated-private-lan-dashboard-listener.md",
+    ".ai-org/artifacts/WI-0042/handoff-003-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0042/developer-report.md",
+    "EVID-20260830T232746Z-84638945",
+    "EVID-20260830T232746Z-9E03FDB3",
+    "EVID-20260830T232746Z-13594D48",
+    "EVID-20260830T232943Z-01232830",
+    ".ai-org/artifacts/WI-0042/handoff-004-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0042/quality-report.md",
+    ".ai-org/artifacts/WI-0042/evaluation-report.md",
+    ".ai-org/artifacts/WI-0042/handoff-005-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0042/independent-qa-report.md",
+    "EVID-20260830T233121Z-F3CBC060",
+    "EVID-20260830T233121Z-50313BBA"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "product_manager",
@@ -201,6 +258,28 @@
       "input_revision": "af4801eae3d6ee32a9896a61a1617213a92b7087",
       "artifact": ".ai-org/artifacts/WI-0042/handoff-002-tech_lead-to-developer.md",
       "created_at": "2026-08-30T23:21:40.424Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
+      "artifact": ".ai-org/artifacts/WI-0042/handoff-003-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-30T23:28:04.250Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
+      "artifact": ".ai-org/artifacts/WI-0042/handoff-004-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-08-30T23:30:43.798Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
+      "artifact": ".ai-org/artifacts/WI-0042/handoff-005-independent_qa-to-release_manager.md",
+      "created_at": "2026-08-30T23:31:28.468Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "5b622e242f71d8d45e606d23e34e511697aa8686"
 }

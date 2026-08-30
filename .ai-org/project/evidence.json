@@ -5148,6 +5148,262 @@
         "exit_code": 0,
         "started_at": "2026-08-30T19:45:56Z"
       }
+    },
+    {
+      "id": "EVID-20260830T232746Z-84638945",
+      "work_item_id": "WI-0042",
+      "recorded_at": "2026-08-30T23:27:46.328Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Private LAN viewer candidate",
+      "outcome": "verified",
+      "scope_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
+      "observed_at": "2026-08-30T23:27:46.328Z",
+      "summary": "Exact candidate adds the dedicated RFC1918 read-only listener, tests, ADR, and operator documentation.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "5b622e242f71d8d45e606d23e34e511697aa8686"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260830T232746Z-9E03FDB3",
+      "work_item_id": "WI-0042",
+      "recorded_at": "2026-08-30T23:27:46.600Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer verification",
+      "outcome": "pass",
+      "scope_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
+      "observed_at": "2026-08-30T23:26:08Z",
+      "summary": "Focused private-viewer tests and the complete local repository suite passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0042/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0042/developer-test-observation.json",
+          "sha256": "4129e2797d28d859dbf4e94ca6cdcec209322cf480d19abdfe2c2a6f1170a3a8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0042/developer-report.md",
+          "sha256": "c807d8eff6a01e678af093a198ce7a5be5251ed41c5567bc753f9424fc8d2ecc"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0042/product-spec.md",
+          "sha256": "1392d1914d594e4559973a2d4a3e8d427993cff1835874169930d999f34160ea"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0042/technical-design.md",
+          "sha256": "98cc543d5c95540cd65f750c39578e22600e29b7373c523fb7e752a84413c915"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0042/ui-brief.md",
+          "sha256": "38f7f4e4733a272dcfccbf1230b5df74bb0ee06a0004daa7e9c6ff86b7541eab"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/control-plane-private-viewer.test.mjs",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T23:25:19Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T232746Z-13594D48",
+      "work_item_id": "WI-0042",
+      "recorded_at": "2026-08-30T23:27:46.870Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Live LAN and Tailscale verification",
+      "outcome": "pass",
+      "scope_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
+      "observed_at": "2026-08-30T23:25:07Z",
+      "summary": "Exact socket, redaction, rejected writes, tailnet-only status, and responsive Chromium behavior passed.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0042/runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0042/runtime-observation.json",
+          "sha256": "982f50e527f07ea5c21331161fbbeee5722093c791a68c0aa83093a253ec61d8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0042/developer-report.md",
+          "sha256": "c807d8eff6a01e678af093a198ce7a5be5251ed41c5567bc753f9424fc8d2ecc"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0042/ui-brief.md",
+          "sha256": "38f7f4e4733a272dcfccbf1230b5df74bb0ee06a0004daa7e9c6ff86b7541eab"
+        }
+      ],
+      "details": {
+        "environment": "Temple self-host repository on the Mac Mini, live loopback Control Plane with Codex observation, exact 192.168.79.5 LAN listener, Tailscale Serve tailnet-only HTTPS, curl, socket inspection, and fresh Chromium through the LAN address",
+        "scenario": "Start loopback, private-LAN, and Tailscale viewers concurrently; inspect exact listening sockets; fetch the redacted LAN snapshot; reject LAN Inbox and Agent Command access; load Tailscale; and render the LAN Dashboard at 1440 by 1000 and 420 by 900",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260830T232943Z-01232830",
+      "work_item_id": "WI-0042",
+      "recorded_at": "2026-08-30T23:29:43.170Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality exact-candidate verification",
+      "outcome": "pass",
+      "scope_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
+      "observed_at": "2026-08-30T23:29:21Z",
+      "summary": "A fresh detached worktree passed focused and complete repository verification.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0042/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0042/quality-test-observation.json",
+          "sha256": "9dd8f4e89d03a23bd4b0cab950110231954c51ec0038fa8592a0610a5e4a8c58"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0042/quality-report.md",
+          "sha256": "0acd260da7661dda5f55fc57313c55154a78ff6c7ec9bc1b6ac25ec19f8e7274"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0042/product-spec.md",
+          "sha256": "1392d1914d594e4559973a2d4a3e8d427993cff1835874169930d999f34160ea"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0042/ui-brief.md",
+          "sha256": "38f7f4e4733a272dcfccbf1230b5df74bb0ee06a0004daa7e9c6ff86b7541eab"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/control-plane-private-viewer.test.mjs",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T23:28:31Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T233121Z-F3CBC060",
+      "work_item_id": "WI-0042",
+      "recorded_at": "2026-08-30T23:31:21.552Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA exact-candidate tests",
+      "outcome": "pass",
+      "scope_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
+      "observed_at": "2026-08-30T23:30:57Z",
+      "summary": "Independent QA reproduced all private-viewer tests from a fresh detached candidate worktree.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0042/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0042/independent-qa-test-observation.json",
+          "sha256": "0a2080a16514369b7a17562061aa141d5dd69d9d2a7502d811601406562ce8bf"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0042/independent-qa-report.md",
+          "sha256": "9337ec2c84c383a8135c899d78bb401afeef6a1a3545b8d4518b7b25e92c2af2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0042/product-spec.md",
+          "sha256": "1392d1914d594e4559973a2d4a3e8d427993cff1835874169930d999f34160ea"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0042/technical-design.md",
+          "sha256": "98cc543d5c95540cd65f750c39578e22600e29b7373c523fb7e752a84413c915"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/control-plane-private-viewer.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T23:30:54Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T233121Z-50313BBA",
+      "work_item_id": "WI-0042",
+      "recorded_at": "2026-08-30T23:31:21.820Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Independent QA live private-network boundary",
+      "outcome": "pass",
+      "scope_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
+      "observed_at": "2026-08-30T23:30:57Z",
+      "summary": "Independent QA reproduced redaction, rejected writes, exact sockets, and tailnet-only Tailscale state.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0042/independent-qa-runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0042/independent-qa-runtime-observation.json",
+          "sha256": "d7a0f8e23744963832d367e27dedf4c3befdc8d858fd53de1db2917e7062c48b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0042/independent-qa-report.md",
+          "sha256": "9337ec2c84c383a8135c899d78bb401afeef6a1a3545b8d4518b7b25e92c2af2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0042/ui-brief.md",
+          "sha256": "38f7f4e4733a272dcfccbf1230b5df74bb0ee06a0004daa7e9c6ff86b7541eab"
+        }
+      ],
+      "details": {
+        "environment": "Independent QA detached candidate worktree plus the live Mac Mini process on loopback, exact private LAN, and tailnet-only Tailscale Serve",
+        "scenario": "Reproduce the focused listener contract from the exact candidate, then independently fetch the LAN snapshot, reject Inbox and Agent Command requests, inspect both listening sockets, and inspect Tailscale Funnel status",
+        "provenance": "live"
+      }
     }
   ]
 }

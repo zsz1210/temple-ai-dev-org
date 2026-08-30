@@ -1,0 +1,138 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0043",
+  "title": "Review Dashboard information architecture and operator usability",
+  "state": "spec",
+  "owner_position": "product_manager",
+  "assigned_agent_id": "agent-yuna",
+  "created_at": "2026-08-30T23:32:00.549Z",
+  "updated_at": "2026-08-30T23:32:58.598Z",
+  "scope": [
+    "Audit the current Dashboard from solo, small-team, and enterprise operator perspectives; produce an evidence-backed prioritized review and decision agenda before authorizing any redesign."
+  ],
+  "acceptance_criteria": [
+    "The review distinguishes verified usability findings from preferences and unimplemented feature ideas.",
+    "The inventory covers operational priority, Work Items and Agents, alert actionability, usage and model evidence, responsive layout, accessibility, private-viewer context, and progressive disclosure.",
+    "A proposed information hierarchy and measurable validation plan are ready for owner discussion before Build.",
+    "No Dashboard code change, remote command expansion, release, publication, or open-source preparation occurs in the review slice."
+  ],
+  "affected_paths": [
+    "src/control-plane-dashboard.mjs",
+    "test/control-plane-foundation.test.mjs",
+    "docs/operations/control-plane.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "code-first",
+  "parent_work_item_id": "WI-0031",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {
+    "build": {
+      "disciplines": [
+        "general-development"
+      ],
+      "resources": []
+    },
+    "design": {
+      "disciplines": [
+        "architecture"
+      ],
+      "resources": []
+    },
+    "eval": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "independent_qa": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "spec": {
+      "disciplines": [
+        "product"
+      ],
+      "resources": []
+    },
+    "test": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0029 and WI-0030 define the local Agent Command surface; WI-0043 may review its discoverability but cannot change command authority or code without a later approved Build slice.",
+    "WI-0033 remains in Spec; WI-0043 is read-only and any later Dashboard provider-trust proposal must reconcile with WI-0033 before Build.",
+    "WI-0034 is integrated at the review base and supplies the current-state trust contract; WI-0043 treats it as an invariant.",
+    "WI-0036 is integrated at the review base and supplies the private read-only projection; WI-0043 cannot weaken it.",
+    "WI-0040 is integrated at the review base and supplies usage/model evidence; WI-0043 may review its hierarchy but cannot invent missing Token data.",
+    "WI-0041 is integrated at the review base and supplies refresh coalescing; WI-0043 cannot change refresh behavior in the review slice.",
+    "WI-0042 is the verified private-LAN transport and provides review runtime evidence; WI-0043 does not reopen its authority boundary."
+  ],
+  "claim": {
+    "id": "claim-20260830233258-35c87836",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-08-30T23:32:58.068Z",
+    "released_at": "2026-08-30T23:32:58.598Z",
+    "release_reason": "position_transition"
+  },
+  "claims": [
+    {
+      "id": "claim-20260830233258-35c87836",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T23:32:58.068Z",
+      "released_at": "2026-08-30T23:32:58.598Z",
+      "release_reason": "position_transition"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0043/work-order.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0043/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0043/work-order.md",
+    ".ai-org/artifacts/WI-0043/dashboard-review-inventory.md",
+    ".ai-org/artifacts/WI-0042/evaluation-report.md"
+  ],
+  "unresolved": [],
+  "next_position": "tech_lead",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
+      "artifact": ".ai-org/artifacts/WI-0043/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-08-30T23:32:58.324Z"
+    }
+  ]
+}
