@@ -30,5 +30,9 @@
 - [ADR-0028: Negotiate provider capabilities and reconcile replay](0028-negotiate-provider-capabilities-and-reconcile-replay.md)
 - [ADR-0029: Separate Human Inbox request authority](0029-separate-human-inbox-authority.md)
 - [ADR-0030: Self-host the toolkit with explicit source and project boundaries](0030-self-host-the-toolkit-with-explicit-boundaries.md)
+- [ADR-0031: Prove durable recovery before persistence growth](0031-durable-recovery-before-persistence-growth.md)
+- [ADR-0032: Evaluate policy with adversarial evidence](0032-evaluate-policy-with-adversarial-evidence.md)
+- [ADR-0033: Federate project authority with read-only portfolios](0033-federate-project-authority-with-read-only-portfolios.md)
+- [ADR-0034: Attribute usage before routing models](0034-attribute-usage-before-routing-models.md)
 
 An ADR is an Architecture Decision Record. It preserves the context, decision, rationale, and consequences of an important technical or organizational choice so that later Agents do not have to infer why it was made from chat memory.

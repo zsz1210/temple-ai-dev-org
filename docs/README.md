@@ -12,6 +12,7 @@ The root README explains what Temple is and why it exists. This index routes imp
 | Define product, UX, UI, or API behavior | [Product specifications](concepts/product-specifications.md) | [UI design modes](concepts/ui-design.md), [UI interaction contracts](concepts/ui-interaction-contracts.md) |
 | Add engineering methods or project Skills | [Capability catalog](extensions/capability-catalog.md) | [Skill authoring](extensions/skill-authoring.md), [Engineering Learning Loop](extensions/engineering-learning.md) |
 | Inspect evidence, risk, or live project state | [Evidence and Observer](operations/evidence-and-observer.md) | [Local control plane](operations/control-plane.md), [High-Assurance](operations/high-assurance.md) |
+| Understand Token usage or plan model selection | [Token Efficiency and Model Routing](operations/token-efficiency-and-model-routing.md) | [Phase 4 design](planning/phase-4.md), [ADR-0034](adr/0034-attribute-usage-before-routing-models.md) |
 | Audit a decision or claim | [ADR index](adr/README.md) | [Validation index](validation/README.md), [Research index](research/README.md) |
 
 ## Documentation map
@@ -39,6 +40,7 @@ The root README explains what Temple is and why it exists. This index routes imp
 - [Evidence and Observer](operations/evidence-and-observer.md) — normalized evidence, exact revisions, stale signals, and closeout.
 - [High-Assurance profile](operations/high-assurance.md) — risk-scaled evidence, separation of duties, rollback, and human approvals.
 - [Local control plane](operations/control-plane.md) — replay-safe events, providers, live projections, and the Human Inbox.
+- [Token Efficiency and Model Routing](operations/token-efficiency-and-model-routing.md) — provider-reported usage, attribution, budgets, model policy, and the boundary before automatic routing.
 
 ### Extensions and learning
 
@@ -54,6 +56,7 @@ The root README explains what Temple is and why it exists. This index routes imp
 
 - [Roadmap](planning/roadmap.md) ([Japanese](planning/roadmap.ja.md), [Traditional Chinese](planning/roadmap.zh-TW.md)) — delivered foundation, current work, next gates, and later options.
 - [Pre-Phase 4 closeout review](planning/pre-phase-4-closeout-review.md) — the readiness audit that closed the earlier phases.
+- [Phase 4 design](planning/phase-4.md) — accepted durability, evaluation, federation, usage, and model-routing contracts; implementation remains staged.
 - [Phase 1 contract](planning/phase-1.md) — original foundation scope and exit gate.
 - [Phase 3 design](planning/phase-3-control-plane.md) and [work breakdown](planning/phase-3-work-items.md) — accepted control-plane plan.
 - [Changelog](../CHANGELOG.md) — chronological release history.
