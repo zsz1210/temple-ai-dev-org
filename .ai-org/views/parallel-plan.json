@@ -1,170 +1,113 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T08:30:28.784Z",
-  "source_fingerprint": "01932f951f9be9c83c936772b649f016837708468682d0d65e9cd30775c67ff3",
+  "generated_at": "2026-08-30T08:44:47.545Z",
+  "source_fingerprint": "06b6bcc0442c5a1692bb1f387e85f254b89b6eb6f5c1448734f2ac476887efe7",
   "scope": {
     "mode": "parent-descendants",
-    "parent_work_item_id": "WI-0015",
+    "parent_work_item_id": "WI-0019",
     "selected_work_item_ids": [
-      "WI-0016",
-      "WI-0018",
-      "WI-0019",
-      "WI-0022",
-      "WI-0023",
-      "WI-0024"
+      "WI-0025",
+      "WI-0026"
     ]
   },
-  "max_workers": 3,
+  "max_workers": 2,
   "summary": {
-    "selected": 6,
-    "dispatchable": 0,
-    "active": 1,
-    "sequential": 1,
-    "blocked": 4,
-    "waves": 0
+    "selected": 2,
+    "dispatchable": 2,
+    "active": 0,
+    "sequential": 0,
+    "blocked": 0,
+    "waves": 1
   },
-  "waves": [],
-  "active": [
+  "waves": [
     {
-      "work_item_id": "WI-0023",
-      "title": "Disable Git replacement objects in federation",
-      "disposition": "active",
-      "position_id": "independent_qa",
-      "agent_id": "agent-lulu",
-      "integration_owner_agent_id": "agent-mog",
-      "reasons": [],
-      "claim_id": "claim-20260830082853-c26b1e89",
-      "principal_id": "project-owner",
-      "branch": "phase4/qa-wi-0023",
-      "worktree": "/tmp/temple-phase4.slCwlE/qa-wi-0023",
-      "base_revision": "db40145cee3f1ca7bfa3925cdfcfeb38b8844b9b"
-    }
-  ],
-  "sequential": [
-    {
-      "work_item_id": "WI-0024",
-      "title": "Make Doctor fail closed on legacy bootstrap metadata",
-      "disposition": "sequential",
-      "position_id": "developer",
-      "agent_id": "agent-rikku",
-      "integration_owner_agent_id": null,
-      "reasons": [
-        "integration_owner_assigned"
-      ]
-    }
-  ],
-  "blocked": [
-    {
-      "work_item_id": "WI-0016",
-      "title": "Complete Phase 4A durability operations",
-      "disposition": "blocked",
-      "position_id": "engineering_manager",
-      "agent_id": "agent-mog",
-      "integration_owner_agent_id": "agent-mog",
-      "reasons": [
-        "unresolved_items_cleared"
-      ]
-    },
-    {
-      "work_item_id": "WI-0018",
-      "title": "Implement Phase 4C multi-repository federation",
-      "disposition": "blocked",
-      "position_id": "engineering_manager",
-      "agent_id": "agent-mog",
-      "integration_owner_agent_id": "agent-mog",
-      "reasons": [
-        "unresolved_items_cleared"
-      ]
-    },
-    {
-      "work_item_id": "WI-0019",
-      "title": "Integrate the Phase 4 CLI, schemas, and release line",
-      "disposition": "blocked",
-      "position_id": "tech_lead",
-      "agent_id": "agent-tidus",
-      "integration_owner_agent_id": "agent-mog",
-      "reasons": [
-        "dependency_not_dispatchable:WI-0016",
-        "dependency_not_dispatchable:WI-0018"
-      ]
-    },
-    {
-      "work_item_id": "WI-0022",
-      "title": "Bind federation reads to the expected revision",
-      "disposition": "blocked",
-      "position_id": "engineering_manager",
-      "agent_id": "agent-mog",
-      "integration_owner_agent_id": "agent-mog",
-      "reasons": [
-        "unresolved_items_cleared"
-      ]
-    }
-  ],
-  "conflicts": [
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0016",
-      "right_work_item_id": "WI-0024",
-      "paths": [
+      "id": "wave-001",
+      "order": 1,
+      "dispatch": [
         {
-          "left_path": "test/recovery.test.mjs",
-          "right_path": "test/recovery.test.mjs"
-        }
-      ],
-      "resolution": "separate-waves"
-    },
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0018",
-      "right_work_item_id": "WI-0022",
-      "paths": [
-        {
-          "left_path": "src/federation.mjs",
-          "right_path": "src/federation.mjs"
+          "work_item_id": "WI-0025",
+          "title": "Expose Phase 4 operational CLI",
+          "position_id": "developer",
+          "agent_id": "agent-rikku",
+          "agent_name": "Rikku",
+          "suggested_task_title": "WI-0025 · Developer · Rikku",
+          "base_revision": "576e3ed6074ad67fcc6c030fdd738c9cfffffe13",
+          "affected_paths": [
+            "src/cli.mjs",
+            "test/phase4-cli.test.mjs"
+          ],
+          "dependencies": [],
+          "required_disciplines": [],
+          "active_requirements": {
+            "stage": "build",
+            "disciplines": [],
+            "resources": []
+          },
+          "preparation_fingerprint": "d54a2218961675a45cd9d80e71ef4388579f5ab96436eb86313303e0fc2da70f",
+          "integration_owner_agent_id": "agent-mog",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0025 --position developer --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
         },
         {
-          "left_path": "test/federation.test.mjs",
-          "right_path": "test/federation.test.mjs"
+          "work_item_id": "WI-0026",
+          "title": "Ship Phase 4 project contracts and Alpha.27 metadata",
+          "position_id": "developer",
+          "agent_id": "agent-rikku",
+          "agent_name": "Rikku",
+          "suggested_task_title": "WI-0026 · Developer · Rikku",
+          "base_revision": "576e3ed6074ad67fcc6c030fdd738c9cfffffe13",
+          "affected_paths": [
+            "src/federation.mjs",
+            "src/upgrade.mjs",
+            "project-overlay/.ai-org/core/schemas",
+            "project-overlay/.ai-org/project/federation.json",
+            "test/phase4-installation.test.mjs",
+            "src/constants.mjs",
+            "package.json",
+            "package-lock.json",
+            "CHANGELOG.md"
+          ],
+          "dependencies": [],
+          "required_disciplines": [],
+          "active_requirements": {
+            "stage": "build",
+            "disciplines": [],
+            "resources": []
+          },
+          "preparation_fingerprint": "55d693a1b38984bff9d565fc6b4011e0f03dccb53e199eeedc4ebb288678c4a8",
+          "integration_owner_agent_id": "agent-mog",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0026 --position developer --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
         }
       ],
-      "resolution": "explicit-bidirectional"
-    },
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0018",
-      "right_work_item_id": "WI-0023",
-      "paths": [
-        {
-          "left_path": "src/federation.mjs",
-          "right_path": "src/federation.mjs"
-        },
-        {
-          "left_path": "test/federation.test.mjs",
-          "right_path": "test/federation.test.mjs"
-        }
-      ],
-      "resolution": "explicit-bidirectional"
-    },
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0022",
-      "right_work_item_id": "WI-0023",
-      "paths": [
-        {
-          "left_path": "src/federation.mjs",
-          "right_path": "src/federation.mjs"
-        },
-        {
-          "left_path": "test/federation.test.mjs",
-          "right_path": "test/federation.test.mjs"
-        }
-      ],
-      "resolution": "explicit-bidirectional"
+      "join_gate": {
+        "integration_owner_agent_ids": [
+          "agent-mog"
+        ],
+        "required_evidence": [
+          "exact_candidate_revision",
+          "verification_results",
+          "unresolved_items"
+        ],
+        "rule": "Join every dispatched Work Item through its Integration Owner before dispatching dependent work or advancing the lifecycle."
+      }
     }
   ],
+  "active": [],
+  "sequential": [],
+  "blocked": [],
+  "conflicts": [],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": 3,
+    "runtime_capacity_limit": 2,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,

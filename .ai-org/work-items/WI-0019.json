@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0019",
   "title": "Integrate the Phase 4 CLI, schemas, and release line",
-  "state": "design",
-  "owner_position": "tech_lead",
-  "assigned_agent_id": "agent-tidus",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
   "created_at": "2026-08-30T07:36:06.689Z",
-  "updated_at": "2026-08-30T07:36:25.433Z",
+  "updated_at": "2026-08-30T08:44:24.852Z",
   "scope": [
     "Wire the completed Phase 4A, Phase 4B, and Phase 4C module contracts into the repository CLI, project overlay, upgrade path, documentation indexes, and Alpha.27 release metadata."
   ],
@@ -45,9 +45,8 @@
   "tracker_refs": [],
   "tracker_reconciliations": [],
   "dependencies": [
-    "WI-0016",
-    "WI-0017",
-    "WI-0018"
+    "WI-0025",
+    "WI-0026"
   ],
   "required_disciplines": [],
   "stage_requirements": {
@@ -58,13 +57,15 @@
       "resources": []
     }
   },
-  "base_revision": "7bc0870f50358967417bb21f6a928d0917e376d5",
-  "parallel_mode": "pending",
+  "base_revision": "576e3ed6074ad67fcc6c030fdd738c9cfffffe13",
+  "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
-  "planned_agent_id": null,
+  "planned_agent_id": "agent-rikku",
   "shared_contract_refs": [],
   "contract_status": "not_required",
-  "overlap_resolution": [],
+  "overlap_resolution": [
+    "WI-0015 retains parent closeout authority; WI-0019 owns the Alpha.27 package metadata and integration implementation."
+  ],
   "claim": null,
   "claims": [],
   "gate_evidence": {
@@ -76,6 +77,12 @@
     ],
     "acceptance_criteria": [
       ".ai-org/work-items/WI-0019.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0019.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0019.md"
     ]
   },
   "evidence": [
@@ -83,5 +90,5 @@
     ".ai-org/work-items/WI-0019.json"
   ],
   "unresolved": [],
-  "next_position": "developer"
+  "next_position": "quality_evaluator"
 }

@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.26`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=false
-- Work items: 24 total, 2 active
+- Collaboration profile: `solo` (0 Human Principals, 2 active claims)
+- Parallel plan: 1 wave(s), fresh=false
+- Work items: 26 total, 4 active
 - Codex tasks: 3 registered, 3 archive-ready
-- Runtime workers: 14 registered, 0 reserved, 0 active
+- Runtime workers: 16 registered, 0 reserved, 2 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -16,7 +16,7 @@
 - Learning revalidation: 0 due, 0 contradicted
 - Specifications: 0 indexed, 0 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 5
+- Attention signals: 4
 
 ## Collaboration
 
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 2
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -34,10 +34,10 @@
 - Installed: yes
 - Valid: yes
 - Fresh: no
-- Safe waves: 0
-- Dispatchable Work Items: 0
-- Active / sequential / blocked: 1 / 1 / 4
-- Next wave: none
+- Safe waves: 1
+- Dispatchable Work Items: 2
+- Active / sequential / blocked: 0 / 0 / 0
+- Next wave: WI-0025, WI-0026
 - Codex tasks, claims, or external actions performed by planning: no
 
 ## Work items
@@ -62,12 +62,14 @@
 | WI-0016 | Complete Phase 4A durability operations | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2bf07c0d` | 0 | 12 | 0 |
 | WI-0017 | Complete Phase 4B policy and usage reliability | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5733bb25` | 0 | 12 | 0 |
 | WI-0018 | Implement Phase 4C multi-repository federation | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `db40145c` | 0 | 11 | 0 |
-| WI-0019 | Integrate the Phase 4 CLI, schemas, and release line | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
+| WI-0019 | Integrate the Phase 4 CLI, schemas, and release line | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 | WI-0020 | Harden audit export after Independent QA | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5733bb25` | 0 | 11 | 0 |
 | WI-0021 | Fix usage preflight exact correlation | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5733bb25` | 0 | 11 | 0 |
 | WI-0022 | Bind federation reads to the expected revision | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `db40145c` | 0 | 12 | 0 |
 | WI-0023 | Disable Git replacement objects in federation | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `db40145c` | 0 | 8 | 0 |
 | WI-0024 | Make Doctor fail closed on legacy bootstrap metadata | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2bf07c0d` | 0 | 8 | 0 |
+| WI-0025 | Expose Phase 4 operational CLI | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830084454-c15950a2 | `—` | 0 | 2 | 0 |
+| WI-0026 | Ship Phase 4 project contracts and Alpha.27 metadata | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830084454-8f44b8d8 | `—` | 0 | 2 | 0 |
 
 ## Codex task registry
 
@@ -95,6 +97,8 @@
 | worker-20260830081416-59664aaf | internal-subagent | WI-0022 | Independent QA / Lulu | completed | /root/ownership_code_review:qa-wi-0022 | `5733bb25` | 0 |
 | worker-20260830082136-290711c9 | internal-subagent | WI-0023 | Developer / Rikku | completed | /root/skill_forward_test:fix-wi-0023 | `87c9b7a7` | 0 |
 | worker-20260830082853-cdaafc6d | internal-subagent | WI-0023 | Independent QA / Lulu | completed | /root/ownership_code_review:qa-wi-0023 | `db40145c` | 0 |
+| worker-20260830084454-0ce8cc8a | internal-subagent | WI-0025 | Developer / Rikku | active | /root/skill_forward_test:wi-0025 | `—` | 0 |
+| worker-20260830084454-d91d1101 | internal-subagent | WI-0026 | Developer / Rikku | active | /root/framework_docs_review:wi-0026 | `—` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -106,7 +110,6 @@
 - task-0002 can be archived
 - task-0003 can be archived
 - Generated parallel plan is stale; rebuild it before dispatch
-- Parallel plan has 4 blocked Work Item(s)
 
 ## External tracker coordination
 
@@ -161,14 +164,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-30T08:42:28.548Z | work_item_closed | WI-0016 | agent-mog |
-| 2026-08-30T08:42:28.548Z | release_gate_completed | WI-0016 | agent-mog |
-| 2026-08-30T08:42:28.272Z | work_item_transitioned | WI-0016 | agent-lulu |
-| 2026-08-30T08:42:27.990Z | work_item_transitioned | WI-0016 | agent-mog |
-| 2026-08-30T08:42:27.719Z | work_item_unresolved_updated | WI-0016 | agent-mog |
-| 2026-08-30T08:42:27.456Z | evidence_recorded | WI-0016 | human |
-| 2026-08-30T08:41:03.108Z | work_item_closed | WI-0024 | agent-mog |
-| 2026-08-30T08:41:03.108Z | release_gate_completed | WI-0024 | agent-mog |
+| 2026-08-30T08:45:01.537Z | runtime_worker_attached | WI-0026 | agent-rikku |
+| 2026-08-30T08:45:01.272Z | runtime_worker_attached | WI-0025 | agent-rikku |
+| 2026-08-30T08:44:54.849Z | runtime_worker_reserved | WI-0026 | project-owner |
+| 2026-08-30T08:44:54.852Z | work_item_claimed | WI-0026 | project-owner |
+| 2026-08-30T08:44:54.577Z | runtime_worker_reserved | WI-0025 | project-owner |
+| 2026-08-30T08:44:54.580Z | work_item_claimed | WI-0025 | project-owner |
+| 2026-08-30T08:44:47.267Z | work_item_coordination_configured | WI-0026 | agent-rikku |
+| 2026-08-30T08:44:31.586Z | work_item_coordination_configured | WI-0025 | agent-rikku |
 
 ## Assignments
 

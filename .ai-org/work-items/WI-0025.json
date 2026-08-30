@@ -1,0 +1,90 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0025",
+  "title": "Expose Phase 4 operational CLI",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T08:43:25.119Z",
+  "updated_at": "2026-08-30T08:44:54.580Z",
+  "scope": [
+    "Add bounded CLI commands for backup-set inspection and retention, audit export, federation validation, and read-only portfolio generation."
+  ],
+  "acceptance_criteria": [
+    "CLI commands preserve preview/apply consent boundaries, bounded redaction, read-only participant authority, and pass focused/full tests."
+  ],
+  "affected_paths": [
+    "src/cli.mjs",
+    "test/phase4-cli.test.mjs"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": "WI-0019",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "576e3ed6074ad67fcc6c030fdd738c9cfffffe13",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": "agent-rikku",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0019 retains integration authority; WI-0025 exclusively owns src/cli.mjs and test/phase4-cli.test.mjs until join."
+  ],
+  "claim": {
+    "id": "claim-20260830084454-c15950a2",
+    "status": "active",
+    "principal_id": "project-owner",
+    "agent_id": "agent-rikku",
+    "base_revision": "576e3ed6074ad67fcc6c030fdd738c9cfffffe13",
+    "branch": "phase4/wi-0025-cli",
+    "worktree": "/tmp/temple-phase4.slCwlE/wi-0025",
+    "claimed_at": "2026-08-30T08:44:54.580Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260830084454-c15950a2",
+      "status": "active",
+      "principal_id": "project-owner",
+      "agent_id": "agent-rikku",
+      "base_revision": "576e3ed6074ad67fcc6c030fdd738c9cfffffe13",
+      "branch": "phase4/wi-0025-cli",
+      "worktree": "/tmp/temple-phase4.slCwlE/wi-0025",
+      "claimed_at": "2026-08-30T08:44:54.580Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0025.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0025.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0025.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0025.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0025.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0025.md",
+    ".ai-org/work-items/WI-0025.json"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
