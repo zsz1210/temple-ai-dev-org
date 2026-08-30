@@ -1,29 +1,43 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T03:12:59.515Z",
-  "source_fingerprint": "698cdba08d006c69b518639f033a0e98d19914f134aa4cd3c15a32aa84ee0c08",
+  "generated_at": "2026-08-30T03:28:57.780Z",
+  "source_fingerprint": "6125bb6ca89a554c15f5ff92d85df8546d1b393ddca8b1a8053f2c6934825bfd",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
-    "selected_work_item_ids": []
+    "selected_work_item_ids": [
+      "WI-0004"
+    ]
   },
-  "max_workers": 2,
+  "max_workers": 1,
   "summary": {
-    "selected": 0,
+    "selected": 1,
     "dispatchable": 0,
     "active": 0,
-    "sequential": 0,
+    "sequential": 1,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
   "active": [],
-  "sequential": [],
+  "sequential": [
+    {
+      "work_item_id": "WI-0004",
+      "title": "Rewrite README audience scenarios",
+      "disposition": "sequential",
+      "position_id": "engineering_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "requested_mode_sequential"
+      ]
+    }
+  ],
   "blocked": [],
   "conflicts": [],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": 2,
+    "runtime_capacity_limit": 1,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,

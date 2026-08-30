@@ -399,6 +399,147 @@
         "exit_code": 0,
         "started_at": "2026-08-30T03:12:08.775Z"
       }
+    },
+    {
+      "id": "EVID-20260830T032533Z-60961D3E",
+      "work_item_id": "WI-0004",
+      "recorded_at": "2026-08-30T03:25:33.904Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "README audience rewrite candidate",
+      "outcome": "verified",
+      "scope_revision": "815b43ae3151cafcd0be8b5a7bd9077e6affd055",
+      "observed_at": "2026-08-30T03:25:33.904Z",
+      "summary": "Rewrites the trilingual audience section around individual developers, development teams, and enterprises.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "815b43ae3151cafcd0be8b5a7bd9077e6affd055"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "815b43ae3151cafcd0be8b5a7bd9077e6affd055",
+        "working_tree_dirty": false
+      }
+    },
+    {
+      "id": "EVID-20260830T032607Z-5741614E",
+      "work_item_id": "WI-0004",
+      "recorded_at": "2026-08-30T03:26:07.683Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "README audience documentation check",
+      "outcome": "pass",
+      "scope_revision": "815b43ae3151cafcd0be8b5a7bd9077e6affd055",
+      "observed_at": "2026-08-30T03:25:57Z",
+      "summary": "Repository policy and documentation links passed at the exact candidate revision; the full local verification also passed 136 tests.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/alpha-23-readme-audience-developer-check.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/alpha-23-readme-audience-developer-check.json",
+          "sha256": "e919692106ef6ab5d75014634da6a9c416b0821e5f72d40fc793a359ad4e511d"
+        },
+        {
+          "path": "README.md",
+          "sha256": "dbbd8dc1dd6e995fd11b459fa158dac56436d804ee0ba86aa54b0189503768c1"
+        },
+        {
+          "path": "README.ja.md",
+          "sha256": "142906e9a259d95897a9f6f3e481b85f4c345796bcfc102b1dd46f8a0acbfac4"
+        },
+        {
+          "path": "README.zh-TW.md",
+          "sha256": "d65cfada294eebc1a0ee8dd82532cae74c464069596c71d7d7cc12649bb58a3d"
+        },
+        {
+          "path": "scripts/check-repo.mjs",
+          "sha256": "31e0108a456a5ae53e60d1b25c9958d9c3e1e67ebda007f0d6354c4bcefec170"
+        },
+        {
+          "path": "scripts/check-doc-links.mjs",
+          "sha256": "9c901ddbbbee35843b04f9d1f761840e875f80311468d55a4f46d37b3ee0a16d"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T03:25:57Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T032701Z-5CF43913",
+      "work_item_id": "WI-0004",
+      "recorded_at": "2026-08-30T03:27:01.063Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent README audience QA",
+      "outcome": "pass",
+      "scope_revision": "815b43ae3151cafcd0be8b5a7bd9077e6affd055",
+      "observed_at": "2026-08-30T03:26:44Z",
+      "summary": "A clean detached worktree at the exact candidate passed npm ci, repository checks, documentation links, and GitHub GFM structure checks.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/alpha-23-readme-audience-independent-qa.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/alpha-23-readme-audience-independent-qa.json",
+          "sha256": "ee87d1369da6ac7c0a10c39a0c43520c4bf1dbecc1b42c1b23812411fdb9167c"
+        },
+        {
+          "path": "README.md",
+          "sha256": "dbbd8dc1dd6e995fd11b459fa158dac56436d804ee0ba86aa54b0189503768c1"
+        },
+        {
+          "path": "README.ja.md",
+          "sha256": "142906e9a259d95897a9f6f3e481b85f4c345796bcfc102b1dd46f8a0acbfac4"
+        },
+        {
+          "path": "README.zh-TW.md",
+          "sha256": "d65cfada294eebc1a0ee8dd82532cae74c464069596c71d7d7cc12649bb58a3d"
+        },
+        {
+          "path": "scripts/check-repo.mjs",
+          "sha256": "31e0108a456a5ae53e60d1b25c9958d9c3e1e67ebda007f0d6354c4bcefec170"
+        },
+        {
+          "path": "scripts/check-doc-links.mjs",
+          "sha256": "9c901ddbbbee35843b04f9d1f761840e875f80311468d55a4f46d37b3ee0a16d"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T03:26:42Z"
+      }
     }
   ]
 }
