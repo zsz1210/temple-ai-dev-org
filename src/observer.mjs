@@ -20,7 +20,7 @@ async function readEvents(target) {
 }
 
 function currentRevisionReference(item) {
-  return item.release_record?.tested_revision ?? item.independent_qa_revision ?? item.developer_candidate_revision ?? item.base_revision ?? null;
+  return item.tested_revision ?? item.release_record?.tested_revision ?? item.independent_qa_revision ?? item.developer_candidate_revision ?? item.base_revision ?? null;
 }
 
 function resolveCurrentRevision(target, item) {
@@ -70,6 +70,9 @@ export async function buildObserverProjection(target) {
     listLearningEntries(target)
   ]);
   const revisions = new Map(workItems.map((item) => [item.id, resolveCurrentRevision(target, item)]));
+  const terminalWorkItemIds = new Set(
+    workItems.filter((item) => ["done", "cancelled"].includes(item.state)).map((item) => item.id)
+  );
   const evidence = evidenceRegistry.entries.map((entry) => {
     const current = revisions.get(entry.work_item_id) ?? { reference: null, revision: null, resolved: false };
     const stale = Boolean(entry.scope_revision && current.resolved && current.revision !== entry.scope_revision);
@@ -95,7 +98,10 @@ export async function buildObserverProjection(target) {
     ...work.filter((item) => item.category === "blocked").map((item) => ({ type: "blocked_work_item", work_item_id: item.id, message: `${item.id} is blocked` })),
     ...work.filter((item) => item.category === "approval_pending").map((item) => ({ type: "approval_pending", work_item_id: item.id, message: `${item.id} awaits release approval` })),
     ...workersDocument.workers.filter((worker) => ["attention", "failed"].includes(worker.status)).map((worker) => ({ type: "runtime_recovery", work_item_id: worker.work_item_id, worker_id: worker.id, message: `${worker.id} needs recovery (${worker.status})` })),
-    ...evidence.flatMap((entry) => attentionForEvidence(entry, entry.stale)),
+    ...evidence.flatMap((entry) => attentionForEvidence(
+      entry,
+      entry.stale && !terminalWorkItemIds.has(entry.work_item_id)
+    )),
     ...learning.entries
       .filter((entry) => entry.revalidation.signal === "overdue")
       .map((entry) => ({ type: "learning_revalidation_overdue", learning_id: entry.id, message: `${entry.id} is overdue for revalidation` })),

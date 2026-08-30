@@ -132,6 +132,8 @@ The live view correlates only registered task thread IDs with Work Items. It ret
 
 Conditions use `true`, `false`, or `unknown` status and a separate `pending`, `firing`, `suppressed`, or `resolved` lifecycle. The initial set covers stalled work, orphaned work, scope conflict, stale evidence, and token-usage anomaly. Provider outages suppress dependent conclusions as `unknown`. Failing or interrupted turns create observed blocked attention without changing the canonical Work Item lifecycle.
 
+Stale-evidence conditions are actionable only for nonterminal Work Items. Older exact-revision records remain queryable in the Evidence Registry and Observer history after closeout, but they do not page the team once `done` or `cancelled` establishes a terminal boundary.
+
 ## Provider fixtures
 
 Deterministic provider fixtures test replay, redaction, disconnect, ordering, and future provider adapters without requiring a live external service:

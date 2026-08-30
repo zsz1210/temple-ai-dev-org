@@ -275,6 +275,47 @@ test("repository observer classifies completed and cancelled work as terminal", 
   assert.ok(observer.work.items.every((entry) => entry.category === "terminal"));
 });
 
+test("condition engine alerts on nonterminal stale evidence but keeps terminal evidence as history", async (context) => {
+  const { target, stateDirectory, workItemId } = await fixture(context);
+  const itemPath = path.join(target, `.ai-org/work-items/${workItemId}.json`);
+  const item = JSON.parse(await fs.readFile(itemPath, "utf8"));
+  item.state = "done";
+  await writeJson(itemPath, item);
+
+  const observer = await buildObserverProjection(target);
+  observer.evidence.items = [{
+    id: "EVID-HISTORICAL",
+    work_item_id: workItemId,
+    stale: true,
+    scope_revision: "a".repeat(40),
+    current_scope_revision: "b".repeat(40)
+  }];
+  const journal = await openTelemetryJournal(stateDirectory, {
+    maxEvents: 100,
+    privacy: defaultControlPlaneConfig().privacy
+  });
+  context.after(() => journal.close());
+  const registry = createProviderRegistry([repositoryProviderContract()]);
+  const terminal = await buildConditionProjection(target, observer, journal, registry, defaultControlPlaneConfig(), {
+    stateDirectory,
+    persist: false,
+    now: "2026-08-30T00:00:04.000Z"
+  });
+  const terminalStale = terminal.conditions.filter((entry) => entry.type === "stale-evidence");
+  assert.deepEqual(terminalStale.map((entry) => [entry.entity, entry.status]), [["project", "false"]]);
+
+  item.state = "build";
+  await writeJson(itemPath, item);
+  const nonterminal = await buildConditionProjection(target, observer, journal, registry, defaultControlPlaneConfig(), {
+    stateDirectory,
+    persist: false,
+    now: "2026-08-30T00:00:05.000Z"
+  });
+  assert.ok(nonterminal.conditions.some((entry) =>
+    entry.type === "stale-evidence" && entry.entity === "EVID-HISTORICAL" && entry.status === "true"
+  ));
+});
+
 test("live projection labels unobserved tasks honestly and terminal item state wins over later transient deltas", async (context) => {
   const { target, stateDirectory, task } = await fixture(context);
   const journal = await openTelemetryJournal(stateDirectory, {

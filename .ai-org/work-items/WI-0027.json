@@ -1,0 +1,70 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0027",
+  "title": "Resolve terminal historical-evidence dashboard noise",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T09:35:58.977Z",
+  "updated_at": "2026-08-30T09:36:16.519Z",
+  "scope": [
+    "Keep exact-revision evidence history visible while preventing terminal Work Items from emitting actionable stale-evidence alerts, and make tested_revision the terminal revision authority."
+  ],
+  "acceptance_criteria": [
+    "Observer resolves terminal scope from tested_revision, preserves stale history as audit data, and current conditions exclude terminal stale records while nonterminal stale evidence still alerts."
+  ],
+  "affected_paths": [
+    "src/observer.mjs",
+    "src/control-plane-conditions.mjs",
+    "test/evidence-observer.test.mjs",
+    "test/control-plane-live.test.mjs",
+    "docs/operations/evidence-and-observer.md",
+    "docs/operations/control-plane.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "HEAD",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0027.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0027.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0027.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0027.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0027.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0027.md",
+    ".ai-org/work-items/WI-0027.json"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

@@ -67,6 +67,8 @@ node ./templew.mjs evidence unverified . \
 
 Without `--no-write`, the same command writes `.ai-org/views/observer.json` and a static `.ai-org/views/overview.html`. They are generated, read-only projections with no approval or mutation controls. Delete and rebuild them at any time.
 
+For terminal Work Items, `tested_revision` is the current exact-revision authority. Evidence captured against earlier revisions remains classified and visible as immutable history, but revision drift in that history is no longer current operational attention. Nonterminal stale evidence continues to require attention.
+
 ## Gate use
 
 After the responsible Position reviews a registry entry and its source, it may deliberately cite the entry ID or artifact path through the normal `transition --satisfy requirement=reference` command. Recording evidence alone never changes the Work Item.

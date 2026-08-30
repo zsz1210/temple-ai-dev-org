@@ -212,6 +212,37 @@ test("Observer marks revision-bound evidence stale when a moving Work Item ref a
   assert.ok(overview.attention.some((entry) => entry.type === "stale_evidence" && entry.work_item_id === workItemId));
 });
 
+test("Observer uses the tested revision for terminal work while keeping older evidence as non-actionable history", async (context) => {
+  const { target } = await fixture(context);
+  const workItemId = createWorkItem(target);
+  const recorded = run(["evidence", "git", target, "--work-item", workItemId, "--revision", "HEAD", "--title", "Earlier candidate"]);
+  assert.equal(recorded.status, 0, recorded.stderr || recorded.stdout);
+  const registry = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/evidence.json"), "utf8"));
+  const earlierRevision = registry.entries[0].scope_revision;
+
+  await fs.writeFile(path.join(target, "tested-change.txt"), "tested revision\n");
+  assert.equal(git(target, ["add", "tested-change.txt"]).status, 0);
+  assert.equal(git(target, ["commit", "-qm", "tested candidate"]).status, 0);
+  const testedRevision = git(target, ["rev-parse", "HEAD"]).stdout.trim();
+  const itemPath = path.join(target, `.ai-org/work-items/${workItemId}.json`);
+  const item = JSON.parse(await fs.readFile(itemPath, "utf8"));
+  item.state = "done";
+  item.developer_candidate_revision = earlierRevision;
+  item.tested_revision = testedRevision;
+  await writeJson(target, `.ai-org/work-items/${workItemId}.json`, item);
+
+  const overview = JSON.parse(run(["observe", target, "--json", "--no-write"]).stdout);
+  const observedWork = overview.work.items.find((entry) => entry.id === workItemId);
+  assert.equal(observedWork.current_revision.reference, testedRevision);
+  assert.equal(observedWork.current_revision.revision, testedRevision);
+  assert.equal(overview.evidence.stale, 1, "historical revision drift remains available for audit and metrics");
+  assert.equal(
+    overview.attention.some((entry) => entry.type === "stale_evidence" && entry.work_item_id === workItemId),
+    false,
+    "terminal history must not be presented as current operational attention"
+  );
+});
+
 test("local overview writes generated static files only when requested", async (context) => {
   const { target } = await fixture(context);
   const workItemId = createWorkItem(target);

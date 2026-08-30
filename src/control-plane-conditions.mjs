@@ -161,7 +161,9 @@ function rawConditions({ observer, workItems, tasks, workers, providers, records
     type: "scope-conflict", entity: "project", status: "false", reason: "no-unresolved-overlap", message: "No unresolved active-claim overlap was found.", severity: "info", suggestedAction: "No action required."
   }));
 
-  const stale = observer.evidence.items.filter((entry) => entry.stale);
+  const stale = observer.evidence.items.filter((entry) =>
+    entry.stale && !["done", "cancelled"].includes(itemsById.get(entry.work_item_id)?.state)
+  );
   if (stale.length) {
     for (const entry of stale) output.push(condition({
       type: "stale-evidence", entity: entry.id, workItemId: entry.work_item_id, status: "true", reason: "revision-mismatch",
