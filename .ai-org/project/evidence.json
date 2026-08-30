@@ -2148,6 +2148,47 @@
         "status": "open",
         "mitigation": "Disable replace objects on every federation Git subprocess and add exact regression."
       }
+    },
+    {
+      "id": "EVID-20260830T082218Z-0ADFE6F0",
+      "work_item_id": "WI-0017",
+      "recorded_at": "2026-08-30T08:22:18.402Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent Phase 4B reliability QA after correction",
+      "outcome": "pass",
+      "scope_revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
+      "observed_at": "2026-08-30T08:17:15.000Z",
+      "summary": "Exact mismatch and unregistered observations remained uncorrelated; full 184/184.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0021/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0021/independent-qa-observation.json",
+          "sha256": "a6ba12889d6c03414600be13ac7870018d49a3d9f84567e39ad51d5da729cf2b"
+        },
+        {
+          "path": "test/phase-4b.test.mjs",
+          "sha256": "3c7abe5660fdbfae174fc4b4a4e0cd9c9ca7cf9d2e4ce0b139fbf8844958dda2"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T08:14:30.000Z"
+      }
     }
   ]
 }

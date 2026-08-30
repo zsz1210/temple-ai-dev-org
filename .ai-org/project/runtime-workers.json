@@ -346,7 +346,7 @@
     {
       "id": "worker-20260830082136-290711c9",
       "runtime_kind": "internal-subagent",
-      "status": "active",
+      "status": "completed",
       "work_item_id": "WI-0023",
       "position_id": "developer",
       "agent_id": "agent-rikku",
@@ -362,12 +362,15 @@
       "runtime_id": "/root/skill_forward_test:fix-wi-0023",
       "task_id": null,
       "resource_reservation_ids": [],
-      "current_revision": null,
-      "evidence": [],
+      "current_revision": "87c9b7a7e50d8431b6dc63c0b1d41963c52e3240",
+      "evidence": [
+        "Focused federation 7/7",
+        "Full verification 185/185"
+      ],
       "reserved_at": "2026-08-30T08:21:36.059Z",
       "attached_at": "2026-08-30T08:21:39.791Z",
-      "completed_at": null,
-      "updated_at": "2026-08-30T08:21:39.791Z"
+      "completed_at": "2026-08-30T08:25:57.597Z",
+      "updated_at": "2026-08-30T08:25:57.597Z"
     }
   ]
 }
