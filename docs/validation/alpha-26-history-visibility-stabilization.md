@@ -1,6 +1,6 @@
 # Alpha.26 history visibility stabilization
 
-Status: **passed with one bootstrap follow-up retained**
+Status: **passed; bootstrap follow-up subsequently closed by WI-0013**
 
 ## Scope
 
@@ -29,7 +29,7 @@ Equivalent snapshots now deduplicate. Changed snapshots grow proportionally to t
 
 - The configured event-retention cap, rather than a permanent per-thread union cap, bounds long-running generated journals.
 - No active registered Work Item was available, so this pass does not qualify detailed live Token attribution or the longitudinal Phase 4B baseline.
-- A detached toolkit-self-host worktree must currently set `TEMPLE_CLI_PATH=./bin/temple.mjs` to guarantee Doctor uses the exact local candidate rather than a same-version globally linked package. Candidate-SHA bootstrap binding is separate follow-up work.
+- At the WI-0012 candidate, a detached toolkit-self-host worktree required `TEMPLE_CLI_PATH=./bin/temple.mjs` to guarantee Doctor used the exact local candidate rather than a same-version globally linked package. WI-0013 closed that follow-up in the [self-host worktree bootstrap validation](alpha-26-self-host-worktree-bootstrap.md).
 - No external write, publication, deployment, model switch, spending action, or production release occurred.
 
 ## Rollback

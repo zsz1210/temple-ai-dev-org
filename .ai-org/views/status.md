@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 13 total, 1 active
+- Work items: 13 total, 0 active
 - Codex tasks: 1 registered, 1 archive-ready
 - Runtime workers: 0 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -56,7 +56,7 @@
 | WI-0010 | Implement Phase 4B policy evaluation and usage attribution | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `7052388e` | 0 | 12 | 0 |
 | WI-0011 | Qualify live Token telemetry and establish the first real baseline | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `25a979e5` | 0 | 12 | 0 |
 | WI-0012 | Keep reconciled Codex history out of live task signals | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `3872ac71` | 0 | 13 | 0 |
-| WI-0013 | Bind toolkit self-host launcher to the current worktree | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
+| WI-0013 | Bind toolkit self-host launcher to the current worktree | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `835dc57d` | 0 | 14 | 0 |
 
 ## Codex task registry
 
@@ -130,14 +130,14 @@ No runtime workers registered yet.
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-30T06:30:10.077Z | work_item_transitioned | WI-0013 | agent-tidus |
-| 2026-08-30T06:30:09.814Z | work_item_transitioned | WI-0013 | agent-yuna |
-| 2026-08-30T06:30:09.553Z | work_item_transitioned | WI-0013 | agent-mog |
-| 2026-08-30T06:29:38.620Z | work_item_created | WI-0013 | agent-mog |
-| 2026-08-30T06:25:21.178Z | work_item_closed | WI-0012 | agent-mog |
-| 2026-08-30T06:25:21.178Z | release_gate_completed | WI-0012 | agent-mog |
-| 2026-08-30T06:24:41.790Z | work_item_transitioned | WI-0012 | agent-lulu |
-| 2026-08-30T06:24:41.379Z | work_item_transitioned | WI-0012 | agent-lulu |
+| 2026-08-30T06:39:26.025Z | work_item_closed | WI-0013 | agent-mog |
+| 2026-08-30T06:39:26.025Z | release_gate_completed | WI-0013 | agent-mog |
+| 2026-08-30T06:38:31.282Z | work_item_transitioned | WI-0013 | agent-lulu |
+| 2026-08-30T06:38:19.355Z | evidence_recorded | WI-0013 | agent-lulu |
+| 2026-08-30T06:38:19.097Z | evidence_recorded | WI-0013 | agent-lulu |
+| 2026-08-30T06:36:30.390Z | work_item_transitioned | WI-0013 | agent-lulu |
+| 2026-08-30T06:36:19.361Z | work_item_transitioned | WI-0013 | agent-lulu |
+| 2026-08-30T06:36:06.272Z | work_item_transitioned | WI-0013 | agent-rikku |
 
 ## Assignments
 

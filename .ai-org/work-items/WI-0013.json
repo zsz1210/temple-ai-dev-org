@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0013",
   "title": "Bind toolkit self-host launcher to the current worktree",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T06:29:38.620Z",
-  "updated_at": "2026-08-30T06:30:10.077Z",
+  "updated_at": "2026-08-30T06:39:26.025Z",
   "scope": [
     "Make toolkit-self-host launchers execute the current checkout's repository-local CLI by default and fail closed on an invalid local boundary.",
     "Preserve version-pinned package recovery for ordinary installed projects and the explicit TEMPLE_CLI_PATH override.",
@@ -64,12 +64,81 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/work-orders/WI-0013.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0013/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260830T063540Z-8737A2FA",
+      "EVID-20260830T063556Z-6780BE71",
+      ".ai-org/artifacts/WI-0013/developer-evidence.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0013/quality-test-report.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0013/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0013/independent-qa-report.md",
+      "EVID-20260830T063819Z-890D1A9D",
+      "EVID-20260830T063819Z-CFB40530"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/work-orders/WI-0013.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0013/independent-qa-report.md"
+    ],
+    "exact_candidate_revision": [
+      "835dc57d909d140d365e577acfa412789d91864f"
+    ],
+    "normalized_test_evidence": [
+      "EVID-20260830T063556Z-6780BE71"
+    ],
+    "normalized_independent_qa_evidence": [
+      "EVID-20260830T063819Z-890D1A9D"
+    ],
+    "normalized_runtime_evidence": [
+      "EVID-20260830T063819Z-CFB40530"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0013/release-record.md"
+    ],
+    "required_human_approval": [
+      "The project owner authorized the recommended WI-0013 implementation, exact-candidate verification, and local organizational closeout. This approval grants no push, publication, deployment, external tracker write, model switch, spending, or production release authority."
     ]
   },
   "evidence": [
     ".ai-org/artifacts/work-orders/WI-0013.md",
-    ".ai-org/work-items/WI-0013.json"
+    ".ai-org/work-items/WI-0013.json",
+    ".ai-org/artifacts/WI-0013/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260830T063540Z-8737A2FA",
+    "EVID-20260830T063556Z-6780BE71",
+    ".ai-org/artifacts/WI-0013/developer-evidence.md",
+    ".ai-org/artifacts/WI-0013/quality-test-report.md",
+    ".ai-org/artifacts/WI-0013/evaluation-report.md",
+    ".ai-org/artifacts/WI-0013/independent-qa-report.md",
+    "EVID-20260830T063819Z-890D1A9D",
+    "EVID-20260830T063819Z-CFB40530",
+    ".ai-org/artifacts/WI-0013/release-record.md",
+    "docs/validation/alpha-26-self-host-worktree-bootstrap.md",
+    "835dc57d909d140d365e577acfa412789d91864f"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "835dc57d909d140d365e577acfa412789d91864f",
+      "artifact": ".ai-org/artifacts/WI-0013/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-30T06:36:02.481Z"
+    }
+  ],
+  "developer_candidate_revision": "835dc57d909d140d365e577acfa412789d91864f",
+  "tested_revision": "835dc57d909d140d365e577acfa412789d91864f",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "The project owner authorized the recommended WI-0013 implementation, exact-candidate verification, and local organizational closeout. This approval grants no push, publication, deployment, external tracker write, model switch, spending, or production release authority."
 }

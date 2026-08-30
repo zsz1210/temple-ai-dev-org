@@ -1323,6 +1323,152 @@
         "exit_code": 0,
         "started_at": "2026-08-30T06:21:54.930Z"
       }
+    },
+    {
+      "id": "EVID-20260830T063540Z-8737A2FA",
+      "work_item_id": "WI-0013",
+      "recorded_at": "2026-08-30T06:35:40.245Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0013 exact candidate",
+      "outcome": "verified",
+      "scope_revision": "835dc57d909d140d365e577acfa412789d91864f",
+      "observed_at": "2026-08-30T06:35:40.245Z",
+      "summary": "Resolved the clean self-host launcher candidate revision before evidence mutations.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "835dc57d909d140d365e577acfa412789d91864f"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "835dc57d909d140d365e577acfa412789d91864f",
+        "working_tree_dirty": false
+      }
+    },
+    {
+      "id": "EVID-20260830T063556Z-6780BE71",
+      "work_item_id": "WI-0013",
+      "recorded_at": "2026-08-30T06:35:56.135Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0013 developer verification",
+      "outcome": "pass",
+      "scope_revision": "835dc57d909d140d365e577acfa412789d91864f",
+      "observed_at": "2026-08-30T06:35:03Z",
+      "summary": "Repository checks, documentation links, and all 164 tests passed at the exact candidate revision.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/self-host-launcher-developer.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/self-host-launcher-developer.json",
+          "sha256": "0e2e94a79a3193b44e18d81218b20ad5cc95f633937c02ccee40824933f61263"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0013/developer-evidence.md",
+          "sha256": "0189663f6a456051a1c47f826ca0c0bd9c71009ee753261ec98c7c1ed9c202f2"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T06:34:26Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T063819Z-890D1A9D",
+      "work_item_id": "WI-0013",
+      "recorded_at": "2026-08-30T06:38:19.097Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0013 independent full verification",
+      "outcome": "pass",
+      "scope_revision": "835dc57d909d140d365e577acfa412789d91864f",
+      "observed_at": "2026-08-30T06:37:34Z",
+      "summary": "Fresh detached exact-candidate worktree passed repository checks, documentation links, and all 164 tests.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/self-host-launcher-independent-qa.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/self-host-launcher-independent-qa.json",
+          "sha256": "d937c4db35243131eb93a3da2d228c892f10b7dcc5af6b2ca64cb2ecca5477ad"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0013/independent-qa-report.md",
+          "sha256": "e063982d1bb33b1e4da499b3bc1ae5e14e7d071d7c8289323b7fea7161be2c83"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T06:36:57Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T063819Z-CFB40530",
+      "work_item_id": "WI-0013",
+      "recorded_at": "2026-08-30T06:38:19.355Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "WI-0013 default detached-worktree Doctor",
+      "outcome": "pass",
+      "scope_revision": "835dc57d909d140d365e577acfa412789d91864f",
+      "observed_at": "2026-08-30T06:37:35Z",
+      "summary": "Without TEMPLE_CLI_PATH, the exact candidate passed bootstrap, self-host boundary, managed files, and Doctor with zero failures.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/self-host-launcher-independent-qa-runtime.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/self-host-launcher-independent-qa-runtime.json",
+          "sha256": "34940473865504f3e07cd41d3c5ca0d16d316c0fcc9208c0a356043d3dcfe44e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0013/independent-qa-report.md",
+          "sha256": "e063982d1bb33b1e4da499b3bc1ae5e14e7d071d7c8289323b7fea7161be2c83"
+        }
+      ],
+      "details": {
+        "environment": "Fresh detached Temple self-host worktree on macOS with a competing global Temple command available",
+        "scenario": "Run the repository launcher Doctor without TEMPLE_CLI_PATH and verify the current worktree's bootstrap, self-host boundary, and managed files",
+        "provenance": "live"
+      }
     }
   ]
 }
