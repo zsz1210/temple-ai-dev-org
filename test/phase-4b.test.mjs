@@ -301,6 +301,121 @@ test("Codex account usage probe fails closed without retaining provider error de
   assert.doesNotMatch(JSON.stringify(report), /secret-marker/);
 });
 
+test("usage report exposes deterministic longitudinal task and token-field coverage", () => {
+  const project = { id: "policy-product", name: "Policy Product" };
+  const workItems = [
+    { id: "WI-0003", state: "build" },
+    { id: "WI-0001", state: "done" },
+    { id: "WI-0002", state: "done" }
+  ];
+  const historicalTask = {
+    id: "task-history",
+    work_item_id: "WI-0001",
+    status: "completed",
+    thread_id: "thread-history"
+  };
+  const liveTask = {
+    id: "task-live",
+    work_item_id: "WI-0003",
+    status: "active",
+    thread_id: "thread-live"
+  };
+  const noTasks = buildUsageBaselineFromRecords(project, [], { workItems, tasks: [] });
+  const noTaskCoverage = noTasks.source.longitudinal_coverage;
+  assert.equal(noTaskCoverage.canonical_work_items.completed, 2);
+  assert.equal(noTaskCoverage.registered_task_coverage.registered_tasks, 0);
+  assert.equal(noTaskCoverage.registered_task_coverage.completed_work_item_coverage_ratio, 0);
+  assert.equal(noTaskCoverage.task_eligibility.live_resumable, 0);
+  assert.equal(noTaskCoverage.detailed_token_observation_coverage.observations, 0);
+  assert.equal(noTaskCoverage.detailed_token_observation_coverage.token_fields.total_tokens.support_status, "unknown");
+
+  const historicalOnly = buildUsageBaselineFromRecords(project, [], { workItems, tasks: [historicalTask] });
+  const historicalCoverage = historicalOnly.source.longitudinal_coverage;
+  assert.equal(historicalCoverage.registered_task_coverage.completed_work_items_with_registered_task, 1);
+  assert.equal(historicalCoverage.task_eligibility.live_resumable, 0);
+  assert.equal(historicalCoverage.task_eligibility.history_reconcilable, 1);
+  assert.equal(historicalCoverage.task_eligibility.historical_only, 1);
+
+  const awaiting = buildUsageBaselineFromRecords(project, [], { workItems, tasks: [historicalTask, liveTask] });
+  const awaitingCoverage = awaiting.source.longitudinal_coverage;
+  assert.equal(awaitingCoverage.task_eligibility.live_resumable, 1);
+  assert.equal(awaitingCoverage.detailed_token_observation_coverage.correlated_observations, 0);
+  assert.equal(awaiting.totals.total_tokens, null);
+
+  const partialUsage = {
+    specversion: "1.0",
+    id: "usage-partial",
+    source: "urn:temple:provider:codex-app-server:local",
+    type: "org.temple.codex.usage.updated.v1",
+    subject: "project/policy-product/work-item/WI-0003",
+    time: "2026-08-30T00:00:00.000Z",
+    data: {
+      project_id: "policy-product",
+      work_item_id: "WI-0003",
+      attribution: {
+        project_id: "policy-product",
+        work_item_id: "WI-0003",
+        task_id: "task-live"
+      },
+      usage: {
+        last: {
+          input_tokens: 12,
+          cached_input_tokens: null,
+          output_tokens: null,
+          reasoning_output_tokens: null,
+          total_tokens: null
+        },
+        monetary_cost: null,
+        price_source: null
+      }
+    },
+    templecursor: 1,
+    templeobservedat: "2026-08-30T00:00:00.000Z"
+  };
+  const observed = buildUsageBaselineFromRecords(project, [partialUsage], {
+    workItems,
+    tasks: [historicalTask, liveTask]
+  });
+  const observedCoverage = observed.source.longitudinal_coverage;
+  assert.equal(observedCoverage.detailed_token_observation_coverage.correlated_observations, 1);
+  assert.deepEqual(observedCoverage.detailed_token_observation_coverage.correlated_work_item_ids, ["WI-0003"]);
+  assert.equal(observedCoverage.detailed_token_observation_coverage.token_fields.input_tokens.support_status, "observed");
+  assert.equal(observedCoverage.detailed_token_observation_coverage.token_fields.input_tokens.correlated_work_items_with_value, 1);
+  assert.equal(observedCoverage.detailed_token_observation_coverage.token_fields.total_tokens.support_status, "unknown");
+  assert.equal(observed.totals.input_tokens, 12);
+  assert.equal(observed.totals.total_tokens, null);
+  assert.equal(observedCoverage.qualification.remaining_correlated_work_items, 9);
+  assert.equal(observedCoverage.qualification.remaining_correlated_completed_work_items, 10);
+  assert.equal(observedCoverage.qualification.varied_task_shapes, "not-evaluated");
+  assert.equal(observedCoverage.qualification.longitudinal_comparison, "not-evaluated");
+  assert.equal(observedCoverage.qualification.savings_claim_allowed, false);
+  assert.equal(observedCoverage.qualification.cost_claim_allowed, false);
+  assert.equal(observedCoverage.qualification.model_quality_claim_allowed, false);
+  assert.equal(observedCoverage.qualification.routing_claim_allowed, false);
+
+  const secondPartialUsage = structuredClone(partialUsage);
+  secondPartialUsage.id = "usage-partial-2";
+  secondPartialUsage.templecursor = 2;
+  secondPartialUsage.templeobservedat = "2026-08-30T00:00:01.000Z";
+  secondPartialUsage.data.usage.last.input_tokens = null;
+  secondPartialUsage.data.usage.last.total_tokens = 7;
+  const partiallySupported = buildUsageBaselineFromRecords(project, [partialUsage, secondPartialUsage], {
+    workItems,
+    tasks: [historicalTask, liveTask]
+  });
+  const partiallySupportedFields = partiallySupported.source.longitudinal_coverage.detailed_token_observation_coverage.token_fields;
+  assert.equal(partiallySupportedFields.input_tokens.support_status, "partial");
+  assert.equal(partiallySupportedFields.total_tokens.support_status, "partial");
+  assert.equal(partiallySupported.totals.input_tokens, null);
+  assert.equal(partiallySupported.totals.total_tokens, null);
+
+  const reordered = buildUsageBaselineFromRecords(project, [secondPartialUsage, partialUsage], {
+    workItems: [...workItems].reverse(),
+    tasks: [liveTask, historicalTask]
+  });
+  assert.deepEqual(reordered.source.longitudinal_coverage, partiallySupported.source.longitudinal_coverage);
+});
+
 test("usage baseline sums provider deltas, preserves unknowns, and never invents cost or routing", async (context) => {
   const { target, stateDirectory } = await fixture(context);
   const base = {
@@ -366,8 +481,15 @@ test("usage baseline sums provider deltas, preserves unknowns, and never invents
   await journal.close();
   const readOnly = run(["usage", "report", target, "--state-dir", stateDirectory, "--no-write", "--json"]);
   assert.equal(readOnly.status, 0, readOnly.stderr || readOnly.stdout);
-  assert.equal(JSON.parse(readOnly.stdout).totals.total_tokens, 180);
+  const readOnlyReport = JSON.parse(readOnly.stdout);
+  assert.equal(readOnlyReport.totals.total_tokens, 180);
+  assert.equal(readOnlyReport.source.longitudinal_coverage.detailed_token_observation_coverage.observations, 2);
+  assert.equal(readOnlyReport.source.longitudinal_coverage.detailed_token_observation_coverage.correlated_observations, 0);
   await assert.rejects(() => fs.access(path.join(target, ".ai-org/views/usage-baseline.json")));
+  const humanReadable = run(["usage", "report", target, "--state-dir", stateDirectory, "--no-write"]);
+  assert.equal(humanReadable.status, 0, humanReadable.stderr || humanReadable.stdout);
+  assert.match(humanReadable.stdout, /Completed Work Items with registered tasks: 0\/0/);
+  assert.match(humanReadable.stdout, /Correlated Work Items: 0\/10; remaining: 10/);
   const written = run(["usage", "report", target, "--state-dir", stateDirectory, "--json"]);
   assert.equal(written.status, 0, written.stderr || written.stdout);
   assert.equal(JSON.parse(await fs.readFile(path.join(target, ".ai-org/views/usage-baseline.json"), "utf8")).totals.total_tokens, 180);

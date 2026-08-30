@@ -1038,8 +1038,12 @@ async function runUsage(parsed) {
   });
   if (parsed.flags.has("--json")) console.log(JSON.stringify(report, null, 2));
   else {
+    const coverage = report.source.longitudinal_coverage;
     console.log(`Usage baseline: ${report.baseline_status}`);
     console.log(`Observations: ${report.source.observations}; total tokens: ${report.totals.total_tokens ?? "unknown"}`);
+    console.log(`Completed Work Items with registered tasks: ${coverage.registered_task_coverage.completed_work_items_with_registered_task}/${coverage.canonical_work_items.completed}`);
+    console.log(`Live / historical-only tasks: ${coverage.task_eligibility.live_resumable} / ${coverage.task_eligibility.historical_only}`);
+    console.log(`Correlated Work Items: ${coverage.detailed_token_observation_coverage.correlated_work_items}/${coverage.qualification.required_correlated_work_items}; remaining: ${coverage.qualification.remaining_correlated_work_items}`);
     console.log(`Driver groups: ${report.driver_groups.length}; monetary cost: ${report.totals.cost_status}`);
     console.log("Automatic model routing: disabled");
     console.log("Lifecycle gate changed: no");

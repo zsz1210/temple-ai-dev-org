@@ -44,6 +44,20 @@ node ./templew.mjs usage report . --no-write --json
 
 Remove `--no-write` to create `.ai-org/views/usage-baseline.json`. The report sums provider last-usage deltas instead of cumulative totals, groups drivers by the attribution dimensions below, and leaves monetary cost unknown without a versioned price source. This remains observation infrastructure, not a completed optimization system.
 
+### Read longitudinal coverage
+
+`source.longitudinal_coverage` compares three bounded sources without promoting an observation into canonical state:
+
+- `canonical_work_items` counts repository Work Items and identifies those in `done`;
+- `registered_task_coverage` reports how many completed Work Items have a registered Codex task;
+- `task_eligibility` separates live-resumable tasks, history-reconcilable tasks, historical-only tasks, terminal tasks, and detached archived tasks;
+- `detailed_token_observation_coverage` counts only an exact Work Item/task pair as correlated and reports `observed`, `partial`, or `unknown` support for each Token field;
+- `qualification` shows the remaining gap to ten distinct correlated Work Items and ten correlated completed Work Items.
+
+The lists are sorted so coverage does not depend on repository-directory or task-registry order. A provider event with a missing or mismatched Work Item/task pair remains uncorrelated. A detailed event may prove one Token field while others remain `unknown`; if any included observation lacks a field, that aggregate remains unknown instead of treating the missing value as zero.
+
+The ten-Work-Item count is only one gate. Temple keeps the longitudinal status `not-qualified`, varied task shapes and comparison evidence `not-evaluated`, and savings, cost, model-quality, and routing claims disabled until those separate evidence requirements are satisfied.
+
 ## Check whether a real baseline is possible
 
 Run the preflight before interpreting a zero or missing usage report:
@@ -62,7 +76,7 @@ The command is read-only. It separates two sources that must not be merged:
 The detailed source reports one of four states:
 
 - `observed`: at least one detailed usage event exists;
-- `awaiting-observation`: an active, waiting, or attention task is registered and the Provider is ready, but no usage event has arrived;
+- `awaiting-observation`: an active, waiting, or attention task is registered and detailed Token notifications are supported, but no usage event has arrived; inspect Provider health and `degraded_reason` before interpreting it;
 - `no-live-registered-task`: only terminal, setup, or history-only tasks exist;
 - `provider-unavailable`: a live-resumable task exists but the required Provider capability is unavailable.
 
@@ -187,7 +201,7 @@ Usage reporting retains bounded identifiers and numeric measurements. It does no
 
 1. **Telemetry qualification — implemented:** `usage preflight` distinguishes live task readiness, detailed observations, and optional account-wide capability without mixing their authority.
 2. **Attribution — implemented:** normalized usage includes proven Work Item, Position, observed stage, task, attempt, provider, model, provenance, quality, and outcome fields; unavailable values stay unknown.
-3. **Reporting — foundation implemented:** `usage report` creates a bounded driver view and versioned baseline, while longitudinal comparison remains pending.
+3. **Reporting — longitudinal coverage implemented:** `usage report` compares canonical Work Items, registered task eligibility, exact correlated observations, and per-field support. Varied-task and longitudinal comparison evidence remain pending.
 4. **Policy — pending:** add hierarchical warning budgets and model allowlists without automatic switching.
 5. **Recommendation — pending:** evaluate representative task classes and display a proposed route with its reasons.
 6. **Opt-in routing — later:** apply an approved route, record the effective configuration, and preserve fallback and refusal evidence.

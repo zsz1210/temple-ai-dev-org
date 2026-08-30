@@ -20,6 +20,7 @@ Validation records preserve bounded evidence for framework capabilities. They id
 - [Alpha.26 usage telemetry preflight — passed with retained Phase 4B limits](alpha-26-usage-telemetry-preflight.md)
 - [Alpha.26 history visibility stabilization — passed; bootstrap follow-up later closed](alpha-26-history-visibility-stabilization.md)
 - [Alpha.26 self-host worktree bootstrap — independently verified](alpha-26-self-host-worktree-bootstrap.md)
+- [WI-0014 active-task usage baseline — Developer verified; live observation degraded](wi-0014-active-task-usage-baseline.md)
 - [Dashboard reliability dogfood — passed with retained provider limits](dashboard-reliability-dogfood.md)
 - [Closeout-0A release integrity — passed with retained limits](closeout-0a-release-integrity.md)
 - [Closeout-0B live integration and data-bearing upgrade — passed with retained limits](closeout-0b-live-and-upgrade.md)

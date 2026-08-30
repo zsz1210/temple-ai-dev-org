@@ -45,13 +45,114 @@ function addTokens(target, samples, source) {
   }
 }
 
-function finalizeTokens(tokens, samples) {
-  return Object.fromEntries(TOKEN_FIELDS.map((field) => [field, samples[field] > 0 ? tokens[field] : null]));
+function finalizeTokens(tokens, samples, expectedSamples) {
+  return Object.fromEntries(TOKEN_FIELDS.map((field) => [
+    field,
+    samples[field] > 0 && samples[field] === expectedSamples ? tokens[field] : null
+  ]));
 }
 
 function dimensionsFor(record) {
   const attribution = record.data?.attribution ?? {};
   return Object.fromEntries(USAGE_DIMENSIONS.map((field) => [field, attribution[field] ?? record.data?.[field] ?? null]));
+}
+
+function sortedUnique(values) {
+  return [...new Set(values.filter((value) => typeof value === "string" && value.trim()))].sort((left, right) => left.localeCompare(right));
+}
+
+function tokenFieldCoverage(usageRecords, correlatedRecords) {
+  return Object.fromEntries(TOKEN_FIELDS.map((field) => {
+    const observed = usageRecords.filter((record) => Number.isFinite(record.data?.usage?.last?.[field]) && record.data.usage.last[field] >= 0);
+    const correlated = correlatedRecords.filter(({ record }) => Number.isFinite(record.data?.usage?.last?.[field]) && record.data.usage.last[field] >= 0);
+    return [field, {
+      support_status: observed.length === 0 ? "unknown" : observed.length === usageRecords.length ? "observed" : "partial",
+      observations_with_value: observed.length,
+      correlated_observations_with_value: correlated.length,
+      correlated_work_items_with_value: sortedUnique(correlated.map(({ workItemId }) => workItemId)).length
+    }];
+  }));
+}
+
+function buildLongitudinalCoverage(workItems = [], tasks = [], usageRecords = [], options = {}) {
+  const canonicalItems = [...workItems]
+    .filter((item) => typeof item?.id === "string" && item.id.trim())
+    .sort((left, right) => left.id.localeCompare(right.id));
+  const canonicalItemIds = new Set(canonicalItems.map((item) => item.id));
+  const completedItemIds = sortedUnique(canonicalItems.filter((item) => item.state === "done").map((item) => item.id));
+  const completedItemIdSet = new Set(completedItemIds);
+  const topology = classifyCodexTasks(tasks, { workItems: canonicalItems });
+  const registeredTasks = [...topology.registered].sort((left, right) => String(left.id).localeCompare(String(right.id)));
+  const registeredTaskById = new Map(registeredTasks.map((task) => [task.id, task]));
+  const registeredWorkItemIds = sortedUnique(registeredTasks.map((task) => task.work_item_id).filter((id) => canonicalItemIds.has(id)));
+  const completedWithRegisteredTaskIds = registeredWorkItemIds.filter((id) => completedItemIdSet.has(id));
+  const liveTaskIds = new Set(topology.live_resumable.map((task) => task.id));
+  const historicalOnlyTasks = topology.history_reconcilable.filter((task) => !liveTaskIds.has(task.id));
+  const correlatedRecords = [];
+  for (const record of usageRecords) {
+    const dimensions = dimensionsFor(record);
+    const task = registeredTaskById.get(dimensions.task_id);
+    if (!task || task.work_item_id !== dimensions.work_item_id || !canonicalItemIds.has(dimensions.work_item_id)) continue;
+    correlatedRecords.push({ record, workItemId: dimensions.work_item_id });
+  }
+  const correlatedWorkItemIds = sortedUnique(correlatedRecords.map(({ workItemId }) => workItemId));
+  const correlatedCompletedWorkItemIds = correlatedWorkItemIds.filter((id) => completedItemIdSet.has(id));
+  const requiredWorkItems = Number.isInteger(options.longitudinalWorkItemsRequired) && options.longitudinalWorkItemsRequired > 0
+    ? options.longitudinalWorkItemsRequired
+    : 10;
+  const remainingObserved = Math.max(0, requiredWorkItems - correlatedWorkItemIds.length);
+  const remainingCompletedObserved = Math.max(0, requiredWorkItems - correlatedCompletedWorkItemIds.length);
+  return {
+    schema_version: "temple.usage-longitudinal-coverage/v1",
+    canonical_work_items: {
+      total: canonicalItems.length,
+      completed: completedItemIds.length,
+      completed_ids: completedItemIds
+    },
+    registered_task_coverage: {
+      registered_tasks: registeredTasks.length,
+      registered_work_items: registeredWorkItemIds.length,
+      registered_work_item_ids: registeredWorkItemIds,
+      completed_work_items_with_registered_task: completedWithRegisteredTaskIds.length,
+      completed_work_item_ids_with_registered_task: completedWithRegisteredTaskIds,
+      completed_work_item_coverage_ratio: completedItemIds.length > 0
+        ? completedWithRegisteredTaskIds.length / completedItemIds.length
+        : null
+    },
+    task_eligibility: {
+      live_resumable: topology.live_resumable.length,
+      live_resumable_task_ids: sortedUnique(topology.live_resumable.map((task) => task.id)),
+      history_reconcilable: topology.history_reconcilable.length,
+      history_reconcilable_task_ids: sortedUnique(topology.history_reconcilable.map((task) => task.id)),
+      historical_only: historicalOnlyTasks.length,
+      historical_only_task_ids: sortedUnique(historicalOnlyTasks.map((task) => task.id)),
+      terminal: topology.terminal.length,
+      detached_archived: topology.registered.length - topology.history_reconcilable.length
+    },
+    detailed_token_observation_coverage: {
+      observations: usageRecords.length,
+      correlated_observations: correlatedRecords.length,
+      uncorrelated_observations: usageRecords.length - correlatedRecords.length,
+      correlated_work_items: correlatedWorkItemIds.length,
+      correlated_work_item_ids: correlatedWorkItemIds,
+      correlated_completed_work_items: correlatedCompletedWorkItemIds.length,
+      correlated_completed_work_item_ids: correlatedCompletedWorkItemIds,
+      token_fields: tokenFieldCoverage(usageRecords, correlatedRecords)
+    },
+    qualification: {
+      status: "not-qualified",
+      required_correlated_work_items: requiredWorkItems,
+      remaining_correlated_work_items: remainingObserved,
+      remaining_correlated_completed_work_items: remainingCompletedObserved,
+      completed_coverage_threshold_met: remainingCompletedObserved === 0,
+      varied_task_shapes: "not-evaluated",
+      longitudinal_comparison: "not-evaluated",
+      savings_claim_allowed: false,
+      cost_claim_allowed: false,
+      model_quality_claim_allowed: false,
+      routing_claim_allowed: false
+    }
+  };
 }
 
 export function buildUsageBaselineFromRecords(project, records, options = {}) {
@@ -80,9 +181,9 @@ export function buildUsageBaselineFromRecords(project, records, options = {}) {
     group.last_observed_at = String(group.last_observed_at).localeCompare(String(record.templeobservedat)) >= 0 ? group.last_observed_at : record.templeobservedat;
     groups.set(key, group);
   }
-  const finalTotals = finalizeTokens(totals, totalSamples);
+  const finalTotals = finalizeTokens(totals, totalSamples, usageRecords.length);
   const driverGroups = [...groups.values()]
-    .map(({ tokenSamples, tokens, ...group }) => ({ ...group, tokens: finalizeTokens(tokens, tokenSamples) }))
+    .map(({ tokenSamples, tokens, ...group }) => ({ ...group, tokens: finalizeTokens(tokens, tokenSamples, group.observations) }))
     .sort((left, right) => (right.tokens.total_tokens ?? -1) - (left.tokens.total_tokens ?? -1) || JSON.stringify(left.dimensions).localeCompare(JSON.stringify(right.dimensions)));
   const cachedDenominator = finalTotals.input_tokens !== null && finalTotals.cached_input_tokens !== null
     ? finalTotals.input_tokens + finalTotals.cached_input_tokens
@@ -98,7 +199,8 @@ export function buildUsageBaselineFromRecords(project, records, options = {}) {
       first_cursor: records[0]?.templecursor ?? null,
       last_cursor: records.at(-1)?.templecursor ?? 0,
       observations: usageRecords.length,
-      aggregation_basis: "provider-last-usage-delta"
+      aggregation_basis: "provider-last-usage-delta",
+      longitudinal_coverage: buildLongitudinalCoverage(options.workItems, options.tasks, usageRecords, options)
     },
     totals: {
       ...finalTotals,
@@ -338,7 +440,11 @@ export async function buildUsagePreflight(target, options = {}) {
 }
 
 export async function buildUsageBaseline(target, options = {}) {
-  const project = await readJson(path.join(target, ".ai-org/project/project.json"));
+  const [project, taskRegistry, workItems] = await Promise.all([
+    readJson(path.join(target, ".ai-org/project/project.json")),
+    readJson(path.join(target, ".ai-org/project/tasks.json")),
+    listWorkItemDocuments(target)
+  ]);
   const config = await readControlPlaneConfig(target);
   const stateDirectory = resolveControlPlaneStateDirectory(target, options.stateDirectory ?? config.state_directory);
   const journalPath = path.join(stateDirectory, "journal/events.jsonl");
@@ -355,7 +461,12 @@ export async function buildUsageBaseline(target, options = {}) {
       await journal.close();
     }
   }
-  const report = buildUsageBaselineFromRecords(project, records, { stateDirectory });
+  const report = buildUsageBaselineFromRecords(project, records, {
+    stateDirectory,
+    workItems,
+    tasks: taskRegistry.tasks ?? [],
+    longitudinalWorkItemsRequired: options.longitudinalWorkItemsRequired
+  });
   if (options.write !== false) await atomicWrite(path.join(target, USAGE_BASELINE_VIEW), formatJson(report));
   return report;
 }
