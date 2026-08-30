@@ -1,5 +1,9 @@
 # Roadmap: From installable framework to an observable AI development organization
 
+**English** | [日本語](roadmap.ja.md) | [繁體中文](roadmap.zh-TW.md)
+
+English is the canonical version. The Japanese and Traditional Chinese translations are maintained for accessibility.
+
 These are engineering phases and exit gates, not date commitments. Expand automation only after the preceding phase has supporting evidence.
 
 Current implemented framework version: `0.1.0-alpha.22`. Phases 1 through 3 have bounded exit evidence, and [Closeout-0A](validation/closeout-0a-release-integrity.md) plus [Closeout-0B](validation/closeout-0b-live-and-upgrade.md) complete the pre-Phase 4 blockers. Phase 4 research and ADR work may begin; retained large-scale and production validations remain explicit.

@@ -127,7 +127,7 @@ Temple はプロジェクトへインストールします。プロジェクト�
 - [Archify adapter](docs/archify-adapter.md) — pinned local installation、isolation、provenance、graceful degradation
 - [UI design modes](docs/ui-design.md) — UI なしの記録、code-first、preview-first、design-led、tool policy
 - [Capability catalog](docs/capability-catalog.md) — 提供済み、optional、候補の engineering method
-- [Roadmap](docs/roadmap.md) — 検証済みの scope と今後の作業
+- [Roadmap](docs/roadmap.ja.md) — 検証済みの scope と今後の作業
 - [Architecture decision](docs/adr/README.md) — 設計判断と理由
 
 詳細ドキュメントは英語で管理されています。

@@ -127,7 +127,7 @@ Temple 是安裝進專案，而不是要求專案 fork 這個 repository。開�
 - [Archify adapter](docs/archify-adapter.md) — pinned local installation、isolation、provenance 與 graceful degradation
 - [UI design modes](docs/ui-design.md) — 無 UI 記錄、code-first、preview-first、design-led 與工具原則
 - [能力目錄](docs/capability-catalog.md) — 已提供、選配與候選的 engineering method
-- [Roadmap](docs/roadmap.md) — 已驗證範圍與後續規劃
+- [Roadmap](docs/roadmap.zh-TW.md) — 已驗證範圍與後續規劃
 - [架構決策](docs/adr/README.md) — 設計決策與原因
 
 詳細文件統一以英文維護。

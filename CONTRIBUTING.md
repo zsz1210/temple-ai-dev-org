@@ -16,6 +16,6 @@ When changing Engineering Learning, update the record model, `index.json` valida
 
 When changing Positions, update initialization examples, lean Assignment slots, Position configs, doctor checks, upgrade migration, and tests together. UI design changes must preserve the code-first, preview-first, and design-led evidence contract without imposing a mandatory vendor tool.
 
-Documentation is English except for the localized root entry points. Keep `README.md`, `README.ja.md`, and `README.zh-TW.md` structurally aligned whenever public behavior, installation, or capability claims change. See [ADR-0012](docs/adr/0012-documentation-language-policy.md).
+Documentation is English except for the localized README and Roadmap entry points. Keep the English, Japanese, and Traditional Chinese README files structurally aligned whenever public behavior, installation, or capability claims change. Keep `docs/roadmap.md`, `docs/roadmap.ja.md`, and `docs/roadmap.zh-TW.md` aligned whenever phase status, gates, or planned scope changes. See [ADR-0012](docs/adr/0012-documentation-language-policy.md).
 
 Every upgrade feature must preserve these rules: managed files may be updated, project-owned files must not be overwritten, and generated files may be rebuilt.

@@ -29,14 +29,21 @@ check(
   `CHANGELOG.md must list the current framework version ${TEMPLATE_VERSION} first`
 );
 
-const localizedReadmes = new Set(["README.md", "README.ja.md", "README.zh-TW.md"]);
+const localizedDocumentation = new Set([
+  "README.md",
+  "README.ja.md",
+  "README.zh-TW.md",
+  "docs/roadmap.md",
+  "docs/roadmap.ja.md",
+  "docs/roadmap.zh-TW.md"
+]);
 const cjkText = /[\u3040-\u30ff\u3400-\u9fff\uf900-\ufaff]/;
 for (const file of (await walkFiles(root)).filter(
   (candidate) =>
     candidate.endsWith(".md") &&
     !candidate.startsWith(".git/") &&
     !candidate.startsWith("node_modules/") &&
-    !localizedReadmes.has(candidate)
+    !localizedDocumentation.has(candidate)
 )) {
   const content = await fs.readFile(path.join(root, file), "utf8");
   check(!cjkText.test(content), `${file} contains CJK text; non-localized documentation must use English`);
