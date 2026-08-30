@@ -1,0 +1,86 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0029",
+  "title": "Prototype local Agent Command Gateway",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T11:40:38.319Z",
+  "updated_at": "2026-08-30T11:41:16.001Z",
+  "scope": [
+    "Implement an opt-in loopback-only Dashboard command gateway for registered existing Codex tasks. Support visible new turns, active-turn steering, and interruption with explicit preview, idempotency, provider acknowledgement, truthful delivery state, and no automatic retry.",
+    "Exclude remote control, mobile control, cross-host dispatch, new Codex task creation, background task spawning, automatic model switching, and any release or publication."
+  ],
+  "acceptance_criteria": [
+    "The command gateway is disabled by default and unavailable unless the loopback Codex provider is ready and the target is a registered eligible task.",
+    "New-turn, steer, and interrupt requests enforce target and expected-state checks, idempotency, bounded input, and explicit user confirmation without exposing provider credentials.",
+    "The Dashboard distinguishes submitted, provider-accepted, turn-started, completed, failed, interrupted, and delivery-unknown states and never equates HTTP success with Agent execution.",
+    "Deterministic tests cover success, duplicate submission, disconnect, stale turn, provider rejection, unknown delivery, and forbidden remote or unregistered targets; full verification passes.",
+    "Runtime visual review verifies the local Dashboard flow; real Codex execution remains a separately identified validation boundary if no safe disposable registered task is authorized."
+  ],
+  "affected_paths": [
+    "src/control-plane-config.mjs",
+    "src/codex-app-server-provider.mjs",
+    "src/control-plane-inbox.mjs",
+    "src/control-plane-server.mjs",
+    "src/control-plane-dashboard.mjs",
+    ".ai-org/core/schemas/control-plane-config.schema.json",
+    "project-overlay/.ai-org/project/control-plane.json",
+    "test/control-plane-inbox.test.mjs",
+    "test/control-plane-live.test.mjs",
+    "docs/operations/control-plane.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "code-first",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "4d441b31b6ecd684bb51af8c96d535b6d25486d0",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0029.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0029.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0029.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0029.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0029.md"
+    ],
+    "ui_brief": [
+      ".ai-org/artifacts/WI-0029/ui-brief.md"
+    ],
+    "required_state_coverage": [
+      ".ai-org/artifacts/WI-0029/ui-brief.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0029.md",
+    ".ai-org/work-items/WI-0029.json",
+    ".ai-org/artifacts/WI-0029/ui-brief.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

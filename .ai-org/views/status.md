@@ -4,8 +4,8 @@
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=true
-- Work items: 28 total, 0 active
+- Parallel plan: 0 wave(s), fresh=false
+- Work items: 29 total, 1 active
 - Codex tasks: 3 registered, 3 archive-ready
 - Runtime workers: 22 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -16,7 +16,7 @@
 - Learning revalidation: 0 due, 0 contradicted
 - Specifications: 0 indexed, 0 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 7
+- Attention signals: 8
 
 ## Collaboration
 
@@ -33,7 +33,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: yes
+- Fresh: no
 - Safe waves: 0
 - Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 0 / 0
@@ -72,6 +72,7 @@
 | WI-0026 | Ship Phase 4 project contracts and Alpha.27 metadata | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0d48f087` | 0 | 8 | 0 |
 | WI-0027 | Resolve terminal historical-evidence dashboard noise | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `591b4369` | 0 | 8 | 0 |
 | WI-0028 | Publish Alpha.27 private release checkpoint | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5e90ba28` | 0 | 8 | 0 |
+| WI-0029 | Prototype local Agent Command Gateway | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `—` | 0 | 3 | 0 |
 
 ## Codex task registry
 
@@ -121,6 +122,7 @@
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
+- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
@@ -175,14 +177,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-30T11:41:16.001Z | work_item_transitioned | WI-0029 | agent-tidus |
+| 2026-08-30T11:41:15.889Z | work_item_transitioned | WI-0029 | agent-yuna |
+| 2026-08-30T11:41:15.774Z | work_item_transitioned | WI-0029 | agent-mog |
+| 2026-08-30T11:40:38.447Z | work_item_coordination_configured | WI-0029 | agent-mog |
+| 2026-08-30T11:40:38.319Z | work_item_created | WI-0029 | agent-mog |
 | 2026-08-30T10:25:47.382Z | work_item_closed | WI-0028 | agent-mog |
 | 2026-08-30T10:25:47.382Z | release_gate_completed | WI-0028 | agent-mog |
 | 2026-08-30T10:25:47.112Z | work_item_unresolved_updated | WI-0028 | agent-mog |
-| 2026-08-30T10:24:37.837Z | work_item_transitioned | WI-0028 | agent-lulu |
-| 2026-08-30T10:24:37.554Z | work_item_unresolved_updated | WI-0028 | agent-lulu |
-| 2026-08-30T10:24:37.298Z | evidence_recorded | WI-0028 | human |
-| 2026-08-30T10:18:43.109Z | work_item_transitioned | WI-0028 | agent-lulu |
-| 2026-08-30T10:18:42.821Z | work_item_transitioned | WI-0028 | agent-lulu |
 
 ## Assignments
 
