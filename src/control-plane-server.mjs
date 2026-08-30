@@ -40,6 +40,7 @@ import {
   writeDaemonMetadata
 } from "./telemetry.mjs";
 import { pathExists, readJson } from "./files.mjs";
+import { normalizePrivateViewerHost, TAILSCALE_IDENTITY_HEADER } from "./private-network-viewer.mjs";
 
 export const CONTROL_PLANE_SNAPSHOT_SCHEMA = "temple.control-plane-snapshot/v1";
 
@@ -105,6 +106,35 @@ function baseProviderContracts(config) {
 function isLoopbackHost(hostHeader, port) {
   if (typeof hostHeader !== "string") return false;
   return new Set([`127.0.0.1:${port}`, `localhost:${port}`]).has(hostHeader.toLowerCase());
+}
+
+export function classifyControlPlaneRequest(headers, port, privateViewerHost = null) {
+  if (isLoopbackHost(headers?.host, port)) return { kind: "loopback", identity: null };
+  if (!privateViewerHost) return { kind: "untrusted", identity: null };
+  const expectedHost = normalizePrivateViewerHost(privateViewerHost);
+  const requestHost = String(headers?.host ?? "").trim().toLowerCase();
+  const identity = String(headers?.[TAILSCALE_IDENTITY_HEADER] ?? "").trim();
+  if (requestHost === expectedHost && identity) return { kind: "private-viewer", identity };
+  return { kind: "untrusted", identity: null };
+}
+
+export function privateViewerSnapshot(snapshot, identity) {
+  const { daemon: _daemon, inbox: _inbox, recent_events: _recentEvents, ...safe } = snapshot;
+  return {
+    ...safe,
+    authority: {
+      ...safe.authority,
+      viewer: "private-read-only",
+      mutations_available: false,
+      raw_events_available: false
+    },
+    private_viewer: {
+      schema_version: "temple.private-viewer/v1",
+      transport: "tailscale-serve",
+      identity_present: Boolean(identity),
+      read_only: true
+    }
+  };
 }
 
 function constantTimeEqual(left, right) {
@@ -210,6 +240,9 @@ export async function startControlPlaneServer(target, options = {}) {
   const config = await readControlPlaneConfig(projectRoot);
   const host = options.host ?? config.server.host;
   const port = options.port ?? config.server.port;
+  const privateViewerHost = options.privateViewerHost
+    ? normalizePrivateViewerHost(options.privateViewerHost)
+    : null;
   if (host !== "127.0.0.1") throw new Error("Phase 3 control plane may bind only to 127.0.0.1");
   if (!Number.isInteger(port) || port < 0 || port > 65535) throw new Error("Control-plane port must be 0 to 65535");
   const stateDirectory = resolveControlPlaneStateDirectory(
@@ -283,8 +316,13 @@ export async function startControlPlaneServer(target, options = {}) {
         const requestUrl = new URL(request.url ?? "/", `http://${request.headers.host ?? "127.0.0.1"}`);
         const address = server.address();
         const requestPort = typeof address === "object" && address ? address.port : port;
-        if (!isLoopbackHost(request.headers.host, requestPort)) {
+        const access = classifyControlPlaneRequest(request.headers, requestPort, privateViewerHost);
+        if (access.kind === "untrusted") {
           jsonResponse(response, 403, { error: "Control-plane Host must be the active loopback listener" });
+          return;
+        }
+        if (access.kind === "private-viewer" && request.method !== "GET") {
+          jsonResponse(response, 405, { error: "Private Dashboard viewer is read-only" });
           return;
         }
         if (request.method === "GET" && requestUrl.pathname === "/healthz") {
@@ -303,12 +341,15 @@ export async function startControlPlaneServer(target, options = {}) {
         }
         if (request.method === "GET" && requestUrl.pathname === "/api/v1/snapshot") {
           await persistProviderRegistry(stateDirectory, registry);
-          jsonResponse(response, 200, await buildControlPlaneSnapshot(projectRoot, journal, registry, {
+          const snapshot = await buildControlPlaneSnapshot(projectRoot, journal, registry, {
             stateDirectory,
             config,
             persistConditions: true,
             codexProvider
-          }));
+          });
+          jsonResponse(response, 200, access.kind === "private-viewer"
+            ? privateViewerSnapshot(snapshot, access.identity)
+            : snapshot);
           return;
         }
         if (request.method === "GET" && requestUrl.pathname === "/api/v1/events") {
@@ -322,6 +363,25 @@ export async function startControlPlaneServer(target, options = {}) {
             "x-content-type-options": "nosniff"
           });
           response.write("retry: 1000\n\n");
+          if (access.kind === "private-viewer") {
+            const refresh = (record) => {
+              response.write(`id: ${record.templecursor}\n`);
+              response.write("event: temple.refresh\n");
+              response.write(`data: ${JSON.stringify({ cursor: record.templecursor })}\n\n`);
+            };
+            const latest = replay.records.at(-1);
+            if (latest) refresh(latest);
+            const unsubscribe = journal.subscribe(refresh);
+            const heartbeat = setInterval(() => response.write(": keepalive\n\n"), 15000);
+            const close = () => {
+              clearInterval(heartbeat);
+              unsubscribe();
+              clients.delete(close);
+            };
+            clients.add(close);
+            request.on("close", close);
+            return;
+          }
           if (replay.reset_required) {
             response.write("event: temple.snapshot\n");
             response.write(`data: ${JSON.stringify(await buildControlPlaneSnapshot(projectRoot, journal, registry, {
@@ -344,10 +404,16 @@ export async function startControlPlaneServer(target, options = {}) {
           return;
         }
         if (request.method === "GET" && requestUrl.pathname === "/") {
-          htmlResponse(response, renderControlPlaneDashboard(project.name, { sessionSecret, inboxEnabled: true }));
+          htmlResponse(response, renderControlPlaneDashboard(project.name, access.kind === "private-viewer"
+            ? { viewMode: "private-read-only" }
+            : { sessionSecret, inboxEnabled: true }));
           return;
         }
         if (request.method === "GET" && requestUrl.pathname === "/api/v1/inbox") {
+          if (access.kind === "private-viewer") {
+            jsonResponse(response, 403, { error: "Private Dashboard viewer does not expose the Human Inbox" });
+            return;
+          }
           jsonResponse(response, 200, await buildHumanInbox(projectRoot, stateDirectory, codexProvider, {
             agentCommands: config.agent_commands,
             journal
@@ -414,6 +480,7 @@ export async function startControlPlaneServer(target, options = {}) {
       codexStartup,
       githubProviders,
       sessionSecret,
+      privateViewerHost,
       async close() {
         if (closed) return;
         closed = true;

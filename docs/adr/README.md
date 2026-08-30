@@ -34,5 +34,6 @@
 - [ADR-0032: Evaluate policy with adversarial evidence](0032-evaluate-policy-with-adversarial-evidence.md)
 - [ADR-0033: Federate project authority with read-only portfolios](0033-federate-project-authority-with-read-only-portfolios.md)
 - [ADR-0034: Attribute usage before routing models](0034-attribute-usage-before-routing-models.md)
+- [ADR-0035: Separate private Dashboard viewing from remote Agent control](0035-private-read-only-dashboard.md)
 
 An ADR is an Architecture Decision Record. It preserves the context, decision, rationale, and consequences of an important technical or organizational choice so that later Agents do not have to infer why it was made from chat memory.

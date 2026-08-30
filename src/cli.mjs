@@ -40,6 +40,7 @@ import {
   rebuildControlPlane,
   startControlPlaneServer
 } from "./control-plane-server.mjs";
+import { prepareTailscalePrivateViewer } from "./private-network-viewer.mjs";
 import { readControlPlaneConfig } from "./control-plane-config.mjs";
 import { captureGitHubEvidence } from "./github-control-plane-provider.mjs";
 import { resolveControlPlaneStateDirectory } from "./telemetry.mjs";
@@ -119,7 +120,7 @@ Usage:
   temple control-plane ingest [target] --fixture path [--state-dir path] [--json]
   temple control-plane rebuild [target] [--state-dir path] [--json]
   temple control-plane capture-github [target] --provider-id id --work-item WI-ID --revision commit [--state-dir path] [--actor id] [--title text] [--summary text] [--json]
-  temple control-plane start [target] [--host 127.0.0.1] [--port number] [--state-dir path] [--fixture path] [--codex]
+  temple control-plane start [target] [--host 127.0.0.1] [--port number] [--state-dir path] [--fixture path] [--codex] [--tailscale-viewer]
   temple collaboration show [target] [--json]
   temple collaboration set-profile [target] --profile solo|collaborative|high-assurance
   temple collaboration add-principal [target] --principal-id principal-name --name "Human Name"
@@ -243,6 +244,7 @@ const BOOLEAN_FLAGS = new Set([
   "--replace-ui-refs",
   "--replace-contract-refs",
   "--codex",
+  "--tailscale-viewer",
   "--probe-codex-account",
   "--allow-replace",
   "--confirm-delete"
@@ -990,22 +992,36 @@ async function runControlPlane(parsed) {
     return 0;
   }
   if (parsed.action === "start") {
+    const tailscaleViewer = parsed.flags.has("--tailscale-viewer")
+      ? await prepareTailscalePrivateViewer()
+      : null;
     const controlPlane = await startControlPlaneServer(target, {
       ...options,
       host: parsed.options["--host"],
       port: controlPlanePort(parsed),
       repositoryIntervalMs: controlPlaneInterval(parsed),
-      enableCodex: parsed.flags.has("--codex")
+      enableCodex: parsed.flags.has("--codex"),
+      privateViewerHost: tailscaleViewer?.host
     });
-    console.log(`Control plane: ${controlPlane.url}`);
-    console.log(`State: ${controlPlane.stateDirectory}`);
-    console.log("Press Ctrl-C to stop.");
-    await new Promise((resolve) => {
-      const stop = () => resolve();
-      process.once("SIGINT", stop);
-      process.once("SIGTERM", stop);
-    });
-    await controlPlane.close();
+    let privateShare = null;
+    try {
+      if (tailscaleViewer) privateShare = await tailscaleViewer.enable(controlPlane.port);
+      console.log(`Control plane: ${controlPlane.url}`);
+      if (privateShare) console.log(`Private read-only Dashboard: ${privateShare.url}`);
+      console.log(`State: ${controlPlane.stateDirectory}`);
+      console.log("Press Ctrl-C to stop.");
+      await new Promise((resolve) => {
+        const stop = () => resolve();
+        process.once("SIGINT", stop);
+        process.once("SIGTERM", stop);
+      });
+    } finally {
+      try {
+        if (privateShare) await privateShare.close();
+      } finally {
+        await controlPlane.close();
+      }
+    }
     return 0;
   }
   throw new Error("control-plane action must be snapshot, ingest, rebuild, capture-github, or start");

@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 1 wave(s), fresh=true
-- Work items: 35 total, 7 active
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Parallel plan: 1 wave(s), fresh=false
+- Work items: 36 total, 8 active
 - Codex tasks: 4 registered, 3 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -16,7 +16,7 @@
 - Learning revalidation: 0 due, 0 contradicted
 - Specifications: 0 indexed, 0 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 8
+- Attention signals: 9
 
 ## Collaboration
 
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -33,7 +33,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: yes
+- Fresh: no
 - Safe waves: 1
 - Dispatchable Work Items: 1
 - Active / sequential / blocked: 0 / 0 / 3
@@ -79,6 +79,7 @@
 | WI-0033 | Establish operator-owned provider trust | spec | Product Manager | Yuna | blocked | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 1 |
 | WI-0034 | Make Dashboard current-state interaction trustworthy | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `—` | 0 | 3 | 0 |
 | WI-0035 | Reduce CI cost without hiding behavioral results | test | Quality & Evaluation Engineer | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0b02e1c5` | 0 | 7 | 1 |
+| WI-0036 | Add a private read-only Dashboard viewer | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260830144646-e7a0a49a | `—` | 0 | 3 | 0 |
 
 ## Codex task registry
 
@@ -133,6 +134,7 @@
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
+- Generated parallel plan is stale; rebuild it before dispatch
 - Parallel plan has 3 blocked Work Item(s)
 
 ## External tracker coordination
@@ -188,14 +190,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-30T14:31:45.951Z | runtime_worker_status_changed | WI-0032 | agent-lulu |
-| 2026-08-30T14:31:45.695Z | work_item_transitioned | WI-0032 | agent-lulu |
-| 2026-08-30T14:31:37.511Z | evidence_recorded | WI-0032 | agent-lulu |
-| 2026-08-30T14:31:37.251Z | evidence_recorded | WI-0032 | agent-lulu |
-| 2026-08-30T14:24:55.292Z | runtime_worker_attached | WI-0032 | agent-lulu |
-| 2026-08-30T14:24:54.791Z | runtime_worker_reserved | WI-0032 | human |
-| 2026-08-30T14:24:54.795Z | work_item_claimed | WI-0032 | human |
-| 2026-08-30T14:20:59.971Z | runtime_worker_status_changed | WI-0032 | agent-lulu |
+| 2026-08-30T14:46:46.838Z | work_item_claimed | WI-0036 | human |
+| 2026-08-30T14:46:46.556Z | work_item_coordination_configured | WI-0036 | agent-rikku |
+| 2026-08-30T14:46:46.296Z | work_item_transitioned | WI-0036 | agent-tidus |
+| 2026-08-30T14:46:46.043Z | work_item_claimed | WI-0036 | human |
+| 2026-08-30T14:46:45.765Z | work_item_coordination_configured | WI-0036 | agent-tidus |
+| 2026-08-30T14:46:45.504Z | work_item_transitioned | WI-0036 | agent-yuna |
+| 2026-08-30T14:46:45.252Z | work_item_claimed | WI-0036 | human |
+| 2026-08-30T14:46:44.971Z | work_item_coordination_configured | WI-0036 | agent-yuna |
 
 ## Assignments
 

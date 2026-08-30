@@ -39,6 +39,14 @@ Start the local server:
 node ./templew.mjs control-plane start .
 ```
 
+Expose only a redacted read-only Dashboard to an authenticated device on the same permitted Tailscale network:
+
+```bash
+node ./templew.mjs control-plane start . --tailscale-viewer
+```
+
+The listener still binds only to `127.0.0.1`. The pinned optional launcher configures Tailscale Serve as a localhost reverse proxy and prints a tailnet HTTPS URL. The private page contains no Human Inbox, Agent Commands, session secret, daemon path, raw event payload, or mutation route. See [Tailscale private Dashboard](../integrations/tailscale-private-dashboard.md).
+
 Opt in to the pinned Codex App Server observer for registered task thread IDs:
 
 ```bash
@@ -107,6 +115,14 @@ The server exposes:
 An SSE client may send `Last-Event-ID` or `?after=<cursor>`. A retained cursor receives only newer records. If retention has removed the requested cursor, the server sends a fresh `temple.snapshot` event before continuing with retained events.
 
 All other mutation routes return `405`. The browser receives only a new per-process Inbox session secret; provider credentials and GitHub tokens never enter the page or snapshot. Every command POST must come from the exact loopback origin, use JSON no larger than 64 KiB, provide the session secret, and repeat the same idempotency key in its header and body.
+
+### Private read-only viewer
+
+The optional private viewer is a separate request class, not a remotely accessible version of the Human Inbox. It requires one exact runtime Tailscale DNS Host and a Tailscale-injected user identity header. The backend trusts that header only because it remains bound to localhost.
+
+Private requests may use only `GET /`, `GET /healthz`, `GET /api/v1/snapshot`, and `GET /api/v1/events`. The snapshot omits `daemon`, `inbox`, and `recent_events`. The event stream sends refresh cursors rather than raw journal records. `GET /api/v1/inbox` returns `403`; every private-viewer non-GET request returns `405` before command parsing.
+
+The full local Dashboard is unchanged. `--tailscale-viewer` does not enable `--codex`, change `agent_commands`, mutate a tailnet policy, bind to a LAN address, or invoke Funnel.
 
 ## Human Inbox authority
 
@@ -217,4 +233,4 @@ A rebuild restores canonical history projection. Provider-only transient history
 
 ## Current capability boundary
 
-The local Phase 3 increments include replay-safe telemetry, the live Observer, capability-proven Codex App Server observation, stateful conditions, the authority-separated Human Inbox, an opt-in loopback-only Agent Command prototype, and an exact-SHA read-only GitHub PR and Checks provider with explicit evidence capture. The current reliability pass also separates terminal work from queued work and prevents optional Codex history synchronization from blocking the local HTTP surface. It does not provide remote access, mobile control, notifications, tracker or PR writes, new-task creation through the gateway, model switching, automatic command retry, merge, deployment, production operations, universal visibility into existing Codex Desktop tasks, cross-clone consensus, or production-grade retention. See the accepted [Phase 3 design](../planning/phase-3-control-plane.md), [work breakdown](../planning/phase-3-work-items.md), and validation records.
+The local Phase 3 increments include replay-safe telemetry, the live Observer, capability-proven Codex App Server observation, stateful conditions, the authority-separated Human Inbox, an opt-in loopback-only Agent Command prototype, an optional private read-only Tailscale viewer, and an exact-SHA read-only GitHub PR and Checks provider with explicit evidence capture. The current reliability pass also separates terminal work from queued work and prevents optional Codex history synchronization from blocking the local HTTP surface. It does not provide remote or mobile control, public Dashboard access, notifications, tracker or PR writes, new-task creation through the gateway, model switching, automatic command retry, merge, deployment, production operations, universal visibility into existing Codex Desktop tasks, cross-clone consensus, or production-grade retention. See the accepted [Phase 3 design](../planning/phase-3-control-plane.md), [work breakdown](../planning/phase-3-work-items.md), and validation records.
