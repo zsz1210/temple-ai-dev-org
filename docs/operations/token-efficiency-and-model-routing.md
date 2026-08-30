@@ -1,6 +1,6 @@
 # Token Efficiency and Model Routing
 
-- Status: Alpha.26 telemetry preflight, observation, and attribution foundation implemented; recommendation and routing do not exist
+- Status: Alpha.26 telemetry qualification and low-confidence read-only candidate implemented; matched evaluation and routing remain unavailable
 - Primary readers: maintainers, Engineering Managers, Tech Leads, Observers, and cost-accountable humans
 
 Temple treats Token usage as an operational signal. The goal is not the smallest prompt or the cheapest individual turn. The goal is a correct, accepted Work Item with less waste, rework, latency, and coordination cost.
@@ -36,6 +36,10 @@ It deliberately keeps raw prompts, hidden reasoning, command output, secrets, an
 
 Alpha.25 adds a usage-attribution envelope and a read-only baseline report. Every observation carries the dimensions the provider and repository can prove, plus a `missing_dimensions` list and `partial` quality when model, version, service tier, Context Capsule digest, capability digest, or another field is unavailable. Reconciled history labels lifecycle stage as the current canonical stage at reconciliation rather than inventing a historical stage.
 
+Alpha.26 keeps App Server and Desktop/session ownership separate. `thread/read` and `thread/resume` are attempted as independent operations: failure to read history does not prove that live resume is unavailable, and failure to resume does not erase history already read. Each registered task receives a bounded attach outcome with separate `history_read`, `live_resume`, and `attach_outcome` fields. The Provider registry exposes zero-filled outcome counts and a bounded 100-task summary for control-plane observation. Known unsupported, invalid, or missing-session failures use bounded reason codes; their failed operation is suppressed for that task on later provider reconnects instead of creating retry churn. A provider process still retries transient transport failures after a real reconnect.
+
+The missing-session code `thread-not-in-app-server-store` means only that this App Server process cannot resume the registered host-owned thread. It does not mean that the Desktop task is absent, failed, or safe to recreate. Temple retains any available history, marks the provider degraded, and never creates a replacement task automatically.
+
 Create a read-only report:
 
 ```bash
@@ -52,11 +56,16 @@ Remove `--no-write` to create `.ai-org/views/usage-baseline.json`. The report su
 - `registered_task_coverage` reports how many completed Work Items have a registered Codex task;
 - `task_eligibility` separates live-resumable tasks, history-reconcilable tasks, historical-only tasks, terminal tasks, and detached archived tasks;
 - `detailed_token_observation_coverage` counts only an exact Work Item/task pair as correlated and reports `observed`, `partial`, or `unknown` support for each Token field;
-- `qualification` shows the remaining gap to ten distinct correlated Work Items and ten correlated completed Work Items.
+- `qualification` shows the remaining gap to ten distinct qualified completed Work Items and at least two task shapes;
+- `recommendation` is a deterministic, read-only exploratory candidate only after that threshold and a within-shape, two-model comparison with at least two accepted Work Items per model.
 
 The lists are sorted so coverage does not depend on repository-directory or task-registry order. A provider event with a missing or mismatched Work Item/task pair remains uncorrelated. A detailed event may prove one Token field while others remain `unknown`; if any included observation lacks a field, that aggregate remains unknown instead of treating the missing value as zero.
 
-The ten-Work-Item count is only one gate. Temple keeps the longitudinal status `not-qualified`, varied task shapes and comparison evidence `not-evaluated`, and savings, cost, model-quality, and routing claims disabled until those separate evidence requirements are satisfied.
+Qualification is deliberately strict. A Work Item contributes only when it is currently `done`, its registered task is `completed`, its Work Item/task pair matches, the observation revision matches the task's current revision, the Position and task shape are known, the Position matches the registered task, a provider-reported `total_tokens` delta is present, and the model is known. Mismatched, stale, partial, zero-field, and uncorrelated observations remain visible but do not fill the threshold. Multiple task/model/shape identities for one Work Item are excluded rather than cherry-picked.
+
+The ten-Work-Item count is only an observation threshold. Even when the exploratory candidate is available, its confidence is `low`, its evidence basis is `accepted-closeout-token-observation-only`, and `matched_evaluation` remains false. Different Work Items can differ in difficulty, so lower observed Tokens do not prove superior model quality or causal savings. Savings, cost, model-quality, and routing claims remain disabled; a future matched evaluation must authorize any routing policy separately.
+
+The report places this observation at `source.longitudinal_coverage.recommendation`. The top-level `routing` contract remains `not-implemented` and fully disabled because Alpha.26 does not add routing authority. `usage preflight` mirrors the exploratory object under `routing.recommendation` for read-only inspection.
 
 ## Check whether a real baseline is possible
 
@@ -81,6 +90,8 @@ The detailed source reports one of four states:
 - `provider-unavailable`: a live-resumable task exists but the required Provider capability is unavailable.
 
 Completed tasks and tasks attached to `done` or `cancelled` Work Items remain eligible for bounded history reconciliation, but Temple never resumes them as live subscriptions. Archived tasks remain detached from Provider reconciliation. Registering a Codex task does not itself create or take ownership of a live task.
+
+`usage preflight` uses the same completed-Work-Item qualification as `usage report`; a first Token observation is still `not-qualified`. If the threshold is met it includes the same exploratory candidate and all authority-denial flags. It never changes a model setting.
 
 An optional account capability probe must be requested explicitly:
 
@@ -201,9 +212,9 @@ Usage reporting retains bounded identifiers and numeric measurements. It does no
 
 1. **Telemetry qualification — implemented:** `usage preflight` distinguishes live task readiness, detailed observations, and optional account-wide capability without mixing their authority.
 2. **Attribution — implemented:** normalized usage includes proven Work Item, Position, observed stage, task, attempt, provider, model, provenance, quality, and outcome fields; unavailable values stay unknown.
-3. **Reporting — longitudinal coverage implemented:** `usage report` compares canonical Work Items, registered task eligibility, exact correlated observations, and per-field support. Varied-task and longitudinal comparison evidence remain pending.
+3. **Reporting — longitudinal coverage implemented:** `usage report` compares canonical Work Items, registered task eligibility, exact correlated observations, revision freshness, task shapes, and per-field support.
 4. **Policy — pending:** add hierarchical warning budgets and model allowlists without automatic switching.
-5. **Recommendation — pending:** evaluate representative task classes and display a proposed route with its reasons.
+5. **Recommendation — exploratory observation implemented:** after the local threshold, display a low-confidence read-only candidate with explicit non-authority. Matched representative evaluation remains pending.
 6. **Opt-in routing — later:** apply an approved route, record the effective configuration, and preserve fallback and refusal evidence.
 
 None of these slices changes lifecycle authority or replaces outcome-based evaluation.

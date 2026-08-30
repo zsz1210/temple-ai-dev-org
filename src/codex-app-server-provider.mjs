@@ -16,6 +16,20 @@ export const DEFAULT_CODEX_HISTORY_ITEM_LIMIT = 200;
 export const CODEX_LIVE_TASK_STATUSES = ["active", "waiting", "attention"];
 export const CODEX_TERMINAL_TASK_STATUSES = ["completed", "archived"];
 export const CODEX_TERMINAL_WORK_ITEM_STATES = ["done", "cancelled"];
+export const CODEX_ATTACH_OUTCOMES = ["detached", "pending", "history-only", "live-attached", "degraded"];
+export const CODEX_ATTACH_REASON_CODES = [
+  "archived-task",
+  "live-resume-disabled",
+  "live-resume-not-eligible",
+  "thread-read-empty",
+  "thread-read-invalid",
+  "thread-read-unsupported",
+  "thread-read-unavailable",
+  "thread-resume-invalid",
+  "thread-resume-unsupported",
+  "thread-resume-unavailable",
+  "thread-not-in-app-server-store"
+];
 
 const LIVE_TASK_STATUS_SET = new Set(CODEX_LIVE_TASK_STATUSES);
 const TERMINAL_TASK_STATUS_SET = new Set(CODEX_TERMINAL_TASK_STATUSES);
@@ -123,6 +137,25 @@ export function classifyCodexTasks(tasks = [], options = {}) {
 
 export function shouldResumeCodexTask(task, options = {}) {
   return classifyCodexTasks([task], options).live_resumable.length === 1;
+}
+
+export function classifyCodexAttachFailure(error, operation = "thread/resume") {
+  const prefix = operation === "thread/read" ? "thread-read" : "thread-resume";
+  const rpcCode = Number.isInteger(error?.rpcCode) ? error.rpcCode : null;
+  const providerReason = String(error?.providerReason ?? error?.message ?? "").toLowerCase();
+  if (rpcCode === -32601 || providerReason.includes("method not found") || providerReason.includes("unsupported")) {
+    return { reason_code: `${prefix}-unsupported`, retryable: false, provider_wide: true };
+  }
+  if (rpcCode === -32600 || rpcCode === -32602 || providerReason.includes("invalid request") || providerReason.includes("invalid params")) {
+    return { reason_code: `${prefix}-invalid`, retryable: false, provider_wide: false };
+  }
+  if (
+    operation === "thread/resume" &&
+    (providerReason.includes("not found") || providerReason.includes("unknown thread") || providerReason.includes("no such thread"))
+  ) {
+    return { reason_code: "thread-not-in-app-server-store", retryable: false, provider_wide: false };
+  }
+  return { reason_code: `${prefix}-unavailable`, retryable: true, provider_wide: false };
 }
 
 function commonData(projectId, tasks, params) {
@@ -604,8 +637,12 @@ export function createJsonRpcProcess(command, args = [], options = {}) {
       const request = pending.get(String(message.id));
       if (!request) return;
       pending.delete(String(message.id));
-      if (message.error) request.reject(new Error(`Codex App Server ${request.method} failed (${message.error.code ?? "unknown"})`));
-      else request.resolve(message.result);
+      if (message.error) {
+        const error = new Error(`Codex App Server ${request.method} failed (${message.error.code ?? "unknown"})`);
+        error.rpcCode = Number.isInteger(message.error.code) ? message.error.code : null;
+        error.providerReason = boundedText(message.error.message, 240);
+        request.reject(error);
+      } else request.resolve(message.result);
       return;
     }
     if (message.method && message.id !== undefined) options.onRequest?.(message, { respond: (result) => send({ id: message.id, result }) });
@@ -685,8 +722,101 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
   let stopped = false;
   let reconnectTimer = null;
   let connecting = null;
+  const attachOutcomes = new Map();
+  const suppressedReadTasks = new Set();
+  const suppressedResumeTasks = new Set();
+  const suppressedReadReasons = new Map();
+  const suppressedResumeReasons = new Map();
+  let readMethodUnavailable = false;
+  let resumeMethodUnavailable = false;
 
-  registry.set(codexAppServerProviderContract({ id: providerId }));
+  function initialAttachOutcome(task) {
+    const archived = task.status === "archived";
+    const liveEligible = shouldResumeCodexTask(task, { workItems });
+    return {
+      task_id: task.id,
+      work_item_id: task.work_item_id ?? null,
+      provider_thread_id: task.thread_id,
+      history_read: archived ? "not-eligible" : "pending",
+      live_resume: archived || !liveEligible ? "not-eligible" : options.resumeThreads === false ? "disabled" : "pending",
+      attach_outcome: archived ? "detached" : "pending",
+      reason_code: archived
+        ? "archived-task"
+        : !liveEligible
+          ? "live-resume-not-eligible"
+          : options.resumeThreads === false
+            ? "live-resume-disabled"
+            : null,
+      retry_suppressed: false
+    };
+  }
+
+  for (const task of taskTopology.registered) attachOutcomes.set(task.id, initialAttachOutcome(task));
+
+  function attachmentOutcomeList() {
+    return [...attachOutcomes.values()]
+      .map((outcome) => structuredClone(outcome))
+      .sort((left, right) => String(left.task_id).localeCompare(String(right.task_id)));
+  }
+
+  function attachmentSummary() {
+    const outcomes = attachmentOutcomeList();
+    return {
+      registered_tasks: outcomes.length,
+      outcomes: Object.fromEntries(CODEX_ATTACH_OUTCOMES.map((outcome) => [
+        outcome,
+        outcomes.filter((entry) => entry.attach_outcome === outcome).length
+      ])),
+      retry_suppressed_tasks: outcomes.filter((outcome) => outcome.retry_suppressed).length,
+      tasks: outcomes.slice(0, 100).map((outcome) => ({
+        task_id: outcome.task_id,
+        history_read: outcome.history_read,
+        live_resume: outcome.live_resume,
+        attach_outcome: outcome.attach_outcome,
+        reason_code: outcome.reason_code,
+        retry_suppressed: outcome.retry_suppressed
+      })),
+      truncated: outcomes.length > 100
+    };
+  }
+
+  function updateAttachOutcome(task, patch) {
+    const current = attachOutcomes.get(task.id) ?? initialAttachOutcome(task);
+    attachOutcomes.set(task.id, { ...current, ...patch });
+    registry.update(providerId, { attachment: attachmentSummary() });
+  }
+
+  async function recordAttachFailure(task, operation, error) {
+    const failure = classifyCodexAttachFailure(error, operation);
+    const isRead = operation === "thread/read";
+    const prior = attachOutcomes.get(task.id);
+    if (!failure.retryable) {
+      (isRead ? suppressedReadTasks : suppressedResumeTasks).add(task.id);
+      (isRead ? suppressedReadReasons : suppressedResumeReasons).set(task.id, failure.reason_code);
+    }
+    if (failure.provider_wide) {
+      if (isRead) readMethodUnavailable = true;
+      else resumeMethodUnavailable = true;
+    }
+    updateAttachOutcome(task, {
+      ...(isRead ? { history_read: "failed" } : { live_resume: "failed" }),
+      attach_outcome: "degraded",
+      reason_code: failure.reason_code,
+      retry_suppressed: prior?.retry_suppressed === true || !failure.retryable
+    });
+    const event = normalizeCodexMessage(project.id, tasks, {
+      method: "error",
+      params: { threadId: task.thread_id, code: failure.reason_code }
+    }, { workItems, providerId });
+    await journal.append(event);
+    registry.update(providerId, { status: "degraded", degraded_reason: failure.reason_code });
+    return failure;
+  }
+
+  registry.set({
+    ...codexAppServerProviderContract({ id: providerId }),
+    attachment: attachmentSummary()
+  });
 
   async function append(message) {
     const event = normalizeCodexMessage(project.id, tasks, message, { workItems, providerId });
@@ -718,6 +848,7 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
 
   async function connect() {
     if (stopped || connecting) return connecting;
+    if (connection) return true;
     connecting = (async () => {
       try {
         const activeConnection = createJsonRpcProcess(command, commandArgs, {
@@ -765,32 +896,75 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
         activeConnection.notify("initialized", {});
         const detectedCliVersion = initialized?.serverInfo?.version ?? initialized?.serverInfo?.name ??
           boundedText(initialized?.userAgent, 240);
-        registry.set(codexAppServerProviderContract({
-          id: providerId,
-          status: "ready",
-          detectedCliVersion
-        }));
+        registry.set({
+          ...codexAppServerProviderContract({
+            id: providerId,
+            status: "ready",
+            detectedCliVersion
+          }),
+          attachment: attachmentSummary()
+        });
         registry.update(providerId, { last_observed_at: new Date().toISOString(), degraded_reason: null });
 
         for (const task of tasks) {
+          let snapshotReconciled = false;
+          if (readMethodUnavailable || suppressedReadTasks.has(task.id)) {
+            updateAttachOutcome(task, {
+              history_read: "suppressed",
+              attach_outcome: "degraded",
+              reason_code: readMethodUnavailable ? "thread-read-unsupported" : suppressedReadReasons.get(task.id),
+              retry_suppressed: true
+            });
+            registry.update(providerId, {
+              status: "degraded",
+              degraded_reason: readMethodUnavailable ? "thread-read-unsupported" : suppressedReadReasons.get(task.id)
+            });
+          } else {
+            try {
+              const read = await activeConnection.request("thread/read", { threadId: task.thread_id, includeTurns: true });
+              if (read?.thread) {
+                await reconcile(read.thread, "thread/read");
+                snapshotReconciled = true;
+                updateAttachOutcome(task, { history_read: "succeeded", attach_outcome: "history-only", reason_code: null });
+              } else {
+                updateAttachOutcome(task, {
+                  history_read: "failed",
+                  attach_outcome: "degraded",
+                  reason_code: "thread-read-empty"
+                });
+                registry.update(providerId, { status: "degraded", degraded_reason: "thread-read-empty" });
+              }
+            } catch (error) {
+              await recordAttachFailure(task, "thread/read", error);
+            }
+          }
+
+          if (options.resumeThreads === false || !shouldResumeCodexTask(task, { workItems })) continue;
+          if (resumeMethodUnavailable || suppressedResumeTasks.has(task.id)) {
+            updateAttachOutcome(task, {
+              live_resume: "suppressed",
+              attach_outcome: "degraded",
+              reason_code: resumeMethodUnavailable ? "thread-resume-unsupported" : suppressedResumeReasons.get(task.id),
+              retry_suppressed: true
+            });
+            registry.update(providerId, {
+              status: "degraded",
+              degraded_reason: resumeMethodUnavailable ? "thread-resume-unsupported" : suppressedResumeReasons.get(task.id)
+            });
+            continue;
+          }
           try {
-            let snapshotReconciled = false;
-            const read = await activeConnection.request("thread/read", { threadId: task.thread_id, includeTurns: true });
-            if (read?.thread) {
-              await reconcile(read.thread, "thread/read");
-              snapshotReconciled = true;
-            }
-            if (options.resumeThreads !== false && shouldResumeCodexTask(task, { workItems })) {
-              const resumed = await activeConnection.request("thread/resume", { threadId: task.thread_id });
-              if (resumed?.thread && !snapshotReconciled) await reconcile(resumed.thread, "thread/resume");
-            }
+            const resumed = await activeConnection.request("thread/resume", { threadId: task.thread_id });
+            if (resumed?.thread && !snapshotReconciled) await reconcile(resumed.thread, "thread/resume");
+            const prior = attachOutcomes.get(task.id);
+            updateAttachOutcome(task, {
+              live_resume: "succeeded",
+              attach_outcome: "live-attached",
+              reason_code: prior?.history_read === "succeeded" ? null : prior?.reason_code ?? null,
+              retry_suppressed: prior?.retry_suppressed === true
+            });
           } catch (error) {
-            const event = normalizeCodexMessage(project.id, tasks, {
-              method: "error",
-              params: { threadId: task.thread_id, code: "thread-attach-failed" }
-            }, { workItems, providerId });
-            await journal.append(event);
-            registry.update(providerId, { status: "degraded", degraded_reason: error.message });
+            await recordAttachFailure(task, "thread/resume", error);
           }
         }
         return true;
@@ -811,6 +985,9 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
     providerId,
     tasks,
     taskTopology,
+    attachmentOutcomes() {
+      return attachmentOutcomeList();
+    },
     async start() {
       await connect();
       return this;
@@ -830,6 +1007,8 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
     },
     async reconnect() {
       if (connection) await connection.close();
+      if (reconnectTimer) clearTimeout(reconnectTimer);
+      reconnectTimer = null;
       return connect();
     },
     async stop() {

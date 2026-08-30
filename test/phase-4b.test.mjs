@@ -280,7 +280,7 @@ test("usage preflight distinguishes live task telemetry from account-wide unallo
   );
   assert.equal(observed.detailed_thread_usage.status, "observed");
   assert.equal(observed.detailed_thread_usage.correlated_observations, 1);
-  assert.equal(observed.baseline_qualification.status, "first-observation-qualified");
+  assert.equal(observed.baseline_qualification.status, "not-qualified");
   assert.equal(observed.baseline_qualification.savings_claim_allowed, false);
 });
 
@@ -386,8 +386,8 @@ test("usage report exposes deterministic longitudinal task and token-field cover
   assert.equal(observed.totals.total_tokens, null);
   assert.equal(observedCoverage.qualification.remaining_correlated_work_items, 9);
   assert.equal(observedCoverage.qualification.remaining_correlated_completed_work_items, 10);
-  assert.equal(observedCoverage.qualification.varied_task_shapes, "not-evaluated");
-  assert.equal(observedCoverage.qualification.longitudinal_comparison, "not-evaluated");
+  assert.equal(observedCoverage.qualification.varied_task_shapes, "insufficient");
+  assert.equal(observedCoverage.qualification.longitudinal_comparison, "insufficient");
   assert.equal(observedCoverage.qualification.savings_claim_allowed, false);
   assert.equal(observedCoverage.qualification.cost_claim_allowed, false);
   assert.equal(observedCoverage.qualification.model_quality_claim_allowed, false);
@@ -414,6 +414,159 @@ test("usage report exposes deterministic longitudinal task and token-field cover
     tasks: [liveTask, historicalTask]
   });
   assert.deepEqual(reordered.source.longitudinal_coverage, partiallySupported.source.longitudinal_coverage);
+});
+
+test("ten completed revision-current Work Items qualify one deterministic read-only recommendation", () => {
+  const project = { id: "policy-product", name: "Policy Product" };
+  const workItems = Array.from({ length: 10 }, (_, index) => ({
+    id: `WI-${String(index + 1).padStart(4, "0")}`,
+    state: "done"
+  }));
+  const tasks = workItems.map((item, index) => ({
+    id: `task-${String(index + 1).padStart(4, "0")}`,
+    work_item_id: item.id,
+    position_id: index < 8 ? "developer" : "independent_qa",
+    status: "completed",
+    thread_id: `thread-${index + 1}`,
+    current_revision: `revision-${index + 1}`
+  }));
+  const records = tasks.map((task, index) => {
+    const developer = index < 8;
+    const model = developer ? (index < 4 ? "model-alpha" : "model-beta") : "model-qa";
+    const totalTokens = developer ? (model === "model-alpha" ? 100 : 200) : 150;
+    return {
+      specversion: "1.0",
+      id: `usage-qualified-${index + 1}`,
+      source: "urn:temple:provider:codex-app-server:local",
+      type: "org.temple.codex.usage.updated.v1",
+      subject: `project/policy-product/work-item/${task.work_item_id}`,
+      time: `2026-08-30T00:00:${String(index).padStart(2, "0")}.000Z`,
+      data: {
+        project_id: "policy-product",
+        work_item_id: task.work_item_id,
+        task_id: task.id,
+        scope_revision: task.current_revision,
+        attribution: {
+          project_id: "policy-product",
+          work_item_id: task.work_item_id,
+          task_id: task.id,
+          position_id: task.position_id,
+          lifecycle_stage: developer ? "build" : "independent_qa",
+          model,
+          outcome: "in-progress"
+        },
+        usage: {
+          last: {
+            input_tokens: totalTokens - 10,
+            cached_input_tokens: 0,
+            output_tokens: 10,
+            reasoning_output_tokens: 0,
+            total_tokens: totalTokens
+          }
+        }
+      },
+      templecursor: index + 1,
+      templeobservedat: `2026-08-30T00:00:${String(index).padStart(2, "0")}.000Z`
+    };
+  });
+  const stale = structuredClone(records[0]);
+  stale.id = "usage-stale";
+  stale.templecursor = 11;
+  stale.data.scope_revision = "outdated-revision";
+  const mismatched = structuredClone(records[1]);
+  mismatched.id = "usage-mismatched";
+  mismatched.templecursor = 12;
+  mismatched.data.task_id = "task-9999";
+  mismatched.data.attribution.task_id = "task-9999";
+  const wrongPosition = structuredClone(records[2]);
+  wrongPosition.id = "usage-wrong-position";
+  wrongPosition.templecursor = 13;
+  wrongPosition.data.attribution.position_id = "tech_lead";
+
+  const report = buildUsageBaselineFromRecords(project, [...records, stale, mismatched, wrongPosition], {
+    workItems,
+    tasks,
+    budgetCanSkipGates: true
+  });
+  const coverage = report.source.longitudinal_coverage;
+  assert.equal(coverage.qualification.status, "qualified");
+  assert.equal(coverage.detailed_token_observation_coverage.qualified_completed_work_items, 10);
+  assert.equal(coverage.detailed_token_observation_coverage.stale_observations, 1);
+  assert.equal(coverage.detailed_token_observation_coverage.uncorrelated_observations, 1);
+  assert.equal(coverage.detailed_token_observation_coverage.incomplete_qualification_observations, 1);
+  assert.deepEqual(coverage.detailed_token_observation_coverage.qualified_task_shape_ids, [
+    "developer:build",
+    "independent_qa:independent_qa"
+  ]);
+  assert.equal(coverage.recommendation.status, "available");
+  assert.equal(coverage.recommendation.task_shape, "developer:build");
+  assert.equal(coverage.recommendation.recommended_model, "model-alpha");
+  assert.deepEqual(coverage.recommendation.compared_models, ["model-alpha", "model-beta"]);
+  assert.equal(coverage.recommendation.confidence, "low");
+  assert.equal(coverage.recommendation.evidence_basis, "accepted-closeout-token-observation-only");
+  assert.equal(coverage.recommendation.matched_evaluation, false);
+  assert.equal(coverage.recommendation.routing_authority, false);
+  assert.equal(coverage.recommendation.automatic_routing, false);
+  assert.equal(coverage.recommendation.model_switch_performed, false);
+  assert.equal(coverage.recommendation.budget_can_skip_gates, false);
+  assert.equal(coverage.recommendation.context_required, true);
+  assert.equal(coverage.recommendation.developer_evidence_required, true);
+  assert.equal(coverage.recommendation.independent_qa_required, true);
+  assert.equal(coverage.recommendation.human_approval_required, true);
+  assert.equal(coverage.recommendation.release_authority_granted, false);
+  assert.equal(coverage.qualification.routing_claim_allowed, false);
+  assert.equal(coverage.qualification.model_quality_claim_allowed, false);
+  assert.equal(report.routing.automatic_routing, false);
+  assert.equal(report.routing.budget_can_skip_gates, false);
+
+  for (const collaborationProfile of ["solo", "collaborative", "high-assurance"]) {
+    const adversarial = buildUsageBaselineFromRecords(project, records, {
+      workItems,
+      tasks,
+      collaborationProfile,
+      budgetCanSkipGates: true,
+      skipContext: true,
+      skipDeveloperEvidence: true,
+      skipIndependentQa: true,
+      skipHumanApproval: true,
+      grantReleaseAuthority: true
+    });
+    assert.deepEqual(
+      {
+        automatic_routing: adversarial.source.longitudinal_coverage.recommendation.automatic_routing,
+        budget_can_skip_gates: adversarial.source.longitudinal_coverage.recommendation.budget_can_skip_gates,
+        context_required: adversarial.source.longitudinal_coverage.recommendation.context_required,
+        developer_evidence_required: adversarial.source.longitudinal_coverage.recommendation.developer_evidence_required,
+        independent_qa_required: adversarial.source.longitudinal_coverage.recommendation.independent_qa_required,
+        human_approval_required: adversarial.source.longitudinal_coverage.recommendation.human_approval_required,
+        release_authority_granted: adversarial.source.longitudinal_coverage.recommendation.release_authority_granted
+      },
+      {
+        automatic_routing: false,
+        budget_can_skip_gates: false,
+        context_required: true,
+        developer_evidence_required: true,
+        independent_qa_required: true,
+        human_approval_required: true,
+        release_authority_granted: false
+      },
+      `${collaborationProfile} recommendation authority must fail closed`
+    );
+  }
+
+  const preflight = buildUsagePreflightFromRecords(
+    project,
+    tasks,
+    records,
+    [{ id: "codex-local", kind: "codex-app-server", status: "ready", capabilities: { token_usage: "supported" } }],
+    null,
+    { workItems }
+  );
+  assert.equal(preflight.baseline_qualification.status, "qualified");
+  assert.equal(preflight.routing.recommendation_status, "available");
+  assert.equal(preflight.routing.recommendation.recommended_model, "model-alpha");
+  assert.equal(preflight.routing.automatic_routing, false);
+  assert.equal(preflight.routing.budget_can_skip_gates, false);
 });
 
 test("usage baseline sums provider deltas, preserves unknowns, and never invents cost or routing", async (context) => {
@@ -500,6 +653,6 @@ test("usage baseline sums provider deltas, preserves unknowns, and never invents
   assert.equal(preflightReport.detailed_thread_usage.status, "observed");
   assert.equal(preflightReport.provider.status, "unobserved");
   assert.equal(preflightReport.account_usage.availability, "not-probed");
-  assert.equal(preflightReport.baseline_qualification.status, "first-observation-qualified");
+  assert.equal(preflightReport.baseline_qualification.status, "not-qualified");
   assert.equal(preflightReport.canonical_state_changed, false);
 });

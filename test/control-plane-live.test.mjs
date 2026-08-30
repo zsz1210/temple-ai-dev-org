@@ -7,6 +7,7 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 import {
   buildCodexRuntimeRequestResponse,
+  classifyCodexAttachFailure,
   classifyCodexTasks,
   normalizeCodexMessage,
   normalizeCodexThreadSnapshot,
@@ -490,4 +491,97 @@ test("Codex App Server provider reconciles terminal task history without attempt
   assert.equal(live.tasks.history_only, 1);
   assert.ok(live.timeline.some((entry) => entry.provenance === "historical"));
   await provider.stop();
+});
+
+test("unsupported history read does not block a supported live resume", async (context) => {
+  const { temporaryRoot, target, stateDirectory } = await fixture(context);
+  const callsPath = path.join(temporaryRoot, "unsupported-read-calls.log");
+  const fakeServer = path.join(temporaryRoot, "fake-unsupported-read-app-server.mjs");
+  await fs.writeFile(fakeServer, `
+    import fs from "node:fs";
+    import readline from "node:readline";
+    const input=readline.createInterface({input:process.stdin});
+    const send=(value)=>process.stdout.write(JSON.stringify(value)+"\\n");
+    const thread={id:"thread-live-001",status:{type:"active"},turns:[]};
+    input.on("line",line=>{const message=JSON.parse(line);fs.appendFileSync(${JSON.stringify(callsPath)},message.method+"\\n");if(message.method==="initialize")send({jsonrpc:"2.0",id:message.id,result:{serverInfo:{version:"fixture-read-boundary"}}});else if(message.method==="thread/read")send({jsonrpc:"2.0",id:message.id,error:{code:-32601,message:"Method not found"}});else if(message.method==="thread/resume")send({jsonrpc:"2.0",id:message.id,result:{thread}})});
+  `);
+  const journal = await openTelemetryJournal(stateDirectory, {
+    maxEvents: 100,
+    privacy: defaultControlPlaneConfig().privacy
+  });
+  context.after(() => journal.close());
+  const registry = createProviderRegistry([repositoryProviderContract()]);
+  const provider = await startCodexAppServerProvider(target, journal, registry, {
+    command: process.execPath,
+    commandArgs: [fakeServer],
+    reconnectMs: 60000
+  });
+  await provider.start();
+  context.after(() => provider.stop());
+
+  const calls = (await fs.readFile(callsPath, "utf8")).trim().split("\n");
+  assert.deepEqual(calls, ["initialize", "initialized", "thread/read", "thread/resume"]);
+  assert.deepEqual(provider.attachmentOutcomes()[0], {
+    task_id: "task-0001",
+    work_item_id: "WI-0001",
+    provider_thread_id: "thread-live-001",
+    history_read: "failed",
+    live_resume: "succeeded",
+    attach_outcome: "live-attached",
+    reason_code: "thread-read-unsupported",
+    retry_suppressed: true
+  });
+  assert.equal(registry.get("codex-local").status, "degraded");
+  assert.equal(registry.get("codex-local").degraded_reason, "thread-read-unsupported");
+  assert.equal(registry.get("codex-local").attachment.outcomes["live-attached"], 1);
+  assert.equal(registry.get("codex-local").attachment.retry_suppressed_tasks, 1);
+});
+
+test("host-owned unresumable tasks degrade once without resume retry churn", async (context) => {
+  const { temporaryRoot, target, stateDirectory } = await fixture(context);
+  assert.deepEqual(
+    classifyCodexAttachFailure({ rpcCode: -32602, providerReason: "invalid params secret-marker" }),
+    { reason_code: "thread-resume-invalid", retryable: false, provider_wide: false }
+  );
+  const callsPath = path.join(temporaryRoot, "host-owned-calls.log");
+  const fakeServer = path.join(temporaryRoot, "fake-host-owned-app-server.mjs");
+  await fs.writeFile(fakeServer, `
+    import fs from "node:fs";
+    import readline from "node:readline";
+    const input=readline.createInterface({input:process.stdin});
+    const send=(value)=>process.stdout.write(JSON.stringify(value)+"\\n");
+    const thread={id:"thread-live-001",status:{type:"idle"},turns:[]};
+    input.on("line",line=>{const message=JSON.parse(line);fs.appendFileSync(${JSON.stringify(callsPath)},message.method+"\\n");if(message.method==="initialize")send({jsonrpc:"2.0",id:message.id,result:{serverInfo:{version:"fixture-host-boundary"}}});else if(message.method==="thread/read")send({jsonrpc:"2.0",id:message.id,result:{thread}});else if(message.method==="thread/resume")send({jsonrpc:"2.0",id:message.id,error:{code:-32004,message:"thread not found in Desktop session store secret-marker"}})});
+  `);
+  const journal = await openTelemetryJournal(stateDirectory, {
+    maxEvents: 100,
+    privacy: defaultControlPlaneConfig().privacy
+  });
+  context.after(() => journal.close());
+  const registry = createProviderRegistry([repositoryProviderContract()]);
+  const provider = await startCodexAppServerProvider(target, journal, registry, {
+    command: process.execPath,
+    commandArgs: [fakeServer],
+    reconnectMs: 60000
+  });
+  await provider.start();
+  context.after(() => provider.stop());
+  assert.equal(provider.attachmentOutcomes()[0].reason_code, "thread-not-in-app-server-store");
+  assert.equal(provider.attachmentOutcomes()[0].retry_suppressed, true);
+  await provider.reconnect();
+
+  const calls = (await fs.readFile(callsPath, "utf8")).trim().split("\n");
+  assert.equal(calls.filter((method) => method === "thread/read").length, 2);
+  assert.equal(calls.filter((method) => method === "thread/resume").length, 1);
+  assert.equal(provider.attachmentOutcomes()[0].history_read, "succeeded");
+  assert.equal(provider.attachmentOutcomes()[0].live_resume, "suppressed");
+  assert.equal(provider.attachmentOutcomes()[0].attach_outcome, "degraded");
+  assert.equal(registry.get("codex-local").degraded_reason, "thread-not-in-app-server-store");
+  assert.equal(registry.get("codex-local").attachment.outcomes.degraded, 1);
+  assert.equal(registry.get("codex-local").attachment.retry_suppressed_tasks, 1);
+  await provider.start();
+  const callsAfterRepeatedStart = (await fs.readFile(callsPath, "utf8")).trim().split("\n");
+  assert.deepEqual(callsAfterRepeatedStart, calls);
+  assert.doesNotMatch(JSON.stringify(journal.readAfter(0).records), /secret-marker/);
+  assert.doesNotMatch(JSON.stringify(registry.get("codex-local")), /secret-marker/);
 });
