@@ -629,7 +629,7 @@
     {
       "id": "worker-20260830135829-7e772ea8",
       "runtime_kind": "internal-subagent",
-      "status": "active",
+      "status": "completed",
       "work_item_id": "WI-0032",
       "position_id": "developer",
       "agent_id": "agent-rikku",
@@ -645,12 +645,16 @@
       "runtime_id": "/root/wi_0032_rikku_federation",
       "task_id": null,
       "resource_reservation_ids": [],
-      "current_revision": null,
-      "evidence": [],
+      "current_revision": "27d735d89d30915ee2399f80f85ad563477d420c",
+      "evidence": [
+        "EVID-20260830T140734Z-A5DB1E81",
+        "EVID-20260830T140800Z-A250CF61",
+        ".ai-org/artifacts/WI-0032/developer-evidence.md"
+      ],
       "reserved_at": "2026-08-30T13:58:29.103Z",
       "attached_at": "2026-08-30T13:59:36.058Z",
-      "completed_at": null,
-      "updated_at": "2026-08-30T13:59:36.058Z"
+      "completed_at": "2026-08-30T14:08:50.577Z",
+      "updated_at": "2026-08-30T14:08:50.577Z"
     },
     {
       "id": "worker-20260830135829-d6868b66",

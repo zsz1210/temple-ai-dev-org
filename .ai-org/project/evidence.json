@@ -3649,6 +3649,86 @@
         "scenario": "Independently reproduce exact transient confirmation, exactly-one provider delivery, content-free durable history, provider rejection, delivery unknown, interruption, completion, desktop, and 420-pixel narrow states after entering Independent QA",
         "provenance": "fixture"
       }
+    },
+    {
+      "id": "EVID-20260830T140734Z-A5DB1E81",
+      "work_item_id": "WI-0032",
+      "recorded_at": "2026-08-30T14:07:34.206Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Federation Git inspection candidate",
+      "outcome": "verified",
+      "scope_revision": "27d735d89d30915ee2399f80f85ad563477d420c",
+      "observed_at": "2026-08-30T14:07:34.206Z",
+      "summary": "Exact candidate hardens federation Git subprocesses against participant config, ambient injection, nested-root discovery, and promisor lazy fetch.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "27d735d89d30915ee2399f80f85ad563477d420c"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "27d735d89d30915ee2399f80f85ad563477d420c",
+        "working_tree_dirty": false
+      }
+    },
+    {
+      "id": "EVID-20260830T140800Z-A250CF61",
+      "work_item_id": "WI-0032",
+      "recorded_at": "2026-08-30T14:08:00.766Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Federation adversarial verification",
+      "outcome": "pass",
+      "scope_revision": "27d735d89d30915ee2399f80f85ad563477d420c",
+      "observed_at": "2026-08-30T14:06:46.000Z",
+      "summary": "Focused federation 11/11, full local verification 202/202, schema 55/24, and Doctor 35 pass/1 known warning/0 fail at the exact candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0032/developer-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0032/developer-observation.json",
+          "sha256": "e13be27ef299fe47dded107c120064791b2c3de2029a2d15e6b3b329b1b99d68"
+        },
+        {
+          "path": "src/federation.mjs",
+          "sha256": "a73cefe4ade1f8ac4fca3fc03d8ef50816520715353d39292ac2b32eaf370efb"
+        },
+        {
+          "path": "test/federation.test.mjs",
+          "sha256": "66a227374d232c1fb069301d4f297c89c7d47b3a05e75195999ad48717b38767"
+        },
+        {
+          "path": "docs/operations/multi-repository-federation.md",
+          "sha256": "e6273f3d14545a2f0a0a61727e36bcfe04e6f0358b95a3e597e630f277247954"
+        },
+        {
+          "path": "SECURITY.md",
+          "sha256": "3b01e46407bfcddf4beab09f03d9afa664452f3f829ce4abaf1c5eb66187d4f8"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T14:06:04.000Z"
+      }
     }
   ]
 }

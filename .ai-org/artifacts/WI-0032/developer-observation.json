@@ -1,0 +1,15 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "27d735d89d30915ee2399f80f85ad563477d420c",
+  "command": ["npm", "run", "verify"],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-30T14:06:04.000Z",
+  "completed_at": "2026-08-30T14:06:46.000Z",
+  "artifact_refs": [
+    "src/federation.mjs",
+    "test/federation.test.mjs",
+    "docs/operations/multi-repository-federation.md",
+    "SECURITY.md"
+  ]
+}
