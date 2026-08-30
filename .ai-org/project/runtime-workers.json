@@ -175,7 +175,7 @@
     {
       "id": "worker-20260830080254-304c0eb5",
       "runtime_kind": "internal-subagent",
-      "status": "active",
+      "status": "completed",
       "work_item_id": "WI-0020",
       "position_id": "developer",
       "agent_id": "agent-rikku",
@@ -191,12 +191,15 @@
       "runtime_id": "/root/framework_docs_review:fix-wi-0020",
       "task_id": null,
       "resource_reservation_ids": [],
-      "current_revision": null,
-      "evidence": [],
+      "current_revision": "ca2caf6c2afc8c42ad70de87d2170408f1794dfe",
+      "evidence": [
+        "Focused audit and recovery 18/18",
+        "Full verification 182/182"
+      ],
       "reserved_at": "2026-08-30T08:02:54.619Z",
       "attached_at": "2026-08-30T08:03:00.359Z",
-      "completed_at": null,
-      "updated_at": "2026-08-30T08:03:00.359Z"
+      "completed_at": "2026-08-30T08:10:14.908Z",
+      "updated_at": "2026-08-30T08:10:14.908Z"
     },
     {
       "id": "worker-20260830080254-fa6dafd6",
