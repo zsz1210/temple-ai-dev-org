@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0022",
   "title": "Bind federation reads to the expected revision",
-  "state": "blocked",
+  "state": "done",
   "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T08:01:08.926Z",
-  "updated_at": "2026-08-30T08:21:27.908Z",
+  "updated_at": "2026-08-30T08:32:38.428Z",
   "scope": [
     "Prevent canonical symlink and working-tree content from being projected as the registry expected Git revision."
   ],
@@ -116,6 +116,24 @@
     ],
     "blocker_record": [
       ".ai-org/artifacts/WI-0022/independent-qa-report-no-go.md"
+    ],
+    "resolution_evidence": [
+      ".ai-org/artifacts/WI-0023/release-record.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0022/independent-qa-correction-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/work-orders/WI-0022.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0022/independent-qa-correction-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0022/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -127,11 +145,12 @@
     ".ai-org/artifacts/WI-0022/developer-evidence.md",
     ".ai-org/artifacts/WI-0022/quality-test-report.md",
     ".ai-org/artifacts/WI-0022/evaluation-report.md",
-    ".ai-org/artifacts/WI-0022/independent-qa-report-no-go.md"
+    ".ai-org/artifacts/WI-0022/independent-qa-report-no-go.md",
+    ".ai-org/artifacts/WI-0023/release-record.md",
+    ".ai-org/artifacts/WI-0022/independent-qa-correction-report.md",
+    ".ai-org/artifacts/WI-0022/release-record.md"
   ],
-  "unresolved": [
-    "Independent QA no-go: Git replace object bypass; corrective WI-0023."
-  ],
+  "unresolved": [],
   "next_position": null,
   "handoffs": [
     {
@@ -143,5 +162,8 @@
     }
   ],
   "developer_candidate_revision": "5fb81a86bd9828f561ad9611daef3b0e2eab9b9c",
-  "previous_state": "independent_qa"
+  "tested_revision": "db40145cee3f1ca7bfa3925cdfcfeb38b8844b9b",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

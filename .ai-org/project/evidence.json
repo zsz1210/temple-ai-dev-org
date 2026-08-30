@@ -2189,6 +2189,123 @@
         "exit_code": 0,
         "started_at": "2026-08-30T08:14:30.000Z"
       }
+    },
+    {
+      "id": "EVID-20260830T082800Z-DEFD81BD",
+      "work_item_id": "WI-0023",
+      "recorded_at": "2026-08-30T08:28:00.370Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Integrated Git replacement hardening",
+      "outcome": "verified",
+      "scope_revision": "db40145cee3f1ca7bfa3925cdfcfeb38b8844b9b",
+      "observed_at": "2026-08-30T08:28:00.370Z",
+      "summary": "Exact candidate disables replacement objects for every federation Git subprocess.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "db40145cee3f1ca7bfa3925cdfcfeb38b8844b9b"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "db40145cee3f1ca7bfa3925cdfcfeb38b8844b9b",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260830T082800Z-20146D34",
+      "work_item_id": "WI-0023",
+      "recorded_at": "2026-08-30T08:28:00.646Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Integrated verification",
+      "outcome": "pass",
+      "scope_revision": "db40145cee3f1ca7bfa3925cdfcfeb38b8844b9b",
+      "observed_at": "2026-08-30T08:27:19.000Z",
+      "summary": "Focused federation 7/7 and full verification 185/185 passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0023/developer-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0023/developer-observation.json",
+          "sha256": "7d1734c127c476f61e684a7b9aa472c14dd78f35fcc9233e19f5e1e858813569"
+        },
+        {
+          "path": "src/federation.mjs",
+          "sha256": "faf8d878efe4ad358d59f93db41bd4692946c5bcef07e4e09f3219e910969caa"
+        },
+        {
+          "path": "test/federation.test.mjs",
+          "sha256": "a4ac3f3497931df000ba4f681a1ddd79fd2d5c431b268d12ca1c6e9a9af3474f"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T08:26:13.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T083141Z-FDC3BBCB",
+      "work_item_id": "WI-0023",
+      "recorded_at": "2026-08-30T08:31:41.965Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Fresh Independent QA",
+      "outcome": "pass",
+      "scope_revision": "db40145cee3f1ca7bfa3925cdfcfeb38b8844b9b",
+      "observed_at": "2026-08-30T08:32:00.000Z",
+      "summary": "GO: independent Git replacement attack did not project replacement content; focused 7/7 and full 185/185 passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0023/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0023/independent-qa-observation.json",
+          "sha256": "04074aa582291b40d71b2d2d75a932beceac4d1e39b1d753e352c8781dcc4162"
+        },
+        {
+          "path": "src/federation.mjs",
+          "sha256": "faf8d878efe4ad358d59f93db41bd4692946c5bcef07e4e09f3219e910969caa"
+        },
+        {
+          "path": "test/federation.test.mjs",
+          "sha256": "a4ac3f3497931df000ba4f681a1ddd79fd2d5c431b268d12ca1c6e9a9af3474f"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T08:29:00.000Z"
+      }
     }
   ]
 }

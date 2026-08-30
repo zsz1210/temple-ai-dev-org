@@ -371,6 +371,34 @@
       "attached_at": "2026-08-30T08:21:39.791Z",
       "completed_at": "2026-08-30T08:25:57.597Z",
       "updated_at": "2026-08-30T08:25:57.597Z"
+    },
+    {
+      "id": "worker-20260830082853-cdaafc6d",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0023",
+      "position_id": "independent_qa",
+      "agent_id": "agent-lulu",
+      "principal_id": "project-owner",
+      "claim_id": "claim-20260830082853-c26b1e89",
+      "base_revision": "db40145cee3f1ca7bfa3925cdfcfeb38b8844b9b",
+      "branch": "phase4/qa-wi-0023",
+      "worktree": "/tmp/temple-phase4.slCwlE/qa-wi-0023",
+      "plan_fingerprint": "d44da87a35e51fa14001f1d257a7cffedf4ef30f62863f5017f52692a5b4d469",
+      "plan_digest": "775ee98078e5f5b40edd1cad3e5c77f28526eabf896c0987988c210e3687d29d",
+      "preparation_fingerprint": "40457180492ac9abdff0cc87cea9ef5bc6213d01af17179083700419f3284135",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/ownership_code_review:qa-wi-0023",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "db40145cee3f1ca7bfa3925cdfcfeb38b8844b9b",
+      "evidence": [
+        "Independent QA GO: fresh A/B git-replace attack blocked; focused 7/7, full 185/185"
+      ],
+      "reserved_at": "2026-08-30T08:28:53.427Z",
+      "attached_at": "2026-08-30T08:28:57.997Z",
+      "completed_at": "2026-08-30T08:31:41.403Z",
+      "updated_at": "2026-08-30T08:31:41.403Z"
     }
   ]
 }

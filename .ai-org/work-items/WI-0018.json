@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0018",
   "title": "Implement Phase 4C multi-repository federation",
-  "state": "blocked",
+  "state": "done",
   "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T07:23:06.292Z",
-  "updated_at": "2026-08-30T08:21:27.540Z",
+  "updated_at": "2026-08-30T08:32:47.069Z",
   "scope": [
     "Implement project-owned participant registries, composite cross-project references, compatibility waves, and a read-only unknown-safe portfolio projection."
   ],
@@ -127,6 +127,24 @@
     ],
     "blocker_record": [
       ".ai-org/work-items/WI-0018.json"
+    ],
+    "resolution_evidence": [
+      ".ai-org/artifacts/WI-0022/release-record.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0018/independent-qa-correction-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/work-orders/WI-0018.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0018/independent-qa-correction-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0018/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -137,11 +155,12 @@
     "EVID-20260830T074930Z-9565BFFB",
     ".ai-org/artifacts/WI-0018/developer-evidence.md",
     ".ai-org/artifacts/WI-0018/quality-test-report.md",
-    ".ai-org/artifacts/WI-0018/evaluation-report.md"
+    ".ai-org/artifacts/WI-0018/evaluation-report.md",
+    ".ai-org/artifacts/WI-0022/release-record.md",
+    ".ai-org/artifacts/WI-0018/independent-qa-correction-report.md",
+    ".ai-org/artifacts/WI-0018/release-record.md"
   ],
-  "unresolved": [
-    "Independent QA no-go: federation revision-authority symlink defect; corrective WI-0022."
-  ],
+  "unresolved": [],
   "next_position": null,
   "handoffs": [
     {
@@ -153,5 +172,8 @@
     }
   ],
   "developer_candidate_revision": "1c3ca9c830798507c1a32148e2af1c12e82ce178",
-  "previous_state": "independent_qa"
+  "tested_revision": "db40145cee3f1ca7bfa3925cdfcfeb38b8844b9b",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

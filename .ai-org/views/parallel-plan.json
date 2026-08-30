@@ -1,92 +1,62 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T08:21:28.556Z",
-  "source_fingerprint": "629e2ff5bae65d543199ed38dd853174222fe330fe1bf90e41abdc6848fb7916",
+  "generated_at": "2026-08-30T08:30:28.784Z",
+  "source_fingerprint": "01932f951f9be9c83c936772b649f016837708468682d0d65e9cd30775c67ff3",
   "scope": {
     "mode": "parent-descendants",
     "parent_work_item_id": "WI-0015",
     "selected_work_item_ids": [
       "WI-0016",
-      "WI-0017",
       "WI-0018",
       "WI-0019",
       "WI-0022",
-      "WI-0023"
+      "WI-0023",
+      "WI-0024"
     ]
   },
   "max_workers": 3,
   "summary": {
     "selected": 6,
-    "dispatchable": 1,
-    "active": 0,
-    "sequential": 0,
-    "blocked": 5,
-    "waves": 1
+    "dispatchable": 0,
+    "active": 1,
+    "sequential": 1,
+    "blocked": 4,
+    "waves": 0
   },
-  "waves": [
+  "waves": [],
+  "active": [
     {
-      "id": "wave-001",
-      "order": 1,
-      "dispatch": [
-        {
-          "work_item_id": "WI-0023",
-          "title": "Disable Git replacement objects in federation",
-          "position_id": "developer",
-          "agent_id": "agent-rikku",
-          "agent_name": "Rikku",
-          "suggested_task_title": "WI-0023 · Developer · Rikku",
-          "base_revision": "126b3158f08a4e35bd368c11931185f1c54a3bc6",
-          "affected_paths": [
-            "src/federation.mjs",
-            "test/federation.test.mjs"
-          ],
-          "dependencies": [],
-          "required_disciplines": [],
-          "active_requirements": {
-            "stage": "build",
-            "disciplines": [],
-            "resources": []
-          },
-          "preparation_fingerprint": "0e89b16c2beec3af561aa82569a7b66951677580285d306173ee5dc8dee9cfa4",
-          "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0023 --position developer --no-write --json",
-          "claim_required_before_work": true,
-          "task_registration_required_after_creation": true,
-          "task_creation_performed": false,
-          "claim_performed": false,
-          "external_action_performed": false
-        }
-      ],
-      "join_gate": {
-        "integration_owner_agent_ids": [
-          "agent-mog"
-        ],
-        "required_evidence": [
-          "exact_candidate_revision",
-          "verification_results",
-          "unresolved_items"
-        ],
-        "rule": "Join every dispatched Work Item through its Integration Owner before dispatching dependent work or advancing the lifecycle."
-      }
+      "work_item_id": "WI-0023",
+      "title": "Disable Git replacement objects in federation",
+      "disposition": "active",
+      "position_id": "independent_qa",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": "agent-mog",
+      "reasons": [],
+      "claim_id": "claim-20260830082853-c26b1e89",
+      "principal_id": "project-owner",
+      "branch": "phase4/qa-wi-0023",
+      "worktree": "/tmp/temple-phase4.slCwlE/qa-wi-0023",
+      "base_revision": "db40145cee3f1ca7bfa3925cdfcfeb38b8844b9b"
     }
   ],
-  "active": [],
-  "sequential": [],
+  "sequential": [
+    {
+      "work_item_id": "WI-0024",
+      "title": "Make Doctor fail closed on legacy bootstrap metadata",
+      "disposition": "sequential",
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "integration_owner_assigned"
+      ]
+    }
+  ],
   "blocked": [
     {
       "work_item_id": "WI-0016",
       "title": "Complete Phase 4A durability operations",
-      "disposition": "blocked",
-      "position_id": "engineering_manager",
-      "agent_id": "agent-mog",
-      "integration_owner_agent_id": "agent-mog",
-      "reasons": [
-        "unresolved_items_cleared"
-      ]
-    },
-    {
-      "work_item_id": "WI-0017",
-      "title": "Complete Phase 4B policy and usage reliability",
       "disposition": "blocked",
       "position_id": "engineering_manager",
       "agent_id": "agent-mog",
@@ -115,7 +85,6 @@
       "integration_owner_agent_id": "agent-mog",
       "reasons": [
         "dependency_not_dispatchable:WI-0016",
-        "dependency_not_dispatchable:WI-0017",
         "dependency_not_dispatchable:WI-0018"
       ]
     },
@@ -132,6 +101,18 @@
     }
   ],
   "conflicts": [
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0016",
+      "right_work_item_id": "WI-0024",
+      "paths": [
+        {
+          "left_path": "test/recovery.test.mjs",
+          "right_path": "test/recovery.test.mjs"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
     {
       "kind": "affected-path",
       "left_work_item_id": "WI-0018",
