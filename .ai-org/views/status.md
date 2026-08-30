@@ -64,7 +64,7 @@
 | Task | Work item | Suggested title | Position / Agent | Principal | Branch | Status | Revision | Archive |
 |---|---|---|---|---|---|---|---|---|
 | task-0001 | WI-0008 | WI-0008 · Developer · Rikku | Developer / Rikku | — | — | completed | `0e9891cf` | ready |
-| task-0002 | WI-0014 | WI-0014 · Developer · Rikku | Developer / Rikku | — | — | active | `3536b37d` | — |
+| task-0002 | WI-0014 | WI-0014 · Developer · Rikku | Developer / Rikku | — | — | completed | `a172ecec` | — |
 
 ## Runtime workers and shared resources
 
@@ -132,6 +132,7 @@ No runtime workers registered yet.
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-30T07:06:41.627Z | task_status_changed | WI-0014 | agent-rikku |
 | 2026-08-30T06:48:38.139Z | task_metadata_updated | WI-0014 | agent-mog |
 | 2026-08-30T06:48:24.506Z | task_registered | WI-0014 | agent-mog |
 | 2026-08-30T06:46:29.447Z | work_item_transitioned | WI-0014 | agent-tidus |
@@ -139,7 +140,6 @@ No runtime workers registered yet.
 | 2026-08-30T06:46:24.956Z | work_item_transitioned | WI-0014 | agent-mog |
 | 2026-08-30T06:46:24.697Z | work_item_coordination_configured | WI-0014 | agent-mog |
 | 2026-08-30T06:45:44.449Z | work_item_created | WI-0014 | agent-mog |
-| 2026-08-30T06:39:26.025Z | work_item_closed | WI-0013 | agent-mog |
 
 ## Assignments
 
