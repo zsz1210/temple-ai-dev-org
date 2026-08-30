@@ -30,6 +30,14 @@ function git(target, args) {
   return result.stdout.trim();
 }
 
+function gitWithReplacementObjects(target, args) {
+  const env = { ...process.env, GIT_AUTHOR_DATE: OBSERVED_AT, GIT_COMMITTER_DATE: OBSERVED_AT };
+  delete env.GIT_NO_REPLACE_OBJECTS;
+  const result = spawnSync("git", ["-C", target, ...args], { encoding: "utf8", env });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  return result.stdout.trim();
+}
+
 async function createRepository(target, options) {
   await fs.mkdir(path.join(target, ".ai-org/project"), { recursive: true });
   await fs.mkdir(path.join(target, ".ai-org/core"), { recursive: true });
@@ -459,6 +467,68 @@ test("expected revisions reject the internal shadow project symlink reproduction
   assert.ok(portfolio.participants.every((entry) => entry.work_items.length === 0));
   assert.equal(JSON.stringify(portfolio).includes(modifiedShadow.name), false);
   assert.equal(portfolio.summary.overall_completion, null);
+});
+
+test("expected revisions ignore local Git replacement objects", async (testContext) => {
+  const { root, coordinator } = await fixture(testContext);
+  const participantRoot = path.join(root, "replace-attack");
+  const revisionA = await createRepository(participantRoot, {
+    projectId: "replace-attack",
+    name: "Literal revision A",
+    workItems: [{ id: "WI-0001" }]
+  });
+
+  const projectPath = path.join(participantRoot, ".ai-org/project/project.json");
+  const projectB = JSON.parse(await fs.readFile(projectPath, "utf8"));
+  projectB.name = "Replacement revision B must never be projected as A";
+  await writeJson(projectPath, projectB);
+  git(participantRoot, ["add", ".ai-org/project/project.json"]);
+  git(participantRoot, ["commit", "-qm", "replacement content"]);
+  const revisionB = git(participantRoot, ["rev-parse", "HEAD"]);
+  assert.notEqual(revisionB, revisionA);
+
+  gitWithReplacementObjects(participantRoot, ["replace", revisionA, revisionB]);
+  gitWithReplacementObjects(participantRoot, ["reset", "--hard", revisionA]);
+  assert.equal(gitWithReplacementObjects(participantRoot, ["rev-parse", "HEAD"]), revisionA);
+  assert.equal(
+    gitWithReplacementObjects(participantRoot, [
+      "status",
+      "--porcelain=v1",
+      "--",
+      "temple.lock",
+      ".ai-org/core/workflow.json",
+      ".ai-org/project/project.json",
+      ".ai-org/project/resources.json",
+      ".ai-org/project/evidence.json",
+      ".ai-org/work-items"
+    ]),
+    "",
+    "replacement-aware scoped status must reproduce the false-clean attack"
+  );
+  assert.equal(
+    JSON.parse(gitWithReplacementObjects(participantRoot, ["show", `${revisionA}:.ai-org/project/project.json`])).name,
+    projectB.name,
+    "replacement-aware Git must expose revision B content through revision A"
+  );
+
+  const before = await contentDigest(participantRoot);
+  const portfolio = await buildFederatedPortfolio(coordinator, {
+    registry: registry([participant("replace-attack", "../replace-attack", revisionA)]),
+    allowedRoot: root,
+    now: NOW
+  });
+  const after = await contentDigest(participantRoot);
+
+  assert.equal(after, before, "literal federation reads must not mutate participant content");
+  assert.equal(portfolio.summary.current, 0);
+  assert.equal(portfolio.summary.unknown, 1);
+  assert.equal(portfolio.summary.overall_completion, null);
+  assert.equal(portfolio.participants[0].diagnostics[0].code, "canonical_state_dirty");
+  assert.equal(portfolio.participants[0].provenance.expected_revision, revisionA);
+  assert.equal(portfolio.participants[0].provenance.source_revision, revisionA);
+  assert.equal(portfolio.participants[0].project, null);
+  assert.equal(portfolio.participants[0].work_items.length, 0);
+  assert.equal(JSON.stringify(portfolio).includes(projectB.name), false);
 });
 
 test("missing, stale, invalid, mismatched, dirty, and escaped participants remain unknown", async (testContext) => {

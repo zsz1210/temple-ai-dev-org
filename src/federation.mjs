@@ -320,7 +320,7 @@ async function gitOutput(repositoryRoot, args, maxBuffer = 256 * 1024) {
     encoding: "utf8",
     timeout: 5000,
     maxBuffer,
-    env: { ...process.env, GIT_OPTIONAL_LOCKS: "0" }
+    env: { ...process.env, GIT_OPTIONAL_LOCKS: "0", GIT_NO_REPLACE_OBJECTS: "1" }
   });
   return result.stdout;
 }
