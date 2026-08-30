@@ -79,6 +79,8 @@ test("Dashboard command drafts survive unrelated refreshes and invalidate change
   assert.match(dashboard, /Needs attention now/);
   assert.match(dashboard, /Snapshot stale/);
   assert.match(dashboard, /Terminal history/);
+  assert.match(dashboard, /Usage &amp; models/);
+  assert.match(dashboard, /Models represented: no observed model evidence/);
 });
 
 async function fixture(context) {

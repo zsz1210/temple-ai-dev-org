@@ -32,6 +32,7 @@ import {
 } from "./control-plane-providers.mjs";
 import { buildObserverProjection } from "./observer.mjs";
 import { buildLiveObserverProjection } from "./live-observer.mjs";
+import { buildUsageBaselineFromRecords } from "./usage-attribution.mjs";
 import {
   acquireControlPlaneLease,
   openTelemetryJournal,
@@ -172,9 +173,10 @@ function assertGatewayRequest(request, origin, sessionSecret, body) {
 }
 
 export async function buildControlPlaneSnapshot(target, journal, registry, options = {}) {
-  const [observer, daemon] = await Promise.all([
+  const [observer, daemon, taskRegistry] = await Promise.all([
     buildObserverProjection(target),
-    options.stateDirectory ? readDaemonMetadata(options.stateDirectory) : null
+    options.stateDirectory ? readDaemonMetadata(options.stateDirectory) : null,
+    readJson(path.join(target, ".ai-org/project/tasks.json"))
   ]);
   const config = options.config ?? await readControlPlaneConfig(target);
   const [liveObserver, conditions, inbox] = await Promise.all([
@@ -192,6 +194,12 @@ export async function buildControlPlaneSnapshot(target, journal, registry, optio
       : null
   ]);
   const journalSnapshot = journal.snapshot();
+  const retainedRecords = journal.readAfter(0).records;
+  const usage = buildUsageBaselineFromRecords(observer.project, retainedRecords, {
+    stateDirectory: options.stateDirectory ?? null,
+    workItems: observer.work.items,
+    tasks: taskRegistry.tasks ?? []
+  });
   const eventWindow = journal.readAfter(Math.max(0, journalSnapshot.last_cursor - (options.eventLimit ?? 100)));
   return {
     schema_version: CONTROL_PLANE_SNAPSHOT_SCHEMA,
@@ -209,6 +217,7 @@ export async function buildControlPlaneSnapshot(target, journal, registry, optio
     observer,
     live_observer: liveObserver,
     conditions,
+    usage,
     inbox,
     recent_events: eventWindow.records,
     canonical_state_changed: false,

@@ -193,6 +193,7 @@ test("private Dashboard is redacted, refresh-only, and cannot reach Inbox or mut
   assert.match(page.body, /Private network · Read only/);
   assert.doesNotMatch(page.body, /<h2>Human Inbox<\/h2>/);
   assert.doesNotMatch(page.body, /<h2>Agent Commands/);
+  assert.match(page.body, /Usage &amp; models/);
   assert.doesNotMatch(page.body, new RegExp(controlPlane.sessionSecret));
 
   const snapshotResponse = await privateRequest(controlPlane, "/api/v1/snapshot");
@@ -203,6 +204,9 @@ test("private Dashboard is redacted, refresh-only, and cannot reach Inbox or mut
   assert.equal(Object.hasOwn(snapshot, "daemon"), false);
   assert.equal(Object.hasOwn(snapshot, "inbox"), false);
   assert.equal(Object.hasOwn(snapshot, "recent_events"), false);
+  assert.equal(snapshot.usage.schema_version, "temple.usage-baseline/v1");
+  assert.equal(snapshot.usage.privacy.raw_prompts_retained, false);
+  assert.equal(snapshot.usage.routing.automatic_routing, false);
   assert.doesNotMatch(snapshotResponse.body, new RegExp(controlPlane.sessionSecret));
 
   const inbox = await privateRequest(controlPlane, "/api/v1/inbox");

@@ -208,9 +208,55 @@ test("HTTP snapshot and SSE replay expose local events while arbitrary mutation 
   assert.equal(initialResponse.status, 200);
   const initial = await initialResponse.json();
   assert.equal(initial.schema_version, "temple.control-plane-snapshot/v1");
+  assert.equal(initial.usage.schema_version, "temple.usage-baseline/v1");
+  assert.equal(initial.usage.baseline_status, "insufficient-data");
+  assert.equal(initial.usage.totals.total_tokens, null);
+  assert.equal(initial.usage.source.longitudinal_coverage.qualification.status, "not-qualified");
+  assert.equal(initial.usage.canonical_state_changed, false);
   const cursor = initial.journal.last_cursor;
   const appended = await controlPlane.journal.append(event("sse-event", { status: "active" }));
   assert.equal(appended.record.templecursor, cursor + 1);
+  await controlPlane.journal.append({
+    id: "usage-observation",
+    source: "urn:temple:provider:codex-local",
+    type: "org.temple.codex.usage.updated.v1",
+    subject: "project/control-product/task/task-unregistered",
+    time: "2026-08-30T00:00:02.000Z",
+    data: {
+      raw_prompt: "must-not-enter-the-usage-projection",
+      attribution: {
+        project_id: "control-product",
+        work_item_id: "WI-unregistered",
+        position_id: "developer",
+        lifecycle_stage: "build",
+        task_id: "task-unregistered",
+        attempt_id: "attempt-1",
+        provider_id: "codex-local",
+        model: "fixture-model",
+        model_version: "fixture-model-1",
+        reasoning_effort: "medium",
+        service_tier: "fixture",
+        context_capsule_digest: "sha256:fixture-context",
+        capability_set_digest: "sha256:fixture-capabilities",
+        outcome: "observed"
+      },
+      usage: {
+        last: {
+          input_tokens: 100,
+          cached_input_tokens: 25,
+          output_tokens: 40,
+          reasoning_output_tokens: 10,
+          total_tokens: 175
+        }
+      }
+    }
+  });
+  const observedUsage = (await (await fetch(`${controlPlane.url}/api/v1/snapshot`)).json()).usage;
+  assert.equal(observedUsage.baseline_status, "observed");
+  assert.equal(observedUsage.totals.total_tokens, 175);
+  assert.equal(observedUsage.driver_groups[0].dimensions.model, "fixture-model");
+  assert.equal(observedUsage.source.longitudinal_coverage.detailed_token_observation_coverage.uncorrelated_observations, 1);
+  assert.doesNotMatch(JSON.stringify(observedUsage), /must-not-enter-the-usage-projection/);
 
   const controller = new AbortController();
   const response = await fetch(`${controlPlane.url}/api/v1/events?after=${cursor}`, { signal: controller.signal });
@@ -312,6 +358,10 @@ test("Codex history bounds are validated and the Dashboard exposes terminal work
   assert.match(html, /History only/);
   assert.match(html, /badge\.terminal/);
   assert.match(html, /badge\.history-only/);
+  assert.match(html, /Usage &amp; models/);
+  assert.match(html, /No detailed Token observations yet/);
+  assert.match(html, /formatUsageNumber/);
+  assert.match(html, /automatic model switching remain unavailable/);
 });
 
 test("rebuild preserves the previous journal and reconstructs canonical repository events", async (context) => {

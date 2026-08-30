@@ -1,0 +1,88 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0039",
+  "title": "Expose truthful usage and model observability in the Dashboard",
+  "state": "cancelled",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-08-30T19:25:21.466Z",
+  "updated_at": "2026-08-30T19:32:04.540Z",
+  "scope": [
+    "Add a read-only usage and model workspace to the control-plane snapshot and Dashboard using existing provider-reported attribution data.",
+    "Preserve unknown values, qualification status, missing-dimension reasons, and model-routing non-authority instead of displaying fabricated savings, cost, or model conclusions."
+  ],
+  "acceptance_criteria": [
+    "The live snapshot exposes a bounded usage baseline generated without a model call or canonical-state mutation.",
+    "The Dashboard shows qualification progress, Token totals or unknown, completed task coverage, observed models, and usage-driver groups when evidence exists.",
+    "The private viewer receives the same bounded read-only usage projection without command, Inbox, prompt, credential, raw provider payload, or mutation authority.",
+    "Focused automated tests, full verification, and a narrow-screen runtime review pass at one exact candidate revision."
+  ],
+  "affected_paths": [
+    "src/control-plane-server.mjs",
+    "src/control-plane-dashboard.mjs",
+    "test/control-plane-foundation.test.mjs",
+    "test/control-plane-inbox.test.mjs",
+    "test/phase-4b.test.mjs",
+    "docs/validation/dashboard-usage-model-observability.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "code-first",
+  "parent_work_item_id": "WI-0031",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [
+    "architecture"
+  ],
+  "stage_requirements": {
+    "build": {
+      "disciplines": [
+        "general-development"
+      ],
+      "resources": []
+    },
+    "design": {
+      "disciplines": [
+        "ux"
+      ],
+      "resources": []
+    },
+    "eval": {
+      "disciplines": [
+        "ui"
+      ],
+      "resources": []
+    },
+    "spec": {
+      "disciplines": [
+        "product"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "HEAD",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": "agent-mog",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "cancellation_reason": [
+      "Superseded because global disciplines were incorrectly used for stage-specific Position requirements; no implementation started."
+    ]
+  },
+  "evidence": [
+    "Superseded because global disciplines were incorrectly used for stage-specific Position requirements; no implementation started."
+  ],
+  "unresolved": [],
+  "next_position": null
+}
