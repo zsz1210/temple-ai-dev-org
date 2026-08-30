@@ -79,7 +79,7 @@
 | WI-0033 | Establish operator-owned provider trust | spec | Product Manager | Yuna | blocked | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 1 |
 | WI-0034 | Make Dashboard current-state interaction trustworthy | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `—` | 0 | 3 | 0 |
 | WI-0035 | Reduce CI cost without hiding behavioral results | test | Quality & Evaluation Engineer | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0b02e1c5` | 0 | 7 | 1 |
-| WI-0036 | Add a private read-only Dashboard viewer | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260830144646-e7a0a49a | `—` | 0 | 3 | 0 |
+| WI-0036 | Add a private read-only Dashboard viewer | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260830145516-2931de87 | `f68186ba` | 0 | 6 | 1 |
 
 ## Codex task registry
 
@@ -190,14 +190,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-30T14:55:16.666Z | work_item_claimed | WI-0036 | human |
+| 2026-08-30T14:55:16.389Z | work_item_coordination_configured | WI-0036 | agent-lulu |
+| 2026-08-30T14:55:16.129Z | work_item_unresolved_updated | WI-0036 | agent-lulu |
+| 2026-08-30T14:55:15.870Z | work_item_transitioned | WI-0036 | agent-rikku |
+| 2026-08-30T14:55:07.830Z | handoff_created | WI-0036 | agent-rikku |
+| 2026-08-30T14:55:00.665Z | evidence_recorded | WI-0036 | human |
+| 2026-08-30T14:54:34.337Z | evidence_recorded | WI-0036 | human |
 | 2026-08-30T14:46:46.838Z | work_item_claimed | WI-0036 | human |
-| 2026-08-30T14:46:46.556Z | work_item_coordination_configured | WI-0036 | agent-rikku |
-| 2026-08-30T14:46:46.296Z | work_item_transitioned | WI-0036 | agent-tidus |
-| 2026-08-30T14:46:46.043Z | work_item_claimed | WI-0036 | human |
-| 2026-08-30T14:46:45.765Z | work_item_coordination_configured | WI-0036 | agent-tidus |
-| 2026-08-30T14:46:45.504Z | work_item_transitioned | WI-0036 | agent-yuna |
-| 2026-08-30T14:46:45.252Z | work_item_claimed | WI-0036 | human |
-| 2026-08-30T14:46:44.971Z | work_item_coordination_configured | WI-0036 | agent-yuna |
 
 ## Assignments
 

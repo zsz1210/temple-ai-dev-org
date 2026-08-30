@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0036",
   "title": "Add a private read-only Dashboard viewer",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-08-30T14:45:37.088Z",
-  "updated_at": "2026-08-30T14:46:46.838Z",
+  "updated_at": "2026-08-30T14:55:16.666Z",
   "scope": [
     "Expose the live Temple Dashboard through an explicitly trusted tailnet HTTPS reverse proxy while the control plane remains bound to 127.0.0.1 and every remote request remains read-only."
   ],
@@ -40,10 +40,10 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "7f83728ebd4f2935d32490b38239a031dc64d640",
+  "base_revision": "f68186ba2c5ae20657847cbc651b3969b986db90",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
-  "planned_agent_id": "agent-rikku",
+  "planned_agent_id": "agent-lulu",
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [
@@ -53,14 +53,14 @@
     "WI-0034 retains Dashboard state-preservation, attention, ordering, accessibility, and timeline authority; WI-0036 changes only remote read-only rendering and request boundaries and must compose with WI-0034 later."
   ],
   "claim": {
-    "id": "claim-20260830144646-e7a0a49a",
+    "id": "claim-20260830145516-2931de87",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "7f83728ebd4f2935d32490b38239a031dc64d640",
+    "agent_id": "agent-lulu",
+    "base_revision": "f68186ba2c5ae20657847cbc651b3969b986db90",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-08-30T14:46:46.838Z",
+    "claimed_at": "2026-08-30T14:55:16.666Z",
     "released_at": null
   },
   "claims": [
@@ -102,13 +102,25 @@
     },
     {
       "id": "claim-20260830144646-e7a0a49a",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "7f83728ebd4f2935d32490b38239a031dc64d640",
       "branch": "main",
       "worktree": null,
       "claimed_at": "2026-08-30T14:46:46.838Z",
+      "released_at": "2026-08-30T14:55:15.870Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260830145516-2931de87",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "f68186ba2c5ae20657847cbc651b3969b986db90",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T14:55:16.666Z",
       "released_at": null
     }
   ],
@@ -133,13 +145,35 @@
     ],
     "required_state_coverage": [
       ".ai-org/artifacts/WI-0036/ui-brief.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0036/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260830T145434Z-2BE6CDE2",
+      "EVID-20260830T145500Z-24370B0E"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/work-orders/WI-0036.md",
     ".ai-org/work-items/WI-0036.json",
-    ".ai-org/artifacts/WI-0036/ui-brief.md"
+    ".ai-org/artifacts/WI-0036/ui-brief.md",
+    ".ai-org/artifacts/WI-0036/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260830T145434Z-2BE6CDE2",
+    "EVID-20260830T145500Z-24370B0E"
   ],
-  "unresolved": [],
-  "next_position": "quality_evaluator"
+  "unresolved": [
+    "Real tailnet HTTPS and 420px tablet validation are pending the account owner's one-time Tailscale Serve enablement."
+  ],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "f68186ba2c5ae20657847cbc651b3969b986db90",
+      "artifact": ".ai-org/artifacts/WI-0036/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-30T14:55:07.830Z"
+    }
+  ],
+  "developer_candidate_revision": "f68186ba2c5ae20657847cbc651b3969b986db90"
 }
