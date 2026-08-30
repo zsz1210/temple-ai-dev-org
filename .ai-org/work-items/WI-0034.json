@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0034",
   "title": "Make Dashboard current-state interaction trustworthy",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T13:55:47.894Z",
-  "updated_at": "2026-08-30T15:58:14.832Z",
+  "updated_at": "2026-08-30T16:16:53.370Z",
   "scope": [
     "Preserve in-progress Agent Command input across unrelated live refreshes and make current, approval, QA, stale, and attention states truthful and discoverable before terminal history."
   ],
@@ -37,28 +37,26 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "0c61438",
+  "base_revision": "7a52896443e5055bd0b572f1df30e1536488c90f",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
-  "planned_agent_id": "agent-rikku",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [
     "Sequential integration only: preserve WI-0029 and WI-0030 Agent Command transport and privacy authority, leave WI-0033 provider trust out of Build, and compose without weakening WI-0036 private read-only request boundaries."
   ],
   "claim": {
-    "id": "claim-20260830154526-3907e42b",
+    "id": "claim-20260830161500-e43b0d63",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "0c61438",
+    "agent_id": "agent-lulu",
+    "base_revision": "7a52896443e5055bd0b572f1df30e1536488c90f",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-08-30T15:45:26.383Z",
-    "released_at": "2026-08-30T15:58:14.832Z",
-    "release_reason": [
-      "pause_for_private_viewer_shutdown_correction"
-    ]
+    "claimed_at": "2026-08-30T16:15:00.174Z",
+    "released_at": "2026-08-30T16:16:17.539Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
@@ -74,6 +72,42 @@
       "release_reason": [
         "pause_for_private_viewer_shutdown_correction"
       ]
+    },
+    {
+      "id": "claim-20260830160910-334a2087",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "7a52896443e5055bd0b572f1df30e1536488c90f",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T16:09:10.819Z",
+      "released_at": "2026-08-30T16:13:50.599Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260830161354-291cacd3",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "7a52896443e5055bd0b572f1df30e1536488c90f",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T16:13:54.255Z",
+      "released_at": "2026-08-30T16:14:56.659Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260830161500-e43b0d63",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "7a52896443e5055bd0b572f1df30e1536488c90f",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T16:15:00.174Z",
+      "released_at": "2026-08-30T16:16:17.539Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -97,13 +131,47 @@
     ],
     "required_state_coverage": [
       ".ai-org/artifacts/WI-0034/ui-brief.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0034/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260830T161337Z-70D25CCC",
+      "EVID-20260830T161337Z-4D187FED",
+      "EVID-20260830T161338Z-CF5CCFFA"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0034/quality-test-report.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0034/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260830T161617Z-DC1B358B"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/work-orders/WI-0034.md",
     ".ai-org/work-items/WI-0034.json",
-    ".ai-org/artifacts/WI-0034/ui-brief.md"
+    ".ai-org/artifacts/WI-0034/ui-brief.md",
+    ".ai-org/artifacts/WI-0034/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260830T161337Z-70D25CCC",
+    "EVID-20260830T161337Z-4D187FED",
+    "EVID-20260830T161338Z-CF5CCFFA",
+    ".ai-org/artifacts/WI-0034/quality-test-report.md",
+    ".ai-org/artifacts/WI-0034/evaluation-report.md",
+    "EVID-20260830T161617Z-DC1B358B"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "engineering_manager",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "7a52896443e5055bd0b572f1df30e1536488c90f",
+      "artifact": ".ai-org/artifacts/WI-0034/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-30T16:13:50.330Z"
+    }
+  ],
+  "developer_candidate_revision": "7a52896443e5055bd0b572f1df30e1536488c90f"
 }

@@ -4279,6 +4279,196 @@
         "exit_code": 0,
         "started_at": "2026-08-30T16:07:36Z"
       }
+    },
+    {
+      "id": "EVID-20260830T161337Z-70D25CCC",
+      "work_item_id": "WI-0034",
+      "recorded_at": "2026-08-30T16:13:37.708Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Trustworthy Dashboard current-state candidate",
+      "outcome": "verified",
+      "scope_revision": "7a52896443e5055bd0b572f1df30e1536488c90f",
+      "observed_at": "2026-08-30T16:13:37.708Z",
+      "summary": "Current-state interaction and observability behavior fixed at the exact candidate revision.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "7a52896443e5055bd0b572f1df30e1536488c90f"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "7a52896443e5055bd0b572f1df30e1536488c90f",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260830T161337Z-4D187FED",
+      "work_item_id": "WI-0034",
+      "recorded_at": "2026-08-30T16:13:37.981Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Dashboard developer verification",
+      "outcome": "pass",
+      "scope_revision": "7a52896443e5055bd0b572f1df30e1536488c90f",
+      "observed_at": "2026-08-30T15:56:41Z",
+      "summary": "Focused 31/31 and full 214/214 verification passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0034/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0034/developer-test-observation.json",
+          "sha256": "5cd766664618e904cbb376cb556ff2eed4cabe860ba5e995ebee05432bdae870"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0034/developer-verification.md",
+          "sha256": "14fbf14da06e52fe04d1ce8203cff328820080a45af6765a61588a1756452f68"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/control-plane-inbox.test.mjs test/control-plane-live.test.mjs test/evidence-observer.test.mjs",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T15:55:52Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T161338Z-CF5CCFFA",
+      "work_item_id": "WI-0034",
+      "recorded_at": "2026-08-30T16:13:38.240Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Live 420-pixel Dashboard inspection",
+      "outcome": "pass",
+      "scope_revision": "7a52896443e5055bd0b572f1df30e1536488c90f",
+      "observed_at": "2026-08-30T16:13:10Z",
+      "summary": "Current state, attention, history ordering, timeline, freshness, and narrow layout passed.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0034/dashboard-runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0034/dashboard-runtime-observation.json",
+          "sha256": "74b42b9f77db59fd32991ad3d3c89666100e048dab0d38b5299b9cebf0d40c5d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0034/developer-verification.md",
+          "sha256": "14fbf14da06e52fe04d1ce8203cff328820080a45af6765a61588a1756452f68"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0034/ui-brief.md",
+          "sha256": "b3a8e4bd4033bbf859bb8447f1068ea63cd7ef506c0e9b6958c2bbca3f497324"
+        }
+      ],
+      "details": {
+        "environment": "Temple self-host Control Plane on macOS with Codex observation enabled, a live Tailscale private viewer, and a headed browser inspection at 420 by 900 CSS pixels",
+        "scenario": "Inspect current-state metrics, primary attention, current Work Items before collapsed terminal history, occurrence-time timeline, snapshot freshness, and narrow-layout overflow against a live repository snapshot",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260830T161456Z-9A1EEF60",
+      "work_item_id": "WI-0034",
+      "recorded_at": "2026-08-30T16:14:56.124Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Dashboard Quality counterexample suite",
+      "outcome": "pass",
+      "scope_revision": "7a52896443e5055bd0b572f1df30e1536488c90f",
+      "observed_at": "2026-08-30T16:14:24Z",
+      "summary": "Fresh Quality coverage passed 31/31 across current-state and private-viewer boundaries.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0034/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0034/quality-test-observation.json",
+          "sha256": "2a55f66df0ccdb3c7c405361be449c58838c0f1682f44095094ecec8f5b00527"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0034/quality-test-report.md",
+          "sha256": "03a63260697f3943daf24b335141d687ff2cb490b112f5b3d250163021ec6c09"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/control-plane-inbox.test.mjs test/control-plane-live.test.mjs test/evidence-observer.test.mjs",
+          "node --test test/control-plane-private-viewer.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T16:13:58Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T161617Z-DC1B358B",
+      "work_item_id": "WI-0034",
+      "recorded_at": "2026-08-30T16:16:17.271Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Fresh exact Dashboard Independent QA",
+      "outcome": "pass",
+      "scope_revision": "7a52896443e5055bd0b572f1df30e1536488c90f",
+      "observed_at": "2026-08-30T16:15:52Z",
+      "summary": "Detached exact candidate passed 214/214, schema validation, Doctor, and clean-tree checks.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0034/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0034/independent-qa-observation.json",
+          "sha256": "0e93831e4d571cbcbacdfc034d42a1c074e6da8eb468e6e591a67f1318c7608c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0034/independent-qa-report.md",
+          "sha256": "ccddf662aa53432526b86097ac5a5e779d49546b9d56b386d064c775a0dd1f1e"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T16:15:08Z"
+      }
     }
   ]
 }

@@ -77,7 +77,7 @@
 | WI-0031 | Harden Temple before the next release | spec | Product Manager | Yuna | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 0 |
 | WI-0032 | Sandbox federation participant Git inspection | release_gate | Release Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `27d735d8` | 0 | 14 | 0 |
 | WI-0033 | Establish operator-owned provider trust | spec | Product Manager | Yuna | blocked | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 1 |
-| WI-0034 | Make Dashboard current-state interaction trustworthy | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `—` | 0 | 3 | 0 |
+| WI-0034 | Make Dashboard current-state interaction trustworthy | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `7a528964` | 0 | 10 | 0 |
 | WI-0035 | Reduce CI cost without hiding behavioral results | test | Quality & Evaluation Engineer | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0b02e1c5` | 0 | 7 | 1 |
 | WI-0036 | Add a private read-only Dashboard viewer | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `f68186ba` | 0 | 9 | 0 |
 | WI-0037 | Make private Dashboard shutdown cleanup signal-safe | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2b48a14a` | 0 | 9 | 0 |
@@ -191,14 +191,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-30T16:08:59.132Z | work_item_transitioned | WI-0037 | agent-lulu |
-| 2026-08-30T16:08:55.807Z | evidence_recorded | WI-0037 | human |
-| 2026-08-30T16:07:20.157Z | work_item_claimed | WI-0037 | human |
-| 2026-08-30T16:07:14.542Z | work_item_transitioned | WI-0037 | agent-lulu |
-| 2026-08-30T16:07:14.263Z | work_item_transitioned | WI-0037 | agent-lulu |
-| 2026-08-30T16:07:14.004Z | evidence_recorded | WI-0037 | human |
-| 2026-08-30T16:06:23.691Z | work_item_claimed | WI-0037 | human |
-| 2026-08-30T16:06:19.111Z | work_item_transitioned | WI-0037 | agent-rikku |
+| 2026-08-30T16:16:53.370Z | work_item_unresolved_updated | WI-0034 | agent-mog |
+| 2026-08-30T16:16:38.401Z | work_item_unresolved_updated | WI-0034 | agent-mog |
+| 2026-08-30T16:16:17.539Z | work_item_transitioned | WI-0034 | agent-lulu |
+| 2026-08-30T16:16:17.271Z | evidence_recorded | WI-0034 | human |
+| 2026-08-30T16:15:00.174Z | work_item_claimed | WI-0034 | human |
+| 2026-08-30T16:14:56.659Z | work_item_transitioned | WI-0034 | agent-lulu |
+| 2026-08-30T16:14:56.384Z | work_item_transitioned | WI-0034 | agent-lulu |
+| 2026-08-30T16:14:56.124Z | evidence_recorded | WI-0034 | human |
 
 ## Assignments
 

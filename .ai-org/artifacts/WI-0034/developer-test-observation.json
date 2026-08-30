@@ -1,0 +1,15 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "7a52896443e5055bd0b572f1df30e1536488c90f",
+  "command": [
+    "node --test test/control-plane-inbox.test.mjs test/control-plane-live.test.mjs test/evidence-observer.test.mjs",
+    "npm run verify"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-30T15:55:52Z",
+  "completed_at": "2026-08-30T15:56:41Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0034/developer-verification.md"
+  ]
+}
