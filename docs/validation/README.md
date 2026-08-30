@@ -13,5 +13,6 @@ Validation records preserve bounded evidence for framework capabilities. They id
 - [Alpha.20 Control-plane event spine](alpha-20-control-plane-event-spine.md)
 - [Alpha.21 Live control plane](alpha-21-live-control-plane.md)
 - [Alpha.22 Human Inbox and GitHub evidence](alpha-22-human-inbox-github-evidence.md)
+- [Closeout-0A release integrity — passed with retained limits](closeout-0a-release-integrity.md)
 - [Greenfield cold-task recovery — passed with limits](greenfield-cold-task-recovery-result.md) ([test plan](greenfield-cold-task-recovery-test-plan.md))
 - [Collaborative large-scale real-environment test plan — planned / not run](collaborative-large-scale-test-plan.md)
