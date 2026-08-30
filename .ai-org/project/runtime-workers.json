@@ -717,6 +717,32 @@
       "attached_at": "2026-08-30T14:13:28.594Z",
       "completed_at": "2026-08-30T14:20:59.971Z",
       "updated_at": "2026-08-30T14:20:59.971Z"
+    },
+    {
+      "id": "worker-20260830142454-8bb19075",
+      "runtime_kind": "internal-subagent",
+      "status": "active",
+      "work_item_id": "WI-0032",
+      "position_id": "independent_qa",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260830142454-3d27b8c6",
+      "base_revision": "68d4cf448df8f76ba08ce9b64ddf2c27967a39a0",
+      "branch": "review/independent-qa-wi-0032-federation",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-independent-qa-wi-0032-federation",
+      "plan_fingerprint": "d6b3d9cdc4644cd1b1de73a3ea19b84661f7905f7076c69a0c5de29774411cbe",
+      "plan_digest": "bc5b53b750fb2989ca16f6afd0b11e11d870153948550ab4fbe8af410c68b1c5",
+      "preparation_fingerprint": "34c44ad6f30a899b47a2b8e54279d1a55ba7c05c5b3bf4fe39a28906d0921d7c",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/independent_qa_wi_0032_lulu",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": null,
+      "evidence": [],
+      "reserved_at": "2026-08-30T14:24:54.791Z",
+      "attached_at": "2026-08-30T14:24:55.292Z",
+      "completed_at": null,
+      "updated_at": "2026-08-30T14:24:55.292Z"
     }
   ]
 }
