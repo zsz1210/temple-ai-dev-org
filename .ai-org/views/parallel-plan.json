@@ -1,38 +1,24 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T05:07:59.666Z",
-  "source_fingerprint": "026fb1f668bca7e3277bedeebf69e2b5a5c819b91a0677c8b2c44047d94d6d7b",
+  "generated_at": "2026-08-30T05:20:21.576Z",
+  "source_fingerprint": "b0314c1e158c734a6e7fade6ab654bbc4967d956912d54c8824112e1c1660d9a",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
-    "selected_work_item_ids": [
-      "WI-0009"
-    ]
+    "selected_work_item_ids": []
   },
   "max_workers": null,
   "summary": {
-    "selected": 1,
+    "selected": 0,
     "dispatchable": 0,
     "active": 0,
-    "sequential": 1,
+    "sequential": 0,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
   "active": [],
-  "sequential": [
-    {
-      "work_item_id": "WI-0009",
-      "title": "Harden Dashboard lifecycle semantics and startup",
-      "disposition": "sequential",
-      "position_id": "developer",
-      "agent_id": "agent-rikku",
-      "integration_owner_agent_id": null,
-      "reasons": [
-        "requested_mode_sequential"
-      ]
-    }
-  ],
+  "sequential": [],
   "blocked": [],
   "conflicts": [],
   "execution_policy": {

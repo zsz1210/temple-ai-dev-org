@@ -1,0 +1,12 @@
+{
+  "schema_version": "temple.runtime-observation/v1",
+  "environment": "Temple self-host repository, loopback HTTP server, Codex in-app browser",
+  "scenario": "Start the local Control Plane with the Codex provider and visually inspect terminal work, startup availability, provider truthfulness, and bounded history",
+  "result": "pass",
+  "provenance": "live",
+  "observed_at": "2026-08-30T05:16:00Z",
+  "revision": "987186756be5c996f0a12438c7a5b13aa8c7030d",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0009/developer-evidence.md"
+  ]
+}
