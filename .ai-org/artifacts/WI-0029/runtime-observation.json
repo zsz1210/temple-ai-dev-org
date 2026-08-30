@@ -1,0 +1,17 @@
+{
+  "schema_version": "temple.runtime-observation/v1",
+  "revision": "38a185eb9c501803d138e1a325dfd1f31450b2fc",
+  "environment": "Local macOS loopback Control Plane, headed Chromium, isolated temporary Temple project, and deterministic fake Codex App Server",
+  "scenario": "Exercise disabled, idle, active, preview-confirmed, accepted, completed, rejected, interrupted, delivery-unknown, desktop, and narrow Agent Command Dashboard states without mutating a real Codex task",
+  "result": "pass",
+  "provenance": "fixture",
+  "observed_at": "2026-08-30T12:05:37.000Z",
+  "artifact_refs": [
+    "output/playwright/wi-0029-disabled-desktop.png",
+    "output/playwright/wi-0029-idle-desktop.png",
+    "output/playwright/wi-0029-confirmed-preview.png",
+    "output/playwright/wi-0029-command-history-desktop.png",
+    "output/playwright/wi-0029-command-history-narrow.png",
+    ".ai-org/artifacts/WI-0029/developer-evidence.md"
+  ]
+}
