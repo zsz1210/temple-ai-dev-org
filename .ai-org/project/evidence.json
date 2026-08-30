@@ -1122,6 +1122,88 @@
         "exit_code": 0,
         "started_at": "2026-08-30T05:37:00Z"
       }
+    },
+    {
+      "id": "EVID-20260830T060252Z-F6674A48",
+      "work_item_id": "WI-0011",
+      "recorded_at": "2026-08-30T06:02:52.343Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Alpha.26 exact-revision Developer verification",
+      "outcome": "pass",
+      "scope_revision": "25a979e5bde887b00b30a94d5c26fe9403c7a558",
+      "observed_at": "2026-08-30T05:59:16Z",
+      "summary": "Candidate 25a979e passed 160 tests, Doctor, real preflight, terminal-history safety, and value-discarding account capability inspection.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/usage-preflight-developer.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/usage-preflight-developer.json",
+          "sha256": "762184eab931a81602c17eeecffbf377d3bef88103922dab292ce7a91aa399a6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0011/developer-evidence.md",
+          "sha256": "5cfa276e0cd5eda4fa73146a789223debeaa20048635d1cad8abb2c864138698"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T05:58:40Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T060309Z-F7549C53",
+      "work_item_id": "WI-0011",
+      "recorded_at": "2026-08-30T06:03:09.017Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Alpha.26 fresh-worktree Independent QA",
+      "outcome": "pass",
+      "scope_revision": "25a979e5bde887b00b30a94d5c26fe9403c7a558",
+      "observed_at": "2026-08-30T06:00:54Z",
+      "summary": "Fresh detached candidate passed npm ci, 160 tests, Doctor, terminal-only preflight, privacy, and fail-closed usage qualification.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/usage-preflight-independent-qa.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/usage-preflight-independent-qa.json",
+          "sha256": "33670f0a141c23adbdbdd4c4b7deb3a6c531f138322a7e5648a0b805b16d7af7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0011/independent-qa-report.md",
+          "sha256": "24f593d0eb2f41b3b9438ee7a7f18b4ffed7a4f0757d03751653b8bd0ee32dd0"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T06:00:18Z"
+      }
     }
   ]
 }
