@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0038",
   "title": "Reject invalid lifecycle gate evidence references",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T16:17:53.546Z",
-  "updated_at": "2026-08-30T16:18:19.159Z",
+  "updated_at": "2026-08-30T16:23:10.544Z",
   "scope": [
     "Validate every EVID-prefixed gate reference against the normalized evidence registry before any lifecycle transition mutates canonical state."
   ],
@@ -31,7 +31,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "17637e902a2a32885d3b7eb98481e6c2695309b2",
+  "base_revision": "787c6faf4ea8e127e9308a7311628de0f0dc5eb9",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -41,15 +41,16 @@
     "WI-0034 exposed the defect but is now at Release Gate; WI-0038 owns only transition validation and its workflow tests."
   ],
   "claim": {
-    "id": "claim-20260830161819-9ef30bbe",
-    "status": "active",
+    "id": "claim-20260830162141-2e5ed739",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "17637e902a2a32885d3b7eb98481e6c2695309b2",
+    "agent_id": "agent-lulu",
+    "base_revision": "787c6faf4ea8e127e9308a7311628de0f0dc5eb9",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-08-30T16:18:19.159Z",
-    "released_at": null
+    "claimed_at": "2026-08-30T16:21:41.082Z",
+    "released_at": "2026-08-30T16:23:10.544Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
@@ -90,14 +91,39 @@
     },
     {
       "id": "claim-20260830161819-9ef30bbe",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "17637e902a2a32885d3b7eb98481e6c2695309b2",
       "branch": "main",
       "worktree": null,
       "claimed_at": "2026-08-30T16:18:19.159Z",
-      "released_at": null
+      "released_at": "2026-08-30T16:20:55.035Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260830162059-8b2039d9",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "787c6faf4ea8e127e9308a7311628de0f0dc5eb9",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T16:20:59.750Z",
+      "released_at": "2026-08-30T16:21:36.523Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260830162141-2e5ed739",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "787c6faf4ea8e127e9308a7311628de0f0dc5eb9",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T16:21:41.082Z",
+      "released_at": "2026-08-30T16:23:10.544Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -115,12 +141,44 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/work-orders/WI-0038.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0038/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260830T162046Z-4F79BA44",
+      "EVID-20260830T162046Z-3DE14A9C"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0038/quality-test-report.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0038/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260830T162305Z-843DF0C3"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/work-orders/WI-0038.md",
-    ".ai-org/work-items/WI-0038.json"
+    ".ai-org/work-items/WI-0038.json",
+    ".ai-org/artifacts/WI-0038/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260830T162046Z-4F79BA44",
+    "EVID-20260830T162046Z-3DE14A9C",
+    ".ai-org/artifacts/WI-0038/quality-test-report.md",
+    ".ai-org/artifacts/WI-0038/evaluation-report.md",
+    "EVID-20260830T162305Z-843DF0C3"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "engineering_manager",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "787c6faf4ea8e127e9308a7311628de0f0dc5eb9",
+      "artifact": ".ai-org/artifacts/WI-0038/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-30T16:20:54.764Z"
+    }
+  ],
+  "developer_candidate_revision": "787c6faf4ea8e127e9308a7311628de0f0dc5eb9"
 }
