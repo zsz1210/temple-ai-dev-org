@@ -432,7 +432,7 @@
     {
       "id": "worker-20260830084454-d91d1101",
       "runtime_kind": "internal-subagent",
-      "status": "active",
+      "status": "completed",
       "work_item_id": "WI-0026",
       "position_id": "developer",
       "agent_id": "agent-rikku",
@@ -448,12 +448,15 @@
       "runtime_id": "/root/framework_docs_review:wi-0026",
       "task_id": null,
       "resource_reservation_ids": [],
-      "current_revision": null,
-      "evidence": [],
+      "current_revision": "ae3743911382eefd784263bdee953b258e34bc83",
+      "evidence": [
+        "Focused federation and installation 11/11",
+        "Full verification 181/190; nine stale Alpha.26 assertions only"
+      ],
       "reserved_at": "2026-08-30T08:44:54.849Z",
       "attached_at": "2026-08-30T08:45:01.537Z",
-      "completed_at": null,
-      "updated_at": "2026-08-30T08:45:01.537Z"
+      "completed_at": "2026-08-30T08:55:34.438Z",
+      "updated_at": "2026-08-30T08:55:34.438Z"
     }
   ]
 }
