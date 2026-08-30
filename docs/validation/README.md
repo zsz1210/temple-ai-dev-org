@@ -16,6 +16,7 @@ Validation records preserve bounded evidence for framework capabilities. They id
 - [Alpha.23 Temple self-host dogfood — independently verified with retained limits](alpha-23-temple-self-host-dogfood.md)
 - [Alpha.24 backup and recovery — independently verified with retained Phase 4A limits](alpha-24-backup-recovery.md)
 - [Alpha.24 AiPet recovery and forward-upgrade rehearsal — passed with retained limits](alpha-24-aipet-recovery.md)
+- [Alpha.25 policy evaluation and usage attribution — passed with retained Phase 4B limits](alpha-25-policy-evaluation-usage-attribution.md)
 - [Dashboard reliability dogfood — passed with retained provider limits](dashboard-reliability-dogfood.md)
 - [Closeout-0A release integrity — passed with retained limits](closeout-0a-release-integrity.md)
 - [Closeout-0B live integration and data-bearing upgrade — passed with retained limits](closeout-0b-live-and-upgrade.md)
