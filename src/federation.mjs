@@ -1,4 +1,5 @@
 import fs from "node:fs/promises";
+import os from "node:os";
 import path from "node:path";
 import { execFile as execFileCallback } from "node:child_process";
 import { promisify } from "node:util";
@@ -19,6 +20,30 @@ const MAX_JSON_BYTES = 1024 * 1024;
 const MAX_TREE_BYTES = 1024 * 1024;
 const MAX_DISCOVERED_WORK_ITEMS = 1000;
 const REGULAR_GIT_MODES = new Set(["100644", "100755"]);
+const GIT_CONFIG_ARGS = [
+  "-c",
+  "core.fsmonitor=false",
+  "-c",
+  `core.hooksPath=${os.devNull}`,
+  "-c",
+  "credential.helper=",
+  "-c",
+  "core.askPass=",
+  "-c",
+  "protocol.allow=never",
+  "-c",
+  "protocol.file.allow=never",
+  "-c",
+  "protocol.git.allow=never",
+  "-c",
+  "protocol.http.allow=never",
+  "-c",
+  "protocol.https.allow=never",
+  "-c",
+  "protocol.ssh.allow=never",
+  "-c",
+  "protocol.ext.allow=never"
+];
 
 export function emptyFederationRegistry(now = new Date(0)) {
   const updatedAt = now instanceof Date ? now : new Date(now);
@@ -344,11 +369,25 @@ async function secureReadJson(repositoryRoot, relativePath) {
 }
 
 async function gitOutput(repositoryRoot, args, maxBuffer = 256 * 1024) {
-  const result = await execFile("git", ["-C", repositoryRoot, ...args], {
+  const env = {
+    GIT_CONFIG_GLOBAL: os.devNull,
+    GIT_CONFIG_NOSYSTEM: "1",
+    GIT_CONFIG_SYSTEM: os.devNull,
+    GIT_LITERAL_PATHSPECS: "1",
+    GIT_NO_LAZY_FETCH: "1",
+    GIT_NO_REPLACE_OBJECTS: "1",
+    GIT_OPTIONAL_LOCKS: "0",
+    GIT_TERMINAL_PROMPT: "0",
+    LC_ALL: "C"
+  };
+  const executablePath = process.env.PATH ?? process.env.Path;
+  if (executablePath) env.PATH = executablePath;
+  if (process.platform === "win32" && process.env.SystemRoot) env.SystemRoot = process.env.SystemRoot;
+  const result = await execFile("git", [...GIT_CONFIG_ARGS, "-C", repositoryRoot, ...args], {
     encoding: "utf8",
     timeout: 5000,
     maxBuffer,
-    env: { ...process.env, GIT_OPTIONAL_LOCKS: "0", GIT_NO_REPLACE_OBJECTS: "1" }
+    env
   });
   return result.stdout;
 }
@@ -712,6 +751,15 @@ async function readParticipant(coordinatorRoot, allowedRoot, participant, now) {
     if (!(await fs.stat(repositoryRoot)).isDirectory()) return unknownParticipant(participant, "participant_invalid", observedAt);
   } catch (error) {
     return unknownParticipant(participant, classifyReadFailure(error), observedAt);
+  }
+
+  try {
+    const reportedRoot = await git(repositoryRoot, ["rev-parse", "--show-toplevel"]);
+    if (!path.isAbsolute(reportedRoot) || (await fs.realpath(reportedRoot)) !== repositoryRoot) {
+      return unknownParticipant(participant, "repository_root_mismatch", observedAt);
+    }
+  } catch {
+    return unknownParticipant(participant, "participant_invalid", observedAt);
   }
 
   let sourceRevision;
