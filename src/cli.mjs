@@ -85,7 +85,7 @@ import {
 const HELP = `Temple ${TEMPLATE_VERSION}
 
 Usage:
-  temple init [target] [--config path] [--dry-run] [--integrate-agents]
+  temple init [target] [--config path] [--dry-run] [--integrate-agents] [--self-host]
   temple upgrade [target] [--dry-run]
   temple doctor [target] [--json]
   temple status [target] [--json] [--no-write]
@@ -199,6 +199,7 @@ Only evidence leaves the chamber.`;
 const BOOLEAN_FLAGS = new Set([
   "--dry-run",
   "--integrate-agents",
+  "--self-host",
   "--json",
   "--no-write",
   "--help",
@@ -551,7 +552,10 @@ function printResult(parsed, result, lines) {
 async function runInit(parsed) {
   const target = await assertSafeTarget(parsed.target);
   const config = await validateInitConfig(await loadConfig(parsed.options["--config"], target));
-  const options = { integrateAgents: parsed.flags.has("--integrate-agents") };
+  const options = {
+    integrateAgents: parsed.flags.has("--integrate-agents"),
+    selfHost: parsed.flags.has("--self-host")
+  };
   const plan = await planInit(target, config, options);
   console.log(formatInitPlan(plan));
   if (plan.conflicts.length > 0) return 1;

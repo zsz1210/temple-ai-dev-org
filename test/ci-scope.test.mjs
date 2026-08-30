@@ -5,7 +5,7 @@ import { classifyChangedPaths, isDocumentationOnlyPath } from "../scripts/ci-sco
 test("Markdown and documentation assets use the documentation-only CI scope", () => {
   const result = classifyChangedPaths([
     "README.md",
-    "docs/usage.md",
+    "docs/getting-started/usage.md",
     "docs/assets/overview.svg",
     "LICENSE"
   ]);

@@ -2,8 +2,10 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import {
   AGENTS_MARKER_START,
+  REPOSITORY_ROOT,
   REQUIRED_POSITIONS,
   REQUIRED_SKILLS,
+  SELF_HOST_ADOPTABLE_MANAGED_PATHS,
   TASK_STATUSES,
   TEMPLATE_VERSION
 } from "./constants.mjs";
@@ -125,6 +127,32 @@ export async function runDoctor(target) {
     message: bootstrapValidation.valid
       ? `Repository launcher pins Temple ${lock.template.version}`
       : bootstrapValidation.errors.join("; ")
+  });
+  const installationMode = lock.installation?.mode ?? "project";
+  const adoptedManagedFiles = lock.installation?.adopted_managed_files ?? [];
+  const adoptedManagedFilesValid =
+    Array.isArray(adoptedManagedFiles) &&
+    new Set(adoptedManagedFiles).size === adoptedManagedFiles.length &&
+    adoptedManagedFiles.every((relativePath) => SELF_HOST_ADOPTABLE_MANAGED_PATHS.has(relativePath));
+  const [resolvedTarget, resolvedRepositoryRoot] = await Promise.all([
+    fs.realpath(target).catch(() => path.resolve(target)),
+    fs.realpath(REPOSITORY_ROOT).catch(() => path.resolve(REPOSITORY_ROOT))
+  ]);
+  const selfHostValid =
+    installationMode === "toolkit-self-host" &&
+    resolvedTarget === resolvedRepositoryRoot &&
+    lock.installation?.source_overlay === "project-overlay" &&
+    adoptedManagedFilesValid &&
+    (await pathExists(path.join(target, "project-overlay")));
+  checks.push({
+    id: "installation_mode",
+    status: installationMode === "project" || selfHostValid ? "pass" : "fail",
+    message:
+      installationMode === "project"
+        ? "Project installation boundary is valid"
+        : selfHostValid
+          ? "Toolkit self-host boundary is valid and project-overlay remains the distribution source"
+          : `Invalid or misplaced installation mode: ${installationMode}`
   });
   try {
     const schemaReport = await validateProjectSchemas(target);

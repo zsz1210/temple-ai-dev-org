@@ -1,0 +1,70 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0002",
+  "title": "Reposition the public README for every project scale",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T02:32:38.820Z",
+  "updated_at": "2026-08-30T02:33:38.322Z",
+  "scope": [
+    "Rewrite the trilingual public entry point for solo builders, collaborative teams, and enterprise organizations, with clear value, compact visual explanation, honest evidence boundaries, and extensible engineering roles"
+  ],
+  "acceptance_criteria": [
+    "English remains canonical and Japanese and Traditional Chinese remain semantically equivalent",
+    "The public entry point explains why Temple exists, how it scales, and how it is used",
+    "Use cases are scannable and technical detail is routed into docs",
+    "Only verified claims are presented as current capability; future benchmarks and SRE or Security expansion are identified as future work"
+  ],
+  "affected_paths": [
+    "README.md",
+    "README.ja.md",
+    "README.zh-TW.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "032f1e060fa5791ebb05497025ebc150fb6d2271",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": "agent-rikku",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0002.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0002.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0002.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0002.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0002.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0002.md",
+    ".ai-org/work-items/WI-0002.json"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

@@ -1,91 +1,87 @@
 # Temple documentation
 
-This is the entry point for understanding, adopting, extending, and validating Temple. The root README explains the product; this map routes deeper questions to one authoritative document instead of repeating the same details everywhere.
+The root README explains what Temple is and why it exists. This index routes implementation, adoption, and evidence questions to one authoritative document without making the public entry point carry the framework's history.
 
-## Start here
+## Start with your goal
 
-| Your goal | Read first | Then continue with |
+| I want to… | Start here | Continue with |
 |---|---|---|
-| Decide whether Temple fits | [Vision and operating model](vision.md) | [Architecture](architecture.md), [Roadmap](roadmap.md) |
-| Install it in a project | [Usage guide](usage.md) | [Existing enterprise document adoption](enterprise-document-adoption.md), [Testing strategy](testing.md) |
-| Run several agents or people | [Collaborative development](collaboration.md) | [Parallel orchestration](parallel-orchestration.md), [Runtime coordination](runtime-coordination.md) |
-| Define product, UX, UI, and API work | [Product specifications](product-specifications.md) | [UI design modes](ui-design.md), [UI interaction contracts](ui-interaction-contracts.md) |
-| Add or choose engineering methods | [Capability catalog](capability-catalog.md) | [Skill authoring](skill-authoring.md), [Skill design](skill-design.md) |
-| Understand evidence and live status | [Evidence and Observer](evidence-and-observer.md) | [Local control plane](control-plane.md), [High-Assurance](high-assurance.md) |
-| Review why a decision was made | [Architecture Decision Records](adr/README.md) | [Validation records](validation/README.md) |
+| Evaluate the framework | [Vision and operating model](concepts/vision.md) | [Architecture](concepts/architecture.md), [Roadmap](planning/roadmap.md) |
+| Install or adopt Temple | [Usage guide](getting-started/usage.md) | [Enterprise document adoption](getting-started/enterprise-document-adoption.md), [Testing strategy](getting-started/testing.md) |
+| Coordinate people and AI agents | [Collaborative development](operations/collaboration.md) | [Parallel orchestration](operations/parallel-orchestration.md), [Runtime coordination](operations/runtime-coordination.md) |
+| Define product, UX, UI, or API behavior | [Product specifications](concepts/product-specifications.md) | [UI design modes](concepts/ui-design.md), [UI interaction contracts](concepts/ui-interaction-contracts.md) |
+| Add engineering methods or project Skills | [Capability catalog](extensions/capability-catalog.md) | [Skill authoring](extensions/skill-authoring.md), [Engineering Learning Loop](extensions/engineering-learning.md) |
+| Inspect evidence, risk, or live project state | [Evidence and Observer](operations/evidence-and-observer.md) | [Local control plane](operations/control-plane.md), [High-Assurance](operations/high-assurance.md) |
+| Audit a decision or claim | [ADR index](adr/README.md) | [Validation index](validation/README.md), [Research index](research/README.md) |
 
-## Use and adopt Temple
+## Documentation map
 
-- [Usage guide](usage.md) — initialization, existing-project adoption, daily commands, lifecycle, upgrade, and troubleshooting.
-- [Product specification system](product-specifications.md) — product truth, Feature Specs, revisions, and Work Item references.
-- [Enterprise document adoption](enterprise-document-adoption.md) — preserve, bridge, or migrate an existing documentation system without creating two authorities.
-- [UI design modes](ui-design.md) — `not-applicable`, `code-first`, `preview-first`, and `design-led` without a required design vendor.
-- [UI interaction contracts](ui-interaction-contracts.md) — connect screen behavior, design evidence, implementation, and backend contracts.
-- [Testing strategy](testing.md) — fast local checks, full behavioral CI, release coverage, and explicit live validation.
+### Getting started
 
-## Organization and delivery
+- [Usage guide](getting-started/usage.md) — initialize, adopt, operate, self-host, upgrade, and troubleshoot.
+- [Enterprise document adoption](getting-started/enterprise-document-adoption.md) — preserve, bridge, or intentionally migrate an existing documentation system.
+- [Testing strategy](getting-started/testing.md) — fast local checks, full behavioral verification, release checks, and explicitly authorized live tests.
 
-- [Vision and operating model](vision.md) — framework purpose, Positions, Agent Identities, Skills, and lifecycle.
-- [Collaborative development](collaboration.md) — Human Principals, specialists, Position pools, work claims, and multi-maintainer boundaries.
-- [Parallel orchestration](parallel-orchestration.md) — dependency-safe waves, affected-path conflicts, preparation, and integration joins.
-- [Runtime coordination](runtime-coordination.md) — pinned launcher, workers, shared resources, recovery, and task correlation.
-- [Task and tracker coordination](task-and-tracker-coordination.md) — company tracker, Temple Work Item, and Codex task boundaries.
-- [High-Assurance profile](high-assurance.md) — risk-scaled evidence, separation of duties, rollback, and human approvals.
+### Concepts
 
-## Methods, knowledge, and extensions
+- [Vision and operating model](concepts/vision.md) — Positions, Agent Identities, Skills, human authority, and lifecycle.
+- [Architecture](concepts/architecture.md) — canonical state, ownership, mutation safety, generated views, and extension boundaries.
+- [Product specification system](concepts/product-specifications.md) — product truth, revisions, Feature Specs, and external authority.
+- [UI design modes](concepts/ui-design.md) — proportionate design evidence without requiring a particular vendor.
+- [UI interaction contracts](concepts/ui-interaction-contracts.md) — connect behavior, screens, implementation, APIs, and backend rules.
 
-- [Capability catalog](capability-catalog.md) — core, optional, candidate, and project-owned engineering capabilities.
-- [Context routing](context-routing.md) — Context Map, Capability Registry, Context Capsules, deterministic retrieval, and the optional semantic boundary.
-- [Engineering Learning Loop](engineering-learning.md) — Lessons, Practices, revalidation, retrieval, and evidence-based promotion.
-- [Skill authoring](skill-authoring.md) — how projects create bounded, verifiable Skills.
-- [Skill design](skill-design.md) — triggers, progressive disclosure, authority, and promotion requirements.
-- [Skill scenarios](skill-scenarios.md) — routing scenarios and expected behavior.
-- [Extension and migration contracts](extension-and-migrations.md) — Pack v2, provenance, compatibility, schemas, and explicit state migration.
-- [Archify adapter](archify-adapter.md) — optional isolated installation, pinning, provenance, and graceful degradation.
+### Operations
 
-## Architecture and observability
+- [Collaborative development](operations/collaboration.md) — Human Principals, specialists, Position pools, claims, and multi-maintainer boundaries.
+- [Parallel orchestration](operations/parallel-orchestration.md) — safe waves, affected paths, preparation, and integration joins.
+- [Runtime coordination](operations/runtime-coordination.md) — pinned launcher, workers, resources, task correlation, and recovery.
+- [Task and tracker coordination](operations/task-and-tracker-coordination.md) — company tracker, Temple Work Item, and Codex task boundaries.
+- [Evidence and Observer](operations/evidence-and-observer.md) — normalized evidence, exact revisions, stale signals, and closeout.
+- [High-Assurance profile](operations/high-assurance.md) — risk-scaled evidence, separation of duties, rollback, and human approvals.
+- [Local control plane](operations/control-plane.md) — replay-safe events, providers, live projections, and the Human Inbox.
 
-- [Architecture](architecture.md) — canonical state, file ownership, identity, mutation safety, generated views, and extension boundaries.
-- [Evidence and Observer](evidence-and-observer.md) — normalized observations, exact revisions, stale evidence, attention, and closeout scope.
-- [Local control plane](control-plane.md) — event journal, providers, live projection, conditions, and authority-separated Human Inbox.
-- [Phase 3 control-plane design](phase-3-control-plane.md) and [work items](phase-3-work-items.md) — accepted detailed design and implementation breakdown.
+### Extensions and learning
 
-## Status, decisions, and evidence
+- [Capability catalog](extensions/capability-catalog.md) — core, optional, candidate, and project-owned engineering capabilities.
+- [Context routing](extensions/context-routing.md) — bounded retrieval and the optional semantic-search boundary.
+- [Engineering Learning Loop](extensions/engineering-learning.md) — Lessons, Practices, revalidation, and evidence-based promotion.
+- [Skill authoring](extensions/skill-authoring.md) — create a bounded, discoverable, and verifiable project Skill.
+- [Skill design policy](extensions/skill-design.md) and [scenario matrix](extensions/skill-scenarios.md) — maintainer rules and routing expectations.
+- [Extension and migration contracts](extensions/extension-and-migrations.md) — Packs, provenance, compatibility, schemas, and explicit state migration.
+- [Archify adapter](extensions/archify-adapter.md) — an optional, pinned, isolated adapter boundary.
 
-- [Roadmap](roadmap.md) ([Japanese](roadmap.ja.md), [Traditional Chinese](roadmap.zh-TW.md)) — delivered foundation, current priorities, next gates, and later options.
-- [Changelog](../CHANGELOG.md) — chronological release history. Version-by-version details belong here, not in the README or roadmap.
-- [Architecture Decision Records](adr/README.md) — accepted decisions and their consequences.
+### Planning and historical boundaries
+
+- [Roadmap](planning/roadmap.md) ([Japanese](planning/roadmap.ja.md), [Traditional Chinese](planning/roadmap.zh-TW.md)) — delivered foundation, current work, next gates, and later options.
+- [Pre-Phase 4 closeout review](planning/pre-phase-4-closeout-review.md) — the readiness audit that closed the earlier phases.
+- [Phase 1 contract](planning/phase-1.md) — original foundation scope and exit gate.
+- [Phase 3 design](planning/phase-3-control-plane.md) and [work breakdown](planning/phase-3-work-items.md) — accepted control-plane plan.
+- [Changelog](../CHANGELOG.md) — chronological release history.
+- [Architecture Decision Records](adr/README.md) — accepted rationale and consequences.
 - [Validation records](validation/README.md) — revision-bound evidence and retained gaps.
-- [Pre-Phase 4 closeout review](pre-phase-4-closeout-review.md) — the detailed readiness audit that closed the earlier phases and opened Phase 4.
-- [Phase 1 contract](phase-1.md) — original foundation scope and exit gate.
-- [Official sources](official-sources.md) — external primary sources used for framework decisions.
-- [Research](research/README.md) — supporting investigation that is not itself an accepted decision.
-- [Pilot records](pilots/README.md) — bounded experiments and stop conditions; pilots are evidence, not products maintained by this repository.
+- [Research](research/README.md) and [official sources](research/official-sources.md) — decision inputs, not shipped promises.
+- [Pilot records](pilots/README.md) — bounded experiments with explicit stop conditions.
 
 ## What each document type means
 
 | Type | Question it answers | Authority |
 |---|---|---|
 | README | What is this, why should I care, and how do I begin? | Human-facing entry point |
-| Guide | How do I use a current capability? | Current operating guidance, grounded in code and tests |
-| ADR | Why did the framework choose this design? | Accepted decision until superseded |
-| Validation record | What was actually tested, where, and with what limits? | Bounded evidence for one revision and environment |
-| Roadmap | What is delivered, being pursued, next, or intentionally later? | Current direction, not release history |
+| Guide | How do I use a current capability? | Current operating guidance grounded in code and tests |
+| ADR | Why did Temple choose this design? | Accepted decision until superseded |
+| Validation record | What was tested, where, and with what limits? | Bounded evidence for one revision and environment |
+| Roadmap | What is delivered, current, next, or intentionally later? | Direction, not release history |
 | Changelog | What changed in each version? | Chronological release record |
-| Research | What evidence informed a possible decision? | Input only; not a shipped promise |
+| Research | What evidence informed a possible decision? | Input only; not a capability claim |
 
 ## Repository docs before a separate Wiki
 
-The Markdown files in this repository are the canonical documentation because they can be reviewed, versioned, tested, and released with the code they describe. A separately edited GitHub Wiki would create a second source of truth and drift quickly.
+Repository Markdown remains canonical because it is reviewed, versioned, tested, and released with the code it describes. If Temple later needs a documentation site or Wiki-style interface, generate it from this directory and link each published page back to its repository source. Do not maintain the same guide manually in two places.
 
-If Temple later needs a documentation website or Wiki-style interface, generate it from this directory and link every published page back to its repository source. Do not maintain the same guide manually in two places.
+## Maintaining this index
 
-## Maintaining this map
-
-When adding a document:
-
-1. Give it one clear purpose and intended reader.
-2. Link it from one primary category above.
-3. Put historical results in the changelog or a validation record, rationale in an ADR, and exploratory evidence in research.
-4. Update the root README only when a new reader needs the link to evaluate or begin using Temple.
+1. Give every document one primary reader and purpose.
+2. Put it in the shallowest applicable category.
+3. Put results in validation, rationale in ADRs, chronological changes in the changelog, and exploratory inputs in research.
+4. Link it once from its primary category and only add it to the root README when a first-time visitor needs it.
 5. Keep English as the canonical documentation language; only the README and roadmap have maintained Japanese and Traditional Chinese editions.

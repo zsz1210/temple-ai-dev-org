@@ -594,7 +594,8 @@ export async function executeUpgrade(plan) {
         github_pr_checks_provider: true,
         github_evidence_capture: true,
         checksum_upgrade: true,
-        optional_packs: true
+        optional_packs: true,
+        toolkit_self_hosting: true
       },
       optional_packs: optionalPacks,
       managed_files: managedFiles

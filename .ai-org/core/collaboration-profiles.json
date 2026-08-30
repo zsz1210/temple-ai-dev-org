@@ -1,0 +1,23 @@
+{
+  "schema_version": "temple.collaboration-profiles/v1",
+  "profiles": [
+    {
+      "id": "solo",
+      "status": "stable",
+      "selectable": true,
+      "description": "One Human Principal may operate several Agent Identities with lightweight repository coordination."
+    },
+    {
+      "id": "collaborative",
+      "status": "foundation",
+      "selectable": true,
+      "description": "Several Human Principals sponsor Agent Identities that join Position pools and claim bounded work."
+    },
+    {
+      "id": "high-assurance",
+      "status": "stable",
+      "selectable": true,
+      "description": "Risk-driven evidence, approval, rollback, and separation-of-duties gates backed by local exact-revision records."
+    }
+  ]
+}

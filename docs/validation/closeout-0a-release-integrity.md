@@ -39,7 +39,7 @@ A disposable directory was created outside the repository. The validation did no
 6. With `TEMPLE_CLI_PATH` explicitly removed, `node ./templew.mjs --version` recovered the remote Git source and returned `0.1.0-alpha.22`.
 7. With the same override removed, `node ./templew.mjs doctor . --json` exited successfully and reported 35 passes, zero warnings, zero failures, and `healthy: true`.
 
-The launcher emitted npm Git-package integrity and `.npmignore` fallback warnings. They did not prevent exact-revision recovery. Explicit package-content control remains tracked separately as OS-02 in the [Pre-Phase 4 closeout review](../pre-phase-4-closeout-review.md).
+The launcher emitted npm Git-package integrity and `.npmignore` fallback warnings. They did not prevent exact-revision recovery. Explicit package-content control remains tracked separately as OS-02 in the [Pre-Phase 4 closeout review](../planning/pre-phase-4-closeout-review.md).
 
 ## Retained limits
 

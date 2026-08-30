@@ -2,54 +2,106 @@
 
 [English](README.md) | **日本語** | [繁體中文](README.zh-TW.md)
 
-**複数の AI Agent を使っても、プロジェクトを分断されたチャットの山にしないための開発フレームワークです。**
+**分断された AI coding session を、記憶し、連携し、検証し、学習できる開発組織へ。**
 
-Temple は、新規または既存のプロジェクトに、リポジトリ中心の小さな開発組織を導入します。AI Agent に安定した責任、共有されたプロジェクト状態、再利用可能な開発手法、範囲を限定した作業、evidence に基づく delivery を与え、別の Agent が元の会話を再構築せずに作業を継続できるようにします。
+Temple は、新規または既存 project に repository-native な operating framework を導入します。Solo developer から multi-team organization まで、人と AI Agent に安定した責任、永続的な project context、再利用可能な engineering method、境界の明確な work、evidence-based release gate を提供します。
 
-> Temple は低リスクのプロジェクトとフレームワーク検証を対象とした early alpha です。まだ npm release や production control plane ではありません。
+> [!NOTE]
+> Temple は現在、human supervision のある low-risk local project と bounded pilot 向けの early alpha です。Distributed enterprise operation、production monitoring、無人の external action はまだ実証済み capability として主張しません。
 
 ## なぜ Temple が必要なのか
 
-Coding Agent は高速ですが、速さだけではチームになりません。
+Agent の数を増やすだけでは、優れた engineering team にはなりません。
 
-共通の運用モデルがなければ、Agent はプロダクトを理解する前に実装を始め、別の会話と同じ作業を繰り返し、同じファイルを編集し、実装と承認を混同し、再現可能な evidence なしで完了を宣言します。重要な決定もチャットの終了とともに失われます。
+共通の operating model がなければ、別 task が同じ作業を繰り返し、product decision は chat の中に消え、Agent は同じ file を編集し、implementation claim と approval が混同されます。Repository、specialist、tracker、conversation が増えるほど問題は大きくなります。
 
-Temple は、継続に必要なものをリポジトリへ残します。
+Temple は coordination layer を repository に残します。
 
-- **責任:** Product、architecture、development、quality、integration、release、observation を分離します。1つの AI が複数の役割を担当しても責任は混ざりません。
-- **共有された真実:** Spec、decision、Work Item、handoff、learning、evidence が1つの task を越えて残ります。
-- **開発手法:** Skill が interview、domain modeling、documentation、testing、diagnosis、組織拡張を再利用可能な手順にします。
-- **安全な協調:** Agent を並列実行する前に、依存関係、affected path、ownership、共有 resource で作業を分離します。
-- **検証:** Developer の主張、evaluation、Independent QA、approval、release を exact revision に結び付けた別の段階として扱います。
+- **責任が conversation を越えて残る。** 一つの AI が複数 Position を担当しても、product、design、architecture、implementation、evaluation、QA、release、observation の責任を分離します。
+- **Context に参照先がある。** Specification、decision、Work Item、handoff、learning、evidence を、過去の chat を再構築せず回復できます。
+- **Parallel work に境界がある。** Dispatch 前に dependency、affected path、shared contract、resource、Integration Owner を定義します。
+- **Method を成長させられる。** Review されていない prompt を増やすのではなく、governed extension contract の下で Skill を使用、追加、作成します。
+- **Completion が evidence を意味する。** Developer verification、evaluation、Independent QA、human approval、release readiness は exact revision に結び付く別々の step です。
 
-Temple は共有チャット memory でも prompt 集でもありません。プロダクトのアイデアと、それを構築する Agent の間にある運用レイヤーです。
+Temple は shared chat log でも prompt 集でもありません。Product intent と、それを届ける人・Agent の間にある operating layer です。
 
-## 仕組み
+## 規模が変わっても一つの operating loop
 
-```text
-Idea
-  ↓ product intent と shared language を明確化
-Specification
-  ↓ bounded Work Item を作り責任を割り当てる
-Build
-  ↓ engineering Skill と安全な parallel work を使う
-Verification
-  ↓ evaluation、独立再現、approval、close
-Repository state
-  → 次の人または Agent が継続できる
+```mermaid
+flowchart LR
+    accTitle: Temple development operating loop
+    accDescr: Product intent moves through definition, coordination, delivery, and verification into a release-ready result. Lessons and improved Skills feed the next iteration.
+
+    INTENT([Product intent])
+    subgraph TEMPLE[Temple]
+        direction LR
+        DEFINE[Define<br/>specs and language]
+        PLAN[Coordinate<br/>work and ownership]
+        BUILD[Deliver<br/>bounded parallel work]
+        VERIFY[Verify<br/>evidence and QA]
+        DEFINE --> PLAN --> BUILD --> VERIFY
+    end
+    READY([Release-ready result])
+    INTENT --> DEFINE
+    VERIFY --> READY
+    READY -. lessons and Skills .-> DEFINE
 ```
 
-たとえば guest checkout を追加する場合、Product Manager が最初にアイデアを承認可能な outcome に変えます。Architect と UI／UX の責任者が影響する contract を定義し、Developer は重複しない別々の Work Item を受け取ります。Quality が behavior を評価し、Independent QA が candidate revision から再現し、Release が evidence が十分か判断します。各段階は1つの長い chat に依存せず、repository を読み書きして継続します。
+Project が成長しても loop は変わりません。変わるのは各 Position を担う Agent Identity と specialist の数、必要な evidence の深さ、そしてどの外部 system を authority として維持するかです。
 
-Temple には、Product Manager、UX Designer、UI Designer、Software Architect、Developer、Quality & Evaluation Engineer、Independent QA、Release Manager、Integration Owner、Observer の10個の安定した Position があります。初期化時に、これらをプロジェクト固有の Agent Identity に割り当てます。小規模プロジェクトは5つの Identity から開始でき、大規模チームは組織を作り直さず専門家を追加できます。
+## 利用状況別の Temple
 
-**Position** は責任を定義します。**Agent Identity** はプロジェクト固有の実行者です。**Skill** は再利用可能な手法です。Skill は仕事の進め方を改善しますが、権限を追加したり verification gate を回避したりしません。
+<details>
+<summary><strong>複数の AI Agent を使う Solo developer</strong></summary>
 
-## クイックスタート
+一人の developer が、Temple の十個の安定した Position を五つの名前付き Agent Identity に割り当てられます。同じ AI が複数の責任を持っても、Developer と Independent QA は見える形で分離します。Repository state により、新しい task は元の conversation に依存せず作業を回復できます。
 
-必要条件：Git、Node.js 20 以降、Codex、導入先のプロジェクトディレクトリ。
+これは現在もっとも強く検証されている境界です。Human supervision のある local かつ bounded な利用です。
 
-### 1. Source からインストール
+</details>
+
+<details>
+<summary><strong>Product と engineering の collaborative team</strong></summary>
+
+Product Manager、designer、frontend engineer、backend engineer、infrastructure engineer、full-stack engineer は、それぞれ sponsored AI Agent を通じて作業できます。Team-visible outcome は company tracker に残し、internal Work Item は discipline、dependency、affected path、shared contract ごとに AI execution を分けます。Integration Owner は dependent work の前に exact candidate revision を統合します。
+
+Workflow と local coordination contract は実装済みです。Retained multi-human／multi-machine test はまだ pending です。
+
+</details>
+
+<details>
+<summary><strong>Enterprise または multi-repository organization</strong></summary>
+
+Temple は Jira、GitHub Projects、Figma、既存 specification、repository convention の廃止を要求しません。それらを authoritative なまま維持し、各 project で bounded AI execution、evidence、reconciliation を記録できます。Portfolio と multi-repository view も project-local authority を保つ必要があります。
+
+将来の enterprise extension には SRE / Security responsibility、read-only production telemetry、incident / vulnerability coordination、policy evidence、operational risk review を含みます。これは roadmap の方向であり、現在の production-monitoring capability の主張ではありません。
+
+</details>
+
+## 再設計せず assignment で scale する
+
+Temple は十個の安定した Position を定義します。
+
+| Product と design | Engineering と delivery | Assurance と visibility |
+|---|---|---|
+| Product Manager | Engineering Manager | Quality & Evaluation Engineer |
+| UX Designer | Tech Lead | Independent QA |
+| UI Designer | Developer | Release Manager |
+|  |  | Observer |
+
+**Position** は責任の contract、**Agent Identity** は project-specific な executor です。**Discipline** は frontend、backend、infrastructure、full-stack、data、SRE、Security などの specialization を表します。**Skill** は再利用可能な method であり、authority を与えたり gate を迂回したりできません。
+
+| Profile | Typical shape | 追加される safeguard |
+|---|---|---|
+| **Solo** | 少数の Identity が複数 Position を担当 | Durable context と責任分離の可視化 |
+| **Collaborative** | Human が specialist Agent と Position pool を sponsor | Claim、discipline、dependency、resource、integration ownership |
+| **High-Assurance** | Sensitive work で厳格に Identity を分離 | Risk-scaled evidence、rollback、distinct approval、human accountability |
+
+Template には character name を固定しません。Initialization が project ごとの Agent Identity 名を提案または受け取り、後から Position contract を変えずに Identity を追加・分割できます。
+
+## Quick start
+
+Requirements: Git、Node.js 20 以降、Codex、target project directory。
 
 ```bash
 git clone https://github.com/zsz1210/temple-ai-dev-org.git
@@ -59,23 +111,13 @@ npm run verify
 npm link
 ```
 
-Early alpha の間は private repository のため、clone にはアクセス権が必要です。
+Temple を Codex で開き、次のように依頼します。
 
-### 2. プロジェクトを初期化
+> `$temple-init` を使って `/absolute/path/to/my-project` を initialize してください。Agent Identity の英語名を提案し、file を書く前に私の確認を待ってください。
 
-このリポジトリを Codex で開き、次のように依頼します。
+Initialized project 内では次のように依頼します。
 
-> `$temple-init` を使って `/absolute/path/to/my-project` を初期化してください。Agent Identity の英語名を提案し、ファイルを書き込む前に私の確認を待ってください。
-
-Temple は導入先を調査し、組織を提案し、dry run を表示し、project-owned state と framework-managed files を導入して health check を行います。Product ごとに Temple を fork するのではありません。Temple はその product repository に導入され、framework 自体は独立して upgrade できます。
-
-### 3. 範囲を限定した outcome を開始
-
-初期化済みプロジェクトで Codex に依頼します。
-
-> `$decision-interview` で変更内容を明確にし、`$temple-work` で独立検証できる最小の Work Item を作成してください。
-
-基本的な確認コマンド：
+> `$decision-interview` でこの change を明確にし、`$temple-work` で independently verify できる最小の Work Item を作成してください。
 
 ```bash
 node ./templew.mjs doctor .
@@ -83,44 +125,46 @@ node ./templew.mjs status .
 node ./templew.mjs observe .
 ```
 
-既存プロジェクトへの導入、CLI、upgrade、並列作業、tracker、UI mode、troubleshooting は [Usage guide（英語）](docs/usage.md) を参照してください。
+Product ごとに framework を fork するのではなく、各 project に Temple を install します。Installed project state はその product に属し、framework-managed file は独立して upgrade できます。
 
-## 必要な組織レベルを選ぶ
+> [!TIP]
+> Solo profile と一つの bounded outcome から始めてください。Agent、discipline、integration、厳格な gate は、project が本当に必要とした時に追加します。
 
-| Profile | 適している状況 | 追加されるもの |
-|---|---|---|
-| **Solo** | 1人が複数の AI Agent を使う | 10 Position を標準で5 Agent Identity に割り当て、責任と Independent QA を可視化 |
-| **Collaborative** | 複数の人や専門家がプロジェクトを共有する | Human Principal、agent sponsorship、Position pool、Discipline、claim、dependency、integration ownership |
-| **High-Assurance** | リスクにより強い人間の説明責任が必要 | リスクに応じた evidence、rollback、独立承認、より厳格な職務分離 |
+Adoption、upgrade、self-hosting、parallel work、tracker、UI mode、troubleshooting は [Usage guide（英語）](docs/getting-started/usage.md) を参照してください。
 
-UI work は `not-applicable`、`code-first`、`preview-first`、`design-led` を選択できます。Figma は任意であり、特定ツールではなくプロジェクト規模とリスクに応じて必要 evidence を変えます。
+## Project とともに成長する engineering method
 
-## プロジェクトとともに成長する手法
+Core には initialization、bounded delivery、decision interview、domain modeling、project documentation、Skill authoring の Skill が含まれます。Optional pack は test-driven development や systematic debugging などの method を追加できます。
 
-Core installation には、初期化、bounded work、decision interview、domain modeling、project documentation、Skill authoring の Skill が含まれます。Optional Build Quality pack は TDD と体系的な bug diagnosis を追加します。
+[Engineering Learning Loop（英語）](docs/extensions/engineering-learning.md) は Lesson と Practice を記録し、繰り返し得られた evidence を Skill、check、ADR、instruction へ昇格させます。[Skill authoring contract（英語）](docs/extensions/skill-authoring.md) は trigger、authority、provenance、scenario、validation を定義し、framework が local method の ownership を奪わずに project を拡張できるようにします。
 
-プロジェクトは、Temple に ownership を渡さず独自 Skill を追加できます。Engineering Learning Loop は最初に Lesson と Practice を保存し、繰り返し evidence が得られた場合だけ Skill、check、ADR、instruction へ昇格します。Context routing により、リポジトリ全体を読み込まず関連する手法と知識を取得できます。
+Temple は、すべての engineering Skill、design tool、tracker integration、model、RAG system、daemon を default では導入しません。
 
-Temple は、すべての engineering Skill、semantic search、external tracker integration、model を標準では導入しません。Optional capability は明示的で、review 可能かつ削除可能でなければなりません。
+## Marketing より先に evidence
 
-## 人間に残る責任
+現在の claim は automated repository check と bounded validation record に基づきます。すべての enterprise topology、regulated audit、distributed race、production deployment を証明するものではありません。
 
-Temple は repository work を調整しますが、business truth、priority、credential、material spending、不可逆な外部操作、高リスク承認を所有しません。Jira、GitHub Projects などを人間の planning surface として維持し、Temple Work Item で repository 内の AI execution と evidence を管理できます。
+将来の比較 test では、明示的な baseline に対する context-recovery time、duplicate scope、rework、blocked time、verification defect、token usage、coordination effort を測定します。それまでは時間や token の削減率を主張しません。
 
-現在の alpha が証明しているのは local と fixture-backed の behavior です。あらゆる企業構成、distributed race、regulated audit、production deployment を証明したものではありません。
+- [Roadmap と retained gap（英語）](docs/planning/roadmap.md)
+- [Testing strategy（英語）](docs/getting-started/testing.md)
+- [Validation records（英語）](docs/validation/README.md)
 
-## ドキュメント
+## Human authority を明示的に残す
 
-[Documentation map（英語）](docs/README.md) から始めてください。この README に実装履歴を並べるのではなく、読者と目的ごとに guide を整理しています。
+Temple は repository work を coordinate しますが、business truth、priority、credential、material spending、irreversible external action、production remediation、high-risk approval の ownership を持ちません。External tracker と operational system は workflow に情報を与えられますが、自動的な release authority にはなりません。
 
-- [Usage（英語）](docs/usage.md) — install、initialize、operate、upgrade
-- [Vision（英語）](docs/vision.md) — responsibility、lifecycle、設計思想
-- [Roadmap](docs/roadmap.ja.md) — delivered、now、next、later
-- [Testing strategy（英語）](docs/testing.md) — local、CI、release、live validation
-- [Architecture decisions（英語）](docs/adr/README.md) — 重要な選択の理由
-- [Validation records（英語）](docs/validation/README.md) — 限定された evidence と残る gap
-- [Changelog（英語）](CHANGELOG.md) — release history
+## Documentation
 
-## ライセンス
+[Documentation map（英語）](docs/README.md) から始めてください。
 
-[MIT](LICENSE)。Third-party source と採用境界は [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) に記録しています。
+- [Vision（英語）](docs/concepts/vision.md)
+- [Architecture（英語）](docs/concepts/architecture.md)
+- [Collaborative development（英語）](docs/operations/collaboration.md)
+- [Capability catalog（英語）](docs/extensions/capability-catalog.md)
+- [Architecture decisions（英語）](docs/adr/README.md)
+- [Changelog（英語）](CHANGELOG.md)
+
+## License
+
+[MIT](LICENSE)。Third-party source と adoption boundary は [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) に記録します。

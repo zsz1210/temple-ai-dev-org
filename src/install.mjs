@@ -9,6 +9,8 @@ import {
   PACKAGE_NAME,
   PROJECT_OVERLAY_ROOT,
   PROJECT_OWNED_PATHS,
+  REPOSITORY_ROOT,
+  SELF_HOST_ADOPTABLE_MANAGED_PATHS,
   TEMPLATE_REPOSITORY,
   TEMPLATE_VERSION
 } from "./constants.mjs";
@@ -41,11 +43,26 @@ async function compareFile(leftPath, rightPath) {
   return left.equals(right);
 }
 
-export async function planInit(target, config, { integrateAgents = false } = {}) {
+async function sameDirectory(left, right) {
+  const [resolvedLeft, resolvedRight] = await Promise.all([
+    fs.realpath(left).catch(() => path.resolve(left)),
+    fs.realpath(right).catch(() => path.resolve(right))
+  ]);
+  return resolvedLeft === resolvedRight;
+}
+
+export async function planInit(target, config, { integrateAgents = false, selfHost = false } = {}) {
   const templateFiles = await walkFiles(PROJECT_OVERLAY_ROOT);
   const actions = [];
   const conflicts = [];
   const warnings = [];
+  const toolkitTarget = await sameDirectory(target, REPOSITORY_ROOT);
+
+  if (selfHost && !toolkitTarget) {
+    conflicts.push("--self-host is allowed only for the Temple toolkit repository itself");
+  } else if (!selfHost && toolkitTarget) {
+    conflicts.push("The Temple toolkit repository requires explicit --self-host initialization");
+  }
 
   let existingLock = null;
   const lockPath = path.join(target, "temple.lock");
@@ -57,6 +74,12 @@ export async function planInit(target, config, { integrateAgents = false } = {})
       conflicts.push(
         `Installed Temple version is ${existingLock.template.version}; use a future temple upgrade instead of init ${TEMPLATE_VERSION}`
       );
+    }
+    const installedMode = existingLock?.installation?.mode ?? "project";
+    if (selfHost && installedMode !== "toolkit-self-host") {
+      conflicts.push(`temple.lock installation mode is ${installedMode}, not toolkit-self-host`);
+    } else if (!selfHost && installedMode === "toolkit-self-host") {
+      conflicts.push("This toolkit self-host installation must be operated with --self-host");
     }
   }
   const existingManagedPaths = new Set((existingLock?.managed_files ?? []).map((entry) => entry.path));
@@ -74,7 +97,15 @@ export async function planInit(target, config, { integrateAgents = false } = {})
 
     if (isManaged(relativePath)) {
       if (!existingManagedPaths.has(relativePath)) {
-        conflicts.push(`untracked file blocks new managed path: ${relativePath}`);
+        if (
+          selfHost &&
+          SELF_HOST_ADOPTABLE_MANAGED_PATHS.has(relativePath) &&
+          (await compareFile(sourcePath, destinationPath))
+        ) {
+          actions.push({ type: "adopt-identical", ownership: "managed", path: relativePath });
+        } else {
+          conflicts.push(`untracked file blocks new managed path: ${relativePath}`);
+        }
       } else if (await compareFile(sourcePath, destinationPath)) {
         actions.push({ type: "skip-identical", ownership: "managed", path: relativePath });
       } else {
@@ -181,7 +212,8 @@ export async function planInit(target, config, { integrateAgents = false } = {})
     conflicts,
     warnings,
     agentsIntegration,
-    existingLock
+    existingLock,
+    selfHost
   };
 }
 
@@ -250,6 +282,21 @@ export async function executeInit(plan) {
         bootstrap,
         installed_at: installedAt
       },
+      installation: plan.selfHost
+        ? (() => {
+            const adoptedManagedFiles = new Set([
+              ...(plan.existingLock?.installation?.adopted_managed_files ?? []),
+              ...plan.actions
+                .filter((action) => action.type === "adopt-identical")
+                .map((action) => action.path)
+            ]);
+            return {
+              mode: "toolkit-self-host",
+              source_overlay: "project-overlay",
+              adopted_managed_files: [...adoptedManagedFiles].sort()
+            };
+          })()
+        : { mode: "project" },
       project_id: plan.config.project.id,
       migrations,
       boundaries: {
@@ -332,7 +379,8 @@ export async function executeInit(plan) {
         github_pr_checks_provider: true,
         github_evidence_capture: true,
         checksum_upgrade: true,
-        optional_packs: true
+        optional_packs: true,
+        toolkit_self_hosting: true
       },
       optional_packs: plan.existingLock?.optional_packs ?? [],
       managed_files: managedFiles
@@ -372,5 +420,6 @@ export function formatInitPlan(plan) {
     lines.push("Warnings:", ...plan.warnings.map((warning) => `- ${warning}`));
   }
   lines.push(`AGENTS.md integration: ${plan.agentsIntegration}`);
+  lines.push(`Installation mode: ${plan.selfHost ? "toolkit-self-host" : "project"}`);
   return lines.join("\n");
 }

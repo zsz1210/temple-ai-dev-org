@@ -1,0 +1,121 @@
+{
+  "schema_version": "temple.capability-registry/v1",
+  "generated_at": "2026-08-30T02:33:38.613Z",
+  "project_id": "temple",
+  "source_template_version": "0.1.0-alpha.23",
+  "counts": {
+    "total": 6,
+    "available": 6,
+    "invalid": 0,
+    "core": 6,
+    "optional_pack": 0,
+    "project_extension": 0
+  },
+  "capabilities": [
+    {
+      "id": "decision-interview",
+      "name": "decision-interview",
+      "description": "Clarify consequential product, architecture, or implementation choices through a focused decision interview. Use when ambiguity blocks specification or design; inspect repository evidence in the same workflow when project facts constrain the decision. Do not use for status reporting or implementation.",
+      "path": ".agents/skills/decision-interview/SKILL.md",
+      "lifecycle_owner": "framework",
+      "distribution": "core",
+      "pack_id": null,
+      "origin": "temple",
+      "invocation": "implicit-or-explicit",
+      "declared_dependencies": [],
+      "position_hints": [
+        "engineering_manager",
+        "product_manager",
+        "tech_lead"
+      ],
+      "status": "available"
+    },
+    {
+      "id": "domain-modeling",
+      "name": "domain-modeling",
+      "description": "Clarify a project's domain language, boundaries, rules, and invariants when product documents, code, or people use conflicting terms. Use during project definition, specification, architecture decisions, or refactors where naming affects behavior; do not use for generic prose editing.",
+      "path": ".agents/skills/domain-modeling/SKILL.md",
+      "lifecycle_owner": "framework",
+      "distribution": "core",
+      "pack_id": null,
+      "origin": "temple",
+      "invocation": "implicit-or-explicit",
+      "declared_dependencies": [],
+      "position_hints": [
+        "product_manager",
+        "tech_lead",
+        "developer"
+      ],
+      "status": "available"
+    },
+    {
+      "id": "project-documentation",
+      "name": "project-documentation",
+      "description": "Create or update human-facing repository documentation from verified project evidence. Use for README files, setup guides, usage guides, contributor documentation, or documentation indexes whose commands, links, and capability claims must match the repository; do not use for Agent instructions, Skills, product specifications, or generic prose editing.",
+      "path": ".agents/skills/project-documentation/SKILL.md",
+      "lifecycle_owner": "framework",
+      "distribution": "core",
+      "pack_id": null,
+      "origin": "temple",
+      "invocation": "implicit-or-explicit",
+      "declared_dependencies": [],
+      "position_hints": [
+        "product_manager",
+        "developer"
+      ],
+      "status": "available"
+    },
+    {
+      "id": "skill-authoring",
+      "name": "skill-authoring",
+      "description": "Design, create, revise, or audit a repository-local Skill with precise routing, authority, dependencies, provenance, and observable completion. Use when the user asks to turn a reusable procedure into a Skill; do not use to perform the target procedure, install external packages, edit ordinary Agent instructions, or promote a Skill into an official distribution.",
+      "path": ".agents/skills/skill-authoring/SKILL.md",
+      "lifecycle_owner": "framework",
+      "distribution": "core",
+      "pack_id": null,
+      "origin": "temple",
+      "invocation": "implicit-or-explicit",
+      "declared_dependencies": [],
+      "position_hints": [
+        "tech_lead",
+        "developer"
+      ],
+      "status": "available"
+    },
+    {
+      "id": "temple-init",
+      "name": "temple-init",
+      "description": "Initialize a repository's AI development organization with the temple CLI, including project-specific Agent names and Position assignments. Use for first-time organization setup, not ordinary feature work.",
+      "path": ".agents/skills/temple-init/SKILL.md",
+      "lifecycle_owner": "framework",
+      "distribution": "core",
+      "pack_id": null,
+      "origin": "temple",
+      "invocation": "implicit-or-explicit",
+      "declared_dependencies": [],
+      "position_hints": [
+        "engineering_manager"
+      ],
+      "status": "available"
+    },
+    {
+      "id": "temple-work",
+      "name": "temple-work",
+      "description": "Mutate an initialized repository's canonical work-item, collaboration, claim, runtime-worker, resource, handoff, workflow, closeout, or Codex task state, and build or prepare parallel dispatch plans with the repository-pinned CLI. Use only when the request authorizes a lifecycle or runtime state change or asks for a dispatch plan; do not use for status-only reporting, implementation itself, or first-time initialization.",
+      "path": ".agents/skills/temple-work/SKILL.md",
+      "lifecycle_owner": "framework",
+      "distribution": "core",
+      "pack_id": null,
+      "origin": "temple",
+      "invocation": "implicit-or-explicit",
+      "declared_dependencies": [],
+      "position_hints": [
+        "engineering_manager",
+        "release_manager",
+        "observer"
+      ],
+      "status": "available"
+    }
+  ],
+  "issues": []
+}

@@ -33,9 +33,9 @@ const localizedDocumentation = new Set([
   "README.md",
   "README.ja.md",
   "README.zh-TW.md",
-  "docs/roadmap.md",
-  "docs/roadmap.ja.md",
-  "docs/roadmap.zh-TW.md"
+  "docs/planning/roadmap.md",
+  "docs/planning/roadmap.ja.md",
+  "docs/planning/roadmap.zh-TW.md"
 ]);
 const cjkText = /[\u3040-\u30ff\u3400-\u9fff\uf900-\ufaff]/;
 for (const file of (await walkFiles(root)).filter(

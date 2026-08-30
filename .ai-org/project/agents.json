@@ -1,0 +1,36 @@
+{
+  "schema_version": "temple.agents/v1",
+  "naming_mode": "ai-suggested",
+  "agents": [
+    {
+      "id": "agent-mog",
+      "display_name": "Mog",
+      "active": true,
+      "created_at": "2026-08-30T02:28:18.266Z"
+    },
+    {
+      "id": "agent-yuna",
+      "display_name": "Yuna",
+      "active": true,
+      "created_at": "2026-08-30T02:28:18.266Z"
+    },
+    {
+      "id": "agent-tidus",
+      "display_name": "Tidus",
+      "active": true,
+      "created_at": "2026-08-30T02:28:18.266Z"
+    },
+    {
+      "id": "agent-rikku",
+      "display_name": "Rikku",
+      "active": true,
+      "created_at": "2026-08-30T02:28:18.266Z"
+    },
+    {
+      "id": "agent-lulu",
+      "display_name": "Lulu",
+      "active": true,
+      "created_at": "2026-08-30T02:28:18.266Z"
+    }
+  ]
+}

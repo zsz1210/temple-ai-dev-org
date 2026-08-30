@@ -16,4 +16,4 @@ To install the adapter:
 2. Run `node ./templew.mjs adapter archify-install . --source /absolute/path/to/checkout`.
 3. Run `adapter archify-status` and `doctor` to verify provenance and digests.
 
-The installer copies the distribution under the project-owned `.ai-org/adapters/` boundary. It does not execute Archify or change canonical state. Temple's `doctor`, `status`, workflow, and decision records work when the adapter is absent. See [the adapter guide](../../docs/archify-adapter.md).
+The installer copies the distribution under the project-owned `.ai-org/adapters/` boundary. It does not execute Archify or change canonical state. Temple's `doctor`, `status`, workflow, and decision records work when the adapter is absent. See [the adapter guide](../../docs/extensions/archify-adapter.md).

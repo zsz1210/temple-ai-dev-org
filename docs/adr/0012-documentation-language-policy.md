@@ -10,8 +10,8 @@ The toolkit accumulated English, Traditional Chinese, and Japanese across archit
 
 ## Decision
 
-- `README.md` and `docs/roadmap.md` are the canonical English entry points.
-- `README.ja.md`, `README.zh-TW.md`, `docs/roadmap.ja.md`, and `docs/roadmap.zh-TW.md` are maintained Japanese and Traditional Chinese entry points with the same information hierarchy, phase status, gates, and claims as their English counterparts.
+- `README.md` and `docs/planning/roadmap.md` are the canonical English entry points.
+- `README.ja.md`, `README.zh-TW.md`, `docs/planning/roadmap.ja.md`, and `docs/planning/roadmap.zh-TW.md` are maintained Japanese and Traditional Chinese entry points with the same information hierarchy, phase status, gates, and claims as their English counterparts.
 - All other toolkit documentation, installed instructions, Skills, templates, changelog entries, contribution guidance, and security guidance use English.
 - A change to public README behavior or claims must update all three README variants in the same change.
 - A change to Roadmap phase status, gates, or planned scope must update all three Roadmap variants in the same change.

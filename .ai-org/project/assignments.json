@@ -1,0 +1,55 @@
+{
+  "schema_version": "temple.assignments/v1",
+  "assignments": [
+    {
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
+      "active": true
+    },
+    {
+      "position_id": "engineering_manager",
+      "agent_id": "agent-mog",
+      "active": true
+    },
+    {
+      "position_id": "independent_qa",
+      "agent_id": "agent-lulu",
+      "active": true
+    },
+    {
+      "position_id": "observer",
+      "agent_id": "agent-mog",
+      "active": true
+    },
+    {
+      "position_id": "product_manager",
+      "agent_id": "agent-yuna",
+      "active": true
+    },
+    {
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "active": true
+    },
+    {
+      "position_id": "release_manager",
+      "agent_id": "agent-mog",
+      "active": true
+    },
+    {
+      "position_id": "tech_lead",
+      "agent_id": "agent-tidus",
+      "active": true
+    },
+    {
+      "position_id": "ui_designer",
+      "agent_id": "agent-yuna",
+      "active": true
+    },
+    {
+      "position_id": "ux_designer",
+      "agent_id": "agent-yuna",
+      "active": true
+    }
+  ]
+}

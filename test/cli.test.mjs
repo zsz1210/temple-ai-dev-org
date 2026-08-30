@@ -39,6 +39,35 @@ function run(args) {
   return spawnSync(process.execPath, [cli, ...args], { encoding: "utf8" });
 }
 
+function runCli(cliPath, args) {
+  return spawnSync(process.execPath, [cliPath, ...args], { encoding: "utf8" });
+}
+
+async function selfHostFixture() {
+  const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-self-host-test-"));
+  const toolkit = path.join(temporaryRoot, "toolkit");
+  await fs.mkdir(toolkit, { recursive: true });
+  for (const directory of ["bin", "src", "project-overlay", "packs"]) {
+    await fs.cp(path.join(root, directory), path.join(toolkit, directory), { recursive: true });
+  }
+  await fs.cp(path.join(root, "package.json"), path.join(toolkit, "package.json"));
+  await fs.cp(path.join(root, "AGENTS.md"), path.join(toolkit, "AGENTS.md"));
+  await fs.mkdir(path.join(toolkit, ".agents/skills"), { recursive: true });
+  await fs.cp(
+    path.join(root, ".agents/skills/temple-init"),
+    path.join(toolkit, ".agents/skills/temple-init"),
+    { recursive: true }
+  );
+  await fs.symlink(
+    path.join(root, "node_modules"),
+    path.join(toolkit, "node_modules"),
+    process.platform === "win32" ? "junction" : "dir"
+  );
+  const configPath = path.join(temporaryRoot, "self-host-init.json");
+  await fs.writeFile(configPath, `${JSON.stringify(configDocument("temple", "Temple"), null, 2)}\n`);
+  return { temporaryRoot, toolkit, configPath, cli: path.join(toolkit, "bin/temple.mjs") };
+}
+
 function shellQuote(value) {
   return `'${String(value).replaceAll("'", `'"'"'`)}'`;
 }
@@ -46,7 +75,7 @@ function shellQuote(value) {
 test("version is available without dependencies", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /^0\.1\.0-alpha\.22/m);
+  assert.match(result.stdout, /^0\.1\.0-alpha\.23/m);
 });
 
 test("the chamber remains a hidden evidence-first easter egg", () => {
@@ -74,6 +103,66 @@ test("dry-run writes nothing", async (context) => {
   const result = run(["init", target, "--config", configPath, "--dry-run"]);
   assert.equal(result.status, 0, result.stderr);
   await assert.rejects(() => fs.access(path.join(target, "temple.lock")));
+});
+
+test("toolkit self-host init requires explicit scope and adopts only the identical bootstrap Skill", async (context) => {
+  const fixture = await selfHostFixture();
+  context.after(() => fs.rm(fixture.temporaryRoot, { recursive: true, force: true }));
+
+  const ordinaryInit = runCli(fixture.cli, ["init", fixture.toolkit, "--config", fixture.configPath, "--dry-run"]);
+  assert.equal(ordinaryInit.status, 1, ordinaryInit.stderr || ordinaryInit.stdout);
+  assert.match(ordinaryInit.stdout, /requires explicit --self-host initialization/);
+
+  const unrelatedTarget = path.join(fixture.temporaryRoot, "ordinary-project");
+  const misplacedSelfHost = runCli(fixture.cli, [
+    "init",
+    unrelatedTarget,
+    "--config",
+    fixture.configPath,
+    "--self-host",
+    "--dry-run"
+  ]);
+  assert.equal(misplacedSelfHost.status, 1, misplacedSelfHost.stderr || misplacedSelfHost.stdout);
+  assert.match(misplacedSelfHost.stdout, /allowed only for the Temple toolkit repository itself/);
+  await assert.rejects(() => fs.access(path.join(unrelatedTarget, "temple.lock")));
+
+  const dryRun = runCli(fixture.cli, [
+    "init",
+    fixture.toolkit,
+    "--config",
+    fixture.configPath,
+    "--self-host",
+    "--integrate-agents",
+    "--dry-run"
+  ]);
+  assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
+  assert.match(dryRun.stdout, /adopt-identical: 1/);
+  assert.match(dryRun.stdout, /Installation mode: toolkit-self-host/);
+  await assert.rejects(() => fs.access(path.join(fixture.toolkit, "temple.lock")));
+
+  const initialized = runCli(fixture.cli, [
+    "init",
+    fixture.toolkit,
+    "--config",
+    fixture.configPath,
+    "--self-host",
+    "--integrate-agents"
+  ]);
+  assert.equal(initialized.status, 0, initialized.stderr || initialized.stdout);
+  const lock = JSON.parse(await fs.readFile(path.join(fixture.toolkit, "temple.lock"), "utf8"));
+  assert.equal(lock.installation.mode, "toolkit-self-host");
+  assert.equal(lock.installation.source_overlay, "project-overlay");
+  assert.deepEqual(lock.installation.adopted_managed_files, [".agents/skills/temple-init/SKILL.md"]);
+  assert.equal(lock.capabilities.toolkit_self_hosting, true);
+
+  const doctor = runCli(fixture.cli, ["doctor", fixture.toolkit, "--json"]);
+  assert.equal(doctor.status, 0, doctor.stderr || doctor.stdout);
+  const doctorResult = JSON.parse(doctor.stdout);
+  assert.equal(doctorResult.summary.fail, 0);
+  assert.match(
+    doctorResult.checks.find((check) => check.id === "installation_mode").message,
+    /Toolkit self-host boundary is valid/
+  );
 });
 
 test("exclusive task-registry creation journals the content Temple actually wrote", async (context) => {
@@ -317,7 +406,7 @@ test("upgrade adds a missing project-owned learning index without managing it", 
   });
   assert.equal(JSON.parse(await fs.readFile(trackerConfigPath, "utf8")).profile, "repository-only");
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.22");
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.23");
   assert.equal(upgradedLock.capabilities.engineering_learning, true);
   assert.equal(upgradedLock.capabilities.group_parallel_planning, true);
   assert.equal(upgradedLock.capabilities.parallel_join_gate, true);

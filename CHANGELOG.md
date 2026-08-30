@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.0-alpha.23
+
+- Added explicit toolkit-only self-host initialization with a recorded source/project boundary, narrowly allowlisted byte-identical bootstrap adoption, doctor validation, and end-to-end refusal tests for ordinary or misplaced targets.
+- Began Temple-on-Temple dogfooding without placing project Agent names or canonical work state into `project-overlay/`.
+- Reorganized documentation by reader purpose and reworked the trilingual README around solo, team, and enterprise use cases, progressive disclosure, a compact operating diagram, evidence-bound claims, and future benchmark reporting.
+
 ## 0.1.0-alpha.22
 
 - Reworked the trilingual public README as a human-first product entry, replaced the historical roadmap narrative with delivered/now/next/later views, and added a categorized documentation map with explicit guide, ADR, validation, research, pilot, changelog, and future generated-site boundaries.

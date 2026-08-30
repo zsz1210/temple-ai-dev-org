@@ -2,54 +2,106 @@
 
 **English** | [日本語](README.ja.md) | [繁體中文](README.zh-TW.md)
 
-**Build with multiple AI agents without turning your project into a pile of disconnected chats.**
+**Turn disconnected AI coding sessions into a development organization that can remember, coordinate, verify, and improve.**
 
-Temple installs a small, repository-native development organization into a new or existing project. It gives AI agents stable responsibilities, shared project state, reusable engineering methods, bounded work, and evidence-based delivery—so another agent can continue the work without reconstructing the original conversation.
+Temple installs a repository-native operating framework into a new or existing project. It gives people and AI agents stable responsibilities, durable project context, reusable engineering methods, bounded work, and evidence-based release gates—from a solo builder to a multi-team organization.
 
-> Temple is an early alpha for low-risk projects and framework validation. It is not yet an npm release or a production control plane.
+> [!NOTE]
+> Temple is an early alpha for low-risk local projects and bounded pilots with human supervision. Distributed enterprise operation, production monitoring, and unattended external actions are not yet claimed.
 
 ## Why Temple?
 
-Coding agents are fast, but speed alone does not create a team.
+More agents do not automatically create a better engineering team.
 
-Without a shared operating model, agents can start before the product is understood, repeat work from another conversation, edit the same files, confuse implementation with approval, or declare success without reproducible evidence. Important decisions disappear when the chat ends.
+Without a shared operating model, one task repeats another, product decisions disappear inside chats, agents collide on the same files, and implementation claims become confused with approval. The problem grows as repositories, specialists, trackers, and conversations multiply.
 
-Temple keeps the durable parts in the repository:
+Temple keeps the coordination layer in the repository:
 
-- **Responsibilities:** Product, architecture, development, quality, integration, release, and observation remain distinct even when one AI fills several roles.
-- **Shared truth:** Specs, decisions, Work Items, handoffs, learning, and evidence survive beyond one task.
-- **Engineering methods:** Skills provide repeatable ways to interview, model a domain, document, test, diagnose, and extend the organization.
-- **Safe coordination:** Work is split by dependency, affected paths, ownership, and shared resources before agents run in parallel.
-- **Verification:** Developer claims, evaluation, Independent QA, approval, and release are separate steps tied to an exact revision.
+- **Responsibility survives the conversation.** Product, design, architecture, implementation, evaluation, QA, release, and observation remain distinct even when one AI fills several Positions.
+- **Context has an address.** Specifications, decisions, Work Items, handoffs, learning, and evidence can be recovered without reconstructing an old chat.
+- **Parallel work has boundaries.** Dependencies, affected paths, shared contracts, resources, and an Integration Owner are declared before dispatch.
+- **Methods can evolve.** Projects use, add, and author Skills under a governed extension contract rather than accumulating unreviewed prompts.
+- **Completion means evidence.** Developer verification, evaluation, Independent QA, human approval, and release readiness are separate, exact-revision steps.
 
-Temple is not shared chat memory and not a prompt collection. It is the operating layer between a product idea and the agents that build it.
+Temple is not a shared chat log and not a bag of prompts. It is the operating layer between product intent and the humans and agents that deliver it.
 
-## How it works
+## One operating loop, at any scale
 
-```text
-Idea
-  ↓ clarify product intent and shared language
-Specification
-  ↓ create bounded Work Items and assign responsibility
-Build
-  ↓ apply engineering Skills and coordinate safe parallel work
-Verification
-  ↓ evaluate, reproduce independently, approve, and close
-Repository state
-  → lets the next human or agent continue
+```mermaid
+flowchart LR
+    accTitle: Temple development operating loop
+    accDescr: Product intent moves through definition, coordination, delivery, and verification into a release-ready result. Lessons and improved Skills feed the next iteration.
+
+    INTENT([Product intent])
+    subgraph TEMPLE[Temple]
+        direction LR
+        DEFINE[Define<br/>specs and language]
+        PLAN[Coordinate<br/>work and ownership]
+        BUILD[Deliver<br/>bounded parallel work]
+        VERIFY[Verify<br/>evidence and QA]
+        DEFINE --> PLAN --> BUILD --> VERIFY
+    end
+    READY([Release-ready result])
+    INTENT --> DEFINE
+    VERIFY --> READY
+    READY -. lessons and Skills .-> DEFINE
 ```
 
-For example, when you ask to add guest checkout, the Product Manager first turns the idea into a reviewable outcome. The Architect and UI/UX responsibilities define the affected contracts. Developers receive separate, non-overlapping Work Items. Quality evaluates the behavior, Independent QA reproduces it from the candidate revision, and Release decides whether the evidence is sufficient. Each step reads and updates the repository instead of depending on one long chat.
+The loop stays the same as a project grows. What changes is how many Agent Identities and specialists occupy each Position, how much evidence is required, and which systems remain authoritative.
 
-Temple defines ten stable Positions: Product Manager, UX Designer, UI Designer, Software Architect, Developer, Quality & Evaluation Engineer, Independent QA, Release Manager, Integration Owner, and Observer. During initialization, those Positions are assigned to project-specific Agent Identities. A small project can start with five agents; a larger team can add specialists without redesigning the organization.
+## See Temple in your situation
 
-A **Position** defines responsibility. An **Agent Identity** is the project-specific executor. A **Skill** is a reusable method. A Skill can improve how work is done, but it cannot grant authority or bypass a verification gate.
+<details>
+<summary><strong>Solo builder with several AI agents</strong></summary>
+
+One developer may use five named Agent Identities across Temple's ten stable Positions. The same AI can cover several responsibilities, while Developer and Independent QA remain visibly separate. Repository state lets a fresh task recover what happened without relying on the original conversation.
+
+This is the strongest current validation boundary: local and bounded, with human supervision.
+
+</details>
+
+<details>
+<summary><strong>Collaborative product and engineering team</strong></summary>
+
+A Product Manager, designer, frontend engineer, backend engineer, infrastructure engineer, or full-stack engineer can each work through sponsored AI agents. Team-visible outcomes stay in the company tracker; internal Work Items split AI execution by discipline, dependency, affected path, and shared contract. An Integration Owner joins exact candidate revisions before dependent work begins.
+
+The workflow and local coordination contracts are implemented. The retained multi-human, multi-machine test is still pending.
+
+</details>
+
+<details>
+<summary><strong>Enterprise or multi-repository organization</strong></summary>
+
+Temple does not require a company to discard Jira, GitHub Projects, Figma, existing specifications, or repository conventions. Those systems can remain authoritative while Temple records bounded AI execution, evidence, and reconciliation in each project. Portfolio and multi-repository views must preserve that local authority.
+
+Future enterprise extensions include SRE and Security responsibilities, read-only production telemetry, incident and vulnerability coordination, policy evidence, and operational risk review. These are roadmap directions—not current production-monitoring claims.
+
+</details>
+
+## Scale by assignment, not by redesign
+
+Temple defines ten stable Positions:
+
+| Product and design | Engineering and delivery | Assurance and visibility |
+|---|---|---|
+| Product Manager | Engineering Manager | Quality & Evaluation Engineer |
+| UX Designer | Tech Lead | Independent QA |
+| UI Designer | Developer | Release Manager |
+|  |  | Observer |
+
+A **Position** is a responsibility contract. An **Agent Identity** is a project-specific executor. A **Discipline** describes a specialization such as frontend, backend, infrastructure, full-stack, data, SRE, or Security. A **Skill** is a reusable method; it cannot grant authority or bypass a gate.
+
+| Profile | Typical shape | Added safeguards |
+|---|---|---|
+| **Solo** | A few identities cover several Positions | Durable context and visible separation of responsibilities |
+| **Collaborative** | Humans sponsor specialist agents and Position pools | Claims, disciplines, dependencies, resources, and integration ownership |
+| **High-Assurance** | Sensitive work has stricter identity separation | Risk-scaled evidence, rollback, distinct approvals, and human accountability |
+
+The template ships without character names. Initialization proposes or accepts names for that project's Agent Identities; teams can add or split identities later without changing the Position contracts.
 
 ## Quick start
 
 Requirements: Git, Node.js 20 or later, Codex, and a target project directory.
-
-### 1. Install from source
 
 ```bash
 git clone https://github.com/zsz1210/temple-ai-dev-org.git
@@ -59,23 +111,13 @@ npm run verify
 npm link
 ```
 
-The repository is private during early alpha, so cloning currently requires access.
-
-### 2. Initialize a project
-
-Open this repository in Codex and ask:
+Then open Temple in Codex and ask:
 
 > Use `$temple-init` to initialize `/absolute/path/to/my-project`. Propose English names for the Agent Identities and wait for my confirmation before writing files.
 
-Temple inspects the target, proposes the organization, shows a dry run, installs the project-owned state and framework-managed files, then runs health checks. You do not fork Temple for every product; Temple becomes an installed part of that product repository and remains independently upgradeable.
-
-### 3. Start a bounded outcome
-
-Inside the initialized project, ask Codex:
+Inside the initialized project:
 
 > Use `$decision-interview` to clarify this change, then use `$temple-work` to create the smallest Work Item that can be independently verified.
-
-Useful checks:
 
 ```bash
 node ./templew.mjs doctor .
@@ -83,43 +125,45 @@ node ./templew.mjs status .
 node ./templew.mjs observe .
 ```
 
-See the [usage guide](docs/usage.md) for existing-project adoption, CLI commands, upgrades, parallel work, trackers, UI modes, and troubleshooting.
+You install Temple into each project; you do not fork the framework for every product. The installed project state belongs to that product, while managed framework files remain upgradeable.
 
-## Choose the level of organization you need
+> [!TIP]
+> Start with the Solo profile and one bounded outcome. Add more agents, disciplines, integrations, or stricter gates only when the project actually needs them.
 
-| Profile | Use it when | What changes |
-|---|---|---|
-| **Solo** | One person uses several AI agents | Ten Positions default to five Agent Identities; responsibilities and Independent QA remain visible |
-| **Collaborative** | Several people or specialists share the project | Adds Human Principals, agent sponsorship, Position pools, Disciplines, claims, dependencies, and integration ownership |
-| **High-Assurance** | Risk requires stronger human accountability | Adds risk-scaled evidence, rollback, independent approval, and stricter separation of duties |
+See the [usage guide](docs/getting-started/usage.md) for adoption, upgrades, self-hosting, parallel work, trackers, UI modes, and troubleshooting.
 
-UI work can be `not-applicable`, `code-first`, `preview-first`, or `design-led`. Figma is optional; the required evidence scales with the project and risk rather than a mandatory design tool.
+## Engineering methods that can grow
 
-## Methods that grow with the project
+The core includes Skills for initialization, bounded delivery, decision interviews, domain modeling, project documentation, and Skill authoring. Optional packs can add methods such as test-driven development and systematic debugging.
 
-The core installation includes Skills for initialization, bounded work, decision interviews, domain modeling, project documentation, and Skill authoring. The optional Build Quality pack adds TDD and disciplined bug diagnosis.
+The [Engineering Learning Loop](docs/extensions/engineering-learning.md) captures Lessons and Practices before promoting repeated evidence into a Skill, check, ADR, or instruction. The [Skill authoring contract](docs/extensions/skill-authoring.md) defines triggers, authority, provenance, scenarios, and validation so a project can extend Temple without giving the framework ownership of local methods.
 
-Projects can add their own Skills without giving Temple ownership of them. The Engineering Learning Loop captures Lessons and Practices first, then promotes repeated evidence into a Skill, check, ADR, or instruction only when justified. Context routing helps agents retrieve the relevant methods and project knowledge without loading the entire repository.
+Temple deliberately does not install every engineering Skill, design tool, tracker integration, model, RAG system, or daemon by default.
 
-Temple does not install every possible engineering Skill, semantic search system, external tracker integration, or model by default. Optional capabilities must remain explicit, reviewable, and removable.
+## Evidence before marketing
 
-## What remains human
+Current claims are backed by automated repository checks and bounded validation records. They do not prove every enterprise topology, regulated audit, distributed race, or production deployment.
 
-Temple coordinates repository work; it does not take ownership of business truth, priorities, credentials, material spending, irreversible external actions, or high-risk approval. Jira, GitHub Projects, and other company trackers may remain the human planning surface while Temple Work Items manage AI execution and evidence inside the repository.
+Future comparative tests should measure context-recovery time, duplicate scope, rework, blocked time, verification defects, token usage, and coordination effort against an explicit baseline. Until those tests exist, Temple will not claim a percentage of time or tokens saved.
 
-The current alpha proves local and fixture-backed behavior. It does not yet prove every multi-company topology, distributed race, regulated audit, or production deployment.
+- [Roadmap and retained gaps](docs/planning/roadmap.md)
+- [Testing strategy](docs/getting-started/testing.md)
+- [Validation records](docs/validation/README.md)
+
+## Human authority remains explicit
+
+Temple coordinates repository work; it does not own business truth, priorities, credentials, material spending, irreversible external actions, production remediation, or high-risk approval. External trackers and operational systems can inform the workflow without becoming automatic release authority.
 
 ## Documentation
 
-Start with the [documentation map](docs/README.md). It organizes guides by reader and purpose instead of exposing the repository's implementation history on this page.
+Start with the [documentation map](docs/README.md), then use:
 
-- [Usage](docs/usage.md) — install, initialize, operate, and upgrade
-- [Vision](docs/vision.md) — responsibilities, lifecycle, and design philosophy
-- [Roadmap](docs/roadmap.md) — what is delivered, now, next, and later
-- [Testing strategy](docs/testing.md) — local, CI, release, and live validation levels
-- [Architecture decisions](docs/adr/README.md) — why important choices were made
-- [Validation records](docs/validation/README.md) — bounded evidence and remaining gaps
-- [Changelog](CHANGELOG.md) — release history
+- [Vision](docs/concepts/vision.md)
+- [Architecture](docs/concepts/architecture.md)
+- [Collaborative development](docs/operations/collaboration.md)
+- [Capability catalog](docs/extensions/capability-catalog.md)
+- [Architecture decisions](docs/adr/README.md)
+- [Changelog](CHANGELOG.md)
 
 ## License
 

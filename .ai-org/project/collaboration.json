@@ -1,0 +1,103 @@
+{
+  "schema_version": "temple.collaboration/v1",
+  "profile": "solo",
+  "coordination_backend": "repository",
+  "principals": [],
+  "sponsorships": [],
+  "memberships": [
+    {
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
+      "disciplines": [
+        "general-development"
+      ],
+      "default": true,
+      "active": true
+    },
+    {
+      "position_id": "engineering_manager",
+      "agent_id": "agent-mog",
+      "disciplines": [
+        "architecture"
+      ],
+      "default": true,
+      "active": true
+    },
+    {
+      "position_id": "independent_qa",
+      "agent_id": "agent-lulu",
+      "disciplines": [
+        "quality"
+      ],
+      "default": true,
+      "active": true
+    },
+    {
+      "position_id": "observer",
+      "agent_id": "agent-mog",
+      "disciplines": [
+        "observability"
+      ],
+      "default": true,
+      "active": true
+    },
+    {
+      "position_id": "product_manager",
+      "agent_id": "agent-yuna",
+      "disciplines": [
+        "product"
+      ],
+      "default": true,
+      "active": true
+    },
+    {
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "disciplines": [
+        "quality"
+      ],
+      "default": true,
+      "active": true
+    },
+    {
+      "position_id": "release_manager",
+      "agent_id": "agent-mog",
+      "disciplines": [
+        "release"
+      ],
+      "default": true,
+      "active": true
+    },
+    {
+      "position_id": "tech_lead",
+      "agent_id": "agent-tidus",
+      "disciplines": [
+        "architecture"
+      ],
+      "default": true,
+      "active": true
+    },
+    {
+      "position_id": "ui_designer",
+      "agent_id": "agent-yuna",
+      "disciplines": [
+        "ui"
+      ],
+      "default": true,
+      "active": true
+    },
+    {
+      "position_id": "ux_designer",
+      "agent_id": "agent-yuna",
+      "disciplines": [
+        "ux"
+      ],
+      "default": true,
+      "active": true
+    }
+  ],
+  "large_scale_validation": {
+    "status": "not_run",
+    "plan": ".ai-org/templates/collaborative-large-scale-test-plan.md"
+  }
+}

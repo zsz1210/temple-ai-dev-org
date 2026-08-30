@@ -1,0 +1,430 @@
+{
+  "schema_version": "temple.lock/v1",
+  "template": {
+    "name": "@zsz1210/temple-ai-dev-org",
+    "version": "0.1.0-alpha.23",
+    "repository": "zsz1210/temple-ai-dev-org",
+    "bootstrap": {
+      "schema_version": "temple.cli-bootstrap/v1",
+      "version": "0.1.0-alpha.23",
+      "node": ">=20",
+      "launcher": "templew.mjs",
+      "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.23",
+      "repository_spec": null,
+      "source_revision": "032f1e060fa5791ebb05497025ebc150fb6d2271",
+      "source_clean": false,
+      "invocation": "node ./templew.mjs <command> ."
+    },
+    "installed_at": "2026-08-30T02:28:18.355Z"
+  },
+  "installation": {
+    "mode": "toolkit-self-host",
+    "source_overlay": "project-overlay",
+    "adopted_managed_files": [
+      ".agents/skills/temple-init/SKILL.md"
+    ]
+  },
+  "project_id": "temple",
+  "migrations": {
+    "registry_schema": "temple.migrations/v1",
+    "baseline_version": "0.1.0-alpha.23",
+    "applied": [
+      {
+        "id": "MIG-0018-EVIDENCE",
+        "applied_at": "2026-08-30T02:28:18.355Z",
+        "mode": "baseline"
+      },
+      {
+        "id": "MIG-0019-PHASE2C",
+        "applied_at": "2026-08-30T02:28:18.355Z",
+        "mode": "baseline"
+      }
+    ]
+  },
+  "boundaries": {
+    "managed_files_authoritative": true,
+    "allowed_managed_roots": [
+      ".ai-org/core/",
+      ".ai-org/templates/",
+      ".agents/skills/",
+      ".codex/agents/"
+    ],
+    "allowed_managed_exact_paths": [
+      "TEMPLE.md",
+      "templew.mjs"
+    ],
+    "ownership_precedence": "exact managed_files entry, otherwise project-owned",
+    "project_owned": [
+      "AGENTS.md",
+      ".agents/skills/** unless listed in temple.lock.managed_files",
+      ".ai-org/project/**",
+      ".ai-org/learning/**",
+      ".ai-org/work-items/**",
+      ".ai-org/decisions/**",
+      ".ai-org/events/**",
+      ".ai-org/artifacts/**",
+      ".ai-org/adapters/**"
+    ],
+    "generated": [
+      ".ai-org/views/**"
+    ]
+  },
+  "integrations": {
+    "agents_md": "appended",
+    "archify": {
+      "status": "available_not_enabled",
+      "pinned_tag": "v2.15.0",
+      "pinned_commit": "e1ac748f19cf805e44bf74fb93c796662152e273"
+    }
+  },
+  "capabilities": {
+    "work_item_cli": true,
+    "task_registry": true,
+    "engineering_learning": true,
+    "ui_delivery_modes": true,
+    "product_specifications": true,
+    "external_spec_sources": true,
+    "work_item_spec_refs": true,
+    "work_item_specification_modes": true,
+    "specification_source_integrity": true,
+    "ui_delivery_mode_overrides": true,
+    "ui_evidence_gates": true,
+    "iterative_delivery_contract": true,
+    "tracker_contract": true,
+    "tracker_field_ownership": true,
+    "work_item_tracker_links": true,
+    "tracker_observations": true,
+    "tracker_reconciliation": true,
+    "github_tracker_adapter": true,
+    "progressive_context_routing": true,
+    "capability_registry": true,
+    "retrieval_provider_contract": true,
+    "collaboration_profiles": true,
+    "human_principals": true,
+    "position_memberships": true,
+    "work_item_claims": true,
+    "parallel_readiness": true,
+    "group_parallel_planning": true,
+    "parallel_dispatch_manifest": true,
+    "parallel_plan_freshness": true,
+    "parallel_join_gate": true,
+    "version_pinned_cli_bootstrap": true,
+    "atomic_worker_preparation": true,
+    "runtime_worker_registry": true,
+    "stage_execution_requirements": true,
+    "shared_resource_coordination": true,
+    "normalized_evidence_registry": true,
+    "local_evidence_adapters": true,
+    "observer_projection": true,
+    "read_only_overview": true,
+    "pack_manifest_v2": true,
+    "runtime_json_schema": true,
+    "migration_registry": true,
+    "learning_cli": true,
+    "learning_revalidation": true,
+    "retrieval_evaluation": true,
+    "local_hybrid_provider_contract": true,
+    "archify_adapter": true,
+    "high_assurance_profile": true,
+    "control_plane_config": true,
+    "telemetry_event_envelope": true,
+    "local_telemetry_journal": true,
+    "provider_capability_contract": true,
+    "repository_telemetry_provider": true,
+    "fixture_telemetry_provider": true,
+    "control_plane_http_sse": true,
+    "live_observer": true,
+    "codex_app_server_adapter": true,
+    "control_plane_conditions": true,
+    "human_inbox": true,
+    "inbox_command_gateway": true,
+    "github_pr_checks_provider": true,
+    "github_evidence_capture": true,
+    "checksum_upgrade": true,
+    "optional_packs": true,
+    "toolkit_self_hosting": true
+  },
+  "optional_packs": [],
+  "managed_files": [
+    {
+      "path": ".agents/skills/decision-interview/SKILL.md",
+      "sha256": "7e1c12bb642a630e480dc0d4ec677b67c58ebbdb1d270994e2455924286cc7cb"
+    },
+    {
+      "path": ".agents/skills/domain-modeling/SKILL.md",
+      "sha256": "5a0aff2fccd9e431f3cd6ebe36821e05f4ab88a09c004e748888a4a32c555ccc"
+    },
+    {
+      "path": ".agents/skills/project-documentation/SKILL.md",
+      "sha256": "fa366000d024dd67734974b909ed581fab236d266b4106cd6aa4e28f23bd0728"
+    },
+    {
+      "path": ".agents/skills/skill-authoring/references/authoring-contract.md",
+      "sha256": "11fb7d3a8aa9284e3c863b11c618ab3d5524e9304d1644d95b7ac09507959997"
+    },
+    {
+      "path": ".agents/skills/skill-authoring/SKILL.md",
+      "sha256": "218e2d02c86859eaf43a7d82eecbd220eef337781704bed4011ec4d5033e1da9"
+    },
+    {
+      "path": ".agents/skills/temple-init/SKILL.md",
+      "sha256": "3c8b19a39955889c74aa910bc5edfa3187d63a1459520e548a75001c801024e1"
+    },
+    {
+      "path": ".agents/skills/temple-work/SKILL.md",
+      "sha256": "fa30628387dd332f6f8157e27ebe7e48a1c4e511405f47fec03e3015f683639b"
+    },
+    {
+      "path": ".ai-org/core/collaboration-profiles.json",
+      "sha256": "7f1e339da7c80be697a39d5b5f44b8d2930a3d81fa1ca7cdcdb39050ebb89b37"
+    },
+    {
+      "path": ".ai-org/core/high-assurance.json",
+      "sha256": "47b580fd826d5121c41eab8e40e64ccb958935cae7498b63fe46ed64e397dd2f"
+    },
+    {
+      "path": ".ai-org/core/migrations.json",
+      "sha256": "7064367d55e3c7824c513eeba886d5cc2080db12aa08ab7fb505fe7b8a6bdce8"
+    },
+    {
+      "path": ".ai-org/core/policies.json",
+      "sha256": "5426d6c6f665c4255de3fc902694c347f62b9e4a91f5a0e6f7055d5b6e388cd7"
+    },
+    {
+      "path": ".ai-org/core/positions.json",
+      "sha256": "196012586b9b68da2aaf949a7715dcd213827422df449793e8f7c9f0099f529b"
+    },
+    {
+      "path": ".ai-org/core/schemas/agents.schema.json",
+      "sha256": "74f8f7fb39cbbf536f6d832511336bbf5b30c807bee9a15e989de892390ca6fc"
+    },
+    {
+      "path": ".ai-org/core/schemas/approval.schema.json",
+      "sha256": "1f818e10747958c52c4d5fc99dc6fab96cb55cdd65266593889f3c29d1bff6fe"
+    },
+    {
+      "path": ".ai-org/core/schemas/assignments.schema.json",
+      "sha256": "5e860b09567cd39ab6ef0ed38faaae0b44e422ecb733709035092f7e939b5c57"
+    },
+    {
+      "path": ".ai-org/core/schemas/capability-registry.schema.json",
+      "sha256": "f6d857bd2766a306e6ca37ac947f4de45369b50429f6974d5d353452e5798cb8"
+    },
+    {
+      "path": ".ai-org/core/schemas/collaboration.schema.json",
+      "sha256": "6a0ffa5d12d8ef7e8547fa1420e378549145650cf6492f2131aba4e96b1e2967"
+    },
+    {
+      "path": ".ai-org/core/schemas/context-capsule.schema.json",
+      "sha256": "492f4928a19c46e8fbdead86ec5bc0f6be51611dad3e5cc7c3209e995300c849"
+    },
+    {
+      "path": ".ai-org/core/schemas/context-map.schema.json",
+      "sha256": "31e72f4711bbcb0587515b047d61af65d5920278bfffd0f1e5702aa5756743d4"
+    },
+    {
+      "path": ".ai-org/core/schemas/control-plane-config.schema.json",
+      "sha256": "dcc0f89ab3653a4b8c2500b8ae8e04f3b172d1659ad94a6219b41f07d30ad4cb"
+    },
+    {
+      "path": ".ai-org/core/schemas/evidence-registry.schema.json",
+      "sha256": "e8d9b9505cda1d5398ff80ea616b9551ffd6407bffd3e1aad4330f64966a4890"
+    },
+    {
+      "path": ".ai-org/core/schemas/high-assurance.schema.json",
+      "sha256": "55569de92977cf455815173b20ed4c06239d8211b2b703efbb757e81fbd6220b"
+    },
+    {
+      "path": ".ai-org/core/schemas/init.schema.json",
+      "sha256": "528890c0022e9de36c75a97d2a0efa27d26579984614f5c97dc3f839b5eb0853"
+    },
+    {
+      "path": ".ai-org/core/schemas/learning-index.schema.json",
+      "sha256": "ecded260b1aa9847170d5c1c82f75181bf0e8714b06589bbba48d72ce1c7c197"
+    },
+    {
+      "path": ".ai-org/core/schemas/parallel-plan.schema.json",
+      "sha256": "f67ef14f4d6fce1470d299943ce7f2a70065a514e6836eb5d596cd8d87432927"
+    },
+    {
+      "path": ".ai-org/core/schemas/parallel-readiness.schema.json",
+      "sha256": "55a72b4413c7112e424ace6a96bebad8e1e8f1122d0ec935827948a1b6c0ed37"
+    },
+    {
+      "path": ".ai-org/core/schemas/project.schema.json",
+      "sha256": "9e7bf7d28da4bcf73a548e7f603081df3c3ac04406e9f0307162fd64016a7579"
+    },
+    {
+      "path": ".ai-org/core/schemas/resource-registry.schema.json",
+      "sha256": "c0668ee960d2ea43a12d1e8ce9acebafffc22904e2bbdc13716097c71fb7ffe6"
+    },
+    {
+      "path": ".ai-org/core/schemas/retrieval-config.schema.json",
+      "sha256": "948d84a6dba134f0fc88582756e377c1656928803882432f091e2fb746faa040"
+    },
+    {
+      "path": ".ai-org/core/schemas/retrieval-provider.schema.json",
+      "sha256": "bbd780b80281f19c82446f6fbcbf49af6a21385280054f4e2627534edd8639a9"
+    },
+    {
+      "path": ".ai-org/core/schemas/runtime-worker-registry.schema.json",
+      "sha256": "f79a67829cfe89a901736bbcb70fe195b71d210793ef1b4b02ad49e0cffc2d22"
+    },
+    {
+      "path": ".ai-org/core/schemas/schema-catalog.json",
+      "sha256": "51630d40ffbb27d4167a19ba72e618ce8a782087c81b63b26e97483adbed8b94"
+    },
+    {
+      "path": ".ai-org/core/schemas/spec-index.schema.json",
+      "sha256": "0aa56c54352513874408745dc0fba54709bcb2cc3753da21a6dbbfcc8cedbb6b"
+    },
+    {
+      "path": ".ai-org/core/schemas/task-registry.schema.json",
+      "sha256": "5cde37ca707dc1cbb6f3dd39656ff3eb0a311398168267e4f54228104486c9be"
+    },
+    {
+      "path": ".ai-org/core/schemas/tracker.schema.json",
+      "sha256": "16a25e5c7a1c2ee046ae9ae43df87d14509c1d30bace82c7c4deaf8d68ebcc45"
+    },
+    {
+      "path": ".ai-org/core/schemas/work-item.schema.json",
+      "sha256": "3aec099d0cf8e28fce6ec18542d81293766abebd8d712f190693cdcc959f8cee"
+    },
+    {
+      "path": ".ai-org/core/ui-design.json",
+      "sha256": "0ee2c90fce6d26ee1c1d644e46f9fd1913d128ad524a1614893ac52882d2f89b"
+    },
+    {
+      "path": ".ai-org/core/workflow.json",
+      "sha256": "5ea727eca17b4c66513886aa879183bc23c856174439a00af79d8751413074dd"
+    },
+    {
+      "path": ".ai-org/templates/collaborative-large-scale-test-plan.md",
+      "sha256": "3eca232047511ce90b57cf0f0eefcca93636a0ec748ceccd09f448cdc18da756"
+    },
+    {
+      "path": ".ai-org/templates/decision-ledger.md",
+      "sha256": "42623ff7d85b7956b4a6a80677dfc6d119680b776b9a03954d6e850e26f3c382"
+    },
+    {
+      "path": ".ai-org/templates/domain-glossary.md",
+      "sha256": "aca7ed884227dc4523ce0c5452e67d3e413811bbbf5b376d60dfee96b3368f8f"
+    },
+    {
+      "path": ".ai-org/templates/feature-spec.md",
+      "sha256": "4c40416aa9b281469a4497926a5a057d7e3e23ada989fd49ed543a911f3770d8"
+    },
+    {
+      "path": ".ai-org/templates/handoff.md",
+      "sha256": "f5fcade988a9bb9d17b2564df59e94e6a54f5a00961594fb1b770cd8c686a3ea"
+    },
+    {
+      "path": ".ai-org/templates/high-assurance-approval.example.json",
+      "sha256": "1f65e8c93f6d47df5717d0755ab4f9ad0a1e9746a6c6ad69569080ba545ca8d1"
+    },
+    {
+      "path": ".ai-org/templates/independent-qa-report.md",
+      "sha256": "249ee43ccc5a087ae58e242703191ce121c76996e4904cf27cdea701556d28df"
+    },
+    {
+      "path": ".ai-org/templates/legacy-document-audit.md",
+      "sha256": "6390a7df31720df9ed73bf310829ac09c919afddc895869f0f69051b6c600a54"
+    },
+    {
+      "path": ".ai-org/templates/lesson.md",
+      "sha256": "2cc63e6bb8afd4b8ab0457c51529c054376adc8bf715f67126497a0dcf4fe563"
+    },
+    {
+      "path": ".ai-org/templates/manager-closeout.md",
+      "sha256": "7aa2226ff11cc8c92410b6392395ea9317c0501fd1a7747fa42d814145bf6dcf"
+    },
+    {
+      "path": ".ai-org/templates/practice.md",
+      "sha256": "f0869873af2c161b68f3dad56ba01f38d5d7d541944ba5711028b98d4591c91e"
+    },
+    {
+      "path": ".ai-org/templates/product-charter.md",
+      "sha256": "1cd7bcdc70adf88b33146e19e5627030ed3bf6d1e549b7517d54241d43a1ce7d"
+    },
+    {
+      "path": ".ai-org/templates/product-requirements.md",
+      "sha256": "5029cf6230033ee8a794a5d7aa12e689e68faeff20feb9d6e0751d2eafef9398"
+    },
+    {
+      "path": ".ai-org/templates/release-record.md",
+      "sha256": "90eb4e0a52fcf731809ac97467a0697702946958c0cd6a0168b3f77cd68f0d5f"
+    },
+    {
+      "path": ".ai-org/templates/runtime-observation.json",
+      "sha256": "10142466bfc6252cf562f7df28d18657a864f12480da860910beb84bbae22197"
+    },
+    {
+      "path": ".ai-org/templates/task-registry.json",
+      "sha256": "3e4e21e07f8bd731c05b1183fe8fd67d508ca4493cb47fe91f604523f7bb3b95"
+    },
+    {
+      "path": ".ai-org/templates/test-observation.json",
+      "sha256": "52d79d801af74017c030ad4840867f8dab1c9ea0a99621814724e8a2272289d4"
+    },
+    {
+      "path": ".ai-org/templates/ui-design-brief.md",
+      "sha256": "f70ff5320e79244c956a6ff5291271c895b82bb80c30b1341d8de7fbbfb3bd9a"
+    },
+    {
+      "path": ".ai-org/templates/ui-interaction-contract.md",
+      "sha256": "2e35f05e5b7a095c877f3c6a0a34e29b4ea8e18c8d698120a56ee24599cc7cb9"
+    },
+    {
+      "path": ".ai-org/templates/work-item.json",
+      "sha256": "ab00262df34662f32134d71cea63da759e219a553e330c3b044832482d20264e"
+    },
+    {
+      "path": ".codex/agents/developer.toml",
+      "sha256": "645629270190917b8b5ab3a56e9a12735cb7e9d66f8d8410e1e23e64995a2969"
+    },
+    {
+      "path": ".codex/agents/engineering-manager.toml",
+      "sha256": "57d970fbc325fe4e7e00b0e98300cee2d524bccb029f2a520deea42eacc5e085"
+    },
+    {
+      "path": ".codex/agents/independent-qa.toml",
+      "sha256": "e98967b22ee56d9d1a574e6480aad81d81756f31b8abfbbf1e29a32a7449aff8"
+    },
+    {
+      "path": ".codex/agents/observer.toml",
+      "sha256": "93f120e7e756c1e60cbed2eb87d79ade1186e1521c4e325830541fbc79101fbf"
+    },
+    {
+      "path": ".codex/agents/product-manager.toml",
+      "sha256": "b24025ad9d7721a79fd5686639ac01639325f6cb7776f7f784132e447fffb01d"
+    },
+    {
+      "path": ".codex/agents/quality-evaluator.toml",
+      "sha256": "2783fc837ec0fdab56b1846e364a2136e91bc8635cebb099c5dd15b9a818af38"
+    },
+    {
+      "path": ".codex/agents/release-manager.toml",
+      "sha256": "26053e2a7038391057bf16fbbcfddf8ce988da4b6bfe8b69cec7e79163473c6c"
+    },
+    {
+      "path": ".codex/agents/tech-lead.toml",
+      "sha256": "28a05ac259a5b1979cc00f4999eb0a2abee823592ba8412c4eb0d474ff14eb54"
+    },
+    {
+      "path": ".codex/agents/ui-designer.toml",
+      "sha256": "f4cb6ce92773c3855cd53f339c04aae0f91db16c94afbc7826070cea9507e9ef"
+    },
+    {
+      "path": ".codex/agents/ux-designer.toml",
+      "sha256": "a305d6bd920a29c1a9adda28aedf9fb642b02fda45ff08b1fb26709b4e21b922"
+    },
+    {
+      "path": "TEMPLE.md",
+      "sha256": "1ed8003269f7764a077f3af14bdd9653ca5f7e815b3fe520110ff9dd6b23db4c"
+    },
+    {
+      "path": "templew.mjs",
+      "sha256": "de9430bec4c084419a69ed0207a5ec93b5c7c2e6db6aee538fa82ec791e8c301"
+    }
+  ]
+}
