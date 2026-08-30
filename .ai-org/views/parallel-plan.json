@@ -1,20 +1,21 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T12:18:51.931Z",
-  "source_fingerprint": "3322f6378d214d1972a01fd1b5f4f7538f5e5c75b602a3b6ce83c0c2f911f55c",
+  "generated_at": "2026-08-30T13:20:54.312Z",
+  "source_fingerprint": "2769bbce8360ed2d8e2b82703ce2fbe46089678638c251b85f6a6105d416098b",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
     "selected_work_item_ids": [
-      "WI-0029"
+      "WI-0029",
+      "WI-0030"
     ]
   },
-  "max_workers": 1,
+  "max_workers": 3,
   "summary": {
-    "selected": 1,
+    "selected": 2,
     "dispatchable": 0,
     "active": 0,
-    "sequential": 1,
+    "sequential": 2,
     "blocked": 0,
     "waves": 0
   },
@@ -31,13 +32,53 @@
       "reasons": [
         "requested_mode_sequential"
       ]
+    },
+    {
+      "work_item_id": "WI-0030",
+      "title": "Prevent complete command retention",
+      "disposition": "sequential",
+      "position_id": "release_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "requested_mode_sequential"
+      ]
     }
   ],
   "blocked": [],
-  "conflicts": [],
+  "conflicts": [
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0029",
+      "right_work_item_id": "WI-0030",
+      "paths": [
+        {
+          "left_path": "src/control-plane-inbox.mjs",
+          "right_path": "src/control-plane-inbox.mjs"
+        },
+        {
+          "left_path": "src/control-plane-dashboard.mjs",
+          "right_path": "src/control-plane-dashboard.mjs"
+        },
+        {
+          "left_path": "test/control-plane-inbox.test.mjs",
+          "right_path": "test/control-plane-inbox.test.mjs"
+        },
+        {
+          "left_path": "test/control-plane-live.test.mjs",
+          "right_path": "test/control-plane-live.test.mjs"
+        },
+        {
+          "left_path": "docs/operations/control-plane.md",
+          "right_path": "docs/operations/control-plane.md"
+        }
+      ],
+      "resolution": "separate-waves"
+    }
+  ],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": 1,
+    "runtime_capacity_limit": 3,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,

@@ -4,7 +4,7 @@
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=false
+- Parallel plan: 0 wave(s), fresh=true
 - Work items: 30 total, 2 active
 - Codex tasks: 4 registered, 3 archive-ready
 - Runtime workers: 22 registered, 0 reserved, 0 active
@@ -12,11 +12,11 @@
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
 - Context routes: 0 active (repository-deterministic, semantic=false)
-- Engineering learning: 0 Lessons, 0 Practices
+- Engineering learning: 1 Lessons, 1 Practices
 - Learning revalidation: 0 due, 0 contradicted
 - Specifications: 0 indexed, 0 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 8
+- Attention signals: 7
 
 ## Collaboration
 
@@ -33,10 +33,10 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: no
+- Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 1 / 0
+- Active / sequential / blocked: 0 / 2 / 0
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -124,7 +124,6 @@
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
-- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
@@ -166,7 +165,7 @@
 
 ## Engineering learning
 
-- Candidate: 0
+- Candidate: 2
 - Validated: 0
 - Active: 0
 - Deprecated: 0
@@ -179,14 +178,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-30T13:20:54.003Z | learning_added | — | human |
+| 2026-08-30T13:20:45.038Z | learning_added | — | human |
 | 2026-08-30T13:14:27.420Z | work_item_transitioned | WI-0030 | agent-lulu |
 | 2026-08-30T13:14:22.447Z | evidence_recorded | WI-0030 | human |
 | 2026-08-30T13:14:22.185Z | evidence_recorded | WI-0030 | human |
 | 2026-08-30T13:14:10.031Z | work_item_claimed | WI-0030 | human |
 | 2026-08-30T13:07:13.381Z | work_item_transitioned | WI-0030 | agent-lulu |
 | 2026-08-30T13:07:09.151Z | work_item_transitioned | WI-0030 | agent-lulu |
-| 2026-08-30T13:07:01.367Z | evidence_recorded | WI-0030 | human |
-| 2026-08-30T13:07:01.116Z | evidence_recorded | WI-0030 | human |
 
 ## Assignments
 

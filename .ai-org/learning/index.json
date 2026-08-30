@@ -1,4 +1,80 @@
 {
   "schema_version": "ai-org.learning-index/v2",
-  "entries": []
+  "entries": [
+    {
+      "id": "LESSON-0001",
+      "kind": "lesson",
+      "title": "Keep bounded role work inside the coordinator task",
+      "summary": "For bounded role handoffs that should return automatically and let Mog continue the workflow, use internal subagents inside the main Codex task. Keep the canonical Work Item, claim, exact revision, and evidence in the repository; reserve separate user-owned Codex tasks for genuinely independent work the user needs to revisit directly. Temple currently requires an ordinary claim for sequential internal-subagent work because parallel prepare only dispatches safe parallel waves.",
+      "status": "candidate",
+      "confidence": "high",
+      "tags": [
+        "orchestration",
+        "codex",
+        "subagent"
+      ],
+      "applies_to": [
+        "solo",
+        "collaborative"
+      ],
+      "source_work_items": [
+        "WI-0030"
+      ],
+      "path": ".ai-org/learning/lessons/LESSON-0001.md",
+      "updated_at": "2026-08-30T13:20:45.038Z",
+      "last_validated_at": null,
+      "promotion": {
+        "target": "none",
+        "status": "none",
+        "reference": null
+      },
+      "derived_from": [],
+      "owner_position": null,
+      "revalidation": {
+        "last_result": null,
+        "review_after": null,
+        "evidence_refs": [
+          "a24092385967173c61c12597e1e8c3d12910a846",
+          ".ai-org/artifacts/WI-0030/independent-qa-report.md"
+        ],
+        "history": []
+      }
+    },
+    {
+      "id": "PRACTICE-0001",
+      "kind": "practice",
+      "title": "Dispatch role work through coordinator-owned subagents",
+      "summary": "Mog keeps the main task as coordinator, gives each internal subagent one Position, Work Item, exact revision, claim, bounded paths, stop conditions, and evidence requirements, and avoids concurrent edits to the same scope. After the subagent returns, Mog verifies canonical repository state before dispatching the next Position. Use a separate user-owned Codex task only when independent user follow-up is itself required.",
+      "status": "candidate",
+      "confidence": "high",
+      "tags": [
+        "orchestration",
+        "handoff",
+        "subagent"
+      ],
+      "applies_to": [
+        "solo",
+        "collaborative"
+      ],
+      "source_work_items": [],
+      "path": ".ai-org/learning/practices/PRACTICE-0001.md",
+      "updated_at": "2026-08-30T13:20:54.003Z",
+      "last_validated_at": null,
+      "promotion": {
+        "target": "none",
+        "status": "none",
+        "reference": null
+      },
+      "derived_from": [
+        "LESSON-0001"
+      ],
+      "owner_position": "engineering_manager",
+      "revalidation": {
+        "last_result": null,
+        "review_after": null,
+        "evidence_refs": [],
+        "history": []
+      }
+    }
+  ]
 }
