@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.26`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 3 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 2 wave(s), fresh=false
 - Work items: 19 total, 5 active
 - Codex tasks: 3 registered, 3 archive-ready
-- Runtime workers: 6 registered, 0 reserved, 3 active
+- Runtime workers: 6 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 3
+- Active Work Item claims: 0
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -59,9 +59,9 @@
 | WI-0013 | Bind toolkit self-host launcher to the current worktree | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `835dc57d` | 0 | 14 | 0 |
 | WI-0014 | Establish the first correlated active-task usage baseline | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `23768e74` | 2 | 14 | 0 |
 | WI-0015 | Complete Phase 4 reliability and federation exit | design | Tech Lead | Tidus | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
-| WI-0016 | Complete Phase 4A durability operations | independent_qa | Independent QA | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830075323-470d92f4 | `1c3ca9c8` | 0 | 8 | 0 |
-| WI-0017 | Complete Phase 4B policy and usage reliability | independent_qa | Independent QA | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830075323-5566bbd2 | `1c3ca9c8` | 0 | 8 | 0 |
-| WI-0018 | Implement Phase 4C multi-repository federation | independent_qa | Independent QA | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830075324-b4980436 | `1c3ca9c8` | 0 | 8 | 0 |
+| WI-0016 | Complete Phase 4A durability operations | independent_qa | Independent QA | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1c3ca9c8` | 0 | 8 | 0 |
+| WI-0017 | Complete Phase 4B policy and usage reliability | independent_qa | Independent QA | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1c3ca9c8` | 0 | 8 | 0 |
+| WI-0018 | Implement Phase 4C multi-repository federation | independent_qa | Independent QA | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1c3ca9c8` | 0 | 8 | 0 |
 | WI-0019 | Integrate the Phase 4 CLI, schemas, and release line | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 
 ## Codex task registry
@@ -79,9 +79,9 @@
 | worker-20260830072608-b7b8004f | internal-subagent | WI-0016 | Developer / Rikku | completed | /root/framework_docs_review | `88652ecc` | 0 |
 | worker-20260830072609-1d5724c1 | internal-subagent | WI-0017 | Developer / Rikku | completed | /root/ownership_code_review | `ab96c713` | 0 |
 | worker-20260830072609-5c71b9c9 | internal-subagent | WI-0018 | Developer / Rikku | completed | /root/skill_forward_test | `48cc6697` | 0 |
-| worker-20260830075323-5000a6cb | internal-subagent | WI-0016 | Independent QA / Lulu | active | /root/ownership_code_review:qa-wi-0016 | `—` | 0 |
-| worker-20260830075323-140fcc4c | internal-subagent | WI-0017 | Independent QA / Lulu | active | /root/skill_forward_test:qa-wi-0017 | `—` | 0 |
-| worker-20260830075324-a849e6f4 | internal-subagent | WI-0018 | Independent QA / Lulu | active | /root/framework_docs_review:qa-wi-0018 | `—` | 0 |
+| worker-20260830075323-5000a6cb | internal-subagent | WI-0016 | Independent QA / Lulu | completed | /root/ownership_code_review:qa-wi-0016 | `642f03cb` | 0 |
+| worker-20260830075323-140fcc4c | internal-subagent | WI-0017 | Independent QA / Lulu | completed | /root/skill_forward_test:qa-wi-0017 | `642f03cb` | 0 |
+| worker-20260830075324-a849e6f4 | internal-subagent | WI-0018 | Independent QA / Lulu | completed | /root/framework_docs_review:qa-wi-0018 | `642f03cb` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -147,14 +147,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-30T08:00:51.706Z | work_item_claim_released | WI-0018 | project-owner |
+| 2026-08-30T08:00:51.413Z | runtime_worker_status_changed | WI-0018 | agent-lulu |
+| 2026-08-30T08:00:51.118Z | work_item_claim_released | WI-0017 | project-owner |
+| 2026-08-30T08:00:50.810Z | runtime_worker_status_changed | WI-0017 | agent-lulu |
+| 2026-08-30T08:00:50.469Z | work_item_claim_released | WI-0016 | project-owner |
+| 2026-08-30T08:00:50.169Z | runtime_worker_status_changed | WI-0016 | agent-lulu |
 | 2026-08-30T07:53:39.954Z | runtime_worker_attached | WI-0018 | agent-lulu |
 | 2026-08-30T07:53:39.660Z | runtime_worker_attached | WI-0017 | agent-lulu |
-| 2026-08-30T07:53:39.350Z | runtime_worker_attached | WI-0016 | agent-lulu |
-| 2026-08-30T07:53:24.173Z | runtime_worker_reserved | WI-0018 | project-owner |
-| 2026-08-30T07:53:24.176Z | work_item_claimed | WI-0018 | project-owner |
-| 2026-08-30T07:53:23.881Z | runtime_worker_reserved | WI-0017 | project-owner |
-| 2026-08-30T07:53:23.884Z | work_item_claimed | WI-0017 | project-owner |
-| 2026-08-30T07:53:23.585Z | runtime_worker_reserved | WI-0016 | project-owner |
 
 ## Assignments
 

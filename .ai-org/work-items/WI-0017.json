@@ -6,7 +6,7 @@
   "owner_position": "independent_qa",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-08-30T07:23:06.023Z",
-  "updated_at": "2026-08-30T07:53:23.884Z",
+  "updated_at": "2026-08-30T08:00:51.118Z",
   "scope": [
     "Stabilize provider-aware usage observation, natural-work-item longitudinal qualification, and fail-closed model and budget recommendations without fabricating Token evidence."
   ],
@@ -53,14 +53,17 @@
   "overlap_resolution": [],
   "claim": {
     "id": "claim-20260830075323-5566bbd2",
-    "status": "active",
+    "status": "released",
     "principal_id": "project-owner",
     "agent_id": "agent-lulu",
     "base_revision": "642f03cbc48da68ca2e56182998c7182f369cad8",
     "branch": "phase4/qa-wi-0017",
     "worktree": "/tmp/temple-phase4.slCwlE/qa-wi-0017",
     "claimed_at": "2026-08-30T07:53:23.884Z",
-    "released_at": null
+    "released_at": "2026-08-30T08:00:51.118Z",
+    "release_reason": [
+      "Independent QA no-go; corrective implementation required"
+    ]
   },
   "claims": [
     {
@@ -79,14 +82,17 @@
     },
     {
       "id": "claim-20260830075323-5566bbd2",
-      "status": "active",
+      "status": "released",
       "principal_id": "project-owner",
       "agent_id": "agent-lulu",
       "base_revision": "642f03cbc48da68ca2e56182998c7182f369cad8",
       "branch": "phase4/qa-wi-0017",
       "worktree": "/tmp/temple-phase4.slCwlE/qa-wi-0017",
       "claimed_at": "2026-08-30T07:53:23.884Z",
-      "released_at": null
+      "released_at": "2026-08-30T08:00:51.118Z",
+      "release_reason": [
+        "Independent QA no-go; corrective implementation required"
+      ]
     }
   ],
   "gate_evidence": {

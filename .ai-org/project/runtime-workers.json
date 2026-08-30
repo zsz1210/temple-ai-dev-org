@@ -91,7 +91,7 @@
     {
       "id": "worker-20260830075323-5000a6cb",
       "runtime_kind": "internal-subagent",
-      "status": "active",
+      "status": "completed",
       "work_item_id": "WI-0016",
       "position_id": "independent_qa",
       "agent_id": "agent-lulu",
@@ -107,17 +107,19 @@
       "runtime_id": "/root/ownership_code_review:qa-wi-0016",
       "task_id": null,
       "resource_reservation_ids": [],
-      "current_revision": null,
-      "evidence": [],
+      "current_revision": "642f03cbc48da68ca2e56182998c7182f369cad8",
+      "evidence": [
+        "Independent QA no-go: audit scalar disclosure, parent symlink escape, and missing digest record"
+      ],
       "reserved_at": "2026-08-30T07:53:23.585Z",
       "attached_at": "2026-08-30T07:53:39.350Z",
-      "completed_at": null,
-      "updated_at": "2026-08-30T07:53:39.350Z"
+      "completed_at": "2026-08-30T08:00:50.169Z",
+      "updated_at": "2026-08-30T08:00:50.169Z"
     },
     {
       "id": "worker-20260830075323-140fcc4c",
       "runtime_kind": "internal-subagent",
-      "status": "active",
+      "status": "completed",
       "work_item_id": "WI-0017",
       "position_id": "independent_qa",
       "agent_id": "agent-lulu",
@@ -133,17 +135,19 @@
       "runtime_id": "/root/skill_forward_test:qa-wi-0017",
       "task_id": null,
       "resource_reservation_ids": [],
-      "current_revision": null,
-      "evidence": [],
+      "current_revision": "642f03cbc48da68ca2e56182998c7182f369cad8",
+      "evidence": [
+        "Independent QA no-go: preflight exact-correlation defect"
+      ],
       "reserved_at": "2026-08-30T07:53:23.881Z",
       "attached_at": "2026-08-30T07:53:39.660Z",
-      "completed_at": null,
-      "updated_at": "2026-08-30T07:53:39.660Z"
+      "completed_at": "2026-08-30T08:00:50.810Z",
+      "updated_at": "2026-08-30T08:00:50.810Z"
     },
     {
       "id": "worker-20260830075324-a849e6f4",
       "runtime_kind": "internal-subagent",
-      "status": "active",
+      "status": "completed",
       "work_item_id": "WI-0018",
       "position_id": "independent_qa",
       "agent_id": "agent-lulu",
@@ -159,12 +163,14 @@
       "runtime_id": "/root/framework_docs_review:qa-wi-0018",
       "task_id": null,
       "resource_reservation_ids": [],
-      "current_revision": null,
-      "evidence": [],
+      "current_revision": "642f03cbc48da68ca2e56182998c7182f369cad8",
+      "evidence": [
+        "Independent QA no-go: federation revision-authority symlink defect"
+      ],
       "reserved_at": "2026-08-30T07:53:24.173Z",
       "attached_at": "2026-08-30T07:53:39.954Z",
-      "completed_at": null,
-      "updated_at": "2026-08-30T07:53:39.954Z"
+      "completed_at": "2026-08-30T08:00:51.413Z",
+      "updated_at": "2026-08-30T08:00:51.413Z"
     }
   ]
 }
