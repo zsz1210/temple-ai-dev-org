@@ -138,14 +138,14 @@ No runtime workers registered yet.
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-30T07:25:49.916Z | work_item_coordination_configured | WI-0018 | agent-rikku |
+| 2026-08-30T07:25:49.641Z | work_item_coordination_configured | WI-0017 | agent-rikku |
+| 2026-08-30T07:25:49.379Z | work_item_coordination_configured | WI-0016 | agent-rikku |
+| 2026-08-30T07:25:49.120Z | work_item_coordination_configured | WI-0015 | agent-tidus |
 | 2026-08-30T07:25:21.395Z | work_item_transitioned | WI-0015 | agent-yuna |
 | 2026-08-30T07:25:21.120Z | work_item_transitioned | WI-0015 | agent-mog |
 | 2026-08-30T07:25:20.838Z | work_item_coordination_configured | WI-0018 | agent-rikku |
 | 2026-08-30T07:25:20.551Z | work_item_transitioned | WI-0018 | agent-tidus |
-| 2026-08-30T07:25:20.286Z | work_item_transitioned | WI-0018 | agent-yuna |
-| 2026-08-30T07:25:20.014Z | work_item_transitioned | WI-0018 | agent-mog |
-| 2026-08-30T07:25:19.733Z | work_item_coordination_configured | WI-0018 | agent-mog |
-| 2026-08-30T07:25:19.465Z | work_item_coordination_configured | WI-0017 | agent-rikku |
 
 ## Assignments
 

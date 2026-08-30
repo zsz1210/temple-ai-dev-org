@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-08-30T07:23:06.292Z",
-  "updated_at": "2026-08-30T07:25:20.838Z",
+  "updated_at": "2026-08-30T07:25:49.916Z",
   "scope": [
     "Implement project-owned participant registries, composite cross-project references, compatibility waves, and a read-only unknown-safe portfolio projection."
   ],
@@ -42,7 +42,7 @@
       "resources": []
     }
   },
-  "base_revision": "f62cd75d3bbb64fd68cf6c1b5482fa2120e3dc93",
+  "base_revision": "dfebc7fb4a683395fea36950e90b9c40ea118487",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,

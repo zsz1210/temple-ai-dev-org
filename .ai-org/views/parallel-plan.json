@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T07:25:21.689Z",
-  "source_fingerprint": "8f3d1e4f0cf8e17288d8b51144702213c335295c3a19b897cb781e36c3b8aee7",
+  "generated_at": "2026-08-30T07:25:50.217Z",
+  "source_fingerprint": "4ebb5a0ac8689cf9b7f8d97c8a9a56ff192b0765e2c51f94d44b3cd2d9237ba1",
   "scope": {
     "mode": "parent-descendants",
     "parent_work_item_id": "WI-0015",
@@ -32,7 +32,7 @@
           "agent_id": "agent-rikku",
           "agent_name": "Rikku",
           "suggested_task_title": "WI-0016 · Developer · Rikku",
-          "base_revision": "f62cd75d3bbb64fd68cf6c1b5482fa2120e3dc93",
+          "base_revision": "dfebc7fb4a683395fea36950e90b9c40ea118487",
           "affected_paths": [
             "src/recovery.mjs",
             "src/audit-export.mjs",
@@ -52,7 +52,7 @@
             ],
             "resources": []
           },
-          "preparation_fingerprint": "b5d4ab080791ab2aa0cf28a58cf6da4184bc54ccb9a4fa4b78c78e7937d20427",
+          "preparation_fingerprint": "9d1d301e91e5ecba3ca45c0ec5581437e41e65faed7b63b5465e5fe6eb378695",
           "integration_owner_agent_id": "agent-mog",
           "context_command": "node ./templew.mjs context resolve . --work-item WI-0016 --position developer --no-write --json",
           "claim_required_before_work": true,
@@ -68,7 +68,7 @@
           "agent_id": "agent-rikku",
           "agent_name": "Rikku",
           "suggested_task_title": "WI-0017 · Developer · Rikku",
-          "base_revision": "f62cd75d3bbb64fd68cf6c1b5482fa2120e3dc93",
+          "base_revision": "dfebc7fb4a683395fea36950e90b9c40ea118487",
           "affected_paths": [
             "src/codex-app-server-provider.mjs",
             "src/usage-attribution.mjs",
@@ -88,7 +88,7 @@
             ],
             "resources": []
           },
-          "preparation_fingerprint": "68a13d52840f2a2e6fa9ec7934b0a0b0bad293f5c5f72563d5ca391ad2391f48",
+          "preparation_fingerprint": "b234dd17d3df1b72f9685b193235bb13ebbddc54e9adf5ab4cfabb34719c2d12",
           "integration_owner_agent_id": "agent-mog",
           "context_command": "node ./templew.mjs context resolve . --work-item WI-0017 --position developer --no-write --json",
           "claim_required_before_work": true,
@@ -104,7 +104,7 @@
           "agent_id": "agent-rikku",
           "agent_name": "Rikku",
           "suggested_task_title": "WI-0018 · Developer · Rikku",
-          "base_revision": "f62cd75d3bbb64fd68cf6c1b5482fa2120e3dc93",
+          "base_revision": "dfebc7fb4a683395fea36950e90b9c40ea118487",
           "affected_paths": [
             "src/federation.mjs",
             "test/federation.test.mjs",
@@ -122,7 +122,7 @@
             ],
             "resources": []
           },
-          "preparation_fingerprint": "416b39e2d58bfb0b69de8f8e65f3f2c5376fc68f99e400b30d8fd8ae04d9c97e",
+          "preparation_fingerprint": "fb1e5e1eada065140ebc68767b5d98ad2cd34528a43349b943bc841f9c63c526",
           "integration_owner_agent_id": "agent-mog",
           "context_command": "node ./templew.mjs context resolve . --work-item WI-0018 --position developer --no-write --json",
           "claim_required_before_work": true,
