@@ -3355,6 +3355,111 @@
         "scenario": "Independently exercise disabled, idle, active, confirmed preview, turn-started, provider-rejected, delivery-unknown, interrupted, completed, desktop, narrow, and durable privacy behavior without a real Codex task",
         "provenance": "fixture"
       }
+    },
+    {
+      "id": "EVID-20260830T125424Z-A0C10146",
+      "work_item_id": "WI-0030",
+      "recorded_at": "2026-08-30T12:54:24.436Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0030 privacy correction candidate",
+      "outcome": "verified",
+      "scope_revision": "ba066d73900ba2cba70366aeb65af11ec6b944d3",
+      "observed_at": "2026-08-30T12:54:24.436Z",
+      "summary": "Exact candidate implementing metadata-only durable Agent Command summaries.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "ba066d73900ba2cba70366aeb65af11ec6b944d3"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "ba066d73900ba2cba70366aeb65af11ec6b944d3",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260830T125424Z-DC43F2F2",
+      "work_item_id": "WI-0030",
+      "recorded_at": "2026-08-30T12:54:24.715Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0030 full verification",
+      "outcome": "pass",
+      "scope_revision": "ba066d73900ba2cba70366aeb65af11ec6b944d3",
+      "observed_at": "2026-08-30T12:53:39.000Z",
+      "summary": "Repository checks, documentation links, and 198 tests pass.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0030/test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0030/test-observation.json",
+          "sha256": "3955699530ffcaeb39fbd965f3fa7c36b9cc0277280b828ec0a5adec60cdfbc6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0030/developer-evidence.md",
+          "sha256": "87e0240f31385af8b316418a4b04fae8f8c3ed8d45a4db169f5f2de5a0ea5022"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T12:52:54.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T125424Z-B921FF54",
+      "work_item_id": "WI-0030",
+      "recorded_at": "2026-08-30T12:54:24.982Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "WI-0030 privacy runtime review",
+      "outcome": "pass",
+      "scope_revision": "ba066d73900ba2cba70366aeb65af11ec6b944d3",
+      "observed_at": "2026-08-30T12:51:38.000Z",
+      "summary": "Fresh headed fixture review confirms exact transient behavior and metadata-only durable history across required states.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0030/runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0030/runtime-observation.json",
+          "sha256": "c07e31c026f467ac611989456aa2a43dacb5ca3242edd26739892ff27cb28661"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0030/developer-evidence.md",
+          "sha256": "87e0240f31385af8b316418a4b04fae8f8c3ed8d45a4db169f5f2de5a0ea5022"
+        }
+      ],
+      "details": {
+        "environment": "Local macOS loopback Control Plane, headed Chromium, isolated temporary Temple projects, and deterministic fake Codex App Server",
+        "scenario": "Compare the exact transient confirmation and provider call with metadata-only durable state and history, then exercise disabled, idle, active, confirmed, accepted, rejected, delivery-unknown, interrupted, completed, desktop, and narrow states without mutating a real Codex task",
+        "provenance": "fixture"
+      }
     }
   ]
 }
