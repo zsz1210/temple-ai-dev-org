@@ -1,0 +1,81 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0014",
+  "title": "Establish the first correlated active-task usage baseline",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T06:45:44.449Z",
+  "updated_at": "2026-08-30T06:46:29.447Z",
+  "scope": [
+    "Extend the read-only Phase 4B usage baseline so canonical Work Items and provider-owned Codex task observations can be compared without storing prompts, inventing token values, looking up prices, switching models, or writing to external systems."
+  ],
+  "acceptance_criteria": [
+    "A newly registered live Codex task for WI-0014 moves from awaiting-observation to observed when provider-owned detailed usage arrives.",
+    "The usage report exposes longitudinal Work Item coverage and correlated token-observation coverage while unsupported values remain explicitly unknown.",
+    "No token-savings, cost, model-quality, or routing claim is made before the documented longitudinal qualification gates are satisfied.",
+    "The exact candidate revision passes the full automated suite and fresh independent QA."
+  ],
+  "affected_paths": [
+    "src/usage-attribution.mjs",
+    "src/cli.mjs",
+    "test/phase-4b.test.mjs",
+    "docs/operations/token-efficiency-and-model-routing.md",
+    "docs/validation"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [
+    "general-development"
+  ],
+  "stage_requirements": {
+    "build": {
+      "disciplines": [
+        "general-development"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "1695d7e3a74e5402f6d391be5f731094afc35f98",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0014.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0014.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0014.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0014.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0014.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0014.md",
+    ".ai-org/work-items/WI-0014.json"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

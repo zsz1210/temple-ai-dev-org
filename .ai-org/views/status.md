@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 13 total, 0 active
+- Work items: 14 total, 1 active
 - Codex tasks: 1 registered, 1 archive-ready
 - Runtime workers: 0 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -57,6 +57,7 @@
 | WI-0011 | Qualify live Token telemetry and establish the first real baseline | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `25a979e5` | 0 | 12 | 0 |
 | WI-0012 | Keep reconciled Codex history out of live task signals | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `3872ac71` | 0 | 13 | 0 |
 | WI-0013 | Bind toolkit self-host launcher to the current worktree | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `835dc57d` | 0 | 14 | 0 |
+| WI-0014 | Establish the first correlated active-task usage baseline | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 
 ## Codex task registry
 
@@ -130,14 +131,14 @@ No runtime workers registered yet.
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-30T06:46:29.447Z | work_item_transitioned | WI-0014 | agent-tidus |
+| 2026-08-30T06:46:29.181Z | work_item_transitioned | WI-0014 | agent-yuna |
+| 2026-08-30T06:46:24.956Z | work_item_transitioned | WI-0014 | agent-mog |
+| 2026-08-30T06:46:24.697Z | work_item_coordination_configured | WI-0014 | agent-mog |
+| 2026-08-30T06:45:44.449Z | work_item_created | WI-0014 | agent-mog |
 | 2026-08-30T06:39:26.025Z | work_item_closed | WI-0013 | agent-mog |
 | 2026-08-30T06:39:26.025Z | release_gate_completed | WI-0013 | agent-mog |
 | 2026-08-30T06:38:31.282Z | work_item_transitioned | WI-0013 | agent-lulu |
-| 2026-08-30T06:38:19.355Z | evidence_recorded | WI-0013 | agent-lulu |
-| 2026-08-30T06:38:19.097Z | evidence_recorded | WI-0013 | agent-lulu |
-| 2026-08-30T06:36:30.390Z | work_item_transitioned | WI-0013 | agent-lulu |
-| 2026-08-30T06:36:19.361Z | work_item_transitioned | WI-0013 | agent-lulu |
-| 2026-08-30T06:36:06.272Z | work_item_transitioned | WI-0013 | agent-rikku |
 
 ## Assignments
 
