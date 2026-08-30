@@ -15,4 +15,3 @@
 
 - No force push, ref deletion, history rewrite, visibility change, branch/ruleset mutation, npm publication, GitHub Release, deployment, external tracker write, model call or switch, account probe, or paid action.
 - This approval is bound to `WI-0028`, the Alpha.27 checkpoint, and the stop conditions in its work order. It is not reusable for a later version or public release.
-

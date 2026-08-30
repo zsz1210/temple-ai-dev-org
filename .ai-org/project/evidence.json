@@ -2957,6 +2957,74 @@
         "exit_code": 0,
         "started_at": "2026-08-30T09:38:00.000Z"
       }
+    },
+    {
+      "id": "EVID-20260830T100421Z-2216C288",
+      "work_item_id": "WI-0028",
+      "recorded_at": "2026-08-30T10:04:21.805Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Alpha.27 local release candidate",
+      "outcome": "verified",
+      "scope_revision": "f309f7036df518549d8eeb9d8bd3c78f76ea9975",
+      "observed_at": "2026-08-30T10:04:21.805Z",
+      "summary": "Exact local candidate after private-release preflight and corrected federation scope",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "f309f7036df518549d8eeb9d8bd3c78f76ea9975"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "f309f7036df518549d8eeb9d8bd3c78f76ea9975",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260830T100444Z-5F68892A",
+      "work_item_id": "WI-0028",
+      "recorded_at": "2026-08-30T10:04:44.351Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Alpha.27 local verification",
+      "outcome": "pass",
+      "scope_revision": "f309f7036df518549d8eeb9d8bd3c78f76ea9975",
+      "observed_at": "2026-08-30T10:03:03.000Z",
+      "summary": "195 full tests passed on maintainer runtime and Node 20; schema and Doctor healthy",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0028/test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0028/test-observation.json",
+          "sha256": "51597dffde8e6217abe5aa35d67d39eff172c379c7c7a5c639041333bc69939e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0028/developer-evidence.md",
+          "sha256": "65b1f3ca6d08eb8aae1b86d3e4536cdb1f7cf6acb18c2dde29d1ead9f46324ad"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T10:02:20.000Z"
+      }
     }
   ]
 }
