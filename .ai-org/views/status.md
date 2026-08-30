@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 27 total, 0 active
+- Work items: 28 total, 1 active
 - Codex tasks: 3 registered, 3 archive-ready
 - Runtime workers: 22 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -36,7 +36,7 @@
 - Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 0 / 0
+- Active / sequential / blocked: 0 / 1 / 0
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -71,6 +71,7 @@
 | WI-0025 | Expose Phase 4 operational CLI | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0d48f087` | 0 | 8 | 0 |
 | WI-0026 | Ship Phase 4 project contracts and Alpha.27 metadata | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0d48f087` | 0 | 8 | 0 |
 | WI-0027 | Resolve terminal historical-evidence dashboard noise | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `591b4369` | 0 | 8 | 0 |
+| WI-0028 | Publish Alpha.27 private release checkpoint | build | Developer | Rikku | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 
 ## Codex task registry
 
@@ -174,14 +175,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-30T09:58:21.736Z | work_item_transitioned | WI-0028 | agent-tidus |
+| 2026-08-30T09:58:21.443Z | work_item_transitioned | WI-0028 | agent-yuna |
+| 2026-08-30T09:58:21.154Z | work_item_transitioned | WI-0028 | agent-mog |
+| 2026-08-30T09:58:20.592Z | work_item_coordination_configured | WI-0028 | agent-mog |
+| 2026-08-30T09:57:37.130Z | work_item_created | WI-0028 | agent-mog |
 | 2026-08-30T09:44:53.403Z | work_item_closed | WI-0027 | agent-mog |
 | 2026-08-30T09:44:53.403Z | release_gate_completed | WI-0027 | agent-mog |
 | 2026-08-30T09:44:53.133Z | work_item_transitioned | WI-0027 | agent-lulu |
-| 2026-08-30T09:44:52.861Z | work_item_unresolved_updated | WI-0027 | agent-lulu |
-| 2026-08-30T09:40:37.949Z | work_item_transitioned | WI-0027 | agent-lulu |
-| 2026-08-30T09:40:37.667Z | work_item_transitioned | WI-0027 | agent-lulu |
-| 2026-08-30T09:40:37.400Z | evidence_recorded | WI-0027 | agent-lulu |
-| 2026-08-30T09:40:14.138Z | work_item_transitioned | WI-0027 | agent-rikku |
 
 ## Assignments
 

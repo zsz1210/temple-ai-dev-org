@@ -1,29 +1,43 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T09:45:02.759Z",
-  "source_fingerprint": "03b0ece3ff34d64cbe5b92c66334cf77b45fb5cd7364b123b826c90dc4fc7f8e",
+  "generated_at": "2026-08-30T10:03:06.374Z",
+  "source_fingerprint": "52802493f03c0cb1342be7f5b25b9d0979ad12508432541a212778b6e340a3f9",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
-    "selected_work_item_ids": []
+    "selected_work_item_ids": [
+      "WI-0028"
+    ]
   },
-  "max_workers": null,
+  "max_workers": 3,
   "summary": {
-    "selected": 0,
+    "selected": 1,
     "dispatchable": 0,
     "active": 0,
-    "sequential": 0,
+    "sequential": 1,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
   "active": [],
-  "sequential": [],
+  "sequential": [
+    {
+      "work_item_id": "WI-0028",
+      "title": "Publish Alpha.27 private release checkpoint",
+      "disposition": "sequential",
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "integration_owner_assigned"
+      ]
+    }
+  ],
   "blocked": [],
   "conflicts": [],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": null,
+    "runtime_capacity_limit": 3,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,

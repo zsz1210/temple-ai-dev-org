@@ -1,0 +1,67 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0028",
+  "title": "Publish Alpha.27 private release checkpoint",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T09:57:37.130Z",
+  "updated_at": "2026-08-30T09:58:21.736Z",
+  "scope": [
+    "Create a reproducible private GitHub checkpoint for Alpha.27: audit release prerequisites, fast-forward push exact commits, require green GitHub CI, verify a clean remote clone, and publish only the annotated v0.1.0-alpha.27 Git tag."
+  ],
+  "acceptance_criteria": [
+    "The private origin contains the exact final checkpoint commit; GitHub CI is green; a clean remote clone passes installation, full verification, schema validation, Doctor, and launcher checks; the annotated v0.1.0-alpha.27 tag points to that commit; repository visibility stays private and npm publication is not performed."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0028",
+    "docs/validation/alpha-27-release-checkpoint.md",
+    "docs/validation/README.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "HEAD",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0028.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0028.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0028.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0028.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0028.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0028.md",
+    ".ai-org/work-items/WI-0028.json"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
