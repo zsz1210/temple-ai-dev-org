@@ -4014,6 +4014,86 @@
         "exit_code": 0,
         "started_at": "2026-08-30T14:50:00.000Z"
       }
+    },
+    {
+      "id": "EVID-20260830T154016Z-86813807",
+      "work_item_id": "WI-0036",
+      "recorded_at": "2026-08-30T15:40:16.655Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "WI-0036 live private-network tablet verification",
+      "outcome": "pass",
+      "scope_revision": "f68186ba2c5ae20657847cbc651b3969b986db90",
+      "observed_at": "2026-08-30T15:39:50Z",
+      "summary": "The account owner opened the tailnet-only private Dashboard from a tablet; Quality also verified the 420px redacted read-only surface, cursor-only refresh, mutation rejection, and non-public Serve configuration.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0036/quality-runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0036/quality-runtime-observation.json",
+          "sha256": "55aebb2c18148cf3dbeb7a83786c6ee61622aa4e4977172106f83c810fddb266"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0036/quality-test-report.md",
+          "sha256": "62614af1e838013980710a5548700be6b7856fb2e0e31633d4f346732e8cc4cc"
+        }
+      ],
+      "details": {
+        "environment": "Temple self-host repository on macOS, Tailscale Serve 1.98.8 tailnet-only HTTPS proxy, account owner's tailnet-connected tablet, and a headed Chromium viewport at 420 by 900 pixels",
+        "scenario": "Load the private read-only Dashboard across the real tailnet, confirm tablet access, and independently inspect responsive rendering, redacted snapshot and refresh behavior, absent Inbox and Agent Command surfaces, rejected mutation requests, and non-public Serve configuration",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260830T154223Z-8D1B960C",
+      "work_item_id": "WI-0036",
+      "recorded_at": "2026-08-30T15:42:23.479Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0036 fresh Independent QA verification",
+      "outcome": "pass",
+      "scope_revision": "f68186ba2c5ae20657847cbc651b3969b986db90",
+      "observed_at": "2026-08-30T15:41:50Z",
+      "summary": "Fresh exact-candidate worktree passed focused 2/2, full 211/211, schema validation, Doctor, and diff checks without modifying the candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0036/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0036/independent-qa-observation.json",
+          "sha256": "f97d53f7313648149826c89a7fdd4473590f3d2684d4af289470dc0cd23880ff"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0036/independent-qa-report.md",
+          "sha256": "56d5a9c951d6ef3d79a1c187ab71e3fd3e0975b64bbfe3c49f06fc8bed466ad1"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/control-plane-private-viewer.test.mjs",
+          "npm run verify",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T15:40:55Z"
+      }
     }
   ]
 }

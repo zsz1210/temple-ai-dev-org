@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0036",
   "title": "Add a private read-only Dashboard viewer",
-  "state": "test",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T14:45:37.088Z",
-  "updated_at": "2026-08-30T14:55:16.666Z",
+  "updated_at": "2026-08-30T15:42:32.993Z",
   "scope": [
     "Expose the live Temple Dashboard through an explicitly trusted tailnet HTTPS reverse proxy while the control plane remains bound to 127.0.0.1 and every remote request remains read-only."
   ],
@@ -43,7 +43,7 @@
   "base_revision": "f68186ba2c5ae20657847cbc651b3969b986db90",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
-  "planned_agent_id": "agent-lulu",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [
@@ -53,15 +53,16 @@
     "WI-0034 retains Dashboard state-preservation, attention, ordering, accessibility, and timeline authority; WI-0036 changes only remote read-only rendering and request boundaries and must compose with WI-0034 later."
   ],
   "claim": {
-    "id": "claim-20260830145516-2931de87",
-    "status": "active",
+    "id": "claim-20260830154049-184a7c7c",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-lulu",
     "base_revision": "f68186ba2c5ae20657847cbc651b3969b986db90",
-    "branch": "main",
-    "worktree": null,
-    "claimed_at": "2026-08-30T14:55:16.666Z",
-    "released_at": null
+    "branch": "detached/f68186b",
+    "worktree": "/tmp/temple-wi-0036-iqa.6PcRn1",
+    "claimed_at": "2026-08-30T15:40:49.628Z",
+    "released_at": "2026-08-30T15:42:32.993Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
@@ -114,14 +115,27 @@
     },
     {
       "id": "claim-20260830145516-2931de87",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-lulu",
       "base_revision": "f68186ba2c5ae20657847cbc651b3969b986db90",
       "branch": "main",
       "worktree": null,
       "claimed_at": "2026-08-30T14:55:16.666Z",
-      "released_at": null
+      "released_at": "2026-08-30T15:40:33.250Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260830154049-184a7c7c",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "f68186ba2c5ae20657847cbc651b3969b986db90",
+      "branch": "detached/f68186b",
+      "worktree": "/tmp/temple-wi-0036-iqa.6PcRn1",
+      "claimed_at": "2026-08-30T15:40:49.628Z",
+      "released_at": "2026-08-30T15:42:32.993Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -152,6 +166,15 @@
     "developer_evidence": [
       "EVID-20260830T145434Z-2BE6CDE2",
       "EVID-20260830T145500Z-24370B0E"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0036/quality-test-report.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0036/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260830T154223Z-8D1B960C"
     ]
   },
   "evidence": [
@@ -160,12 +183,13 @@
     ".ai-org/artifacts/WI-0036/ui-brief.md",
     ".ai-org/artifacts/WI-0036/handoff-001-developer-to-quality_evaluator.md",
     "EVID-20260830T145434Z-2BE6CDE2",
-    "EVID-20260830T145500Z-24370B0E"
+    "EVID-20260830T145500Z-24370B0E",
+    ".ai-org/artifacts/WI-0036/quality-test-report.md",
+    ".ai-org/artifacts/WI-0036/evaluation-report.md",
+    "EVID-20260830T154223Z-8D1B960C"
   ],
-  "unresolved": [
-    "Real tailnet HTTPS and 420px tablet validation are pending the account owner's one-time Tailscale Serve enablement."
-  ],
-  "next_position": "quality_evaluator",
+  "unresolved": [],
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "developer",

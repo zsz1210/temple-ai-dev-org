@@ -1,0 +1,12 @@
+{
+  "schema_version": "temple.runtime-observation/v1",
+  "revision": "f68186ba2c5ae20657847cbc651b3969b986db90",
+  "environment": "Temple self-host repository on macOS, Tailscale Serve 1.98.8 tailnet-only HTTPS proxy, account owner's tailnet-connected tablet, and a headed Chromium viewport at 420 by 900 pixels",
+  "scenario": "Load the private read-only Dashboard across the real tailnet, confirm tablet access, and independently inspect responsive rendering, redacted snapshot and refresh behavior, absent Inbox and Agent Command surfaces, rejected mutation requests, and non-public Serve configuration",
+  "result": "pass",
+  "provenance": "live",
+  "observed_at": "2026-08-30T15:39:50Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0036/quality-test-report.md"
+  ]
+}
