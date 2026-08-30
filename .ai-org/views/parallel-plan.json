@@ -1,24 +1,25 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T07:25:50.217Z",
-  "source_fingerprint": "4ebb5a0ac8689cf9b7f8d97c8a9a56ff192b0765e2c51f94d44b3cd2d9237ba1",
+  "generated_at": "2026-08-30T07:53:14.921Z",
+  "source_fingerprint": "72d8d642a10e7d7467cd87e4beefbd2c625cee12778479573e9b34adadefde79",
   "scope": {
     "mode": "parent-descendants",
     "parent_work_item_id": "WI-0015",
     "selected_work_item_ids": [
       "WI-0016",
       "WI-0017",
-      "WI-0018"
+      "WI-0018",
+      "WI-0019"
     ]
   },
   "max_workers": 3,
   "summary": {
-    "selected": 3,
-    "dispatchable": 3,
+    "selected": 4,
+    "dispatchable": 4,
     "active": 0,
     "sequential": 0,
     "blocked": 0,
-    "waves": 1
+    "waves": 2
   },
   "waves": [
     {
@@ -28,11 +29,11 @@
         {
           "work_item_id": "WI-0016",
           "title": "Complete Phase 4A durability operations",
-          "position_id": "developer",
-          "agent_id": "agent-rikku",
-          "agent_name": "Rikku",
-          "suggested_task_title": "WI-0016 · Developer · Rikku",
-          "base_revision": "dfebc7fb4a683395fea36950e90b9c40ea118487",
+          "position_id": "independent_qa",
+          "agent_id": "agent-lulu",
+          "agent_name": "Lulu",
+          "suggested_task_title": "WI-0016 · Independent QA · Lulu",
+          "base_revision": "642f03cbc48da68ca2e56182998c7182f369cad8",
           "affected_paths": [
             "src/recovery.mjs",
             "src/audit-export.mjs",
@@ -42,19 +43,15 @@
             "docs/validation/phase-4a-completion.md"
           ],
           "dependencies": [],
-          "required_disciplines": [
-            "general-development"
-          ],
+          "required_disciplines": [],
           "active_requirements": {
-            "stage": "build",
-            "disciplines": [
-              "general-development"
-            ],
+            "stage": "independent_qa",
+            "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "9d1d301e91e5ecba3ca45c0ec5581437e41e65faed7b63b5465e5fe6eb378695",
+          "preparation_fingerprint": "740a54fef313bd5085e02a9d13b9b9809a4ed1dc05a3cd335525cd614471dd11",
           "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0016 --position developer --no-write --json",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0016 --position independent_qa --no-write --json",
           "claim_required_before_work": true,
           "task_registration_required_after_creation": true,
           "task_creation_performed": false,
@@ -64,11 +61,11 @@
         {
           "work_item_id": "WI-0017",
           "title": "Complete Phase 4B policy and usage reliability",
-          "position_id": "developer",
-          "agent_id": "agent-rikku",
-          "agent_name": "Rikku",
-          "suggested_task_title": "WI-0017 · Developer · Rikku",
-          "base_revision": "dfebc7fb4a683395fea36950e90b9c40ea118487",
+          "position_id": "independent_qa",
+          "agent_id": "agent-lulu",
+          "agent_name": "Lulu",
+          "suggested_task_title": "WI-0017 · Independent QA · Lulu",
+          "base_revision": "642f03cbc48da68ca2e56182998c7182f369cad8",
           "affected_paths": [
             "src/codex-app-server-provider.mjs",
             "src/usage-attribution.mjs",
@@ -78,19 +75,15 @@
             "docs/validation/phase-4b-completion.md"
           ],
           "dependencies": [],
-          "required_disciplines": [
-            "general-development"
-          ],
+          "required_disciplines": [],
           "active_requirements": {
-            "stage": "build",
-            "disciplines": [
-              "general-development"
-            ],
+            "stage": "independent_qa",
+            "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "b234dd17d3df1b72f9685b193235bb13ebbddc54e9adf5ab4cfabb34719c2d12",
+          "preparation_fingerprint": "f01ddfb6ac872918f7114237cde52ad99dbf8e04e21753cc1c4fa252939dfe95",
           "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0017 --position developer --no-write --json",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0017 --position independent_qa --no-write --json",
           "claim_required_before_work": true,
           "task_registration_required_after_creation": true,
           "task_creation_performed": false,
@@ -100,11 +93,11 @@
         {
           "work_item_id": "WI-0018",
           "title": "Implement Phase 4C multi-repository federation",
-          "position_id": "developer",
-          "agent_id": "agent-rikku",
-          "agent_name": "Rikku",
-          "suggested_task_title": "WI-0018 · Developer · Rikku",
-          "base_revision": "dfebc7fb4a683395fea36950e90b9c40ea118487",
+          "position_id": "independent_qa",
+          "agent_id": "agent-lulu",
+          "agent_name": "Lulu",
+          "suggested_task_title": "WI-0018 · Independent QA · Lulu",
+          "base_revision": "642f03cbc48da68ca2e56182998c7182f369cad8",
           "affected_paths": [
             "src/federation.mjs",
             "test/federation.test.mjs",
@@ -112,19 +105,78 @@
             "docs/validation/phase-4c-completion.md"
           ],
           "dependencies": [],
-          "required_disciplines": [
-            "general-development"
-          ],
+          "required_disciplines": [],
           "active_requirements": {
-            "stage": "build",
-            "disciplines": [
-              "general-development"
-            ],
+            "stage": "independent_qa",
+            "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "fb1e5e1eada065140ebc68767b5d98ad2cd34528a43349b943bc841f9c63c526",
+          "preparation_fingerprint": "88df6a0bf8b145556fe69b63f8b834962a6a343a770d98c444f7d9a70d3f5fc1",
           "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0018 --position developer --no-write --json",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0018 --position independent_qa --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
+        }
+      ],
+      "join_gate": {
+        "integration_owner_agent_ids": [
+          "agent-mog"
+        ],
+        "required_evidence": [
+          "exact_candidate_revision",
+          "verification_results",
+          "unresolved_items"
+        ],
+        "rule": "Join every dispatched Work Item through its Integration Owner before dispatching dependent work or advancing the lifecycle."
+      }
+    },
+    {
+      "id": "wave-002",
+      "order": 2,
+      "dispatch": [
+        {
+          "work_item_id": "WI-0019",
+          "title": "Integrate the Phase 4 CLI, schemas, and release line",
+          "position_id": "tech_lead",
+          "agent_id": "agent-tidus",
+          "agent_name": "Tidus",
+          "suggested_task_title": "WI-0019 · Tech Lead · Tidus",
+          "base_revision": "7bc0870f50358967417bb21f6a928d0917e376d5",
+          "affected_paths": [
+            "src/cli.mjs",
+            "src/constants.mjs",
+            "src/install.mjs",
+            "src/upgrade.mjs",
+            "src/doctor.mjs",
+            "project-overlay/.ai-org/core/schemas",
+            "project-overlay/.ai-org/project/federation.json",
+            "project-overlay/.ai-org/views/README.md",
+            "scripts/check-repo.mjs",
+            "test/cli.test.mjs",
+            "test/workflow.test.mjs",
+            "docs/README.md",
+            "CHANGELOG.md",
+            "package.json",
+            "package-lock.json",
+            "temple.lock"
+          ],
+          "dependencies": [
+            "WI-0016",
+            "WI-0017",
+            "WI-0018"
+          ],
+          "required_disciplines": [],
+          "active_requirements": {
+            "stage": "design",
+            "disciplines": [],
+            "resources": []
+          },
+          "preparation_fingerprint": "773c137e447a5de006036cab8dac497d50479c9b4365f2ff9b1ba96751a66088",
+          "integration_owner_agent_id": "agent-mog",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0019 --position tech_lead --no-write --json",
           "claim_required_before_work": true,
           "task_registration_required_after_creation": true,
           "task_creation_performed": false,

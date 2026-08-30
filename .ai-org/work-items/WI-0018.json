@@ -6,7 +6,7 @@
   "owner_position": "independent_qa",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-08-30T07:23:06.292Z",
-  "updated_at": "2026-08-30T07:51:51.606Z",
+  "updated_at": "2026-08-30T07:53:24.176Z",
   "scope": [
     "Implement project-owned participant registries, composite cross-project references, compatibility waves, and a read-only unknown-safe portfolio projection."
   ],
@@ -42,26 +42,23 @@
       "resources": []
     }
   },
-  "base_revision": "1c3ca9c830798507c1a32148e2af1c12e82ce178",
-  "parallel_mode": "pending",
+  "base_revision": "642f03cbc48da68ca2e56182998c7182f369cad8",
+  "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": "agent-lulu",
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260830072609-f350ca4c",
-    "status": "released",
+    "id": "claim-20260830075324-b4980436",
+    "status": "active",
     "principal_id": "project-owner",
-    "agent_id": "agent-rikku",
-    "base_revision": "dfebc7fb4a683395fea36950e90b9c40ea118487",
-    "branch": "phase4/wi-0018",
-    "worktree": "/tmp/temple-phase4.slCwlE/wi-0018",
-    "claimed_at": "2026-08-30T07:26:09.543Z",
-    "released_at": "2026-08-30T07:41:13.517Z",
-    "release_reason": [
-      "Developer worker completed; exact commit handed to Integration Owner Mog"
-    ]
+    "agent_id": "agent-lulu",
+    "base_revision": "642f03cbc48da68ca2e56182998c7182f369cad8",
+    "branch": "phase4/qa-wi-0018",
+    "worktree": "/tmp/temple-phase4.slCwlE/qa-wi-0018",
+    "claimed_at": "2026-08-30T07:53:24.176Z",
+    "released_at": null
   },
   "claims": [
     {
@@ -77,6 +74,17 @@
       "release_reason": [
         "Developer worker completed; exact commit handed to Integration Owner Mog"
       ]
+    },
+    {
+      "id": "claim-20260830075324-b4980436",
+      "status": "active",
+      "principal_id": "project-owner",
+      "agent_id": "agent-lulu",
+      "base_revision": "642f03cbc48da68ca2e56182998c7182f369cad8",
+      "branch": "phase4/qa-wi-0018",
+      "worktree": "/tmp/temple-phase4.slCwlE/qa-wi-0018",
+      "claimed_at": "2026-08-30T07:53:24.176Z",
+      "released_at": null
     }
   ],
   "gate_evidence": {
