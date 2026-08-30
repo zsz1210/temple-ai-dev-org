@@ -6,6 +6,7 @@
 - Added upgrade-safe exclusive creation that preserves existing federation registries byte for byte, plus Phase 4 capability flags for backup retention, redacted audit export, usage qualification, provider attachment outcomes, repository federation, and read-only portfolios.
 - Added shared CLI surfaces for digest-bound backup-set retention, bounded audit export, federation validation, and coordinator-only portfolio generation with an explicit `--allowed-root`; the actual generated portfolio path is schema-validated end to end.
 - Closed the bounded local Phase 4 release line with an isolated AiPet recovery/retention/audit rehearsal, a two-participant current-to-unknown federation rehearsal, truthful zero-observation usage qualification, full repository verification, and fresh exact-revision Independent QA.
+- Corrected the final Dashboard observation boundary so terminal Work Items use `tested_revision` and retain older evidence as queryable history without firing stale-evidence alerts; nonterminal stale evidence remains actionable.
 - Preserved explicit limits: federation remains a local read-only projection, participant repositories retain lifecycle authority, and this release does not claim production, multi-machine, protected-branch, or enterprise validation.
 
 ## 0.1.0-alpha.26

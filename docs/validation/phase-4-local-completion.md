@@ -43,7 +43,7 @@ Evidence: `.ai-org/artifacts/WI-0015/alpha27-federation-cli-rehearsal.json`.
 
 ## Verification gates
 
-Final Independent QA passed at exact clean candidate `48679e9886205c3451a8d220d557d667003d45db`:
+The main Phase 4 closeout Independent QA passed at exact clean candidate `48679e9886205c3451a8d220d557d667003d45db`:
 
 - accepted `--root` retention syntax and the explicit portfolio `--allowed-root` boundary passed;
 - the actual generated `.ai-org/views/portfolio.json` path was schema-validated and unsafe mutations were rejected;
@@ -52,6 +52,19 @@ Final Independent QA passed at exact clean candidate `48679e9886205c3451a8d220d5
 - Doctor reported 35 pass, 1 stale generated-plan warning, and 0 fail, with 72 evidence records and digests valid;
 - exact HEAD, diff, index, worktree, and porcelain checks were clean;
 - Independent QA used an Agent Identity separate from the Developer identity.
+
+The final live Dashboard inspection then exposed one generated-view defect: terminal Work Items selected an earlier developer candidate and treated legitimate exact-revision QA history as current stale-evidence alerts. `WI-0027` corrected only that observation boundary. Independent QA passed at exact clean candidate `591b4369ee385037a50f71e3f8651a6b15a5694d`:
+
+- focused Observer and live-control-plane verification passed 20/20;
+- full repository verification passed 195/195;
+- 46 documents matched 24 schemas with zero errors;
+- Doctor reported 35 pass, 1 accepted stale-plan warning, and 0 fail, with 73 evidence records and digests valid;
+- an adversarial fixture retained one stale historical record while producing zero terminal stale attention and zero firing stale conditions, then restored one attention signal and one true condition when the same Work Item became nonterminal;
+- the exact candidate, diff, index, worktree, and porcelain were clean, and no network, Provider, account, model, deployment, tracker, or paid action occurred.
+
+Temple's current snapshot can therefore retain revision-stale evidence as audit history without presenting terminal history as actionable Dashboard noise. Invalidated, expired, failed, unverified, and open-risk semantics are unchanged.
+
+After `WI-0027` organizational closeout and parallel-plan regeneration, all 27 canonical Work Items are terminal, the plan has zero waves and is current, schema validation remains 46/24/0, and Doctor reports 36 pass, 0 warn, 0 fail with 74 evidence records and digests valid. The Observer retains 21 historical stale classifications and emits zero stale attention signals.
 
 ## Retained qualification
 

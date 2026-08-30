@@ -4,8 +4,8 @@
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=false
-- Work items: 27 total, 1 active
+- Parallel plan: 0 wave(s), fresh=true
+- Work items: 27 total, 0 active
 - Codex tasks: 3 registered, 3 archive-ready
 - Runtime workers: 22 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -16,7 +16,7 @@
 - Learning revalidation: 0 due, 0 contradicted
 - Specifications: 0 indexed, 0 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 8
+- Attention signals: 7
 
 ## Collaboration
 
@@ -33,7 +33,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: no
+- Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 0 / 0
@@ -70,7 +70,7 @@
 | WI-0024 | Make Doctor fail closed on legacy bootstrap metadata | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2bf07c0d` | 0 | 8 | 0 |
 | WI-0025 | Expose Phase 4 operational CLI | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0d48f087` | 0 | 8 | 0 |
 | WI-0026 | Ship Phase 4 project contracts and Alpha.27 metadata | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0d48f087` | 0 | 8 | 0 |
-| WI-0027 | Resolve terminal historical-evidence dashboard noise | build | Developer | Rikku | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
+| WI-0027 | Resolve terminal historical-evidence dashboard noise | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `591b4369` | 0 | 8 | 0 |
 
 ## Codex task registry
 
@@ -120,7 +120,6 @@
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
-- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
@@ -175,14 +174,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-30T09:36:16.519Z | work_item_transitioned | WI-0027 | agent-tidus |
-| 2026-08-30T09:36:16.221Z | work_item_transitioned | WI-0027 | agent-yuna |
-| 2026-08-30T09:36:15.927Z | work_item_transitioned | WI-0027 | agent-mog |
-| 2026-08-30T09:36:15.620Z | work_item_coordination_configured | WI-0027 | agent-mog |
-| 2026-08-30T09:35:58.977Z | work_item_created | WI-0027 | agent-mog |
-| 2026-08-30T09:29:50.234Z | work_item_closed | WI-0015 | agent-mog |
-| 2026-08-30T09:29:50.234Z | release_gate_completed | WI-0015 | agent-mog |
-| 2026-08-30T09:29:44.566Z | work_item_transitioned | WI-0015 | agent-lulu |
+| 2026-08-30T09:44:53.403Z | work_item_closed | WI-0027 | agent-mog |
+| 2026-08-30T09:44:53.403Z | release_gate_completed | WI-0027 | agent-mog |
+| 2026-08-30T09:44:53.133Z | work_item_transitioned | WI-0027 | agent-lulu |
+| 2026-08-30T09:44:52.861Z | work_item_unresolved_updated | WI-0027 | agent-lulu |
+| 2026-08-30T09:40:37.949Z | work_item_transitioned | WI-0027 | agent-lulu |
+| 2026-08-30T09:40:37.667Z | work_item_transitioned | WI-0027 | agent-lulu |
+| 2026-08-30T09:40:37.400Z | evidence_recorded | WI-0027 | agent-lulu |
+| 2026-08-30T09:40:14.138Z | work_item_transitioned | WI-0027 | agent-rikku |
 
 ## Assignments
 

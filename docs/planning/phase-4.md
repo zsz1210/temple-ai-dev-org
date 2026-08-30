@@ -1,6 +1,6 @@
 # Phase 4: reliability at daily and multi-project scale
 
-- Status: bounded local implementation complete in Alpha.27; enterprise and longitudinal qualification remain retained validations, not completed claims
+- Status: bounded local implementation complete in Alpha.27, including the final terminal-evidence Dashboard correction; enterprise and longitudinal qualification remain retained validations, not completed claims
 - Entry baseline: `0.1.0-alpha.23`
 - Governing Work Item: `WI-0015`
 - Alpha.27 integration Work Item: `WI-0019`
@@ -66,6 +66,8 @@ Current local evidence: forward migration, exact rollback, simulated interrupted
 - Establish a baseline before claiming any reduction in Token usage, cost, elapsed time, or rework.
 
 Alpha.25 implements the managed seven-scenario catalog, fail-closed `evaluation run` scorecard, Solo/Collaborative/High-Assurance deterministic fixtures, provider usage attribution, and `usage report` baseline view. Alpha.26 adds `usage preflight`, proves that terminal tasks are history-only, and keeps optional Codex account activity account-wide and unallocated. Alpha.27 completes the local contract and reports the real self-host result truthfully: zero live-resumable registered tasks, zero correlated Token observations, `not-qualified`, unknown monetary cost, and no routing or savings claim. The ten qualified completed Work Items, varied task shapes, longitudinal comparison, and live organizational exercises remain retained qualification work rather than blockers to the bounded local implementation.
+
+The final Alpha.27 Dashboard inspection also proved the low-noise terminal boundary: `tested_revision` is authoritative after closeout, earlier evidence remains queryable as historical data, and only nonterminal revision-stale evidence produces current stale attention. `WI-0027` independently reproduced both the terminal suppression and nonterminal alert path at one exact clean candidate.
 
 ## Phase 4C — multi-repository federation
 

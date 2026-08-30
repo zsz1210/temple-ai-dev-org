@@ -1,0 +1,15 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "591b4369ee385037a50f71e3f8651a6b15a5694d",
+  "command": [
+    "npm",
+    "run",
+    "verify"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-30T09:38:00.000Z",
+  "completed_at": "2026-08-30T09:39:00.000Z",
+  "artifact_refs": []
+}
+

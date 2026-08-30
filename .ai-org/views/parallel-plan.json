@@ -1,13 +1,13 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T09:29:57.984Z",
-  "source_fingerprint": "93a198911382f69c54e0d30f9498710c253f224b777ed978ecbd02366f2ad550",
+  "generated_at": "2026-08-30T09:45:02.759Z",
+  "source_fingerprint": "03b0ece3ff34d64cbe5b92c66334cf77b45fb5cd7364b123b826c90dc4fc7f8e",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
     "selected_work_item_ids": []
   },
-  "max_workers": 3,
+  "max_workers": null,
   "summary": {
     "selected": 0,
     "dispatchable": 0,
@@ -23,7 +23,7 @@
   "conflicts": [],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": 3,
+    "runtime_capacity_limit": null,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,
