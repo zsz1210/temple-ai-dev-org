@@ -10,6 +10,7 @@ import { startControlPlaneServer } from "../src/control-plane-server.mjs";
 import {
   assertPrivateTailscaleServeConfig,
   assertUnusedTailscaleServeConfig,
+  normalizePrivateLanViewerHost,
   normalizePrivateViewerHost,
   parseTailscaleStatus,
   prepareTailscalePrivateViewer,
@@ -87,6 +88,46 @@ function privateRequest(controlPlane, pathname, options = {}) {
     if (options.body) request.write(options.body);
     request.end();
   });
+}
+
+function lanRequest(controlPlane, pathname, options = {}) {
+  return new Promise((resolve, reject) => {
+    const request = http.request({
+      hostname: controlPlane.lanViewerHost,
+      port: controlPlane.lanViewerPort,
+      path: pathname,
+      method: options.method ?? "GET",
+      headers: {
+        host: options.host ?? "caller-controlled.example.test",
+        ...(options.headers ?? {})
+      }
+    }, (response) => {
+      const chunks = [];
+      response.on("data", (chunk) => chunks.push(chunk));
+      response.on("end", () => resolve({
+        status: response.statusCode,
+        headers: response.headers,
+        body: Buffer.concat(chunks).toString("utf8")
+      }));
+    });
+    request.on("error", reject);
+    if (options.body) request.write(options.body);
+    request.end();
+  });
+}
+
+function availablePrivateLanHost() {
+  for (const addresses of Object.values(os.networkInterfaces())) {
+    for (const address of addresses ?? []) {
+      if (address.family !== "IPv4" || address.internal) continue;
+      try {
+        return normalizePrivateLanViewerHost(address.address);
+      } catch {
+        // Continue until an exact RFC1918 interface is found.
+      }
+    }
+  }
+  return null;
 }
 
 function privateSse(controlPlane, pathname) {
@@ -171,6 +212,113 @@ test("private viewer host and pinned Tailscale adapter fail closed", async () =>
   assert.equal(serveEnabled, false);
   assert.ok(calls.some((args) => args.join(" ") === "serve --bg --yes http://127.0.0.1:43123"));
   assert.ok(calls.some((args) => args.join(" ") === "serve reset"));
+});
+
+test("home-LAN viewer accepts only exact RFC1918 IPv4 addresses", () => {
+  assert.equal(normalizePrivateLanViewerHost("10.0.0.1"), "10.0.0.1");
+  assert.equal(normalizePrivateLanViewerHost("172.16.0.1"), "172.16.0.1");
+  assert.equal(normalizePrivateLanViewerHost("172.31.255.254"), "172.31.255.254");
+  assert.equal(normalizePrivateLanViewerHost("192.168.79.5"), "192.168.79.5");
+  for (const value of [
+    "0.0.0.0",
+    "127.0.0.1",
+    "169.254.1.1",
+    "172.15.255.255",
+    "172.32.0.1",
+    "100.64.0.1",
+    "192.0.2.1",
+    "224.0.0.1",
+    "8.8.8.8",
+    "localhost",
+    "::1",
+    "http://192.168.1.2"
+  ]) {
+    assert.throws(() => normalizePrivateLanViewerHost(value), /LAN viewer host/);
+  }
+});
+
+test("home-LAN CLI requires an explicit private host before accepting a port", async (context) => {
+  const { target } = await fixture(context);
+  const portOnly = run(["control-plane", "start", target, "--lan-viewer-port", "0"]);
+  assert.notEqual(portOnly.status, 0);
+  assert.match(portOnly.stderr, /--lan-viewer-port requires --lan-viewer-host/);
+
+  const wildcard = run([
+    "control-plane",
+    "start",
+    target,
+    "--lan-viewer-host",
+    "0.0.0.0",
+    "--lan-viewer-port",
+    "0"
+  ]);
+  assert.notEqual(wildcard.status, 0);
+  assert.match(wildcard.stderr, /LAN viewer host/);
+});
+
+test("dedicated home-LAN listener is redacted and read-only regardless of request headers", async (context) => {
+  const lanViewerHost = availablePrivateLanHost();
+  if (!lanViewerHost) {
+    context.skip("No RFC1918 interface is available for the listener integration test");
+    return;
+  }
+  const { target, stateDirectory } = await fixture(context);
+  await assert.rejects(
+    startControlPlaneServer(target, { stateDirectory, port: 0, lanViewerHost: "0.0.0.0", lanViewerPort: 0 }),
+    /LAN viewer host/
+  );
+  const controlPlane = await startControlPlaneServer(target, {
+    stateDirectory,
+    port: 0,
+    repositoryIntervalMs: 50,
+    privateViewerHost: privateHost,
+    lanViewerHost,
+    lanViewerPort: 0
+  });
+  context.after(() => controlPlane.close());
+
+  assert.equal(controlPlane.lanViewerHost, lanViewerHost);
+  assert.match(controlPlane.lanViewerUrl, new RegExp(`^http://${lanViewerHost.replaceAll(".", "\\.")}:\\d+$`));
+
+  const page = await lanRequest(controlPlane, "/", {
+    host: `127.0.0.1:${controlPlane.port}`,
+    headers: { "tailscale-user-login": "spoofed@example.test" }
+  });
+  assert.equal(page.status, 200);
+  assert.match(page.body, /Private network · Read only/);
+  assert.doesNotMatch(page.body, /<h2>Human Inbox<\/h2>|<h2>Agent Commands/);
+  assert.doesNotMatch(page.body, new RegExp(controlPlane.sessionSecret));
+
+  const snapshotResponse = await lanRequest(controlPlane, "/api/v1/snapshot");
+  assert.equal(snapshotResponse.status, 200);
+  const snapshot = JSON.parse(snapshotResponse.body);
+  assert.equal(snapshot.private_viewer.transport, "private-lan");
+  assert.equal(snapshot.private_viewer.identity_present, false);
+  assert.equal(snapshot.private_viewer.read_only, true);
+  assert.equal(snapshot.authority.mutations_available, false);
+  assert.equal(Object.hasOwn(snapshot, "daemon"), false);
+  assert.equal(Object.hasOwn(snapshot, "inbox"), false);
+  assert.equal(Object.hasOwn(snapshot, "recent_events"), false);
+
+  const inbox = await lanRequest(controlPlane, "/api/v1/inbox");
+  assert.equal(inbox.status, 403);
+  const mutation = await lanRequest(controlPlane, "/api/v1/inbox/agent-command", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: "{}"
+  });
+  assert.equal(mutation.status, 405);
+
+  const localSnapshot = await (await fetch(`${controlPlane.url}/api/v1/snapshot`)).json();
+  assert.ok(localSnapshot.inbox);
+  assert.equal(Object.hasOwn(localSnapshot, "private_viewer"), false);
+
+  const tailscaleSnapshot = JSON.parse((await privateRequest(controlPlane, "/api/v1/snapshot")).body);
+  assert.equal(tailscaleSnapshot.private_viewer.transport, "tailscale-serve");
+  assert.equal(tailscaleSnapshot.private_viewer.identity_present, true);
+
+  await controlPlane.close();
+  await assert.rejects(lanRequest(controlPlane, "/healthz"), /ECONNREFUSED|socket hang up/);
 });
 
 test("private Dashboard is redacted, refresh-only, and cannot reach Inbox or mutations", async (context) => {

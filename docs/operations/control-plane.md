@@ -39,6 +39,15 @@ Start the local server:
 node ./templew.mjs control-plane start .
 ```
 
+Expose a separate redacted read-only Dashboard on one exact trusted home-LAN address:
+
+```bash
+node ./templew.mjs control-plane start . \
+  --lan-viewer-host 192.168.79.5
+```
+
+The LAN listener defaults to port `41741`. It accepts only an RFC1918 IPv4 address and never turns the loopback mutation gateway into a network listener. See [Home-LAN private Dashboard](../integrations/home-lan-private-dashboard.md).
+
 Expose only a redacted read-only Dashboard to an authenticated device on the same permitted Tailscale network:
 
 ```bash
@@ -128,11 +137,11 @@ All other mutation routes return `405`. The browser receives only a new per-proc
 
 ### Private read-only viewer
 
-The optional private viewer is a separate request class, not a remotely accessible version of the Human Inbox. It requires one exact runtime Tailscale DNS Host and a Tailscale-injected user identity header. The backend trusts that header only because it remains bound to localhost.
+The optional private viewer is a separate request class, not a remotely accessible version of the Human Inbox. Tailscale requests require one exact runtime Tailscale DNS Host and a Tailscale-injected user identity header. The backend trusts that header only because the full server remains bound to localhost. The home-LAN mode instead owns a second listener bound to one exact RFC1918 address; that listener assigns read-only authority directly and does not trust caller headers.
 
 Private requests may use only `GET /`, `GET /healthz`, `GET /api/v1/snapshot`, and `GET /api/v1/events`. The snapshot omits `daemon`, `inbox`, and `recent_events`. The event stream sends refresh cursors rather than raw journal records. `GET /api/v1/inbox` returns `403`; every private-viewer non-GET request returns `405` before command parsing.
 
-The full local Dashboard is unchanged. `--tailscale-viewer` does not enable `--codex`, change `agent_commands`, mutate a tailnet policy, bind to a LAN address, or invoke Funnel.
+The full local Dashboard is unchanged. `--tailscale-viewer` does not enable `--codex`, change `agent_commands`, mutate a tailnet policy, bind to a LAN address, or invoke Funnel. `--lan-viewer-host` does not enable `--codex`, change `agent_commands`, configure a router, start at login, or make the listener public. Both read-only transports may run concurrently.
 
 ## Human Inbox authority
 

@@ -1,5 +1,6 @@
 import path from "node:path";
 import { execFile } from "node:child_process";
+import { isIP } from "node:net";
 import { promisify } from "node:util";
 import { pathExists } from "./files.mjs";
 
@@ -7,6 +8,7 @@ const execFileAsync = promisify(execFile);
 
 export const TAILSCALE_VALIDATED_VERSION = "1.98.8";
 export const TAILSCALE_IDENTITY_HEADER = "tailscale-user-login";
+export const DEFAULT_LAN_VIEWER_PORT = 41741;
 
 const MACOS_TAILSCALE_CANDIDATES = [
   "/Applications/Tailscale.app/Contents/MacOS/Tailscale",
@@ -21,6 +23,19 @@ export function normalizePrivateViewerHost(value) {
   const host = String(value ?? "").trim().toLowerCase().replace(/\.$/, "");
   if (!/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)*\.ts\.net$/.test(host)) {
     throw new Error("Private viewer host must be one exact Tailscale *.ts.net DNS name without a scheme, port, path, or wildcard");
+  }
+  return host;
+}
+
+export function normalizePrivateLanViewerHost(value) {
+  const host = String(value ?? "").trim();
+  if (isIP(host) !== 4) {
+    throw new Error("LAN viewer host must be one exact RFC1918 IPv4 address without a scheme, port, path, hostname, or wildcard");
+  }
+  const [first, second] = host.split(".").map(Number);
+  const isPrivate = first === 10 || (first === 172 && second >= 16 && second <= 31) || (first === 192 && second === 168);
+  if (!isPrivate) {
+    throw new Error("LAN viewer host must be inside 10.0.0.0/8, 172.16.0.0/12, or 192.168.0.0/16");
   }
   return host;
 }

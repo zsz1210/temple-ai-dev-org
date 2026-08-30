@@ -41,7 +41,11 @@ import {
   writeDaemonMetadata
 } from "./telemetry.mjs";
 import { pathExists, readJson } from "./files.mjs";
-import { normalizePrivateViewerHost, TAILSCALE_IDENTITY_HEADER } from "./private-network-viewer.mjs";
+import {
+  normalizePrivateLanViewerHost,
+  normalizePrivateViewerHost,
+  TAILSCALE_IDENTITY_HEADER
+} from "./private-network-viewer.mjs";
 
 export const CONTROL_PLANE_SNAPSHOT_SCHEMA = "temple.control-plane-snapshot/v1";
 
@@ -115,11 +119,13 @@ export function classifyControlPlaneRequest(headers, port, privateViewerHost = n
   const expectedHost = normalizePrivateViewerHost(privateViewerHost);
   const requestHost = String(headers?.host ?? "").trim().toLowerCase();
   const identity = String(headers?.[TAILSCALE_IDENTITY_HEADER] ?? "").trim();
-  if (requestHost === expectedHost && identity) return { kind: "private-viewer", identity };
+  if (requestHost === expectedHost && identity) {
+    return { kind: "private-viewer", identity, transport: "tailscale-serve" };
+  }
   return { kind: "untrusted", identity: null };
 }
 
-export function privateViewerSnapshot(snapshot, identity) {
+export function privateViewerSnapshot(snapshot, identity, transport = "tailscale-serve") {
   const { daemon: _daemon, inbox: _inbox, recent_events: _recentEvents, ...safe } = snapshot;
   return {
     ...safe,
@@ -131,7 +137,7 @@ export function privateViewerSnapshot(snapshot, identity) {
     },
     private_viewer: {
       schema_version: "temple.private-viewer/v1",
-      transport: "tailscale-serve",
+      transport,
       identity_present: Boolean(identity),
       read_only: true
     }
@@ -252,8 +258,15 @@ export async function startControlPlaneServer(target, options = {}) {
   const privateViewerHost = options.privateViewerHost
     ? normalizePrivateViewerHost(options.privateViewerHost)
     : null;
+  const lanViewerHost = options.lanViewerHost
+    ? normalizePrivateLanViewerHost(options.lanViewerHost)
+    : null;
+  const lanViewerPort = options.lanViewerPort ?? 41741;
   if (host !== "127.0.0.1") throw new Error("Phase 3 control plane may bind only to 127.0.0.1");
   if (!Number.isInteger(port) || port < 0 || port > 65535) throw new Error("Control-plane port must be 0 to 65535");
+  if (!Number.isInteger(lanViewerPort) || lanViewerPort < 0 || lanViewerPort > 65535) {
+    throw new Error("LAN viewer port must be 0 to 65535");
+  }
   const stateDirectory = resolveControlPlaneStateDirectory(
     projectRoot,
     options.stateDirectory ?? config.state_directory
@@ -265,6 +278,9 @@ export async function startControlPlaneServer(target, options = {}) {
   let codexStartup = null;
   const githubProviders = [];
   let server = null;
+  let lanViewerServer = null;
+  let lanViewerUrl = null;
+  let actualLanViewerPort = null;
   let serverOrigin = null;
   const clients = new Set();
   const startedAt = new Date().toISOString();
@@ -320,12 +336,9 @@ export async function startControlPlaneServer(target, options = {}) {
       journal
     });
 
-    server = http.createServer(async (request, response) => {
+    const handleRequest = async (request, response, access) => {
       try {
         const requestUrl = new URL(request.url ?? "/", `http://${request.headers.host ?? "127.0.0.1"}`);
-        const address = server.address();
-        const requestPort = typeof address === "object" && address ? address.port : port;
-        const access = classifyControlPlaneRequest(request.headers, requestPort, privateViewerHost);
         if (access.kind === "untrusted") {
           jsonResponse(response, 403, { error: "Control-plane Host must be the active loopback listener" });
           return;
@@ -357,7 +370,7 @@ export async function startControlPlaneServer(target, options = {}) {
             codexProvider
           });
           jsonResponse(response, 200, access.kind === "private-viewer"
-            ? privateViewerSnapshot(snapshot, access.identity)
+            ? privateViewerSnapshot(snapshot, access.identity, access.transport)
             : snapshot);
           return;
         }
@@ -452,6 +465,12 @@ export async function startControlPlaneServer(target, options = {}) {
         if (!response.headersSent) jsonResponse(response, error.statusCode ?? 400, { error: error.message });
         else response.destroy(error);
       }
+    };
+
+    server = http.createServer((request, response) => {
+      const address = server.address();
+      const requestPort = typeof address === "object" && address ? address.port : port;
+      return handleRequest(request, response, classifyControlPlaneRequest(request.headers, requestPort, privateViewerHost));
     });
 
     await listen(server, host, port);
@@ -459,6 +478,17 @@ export async function startControlPlaneServer(target, options = {}) {
     const actualPort = typeof address === "object" && address ? address.port : port;
     const url = `http://${host}:${actualPort}`;
     serverOrigin = url;
+    if (lanViewerHost) {
+      lanViewerServer = http.createServer((request, response) => handleRequest(request, response, {
+        kind: "private-viewer",
+        identity: null,
+        transport: "private-lan"
+      }));
+      await listen(lanViewerServer, lanViewerHost, lanViewerPort);
+      const lanAddress = lanViewerServer.address();
+      actualLanViewerPort = typeof lanAddress === "object" && lanAddress ? lanAddress.port : lanViewerPort;
+      lanViewerUrl = `http://${lanViewerHost}:${actualLanViewerPort}`;
+    }
     await writeDaemonMetadata(stateDirectory, {
       host,
       port: actualPort,
@@ -490,6 +520,9 @@ export async function startControlPlaneServer(target, options = {}) {
       githubProviders,
       sessionSecret,
       privateViewerHost,
+      lanViewerHost,
+      lanViewerPort: actualLanViewerPort,
+      lanViewerUrl,
       async close() {
         if (closed) return;
         closed = true;
@@ -499,6 +532,7 @@ export async function startControlPlaneServer(target, options = {}) {
         for (const provider of githubProviders) await provider.stop();
         await repositoryProvider.stop();
         await persistProviderRegistry(stateDirectory, registry);
+        if (lanViewerServer) await closeHttpServer(lanViewerServer);
         await closeHttpServer(server);
         await journal.close();
         await fs.unlink(path.join(stateDirectory, "daemon.json")).catch((error) => {
@@ -511,6 +545,7 @@ export async function startControlPlaneServer(target, options = {}) {
     if (codexProvider) await codexProvider.stop().catch(() => {});
     for (const provider of githubProviders) await provider.stop().catch(() => {});
     if (repositoryProvider) await repositoryProvider.stop().catch(() => {});
+    if (lanViewerServer) await closeHttpServer(lanViewerServer).catch(() => {});
     if (server) await closeHttpServer(server).catch(() => {});
     if (journal) await journal.close().catch(() => {});
     await lease.release().catch(() => {});

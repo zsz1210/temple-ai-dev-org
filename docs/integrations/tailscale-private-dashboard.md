@@ -2,6 +2,8 @@
 
 Temple can expose a redacted, read-only Dashboard to another device in the same Tailscale network. The full Human Inbox and Agent Command gateway remain available only at the Mac's loopback URL.
 
+For a trusted tablet on the same home Wi-Fi, the [Home-LAN private Dashboard](home-lan-private-dashboard.md) provides a separate opt-in read-only listener without requiring the tablet to enable Tailscale. Both modes may run at the same time.
+
 ## Boundary
 
 ```text
@@ -49,6 +51,15 @@ Add `--codex` only when the project has deliberately opted into live registered-
 node ./templew.mjs control-plane start . --codex --tailscale-viewer
 ```
 
+To keep the home Wi-Fi and away-from-home links active in one process:
+
+```bash
+node ./templew.mjs control-plane start . \
+  --codex \
+  --lan-viewer-host 192.168.79.5 \
+  --tailscale-viewer
+```
+
 Temple prints two URLs. Open `Private read-only Dashboard` on the tablet while Tailscale is connected. The local URL remains the only interactive surface.
 
 The launcher:
@@ -63,7 +74,7 @@ It does not install Tailscale, change access policy, enable Funnel, store creden
 
 ## Stop and rollback
 
-Press `Ctrl-C` in the terminal running Temple. Temple records the first `SIGINT` or `SIGTERM` as the stop request, keeps both signal handlers active during cleanup, removes the Serve configuration it created, and then closes the local control plane. Repeated stop signals during cleanup are ignored so they cannot interrupt rollback. The handlers are removed only after both resources have closed.
+Press `Ctrl-C` in the terminal running Temple. Temple records the first `SIGINT` or `SIGTERM` as the stop request, keeps both signal handlers active during cleanup, removes the Serve configuration it created, and then closes the local control plane and optional LAN listener. Repeated stop signals during cleanup are ignored so they cannot interrupt rollback. The handlers are removed only after every owned resource has closed.
 
 A successful process exit therefore means the Temple-owned Serve mapping was reset and the local listener was closed. A cleanup failure exits unsuccessfully instead of claiming a clean stop.
 

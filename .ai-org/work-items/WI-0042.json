@@ -1,0 +1,206 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0042",
+  "title": "Add a private home-LAN read-only Dashboard viewer",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T23:19:27.179Z",
+  "updated_at": "2026-08-30T23:21:58.190Z",
+  "scope": [
+    "Expose the redacted read-only Dashboard on one explicitly configured RFC1918 address while preserving the loopback control plane and the existing tailnet-only Tailscale viewer."
+  ],
+  "acceptance_criteria": [
+    "The LAN viewer binds only the exact configured private IPv4 address and never a wildcard, loopback, link-local, multicast, or public address.",
+    "The LAN page and snapshot are redacted, refresh-only, and expose no Human Inbox, Agent Commands, session secret, raw events, or mutation route.",
+    "The localhost full Dashboard and tailnet-only Tailscale viewer continue to work independently and can run at the same time.",
+    "Automated tests and live runtime evidence cover LAN reads, rejected writes, exact socket binding, and private Tailscale status."
+  ],
+  "affected_paths": [
+    "src/control-plane-server.mjs",
+    "src/private-network-viewer.mjs",
+    "src/cli.mjs",
+    "test/control-plane-private-viewer.test.mjs",
+    "docs/adr/README.md",
+    "docs/adr/0036-dedicated-private-lan-dashboard-listener.md",
+    "docs/integrations/home-lan-private-dashboard.md",
+    "docs/integrations/tailscale-private-dashboard.md",
+    "docs/operations/control-plane.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "code-first",
+  "parent_work_item_id": "WI-0031",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {
+    "build": {
+      "disciplines": [
+        "general-development"
+      ],
+      "resources": []
+    },
+    "design": {
+      "disciplines": [
+        "architecture"
+      ],
+      "resources": []
+    },
+    "eval": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "independent_qa": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "spec": {
+      "disciplines": [
+        "product"
+      ],
+      "resources": []
+    },
+    "test": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "af4801eae3d6ee32a9896a61a1617213a92b7087",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0029 and WI-0030 are integrated at current HEAD; WI-0042 must preserve the local Agent Command boundary and regress every private-viewer mutation path.",
+    "WI-0033 remains in Spec with no active claim; WI-0042 proceeds first and WI-0033 must review the listener refactor before any Build work.",
+    "WI-0034 is integrated at current HEAD; WI-0042 changes transport only and must preserve its current-state Dashboard semantics.",
+    "WI-0036 is integrated at current HEAD; WI-0042 extends its redacted viewer contract while preserving the verified tailnet-only adapter.",
+    "WI-0037 is integrated at current HEAD; WI-0042 must preserve signal-safe cleanup for the loopback server, LAN listener, and Tailscale Serve configuration.",
+    "WI-0040 is integrated at current HEAD; WI-0042 must expose its usage panel only through the same redacted private snapshot.",
+    "WI-0041 is integrated at current HEAD; WI-0042 must preserve refresh coalescing and refresh-only private SSE semantics."
+  ],
+  "claim": {
+    "id": "claim-20260830232158-f7730e5f",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "af4801eae3d6ee32a9896a61a1617213a92b7087",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-08-30T23:21:58.190Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260830232012-833b8364",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "af4801eae3d6ee32a9896a61a1617213a92b7087",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T23:20:12.843Z",
+      "released_at": "2026-08-30T23:20:13.113Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260830232106-753dd2f1",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "af4801eae3d6ee32a9896a61a1617213a92b7087",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T23:21:06.291Z",
+      "released_at": "2026-08-30T23:21:06.861Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260830232140-78d7557b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "af4801eae3d6ee32a9896a61a1617213a92b7087",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T23:21:40.171Z",
+      "released_at": "2026-08-30T23:21:46.449Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260830232158-f7730e5f",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "af4801eae3d6ee32a9896a61a1617213a92b7087",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T23:21:58.190Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0042/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0042/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0042/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0042/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0042/technical-design.md"
+    ],
+    "ui_brief": [
+      ".ai-org/artifacts/WI-0042/ui-brief.md"
+    ],
+    "required_state_coverage": [
+      ".ai-org/artifacts/WI-0042/product-spec.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0042/work-order.md",
+    ".ai-org/artifacts/WI-0042/handoff-001-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0042/product-spec.md",
+    ".ai-org/artifacts/WI-0042/ui-brief.md",
+    ".ai-org/artifacts/WI-0042/handoff-002-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0042/technical-design.md",
+    "docs/adr/0036-dedicated-private-lan-dashboard-listener.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "af4801eae3d6ee32a9896a61a1617213a92b7087",
+      "artifact": ".ai-org/artifacts/WI-0042/handoff-001-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-30T23:21:06.569Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "af4801eae3d6ee32a9896a61a1617213a92b7087",
+      "artifact": ".ai-org/artifacts/WI-0042/handoff-002-tech_lead-to-developer.md",
+      "created_at": "2026-08-30T23:21:40.424Z"
+    }
+  ]
+}

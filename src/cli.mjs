@@ -40,7 +40,7 @@ import {
   rebuildControlPlane,
   startControlPlaneServer
 } from "./control-plane-server.mjs";
-import { prepareTailscalePrivateViewer } from "./private-network-viewer.mjs";
+import { DEFAULT_LAN_VIEWER_PORT, prepareTailscalePrivateViewer } from "./private-network-viewer.mjs";
 import { readControlPlaneConfig } from "./control-plane-config.mjs";
 import { captureGitHubEvidence } from "./github-control-plane-provider.mjs";
 import { resolveControlPlaneStateDirectory } from "./telemetry.mjs";
@@ -120,7 +120,7 @@ Usage:
   temple control-plane ingest [target] --fixture path [--state-dir path] [--json]
   temple control-plane rebuild [target] [--state-dir path] [--json]
   temple control-plane capture-github [target] --provider-id id --work-item WI-ID --revision commit [--state-dir path] [--actor id] [--title text] [--summary text] [--json]
-  temple control-plane start [target] [--host 127.0.0.1] [--port number] [--state-dir path] [--fixture path] [--codex] [--tailscale-viewer]
+  temple control-plane start [target] [--host 127.0.0.1] [--port number] [--state-dir path] [--fixture path] [--codex] [--tailscale-viewer] [--lan-viewer-host private-ip] [--lan-viewer-port number]
   temple collaboration show [target] [--json]
   temple collaboration set-profile [target] --profile solo|collaborative|high-assurance
   temple collaboration add-principal [target] --principal-id principal-name --name "Human Name"
@@ -352,6 +352,8 @@ const VALUE_FLAGS = new Set([
   "--state-dir",
   "--host",
   "--port",
+  "--lan-viewer-host",
+  "--lan-viewer-port",
   "--repository-interval",
   "--output",
   "--backup",
@@ -927,6 +929,19 @@ function controlPlaneInterval(parsed) {
   return interval;
 }
 
+function controlPlaneLanPort(parsed) {
+  const host = parsed.options["--lan-viewer-host"];
+  const value = parsed.options["--lan-viewer-port"];
+  if (!host && value !== undefined) throw new Error("--lan-viewer-port requires --lan-viewer-host");
+  if (!host) return undefined;
+  if (value === undefined) return DEFAULT_LAN_VIEWER_PORT;
+  const port = Number(value);
+  if (!Number.isInteger(port) || port < 0 || port > 65535) {
+    throw new Error("--lan-viewer-port must be an integer from 0 to 65535");
+  }
+  return port;
+}
+
 async function runControlPlane(parsed) {
   const target = await assertSafeTarget(parsed.target);
   const options = {
@@ -1001,13 +1016,16 @@ async function runControlPlane(parsed) {
       port: controlPlanePort(parsed),
       repositoryIntervalMs: controlPlaneInterval(parsed),
       enableCodex: parsed.flags.has("--codex"),
-      privateViewerHost: tailscaleViewer?.host
+      privateViewerHost: tailscaleViewer?.host,
+      lanViewerHost: parsed.options["--lan-viewer-host"],
+      lanViewerPort: controlPlaneLanPort(parsed)
     });
     const shutdown = createShutdownSignalLatch();
     let privateShare = null;
     try {
       if (tailscaleViewer) privateShare = await tailscaleViewer.enable(controlPlane.port);
       console.log(`Control plane: ${controlPlane.url}`);
+      if (controlPlane.lanViewerUrl) console.log(`Home LAN read-only Dashboard: ${controlPlane.lanViewerUrl}`);
       if (privateShare) console.log(`Private read-only Dashboard: ${privateShare.url}`);
       console.log(`State: ${controlPlane.stateDirectory}`);
       console.log("Press Ctrl-C to stop.");
