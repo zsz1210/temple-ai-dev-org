@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0040",
   "title": "Expose truthful usage and model observability in the Dashboard",
-  "state": "eval",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T19:26:14.382Z",
-  "updated_at": "2026-08-30T19:40:04.632Z",
+  "updated_at": "2026-08-30T19:48:11.802Z",
   "scope": [
     "Add a read-only usage and model workspace to the control-plane snapshot and Dashboard using existing provider-reported attribution data.",
     "Preserve unknown values, qualification status, missing-dimension reasons, and model-routing non-authority instead of displaying fabricated savings, cost, or model conclusions."
@@ -76,7 +76,7 @@
       "resources": []
     }
   },
-  "base_revision": "9de63df1df394687d223d8ef453873e3d4fd653f",
+  "base_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -90,17 +90,17 @@
     "WI-0041 is a serialized child correction discovered during WI-0040 runtime evaluation; WI-0040 remains paused until the child is independently verified and integrated."
   ],
   "claim": {
-    "id": "claim-20260830193326-94b833ec",
+    "id": "claim-20260830194752-2cd826e8",
     "status": "released",
     "principal_id": "human",
     "agent_id": "agent-lulu",
-    "base_revision": "9de63df1df394687d223d8ef453873e3d4fd653f",
+    "base_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-08-30T19:33:26.188Z",
-    "released_at": "2026-08-30T19:39:56.495Z",
+    "claimed_at": "2026-08-30T19:47:52.563Z",
+    "released_at": "2026-08-30T19:48:08.073Z",
     "release_reason": [
-      "Runtime visual evaluation found an SSE replay refresh stampede; a bounded child correction must produce a new exact candidate before WI-0040 evaluation resumes."
+      "Independent QA handoff complete; no release authorized."
     ]
   },
   "claims": [
@@ -173,6 +173,34 @@
       "release_reason": [
         "Runtime visual evaluation found an SSE replay refresh stampede; a bounded child correction must produce a new exact candidate before WI-0040 evaluation resumes."
       ]
+    },
+    {
+      "id": "claim-20260830194718-e6863eb3",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T19:47:18.940Z",
+      "released_at": "2026-08-30T19:47:51.977Z",
+      "release_reason": [
+        "Corrected-candidate evaluation handoff complete."
+      ]
+    },
+    {
+      "id": "claim-20260830194752-2cd826e8",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T19:47:52.563Z",
+      "released_at": "2026-08-30T19:48:08.073Z",
+      "release_reason": [
+        "Independent QA handoff complete; no release authorized."
+      ]
     }
   ],
   "gate_evidence": {
@@ -207,6 +235,12 @@
     ],
     "test_evidence": [
       "EVID-20260830T193353Z-0AB64F62"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0040/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260830T194807Z-B0D08A41"
     ]
   },
   "evidence": [
@@ -221,10 +255,16 @@
     "EVID-20260830T193246Z-DBDBB271",
     "EVID-20260830T193305Z-CB21E6FB",
     ".ai-org/artifacts/WI-0040/developer-report.md",
-    "EVID-20260830T193353Z-0AB64F62"
+    "EVID-20260830T193353Z-0AB64F62",
+    ".ai-org/artifacts/WI-0040/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0040/evaluation-report.md",
+    "EVID-20260830T194745Z-C878B30A",
+    ".ai-org/artifacts/WI-0040/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0040/independent-qa-report.md",
+    "EVID-20260830T194807Z-B0D08A41"
   ],
   "unresolved": [],
-  "next_position": "independent_qa",
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -253,6 +293,20 @@
       "input_revision": "9de63df1df394687d223d8ef453873e3d4fd653f",
       "artifact": ".ai-org/artifacts/WI-0040/handoff-004-developer-to-quality_evaluator.md",
       "created_at": "2026-08-30T19:33:25.479Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+      "artifact": ".ai-org/artifacts/WI-0040/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-08-30T19:47:51.704Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+      "artifact": ".ai-org/artifacts/WI-0040/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-08-30T19:48:07.798Z"
     }
   ],
   "developer_candidate_revision": "9de63df1df394687d223d8ef453873e3d4fd653f"

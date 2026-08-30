@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0041",
   "title": "Coalesce Dashboard refreshes after SSE replay",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T19:39:56.799Z",
-  "updated_at": "2026-08-30T19:40:53.860Z",
+  "updated_at": "2026-08-30T19:47:06.771Z",
   "scope": [
     "Prevent historical SSE replay from launching unbounded concurrent Dashboard snapshot requests."
   ],
@@ -69,7 +69,7 @@
       "resources": []
     }
   },
-  "base_revision": "9de63df1df394687d223d8ef453873e3d4fd653f",
+  "base_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -79,15 +79,18 @@
     "WI-0040 owns the usage panel; WI-0041 is its serialized runtime-defect correction and must finish before WI-0040 resumes evaluation."
   ],
   "claim": {
-    "id": "claim-20260830194053-3f656a95",
-    "status": "active",
+    "id": "claim-20260830194545-3e73e17f",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "9de63df1df394687d223d8ef453873e3d4fd653f",
+    "agent_id": "agent-lulu",
+    "base_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-08-30T19:40:53.860Z",
-    "released_at": null
+    "claimed_at": "2026-08-30T19:45:45.388Z",
+    "released_at": "2026-08-30T19:47:01.299Z",
+    "release_reason": [
+      "Independent QA handoff complete."
+    ]
   },
   "claims": [
     {
@@ -134,14 +137,45 @@
     },
     {
       "id": "claim-20260830194053-3f656a95",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "9de63df1df394687d223d8ef453873e3d4fd653f",
       "branch": "main",
       "worktree": null,
       "claimed_at": "2026-08-30T19:40:53.860Z",
-      "released_at": null
+      "released_at": "2026-08-30T19:44:47.490Z",
+      "release_reason": [
+        "Developer handoff complete."
+      ]
+    },
+    {
+      "id": "claim-20260830194455-e1fea81a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T19:44:55.197Z",
+      "released_at": "2026-08-30T19:45:44.792Z",
+      "release_reason": [
+        "Evaluation handoff complete."
+      ]
+    },
+    {
+      "id": "claim-20260830194545-3e73e17f",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T19:45:45.388Z",
+      "released_at": "2026-08-30T19:47:01.299Z",
+      "release_reason": [
+        "Independent QA handoff complete."
+      ]
     }
   ],
   "gate_evidence": {
@@ -165,6 +199,23 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0041/technical-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0041/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0041/developer-report.md",
+      "EVID-20260830T194446Z-83B0659D",
+      "EVID-20260830T194446Z-0CF44D0D"
+    ],
+    "test_evidence": [
+      "EVID-20260830T194532Z-9D91CDA2"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0041/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260830T194700Z-7D2630A4"
     ]
   },
   "evidence": [
@@ -174,10 +225,21 @@
     ".ai-org/artifacts/WI-0041/product-spec.md",
     ".ai-org/artifacts/WI-0041/ui-brief.md",
     ".ai-org/artifacts/WI-0041/handoff-003-tech_lead-to-developer.md",
-    ".ai-org/artifacts/WI-0041/technical-design.md"
+    ".ai-org/artifacts/WI-0041/technical-design.md",
+    ".ai-org/artifacts/WI-0041/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0041/developer-report.md",
+    "EVID-20260830T194446Z-83B0659D",
+    "EVID-20260830T194446Z-0CF44D0D",
+    "EVID-20260830T194532Z-9D91CDA2",
+    ".ai-org/artifacts/WI-0041/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0041/evaluation-report.md",
+    ".ai-org/artifacts/WI-0041/runtime-observation.json",
+    ".ai-org/artifacts/WI-0041/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0041/independent-qa-report.md",
+    "EVID-20260830T194700Z-7D2630A4"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -199,6 +261,28 @@
       "input_revision": "9de63df1df394687d223d8ef453873e3d4fd653f",
       "artifact": ".ai-org/artifacts/WI-0041/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-08-30T19:40:52.964Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+      "artifact": ".ai-org/artifacts/WI-0041/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-30T19:44:47.167Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+      "artifact": ".ai-org/artifacts/WI-0041/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-08-30T19:45:44.502Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+      "artifact": ".ai-org/artifacts/WI-0041/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-08-30T19:47:01.014Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134"
 }

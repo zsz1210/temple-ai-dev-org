@@ -4749,6 +4749,405 @@
         "exit_code": 0,
         "started_at": "2026-08-30T19:33:32Z"
       }
+    },
+    {
+      "id": "EVID-20260830T194446Z-83B0659D",
+      "work_item_id": "WI-0041",
+      "recorded_at": "2026-08-30T19:44:46.589Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Dashboard refresh coalescing candidate",
+      "outcome": "verified",
+      "scope_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+      "observed_at": "2026-08-30T19:44:46.589Z",
+      "summary": "Exact candidate containing the single-flight refresh coordinator and 2,000-event replay regression.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "660f397a6f17c805ec2ef0467d27c8a53ca28134"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260830T194446Z-0CF44D0D",
+      "work_item_id": "WI-0041",
+      "recorded_at": "2026-08-30T19:44:46.865Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer full verification",
+      "outcome": "pass",
+      "scope_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+      "observed_at": "2026-08-30T19:44:12Z",
+      "summary": "Full repository verification passed 218/218 for the exact candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0041/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0041/developer-test-observation.json",
+          "sha256": "a024c942376a523002609239b057096a45e53eae98a62956193d44056fb6025c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0041/developer-report.md",
+          "sha256": "f02b098541b71fb2beffa305f5a6b43e55d49b2eac6fff21c09010285b743387"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0041/product-spec.md",
+          "sha256": "39e622b5bc012fa5b6d6f96d1b8188dfa4a7164c9021745fda0b047f1377f675"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0041/technical-design.md",
+          "sha256": "4b9fe99474625b6c60f7750b42cf5d1621befa66b46ae20fab963a268f298229"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0041/ui-brief.md",
+          "sha256": "6b6ebdd037de437b7c88accb3d488854660233bdcdfa64bf9d1bd8eb304b2d90"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T19:43:23Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T194532Z-9D91CDA2",
+      "work_item_id": "WI-0041",
+      "recorded_at": "2026-08-30T19:45:32.731Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality focused regression",
+      "outcome": "pass",
+      "scope_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+      "observed_at": "2026-08-30T19:45:01Z",
+      "summary": "Fresh exact-candidate focused run passed 27/27, including the 2,000-event refresh-coalescing counterexample.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0041/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0041/quality-test-observation.json",
+          "sha256": "66614fc1d80827c06668e7691d8272411d0a6c3838eef37a6f664d9a273ba74f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0041/evaluation-report.md",
+          "sha256": "d5796d6b0090f4b26ed5eb12708ab8c1bef4294edd0c09f4e2fa3fbf1397e497"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0041/product-spec.md",
+          "sha256": "39e622b5bc012fa5b6d6f96d1b8188dfa4a7164c9021745fda0b047f1377f675"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0041/ui-brief.md",
+          "sha256": "6b6ebdd037de437b7c88accb3d488854660233bdcdfa64bf9d1bd8eb304b2d90"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/control-plane-foundation.test.mjs",
+          "test/control-plane-inbox.test.mjs",
+          "test/control-plane-private-viewer.test.mjs",
+          "test/phase-4b.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T19:44:55Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T194544Z-B4FC8FF0",
+      "work_item_id": "WI-0041",
+      "recorded_at": "2026-08-30T19:45:44.242Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Live Dashboard replay and responsive runtime",
+      "outcome": "pass",
+      "scope_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+      "observed_at": "2026-08-30T19:42:59Z",
+      "summary": "Fresh Chromium reached current state with zero console errors and no horizontal overflow across local desktop, local 420px, and private tablet viewports.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0041/runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0041/runtime-observation.json",
+          "sha256": "e1a8be04fdcf367ecb79cd21aebfaa4c96d705a8501d6e4dbe4f52dbf85d71dd"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0041/evaluation-report.md",
+          "sha256": "d5796d6b0090f4b26ed5eb12708ab8c1bef4294edd0c09f4e2fa3fbf1397e497"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0041/ui-brief.md",
+          "sha256": "6b6ebdd037de437b7c88accb3d488854660233bdcdfa64bf9d1bd8eb304b2d90"
+        }
+      ],
+      "details": {
+        "environment": "Temple self-host repository on macOS, live loopback Control Plane with Codex observation, Tailscale Serve tailnet-only HTTPS, and fresh headed Chromium sessions",
+        "scenario": "Load the retained journal through the local Dashboard at 1440 by 1000 and 420 by 900, then load the private read-only Dashboard at 1024 by 1366; inspect current-state convergence, console errors, horizontal overflow, usage empty-state truthfulness, and absence of private Inbox and Agent Command surfaces",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260830T194700Z-7D2630A4",
+      "work_item_id": "WI-0041",
+      "recorded_at": "2026-08-30T19:47:00.739Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA exact-candidate verification",
+      "outcome": "pass",
+      "scope_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+      "observed_at": "2026-08-30T19:46:43Z",
+      "summary": "Fresh detached-worktree full verification passed 218/218 at the exact candidate; Developer and Independent QA identities remain distinct.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0041/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0041/independent-qa-observation.json",
+          "sha256": "5db29f523ff51cd123e0b16f363e1b3cd3d75a48ce055f200603c0375d05bd37"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0041/independent-qa-report.md",
+          "sha256": "4f2d24538d9e32122ea4b1b60cd2c8acf385887f8df8bb3da70b7c54609a6b8b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0041/evaluation-report.md",
+          "sha256": "d5796d6b0090f4b26ed5eb12708ab8c1bef4294edd0c09f4e2fa3fbf1397e497"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0041/product-spec.md",
+          "sha256": "39e622b5bc012fa5b6d6f96d1b8188dfa4a7164c9021745fda0b047f1377f675"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T19:45:56Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T194745Z-F4E22545",
+      "work_item_id": "WI-0040",
+      "recorded_at": "2026-08-30T19:47:45.414Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Corrected Dashboard usage candidate",
+      "outcome": "verified",
+      "scope_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+      "observed_at": "2026-08-30T19:47:45.414Z",
+      "summary": "Exact candidate combining truthful usage/model observability with bounded replay refresh coordination.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "660f397a6f17c805ec2ef0467d27c8a53ca28134"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260830T194745Z-3079E0DD",
+      "work_item_id": "WI-0040",
+      "recorded_at": "2026-08-30T19:47:45.690Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Corrected candidate quality regression",
+      "outcome": "pass",
+      "scope_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+      "observed_at": "2026-08-30T19:45:01Z",
+      "summary": "Fresh focused regression passed 27/27 after the runtime counterexample correction.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0040/quality-test-observation-2.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0040/quality-test-observation-2.json",
+          "sha256": "1885c8de21303b0fdf567c5cfcbb12ae65aa0b619be2c3150138ae76287f3bf6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0040/quality-report-2.md",
+          "sha256": "d45d463365da9ea2bad2a0d990d262875f31f86a4f3e79b8a32bc282934540cd"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0040/product-spec.md",
+          "sha256": "7d26639d0da2b13967bc5c8c42ffc7f71e6f561dc3a0515a52d1347184c11b06"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0040/ui-brief.md",
+          "sha256": "fc19bf242d8a46da4a2190ab8a1620714210a0e358aac61d6f75879fb1d75231"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0041/evaluation-report.md",
+          "sha256": "d5796d6b0090f4b26ed5eb12708ab8c1bef4294edd0c09f4e2fa3fbf1397e497"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/control-plane-foundation.test.mjs",
+          "test/control-plane-inbox.test.mjs",
+          "test/control-plane-private-viewer.test.mjs",
+          "test/phase-4b.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T19:44:55Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T194745Z-C878B30A",
+      "work_item_id": "WI-0040",
+      "recorded_at": "2026-08-30T19:47:45.960Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Live Usage and models responsive evaluation",
+      "outcome": "pass",
+      "scope_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+      "observed_at": "2026-08-30T19:42:59Z",
+      "summary": "Live local and private Chromium surfaces reached current state, preserved truthful unknowns, and showed no console error or horizontal overflow.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0040/runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0040/runtime-observation.json",
+          "sha256": "a4bc25458ac16e879b363611fc3776845929cbdda864217aa2e71e43f41d2e76"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0040/evaluation-report.md",
+          "sha256": "6dbb902c45b2627d077102e536601e812a2d05691e9151c8263d2955589d96a0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0040/ui-brief.md",
+          "sha256": "fc19bf242d8a46da4a2190ab8a1620714210a0e358aac61d6f75879fb1d75231"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0041/evaluation-report.md",
+          "sha256": "d5796d6b0090f4b26ed5eb12708ab8c1bef4294edd0c09f4e2fa3fbf1397e497"
+        }
+      ],
+      "details": {
+        "environment": "Temple self-host repository on macOS, live loopback Control Plane with Codex observation, Tailscale Serve tailnet-only HTTPS, and fresh headed Chromium sessions",
+        "scenario": "Inspect truthful Usage and models content plus current-state convergence at local 1440 by 1000, local 420 by 900, and private read-only 1024 by 1366 viewports after a retained-journal replay",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260830T194807Z-B0D08A41",
+      "work_item_id": "WI-0040",
+      "recorded_at": "2026-08-30T19:48:07.539Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA for Dashboard usage observability",
+      "outcome": "pass",
+      "scope_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+      "observed_at": "2026-08-30T19:46:43Z",
+      "summary": "Fresh exact-candidate full verification passed 218/218 and acceptance-specific live evidence remained truthful and private.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0040/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0040/independent-qa-observation.json",
+          "sha256": "8787af99e746e4f90e7de28dfdbd9d7bd488b442ba4557c354aa33c3bf38b0e5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0040/independent-qa-report.md",
+          "sha256": "05c33ee65b3e22fe04a57b5d61dcd9616cdf648981a4acaccb5d3cc55c79161f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0040/evaluation-report.md",
+          "sha256": "6dbb902c45b2627d077102e536601e812a2d05691e9151c8263d2955589d96a0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0041/independent-qa-report.md",
+          "sha256": "4f2d24538d9e32122ea4b1b60cd2c8acf385887f8df8bb3da70b7c54609a6b8b"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T19:45:56Z"
+      }
     }
   ]
 }

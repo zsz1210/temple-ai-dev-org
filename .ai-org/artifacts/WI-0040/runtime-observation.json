@@ -1,0 +1,14 @@
+{
+  "schema_version": "temple.runtime-observation/v1",
+  "revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+  "environment": "Temple self-host repository on macOS, live loopback Control Plane with Codex observation, Tailscale Serve tailnet-only HTTPS, and fresh headed Chromium sessions",
+  "scenario": "Inspect truthful Usage and models content plus current-state convergence at local 1440 by 1000, local 420 by 900, and private read-only 1024 by 1366 viewports after a retained-journal replay",
+  "result": "pass",
+  "provenance": "live",
+  "observed_at": "2026-08-30T19:42:59Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0040/evaluation-report.md",
+    ".ai-org/artifacts/WI-0040/ui-brief.md",
+    ".ai-org/artifacts/WI-0041/evaluation-report.md"
+  ]
+}

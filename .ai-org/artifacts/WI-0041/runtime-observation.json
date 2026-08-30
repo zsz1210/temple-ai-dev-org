@@ -1,0 +1,13 @@
+{
+  "schema_version": "temple.runtime-observation/v1",
+  "revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+  "environment": "Temple self-host repository on macOS, live loopback Control Plane with Codex observation, Tailscale Serve tailnet-only HTTPS, and fresh headed Chromium sessions",
+  "scenario": "Load the retained journal through the local Dashboard at 1440 by 1000 and 420 by 900, then load the private read-only Dashboard at 1024 by 1366; inspect current-state convergence, console errors, horizontal overflow, usage empty-state truthfulness, and absence of private Inbox and Agent Command surfaces",
+  "result": "pass",
+  "provenance": "live",
+  "observed_at": "2026-08-30T19:42:59Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0041/evaluation-report.md",
+    ".ai-org/artifacts/WI-0041/ui-brief.md"
+  ]
+}
