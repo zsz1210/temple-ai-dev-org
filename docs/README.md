@@ -13,6 +13,7 @@ The root README explains what Temple is and why it exists. This index routes imp
 | Add engineering methods or project Skills | [Capability catalog](extensions/capability-catalog.md) | [Skill authoring](extensions/skill-authoring.md), [Engineering Learning Loop](extensions/engineering-learning.md) |
 | Inspect evidence, risk, or live project state | [Evidence and Observer](operations/evidence-and-observer.md) | [Local control plane](operations/control-plane.md), [High-Assurance](operations/high-assurance.md) |
 | Back up or recover Temple project state | [Backup and recovery](operations/backup-and-recovery.md) | [Architecture](concepts/architecture.md), [ADR-0031](adr/0031-durable-recovery-before-persistence-growth.md) |
+| Test whether policy resists realistic failure | [Adversarial policy evaluation](operations/policy-evaluation.md) | [ADR-0032](adr/0032-evaluate-policy-with-adversarial-evidence.md), [Phase 4 design](planning/phase-4.md) |
 | Understand Token usage or plan model selection | [Token Efficiency and Model Routing](operations/token-efficiency-and-model-routing.md) | [Phase 4 design](planning/phase-4.md), [ADR-0034](adr/0034-attribute-usage-before-routing-models.md) |
 | Audit a decision or claim | [ADR index](adr/README.md) | [Validation index](validation/README.md), [Research index](research/README.md) |
 
@@ -42,6 +43,7 @@ The root README explains what Temple is and why it exists. This index routes imp
 - [High-Assurance profile](operations/high-assurance.md) — risk-scaled evidence, separation of duties, rollback, and human approvals.
 - [Local control plane](operations/control-plane.md) — replay-safe events, providers, live projections, and the Human Inbox.
 - [Backup and recovery](operations/backup-and-recovery.md) — project-owned-state manifests, integrity checks, restore preview, and interrupted-write rollback.
+- [Adversarial policy evaluation](operations/policy-evaluation.md) — versioned failure scenarios, profile fixtures, fail-closed scorecards, and authority boundaries.
 - [Token Efficiency and Model Routing](operations/token-efficiency-and-model-routing.md) — provider-reported usage, attribution, budgets, model policy, and the boundary before automatic routing.
 
 ### Extensions and learning

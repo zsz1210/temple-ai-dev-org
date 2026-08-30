@@ -52,6 +52,8 @@ import {
   revalidateLearningEntry
 } from "./learning.mjs";
 import { evaluateRetrieval, readRetrievalConfig } from "./retrieval.mjs";
+import { evaluatePolicy } from "./policy-evaluation.mjs";
+import { buildUsageBaseline } from "./usage-attribution.mjs";
 import { installArchifyAdapter, inspectArchifyAdapter } from "./archify-adapter.mjs";
 import { listTasks, registerTask, updateTask } from "./tasks.mjs";
 import {
@@ -136,6 +138,8 @@ Usage:
   temple learning migrate [target] [--dry-run] [--json]
   temple learning evaluate [target] --fixture path [--no-write] [--json]
   temple retrieval show [target] [--json]
+  temple evaluation run [target] --fixture path [--no-write] [--json]
+  temple usage report [target] [--state-dir path] [--no-write] [--json]
   temple adapter archify-status [target] [--json]
   temple adapter archify-install [target] --source local-git-checkout [--json]
   temple handoff [target] --work-item WI-0001 --to position --input-revision ref --completed text --evidence ref
@@ -180,6 +184,8 @@ Core commands:
   migration   Inspect versioned framework and explicit project-data migrations.
   learning    Capture, revalidate, retrieve, and evaluate project-owned engineering learning.
   retrieval   Inspect the deterministic default and unconfigured local-hybrid boundary.
+  evaluation  Score versioned adversarial policy observations without changing lifecycle authority.
+  usage       Build a numeric usage-driver baseline without prompts, prices, or automatic model routing.
   adapter     Inspect or install an opt-in, pinned, isolated local adapter.
   handoff     Create an evidence-bearing Position handoff artifact.
   transition  Enforce the workflow edge and its named gate requirements.
@@ -355,7 +361,7 @@ const REPEATABLE_FLAGS = new Set([
   "--source-work-item",
   "--derived-from"
 ]);
-const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence", "schema", "migration", "learning", "retrieval", "adapter", "control-plane", "backup", "restore"]);
+const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence", "schema", "migration", "learning", "retrieval", "evaluation", "usage", "adapter", "control-plane", "backup", "restore"]);
 
 function parseCommand(argv) {
   if (argv.length === 0 || argv[0] === "--help" || argv[0] === "-h") {
@@ -983,6 +989,40 @@ async function runRetrieval(parsed) {
     console.log(`Selected provider: ${config.selected_provider}`);
     console.log(`Local hybrid: ${config.local_hybrid.status} (${config.local_hybrid.privacy}, deterministic fallback=${config.local_hybrid.deterministic_fallback})`);
     console.log("Installed model / embeddings / vector database / daemon: no / no / no / no");
+  }
+  return 0;
+}
+
+async function runEvaluation(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (parsed.action !== "run") throw new Error(`Unknown evaluation action: ${parsed.action}`);
+  if (!parsed.options["--fixture"]) throw new Error("evaluation run requires --fixture");
+  const report = await evaluatePolicy(target, parsed.options["--fixture"], { write: !parsed.flags.has("--no-write") });
+  if (parsed.flags.has("--json")) console.log(JSON.stringify(report, null, 2));
+  else {
+    console.log(`Policy evaluation: ${report.status}`);
+    console.log(`Scenarios: ${report.summary.passed} passed, ${report.summary.failed} failed, ${report.summary.incomplete} incomplete`);
+    console.log(`Profile: ${report.profile}; catalog: ${report.catalog.catalog_version}`);
+    console.log("Lifecycle gate changed: no");
+    console.log("External action: not performed");
+  }
+  return report.status === "passed" ? 0 : report.status === "incomplete" ? 2 : 1;
+}
+
+async function runUsage(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (parsed.action !== "report") throw new Error(`Unknown usage action: ${parsed.action}`);
+  const report = await buildUsageBaseline(target, {
+    stateDirectory: parsed.options["--state-dir"],
+    write: !parsed.flags.has("--no-write")
+  });
+  if (parsed.flags.has("--json")) console.log(JSON.stringify(report, null, 2));
+  else {
+    console.log(`Usage baseline: ${report.baseline_status}`);
+    console.log(`Observations: ${report.source.observations}; total tokens: ${report.totals.total_tokens ?? "unknown"}`);
+    console.log(`Driver groups: ${report.driver_groups.length}; monetary cost: ${report.totals.cost_status}`);
+    console.log("Automatic model routing: disabled");
+    console.log("Lifecycle gate changed: no");
   }
   return 0;
 }
@@ -1785,6 +1825,8 @@ export async function main(argv) {
   if (parsed.command === "migration") return runMigration(parsed);
   if (parsed.command === "learning") return runLearning(parsed);
   if (parsed.command === "retrieval") return runRetrieval(parsed);
+  if (parsed.command === "evaluation") return runEvaluation(parsed);
+  if (parsed.command === "usage") return runUsage(parsed);
   if (parsed.command === "adapter") return runAdapter(parsed);
   if (parsed.command === "handoff") return runHandoff(parsed);
   if (parsed.command === "transition") return runTransition(parsed);

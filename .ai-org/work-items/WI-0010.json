@@ -1,0 +1,84 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0010",
+  "title": "Implement Phase 4B policy evaluation and usage attribution",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T05:21:07.314Z",
+  "updated_at": "2026-08-30T05:22:38.626Z",
+  "scope": [
+    "Ship a deterministic adversarial policy scorecard and a bounded usage-driver baseline without automatic model switching or new lifecycle authority."
+  ],
+  "acceptance_criteria": [
+    "A versioned managed scenario catalog covers false completion, wrong revision, self-approval, unauthorized external action, stale scope, context loss, and noisy notification behavior.",
+    "A read-only policy evaluation command validates result fixtures and reports prevented, detected, recovered, unknown, and escaped outcomes with gate, revision, duty, recovery, rework, human-intervention, and notification measures.",
+    "Provider usage observations carry every provable Work Item, Position, lifecycle stage, task, provider, model, reasoning, service-tier, attempt, context, provenance, and outcome dimension; missing data remains unknown.",
+    "A usage report aggregates bounded numeric metadata without retaining prompts or inventing monetary cost and can produce a versioned baseline view.",
+    "Solo, Collaborative, and High-Assurance fixtures prove policy profiles without letting budgets, recommendations, or external claims bypass gates.",
+    "Documentation and validation distinguish the shipped foundation from the retained ten-real-Work-Item baseline and any future automatic routing."
+  ],
+  "affected_paths": [
+    "src/policy-evaluation.mjs",
+    "src/usage-attribution.mjs",
+    "src/cli.mjs",
+    "src/codex-app-server-provider.mjs",
+    "src/live-observer.mjs",
+    "project-overlay/.ai-org/core/adversarial-scenarios.json",
+    "project-overlay/.ai-org/core/schemas",
+    "test/phase-4b.test.mjs",
+    "docs/operations/token-efficiency-and-model-routing.md",
+    "docs/planning/phase-4.md",
+    "docs/validation",
+    "package.json",
+    "CHANGELOG.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [
+    "general-development"
+  ],
+  "stage_requirements": {},
+  "base_revision": "f35fa48bf79d7bb31d1303d734b2d2140cb2b0d6",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0010.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0010.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0010.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0010.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0010.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0010.md",
+    ".ai-org/work-items/WI-0010.json"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

@@ -1,11 +1,11 @@
 # Temple AI Development Organization Framework — AI development organization status
 
 - Project ID: `temple`
-- Organization system version: `0.1.0-alpha.24`
+- Organization system version: `0.1.0-alpha.25`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=true
-- Work items: 9 total, 0 active
+- Parallel plan: 0 wave(s), fresh=false
+- Work items: 10 total, 1 active
 - Codex tasks: 1 registered, 1 archive-ready
 - Runtime workers: 0 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -16,7 +16,7 @@
 - Learning revalidation: 0 due, 0 contradicted
 - Specifications: 0 indexed, 0 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 1
+- Attention signals: 2
 
 ## Collaboration
 
@@ -33,7 +33,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: yes
+- Fresh: no
 - Safe waves: 0
 - Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 0 / 0
@@ -53,6 +53,7 @@
 | WI-0007 | Implement Phase 4A backup and crash-safe restore | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ffba88a` | 0 | 12 | 0 |
 | WI-0008 | Validate Phase 4A recovery with AiPet | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0e9891cf` | 1 | 10 | 0 |
 | WI-0009 | Harden Dashboard lifecycle semantics and startup | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `98718675` | 0 | 13 | 0 |
+| WI-0010 | Implement Phase 4B policy evaluation and usage attribution | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 
 ## Codex task registry
 
@@ -71,6 +72,7 @@ No runtime workers registered yet.
 ## Attention
 
 - task-0001 can be archived
+- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
@@ -125,14 +127,14 @@ No runtime workers registered yet.
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-30T05:22:38.626Z | work_item_transitioned | WI-0010 | agent-tidus |
+| 2026-08-30T05:22:38.370Z | work_item_transitioned | WI-0010 | agent-yuna |
+| 2026-08-30T05:22:38.101Z | work_item_transitioned | WI-0010 | agent-mog |
+| 2026-08-30T05:22:37.834Z | work_item_coordination_configured | WI-0010 | agent-mog |
+| 2026-08-30T05:21:07.314Z | work_item_created | WI-0010 | agent-mog |
 | 2026-08-30T05:19:51.284Z | work_item_closed | WI-0009 | agent-mog |
 | 2026-08-30T05:19:51.284Z | release_gate_completed | WI-0009 | agent-mog |
 | 2026-08-30T05:19:39.369Z | work_item_transitioned | WI-0009 | agent-lulu |
-| 2026-08-30T05:19:39.094Z | work_item_transitioned | WI-0009 | agent-lulu |
-| 2026-08-30T05:19:38.832Z | work_item_transitioned | WI-0009 | agent-lulu |
-| 2026-08-30T05:19:29.472Z | evidence_recorded | WI-0009 | agent-lulu |
-| 2026-08-30T05:19:29.199Z | evidence_recorded | WI-0009 | agent-lulu |
-| 2026-08-30T05:17:23.181Z | work_item_transitioned | WI-0009 | agent-rikku |
 
 ## Assignments
 

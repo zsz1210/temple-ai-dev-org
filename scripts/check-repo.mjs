@@ -12,6 +12,7 @@ import { emptyTrackerConfig, validateTrackerConfig } from "../src/tracker.mjs";
 import { emptyResourceRegistry, validateResourceRegistry } from "../src/resources.mjs";
 import { emptyRuntimeWorkerRegistry, validateRuntimeWorkerRegistry } from "../src/workers.mjs";
 import { defaultControlPlaneConfig, validateControlPlaneConfig } from "../src/control-plane-config.mjs";
+import { validateAdversarialScenarioCatalog, validatePolicyEvaluationFixture } from "../src/policy-evaluation.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
@@ -86,7 +87,10 @@ for (const [file, schemaId] of [
   ["tracker.schema.json", "temple.tracker/v1"],
   ["resource-registry.schema.json", "temple.resources/v1"],
   ["runtime-worker-registry.schema.json", "temple.runtime-workers/v1"],
-  ["control-plane-config.schema.json", "temple.control-plane-config/v1"]
+  ["control-plane-config.schema.json", "temple.control-plane-config/v1"],
+  ["adversarial-scenarios.schema.json", "temple.adversarial-scenarios/v1"],
+  ["policy-evaluation-result.schema.json", "temple.policy-evaluation-result/v1"],
+  ["usage-baseline.schema.json", "temple.usage-baseline/v1"]
 ]) {
   const schema = await readJson(path.join(projectOverlayRoot, ".ai-org/core/schemas", file));
   check(schema.$id === schemaId, `${file} has an unexpected schema ID`);
@@ -152,6 +156,14 @@ check(
   JSON.stringify(controlPlaneConfig) === JSON.stringify(defaultControlPlaneConfig()),
   "project overlay control-plane configuration must remain the safe local seed"
 );
+
+const adversarialCatalog = await readJson(path.join(projectOverlayRoot, ".ai-org/core/adversarial-scenarios.json"));
+const adversarialCatalogValidation = validateAdversarialScenarioCatalog(adversarialCatalog);
+check(adversarialCatalogValidation.valid, `adversarial scenario catalog is invalid: ${adversarialCatalogValidation.errors.join("; ")}`);
+check(adversarialCatalog.scenarios?.length === 7, "adversarial scenario catalog must cover the seven Phase 4B failure classes");
+const policyEvaluationTemplate = await readJson(path.join(projectOverlayRoot, ".ai-org/templates/policy-evaluation-fixture.json"));
+const policyEvaluationTemplateValidation = validatePolicyEvaluationFixture(policyEvaluationTemplate, adversarialCatalog);
+check(policyEvaluationTemplateValidation.valid, `policy evaluation fixture template is invalid: ${policyEvaluationTemplateValidation.errors.join("; ")}`);
 
 const uiDesignPolicy = await readJson(path.join(projectOverlayRoot, ".ai-org/core/ui-design.json"));
 check(uiDesignPolicy.schema_version === "temple.ui-design-policy/v1", "UI design policy schema is invalid");

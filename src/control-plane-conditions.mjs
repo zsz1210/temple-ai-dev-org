@@ -185,6 +185,15 @@ function rawConditions({ observer, workItems, tasks, workers, providers, records
   }));
   else for (const [taskId, record] of latestUsage) {
     const total = record.data.usage.total.total_tokens;
+    if (!Number.isFinite(total)) {
+      output.push(condition({
+        type: "usage-anomaly", entity: taskId, workItemId: record.data.work_item_id, status: "unknown",
+        reason: "usage-total-unavailable", message: `${taskId} reported usage without a numeric total.`, severity: "warning",
+        suggestedAction: "Inspect provider telemetry; do not infer zero usage.",
+        sourceCapability: "codex-local:token_usage:partial", observedRevision: record.data.scope_revision
+      }));
+      continue;
+    }
     output.push(condition({
       type: "usage-anomaly", entity: taskId, workItemId: record.data.work_item_id, status: total > config.alerts.token_budget ? "true" : "false",
       reason: total > config.alerts.token_budget ? "token-budget-exceeded" : "within-token-budget",

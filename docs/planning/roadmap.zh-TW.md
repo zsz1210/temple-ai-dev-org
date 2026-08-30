@@ -6,8 +6,8 @@ Temple 正在從已通過 local 驗證的 AI Development Organization Framework�
 
 ## 目前位置
 
-- **目前 release line：** `0.1.0-alpha.24`
-- **目前階段：** Phase 4A local recovery 已實作；real-project recovery evidence 仍未完成
+- **目前 release line：** `0.1.0-alpha.25`
+- **目前階段：** Phase 4A local recovery 與 Phase 4B policy／usage foundation 已實作；longitudinal reliability evidence 仍未完成
 - **現在適合：** 有人類監督的低風險 local project 與 bounded pilot
 - **尚未宣稱：** production-grade distributed coordination、regulated operation 或無人監督的外部操作
 
@@ -45,12 +45,14 @@ Temple 正在從已通過 local 驗證的 AI Development Organization Framework�
 
 - Alpha.24 已提供 local versioned backup manifest、完整 payload verification、stale-safe restore preview，以及可恢復的 multi-file apply，範圍只涵蓋 project-owned Temple state。
 - Generated view 維持可重建；framework-managed file、application source 與 data、external system、control-plane telemetry 都不在這份 backup 邊界內。
-- Automated interruption test 已證明會保留較新的 human change，但 clean-environment data-bearing restore、migration rehearsal 與更廣泛的 crash evidence 仍未完成。
+- Automated interruption test 已證明會保留較新的 human change，而且 clean environment 的 AiPet restore 與 forward migration 已通過一次。Post-upgrade rollback、real interruption、更廣泛的 crash evidence 與更多環境仍未完成。
 
 ### 日常運作訊號
 
-- 定義低噪音的 duplicate scope、lost context、stale evidence、rework、blocked time 與 verification quality 指標。
-- 讓 usage 與 cost 可見，但不授予 framework spending authority。
+- Alpha.25 提供適用 Solo、Collaborative 與 High-Assurance fixture 的七項 adversarial policy scorecard；real operation 與 longitudinal evidence 仍待補足。
+- 將 provider usage 歸因到可證明的 Work Item、Position、observed stage、task、attempt、provider、model 與 outcome；無法取得的資料和 monetary cost 維持 unknown。
+- 定義低噪音的 duplicate scope、lost context、stale evidence、rework、blocked time 與 verification quality historical 指標。
+- 讓 usage 與 cost 可見，但不授予 framework spending authority 或 automatic model switching。
 - 讓 Human Inbox 與 Observer attention 可以被採取行動，但不把它們變成第二套 tracker。
 
 ## Next — 證明日常 multi-project use

@@ -42,7 +42,7 @@ This boundary allows safe central framework upgrades while making installed cont
 |---|---|---|---|
 | Managed | Exact files listed in `temple.lock.managed_files`, drawn from `templew.mjs`, `.ai-org/core/**`, `.ai-org/templates/**`, core or installed-pack `.agents/skills/**`, `.codex/agents/**`, and `TEMPLE.md` | Central framework | Update only when the locked checksum matches the installed file |
 | Project-owned | Every unlisted file, including repository-local `.agents/skills/**`; `.ai-org/project/**` including `spec-index.json`, `context-map.json`, learning records and index, work items, decisions, events, artifacts, adapters, and root `AGENTS.md` | Project | Never overwritten or silently adopted by init, pack install, or upgrade |
-| Generated | `.ai-org/views/**`, including status, Capability Registry, parallel dispatch plans, tracker observations and plans, and work-item Context Capsules | CLI/Observer | Rebuildable from canonical state |
+| Generated | `.ai-org/views/**`, including status, Capability Registry, parallel dispatch plans, tracker observations and plans, work-item Context Capsules, policy scorecards, and usage baselines | CLI/Observer | Rebuildable from canonical state |
 
 `temple.lock` records the framework version, exact managed-file checksums, installed optional packs, feature states, `AGENTS.md` integration state, and a version-pinned CLI bootstrap contract. A clean source installation also records the exact Git source revision used by the project launcher. Directory prefixes are allowed source roots, not ownership claims. An untracked collision stops before writing even when its contents match the proposed managed file. See [ADR-0013](../adr/0013-governed-skill-extensions.md) and [ADR-0022](../adr/0022-recoverable-runtime-dispatch.md).
 
@@ -77,6 +77,8 @@ The framework uses Git-friendly JSON and Markdown:
 - `views/parallel-plan.json`: deterministic safe waves, plan-only dispatch manifests, join gates, source and per-entry preparation fingerprints; planning creates no task or claim.
 - `views/work-items/WI-####.json`: a generated bounded Context Capsule for one work item and Position.
 - `views/retrieval-evaluation.json`: an optional generated retrieval-quality report.
+- `views/policy-evaluation.json`: an optional generated scorecard derived from a project-owned adversarial observation fixture; it has no lifecycle authority.
+- `views/usage-baseline.json`: an optional generated provider-usage aggregation; unavailable dimensions, Token counts, and monetary cost remain unknown rather than being inferred.
 
 Conversations can recover context from these files; conversations themselves cannot override them.
 
@@ -155,6 +157,8 @@ Only the first wave of a verified plan is an immediate preparation candidate. Pe
 - `temple learning add-lesson/add-practice/revalidate/list/migrate/evaluate` preserves learning and measures deterministic retrieval without automatic promotion.
 - `temple schema validate` applies the managed Draft 2020-12 catalog; `temple migration plan` exposes versioned state changes.
 - `temple adapter archify-status/archify-install` inspects or copies a pinned exact local source without automatic network access or execution.
+- `temple evaluation run --fixture` compares a project-owned observation fixture with the managed adversarial catalog. Missing or unknown scenarios stay incomplete, escaped invariants fail, and the scorecard cannot advance a Work Item.
+- `temple usage report` aggregates provider-reported last-turn Token deltas by bounded Work Item, Position, stage, task, attempt, provider, model, and outcome dimensions. It neither prices usage nor recommends or switches models.
 
 ### Lifecycle commands
 

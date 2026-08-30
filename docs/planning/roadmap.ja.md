@@ -6,8 +6,8 @@ Temple は、local で実証された AI Development Organization Framework か�
 
 ## 現在地
 
-- **現在の release line:** `0.1.0-alpha.24`
-- **現在の段階:** Phase 4A の local recovery は実装済み。Real-project recovery evidence は未完了
+- **現在の release line:** `0.1.0-alpha.25`
+- **現在の段階:** Phase 4A local recovery と Phase 4B policy / usage foundation は実装済み。Longitudinal reliability evidence は未完了
 - **現在適している用途:** 人間が監督する低リスクの local project と bounded pilot
 - **まだ主張しないもの:** production-grade の distributed coordination、regulated operation、無人の外部操作
 
@@ -45,12 +45,14 @@ Temple は、local で実証された AI Development Organization Framework か�
 
 - Alpha.24 は project-owned Temple state を対象に、local versioned backup manifest、完全な payload verification、stale-safe restore preview、recoverable な multi-file apply を提供します。
 - Generated view は rebuildable のまま維持し、framework-managed file、application source / data、external system、control-plane telemetry はこの backup 境界に含めません。
-- Automated interruption test では新しい human change を保護しますが、clean-environment data-bearing restore、migration rehearsal、より広範な crash evidence は未完了です。
+- Automated interruption test は新しい human change を保護し、clean environment での AiPet restore と forward migration も1回通過しました。Post-upgrade rollback、real interruption、より広範な crash evidence と追加 environment は未完了です。
 
 ### 日常運用の signal
 
-- Duplicate scope、lost context、stale evidence、rework、blocked time、verification quality の低ノイズな measure を定義。
-- Framework に spending authority を与えず、usage と cost を可視化。
+- Alpha.25 は Solo、Collaborative、High-Assurance fixture 向けの7 scenario adversarial policy scorecard を提供します。Real operation と longitudinal evidence は未完了です。
+- Provider usage を証明可能な Work Item、Position、observed stage、task、attempt、provider、model、outcome に attribution し、不明な data と monetary cost は unknown のまま保持。
+- Duplicate scope、lost context、stale evidence、rework、blocked time、verification quality の低ノイズな historical measure を定義。
+- Framework に spending authority や automatic model switching を与えず、usage と cost を可視化。
 - Human Inbox と Observer attention を、第二の tracker にせず actionable にする。
 
 ## Next — 日常的な multi-project use を証明

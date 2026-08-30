@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.0-alpha.25
+
+- Added a managed seven-scenario adversarial policy catalog covering false completion, wrong revision, self-approval, unauthorized external action, stale scope, context loss, and notification noise across Solo, Collaborative, and High-Assurance profiles.
+- Added fail-closed `evaluation run` scoring for prevented, detected, recovered, unknown, and escaped outcomes, including gate, revision, duty-separation, external-authority, recovery, rework, human-intervention, and notification measures.
+- Added provider usage attribution for every provable Work Item, Position, observed lifecycle stage, task, attempt, provider, model, reasoning, service-tier, context, provenance, quality, and outcome dimension; unavailable values remain explicit rather than inferred.
+- Added `usage report` with provider-delta aggregation, usage-driver groups, unknown-dimension counts, generated baseline output, privacy declarations, and unknown monetary cost without an approved price source.
+- Added schemas, a project fixture template, profile fixtures, negative fail-closed coverage, CLI and upgrade capability flags, and operating documentation.
+- Corrected Dashboard terminal Work Item semantics and made optional Codex history synchronization non-blocking and bounded before beginning Phase 4B.
+- Preserved explicit limits: no Token or cost savings are claimed, recommendation and automatic routing are unimplemented, fixtures do not replace live exercises, and Phase 4B remains open until at least ten real varied Work Items establish a longitudinal baseline.
+
 ## 0.1.0-alpha.24
 
 - Added a transparent versioned backup format for project-owned Temple state with explicit inclusions and exclusions, installed-version and Git metadata, sorted file records, modes, sizes, per-file SHA-256 checksums, and a deterministic content digest.

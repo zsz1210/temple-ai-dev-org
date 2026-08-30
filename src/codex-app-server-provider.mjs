@@ -3,6 +3,7 @@ import readline from "node:readline";
 import path from "node:path";
 import { TEMPLATE_VERSION } from "./constants.mjs";
 import { readJson, sha256 } from "./files.mjs";
+import { listWorkItemDocuments } from "./work-items.mjs";
 import {
   PROVIDER_CAPABILITIES,
   PROVIDER_CONTRACT_SCHEMA
@@ -95,6 +96,8 @@ function commonData(projectId, tasks, params) {
     project_id: projectId,
     work_item_id: task?.work_item_id ?? null,
     task_id: task?.id ?? null,
+    position_id: task?.position_id ?? null,
+    agent_id: task?.agent_id ?? null,
     runtime_worker_id: task?.worker_id ?? null,
     provider_thread_id: threadId,
     provider_turn_id: params?.turnId ?? params?.turn?.id ?? null,
@@ -161,7 +164,7 @@ function safeItem(item, lifecycle) {
 function safeUsage(tokenUsage) {
   const total = tokenUsage?.total ?? {};
   const last = tokenUsage?.last ?? {};
-  const number = (value) => (Number.isFinite(value) && value >= 0 ? value : 0);
+  const number = (value) => (Number.isFinite(value) && value >= 0 ? value : null);
   return {
     total: {
       input_tokens: number(total.inputTokens),
@@ -181,6 +184,64 @@ function safeUsage(tokenUsage) {
     monetary_cost: null,
     price_source: null
   };
+}
+
+function optionalDimension(...values) {
+  for (const value of values) {
+    if (typeof value === "string" && value.trim()) return boundedText(value, 160);
+  }
+  return null;
+}
+
+function usageOutcome(workItem) {
+  if (!workItem) return "unknown";
+  if (workItem.state === "done") return "accepted";
+  if (workItem.state === "cancelled") return "abandoned";
+  if (workItem.state === "blocked") return "blocked";
+  return "in-progress";
+}
+
+function safeUsageAttribution(data, task, workItem, params, tokenUsage, options) {
+  const model = optionalDimension(params?.model, params?.effectiveModel, tokenUsage?.model, tokenUsage?.effectiveModel);
+  const attribution = {
+    project_id: data.project_id,
+    work_item_id: data.work_item_id,
+    position_id: task?.position_id ?? null,
+    lifecycle_stage: workItem?.state ?? "unknown",
+    lifecycle_stage_source: options.reconciliation === true ? "current-canonical-at-reconciliation" : "current-canonical-at-observation",
+    task_id: task?.id ?? null,
+    provider_thread_id: data.provider_thread_id,
+    attempt_id: data.provider_turn_id,
+    retry_of_attempt_id: optionalDimension(params?.retryOfTurnId, params?.retryOfAttemptId),
+    provider_id: options.providerId ?? "codex-local",
+    model,
+    model_version: optionalDimension(params?.modelVersion, params?.effectiveModelVersion, tokenUsage?.modelVersion),
+    reasoning_effort: optionalDimension(params?.reasoningEffort, tokenUsage?.reasoningEffort),
+    service_tier: optionalDimension(params?.serviceTier, tokenUsage?.serviceTier),
+    context_capsule_digest: optionalDimension(params?.contextCapsuleDigest, task?.context_capsule_digest),
+    capability_set_digest: optionalDimension(params?.capabilitySetDigest, task?.capability_set_digest),
+    source: "provider-reported",
+    quality: "exact",
+    outcome: usageOutcome(workItem)
+  };
+  const required = [
+    "work_item_id",
+    "position_id",
+    "lifecycle_stage",
+    "task_id",
+    "attempt_id",
+    "provider_id",
+    "model",
+    "model_version",
+    "reasoning_effort",
+    "service_tier",
+    "context_capsule_digest",
+    "capability_set_digest",
+    "outcome"
+  ];
+  attribution.missing_dimensions = required.filter((field) => attribution[field] === null || attribution[field] === "unknown");
+  attribution.quality = attribution.missing_dimensions.length === 0 ? "exact" : "partial";
+  return attribution;
 }
 
 function safeRuntimeRequest(method, requestId, params) {
@@ -290,6 +351,8 @@ export function normalizeCodexMessage(projectId, tasks, message, options = {}) {
   const requestClass = REQUEST_CLASSES.get(method);
   if (!notificationType && !requestClass) return null;
   const data = commonData(projectId, tasks, params);
+  const task = taskForThread(tasks, data.provider_thread_id);
+  const workItem = (options.workItems ?? []).find((item) => item.id === data.work_item_id) ?? null;
   let type = notificationType;
   let occurredAt = timestamp(message?.emittedAtMs ?? params?.emittedAtMs, observedAt);
 
@@ -320,6 +383,7 @@ export function normalizeCodexMessage(projectId, tasks, message, options = {}) {
   } else if (method === "thread/tokenUsage/updated") {
     data.status = "updated";
     data.usage = safeUsage(params.tokenUsage);
+    data.attribution = safeUsageAttribution(data, task, workItem, params, params.tokenUsage, options);
   } else if (method === "serverRequest/resolved") {
     data.request_id = String(params.requestId);
     data.status = "resolved";
@@ -333,7 +397,6 @@ export function normalizeCodexMessage(projectId, tasks, message, options = {}) {
     occurredAt = timestamp(params.startedAtMs, occurredAt);
   }
 
-  const task = taskForThread(tasks, data.provider_thread_id);
   if (task) {
     data.work_item_id = task.work_item_id;
     data.task_id = task.id;
@@ -435,7 +498,12 @@ export function normalizeCodexThreadSnapshot(projectId, tasks, thread, options =
   const snapshotTime = timestamp(thread?.updatedAt ?? thread?.createdAt, observedAt);
   const snapshot = snapshotMessages(thread, observedAt, options);
   return snapshot.messages
-    .map((message) => normalizeCodexMessage(projectId, tasks, message, { observedAt }))
+    .map((message) => normalizeCodexMessage(projectId, tasks, message, {
+      observedAt,
+      workItems: options.workItems,
+      providerId: options.providerId,
+      reconciliation: true
+    }))
     .filter(Boolean)
     .map((event) => ({
       ...event,
@@ -544,6 +612,7 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
   const project = await readJson(path.join(target, ".ai-org/project/project.json"));
   const taskRegistry = await readJson(path.join(target, ".ai-org/project/tasks.json"));
   const tasks = (taskRegistry.tasks ?? []).filter((task) => task.thread_id && task.status !== "archived");
+  const workItems = await listWorkItemDocuments(target);
   const providerId = options.providerId ?? "codex-local";
   const command = options.command ?? "codex";
   const commandArgs = options.commandArgs ?? ["app-server", "--stdio"];
@@ -568,7 +637,7 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
   registry.set(codexAppServerProviderContract({ id: providerId }));
 
   async function append(message) {
-    const event = normalizeCodexMessage(project.id, tasks, message);
+    const event = normalizeCodexMessage(project.id, tasks, message, { workItems, providerId });
     if (!event) return null;
     const result = await journal.append(event);
     registry.update(providerId, { last_observed_at: result.record?.templeobservedat ?? new Date().toISOString() });
@@ -579,7 +648,9 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
     const events = normalizeCodexThreadSnapshot(project.id, tasks, thread, {
       source,
       historyTurnLimit,
-      historyItemLimit
+      historyItemLimit,
+      workItems,
+      providerId
     });
     for (const event of events) await journal.append(event);
     return events.length;
@@ -606,7 +677,7 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
             });
           },
           onRequest(message, responder) {
-            const safe = normalizeCodexMessage(project.id, tasks, message);
+            const safe = normalizeCodexMessage(project.id, tasks, message, { workItems, providerId });
             if (!safe) return;
             pendingRuntimeRequests.set(String(message.id), {
               id: String(message.id),
@@ -664,7 +735,7 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
             const event = normalizeCodexMessage(project.id, tasks, {
               method: "error",
               params: { threadId: task.thread_id, code: "thread-attach-failed" }
-            });
+            }, { workItems, providerId });
             await journal.append(event);
             registry.update(providerId, { status: "degraded", degraded_reason: error.message });
           }

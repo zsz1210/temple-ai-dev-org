@@ -541,6 +541,23 @@ Alpha.22 adds three visibly separate Human Inbox queues for live runtime permiss
 
 The GitHub PR and Checks provider is opt-in, read-only, exact-SHA-bound, and configured in `.ai-org/project/control-plane.json`. It stores only the environment-variable name for its token. A reviewed local observation enters the Evidence Registry only through `capture-github`; capture does not add gate evidence or advance the Work Item. The telemetry journal remains generated below the Git common directory, shared by linked worktrees in one clone, redacted by default, and incapable of satisfying a lifecycle gate. See the [local control-plane guide](../operations/control-plane.md).
 
+Evaluate adversarial policy observations without changing lifecycle state:
+
+```bash
+node ./templew.mjs evaluation run . \
+  --fixture .ai-org/artifacts/policy-evaluation/solo.json \
+  --no-write \
+  --json
+```
+
+Inspect the provider-reported usage baseline without writing a generated view:
+
+```bash
+node ./templew.mjs usage report . --no-write --json
+```
+
+The policy fixture begins at `.ai-org/templates/policy-evaluation-fixture.json`. `unknown` and missing scenarios do not pass. Usage aggregation sums provider last-usage deltas and keeps unavailable dimensions and monetary cost unknown; it does not call another model, recommend a model, switch providers, or let a budget bypass evidence. See [Adversarial policy evaluation](../operations/policy-evaluation.md) and [Token Efficiency and Model Routing](../operations/token-efficiency-and-model-routing.md).
+
 `status.md` includes:
 
 - Work-item state, owner, Agent, latest revision, evidence, and unresolved issues.

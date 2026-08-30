@@ -6,8 +6,8 @@ Temple is moving from a locally proven AI development organization framework tow
 
 ## Current position
 
-- **Current release line:** `0.1.0-alpha.24`
-- **Current stage:** Phase 4A local recovery implemented; real-project recovery evidence remains open
+- **Current release line:** `0.1.0-alpha.25`
+- **Current stage:** Phase 4A local recovery and the Phase 4B policy/usage foundation are implemented; longitudinal reliability evidence remains open
 - **Suitable today:** low-risk local projects and bounded pilots with human supervision
 - **Not yet claimed:** production-grade distributed coordination, regulated operation, or unattended external actions
 
@@ -45,12 +45,14 @@ The immediate priority is to turn the proven local foundation into something a d
 
 - Alpha.24 ships a local versioned backup manifest, complete payload verification, stale-safe restore preview, and recoverable multi-file apply for project-owned Temple state.
 - Generated views remain rebuildable; framework-managed files, application source and data, external systems, and control-plane telemetry remain outside this backup boundary.
-- Automated interruption tests now preserve newer human changes, but a clean-environment data-bearing restore, migration rehearsal, and broader crash evidence are still required.
+- Automated interruption tests preserve newer human changes, and one clean-environment AiPet restore plus forward migration passed. Post-upgrade rollback, real interruption, broader crash evidence, and additional environments remain required.
 
 ### Everyday operating signals
 
-- Define useful, low-noise measures for duplicate scope, lost context, stale evidence, rework, blocked time, and verification quality.
-- Keep usage and cost visible without allowing the framework to authorize spending.
+- Alpha.25 provides a seven-scenario adversarial policy scorecard across Solo, Collaborative, and High-Assurance fixtures; real-operation and longitudinal evidence remain required.
+- Attribute provider usage to every provable Work Item, Position, observed stage, task, attempt, provider, model, and outcome dimension while keeping missing data and monetary cost unknown.
+- Define useful, low-noise historical measures for duplicate scope, lost context, stale evidence, rework, blocked time, and verification quality.
+- Keep usage and cost visible without allowing the framework to authorize spending or switch models automatically.
 - Make Human Inbox and Observer attention actionable without turning them into a second tracker.
 
 ## Next — prove daily multi-project use

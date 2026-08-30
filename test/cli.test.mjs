@@ -75,7 +75,7 @@ function shellQuote(value) {
 test("version is available without dependencies", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /^0\.1\.0-alpha\.24/m);
+  assert.match(result.stdout, /^0\.1\.0-alpha\.25/m);
 });
 
 test("backup and restore CLI require an inspected plan before replacement", async (context) => {
@@ -291,9 +291,14 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
   assert.equal(lock.capabilities.backup_integrity_verification, true);
   assert.equal(lock.capabilities.restore_preview, true);
   assert.equal(lock.capabilities.transactional_restore_recovery, true);
+  assert.equal(lock.capabilities.adversarial_policy_catalog, true);
+  assert.equal(lock.capabilities.policy_evaluation_scorecard, true);
+  assert.equal(lock.capabilities.usage_attribution, true);
+  assert.equal(lock.capabilities.usage_baseline_report, true);
   assert.ok(
     lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/parallel-plan.schema.json")
   );
+  assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/adversarial-scenarios.json"));
   assert.ok(!lock.managed_files.some((entry) => entry.path === ".ai-org/learning/index.json"));
   assert.ok(!lock.managed_files.some((entry) => entry.path === ".ai-org/project/spec-index.json"));
   assert.ok(!lock.managed_files.some((entry) => entry.path === ".ai-org/project/tracker.json"));
@@ -462,10 +467,12 @@ test("upgrade adds a missing project-owned learning index without managing it", 
   });
   assert.equal(JSON.parse(await fs.readFile(trackerConfigPath, "utf8")).profile, "repository-only");
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.24");
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.25");
   assert.equal(upgradedLock.capabilities.engineering_learning, true);
   assert.equal(upgradedLock.capabilities.group_parallel_planning, true);
   assert.equal(upgradedLock.capabilities.parallel_join_gate, true);
+  assert.equal(upgradedLock.capabilities.policy_evaluation_scorecard, true);
+  assert.equal(upgradedLock.capabilities.usage_baseline_report, true);
   assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/learning/index.json"));
   assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/project/spec-index.json"));
   assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/project/tracker.json"));

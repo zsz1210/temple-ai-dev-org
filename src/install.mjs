@@ -382,6 +382,10 @@ export async function executeInit(plan) {
         backup_integrity_verification: true,
         restore_preview: true,
         transactional_restore_recovery: true,
+        adversarial_policy_catalog: true,
+        policy_evaluation_scorecard: true,
+        usage_attribution: true,
+        usage_baseline_report: true,
         checksum_upgrade: true,
         optional_packs: true,
         toolkit_self_hosting: true

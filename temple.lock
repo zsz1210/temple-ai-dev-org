@@ -2,22 +2,22 @@
   "schema_version": "temple.lock/v1",
   "template": {
     "name": "@zsz1210/temple-ai-dev-org",
-    "version": "0.1.0-alpha.24",
+    "version": "0.1.0-alpha.25",
     "repository": "zsz1210/temple-ai-dev-org",
     "bootstrap": {
       "schema_version": "temple.cli-bootstrap/v1",
-      "version": "0.1.0-alpha.24",
+      "version": "0.1.0-alpha.25",
       "node": ">=20",
       "launcher": "templew.mjs",
-      "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.24",
+      "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.25",
       "repository_spec": null,
-      "source_revision": "ff47236b3988aca8d3f1b65cc294ad51cdcb7938",
+      "source_revision": "f35fa48bf79d7bb31d1303d734b2d2140cb2b0d6",
       "source_clean": false,
       "invocation": "node ./templew.mjs <command> ."
     },
     "installed_at": "2026-08-30T02:28:18.355Z",
-    "upgraded_at": "2026-08-30T04:15:31.591Z",
-    "upgraded_from": "0.1.0-alpha.23"
+    "upgraded_at": "2026-08-30T05:31:28.728Z",
+    "upgraded_from": "0.1.0-alpha.24"
   },
   "installation": {
     "mode": "toolkit-self-host",
@@ -148,7 +148,11 @@
     "versioned_project_backup": true,
     "backup_integrity_verification": true,
     "restore_preview": true,
-    "transactional_restore_recovery": true
+    "transactional_restore_recovery": true,
+    "adversarial_policy_catalog": true,
+    "policy_evaluation_scorecard": true,
+    "usage_attribution": true,
+    "usage_baseline_report": true
   },
   "optional_packs": [],
   "managed_files": [
@@ -181,6 +185,10 @@
       "sha256": "fa30628387dd332f6f8157e27ebe7e48a1c4e511405f47fec03e3015f683639b"
     },
     {
+      "path": ".ai-org/core/adversarial-scenarios.json",
+      "sha256": "b00f4d148d774492731ffa5171f4b9e453423579cb6032fac95fc49abb75afcb"
+    },
+    {
       "path": ".ai-org/core/collaboration-profiles.json",
       "sha256": "7f1e339da7c80be697a39d5b5f44b8d2930a3d81fa1ca7cdcdb39050ebb89b37"
     },
@@ -199,6 +207,10 @@
     {
       "path": ".ai-org/core/positions.json",
       "sha256": "196012586b9b68da2aaf949a7715dcd213827422df449793e8f7c9f0099f529b"
+    },
+    {
+      "path": ".ai-org/core/schemas/adversarial-scenarios.schema.json",
+      "sha256": "ea84c283e245148ffe3725292820c8e44a1f9efc29fe27c74008ad30f2982340"
     },
     {
       "path": ".ai-org/core/schemas/agents.schema.json",
@@ -230,7 +242,7 @@
     },
     {
       "path": ".ai-org/core/schemas/control-plane-config.schema.json",
-      "sha256": "dcc0f89ab3653a4b8c2500b8ae8e04f3b172d1659ad94a6219b41f07d30ad4cb"
+      "sha256": "9048ce0d92d3e01add3cf22ec8f39ceaada99573e6dabef175efd52497f4c44e"
     },
     {
       "path": ".ai-org/core/schemas/evidence-registry.schema.json",
@@ -257,6 +269,10 @@
       "sha256": "55a72b4413c7112e424ace6a96bebad8e1e8f1122d0ec935827948a1b6c0ed37"
     },
     {
+      "path": ".ai-org/core/schemas/policy-evaluation-result.schema.json",
+      "sha256": "72d35473f95a6bea700c509b76c60dcfa270aaa6ee60c191ebaf5d0ce73e54b3"
+    },
+    {
       "path": ".ai-org/core/schemas/project.schema.json",
       "sha256": "9e7bf7d28da4bcf73a548e7f603081df3c3ac04406e9f0307162fd64016a7579"
     },
@@ -278,7 +294,7 @@
     },
     {
       "path": ".ai-org/core/schemas/schema-catalog.json",
-      "sha256": "51630d40ffbb27d4167a19ba72e618ce8a782087c81b63b26e97483adbed8b94"
+      "sha256": "20f9325ede92334deedbdb2b82272aef216ba7623d83c276a38411c7f4a4ddbf"
     },
     {
       "path": ".ai-org/core/schemas/spec-index.schema.json",
@@ -291,6 +307,10 @@
     {
       "path": ".ai-org/core/schemas/tracker.schema.json",
       "sha256": "16a25e5c7a1c2ee046ae9ae43df87d14509c1d30bace82c7c4deaf8d68ebcc45"
+    },
+    {
+      "path": ".ai-org/core/schemas/usage-baseline.schema.json",
+      "sha256": "c26693023e609c18d9fb93afee44d7e682a076a08895c01d5e1de1bdecea01db"
     },
     {
       "path": ".ai-org/core/schemas/work-item.schema.json",
@@ -343,6 +363,10 @@
     {
       "path": ".ai-org/templates/manager-closeout.md",
       "sha256": "7aa2226ff11cc8c92410b6392395ea9317c0501fd1a7747fa42d814145bf6dcf"
+    },
+    {
+      "path": ".ai-org/templates/policy-evaluation-fixture.json",
+      "sha256": "6439be500ad44fd6ad4462658d71665b14d2b263a8ccdc7ffd7da9dd91123bd4"
     },
     {
       "path": ".ai-org/templates/practice.md",

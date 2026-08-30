@@ -339,7 +339,11 @@ export async function planUpgrade(target) {
     lock.capabilities?.versioned_project_backup !== true ||
     lock.capabilities?.backup_integrity_verification !== true ||
     lock.capabilities?.restore_preview !== true ||
-    lock.capabilities?.transactional_restore_recovery !== true;
+    lock.capabilities?.transactional_restore_recovery !== true ||
+    lock.capabilities?.adversarial_policy_catalog !== true ||
+    lock.capabilities?.policy_evaluation_scorecard !== true ||
+    lock.capabilities?.usage_attribution !== true ||
+    lock.capabilities?.usage_baseline_report !== true;
   if (packMetadataChanges) actions.push({ type: "update-pack-metadata", path: "temple.lock" });
   if (capabilityChanges || collaborationCapabilityChanges) actions.push({ type: "update-capabilities", path: "temple.lock" });
   if (migrationPlan.pending.length > 0) actions.push({ type: "record-migrations", path: "temple.lock" });
@@ -601,6 +605,10 @@ export async function executeUpgrade(plan) {
         backup_integrity_verification: true,
         restore_preview: true,
         transactional_restore_recovery: true,
+        adversarial_policy_catalog: true,
+        policy_evaluation_scorecard: true,
+        usage_attribution: true,
+        usage_baseline_report: true,
         checksum_upgrade: true,
         optional_packs: true,
         toolkit_self_hosting: true

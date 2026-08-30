@@ -1,6 +1,6 @@
 # Token Efficiency and Model Routing
 
-- Status: Phase 4 accepted design; observation foundation exists, routing implementation does not
+- Status: Alpha.25 observation and attribution foundation implemented; recommendation and routing do not exist
 - Primary readers: maintainers, Engineering Managers, Tech Leads, Observers, and cost-accountable humans
 
 Temple treats Token usage as an operational signal. The goal is not the smallest prompt or the cheapest individual turn. The goal is a correct, accepted Work Item with less waste, rework, latency, and coordination cost.
@@ -22,7 +22,7 @@ OpenAI's Responses API, for example, returns input, cached-input, output, reason
 
 ## What Temple already has
 
-The Phase 3 control plane can normalize provider-emitted:
+The control plane can normalize provider-emitted:
 
 - input Tokens;
 - cached-input Tokens;
@@ -34,7 +34,15 @@ The Phase 3 control plane can normalize provider-emitted:
 
 It deliberately keeps raw prompts, hidden reasoning, command output, secrets, and full tool payloads out of durable telemetry. Monetary cost remains unavailable without a configured, versioned price source.
 
-This is observation infrastructure, not a completed optimization system.
+Alpha.25 adds a usage-attribution envelope and a read-only baseline report. Every observation carries the dimensions the provider and repository can prove, plus a `missing_dimensions` list and `partial` quality when model, version, service tier, Context Capsule digest, capability digest, or another field is unavailable. Reconciled history labels lifecycle stage as the current canonical stage at reconciliation rather than inventing a historical stage.
+
+Create a read-only report:
+
+```bash
+node ./templew.mjs usage report . --no-write --json
+```
+
+Remove `--no-write` to create `.ai-org/views/usage-baseline.json`. The report sums provider last-usage deltas instead of cumulative totals, groups drivers by the attribution dimensions below, and leaves monetary cost unknown without a versioned price source. This remains observation infrastructure, not a completed optimization system.
 
 ## Attribution contract
 
@@ -141,12 +149,12 @@ Temple therefore:
 
 Usage reporting retains bounded identifiers and numeric measurements. It does not require raw prompts, hidden reasoning, source-code bodies, tool payloads, credentials, or personal data. Portfolio aggregation should prefer project-level summaries and drill-down links to the authoritative project rather than copying detailed telemetry across repositories.
 
-## Initial delivery slices
+## Delivery slices
 
-1. **Attribution:** extend the normalized usage projection with proven Work Item, Position, stage, task, model, and provenance fields.
-2. **Reporting:** add usage-driver views and a versioned baseline export.
-3. **Policy:** add hierarchical warning budgets and model allowlists without automatic switching.
-4. **Recommendation:** evaluate representative task classes and display a proposed route with its reasons.
-5. **Opt-in routing:** apply an approved route, record the effective configuration, and preserve fallback and refusal evidence.
+1. **Attribution — implemented:** normalized usage includes proven Work Item, Position, observed stage, task, attempt, provider, model, provenance, quality, and outcome fields; unavailable values stay unknown.
+2. **Reporting — foundation implemented:** `usage report` creates a bounded driver view and versioned baseline, while longitudinal comparison remains pending.
+3. **Policy — pending:** add hierarchical warning budgets and model allowlists without automatic switching.
+4. **Recommendation — pending:** evaluate representative task classes and display a proposed route with its reasons.
+5. **Opt-in routing — later:** apply an approved route, record the effective configuration, and preserve fallback and refusal evidence.
 
 None of these slices changes lifecycle authority or replaces outcome-based evaluation.

@@ -1,6 +1,7 @@
 {
   "schema_version": "temple.schema-catalog/v1",
   "documents": [
+    { "id": "adversarial-scenarios", "path": ".ai-org/core/adversarial-scenarios.json", "schema": "adversarial-scenarios.schema.json", "required": true, "ownership": "framework" },
     { "id": "high-assurance-policy", "path": ".ai-org/core/high-assurance.json", "schema": "high-assurance.schema.json", "required": true, "ownership": "framework" },
     { "id": "project", "path": ".ai-org/project/project.json", "schema": "project.schema.json", "required": true, "ownership": "project" },
     { "id": "agents", "path": ".ai-org/project/agents.json", "schema": "agents.schema.json", "required": true, "ownership": "project" },
@@ -19,6 +20,8 @@
     { "id": "work-items", "path": ".ai-org/work-items/*.json", "schema": "work-item.schema.json", "required": false, "ownership": "project" },
     { "id": "parallel-plan", "path": ".ai-org/views/parallel-plan.json", "schema": "parallel-plan.schema.json", "required": false, "ownership": "generated" },
     { "id": "capabilities", "path": ".ai-org/views/capabilities.json", "schema": "capability-registry.schema.json", "required": false, "ownership": "generated" },
-    { "id": "context-capsules", "path": ".ai-org/views/work-items/*.json", "schema": "context-capsule.schema.json", "required": false, "ownership": "generated" }
+    { "id": "context-capsules", "path": ".ai-org/views/work-items/*.json", "schema": "context-capsule.schema.json", "required": false, "ownership": "generated" },
+    { "id": "policy-evaluation", "path": ".ai-org/views/policy-evaluation.json", "schema": "policy-evaluation-result.schema.json", "required": false, "ownership": "generated" },
+    { "id": "usage-baseline", "path": ".ai-org/views/usage-baseline.json", "schema": "usage-baseline.schema.json", "required": false, "ownership": "generated" }
   ]
 }
