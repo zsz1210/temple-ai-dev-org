@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0018",
   "title": "Implement Phase 4C multi-repository federation",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-08-30T07:23:06.292Z",
-  "updated_at": "2026-08-30T07:41:13.517Z",
+  "updated_at": "2026-08-30T07:51:51.606Z",
   "scope": [
     "Implement project-owned participant registries, composite cross-project references, compatibility waves, and a read-only unknown-safe portfolio projection."
   ],
@@ -42,10 +42,10 @@
       "resources": []
     }
   },
-  "base_revision": "dfebc7fb4a683395fea36950e90b9c40ea118487",
-  "parallel_mode": "parallel",
+  "base_revision": "1c3ca9c830798507c1a32148e2af1c12e82ce178",
+  "parallel_mode": "pending",
   "integration_owner_agent_id": "agent-mog",
-  "planned_agent_id": null,
+  "planned_agent_id": "agent-lulu",
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
@@ -94,12 +94,42 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/work-orders/WI-0018.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0018/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260830T074930Z-98C145A4",
+      "EVID-20260830T074930Z-9565BFFB",
+      ".ai-org/artifacts/WI-0018/developer-evidence.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0018/quality-test-report.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0018/evaluation-report.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/work-orders/WI-0018.md",
-    ".ai-org/work-items/WI-0018.json"
+    ".ai-org/work-items/WI-0018.json",
+    ".ai-org/artifacts/WI-0018/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260830T074930Z-98C145A4",
+    "EVID-20260830T074930Z-9565BFFB",
+    ".ai-org/artifacts/WI-0018/developer-evidence.md",
+    ".ai-org/artifacts/WI-0018/quality-test-report.md",
+    ".ai-org/artifacts/WI-0018/evaluation-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "release_manager",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "1c3ca9c830798507c1a32148e2af1c12e82ce178",
+      "artifact": ".ai-org/artifacts/WI-0018/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-30T07:49:52.004Z"
+    }
+  ],
+  "developer_candidate_revision": "1c3ca9c830798507c1a32148e2af1c12e82ce178"
 }

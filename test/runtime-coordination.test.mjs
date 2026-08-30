@@ -346,6 +346,52 @@ test("stage-specific Disciplines replace a legacy build requirement at later lif
   assert.deepEqual(fallbackReadiness.active_requirements.disciplines, ["general-development"]);
 });
 
+test("released Developer claims do not shadow the Independent QA assignment", async (context) => {
+  const { target } = await fixture(context);
+  const workItemId = createItem(target, "Released claim handoff", "src/released-claim", [
+    "--stage-discipline",
+    "build=general-development",
+    "--stage-discipline",
+    "test=quality"
+  ]);
+  transitionToBuild(target, workItemId);
+
+  const claimed = run([
+    "work-item",
+    "claim",
+    target,
+    "--work-item",
+    workItemId,
+    "--agent-id",
+    "agent-fixture-devon",
+    "--principal-id",
+    "human",
+    "--base-revision",
+    "candidate-123",
+    "--branch",
+    "fixture/released-claim"
+  ]);
+  assert.equal(claimed.status, 0, claimed.stderr || claimed.stdout);
+
+  const toTest = run([
+    "transition",
+    target,
+    "--work-item",
+    workItemId,
+    "--to",
+    "test",
+    "--satisfy",
+    "developer_handoff=docs/handoff.md",
+    "--satisfy",
+    "developer_evidence=docs/developer-evidence.md"
+  ]);
+  assert.equal(toTest.status, 0, toTest.stderr || toTest.stdout);
+
+  const readiness = JSON.parse(run(["parallel", "check", target, "--work-item", workItemId, "--json"]).stdout);
+  assert.equal(readiness.agent_id, "agent-fixture-hollis");
+  assert.equal(readiness.checks.find((entry) => entry.id === "agent_membership_eligible").pass, true);
+});
+
 test("shared verification capacity separates otherwise independent work into safe waves", async (context) => {
   const { target } = await fixture(context);
   const resource = run([

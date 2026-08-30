@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0017",
   "title": "Complete Phase 4B policy and usage reliability",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-08-30T07:23:06.023Z",
-  "updated_at": "2026-08-30T07:42:02.040Z",
+  "updated_at": "2026-08-30T07:51:51.319Z",
   "scope": [
     "Stabilize provider-aware usage observation, natural-work-item longitudinal qualification, and fail-closed model and budget recommendations without fabricating Token evidence."
   ],
@@ -44,10 +44,10 @@
       "resources": []
     }
   },
-  "base_revision": "dfebc7fb4a683395fea36950e90b9c40ea118487",
-  "parallel_mode": "parallel",
+  "base_revision": "1c3ca9c830798507c1a32148e2af1c12e82ce178",
+  "parallel_mode": "pending",
   "integration_owner_agent_id": "agent-mog",
-  "planned_agent_id": null,
+  "planned_agent_id": "agent-lulu",
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
@@ -96,12 +96,42 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/work-orders/WI-0017.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0017/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260830T074917Z-C40230F1",
+      "EVID-20260830T074930Z-81C8BCCC",
+      ".ai-org/artifacts/WI-0017/developer-evidence.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0017/quality-test-report.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0017/evaluation-report.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/work-orders/WI-0017.md",
-    ".ai-org/work-items/WI-0017.json"
+    ".ai-org/work-items/WI-0017.json",
+    ".ai-org/artifacts/WI-0017/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260830T074917Z-C40230F1",
+    "EVID-20260830T074930Z-81C8BCCC",
+    ".ai-org/artifacts/WI-0017/developer-evidence.md",
+    ".ai-org/artifacts/WI-0017/quality-test-report.md",
+    ".ai-org/artifacts/WI-0017/evaluation-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "release_manager",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "1c3ca9c830798507c1a32148e2af1c12e82ce178",
+      "artifact": ".ai-org/artifacts/WI-0017/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-30T07:49:51.714Z"
+    }
+  ],
+  "developer_candidate_revision": "1c3ca9c830798507c1a32148e2af1c12e82ce178"
 }

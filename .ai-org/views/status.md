@@ -59,9 +59,9 @@
 | WI-0013 | Bind toolkit self-host launcher to the current worktree | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `835dc57d` | 0 | 14 | 0 |
 | WI-0014 | Establish the first correlated active-task usage baseline | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `23768e74` | 2 | 14 | 0 |
 | WI-0015 | Complete Phase 4 reliability and federation exit | design | Tech Lead | Tidus | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
-| WI-0016 | Complete Phase 4A durability operations | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
-| WI-0017 | Complete Phase 4B policy and usage reliability | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
-| WI-0018 | Implement Phase 4C multi-repository federation | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
+| WI-0016 | Complete Phase 4A durability operations | independent_qa | Independent QA | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1c3ca9c8` | 0 | 8 | 0 |
+| WI-0017 | Complete Phase 4B policy and usage reliability | independent_qa | Independent QA | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1c3ca9c8` | 0 | 8 | 0 |
+| WI-0018 | Implement Phase 4C multi-repository federation | independent_qa | Independent QA | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1c3ca9c8` | 0 | 8 | 0 |
 | WI-0019 | Integrate the Phase 4 CLI, schemas, and release line | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 
 ## Codex task registry
@@ -144,14 +144,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-30T07:45:13.686Z | work_item_claim_released | WI-0016 | project-owner |
-| 2026-08-30T07:45:13.411Z | runtime_worker_status_changed | WI-0016 | agent-rikku |
-| 2026-08-30T07:42:02.040Z | work_item_claim_released | WI-0017 | project-owner |
-| 2026-08-30T07:42:01.747Z | runtime_worker_status_changed | WI-0017 | agent-rikku |
-| 2026-08-30T07:41:13.517Z | work_item_claim_released | WI-0018 | project-owner |
-| 2026-08-30T07:41:13.231Z | runtime_worker_status_changed | WI-0018 | agent-rikku |
-| 2026-08-30T07:36:25.693Z | work_item_coordination_configured | WI-0015 | agent-tidus |
-| 2026-08-30T07:36:25.433Z | work_item_transitioned | WI-0019 | agent-yuna |
+| 2026-08-30T07:51:51.606Z | work_item_coordination_configured | WI-0018 | agent-lulu |
+| 2026-08-30T07:51:51.319Z | work_item_coordination_configured | WI-0017 | agent-lulu |
+| 2026-08-30T07:51:51.030Z | work_item_coordination_configured | WI-0016 | agent-lulu |
+| 2026-08-30T07:50:51.195Z | position_membership_changed | — | human |
+| 2026-08-30T07:50:24.946Z | work_item_transitioned | WI-0018 | agent-lulu |
+| 2026-08-30T07:50:24.640Z | work_item_transitioned | WI-0018 | agent-lulu |
+| 2026-08-30T07:50:24.348Z | work_item_transitioned | WI-0017 | agent-lulu |
+| 2026-08-30T07:50:24.050Z | work_item_transitioned | WI-0017 | agent-lulu |
 
 ## Assignments
 

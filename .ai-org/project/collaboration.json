@@ -27,7 +27,8 @@
       "position_id": "independent_qa",
       "agent_id": "agent-lulu",
       "disciplines": [
-        "quality"
+        "quality",
+        "general-development"
       ],
       "default": true,
       "active": true

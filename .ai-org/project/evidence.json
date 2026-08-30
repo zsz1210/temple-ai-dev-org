@@ -1615,6 +1615,218 @@
         "exit_code": 0,
         "started_at": "2026-08-30T07:08:10Z"
       }
+    },
+    {
+      "id": "EVID-20260830T074851Z-0D1B917A",
+      "work_item_id": "WI-0016",
+      "recorded_at": "2026-08-30T07:48:51.863Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Integrated Phase 4A candidate",
+      "outcome": "verified",
+      "scope_revision": "1c3ca9c830798507c1a32148e2af1c12e82ce178",
+      "observed_at": "2026-08-30T07:48:51.863Z",
+      "summary": "Durability operations integrated at exact candidate revision.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "1c3ca9c830798507c1a32148e2af1c12e82ce178"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "1c3ca9c830798507c1a32148e2af1c12e82ce178",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260830T074917Z-281A3610",
+      "work_item_id": "WI-0016",
+      "recorded_at": "2026-08-30T07:49:17.259Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Integrated Phase 4A verification",
+      "outcome": "pass",
+      "scope_revision": "1c3ca9c830798507c1a32148e2af1c12e82ce178",
+      "observed_at": "2026-08-30T07:47:37.000Z",
+      "summary": "Full local verification passed 181/181.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0016/developer-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0016/developer-observation.json",
+          "sha256": "ca208e7cf04064e441a472a7663a73d4e82733ef69e7c9b6e8f7c56e5b88bad0"
+        },
+        {
+          "path": "test/recovery.test.mjs",
+          "sha256": "c8923c75c4837494402c8ad783f81f066db02858b064b66ac8852edb29a71460"
+        },
+        {
+          "path": "test/audit-export.test.mjs",
+          "sha256": "85932a8955b05ecc0ce24113f15f0b5da6fa8e3461f4a973cc9146df0054f11f"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T07:46:59.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T074917Z-C40230F1",
+      "work_item_id": "WI-0017",
+      "recorded_at": "2026-08-30T07:49:17.552Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Integrated Phase 4B candidate",
+      "outcome": "verified",
+      "scope_revision": "1c3ca9c830798507c1a32148e2af1c12e82ce178",
+      "observed_at": "2026-08-30T07:49:17.552Z",
+      "summary": "Provider and usage reliability integrated at exact candidate revision.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "1c3ca9c830798507c1a32148e2af1c12e82ce178"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "1c3ca9c830798507c1a32148e2af1c12e82ce178",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260830T074930Z-81C8BCCC",
+      "work_item_id": "WI-0017",
+      "recorded_at": "2026-08-30T07:49:30.062Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Integrated Phase 4B verification",
+      "outcome": "pass",
+      "scope_revision": "1c3ca9c830798507c1a32148e2af1c12e82ce178",
+      "observed_at": "2026-08-30T07:47:37.000Z",
+      "summary": "Full local verification passed 181/181.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0017/developer-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0017/developer-observation.json",
+          "sha256": "38ce62b8fa3dd9a78305fdf2ba62c12fd919ec725fa53e3751a8e62632686747"
+        },
+        {
+          "path": "test/phase-4b.test.mjs",
+          "sha256": "65382d101a56f28a951f5362fbd09fb96983b1c30af9e5a271906f654cb373ec"
+        },
+        {
+          "path": "src/codex-app-server-provider.mjs",
+          "sha256": "5f04ced3536e81a3cf62ff5f0a3da100999e097d8d0c4a11266eab5d5582c4ca"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T07:46:59.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T074930Z-98C145A4",
+      "work_item_id": "WI-0018",
+      "recorded_at": "2026-08-30T07:49:30.354Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Integrated Phase 4C candidate",
+      "outcome": "verified",
+      "scope_revision": "1c3ca9c830798507c1a32148e2af1c12e82ce178",
+      "observed_at": "2026-08-30T07:49:30.354Z",
+      "summary": "Read-only multi-repository federation integrated at exact candidate revision.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "1c3ca9c830798507c1a32148e2af1c12e82ce178"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "1c3ca9c830798507c1a32148e2af1c12e82ce178",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260830T074930Z-9565BFFB",
+      "work_item_id": "WI-0018",
+      "recorded_at": "2026-08-30T07:49:30.672Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Integrated Phase 4C verification",
+      "outcome": "pass",
+      "scope_revision": "1c3ca9c830798507c1a32148e2af1c12e82ce178",
+      "observed_at": "2026-08-30T07:47:37.000Z",
+      "summary": "Full local verification passed 181/181.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0018/developer-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0018/developer-observation.json",
+          "sha256": "77836f6de7af1535c025d661cac53778f89c13dd9fd48cbc5242543708c916c5"
+        },
+        {
+          "path": "test/federation.test.mjs",
+          "sha256": "5e3c5f3d8087c7b0a0ed715e70fe244bb62efe8158e1913a3edc799c8ee89a4f"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T07:46:59.000Z"
+      }
     }
   ]
 }

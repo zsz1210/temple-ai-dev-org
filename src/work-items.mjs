@@ -584,7 +584,8 @@ export async function evaluateParallelReadiness(target, workItemId, options = {}
       );
       return shared.length ? [{ work_item_id: candidate.id, paths: shared }] : [];
     });
-  const agentId = options.agentId ?? item.claim?.agent_id ?? item.planned_agent_id ?? item.assigned_agent_id;
+  const activeClaimAgentId = item.claim?.status === "active" ? item.claim.agent_id : null;
+  const agentId = options.agentId ?? activeClaimAgentId ?? item.planned_agent_id ?? item.assigned_agent_id;
   const activeRequirements = activeExecutionRequirements(item);
   const resourceState = await resourceAvailability(target, activeRequirements.resources);
   const { evaluation: specificationEvaluation } = await evaluateSpecificationReferences(target, item);
