@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-08-30T13:55:47.894Z",
-  "updated_at": "2026-08-30T13:57:24.948Z",
+  "updated_at": "2026-08-30T13:57:49.272Z",
   "scope": [
     "Preserve in-progress Agent Command input across unrelated live refreshes and make current, approval, QA, stale, and attention states truthful and discoverable before terminal history."
   ],
@@ -37,7 +37,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "6bb7e17e465b1fb94be7cbe63f6dfe4ec5aa00cd",
+  "base_revision": "68d4cf448df8f76ba08ce9b64ddf2c27967a39a0",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": "agent-rikku",

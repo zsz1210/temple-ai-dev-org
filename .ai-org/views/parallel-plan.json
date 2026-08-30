@@ -1,73 +1,150 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T13:20:54.312Z",
-  "source_fingerprint": "2769bbce8360ed2d8e2b82703ce2fbe46089678638c251b85f6a6105d416098b",
+  "generated_at": "2026-08-30T13:57:49.827Z",
+  "source_fingerprint": "f28f28e2badf1c9669b6fee70a0144d1a7d46721b76e333cc8d27b85c6567d69",
   "scope": {
-    "mode": "all-active",
-    "parent_work_item_id": null,
+    "mode": "parent-descendants",
+    "parent_work_item_id": "WI-0031",
     "selected_work_item_ids": [
-      "WI-0029",
-      "WI-0030"
+      "WI-0032",
+      "WI-0033",
+      "WI-0034",
+      "WI-0035"
     ]
   },
   "max_workers": 3,
   "summary": {
-    "selected": 2,
-    "dispatchable": 0,
+    "selected": 4,
+    "dispatchable": 2,
     "active": 0,
-    "sequential": 2,
-    "blocked": 0,
-    "waves": 0
+    "sequential": 0,
+    "blocked": 2,
+    "waves": 1
   },
-  "waves": [],
-  "active": [],
-  "sequential": [
+  "waves": [
     {
-      "work_item_id": "WI-0029",
-      "title": "Prototype local Agent Command Gateway",
-      "disposition": "sequential",
-      "position_id": "quality_evaluator",
-      "agent_id": "agent-lulu",
-      "integration_owner_agent_id": null,
+      "id": "wave-001",
+      "order": 1,
+      "dispatch": [
+        {
+          "work_item_id": "WI-0032",
+          "title": "Sandbox federation participant Git inspection",
+          "position_id": "developer",
+          "agent_id": "agent-rikku",
+          "agent_name": "Rikku",
+          "suggested_task_title": "WI-0032 · Developer · Rikku",
+          "base_revision": "68d4cf448df8f76ba08ce9b64ddf2c27967a39a0",
+          "affected_paths": [
+            "src/federation.mjs",
+            "test/federation.test.mjs",
+            "docs/operations/multi-repository-federation.md",
+            "SECURITY.md"
+          ],
+          "dependencies": [],
+          "required_disciplines": [],
+          "active_requirements": {
+            "stage": "build",
+            "disciplines": [],
+            "resources": []
+          },
+          "preparation_fingerprint": "9c91d7bf25d7f311abb9d885a1e6366bda0eb21e6b32e0a7dd6b375d341c318d",
+          "integration_owner_agent_id": "agent-mog",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0032 --position developer --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
+        },
+        {
+          "work_item_id": "WI-0035",
+          "title": "Reduce CI cost without hiding behavioral results",
+          "position_id": "developer",
+          "agent_id": "agent-rikku",
+          "agent_name": "Rikku",
+          "suggested_task_title": "WI-0035 · Developer · Rikku",
+          "base_revision": "68d4cf448df8f76ba08ce9b64ddf2c27967a39a0",
+          "affected_paths": [
+            ".github/workflows/ci.yml",
+            "scripts/ci-scope.mjs",
+            "test/ci-scope.test.mjs",
+            "docs/getting-started/testing.md"
+          ],
+          "dependencies": [],
+          "required_disciplines": [],
+          "active_requirements": {
+            "stage": "build",
+            "disciplines": [],
+            "resources": []
+          },
+          "preparation_fingerprint": "32e84b991e6d207412d228d3e0ca604863374c657a77d787359f710700075ed4",
+          "integration_owner_agent_id": "agent-mog",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0035 --position developer --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
+        }
+      ],
+      "join_gate": {
+        "integration_owner_agent_ids": [
+          "agent-mog"
+        ],
+        "required_evidence": [
+          "exact_candidate_revision",
+          "verification_results",
+          "unresolved_items"
+        ],
+        "rule": "Join every dispatched Work Item through its Integration Owner before dispatching dependent work or advancing the lifecycle."
+      }
+    }
+  ],
+  "active": [],
+  "sequential": [],
+  "blocked": [
+    {
+      "work_item_id": "WI-0033",
+      "title": "Establish operator-owned provider trust",
+      "disposition": "blocked",
+      "position_id": "product_manager",
+      "agent_id": "agent-yuna",
+      "integration_owner_agent_id": "agent-mog",
       "reasons": [
-        "requested_mode_sequential"
+        "requested_mode_blocked"
       ]
     },
     {
-      "work_item_id": "WI-0030",
-      "title": "Prevent complete command retention",
-      "disposition": "sequential",
-      "position_id": "release_manager",
-      "agent_id": "agent-mog",
-      "integration_owner_agent_id": null,
+      "work_item_id": "WI-0034",
+      "title": "Make Dashboard current-state interaction trustworthy",
+      "disposition": "blocked",
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
+      "integration_owner_agent_id": "agent-mog",
       "reasons": [
-        "requested_mode_sequential"
+        "overlap_outside_scope:WI-0029",
+        "overlap_outside_scope:WI-0030"
       ]
     }
   ],
-  "blocked": [],
   "conflicts": [
     {
       "kind": "affected-path",
-      "left_work_item_id": "WI-0029",
-      "right_work_item_id": "WI-0030",
+      "left_work_item_id": "WI-0032",
+      "right_work_item_id": "WI-0033",
       "paths": [
         {
-          "left_path": "src/control-plane-inbox.mjs",
-          "right_path": "src/control-plane-inbox.mjs"
-        },
-        {
-          "left_path": "src/control-plane-dashboard.mjs",
-          "right_path": "src/control-plane-dashboard.mjs"
-        },
-        {
-          "left_path": "test/control-plane-inbox.test.mjs",
-          "right_path": "test/control-plane-inbox.test.mjs"
-        },
-        {
-          "left_path": "test/control-plane-live.test.mjs",
-          "right_path": "test/control-plane-live.test.mjs"
-        },
+          "left_path": "SECURITY.md",
+          "right_path": "SECURITY.md"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0033",
+      "right_work_item_id": "WI-0034",
+      "paths": [
         {
           "left_path": "docs/operations/control-plane.md",
           "right_path": "docs/operations/control-plane.md"

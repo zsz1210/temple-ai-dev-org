@@ -6,7 +6,7 @@
   "owner_position": "product_manager",
   "assigned_agent_id": "agent-yuna",
   "created_at": "2026-08-30T13:55:47.632Z",
-  "updated_at": "2026-08-30T13:57:03.121Z",
+  "updated_at": "2026-08-30T13:57:49.004Z",
   "scope": [
     "Move executable selection, credential binding, and approved provider origins outside repository-controlled configuration before enterprise or untrusted-repository adoption."
   ],
@@ -37,7 +37,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "6bb7e17e465b1fb94be7cbe63f6dfe4ec5aa00cd",
+  "base_revision": "68d4cf448df8f76ba08ce9b64ddf2c27967a39a0",
   "parallel_mode": "blocked",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": "agent-yuna",

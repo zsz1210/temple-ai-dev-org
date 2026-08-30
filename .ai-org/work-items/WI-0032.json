@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-08-30T13:55:47.366Z",
-  "updated_at": "2026-08-30T13:57:02.072Z",
+  "updated_at": "2026-08-30T13:57:48.742Z",
   "scope": [
     "Prevent participant-controlled Git configuration, ambient credentials, nested repository discovery, and partial-clone lazy fetch from violating the read-only federation boundary."
   ],
@@ -34,7 +34,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "6bb7e17e465b1fb94be7cbe63f6dfe4ec5aa00cd",
+  "base_revision": "68d4cf448df8f76ba08ce9b64ddf2c27967a39a0",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": "agent-rikku",
