@@ -73,7 +73,7 @@
 | WI-0027 | Resolve terminal historical-evidence dashboard noise | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `591b4369` | 0 | 8 | 0 |
 | WI-0028 | Publish Alpha.27 private release checkpoint | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5e90ba28` | 0 | 8 | 0 |
 | WI-0029 | Prototype local Agent Command Gateway | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `38a185eb` | 1 | 8 | 2 |
-| WI-0030 | Prevent complete command retention | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `ba066d73` | 0 | 8 | 2 |
+| WI-0030 | Prevent complete command retention | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `ba066d73` | 0 | 11 | 2 |
 
 ## Codex task registry
 
@@ -179,14 +179,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-30T12:54:34.795Z | work_item_transitioned | WI-0030 | agent-rikku |
-| 2026-08-30T12:54:31.163Z | handoff_created | WI-0030 | agent-rikku |
-| 2026-08-30T12:54:24.982Z | evidence_recorded | WI-0030 | human |
-| 2026-08-30T12:54:24.715Z | evidence_recorded | WI-0030 | human |
-| 2026-08-30T12:54:24.436Z | evidence_recorded | WI-0030 | human |
-| 2026-08-30T12:34:40.183Z | work_item_claimed | WI-0030 | human |
-| 2026-08-30T12:34:39.910Z | work_item_transitioned | WI-0030 | agent-tidus |
-| 2026-08-30T12:34:39.648Z | work_item_transitioned | WI-0030 | agent-yuna |
+| 2026-08-30T13:14:27.420Z | work_item_transitioned | WI-0030 | agent-lulu |
+| 2026-08-30T13:14:22.447Z | evidence_recorded | WI-0030 | human |
+| 2026-08-30T13:14:22.185Z | evidence_recorded | WI-0030 | human |
+| 2026-08-30T13:14:10.031Z | work_item_claimed | WI-0030 | human |
+| 2026-08-30T13:07:13.381Z | work_item_transitioned | WI-0030 | agent-lulu |
+| 2026-08-30T13:07:09.151Z | work_item_transitioned | WI-0030 | agent-lulu |
+| 2026-08-30T13:07:01.367Z | evidence_recorded | WI-0030 | human |
+| 2026-08-30T13:07:01.116Z | evidence_recorded | WI-0030 | human |
 
 ## Assignments
 

@@ -3460,6 +3460,195 @@
         "scenario": "Compare the exact transient confirmation and provider call with metadata-only durable state and history, then exercise disabled, idle, active, confirmed, accepted, rejected, delivery-unknown, interrupted, completed, desktop, and narrow states without mutating a real Codex task",
         "provenance": "fixture"
       }
+    },
+    {
+      "id": "EVID-20260830T130700Z-3B42DB85",
+      "work_item_id": "WI-0030",
+      "recorded_at": "2026-08-30T13:07:00.846Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0030 Quality exact candidate",
+      "outcome": "verified",
+      "scope_revision": "ba066d73900ba2cba70366aeb65af11ec6b944d3",
+      "observed_at": "2026-08-30T13:07:00.846Z",
+      "summary": "Fresh detached-worktree Quality reproduction used this exact candidate.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "ba066d73900ba2cba70366aeb65af11ec6b944d3"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "ba066d73900ba2cba70366aeb65af11ec6b944d3",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260830T130701Z-2276A864",
+      "work_item_id": "WI-0030",
+      "recorded_at": "2026-08-30T13:07:01.116Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0030 fresh Quality verification",
+      "outcome": "pass",
+      "scope_revision": "ba066d73900ba2cba70366aeb65af11ec6b944d3",
+      "observed_at": "2026-08-30T13:05:52.000Z",
+      "summary": "Focused 25/25, adversarial eight-case privacy contract, full 198/198, schema, Doctor, and diff checks passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0030/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0030/quality-test-observation.json",
+          "sha256": "d61cadb1013061c84bbc63a1ae0a7687e31ccd22b267f919350b5bb5a93c703a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0030/quality-test-report.md",
+          "sha256": "c6ac2cd62a066c8c91f7292f208fd432a7cf7ffbdb06fbcf711772b3d80b6518"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/control-plane-inbox.test.mjs test/control-plane-live.test.mjs test/control-plane-foundation.test.mjs",
+          "independent adversarial contract harness for privacy, replay, stale state, and exact provider delivery",
+          "npm run verify",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T12:59:15.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T130701Z-A039F5A0",
+      "work_item_id": "WI-0030",
+      "recorded_at": "2026-08-30T13:07:01.367Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "WI-0030 fresh Dashboard privacy review",
+      "outcome": "pass",
+      "scope_revision": "ba066d73900ba2cba70366aeb65af11ec6b944d3",
+      "observed_at": "2026-08-30T13:05:52.000Z",
+      "summary": "Headed deterministic fixture passed exact transient/provider and metadata-only durable history across required states at desktop and 420 pixels.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0030/quality-runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0030/quality-runtime-observation.json",
+          "sha256": "1a3f64edcbf36bc23f9b922c35e81ac20fc372e7f082c4cf4ebcb18a92bbbf97"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0030/quality-test-report.md",
+          "sha256": "c6ac2cd62a066c8c91f7292f208fd432a7cf7ffbdb06fbcf711772b3d80b6518"
+        }
+      ],
+      "details": {
+        "environment": "Fresh detached exact-candidate worktree, isolated local Temple fixture, deterministic fake Codex App Server, and headed Chromium",
+        "scenario": "Independently compare exact transient confirmation and one provider delivery with metadata-only durable state while reviewing disabled, idle, active, accepted, provider-rejected, delivery-unknown, interrupted, completed, desktop, and 420-pixel narrow states",
+        "provenance": "fixture"
+      }
+    },
+    {
+      "id": "EVID-20260830T131422Z-82F77431",
+      "work_item_id": "WI-0030",
+      "recorded_at": "2026-08-30T13:14:22.185Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0030 fresh Independent QA contract verification",
+      "outcome": "pass",
+      "scope_revision": "ba066d73900ba2cba70366aeb65af11ec6b944d3",
+      "observed_at": "2026-08-30T13:08:33.000Z",
+      "summary": "Second detached exact-candidate reproduction passed focused 25/25, adversarial eight-case privacy/replay contract, full 198/198, schema 50/24, Doctor 35 pass and zero failures, and clean diff checks.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0030/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0030/independent-qa-observation.json",
+          "sha256": "495772a7e3365cceaec4d4d6985a61c4c12d25a0ff82cb4c8009b5bd96bd1a14"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0030/independent-qa-report.md",
+          "sha256": "00080eeda8ce5368ad83bf17c48bb3554976947257c3e09face62a3f81b54d86"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/control-plane-inbox.test.mjs test/control-plane-live.test.mjs test/control-plane-foundation.test.mjs",
+          "fresh independent adversarial contract harness for privacy, replay, stale state, and exact provider delivery",
+          "npm run verify",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T13:07:27.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T131422Z-1F689119",
+      "work_item_id": "WI-0030",
+      "recorded_at": "2026-08-30T13:14:22.447Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "WI-0030 fresh Independent QA headed Dashboard verification",
+      "outcome": "pass",
+      "scope_revision": "ba066d73900ba2cba70366aeb65af11ec6b944d3",
+      "observed_at": "2026-08-30T13:12:30.000Z",
+      "summary": "New deterministic fake-provider fixture passed exact transient confirmation, six exact deliberate calls, content-free durable history, rejection, delivery-unknown, interruption, completion, desktop, 420-pixel, and clean-console review.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0030/independent-qa-runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0030/independent-qa-runtime-observation.json",
+          "sha256": "0c181408b4bb908090fd112aa55296fe9fbb6f4c9ab3414a44ab5d1de86353a4"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0030/independent-qa-report.md",
+          "sha256": "00080eeda8ce5368ad83bf17c48bb3554976947257c3e09face62a3f81b54d86"
+        }
+      ],
+      "details": {
+        "environment": "Second fresh detached exact-candidate worktree, new isolated local Temple fixture, deterministic fake Codex App Server, and headed Chromium",
+        "scenario": "Independently reproduce exact transient confirmation, exactly-one provider delivery, content-free durable history, provider rejection, delivery unknown, interruption, completion, desktop, and 420-pixel narrow states after entering Independent QA",
+        "provenance": "fixture"
+      }
     }
   ]
 }

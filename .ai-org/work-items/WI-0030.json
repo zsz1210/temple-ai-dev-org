@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0030",
   "title": "Prevent complete command retention",
-  "state": "test",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T12:33:56.699Z",
-  "updated_at": "2026-08-30T12:54:34.795Z",
+  "updated_at": "2026-08-30T13:14:27.420Z",
   "scope": [
     "Correct the WI-0029 Quality NO-GO by ensuring durable command records and Dashboard history never retain or reconstruct the complete instruction, including ordinary one-character and short instructions.",
     "Preserve transient pre-send confirmation and exact provider delivery after explicit confirmation; do not execute a real Codex task, add remote control, push, release, publish, or expand command scope."
@@ -37,7 +37,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "cfefd8a3e64757688ca85a34f6d47bbd45418409",
+  "base_revision": "ba066d73900ba2cba70366aeb65af11ec6b944d3",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -47,15 +47,15 @@
     "WI-0029 retains parent lifecycle authority; WI-0030 owns only the complete-instruction non-retention correction."
   ],
   "claim": {
-    "id": "claim-20260830123440-35272262",
+    "id": "claim-20260830131410-beed89df",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "cfefd8a3e64757688ca85a34f6d47bbd45418409",
+    "agent_id": "agent-lulu",
+    "base_revision": "ba066d73900ba2cba70366aeb65af11ec6b944d3",
     "branch": "main",
     "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
-    "claimed_at": "2026-08-30T12:34:40.183Z",
-    "released_at": "2026-08-30T12:54:34.795Z",
+    "claimed_at": "2026-08-30T13:14:10.031Z",
+    "released_at": "2026-08-30T13:14:27.420Z",
     "release_reason": "position_transition"
   },
   "claims": [
@@ -69,6 +69,30 @@
       "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
       "claimed_at": "2026-08-30T12:34:40.183Z",
       "released_at": "2026-08-30T12:54:34.795Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260830125604-eecdb9ed",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "ba066d73900ba2cba70366aeb65af11ec6b944d3",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-08-30T12:56:04.996Z",
+      "released_at": "2026-08-30T13:07:13.381Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260830131410-beed89df",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "ba066d73900ba2cba70366aeb65af11ec6b944d3",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-08-30T13:14:10.031Z",
+      "released_at": "2026-08-30T13:14:27.420Z",
       "release_reason": "position_transition"
     }
   ],
@@ -102,6 +126,15 @@
       "EVID-20260830T125424Z-A0C10146",
       "EVID-20260830T125424Z-DC43F2F2",
       "EVID-20260830T125424Z-B921FF54"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0030/quality-test-report.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0030/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0030/independent-qa-report.md"
     ]
   },
   "evidence": [
@@ -112,13 +145,16 @@
     ".ai-org/artifacts/WI-0030/developer-evidence.md",
     "EVID-20260830T125424Z-A0C10146",
     "EVID-20260830T125424Z-DC43F2F2",
-    "EVID-20260830T125424Z-B921FF54"
+    "EVID-20260830T125424Z-B921FF54",
+    ".ai-org/artifacts/WI-0030/quality-test-report.md",
+    ".ai-org/artifacts/WI-0030/evaluation-report.md",
+    ".ai-org/artifacts/WI-0030/independent-qa-report.md"
   ],
   "unresolved": [
     "No command was sent to a real Codex task; real execution remains separately authorized and untested, with deterministic fixtures only.",
     "After process restart, a matching idempotency key and non-content request shape returns the prior result without dispatch; exact same-length content equality is intentionally unknowable because durable content and reversible digests are prohibited."
   ],
-  "next_position": "quality_evaluator",
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "developer",

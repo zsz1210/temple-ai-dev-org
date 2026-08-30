@@ -1,11 +1,11 @@
 {
   "schema_version": "temple.context-capsule/v1",
-  "generated_at": "2026-08-30T12:33:57.243Z",
+  "generated_at": "2026-08-30T12:56:04.742Z",
   "work_item": {
     "id": "WI-0030",
     "path": ".ai-org/work-items/WI-0030.json",
     "title": "Prevent complete command retention",
-    "state": "intake",
+    "state": "test",
     "specification_mode": "gate-evidence",
     "ui_delivery_mode": "code-first",
     "tracker_visibility": "internal",
@@ -18,17 +18,20 @@
       "Focused tests prove transient confirmation still shows the exact pending instruction, the provider receives it exactly once after confirmation, and durable/history state cannot reproduce it.",
       "Fresh focused, full, schema, Doctor, and local Dashboard runtime verification pass on an exact candidate revision without mutating a real Codex task."
     ],
-    "unresolved": []
+    "unresolved": [
+      "No command was sent to a real Codex task; real execution remains separately authorized and untested, with deterministic fixtures only.",
+      "After process restart, a matching idempotency key and non-content request shape returns the prior result without dispatch; exact same-length content equality is intentionally unknowable because durable content and reversible digests are prohibited."
+    ]
   },
   "position": {
-    "id": "developer",
-    "name": "Developer"
+    "id": "quality_evaluator",
+    "name": "Quality & Evaluation Engineer"
   },
   "agent": {
-    "id": "agent-rikku",
-    "display_name": "Rikku"
+    "id": "agent-lulu",
+    "display_name": "Lulu"
   },
-  "revision": "cfefd8a3e64757688ca85a34f6d47bbd45418409",
+  "revision": "ba066d73900ba2cba70366aeb65af11ec6b944d3",
   "affected_paths": [
     "src/control-plane-inbox.mjs",
     "src/control-plane-dashboard.mjs",
@@ -49,57 +52,12 @@
   "learning": [],
   "capabilities": [
     {
-      "id": "project-documentation",
-      "description": "Create or update human-facing repository documentation from verified project evidence. Use for README files, setup guides, usage guides, contributor documentation, or documentation indexes whose commands, links, and capability claims must match the repository; do not use for Agent instructions, Skills, product specifications, or generic prose editing.",
-      "path": ".agents/skills/project-documentation/SKILL.md",
-      "distribution": "core",
-      "invocation": "implicit-or-explicit",
-      "score": 168,
-      "reasons": [
-        "position-match",
-        "term:command",
-        "term:or",
-        "term:instruction",
-        "term:instructions",
-        "term:do",
-        "term:not",
-        "term:commands",
-        "term:no",
-        "term:it",
-        "term:on",
-        "term:an"
-      ]
-    },
-    {
-      "id": "skill-authoring",
-      "description": "Design, create, revise, or audit a repository-local Skill with precise routing, authority, dependencies, provenance, and observable completion. Use when the user asks to turn a reusable procedure into a Skill; do not use to perform the target procedure, install external packages, edit ordinary Agent instructions, or promote a Skill into an official distribution.",
-      "path": ".agents/skills/skill-authoring/SKILL.md",
-      "distribution": "core",
-      "invocation": "implicit-or-explicit",
-      "score": 164,
-      "reasons": [
-        "position-match",
-        "term:or",
-        "term:instruction",
-        "term:ordinary",
-        "term:instructions",
-        "term:do",
-        "term:not",
-        "term:no",
-        "term:prove",
-        "term:it",
-        "term:local",
-        "term:on",
-        "term:an"
-      ]
-    },
-    {
       "id": "temple-work",
       "description": "Mutate an initialized repository's canonical work-item, collaboration, claim, runtime-worker, resource, handoff, workflow, closeout, or Codex task state, and build or prepare parallel dispatch plans with the repository-pinned CLI. Use only when the request authorizes a lifecycle or runtime state change or asks for a dispatch plan; do not use for status-only reporting, implementation itself, or first-time initialization.",
       "path": ".agents/skills/temple-work/SKILL.md",
       "distribution": "core",
       "invocation": "implicit-or-explicit",
-      "score": 124,
+      "score": 184,
       "reasons": [
         "term:or",
         "term:do",
@@ -111,43 +69,59 @@
         "term:state",
         "term:runtime",
         "term:on",
-        "term:an"
+        "term:an",
+        "term:to",
+        "term:only",
+        "term:request",
+        "term:dispatch",
+        "term:is",
+        "term:are"
       ]
     },
     {
-      "id": "domain-modeling",
-      "description": "Clarify a project's domain language, boundaries, rules, and invariants when product documents, code, or people use conflicting terms. Use during project definition, specification, architecture decisions, or refactors where naming affects behavior; do not use for generic prose editing.",
-      "path": ".agents/skills/domain-modeling/SKILL.md",
+      "id": "skill-authoring",
+      "description": "Design, create, revise, or audit a repository-local Skill with precise routing, authority, dependencies, provenance, and observable completion. Use when the user asks to turn a reusable procedure into a Skill; do not use to perform the target procedure, install external packages, edit ordinary Agent instructions, or promote a Skill into an official distribution.",
+      "path": ".agents/skills/skill-authoring/SKILL.md",
       "distribution": "core",
       "invocation": "implicit-or-explicit",
-      "score": 114,
+      "score": 154,
       "reasons": [
-        "position-match",
         "term:or",
+        "term:instruction",
+        "term:ordinary",
+        "term:instructions",
         "term:do",
         "term:not",
         "term:no",
+        "term:prove",
         "term:it",
+        "term:local",
         "term:on",
-        "term:an"
+        "term:an",
+        "term:to",
+        "term:is"
       ]
     },
     {
-      "id": "temple-init",
-      "description": "Initialize a repository's AI development organization with the temple CLI, including project-specific Agent names and Position assignments. Use for first-time organization setup, not ordinary feature work.",
-      "path": ".agents/skills/temple-init/SKILL.md",
+      "id": "project-documentation",
+      "description": "Create or update human-facing repository documentation from verified project evidence. Use for README files, setup guides, usage guides, contributor documentation, or documentation indexes whose commands, links, and capability claims must match the repository; do not use for Agent instructions, Skills, product specifications, or generic prose editing.",
+      "path": ".agents/skills/project-documentation/SKILL.md",
       "distribution": "core",
       "invocation": "implicit-or-explicit",
-      "score": 94,
+      "score": 148,
       "reasons": [
+        "term:command",
         "term:or",
-        "term:including",
-        "term:ordinary",
+        "term:instruction",
+        "term:instructions",
+        "term:do",
         "term:not",
+        "term:commands",
         "term:no",
         "term:it",
         "term:on",
-        "term:an"
+        "term:an",
+        "term:to"
       ]
     },
     {
@@ -156,7 +130,7 @@
       "path": ".agents/skills/decision-interview/SKILL.md",
       "distribution": "core",
       "invocation": "implicit-or-explicit",
-      "score": 84,
+      "score": 118,
       "reasons": [
         "term:or",
         "term:do",
@@ -164,7 +138,47 @@
         "term:no",
         "term:focused",
         "term:it",
-        "term:on"
+        "term:on",
+        "term:to",
+        "term:is"
+      ]
+    },
+    {
+      "id": "domain-modeling",
+      "description": "Clarify a project's domain language, boundaries, rules, and invariants when product documents, code, or people use conflicting terms. Use during project definition, specification, architecture decisions, or refactors where naming affects behavior; do not use for generic prose editing.",
+      "path": ".agents/skills/domain-modeling/SKILL.md",
+      "distribution": "core",
+      "invocation": "implicit-or-explicit",
+      "score": 104,
+      "reasons": [
+        "term:or",
+        "term:do",
+        "term:not",
+        "term:no",
+        "term:it",
+        "term:on",
+        "term:an",
+        "term:to",
+        "term:is"
+      ]
+    },
+    {
+      "id": "temple-init",
+      "description": "Initialize a repository's AI development organization with the temple CLI, including project-specific Agent names and Position assignments. Use for first-time organization setup, not ordinary feature work.",
+      "path": ".agents/skills/temple-init/SKILL.md",
+      "distribution": "core",
+      "invocation": "implicit-or-explicit",
+      "score": 104,
+      "reasons": [
+        "term:or",
+        "term:including",
+        "term:ordinary",
+        "term:not",
+        "term:no",
+        "term:it",
+        "term:on",
+        "term:an",
+        "term:to"
       ]
     }
   ],
@@ -214,7 +228,7 @@
     "provider_id": "repository-deterministic",
     "mode": "deterministic",
     "semantic": false,
-    "query": "Prevent complete command retention Correct the WI-0029 Quality NO-GO by ensuring durable command records and Dashboard history never retain or reconstruct the complete instruction, including ordinary one-character and short instructions. Preserve transient pre-send confirmation and exact provider delivery after explicit confirmation; do not execute a real Codex task, add remote control, push, release, publish, or expand command scope. Durable commands.json records contain no complete raw normalized instruction for one-character, short, long, or secret-bearing inputs; history uses a non-content privacy-safe summary. Focused tests prove transient confirmation still shows the exact pending instruction, the provider receives it exactly once after confirmation, and durable/history state cannot reproduce it. Fresh focused, full, schema, Doctor, and local Dashboard runtime verification pass on an exact candidate revision without mutating a real Codex task. correct WI-0029 short instruction durable retention privacy no-go",
+    "query": "Prevent complete command retention Correct the WI-0029 Quality NO-GO by ensuring durable command records and Dashboard history never retain or reconstruct the complete instruction, including ordinary one-character and short instructions. Preserve transient pre-send confirmation and exact provider delivery after explicit confirmation; do not execute a real Codex task, add remote control, push, release, publish, or expand command scope. Durable commands.json records contain no complete raw normalized instruction for one-character, short, long, or secret-bearing inputs; history uses a non-content privacy-safe summary. Focused tests prove transient confirmation still shows the exact pending instruction, the provider receives it exactly once after confirmation, and durable/history state cannot reproduce it. Fresh focused, full, schema, Doctor, and local Dashboard runtime verification pass on an exact candidate revision without mutating a real Codex task. No command was sent to a real Codex task; real execution remains separately authorized and untested, with deterministic fixtures only. After process restart, a matching idempotency key and non-content request shape returns the prior result without dispatch; exact same-length content equality is intentionally unknowable because durable content and reversible digests are prohibited. fresh independent quality verify complete instruction non-retention exact candidate ba066d7",
     "result_limit_per_kind": 8
   },
   "warnings": [
