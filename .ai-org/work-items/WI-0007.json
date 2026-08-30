@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0007",
   "title": "Implement Phase 4A backup and crash-safe restore",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T04:07:05.055Z",
-  "updated_at": "2026-08-30T04:07:45.451Z",
+  "updated_at": "2026-08-30T04:24:14.178Z",
   "scope": [
     "Deliver the first Phase 4A vertical slice: versioned directory backups of Temple project-owned canonical state, content verification, restore preview with a stale-plan digest, explicit replacement, crash-safe transactional apply, recovery rollback, and bounded audit ledgers."
   ],
@@ -123,12 +123,64 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/work-orders/WI-0007.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0007/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "git:ffba88a",
+      "npm run verify: 148 passed, 0 failed"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0007/quality-test-report.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0007/quality-test-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0007/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/work-orders/WI-0007.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0007/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0007/release-record.md"
+    ],
+    "required_human_approval": [
+      "Project owner authorized Phase 4A implementation in this task; release is local repository state only and performs no publication or external action."
     ]
   },
   "evidence": [
     ".ai-org/artifacts/work-orders/WI-0007.md",
-    ".ai-org/work-items/WI-0007.json"
+    ".ai-org/work-items/WI-0007.json",
+    ".ai-org/artifacts/WI-0007/handoff-001-developer-to-quality_evaluator.md",
+    "git:ffba88a",
+    "npm run verify: 148 passed, 0 failed",
+    "node --test test/recovery.test.mjs test/cli.test.mjs: 32 passed, 0 failed",
+    "npm run check: passed",
+    ".ai-org/artifacts/WI-0007/quality-test-report.md",
+    "Quality evaluation: pass with retained Phase 4A limits",
+    "detached ffba88a npm run verify: 148 passed, 0 failed",
+    ".ai-org/artifacts/WI-0007/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0007/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "ffba88a",
+      "artifact": ".ai-org/artifacts/WI-0007/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-30T04:21:52.745Z"
+    }
+  ],
+  "developer_candidate_revision": "ffba88a",
+  "tested_revision": "ffba88a",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "Project owner authorized Phase 4A implementation in this task; release is local repository state only and performs no publication or external action."
 }

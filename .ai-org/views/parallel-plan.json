@@ -1,38 +1,24 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T04:07:50.142Z",
-  "source_fingerprint": "99ea150300ff2fd57216a174e60e337bc0fb786f3f645862b4f4d2773ff099ee",
+  "generated_at": "2026-08-30T04:24:35.500Z",
+  "source_fingerprint": "efa837b97e9a9171a41de6ad8346d56926b3cab8b860e2f23825857ff76953f0",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
-    "selected_work_item_ids": [
-      "WI-0007"
-    ]
+    "selected_work_item_ids": []
   },
   "max_workers": null,
   "summary": {
-    "selected": 1,
+    "selected": 0,
     "dispatchable": 0,
     "active": 0,
-    "sequential": 1,
+    "sequential": 0,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
   "active": [],
-  "sequential": [
-    {
-      "work_item_id": "WI-0007",
-      "title": "Implement Phase 4A backup and crash-safe restore",
-      "disposition": "sequential",
-      "position_id": "developer",
-      "agent_id": "agent-rikku",
-      "integration_owner_agent_id": null,
-      "reasons": [
-        "requested_mode_sequential"
-      ]
-    }
-  ],
+  "sequential": [],
   "blocked": [],
   "conflicts": [],
   "execution_policy": {

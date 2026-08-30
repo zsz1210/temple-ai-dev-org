@@ -14,6 +14,7 @@ Validation records preserve bounded evidence for framework capabilities. They id
 - [Alpha.21 Live control plane](alpha-21-live-control-plane.md)
 - [Alpha.22 Human Inbox and GitHub evidence](alpha-22-human-inbox-github-evidence.md)
 - [Alpha.23 Temple self-host dogfood — independently verified with retained limits](alpha-23-temple-self-host-dogfood.md)
+- [Alpha.24 backup and recovery — independently verified with retained Phase 4A limits](alpha-24-backup-recovery.md)
 - [Closeout-0A release integrity — passed with retained limits](closeout-0a-release-integrity.md)
 - [Closeout-0B live integration and data-bearing upgrade — passed with retained limits](closeout-0b-live-and-upgrade.md)
 - [Greenfield cold-task recovery — passed with limits](greenfield-cold-task-recovery-result.md) ([test plan](greenfield-cold-task-recovery-test-plan.md))
