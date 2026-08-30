@@ -1,0 +1,14 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "ed624187b01200deb087bd69a48f93231c3734b3",
+  "command": ["npm", "run", "verify"],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-30T02:45:02.110Z",
+  "completed_at": "2026-08-30T02:45:35.542Z",
+  "artifact_refs": [
+    "scripts/check-repo.mjs",
+    "scripts/check-doc-links.mjs",
+    "package.json"
+  ]
+}

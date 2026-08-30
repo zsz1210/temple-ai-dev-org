@@ -4,8 +4,8 @@
 - Organization system version: `0.1.0-alpha.23`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 1 wave(s), fresh=true
-- Work items: 2 total, 2 active
+- Parallel plan: 0 wave(s), fresh=true
+- Work items: 2 total, 0 active
 - Codex tasks: 0 registered, 0 archive-ready
 - Runtime workers: 0 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -34,18 +34,18 @@
 - Installed: yes
 - Valid: yes
 - Fresh: yes
-- Safe waves: 1
-- Dispatchable Work Items: 2
+- Safe waves: 0
+- Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 0 / 0
-- Next wave: WI-0001, WI-0002
+- Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
 ## Work items
 
 | ID | Title | State | Owner | Agent | Parallel | Tracker | Links | Spec mode | UI | Specs | Stale | Unapproved | Claim | Revision | Tasks | Evidence | Unresolved |
 |---|---|---|---|---|---|---|---:|---|---|---:|---:|---:|---|---|---:|---:|---:|
-| WI-0001 | Reorganize documentation by reader purpose | build | Developer | Rikku | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
-| WI-0002 | Reposition the public README for every project scale | build | Developer | Rikku | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
+| WI-0001 | Reorganize documentation by reader purpose | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ed624187` | 0 | 9 | 0 |
+| WI-0002 | Reposition the public README for every project scale | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ed624187` | 0 | 9 | 0 |
 
 ## Codex task registry
 
@@ -116,14 +116,14 @@ No blockers, task attention requests, or archive-ready tasks.
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-30T02:33:38.322Z | work_item_coordination_configured | WI-0002 | agent-rikku |
-| 2026-08-30T02:33:38.037Z | work_item_coordination_configured | WI-0001 | agent-rikku |
-| 2026-08-30T02:33:19.722Z | work_item_transitioned | WI-0002 | agent-tidus |
-| 2026-08-30T02:33:19.440Z | work_item_transitioned | WI-0002 | agent-yuna |
-| 2026-08-30T02:33:19.155Z | work_item_transitioned | WI-0002 | agent-mog |
-| 2026-08-30T02:33:18.874Z | work_item_transitioned | WI-0001 | agent-tidus |
-| 2026-08-30T02:33:18.591Z | work_item_transitioned | WI-0001 | agent-yuna |
-| 2026-08-30T02:33:18.308Z | work_item_transitioned | WI-0001 | agent-mog |
+| 2026-08-30T02:49:42.724Z | work_item_closed | WI-0002 | agent-mog |
+| 2026-08-30T02:49:42.724Z | release_gate_completed | WI-0002 | agent-mog |
+| 2026-08-30T02:49:42.415Z | work_item_closed | WI-0001 | agent-mog |
+| 2026-08-30T02:49:42.415Z | release_gate_completed | WI-0001 | agent-mog |
+| 2026-08-30T02:49:20.197Z | work_item_transitioned | WI-0002 | agent-lulu |
+| 2026-08-30T02:49:19.913Z | work_item_transitioned | WI-0001 | agent-lulu |
+| 2026-08-30T02:49:05.618Z | evidence_recorded | WI-0002 | human |
+| 2026-08-30T02:49:05.334Z | evidence_recorded | WI-0001 | human |
 
 ## Assignments
 

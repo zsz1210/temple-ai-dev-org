@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0002",
   "title": "Reposition the public README for every project scale",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T02:32:38.820Z",
-  "updated_at": "2026-08-30T02:33:38.322Z",
+  "updated_at": "2026-08-30T02:49:42.724Z",
   "scope": [
     "Rewrite the trilingual public entry point for solo builders, collaborative teams, and enterprise organizations, with clear value, compact visual explanation, honest evidence boundaries, and extensible engineering roles"
   ],
@@ -38,7 +38,7 @@
   "base_revision": "032f1e060fa5791ebb05497025ebc150fb6d2271",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
-  "planned_agent_id": "agent-rikku",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
@@ -59,12 +59,61 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/work-orders/WI-0002.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0002/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260830T024648Z-689E651A",
+      "EVID-20260830T024648Z-46E548A8"
+    ],
+    "test_evidence": [
+      "EVID-20260830T024648Z-46E548A8"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0002/evaluation-001.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260830T024905Z-0917C329"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/work-orders/WI-0002.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0002/independent-qa-001.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0002/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/work-orders/WI-0002.md",
-    ".ai-org/work-items/WI-0002.json"
+    ".ai-org/work-items/WI-0002.json",
+    ".ai-org/artifacts/WI-0002/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260830T024648Z-689E651A",
+    "EVID-20260830T024648Z-46E548A8",
+    ".ai-org/artifacts/WI-0002/evaluation-001.md",
+    "EVID-20260830T024905Z-0917C329",
+    ".ai-org/artifacts/WI-0002/release-record.md",
+    ".ai-org/artifacts/WI-0002/independent-qa-001.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "ed624187b01200deb087bd69a48f93231c3734b3",
+      "artifact": ".ai-org/artifacts/WI-0002/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-30T02:46:59.639Z"
+    }
+  ],
+  "developer_candidate_revision": "ed624187b01200deb087bd69a48f93231c3734b3",
+  "tested_revision": "ed624187b01200deb087bd69a48f93231c3734b3",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

@@ -1,4 +1,263 @@
 {
   "schema_version": "temple.evidence/v1",
-  "entries": []
+  "entries": [
+    {
+      "id": "EVID-20260830T024630Z-06A26CD9",
+      "work_item_id": "WI-0001",
+      "recorded_at": "2026-08-30T02:46:30.171Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Alpha.23 candidate revision",
+      "outcome": "verified",
+      "scope_revision": "ed624187b01200deb087bd69a48f93231c3734b3",
+      "observed_at": "2026-08-30T02:46:30.171Z",
+      "summary": "Exact committed candidate containing the approved implementation scope",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "ed624187b01200deb087bd69a48f93231c3734b3"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "ed624187b01200deb087bd69a48f93231c3734b3",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260830T024648Z-251A423B",
+      "work_item_id": "WI-0001",
+      "recorded_at": "2026-08-30T02:46:48.100Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Alpha.23 developer verification",
+      "outcome": "pass",
+      "scope_revision": "ed624187b01200deb087bd69a48f93231c3734b3",
+      "observed_at": "2026-08-30T02:45:35.542Z",
+      "summary": "Repository checks, documentation links, and 136 behavioral tests passed on the exact candidate revision",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/alpha-23-developer-verify.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/alpha-23-developer-verify.json",
+          "sha256": "8cfc254389a25c0aae98ab15d1eb4b94d8e1183dfffcd923b16b97f8ecc02a26"
+        },
+        {
+          "path": "scripts/check-repo.mjs",
+          "sha256": "31e0108a456a5ae53e60d1b25c9958d9c3e1e67ebda007f0d6354c4bcefec170"
+        },
+        {
+          "path": "scripts/check-doc-links.mjs",
+          "sha256": "9c901ddbbbee35843b04f9d1f761840e875f80311468d55a4f46d37b3ee0a16d"
+        },
+        {
+          "path": "package.json",
+          "sha256": "5a5c411db7a0ee004e673f5c03ce7455b7068ebdf1cbf7dde1cd79496d2ecb20"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T02:45:02.110Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T024648Z-689E651A",
+      "work_item_id": "WI-0002",
+      "recorded_at": "2026-08-30T02:46:48.442Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Alpha.23 candidate revision",
+      "outcome": "verified",
+      "scope_revision": "ed624187b01200deb087bd69a48f93231c3734b3",
+      "observed_at": "2026-08-30T02:46:48.442Z",
+      "summary": "Exact committed candidate containing the approved implementation scope",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "ed624187b01200deb087bd69a48f93231c3734b3"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "ed624187b01200deb087bd69a48f93231c3734b3",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260830T024648Z-46E548A8",
+      "work_item_id": "WI-0002",
+      "recorded_at": "2026-08-30T02:46:48.733Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Alpha.23 developer verification",
+      "outcome": "pass",
+      "scope_revision": "ed624187b01200deb087bd69a48f93231c3734b3",
+      "observed_at": "2026-08-30T02:45:35.542Z",
+      "summary": "Repository checks, documentation links, and 136 behavioral tests passed on the exact candidate revision",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/alpha-23-developer-verify.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/alpha-23-developer-verify.json",
+          "sha256": "8cfc254389a25c0aae98ab15d1eb4b94d8e1183dfffcd923b16b97f8ecc02a26"
+        },
+        {
+          "path": "scripts/check-repo.mjs",
+          "sha256": "31e0108a456a5ae53e60d1b25c9958d9c3e1e67ebda007f0d6354c4bcefec170"
+        },
+        {
+          "path": "scripts/check-doc-links.mjs",
+          "sha256": "9c901ddbbbee35843b04f9d1f761840e875f80311468d55a4f46d37b3ee0a16d"
+        },
+        {
+          "path": "package.json",
+          "sha256": "5a5c411db7a0ee004e673f5c03ce7455b7068ebdf1cbf7dde1cd79496d2ecb20"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T02:45:02.110Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T024905Z-D69D7E61",
+      "work_item_id": "WI-0001",
+      "recorded_at": "2026-08-30T02:49:05.334Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Alpha.23 independent QA",
+      "outcome": "pass",
+      "scope_revision": "ed624187b01200deb087bd69a48f93231c3734b3",
+      "observed_at": "2026-08-30T02:48:25.458Z",
+      "summary": "Fresh detached-worktree verification passed 136 tests on the exact candidate revision",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/alpha-23-independent-qa.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/alpha-23-independent-qa.json",
+          "sha256": "37bd3f50160f8433011e49b8d16a0b8a12389ab630fe7812f951a83cfd7ababf"
+        },
+        {
+          "path": "scripts/check-repo.mjs",
+          "sha256": "31e0108a456a5ae53e60d1b25c9958d9c3e1e67ebda007f0d6354c4bcefec170"
+        },
+        {
+          "path": "scripts/check-doc-links.mjs",
+          "sha256": "9c901ddbbbee35843b04f9d1f761840e875f80311468d55a4f46d37b3ee0a16d"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "a3abcc3e2445c1c1777a9105d7af8c9c8b120300996892a5d07a1c47d6e26de0"
+        },
+        {
+          "path": "package.json",
+          "sha256": "5a5c411db7a0ee004e673f5c03ce7455b7068ebdf1cbf7dde1cd79496d2ecb20"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T02:47:52.360Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T024905Z-0917C329",
+      "work_item_id": "WI-0002",
+      "recorded_at": "2026-08-30T02:49:05.618Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Alpha.23 independent QA",
+      "outcome": "pass",
+      "scope_revision": "ed624187b01200deb087bd69a48f93231c3734b3",
+      "observed_at": "2026-08-30T02:48:25.458Z",
+      "summary": "Fresh detached-worktree verification passed 136 tests on the exact candidate revision",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/alpha-23-independent-qa.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/alpha-23-independent-qa.json",
+          "sha256": "37bd3f50160f8433011e49b8d16a0b8a12389ab630fe7812f951a83cfd7ababf"
+        },
+        {
+          "path": "scripts/check-repo.mjs",
+          "sha256": "31e0108a456a5ae53e60d1b25c9958d9c3e1e67ebda007f0d6354c4bcefec170"
+        },
+        {
+          "path": "scripts/check-doc-links.mjs",
+          "sha256": "9c901ddbbbee35843b04f9d1f761840e875f80311468d55a4f46d37b3ee0a16d"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "a3abcc3e2445c1c1777a9105d7af8c9c8b120300996892a5d07a1c47d6e26de0"
+        },
+        {
+          "path": "package.json",
+          "sha256": "5a5c411db7a0ee004e673f5c03ce7455b7068ebdf1cbf7dde1cd79496d2ecb20"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T02:47:52.360Z"
+      }
+    }
+  ]
 }

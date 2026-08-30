@@ -1,99 +1,22 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T02:33:38.610Z",
-  "source_fingerprint": "298ded9f525e0d95c4499f04081d56a9e124dc5a137b4b961798a981ff4b5f47",
+  "generated_at": "2026-08-30T02:50:34.883Z",
+  "source_fingerprint": "1ac13b731f74421c988a85869bce4471bd272662e1e2754d0cc1569110547851",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
-    "selected_work_item_ids": [
-      "WI-0001",
-      "WI-0002"
-    ]
+    "selected_work_item_ids": []
   },
   "max_workers": 2,
   "summary": {
-    "selected": 2,
-    "dispatchable": 2,
+    "selected": 0,
+    "dispatchable": 0,
     "active": 0,
     "sequential": 0,
     "blocked": 0,
-    "waves": 1
+    "waves": 0
   },
-  "waves": [
-    {
-      "id": "wave-001",
-      "order": 1,
-      "dispatch": [
-        {
-          "work_item_id": "WI-0001",
-          "title": "Reorganize documentation by reader purpose",
-          "position_id": "developer",
-          "agent_id": "agent-rikku",
-          "agent_name": "Rikku",
-          "suggested_task_title": "WI-0001 · Developer · Rikku",
-          "base_revision": "032f1e060fa5791ebb05497025ebc150fb6d2271",
-          "affected_paths": [
-            "docs"
-          ],
-          "dependencies": [],
-          "required_disciplines": [],
-          "active_requirements": {
-            "stage": "build",
-            "disciplines": [],
-            "resources": []
-          },
-          "preparation_fingerprint": "e14a76163cf549fd48f50c4b5ef0f8f80f44d096741cc8d4dc187d091d913d14",
-          "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0001 --position developer --no-write --json",
-          "claim_required_before_work": true,
-          "task_registration_required_after_creation": true,
-          "task_creation_performed": false,
-          "claim_performed": false,
-          "external_action_performed": false
-        },
-        {
-          "work_item_id": "WI-0002",
-          "title": "Reposition the public README for every project scale",
-          "position_id": "developer",
-          "agent_id": "agent-rikku",
-          "agent_name": "Rikku",
-          "suggested_task_title": "WI-0002 · Developer · Rikku",
-          "base_revision": "032f1e060fa5791ebb05497025ebc150fb6d2271",
-          "affected_paths": [
-            "README.md",
-            "README.ja.md",
-            "README.zh-TW.md"
-          ],
-          "dependencies": [],
-          "required_disciplines": [],
-          "active_requirements": {
-            "stage": "build",
-            "disciplines": [],
-            "resources": []
-          },
-          "preparation_fingerprint": "0f7575e06e5f0c7ef37555df583b026143e12406e4c4b60d89d217d75e3d5bd7",
-          "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0002 --position developer --no-write --json",
-          "claim_required_before_work": true,
-          "task_registration_required_after_creation": true,
-          "task_creation_performed": false,
-          "claim_performed": false,
-          "external_action_performed": false
-        }
-      ],
-      "join_gate": {
-        "integration_owner_agent_ids": [
-          "agent-mog"
-        ],
-        "required_evidence": [
-          "exact_candidate_revision",
-          "verification_results",
-          "unresolved_items"
-        ],
-        "rule": "Join every dispatched Work Item through its Integration Owner before dispatching dependent work or advancing the lifecycle."
-      }
-    }
-  ],
+  "waves": [],
   "active": [],
   "sequential": [],
   "blocked": [],
