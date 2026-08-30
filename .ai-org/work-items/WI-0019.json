@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0019",
   "title": "Integrate the Phase 4 CLI, schemas, and release line",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T07:36:06.689Z",
-  "updated_at": "2026-08-30T09:11:09.129Z",
+  "updated_at": "2026-08-30T09:22:23.616Z",
   "scope": [
     "Wire the completed Phase 4A, Phase 4B, and Phase 4C module contracts into the repository CLI, project overlay, upgrade path, documentation indexes, and Alpha.27 release metadata."
   ],
@@ -60,7 +60,7 @@
   "base_revision": "7dda4c6b3e1fc9fd16b1fcc55b794e1f1c5d5de5",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
-  "planned_agent_id": "agent-rikku",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [
@@ -111,12 +111,59 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/work-orders/WI-0019.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0019/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0019/developer-evidence.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0019/quality-test-report.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0019/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0019/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/work-orders/WI-0019.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0019/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0019/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/work-orders/WI-0019.md",
-    ".ai-org/work-items/WI-0019.json"
+    ".ai-org/work-items/WI-0019.json",
+    ".ai-org/artifacts/WI-0019/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0019/developer-evidence.md",
+    ".ai-org/artifacts/WI-0019/quality-test-report.md",
+    ".ai-org/artifacts/WI-0019/evaluation-report.md",
+    ".ai-org/artifacts/WI-0019/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0019/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "0d48f087b12dfa1b96d4f3bb5ed73375cb67407c",
+      "artifact": ".ai-org/artifacts/WI-0019/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-30T09:22:10.691Z"
+    }
+  ],
+  "developer_candidate_revision": "0d48f087b12dfa1b96d4f3bb5ed73375cb67407c",
+  "tested_revision": "0d48f087b12dfa1b96d4f3bb5ed73375cb67407c",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

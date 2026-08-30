@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0015",
   "title": "Complete Phase 4 reliability and federation exit",
-  "state": "design",
-  "owner_position": "tech_lead",
-  "assigned_agent_id": "agent-tidus",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-08-30T07:23:05.496Z",
-  "updated_at": "2026-08-30T07:36:25.693Z",
+  "updated_at": "2026-08-30T09:22:55.150Z",
   "scope": [
     "Integrate Phase 4A durability, Phase 4B policy and usage reliability, and Phase 4C multi-repository federation into one reproducible release candidate."
   ],
@@ -66,12 +66,44 @@
     ],
     "acceptance_criteria": [
       ".ai-org/work-items/WI-0015.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0015.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0015.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0015/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0015/developer-evidence.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0015/quality-test-report.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0015/evaluation-report.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/work-orders/WI-0015.md",
-    ".ai-org/work-items/WI-0015.json"
+    ".ai-org/work-items/WI-0015.json",
+    ".ai-org/artifacts/WI-0015/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0015/developer-evidence.md",
+    ".ai-org/artifacts/WI-0015/quality-test-report.md",
+    ".ai-org/artifacts/WI-0015/evaluation-report.md"
   ],
   "unresolved": [],
-  "next_position": "developer"
+  "next_position": "release_manager",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "0d48f087b12dfa1b96d4f3bb5ed73375cb67407c",
+      "artifact": ".ai-org/artifacts/WI-0015/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-30T09:22:54.174Z"
+    }
+  ],
+  "developer_candidate_revision": "0d48f087b12dfa1b96d4f3bb5ed73375cb67407c"
 }

@@ -1,0 +1,10 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "0d48f087b12dfa1b96d4f3bb5ed73375cb67407c",
+  "command": ["independent-qa", "phase4-cli-final"],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-30T09:17:37.000Z",
+  "completed_at": "2026-08-30T09:20:53.000Z",
+  "artifact_refs": [".ai-org/artifacts/WI-0025/independent-qa-report-003.md"]
+}

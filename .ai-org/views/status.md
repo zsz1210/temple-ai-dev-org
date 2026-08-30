@@ -5,9 +5,9 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 26 total, 4 active
+- Work items: 26 total, 1 active
 - Codex tasks: 3 registered, 3 archive-ready
-- Runtime workers: 20 registered, 0 reserved, 0 active
+- Runtime workers: 22 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -58,18 +58,18 @@
 | WI-0012 | Keep reconciled Codex history out of live task signals | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `3872ac71` | 0 | 13 | 0 |
 | WI-0013 | Bind toolkit self-host launcher to the current worktree | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `835dc57d` | 0 | 14 | 0 |
 | WI-0014 | Establish the first correlated active-task usage baseline | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `23768e74` | 2 | 14 | 0 |
-| WI-0015 | Complete Phase 4 reliability and federation exit | design | Tech Lead | Tidus | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
+| WI-0015 | Complete Phase 4 reliability and federation exit | independent_qa | Independent QA | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0d48f087` | 0 | 6 | 0 |
 | WI-0016 | Complete Phase 4A durability operations | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2bf07c0d` | 0 | 12 | 0 |
 | WI-0017 | Complete Phase 4B policy and usage reliability | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5733bb25` | 0 | 12 | 0 |
 | WI-0018 | Implement Phase 4C multi-repository federation | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `db40145c` | 0 | 11 | 0 |
-| WI-0019 | Integrate the Phase 4 CLI, schemas, and release line | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
+| WI-0019 | Integrate the Phase 4 CLI, schemas, and release line | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0d48f087` | 0 | 8 | 0 |
 | WI-0020 | Harden audit export after Independent QA | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5733bb25` | 0 | 11 | 0 |
 | WI-0021 | Fix usage preflight exact correlation | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5733bb25` | 0 | 11 | 0 |
 | WI-0022 | Bind federation reads to the expected revision | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `db40145c` | 0 | 12 | 0 |
 | WI-0023 | Disable Git replacement objects in federation | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `db40145c` | 0 | 8 | 0 |
 | WI-0024 | Make Doctor fail closed on legacy bootstrap metadata | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2bf07c0d` | 0 | 8 | 0 |
-| WI-0025 | Expose Phase 4 operational CLI | independent_qa | Independent QA | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `7dda4c6b` | 0 | 6 | 0 |
-| WI-0026 | Ship Phase 4 project contracts and Alpha.27 metadata | independent_qa | Independent QA | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `7dda4c6b` | 0 | 6 | 0 |
+| WI-0025 | Expose Phase 4 operational CLI | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0d48f087` | 0 | 8 | 0 |
+| WI-0026 | Ship Phase 4 project contracts and Alpha.27 metadata | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0d48f087` | 0 | 8 | 0 |
 
 ## Codex task registry
 
@@ -103,6 +103,8 @@
 | worker-20260830090103-b1811194 | internal-subagent | WI-0026 | Independent QA / Lulu | failed | /root/skill_forward_test:qa-wi-0026 | `7dda4c6b` | 0 |
 | worker-20260830091123-8cde42d0 | internal-subagent | WI-0025 | Independent QA / Lulu | failed | /root/framework_docs_review:qa2-wi-0025 | `d6833dc2` | 0 |
 | worker-20260830091123-055ffa0e | internal-subagent | WI-0026 | Independent QA / Lulu | failed | /root/skill_forward_test:qa2-wi-0026 | `d6833dc2` | 0 |
+| worker-20260830091737-8adca503 | internal-subagent | WI-0025 | Independent QA / Lulu | completed | /root/framework_docs_review:qa3-wi-0025 | `0d48f087` | 0 |
+| worker-20260830091737-a2e037a4 | internal-subagent | WI-0026 | Independent QA / Lulu | completed | /root/skill_forward_test:qa3-wi-0026 | `0d48f087` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -172,14 +174,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-30T09:16:37.284Z | work_item_claim_released | WI-0026 | project-owner |
-| 2026-08-30T09:16:36.967Z | runtime_worker_status_changed | WI-0026 | agent-lulu |
-| 2026-08-30T09:16:36.664Z | work_item_claim_released | WI-0025 | project-owner |
-| 2026-08-30T09:16:36.275Z | runtime_worker_status_changed | WI-0025 | agent-lulu |
-| 2026-08-30T09:11:33.204Z | runtime_worker_attached | WI-0026 | agent-lulu |
-| 2026-08-30T09:11:32.845Z | runtime_worker_attached | WI-0025 | agent-lulu |
-| 2026-08-30T09:11:23.831Z | runtime_worker_reserved | WI-0026 | project-owner |
-| 2026-08-30T09:11:23.835Z | work_item_claimed | WI-0026 | project-owner |
+| 2026-08-30T09:22:55.150Z | work_item_transitioned | WI-0015 | agent-lulu |
+| 2026-08-30T09:22:54.852Z | work_item_transitioned | WI-0015 | agent-lulu |
+| 2026-08-30T09:22:54.518Z | work_item_transitioned | WI-0015 | agent-rikku |
+| 2026-08-30T09:22:54.174Z | handoff_created | WI-0015 | agent-rikku |
+| 2026-08-30T09:22:30.243Z | work_item_transitioned | WI-0015 | agent-tidus |
+| 2026-08-30T09:22:23.616Z | work_item_closed | WI-0019 | agent-mog |
+| 2026-08-30T09:22:23.616Z | release_gate_completed | WI-0019 | agent-mog |
+| 2026-08-30T09:22:18.130Z | work_item_transitioned | WI-0019 | agent-lulu |
 
 ## Assignments
 
