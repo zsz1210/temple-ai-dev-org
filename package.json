@@ -16,9 +16,12 @@
     "node": ">=20"
   },
   "scripts": {
-    "check": "node scripts/check-repo.mjs",
+    "check": "node scripts/check-repo.mjs && node scripts/check-doc-links.mjs",
     "test": "node --test",
-    "verify": "npm run check && npm test"
+    "test:fast": "node --test test/ci-scope.test.mjs test/doc-links.test.mjs test/model.test.mjs test/skill-policy.test.mjs test/specifications.test.mjs",
+    "test:full": "node --test",
+    "verify:fast": "npm run check && npm run test:fast",
+    "verify": "npm run check && npm run test:full"
   },
   "dependencies": {
     "ajv": "8.20.0",

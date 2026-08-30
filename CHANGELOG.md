@@ -2,6 +2,8 @@
 
 ## 0.1.0-alpha.22
 
+- Reworked the trilingual public README as a human-first product entry, replaced the historical roadmap narrative with delivered/now/next/later views, and added a categorized documentation map with explicit guide, ADR, validation, research, pilot, changelog, and future generated-site boundaries.
+- Added change-aware single-job CI, fast and full local verification commands, conservative documentation-only detection, lockfile-strict CI installation, documentation link validation, and a testing strategy that keeps live or release validation separate from ordinary pull requests.
 - Added three authority-separated Human Inbox queues for still-live runtime requests, local business-fact proposals, and revision-bound Human Principal governance decisions. None of the three can substitute for another authority class or advance a lifecycle gate by itself.
 - Added a loopback-only command gateway with same-origin and per-session-secret checks, bounded JSON requests, named routes, idempotency keys, and refusal of arbitrary mutation endpoints.
 - Added explicit business-fact incorporation and High-Assurance governance checks for current state, exact candidate revision, active Principals, approval counts, and Developer-sponsor independence.
