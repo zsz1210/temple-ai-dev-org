@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.26`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 2 wave(s), fresh=false
+- Collaboration profile: `solo` (0 Human Principals, 3 active claims)
+- Parallel plan: 1 wave(s), fresh=false
 - Work items: 22 total, 8 active
 - Codex tasks: 3 registered, 3 archive-ready
-- Runtime workers: 6 registered, 0 reserved, 0 active
+- Runtime workers: 9 registered, 0 reserved, 3 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -16,7 +16,7 @@
 - Learning revalidation: 0 due, 0 contradicted
 - Specifications: 0 indexed, 0 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 4
+- Attention signals: 8
 
 ## Collaboration
 
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 3
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -34,10 +34,10 @@
 - Installed: yes
 - Valid: yes
 - Fresh: no
-- Safe waves: 2
-- Dispatchable Work Items: 4
-- Active / sequential / blocked: 0 / 0 / 0
-- Next wave: WI-0016, WI-0017, WI-0018
+- Safe waves: 1
+- Dispatchable Work Items: 3
+- Active / sequential / blocked: 0 / 0 / 4
+- Next wave: WI-0020, WI-0021, WI-0022
 - Codex tasks, claims, or external actions performed by planning: no
 
 ## Work items
@@ -59,13 +59,13 @@
 | WI-0013 | Bind toolkit self-host launcher to the current worktree | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `835dc57d` | 0 | 14 | 0 |
 | WI-0014 | Establish the first correlated active-task usage baseline | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `23768e74` | 2 | 14 | 0 |
 | WI-0015 | Complete Phase 4 reliability and federation exit | design | Tech Lead | Tidus | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
-| WI-0016 | Complete Phase 4A durability operations | independent_qa | Independent QA | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1c3ca9c8` | 0 | 8 | 0 |
-| WI-0017 | Complete Phase 4B policy and usage reliability | independent_qa | Independent QA | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1c3ca9c8` | 0 | 8 | 0 |
-| WI-0018 | Implement Phase 4C multi-repository federation | independent_qa | Independent QA | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1c3ca9c8` | 0 | 8 | 0 |
+| WI-0016 | Complete Phase 4A durability operations | blocked | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1c3ca9c8` | 0 | 8 | 1 |
+| WI-0017 | Complete Phase 4B policy and usage reliability | blocked | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1c3ca9c8` | 0 | 8 | 1 |
+| WI-0018 | Implement Phase 4C multi-repository federation | blocked | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1c3ca9c8` | 0 | 8 | 1 |
 | WI-0019 | Integrate the Phase 4 CLI, schemas, and release line | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
-| WI-0020 | Harden audit export after Independent QA | build | Developer | Rikku | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
-| WI-0021 | Fix usage preflight exact correlation | build | Developer | Rikku | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
-| WI-0022 | Bind federation reads to the expected revision | build | Developer | Rikku | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
+| WI-0020 | Harden audit export after Independent QA | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830080254-62f7385f | `—` | 0 | 2 | 0 |
+| WI-0021 | Fix usage preflight exact correlation | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830080254-449ef84d | `—` | 0 | 2 | 0 |
+| WI-0022 | Bind federation reads to the expected revision | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830080255-15bcf700 | `—` | 0 | 2 | 0 |
 
 ## Codex task registry
 
@@ -85,6 +85,9 @@
 | worker-20260830075323-5000a6cb | internal-subagent | WI-0016 | Independent QA / Lulu | completed | /root/ownership_code_review:qa-wi-0016 | `642f03cb` | 0 |
 | worker-20260830075323-140fcc4c | internal-subagent | WI-0017 | Independent QA / Lulu | completed | /root/skill_forward_test:qa-wi-0017 | `642f03cb` | 0 |
 | worker-20260830075324-a849e6f4 | internal-subagent | WI-0018 | Independent QA / Lulu | completed | /root/framework_docs_review:qa-wi-0018 | `642f03cb` | 0 |
+| worker-20260830080254-304c0eb5 | internal-subagent | WI-0020 | Developer / Rikku | active | /root/framework_docs_review:fix-wi-0020 | `—` | 0 |
+| worker-20260830080254-fa6dafd6 | internal-subagent | WI-0021 | Developer / Rikku | active | /root/ownership_code_review:fix-wi-0021 | `—` | 0 |
+| worker-20260830080255-43d0b25c | internal-subagent | WI-0022 | Developer / Rikku | active | /root/skill_forward_test:fix-wi-0022 | `—` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -92,10 +95,14 @@
 
 ## Attention
 
+- WI-0016 is blocked
+- WI-0017 is blocked
+- WI-0018 is blocked
 - task-0001 can be archived
 - task-0002 can be archived
 - task-0003 can be archived
 - Generated parallel plan is stale; rebuild it before dispatch
+- Parallel plan has 4 blocked Work Item(s)
 
 ## External tracker coordination
 
@@ -150,14 +157,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-30T08:01:38.099Z | work_item_transitioned | WI-0022 | agent-tidus |
-| 2026-08-30T08:01:37.811Z | work_item_transitioned | WI-0022 | agent-yuna |
-| 2026-08-30T08:01:37.501Z | work_item_transitioned | WI-0022 | agent-mog |
-| 2026-08-30T08:01:37.205Z | work_item_coordination_configured | WI-0022 | agent-mog |
-| 2026-08-30T08:01:36.892Z | work_item_transitioned | WI-0021 | agent-tidus |
-| 2026-08-30T08:01:36.568Z | work_item_transitioned | WI-0021 | agent-yuna |
-| 2026-08-30T08:01:36.212Z | work_item_transitioned | WI-0021 | agent-mog |
-| 2026-08-30T08:01:35.907Z | work_item_coordination_configured | WI-0021 | agent-mog |
+| 2026-08-30T08:03:00.972Z | runtime_worker_attached | WI-0022 | agent-rikku |
+| 2026-08-30T08:03:00.674Z | runtime_worker_attached | WI-0021 | agent-rikku |
+| 2026-08-30T08:03:00.359Z | runtime_worker_attached | WI-0020 | agent-rikku |
+| 2026-08-30T08:02:55.240Z | runtime_worker_reserved | WI-0022 | project-owner |
+| 2026-08-30T08:02:55.243Z | work_item_claimed | WI-0022 | project-owner |
+| 2026-08-30T08:02:54.922Z | runtime_worker_reserved | WI-0021 | project-owner |
+| 2026-08-30T08:02:54.925Z | work_item_claimed | WI-0021 | project-owner |
+| 2026-08-30T08:02:54.619Z | runtime_worker_reserved | WI-0020 | project-owner |
 
 ## Assignments
 

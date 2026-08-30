@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-08-30T08:01:08.926Z",
-  "updated_at": "2026-08-30T08:01:38.099Z",
+  "updated_at": "2026-08-30T08:02:55.243Z",
   "scope": [
     "Prevent canonical symlink and working-tree content from being projected as the registry expected Git revision."
   ],
@@ -31,15 +31,39 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": null,
-  "parallel_mode": "pending",
+  "base_revision": "b34c8b8efa3e59d0cc44bb1864f19a45596ef0fa",
+  "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
-  "planned_agent_id": null,
+  "planned_agent_id": "agent-rikku",
   "shared_contract_refs": [],
   "contract_status": "not_required",
-  "overlap_resolution": [],
-  "claim": null,
-  "claims": [],
+  "overlap_resolution": [
+    "WI-0018 is the failed candidate; WI-0022 owns its corrective paths until rejoin."
+  ],
+  "claim": {
+    "id": "claim-20260830080255-15bcf700",
+    "status": "active",
+    "principal_id": "project-owner",
+    "agent_id": "agent-rikku",
+    "base_revision": "b34c8b8efa3e59d0cc44bb1864f19a45596ef0fa",
+    "branch": "phase4/fix-wi-0022",
+    "worktree": "/tmp/temple-phase4.slCwlE/fix-wi-0022",
+    "claimed_at": "2026-08-30T08:02:55.243Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260830080255-15bcf700",
+      "status": "active",
+      "principal_id": "project-owner",
+      "agent_id": "agent-rikku",
+      "base_revision": "b34c8b8efa3e59d0cc44bb1864f19a45596ef0fa",
+      "branch": "phase4/fix-wi-0022",
+      "worktree": "/tmp/temple-phase4.slCwlE/fix-wi-0022",
+      "claimed_at": "2026-08-30T08:02:55.243Z",
+      "released_at": null
+    }
+  ],
   "gate_evidence": {
     "work_order": [
       ".ai-org/artifacts/work-orders/WI-0022.md"

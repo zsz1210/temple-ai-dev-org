@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-08-30T08:01:08.302Z",
-  "updated_at": "2026-08-30T08:01:35.616Z",
+  "updated_at": "2026-08-30T08:02:54.622Z",
   "scope": [
     "Reject noncanonical audit sources and redact unsafe allow-listed scalar values found by WI-0016 Independent QA."
   ],
@@ -32,15 +32,39 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": null,
-  "parallel_mode": "pending",
+  "base_revision": "b34c8b8efa3e59d0cc44bb1864f19a45596ef0fa",
+  "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
-  "planned_agent_id": null,
+  "planned_agent_id": "agent-rikku",
   "shared_contract_refs": [],
   "contract_status": "not_required",
-  "overlap_resolution": [],
-  "claim": null,
-  "claims": [],
+  "overlap_resolution": [
+    "WI-0016, WI-0017, and WI-0018 retain lifecycle authority; WI-0020 owns audit correction and digest evidence only until rejoin."
+  ],
+  "claim": {
+    "id": "claim-20260830080254-62f7385f",
+    "status": "active",
+    "principal_id": "project-owner",
+    "agent_id": "agent-rikku",
+    "base_revision": "b34c8b8efa3e59d0cc44bb1864f19a45596ef0fa",
+    "branch": "phase4/fix-wi-0020",
+    "worktree": "/tmp/temple-phase4.slCwlE/fix-wi-0020",
+    "claimed_at": "2026-08-30T08:02:54.622Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260830080254-62f7385f",
+      "status": "active",
+      "principal_id": "project-owner",
+      "agent_id": "agent-rikku",
+      "base_revision": "b34c8b8efa3e59d0cc44bb1864f19a45596ef0fa",
+      "branch": "phase4/fix-wi-0020",
+      "worktree": "/tmp/temple-phase4.slCwlE/fix-wi-0020",
+      "claimed_at": "2026-08-30T08:02:54.622Z",
+      "released_at": null
+    }
+  ],
   "gate_evidence": {
     "work_order": [
       ".ai-org/artifacts/work-orders/WI-0020.md"

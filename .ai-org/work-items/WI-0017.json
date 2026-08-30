@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0017",
   "title": "Complete Phase 4B policy and usage reliability",
-  "state": "independent_qa",
-  "owner_position": "independent_qa",
-  "assigned_agent_id": "agent-lulu",
+  "state": "blocked",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T07:23:06.023Z",
-  "updated_at": "2026-08-30T08:00:51.118Z",
+  "updated_at": "2026-08-30T08:02:46.391Z",
   "scope": [
     "Stabilize provider-aware usage observation, natural-work-item longitudinal qualification, and fail-closed model and budget recommendations without fabricating Token evidence."
   ],
@@ -45,12 +45,14 @@
     }
   },
   "base_revision": "642f03cbc48da68ca2e56182998c7182f369cad8",
-  "parallel_mode": "parallel",
+  "parallel_mode": "pending",
   "integration_owner_agent_id": "agent-mog",
-  "planned_agent_id": "agent-lulu",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
-  "overlap_resolution": [],
+  "overlap_resolution": [
+    "WI-0021 owns usage correction and WI-0020 owns only its named audit and digest files until rejoin."
+  ],
   "claim": {
     "id": "claim-20260830075323-5566bbd2",
     "status": "released",
@@ -124,6 +126,9 @@
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0017/evaluation-report.md"
+    ],
+    "blocker_record": [
+      ".ai-org/work-items/WI-0017.json"
     ]
   },
   "evidence": [
@@ -136,8 +141,10 @@
     ".ai-org/artifacts/WI-0017/quality-test-report.md",
     ".ai-org/artifacts/WI-0017/evaluation-report.md"
   ],
-  "unresolved": [],
-  "next_position": "release_manager",
+  "unresolved": [
+    "Independent QA no-go: preflight exact-correlation defect; corrective WI-0021."
+  ],
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -147,5 +154,6 @@
       "created_at": "2026-08-30T07:49:51.714Z"
     }
   ],
-  "developer_candidate_revision": "1c3ca9c830798507c1a32148e2af1c12e82ce178"
+  "developer_candidate_revision": "1c3ca9c830798507c1a32148e2af1c12e82ce178",
+  "previous_state": "independent_qa"
 }
