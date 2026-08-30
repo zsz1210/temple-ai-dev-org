@@ -2,7 +2,7 @@
 
 These are engineering phases and exit gates, not date commitments. Expand automation only after the preceding phase has supporting evidence.
 
-Current implemented framework version: `0.1.0-alpha.22`. Phases 1 through 3 have bounded local exit evidence; retained live, large-scale, and production validations remain explicit and the [Pre-Phase 4 closeout review](pre-phase-4-closeout-review.md) governs entry into Phase 4 implementation.
+Current implemented framework version: `0.1.0-alpha.22`. Phases 1 through 3 have bounded exit evidence, and [Closeout-0A](validation/closeout-0a-release-integrity.md) plus [Closeout-0B](validation/closeout-0b-live-and-upgrade.md) complete the pre-Phase 4 blockers. Phase 4 research and ADR work may begin; retained large-scale and production validations remain explicit.
 
 ## Cross-cutting framework tracks
 
@@ -155,7 +155,7 @@ Local exit gate: satisfied by replay, reconnect, authority-separation, exact-rev
 
 Goal: Advance from a single pilot to a personal enterprise-grade development organization that can be trusted every day.
 
-Implementation entry is currently held at Closeout-0. Release reproducibility, the bounded live Phase 3 checks, and a data-bearing upgrade rehearsal must pass or receive an explicit retained-validation decision before this phase expands the state and operational surface.
+Closeout-0 is complete: release reproducibility, the bounded live Phase 3 checks, and the data-bearing upgrade rehearsal passed. Phase 4 research and ADR entry is open. Durability/recovery and multi-repository authority contracts must be accepted before their corresponding schemas or features are implemented, and retained large-scale or production checks must not be represented as completed.
 
 Planned deliverables:
 

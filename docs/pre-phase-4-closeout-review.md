@@ -7,6 +7,8 @@
 - Decision: **Hold Phase 4 implementation until the Closeout-0 blockers below are resolved**
 - Review mode: repository inspection and disposable local validation; no product or framework behavior was changed
 
+> Follow-up on 2026-08-30: [Closeout-0A](validation/closeout-0a-release-integrity.md) completed C0-01 and C0-02, and [Closeout-0B](validation/closeout-0b-live-and-upgrade.md) completed C0-03 through C0-05. This document remains the point-in-time review and gap register. Phase 4 research and ADR work may now begin; the durability/recovery and multi-repository authority contracts still require acceptance before their corresponding implementation.
+
 ## Executive conclusion
 
 Temple does not need an architectural reset before Phase 4. Its repository-local authority model, exact-revision evidence, Position and Agent separation, project-owned extension boundary, deterministic context routing, Work Item orchestration, and local control plane form a coherent base. The current implementation passed all 129 tests on both the declared minimum Node.js major and the maintainer environment, and the accumulated validation records distinguish local evidence from retained production claims.
