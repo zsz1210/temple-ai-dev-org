@@ -183,7 +183,7 @@ test("provider usage carries proven dimensions and leaves unavailable routing da
 test("usage preflight distinguishes live task telemetry from account-wide unallocated availability", async () => {
   const tasks = [
     { id: "task-setup", status: "setup", thread_id: "thread-setup" },
-    { id: "task-active", status: "active", thread_id: "thread-active" },
+    { id: "task-active", work_item_id: "WI-0001", status: "active", thread_id: "thread-active" },
     { id: "task-waiting", status: "waiting", thread_id: "thread-waiting" },
     { id: "task-attention", status: "attention", thread_id: "thread-attention" },
     { id: "task-completed", status: "completed", thread_id: "thread-completed" },
@@ -282,6 +282,93 @@ test("usage preflight distinguishes live task telemetry from account-wide unallo
   assert.equal(observed.detailed_thread_usage.correlated_observations, 1);
   assert.equal(observed.baseline_qualification.status, "not-qualified");
   assert.equal(observed.baseline_qualification.savings_claim_allowed, false);
+});
+
+test("usage preflight leaves Independent QA Work Item mismatches and unregistered tasks uncorrelated", () => {
+  const project = { id: "policy-product", name: "Policy Product" };
+  const workItems = [
+    { id: "WI-0016", state: "done" },
+    { id: "WI-0017", state: "done" }
+  ];
+  const tasks = [{
+    id: "task-independent-qa",
+    work_item_id: "WI-0016",
+    position_id: "independent_qa",
+    status: "completed",
+    thread_id: "thread-independent-qa",
+    current_revision: "candidate-revision"
+  }];
+  const usageRecord = (id, taskId, workItemId, cursor) => ({
+    specversion: "1.0",
+    id,
+    source: "urn:temple:provider:codex-app-server:local",
+    type: "org.temple.codex.usage.updated.v1",
+    subject: `project/policy-product/work-item/${workItemId}`,
+    time: `2026-08-30T00:00:0${cursor}.000Z`,
+    data: {
+      project_id: "policy-product",
+      work_item_id: workItemId,
+      task_id: taskId,
+      scope_revision: "candidate-revision",
+      attribution: {
+        project_id: "policy-product",
+        work_item_id: workItemId,
+        task_id: taskId,
+        position_id: "independent_qa",
+        lifecycle_stage: "independent_qa",
+        model: "model-qa"
+      },
+      usage: {
+        last: {
+          input_tokens: 10,
+          cached_input_tokens: 0,
+          output_tokens: 2,
+          reasoning_output_tokens: 1,
+          total_tokens: 13
+        }
+      }
+    },
+    templecursor: cursor,
+    templeobservedat: `2026-08-30T00:00:0${cursor}.000Z`
+  });
+  const mismatched = usageRecord("usage-mismatched-work-item", "task-independent-qa", "WI-0017", 1);
+  const unregistered = usageRecord("usage-unregistered-task", "task-not-registered", "WI-0016", 2);
+
+  const preflight = buildUsagePreflightFromRecords(
+    project,
+    tasks,
+    [mismatched, unregistered],
+    [{ id: "codex-local", kind: "codex-app-server", status: "ready", capabilities: { token_usage: "supported" } }],
+    null,
+    { workItems }
+  );
+
+  assert.equal(preflight.detailed_thread_usage.status, "observed");
+  assert.equal(preflight.detailed_thread_usage.observations, 2);
+  assert.equal(preflight.detailed_thread_usage.correlated_observations, 0);
+  assert.equal(preflight.detailed_thread_usage.uncorrelated_observations, 2);
+  assert.equal(preflight.baseline_qualification.status, "not-qualified");
+  assert.equal(preflight.baseline_qualification.qualified_completed_work_items, 0);
+  assert.equal(preflight.baseline_qualification.savings_claim_allowed, false);
+  assert.equal(preflight.routing.recommendation_status, "not-qualified");
+  assert.equal(preflight.routing.recommendation.routing_authority, false);
+  assert.equal(preflight.routing.recommendation.automatic_routing, false);
+  assert.equal(preflight.routing.recommendation.model_switch_performed, false);
+  assert.equal(preflight.routing.recommendation.budget_can_skip_gates, false);
+  assert.equal(preflight.routing.recommendation.release_authority_granted, false);
+  assert.equal(preflight.routing.automatic_routing, false);
+  assert.equal(preflight.routing.model_switch_performed, false);
+  assert.equal(preflight.routing.budget_can_skip_gates, false);
+
+  const baseline = buildUsageBaselineFromRecords(project, [mismatched, unregistered], { workItems, tasks });
+  const coverage = baseline.source.longitudinal_coverage;
+  assert.equal(coverage.detailed_token_observation_coverage.correlated_observations, 0);
+  assert.equal(coverage.detailed_token_observation_coverage.uncorrelated_observations, 2);
+  assert.equal(coverage.qualification.status, "not-qualified");
+  assert.equal(coverage.qualification.savings_claim_allowed, false);
+  assert.equal(coverage.qualification.cost_claim_allowed, false);
+  assert.equal(coverage.qualification.model_quality_claim_allowed, false);
+  assert.equal(coverage.qualification.routing_claim_allowed, false);
 });
 
 test("Codex account usage probe fails closed without retaining provider error details", async () => {

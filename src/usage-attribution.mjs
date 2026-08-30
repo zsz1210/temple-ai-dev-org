@@ -57,6 +57,18 @@ function dimensionsFor(record) {
   return Object.fromEntries(USAGE_DIMENSIONS.map((field) => [field, attribution[field] ?? record.data?.[field] ?? null]));
 }
 
+function correlateRegisteredTaskUsage(registeredTasks, usageRecords) {
+  const registeredTaskById = new Map(registeredTasks.map((task) => [task.id, task]));
+  const correlatedRecords = [];
+  for (const record of usageRecords) {
+    const dimensions = dimensionsFor(record);
+    const task = registeredTaskById.get(dimensions.task_id);
+    if (!task || task.work_item_id !== dimensions.work_item_id) continue;
+    correlatedRecords.push({ record, workItemId: dimensions.work_item_id, task });
+  }
+  return correlatedRecords;
+}
+
 function sortedUnique(values) {
   return [...new Set(values.filter((value) => typeof value === "string" && value.trim()))].sort((left, right) => left.localeCompare(right));
 }
@@ -224,18 +236,11 @@ function buildLongitudinalCoverage(workItems = [], tasks = [], usageRecords = []
   const completedItemIdSet = new Set(completedItemIds);
   const topology = classifyCodexTasks(tasks, { workItems: canonicalItems });
   const registeredTasks = [...topology.registered].sort((left, right) => String(left.id).localeCompare(String(right.id)));
-  const registeredTaskById = new Map(registeredTasks.map((task) => [task.id, task]));
   const registeredWorkItemIds = sortedUnique(registeredTasks.map((task) => task.work_item_id).filter((id) => canonicalItemIds.has(id)));
   const completedWithRegisteredTaskIds = registeredWorkItemIds.filter((id) => completedItemIdSet.has(id));
   const liveTaskIds = new Set(topology.live_resumable.map((task) => task.id));
   const historicalOnlyTasks = topology.history_reconcilable.filter((task) => !liveTaskIds.has(task.id));
-  const correlatedRecords = [];
-  for (const record of usageRecords) {
-    const dimensions = dimensionsFor(record);
-    const task = registeredTaskById.get(dimensions.task_id);
-    if (!task || task.work_item_id !== dimensions.work_item_id || !canonicalItemIds.has(dimensions.work_item_id)) continue;
-    correlatedRecords.push({ record, workItemId: dimensions.work_item_id, task });
-  }
+  const correlatedRecords = correlateRegisteredTaskUsage(registeredTasks, usageRecords);
   const correlatedWorkItemIds = sortedUnique(correlatedRecords.map(({ workItemId }) => workItemId));
   const correlatedCompletedWorkItemIds = correlatedWorkItemIds.filter((id) => completedItemIdSet.has(id));
   const requiredWorkItems = Number.isInteger(options.longitudinalWorkItemsRequired) && options.longitudinalWorkItemsRequired > 0
@@ -464,10 +469,7 @@ export function buildUsagePreflightFromRecords(project, tasks, records, provider
   const codexProvider = providers.find((provider) => provider.kind === "codex-app-server" || provider.id === "codex-local") ?? null;
   const tokenCapability = codexProvider?.capabilities?.token_usage ?? "unknown";
   const providerOperational = codexProvider && !["offline", "disabled"].includes(codexProvider.status);
-  const correlated = usageRecords.filter((record) => {
-    const attribution = record.data?.attribution ?? {};
-    return Boolean(attribution.work_item_id ?? record.data?.work_item_id) && Boolean(attribution.task_id ?? record.data?.task_id);
-  });
+  const correlated = correlateRegisteredTaskUsage(topology.registered, usageRecords);
   let detailedStatus = "no-live-registered-task";
   if (usageRecords.length > 0) detailedStatus = "observed";
   else if (topology.live_resumable.length === 0) detailedStatus = "no-live-registered-task";
