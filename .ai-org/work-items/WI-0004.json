@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0004",
   "title": "Rewrite README audience scenarios",
-  "state": "blocked",
+  "state": "done",
   "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T03:22:14.366Z",
-  "updated_at": "2026-08-30T03:28:52.109Z",
+  "updated_at": "2026-08-30T03:39:02.466Z",
   "scope": [
     "Replace the unclear situation section in all maintained README languages with reader-first descriptions for individual developers, development teams, and enterprise organizations."
   ],
@@ -91,6 +91,9 @@
     ],
     "blocker_record": [
       ".ai-org/artifacts/WI-0004/blocker-001.md"
+    ],
+    "resolution_evidence": [
+      ".ai-org/artifacts/WI-0004/resolution-001.md"
     ]
   },
   "evidence": [
@@ -103,7 +106,8 @@
     "EVID-20260830T032701Z-5CF43913",
     ".ai-org/artifacts/WI-0004/release-record.md",
     ".ai-org/artifacts/WI-0004/independent-qa-001.md",
-    ".ai-org/artifacts/WI-0004/blocker-001.md"
+    ".ai-org/artifacts/WI-0004/blocker-001.md",
+    ".ai-org/artifacts/WI-0004/resolution-001.md"
   ],
   "unresolved": [],
   "next_position": null,
@@ -120,6 +124,5 @@
   "tested_revision": "815b43ae3151cafcd0be8b5a7bd9077e6affd055",
   "release_gate_result": "go",
   "external_release_status": "not_performed",
-  "approval_record": "not-required",
-  "previous_state": "done"
+  "approval_record": "not-required"
 }

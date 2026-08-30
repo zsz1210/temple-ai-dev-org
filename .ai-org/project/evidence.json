@@ -540,6 +540,123 @@
         "exit_code": 0,
         "started_at": "2026-08-30T03:26:42Z"
       }
+    },
+    {
+      "id": "EVID-20260830T033515Z-3D9E2CE4",
+      "work_item_id": "WI-0005",
+      "recorded_at": "2026-08-30T03:35:15.876Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Revision-aware evidence candidate",
+      "outcome": "verified",
+      "scope_revision": "891e3ab618bbbdaaac821aef4d472250a566a447",
+      "observed_at": "2026-08-30T03:35:15.876Z",
+      "summary": "Implements historical Git blob validation with current-file fallback for post-revision artifacts.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "891e3ab618bbbdaaac821aef4d472250a566a447"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "891e3ab618bbbdaaac821aef4d472250a566a447",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260830T033516Z-A46AEA54",
+      "work_item_id": "WI-0005",
+      "recorded_at": "2026-08-30T03:35:16.211Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Focused evidence regression suite",
+      "outcome": "pass",
+      "scope_revision": "891e3ab618bbbdaaac821aef4d472250a566a447",
+      "observed_at": "2026-08-30T03:35:03Z",
+      "summary": "All eight evidence and Observer tests passed at the candidate; the full local suite passed 137 tests.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/alpha-23-revision-aware-evidence-developer.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/alpha-23-revision-aware-evidence-developer.json",
+          "sha256": "1aa1226e1c2a017a1e90ae1f755962a311f86db0bee24b34632ae293fe16d5c8"
+        },
+        {
+          "path": "src/evidence.mjs",
+          "sha256": "fc3f6c77d408d7c22e7d1f21a7154728db4ac8d6e26bb4b54169871238326ab6"
+        },
+        {
+          "path": "test/evidence-observer.test.mjs",
+          "sha256": "6b71f237ba8abf512ed1a929b44eb8c064ba06e33e48f0df1d459c41562d1e0e"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/evidence-observer.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T03:34:55Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T033809Z-B6984016",
+      "work_item_id": "WI-0005",
+      "recorded_at": "2026-08-30T03:38:09.840Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent revision-aware evidence QA",
+      "outcome": "pass",
+      "scope_revision": "891e3ab618bbbdaaac821aef4d472250a566a447",
+      "observed_at": "2026-08-30T03:37:23Z",
+      "summary": "A clean standalone clone at the exact candidate passed 137 tests; the candidate CLI Doctor reported zero failures.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/alpha-23-revision-aware-evidence-independent-qa.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/alpha-23-revision-aware-evidence-independent-qa.json",
+          "sha256": "11e0c7341c5288781c2ad21fb5b8f5624fb87b35ee6c405153161927b0bd5fc2"
+        },
+        {
+          "path": "src/evidence.mjs",
+          "sha256": "fc3f6c77d408d7c22e7d1f21a7154728db4ac8d6e26bb4b54169871238326ab6"
+        },
+        {
+          "path": "test/evidence-observer.test.mjs",
+          "sha256": "6b71f237ba8abf512ed1a929b44eb8c064ba06e33e48f0df1d459c41562d1e0e"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T03:36:50Z"
+      }
     }
   ]
 }

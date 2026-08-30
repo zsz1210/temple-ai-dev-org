@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0005",
   "title": "Validate historical evidence at its recorded revision",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T03:31:49.865Z",
-  "updated_at": "2026-08-30T03:32:34.489Z",
+  "updated_at": "2026-08-30T03:38:16.565Z",
   "scope": [
     "Make doctor verify Git-tracked evidence artifacts against the exact scope_revision recorded by the evidence entry while continuing to detect drift in post-revision or untracked evidence artifacts."
   ],
@@ -59,12 +59,61 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/work-orders/WI-0005.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0005/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260830T033515Z-3D9E2CE4",
+      "EVID-20260830T033516Z-A46AEA54"
+    ],
+    "test_evidence": [
+      "EVID-20260830T033516Z-A46AEA54"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0005/evaluation-001.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260830T033809Z-B6984016"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/work-orders/WI-0005.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0005/independent-qa-001.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0005/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/work-orders/WI-0005.md",
-    ".ai-org/work-items/WI-0005.json"
+    ".ai-org/work-items/WI-0005.json",
+    ".ai-org/artifacts/WI-0005/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260830T033515Z-3D9E2CE4",
+    "EVID-20260830T033516Z-A46AEA54",
+    ".ai-org/artifacts/WI-0005/evaluation-001.md",
+    "EVID-20260830T033809Z-B6984016",
+    ".ai-org/artifacts/WI-0005/release-record.md",
+    ".ai-org/artifacts/WI-0005/independent-qa-001.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "891e3ab618bbbdaaac821aef4d472250a566a447",
+      "artifact": ".ai-org/artifacts/WI-0005/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-30T03:35:22.579Z"
+    }
+  ],
+  "developer_candidate_revision": "891e3ab618bbbdaaac821aef4d472250a566a447",
+  "tested_revision": "891e3ab618bbbdaaac821aef4d472250a566a447",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

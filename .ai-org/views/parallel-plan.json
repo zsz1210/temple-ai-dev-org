@@ -1,38 +1,24 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T03:28:57.780Z",
-  "source_fingerprint": "6125bb6ca89a554c15f5ff92d85df8546d1b393ddca8b1a8053f2c6934825bfd",
+  "generated_at": "2026-08-30T03:39:07.137Z",
+  "source_fingerprint": "de956f0c4b8bf6794b55825b8818c81d30ff50493ba4259e614d31806ad33a85",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
-    "selected_work_item_ids": [
-      "WI-0004"
-    ]
+    "selected_work_item_ids": []
   },
   "max_workers": 1,
   "summary": {
-    "selected": 1,
+    "selected": 0,
     "dispatchable": 0,
     "active": 0,
-    "sequential": 1,
+    "sequential": 0,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
   "active": [],
-  "sequential": [
-    {
-      "work_item_id": "WI-0004",
-      "title": "Rewrite README audience scenarios",
-      "disposition": "sequential",
-      "position_id": "engineering_manager",
-      "agent_id": "agent-mog",
-      "integration_owner_agent_id": null,
-      "reasons": [
-        "requested_mode_sequential"
-      ]
-    }
-  ],
+  "sequential": [],
   "blocked": [],
   "conflicts": [],
   "execution_policy": {

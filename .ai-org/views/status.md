@@ -4,8 +4,8 @@
 - Organization system version: `0.1.0-alpha.23`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=false
-- Work items: 5 total, 2 active
+- Parallel plan: 0 wave(s), fresh=true
+- Work items: 5 total, 0 active
 - Codex tasks: 0 registered, 0 archive-ready
 - Runtime workers: 0 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -16,7 +16,7 @@
 - Learning revalidation: 0 due, 0 contradicted
 - Specifications: 0 indexed, 0 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 2
+- Attention signals: 0
 
 ## Collaboration
 
@@ -33,10 +33,10 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: no
+- Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 1 / 0
+- Active / sequential / blocked: 0 / 0 / 0
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -47,8 +47,8 @@
 | WI-0001 | Reorganize documentation by reader purpose | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ed624187` | 0 | 9 | 0 |
 | WI-0002 | Reposition the public README for every project scale | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ed624187` | 0 | 9 | 0 |
 | WI-0003 | Polish the trilingual README layout | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f77b44e5` | 0 | 9 | 0 |
-| WI-0004 | Rewrite README audience scenarios | blocked | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `815b43ae` | 0 | 10 | 0 |
-| WI-0005 | Validate historical evidence at its recorded revision | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
+| WI-0004 | Rewrite README audience scenarios | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `815b43ae` | 0 | 11 | 0 |
+| WI-0005 | Validate historical evidence at its recorded revision | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `891e3ab6` | 0 | 9 | 0 |
 
 ## Codex task registry
 
@@ -64,8 +64,7 @@ No runtime workers registered yet.
 
 ## Attention
 
-- WI-0004 is blocked
-- Generated parallel plan is stale; rebuild it before dispatch
+No blockers, task attention requests, or archive-ready tasks.
 
 ## External tracker coordination
 
@@ -120,14 +119,14 @@ No runtime workers registered yet.
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-30T03:32:34.489Z | work_item_transitioned | WI-0005 | agent-tidus |
-| 2026-08-30T03:32:34.122Z | work_item_transitioned | WI-0005 | agent-yuna |
-| 2026-08-30T03:32:33.708Z | work_item_transitioned | WI-0005 | agent-mog |
-| 2026-08-30T03:31:54.224Z | work_item_coordination_configured | WI-0005 | agent-mog |
-| 2026-08-30T03:31:49.865Z | work_item_created | WI-0005 | agent-mog |
-| 2026-08-30T03:28:52.109Z | work_item_transitioned | WI-0004 | agent-mog |
-| 2026-08-30T03:27:12.543Z | work_item_closed | WI-0004 | agent-mog |
-| 2026-08-30T03:27:12.543Z | release_gate_completed | WI-0004 | agent-mog |
+| 2026-08-30T03:39:02.466Z | work_item_transitioned | WI-0004 | agent-mog |
+| 2026-08-30T03:38:16.565Z | work_item_closed | WI-0005 | agent-mog |
+| 2026-08-30T03:38:16.565Z | release_gate_completed | WI-0005 | agent-mog |
+| 2026-08-30T03:38:16.236Z | work_item_transitioned | WI-0005 | agent-lulu |
+| 2026-08-30T03:38:09.840Z | evidence_recorded | WI-0005 | human |
+| 2026-08-30T03:35:36.820Z | work_item_transitioned | WI-0005 | agent-lulu |
+| 2026-08-30T03:35:23.235Z | work_item_transitioned | WI-0005 | agent-lulu |
+| 2026-08-30T03:35:22.907Z | work_item_transitioned | WI-0005 | agent-rikku |
 
 ## Assignments
 
