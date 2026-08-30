@@ -4,6 +4,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
+import { CLI_BOOTSTRAP_SCHEMA, validateCliBootstrapMetadata } from "../src/bootstrap.mjs";
 import { TEMPLATE_VERSION } from "../src/constants.mjs";
 import { runDoctor } from "../src/doctor.mjs";
 import { formatJson, sha256 } from "../src/files.mjs";
@@ -66,6 +67,39 @@ async function setInstalledVersion(target, version) {
   lock.template.bootstrap.package_spec = `@zsz1210/temple-ai-dev-org@${version}`;
   await fs.writeFile(lockPath, formatJson(lock));
 }
+
+test("CLI bootstrap metadata validation is total and fail-closed", () => {
+  for (const document of [undefined, null, [], true, "unpinned-package"]) {
+    assert.deepEqual(validateCliBootstrapMetadata(document), {
+      valid: false,
+      errors: ["bootstrap metadata must be an object"]
+    });
+  }
+
+  const valid = {
+    schema_version: CLI_BOOTSTRAP_SCHEMA,
+    version: TEMPLATE_VERSION,
+    node: ">=20",
+    launcher: "templew.mjs",
+    package_spec: `@zsz1210/temple-ai-dev-org@${TEMPLATE_VERSION}`,
+    repository_spec: null,
+    source_revision: null,
+    source_clean: false,
+    invocation: "node ./templew.mjs <command> ."
+  };
+  assert.deepEqual(validateCliBootstrapMetadata(valid), { valid: true, errors: [] });
+
+  const malformed = validateCliBootstrapMetadata({
+    ...valid,
+    repository_spec: { unpinned: true },
+    source_revision: ["unpinned"]
+  });
+  assert.equal(malformed.valid, false);
+  assert.deepEqual(malformed.errors, [
+    "bootstrap repository_spec must be null or an exact Git revision",
+    "bootstrap source_revision must be null or a Git commit"
+  ]);
+});
 
 test("backup includes only project-owned Temple state and verifies every payload", async (context) => {
   const state = await fixture("backup-boundary");
@@ -516,8 +550,7 @@ test("an internally consistent older backup restores with an upgrade-required re
   const targetLockPath = path.join(state.target, "temple.lock");
   const olderLock = JSON.parse(await fs.readFile(backupLockPath, "utf8"));
   olderLock.template.version = olderVersion;
-  olderLock.template.bootstrap.version = olderVersion;
-  olderLock.template.bootstrap.package_spec = `@zsz1210/temple-ai-dev-org@${olderVersion}`;
+  delete olderLock.template.bootstrap;
   const olderLockContent = formatJson(olderLock);
   await fs.writeFile(backupLockPath, olderLockContent);
   await fs.writeFile(targetLockPath, olderLockContent);
@@ -541,10 +574,25 @@ test("an internally consistent older backup restores with an upgrade-required re
   });
   assert.equal(restored.upgrade_required, true);
 
+  const preUpgradeDoctor = await runDoctor(state.target);
+  assert.equal(preUpgradeDoctor.healthy, false);
+  const preUpgradeBootstrap = preUpgradeDoctor.checks.find((check) => check.id === "cli_bootstrap");
+  assert.equal(preUpgradeBootstrap?.status, "fail");
+  assert.match(preUpgradeBootstrap?.message ?? "", /bootstrap metadata must be an object/);
+
   const upgrade = await planUpgrade(state.target);
   assert.deepEqual(upgrade.conflicts, []);
   const upgradedLock = await executeUpgrade(upgrade);
   assert.equal(upgradedLock.template.version, "0.1.0-alpha.26");
+  assert.equal(upgradedLock.template.bootstrap.schema_version, "temple.cli-bootstrap/v1");
+  assert.equal(upgradedLock.template.bootstrap.version, "0.1.0-alpha.26");
+  const upgradedDoctor = await runDoctor(state.target);
+  assert.equal(
+    upgradedDoctor.healthy,
+    true,
+    JSON.stringify(upgradedDoctor.checks.filter((check) => check.status !== "pass"), null, 2)
+  );
+  assert.equal(upgradedDoctor.checks.find((check) => check.id === "cli_bootstrap")?.status, "pass");
 });
 
 test("post-upgrade rollback and interruption rehearsals touch only disposable project copies", async (context) => {

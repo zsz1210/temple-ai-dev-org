@@ -38,25 +38,33 @@ export async function buildCliBootstrapMetadata() {
 }
 
 export function validateCliBootstrapMetadata(document, templateVersion = TEMPLATE_VERSION) {
+  if (document === null || typeof document !== "object" || Array.isArray(document)) {
+    return { valid: false, errors: ["bootstrap metadata must be an object"] };
+  }
   const errors = [];
-  if (document?.schema_version !== CLI_BOOTSTRAP_SCHEMA) errors.push(`schema_version must be ${CLI_BOOTSTRAP_SCHEMA}`);
-  if (document?.version !== templateVersion) errors.push("bootstrap version must match the installed template version");
-  if (document?.node !== ">=20") errors.push("bootstrap node requirement must be >=20");
-  if (document?.launcher !== "templew.mjs") errors.push("bootstrap launcher must be templew.mjs");
-  if (document?.package_spec !== `${PACKAGE_NAME}@${templateVersion}`) {
+  if (document.schema_version !== CLI_BOOTSTRAP_SCHEMA) errors.push(`schema_version must be ${CLI_BOOTSTRAP_SCHEMA}`);
+  if (document.version !== templateVersion) errors.push("bootstrap version must match the installed template version");
+  if (document.node !== ">=20") errors.push("bootstrap node requirement must be >=20");
+  if (document.launcher !== "templew.mjs") errors.push("bootstrap launcher must be templew.mjs");
+  if (document.package_spec !== `${PACKAGE_NAME}@${templateVersion}`) {
     errors.push("bootstrap package_spec must pin the installed package version");
   }
-  if (!(document?.repository_spec === null || /^git\+https:\/\/github\.com\/.+#[a-f0-9]{40}$/.test(document.repository_spec))) {
+  if (!(document.repository_spec === null || (
+    typeof document.repository_spec === "string" &&
+    /^git\+https:\/\/github\.com\/.+#[a-f0-9]{40}$/.test(document.repository_spec)
+  ))) {
     errors.push("bootstrap repository_spec must be null or an exact Git revision");
   }
-  if (!(document?.source_revision === null || /^[a-f0-9]{40}$/.test(document.source_revision))) {
+  if (!(document.source_revision === null || (
+    typeof document.source_revision === "string" && /^[a-f0-9]{40}$/.test(document.source_revision)
+  ))) {
     errors.push("bootstrap source_revision must be null or a Git commit");
   }
-  if (typeof document?.source_clean !== "boolean") errors.push("bootstrap source_clean must be boolean");
-  if (document?.source_clean === true && !document?.repository_spec) {
+  if (typeof document.source_clean !== "boolean") errors.push("bootstrap source_clean must be boolean");
+  if (document.source_clean === true && !document.repository_spec) {
     errors.push("a clean bootstrap source must provide repository_spec");
   }
-  if (typeof document?.invocation !== "string" || !document.invocation.includes("templew.mjs")) {
+  if (typeof document.invocation !== "string" || !document.invocation.includes("templew.mjs")) {
     errors.push("bootstrap invocation must identify the repository launcher");
   }
   return { valid: errors.length === 0, errors };
