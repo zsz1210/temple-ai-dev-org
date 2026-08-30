@@ -50,7 +50,7 @@ temple init . --config /path/to/config.json --dry-run
 temple init . --config /path/to/config.json
 ```
 
-After a successful init, the CLI prints directly copyable `doctor` and `status` commands through the target repository's `templew.mjs` launcher. The launcher reads `temple.cli-bootstrap/v1` from `temple.lock`, pins the installed framework version, and rejects a development override with a different version. From a clean framework source checkout, the lock also pins an exact Git source revision for recovery.
+After a successful init, the CLI prints directly copyable `doctor` and `status` commands through the target repository's `templew.mjs` launcher. The launcher reads `temple.cli-bootstrap/v1` from `temple.lock`, pins the installed framework version, and rejects a development override with a different version. An ordinary project recovers the CLI from the exact Git revision recorded by a clean framework source or from the version-pinned package source. It does not depend on a Temple source checkout beside the project.
 
 Use `node ./templew.mjs observe .` when you need the local read-only overview. Use `--no-write --json` when another Agent needs only an ephemeral projection. Evidence capture and Observer usage are documented in [Evidence and Observer](../operations/evidence-and-observer.md).
 
@@ -76,7 +76,9 @@ node ./bin/temple.mjs init . \
   --config /path/to/confirmed-temple-init.json
 ```
 
-The root `.ai-org/` then describes work on Temple itself. `project-overlay/` remains the identity-free distribution source installed into other projects. The self-host lock may adopt only the declared byte-identical bootstrap `$temple-init`; all other untracked managed collisions still stop before writes. During a dirty framework-development checkout, exercise `templew.mjs` with `TEMPLE_CLI_PATH` set to the absolute root `bin/temple.mjs`; the launcher still rejects a version mismatch. See [ADR-0030](../adr/0030-self-host-the-toolkit-with-explicit-boundaries.md).
+The root `.ai-org/` then describes work on Temple itself. `project-overlay/` remains the identity-free distribution source installed into other projects. The self-host lock may adopt only the declared byte-identical bootstrap `$temple-init`; all other untracked managed collisions still stop before writes.
+
+In this maintainer-only mode, `node ./templew.mjs ...` executes the current worktree's own `bin/temple.mjs`. This keeps a detached candidate worktree from silently using another same-version checkout through `npm link` or a global package. The launcher canonicalizes the local path, requires it to remain inside the toolkit worktree, and checks its version before execution. A missing, escaping, or version-mismatched local CLI stops bootstrap instead of falling back. `TEMPLE_CLI_PATH` remains an explicit compatible-version override for diagnostics, but normal self-host work no longer requires it. See [ADR-0030](../adr/0030-self-host-the-toolkit-with-explicit-boundaries.md).
 
 ### Move from Solo to Collaborative
 

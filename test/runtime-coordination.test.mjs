@@ -30,6 +30,78 @@ function initConfig() {
   };
 }
 
+function withoutExplicitCli(extra = {}) {
+  const environment = { ...process.env, ...extra };
+  delete environment.TEMPLE_CLI_PATH;
+  return environment;
+}
+
+async function selfHostLauncherFixture(context, { cliVersion = TEMPLATE_VERSION, writeLocalCli = true } = {}) {
+  const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-self-host-launcher-test-"));
+  const target = path.join(temporaryRoot, "toolkit-worktree");
+  const competingBin = path.join(temporaryRoot, "competing-bin");
+  const wrapper = path.join(target, "templew.mjs");
+  const localCli = path.join(target, "bin", "temple.mjs");
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+
+  await fs.mkdir(path.dirname(localCli), { recursive: true });
+  await fs.mkdir(path.join(target, "project-overlay"), { recursive: true });
+  await fs.mkdir(competingBin, { recursive: true });
+  await fs.copyFile(path.join(root, "project-overlay", "templew.mjs"), wrapper);
+  await fs.writeFile(
+    path.join(target, "temple.lock"),
+    `${JSON.stringify(
+      {
+        template: {
+          version: TEMPLATE_VERSION,
+          bootstrap: {
+            schema_version: "temple.cli-bootstrap/v1",
+            version: TEMPLATE_VERSION,
+            package_spec: `${PACKAGE_NAME}@${TEMPLATE_VERSION}`,
+            repository_spec: null
+          }
+        },
+        installation: {
+          mode: "toolkit-self-host",
+          source_overlay: "project-overlay"
+        }
+      },
+      null,
+      2
+    )}\n`
+  );
+  if (writeLocalCli) {
+    await fs.writeFile(
+      localCli,
+      [
+        `const version = ${JSON.stringify(cliVersion)};`,
+        "if (process.argv[2] === '--version') console.log(version);",
+        "else console.log(JSON.stringify({ source: 'worktree-local', arguments: process.argv.slice(2) }));",
+        ""
+      ].join("\n")
+    );
+  }
+
+  const competingRunner = path.join(competingBin, process.platform === "win32" ? "npm.cmd" : "npm");
+  if (process.platform === "win32") {
+    await fs.writeFile(competingRunner, "@echo {\"source\":\"same-version-competing-package\"}\r\n");
+  } else {
+    await fs.writeFile(
+      competingRunner,
+      "#!/bin/sh\nprintf '%s\\n' '{\"source\":\"same-version-competing-package\"}'\n"
+    );
+    await fs.chmod(competingRunner, 0o755);
+  }
+
+  return {
+    temporaryRoot,
+    target,
+    wrapper,
+    localCli,
+    environment: withoutExplicitCli({ PATH: `${competingBin}${path.delimiter}${process.env.PATH ?? ""}` })
+  };
+}
+
 async function fixture(context) {
   const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-runtime-test-"));
   const target = path.join(temporaryRoot, "runtime-product");
@@ -95,6 +167,7 @@ test("init installs a repository-visible version-pinned Temple launcher", async 
   assert.equal(lock.template.bootstrap.schema_version, "temple.cli-bootstrap/v1");
   assert.equal(lock.template.bootstrap.version, lock.template.version);
   assert.equal(lock.template.bootstrap.package_spec, `${PACKAGE_NAME}@${TEMPLATE_VERSION}`);
+  assert.notEqual(lock.installation.mode, "toolkit-self-host");
   assert.ok(lock.managed_files.some((entry) => entry.path === "templew.mjs"));
 
   const info = spawnSync(process.execPath, [wrapper, "--bootstrap-info"], { encoding: "utf8" });
@@ -116,6 +189,60 @@ test("init installs a repository-visible version-pinned Temple launcher", async 
   });
   assert.equal(mismatch.status, 1);
   assert.match(mismatch.stderr, /does not match pinned version/);
+});
+
+test("toolkit self-host launcher executes its own worktree CLI without an override", async (context) => {
+  const fixture = await selfHostLauncherFixture(context);
+  const result = spawnSync(process.execPath, [fixture.wrapper, "doctor", fixture.target, "--json"], {
+    encoding: "utf8",
+    env: fixture.environment
+  });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.deepEqual(JSON.parse(result.stdout), {
+    source: "worktree-local",
+    arguments: ["doctor", fixture.target, "--json"]
+  });
+});
+
+test("toolkit self-host launcher refuses a missing repository-local CLI", async (context) => {
+  const fixture = await selfHostLauncherFixture(context, { writeLocalCli: false });
+  const result = spawnSync(process.execPath, [fixture.wrapper, "doctor", fixture.target], {
+    encoding: "utf8",
+    env: fixture.environment
+  });
+  assert.equal(result.status, 1, result.stderr || result.stdout);
+  assert.match(result.stderr, /cannot resolve repository-local CLI/);
+  assert.doesNotMatch(result.stdout, /same-version-competing-package/);
+});
+
+test("toolkit self-host launcher refuses a version-mismatched repository-local CLI", async (context) => {
+  const fixture = await selfHostLauncherFixture(context, { cliVersion: "9.9.9" });
+  const result = spawnSync(process.execPath, [fixture.wrapper, "doctor", fixture.target], {
+    encoding: "utf8",
+    env: fixture.environment
+  });
+  assert.equal(result.status, 1, result.stderr || result.stdout);
+  assert.match(result.stderr, /repository-local CLI version 9\.9\.9 does not match pinned version/);
+  assert.doesNotMatch(result.stdout, /same-version-competing-package/);
+});
+
+test("toolkit self-host launcher refuses a repository-local CLI symlink that escapes the worktree", async (context) => {
+  if (process.platform === "win32") {
+    context.skip("Windows symlink creation may require privileges");
+    return;
+  }
+  const fixture = await selfHostLauncherFixture(context);
+  const outsideCli = path.join(fixture.temporaryRoot, "outside-temple.mjs");
+  await fs.rename(fixture.localCli, outsideCli);
+  await fs.symlink(outsideCli, fixture.localCli);
+
+  const result = spawnSync(process.execPath, [fixture.wrapper, "doctor", fixture.target], {
+    encoding: "utf8",
+    env: fixture.environment
+  });
+  assert.equal(result.status, 1, result.stderr || result.stdout);
+  assert.match(result.stderr, /Repository-local CLI resolves outside the toolkit worktree/);
+  assert.doesNotMatch(result.stdout, /same-version-competing-package/);
 });
 
 test("upgrade adds the runtime coordination contract without adopting project-owned state", async (context) => {

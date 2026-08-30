@@ -1,0 +1,75 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0013",
+  "title": "Bind toolkit self-host launcher to the current worktree",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T06:29:38.620Z",
+  "updated_at": "2026-08-30T06:30:10.077Z",
+  "scope": [
+    "Make toolkit-self-host launchers execute the current checkout's repository-local CLI by default and fail closed on an invalid local boundary.",
+    "Preserve version-pinned package recovery for ordinary installed projects and the explicit TEMPLE_CLI_PATH override.",
+    "No package publication, deployment, push, external write, model switch, or spend."
+  ],
+  "acceptance_criteria": [
+    "A toolkit-self-host launcher invokes its own worktree-local bin/temple.mjs without TEMPLE_CLI_PATH even when another same-version Temple CLI is globally available.",
+    "Self-host bootstrap rejects a missing, escaping, or version-mismatched local CLI instead of falling back to npm or a global installation.",
+    "Ordinary-project bootstrap metadata and explicit compatible TEMPLE_CLI_PATH behavior remain covered.",
+    "Focused and full tests pass, then Independent QA reproduces default Doctor from a fresh detached exact-candidate worktree."
+  ],
+  "affected_paths": [
+    "project-overlay/templew.mjs",
+    "templew.mjs",
+    "test/runtime-coordination.test.mjs",
+    "temple.lock",
+    "docs/getting-started/usage.md",
+    "docs/validation"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": null,
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0013.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0013.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0013.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0013.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0013.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0013.md",
+    ".ai-org/work-items/WI-0013.json"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
