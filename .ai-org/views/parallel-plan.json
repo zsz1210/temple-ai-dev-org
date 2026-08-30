@@ -1,22 +1,150 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T07:16:39.477Z",
-  "source_fingerprint": "499c7efee16d9d21ad80eee8213fa7cc132ca30f651ea8572bcc1e3832f0789e",
+  "generated_at": "2026-08-30T07:25:21.689Z",
+  "source_fingerprint": "8f3d1e4f0cf8e17288d8b51144702213c335295c3a19b897cb781e36c3b8aee7",
   "scope": {
-    "mode": "all-active",
-    "parent_work_item_id": null,
-    "selected_work_item_ids": []
+    "mode": "parent-descendants",
+    "parent_work_item_id": "WI-0015",
+    "selected_work_item_ids": [
+      "WI-0016",
+      "WI-0017",
+      "WI-0018"
+    ]
   },
   "max_workers": 3,
   "summary": {
-    "selected": 0,
-    "dispatchable": 0,
+    "selected": 3,
+    "dispatchable": 3,
     "active": 0,
     "sequential": 0,
     "blocked": 0,
-    "waves": 0
+    "waves": 1
   },
-  "waves": [],
+  "waves": [
+    {
+      "id": "wave-001",
+      "order": 1,
+      "dispatch": [
+        {
+          "work_item_id": "WI-0016",
+          "title": "Complete Phase 4A durability operations",
+          "position_id": "developer",
+          "agent_id": "agent-rikku",
+          "agent_name": "Rikku",
+          "suggested_task_title": "WI-0016 · Developer · Rikku",
+          "base_revision": "f62cd75d3bbb64fd68cf6c1b5482fa2120e3dc93",
+          "affected_paths": [
+            "src/recovery.mjs",
+            "src/audit-export.mjs",
+            "test/recovery.test.mjs",
+            "test/audit-export.test.mjs",
+            "docs/operations/backup-and-recovery.md",
+            "docs/validation/phase-4a-completion.md"
+          ],
+          "dependencies": [],
+          "required_disciplines": [
+            "general-development"
+          ],
+          "active_requirements": {
+            "stage": "build",
+            "disciplines": [
+              "general-development"
+            ],
+            "resources": []
+          },
+          "preparation_fingerprint": "b5d4ab080791ab2aa0cf28a58cf6da4184bc54ccb9a4fa4b78c78e7937d20427",
+          "integration_owner_agent_id": "agent-mog",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0016 --position developer --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
+        },
+        {
+          "work_item_id": "WI-0017",
+          "title": "Complete Phase 4B policy and usage reliability",
+          "position_id": "developer",
+          "agent_id": "agent-rikku",
+          "agent_name": "Rikku",
+          "suggested_task_title": "WI-0017 · Developer · Rikku",
+          "base_revision": "f62cd75d3bbb64fd68cf6c1b5482fa2120e3dc93",
+          "affected_paths": [
+            "src/codex-app-server-provider.mjs",
+            "src/usage-attribution.mjs",
+            "test/phase-4b.test.mjs",
+            "test/control-plane-live.test.mjs",
+            "docs/operations/token-efficiency-and-model-routing.md",
+            "docs/validation/phase-4b-completion.md"
+          ],
+          "dependencies": [],
+          "required_disciplines": [
+            "general-development"
+          ],
+          "active_requirements": {
+            "stage": "build",
+            "disciplines": [
+              "general-development"
+            ],
+            "resources": []
+          },
+          "preparation_fingerprint": "68a13d52840f2a2e6fa9ec7934b0a0b0bad293f5c5f72563d5ca391ad2391f48",
+          "integration_owner_agent_id": "agent-mog",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0017 --position developer --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
+        },
+        {
+          "work_item_id": "WI-0018",
+          "title": "Implement Phase 4C multi-repository federation",
+          "position_id": "developer",
+          "agent_id": "agent-rikku",
+          "agent_name": "Rikku",
+          "suggested_task_title": "WI-0018 · Developer · Rikku",
+          "base_revision": "f62cd75d3bbb64fd68cf6c1b5482fa2120e3dc93",
+          "affected_paths": [
+            "src/federation.mjs",
+            "test/federation.test.mjs",
+            "docs/operations/multi-repository-federation.md",
+            "docs/validation/phase-4c-completion.md"
+          ],
+          "dependencies": [],
+          "required_disciplines": [
+            "general-development"
+          ],
+          "active_requirements": {
+            "stage": "build",
+            "disciplines": [
+              "general-development"
+            ],
+            "resources": []
+          },
+          "preparation_fingerprint": "416b39e2d58bfb0b69de8f8e65f3f2c5376fc68f99e400b30d8fd8ae04d9c97e",
+          "integration_owner_agent_id": "agent-mog",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0018 --position developer --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
+        }
+      ],
+      "join_gate": {
+        "integration_owner_agent_ids": [
+          "agent-mog"
+        ],
+        "required_evidence": [
+          "exact_candidate_revision",
+          "verification_results",
+          "unresolved_items"
+        ],
+        "rule": "Join every dispatched Work Item through its Integration Owner before dispatching dependent work or advancing the lifecycle."
+      }
+    }
+  ],
   "active": [],
   "sequential": [],
   "blocked": [],

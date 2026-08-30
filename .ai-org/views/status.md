@@ -4,8 +4,8 @@
 - Organization system version: `0.1.0-alpha.26`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=true
-- Work items: 14 total, 0 active
+- Parallel plan: 1 wave(s), fresh=true
+- Work items: 18 total, 4 active
 - Codex tasks: 3 registered, 3 archive-ready
 - Runtime workers: 0 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -34,10 +34,10 @@
 - Installed: yes
 - Valid: yes
 - Fresh: yes
-- Safe waves: 0
-- Dispatchable Work Items: 0
+- Safe waves: 1
+- Dispatchable Work Items: 3
 - Active / sequential / blocked: 0 / 0 / 0
-- Next wave: none
+- Next wave: WI-0016, WI-0017, WI-0018
 - Codex tasks, claims, or external actions performed by planning: no
 
 ## Work items
@@ -58,6 +58,10 @@
 | WI-0012 | Keep reconciled Codex history out of live task signals | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `3872ac71` | 0 | 13 | 0 |
 | WI-0013 | Bind toolkit self-host launcher to the current worktree | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `835dc57d` | 0 | 14 | 0 |
 | WI-0014 | Establish the first correlated active-task usage baseline | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `23768e74` | 2 | 14 | 0 |
+| WI-0015 | Complete Phase 4 reliability and federation exit | design | Tech Lead | Tidus | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
+| WI-0016 | Complete Phase 4A durability operations | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
+| WI-0017 | Complete Phase 4B policy and usage reliability | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
+| WI-0018 | Implement Phase 4C multi-repository federation | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 
 ## Codex task registry
 
@@ -86,7 +90,7 @@ No runtime workers registered yet.
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 8
+- Team-visible Work Items: 9
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -134,14 +138,14 @@ No runtime workers registered yet.
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-30T07:16:39.206Z | work_item_closed | WI-0014 | agent-mog |
-| 2026-08-30T07:16:39.206Z | release_gate_completed | WI-0014 | agent-mog |
-| 2026-08-30T07:16:38.946Z | task_status_changed | WI-0014 | agent-lulu |
-| 2026-08-30T07:16:28.624Z | work_item_transitioned | WI-0014 | agent-lulu |
-| 2026-08-30T07:16:28.367Z | work_item_transitioned | WI-0014 | agent-lulu |
-| 2026-08-30T07:16:28.094Z | work_item_transitioned | WI-0014 | agent-lulu |
-| 2026-08-30T07:16:27.837Z | work_item_transitioned | WI-0014 | agent-rikku |
-| 2026-08-30T07:16:27.575Z | handoff_created | WI-0014 | agent-rikku |
+| 2026-08-30T07:25:21.395Z | work_item_transitioned | WI-0015 | agent-yuna |
+| 2026-08-30T07:25:21.120Z | work_item_transitioned | WI-0015 | agent-mog |
+| 2026-08-30T07:25:20.838Z | work_item_coordination_configured | WI-0018 | agent-rikku |
+| 2026-08-30T07:25:20.551Z | work_item_transitioned | WI-0018 | agent-tidus |
+| 2026-08-30T07:25:20.286Z | work_item_transitioned | WI-0018 | agent-yuna |
+| 2026-08-30T07:25:20.014Z | work_item_transitioned | WI-0018 | agent-mog |
+| 2026-08-30T07:25:19.733Z | work_item_coordination_configured | WI-0018 | agent-mog |
+| 2026-08-30T07:25:19.465Z | work_item_coordination_configured | WI-0017 | agent-rikku |
 
 ## Assignments
 

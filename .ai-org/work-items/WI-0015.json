@@ -1,0 +1,76 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0015",
+  "title": "Complete Phase 4 reliability and federation exit",
+  "state": "design",
+  "owner_position": "tech_lead",
+  "assigned_agent_id": "agent-tidus",
+  "created_at": "2026-08-30T07:23:05.496Z",
+  "updated_at": "2026-08-30T07:25:21.395Z",
+  "scope": [
+    "Integrate Phase 4A durability, Phase 4B policy and usage reliability, and Phase 4C multi-repository federation into one reproducible release candidate."
+  ],
+  "acceptance_criteria": [
+    "Each Phase 4 subphase has implemented local capabilities, bounded operational documentation, and exact-revision evidence.",
+    "Independent QA reproduces the supported exit exercises without using chat history as authority.",
+    "Unknown external, provider, cost, production, and broader-environment evidence remains explicitly unknown rather than inferred."
+  ],
+  "affected_paths": [
+    "docs/planning/phase-4.md",
+    "docs/planning/roadmap.md",
+    "docs/planning/roadmap.ja.md",
+    "docs/planning/roadmap.zh-TW.md",
+    "package.json"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [
+    "WI-0016",
+    "WI-0017",
+    "WI-0018"
+  ],
+  "required_disciplines": [],
+  "stage_requirements": {
+    "build": {
+      "disciplines": [
+        "general-development"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "f62cd75d3bbb64fd68cf6c1b5482fa2120e3dc93",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0015.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0015.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0015.json"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0015.md",
+    ".ai-org/work-items/WI-0015.json"
+  ],
+  "unresolved": [],
+  "next_position": "developer"
+}

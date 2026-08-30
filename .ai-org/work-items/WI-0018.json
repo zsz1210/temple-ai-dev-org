@@ -1,0 +1,77 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0018",
+  "title": "Implement Phase 4C multi-repository federation",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T07:23:06.292Z",
+  "updated_at": "2026-08-30T07:25:20.838Z",
+  "scope": [
+    "Implement project-owned participant registries, composite cross-project references, compatibility waves, and a read-only unknown-safe portfolio projection."
+  ],
+  "acceptance_criteria": [
+    "Every participating repository retains local lifecycle, credential, evidence, and release authority.",
+    "Unavailable, stale, invalid, or identity-mismatched repositories project unknown and never falsely complete.",
+    "Portfolio commands are read-only and an incompatible contract rehearsal uses explicit compatibility and rollout waves."
+  ],
+  "affected_paths": [
+    "src/federation.mjs",
+    "test/federation.test.mjs",
+    "docs/operations/multi-repository-federation.md",
+    "docs/validation/phase-4c-completion.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": "WI-0015",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {
+    "build": {
+      "disciplines": [
+        "general-development"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "f62cd75d3bbb64fd68cf6c1b5482fa2120e3dc93",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0018.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0018.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0018.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0018.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0018.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0018.md",
+    ".ai-org/work-items/WI-0018.json"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
