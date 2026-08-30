@@ -6,7 +6,7 @@
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
 - Work items: 14 total, 1 active
-- Codex tasks: 2 registered, 1 archive-ready
+- Codex tasks: 3 registered, 1 archive-ready
 - Runtime workers: 0 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
@@ -57,7 +57,7 @@
 | WI-0011 | Qualify live Token telemetry and establish the first real baseline | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `25a979e5` | 0 | 12 | 0 |
 | WI-0012 | Keep reconciled Codex history out of live task signals | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `3872ac71` | 0 | 13 | 0 |
 | WI-0013 | Bind toolkit self-host launcher to the current worktree | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `835dc57d` | 0 | 14 | 0 |
-| WI-0014 | Establish the first correlated active-task usage baseline | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 1 | 2 | 0 |
+| WI-0014 | Establish the first correlated active-task usage baseline | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 2 | 2 | 0 |
 
 ## Codex task registry
 
@@ -65,6 +65,7 @@
 |---|---|---|---|---|---|---|---|---|
 | task-0001 | WI-0008 | WI-0008 · Developer · Rikku | Developer / Rikku | — | — | completed | `0e9891cf` | ready |
 | task-0002 | WI-0014 | WI-0014 · Developer · Rikku | Developer / Rikku | — | — | completed | `a172ecec` | — |
+| task-0003 | WI-0014 | WI-0014 · Independent QA · Lulu | Independent QA / Lulu | — | — | active | `23768e74` | — |
 
 ## Runtime workers and shared resources
 
@@ -132,6 +133,7 @@ No runtime workers registered yet.
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-30T07:07:45.666Z | task_registered | WI-0014 | agent-mog |
 | 2026-08-30T07:06:41.627Z | task_status_changed | WI-0014 | agent-rikku |
 | 2026-08-30T06:48:38.139Z | task_metadata_updated | WI-0014 | agent-mog |
 | 2026-08-30T06:48:24.506Z | task_registered | WI-0014 | agent-mog |
@@ -139,7 +141,6 @@ No runtime workers registered yet.
 | 2026-08-30T06:46:29.181Z | work_item_transitioned | WI-0014 | agent-yuna |
 | 2026-08-30T06:46:24.956Z | work_item_transitioned | WI-0014 | agent-mog |
 | 2026-08-30T06:46:24.697Z | work_item_coordination_configured | WI-0014 | agent-mog |
-| 2026-08-30T06:45:44.449Z | work_item_created | WI-0014 | agent-mog |
 
 ## Assignments
 

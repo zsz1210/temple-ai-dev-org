@@ -46,6 +46,28 @@
       "registered_by": "agent-mog",
       "notes": "Developer candidate ready; focused Phase 4B 8/8 and full verify 165/165 reported in the registered task. Awaiting exact integrated-revision Independent QA.",
       "last_updated_by": "agent-rikku"
+    },
+    {
+      "id": "task-0003",
+      "work_item_id": "WI-0014",
+      "position_id": "independent_qa",
+      "agent_id": "agent-lulu",
+      "suggested_title": "WI-0014 · Independent QA · Lulu",
+      "status": "active",
+      "thread_id": "01a0517e-4be9-74a1-84fd-529af3a11c5f",
+      "client_thread_id": null,
+      "host_id": "local",
+      "current_revision": "23768e74ceb35a15589e194e0929f70914e8f407",
+      "principal_id": null,
+      "claim_id": null,
+      "base_revision": null,
+      "branch": null,
+      "worktree": null,
+      "worker_id": null,
+      "created_at": "2026-08-30T07:07:45.666Z",
+      "updated_at": "2026-08-30T07:07:45.666Z",
+      "registered_by": "agent-mog",
+      "notes": "Fresh detached exact-candidate Independent QA; read-only candidate verification."
     }
   ]
 }
