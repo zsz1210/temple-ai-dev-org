@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.26`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 24 total, 4 active
+- Work items: 24 total, 2 active
 - Codex tasks: 3 registered, 3 archive-ready
 - Runtime workers: 14 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -16,7 +16,7 @@
 - Learning revalidation: 0 due, 0 contradicted
 - Specifications: 0 indexed, 0 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 6
+- Attention signals: 5
 
 ## Collaboration
 
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -59,7 +59,7 @@
 | WI-0013 | Bind toolkit self-host launcher to the current worktree | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `835dc57d` | 0 | 14 | 0 |
 | WI-0014 | Establish the first correlated active-task usage baseline | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `23768e74` | 2 | 14 | 0 |
 | WI-0015 | Complete Phase 4 reliability and federation exit | design | Tech Lead | Tidus | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
-| WI-0016 | Complete Phase 4A durability operations | blocked | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1c3ca9c8` | 0 | 8 | 1 |
+| WI-0016 | Complete Phase 4A durability operations | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2bf07c0d` | 0 | 12 | 0 |
 | WI-0017 | Complete Phase 4B policy and usage reliability | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5733bb25` | 0 | 12 | 0 |
 | WI-0018 | Implement Phase 4C multi-repository federation | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `db40145c` | 0 | 11 | 0 |
 | WI-0019 | Integrate the Phase 4 CLI, schemas, and release line | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
@@ -67,7 +67,7 @@
 | WI-0021 | Fix usage preflight exact correlation | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5733bb25` | 0 | 11 | 0 |
 | WI-0022 | Bind federation reads to the expected revision | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `db40145c` | 0 | 12 | 0 |
 | WI-0023 | Disable Git replacement objects in federation | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `db40145c` | 0 | 8 | 0 |
-| WI-0024 | Make Doctor fail closed on legacy bootstrap metadata | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830083120-00fbad5e | `—` | 0 | 2 | 0 |
+| WI-0024 | Make Doctor fail closed on legacy bootstrap metadata | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2bf07c0d` | 0 | 8 | 0 |
 
 ## Codex task registry
 
@@ -102,7 +102,6 @@
 
 ## Attention
 
-- WI-0016 is blocked
 - task-0001 can be archived
 - task-0002 can be archived
 - task-0003 can be archived
@@ -162,14 +161,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-30T08:32:47.069Z | work_item_closed | WI-0018 | agent-mog |
-| 2026-08-30T08:32:47.069Z | release_gate_completed | WI-0018 | agent-mog |
-| 2026-08-30T08:32:46.790Z | work_item_transitioned | WI-0018 | agent-lulu |
-| 2026-08-30T08:32:46.529Z | work_item_transitioned | WI-0018 | agent-mog |
-| 2026-08-30T08:32:46.266Z | work_item_unresolved_updated | WI-0018 | agent-mog |
-| 2026-08-30T08:32:38.428Z | work_item_closed | WI-0022 | agent-mog |
-| 2026-08-30T08:32:38.428Z | release_gate_completed | WI-0022 | agent-mog |
-| 2026-08-30T08:32:38.155Z | work_item_transitioned | WI-0022 | agent-lulu |
+| 2026-08-30T08:42:28.548Z | work_item_closed | WI-0016 | agent-mog |
+| 2026-08-30T08:42:28.548Z | release_gate_completed | WI-0016 | agent-mog |
+| 2026-08-30T08:42:28.272Z | work_item_transitioned | WI-0016 | agent-lulu |
+| 2026-08-30T08:42:27.990Z | work_item_transitioned | WI-0016 | agent-mog |
+| 2026-08-30T08:42:27.719Z | work_item_unresolved_updated | WI-0016 | agent-mog |
+| 2026-08-30T08:42:27.456Z | evidence_recorded | WI-0016 | human |
+| 2026-08-30T08:41:03.108Z | work_item_closed | WI-0024 | agent-mog |
+| 2026-08-30T08:41:03.108Z | release_gate_completed | WI-0024 | agent-mog |
 
 ## Assignments
 

@@ -1,0 +1,42 @@
+{
+  "schema_version": "temple.phase4a-aipet-digest-rehearsal/v1",
+  "source": {
+    "project_id": "aipet",
+    "revision": "28d53b483d0e5c5a21d9b483221393c3dd83ef77",
+    "branch": "codex/lifecycle-memory-journal",
+    "dirty": false,
+    "primary_mutated": false
+  },
+  "versions": {
+    "before": "0.1.0-alpha.5",
+    "direct_upgrade": "0.1.0-alpha.26",
+    "rollback_upgrade": "0.1.0-alpha.26",
+    "recovery_upgrade": "0.1.0-alpha.26"
+  },
+  "digests": {
+    "before": "c1de191bd5f0b6c0e39e4d6896aed3089fa1324eb55d6cd13e1378df76ba3f68",
+    "direct_upgrade": "d8a46b733a866f3afbfd4a1f02236457d20ebfdff10ef63f0853f549b42ca802",
+    "rolled_back": "c1de191bd5f0b6c0e39e4d6896aed3089fa1324eb55d6cd13e1378df76ba3f68",
+    "interruption_before": "4873b285ec1bf90b9a0c0e355b970b6ce8f13a63b99c4f8da9cbd6502a083bdd",
+    "recovered": "4873b285ec1bf90b9a0c0e355b970b6ce8f13a63b99c4f8da9cbd6502a083bdd",
+    "rollback_upgraded": "4357fd8711df884e0ee33f4a71e342cb5651f5711ab82e95f36735c338e99eef",
+    "recovered_upgraded": "d57dbe611ea161e2c542f5f3f4350a1356b496e599b3f57c7f98dd66d38ab054"
+  },
+  "assertions": {
+    "direct_upgrade_changed_digest": true,
+    "rollback_matches_before": true,
+    "recovery_status": "rolled_back",
+    "recovery_matches_interruption_before": true,
+    "legacy_rollback_doctor_bounded_unhealthy": true,
+    "legacy_recovery_doctor_bounded_unhealthy": true,
+    "rollback_upgrade_doctor_healthy": true,
+    "recovery_upgrade_doctor_healthy": true
+  },
+  "doctor": {
+    "legacy_rollback": { "pass": 19, "warn": 0, "fail": 17 },
+    "legacy_recovery": { "pass": 19, "warn": 0, "fail": 17 },
+    "rollback_after_upgrade": { "pass": 36, "warn": 0, "fail": 0 },
+    "recovery_after_upgrade": { "pass": 36, "warn": 0, "fail": 0 }
+  },
+  "external_actions_performed": false
+}
