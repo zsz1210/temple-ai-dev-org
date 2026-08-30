@@ -19,7 +19,7 @@ import {
   setCollaborationProfile,
   sponsorAgent
 } from "./collaboration.mjs";
-import { assertSafeTarget, readJson } from "./files.mjs";
+import { assertSafeTarget, atomicWrite, formatJson, readJson } from "./files.mjs";
 import { executeInit, formatInitPlan, planInit } from "./install.mjs";
 import { readEvidenceRegistry, recordEvidence } from "./evidence.mjs";
 import { validateInitConfig } from "./model.mjs";
@@ -68,7 +68,18 @@ import {
   writeTrackerView
 } from "./tracker.mjs";
 import { executeUpgrade, formatUpgradePlan, planUpgrade } from "./upgrade.mjs";
-import { applyRestore, createBackup, inspectBackup, planRestore, recoverRestore } from "./recovery.mjs";
+import {
+  applyBackupRetention,
+  applyRestore,
+  createBackup,
+  inspectBackup,
+  inspectBackupSet,
+  planBackupRetention,
+  planRestore,
+  recoverRestore
+} from "./recovery.mjs";
+import { writeAuditExport } from "./audit-export.mjs";
+import { buildFederatedPortfolio, readFederationRegistry, validateFederationRegistry } from "./federation.mjs";
 import { buildParallelPlan, writeParallelPlan } from "./orchestration.mjs";
 import { defineResource, readResourceRegistry } from "./resources.mjs";
 import { attachInternalWorker, listRuntimeWorkers, prepareWorkerDispatch, updateRuntimeWorker } from "./workers.mjs";
@@ -92,9 +103,15 @@ Usage:
   temple upgrade [target] [--dry-run]
   temple backup create [target] --output directory [--json]
   temple backup inspect [target] --backup directory [--json]
+  temple backup set-inspect [target] --backup-root directory [--json]
+  temple backup retention-preview [target] --backup-root directory --minimum-to-keep number [--preserve name] [--json]
+  temple backup retention-apply [target] --backup-root directory --minimum-to-keep number --expected-plan sha256 --confirm-delete [--preserve name] [--json]
   temple restore preview [target] --backup directory [--json]
   temple restore apply [target] --backup directory --expected-plan sha256 [--allow-replace] [--json]
   temple restore recover [target] [--json]
+  temple audit export [target] --output file [--work-item WI-ID] [--event-type type] [--redact-key key] [--max-events number] [--max-recovery-transactions number] [--max-event-bytes number] [--json]
+  temple federation validate [target] [--json]
+  temple portfolio build [target] [--no-write] [--json]
   temple doctor [target] [--json]
   temple status [target] [--json] [--no-write]
   temple observe [target] [--json] [--no-write]
@@ -171,6 +188,9 @@ Core commands:
   upgrade     Update only checksum-clean managed files; preserve project-owned state.
   backup      Create and verify a transparent, content-addressed backup of project-owned Temple state.
   restore     Preview, apply, or safely recover an interrupted project-owned-state restore.
+  audit       Export a bounded privacy-filtered audit record to an exclusive output file.
+  federation  Validate coordinator-owned multi-repository federation configuration.
+  portfolio   Build a read-only federated portfolio and optionally write its coordinator view.
   doctor      Validate managed files, identities, work items, tasks, and integrations.
   status      Rebuild the observable project status from canonical files.
   observe     Build a read-only lifecycle, evidence, approval, and recovery projection.
@@ -224,7 +244,8 @@ const BOOLEAN_FLAGS = new Set([
   "--replace-contract-refs",
   "--codex",
   "--probe-codex-account",
-  "--allow-replace"
+  "--allow-replace",
+  "--confirm-delete"
 ]);
 const VALUE_FLAGS = new Set([
   "--config",
@@ -332,7 +353,15 @@ const VALUE_FLAGS = new Set([
   "--repository-interval",
   "--output",
   "--backup",
-  "--expected-plan"
+  "--expected-plan",
+  "--backup-root",
+  "--minimum-to-keep",
+  "--preserve",
+  "--event-type",
+  "--redact-key",
+  "--max-events",
+  "--max-recovery-transactions",
+  "--max-event-bytes"
 ]);
 const REPEATABLE_FLAGS = new Set([
   "--scope",
@@ -361,9 +390,12 @@ const REPEATABLE_FLAGS = new Set([
   "--tag",
   "--applies-to",
   "--source-work-item",
-  "--derived-from"
+  "--derived-from",
+  "--preserve",
+  "--event-type",
+  "--redact-key"
 ]);
-const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence", "schema", "migration", "learning", "retrieval", "evaluation", "usage", "adapter", "control-plane", "backup", "restore"]);
+const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence", "schema", "migration", "learning", "retrieval", "evaluation", "usage", "adapter", "control-plane", "backup", "restore", "audit", "federation", "portfolio"]);
 
 function parseCommand(argv) {
   if (argv.length === 0 || argv[0] === "--help" || argv[0] === "-h") {
@@ -564,6 +596,16 @@ function optionalPositiveIntegerOption(parsed, flag) {
   return positiveIntegerOption(parsed, flag, null);
 }
 
+function boundedIntegerOption(parsed, flag, maximum) {
+  const raw = parsed.options[flag];
+  if (raw === undefined) return undefined;
+  const value = Number(raw);
+  if (!Number.isSafeInteger(value) || value < 1 || value > maximum) {
+    throw new Error(`${flag} must be an integer from 1 to ${maximum}`);
+  }
+  return value;
+}
+
 function printResult(parsed, result, lines) {
   if (parsed.flags.has("--json")) console.log(JSON.stringify(result, null, 2));
   else console.log(lines.join("\n"));
@@ -653,7 +695,111 @@ async function runBackup(parsed) {
     ]);
     return 0;
   }
+  if (parsed.action === "set-inspect") {
+    if (!parsed.options["--backup-root"]) throw new Error("backup set-inspect requires --backup-root");
+    const result = await inspectBackupSet(parsed.options["--backup-root"], { projectRoot: target });
+    printResult(parsed, result, [
+      `Valid Temple backup set: ${result.backup_root}`,
+      `Backups: ${result.backup_count}`,
+      `Inspection digest: ${result.inspection_digest}`,
+      "Canonical state changed: no"
+    ]);
+    return 0;
+  }
+  if (parsed.action === "retention-preview") {
+    if (!parsed.options["--backup-root"] || !parsed.options["--minimum-to-keep"]) {
+      throw new Error("backup retention-preview requires --backup-root and --minimum-to-keep");
+    }
+    const plan = await planBackupRetention(target, parsed.options["--backup-root"], {
+      minimumToKeep: boundedIntegerOption(parsed, "--minimum-to-keep", 10_000),
+      preserveBackupNames: listOption(parsed, "--preserve")
+    });
+    printResult(parsed, plan, [
+      `Temple backup retention preview for ${plan.backup_root}`,
+      `Keep / delete: ${plan.keep_count} / ${plan.delete_count}`,
+      `Explicitly preserved: ${plan.preserve_backup_names.join(", ") || "none"}`,
+      `Plan digest: ${plan.plan_digest}`,
+      "Canonical state changed: no"
+    ]);
+    return 0;
+  }
+  if (parsed.action === "retention-apply") {
+    if (
+      !parsed.options["--backup-root"] ||
+      !parsed.options["--minimum-to-keep"] ||
+      !parsed.options["--expected-plan"]
+    ) {
+      throw new Error("backup retention-apply requires --backup-root, --minimum-to-keep, and --expected-plan");
+    }
+    if (!parsed.flags.has("--confirm-delete")) {
+      throw new Error("backup retention-apply requires --confirm-delete");
+    }
+    const result = await withProjectMutationLock(target, () =>
+      applyBackupRetention(target, parsed.options["--backup-root"], {
+        minimumToKeep: boundedIntegerOption(parsed, "--minimum-to-keep", 10_000),
+        preserveBackupNames: listOption(parsed, "--preserve"),
+        expectedPlan: parsed.options["--expected-plan"],
+        confirmDelete: true
+      })
+    );
+    printResult(parsed, result, [
+      `Applied Temple backup retention: ${result.plan_digest}`,
+      `Deleted / preserved: ${result.deleted_count} / ${result.preserved_count}`,
+      `Deleted backups: ${result.deleted.join(", ") || "none"}`,
+      "Project canonical state changed: no"
+    ]);
+    return 0;
+  }
   throw new Error(`Unknown backup action: ${parsed.action}`);
+}
+
+async function runAudit(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (parsed.action !== "export") throw new Error(`Unknown audit action: ${parsed.action}`);
+  if (!parsed.options["--output"]) throw new Error("audit export requires --output");
+  const result = await writeAuditExport(target, parsed.options["--output"], {
+    workItemIds: parsed.options["--work-item"] ? [parsed.options["--work-item"]] : [],
+    eventTypes: listOption(parsed, "--event-type"),
+    redactKeys: listOption(parsed, "--redact-key"),
+    maxEvents: boundedIntegerOption(parsed, "--max-events", 10_000),
+    maxRecoveryTransactions: boundedIntegerOption(parsed, "--max-recovery-transactions", 100),
+    maxEventBytes: boundedIntegerOption(parsed, "--max-event-bytes", 1_048_576)
+  });
+  printResult(parsed, result, [
+    `Created Temple audit export: ${result.output}`,
+    `Events / recovery transactions: ${result.event_count} / ${result.recovery_transaction_count}`,
+    `Export digest: ${result.export_digest}`,
+    "Canonical state changed: no"
+  ]);
+  return 0;
+}
+
+async function runFederation(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (parsed.action !== "validate") throw new Error(`Unknown federation action: ${parsed.action}`);
+  const registry = await readFederationRegistry(target);
+  const result = validateFederationRegistry(registry);
+  printResult(parsed, result, result.valid
+    ? ["Federation registry is valid.", "Canonical state changed: no"]
+    : ["Federation registry is invalid.", ...result.errors.map((error) => `- ${error}`), "Canonical state changed: no"]);
+  return result.valid ? 0 : 1;
+}
+
+async function runPortfolio(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (parsed.action !== "build") throw new Error(`Unknown portfolio action: ${parsed.action}`);
+  const portfolio = await buildFederatedPortfolio(target);
+  const outputPath = path.join(target, ".ai-org/views/portfolio.json");
+  if (!parsed.flags.has("--no-write")) await atomicWrite(outputPath, formatJson(portfolio));
+  if (parsed.flags.has("--json")) console.log(JSON.stringify(portfolio, null, 2));
+  else {
+    console.log(`Federated portfolio for ${target}`);
+    console.log(`Participants current / unknown: ${portfolio.summary.current} / ${portfolio.summary.unknown}`);
+    console.log(`Work Items projected: ${portfolio.summary.work_items_projected}`);
+    if (!parsed.flags.has("--no-write")) console.log(`Portfolio view: ${path.relative(target, outputPath).split(path.sep).join("/")}`);
+    console.log("Participant and lifecycle state changed: no");
+  }
+  return 0;
 }
 
 async function runRestore(parsed) {
@@ -1831,6 +1977,9 @@ export async function main(argv) {
   if (parsed.command === "upgrade") return runUpgrade(parsed);
   if (parsed.command === "backup") return runBackup(parsed);
   if (parsed.command === "restore") return runRestore(parsed);
+  if (parsed.command === "audit") return runAudit(parsed);
+  if (parsed.command === "federation") return runFederation(parsed);
+  if (parsed.command === "portfolio") return runPortfolio(parsed);
   if (parsed.command === "doctor") return runDoctorCommand(parsed);
   if (parsed.command === "status") return runStatusCommand(parsed);
   if (parsed.command === "observe") return runObserveCommand(parsed);
