@@ -388,6 +388,12 @@ export async function executeInit(plan) {
         usage_baseline_report: true,
         usage_telemetry_preflight: true,
         codex_account_usage_probe: true,
+        backup_retention: true,
+        redacted_audit_export: true,
+        usage_qualification: true,
+        provider_attach_outcomes: true,
+        repository_federation: true,
+        read_only_portfolio: true,
         checksum_upgrade: true,
         optional_packs: true,
         toolkit_self_hosting: true

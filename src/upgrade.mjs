@@ -43,6 +43,7 @@ import {
   CONTROL_PLANE_CONFIG_RELATIVE_PATH,
   ensureControlPlaneConfig
 } from "./control-plane-config.mjs";
+import { ensureFederationRegistry, FEDERATION_REGISTRY_RELATIVE_PATH } from "./federation.mjs";
 
 function isManaged(relativePath) {
   return MANAGED_EXACT_PATHS.has(relativePath) || MANAGED_SOURCE_PREFIXES.some((prefix) => relativePath.startsWith(prefix));
@@ -228,6 +229,11 @@ export async function planUpgrade(target) {
     type: hasControlPlaneConfig ? "skip-control-plane-config" : "create-control-plane-config",
     path: CONTROL_PLANE_CONFIG_RELATIVE_PATH
   });
+  const hasFederationRegistry = await pathExists(path.join(target, FEDERATION_REGISTRY_RELATIVE_PATH));
+  actions.push({
+    type: hasFederationRegistry ? "skip-federation-registry" : "create-federation-registry",
+    path: FEDERATION_REGISTRY_RELATIVE_PATH
+  });
   const assignmentMigration = await planUiAssignmentMigration(target, conflicts);
   actions.push({
     type: assignmentMigration ? "add-ui-assignment" : "skip-ui-assignment",
@@ -345,7 +351,13 @@ export async function planUpgrade(target) {
     lock.capabilities?.usage_attribution !== true ||
     lock.capabilities?.usage_baseline_report !== true ||
     lock.capabilities?.usage_telemetry_preflight !== true ||
-    lock.capabilities?.codex_account_usage_probe !== true;
+    lock.capabilities?.codex_account_usage_probe !== true ||
+    lock.capabilities?.backup_retention !== true ||
+    lock.capabilities?.redacted_audit_export !== true ||
+    lock.capabilities?.usage_qualification !== true ||
+    lock.capabilities?.provider_attach_outcomes !== true ||
+    lock.capabilities?.repository_federation !== true ||
+    lock.capabilities?.read_only_portfolio !== true;
   if (packMetadataChanges) actions.push({ type: "update-pack-metadata", path: "temple.lock" });
   if (capabilityChanges || collaborationCapabilityChanges) actions.push({ type: "update-capabilities", path: "temple.lock" });
   if (migrationPlan.pending.length > 0) actions.push({ type: "record-migrations", path: "temple.lock" });
@@ -369,6 +381,7 @@ export async function planUpgrade(target) {
       hasEvidenceRegistry &&
       hasRetrievalConfig &&
       hasControlPlaneConfig &&
+      hasFederationRegistry &&
       migrationPlan.pending.length === 0
         ? "skip-current-lock"
         : "update-lock",
@@ -466,6 +479,10 @@ export async function executeUpgrade(plan) {
     const controlPlaneConfig = await ensureControlPlaneConfig(plan.target);
     if (controlPlaneConfig.created) {
       changes.push({ path: controlPlaneConfig.path, before: null, afterHash: controlPlaneConfig.afterHash });
+    }
+    const federationRegistry = await ensureFederationRegistry(plan.target);
+    if (federationRegistry.created) {
+      changes.push({ path: federationRegistry.path, before: null, afterHash: federationRegistry.afterHash });
     }
     if (plan.assignmentMigration) {
       const assignmentsPath = path.join(plan.target, plan.assignmentMigration.path);
@@ -613,6 +630,12 @@ export async function executeUpgrade(plan) {
         usage_baseline_report: true,
         usage_telemetry_preflight: true,
         codex_account_usage_probe: true,
+        backup_retention: true,
+        redacted_audit_export: true,
+        usage_qualification: true,
+        provider_attach_outcomes: true,
+        repository_federation: true,
+        read_only_portfolio: true,
         checksum_upgrade: true,
         optional_packs: true,
         toolkit_self_hosting: true

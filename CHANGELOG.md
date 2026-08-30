@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.0-alpha.27
+
+- Added project-owned repository federation state, a read-only federated portfolio contract, and Draft 2020-12 schemas with explicit project and generated ownership.
+- Added upgrade-safe exclusive creation that preserves existing federation registries byte for byte, plus Phase 4 capability flags for backup retention, redacted audit export, usage qualification, provider attachment outcomes, repository federation, and read-only portfolios.
+- Preserved explicit limits: federation remains a local read-only projection, participant repositories retain lifecycle authority, and this release does not claim production, multi-machine, protected-branch, or enterprise validation.
+
 ## 0.1.0-alpha.26
 
 - Added read-only `usage preflight` inspection for registered-task topology, Codex Provider readiness, detailed thread-usage coverage, correlation qualification, and the next bounded action.

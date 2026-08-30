@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { execFile as execFileCallback } from "node:child_process";
 import { promisify } from "node:util";
+import { atomicCreate, formatJson, pathExists, sha256 } from "./files.mjs";
 
 const execFile = promisify(execFileCallback);
 
@@ -18,6 +19,33 @@ const MAX_JSON_BYTES = 1024 * 1024;
 const MAX_TREE_BYTES = 1024 * 1024;
 const MAX_DISCOVERED_WORK_ITEMS = 1000;
 const REGULAR_GIT_MODES = new Set(["100644", "100755"]);
+
+export function emptyFederationRegistry(now = new Date(0)) {
+  const updatedAt = now instanceof Date ? now : new Date(now);
+  if (Number.isNaN(updatedAt.getTime())) throw new Error("now must be a valid date");
+  return {
+    schema_version: FEDERATION_REGISTRY_SCHEMA,
+    participants: [],
+    initiatives: [],
+    dependencies: [],
+    contracts: [],
+    rollout_waves: [],
+    updated_at: updatedAt.toISOString()
+  };
+}
+
+export async function ensureFederationRegistry(target) {
+  const registryPath = path.join(target, FEDERATION_REGISTRY_RELATIVE_PATH);
+  if (await pathExists(registryPath)) return { path: registryPath, created: false, afterHash: null };
+  const content = formatJson(emptyFederationRegistry());
+  try {
+    await atomicCreate(registryPath, content);
+    return { path: registryPath, created: true, afterHash: sha256(content) };
+  } catch (error) {
+    if (error.code !== "EEXIST") throw error;
+    return { path: registryPath, created: false, afterHash: null };
+  }
+}
 
 const ROOT_KEYS = new Set([
   "schema_version",

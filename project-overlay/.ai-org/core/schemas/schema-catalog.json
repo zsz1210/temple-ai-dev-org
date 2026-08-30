@@ -10,6 +10,7 @@
     { "id": "control-plane", "path": ".ai-org/project/control-plane.json", "schema": "control-plane-config.schema.json", "required": true, "ownership": "project" },
     { "id": "context-map", "path": ".ai-org/project/context-map.json", "schema": "context-map.schema.json", "required": true, "ownership": "project" },
     { "id": "evidence", "path": ".ai-org/project/evidence.json", "schema": "evidence-registry.schema.json", "required": true, "ownership": "project" },
+    { "id": "federation", "path": ".ai-org/project/federation.json", "schema": "federation.schema.json", "required": true, "ownership": "project" },
     { "id": "learning", "path": ".ai-org/learning/index.json", "schema": "learning-index.schema.json", "required": true, "ownership": "project" },
     { "id": "retrieval", "path": ".ai-org/project/retrieval.json", "schema": "retrieval-config.schema.json", "required": true, "ownership": "project" },
     { "id": "resources", "path": ".ai-org/project/resources.json", "schema": "resource-registry.schema.json", "required": true, "ownership": "project" },
@@ -21,6 +22,7 @@
     { "id": "parallel-plan", "path": ".ai-org/views/parallel-plan.json", "schema": "parallel-plan.schema.json", "required": false, "ownership": "generated" },
     { "id": "capabilities", "path": ".ai-org/views/capabilities.json", "schema": "capability-registry.schema.json", "required": false, "ownership": "generated" },
     { "id": "context-capsules", "path": ".ai-org/views/work-items/*.json", "schema": "context-capsule.schema.json", "required": false, "ownership": "generated" },
+    { "id": "federated-portfolio", "path": ".ai-org/views/federated-portfolio.json", "schema": "federated-portfolio.schema.json", "required": false, "ownership": "generated" },
     { "id": "policy-evaluation", "path": ".ai-org/views/policy-evaluation.json", "schema": "policy-evaluation-result.schema.json", "required": false, "ownership": "generated" },
     { "id": "usage-baseline", "path": ".ai-org/views/usage-baseline.json", "schema": "usage-baseline.schema.json", "required": false, "ownership": "generated" }
   ]
