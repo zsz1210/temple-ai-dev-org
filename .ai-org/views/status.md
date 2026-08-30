@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 1 wave(s), fresh=true
+- Collaboration profile: `solo` (0 Human Principals, 2 active claims)
+- Parallel plan: 1 wave(s), fresh=false
 - Work items: 35 total, 7 active
 - Codex tasks: 4 registered, 3 archive-ready
-- Runtime workers: 22 registered, 0 reserved, 0 active
+- Runtime workers: 24 registered, 0 reserved, 2 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -16,7 +16,7 @@
 - Learning revalidation: 0 due, 0 contradicted
 - Specifications: 0 indexed, 0 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 8
+- Attention signals: 9
 
 ## Collaboration
 
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 2
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -33,7 +33,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: yes
+- Fresh: no
 - Safe waves: 1
 - Dispatchable Work Items: 2
 - Active / sequential / blocked: 0 / 0 / 2
@@ -75,10 +75,10 @@
 | WI-0029 | Prototype local Agent Command Gateway | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `38a185eb` | 1 | 8 | 2 |
 | WI-0030 | Prevent complete command retention | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `ba066d73` | 0 | 11 | 2 |
 | WI-0031 | Harden Temple before the next release | spec | Product Manager | Yuna | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 0 |
-| WI-0032 | Sandbox federation participant Git inspection | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
+| WI-0032 | Sandbox federation participant Git inspection | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830135829-9e13f0d4 | `—` | 0 | 2 | 0 |
 | WI-0033 | Establish operator-owned provider trust | spec | Product Manager | Yuna | blocked | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 1 |
 | WI-0034 | Make Dashboard current-state interaction trustworthy | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `—` | 0 | 3 | 0 |
-| WI-0035 | Reduce CI cost without hiding behavioral results | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
+| WI-0035 | Reduce CI cost without hiding behavioral results | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830135829-b8338b73 | `—` | 0 | 2 | 0 |
 
 ## Codex task registry
 
@@ -115,6 +115,8 @@
 | worker-20260830091123-055ffa0e | internal-subagent | WI-0026 | Independent QA / Lulu | failed | /root/skill_forward_test:qa2-wi-0026 | `d6833dc2` | 0 |
 | worker-20260830091737-8adca503 | internal-subagent | WI-0025 | Independent QA / Lulu | completed | /root/framework_docs_review:qa3-wi-0025 | `0d48f087` | 0 |
 | worker-20260830091737-a2e037a4 | internal-subagent | WI-0026 | Independent QA / Lulu | completed | /root/skill_forward_test:qa3-wi-0026 | `0d48f087` | 0 |
+| worker-20260830135829-7e772ea8 | internal-subagent | WI-0032 | Developer / Rikku | active | /root/wi_0032_rikku_federation | `—` | 0 |
+| worker-20260830135829-d6868b66 | internal-subagent | WI-0035 | Developer / Rikku | active | /root/wi_0035_rikku_ci | `—` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -129,6 +131,7 @@
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
+- Generated parallel plan is stale; rebuild it before dispatch
 - Parallel plan has 2 blocked Work Item(s)
 
 ## External tracker coordination
@@ -184,14 +187,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-30T13:59:36.317Z | runtime_worker_attached | WI-0035 | agent-rikku |
+| 2026-08-30T13:59:36.058Z | runtime_worker_attached | WI-0032 | agent-rikku |
+| 2026-08-30T13:58:29.370Z | runtime_worker_reserved | WI-0035 | human |
+| 2026-08-30T13:58:29.374Z | work_item_claimed | WI-0035 | human |
+| 2026-08-30T13:58:29.103Z | runtime_worker_reserved | WI-0032 | human |
+| 2026-08-30T13:58:29.106Z | work_item_claimed | WI-0032 | human |
 | 2026-08-30T13:57:49.538Z | work_item_coordination_configured | WI-0035 | agent-rikku |
 | 2026-08-30T13:57:49.272Z | work_item_coordination_configured | WI-0034 | agent-rikku |
-| 2026-08-30T13:57:49.004Z | work_item_coordination_configured | WI-0033 | agent-yuna |
-| 2026-08-30T13:57:48.742Z | work_item_coordination_configured | WI-0032 | agent-rikku |
-| 2026-08-30T13:57:26.270Z | work_item_coordination_configured | WI-0035 | agent-rikku |
-| 2026-08-30T13:57:26.004Z | work_item_transitioned | WI-0035 | agent-tidus |
-| 2026-08-30T13:57:25.746Z | work_item_transitioned | WI-0035 | agent-yuna |
-| 2026-08-30T13:57:25.486Z | work_item_transitioned | WI-0035 | agent-mog |
 
 ## Assignments
 
