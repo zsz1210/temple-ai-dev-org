@@ -1,0 +1,87 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0019",
+  "title": "Integrate the Phase 4 CLI, schemas, and release line",
+  "state": "design",
+  "owner_position": "tech_lead",
+  "assigned_agent_id": "agent-tidus",
+  "created_at": "2026-08-30T07:36:06.689Z",
+  "updated_at": "2026-08-30T07:36:25.433Z",
+  "scope": [
+    "Wire the completed Phase 4A, Phase 4B, and Phase 4C module contracts into the repository CLI, project overlay, upgrade path, documentation indexes, and Alpha.27 release metadata."
+  ],
+  "acceptance_criteria": [
+    "Fresh initialization and upgrade seed the federation contract without overwriting project-owned state.",
+    "CLI preview, apply, export, and portfolio commands preserve their read/write and consent boundaries.",
+    "Schema validation, focused CLI tests, full verification, and Doctor pass at one exact integrated revision."
+  ],
+  "affected_paths": [
+    "src/cli.mjs",
+    "src/constants.mjs",
+    "src/install.mjs",
+    "src/upgrade.mjs",
+    "src/doctor.mjs",
+    "project-overlay/.ai-org/core/schemas",
+    "project-overlay/.ai-org/project/federation.json",
+    "project-overlay/.ai-org/views/README.md",
+    "scripts/check-repo.mjs",
+    "test/cli.test.mjs",
+    "test/workflow.test.mjs",
+    "docs/README.md",
+    "CHANGELOG.md",
+    "package.json",
+    "package-lock.json",
+    "temple.lock"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": "WI-0015",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [
+    "WI-0016",
+    "WI-0017",
+    "WI-0018"
+  ],
+  "required_disciplines": [],
+  "stage_requirements": {
+    "build": {
+      "disciplines": [
+        "general-development"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "7bc0870f50358967417bb21f6a928d0917e376d5",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0019.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0019.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0019.json"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0019.md",
+    ".ai-org/work-items/WI-0019.json"
+  ],
+  "unresolved": [],
+  "next_position": "developer"
+}
