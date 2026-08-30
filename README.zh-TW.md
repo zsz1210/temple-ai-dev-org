@@ -1,13 +1,24 @@
-# Temple — AI Development Organization Framework
+<h1 align="center">Temple</h1>
 
-[English](README.md) | [日本語](README.ja.md) | **繁體中文**
+<p align="center"><strong>AI Development Organization Framework</strong></p>
 
-**把彼此斷裂的 AI coding session，變成能記憶、協作、驗證與持續進步的開發組織。**
+<p align="center">把彼此斷裂的 AI coding session，變成能記憶、協作、驗證與持續進步的開發組織。</p>
+
+<p align="center"><a href="README.md">English</a> · <a href="README.ja.md">日本語</a> · <strong>繁體中文</strong></p>
+
+<p align="center">
+  <a href="https://github.com/zsz1210/temple-ai-dev-org/actions/workflows/ci.yml"><img alt="CI status" src="https://github.com/zsz1210/temple-ai-dev-org/actions/workflows/ci.yml/badge.svg"></a>
+  &nbsp;·&nbsp; Early Alpha
+  &nbsp;·&nbsp; Node.js 20+
+  &nbsp;·&nbsp; <a href="LICENSE">MIT License</a>
+</p>
 
 Temple 會在新的或既有的專案裡安裝一套 repository-native operating framework。從個人開發者到 multi-team organization，它讓人類與 AI Agent 擁有穩定責任、可長期保存的 project context、可重用的 engineering method、邊界清楚的工作，以及 evidence-based release gate。
 
 > [!NOTE]
 > Temple 目前仍是 early alpha，適合在人類監督下進行 low-risk local project 與 bounded pilot。Distributed enterprise operation、production monitoring 與無人執行的 external action 尚未被宣稱為已驗證能力。
+
+---
 
 ## 為什麼需要 Temple？
 
@@ -48,6 +59,8 @@ flowchart LR
 ```
 
 專案變大時，loop 不需要改變。改變的是每個 Position 裡有多少 Agent Identity 與 specialist、需要多深的 evidence，以及哪些外部系統繼續作為 authority。
+
+---
 
 ## 看看 Temple 如何套用在你的情境
 
@@ -99,9 +112,13 @@ Temple 定義十個穩定 Position：
 
 Template 不會預先寫死角色名字。Initialization 會為該專案提議或接受 Agent Identity 名稱；之後也可以在不改變 Position contract 的情況下加入或拆分 Identity。
 
+---
+
 ## Quick start
 
 需求：Git、Node.js 20 以上、Codex，以及一個 target project directory。
+
+### 1. 從 source 安裝 Temple
 
 ```bash
 git clone https://github.com/zsz1210/temple-ai-dev-org.git
@@ -111,9 +128,13 @@ npm run verify
 npm link
 ```
 
+### 2. 初始化專案
+
 接著用 Codex 開啟 Temple 並提出：
 
 > 使用 `$temple-init` 初始化 `/absolute/path/to/my-project`。請先提議 Agent Identity 的英文名字，等我確認後再寫入檔案。
+
+### 3. 開始第一個 Work Item
 
 進入 initialized project 後，可以提出：
 
@@ -140,6 +161,8 @@ Core 包含 initialization、bounded delivery、decision interview、domain mode
 
 Temple 不會預設安裝所有 engineering Skill、design tool、tracker integration、model、RAG system 或 daemon。
 
+---
+
 ## 先有 evidence，再談 marketing
 
 目前的 claim 來自 automated repository check 與 bounded validation record；它們不代表所有 enterprise topology、regulated audit、distributed race 或 production deployment 都已獲得證明。
@@ -153,6 +176,8 @@ Temple 不會預設安裝所有 engineering Skill、design tool、tracker integr
 ## Human authority 必須保持清楚
 
 Temple 負責 coordinate repository work，但不擁有 business truth、priority、credential、material spending、irreversible external action、production remediation 或 high-risk approval。External tracker 與 operational system 可以提供 workflow 資訊，但不會自動成為 release authority。
+
+---
 
 ## Documentation
 

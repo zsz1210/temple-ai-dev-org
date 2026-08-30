@@ -4,8 +4,8 @@
 - Organization system version: `0.1.0-alpha.23`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=true
-- Work items: 2 total, 0 active
+- Parallel plan: 0 wave(s), fresh=false
+- Work items: 3 total, 1 active
 - Codex tasks: 0 registered, 0 archive-ready
 - Runtime workers: 0 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -16,7 +16,7 @@
 - Learning revalidation: 0 due, 0 contradicted
 - Specifications: 0 indexed, 0 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 0
+- Attention signals: 1
 
 ## Collaboration
 
@@ -33,7 +33,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: yes
+- Fresh: no
 - Safe waves: 0
 - Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 0 / 0
@@ -46,6 +46,7 @@
 |---|---|---|---|---|---|---|---:|---|---|---:|---:|---:|---|---|---:|---:|---:|
 | WI-0001 | Reorganize documentation by reader purpose | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ed624187` | 0 | 9 | 0 |
 | WI-0002 | Reposition the public README for every project scale | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ed624187` | 0 | 9 | 0 |
+| WI-0003 | Polish the trilingual README layout | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 
 ## Codex task registry
 
@@ -61,14 +62,14 @@ No runtime workers registered yet.
 
 ## Attention
 
-No blockers, task attention requests, or archive-ready tasks.
+- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 2
+- Team-visible Work Items: 3
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -116,14 +117,14 @@ No blockers, task attention requests, or archive-ready tasks.
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-30T03:09:28.173Z | work_item_coordination_configured | WI-0003 | agent-rikku |
+| 2026-08-30T03:09:27.898Z | work_item_transitioned | WI-0003 | agent-tidus |
+| 2026-08-30T03:09:27.623Z | work_item_transitioned | WI-0003 | agent-yuna |
+| 2026-08-30T03:09:27.345Z | work_item_transitioned | WI-0003 | agent-mog |
+| 2026-08-30T03:09:05.721Z | work_item_created | WI-0003 | agent-mog |
 | 2026-08-30T02:49:42.724Z | work_item_closed | WI-0002 | agent-mog |
 | 2026-08-30T02:49:42.724Z | release_gate_completed | WI-0002 | agent-mog |
 | 2026-08-30T02:49:42.415Z | work_item_closed | WI-0001 | agent-mog |
-| 2026-08-30T02:49:42.415Z | release_gate_completed | WI-0001 | agent-mog |
-| 2026-08-30T02:49:20.197Z | work_item_transitioned | WI-0002 | agent-lulu |
-| 2026-08-30T02:49:19.913Z | work_item_transitioned | WI-0001 | agent-lulu |
-| 2026-08-30T02:49:05.618Z | evidence_recorded | WI-0002 | human |
-| 2026-08-30T02:49:05.334Z | evidence_recorded | WI-0001 | human |
 
 ## Assignments
 

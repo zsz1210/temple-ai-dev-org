@@ -1,13 +1,24 @@
-# Temple — AI Development Organization Framework
+<h1 align="center">Temple</h1>
 
-[English](README.md) | **日本語** | [繁體中文](README.zh-TW.md)
+<p align="center"><strong>AI Development Organization Framework</strong></p>
 
-**分断された AI coding session を、記憶し、連携し、検証し、学習できる開発組織へ。**
+<p align="center">分断された AI coding session を、記憶し、連携し、検証し、学習できる開発組織へ。</p>
+
+<p align="center"><a href="README.md">English</a> · <strong>日本語</strong> · <a href="README.zh-TW.md">繁體中文</a></p>
+
+<p align="center">
+  <a href="https://github.com/zsz1210/temple-ai-dev-org/actions/workflows/ci.yml"><img alt="CI status" src="https://github.com/zsz1210/temple-ai-dev-org/actions/workflows/ci.yml/badge.svg"></a>
+  &nbsp;·&nbsp; Early Alpha
+  &nbsp;·&nbsp; Node.js 20+
+  &nbsp;·&nbsp; <a href="LICENSE">MIT License</a>
+</p>
 
 Temple は、新規または既存 project に repository-native な operating framework を導入します。Solo developer から multi-team organization まで、人と AI Agent に安定した責任、永続的な project context、再利用可能な engineering method、境界の明確な work、evidence-based release gate を提供します。
 
 > [!NOTE]
 > Temple は現在、human supervision のある low-risk local project と bounded pilot 向けの early alpha です。Distributed enterprise operation、production monitoring、無人の external action はまだ実証済み capability として主張しません。
+
+---
 
 ## なぜ Temple が必要なのか
 
@@ -48,6 +59,8 @@ flowchart LR
 ```
 
 Project が成長しても loop は変わりません。変わるのは各 Position を担う Agent Identity と specialist の数、必要な evidence の深さ、そしてどの外部 system を authority として維持するかです。
+
+---
 
 ## 利用状況別の Temple
 
@@ -99,9 +112,13 @@ Temple は十個の安定した Position を定義します。
 
 Template には character name を固定しません。Initialization が project ごとの Agent Identity 名を提案または受け取り、後から Position contract を変えずに Identity を追加・分割できます。
 
+---
+
 ## Quick start
 
 Requirements: Git、Node.js 20 以降、Codex、target project directory。
+
+### 1. Source から Temple を install
 
 ```bash
 git clone https://github.com/zsz1210/temple-ai-dev-org.git
@@ -111,9 +128,13 @@ npm run verify
 npm link
 ```
 
+### 2. Project を initialize
+
 Temple を Codex で開き、次のように依頼します。
 
 > `$temple-init` を使って `/absolute/path/to/my-project` を initialize してください。Agent Identity の英語名を提案し、file を書く前に私の確認を待ってください。
+
+### 3. 最初の Work Item を開始
 
 Initialized project 内では次のように依頼します。
 
@@ -140,6 +161,8 @@ Core には initialization、bounded delivery、decision interview、domain mode
 
 Temple は、すべての engineering Skill、design tool、tracker integration、model、RAG system、daemon を default では導入しません。
 
+---
+
 ## Marketing より先に evidence
 
 現在の claim は automated repository check と bounded validation record に基づきます。すべての enterprise topology、regulated audit、distributed race、production deployment を証明するものではありません。
@@ -153,6 +176,8 @@ Temple は、すべての engineering Skill、design tool、tracker integration�
 ## Human authority を明示的に残す
 
 Temple は repository work を coordinate しますが、business truth、priority、credential、material spending、irreversible external action、production remediation、high-risk approval の ownership を持ちません。External tracker と operational system は workflow に情報を与えられますが、自動的な release authority にはなりません。
+
+---
 
 ## Documentation
 

@@ -1,13 +1,24 @@
-# Temple — AI Development Organization Framework
+<h1 align="center">Temple</h1>
 
-**English** | [日本語](README.ja.md) | [繁體中文](README.zh-TW.md)
+<p align="center"><strong>AI Development Organization Framework</strong></p>
 
-**Turn disconnected AI coding sessions into a development organization that can remember, coordinate, verify, and improve.**
+<p align="center">Turn disconnected AI coding sessions into a development organization that can remember, coordinate, verify, and improve.</p>
+
+<p align="center"><strong>English</strong> · <a href="README.ja.md">日本語</a> · <a href="README.zh-TW.md">繁體中文</a></p>
+
+<p align="center">
+  <a href="https://github.com/zsz1210/temple-ai-dev-org/actions/workflows/ci.yml"><img alt="CI status" src="https://github.com/zsz1210/temple-ai-dev-org/actions/workflows/ci.yml/badge.svg"></a>
+  &nbsp;·&nbsp; Early Alpha
+  &nbsp;·&nbsp; Node.js 20+
+  &nbsp;·&nbsp; <a href="LICENSE">MIT License</a>
+</p>
 
 Temple installs a repository-native operating framework into a new or existing project. It gives people and AI agents stable responsibilities, durable project context, reusable engineering methods, bounded work, and evidence-based release gates—from a solo builder to a multi-team organization.
 
 > [!NOTE]
 > Temple is an early alpha for low-risk local projects and bounded pilots with human supervision. Distributed enterprise operation, production monitoring, and unattended external actions are not yet claimed.
+
+---
 
 ## Why Temple?
 
@@ -48,6 +59,8 @@ flowchart LR
 ```
 
 The loop stays the same as a project grows. What changes is how many Agent Identities and specialists occupy each Position, how much evidence is required, and which systems remain authoritative.
+
+---
 
 ## See Temple in your situation
 
@@ -99,9 +112,13 @@ A **Position** is a responsibility contract. An **Agent Identity** is a project-
 
 The template ships without character names. Initialization proposes or accepts names for that project's Agent Identities; teams can add or split identities later without changing the Position contracts.
 
+---
+
 ## Quick start
 
 Requirements: Git, Node.js 20 or later, Codex, and a target project directory.
+
+### 1. Install Temple from source
 
 ```bash
 git clone https://github.com/zsz1210/temple-ai-dev-org.git
@@ -111,11 +128,15 @@ npm run verify
 npm link
 ```
 
-Then open Temple in Codex and ask:
+### 2. Initialize a project
+
+Open Temple in Codex and ask:
 
 > Use `$temple-init` to initialize `/absolute/path/to/my-project`. Propose English names for the Agent Identities and wait for my confirmation before writing files.
 
-Inside the initialized project:
+### 3. Start the first Work Item
+
+Inside the initialized project, ask:
 
 > Use `$decision-interview` to clarify this change, then use `$temple-work` to create the smallest Work Item that can be independently verified.
 
@@ -140,6 +161,8 @@ The [Engineering Learning Loop](docs/extensions/engineering-learning.md) capture
 
 Temple deliberately does not install every engineering Skill, design tool, tracker integration, model, RAG system, or daemon by default.
 
+---
+
 ## Evidence before marketing
 
 Current claims are backed by automated repository checks and bounded validation records. They do not prove every enterprise topology, regulated audit, distributed race, or production deployment.
@@ -153,6 +176,8 @@ Future comparative tests should measure context-recovery time, duplicate scope, 
 ## Human authority remains explicit
 
 Temple coordinates repository work; it does not own business truth, priorities, credentials, material spending, irreversible external actions, production remediation, or high-risk approval. External trackers and operational systems can inform the workflow without becoming automatic release authority.
+
+---
 
 ## Documentation
 
