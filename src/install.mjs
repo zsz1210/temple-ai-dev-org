@@ -386,6 +386,8 @@ export async function executeInit(plan) {
         policy_evaluation_scorecard: true,
         usage_attribution: true,
         usage_baseline_report: true,
+        usage_telemetry_preflight: true,
+        codex_account_usage_probe: true,
         checksum_upgrade: true,
         optional_packs: true,
         toolkit_self_hosting: true

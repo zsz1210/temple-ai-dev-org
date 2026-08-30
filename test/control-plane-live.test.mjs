@@ -7,6 +7,7 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 import {
   buildCodexRuntimeRequestResponse,
+  classifyCodexTasks,
   normalizeCodexMessage,
   normalizeCodexThreadSnapshot,
   startCodexAppServerProvider,
@@ -385,6 +386,54 @@ test("Codex App Server provider handshakes, reconciles registered threads, and r
   assert.match(durable, /Live safe step/);
   assert.match(durable, /src\/live\.mjs/);
   assert.doesNotMatch(durable, /do-not-store-(?:explanation|diff|command)/);
+  assert.ok(journal.readAfter(0).records.some((record) => record.data?.reconciled));
+  await provider.stop();
+});
+
+test("Codex App Server provider reconciles terminal task history without attempting a live resume", async (context) => {
+  const { temporaryRoot, target, stateDirectory, workItemId, task } = await fixture(context);
+  const cancelled = run([
+    "transition", target,
+    "--work-item", workItemId,
+    "--to", "cancelled",
+    "--satisfy", "cancellation_reason=fixture cancellation",
+    "--actor", "human",
+    "--json"
+  ]);
+  assert.equal(cancelled.status, 0, cancelled.stderr || cancelled.stdout);
+
+  const callsPath = path.join(temporaryRoot, "app-server-calls.log");
+  const fakeServer = path.join(temporaryRoot, "fake-terminal-app-server.mjs");
+  await fs.writeFile(fakeServer, `
+    import fs from "node:fs";
+    import readline from "node:readline";
+    const input=readline.createInterface({input:process.stdin});
+    const send=(value)=>process.stdout.write(JSON.stringify(value)+"\\n");
+    const thread={id:"thread-live-001",status:{type:"idle"},turns:[{id:"turn-old",status:"completed",items:[]}]};
+    input.on("line",line=>{const message=JSON.parse(line);fs.appendFileSync(${JSON.stringify(callsPath)},message.method+"\\n");if(message.method==="initialize")send({jsonrpc:"2.0",id:message.id,result:{serverInfo:{version:"fixture-terminal"}}});else if(message.method==="thread/read")send({jsonrpc:"2.0",id:message.id,result:{thread}});else if(message.method==="thread/resume")send({jsonrpc:"2.0",id:message.id,error:{code:-32600,message:"terminal task must not be resumed"}})});
+  `);
+  const journal = await openTelemetryJournal(stateDirectory, {
+    maxEvents: 100,
+    privacy: defaultControlPlaneConfig().privacy
+  });
+  context.after(() => journal.close());
+  const registry = createProviderRegistry([repositoryProviderContract()]);
+  const provider = await startCodexAppServerProvider(target, journal, registry, {
+    command: process.execPath,
+    commandArgs: [fakeServer],
+    reconnectMs: 60000
+  });
+  await provider.start();
+  context.after(() => provider.stop());
+
+  assert.deepEqual(
+    Object.fromEntries(Object.entries(provider.taskTopology).map(([key, value]) => [key, value.length])),
+    { registered: 1, history_reconcilable: 1, live_resumable: 0, terminal: 1, non_live: 0 }
+  );
+  assert.deepEqual(classifyCodexTasks([task], { workItems: [{ id: workItemId, state: "cancelled" }] }).live_resumable, []);
+  assert.equal(registry.get("codex-local").status, "ready");
+  const calls = (await fs.readFile(callsPath, "utf8")).trim().split("\n");
+  assert.deepEqual(calls, ["initialize", "initialized", "thread/read"]);
   assert.ok(journal.readAfter(0).records.some((record) => record.data?.reconciled));
   await provider.stop();
 });

@@ -343,7 +343,9 @@ export async function planUpgrade(target) {
     lock.capabilities?.adversarial_policy_catalog !== true ||
     lock.capabilities?.policy_evaluation_scorecard !== true ||
     lock.capabilities?.usage_attribution !== true ||
-    lock.capabilities?.usage_baseline_report !== true;
+    lock.capabilities?.usage_baseline_report !== true ||
+    lock.capabilities?.usage_telemetry_preflight !== true ||
+    lock.capabilities?.codex_account_usage_probe !== true;
   if (packMetadataChanges) actions.push({ type: "update-pack-metadata", path: "temple.lock" });
   if (capabilityChanges || collaborationCapabilityChanges) actions.push({ type: "update-capabilities", path: "temple.lock" });
   if (migrationPlan.pending.length > 0) actions.push({ type: "record-migrations", path: "temple.lock" });
@@ -609,6 +611,8 @@ export async function executeUpgrade(plan) {
         policy_evaluation_scorecard: true,
         usage_attribution: true,
         usage_baseline_report: true,
+        usage_telemetry_preflight: true,
+        codex_account_usage_probe: true,
         checksum_upgrade: true,
         optional_packs: true,
         toolkit_self_hosting: true

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.26
+
+- Added read-only `usage preflight` inspection for registered-task topology, Codex Provider readiness, detailed thread-usage coverage, correlation qualification, and the next bounded action.
+- Added an explicit `--probe-codex-account` capability check for `account/usage/read`; output retains only availability, field names, bucket availability and count, and latency while labeling all account activity `account-wide` and `unallocated`.
+- Corrected the Codex App Server lifecycle so completed tasks and tasks attached to terminal Work Items receive bounded history reconciliation but are never resumed as live subscriptions; archived tasks remain detached, while active, waiting, and attention tasks on nonterminal Work Items keep the live-resume path.
+- Added the documented post-initialize notification plus deterministic coverage for task topology, terminal history-only behavior, detailed usage, account-probe success and failure, privacy, and fail-closed attribution.
+- Preserved explicit limits: no account total is assigned to a project or Work Item, no model call is made to count Tokens, no savings baseline is claimed, and recommendation, pricing, model switching, spending, and lifecycle mutation remain disabled.
+
 ## 0.1.0-alpha.25
 
 - Added a managed seven-scenario adversarial policy catalog covering false completion, wrong revision, self-approval, unauthorized external action, stale scope, context loss, and notification noise across Solo, Collaborative, and High-Assurance profiles.

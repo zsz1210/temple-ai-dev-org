@@ -6,7 +6,7 @@ Temple 正在從已通過 local 驗證的 AI Development Organization Framework�
 
 ## 目前位置
 
-- **目前 release line：** `0.1.0-alpha.25`
+- **目前 release line：** `0.1.0-alpha.26`
 - **目前階段：** Phase 4A local recovery 與 Phase 4B policy／usage foundation 已實作；longitudinal reliability evidence 仍未完成
 - **現在適合：** 有人類監督的低風險 local project 與 bounded pilot
 - **尚未宣稱：** production-grade distributed coordination、regulated operation 或無人監督的外部操作
@@ -49,7 +49,7 @@ Temple 正在從已通過 local 驗證的 AI Development Organization Framework�
 
 ### 日常運作訊號
 
-- Alpha.25 提供適用 Solo、Collaborative 與 High-Assurance fixture 的七項 adversarial policy scorecard；real operation 與 longitudinal evidence 仍待補足。
+- Alpha.25 提供適用 Solo、Collaborative 與 High-Assurance fixture 的七項 adversarial policy scorecard；Alpha.26 加入誠實的 live usage preflight，並讓 account-wide activity 維持 unallocated。Real operation 與 longitudinal evidence 仍待補足。
 - 將 provider usage 歸因到可證明的 Work Item、Position、observed stage、task、attempt、provider、model 與 outcome；無法取得的資料和 monetary cost 維持 unknown。
 - 定義低噪音的 duplicate scope、lost context、stale evidence、rework、blocked time 與 verification quality historical 指標。
 - 讓 usage 與 cost 可見，但不授予 framework spending authority 或 automatic model switching。

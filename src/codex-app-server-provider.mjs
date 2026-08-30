@@ -13,6 +13,13 @@ export const CODEX_APP_SERVER_PROTOCOL_PROFILE = "codex-app-server-v2-observer-2
 export const CODEX_APP_SERVER_SOURCE = "urn:temple:provider:codex-app-server:local";
 export const DEFAULT_CODEX_HISTORY_TURN_LIMIT = 20;
 export const DEFAULT_CODEX_HISTORY_ITEM_LIMIT = 200;
+export const CODEX_LIVE_TASK_STATUSES = ["active", "waiting", "attention"];
+export const CODEX_TERMINAL_TASK_STATUSES = ["completed", "archived"];
+export const CODEX_TERMINAL_WORK_ITEM_STATES = ["done", "cancelled"];
+
+const LIVE_TASK_STATUS_SET = new Set(CODEX_LIVE_TASK_STATUSES);
+const TERMINAL_TASK_STATUS_SET = new Set(CODEX_TERMINAL_TASK_STATUSES);
+const TERMINAL_WORK_ITEM_STATE_SET = new Set(CODEX_TERMINAL_WORK_ITEM_STATES);
 
 const NOTIFICATION_TYPES = new Map([
   ["thread/started", "org.temple.codex.thread.started.v1"],
@@ -87,6 +94,31 @@ function timestamp(value, fallback) {
 
 function taskForThread(tasks, threadId) {
   return (tasks ?? []).find((task) => task.thread_id === threadId) ?? null;
+}
+
+function terminalWorkItemIds(workItems = []) {
+  return new Set(
+    workItems
+      .filter((item) => TERMINAL_WORK_ITEM_STATE_SET.has(item?.state))
+      .map((item) => item.id)
+  );
+}
+
+export function classifyCodexTasks(tasks = [], options = {}) {
+  const registered = tasks.filter((task) => typeof task?.thread_id === "string" && task.thread_id.trim());
+  const terminalItems = terminalWorkItemIds(options.workItems);
+  const terminal = (task) => TERMINAL_TASK_STATUS_SET.has(task.status) || terminalItems.has(task.work_item_id);
+  return {
+    registered,
+    history_reconcilable: registered.filter((task) => task.status !== "archived"),
+    live_resumable: registered.filter((task) => LIVE_TASK_STATUS_SET.has(task.status) && !terminal(task)),
+    terminal: registered.filter(terminal),
+    non_live: registered.filter((task) => !LIVE_TASK_STATUS_SET.has(task.status) && !terminal(task))
+  };
+}
+
+export function shouldResumeCodexTask(task, options = {}) {
+  return classifyCodexTasks([task], options).live_resumable.length === 1;
 }
 
 function commonData(projectId, tasks, params) {
@@ -595,6 +627,9 @@ export function createJsonRpcProcess(command, args = [], options = {}) {
     respond(id, result) {
       send({ id, result });
     },
+    notify(method, params = {}) {
+      send({ method, params });
+    },
     async close() {
       if (closed) return;
       closed = true;
@@ -611,8 +646,9 @@ export function createJsonRpcProcess(command, args = [], options = {}) {
 export async function startCodexAppServerProvider(target, journal, registry, options = {}) {
   const project = await readJson(path.join(target, ".ai-org/project/project.json"));
   const taskRegistry = await readJson(path.join(target, ".ai-org/project/tasks.json"));
-  const tasks = (taskRegistry.tasks ?? []).filter((task) => task.thread_id && task.status !== "archived");
   const workItems = await listWorkItemDocuments(target);
+  const taskTopology = classifyCodexTasks(taskRegistry.tasks ?? [], { workItems });
+  const tasks = taskTopology.history_reconcilable;
   const providerId = options.providerId ?? "codex-local";
   const command = options.command ?? "codex";
   const commandArgs = options.commandArgs ?? ["app-server", "--stdio"];
@@ -710,6 +746,7 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
           clientInfo: { name: "temple", title: "Temple Control Plane", version: TEMPLATE_VERSION },
           capabilities: { experimentalApi: false }
         });
+        activeConnection.notify("initialized", {});
         const detectedCliVersion = initialized?.serverInfo?.version ?? initialized?.serverInfo?.name ??
           boundedText(initialized?.userAgent, 240);
         registry.set(codexAppServerProviderContract({
@@ -727,7 +764,7 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
               await reconcile(read.thread, "thread/read");
               snapshotReconciled = true;
             }
-            if (options.resumeThreads !== false) {
+            if (options.resumeThreads !== false && shouldResumeCodexTask(task, { workItems })) {
               const resumed = await activeConnection.request("thread/resume", { threadId: task.thread_id });
               if (resumed?.thread && !snapshotReconciled) await reconcile(resumed.thread, "thread/resume");
             }
@@ -757,6 +794,7 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
   return {
     providerId,
     tasks,
+    taskTopology,
     async start() {
       await connect();
       return this;

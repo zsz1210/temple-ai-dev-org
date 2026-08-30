@@ -46,6 +46,8 @@ This boundary allows safe central framework upgrades while making installed cont
 
 `temple.lock` records the framework version, exact managed-file checksums, installed optional packs, feature states, `AGENTS.md` integration state, and a version-pinned CLI bootstrap contract. A clean source installation also records the exact Git source revision used by the project launcher. Directory prefixes are allowed source roots, not ownership claims. An untracked collision stops before writing even when its contents match the proposed managed file. See [ADR-0013](../adr/0013-governed-skill-extensions.md) and [ADR-0022](../adr/0022-recoverable-runtime-dispatch.md).
 
+Read-only protocol inspections such as `usage preflight` are ephemeral rather than a fourth authority layer. Detailed thread usage may be correlated with registered repository tasks; optional account activity remains account-wide and unallocated. Neither source mutates lifecycle state, and account activity is never copied into the project baseline.
+
 The toolkit repository is the only explicit exception shape, not an exception to ownership. `temple init . --self-host` records a distinct installation mode, keeps root project state separate from `project-overlay/`, and may adopt only the one declared byte-identical bootstrap Skill already needed to start initialization. The normal project path never adopts identical untracked files. See [ADR-0030](../adr/0030-self-host-the-toolkit-with-explicit-boundaries.md).
 
 ## Canonical state

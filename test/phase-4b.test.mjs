@@ -10,8 +10,12 @@ import {
   scorePolicyEvaluation,
   validateAdversarialScenarioCatalog
 } from "../src/policy-evaluation.mjs";
-import { normalizeCodexMessage } from "../src/codex-app-server-provider.mjs";
-import { buildUsageBaselineFromRecords } from "../src/usage-attribution.mjs";
+import { classifyCodexTasks, normalizeCodexMessage } from "../src/codex-app-server-provider.mjs";
+import {
+  buildUsageBaselineFromRecords,
+  buildUsagePreflightFromRecords,
+  probeCodexAccountUsage
+} from "../src/usage-attribution.mjs";
 import { defaultControlPlaneConfig } from "../src/control-plane-config.mjs";
 import { openTelemetryJournal } from "../src/telemetry.mjs";
 
@@ -176,6 +180,127 @@ test("provider usage carries proven dimensions and leaves unavailable routing da
   assert.doesNotMatch(JSON.stringify(event), /prompt|hidden reasoning|source code/i);
 });
 
+test("usage preflight distinguishes live task telemetry from account-wide unallocated availability", async () => {
+  const tasks = [
+    { id: "task-setup", status: "setup", thread_id: "thread-setup" },
+    { id: "task-active", status: "active", thread_id: "thread-active" },
+    { id: "task-waiting", status: "waiting", thread_id: "thread-waiting" },
+    { id: "task-attention", status: "attention", thread_id: "thread-attention" },
+    { id: "task-completed", status: "completed", thread_id: "thread-completed" },
+    { id: "task-archived", status: "archived", thread_id: "thread-archived" }
+  ];
+  const topology = classifyCodexTasks(tasks);
+  assert.deepEqual(
+    Object.fromEntries(Object.entries(topology).map(([key, value]) => [key, value.length])),
+    { registered: 6, history_reconcilable: 5, live_resumable: 3, terminal: 2, non_live: 1 }
+  );
+
+  const rpcCalls = [];
+  const accountProbe = await probeCodexAccountUsage("/tmp/unused", {
+    connectionFactory: async () => ({
+      async request(method) {
+        rpcCalls.push(method);
+        if (method === "initialize") return { serverInfo: { version: "fixture-usage" } };
+        return {
+          summary: { lifetimeTokens: 987654321, currentStreakDays: null },
+          dailyUsageBuckets: [{ startDate: "2026-08-30", tokens: 4567890 }]
+        };
+      },
+      notify(method) { rpcCalls.push(method); },
+      async close() { rpcCalls.push("close"); }
+    })
+  });
+  assert.deepEqual(rpcCalls, ["initialize", "initialized", "account/usage/read", "close"]);
+  assert.equal(accountProbe.availability, "available");
+  assert.equal(accountProbe.scope, "account-wide");
+  assert.equal(accountProbe.allocation, "unallocated");
+  assert.deepEqual(accountProbe.summary_fields, ["currentStreakDays", "lifetimeTokens"]);
+  assert.deepEqual(accountProbe.non_null_summary_fields, ["lifetimeTokens"]);
+  assert.equal(accountProbe.daily_bucket_count, 1);
+  assert.equal(accountProbe.raw_values_retained, false);
+  assert.doesNotMatch(JSON.stringify(accountProbe), /987654321|4567890/);
+
+  const providers = [{
+    id: "codex-local",
+    kind: "codex-app-server",
+    status: "ready",
+    capabilities: { token_usage: "supported" },
+    protocol: { detected_cli_version: "fixture-usage" }
+  }];
+  const awaiting = buildUsagePreflightFromRecords(
+    { id: "policy-product", name: "Policy Product" },
+    tasks,
+    [],
+    providers,
+    accountProbe
+  );
+  assert.equal(awaiting.detailed_thread_usage.status, "awaiting-observation");
+  assert.equal(awaiting.baseline_qualification.status, "not-qualified");
+  assert.equal(awaiting.baseline_qualification.account_usage_can_qualify, false);
+  assert.equal(awaiting.routing.automatic_routing, false);
+  assert.equal(awaiting.external_read_performed, true);
+  assert.equal(awaiting.external_action_performed, false);
+
+  const terminalOnly = buildUsagePreflightFromRecords(
+    { id: "policy-product", name: "Policy Product" },
+    tasks.filter((task) => task.status === "completed" || task.status === "archived"),
+    [],
+    [{ ...providers[0], status: "disabled" }],
+    null
+  );
+  assert.equal(terminalOnly.detailed_thread_usage.status, "no-live-registered-task");
+  assert.equal(terminalOnly.task_topology.terminal, 2);
+  assert.equal(terminalOnly.task_topology.terminal_tasks_are_live_resumable, false);
+
+  const usageEvent = normalizeCodexMessage("policy-product", [{
+    id: "task-active",
+    work_item_id: "WI-0001",
+    position_id: "developer",
+    agent_id: "agent-devon",
+    status: "active",
+    thread_id: "thread-active"
+  }], {
+    method: "thread/tokenUsage/updated",
+    params: {
+      threadId: "thread-active",
+      turnId: "turn-1",
+      tokenUsage: {
+        total: { inputTokens: 10, cachedInputTokens: 0, outputTokens: 2, reasoningOutputTokens: 1, totalTokens: 13 },
+        last: { inputTokens: 10, cachedInputTokens: 0, outputTokens: 2, reasoningOutputTokens: 1, totalTokens: 13 },
+        modelContextWindow: 10000
+      }
+    }
+  }, { observedAt: "2026-08-30T00:00:00.000Z" });
+  const observed = buildUsagePreflightFromRecords(
+    { id: "policy-product", name: "Policy Product" },
+    tasks,
+    [usageEvent],
+    providers,
+    accountProbe
+  );
+  assert.equal(observed.detailed_thread_usage.status, "observed");
+  assert.equal(observed.detailed_thread_usage.correlated_observations, 1);
+  assert.equal(observed.baseline_qualification.status, "first-observation-qualified");
+  assert.equal(observed.baseline_qualification.savings_claim_allowed, false);
+});
+
+test("Codex account usage probe fails closed without retaining provider error details", async () => {
+  const report = await probeCodexAccountUsage("/tmp/unused", {
+    connectionFactory: async () => ({
+      async request(method) {
+        if (method === "initialize") return { serverInfo: { version: "fixture-usage" } };
+        throw new Error("account/usage/read failed with secret-marker");
+      },
+      notify() {},
+      async close() {}
+    })
+  });
+  assert.equal(report.availability, "unavailable");
+  assert.equal(report.reason, "account-usage-read-failed");
+  assert.equal(report.raw_values_retained, false);
+  assert.doesNotMatch(JSON.stringify(report), /secret-marker/);
+});
+
 test("usage baseline sums provider deltas, preserves unknowns, and never invents cost or routing", async (context) => {
   const { target, stateDirectory } = await fixture(context);
   const base = {
@@ -246,4 +371,13 @@ test("usage baseline sums provider deltas, preserves unknowns, and never invents
   const written = run(["usage", "report", target, "--state-dir", stateDirectory, "--json"]);
   assert.equal(written.status, 0, written.stderr || written.stdout);
   assert.equal(JSON.parse(await fs.readFile(path.join(target, ".ai-org/views/usage-baseline.json"), "utf8")).totals.total_tokens, 180);
+
+  const preflight = run(["usage", "preflight", target, "--state-dir", stateDirectory, "--json"]);
+  assert.equal(preflight.status, 0, preflight.stderr || preflight.stdout);
+  const preflightReport = JSON.parse(preflight.stdout);
+  assert.equal(preflightReport.detailed_thread_usage.status, "observed");
+  assert.equal(preflightReport.provider.status, "unobserved");
+  assert.equal(preflightReport.account_usage.availability, "not-probed");
+  assert.equal(preflightReport.baseline_qualification.status, "first-observation-qualified");
+  assert.equal(preflightReport.canonical_state_changed, false);
 });

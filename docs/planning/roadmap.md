@@ -6,7 +6,7 @@ Temple is moving from a locally proven AI development organization framework tow
 
 ## Current position
 
-- **Current release line:** `0.1.0-alpha.25`
+- **Current release line:** `0.1.0-alpha.26`
 - **Current stage:** Phase 4A local recovery and the Phase 4B policy/usage foundation are implemented; longitudinal reliability evidence remains open
 - **Suitable today:** low-risk local projects and bounded pilots with human supervision
 - **Not yet claimed:** production-grade distributed coordination, regulated operation, or unattended external actions
@@ -49,7 +49,7 @@ The immediate priority is to turn the proven local foundation into something a d
 
 ### Everyday operating signals
 
-- Alpha.25 provides a seven-scenario adversarial policy scorecard across Solo, Collaborative, and High-Assurance fixtures; real-operation and longitudinal evidence remain required.
+- Alpha.25 provides a seven-scenario adversarial policy scorecard across Solo, Collaborative, and High-Assurance fixtures; Alpha.26 adds a truthful live-usage preflight and keeps account-wide activity unallocated. Real-operation and longitudinal evidence remain required.
 - Attribute provider usage to every provable Work Item, Position, observed stage, task, attempt, provider, model, and outcome dimension while keeping missing data and monetary cost unknown.
 - Define useful, low-noise historical measures for duplicate scope, lost context, stale evidence, rework, blocked time, and verification quality.
 - Keep usage and cost visible without allowing the framework to authorize spending or switch models automatically.

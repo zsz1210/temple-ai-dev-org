@@ -1,0 +1,79 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0011",
+  "title": "Qualify live Token telemetry and establish the first real baseline",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T05:47:24.047Z",
+  "updated_at": "2026-08-30T05:48:33.042Z",
+  "scope": [
+    "Qualify Codex usage sources, stop terminal-task resume attempts, and add a read-only preflight that distinguishes exact active-thread usage from account-wide unallocated usage without inventing Work Item attribution."
+  ],
+  "acceptance_criteria": [
+    "Completed or cancelled registered tasks are reconciled from history but are never resumed as live subscriptions or used to degrade the Provider.",
+    "A read-only usage preflight reports detailed-thread readiness, observed usage coverage, task topology, and an explicitly requested Codex account-usage capability probe.",
+    "Account-wide usage is labeled unallocated and cannot be assigned to a project, Work Item, Position, task, model, cost, or outcome.",
+    "Missing live usage remains unknown, automatic routing stays disabled, and no prompt, hidden reasoning, credential, raw account value, or external mutation is retained.",
+    "Tests reproduce a real terminal-task topology, active-task readiness, account-probe success and failure, parser compatibility, and fail-closed attribution behavior.",
+    "Documentation records the official protocol basis, measurement overhead, limitations, and the remaining multi-Work-Item longitudinal baseline."
+  ],
+  "affected_paths": [
+    "src/codex-app-server-provider.mjs",
+    "src/usage-attribution.mjs",
+    "src/cli.mjs",
+    "test/phase-4b.test.mjs",
+    "docs/operations/token-efficiency-and-model-routing.md",
+    "docs/validation",
+    "package.json",
+    "CHANGELOG.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [
+    "general-development"
+  ],
+  "stage_requirements": {},
+  "base_revision": "bbba62341aa0da9a9c6e8231192ab211b7cfc34f",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0011.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0011.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0011.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0011.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0011.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0011.md",
+    ".ai-org/work-items/WI-0011.json"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

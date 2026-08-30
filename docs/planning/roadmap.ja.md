@@ -6,7 +6,7 @@ Temple は、local で実証された AI Development Organization Framework か�
 
 ## 現在地
 
-- **現在の release line:** `0.1.0-alpha.25`
+- **現在の release line:** `0.1.0-alpha.26`
 - **現在の段階:** Phase 4A local recovery と Phase 4B policy / usage foundation は実装済み。Longitudinal reliability evidence は未完了
 - **現在適している用途:** 人間が監督する低リスクの local project と bounded pilot
 - **まだ主張しないもの:** production-grade の distributed coordination、regulated operation、無人の外部操作
@@ -49,7 +49,7 @@ Temple は、local で実証された AI Development Organization Framework か�
 
 ### 日常運用の signal
 
-- Alpha.25 は Solo、Collaborative、High-Assurance fixture 向けの7 scenario adversarial policy scorecard を提供します。Real operation と longitudinal evidence は未完了です。
+- Alpha.25 は Solo、Collaborative、High-Assurance fixture 向けの7 scenario adversarial policy scorecard を提供し、Alpha.26 は正直な live usage preflight を追加して account-wide activity を unallocated のまま扱います。Real operation と longitudinal evidence は未完了です。
 - Provider usage を証明可能な Work Item、Position、observed stage、task、attempt、provider、model、outcome に attribution し、不明な data と monetary cost は unknown のまま保持。
 - Duplicate scope、lost context、stale evidence、rework、blocked time、verification quality の低ノイズな historical measure を定義。
 - Framework に spending authority や automatic model switching を与えず、usage と cost を可視化。

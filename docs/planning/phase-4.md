@@ -1,6 +1,6 @@
 # Phase 4: reliability at daily and multi-project scale
 
-- Status: implementation in progress; Alpha.25 adds the Phase 4B evaluation and usage-attribution foundation, while longitudinal evidence, rollback, retention/audit export, real interruption, federation, and broader environments remain open
+- Status: implementation in progress; Alpha.26 adds telemetry qualification to the Phase 4B evaluation and usage-attribution foundation, while longitudinal evidence, rollback, retention/audit export, real interruption, federation, and broader environments remain open
 - Entry baseline: `0.1.0-alpha.23`
 - Governing Work Item: `WI-0006`
 - Recovery validation Work Item: `WI-0008`
@@ -65,7 +65,7 @@ Current evidence: one forward migration passed in the AiPet rehearsal; the rollb
 - Demonstrate that a budget warning or model recommendation cannot skip required context, evidence, Independent QA, or human approval.
 - Establish a baseline before claiming any reduction in Token usage, cost, elapsed time, or rework.
 
-Alpha.25 implements the managed seven-scenario catalog, fail-closed `evaluation run` scorecard, Solo/Collaborative/High-Assurance deterministic fixtures, provider usage attribution, and `usage report` baseline view. Fixture evidence proves the evaluator and policy contract, not the real-operation exit gate. The ten real Work Items, varied task shapes, longitudinal comparison, and live organizational exercises remain open.
+Alpha.25 implements the managed seven-scenario catalog, fail-closed `evaluation run` scorecard, Solo/Collaborative/High-Assurance deterministic fixtures, provider usage attribution, and `usage report` baseline view. Alpha.26 adds `usage preflight`, proves that terminal tasks are history-only, and keeps optional Codex account activity account-wide and unallocated. Fixture and capability evidence prove the observation contract, not the real-operation exit gate. The ten real Work Items, varied task shapes, longitudinal comparison, and live organizational exercises remain open.
 
 ## Phase 4C — multi-repository federation
 

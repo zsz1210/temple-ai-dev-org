@@ -363,5 +363,5 @@ test("an internally consistent older backup restores with an upgrade-required re
   const upgrade = await planUpgrade(state.target);
   assert.deepEqual(upgrade.conflicts, []);
   const upgradedLock = await executeUpgrade(upgrade);
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.25");
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.26");
 });

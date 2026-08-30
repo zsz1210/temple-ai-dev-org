@@ -550,13 +550,27 @@ node ./templew.mjs evaluation run . \
   --json
 ```
 
+Check whether the current task topology and Provider can produce a project-attributed usage baseline:
+
+```bash
+node ./templew.mjs usage preflight . --json
+```
+
+Optionally probe only whether Codex account activity metadata is available:
+
+```bash
+node ./templew.mjs usage preflight . --probe-codex-account --json
+```
+
+The optional probe is account-wide and unallocated. It does not output account Token totals, invoke a model, qualify the project baseline, or assign activity to a Work Item. Detailed attribution still requires a registered live task and provider-emitted thread usage.
+
 Inspect the provider-reported usage baseline without writing a generated view:
 
 ```bash
 node ./templew.mjs usage report . --no-write --json
 ```
 
-The policy fixture begins at `.ai-org/templates/policy-evaluation-fixture.json`. `unknown` and missing scenarios do not pass. Usage aggregation sums provider last-usage deltas and keeps unavailable dimensions and monetary cost unknown; it does not call another model, recommend a model, switch providers, or let a budget bypass evidence. See [Adversarial policy evaluation](../operations/policy-evaluation.md) and [Token Efficiency and Model Routing](../operations/token-efficiency-and-model-routing.md).
+The policy fixture begins at `.ai-org/templates/policy-evaluation-fixture.json`. `unknown` and missing scenarios do not pass. Usage aggregation sums provider last-usage deltas and keeps unavailable dimensions and monetary cost unknown; it does not call another model, recommend a model, switch providers, or let a budget bypass evidence. A completed task or a task attached to a terminal Work Item can be reconciled from bounded history but is never resumed as a live usage subscription; an archived task remains detached. See [Adversarial policy evaluation](../operations/policy-evaluation.md) and [Token Efficiency and Model Routing](../operations/token-efficiency-and-model-routing.md).
 
 `status.md` includes:
 

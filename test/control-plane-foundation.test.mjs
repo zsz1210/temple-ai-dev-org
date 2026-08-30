@@ -183,7 +183,7 @@ test("upgrade seeds missing project-owned control-plane configuration without ma
   const upgraded = run(["upgrade", target]);
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.25");
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.26");
   assert.equal(upgradedLock.capabilities.local_telemetry_journal, true);
   assert.equal(upgradedLock.capabilities.live_observer, true);
   assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/project/control-plane.json"));

@@ -2,22 +2,22 @@
   "schema_version": "temple.lock/v1",
   "template": {
     "name": "@zsz1210/temple-ai-dev-org",
-    "version": "0.1.0-alpha.25",
+    "version": "0.1.0-alpha.26",
     "repository": "zsz1210/temple-ai-dev-org",
     "bootstrap": {
       "schema_version": "temple.cli-bootstrap/v1",
-      "version": "0.1.0-alpha.25",
+      "version": "0.1.0-alpha.26",
       "node": ">=20",
       "launcher": "templew.mjs",
-      "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.25",
+      "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.26",
       "repository_spec": null,
-      "source_revision": "f35fa48bf79d7bb31d1303d734b2d2140cb2b0d6",
+      "source_revision": "bbba62341aa0da9a9c6e8231192ab211b7cfc34f",
       "source_clean": false,
       "invocation": "node ./templew.mjs <command> ."
     },
     "installed_at": "2026-08-30T02:28:18.355Z",
-    "upgraded_at": "2026-08-30T05:31:28.728Z",
-    "upgraded_from": "0.1.0-alpha.24"
+    "upgraded_at": "2026-08-30T05:54:54.211Z",
+    "upgraded_from": "0.1.0-alpha.25"
   },
   "installation": {
     "mode": "toolkit-self-host",
@@ -152,7 +152,9 @@
     "adversarial_policy_catalog": true,
     "policy_evaluation_scorecard": true,
     "usage_attribution": true,
-    "usage_baseline_report": true
+    "usage_baseline_report": true,
+    "usage_telemetry_preflight": true,
+    "codex_account_usage_probe": true
   },
   "optional_packs": [],
   "managed_files": [

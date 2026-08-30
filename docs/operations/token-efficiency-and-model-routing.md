@@ -1,6 +1,6 @@
 # Token Efficiency and Model Routing
 
-- Status: Alpha.25 observation and attribution foundation implemented; recommendation and routing do not exist
+- Status: Alpha.26 telemetry preflight, observation, and attribution foundation implemented; recommendation and routing do not exist
 - Primary readers: maintainers, Engineering Managers, Tech Leads, Observers, and cost-accountable humans
 
 Temple treats Token usage as an operational signal. The goal is not the smallest prompt or the cheapest individual turn. The goal is a correct, accepted Work Item with less waste, rework, latency, and coordination cost.
@@ -18,7 +18,7 @@ Usually, no.
 
 Recording numeric metadata still uses a small amount of local CPU, memory, disk, and dashboard bandwidth. That overhead must be measured separately from model Tokens and kept bounded through aggregation and retention.
 
-OpenAI's Responses API, for example, returns input, cached-input, output, reasoning-output, and total usage fields in the response itself. Current official guidance also recommends comparing model and reasoning configurations on representative tasks by quality, tokens, latency, and cost rather than assuming one configuration is always best. See the [Responses usage schema](https://developers.openai.com/api/reference/cli/resources/responses/methods/retrieve) and [model guidance](https://developers.openai.com/api/docs/guides/latest-model).
+OpenAI's Responses API, for example, returns input, cached-input, output, reasoning-output, and total usage fields in the response itself. Current official guidance also recommends comparing model and reasoning configurations on representative tasks by quality, tokens, latency, and cost rather than assuming one configuration is always best. See the [Responses usage schema](https://developers.openai.com/api/reference/cli/resources/responses/methods/retrieve) and [model guidance](https://developers.openai.com/api/docs/guides/latest-model). For Codex, the official [App Server protocol](https://developers.openai.com/codex/app-server/) identifies `thread/tokenUsage/updated` as a thread notification and `account/usage/read` as an account activity query.
 
 ## What Temple already has
 
@@ -43,6 +43,40 @@ node ./templew.mjs usage report . --no-write --json
 ```
 
 Remove `--no-write` to create `.ai-org/views/usage-baseline.json`. The report sums provider last-usage deltas instead of cumulative totals, groups drivers by the attribution dimensions below, and leaves monetary cost unknown without a versioned price source. This remains observation infrastructure, not a completed optimization system.
+
+## Check whether a real baseline is possible
+
+Run the preflight before interpreting a zero or missing usage report:
+
+```bash
+node ./templew.mjs usage preflight . --json
+```
+
+The command is read-only. It separates two sources that must not be merged:
+
+| Source | What it can prove | What it cannot prove |
+|---|---|---|
+| `thread/tokenUsage/updated` | Usage for an observed provider thread, with Work Item and task attribution when the registered thread matches | Account billing totals or a project it did not observe |
+| `account/usage/read` | Whether Codex-backed account activity fields and daily buckets are available | Which project, Work Item, Position, Agent, task, model, outcome, price, or cost produced that activity |
+
+The detailed source reports one of four states:
+
+- `observed`: at least one detailed usage event exists;
+- `awaiting-observation`: an active, waiting, or attention task is registered and the Provider is ready, but no usage event has arrived;
+- `no-live-registered-task`: only terminal, setup, or history-only tasks exist;
+- `provider-unavailable`: a live-resumable task exists but the required Provider capability is unavailable.
+
+Completed tasks and tasks attached to `done` or `cancelled` Work Items remain eligible for bounded history reconciliation, but Temple never resumes them as live subscriptions. Archived tasks remain detached from Provider reconciliation. Registering a Codex task does not itself create or take ownership of a live task.
+
+An optional account capability probe must be requested explicitly:
+
+```bash
+node ./templew.mjs usage preflight . --probe-codex-account --json
+```
+
+The probe makes no model-generation request. It retains only endpoint availability, returned field names, whether daily buckets exist, their count, and local request latency. It deliberately discards account Token values and labels the result `account-wide` and `unallocated`. Account activity can never qualify the project baseline; only correlated detailed thread observations can do that.
+
+The preflight's local parsing, process startup, JSON exchange, and reporting consume a small amount of CPU, memory, time, and output bytes. `measurement_overhead` reports probe latency and confirms that no model call was used for Token counting. Temple does not yet claim that this overhead or the resulting measurements reduce Tokens.
 
 ## Attribution contract
 
@@ -151,10 +185,11 @@ Usage reporting retains bounded identifiers and numeric measurements. It does no
 
 ## Delivery slices
 
-1. **Attribution — implemented:** normalized usage includes proven Work Item, Position, observed stage, task, attempt, provider, model, provenance, quality, and outcome fields; unavailable values stay unknown.
-2. **Reporting — foundation implemented:** `usage report` creates a bounded driver view and versioned baseline, while longitudinal comparison remains pending.
-3. **Policy — pending:** add hierarchical warning budgets and model allowlists without automatic switching.
-4. **Recommendation — pending:** evaluate representative task classes and display a proposed route with its reasons.
-5. **Opt-in routing — later:** apply an approved route, record the effective configuration, and preserve fallback and refusal evidence.
+1. **Telemetry qualification — implemented:** `usage preflight` distinguishes live task readiness, detailed observations, and optional account-wide capability without mixing their authority.
+2. **Attribution — implemented:** normalized usage includes proven Work Item, Position, observed stage, task, attempt, provider, model, provenance, quality, and outcome fields; unavailable values stay unknown.
+3. **Reporting — foundation implemented:** `usage report` creates a bounded driver view and versioned baseline, while longitudinal comparison remains pending.
+4. **Policy — pending:** add hierarchical warning budgets and model allowlists without automatic switching.
+5. **Recommendation — pending:** evaluate representative task classes and display a proposed route with its reasons.
+6. **Opt-in routing — later:** apply an approved route, record the effective configuration, and preserve fallback and refusal evidence.
 
 None of these slices changes lifecycle authority or replaces outcome-based evaluation.

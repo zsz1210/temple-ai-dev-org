@@ -53,7 +53,7 @@ import {
 } from "./learning.mjs";
 import { evaluateRetrieval, readRetrievalConfig } from "./retrieval.mjs";
 import { evaluatePolicy } from "./policy-evaluation.mjs";
-import { buildUsageBaseline } from "./usage-attribution.mjs";
+import { buildUsageBaseline, buildUsagePreflight } from "./usage-attribution.mjs";
 import { installArchifyAdapter, inspectArchifyAdapter } from "./archify-adapter.mjs";
 import { listTasks, registerTask, updateTask } from "./tasks.mjs";
 import {
@@ -140,6 +140,7 @@ Usage:
   temple retrieval show [target] [--json]
   temple evaluation run [target] --fixture path [--no-write] [--json]
   temple usage report [target] [--state-dir path] [--no-write] [--json]
+  temple usage preflight [target] [--state-dir path] [--probe-codex-account] [--json]
   temple adapter archify-status [target] [--json]
   temple adapter archify-install [target] --source local-git-checkout [--json]
   temple handoff [target] --work-item WI-0001 --to position --input-revision ref --completed text --evidence ref
@@ -222,6 +223,7 @@ const BOOLEAN_FLAGS = new Set([
   "--replace-ui-refs",
   "--replace-contract-refs",
   "--codex",
+  "--probe-codex-account",
   "--allow-replace"
 ]);
 const VALUE_FLAGS = new Set([
@@ -1011,6 +1013,24 @@ async function runEvaluation(parsed) {
 
 async function runUsage(parsed) {
   const target = await assertSafeTarget(parsed.target);
+  if (parsed.action === "preflight") {
+    const report = await buildUsagePreflight(target, {
+      stateDirectory: parsed.options["--state-dir"],
+      probeCodexAccount: parsed.flags.has("--probe-codex-account"),
+      version: TEMPLATE_VERSION
+    });
+    if (parsed.flags.has("--json")) console.log(JSON.stringify(report, null, 2));
+    else {
+      console.log(`Detailed usage: ${report.detailed_thread_usage.status}`);
+      console.log(`Live / terminal registered tasks: ${report.task_topology.live_resumable} / ${report.task_topology.terminal}`);
+      console.log(`Detailed observations: ${report.detailed_thread_usage.observations}; baseline: ${report.baseline_qualification.status}`);
+      console.log(`Account probe: ${report.account_usage.availability} (${report.account_usage.scope}, ${report.account_usage.allocation})`);
+      console.log(`Next: ${report.recommended_next_action}`);
+      console.log("Automatic model routing: disabled");
+      console.log("Canonical state changed: no");
+    }
+    return 0;
+  }
   if (parsed.action !== "report") throw new Error(`Unknown usage action: ${parsed.action}`);
   const report = await buildUsageBaseline(target, {
     stateDirectory: parsed.options["--state-dir"],
