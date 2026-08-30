@@ -53,6 +53,40 @@ export function reconcileAgentCommandDraft(previous = {}, eligibleTargets = []) 
   };
 }
 
+export function createRefreshCoordinator(refresh, schedule = (callback) => setTimeout(callback, 40)) {
+  let inFlight = null;
+  let pending = false;
+  let scheduled = false;
+
+  async function load() {
+    pending = true;
+    if (inFlight) return inFlight;
+    inFlight = (async () => {
+      do {
+        pending = false;
+        await refresh();
+      } while (pending);
+    })();
+    try {
+      return await inFlight;
+    } finally {
+      inFlight = null;
+    }
+  }
+
+  function scheduleLoad() {
+    pending = true;
+    if (inFlight || scheduled) return;
+    scheduled = true;
+    schedule(() => {
+      scheduled = false;
+      void load();
+    });
+  }
+
+  return { load, scheduleLoad };
+}
+
 export function renderControlPlaneDashboard(projectName, options = {}) {
   const privateViewer = options.viewMode === "private-read-only";
   const inboxEnabled = options.inboxEnabled === true && typeof options.sessionSecret === "string";
@@ -121,6 +155,7 @@ export function renderControlPlaneDashboard(projectName, options = {}) {
     function renderTimeline(snapshot){const target=byId("timeline");clear(target);for(const item of snapshot.live_observer.timeline.slice(0,100)){const row=node("div","row");const main=node("div","row-main");main.append(node("strong","",item.name),node("div","sub",[item.work_item_id,item.task_id,formatTime(item.observed_at||item.timestamp)].filter(Boolean).join(" · ")));const marks=node("div","badges");marks.append(badge(item.provenance));if(item.exact_revision)marks.append(badge("revision"));row.append(main,marks);target.append(row)}if(!target.children.length)target.append(empty("No timeline observations."))}
     const agentCommandTargetFingerprint=${agentCommandTargetFingerprint.toString()};
     const reconcileAgentCommandDraft=${reconcileAgentCommandDraft.toString()};
+    const createRefreshCoordinator=${createRefreshCoordinator.toString()};
     const baseRenderMetrics=renderMetrics;
     const baseRenderWork=renderWork;
     const baseRenderAgentCommands=renderAgentCommands;
@@ -204,8 +239,9 @@ export function renderControlPlaneDashboard(projectName, options = {}) {
 
     renderMetrics=renderCurrentMetrics;renderWork=renderCurrentWork;renderAgentCommands=renderReliableAgentCommands;renderTimeline=renderOccurrenceTimeline;
     postInbox=async function(route,payload,announce=true){if(!snapshotFresh)throw new Error("The current snapshot is stale. Wait for a successful refresh before performing an action.");return basePostInbox(route,payload,announce)};
-    load=async function(){const sequence=++snapshotSequence;try{const response=await fetch("/api/v1/snapshot",{cache:"no-store"});if(!response.ok)throw new Error("Snapshot request failed: "+response.status);const snapshot=await response.json();if(sequence!==snapshotSequence)return;const generatedAt=Date.parse(snapshot.generated_at);const current=Number.isFinite(generatedAt)&&Math.max(0,Date.now()-generatedAt)<=30000;snapshotFresh=current;renderMetrics(snapshot);renderAttention(snapshot);renderUsage(snapshot);renderProviders(snapshot);renderConditions(snapshot);renderWork(snapshot);if(!privateViewer){renderInbox(snapshot);renderAgentCommands(snapshot)}renderTimeline(snapshot);byId("generated").textContent="Snapshot "+formatTime(snapshot.generated_at);setSnapshotState(current,current?"Updated "+formatTime(snapshot.generated_at)+". Actions use this exact view.":"The server returned an outdated snapshot. Mutations are disabled until a current snapshot arrives.")}catch(error){if(sequence!==snapshotSequence)return;setSnapshotState(false,error.message+" Existing information remains visible, but mutations are disabled.")}};
-    const dot=byId("connection-dot"),label=byId("connection-label");const events=new EventSource("/api/v1/events");events.onopen=()=>{dot.className="dot live";label.textContent=privateViewer?"Live stream · private read-only":"Live stream · loopback"};events.onerror=()=>{dot.className="dot offline";label.textContent="Stream reconnecting · snapshot state shown separately"};events.onmessage=load;events.addEventListener("temple.snapshot",load);events.addEventListener("temple.refresh",load);load();
+    const performLoad=async function(){const sequence=++snapshotSequence;try{const response=await fetch("/api/v1/snapshot",{cache:"no-store"});if(!response.ok)throw new Error("Snapshot request failed: "+response.status);const snapshot=await response.json();if(sequence!==snapshotSequence)return;const generatedAt=Date.parse(snapshot.generated_at);const current=Number.isFinite(generatedAt)&&Math.max(0,Date.now()-generatedAt)<=30000;snapshotFresh=current;renderMetrics(snapshot);renderAttention(snapshot);renderUsage(snapshot);renderProviders(snapshot);renderConditions(snapshot);renderWork(snapshot);if(!privateViewer){renderInbox(snapshot);renderAgentCommands(snapshot)}renderTimeline(snapshot);byId("generated").textContent="Snapshot "+formatTime(snapshot.generated_at);setSnapshotState(current,current?"Updated "+formatTime(snapshot.generated_at)+". Actions use this exact view.":"The server returned an outdated snapshot. Mutations are disabled until a current snapshot arrives.")}catch(error){if(sequence!==snapshotSequence)return;setSnapshotState(false,error.message+" Existing information remains visible, but mutations are disabled.")}};
+    const refreshCoordinator=createRefreshCoordinator(performLoad);const load=refreshCoordinator.load;const scheduleLoad=refreshCoordinator.scheduleLoad;
+    const dot=byId("connection-dot"),label=byId("connection-label");const events=new EventSource("/api/v1/events");events.onopen=()=>{dot.className="dot live";label.textContent=privateViewer?"Live stream · private read-only":"Live stream · loopback"};events.onerror=()=>{dot.className="dot offline";label.textContent="Stream reconnecting · snapshot state shown separately"};events.onmessage=scheduleLoad;events.addEventListener("temple.snapshot",scheduleLoad);events.addEventListener("temple.refresh",scheduleLoad);void load();
   </script>
 </body>
 </html>\n`;

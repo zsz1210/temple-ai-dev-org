@@ -4617,6 +4617,138 @@
         "exit_code": 0,
         "started_at": "2026-08-30T16:21:50Z"
       }
+    },
+    {
+      "id": "EVID-20260830T193246Z-DBDBB271",
+      "work_item_id": "WI-0040",
+      "recorded_at": "2026-08-30T19:32:46.483Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Dashboard usage observability candidate",
+      "outcome": "verified",
+      "scope_revision": "9de63df1df394687d223d8ef453873e3d4fd653f",
+      "observed_at": "2026-08-30T19:32:46.483Z",
+      "summary": "Exact candidate adds bounded usage/model projection and responsive read-only Dashboard rendering.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "9de63df1df394687d223d8ef453873e3d4fd653f"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "9de63df1df394687d223d8ef453873e3d4fd653f",
+        "working_tree_dirty": false
+      }
+    },
+    {
+      "id": "EVID-20260830T193305Z-CB21E6FB",
+      "work_item_id": "WI-0040",
+      "recorded_at": "2026-08-30T19:33:05.489Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer verification",
+      "outcome": "pass",
+      "scope_revision": "9de63df1df394687d223d8ef453873e3d4fd653f",
+      "observed_at": "2026-08-30T19:31:37.000Z",
+      "summary": "Focused 26/26 and full 217/217 passed; schema 60 valid and Doctor healthy except the known stale plan warning.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0040/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0040/developer-test-observation.json",
+          "sha256": "cb9ad4b5327c03b4f0d2686f9c2717135f7ac07e1860b48aa0e26ca0a20f4a32"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0040/developer-report.md",
+          "sha256": "370b101c53e54828aad4ccd759a4825e721d732939a897ff43ed8622fcd22834"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0040/product-spec.md",
+          "sha256": "7d26639d0da2b13967bc5c8c42ffc7f71e6f561dc3a0515a52d1347184c11b06"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0040/technical-design.md",
+          "sha256": "7ab7ffe1c72105b4ac67e0fad2b1d317d8d3d203e974924990a3caab578565c2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0040/ui-brief.md",
+          "sha256": "fc19bf242d8a46da4a2190ab8a1620714210a0e358aac61d6f75879fb1d75231"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T19:30:51.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T193353Z-0AB64F62",
+      "work_item_id": "WI-0040",
+      "recorded_at": "2026-08-30T19:33:53.578Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality focused verification",
+      "outcome": "pass",
+      "scope_revision": "9de63df1df394687d223d8ef453873e3d4fd653f",
+      "observed_at": "2026-08-30T19:33:37Z",
+      "summary": "Quality Evaluator reproduced 26/26 focused tests against unchanged candidate paths.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0040/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0040/quality-test-observation.json",
+          "sha256": "451c35eba49d8e4a374e5acd47b6cd64fbb56eb533970454563598e10437956f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0040/quality-report.md",
+          "sha256": "5d3a3233d278d1e68414254c74f1b8f59eac25d134e76362e157d8583df3f40d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0040/product-spec.md",
+          "sha256": "7d26639d0da2b13967bc5c8c42ffc7f71e6f561dc3a0515a52d1347184c11b06"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0040/ui-brief.md",
+          "sha256": "fc19bf242d8a46da4a2190ab8a1620714210a0e358aac61d6f75879fb1d75231"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/control-plane-foundation.test.mjs",
+          "test/control-plane-inbox.test.mjs",
+          "test/control-plane-private-viewer.test.mjs",
+          "test/phase-4b.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T19:33:32Z"
+      }
     }
   ]
 }

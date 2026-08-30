@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0040",
   "title": "Expose truthful usage and model observability in the Dashboard",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "eval",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-08-30T19:26:14.382Z",
-  "updated_at": "2026-08-30T19:28:49.606Z",
+  "updated_at": "2026-08-30T19:40:04.632Z",
   "scope": [
     "Add a read-only usage and model workspace to the control-plane snapshot and Dashboard using existing provider-reported attribution data.",
     "Preserve unknown values, qualification status, missing-dimension reasons, and model-routing non-authority instead of displaying fabricated savings, cost, or model conclusions."
@@ -76,7 +76,7 @@
       "resources": []
     }
   },
-  "base_revision": "0ad8d856a447ae663c4bc3064d5ea99f5272e360",
+  "base_revision": "9de63df1df394687d223d8ef453873e3d4fd653f",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -86,18 +86,22 @@
     "WI-0029 and WI-0030 are integrated at current HEAD; WI-0040 must preserve Agent Command behavior and regress it before handoff.",
     "WI-0033 remains in Spec with no active claim; WI-0040 proceeds first and WI-0033 must rebase and review the server diff before Build.",
     "WI-0034 is integrated at current HEAD; WI-0040 extends its current-state Dashboard contract without changing its draft or attention semantics.",
-    "WI-0036 is integrated at current HEAD; WI-0040 reuses and tests its private read-only projection boundary."
+    "WI-0036 is integrated at current HEAD; WI-0040 reuses and tests its private read-only projection boundary.",
+    "WI-0041 is a serialized child correction discovered during WI-0040 runtime evaluation; WI-0040 remains paused until the child is independently verified and integrated."
   ],
   "claim": {
-    "id": "claim-20260830192849-53b28fe3",
-    "status": "active",
+    "id": "claim-20260830193326-94b833ec",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "0ad8d856a447ae663c4bc3064d5ea99f5272e360",
+    "agent_id": "agent-lulu",
+    "base_revision": "9de63df1df394687d223d8ef453873e3d4fd653f",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-08-30T19:28:49.606Z",
-    "released_at": null
+    "claimed_at": "2026-08-30T19:33:26.188Z",
+    "released_at": "2026-08-30T19:39:56.495Z",
+    "release_reason": [
+      "Runtime visual evaluation found an SSE replay refresh stampede; a bounded child correction must produce a new exact candidate before WI-0040 evaluation resumes."
+    ]
   },
   "claims": [
     {
@@ -144,14 +148,31 @@
     },
     {
       "id": "claim-20260830192849-53b28fe3",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "0ad8d856a447ae663c4bc3064d5ea99f5272e360",
       "branch": "main",
       "worktree": null,
       "claimed_at": "2026-08-30T19:28:49.606Z",
-      "released_at": null
+      "released_at": "2026-08-30T19:33:25.743Z",
+      "release_reason": [
+        "Exact candidate and Developer evidence handed to Quality Evaluator"
+      ]
+    },
+    {
+      "id": "claim-20260830193326-94b833ec",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "9de63df1df394687d223d8ef453873e3d4fd653f",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T19:33:26.188Z",
+      "released_at": "2026-08-30T19:39:56.495Z",
+      "release_reason": [
+        "Runtime visual evaluation found an SSE replay refresh stampede; a bounded child correction must produce a new exact candidate before WI-0040 evaluation resumes."
+      ]
     }
   ],
   "gate_evidence": {
@@ -175,6 +196,17 @@
     ],
     "required_state_coverage": [
       ".ai-org/artifacts/WI-0040/product-spec.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0040/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260830T193246Z-DBDBB271",
+      "EVID-20260830T193305Z-CB21E6FB",
+      ".ai-org/artifacts/WI-0040/developer-report.md"
+    ],
+    "test_evidence": [
+      "EVID-20260830T193353Z-0AB64F62"
     ]
   },
   "evidence": [
@@ -184,10 +216,15 @@
     ".ai-org/artifacts/WI-0040/product-spec.md",
     ".ai-org/artifacts/WI-0040/ui-brief.md",
     ".ai-org/artifacts/WI-0040/handoff-003-tech_lead-to-developer.md",
-    ".ai-org/artifacts/WI-0040/technical-design.md"
+    ".ai-org/artifacts/WI-0040/technical-design.md",
+    ".ai-org/artifacts/WI-0040/handoff-004-developer-to-quality_evaluator.md",
+    "EVID-20260830T193246Z-DBDBB271",
+    "EVID-20260830T193305Z-CB21E6FB",
+    ".ai-org/artifacts/WI-0040/developer-report.md",
+    "EVID-20260830T193353Z-0AB64F62"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "independent_qa",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -209,6 +246,14 @@
       "input_revision": "0ad8d856a447ae663c4bc3064d5ea99f5272e360",
       "artifact": ".ai-org/artifacts/WI-0040/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-08-30T19:28:48.553Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "9de63df1df394687d223d8ef453873e3d4fd653f",
+      "artifact": ".ai-org/artifacts/WI-0040/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-30T19:33:25.479Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "9de63df1df394687d223d8ef453873e3d4fd653f"
 }

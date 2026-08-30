@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 40 total, 11 active
+- Work items: 41 total, 12 active
 - Codex tasks: 4 registered, 3 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -83,7 +83,8 @@
 | WI-0037 | Make private Dashboard shutdown cleanup signal-safe | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2b48a14a` | 0 | 9 | 0 |
 | WI-0038 | Reject invalid lifecycle gate evidence references | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `787c6faf` | 0 | 8 | 0 |
 | WI-0039 | Expose truthful usage and model observability in the Dashboard | cancelled | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `—` | 0 | 1 | 0 |
-| WI-0040 | Expose truthful usage and model observability in the Dashboard | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260830192849-53b28fe3 | `—` | 0 | 7 | 0 |
+| WI-0040 | Expose truthful usage and model observability in the Dashboard | eval | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `9de63df1` | 0 | 12 | 0 |
+| WI-0041 | Coalesce Dashboard refreshes after SSE replay | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260830194053-3f656a95 | `—` | 0 | 7 | 0 |
 
 ## Codex task registry
 
@@ -194,14 +195,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-30T19:32:04.540Z | work_item_coordination_configured | WI-0039 | agent-mog |
-| 2026-08-30T19:28:49.606Z | work_item_claimed | WI-0040 | human |
-| 2026-08-30T19:28:49.073Z | work_item_transitioned | WI-0040 | agent-tidus |
-| 2026-08-30T19:28:48.812Z | work_item_claim_released | WI-0040 | human |
-| 2026-08-30T19:28:48.553Z | handoff_created | WI-0040 | agent-tidus |
-| 2026-08-30T19:28:26.196Z | work_item_claimed | WI-0040 | human |
-| 2026-08-30T19:28:13.434Z | work_item_transitioned | WI-0040 | agent-yuna |
-| 2026-08-30T19:28:13.174Z | work_item_claim_released | WI-0040 | human |
+| 2026-08-30T19:40:53.860Z | work_item_claimed | WI-0041 | human |
+| 2026-08-30T19:40:53.556Z | work_item_transitioned | WI-0041 | agent-tidus |
+| 2026-08-30T19:40:53.260Z | work_item_claim_released | WI-0041 | human |
+| 2026-08-30T19:40:52.964Z | handoff_created | WI-0041 | agent-tidus |
+| 2026-08-30T19:40:46.891Z | work_item_claimed | WI-0041 | human |
+| 2026-08-30T19:40:46.584Z | work_item_transitioned | WI-0041 | agent-yuna |
+| 2026-08-30T19:40:46.279Z | work_item_claim_released | WI-0041 | human |
+| 2026-08-30T19:40:45.975Z | handoff_created | WI-0041 | agent-yuna |
 
 ## Assignments
 

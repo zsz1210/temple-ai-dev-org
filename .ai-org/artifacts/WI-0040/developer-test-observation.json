@@ -1,0 +1,19 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "9de63df1df394687d223d8ef453873e3d4fd653f",
+  "command": [
+    "npm",
+    "run",
+    "verify"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-30T19:30:51.000Z",
+  "completed_at": "2026-08-30T19:31:37.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0040/developer-report.md",
+    ".ai-org/artifacts/WI-0040/product-spec.md",
+    ".ai-org/artifacts/WI-0040/technical-design.md",
+    ".ai-org/artifacts/WI-0040/ui-brief.md"
+  ]
+}

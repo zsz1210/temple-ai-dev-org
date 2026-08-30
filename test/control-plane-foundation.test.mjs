@@ -17,7 +17,7 @@ import {
   resolveControlPlaneStateDirectory
 } from "../src/telemetry.mjs";
 import { defaultControlPlaneConfig, validateControlPlaneConfig } from "../src/control-plane-config.mjs";
-import { renderControlPlaneDashboard } from "../src/control-plane-dashboard.mjs";
+import { createRefreshCoordinator, renderControlPlaneDashboard } from "../src/control-plane-dashboard.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const cli = path.join(root, "bin/temple.mjs");
@@ -73,6 +73,46 @@ function event(id, data = {}) {
     data
   };
 }
+
+test("Dashboard refresh coordination coalesces replay bursts without concurrent snapshot loads", async () => {
+  let calls = 0;
+  let active = 0;
+  let maximumActive = 0;
+  const releases = [];
+  const scheduled = [];
+  const coordinator = createRefreshCoordinator(async () => {
+    calls += 1;
+    active += 1;
+    maximumActive = Math.max(maximumActive, active);
+    await new Promise((resolve) => releases.push(resolve));
+    active -= 1;
+  }, (callback) => scheduled.push(callback));
+
+  const initial = coordinator.load();
+  for (let index = 0; index < 2_000; index += 1) coordinator.scheduleLoad();
+  assert.equal(calls, 1);
+  assert.equal(maximumActive, 1);
+  assert.equal(scheduled.length, 0);
+
+  releases.shift()();
+  while (calls < 2) await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(calls, 2);
+  assert.equal(maximumActive, 1);
+  releases.shift()();
+  await initial;
+  assert.equal(active, 0);
+
+  let idleCalls = 0;
+  const idleScheduled = [];
+  const idleCoordinator = createRefreshCoordinator(async () => {
+    idleCalls += 1;
+  }, (callback) => idleScheduled.push(callback));
+  for (let index = 0; index < 2_000; index += 1) idleCoordinator.scheduleLoad();
+  assert.equal(idleScheduled.length, 1);
+  idleScheduled.shift()();
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(idleCalls, 1);
+});
 
 test("telemetry journal redacts secrets, deduplicates stable identities, retains cursors, and excludes a second writer", async (context) => {
   const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-journal-test-"));
@@ -362,6 +402,9 @@ test("Codex history bounds are validated and the Dashboard exposes terminal work
   assert.match(html, /No detailed Token observations yet/);
   assert.match(html, /formatUsageNumber/);
   assert.match(html, /automatic model switching remain unavailable/);
+  assert.match(html, /createRefreshCoordinator/);
+  assert.match(html, /events\.onmessage=scheduleLoad/);
+  assert.doesNotMatch(html, /events\.onmessage=load/);
 });
 
 test("rebuild preserves the previous journal and reconstructs canonical repository events", async (context) => {
