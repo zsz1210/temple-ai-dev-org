@@ -1,0 +1,71 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0004",
+  "title": "Rewrite README audience scenarios",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T03:22:14.366Z",
+  "updated_at": "2026-08-30T03:23:00.103Z",
+  "scope": [
+    "Replace the unclear situation section in all maintained README languages with reader-first descriptions for individual developers, development teams, and enterprise organizations."
+  ],
+  "acceptance_criteria": [
+    "The section heading states who Temple is for without framework jargon.",
+    "The three collapsible titles are concise audience labels: individual developer, development team, and enterprise organization in each language.",
+    "Each description starts from the reader's real problem and explains Temple's benefit before internal terminology.",
+    "Current validation and roadmap boundaries remain accurate.",
+    "English, Japanese, and Traditional Chinese structures stay aligned and repository documentation checks pass."
+  ],
+  "affected_paths": [
+    "README.md",
+    "README.zh-TW.md",
+    "README.ja.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "5e66ce7150349fd420f9d0176ff788deec8506c0",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0004.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0004.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0004.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0004.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0004.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0004.md",
+    ".ai-org/work-items/WI-0004.json"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

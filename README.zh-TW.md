@@ -62,32 +62,32 @@ flowchart LR
 
 ---
 
-## 看看 Temple 如何套用在你的情境
+## Temple 適合誰？
 
 <details>
-<summary><strong>同時使用多個 AI Agent 的個人開發者</strong></summary>
+<summary><strong>個人開發者</strong></summary>
 
-一位開發者可以讓五個有名字的 Agent Identity 分擔 Temple 的十個穩定 Position。同一個 AI 可以暫時負責多個職責，但 Developer 與 Independent QA 仍會被清楚區分。Repository state 讓新的 task 不依賴原始 conversation，也能恢復前因後果。
+當一個人同時請多個 AI 協助規劃、開發、審查並延續同一個專案時，Temple 會把需求、決策、Work Item、交接與驗證證據保存在 repository，而不是讓它們散落在彼此無法延續的對話裡。即使換了工作或開啟新對話，AI 仍能從專案狀態接續進行。
 
-這是目前驗證最完整的邊界：在人類監督下、local 且 bounded 的使用方式。
+你不需要準備十個不同的 AI。專案還小時，同一個 AI 可以兼任多個 Position；開發與獨立驗證則維持分離，避免實作者自己核准自己的成果。目前，這是 Temple 驗證最完整的使用方式：由個人開發者主導，AI 在人類監督下協作。
 
 </details>
 
 <details>
-<summary><strong>共同開發產品的協作團隊</strong></summary>
+<summary><strong>開發團隊</strong></summary>
 
-Product Manager、designer、frontend engineer、backend engineer、infrastructure engineer 或 full-stack engineer，都可以透過各自被 sponsor 的 AI Agent 工作。Team-visible outcome 保留在 company tracker；internal Work Item 再依 discipline、dependency、affected path 與 shared contract 拆分 AI execution。Integration Owner 會在 dependent work 開始前整合 exact candidate revision。
+產品、設計、前端、後端、基礎設施與全端成員都可以使用各自的 AI，不必把整個團隊塞進同一段對話。Temple 會為每個 Work Item 標示負責人、依賴關係、影響範圍與共用契約，讓互不衝突的工作並行，最後再由整合負責人合併各項成果的確切版本。
 
-Workflow 與 local coordination contract 已實作；保留中的 multi-human／multi-machine 大型測試仍待執行。
+Jira、GitHub Projects 或公司原有的工作追蹤工具可以繼續呈現團隊進度；Temple 則在 repository 裡保存更細的 AI 工作與驗證證據。這套協作流程已實作，但保留中的多人、多機大型驗證仍待執行。
 
 </details>
 
 <details>
-<summary><strong>Enterprise 或 multi-repository organization</strong></summary>
+<summary><strong>企業</strong></summary>
 
-Temple 不要求公司放棄 Jira、GitHub Projects、Figma、既有 specification 或 repository convention。這些系統可以繼續保持 authority，而 Temple 在各個專案裡保存 bounded AI execution、evidence 與 reconciliation。Portfolio 與 multi-repository view 也必須保留 project-local authority。
+導入 Temple 不代表要更換 Jira、GitHub Projects、Figma、既有規格文件或 repository 慣例。每個專案可以保留原本的資訊來源與管理方式；Temple 只在 repository 中記錄 AI 做了什麼、如何驗證，以及這些工作如何對應既有系統。跨 repository 的總覽可以彙整狀態，但不會取代各專案自己的管理權限。
 
-未來 enterprise extension 會考慮 SRE 與 Security responsibility、read-only production telemetry、incident 與 vulnerability coordination、policy evidence 及 operational risk review。這些是 roadmap 方向，不是目前已完成的 production-monitoring 能力。
+未來的企業擴充會考慮 SRE、Security、唯讀的正式環境監測、事件與漏洞協調、政策證據及營運風險審查。這些仍是 roadmap 方向，不是目前已完成的正式環境監測能力。
 
 </details>
 

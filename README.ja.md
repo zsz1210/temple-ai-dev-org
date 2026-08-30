@@ -62,32 +62,32 @@ Project が成長しても loop は変わりません。変わるのは各 Posit
 
 ---
 
-## 利用状況別の Temple
+## Temple は誰のためのもの？
 
 <details>
-<summary><strong>複数の AI Agent を使う Solo developer</strong></summary>
+<summary><strong>個人開発者</strong></summary>
 
-一人の developer が、Temple の十個の安定した Position を五つの名前付き Agent Identity に割り当てられます。同じ AI が複数の責任を持っても、Developer と Independent QA は見える形で分離します。Repository state により、新しい task は元の conversation に依存せず作業を回復できます。
+一人で複数の AI に同じプロジェクトの計画、開発、レビュー、継続を任せるとき、Temple は要件、決定、Work Item、引き継ぎ、検証記録をリポジトリに残します。情報がつながらない会話に散らばらないため、タスクや会話が変わっても AI はプロジェクトに記録された状態から作業を再開できます。
 
-これは現在もっとも強く検証されている境界です。Human supervision のある local かつ bounded な利用です。
+十個の異なる AI を用意する必要はありません。小さなプロジェクトでは同じ AI が複数の Position を兼任できますが、開発と独立検証は分離し、実装者が自分の成果を承認しないようにします。現在、これは Temple でもっとも検証が進んでいる、個人開発者主導かつ人の監督下での利用方法です。
 
 </details>
 
 <details>
-<summary><strong>Product と engineering の collaborative team</strong></summary>
+<summary><strong>開発チーム</strong></summary>
 
-Product Manager、designer、frontend engineer、backend engineer、infrastructure engineer、full-stack engineer は、それぞれ sponsored AI Agent を通じて作業できます。Team-visible outcome は company tracker に残し、internal Work Item は discipline、dependency、affected path、shared contract ごとに AI execution を分けます。Integration Owner は dependent work の前に exact candidate revision を統合します。
+プロダクト、デザイン、フロントエンド、バックエンド、インフラ、フルスタックの各メンバーは、チーム全体を一つの会話に押し込まず、それぞれの AI と作業できます。Temple は Work Item ごとに担当者、依存関係、影響範囲、共有契約を明確にします。競合しない作業を並行して進め、最後に Integration Owner が各成果の正確な revision を統合します。
 
-Workflow と local coordination contract は実装済みです。Retained multi-human／multi-machine test はまだ pending です。
+Jira、GitHub Projects、または既存の作業管理ツールはチームの進捗管理に使い続け、Temple はリポジトリ内の細かな AI 作業と検証記録を残します。この協調フローは実装済みですが、保留している複数人・複数マシンでの大規模検証はまだ完了していません。
 
 </details>
 
 <details>
-<summary><strong>Enterprise または multi-repository organization</strong></summary>
+<summary><strong>企業</strong></summary>
 
-Temple は Jira、GitHub Projects、Figma、既存 specification、repository convention の廃止を要求しません。それらを authoritative なまま維持し、各 project で bounded AI execution、evidence、reconciliation を記録できます。Portfolio と multi-repository view も project-local authority を保つ必要があります。
+Temple の導入にあわせて Jira、GitHub Projects、Figma、既存の仕様書、リポジトリの慣例を置き換える必要はありません。各プロジェクトは現在の情報源と管理方法を維持し、Temple はリポジトリ内に AI が行った作業、その検証方法、既存システムとの対応を記録します。複数リポジトリの全体表示は状態を集約しても、各リポジトリの管理権限を奪いません。
 
-将来の enterprise extension には SRE / Security responsibility、read-only production telemetry、incident / vulnerability coordination、policy evidence、operational risk review を含みます。これは roadmap の方向であり、現在の production-monitoring capability の主張ではありません。
+将来の企業向け拡張では、SRE、Security、本番環境の read-only telemetry、インシデントと脆弱性の連携、ポリシー証跡、運用リスクレビューを検討します。これらは roadmap の方向であり、現在提供している本番監視機能ではありません。
 
 </details>
 

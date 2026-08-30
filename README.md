@@ -62,32 +62,32 @@ The loop stays the same as a project grows. What changes is how many Agent Ident
 
 ---
 
-## See Temple in your situation
+## Who is Temple for?
 
 <details>
-<summary><strong>Solo builder with several AI agents</strong></summary>
+<summary><strong>Individual developers</strong></summary>
 
-One developer may use five named Agent Identities across Temple's ten stable Positions. The same AI can cover several responsibilities, while Developer and Independent QA remain visibly separate. Repository state lets a fresh task recover what happened without relying on the original conversation.
+Use Temple when one person asks several AI agents to plan, build, review, and continue the same project. Instead of leaving requirements, decisions, Work Items, handoffs, and evidence across disconnected conversations, Temple keeps them in the repository so a new task can recover the work.
 
-This is the strongest current validation boundary: local and bounded, with human supervision.
+You do not need ten separate agents. One AI may cover several Positions while the project is small; development and independent verification remain separate so an implementation does not approve itself. This human-supervised solo workflow is Temple's most thoroughly validated use today.
 
 </details>
 
 <details>
-<summary><strong>Collaborative product and engineering team</strong></summary>
+<summary><strong>Development teams</strong></summary>
 
-A Product Manager, designer, frontend engineer, backend engineer, infrastructure engineer, or full-stack engineer can each work through sponsored AI agents. Team-visible outcomes stay in the company tracker; internal Work Items split AI execution by discipline, dependency, affected path, and shared contract. An Integration Owner joins exact candidate revisions before dependent work begins.
+Product, design, frontend, backend, infrastructure, and full-stack contributors can each work with their own AI agents without forcing the whole team into one conversation. Temple gives each Work Item an owner, dependencies, affected paths, and shared contracts. Independent work can run in parallel, then an Integration Owner joins the exact candidate revisions.
 
-The workflow and local coordination contracts are implemented. The retained multi-human, multi-machine test is still pending.
+Jira, GitHub Projects, or another company tracker can remain the team-visible source of progress while Temple records the finer-grained AI work and evidence in the repository. The coordination workflow is implemented; the retained multi-human, multi-machine validation is still pending.
 
 </details>
 
 <details>
-<summary><strong>Enterprise or multi-repository organization</strong></summary>
+<summary><strong>Enterprises</strong></summary>
 
-Temple does not require a company to discard Jira, GitHub Projects, Figma, existing specifications, or repository conventions. Those systems can remain authoritative while Temple records bounded AI execution, evidence, and reconciliation in each project. Portfolio and multi-repository views must preserve that local authority.
+Adopting Temple does not require replacing Jira, GitHub Projects, Figma, existing specifications, or repository conventions. Each project can keep its current sources of truth while Temple records bounded AI execution, evidence, and reconciliation beside the work. Portfolio and multi-repository views can aggregate status without taking authority away from each repository.
 
-Future enterprise extensions include SRE and Security responsibilities, read-only production telemetry, incident and vulnerability coordination, policy evidence, and operational risk review. These are roadmap directions—not current production-monitoring claims.
+Future enterprise extensions include SRE and Security responsibilities, read-only production telemetry, incident and vulnerability coordination, policy evidence, and operational risk review. These remain roadmap directions, not current production-monitoring capabilities.
 
 </details>
 
