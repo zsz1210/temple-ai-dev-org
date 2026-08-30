@@ -3,7 +3,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
-import { spawnSync } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const projectRoot = path.dirname(fileURLToPath(import.meta.url));
@@ -70,10 +70,37 @@ function selfHostCli(installation) {
   return canonicalCli;
 }
 
-function run(command, args, options = {}) {
-  const result = spawnSync(command, args, { stdio: "inherit", ...options });
-  if (result.error) throw result.error;
-  return result.status ?? 1;
+async function run(command, args, options = {}) {
+  return await new Promise((resolve, reject) => {
+    const child = spawn(command, args, { stdio: "inherit", ...options });
+    let settled = false;
+    const forward = (signal) => {
+      if (settled || child.exitCode !== null || child.signalCode !== null) return;
+      try {
+        child.kill(signal);
+      } catch {
+        // The exit handler remains authoritative when the child closes concurrently.
+      }
+    };
+    const onSigint = () => forward("SIGINT");
+    const onSigterm = () => forward("SIGTERM");
+    const dispose = () => {
+      process.off("SIGINT", onSigint);
+      process.off("SIGTERM", onSigterm);
+    };
+    const finish = (callback) => {
+      if (settled) return;
+      settled = true;
+      dispose();
+      callback();
+    };
+    process.on("SIGINT", onSigint);
+    process.on("SIGTERM", onSigterm);
+    child.once("error", (error) => finish(() => reject(error)));
+    child.once("exit", (status, signal) => {
+      finish(() => resolve(status ?? (signal === "SIGINT" ? 130 : signal === "SIGTERM" ? 143 : 1)));
+    });
+  });
 }
 
 function output(command, args) {
@@ -95,7 +122,7 @@ try {
       if (actualVersion !== bootstrap.version) {
         throw new Error(`TEMPLE_CLI_PATH version ${actualVersion || "unknown"} does not match pinned version ${bootstrap.version}`);
       }
-      process.exitCode = run(process.execPath, [explicitCli, ...argumentsToTemple]);
+      process.exitCode = await run(process.execPath, [explicitCli, ...argumentsToTemple]);
     } else {
       const repositoryCli = selfHostCli(installation);
       if (repositoryCli) {
@@ -105,11 +132,11 @@ try {
             `repository-local CLI version ${actualVersion || "unknown"} does not match pinned version ${bootstrap.version}`
           );
         }
-        process.exitCode = run(process.execPath, [repositoryCli, ...argumentsToTemple]);
+        process.exitCode = await run(process.execPath, [repositoryCli, ...argumentsToTemple]);
       } else {
         const packageSpec = bootstrap.repository_spec ?? bootstrap.package_spec;
         const npm = process.platform === "win32" ? "npm.cmd" : "npm";
-        process.exitCode = run(npm, ["exec", "--yes", `--package=${packageSpec}`, "--", "temple", ...argumentsToTemple]);
+        process.exitCode = await run(npm, ["exec", "--yes", `--package=${packageSpec}`, "--", "temple", ...argumentsToTemple]);
       }
     }
   }

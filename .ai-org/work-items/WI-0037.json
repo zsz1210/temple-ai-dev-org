@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-08-30T15:58:15.105Z",
-  "updated_at": "2026-08-30T15:58:51.642Z",
+  "updated_at": "2026-08-30T16:02:34.386Z",
   "scope": [
     "Keep shutdown signal handlers installed until the exact Temple-owned Tailscale Serve mapping and loopback control plane have both completed cleanup."
   ],
@@ -16,7 +16,11 @@
   "affected_paths": [
     "src/cli.mjs",
     "test/cli.test.mjs",
-    "docs/integrations/tailscale-private-dashboard.md"
+    "docs/integrations/tailscale-private-dashboard.md",
+    "project-overlay/templew.mjs",
+    "templew.mjs",
+    "temple.lock",
+    "test/runtime-coordination.test.mjs"
   ],
   "context_refs": [],
   "spec_refs": [],
@@ -122,6 +126,8 @@
     ".ai-org/artifacts/work-orders/WI-0037.md",
     ".ai-org/work-items/WI-0037.json"
   ],
-  "unresolved": [],
+  "unresolved": [
+    "Real PTY verification showed the project launcher terminated before its synchronous CLI child completed Tailscale Serve cleanup; expand the correction through the version-pinned launcher and its runtime coordination test."
+  ],
   "next_position": "quality_evaluator"
 }

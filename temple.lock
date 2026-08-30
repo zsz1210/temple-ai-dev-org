@@ -11,11 +11,13 @@
       "launcher": "templew.mjs",
       "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.27",
       "repository_spec": null,
-      "source_revision": "4d441b31b6ecd684bb51af8c96d535b6d25486d0",
+      "source_revision": "3c75f57f4e06aac0f2b5a54a70438961a578951c",
       "source_clean": false,
       "invocation": "node ./templew.mjs <command> ."
     },
-    "installed_at": "2026-08-30T02:28:18.355Z"
+    "installed_at": "2026-08-30T02:28:18.355Z",
+    "upgraded_at": "2026-08-30T16:03:46.572Z",
+    "upgraded_from": "0.1.0-alpha.27"
   },
   "installation": {
     "mode": "toolkit-self-host",
@@ -175,12 +177,12 @@
       "sha256": "fa366000d024dd67734974b909ed581fab236d266b4106cd6aa4e28f23bd0728"
     },
     {
-      "path": ".agents/skills/skill-authoring/references/authoring-contract.md",
-      "sha256": "11fb7d3a8aa9284e3c863b11c618ab3d5524e9304d1644d95b7ac09507959997"
-    },
-    {
       "path": ".agents/skills/skill-authoring/SKILL.md",
       "sha256": "218e2d02c86859eaf43a7d82eecbd220eef337781704bed4011ec4d5033e1da9"
+    },
+    {
+      "path": ".agents/skills/skill-authoring/references/authoring-contract.md",
+      "sha256": "11fb7d3a8aa9284e3c863b11c618ab3d5524e9304d1644d95b7ac09507959997"
     },
     {
       "path": ".agents/skills/temple-init/SKILL.md",
@@ -468,7 +470,7 @@
     },
     {
       "path": "templew.mjs",
-      "sha256": "693d49d3400f5b6c5db67e4ad18c7a64f9f5f8cabcf76ddaf8cab1f69379c800"
+      "sha256": "7dca8cbb2add57af81d023676012c83eedbed5b148014328911887c1f8868e3d"
     }
   ]
 }

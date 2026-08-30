@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { spawnSync } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { PACKAGE_NAME, TEMPLATE_VERSION } from "../src/constants.mjs";
@@ -202,6 +202,75 @@ test("toolkit self-host launcher executes its own worktree CLI without an overri
     source: "worktree-local",
     arguments: ["doctor", fixture.target, "--json"]
   });
+});
+
+test("toolkit self-host launcher forwards repeated stop signals until child cleanup completes", async (context) => {
+  if (process.platform === "win32") {
+    context.skip("POSIX signal delivery is required");
+    return;
+  }
+  const fixture = await selfHostLauncherFixture(context);
+  const marker = path.join(fixture.temporaryRoot, "clean-shutdown.txt");
+  await fs.writeFile(
+    fixture.localCli,
+    [
+      `import fs from ${JSON.stringify("node:fs")};`,
+      `const version = ${JSON.stringify(TEMPLATE_VERSION)};`,
+      "if (process.argv[2] === '--version') console.log(version);",
+      "else {",
+      "  let stopping = false;",
+      "  const timer = setInterval(() => {}, 1000);",
+      "  const stop = () => {",
+      "    if (stopping) return;",
+      "    stopping = true;",
+      "    setTimeout(() => {",
+      "      clearInterval(timer);",
+      "      fs.writeFileSync(process.env.TEMPLE_SIGNAL_MARKER, 'cleanup-complete\\n');",
+      "      process.exitCode = 0;",
+      "    }, 75);",
+      "  };",
+      "  process.on('SIGINT', stop);",
+      "  process.on('SIGTERM', stop);",
+      "  console.log('ready');",
+      "}",
+      ""
+    ].join("\n")
+  );
+
+  const launched = spawn(process.execPath, [fixture.wrapper, "serve", fixture.target], {
+    env: { ...fixture.environment, TEMPLE_SIGNAL_MARKER: marker },
+    stdio: ["ignore", "pipe", "pipe"]
+  });
+  let stdout = "";
+  let stderr = "";
+  launched.stdout.setEncoding("utf8");
+  launched.stderr.setEncoding("utf8");
+  launched.stdout.on("data", (chunk) => {
+    stdout += chunk;
+  });
+  launched.stderr.on("data", (chunk) => {
+    stderr += chunk;
+  });
+  await new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => reject(new Error(`launcher did not become ready: ${stdout}${stderr}`)), 2000);
+    const inspect = () => {
+      if (!stdout.includes("ready")) return;
+      clearTimeout(timeout);
+      launched.stdout.off("data", inspect);
+      resolve();
+    };
+    launched.stdout.on("data", inspect);
+    inspect();
+  });
+
+  launched.kill("SIGINT");
+  launched.kill("SIGTERM");
+  const result = await new Promise((resolve, reject) => {
+    launched.once("error", reject);
+    launched.once("exit", (status, signal) => resolve({ status, signal }));
+  });
+  assert.deepEqual(result, { status: 0, signal: null }, stderr || stdout);
+  assert.equal(await fs.readFile(marker, "utf8"), "cleanup-complete\n");
 });
 
 test("toolkit self-host launcher refuses a missing repository-local CLI", async (context) => {

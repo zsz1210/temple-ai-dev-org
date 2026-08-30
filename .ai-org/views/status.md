@@ -80,7 +80,7 @@
 | WI-0034 | Make Dashboard current-state interaction trustworthy | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `—` | 0 | 3 | 0 |
 | WI-0035 | Reduce CI cost without hiding behavioral results | test | Quality & Evaluation Engineer | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0b02e1c5` | 0 | 7 | 1 |
 | WI-0036 | Add a private read-only Dashboard viewer | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `f68186ba` | 0 | 9 | 0 |
-| WI-0037 | Make private Dashboard shutdown cleanup signal-safe | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830155851-5f04cc03 | `—` | 0 | 2 | 0 |
+| WI-0037 | Make private Dashboard shutdown cleanup signal-safe | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830155851-5f04cc03 | `—` | 0 | 2 | 1 |
 
 ## Codex task registry
 
@@ -191,6 +191,7 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-30T16:02:34.386Z | work_item_unresolved_updated | WI-0037 | agent-rikku |
 | 2026-08-30T15:58:51.642Z | work_item_claimed | WI-0037 | human |
 | 2026-08-30T15:58:51.368Z | work_item_transitioned | WI-0037 | agent-tidus |
 | 2026-08-30T15:58:51.103Z | work_item_claimed | WI-0037 | human |
@@ -198,7 +199,6 @@
 | 2026-08-30T15:58:50.558Z | work_item_claimed | WI-0037 | human |
 | 2026-08-30T15:58:50.283Z | work_item_transitioned | WI-0037 | agent-mog |
 | 2026-08-30T15:58:50.009Z | work_item_claimed | WI-0037 | human |
-| 2026-08-30T15:58:49.728Z | work_item_coordination_configured | WI-0037 | agent-mog |
 
 ## Assignments
 
