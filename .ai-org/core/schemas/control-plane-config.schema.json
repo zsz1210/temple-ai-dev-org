@@ -34,6 +34,15 @@
       },
       "additionalProperties": false
     },
+    "agent_commands": {
+      "type": "object",
+      "required": ["enabled", "max_instruction_chars"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "max_instruction_chars": { "type": "integer", "minimum": 1, "maximum": 20000 }
+      },
+      "additionalProperties": false
+    },
     "privacy": {
       "type": "object",
       "required": ["capture_raw_payloads", "max_data_bytes", "redact_keys"],

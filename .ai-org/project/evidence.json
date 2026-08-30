@@ -3116,6 +3116,131 @@
         "exit_code": 0,
         "started_at": "2026-08-30T10:18:55.000Z"
       }
+    },
+    {
+      "id": "EVID-20260830T120627Z-5B56C16C",
+      "work_item_id": "WI-0029",
+      "recorded_at": "2026-08-30T12:06:27.061Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0029 Developer candidate",
+      "outcome": "verified",
+      "scope_revision": "38a185eb9c501803d138e1a325dfd1f31450b2fc",
+      "observed_at": "2026-08-30T12:06:27.061Z",
+      "summary": "Exact Agent Command Gateway implementation candidate; no release or real-task mutation performed.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "38a185eb9c501803d138e1a325dfd1f31450b2fc"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "38a185eb9c501803d138e1a325dfd1f31450b2fc",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260830T120636Z-FDB1B1DB",
+      "work_item_id": "WI-0029",
+      "recorded_at": "2026-08-30T12:06:36.618Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0029 Developer verification",
+      "outcome": "pass",
+      "scope_revision": "38a185eb9c501803d138e1a325dfd1f31450b2fc",
+      "observed_at": "2026-08-30T12:04:35.000Z",
+      "summary": "Repository checks, documentation links, and 197 tests passed for the exact Developer candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0029/test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0029/test-observation.json",
+          "sha256": "63a816d94ae6f54720e7b3f0dd3a6b04b96ef805b0710bdafe3ea5d440409d85"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0029/developer-evidence.md",
+          "sha256": "c00ce58af8b81d26757d69f69716d6351f4a012c7f6682679c5af44fc627cdf1"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T12:03:50.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T120640Z-91A964AE",
+      "work_item_id": "WI-0029",
+      "recorded_at": "2026-08-30T12:06:40.598Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "WI-0029 code-first Dashboard review",
+      "outcome": "pass",
+      "scope_revision": "38a185eb9c501803d138e1a325dfd1f31450b2fc",
+      "observed_at": "2026-08-30T12:05:37.000Z",
+      "summary": "Isolated loopback browser review passed required command, delivery, terminal, privacy, and responsive states without real-task mutation.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0029/runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0029/runtime-observation.json",
+          "sha256": "db69858118159ecce927d8efa77feda9d95286b0e40b8853c345ce7ee3b99e7d"
+        },
+        {
+          "path": "output/playwright/wi-0029-disabled-desktop.png",
+          "sha256": "022d51d7c0c40ff9b626cf1a9082fb1580364cd7fa0eb7086325d804fe2da962"
+        },
+        {
+          "path": "output/playwright/wi-0029-idle-desktop.png",
+          "sha256": "a8b4e853027ccc09067fa49689a589e375519c2c4ad3bceebcbba2abefacb2c0"
+        },
+        {
+          "path": "output/playwright/wi-0029-confirmed-preview.png",
+          "sha256": "052e848e19ee0bbb33d630c629d81de0efed38f58de270f7fbd8a59d8a84167e"
+        },
+        {
+          "path": "output/playwright/wi-0029-command-history-desktop.png",
+          "sha256": "84d28b0fddc4832f89d2f7d824997566650dc647334e60fa3edaab0fc2ca1ba7"
+        },
+        {
+          "path": "output/playwright/wi-0029-command-history-narrow.png",
+          "sha256": "f0c84ca6797d8a41e4f26d85031560b97c8913aedf949a32459d932945fc0828"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0029/developer-evidence.md",
+          "sha256": "c00ce58af8b81d26757d69f69716d6351f4a012c7f6682679c5af44fc627cdf1"
+        }
+      ],
+      "details": {
+        "environment": "Local macOS loopback Control Plane, headed Chromium, isolated temporary Temple project, and deterministic fake Codex App Server",
+        "scenario": "Exercise disabled, idle, active, preview-confirmed, accepted, completed, rejected, interrupted, delivery-unknown, desktop, and narrow Agent Command Dashboard states without mutating a real Codex task",
+        "provenance": "fixture"
+      }
     }
   ]
 }

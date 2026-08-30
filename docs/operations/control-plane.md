@@ -19,6 +19,7 @@ The local journal records normalized metadata and bounded summaries. It excludes
 - retains up to 10,000 local events;
 - evaluates stalled work after five minutes, with a 30-second pending period and 60-second cooldown;
 - leaves token anomaly detection unknown until an explicit token budget is configured;
+- leaves Agent Commands disabled until the project opts in;
 - disables raw-payload capture;
 - enables the repository provider.
 
@@ -65,6 +66,31 @@ Projects may reduce or increase the bounded startup window without retaining raw
 
 `history_turn_limit` accepts 1–100 and `history_item_limit` accepts 1–1000. Larger values increase local startup work and journal volume; they do not grant more lifecycle authority.
 
+### Opt in to local Agent Commands
+
+Agent Commands are a prototype for deliberately continuing one existing registered Codex task from the loopback Dashboard. Starting the observer with `--codex` does not enable commands. Opt in separately in `.ai-org/project/control-plane.json`:
+
+```json
+{
+  "agent_commands": {
+    "enabled": true,
+    "max_instruction_chars": 4000
+  }
+}
+```
+
+The Codex App Server provider must also be explicitly enabled and ready. A target is eligible only when all of the following are current:
+
+- it has a registered task ID and provider thread ID;
+- its registered `host_id` is `local`;
+- its task status is `active`, `waiting`, or `attention`;
+- its Work Item is nonterminal;
+- the provider has successfully attached that exact thread.
+
+An idle eligible target offers `new-turn`. A target with an observed active turn offers only `steer` and `interrupt`, bound to that exact turn ID. Every submission carries the expected task status, Work Item state, provider thread, active turn, an idempotency key, and an explicit confirmation. The route accepts no provider executable, shell command, model override, host, arbitrary thread ID, or new-task request.
+
+The Dashboard shows the complete instruction only in the transient local preview. Generated history retains the target identity, operation, timestamps, instruction length and SHA-256, and at most a 240-character privacy-filtered preview. It does not retain the complete instruction or provider credentials. Do not enter credentials or secrets.
+
 The server exposes:
 
 - `GET /` — the local live Observer and bounded Human Inbox;
@@ -76,6 +102,7 @@ The server exposes:
 - `POST /api/v1/inbox/business-fact` — answer a live question and retain a redacted local proposal;
 - `POST /api/v1/inbox/business-incorporation` — explicitly add one proposal as a canonical Work Item context reference;
 - `POST /api/v1/inbox/governance-approval` — create one policy-checked approval record for the current exact revision.
+- `POST /api/v1/inbox/agent-command` — submit one confirmed `new-turn`, `steer`, or `interrupt` request to an eligible existing registered task.
 
 An SSE client may send `Last-Event-ID` or `?after=<cursor>`. A retained cursor receives only newer records. If retention has removed the requested cursor, the server sends a fresh `temple.snapshot` event before continuing with retained events.
 
@@ -90,6 +117,21 @@ The three queues look similar but cannot substitute for one another:
 - **Governance approval** is available only for a Work Item currently at `release_gate`. It creates `temple.approval/v1`, checks the exact candidate revision and active Human Principals, enforces the risk-derived approval count, and applies High-Assurance sponsor independence. It does not close the Work Item or perform a release.
 
 Accepted and rejected commands are audited below the generated control-plane state directory. Repeating a completed command with the same idempotency key returns its prior result; reusing that key for different input is rejected. Canonical mutations also run through the project mutation lock and their own duplicate guards.
+
+## Agent Command delivery states
+
+Transport acknowledgement and Agent execution are separate. The Dashboard and snapshot use these textual states:
+
+- `submitted` — persisted locally before the provider request; repeat submission is disabled;
+- `provider-accepted` — the provider acknowledged steering or interruption, but completion is not observed;
+- `turn-started` — the provider returned the new turn ID, but completion is not observed;
+- `completed`, `failed`, or `interrupted` — a later privacy-filtered provider event observed the terminal turn state;
+- `provider-rejected` — the provider returned an explicit JSON-RPC rejection and Temple did not retry;
+- `delivery-unknown` — the provider boundary may have been crossed, but a timeout or disconnect prevented acknowledgement.
+
+`delivery-unknown` is intentionally not converted into a retry. Inspect the target task, refresh the eligible-target projection, and make a new deliberate decision. Reusing the same idempotency key returns the stored result without another provider call. HTTP success therefore means only that the local gateway returned a bounded result; it never means the Agent completed the instruction.
+
+The pinned adapter maps only `new-turn` to `turn/start`, `steer` to `turn/steer`, and `interrupt` to `turn/interrupt`. It does not create tasks, select or switch models, enable remote control, cross a host boundary, or launch background work. Real-task validation requires separate authorization for a disposable eligible task; deterministic fake-provider and fake-App-Server verification does not mutate an existing Codex task.
 
 ## GitHub PR and Checks provider
 
@@ -175,4 +217,4 @@ A rebuild restores canonical history projection. Provider-only transient history
 
 ## Current capability boundary
 
-The local Phase 3 increments include replay-safe telemetry, the live Observer, capability-proven Codex App Server observation, stateful conditions, the authority-separated Human Inbox, and an exact-SHA read-only GitHub PR and Checks provider with explicit evidence capture. The current reliability pass also separates terminal work from queued work and prevents optional Codex history synchronization from blocking the local HTTP surface. It does not provide remote access, notifications, tracker or PR writes, merge, deployment, production operations, universal visibility into existing Codex Desktop tasks, cross-clone consensus, or production-grade retention. See the accepted [Phase 3 design](../planning/phase-3-control-plane.md), [work breakdown](../planning/phase-3-work-items.md), and validation records.
+The local Phase 3 increments include replay-safe telemetry, the live Observer, capability-proven Codex App Server observation, stateful conditions, the authority-separated Human Inbox, an opt-in loopback-only Agent Command prototype, and an exact-SHA read-only GitHub PR and Checks provider with explicit evidence capture. The current reliability pass also separates terminal work from queued work and prevents optional Codex history synchronization from blocking the local HTTP surface. It does not provide remote access, mobile control, notifications, tracker or PR writes, new-task creation through the gateway, model switching, automatic command retry, merge, deployment, production operations, universal visibility into existing Codex Desktop tasks, cross-clone consensus, or production-grade retention. See the accepted [Phase 3 design](../planning/phase-3-control-plane.md), [work breakdown](../planning/phase-3-work-items.md), and validation records.

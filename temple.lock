@@ -11,13 +11,11 @@
       "launcher": "templew.mjs",
       "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.27",
       "repository_spec": null,
-      "source_revision": "7dda4c6b3e1fc9fd16b1fcc55b794e1f1c5d5de5",
+      "source_revision": "4d441b31b6ecd684bb51af8c96d535b6d25486d0",
       "source_clean": false,
       "invocation": "node ./templew.mjs <command> ."
     },
-    "installed_at": "2026-08-30T02:28:18.355Z",
-    "upgraded_at": "2026-08-30T09:09:02.360Z",
-    "upgraded_from": "0.1.0-alpha.27"
+    "installed_at": "2026-08-30T02:28:18.355Z"
   },
   "installation": {
     "mode": "toolkit-self-host",
@@ -72,7 +70,7 @@
     ]
   },
   "integrations": {
-    "agents_md": "appended",
+    "agents_md": "present",
     "archify": {
       "status": "available_not_enabled",
       "pinned_tag": "v2.15.0",
@@ -142,9 +140,6 @@
     "inbox_command_gateway": true,
     "github_pr_checks_provider": true,
     "github_evidence_capture": true,
-    "checksum_upgrade": true,
-    "optional_packs": true,
-    "toolkit_self_hosting": true,
     "versioned_project_backup": true,
     "backup_integrity_verification": true,
     "restore_preview": true,
@@ -160,7 +155,10 @@
     "usage_qualification": true,
     "provider_attach_outcomes": true,
     "repository_federation": true,
-    "read_only_portfolio": true
+    "read_only_portfolio": true,
+    "checksum_upgrade": true,
+    "optional_packs": true,
+    "toolkit_self_hosting": true
   },
   "optional_packs": [],
   "managed_files": [
@@ -177,12 +175,12 @@
       "sha256": "fa366000d024dd67734974b909ed581fab236d266b4106cd6aa4e28f23bd0728"
     },
     {
-      "path": ".agents/skills/skill-authoring/SKILL.md",
-      "sha256": "218e2d02c86859eaf43a7d82eecbd220eef337781704bed4011ec4d5033e1da9"
-    },
-    {
       "path": ".agents/skills/skill-authoring/references/authoring-contract.md",
       "sha256": "11fb7d3a8aa9284e3c863b11c618ab3d5524e9304d1644d95b7ac09507959997"
+    },
+    {
+      "path": ".agents/skills/skill-authoring/SKILL.md",
+      "sha256": "218e2d02c86859eaf43a7d82eecbd220eef337781704bed4011ec4d5033e1da9"
     },
     {
       "path": ".agents/skills/temple-init/SKILL.md",
@@ -250,7 +248,7 @@
     },
     {
       "path": ".ai-org/core/schemas/control-plane-config.schema.json",
-      "sha256": "9048ce0d92d3e01add3cf22ec8f39ceaada99573e6dabef175efd52497f4c44e"
+      "sha256": "9ce04d164812ed3af28dcb14d24e343f7e142e72573c0c8a144f18d8d12fa519"
     },
     {
       "path": ".ai-org/core/schemas/evidence-registry.schema.json",

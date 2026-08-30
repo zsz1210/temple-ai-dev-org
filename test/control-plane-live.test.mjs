@@ -73,6 +73,7 @@ async function fixture(context) {
     "--work-item", workItemId,
     "--position", "product_manager",
     "--thread-id", "thread-live-001",
+    "--host-id", "local",
     "--revision", "0123456789abcdef0123456789abcdef01234567",
     "--json"
   ]);
@@ -472,6 +473,134 @@ test("Codex App Server provider handshakes, reconciles registered threads, and r
   assert.doesNotMatch(durable, /do-not-store-(?:explanation|diff|command)/);
   assert.ok(journal.readAfter(0).records.some((record) => record.data?.reconciled));
   await provider.stop();
+});
+
+test("Codex App Server Agent commands enforce registered state, exact active turns, and no retry after unknown delivery", async (context) => {
+  const { temporaryRoot, target, stateDirectory, workItemId } = await fixture(context);
+  const callsPath = path.join(temporaryRoot, "agent-command-calls.jsonl");
+  const fakeServer = path.join(temporaryRoot, "fake-agent-command-app-server.mjs");
+  await fs.writeFile(fakeServer, `
+    import fs from "node:fs";
+    import readline from "node:readline";
+    const input=readline.createInterface({input:process.stdin});
+    const send=(value)=>process.stdout.write(JSON.stringify(value)+"\\n");
+    const thread={id:"thread-live-001",status:{type:"idle"},turns:[]};
+    input.on("line",line=>{const message=JSON.parse(line);fs.appendFileSync(${JSON.stringify(callsPath)},JSON.stringify(message)+"\\n");if(message.method==="initialize")send({jsonrpc:"2.0",id:message.id,result:{serverInfo:{version:"fixture-agent-command"}}});else if(message.method==="thread/read")send({jsonrpc:"2.0",id:message.id,result:{thread}});else if(message.method==="thread/resume")send({jsonrpc:"2.0",id:message.id,result:{thread}});else if(message.method==="turn/start"){const turn={id:"turn-created-1",status:"inProgress",items:[]};thread.status={type:"active"};thread.turns=[turn];send({jsonrpc:"2.0",id:message.id,result:{turn}});send({jsonrpc:"2.0",method:"turn/started",params:{threadId:thread.id,turn}})}else if(message.method==="turn/steer"){const text=message.params.input?.[0]?.text||"";if(text.includes("reject"))send({jsonrpc:"2.0",id:message.id,error:{code:-32602,message:"fixture rejection secret-marker"}});else if(text.includes("timeout")){}else send({jsonrpc:"2.0",id:message.id,result:{turnId:"turn-created-1"}})}else if(message.method==="turn/interrupt"){send({jsonrpc:"2.0",id:message.id,result:{}});const turn={id:"turn-created-1",status:"interrupted",items:[]};thread.status={type:"idle"};thread.turns=[turn];send({jsonrpc:"2.0",method:"turn/completed",params:{threadId:thread.id,turn}})}});
+  `);
+  const journal = await openTelemetryJournal(stateDirectory, {
+    maxEvents: 100,
+    privacy: defaultControlPlaneConfig().privacy
+  });
+  context.after(() => journal.close());
+  const registry = createProviderRegistry([repositoryProviderContract()]);
+  const provider = await startCodexAppServerProvider(target, journal, registry, {
+    command: process.execPath,
+    commandArgs: [fakeServer],
+    commandTimeoutMs: 30,
+    reconnectMs: 60000
+  });
+  await provider.start();
+  context.after(() => provider.stop());
+  const idle = (await provider.agentCommandTargets())[0];
+  assert.equal(idle.available, true);
+  assert.deepEqual(idle.operations, ["new-turn"]);
+  assert.equal(idle.active_turn_id, null);
+  const base = {
+    idempotency_key: "provider-command-0001",
+    task_id: idle.task_id,
+    work_item_id: workItemId,
+    expected_task_status: idle.task_status,
+    expected_work_item_state: idle.work_item_state,
+    expected_provider_thread_id: idle.provider_thread_id,
+    expected_active_turn_id: null
+  };
+  const started = await provider.dispatchAgentCommand({
+    ...base,
+    operation: "new-turn",
+    instruction: "Start the deterministic fixture turn"
+  });
+  assert.equal(started.status, "turn-started");
+  assert.equal(started.provider_turn_id, "turn-created-1");
+  const active = (await provider.agentCommandTargets())[0];
+  assert.deepEqual(active.operations, ["steer", "interrupt"]);
+  assert.equal(active.active_turn_id, "turn-created-1");
+  await assert.rejects(
+    () => provider.dispatchAgentCommand({
+      ...base,
+      operation: "steer",
+      instruction: "This must stop before dispatch",
+      expected_active_turn_id: "turn-stale"
+    }),
+    /Active turn changed before dispatch/
+  );
+  await assert.rejects(
+    () => provider.dispatchAgentCommand({
+      ...base,
+      task_id: "task-unregistered",
+      operation: "steer",
+      instruction: "This target is not registered",
+      expected_active_turn_id: "turn-created-1"
+    }),
+    /not currently eligible/
+  );
+  const rejected = await provider.dispatchAgentCommand({
+    ...base,
+    idempotency_key: "provider-command-0002",
+    operation: "steer",
+    instruction: "reject this deterministic fixture",
+    expected_active_turn_id: "turn-created-1"
+  });
+  assert.equal(rejected.status, "provider-rejected");
+  assert.equal(rejected.automatic_retry, false);
+  assert.doesNotMatch(JSON.stringify(rejected), /secret-marker/);
+  const unknown = await provider.dispatchAgentCommand({
+    ...base,
+    idempotency_key: "provider-command-0003",
+    operation: "steer",
+    instruction: "timeout after the provider boundary",
+    expected_active_turn_id: "turn-created-1"
+  });
+  assert.equal(unknown.status, "delivery-unknown");
+  assert.equal(unknown.automatic_retry, false);
+  const interrupted = await provider.dispatchAgentCommand({
+    ...base,
+    idempotency_key: "provider-command-0004",
+    operation: "interrupt",
+    instruction: "",
+    expected_active_turn_id: "turn-created-1"
+  });
+  assert.equal(interrupted.status, "provider-accepted");
+  await new Promise((resolve) => setTimeout(resolve, 40));
+  assert.deepEqual((await provider.agentCommandTargets())[0].operations, ["new-turn"]);
+  assert.ok(journal.readAfter(0).records.some((record) =>
+    record.type === "org.temple.codex.turn.completed.v1" && record.data.status === "interrupted"
+  ));
+
+  const taskPath = path.join(target, ".ai-org/project/tasks.json");
+  const taskRegistry = JSON.parse(await fs.readFile(taskPath, "utf8"));
+  taskRegistry.tasks[0].host_id = "remote-host";
+  await writeJson(taskPath, taskRegistry);
+  assert.equal((await provider.agentCommandTargets())[0].unavailable_reason, "target-host-not-local");
+  taskRegistry.tasks[0].host_id = "local";
+  taskRegistry.tasks[0].status = "completed";
+  await writeJson(taskPath, taskRegistry);
+  assert.equal((await provider.agentCommandTargets())[0].unavailable_reason, "task-not-live");
+  taskRegistry.tasks[0].status = "active";
+  await writeJson(taskPath, taskRegistry);
+  const itemPath = path.join(target, ".ai-org/work-items", `${workItemId}.json`);
+  const item = JSON.parse(await fs.readFile(itemPath, "utf8"));
+  item.state = "cancelled";
+  await writeJson(itemPath, item);
+  assert.equal((await provider.agentCommandTargets())[0].unavailable_reason, "work-item-terminal");
+
+  const calls = (await fs.readFile(callsPath, "utf8")).trim().split("\n").map((line) => JSON.parse(line));
+  const turnStarts = calls.filter((entry) => entry.method === "turn/start");
+  const turnSteers = calls.filter((entry) => entry.method === "turn/steer");
+  assert.equal(turnStarts.length, 1);
+  assert.equal(turnSteers.length, 2);
+  assert.deepEqual(Object.keys(turnStarts[0].params).sort(), ["clientUserMessageId", "input", "threadId", "turnTrigger"]);
+  assert.deepEqual(Object.keys(turnSteers[0].params).sort(), ["clientUserMessageId", "expectedTurnId", "input", "threadId"]);
+  assert.equal(calls.filter((entry) => entry.method === "turn/interrupt").length, 1);
 });
 
 test("Codex App Server provider reconciles terminal task history without attempting a live resume", async (context) => {

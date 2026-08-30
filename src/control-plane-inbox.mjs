@@ -16,6 +16,7 @@ import { listWorkItemDocuments, readWorkItem } from "./work-items.mjs";
 export const HUMAN_INBOX_SCHEMA = "temple.human-inbox/v1";
 export const INBOX_COMMANDS_SCHEMA = "temple.inbox-commands/v1";
 export const INBOX_SUBMISSIONS_SCHEMA = "temple.inbox-submissions/v1";
+export const AGENT_COMMAND_OPERATIONS = ["new-turn", "steer", "interrupt"];
 
 const IDEMPOTENCY_KEY = /^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$/;
 const SUBMISSION_ID = /^submission-[a-f0-9]{16}$/;
@@ -71,6 +72,113 @@ async function readCommands(stateDirectory) {
   return (await pathExists(filePath))
     ? readJson(filePath)
     : { schema_version: INBOX_COMMANDS_SCHEMA, entries: [] };
+}
+
+function safeInstructionPreview(instruction, privacy, limit = 240) {
+  const prefix = String(instruction ?? "").slice(0, limit);
+  return boundedText(redactTelemetryData({ value: prefix }, privacy).value, limit);
+}
+
+function terminalCommandObservations(journal) {
+  const terminal = new Map();
+  if (!journal?.readAfter) return terminal;
+  for (const record of journal.readAfter(0).records ?? []) {
+    if (record.type !== "org.temple.codex.turn.completed.v1") continue;
+    const threadId = record.data?.provider_thread_id;
+    const turnId = record.data?.provider_turn_id;
+    const status = record.data?.status;
+    if (!threadId || !turnId || !["completed", "failed", "interrupted"].includes(status)) continue;
+    terminal.set(`${threadId}\0${turnId}`, {
+      status,
+      observed_at: record.templeobservedat ?? record.time ?? null
+    });
+  }
+  return terminal;
+}
+
+function publicAgentCommand(record, terminalObservations = new Map()) {
+  const observation = record.provider_turn_id
+    ? terminalObservations.get(`${record.provider_thread_id}\0${record.provider_turn_id}`)
+    : null;
+  const observedTerminal = observation && !["provider-rejected"].includes(record.status);
+  return {
+    command_id: record.command_id,
+    idempotency_key: record.idempotency_key,
+    task_id: record.task_id,
+    work_item_id: record.work_item_id,
+    position_id: record.position_id,
+    agent_id: record.agent_id,
+    provider_thread_id: record.provider_thread_id,
+    provider_turn_id: record.provider_turn_id,
+    operation: record.operation,
+    submitted_at: record.submitted_at,
+    updated_at: observedTerminal ? observation.observed_at ?? record.updated_at : record.updated_at,
+    status: observedTerminal ? observation.status : record.status,
+    transport_status: record.transport_status,
+    execution_status: observedTerminal ? observation.status : record.execution_status,
+    instruction_preview: record.instruction_preview,
+    instruction_length: record.instruction_length,
+    instruction_sha256: record.instruction_sha256,
+    preview_truncated: record.preview_truncated,
+    provider_method: record.provider_method,
+    rejection_code: record.rejection_code,
+    automatic_retry: false,
+    canonical_state_changed: false,
+    external_action_performed: record.external_action_performed === true
+  };
+}
+
+async function updateAgentCommand(stateDirectory, idempotencyKey, patch) {
+  const commands = await readCommands(stateDirectory);
+  const index = (commands.entries ?? []).findIndex((entry) =>
+    entry.request_class === "agent-command" && entry.idempotency_key === idempotencyKey
+  );
+  if (index < 0) throw new Error("Stored Agent command disappeared before acknowledgement");
+  commands.entries[index] = { ...commands.entries[index], ...patch };
+  await atomicWrite(commandsPath(stateDirectory), formatJson(commands));
+  return commands.entries[index];
+}
+
+function assertAgentCommandPayload(payload, agentCommands) {
+  const allowed = new Set([
+    "idempotency_key",
+    "task_id",
+    "work_item_id",
+    "operation",
+    "instruction",
+    "expected_task_status",
+    "expected_work_item_state",
+    "expected_provider_thread_id",
+    "expected_active_turn_id",
+    "confirmed"
+  ]);
+  const unknown = Object.keys(payload).filter((key) => !allowed.has(key));
+  if (unknown.length > 0) throw new InboxCommandError(`Agent command contains unsupported fields: ${unknown.join(", ")}`);
+  if (agentCommands?.enabled !== true) throw new InboxCommandError("Agent commands are disabled by project configuration", 403);
+  if (!AGENT_COMMAND_OPERATIONS.includes(payload.operation)) throw new InboxCommandError("Agent command operation is unsupported");
+  if (payload.confirmed !== true) throw new InboxCommandError("Agent command requires explicit preview confirmation", 409);
+  for (const field of ["task_id", "work_item_id", "expected_task_status", "expected_work_item_state", "expected_provider_thread_id"]) {
+    if (typeof payload[field] !== "string" || !payload[field].trim()) throw new InboxCommandError(`Agent command ${field} is required`);
+  }
+  const instruction = typeof payload.instruction === "string" ? payload.instruction.trim() : "";
+  if (payload.operation === "interrupt") {
+    if (instruction) throw new InboxCommandError("Interrupt does not accept instruction text");
+  } else {
+    if (!instruction) throw new InboxCommandError("Agent command instruction is required");
+    if (instruction.length > agentCommands.max_instruction_chars) {
+      throw new InboxCommandError(`Agent command instruction exceeds ${agentCommands.max_instruction_chars} characters`, 413);
+    }
+  }
+  if (payload.operation === "new-turn" && payload.expected_active_turn_id !== null) {
+    throw new InboxCommandError("New-turn requires an explicit null expected_active_turn_id", 409);
+  }
+  if (
+    payload.operation !== "new-turn" &&
+    (typeof payload.expected_active_turn_id !== "string" || !payload.expected_active_turn_id.trim())
+  ) {
+    throw new InboxCommandError(`${payload.operation} requires the exact observed active turn ID`, 409);
+  }
+  return instruction;
 }
 
 export async function readInboxSubmissions(stateDirectory) {
@@ -355,11 +463,13 @@ async function createGovernanceApproval(target, payload) {
   });
 }
 
-export async function buildHumanInbox(target, stateDirectory, codexProvider) {
-  const [workItems, collaboration, submissions] = await Promise.all([
+export async function buildHumanInbox(target, stateDirectory, codexProvider, options = {}) {
+  const [workItems, collaboration, submissions, commands, commandTargets] = await Promise.all([
     listWorkItemDocuments(target),
     readCollaborationState(target),
-    readInboxSubmissions(stateDirectory)
+    readInboxSubmissions(stateDirectory),
+    readCommands(stateDirectory),
+    codexProvider?.agentCommandTargets?.() ?? []
   ]);
   const pending = codexProvider?.pendingRequests?.() ?? [];
   const principals = (collaboration.principals ?? []).filter((entry) => entry.active !== false).map((entry) => ({
@@ -376,6 +486,21 @@ export async function buildHumanInbox(target, stateDirectory, codexProvider) {
     principals,
     action_available: Boolean(exactCurrentRevision(target, item) && principals.length >= (item.assurance?.minimum_approvals ?? 1))
   }));
+  const commandConfig = options.agentCommands ?? { enabled: false, max_instruction_chars: 4000 };
+  const providerStatus = codexProvider?.agentCommandStatus?.() ?? "offline";
+  const eligibleTargets = commandTargets.filter((entry) => entry.available);
+  const recentCommands = (commands.entries ?? [])
+    .filter((entry) => entry.request_class === "agent-command")
+    .map((entry) => publicAgentCommand(entry, terminalCommandObservations(options.journal)))
+    .sort((left, right) => String(right.submitted_at).localeCompare(String(left.submitted_at)))
+    .slice(0, 50);
+  const availabilityReason = commandConfig.enabled !== true
+    ? "disabled-by-configuration"
+    : providerStatus !== "ready"
+      ? `provider-${providerStatus}`
+      : eligibleTargets.length === 0
+        ? "no-eligible-registered-target"
+        : null;
   return {
     schema_version: HUMAN_INBOX_SCHEMA,
     generated_at: new Date().toISOString(),
@@ -383,6 +508,19 @@ export async function buildHumanInbox(target, stateDirectory, codexProvider) {
     business_facts: pending.filter((entry) => entry.request_class === "business-fact"),
     governance_approvals: governance,
     submissions: submissions.entries ?? [],
+    agent_commands: {
+      enabled: commandConfig.enabled === true,
+      available: availabilityReason === null,
+      availability_reason: availabilityReason,
+      provider_status: providerStatus,
+      max_instruction_chars: commandConfig.max_instruction_chars,
+      targets: commandTargets,
+      eligible_targets: eligibleTargets,
+      recent_commands: recentCommands,
+      automatic_retry: false,
+      loopback_only: true,
+      full_instruction_retained: false
+    },
     authority: {
       runtime_permission: "live-provider-request-only",
       business_fact: "local-proposal-until-explicit-incorporation",
@@ -395,7 +533,102 @@ export async function buildHumanInbox(target, stateDirectory, codexProvider) {
 
 export function createHumanInboxGateway(options) {
   const { target, stateDirectory, codexProvider, privacy } = options;
+  const agentCommands = options.agentCommands ?? { enabled: false, max_instruction_chars: 4000 };
+  const journal = options.journal ?? null;
   let queue = Promise.resolve();
+
+  async function executeAgentCommand(payload, idempotencyKey, requestDigest, commands) {
+    const instruction = assertAgentCommandPayload(payload, agentCommands);
+    if (!codexProvider?.prepareAgentCommand || !codexProvider?.dispatchAgentCommand) {
+      throw new InboxCommandError("Codex provider does not expose the bounded Agent command contract", 409);
+    }
+    const targetView = await codexProvider.prepareAgentCommand({
+      ...payload,
+      instruction,
+      idempotency_key: idempotencyKey
+    });
+    const submittedAt = new Date().toISOString();
+    const record = {
+      command_id: `agent-command-${sha256(idempotencyKey).slice(0, 16)}`,
+      idempotency_key: idempotencyKey,
+      request_digest: requestDigest,
+      request_class: "agent-command",
+      task_id: targetView.task_id,
+      work_item_id: targetView.work_item_id,
+      position_id: targetView.position_id,
+      agent_id: targetView.agent_id,
+      provider_thread_id: targetView.provider_thread_id,
+      provider_turn_id: targetView.active_turn_id,
+      operation: payload.operation,
+      expected_task_status: targetView.task_status,
+      expected_work_item_state: targetView.work_item_state,
+      expected_active_turn_id: targetView.active_turn_id,
+      submitted_at: submittedAt,
+      updated_at: submittedAt,
+      status: "submitted",
+      transport_status: "submitted",
+      execution_status: "pending",
+      instruction_preview: instruction ? safeInstructionPreview(instruction, privacy) : null,
+      instruction_length: instruction.length,
+      instruction_sha256: instruction ? sha256(instruction) : null,
+      preview_truncated: instruction.length > 240,
+      provider_method: null,
+      rejection_code: null,
+      automatic_retry: false,
+      external_action_performed: false
+    };
+    await atomicWrite(commandsPath(stateDirectory), formatJson({ ...commands, entries: [...(commands.entries ?? []), record] }));
+    let dispatched;
+    try {
+      dispatched = await codexProvider.dispatchAgentCommand({
+        ...payload,
+        instruction,
+        idempotency_key: idempotencyKey
+      });
+    } catch (error) {
+      const rejected = await updateAgentCommand(stateDirectory, idempotencyKey, {
+        updated_at: new Date().toISOString(),
+        status: "provider-rejected",
+        transport_status: "provider-rejected",
+        execution_status: "not-started",
+        rejection_code: error.reasonCode ?? "pre-dispatch-rejected",
+        external_action_performed: false
+      });
+      await appendAudit(stateDirectory, {
+        timestamp: rejected.updated_at,
+        request_class: "agent-command",
+        idempotency_key: idempotencyKey,
+        actor: "human",
+        work_item_id: rejected.work_item_id,
+        task_id: rejected.task_id,
+        operation: rejected.operation,
+        result: "rejected",
+        error: boundedText(error.message, 500),
+        canonical_state_changed: false,
+        external_action_performed: false
+      });
+      throw new InboxCommandError(error.message, error.statusCode ?? 409);
+    }
+    const completed = await updateAgentCommand(stateDirectory, idempotencyKey, {
+      ...dispatched,
+      updated_at: new Date().toISOString(),
+      external_action_performed: true
+    });
+    await appendAudit(stateDirectory, {
+      timestamp: completed.updated_at,
+      request_class: "agent-command",
+      idempotency_key: idempotencyKey,
+      actor: "human",
+      work_item_id: completed.work_item_id,
+      task_id: completed.task_id,
+      operation: completed.operation,
+      result: completed.status,
+      canonical_state_changed: false,
+      external_action_performed: true,
+      automatic_retry: false
+    });
+    return publicAgentCommand(completed, terminalCommandObservations(journal));
+  }
 
   async function execute(requestClass, payload) {
     if (!payload || typeof payload !== "object" || Array.isArray(payload)) throw new InboxCommandError("Inbox command body must be an object");
@@ -406,7 +639,25 @@ export function createHumanInboxGateway(options) {
     const existing = (commands.entries ?? []).find((entry) => entry.idempotency_key === idempotencyKey);
     if (existing) {
       if (existing.request_digest !== requestDigest) throw new InboxCommandError("Idempotency key was already used for a different request", 409);
+      if (existing.request_class === "agent-command") {
+        if (existing.status === "submitted") {
+          const unknown = await updateAgentCommand(stateDirectory, idempotencyKey, {
+            updated_at: new Date().toISOString(),
+            status: "delivery-unknown",
+            transport_status: "delivery-unknown",
+            execution_status: "unknown",
+            rejection_code: "acknowledgement-not-recorded",
+            automatic_retry: false
+          });
+          return { ...publicAgentCommand(unknown, terminalCommandObservations(journal)), idempotent_replay: true };
+        }
+        return { ...publicAgentCommand(existing, terminalCommandObservations(journal)), idempotent_replay: true };
+      }
       return { ...existing.result, idempotent_replay: true };
+    }
+
+    if (requestClass === "agent-command") {
+      return executeAgentCommand(payload, idempotencyKey, requestDigest, commands);
     }
 
     let result;

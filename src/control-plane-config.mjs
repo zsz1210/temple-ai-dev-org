@@ -22,6 +22,10 @@ export function defaultControlPlaneConfig() {
       cooldown_ms: 60000,
       token_budget: null
     },
+    agent_commands: {
+      enabled: false,
+      max_instruction_chars: 4000
+    },
     privacy: {
       capture_raw_payloads: false,
       max_data_bytes: 16384,
@@ -78,6 +82,21 @@ export function validateControlPlaneConfig(document) {
       (!Number.isInteger(document.alerts?.token_budget) || document.alerts.token_budget < 1)
     ) {
       errors.push("alerts.token_budget must be null or a positive integer");
+    }
+  }
+  if (document?.agent_commands !== undefined) {
+    if (typeof document.agent_commands?.enabled !== "boolean") {
+      errors.push("agent_commands.enabled must be boolean");
+    }
+    if (
+      !Number.isInteger(document.agent_commands?.max_instruction_chars) ||
+      document.agent_commands.max_instruction_chars < 1 ||
+      document.agent_commands.max_instruction_chars > 20000
+    ) {
+      errors.push("agent_commands.max_instruction_chars must be an integer from 1 to 20000");
+    }
+    if (Object.keys(document.agent_commands ?? {}).some((key) => !["enabled", "max_instruction_chars"].includes(key))) {
+      errors.push("agent_commands contains unsupported fields");
     }
   }
   if (document?.privacy?.capture_raw_payloads !== false) {
@@ -214,6 +233,10 @@ export async function readControlPlaneConfig(target) {
     alerts: {
       ...defaultControlPlaneConfig().alerts,
       ...(document.alerts ?? {})
+    },
+    agent_commands: {
+      ...defaultControlPlaneConfig().agent_commands,
+      ...(document.agent_commands ?? {})
     }
   };
 }

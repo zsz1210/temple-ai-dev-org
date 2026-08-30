@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0029",
   "title": "Prototype local Agent Command Gateway",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-08-30T11:40:38.319Z",
-  "updated_at": "2026-08-30T11:41:16.001Z",
+  "updated_at": "2026-08-30T12:07:13.217Z",
   "scope": [
     "Implement an opt-in loopback-only Dashboard command gateway for registered existing Codex tasks. Support visible new turns, active-turn steering, and interruption with explicit preview, idempotency, provider acknowledgement, truthful delivery state, and no automatic retry.",
     "Exclude remote control, mobile control, cross-host dispatch, new Codex task creation, background task spawning, automatic model switching, and any release or publication."
@@ -51,8 +51,32 @@
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
-  "claim": null,
-  "claims": [],
+  "claim": {
+    "id": "claim-20260830114307-26207596",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "4d441b31b6ecd684bb51af8c96d535b6d25486d0",
+    "branch": "codex/wi-0029-agent-command-gateway",
+    "worktree": "/Users/zsz1210/.codex/worktrees/5e74/temple-ai-dev-org",
+    "claimed_at": "2026-08-30T11:43:07.761Z",
+    "released_at": "2026-08-30T12:07:13.217Z",
+    "release_reason": "position_transition"
+  },
+  "claims": [
+    {
+      "id": "claim-20260830114307-26207596",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "4d441b31b6ecd684bb51af8c96d535b6d25486d0",
+      "branch": "codex/wi-0029-agent-command-gateway",
+      "worktree": "/Users/zsz1210/.codex/worktrees/5e74/temple-ai-dev-org",
+      "claimed_at": "2026-08-30T11:43:07.761Z",
+      "released_at": "2026-08-30T12:07:13.217Z",
+      "release_reason": "position_transition"
+    }
+  ],
   "gate_evidence": {
     "work_order": [
       ".ai-org/artifacts/work-orders/WI-0029.md"
@@ -74,13 +98,39 @@
     ],
     "required_state_coverage": [
       ".ai-org/artifacts/WI-0029/ui-brief.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0029/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0029/developer-evidence.md",
+      "EVID-20260830T120627Z-5B56C16C",
+      "EVID-20260830T120636Z-FDB1B1DB",
+      "EVID-20260830T120640Z-91A964AE"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/work-orders/WI-0029.md",
     ".ai-org/work-items/WI-0029.json",
-    ".ai-org/artifacts/WI-0029/ui-brief.md"
+    ".ai-org/artifacts/WI-0029/ui-brief.md",
+    ".ai-org/artifacts/WI-0029/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0029/developer-evidence.md",
+    "EVID-20260830T120627Z-5B56C16C",
+    "EVID-20260830T120636Z-FDB1B1DB",
+    "EVID-20260830T120640Z-91A964AE"
   ],
-  "unresolved": [],
-  "next_position": "quality_evaluator"
+  "unresolved": [
+    "Real Codex execution remains a separately authorized validation boundary requiring a safe disposable eligible registered task; no real task was mutated in Developer verification."
+  ],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "38a185eb9c501803d138e1a325dfd1f31450b2fc",
+      "artifact": ".ai-org/artifacts/WI-0029/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-30T12:07:01.867Z"
+    }
+  ],
+  "developer_candidate_revision": "38a185eb9c501803d138e1a325dfd1f31450b2fc"
 }
