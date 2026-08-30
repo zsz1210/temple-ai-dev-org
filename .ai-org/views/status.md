@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.26`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 2 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 1 wave(s), fresh=false
 - Work items: 22 total, 8 active
 - Codex tasks: 3 registered, 3 archive-ready
-- Runtime workers: 9 registered, 0 reserved, 2 active
+- Runtime workers: 9 registered, 0 reserved, 1 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 2
+- Active Work Item claims: 1
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -65,7 +65,7 @@
 | WI-0019 | Integrate the Phase 4 CLI, schemas, and release line | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 | WI-0020 | Harden audit export after Independent QA | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830080254-62f7385f | `—` | 0 | 2 | 0 |
 | WI-0021 | Fix usage preflight exact correlation | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
-| WI-0022 | Bind federation reads to the expected revision | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830080255-15bcf700 | `—` | 0 | 2 | 0 |
+| WI-0022 | Bind federation reads to the expected revision | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 
 ## Codex task registry
 
@@ -87,7 +87,7 @@
 | worker-20260830075324-a849e6f4 | internal-subagent | WI-0018 | Independent QA / Lulu | completed | /root/framework_docs_review:qa-wi-0018 | `642f03cb` | 0 |
 | worker-20260830080254-304c0eb5 | internal-subagent | WI-0020 | Developer / Rikku | active | /root/framework_docs_review:fix-wi-0020 | `—` | 0 |
 | worker-20260830080254-fa6dafd6 | internal-subagent | WI-0021 | Developer / Rikku | completed | /root/ownership_code_review:fix-wi-0021 | `4919f53e` | 0 |
-| worker-20260830080255-43d0b25c | internal-subagent | WI-0022 | Developer / Rikku | active | /root/skill_forward_test:fix-wi-0022 | `—` | 0 |
+| worker-20260830080255-43d0b25c | internal-subagent | WI-0022 | Developer / Rikku | completed | /root/skill_forward_test:fix-wi-0022 | `0f274c61` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -157,14 +157,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-30T08:09:05.327Z | work_item_claim_released | WI-0022 | project-owner |
+| 2026-08-30T08:09:05.011Z | runtime_worker_status_changed | WI-0022 | agent-rikku |
 | 2026-08-30T08:07:12.422Z | work_item_claim_released | WI-0021 | project-owner |
 | 2026-08-30T08:07:12.120Z | runtime_worker_status_changed | WI-0021 | agent-rikku |
 | 2026-08-30T08:03:00.972Z | runtime_worker_attached | WI-0022 | agent-rikku |
 | 2026-08-30T08:03:00.674Z | runtime_worker_attached | WI-0021 | agent-rikku |
 | 2026-08-30T08:03:00.359Z | runtime_worker_attached | WI-0020 | agent-rikku |
 | 2026-08-30T08:02:55.240Z | runtime_worker_reserved | WI-0022 | project-owner |
-| 2026-08-30T08:02:55.243Z | work_item_claimed | WI-0022 | project-owner |
-| 2026-08-30T08:02:54.922Z | runtime_worker_reserved | WI-0021 | project-owner |
 
 ## Assignments
 
