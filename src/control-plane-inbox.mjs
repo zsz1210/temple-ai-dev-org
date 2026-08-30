@@ -4,6 +4,11 @@ import path from "node:path";
 import { resolveGitRevision } from "./evidence.mjs";
 import { atomicWrite, formatJson, pathExists, readJson, sha256 } from "./files.mjs";
 import { readCollaborationState } from "./collaboration.mjs";
+import {
+  CONTEXT_MAP_RELATIVE_PATH,
+  readContextMap,
+  validateContextMap
+} from "./context.mjs";
 import { appendEvent, withProjectMutationLock } from "./project.mjs";
 import { redactTelemetryData } from "./telemetry.mjs";
 import { listWorkItemDocuments, readWorkItem } from "./work-items.mjs";
@@ -134,6 +139,23 @@ function markdownQuote(value) {
   return String(value ?? "").split(/\r?\n/).map((line) => `> ${line}`).join("\n");
 }
 
+function businessFactContextRoute(submission, item, artifact) {
+  const suffix = submission.id.replace(/^submission-/, "");
+  return {
+    id: `business-fact-${suffix}`,
+    kind: "other",
+    title: `Incorporated business facts for ${item.id}`,
+    summary: `Human-provided business facts explicitly incorporated from ${submission.id} for ${item.id}.`,
+    paths: [artifact],
+    tags: ["business-fact", "human-inbox"],
+    positions: [item.owner_position],
+    work_items: [item.id],
+    read_when: [`Working on ${item.id} where the incorporated business facts may affect implementation or verification`],
+    owner_position: item.owner_position,
+    status: "active"
+  };
+}
+
 async function incorporateBusinessFact(target, stateDirectory, payload) {
   const submissions = await readInboxSubmissions(stateDirectory);
   const index = (submissions.entries ?? []).findIndex((entry) => entry.id === payload.submission_id);
@@ -148,6 +170,7 @@ async function incorporateBusinessFact(target, stateDirectory, payload) {
       submission_id: submission.id,
       work_item_id: submission.incorporated_work_item_id,
       artifact: submission.incorporated_ref,
+      context_ref: submission.incorporated_context_ref ?? `business-fact-${submission.id.replace(/^submission-/, "")}`,
       canonical_state_changed: false,
       external_action_performed: false,
       idempotent: true
@@ -172,9 +195,11 @@ async function incorporateBusinessFact(target, stateDirectory, payload) {
     const relativePath = `.ai-org/artifacts/${item.id}/business-facts/${submission.id}.md`;
     const absolutePath = path.join(target, relativePath);
     const itemPath = path.join(target, ".ai-org/work-items", `${item.id}.json`);
+    const contextMapPath = path.join(target, CONTEXT_MAP_RELATIVE_PATH);
     const eventPath = path.join(target, ".ai-org/events/events.jsonl");
-    const [itemBefore, eventBefore] = await Promise.all([
+    const [itemBefore, contextMapBefore, eventBefore] = await Promise.all([
       fs.readFile(itemPath),
+      fs.readFile(contextMapPath),
       (await pathExists(eventPath)) ? fs.readFile(eventPath) : null
     ]);
     const lines = Object.entries(submission.answers ?? {}).flatMap(([questionId, values]) => [
@@ -183,7 +208,8 @@ async function incorporateBusinessFact(target, stateDirectory, payload) {
       ...values.map((value) => markdownQuote(value)),
       ""
     ]);
-    const content = `# Business fact response — ${item.id}\n\n- Submission: \`${submission.id}\`\n- Proposal captured: \`${submission.created_at}\`\n- Incorporated by: \`${actor}\`\n- Exact revision at incorporation: \`${exactRevision ?? "unavailable"}\`\n\n${lines.join("\n")}\n## Authority boundary\n\nThis artifact is an explicitly incorporated project context reference. It does not independently change scope, acceptance criteria, a specification, a decision, or a lifecycle gate.\n`;
+    const content = `# Business fact response — ${item.id}\n\n- Submission: \`${submission.id}\`\n- Proposal captured: \`${submission.created_at}\`\n- Incorporated by: \`${actor}\`\n- Exact revision at incorporation: \`${exactRevision ?? "unavailable"}\`\n\n${lines.join("\n")}\n## Authority boundary\n\nThis artifact is an explicitly incorporated project context source routed through the Context Map. It does not independently change scope, acceptance criteria, a specification, a decision, or a lifecycle gate.\n`;
+    const route = businessFactContextRoute(submission, item, relativePath);
     let artifactCreated = false;
     try {
       const artifactExists = await pathExists(absolutePath);
@@ -193,15 +219,31 @@ async function incorporateBusinessFact(target, stateDirectory, payload) {
         await atomicWrite(absolutePath, content);
         artifactCreated = true;
       }
-      if (artifactExists && (item.context_refs ?? []).includes(relativePath)) {
-        return { item, artifact: relativePath, exactRevision, changed: false };
+      const contextMap = await readContextMap(target);
+      const existingRoute = contextMap.routes.find((entry) => entry.id === route.id);
+      if (existingRoute && JSON.stringify(stableValue(existingRoute)) !== JSON.stringify(stableValue(route))) {
+        throw new InboxCommandError(`Context route already exists with different content: ${route.id}`, 409);
       }
+      const contextMapChanged = !existingRoute;
+      const updatedContextMap = contextMapChanged
+        ? { ...contextMap, routes: [...contextMap.routes, route] }
+        : contextMap;
+      const contextValidation = validateContextMap(updatedContextMap);
+      if (!contextValidation.valid) {
+        throw new InboxCommandError(`Canonical context route would be invalid: ${contextValidation.errors.join("; ")}`, 409);
+      }
+      const itemChanged = !(item.context_refs ?? []).includes(route.id);
+      const changed = artifactCreated || contextMapChanged || itemChanged;
+      if (!changed) {
+        return { item, artifact: relativePath, contextRef: route.id, exactRevision, changed: false };
+      }
+      if (contextMapChanged) await atomicWrite(contextMapPath, formatJson(updatedContextMap));
       const updated = {
         ...item,
         updated_at: new Date().toISOString(),
-        context_refs: [...new Set([...(item.context_refs ?? []), relativePath])]
+        context_refs: [...new Set([...(item.context_refs ?? []), route.id])]
       };
-      await atomicWrite(itemPath, formatJson(updated));
+      if (itemChanged) await atomicWrite(itemPath, formatJson(updated));
       await appendEvent(target, {
         timestamp: updated.updated_at,
         event_type: "business_fact_incorporated",
@@ -209,11 +251,12 @@ async function incorporateBusinessFact(target, stateDirectory, payload) {
         work_item_id: item.id,
         submission_id: submission.id,
         scope_revision: exactRevision,
-        refs: [relativePath, `.ai-org/work-items/${item.id}.json`]
+        refs: [relativePath, CONTEXT_MAP_RELATIVE_PATH, `.ai-org/work-items/${item.id}.json`]
       });
-      return { item: updated, artifact: relativePath, exactRevision, changed: true };
+      return { item: itemChanged ? updated : item, artifact: relativePath, contextRef: route.id, exactRevision, changed: true };
     } catch (error) {
       await atomicWrite(itemPath, itemBefore);
+      await atomicWrite(contextMapPath, contextMapBefore);
       if (eventBefore === null) await fs.unlink(eventPath).catch(() => {});
       else await atomicWrite(eventPath, eventBefore);
       if (artifactCreated) await fs.unlink(absolutePath).catch(() => {});
@@ -228,6 +271,7 @@ async function incorporateBusinessFact(target, stateDirectory, payload) {
     incorporated_by: actor,
     incorporated_work_item_id: result.item.id,
     incorporated_ref: result.artifact,
+    incorporated_context_ref: result.contextRef,
     incorporated_revision: result.exactRevision
   };
   await writeSubmissions(stateDirectory, submissions);
@@ -235,6 +279,7 @@ async function incorporateBusinessFact(target, stateDirectory, payload) {
     submission_id: submission.id,
     work_item_id: result.item.id,
     artifact: result.artifact,
+    context_ref: result.contextRef,
     exact_revision: result.exactRevision,
     canonical_state_changed: result.changed,
     external_action_performed: false
@@ -415,6 +460,7 @@ export function createHumanInboxGateway(options) {
             incorporated_by: null,
             incorporated_work_item_id: null,
             incorporated_ref: null,
+            incorporated_context_ref: null,
             incorporated_revision: null
           };
           await writeSubmissions(stateDirectory, { ...submissions, entries: [...(submissions.entries ?? []), submission] });

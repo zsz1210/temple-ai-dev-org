@@ -120,7 +120,7 @@ Read canonical state and output the collaboration profile, Principal and members
 
 - `temple control-plane start/snapshot/ingest/rebuild` maintains generated local telemetry, provider capability state, replay, and projections below the Git common directory by default. Telemetry cannot satisfy a gate.
 - The local HTTP server binds to `127.0.0.1`. Its dashboard can submit only four bounded Human Inbox commands through a per-process session secret, same-origin and idempotency checks, current-state and exact-revision checks, and the project mutation lock.
-- Runtime permission responses preserve the live Codex provider request as authority. Business facts remain local proposals until explicit incorporation adds one canonical context reference. Governance approval writes a policy-checked `temple.approval/v1` record without closing or releasing the Work Item.
+- Runtime permission responses preserve the live Codex provider request as authority. Business facts remain local proposals until explicit incorporation writes a canonical source, registers its project-owned Context Map route, and pins that route ID to the Work Item. Governance approval writes a policy-checked `temple.approval/v1` record without closing or releasing the Work Item.
 - An enabled GitHub control-plane provider performs only PR and Check Runs `GET` requests at one configured exact SHA. `temple control-plane capture-github` explicitly copies a reviewed observation into normalized evidence; it does not mutate GitHub, add gate evidence, or transition the Work Item.
 
 ### Tracker commands

@@ -213,11 +213,19 @@ test("Human Inbox keeps runtime permission and business-fact authority separate 
   assert.equal(incorporatedReplay.idempotent_replay, true);
   const finalItem = JSON.parse(await fs.readFile(itemPath, "utf8"));
   assert.deepEqual(finalItem.scope, before.scope);
-  assert.equal(finalItem.context_refs.includes(incorporated.artifact), true);
+  assert.equal(finalItem.context_refs.includes(incorporated.context_ref), true);
+  assert.equal(finalItem.context_refs.includes(incorporated.artifact), false);
+  const contextMap = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/context-map.json"), "utf8"));
+  const route = contextMap.routes.find((entry) => entry.id === incorporated.context_ref);
+  assert.deepEqual(route.paths, [incorporated.artifact]);
+  assert.deepEqual(route.work_items, [workItemId]);
   assert.match(await fs.readFile(path.join(target, incorporated.artifact), "utf8"), /does not independently change scope/);
   assert.doesNotMatch(await fs.readFile(path.join(target, incorporated.artifact), "utf8"), /do-not-persist-this-secret/);
   const events = await fs.readFile(path.join(target, ".ai-org/events/events.jsonl"), "utf8");
   assert.equal((events.match(/business_fact_incorporated/g) ?? []).length, 1);
+  const doctor = run(["doctor", target, "--json"]);
+  assert.equal(doctor.status, 0, doctor.stderr || doctor.stdout);
+  assert.equal(JSON.parse(doctor.stdout).summary.fail, 0);
 });
 
 test("governance approval enforces current state, exact revision, active principals, and High-Assurance independence", async (context) => {
