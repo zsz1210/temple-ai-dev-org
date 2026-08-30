@@ -1,0 +1,13 @@
+{
+  "schema_version": "temple.runtime-observation/v1",
+  "environment": "Temple self-host Control Plane with a registered active user-owned Codex task on the local Codex Desktop host",
+  "scenario": "Resume the registered active task through the Codex App Server and receive a provider-owned detailed Token usage observation",
+  "result": "fail",
+  "provenance": "live",
+  "observed_at": "2026-08-30T07:09:24Z",
+  "revision": "23768e74ceb35a15589e194e0929f70914e8f407",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0014/independent-qa-report.md",
+    "docs/validation/wi-0014-active-task-usage-baseline.md"
+  ]
+}

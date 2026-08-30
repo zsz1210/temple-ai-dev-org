@@ -1,6 +1,6 @@
 # WI-0014 active-task usage baseline
 
-- Status: Developer verification passed; live observation degraded; Independent QA pending
+- Status: Developer and Independent QA passed; live observation degraded
 - Date: 2026-08-30
 - Environment: Darwin 25.5.0 arm64, Node.js 25.6.1, npm 11.11.0
 - Work Item: `WI-0014`
@@ -39,4 +39,4 @@ This is a truthful failed observation attempt, not a passing correlated observat
 - Temple still has no provider-owned detailed usage event correlated to this active task.
 - The current host/provider bridge cannot resume this already-running Codex task through the observed App Server path; a supported host-event bridge or provider behavior remains future work.
 - The ten-varied-Work-Item gate, longitudinal comparison, Token-savings evidence, monetary cost, model-selection quality, and routing evidence remain open.
-- Fresh Independent QA must reproduce the exact candidate revision in a separate worktree before lifecycle progression.
+- Fresh Independent QA passed the exact integrated candidate in a separate detached worktree; the provider bridge and ten-correlated-Work-Item qualification gaps remain open.
