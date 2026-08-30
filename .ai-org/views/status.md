@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.26`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 2 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 1 wave(s), fresh=false
 - Work items: 26 total, 4 active
 - Codex tasks: 3 registered, 3 archive-ready
-- Runtime workers: 16 registered, 0 reserved, 2 active
+- Runtime workers: 16 registered, 0 reserved, 1 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 2
+- Active Work Item claims: 1
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -68,7 +68,7 @@
 | WI-0022 | Bind federation reads to the expected revision | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `db40145c` | 0 | 12 | 0 |
 | WI-0023 | Disable Git replacement objects in federation | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `db40145c` | 0 | 8 | 0 |
 | WI-0024 | Make Doctor fail closed on legacy bootstrap metadata | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2bf07c0d` | 0 | 8 | 0 |
-| WI-0025 | Expose Phase 4 operational CLI | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830084454-c15950a2 | `—` | 0 | 2 | 0 |
+| WI-0025 | Expose Phase 4 operational CLI | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 | WI-0026 | Ship Phase 4 project contracts and Alpha.27 metadata | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830084454-8f44b8d8 | `—` | 0 | 2 | 0 |
 
 ## Codex task registry
@@ -97,7 +97,7 @@
 | worker-20260830081416-59664aaf | internal-subagent | WI-0022 | Independent QA / Lulu | completed | /root/ownership_code_review:qa-wi-0022 | `5733bb25` | 0 |
 | worker-20260830082136-290711c9 | internal-subagent | WI-0023 | Developer / Rikku | completed | /root/skill_forward_test:fix-wi-0023 | `87c9b7a7` | 0 |
 | worker-20260830082853-cdaafc6d | internal-subagent | WI-0023 | Independent QA / Lulu | completed | /root/ownership_code_review:qa-wi-0023 | `db40145c` | 0 |
-| worker-20260830084454-0ce8cc8a | internal-subagent | WI-0025 | Developer / Rikku | active | /root/skill_forward_test:wi-0025 | `—` | 0 |
+| worker-20260830084454-0ce8cc8a | internal-subagent | WI-0025 | Developer / Rikku | completed | /root/skill_forward_test:wi-0025 | `6c29ca71` | 0 |
 | worker-20260830084454-d91d1101 | internal-subagent | WI-0026 | Developer / Rikku | active | /root/framework_docs_review:wi-0026 | `—` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
@@ -164,14 +164,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-30T08:50:50.530Z | work_item_claim_released | WI-0025 | project-owner |
+| 2026-08-30T08:50:50.261Z | runtime_worker_status_changed | WI-0025 | agent-rikku |
 | 2026-08-30T08:45:01.537Z | runtime_worker_attached | WI-0026 | agent-rikku |
 | 2026-08-30T08:45:01.272Z | runtime_worker_attached | WI-0025 | agent-rikku |
 | 2026-08-30T08:44:54.849Z | runtime_worker_reserved | WI-0026 | project-owner |
 | 2026-08-30T08:44:54.852Z | work_item_claimed | WI-0026 | project-owner |
 | 2026-08-30T08:44:54.577Z | runtime_worker_reserved | WI-0025 | project-owner |
 | 2026-08-30T08:44:54.580Z | work_item_claimed | WI-0025 | project-owner |
-| 2026-08-30T08:44:47.267Z | work_item_coordination_configured | WI-0026 | agent-rikku |
-| 2026-08-30T08:44:31.586Z | work_item_coordination_configured | WI-0025 | agent-rikku |
 
 ## Assignments
 

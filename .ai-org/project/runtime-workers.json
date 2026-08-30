@@ -403,7 +403,7 @@
     {
       "id": "worker-20260830084454-0ce8cc8a",
       "runtime_kind": "internal-subagent",
-      "status": "active",
+      "status": "completed",
       "work_item_id": "WI-0025",
       "position_id": "developer",
       "agent_id": "agent-rikku",
@@ -419,12 +419,15 @@
       "runtime_id": "/root/skill_forward_test:wi-0025",
       "task_id": null,
       "resource_reservation_ids": [],
-      "current_revision": null,
-      "evidence": [],
+      "current_revision": "6c29ca71dfca8eb164b48feb6269dc696edbf6a7",
+      "evidence": [
+        "Focused Phase 4 CLI 3/3",
+        "Full verification 189/189"
+      ],
       "reserved_at": "2026-08-30T08:44:54.577Z",
       "attached_at": "2026-08-30T08:45:01.272Z",
-      "completed_at": null,
-      "updated_at": "2026-08-30T08:45:01.272Z"
+      "completed_at": "2026-08-30T08:50:50.261Z",
+      "updated_at": "2026-08-30T08:50:50.261Z"
     },
     {
       "id": "worker-20260830084454-d91d1101",
