@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0022",
   "title": "Bind federation reads to the expected revision",
-  "state": "independent_qa",
-  "owner_position": "independent_qa",
-  "assigned_agent_id": "agent-lulu",
+  "state": "blocked",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T08:01:08.926Z",
-  "updated_at": "2026-08-30T08:14:16.086Z",
+  "updated_at": "2026-08-30T08:20:57.962Z",
   "scope": [
     "Prevent canonical symlink and working-tree content from being projected as the registry expected Git revision."
   ],
@@ -34,7 +34,7 @@
   "base_revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
-  "planned_agent_id": "agent-lulu",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [
@@ -42,14 +42,17 @@
   ],
   "claim": {
     "id": "claim-20260830081416-d8497d7d",
-    "status": "active",
+    "status": "released",
     "principal_id": "project-owner",
     "agent_id": "agent-lulu",
     "base_revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
     "branch": "phase4/qa-wi-0022",
     "worktree": "/tmp/temple-phase4.slCwlE/qa-wi-0022",
     "claimed_at": "2026-08-30T08:14:16.086Z",
-    "released_at": null
+    "released_at": "2026-08-30T08:19:56.495Z",
+    "release_reason": [
+      "Independent QA no-go; Git replacement hardening required"
+    ]
   },
   "claims": [
     {
@@ -68,14 +71,17 @@
     },
     {
       "id": "claim-20260830081416-d8497d7d",
-      "status": "active",
+      "status": "released",
       "principal_id": "project-owner",
       "agent_id": "agent-lulu",
       "base_revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
       "branch": "phase4/qa-wi-0022",
       "worktree": "/tmp/temple-phase4.slCwlE/qa-wi-0022",
       "claimed_at": "2026-08-30T08:14:16.086Z",
-      "released_at": null
+      "released_at": "2026-08-30T08:19:56.495Z",
+      "release_reason": [
+        "Independent QA no-go; Git replacement hardening required"
+      ]
     }
   ],
   "gate_evidence": {
@@ -107,6 +113,9 @@
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0022/evaluation-report.md"
+    ],
+    "blocker_record": [
+      ".ai-org/artifacts/WI-0022/independent-qa-report-no-go.md"
     ]
   },
   "evidence": [
@@ -117,10 +126,13 @@
     "EVID-20260830T081320Z-43B20AA3",
     ".ai-org/artifacts/WI-0022/developer-evidence.md",
     ".ai-org/artifacts/WI-0022/quality-test-report.md",
-    ".ai-org/artifacts/WI-0022/evaluation-report.md"
+    ".ai-org/artifacts/WI-0022/evaluation-report.md",
+    ".ai-org/artifacts/WI-0022/independent-qa-report-no-go.md"
   ],
-  "unresolved": [],
-  "next_position": "release_manager",
+  "unresolved": [
+    "Independent QA no-go: Git replace object bypass; corrective WI-0023."
+  ],
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -130,5 +142,6 @@
       "created_at": "2026-08-30T08:13:30.199Z"
     }
   ],
-  "developer_candidate_revision": "5fb81a86bd9828f561ad9611daef3b0e2eab9b9c"
+  "developer_candidate_revision": "5fb81a86bd9828f561ad9611daef3b0e2eab9b9c",
+  "previous_state": "independent_qa"
 }

@@ -1,0 +1,10 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
+  "command": ["npm", "run", "verify"],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-30T08:14:30.000Z",
+  "completed_at": "2026-08-30T08:17:15.000Z",
+  "artifact_refs": ["test/audit-export.test.mjs", "test/recovery.test.mjs"]
+}

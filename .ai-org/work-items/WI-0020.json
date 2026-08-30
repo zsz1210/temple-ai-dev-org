@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0020",
   "title": "Harden audit export after Independent QA",
-  "state": "independent_qa",
-  "owner_position": "independent_qa",
-  "assigned_agent_id": "agent-lulu",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T08:01:08.302Z",
-  "updated_at": "2026-08-30T08:14:15.410Z",
+  "updated_at": "2026-08-30T08:20:45.123Z",
   "scope": [
     "Reject noncanonical audit sources and redact unsafe allow-listed scalar values found by WI-0016 Independent QA."
   ],
@@ -35,7 +35,7 @@
   "base_revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
-  "planned_agent_id": "agent-lulu",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [
@@ -43,14 +43,17 @@
   ],
   "claim": {
     "id": "claim-20260830081415-d566f154",
-    "status": "active",
+    "status": "released",
     "principal_id": "project-owner",
     "agent_id": "agent-lulu",
     "base_revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
     "branch": "phase4/qa-wi-0020",
     "worktree": "/tmp/temple-phase4.slCwlE/qa-wi-0020",
     "claimed_at": "2026-08-30T08:14:15.410Z",
-    "released_at": null
+    "released_at": "2026-08-30T08:19:55.251Z",
+    "release_reason": [
+      "Independent QA passed"
+    ]
   },
   "claims": [
     {
@@ -69,14 +72,17 @@
     },
     {
       "id": "claim-20260830081415-d566f154",
-      "status": "active",
+      "status": "released",
       "principal_id": "project-owner",
       "agent_id": "agent-lulu",
       "base_revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
       "branch": "phase4/qa-wi-0020",
       "worktree": "/tmp/temple-phase4.slCwlE/qa-wi-0020",
       "claimed_at": "2026-08-30T08:14:15.410Z",
-      "released_at": null
+      "released_at": "2026-08-30T08:19:55.251Z",
+      "release_reason": [
+        "Independent QA passed"
+      ]
     }
   ],
   "gate_evidence": {
@@ -108,6 +114,22 @@
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0020/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0020/independent-qa-report.md",
+      "EVID-20260830T082019Z-34CFB1EA"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/work-orders/WI-0020.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0020/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0020/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -118,10 +140,13 @@
     "EVID-20260830T081319Z-91FB6C16",
     ".ai-org/artifacts/WI-0020/developer-evidence.md",
     ".ai-org/artifacts/WI-0020/quality-test-report.md",
-    ".ai-org/artifacts/WI-0020/evaluation-report.md"
+    ".ai-org/artifacts/WI-0020/evaluation-report.md",
+    ".ai-org/artifacts/WI-0020/independent-qa-report.md",
+    "EVID-20260830T082019Z-34CFB1EA",
+    ".ai-org/artifacts/WI-0020/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "release_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -131,5 +156,9 @@
       "created_at": "2026-08-30T08:13:28.886Z"
     }
   ],
-  "developer_candidate_revision": "5fb81a86bd9828f561ad9611daef3b0e2eab9b9c"
+  "developer_candidate_revision": "5fb81a86bd9828f561ad9611daef3b0e2eab9b9c",
+  "tested_revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

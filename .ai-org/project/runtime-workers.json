@@ -262,7 +262,7 @@
     {
       "id": "worker-20260830081415-9000dc59",
       "runtime_kind": "internal-subagent",
-      "status": "active",
+      "status": "completed",
       "work_item_id": "WI-0020",
       "position_id": "independent_qa",
       "agent_id": "agent-lulu",
@@ -278,17 +278,19 @@
       "runtime_id": "/root/skill_forward_test:qa-wi-0020",
       "task_id": null,
       "resource_reservation_ids": [],
-      "current_revision": null,
-      "evidence": [],
+      "current_revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
+      "evidence": [
+        "Independent QA GO: exact secret and parent-symlink reproductions passed; focused 18/18, full 184/184"
+      ],
       "reserved_at": "2026-08-30T08:14:15.407Z",
       "attached_at": "2026-08-30T08:14:21.834Z",
-      "completed_at": null,
-      "updated_at": "2026-08-30T08:14:21.834Z"
+      "completed_at": "2026-08-30T08:19:54.950Z",
+      "updated_at": "2026-08-30T08:19:54.950Z"
     },
     {
       "id": "worker-20260830081415-d6db2068",
       "runtime_kind": "internal-subagent",
-      "status": "active",
+      "status": "completed",
       "work_item_id": "WI-0021",
       "position_id": "independent_qa",
       "agent_id": "agent-lulu",
@@ -304,17 +306,19 @@
       "runtime_id": "/root/framework_docs_review:qa-wi-0021",
       "task_id": null,
       "resource_reservation_ids": [],
-      "current_revision": null,
-      "evidence": [],
+      "current_revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
+      "evidence": [
+        "Independent QA GO: mismatch and unregistered observations uncorrelated; focused 10/10, full 184/184"
+      ],
       "reserved_at": "2026-08-30T08:14:15.748Z",
       "attached_at": "2026-08-30T08:14:22.149Z",
-      "completed_at": null,
-      "updated_at": "2026-08-30T08:14:22.149Z"
+      "completed_at": "2026-08-30T08:19:55.542Z",
+      "updated_at": "2026-08-30T08:19:55.542Z"
     },
     {
       "id": "worker-20260830081416-59664aaf",
       "runtime_kind": "internal-subagent",
-      "status": "active",
+      "status": "completed",
       "work_item_id": "WI-0022",
       "position_id": "independent_qa",
       "agent_id": "agent-lulu",
@@ -330,12 +334,14 @@
       "runtime_id": "/root/ownership_code_review:qa-wi-0022",
       "task_id": null,
       "resource_reservation_ids": [],
-      "current_revision": null,
-      "evidence": [],
+      "current_revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
+      "evidence": [
+        "Independent QA NO-GO: Git replace object bypasses expected revision authority"
+      ],
       "reserved_at": "2026-08-30T08:14:16.083Z",
       "attached_at": "2026-08-30T08:14:22.448Z",
-      "completed_at": null,
-      "updated_at": "2026-08-30T08:14:22.448Z"
+      "completed_at": "2026-08-30T08:19:56.191Z",
+      "updated_at": "2026-08-30T08:19:56.191Z"
     }
   ]
 }

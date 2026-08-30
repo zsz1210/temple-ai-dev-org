@@ -1,0 +1,66 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0023",
+  "title": "Disable Git replacement objects in federation",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T08:20:58.270Z",
+  "updated_at": "2026-08-30T08:21:14.399Z",
+  "scope": [
+    "Make every federation Git subprocess read literal repository objects so local replace refs cannot remap the expected revision."
+  ],
+  "acceptance_criteria": [
+    "The exact git-replace attack degrades to unknown or reads the literal expected revision, and all federation/full tests pass under fresh Independent QA."
+  ],
+  "affected_paths": [
+    "src/federation.mjs",
+    "test/federation.test.mjs"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": "WI-0015",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": null,
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0023.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0023.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0023.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0023.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0023.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0023.md",
+    ".ai-org/work-items/WI-0023.json"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
