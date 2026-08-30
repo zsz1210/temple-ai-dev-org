@@ -1,0 +1,15 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "7dda4c6b3e1fc9fd16b1fcc55b794e1f1c5d5de5",
+  "command": ["independent-qa", "phase4-installation-contract-reproduction"],
+  "result": "fail",
+  "exit_code": 1,
+  "started_at": "2026-08-30T09:01:12.915Z",
+  "completed_at": "2026-08-30T09:06:48.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0026/independent-qa-report-001.md",
+    "src/cli.mjs",
+    "project-overlay/.ai-org/core/schemas/schema-catalog.json",
+    "test/phase4-installation.test.mjs"
+  ]
+}

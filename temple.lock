@@ -11,13 +11,13 @@
       "launcher": "templew.mjs",
       "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.27",
       "repository_spec": null,
-      "source_revision": "2ef16d4ee038fb621cdc32adc5f8ba3677e9c9bb",
+      "source_revision": "7dda4c6b3e1fc9fd16b1fcc55b794e1f1c5d5de5",
       "source_clean": false,
       "invocation": "node ./templew.mjs <command> ."
     },
     "installed_at": "2026-08-30T02:28:18.355Z",
-    "upgraded_at": "2026-08-30T08:56:06.619Z",
-    "upgraded_from": "0.1.0-alpha.26"
+    "upgraded_at": "2026-08-30T09:09:02.360Z",
+    "upgraded_from": "0.1.0-alpha.27"
   },
   "installation": {
     "mode": "toolkit-self-host",
@@ -310,7 +310,7 @@
     },
     {
       "path": ".ai-org/core/schemas/schema-catalog.json",
-      "sha256": "fb0a55ba7f183a5ae64fdffa984de6a7b186aa24d162704b6ac0ee260428783f"
+      "sha256": "4363286863c4a96d04816bfe12f429d57880f96c40c94c43b54b347c5958aca4"
     },
     {
       "path": ".ai-org/core/schemas/spec-index.schema.json",

@@ -22,7 +22,7 @@
     { "id": "parallel-plan", "path": ".ai-org/views/parallel-plan.json", "schema": "parallel-plan.schema.json", "required": false, "ownership": "generated" },
     { "id": "capabilities", "path": ".ai-org/views/capabilities.json", "schema": "capability-registry.schema.json", "required": false, "ownership": "generated" },
     { "id": "context-capsules", "path": ".ai-org/views/work-items/*.json", "schema": "context-capsule.schema.json", "required": false, "ownership": "generated" },
-    { "id": "federated-portfolio", "path": ".ai-org/views/federated-portfolio.json", "schema": "federated-portfolio.schema.json", "required": false, "ownership": "generated" },
+    { "id": "federated-portfolio", "path": ".ai-org/views/portfolio.json", "schema": "federated-portfolio.schema.json", "required": false, "ownership": "generated" },
     { "id": "policy-evaluation", "path": ".ai-org/views/policy-evaluation.json", "schema": "policy-evaluation-result.schema.json", "required": false, "ownership": "generated" },
     { "id": "usage-baseline", "path": ".ai-org/views/usage-baseline.json", "schema": "usage-baseline.schema.json", "required": false, "ownership": "generated" }
   ]

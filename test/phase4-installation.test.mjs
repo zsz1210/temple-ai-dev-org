@@ -125,7 +125,7 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
     catalog.documents.find((entry) => entry.id === "federated-portfolio"),
     {
       id: "federated-portfolio",
-      path: ".ai-org/views/federated-portfolio.json",
+      path: ".ai-org/views/portfolio.json",
       schema: "federated-portfolio.schema.json",
       required: false,
       ownership: "generated"
@@ -142,7 +142,7 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
   registry.updated_at = "2026-08-30T00:01:00.000Z";
   assert.deepEqual(validateFederationRegistry(registry), { valid: true, errors: [] });
   await fs.writeFile(registryPath, `${JSON.stringify(registry, null, 2)}\n`);
-  const portfolioPath = path.join(target, ".ai-org/views/federated-portfolio.json");
+  const portfolioPath = path.join(target, ".ai-org/views/portfolio.json");
   const portfolio = await buildFederatedPortfolio(target, { now: new Date("2026-08-30T00:05:00.000Z") });
   assert.equal(portfolio.summary.unknown, 1);
   await fs.mkdir(path.dirname(portfolioPath), { recursive: true });
@@ -150,7 +150,7 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
   const validSchemas = await validateProjectSchemas(target);
   assert.equal(validSchemas.valid, true, JSON.stringify(validSchemas.errors, null, 2));
   assert.ok(validSchemas.checked.some((entry) => entry.document === FEDERATION_REGISTRY_RELATIVE_PATH && entry.valid));
-  assert.ok(validSchemas.checked.some((entry) => entry.document === ".ai-org/views/federated-portfolio.json" && entry.valid));
+  assert.ok(validSchemas.checked.some((entry) => entry.document === ".ai-org/views/portfolio.json" && entry.valid));
 
   portfolio.authority.lifecycle_mutations_performed = true;
   await fs.writeFile(portfolioPath, `${JSON.stringify(portfolio, null, 2)}\n`);
@@ -159,7 +159,7 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
   assert.ok(
     rejectedSchemas.errors.some(
       (entry) =>
-        entry.document === ".ai-org/views/federated-portfolio.json" &&
+        entry.document === ".ai-org/views/portfolio.json" &&
         entry.instance_path === "/authority/lifecycle_mutations_performed"
     )
   );

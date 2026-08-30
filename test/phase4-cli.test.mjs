@@ -93,13 +93,13 @@ test("backup-set CLI requires consent and a fresh digest while preserving repeat
     await setBackupTime(backup, `2026-08-${String(index + 1).padStart(2, "0")}T00:00:00.000Z`);
   }
 
-  const inspected = run(["backup", "set-inspect", target, "--backup-root", backupRoot, "--json"]);
+  const inspected = run(["backup", "set-inspect", target, "--root", backupRoot, "--json"]);
   assert.equal(inspected.status, 0, inspected.stderr || inspected.stdout);
   assert.equal(JSON.parse(inspected.stdout).backup_count, 3);
 
   const previewArgs = [
     "backup", "retention-preview", target,
-    "--backup-root", backupRoot,
+    "--root", backupRoot,
     "--minimum-to-keep", "1",
     "--preserve", "backup-a",
     "--preserve", "backup-b",
@@ -113,7 +113,7 @@ test("backup-set CLI requires consent and a fresh digest while preserving repeat
 
   const missingConsent = run([
     "backup", "retention-apply", target,
-    "--backup-root", backupRoot,
+    "--root", backupRoot,
     "--minimum-to-keep", "1",
     "--preserve", "backup-a",
     "--preserve", "backup-b",
@@ -129,7 +129,7 @@ test("backup-set CLI requires consent and a fresh digest while preserving repeat
   await setBackupTime(addedBackup, "2026-08-04T00:00:00.000Z");
   const stale = run([
     "backup", "retention-apply", target,
-    "--backup-root", backupRoot,
+    "--root", backupRoot,
     "--minimum-to-keep", "1",
     "--preserve", "backup-a",
     "--preserve", "backup-b",
@@ -146,7 +146,7 @@ test("backup-set CLI requires consent and a fresh digest while preserving repeat
   assert.equal(freshPlan.delete_count, 1);
   const applied = run([
     "backup", "retention-apply", target,
-    "--backup-root", backupRoot,
+    "--root", backupRoot,
     "--minimum-to-keep", "1",
     "--preserve", "backup-a",
     "--preserve", "backup-b",
@@ -159,7 +159,7 @@ test("backup-set CLI requires consent and a fresh digest while preserving repeat
 
   const unbounded = run([
     "backup", "retention-preview", target,
-    "--backup-root", backupRoot,
+    "--root", backupRoot,
     "--minimum-to-keep", "10001"
   ]);
   assert.equal(unbounded.status, 1);
@@ -240,19 +240,39 @@ test("federation and portfolio CLI remain coordinator-owned and participant-read
 
   const participantBefore = await contentDigest(participant);
   const portfolioPath = path.join(coordinator, ".ai-org/views/portfolio.json");
-  const preview = run(["portfolio", "build", coordinator, "--no-write", "--json"]);
+  const preview = run(["portfolio", "build", coordinator, "--allowed-root", temporaryRoot, "--no-write", "--json"]);
   assert.equal(preview.status, 0, preview.stderr || preview.stdout);
   assert.equal(JSON.parse(preview.stdout).summary.current, 1);
   await assert.rejects(() => fs.access(portfolioPath), /ENOENT/);
   assert.equal(await contentDigest(participant), participantBefore);
 
-  const written = run(["portfolio", "build", coordinator]);
+  const written = run(["portfolio", "build", coordinator, "--allowed-root", temporaryRoot]);
   assert.equal(written.status, 0, written.stderr || written.stdout);
   assert.match(written.stdout, /\.ai-org\/views\/portfolio\.json/);
   const portfolio = JSON.parse(await fs.readFile(portfolioPath, "utf8"));
   assert.equal(portfolio.participants[0].project.name, "Participant Project");
   assert.equal(await contentDigest(participant), participantBefore);
   await assert.rejects(() => fs.access(path.join(participant, ".ai-org/views/portfolio.json")), /ENOENT/);
+
+  const validSchemas = run(["schema", "validate", coordinator, "--json"]);
+  assert.equal(validSchemas.status, 0, validSchemas.stderr || validSchemas.stdout);
+  assert.ok(
+    JSON.parse(validSchemas.stdout).checked.some(
+      (entry) => entry.document === ".ai-org/views/portfolio.json" && entry.valid
+    )
+  );
+
+  portfolio.authority.lifecycle_mutations_performed = true;
+  await fs.writeFile(portfolioPath, `${JSON.stringify(portfolio, null, 2)}\n`);
+  const invalidPortfolio = run(["schema", "validate", coordinator, "--json"]);
+  assert.equal(invalidPortfolio.status, 1);
+  assert.ok(
+    JSON.parse(invalidPortfolio.stdout).errors.some(
+      (entry) =>
+        entry.document === ".ai-org/views/portfolio.json" &&
+        entry.instance_path === "/authority/lifecycle_mutations_performed"
+    )
+  );
 
   await fs.writeFile(registryPath, `${JSON.stringify({ ...registry, credentials: { token: "secret" } }, null, 2)}\n`);
   const invalid = run(["federation", "validate", coordinator, "--json"]);

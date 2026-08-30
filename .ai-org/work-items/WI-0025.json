@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0025",
   "title": "Expose Phase 4 operational CLI",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-08-30T08:43:25.119Z",
-  "updated_at": "2026-08-30T08:50:50.530Z",
+  "updated_at": "2026-08-30T09:07:25.148Z",
   "scope": [
     "Add bounded CLI commands for backup-set inspection and retention, audit export, federation validation, and read-only portfolio generation."
   ],
@@ -31,27 +31,27 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "576e3ed6074ad67fcc6c030fdd738c9cfffffe13",
+  "base_revision": "7dda4c6b3e1fc9fd16b1fcc55b794e1f1c5d5de5",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
-  "planned_agent_id": "agent-rikku",
+  "planned_agent_id": "agent-lulu",
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [
     "WI-0019 retains integration authority; WI-0025 exclusively owns src/cli.mjs and test/phase4-cli.test.mjs until join."
   ],
   "claim": {
-    "id": "claim-20260830084454-c15950a2",
+    "id": "claim-20260830090102-3baa8e27",
     "status": "released",
     "principal_id": "project-owner",
-    "agent_id": "agent-rikku",
-    "base_revision": "576e3ed6074ad67fcc6c030fdd738c9cfffffe13",
-    "branch": "phase4/wi-0025-cli",
-    "worktree": "/tmp/temple-phase4.slCwlE/wi-0025",
-    "claimed_at": "2026-08-30T08:44:54.580Z",
-    "released_at": "2026-08-30T08:50:50.530Z",
+    "agent_id": "agent-lulu",
+    "base_revision": "7dda4c6b3e1fc9fd16b1fcc55b794e1f1c5d5de5",
+    "branch": "phase4/qa-wi-0025",
+    "worktree": "/tmp/temple-phase4.slCwlE/qa-wi-0025",
+    "claimed_at": "2026-08-30T09:01:02.742Z",
+    "released_at": "2026-08-30T09:07:25.148Z",
     "release_reason": [
-      "Implementation candidate 6c29ca71dfca8eb164b48feb6269dc696edbf6a7 is ready for integration"
+      "Independent QA NO-GO; contract corrections required"
     ]
   },
   "claims": [
@@ -67,6 +67,20 @@
       "released_at": "2026-08-30T08:50:50.530Z",
       "release_reason": [
         "Implementation candidate 6c29ca71dfca8eb164b48feb6269dc696edbf6a7 is ready for integration"
+      ]
+    },
+    {
+      "id": "claim-20260830090102-3baa8e27",
+      "status": "released",
+      "principal_id": "project-owner",
+      "agent_id": "agent-lulu",
+      "base_revision": "7dda4c6b3e1fc9fd16b1fcc55b794e1f1c5d5de5",
+      "branch": "phase4/qa-wi-0025",
+      "worktree": "/tmp/temple-phase4.slCwlE/qa-wi-0025",
+      "claimed_at": "2026-08-30T09:01:02.742Z",
+      "released_at": "2026-08-30T09:07:25.148Z",
+      "release_reason": [
+        "Independent QA NO-GO; contract corrections required"
       ]
     }
   ],
@@ -85,12 +99,38 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/work-orders/WI-0025.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0025/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0025/developer-evidence.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0025/quality-test-report.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0025/evaluation-report.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/work-orders/WI-0025.md",
-    ".ai-org/work-items/WI-0025.json"
+    ".ai-org/work-items/WI-0025.json",
+    ".ai-org/artifacts/WI-0025/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0025/developer-evidence.md",
+    ".ai-org/artifacts/WI-0025/quality-test-report.md",
+    ".ai-org/artifacts/WI-0025/evaluation-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "release_manager",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "7dda4c6b3e1fc9fd16b1fcc55b794e1f1c5d5de5",
+      "artifact": ".ai-org/artifacts/WI-0025/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-30T09:00:45.733Z"
+    }
+  ],
+  "developer_candidate_revision": "7dda4c6b3e1fc9fd16b1fcc55b794e1f1c5d5de5"
 }

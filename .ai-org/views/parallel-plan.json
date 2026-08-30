@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T08:44:47.545Z",
-  "source_fingerprint": "06b6bcc0442c5a1692bb1f387e85f254b89b6eb6f5c1448734f2ac476887efe7",
+  "generated_at": "2026-08-30T09:00:56.058Z",
+  "source_fingerprint": "e488e9dd470ef104e6d41c3b0e80abdccc9f7d378417c7419ae7cfb97254d03d",
   "scope": {
     "mode": "parent-descendants",
     "parent_work_item_id": "WI-0019",
@@ -27,11 +27,11 @@
         {
           "work_item_id": "WI-0025",
           "title": "Expose Phase 4 operational CLI",
-          "position_id": "developer",
-          "agent_id": "agent-rikku",
-          "agent_name": "Rikku",
-          "suggested_task_title": "WI-0025 · Developer · Rikku",
-          "base_revision": "576e3ed6074ad67fcc6c030fdd738c9cfffffe13",
+          "position_id": "independent_qa",
+          "agent_id": "agent-lulu",
+          "agent_name": "Lulu",
+          "suggested_task_title": "WI-0025 · Independent QA · Lulu",
+          "base_revision": "7dda4c6b3e1fc9fd16b1fcc55b794e1f1c5d5de5",
           "affected_paths": [
             "src/cli.mjs",
             "test/phase4-cli.test.mjs"
@@ -39,13 +39,13 @@
           "dependencies": [],
           "required_disciplines": [],
           "active_requirements": {
-            "stage": "build",
+            "stage": "independent_qa",
             "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "d54a2218961675a45cd9d80e71ef4388579f5ab96436eb86313303e0fc2da70f",
+          "preparation_fingerprint": "6613dee5db3899c94c9e0e75429d493d57baca95989d55f1d19073058f81adf2",
           "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0025 --position developer --no-write --json",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0025 --position independent_qa --no-write --json",
           "claim_required_before_work": true,
           "task_registration_required_after_creation": true,
           "task_creation_performed": false,
@@ -55,11 +55,11 @@
         {
           "work_item_id": "WI-0026",
           "title": "Ship Phase 4 project contracts and Alpha.27 metadata",
-          "position_id": "developer",
-          "agent_id": "agent-rikku",
-          "agent_name": "Rikku",
-          "suggested_task_title": "WI-0026 · Developer · Rikku",
-          "base_revision": "576e3ed6074ad67fcc6c030fdd738c9cfffffe13",
+          "position_id": "independent_qa",
+          "agent_id": "agent-lulu",
+          "agent_name": "Lulu",
+          "suggested_task_title": "WI-0026 · Independent QA · Lulu",
+          "base_revision": "7dda4c6b3e1fc9fd16b1fcc55b794e1f1c5d5de5",
           "affected_paths": [
             "src/federation.mjs",
             "src/upgrade.mjs",
@@ -74,13 +74,13 @@
           "dependencies": [],
           "required_disciplines": [],
           "active_requirements": {
-            "stage": "build",
+            "stage": "independent_qa",
             "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "55d693a1b38984bff9d565fc6b4011e0f03dccb53e199eeedc4ebb288678c4a8",
+          "preparation_fingerprint": "a4160d69d656e6d7985d84c7a33f23b90447d80e566eb2fad5a7a137878b183a",
           "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0026 --position developer --no-write --json",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0026 --position independent_qa --no-write --json",
           "claim_required_before_work": true,
           "task_registration_required_after_creation": true,
           "task_creation_performed": false,

@@ -103,15 +103,15 @@ Usage:
   temple upgrade [target] [--dry-run]
   temple backup create [target] --output directory [--json]
   temple backup inspect [target] --backup directory [--json]
-  temple backup set-inspect [target] --backup-root directory [--json]
-  temple backup retention-preview [target] --backup-root directory --minimum-to-keep number [--preserve name] [--json]
-  temple backup retention-apply [target] --backup-root directory --minimum-to-keep number --expected-plan sha256 --confirm-delete [--preserve name] [--json]
+  temple backup set-inspect [target] --root directory [--json]
+  temple backup retention-preview [target] --root directory --minimum-to-keep number [--preserve name] [--json]
+  temple backup retention-apply [target] --root directory --minimum-to-keep number --expected-plan sha256 --confirm-delete [--preserve name] [--json]
   temple restore preview [target] --backup directory [--json]
   temple restore apply [target] --backup directory --expected-plan sha256 [--allow-replace] [--json]
   temple restore recover [target] [--json]
   temple audit export [target] --output file [--work-item WI-ID] [--event-type type] [--redact-key key] [--max-events number] [--max-recovery-transactions number] [--max-event-bytes number] [--json]
   temple federation validate [target] [--json]
-  temple portfolio build [target] [--no-write] [--json]
+  temple portfolio build [target] [--allowed-root directory] [--no-write] [--json]
   temple doctor [target] [--json]
   temple status [target] [--json] [--no-write]
   temple observe [target] [--json] [--no-write]
@@ -354,7 +354,9 @@ const VALUE_FLAGS = new Set([
   "--output",
   "--backup",
   "--expected-plan",
+  "--root",
   "--backup-root",
+  "--allowed-root",
   "--minimum-to-keep",
   "--preserve",
   "--event-type",
@@ -440,6 +442,15 @@ function parseCommand(argv) {
 function listOption(parsed, flag) {
   const value = parsed.options[flag];
   return value === undefined ? [] : Array.isArray(value) ? value : [value];
+}
+
+function backupRootOption(parsed) {
+  const root = parsed.options["--root"];
+  const legacyRoot = parsed.options["--backup-root"];
+  if (root && legacyRoot && root !== legacyRoot) {
+    throw new Error("Use either --root or --backup-root for one backup-set directory");
+  }
+  return root ?? legacyRoot;
 }
 
 function parseSatisfied(values) {
@@ -696,8 +707,9 @@ async function runBackup(parsed) {
     return 0;
   }
   if (parsed.action === "set-inspect") {
-    if (!parsed.options["--backup-root"]) throw new Error("backup set-inspect requires --backup-root");
-    const result = await inspectBackupSet(parsed.options["--backup-root"], { projectRoot: target });
+    const backupRoot = backupRootOption(parsed);
+    if (!backupRoot) throw new Error("backup set-inspect requires --root");
+    const result = await inspectBackupSet(backupRoot, { projectRoot: target });
     printResult(parsed, result, [
       `Valid Temple backup set: ${result.backup_root}`,
       `Backups: ${result.backup_count}`,
@@ -707,10 +719,11 @@ async function runBackup(parsed) {
     return 0;
   }
   if (parsed.action === "retention-preview") {
-    if (!parsed.options["--backup-root"] || !parsed.options["--minimum-to-keep"]) {
-      throw new Error("backup retention-preview requires --backup-root and --minimum-to-keep");
+    const backupRoot = backupRootOption(parsed);
+    if (!backupRoot || !parsed.options["--minimum-to-keep"]) {
+      throw new Error("backup retention-preview requires --root and --minimum-to-keep");
     }
-    const plan = await planBackupRetention(target, parsed.options["--backup-root"], {
+    const plan = await planBackupRetention(target, backupRoot, {
       minimumToKeep: boundedIntegerOption(parsed, "--minimum-to-keep", 10_000),
       preserveBackupNames: listOption(parsed, "--preserve")
     });
@@ -724,18 +737,19 @@ async function runBackup(parsed) {
     return 0;
   }
   if (parsed.action === "retention-apply") {
+    const backupRoot = backupRootOption(parsed);
     if (
-      !parsed.options["--backup-root"] ||
+      !backupRoot ||
       !parsed.options["--minimum-to-keep"] ||
       !parsed.options["--expected-plan"]
     ) {
-      throw new Error("backup retention-apply requires --backup-root, --minimum-to-keep, and --expected-plan");
+      throw new Error("backup retention-apply requires --root, --minimum-to-keep, and --expected-plan");
     }
     if (!parsed.flags.has("--confirm-delete")) {
       throw new Error("backup retention-apply requires --confirm-delete");
     }
     const result = await withProjectMutationLock(target, () =>
-      applyBackupRetention(target, parsed.options["--backup-root"], {
+      applyBackupRetention(target, backupRoot, {
         minimumToKeep: boundedIntegerOption(parsed, "--minimum-to-keep", 10_000),
         preserveBackupNames: listOption(parsed, "--preserve"),
         expectedPlan: parsed.options["--expected-plan"],
@@ -788,7 +802,7 @@ async function runFederation(parsed) {
 async function runPortfolio(parsed) {
   const target = await assertSafeTarget(parsed.target);
   if (parsed.action !== "build") throw new Error(`Unknown portfolio action: ${parsed.action}`);
-  const portfolio = await buildFederatedPortfolio(target);
+  const portfolio = await buildFederatedPortfolio(target, { allowedRoot: parsed.options["--allowed-root"] });
   const outputPath = path.join(target, ".ai-org/views/portfolio.json");
   if (!parsed.flags.has("--no-write")) await atomicWrite(outputPath, formatJson(portfolio));
   if (parsed.flags.has("--json")) console.log(JSON.stringify(portfolio, null, 2));
