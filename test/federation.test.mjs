@@ -381,6 +381,86 @@ test("read-only portfolio resolves versioned coordination while excluding reposi
   }
 });
 
+test("expected revisions reject the internal shadow project symlink reproduction and canonical directory symlinks", async (testContext) => {
+  const { root, coordinator } = await fixture(testContext);
+  const shadowRoot = path.join(root, "shadowed-project");
+  await createRepository(shadowRoot, {
+    projectId: "shadowed-project",
+    name: "Committed project name",
+    workItems: [{ id: "WI-0001" }]
+  });
+  await fs.mkdir(path.join(shadowRoot, "shadow"), { recursive: true });
+  await fs.rename(
+    path.join(shadowRoot, ".ai-org/project/project.json"),
+    path.join(shadowRoot, "shadow/project.json")
+  );
+  await fs.symlink("../../shadow/project.json", path.join(shadowRoot, ".ai-org/project/project.json"));
+  git(shadowRoot, ["add", "-A"]);
+  git(shadowRoot, ["commit", "-qm", "track internal project symlink"]);
+  const shadowRevision = git(shadowRoot, ["rev-parse", "HEAD"]);
+  assert.match(
+    git(shadowRoot, ["ls-tree", shadowRevision, "--", ".ai-org/project/project.json"]),
+    /^120000 blob /,
+    "the exact reproduction must commit project.json as a Git symlink"
+  );
+  const modifiedShadow = JSON.parse(await fs.readFile(path.join(shadowRoot, "shadow/project.json"), "utf8"));
+  modifiedShadow.name = "Modified shadow name that is not in the expected revision";
+  await writeJson(path.join(shadowRoot, "shadow/project.json"), modifiedShadow);
+  assert.equal(git(shadowRoot, ["rev-parse", "HEAD"]), shadowRevision);
+  assert.equal(
+    git(shadowRoot, [
+      "status",
+      "--porcelain=v1",
+      "--",
+      "temple.lock",
+      ".ai-org/core/workflow.json",
+      ".ai-org/project/project.json",
+      ".ai-org/project/resources.json",
+      ".ai-org/project/evidence.json",
+      ".ai-org/work-items"
+    ]),
+    "",
+    "the shadow target change must reproduce the scoped-status blind spot"
+  );
+
+  const directoryRoot = path.join(root, "directory-link");
+  await createRepository(directoryRoot, {
+    projectId: "directory-link",
+    workItems: [{ id: "WI-0001" }]
+  });
+  await fs.mkdir(path.join(directoryRoot, "shadow"), { recursive: true });
+  await fs.rename(path.join(directoryRoot, ".ai-org/work-items"), path.join(directoryRoot, "shadow/work-items"));
+  await fs.symlink("../shadow/work-items", path.join(directoryRoot, ".ai-org/work-items"));
+  git(directoryRoot, ["add", "-A"]);
+  git(directoryRoot, ["commit", "-qm", "track canonical directory symlink"]);
+  const directoryRevision = git(directoryRoot, ["rev-parse", "HEAD"]);
+  assert.match(
+    git(directoryRoot, ["ls-tree", directoryRevision, "--", ".ai-org/work-items"]),
+    /^120000 blob /,
+    "the canonical directory reproduction must be a Git symlink"
+  );
+
+  const roots = [shadowRoot, directoryRoot];
+  const before = await Promise.all(roots.map(contentDigest));
+  const portfolio = await buildFederatedPortfolio(coordinator, {
+    registry: registry([
+      participant("shadowed-project", "../shadowed-project", shadowRevision),
+      participant("directory-link", "../directory-link", directoryRevision)
+    ]),
+    allowedRoot: root,
+    now: NOW
+  });
+  const after = await Promise.all(roots.map(contentDigest));
+
+  assert.deepEqual(after, before, "Git-object federation reads must not mutate participant content");
+  assert.equal(portfolio.summary.current, 0);
+  assert.equal(portfolio.summary.unknown, 2);
+  assert.ok(portfolio.participants.every((entry) => entry.diagnostics[0].code === "participant_invalid"));
+  assert.ok(portfolio.participants.every((entry) => entry.work_items.length === 0));
+  assert.equal(JSON.stringify(portfolio).includes(modifiedShadow.name), false);
+  assert.equal(portfolio.summary.overall_completion, null);
+});
+
 test("missing, stale, invalid, mismatched, dirty, and escaped participants remain unknown", async (testContext) => {
   const { root, coordinator } = await fixture(testContext);
   const identityRoot = path.join(root, "identity");

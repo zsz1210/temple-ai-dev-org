@@ -15,7 +15,9 @@ const RECORD_ID = /^[a-z0-9][a-z0-9-]{0,79}$/;
 const SOURCE_REVISION = /^[0-9a-f]{40,64}$/;
 const ISO_TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$/;
 const MAX_JSON_BYTES = 1024 * 1024;
+const MAX_TREE_BYTES = 1024 * 1024;
 const MAX_DISCOVERED_WORK_ITEMS = 1000;
+const REGULAR_GIT_MODES = new Set(["100644", "100755"]);
 
 const ROOT_KEYS = new Set([
   "schema_version",
@@ -284,13 +286,22 @@ export async function readFederationRegistry(target) {
 
 async function secureReadJson(repositoryRoot, relativePath) {
   const candidate = path.resolve(repositoryRoot, relativePath);
-  const real = await fs.realpath(candidate);
-  if (!within(repositoryRoot, real)) {
+  if (!within(repositoryRoot, candidate)) {
     const error = new Error("repository path escapes its authority boundary");
     error.code = "EBOUNDARY";
     throw error;
   }
-  const stat = await fs.stat(real);
+  let current = repositoryRoot;
+  for (const segment of relativePath.split("/")) {
+    current = path.join(current, segment);
+    const component = await fs.lstat(current);
+    if (component.isSymbolicLink()) {
+      const error = new Error("repository path contains a symbolic link");
+      error.code = "EINVAL";
+      throw error;
+    }
+  }
+  const stat = await fs.lstat(candidate);
   if (!stat.isFile()) {
     const error = new Error("repository path is not a regular file");
     error.code = "EINVAL";
@@ -301,34 +312,72 @@ async function secureReadJson(repositoryRoot, relativePath) {
     error.code = "ETOOBIG";
     throw error;
   }
-  return JSON.parse(await fs.readFile(real, "utf8"));
+  return JSON.parse(await fs.readFile(candidate, "utf8"));
 }
 
-async function secureDirectory(repositoryRoot, relativePath) {
-  const candidate = path.resolve(repositoryRoot, relativePath);
-  const real = await fs.realpath(candidate);
-  if (!within(repositoryRoot, real)) {
-    const error = new Error("repository directory escapes its authority boundary");
-    error.code = "EBOUNDARY";
-    throw error;
-  }
-  const stat = await fs.stat(real);
-  if (!stat.isDirectory()) {
-    const error = new Error("repository path is not a directory");
-    error.code = "EINVAL";
-    throw error;
-  }
-  return real;
-}
-
-async function git(repositoryRoot, args) {
+async function gitOutput(repositoryRoot, args, maxBuffer = 256 * 1024) {
   const result = await execFile("git", ["-C", repositoryRoot, ...args], {
     encoding: "utf8",
     timeout: 5000,
-    maxBuffer: 256 * 1024,
+    maxBuffer,
     env: { ...process.env, GIT_OPTIONAL_LOCKS: "0" }
   });
-  return result.stdout.trim();
+  return result.stdout;
+}
+
+async function git(repositoryRoot, args) {
+  return (await gitOutput(repositoryRoot, args)).trim();
+}
+
+function gitPathError(message, code = "EINVAL") {
+  const error = new Error(message);
+  error.code = code;
+  return error;
+}
+
+function parseGitTreeEntries(output) {
+  if (!output) return [];
+  return output
+    .split("\0")
+    .filter(Boolean)
+    .map((record) => {
+      const match = /^(\d{6}) ([a-z]+) ([0-9a-f]{40,64})\t([\s\S]+)$/.exec(record);
+      if (!match) throw gitPathError("Git returned an invalid tree entry");
+      return { mode: match[1], type: match[2], object: match[3], path: match[4] };
+    });
+}
+
+async function gitTreeEntry(repositoryRoot, revision, relativePath) {
+  const entries = parseGitTreeEntries(
+    await gitOutput(repositoryRoot, ["ls-tree", "-z", "--full-tree", revision, "--", relativePath], 64 * 1024)
+  ).filter((entry) => entry.path === relativePath);
+  if (entries.length === 0) throw gitPathError("canonical path is missing from the expected revision", "ENOENT");
+  if (entries.length !== 1) throw gitPathError("canonical path is ambiguous in the expected revision");
+  return entries[0];
+}
+
+async function gitReadJson(repositoryRoot, revision, relativePath) {
+  const entry = await gitTreeEntry(repositoryRoot, revision, relativePath);
+  if (entry.type !== "blob" || !REGULAR_GIT_MODES.has(entry.mode)) {
+    throw gitPathError("canonical document is not a regular Git blob");
+  }
+  const objectSpec = `${revision}:${relativePath}`;
+  const size = Number(await git(repositoryRoot, ["cat-file", "-s", objectSpec]));
+  if (!Number.isSafeInteger(size) || size < 0) throw gitPathError("canonical document has an invalid Git object size");
+  if (size > MAX_JSON_BYTES) throw gitPathError("canonical document exceeds the read limit", "ETOOBIG");
+  const content = await gitOutput(repositoryRoot, ["cat-file", "blob", objectSpec], MAX_JSON_BYTES + 1024);
+  if (Buffer.byteLength(content, "utf8") !== size) throw gitPathError("canonical Git blob size changed while reading");
+  return JSON.parse(content);
+}
+
+async function gitDirectoryEntries(repositoryRoot, revision, relativePath) {
+  const directory = await gitTreeEntry(repositoryRoot, revision, relativePath);
+  if (directory.type !== "tree" || directory.mode !== "040000") {
+    throw gitPathError("canonical directory is not a Git tree");
+  }
+  return parseGitTreeEntries(
+    await gitOutput(repositoryRoot, ["ls-tree", "-z", `${revision}:${relativePath}`], MAX_TREE_BYTES)
+  );
 }
 
 function diagnostic(code) {
@@ -429,7 +478,16 @@ function countsBy(values) {
   return Object.fromEntries(Object.entries(counts).sort(([left], [right]) => left.localeCompare(right)));
 }
 
-async function optionalJson(repositoryRoot, relativePath) {
+async function optionalRevisionJson(repositoryRoot, revision, relativePath) {
+  try {
+    return { status: "found", document: await gitReadJson(repositoryRoot, revision, relativePath) };
+  } catch (error) {
+    if (["ENOENT", "ENOTDIR"].includes(error?.code)) return { status: "missing", document: null };
+    return { status: "invalid", document: null };
+  }
+}
+
+async function optionalWorkingJson(repositoryRoot, relativePath) {
   try {
     return { status: "found", document: await secureReadJson(repositoryRoot, relativePath) };
   } catch (error) {
@@ -481,8 +539,8 @@ function riskSignal(items, truncated) {
   };
 }
 
-async function capacitySignal(repositoryRoot) {
-  const source = await optionalJson(repositoryRoot, ".ai-org/project/resources.json");
+async function capacitySignal(repositoryRoot, revision) {
+  const source = await optionalRevisionJson(repositoryRoot, revision, ".ai-org/project/resources.json");
   if (source.status === "missing") return unknownSignal("capacity_source_missing");
   if (source.status !== "found") return unknownSignal("capacity_source_invalid");
   const document = source.document;
@@ -539,8 +597,8 @@ async function capacitySignal(repositoryRoot) {
   };
 }
 
-async function evidenceSignal(repositoryRoot, now) {
-  const source = await optionalJson(repositoryRoot, ".ai-org/project/evidence.json");
+async function evidenceSignal(repositoryRoot, revision, now) {
+  const source = await optionalRevisionJson(repositoryRoot, revision, ".ai-org/project/evidence.json");
   if (source.status === "missing") return unknownSignal("evidence_source_missing");
   if (source.status !== "found") return unknownSignal("evidence_source_invalid");
   const document = source.document;
@@ -582,7 +640,7 @@ async function evidenceSignal(repositoryRoot, now) {
 }
 
 async function usageSignal(repositoryRoot, expectedProjectId) {
-  const source = await optionalJson(repositoryRoot, ".ai-org/views/usage-baseline.json");
+  const source = await optionalWorkingJson(repositoryRoot, ".ai-org/views/usage-baseline.json");
   if (source.status === "missing") return unknownSignal("usage_projection_missing", "generated-projection");
   if (source.status !== "found") return unknownSignal("usage_projection_invalid", "generated-projection");
   const document = source.document;
@@ -677,9 +735,9 @@ async function readParticipant(coordinatorRoot, allowedRoot, participant, now) {
   let workflow;
   try {
     [lock, project, workflow] = await Promise.all([
-      secureReadJson(repositoryRoot, "temple.lock"),
-      secureReadJson(repositoryRoot, ".ai-org/project/project.json"),
-      secureReadJson(repositoryRoot, ".ai-org/core/workflow.json")
+      gitReadJson(repositoryRoot, participant.expected_revision, "temple.lock"),
+      gitReadJson(repositoryRoot, participant.expected_revision, ".ai-org/project/project.json"),
+      gitReadJson(repositoryRoot, participant.expected_revision, ".ai-org/core/workflow.json")
     ]);
   } catch (error) {
     const result = unknownParticipant(participant, classifyReadFailure(error), observedAt);
@@ -708,16 +766,16 @@ async function readParticipant(coordinatorRoot, allowedRoot, participant, now) {
   const lifecycleStates = new Set(workflow.states.map((entry) => entry.id));
 
   const maxWorkItems = participant.max_work_items ?? 100;
-  let workItemDirectory;
   let names;
   try {
-    workItemDirectory = await secureDirectory(repositoryRoot, ".ai-org/work-items");
+    const entries = await gitDirectoryEntries(repositoryRoot, participant.expected_revision, ".ai-org/work-items");
     names = [];
-    const directory = await fs.opendir(workItemDirectory);
-    for await (const entry of directory) {
-      if (entry.name.endsWith(".json")) {
-        if (!entry.isFile()) throw Object.assign(new Error("Work Item entry is not a regular file"), { code: "EINVAL" });
-        names.push(entry.name);
+    for (const entry of entries) {
+      if (entry.path.endsWith(".json")) {
+        if (entry.type !== "blob" || !REGULAR_GIT_MODES.has(entry.mode)) {
+          throw gitPathError("Work Item entry is not a regular Git blob");
+        }
+        names.push(entry.path);
       }
       if (names.length > MAX_DISCOVERED_WORK_ITEMS) break;
     }
@@ -734,7 +792,11 @@ async function readParticipant(coordinatorRoot, allowedRoot, participant, now) {
   try {
     for (const name of selected) {
       if (!WORK_ITEM_ID.test(name.slice(0, -5))) throw new Error("invalid Work Item filename");
-      const item = await secureReadJson(repositoryRoot, `.ai-org/work-items/${name}`);
+      const item = await gitReadJson(
+        repositoryRoot,
+        participant.expected_revision,
+        `.ai-org/work-items/${name}`
+      );
       if (!validateProjectedWorkItem(item, lifecycleStates) || `${item.id}.json` !== name) throw new Error("invalid Work Item");
       sourceWorkItems.push(item);
       workItems.push(projectWorkItem(project.id, sourceRevision, item));
@@ -752,8 +814,8 @@ async function readParticipant(coordinatorRoot, allowedRoot, participant, now) {
   }
   const signals = {
     status: statusSignal(workItems, truncated),
-    capacity: await capacitySignal(repositoryRoot),
-    evidence: await evidenceSignal(repositoryRoot, now),
+    capacity: await capacitySignal(repositoryRoot, participant.expected_revision),
+    evidence: await evidenceSignal(repositoryRoot, participant.expected_revision, now),
     risk: riskSignal(sourceWorkItems, truncated),
     usage: await usageSignal(repositoryRoot, project.id)
   };
