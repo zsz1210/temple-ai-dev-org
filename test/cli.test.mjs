@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { EventEmitter } from "node:events";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -8,6 +9,7 @@ import { fileURLToPath } from "node:url";
 import { formatJson, sha256 } from "../src/files.mjs";
 import { executeInit, planInit } from "../src/install.mjs";
 import { ensureTaskRegistry } from "../src/project.mjs";
+import { createShutdownSignalLatch } from "../src/cli.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const cli = path.join(root, "bin/temple.mjs");
@@ -76,6 +78,28 @@ test("version is available without dependencies", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /^0\.1\.0-alpha\.27/m);
+});
+
+test("shutdown signal latch stays active through cleanup and accepts only the first signal", async () => {
+  const signals = new EventEmitter();
+  const shutdown = createShutdownSignalLatch(signals);
+
+  assert.equal(signals.listenerCount("SIGINT"), 1);
+  assert.equal(signals.listenerCount("SIGTERM"), 1);
+
+  signals.emit("SIGINT");
+  assert.deepEqual(await shutdown.wait, { signal: "SIGINT" });
+
+  signals.emit("SIGTERM");
+  signals.emit("SIGINT");
+  assert.deepEqual(await shutdown.wait, { signal: "SIGINT" });
+  assert.equal(signals.listenerCount("SIGINT"), 1);
+  assert.equal(signals.listenerCount("SIGTERM"), 1);
+
+  shutdown.dispose();
+  shutdown.dispose();
+  assert.equal(signals.listenerCount("SIGINT"), 0);
+  assert.equal(signals.listenerCount("SIGTERM"), 0);
 });
 
 test("backup and restore CLI require an inspected plan before replacement", async (context) => {

@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 36 total, 8 active
+- Work items: 37 total, 9 active
 - Codex tasks: 4 registered, 3 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -77,9 +77,10 @@
 | WI-0031 | Harden Temple before the next release | spec | Product Manager | Yuna | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 0 |
 | WI-0032 | Sandbox federation participant Git inspection | release_gate | Release Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `27d735d8` | 0 | 14 | 0 |
 | WI-0033 | Establish operator-owned provider trust | spec | Product Manager | Yuna | blocked | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 1 |
-| WI-0034 | Make Dashboard current-state interaction trustworthy | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260830154526-3907e42b | `—` | 0 | 3 | 0 |
+| WI-0034 | Make Dashboard current-state interaction trustworthy | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `—` | 0 | 3 | 0 |
 | WI-0035 | Reduce CI cost without hiding behavioral results | test | Quality & Evaluation Engineer | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0b02e1c5` | 0 | 7 | 1 |
 | WI-0036 | Add a private read-only Dashboard viewer | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `f68186ba` | 0 | 9 | 0 |
+| WI-0037 | Make private Dashboard shutdown cleanup signal-safe | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830155851-5f04cc03 | `—` | 0 | 2 | 0 |
 
 ## Codex task registry
 
@@ -190,14 +191,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-30T15:45:26.383Z | work_item_claimed | WI-0034 | human |
-| 2026-08-30T15:45:26.096Z | work_item_coordination_configured | WI-0034 | agent-rikku |
-| 2026-08-30T15:42:32.993Z | work_item_transitioned | WI-0036 | agent-lulu |
-| 2026-08-30T15:42:23.479Z | evidence_recorded | WI-0036 | agent-lulu |
-| 2026-08-30T15:40:49.628Z | work_item_claimed | WI-0036 | human |
-| 2026-08-30T15:40:33.250Z | work_item_transitioned | WI-0036 | agent-lulu |
-| 2026-08-30T15:40:17.178Z | work_item_transitioned | WI-0036 | agent-lulu |
-| 2026-08-30T15:40:16.912Z | work_item_unresolved_updated | WI-0036 | agent-lulu |
+| 2026-08-30T15:58:51.642Z | work_item_claimed | WI-0037 | human |
+| 2026-08-30T15:58:51.368Z | work_item_transitioned | WI-0037 | agent-tidus |
+| 2026-08-30T15:58:51.103Z | work_item_claimed | WI-0037 | human |
+| 2026-08-30T15:58:50.824Z | work_item_transitioned | WI-0037 | agent-yuna |
+| 2026-08-30T15:58:50.558Z | work_item_claimed | WI-0037 | human |
+| 2026-08-30T15:58:50.283Z | work_item_transitioned | WI-0037 | agent-mog |
+| 2026-08-30T15:58:50.009Z | work_item_claimed | WI-0037 | human |
+| 2026-08-30T15:58:49.728Z | work_item_coordination_configured | WI-0037 | agent-mog |
 
 ## Assignments
 

@@ -63,7 +63,9 @@ It does not install Tailscale, change access policy, enable Funnel, store creden
 
 ## Stop and rollback
 
-Press `Ctrl-C` in the terminal running Temple. Temple removes the Serve configuration it created and then closes the local control plane.
+Press `Ctrl-C` in the terminal running Temple. Temple records the first `SIGINT` or `SIGTERM` as the stop request, keeps both signal handlers active during cleanup, removes the Serve configuration it created, and then closes the local control plane. Repeated stop signals during cleanup are ignored so they cannot interrupt rollback. The handlers are removed only after both resources have closed.
+
+A successful process exit therefore means the Temple-owned Serve mapping was reset and the local listener was closed. A cleanup failure exits unsuccessfully instead of claiming a clean stop.
 
 If the process is terminated before cleanup, inspect before changing anything:
 

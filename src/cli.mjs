@@ -1003,6 +1003,7 @@ async function runControlPlane(parsed) {
       enableCodex: parsed.flags.has("--codex"),
       privateViewerHost: tailscaleViewer?.host
     });
+    const shutdown = createShutdownSignalLatch();
     let privateShare = null;
     try {
       if (tailscaleViewer) privateShare = await tailscaleViewer.enable(controlPlane.port);
@@ -1010,21 +1011,48 @@ async function runControlPlane(parsed) {
       if (privateShare) console.log(`Private read-only Dashboard: ${privateShare.url}`);
       console.log(`State: ${controlPlane.stateDirectory}`);
       console.log("Press Ctrl-C to stop.");
-      await new Promise((resolve) => {
-        const stop = () => resolve();
-        process.once("SIGINT", stop);
-        process.once("SIGTERM", stop);
-      });
+      await shutdown.wait;
     } finally {
       try {
         if (privateShare) await privateShare.close();
       } finally {
-        await controlPlane.close();
+        try {
+          await controlPlane.close();
+        } finally {
+          shutdown.dispose();
+        }
       }
     }
     return 0;
   }
   throw new Error("control-plane action must be snapshot, ingest, rebuild, capture-github, or start");
+}
+
+export function createShutdownSignalLatch(signalSource = process) {
+  let resolveSignal;
+  let firstSignal = null;
+  let disposed = false;
+  const wait = new Promise((resolve) => {
+    resolveSignal = resolve;
+  });
+  const receive = (signal) => {
+    if (firstSignal !== null) return;
+    firstSignal = signal;
+    resolveSignal({ signal });
+  };
+  const onSigint = () => receive("SIGINT");
+  const onSigterm = () => receive("SIGTERM");
+  signalSource.on("SIGINT", onSigint);
+  signalSource.on("SIGTERM", onSigterm);
+  return {
+    wait,
+    dispose() {
+      if (disposed) return;
+      disposed = true;
+      signalSource.off("SIGINT", onSigint);
+      signalSource.off("SIGTERM", onSigterm);
+    }
+  };
 }
 
 async function runEvidence(parsed) {
