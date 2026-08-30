@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0028",
   "title": "Publish Alpha.27 private release checkpoint",
-  "state": "test",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T09:57:37.130Z",
-  "updated_at": "2026-08-30T10:04:44.875Z",
+  "updated_at": "2026-08-30T10:25:47.382Z",
   "scope": [
     "Create a reproducible private GitHub checkpoint for Alpha.27: audit release prerequisites, fast-forward push exact commits, require green GitHub CI, verify a clean remote clone, and publish only the annotated v0.1.0-alpha.27 Git tag."
   ],
@@ -66,18 +66,41 @@
     ],
     "developer_candidate": [
       ".ai-org/artifacts/WI-0028/developer-evidence.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0028/quality-test-report.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0028/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0028/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/work-orders/WI-0028.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0028/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0028/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0028/human-approval.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/work-orders/WI-0028.md",
     ".ai-org/work-items/WI-0028.json",
     ".ai-org/artifacts/WI-0028/handoff-001-developer-to-quality_evaluator.md",
-    ".ai-org/artifacts/WI-0028/developer-evidence.md"
+    ".ai-org/artifacts/WI-0028/developer-evidence.md",
+    ".ai-org/artifacts/WI-0028/quality-test-report.md",
+    ".ai-org/artifacts/WI-0028/evaluation-report.md",
+    ".ai-org/artifacts/WI-0028/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0028/release-record.md"
   ],
-  "unresolved": [
-    "Matching GitHub CI, clean remote clone, Independent QA, final exact-revision CI and clone, and annotated tag remain pending."
-  ],
-  "next_position": "quality_evaluator",
+  "unresolved": [],
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -87,5 +110,9 @@
       "created_at": "2026-08-30T10:04:44.611Z"
     }
   ],
-  "developer_candidate_revision": "f309f7036df518549d8eeb9d8bd3c78f76ea9975"
+  "developer_candidate_revision": "f309f7036df518549d8eeb9d8bd3c78f76ea9975",
+  "tested_revision": "5e90ba2871124c047b57bcdb515ea8f652cc0045",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0028/human-approval.md"
 }

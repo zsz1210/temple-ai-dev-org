@@ -1,38 +1,24 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T10:03:06.374Z",
-  "source_fingerprint": "52802493f03c0cb1342be7f5b25b9d0979ad12508432541a212778b6e340a3f9",
+  "generated_at": "2026-08-30T10:25:54.353Z",
+  "source_fingerprint": "c610fe16b7eb6a621b0c9ae15e6220802a6dedc4f8f9bfc28ac633a71bce275a",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
-    "selected_work_item_ids": [
-      "WI-0028"
-    ]
+    "selected_work_item_ids": []
   },
   "max_workers": 3,
   "summary": {
-    "selected": 1,
+    "selected": 0,
     "dispatchable": 0,
     "active": 0,
-    "sequential": 1,
+    "sequential": 0,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
   "active": [],
-  "sequential": [
-    {
-      "work_item_id": "WI-0028",
-      "title": "Publish Alpha.27 private release checkpoint",
-      "disposition": "sequential",
-      "position_id": "developer",
-      "agent_id": "agent-rikku",
-      "integration_owner_agent_id": null,
-      "reasons": [
-        "integration_owner_assigned"
-      ]
-    }
-  ],
+  "sequential": [],
   "blocked": [],
   "conflicts": [],
   "execution_policy": {

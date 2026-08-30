@@ -17,14 +17,26 @@ The tag is a reproducible milestone for later pilots and framework upgrades. It 
 | --- | --- | --- |
 | Version, licensing, provenance, dependency, CI, and secret-pattern preflight | Passed locally | `.ai-org/artifacts/WI-0028/release-preflight.md` |
 | Minimum declared Node.js major | Passed: Node.js 20.20.2, 195/195 | `.ai-org/artifacts/WI-0028/release-preflight.md` |
-| Exact private-origin push and matching GitHub CI | Pending | Added after the matching run completes |
-| Clean remote-clone reproduction | Pending | Added after the exact pushed revision is reproduced |
-| Independent QA | Pending | `.ai-org/artifacts/WI-0028/independent-qa-report.md` when complete |
-| Final annotated tag | Pending | Verified remote tag and peeled commit when complete |
+| Corrected candidate Quality gate | Passed: `5e90ba2871124c047b57bcdb515ea8f652cc0045` | `.ai-org/artifacts/WI-0028/quality-test-report.md` |
+| Exact private-origin push and matching GitHub CI | Passed: [run 33305884720](https://github.com/zsz1210/temple-ai-dev-org/actions/runs/33305884720) | `.ai-org/artifacts/WI-0028/quality-test-report.md` |
+| Clean remote-clone reproduction | Passed: 195/195, schema 47/24/0, launcher Alpha.27 | `.ai-org/artifacts/WI-0028/quality-test-report.md` |
+| Independent QA | GO at the exact candidate, including Node.js 20 | `.ai-org/artifacts/WI-0028/independent-qa-report.md` |
+| Final annotated tag | Post-commit gate | Create only after the closeout commit itself passes matching CI and a fresh remote-clone reproduction; verify the remote tag object and peeled commit |
 
 ## Supported conclusion
 
-When every pending gate above passes, `v0.1.0-alpha.27` may be used as the private, reproducible baseline for Temple pilots and upgrades. Only the environments and commands recorded by this checkpoint are covered.
+After the post-commit tag gate passes, `v0.1.0-alpha.27` may be used as the private, reproducible baseline for Temple pilots and upgrades. The annotated tag and its peeled remote commit are the durable external evidence for that final step. Only the environments and commands recorded by this checkpoint are covered.
+
+## Final release-manager sequence
+
+1. Commit the organizational closeout and generated views once.
+2. Fast-forward that exact commit to the private `main` branch.
+3. Require the matching GitHub Actions run to succeed.
+4. Clone the private origin again and reproduce that exact commit with lockfile installation, repository checks, 195/195 tests, schema validation, Doctor, launcher, and a clean worktree.
+5. Confirm repository visibility is still private and the tag is still absent.
+6. Create one annotated `v0.1.0-alpha.27` tag at that exact commit, push only that ref, and verify both the remote tag object and peeled commit.
+
+Failure at any step stops the sequence without a tag. The tag is immutable after publication.
 
 ## Retained limits
 

@@ -1,0 +1,20 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "5e90ba2871124c047b57bcdb515ea8f652cc0045",
+  "command": [
+    "git clone https://github.com/zsz1210/temple-ai-dev-org.git",
+    "npm ci --ignore-scripts",
+    "npm run check",
+    "node --test",
+    "node ./templew.mjs schema validate . --json",
+    "node ./templew.mjs doctor . --json",
+    "node ./templew.mjs --version"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-30T10:16:15.000Z",
+  "completed_at": "2026-08-30T10:17:40.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0028/quality-test-report.md"
+  ]
+}
