@@ -6,7 +6,7 @@
   "owner_position": "independent_qa",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-08-30T08:01:08.608Z",
-  "updated_at": "2026-08-30T08:13:49.255Z",
+  "updated_at": "2026-08-30T08:14:15.751Z",
   "scope": [
     "Require every preflight correlated observation to match one registered task and its canonical Work Item."
   ],
@@ -31,28 +31,25 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "b34c8b8efa3e59d0cc44bb1864f19a45596ef0fa",
+  "base_revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
-  "planned_agent_id": null,
+  "planned_agent_id": "agent-lulu",
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [
     "WI-0017 is the failed candidate; WI-0021 owns its corrective paths until rejoin."
   ],
   "claim": {
-    "id": "claim-20260830080254-449ef84d",
-    "status": "released",
+    "id": "claim-20260830081415-0598c60a",
+    "status": "active",
     "principal_id": "project-owner",
-    "agent_id": "agent-rikku",
-    "base_revision": "b34c8b8efa3e59d0cc44bb1864f19a45596ef0fa",
-    "branch": "phase4/fix-wi-0021",
-    "worktree": "/tmp/temple-phase4.slCwlE/fix-wi-0021",
-    "claimed_at": "2026-08-30T08:02:54.925Z",
-    "released_at": "2026-08-30T08:07:12.422Z",
-    "release_reason": [
-      "Corrective candidate ready for integration and Independent QA"
-    ]
+    "agent_id": "agent-lulu",
+    "base_revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
+    "branch": "phase4/qa-wi-0021",
+    "worktree": "/tmp/temple-phase4.slCwlE/qa-wi-0021",
+    "claimed_at": "2026-08-30T08:14:15.751Z",
+    "released_at": null
   },
   "claims": [
     {
@@ -68,6 +65,17 @@
       "release_reason": [
         "Corrective candidate ready for integration and Independent QA"
       ]
+    },
+    {
+      "id": "claim-20260830081415-0598c60a",
+      "status": "active",
+      "principal_id": "project-owner",
+      "agent_id": "agent-lulu",
+      "base_revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
+      "branch": "phase4/qa-wi-0021",
+      "worktree": "/tmp/temple-phase4.slCwlE/qa-wi-0021",
+      "claimed_at": "2026-08-30T08:14:15.751Z",
+      "released_at": null
     }
   ],
   "gate_evidence": {

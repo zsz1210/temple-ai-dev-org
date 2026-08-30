@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.26`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 3 active claims)
 - Parallel plan: 1 wave(s), fresh=false
 - Work items: 22 total, 8 active
 - Codex tasks: 3 registered, 3 archive-ready
-- Runtime workers: 9 registered, 0 reserved, 0 active
+- Runtime workers: 12 registered, 0 reserved, 3 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 3
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -63,9 +63,9 @@
 | WI-0017 | Complete Phase 4B policy and usage reliability | blocked | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1c3ca9c8` | 0 | 8 | 1 |
 | WI-0018 | Implement Phase 4C multi-repository federation | blocked | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1c3ca9c8` | 0 | 8 | 1 |
 | WI-0019 | Integrate the Phase 4 CLI, schemas, and release line | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
-| WI-0020 | Harden audit export after Independent QA | independent_qa | Independent QA | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5fb81a86` | 0 | 8 | 0 |
-| WI-0021 | Fix usage preflight exact correlation | independent_qa | Independent QA | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5fb81a86` | 0 | 8 | 0 |
-| WI-0022 | Bind federation reads to the expected revision | independent_qa | Independent QA | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5fb81a86` | 0 | 8 | 0 |
+| WI-0020 | Harden audit export after Independent QA | independent_qa | Independent QA | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830081415-d566f154 | `5fb81a86` | 0 | 8 | 0 |
+| WI-0021 | Fix usage preflight exact correlation | independent_qa | Independent QA | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830081415-0598c60a | `5fb81a86` | 0 | 8 | 0 |
+| WI-0022 | Bind federation reads to the expected revision | independent_qa | Independent QA | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260830081416-d8497d7d | `5fb81a86` | 0 | 8 | 0 |
 
 ## Codex task registry
 
@@ -88,6 +88,9 @@
 | worker-20260830080254-304c0eb5 | internal-subagent | WI-0020 | Developer / Rikku | completed | /root/framework_docs_review:fix-wi-0020 | `ca2caf6c` | 0 |
 | worker-20260830080254-fa6dafd6 | internal-subagent | WI-0021 | Developer / Rikku | completed | /root/ownership_code_review:fix-wi-0021 | `4919f53e` | 0 |
 | worker-20260830080255-43d0b25c | internal-subagent | WI-0022 | Developer / Rikku | completed | /root/skill_forward_test:fix-wi-0022 | `0f274c61` | 0 |
+| worker-20260830081415-9000dc59 | internal-subagent | WI-0020 | Independent QA / Lulu | active | /root/skill_forward_test:qa-wi-0020 | `—` | 0 |
+| worker-20260830081415-d6db2068 | internal-subagent | WI-0021 | Independent QA / Lulu | active | /root/framework_docs_review:qa-wi-0021 | `—` | 0 |
+| worker-20260830081416-59664aaf | internal-subagent | WI-0022 | Independent QA / Lulu | active | /root/ownership_code_review:qa-wi-0022 | `—` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -157,14 +160,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-30T08:13:49.890Z | work_item_transitioned | WI-0022 | agent-lulu |
-| 2026-08-30T08:13:49.564Z | work_item_transitioned | WI-0022 | agent-lulu |
-| 2026-08-30T08:13:49.255Z | work_item_transitioned | WI-0021 | agent-lulu |
-| 2026-08-30T08:13:48.940Z | work_item_transitioned | WI-0021 | agent-lulu |
-| 2026-08-30T08:13:48.622Z | work_item_transitioned | WI-0020 | agent-lulu |
-| 2026-08-30T08:13:48.295Z | work_item_transitioned | WI-0020 | agent-lulu |
-| 2026-08-30T08:13:30.517Z | work_item_transitioned | WI-0022 | agent-rikku |
-| 2026-08-30T08:13:30.199Z | handoff_created | WI-0022 | agent-rikku |
+| 2026-08-30T08:14:22.448Z | runtime_worker_attached | WI-0022 | agent-lulu |
+| 2026-08-30T08:14:22.149Z | runtime_worker_attached | WI-0021 | agent-lulu |
+| 2026-08-30T08:14:21.834Z | runtime_worker_attached | WI-0020 | agent-lulu |
+| 2026-08-30T08:14:16.083Z | runtime_worker_reserved | WI-0022 | project-owner |
+| 2026-08-30T08:14:16.086Z | work_item_claimed | WI-0022 | project-owner |
+| 2026-08-30T08:14:15.748Z | runtime_worker_reserved | WI-0021 | project-owner |
+| 2026-08-30T08:14:15.751Z | work_item_claimed | WI-0021 | project-owner |
+| 2026-08-30T08:14:15.407Z | runtime_worker_reserved | WI-0020 | project-owner |
 
 ## Assignments
 

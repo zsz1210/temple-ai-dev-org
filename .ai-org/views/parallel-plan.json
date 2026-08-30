@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T08:02:47.330Z",
-  "source_fingerprint": "d7fb19f710cdf0b8587acf3c272c8131b4694a7499dcfd1fedc6752f12f22b8f",
+  "generated_at": "2026-08-30T08:14:08.372Z",
+  "source_fingerprint": "7cb6e5563385a2ec9686aa128434774f1638674fa5dac4bebfac01fb95ca8876",
   "scope": {
     "mode": "parent-descendants",
     "parent_work_item_id": "WI-0015",
@@ -32,11 +32,11 @@
         {
           "work_item_id": "WI-0020",
           "title": "Harden audit export after Independent QA",
-          "position_id": "developer",
-          "agent_id": "agent-rikku",
-          "agent_name": "Rikku",
-          "suggested_task_title": "WI-0020 · Developer · Rikku",
-          "base_revision": "b34c8b8efa3e59d0cc44bb1864f19a45596ef0fa",
+          "position_id": "independent_qa",
+          "agent_id": "agent-lulu",
+          "agent_name": "Lulu",
+          "suggested_task_title": "WI-0020 · Independent QA · Lulu",
+          "base_revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
           "affected_paths": [
             "src/audit-export.mjs",
             "test/audit-export.test.mjs",
@@ -45,13 +45,13 @@
           "dependencies": [],
           "required_disciplines": [],
           "active_requirements": {
-            "stage": "build",
+            "stage": "independent_qa",
             "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "6f8dc49b5fe993bc1d42b393ee9eee6d1b9660e4dd7f3fd5e82ee2c52aae87d9",
+          "preparation_fingerprint": "9f9f62e76e13cb5fb5d894cf3ac634763c22c156c080f7f5948018584da3977b",
           "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0020 --position developer --no-write --json",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0020 --position independent_qa --no-write --json",
           "claim_required_before_work": true,
           "task_registration_required_after_creation": true,
           "task_creation_performed": false,
@@ -61,11 +61,11 @@
         {
           "work_item_id": "WI-0021",
           "title": "Fix usage preflight exact correlation",
-          "position_id": "developer",
-          "agent_id": "agent-rikku",
-          "agent_name": "Rikku",
-          "suggested_task_title": "WI-0021 · Developer · Rikku",
-          "base_revision": "b34c8b8efa3e59d0cc44bb1864f19a45596ef0fa",
+          "position_id": "independent_qa",
+          "agent_id": "agent-lulu",
+          "agent_name": "Lulu",
+          "suggested_task_title": "WI-0021 · Independent QA · Lulu",
+          "base_revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
           "affected_paths": [
             "src/usage-attribution.mjs",
             "test/phase-4b.test.mjs"
@@ -73,13 +73,13 @@
           "dependencies": [],
           "required_disciplines": [],
           "active_requirements": {
-            "stage": "build",
+            "stage": "independent_qa",
             "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "e591f409d2dbf893ebe4d13edf4ce19839ae7deaef1a8411e6df49c4eba00185",
+          "preparation_fingerprint": "95b33b9b68a0941a27c31290b7b8a755ccf93d7c9d5337eac5256df91eee48d7",
           "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0021 --position developer --no-write --json",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0021 --position independent_qa --no-write --json",
           "claim_required_before_work": true,
           "task_registration_required_after_creation": true,
           "task_creation_performed": false,
@@ -89,11 +89,11 @@
         {
           "work_item_id": "WI-0022",
           "title": "Bind federation reads to the expected revision",
-          "position_id": "developer",
-          "agent_id": "agent-rikku",
-          "agent_name": "Rikku",
-          "suggested_task_title": "WI-0022 · Developer · Rikku",
-          "base_revision": "b34c8b8efa3e59d0cc44bb1864f19a45596ef0fa",
+          "position_id": "independent_qa",
+          "agent_id": "agent-lulu",
+          "agent_name": "Lulu",
+          "suggested_task_title": "WI-0022 · Independent QA · Lulu",
+          "base_revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
           "affected_paths": [
             "src/federation.mjs",
             "test/federation.test.mjs"
@@ -101,13 +101,13 @@
           "dependencies": [],
           "required_disciplines": [],
           "active_requirements": {
-            "stage": "build",
+            "stage": "independent_qa",
             "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "3ef3e0d16deff3038e51bd1211a3d832855333faefa50b811f5c3b486f4eb9de",
+          "preparation_fingerprint": "d7749a8f51a5d4d6db274c41d5d7fa85ffa7e1d781041d06622add201650740c",
           "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0022 --position developer --no-write --json",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0022 --position independent_qa --no-write --json",
           "claim_required_before_work": true,
           "task_registration_required_after_creation": true,
           "task_creation_performed": false,
