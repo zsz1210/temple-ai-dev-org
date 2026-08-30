@@ -16,6 +16,7 @@ export const DEFAULT_CODEX_HISTORY_ITEM_LIMIT = 200;
 export const CODEX_LIVE_TASK_STATUSES = ["active", "waiting", "attention"];
 export const CODEX_TERMINAL_TASK_STATUSES = ["completed", "archived"];
 export const CODEX_TERMINAL_WORK_ITEM_STATES = ["done", "cancelled"];
+export const CODEX_AGENT_COMMAND_OPERATIONS = ["new-turn", "steer", "interrupt"];
 export const CODEX_ATTACH_OUTCOMES = ["detached", "pending", "history-only", "live-attached", "degraded"];
 export const CODEX_ATTACH_REASON_CODES = [
   "archived-task",
@@ -30,6 +31,16 @@ export const CODEX_ATTACH_REASON_CODES = [
   "thread-resume-unavailable",
   "thread-not-in-app-server-store"
 ];
+
+export class CodexAgentCommandError extends Error {
+  constructor(message, statusCode = 409, reasonCode = "agent-command-precondition") {
+    super(message);
+    this.name = "CodexAgentCommandError";
+    this.statusCode = statusCode;
+    this.reasonCode = reasonCode;
+    this.providerBoundaryCrossed = false;
+  }
+}
 
 const LIVE_TASK_STATUS_SET = new Set(CODEX_LIVE_TASK_STATUSES);
 const TERMINAL_TASK_STATUS_SET = new Set(CODEX_TERMINAL_TASK_STATUSES);
@@ -85,7 +96,14 @@ export function codexAppServerProviderContract(options = {}) {
     protocol: {
       profile: CODEX_APP_SERVER_PROTOCOL_PROFILE,
       detected_cli_version: options.detectedCliVersion ?? null,
-      connection_mode: "explicit-opt-in"
+      connection_mode: "explicit-opt-in",
+      agent_commands: {
+        support: "supported",
+        methods: ["turn/start", "turn/steer", "turn/interrupt"],
+        existing_registered_threads_only: true,
+        loopback_only: true,
+        automatic_retry: false
+      }
     }
   };
 }
@@ -729,6 +747,22 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
   const suppressedResumeReasons = new Map();
   let readMethodUnavailable = false;
   let resumeMethodUnavailable = false;
+  const activeTurnByThread = new Map();
+
+  function observeThreadSnapshot(thread) {
+    const turns = Array.isArray(thread?.turns) ? thread.turns : [];
+    const active = [...turns].reverse().find((turn) => turn?.status === "inProgress" && typeof turn?.id === "string");
+    if (active) activeTurnByThread.set(thread.id, active.id);
+    else if (typeof thread?.id === "string") activeTurnByThread.delete(thread.id);
+  }
+
+  function observeTurnMessage(message) {
+    const threadId = message?.params?.threadId ?? message?.params?.thread?.id;
+    const turnId = message?.params?.turnId ?? message?.params?.turn?.id;
+    if (typeof threadId !== "string" || typeof turnId !== "string") return;
+    if (message.method === "turn/started") activeTurnByThread.set(threadId, turnId);
+    else if (message.method === "turn/completed" && activeTurnByThread.get(threadId) === turnId) activeTurnByThread.delete(threadId);
+  }
 
   function initialAttachOutcome(task) {
     const archived = task.status === "archived";
@@ -819,6 +853,7 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
   });
 
   async function append(message) {
+    observeTurnMessage(message);
     const event = normalizeCodexMessage(project.id, tasks, message, { workItems, providerId });
     if (!event) return null;
     const result = await journal.append(event);
@@ -827,6 +862,7 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
   }
 
   async function reconcile(thread, source) {
+    observeThreadSnapshot(thread);
     const events = normalizeCodexThreadSnapshot(project.id, tasks, thread, {
       source,
       historyTurnLimit,
@@ -836,6 +872,142 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
     });
     for (const event of events) await journal.append(event);
     return events.length;
+  }
+
+  async function agentCommandTargets() {
+    const [currentTaskRegistry, currentWorkItems] = await Promise.all([
+      readJson(path.join(target, ".ai-org/project/tasks.json")),
+      listWorkItemDocuments(target)
+    ]);
+    const currentTasks = new Map((currentTaskRegistry.tasks ?? []).map((task) => [task.id, task]));
+    const currentItems = new Map(currentWorkItems.map((item) => [item.id, item]));
+    const providerStatus = registry.get(providerId)?.status ?? "offline";
+    return taskTopology.registered.map((registeredTask) => {
+      const task = currentTasks.get(registeredTask.id);
+      const item = task ? currentItems.get(task.work_item_id) : null;
+      const outcome = attachOutcomes.get(registeredTask.id);
+      const activeTurnId = activeTurnByThread.get(registeredTask.thread_id) ?? null;
+      let unavailableReason = null;
+      if (providerStatus !== "ready") unavailableReason = `provider-${providerStatus}`;
+      else if (!task || !item) unavailableReason = "target-not-registered";
+      else if (task.thread_id !== registeredTask.thread_id) unavailableReason = "provider-thread-changed";
+      else if (task.host_id !== "local") unavailableReason = "target-host-not-local";
+      else if (!LIVE_TASK_STATUS_SET.has(task.status)) unavailableReason = "task-not-live";
+      else if (TERMINAL_WORK_ITEM_STATE_SET.has(item.state)) unavailableReason = "work-item-terminal";
+      else if (outcome?.attach_outcome !== "live-attached") unavailableReason = "provider-thread-not-live-attached";
+      const operations = unavailableReason
+        ? []
+        : activeTurnId
+          ? ["steer", "interrupt"]
+          : ["new-turn"];
+      return {
+        task_id: task?.id ?? registeredTask.id,
+        work_item_id: task?.work_item_id ?? registeredTask.work_item_id ?? null,
+        work_item_title: item?.title ?? null,
+        position_id: task?.position_id ?? registeredTask.position_id ?? null,
+        agent_id: task?.agent_id ?? registeredTask.agent_id ?? null,
+        provider_thread_id: registeredTask.thread_id,
+        task_status: task?.status ?? null,
+        work_item_state: item?.state ?? null,
+        active_turn_id: activeTurnId,
+        operations,
+        available: unavailableReason === null,
+        unavailable_reason: unavailableReason
+      };
+    }).sort((left, right) => String(left.task_id).localeCompare(String(right.task_id)));
+  }
+
+  async function prepareAgentCommand(command) {
+    if (!CODEX_AGENT_COMMAND_OPERATIONS.includes(command?.operation)) {
+      throw new CodexAgentCommandError("Agent command operation is unsupported", 400, "operation-unsupported");
+    }
+    if (!connection || registry.get(providerId)?.status !== "ready") {
+      throw new CodexAgentCommandError("Codex provider is not ready for Agent commands", 409, "provider-not-ready");
+    }
+    const targetView = (await agentCommandTargets()).find((entry) => entry.task_id === command.task_id);
+    if (!targetView || !targetView.available) {
+      throw new CodexAgentCommandError("Registered task is not currently eligible for Agent commands", 409, targetView?.unavailable_reason ?? "target-not-registered");
+    }
+    if (
+      command.work_item_id !== targetView.work_item_id ||
+      command.expected_provider_thread_id !== targetView.provider_thread_id ||
+      command.expected_task_status !== targetView.task_status ||
+      command.expected_work_item_state !== targetView.work_item_state
+    ) {
+      throw new CodexAgentCommandError("Registered task or Work Item state changed before dispatch", 409, "stale-target-state");
+    }
+    if (!targetView.operations.includes(command.operation)) {
+      throw new CodexAgentCommandError("Requested operation is unavailable for the observed turn state", 409, "operation-unavailable");
+    }
+    const expectedTurnId = command.expected_active_turn_id ?? null;
+    if (expectedTurnId !== targetView.active_turn_id) {
+      throw new CodexAgentCommandError("Active turn changed before dispatch", 409, "stale-active-turn");
+    }
+    return targetView;
+  }
+
+  async function dispatchAgentCommand(command) {
+    const targetView = await prepareAgentCommand(command);
+    const input = command.operation === "interrupt"
+      ? null
+      : [{ type: "text", text: command.instruction, text_elements: [] }];
+    const clientUserMessageId = `temple-${sha256(command.idempotency_key).slice(0, 32)}`;
+    const method = command.operation === "new-turn"
+      ? "turn/start"
+      : command.operation === "steer"
+        ? "turn/steer"
+        : "turn/interrupt";
+    const params = command.operation === "new-turn"
+      ? { threadId: targetView.provider_thread_id, clientUserMessageId, input, turnTrigger: "user" }
+      : command.operation === "steer"
+        ? {
+            threadId: targetView.provider_thread_id,
+            clientUserMessageId,
+            input,
+            expectedTurnId: targetView.active_turn_id
+          }
+        : { threadId: targetView.provider_thread_id, turnId: targetView.active_turn_id };
+    try {
+      const response = await connection.request(method, params, options.commandTimeoutMs ?? 15000);
+      const providerTurnId = command.operation === "new-turn"
+        ? response?.turn?.id ?? null
+        : command.operation === "steer"
+          ? response?.turnId ?? targetView.active_turn_id
+          : targetView.active_turn_id;
+      if (command.operation === "new-turn" && providerTurnId) activeTurnByThread.set(targetView.provider_thread_id, providerTurnId);
+      const responseStatus = response?.turn?.status;
+      const terminalStatus = ["completed", "failed", "interrupted"].includes(responseStatus) ? responseStatus : null;
+      return {
+        status: terminalStatus ?? (command.operation === "new-turn" ? "turn-started" : "provider-accepted"),
+        transport_status: "provider-accepted",
+        execution_status: terminalStatus ?? (command.operation === "new-turn" ? "turn-started" : "pending"),
+        provider_turn_id: providerTurnId,
+        provider_method: method,
+        rejection_code: null,
+        automatic_retry: false
+      };
+    } catch (error) {
+      if (Number.isInteger(error?.rpcCode)) {
+        return {
+          status: "provider-rejected",
+          transport_status: "provider-rejected",
+          execution_status: "not-started",
+          provider_turn_id: targetView.active_turn_id,
+          provider_method: method,
+          rejection_code: "provider-json-rpc-error",
+          automatic_retry: false
+        };
+      }
+      return {
+        status: "delivery-unknown",
+        transport_status: "delivery-unknown",
+        execution_status: "unknown",
+        provider_turn_id: targetView.active_turn_id,
+        provider_method: method,
+        rejection_code: "provider-acknowledgement-unavailable",
+        automatic_retry: false
+      };
+    }
   }
 
   function scheduleReconnect() {
@@ -988,6 +1160,12 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
     attachmentOutcomes() {
       return attachmentOutcomeList();
     },
+    agentCommandStatus() {
+      return registry.get(providerId)?.status ?? "offline";
+    },
+    agentCommandTargets,
+    prepareAgentCommand,
+    dispatchAgentCommand,
     async start() {
       await connect();
       return this;

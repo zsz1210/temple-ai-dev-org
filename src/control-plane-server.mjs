@@ -155,7 +155,10 @@ export async function buildControlPlaneSnapshot(target, journal, registry, optio
       now: options.now
     }),
     options.stateDirectory
-      ? buildHumanInbox(target, options.stateDirectory, options.codexProvider)
+      ? buildHumanInbox(target, options.stateDirectory, options.codexProvider, {
+          agentCommands: config.agent_commands,
+          journal
+        })
       : null
   ]);
   const journalSnapshot = journal.snapshot();
@@ -270,7 +273,9 @@ export async function startControlPlaneServer(target, options = {}) {
       target: projectRoot,
       stateDirectory,
       codexProvider,
-      privacy: config.privacy
+      privacy: config.privacy,
+      agentCommands: config.agent_commands,
+      journal
     });
 
     server = http.createServer(async (request, response) => {
@@ -343,14 +348,18 @@ export async function startControlPlaneServer(target, options = {}) {
           return;
         }
         if (request.method === "GET" && requestUrl.pathname === "/api/v1/inbox") {
-          jsonResponse(response, 200, await buildHumanInbox(projectRoot, stateDirectory, codexProvider));
+          jsonResponse(response, 200, await buildHumanInbox(projectRoot, stateDirectory, codexProvider, {
+            agentCommands: config.agent_commands,
+            journal
+          }));
           return;
         }
         const inboxRoutes = new Map([
           ["/api/v1/inbox/runtime-permission", "runtime-permission"],
           ["/api/v1/inbox/business-fact", "business-fact"],
           ["/api/v1/inbox/business-incorporation", "business-incorporation"],
-          ["/api/v1/inbox/governance-approval", "governance-approval"]
+          ["/api/v1/inbox/governance-approval", "governance-approval"],
+          ["/api/v1/inbox/agent-command", "agent-command"]
         ]);
         if (request.method === "POST" && inboxRoutes.has(requestUrl.pathname)) {
           const body = await readJsonRequest(request);

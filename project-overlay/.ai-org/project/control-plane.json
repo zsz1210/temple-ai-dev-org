@@ -14,6 +14,10 @@
     "cooldown_ms": 60000,
     "token_budget": null
   },
+  "agent_commands": {
+    "enabled": false,
+    "max_instruction_chars": 4000
+  },
   "privacy": {
     "capture_raw_payloads": false,
     "max_data_bytes": 16384,

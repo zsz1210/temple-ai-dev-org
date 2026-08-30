@@ -69,6 +69,28 @@
       "registered_by": "agent-mog",
       "notes": "Fresh detached Independent QA passed: focused 8/8, full 165/165, adversarial 14/14, Doctor 35 pass and 0 fail. Provider bridge limit retained.",
       "last_updated_by": "agent-lulu"
+    },
+    {
+      "id": "task-0004",
+      "work_item_id": "WI-0029",
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
+      "suggested_title": "WI-0029 · Developer · Rikku",
+      "status": "active",
+      "thread_id": "01a05279-9213-7690-9701-5f07e03fef26",
+      "client_thread_id": null,
+      "host_id": "local",
+      "current_revision": "4d441b31b6ecd684bb51af8c96d535b6d25486d0",
+      "principal_id": "human",
+      "claim_id": "claim-20260830114307-26207596",
+      "base_revision": "4d441b31b6ecd684bb51af8c96d535b6d25486d0",
+      "branch": "codex/wi-0029-agent-command-gateway",
+      "worktree": "/Users/zsz1210/.codex/worktrees/5e74/temple-ai-dev-org",
+      "worker_id": null,
+      "created_at": "2026-08-30T11:43:08.052Z",
+      "updated_at": "2026-08-30T11:43:08.052Z",
+      "registered_by": "human",
+      "notes": null
     }
   ]
 }

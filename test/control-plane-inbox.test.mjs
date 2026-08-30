@@ -100,6 +100,49 @@ function fakeProvider(requests) {
   };
 }
 
+function fakeAgentCommandProvider(target, outcomes = []) {
+  const calls = [];
+  let outcomeIndex = 0;
+  return {
+    calls,
+    agentCommandStatus() {
+      return "ready";
+    },
+    async agentCommandTargets() {
+      return [structuredClone(target)];
+    },
+    async prepareAgentCommand(command) {
+      if (
+        command.task_id !== target.task_id ||
+        command.work_item_id !== target.work_item_id ||
+        command.expected_task_status !== target.task_status ||
+        command.expected_work_item_state !== target.work_item_state ||
+        command.expected_provider_thread_id !== target.provider_thread_id ||
+        (command.expected_active_turn_id ?? null) !== target.active_turn_id ||
+        !target.operations.includes(command.operation)
+      ) {
+        const error = new Error("Registered task or active turn changed before dispatch");
+        error.statusCode = 409;
+        error.reasonCode = "stale-target-state";
+        throw error;
+      }
+      return structuredClone(target);
+    },
+    async dispatchAgentCommand(command) {
+      calls.push(structuredClone(command));
+      return structuredClone(outcomes[outcomeIndex++] ?? {
+        status: "turn-started",
+        transport_status: "provider-accepted",
+        execution_status: "turn-started",
+        provider_turn_id: "turn-created-1",
+        provider_method: "turn/start",
+        rejection_code: null,
+        automatic_retry: false
+      });
+    }
+  };
+}
+
 test("Human Inbox keeps runtime permission and business-fact authority separate and idempotent", async (context) => {
   const { target, stateDirectory, workItemId, itemPath, revision } = await fixture(context);
   const provider = fakeProvider([
@@ -228,6 +271,168 @@ test("Human Inbox keeps runtime permission and business-fact authority separate 
   assert.equal(JSON.parse(doctor.stdout).summary.fail, 0);
 });
 
+test("Agent command gateway is opt-in, idempotent, privacy-bounded, and preserves truthful delivery states", async (context) => {
+  const { target, stateDirectory, workItemId } = await fixture(context);
+  const commandTarget = {
+    task_id: "task-command-1",
+    work_item_id: workItemId,
+    work_item_title: "Bounded Inbox decision",
+    position_id: "developer",
+    agent_id: "agent-fixture-devon",
+    provider_thread_id: "thread-command-1",
+    task_status: "active",
+    work_item_state: "intake",
+    active_turn_id: null,
+    operations: ["new-turn"],
+    available: true,
+    unavailable_reason: null
+  };
+  const provider = fakeAgentCommandProvider(commandTarget, [
+    {
+      status: "turn-started",
+      transport_status: "provider-accepted",
+      execution_status: "turn-started",
+      provider_turn_id: "turn-created-1",
+      provider_method: "turn/start",
+      rejection_code: null,
+      automatic_retry: false
+    },
+    {
+      status: "provider-rejected",
+      transport_status: "provider-rejected",
+      execution_status: "not-started",
+      provider_turn_id: null,
+      provider_method: "turn/start",
+      rejection_code: "provider-json-rpc-error",
+      automatic_retry: false
+    },
+    {
+      status: "delivery-unknown",
+      transport_status: "delivery-unknown",
+      execution_status: "unknown",
+      provider_turn_id: null,
+      provider_method: "turn/start",
+      rejection_code: "provider-acknowledgement-unavailable",
+      automatic_retry: false
+    }
+  ]);
+  const disabled = createHumanInboxGateway({
+    target,
+    stateDirectory,
+    codexProvider: provider,
+    privacy: defaultControlPlaneConfig().privacy,
+    agentCommands: defaultControlPlaneConfig().agent_commands
+  });
+  const instruction = "Review the safe change using sk-ABCDEFGHIJKLMNOPQRSTUVWX and report only the result.";
+  const base = {
+    task_id: commandTarget.task_id,
+    work_item_id: commandTarget.work_item_id,
+    operation: "new-turn",
+    instruction,
+    expected_task_status: commandTarget.task_status,
+    expected_work_item_state: commandTarget.work_item_state,
+    expected_provider_thread_id: commandTarget.provider_thread_id,
+    expected_active_turn_id: null,
+    confirmed: true
+  };
+  await assert.rejects(
+    () => disabled.submit("agent-command", { ...base, idempotency_key: "agent-disabled-0001" }),
+    /disabled by project configuration/
+  );
+  assert.equal(provider.calls.length, 0);
+
+  const gateway = createHumanInboxGateway({
+    target,
+    stateDirectory,
+    codexProvider: provider,
+    privacy: defaultControlPlaneConfig().privacy,
+    agentCommands: { enabled: true, max_instruction_chars: 200 }
+  });
+  await assert.rejects(
+    () => gateway.submit("agent-command", { ...base, idempotency_key: "agent-confirm-0001", confirmed: false }),
+    /explicit preview confirmation/
+  );
+  await assert.rejects(
+    () => gateway.submit("agent-command", { ...base, idempotency_key: "agent-field-0001", model: "forbidden" }),
+    /unsupported fields: model/
+  );
+  const acceptedPayload = { ...base, idempotency_key: "agent-command-0001" };
+  const accepted = await gateway.submit("agent-command", acceptedPayload);
+  assert.equal(accepted.status, "turn-started");
+  assert.equal(accepted.provider_turn_id, "turn-created-1");
+  assert.equal(accepted.automatic_retry, false);
+  assert.equal(provider.calls.length, 1);
+  const replay = await gateway.submit("agent-command", acceptedPayload);
+  assert.equal(replay.idempotent_replay, true);
+  assert.equal(replay.status, "turn-started");
+  assert.equal(provider.calls.length, 1);
+
+  const rejected = await gateway.submit("agent-command", {
+    ...base,
+    idempotency_key: "agent-command-0002",
+    instruction: "A second bounded instruction"
+  });
+  assert.equal(rejected.status, "provider-rejected");
+  const unknown = await gateway.submit("agent-command", {
+    ...base,
+    idempotency_key: "agent-command-0003",
+    instruction: "A third bounded instruction"
+  });
+  assert.equal(unknown.status, "delivery-unknown");
+  assert.equal(unknown.automatic_retry, false);
+  assert.equal((await gateway.submit("agent-command", {
+    ...base,
+    idempotency_key: "agent-command-0003",
+    instruction: "A third bounded instruction"
+  })).idempotent_replay, true);
+  assert.equal(provider.calls.length, 3);
+
+  const storedText = await fs.readFile(path.join(stateDirectory, "inbox", "commands.json"), "utf8");
+  assert.doesNotMatch(storedText, /sk-ABCDEFGHIJKLMNOPQRSTUVWX/);
+  assert.equal(storedText.includes(instruction), false);
+  const stored = JSON.parse(storedText).entries.find((entry) => entry.idempotency_key === acceptedPayload.idempotency_key);
+  assert.match(stored.instruction_preview, /\[REDACTED\]/);
+  assert.equal(stored.instruction_length, instruction.length);
+  assert.match(stored.instruction_sha256, /^[0-9a-f]{64}$/);
+  assert.equal(stored.automatic_retry, false);
+  const inbox = await buildHumanInbox(target, stateDirectory, provider, {
+    agentCommands: { enabled: true, max_instruction_chars: 200 }
+  });
+  assert.equal(inbox.agent_commands.available, true);
+  assert.equal(inbox.agent_commands.eligible_targets.length, 1);
+  assert.deepEqual(
+    new Set(inbox.agent_commands.recent_commands.map((entry) => entry.status)),
+    new Set(["delivery-unknown", "provider-rejected", "turn-started"])
+  );
+  assert.doesNotMatch(JSON.stringify(inbox), /sk-ABCDEFGHIJKLMNOPQRSTUVWX/);
+
+  const terminalInbox = await buildHumanInbox(target, stateDirectory, provider, {
+    agentCommands: { enabled: true, max_instruction_chars: 200 },
+    journal: {
+      readAfter() {
+        return {
+          records: [{
+            type: "org.temple.codex.turn.completed.v1",
+            templeobservedat: "2026-08-30T12:00:00.000Z",
+            data: {
+              provider_thread_id: commandTarget.provider_thread_id,
+              provider_turn_id: accepted.provider_turn_id,
+              status: "completed"
+            }
+          }]
+        };
+      }
+    }
+  });
+  const completed = terminalInbox.agent_commands.recent_commands.find(
+    (entry) => entry.idempotency_key === acceptedPayload.idempotency_key
+  );
+  assert.equal(completed.status, "completed");
+  assert.equal(completed.transport_status, "provider-accepted");
+  assert.equal(completed.execution_status, "completed");
+  assert.equal(completed.updated_at, "2026-08-30T12:00:00.000Z");
+});
+
 test("governance approval enforces current state, exact revision, active principals, and High-Assurance independence", async (context) => {
   const { target, stateDirectory, workItemId, itemPath, revision } = await fixture(context);
   for (const [principalId, name] of [["principal-owner", "Morgan Hale"], ["principal-reviewer", "Casey Quinn"]]) {
@@ -340,6 +545,12 @@ test("loopback command gateway rejects cross-origin, unauthenticated, and arbitr
   assert.equal(snapshotResponse.status, 200);
   assert.doesNotMatch(snapshotText, new RegExp(controlPlane.sessionSecret));
   assert.doesNotMatch(snapshotText, /GH_TOKEN|authorization/i);
+  assert.equal(JSON.parse(snapshotText).inbox.agent_commands.enabled, false);
+  assert.equal(JSON.parse(snapshotText).inbox.agent_commands.availability_reason, "disabled-by-configuration");
+  const dashboard = await (await fetch(controlPlane.url)).text();
+  assert.match(dashboard, /Agent Commands · local and opt-in/);
+  assert.match(dashboard, /Delivery is unknown/);
+  assert.match(dashboard, /I reviewed the exact target, operation, and local preview/);
 
   const body = {
     idempotency_key: "server-command-0001",
@@ -365,6 +576,30 @@ test("loopback command gateway rejects cross-origin, unauthenticated, and arbitr
     body: JSON.stringify(body)
   });
   assert.equal(crossOrigin.status, 403);
+  const agentBody = { idempotency_key: "agent-server-command-0001" };
+  const crossOriginAgent = await fetch(`${controlPlane.url}/api/v1/inbox/agent-command`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      origin: "https://attacker.invalid",
+      "x-temple-session": controlPlane.sessionSecret,
+      "x-idempotency-key": agentBody.idempotency_key
+    },
+    body: JSON.stringify(agentBody)
+  });
+  assert.equal(crossOriginAgent.status, 403);
+  const disabledAgent = await fetch(`${controlPlane.url}/api/v1/inbox/agent-command`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      origin: controlPlane.url,
+      "x-temple-session": controlPlane.sessionSecret,
+      "x-idempotency-key": agentBody.idempotency_key
+    },
+    body: JSON.stringify(agentBody)
+  });
+  assert.equal(disabledAgent.status, 403);
+  assert.match((await disabledAgent.json()).error, /disabled by project configuration/);
   const stale = await fetch(`${controlPlane.url}/api/v1/inbox/runtime-permission`, {
     method: "POST",
     headers: {
