@@ -1,6 +1,6 @@
 # Backup and recovery
 
-Temple `0.1.0-alpha.24` can create and restore a local, transparent backup of the project-owned organization state that Temple coordinates. This is a recovery mechanism for Temple state, not a replacement for Git hosting, application backups, database backups, or organization-wide disaster recovery.
+Temple can create, inspect, retain, and restore local, transparent backups of the project-owned organization state that Temple coordinates. It can also build a bounded audit export from canonical events and recovery metadata. These are durability mechanisms for Temple state, not replacements for Git hosting, application backups, database backups, log archives, or organization-wide disaster recovery.
 
 ## Recovery boundary
 
@@ -75,13 +75,92 @@ node ./templew.mjs restore recover .
 
 Recovery rolls back only a path that still matches the interrupted restore output. If a person or another process changed that path afterward, Temple stops and preserves the newer content for manual resolution. Completed transaction metadata is retained in a bounded local history; before-images are removed after completion or rollback.
 
+## Inspect and retain a backup set
+
+Phase 4A adds module APIs for deterministic retention under an explicit caller-provided backup root:
+
+- `inspectBackupSet(backupRoot, { projectRoot })` validates every direct child as a complete backup and returns a content-derived inspection digest;
+- `planBackupRetention(target, backupRoot, { minimumToKeep, preserveBackupNames })` produces a read-only keep/delete decision and `plan_digest`;
+- `applyBackupRetention(target, backupRoot, { minimumToKeep, preserveBackupNames, expectedPlan, confirmDelete: true })` recomputes the plan, rejects a stale digest, preflights every deletion, and then applies only reviewed deletions.
+
+The root must be an existing real directory outside the project worktree. Each direct child must have a conservative portable name and be a real directory containing one valid backup. Links, files, special entries, unsafe names, traversal, and a root that contains the project or is contained by it fail closed.
+
+Retention is project-aware. It keeps at least the requested number of newest backups for the target project, ordered by parsed creation time and then name. Explicitly named backups and every backup belonging to another project are also preserved. The minimum must be at least one. A partial filesystem failure stops further deletion, reports the names already deleted and still pending, and requires a new preview before retry.
+
+The integration owner will expose these APIs through the shared CLI. The intended command shape is:
+
+```bash
+# Proposed integration surface; not shipped by this module-only Work Item.
+node ./templew.mjs backup set inspect . \
+  --root /absolute/recovery/location/project-backups
+
+node ./templew.mjs backup retention preview . \
+  --root /absolute/recovery/location/project-backups \
+  --minimum-to-keep 3 \
+  --preserve backup-before-release
+
+node ./templew.mjs backup retention apply . \
+  --root /absolute/recovery/location/project-backups \
+  --minimum-to-keep 3 \
+  --preserve backup-before-release \
+  --expected-plan PLAN_DIGEST \
+  --confirm-delete
+```
+
+## Export bounded audit evidence
+
+`buildAuditExport(target, options)` returns a deterministic `temple.audit-export/v1` document. `writeAuditExport(target, outputPath, options)` creates that document at an explicit new path and refuses to overwrite an existing file. The export contains:
+
+- project ID and installed Temple version;
+- the latest matching canonical events, in source order, after optional Work Item and event-type filters;
+- a bounded recovery summary with transaction IDs, status and timestamps, plan and manifest digests, action-state counts, and recovery-failure counts;
+- the applied selection bounds and an explicit exclusion contract;
+- a content-derived export digest.
+
+The default event limit is 1,000 and the hard maximum is 10,000. The default recovery-transaction limit is 20 and the hard maximum is 100. The event journal is streamed rather than loaded as one unbounded string, and a source line larger than 2 MiB is rejected. Malformed canonical events or unsafe recovery ledgers fail the export instead of being silently skipped.
+
+The event projection is deliberately conservative. It allow-lists defined token-like audit fields, bounds arrays and strings, replaces free-form scalar text, omits arbitrary `metadata`, and reapplies Temple's recursive telemetry redaction with optional extra redaction keys. Repository-relative references remain usable. Absolute filesystem paths, traversal references, non-string references, and oversized references become `[REDACTED_REF]`; HTTP(S) references lose embedded credentials, query strings, and fragments.
+
+The export never includes raw prompts or responses, hidden reasoning, credentials, runtime secrets, provider payload bodies, raw command output, tool arguments or results, recovery before-images, per-file recovery paths, or recovery failure bodies. It is still an unencrypted file containing project identifiers and event metadata. Review it under the project's data-handling policy before sharing.
+
+The intended CLI integration surface is:
+
+```bash
+# Proposed integration surface; not shipped by this module-only Work Item.
+node ./templew.mjs audit export . \
+  --output /absolute/audit/location/temple-audit.json \
+  --work-item WI-0016 \
+  --event-type evidence_recorded \
+  --max-events 1000 \
+  --max-recovery-transactions 20 \
+  --redact-key customer-reference
+```
+
+## Rehearse rollback on disposable copies
+
+Never use a primary checkout as the first post-upgrade rollback experiment. Use a disposable source copy and an external backup:
+
+1. record the primary revision, dirty state, installed Temple version, and canonical backup digest;
+2. create separate pre-upgrade, forward-upgrade, rollback, and interruption copies;
+3. create and inspect the pre-upgrade backup outside all project copies;
+4. upgrade only the forward-upgrade copy and run the normal verification gates;
+5. prepare the rollback copy at the backup's Temple version, preview the restore, and apply the exact reviewed digest;
+6. compare every restored manifest digest and rebuild generated views before Doctor;
+7. on the interruption copy, stop at an approved simulated boundary and prove `restore recover` returns the exact before-image state;
+8. recheck that the primary checkout revision and contents never changed.
+
+This procedure demonstrates the local software boundaries. It must not be presented as real power-loss, cross-machine, production, or disaster-recovery evidence unless those environments were actually exercised and recorded separately.
+
 ## Current evidence and limits
 
-Automated fixtures cover boundary selection, payload tampering, stale plans, replacement consent, target-only preservation, project and version conflicts, interruption rollback, and post-interruption human changes. The following Phase 4A exit evidence remains separate:
+Automated fixtures cover boundary selection, payload tampering, deterministic retention ordering and preservation, stale retention and restore plans, explicit deletion and replacement consent, traversal and link refusal, partial retention failure, target-only preservation, project and version conflicts, interruption rollback, post-interruption human changes, conservative audit projection, recursive redaction, event and recovery bounds, exclusive audit-file creation, and a post-upgrade rollback rehearsal confined to disposable copies.
+
+The following Phase 4A exit evidence remains separate:
 
 - restore a real data-bearing project checkout in a clean environment and reproduce canonical digests;
 - run Doctor after generated views are rebuilt;
-- rehearse one real forward migration and documented rollback;
+- independently reproduce the new retention, audit-export, and disposable rollback fixtures after CLI integration;
+- rehearse a real post-upgrade rollback and meaningful interruption boundary outside synthetic fixtures;
 - exercise broader operating-system and actual machine-loss conditions.
 
 Until that evidence exists, describe this capability as local alpha recovery rather than production disaster recovery.

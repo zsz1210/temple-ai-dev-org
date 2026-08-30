@@ -1,16 +1,21 @@
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
+import { TEMPLATE_VERSION } from "../src/constants.mjs";
 import { runDoctor } from "../src/doctor.mjs";
 import { formatJson, sha256 } from "../src/files.mjs";
 import { executeInit, planInit } from "../src/install.mjs";
 import { validateInitConfig } from "../src/model.mjs";
 import {
+  applyBackupRetention,
   applyRestore,
   createBackup,
   inspectBackup,
+  inspectBackupSet,
+  planBackupRetention,
   planRestore,
   recoverRestore,
   resolveRecoveryStateDirectory
@@ -41,6 +46,25 @@ async function fixture(projectId) {
   assert.deepEqual(plan.conflicts, []);
   await executeInit(plan);
   return { temporaryRoot, target, backup };
+}
+
+async function createNamedBackup(target, backupRoot, name, createdAt) {
+  const output = path.join(backupRoot, name);
+  await createBackup(target, output);
+  const manifestPath = path.join(output, "manifest.json");
+  const manifest = JSON.parse(await fs.readFile(manifestPath, "utf8"));
+  manifest.created_at = createdAt;
+  await fs.writeFile(manifestPath, formatJson(manifest));
+  return output;
+}
+
+async function setInstalledVersion(target, version) {
+  const lockPath = path.join(target, "temple.lock");
+  const lock = JSON.parse(await fs.readFile(lockPath, "utf8"));
+  lock.template.version = version;
+  lock.template.bootstrap.version = version;
+  lock.template.bootstrap.package_spec = `@zsz1210/temple-ai-dev-org@${version}`;
+  await fs.writeFile(lockPath, formatJson(lock));
 }
 
 test("backup includes only project-owned Temple state and verifies every payload", async (context) => {
@@ -133,6 +157,16 @@ test("inspection rejects structural, path, payload-set, link, and bound tamperin
   await fs.symlink(path.join(state.target, "temple.lock"), linkedPath);
   await assert.rejects(() => inspectBackup(linked), /Symbolic links are not allowed/);
 
+  if (process.platform !== "win32") {
+    const special = await cloneBackup();
+    const specialManifest = JSON.parse(await fs.readFile(path.join(special, "manifest.json"), "utf8"));
+    const specialPath = path.join(special, "files", specialManifest.files[0].path);
+    await fs.unlink(specialPath);
+    const fifo = spawnSync("mkfifo", [specialPath], { encoding: "utf8" });
+    assert.equal(fifo.status, 0, fifo.stderr);
+    await assert.rejects(() => inspectBackup(special), /Special files are not allowed/);
+  }
+
   const oversized = await cloneBackup();
   await editManifest(oversized, (manifest) => {
     manifest.files[0].size = 256 * 1024 * 1024 + 1;
@@ -143,6 +177,153 @@ test("inspection rejects structural, path, payload-set, link, and bound tamperin
   const rootExtra = await cloneBackup();
   await fs.writeFile(path.join(rootExtra, "notes.txt"), "not part of the format\n");
   await assert.rejects(() => inspectBackup(rootExtra), /must contain only/);
+});
+
+test("backup-set retention is deterministic and preserves minimum, explicit, and foreign backups", async (context) => {
+  const state = await fixture("retention-project");
+  context.after(() => fs.rm(state.temporaryRoot, { recursive: true, force: true }));
+  const backupRoot = path.join(state.temporaryRoot, "backup-set");
+  await fs.mkdir(backupRoot);
+  await createNamedBackup(state.target, backupRoot, "backup-oldest", "2026-08-01T00:00:00.000Z");
+  await createNamedBackup(state.target, backupRoot, "backup-middle", "2026-08-02T00:00:00.000Z");
+  await createNamedBackup(state.target, backupRoot, "backup-newer", "2026-08-03T00:00:00.000Z");
+  await createNamedBackup(state.target, backupRoot, "backup-newest", "2026-08-04T00:00:00.000Z");
+
+  const foreignTarget = path.join(state.temporaryRoot, "foreign-project");
+  const foreignInit = await planInit(foreignTarget, await validateInitConfig(configDocument("foreign-project")));
+  await executeInit(foreignInit);
+  await createNamedBackup(foreignTarget, backupRoot, "backup-foreign", "2026-08-05T00:00:00.000Z");
+
+  const firstInspection = await inspectBackupSet(backupRoot, { projectRoot: state.target });
+  const secondInspection = await inspectBackupSet(backupRoot, { projectRoot: state.target });
+  assert.deepEqual(secondInspection, firstInspection);
+  assert.deepEqual(firstInspection.backups.map((entry) => entry.name), [
+    "backup-foreign",
+    "backup-middle",
+    "backup-newer",
+    "backup-newest",
+    "backup-oldest"
+  ]);
+
+  const options = { minimumToKeep: 2, preserveBackupNames: ["backup-oldest"] };
+  const firstPlan = await planBackupRetention(state.target, backupRoot, options);
+  const secondPlan = await planBackupRetention(state.target, backupRoot, options);
+  assert.deepEqual(secondPlan, firstPlan);
+  assert.equal(firstPlan.delete_count, 1);
+  assert.deepEqual(
+    firstPlan.decisions.filter((entry) => entry.action === "delete").map((entry) => entry.name),
+    ["backup-middle"]
+  );
+  assert.equal(firstPlan.decisions.find((entry) => entry.name === "backup-oldest").reason, "explicit-preserve");
+  assert.equal(firstPlan.decisions.find((entry) => entry.name === "backup-foreign").reason, "different-project");
+});
+
+test("backup retention requires consent and a fresh digest before deletion", async (context) => {
+  const state = await fixture("retention-stale");
+  context.after(() => fs.rm(state.temporaryRoot, { recursive: true, force: true }));
+  const backupRoot = path.join(state.temporaryRoot, "backup-set");
+  await fs.mkdir(backupRoot);
+  await createNamedBackup(state.target, backupRoot, "backup-one", "2026-08-01T00:00:00.000Z");
+  await createNamedBackup(state.target, backupRoot, "backup-two", "2026-08-02T00:00:00.000Z");
+  const options = { minimumToKeep: 1 };
+  const preview = await planBackupRetention(state.target, backupRoot, options);
+
+  await assert.rejects(
+    () => applyBackupRetention(state.target, backupRoot, options),
+    /digest returned by retention preview/
+  );
+  await assert.rejects(
+    () => applyBackupRetention(state.target, backupRoot, { ...options, expectedPlan: preview.plan_digest }),
+    /explicit delete consent/
+  );
+
+  await createNamedBackup(state.target, backupRoot, "backup-three", "2026-08-03T00:00:00.000Z");
+  await assert.rejects(
+    () => applyBackupRetention(state.target, backupRoot, {
+      ...options,
+      expectedPlan: preview.plan_digest,
+      confirmDelete: true
+    }),
+    /preview is stale/
+  );
+
+  const fresh = await planBackupRetention(state.target, backupRoot, options);
+  const applied = await applyBackupRetention(state.target, backupRoot, {
+    ...options,
+    expectedPlan: fresh.plan_digest,
+    confirmDelete: true
+  });
+  assert.deepEqual(applied.deleted, ["backup-one", "backup-two"]);
+  assert.deepEqual((await fs.readdir(backupRoot)).sort(), ["backup-three"]);
+});
+
+test("backup-set operations refuse traversal, links, non-directories, and nested project roots", async (context) => {
+  const state = await fixture("retention-safety");
+  context.after(() => fs.rm(state.temporaryRoot, { recursive: true, force: true }));
+  const backupRoot = path.join(state.temporaryRoot, "backup-set");
+  await fs.mkdir(backupRoot);
+  await createNamedBackup(state.target, backupRoot, "backup-valid", "2026-08-01T00:00:00.000Z");
+
+  await assert.rejects(
+    () => planBackupRetention(state.target, backupRoot, { minimumToKeep: 1, preserveBackupNames: ["../outside"] }),
+    /Unsafe backup-set entry name/
+  );
+  await assert.rejects(
+    () => planBackupRetention(state.target, backupRoot, { minimumToKeep: 1, preserveBackupNames: "backup-valid" }),
+    /must be an array/
+  );
+  await assert.rejects(
+    () => inspectBackupSet(state.temporaryRoot, { projectRoot: state.target }),
+    /must not contain one another/
+  );
+
+  const rootAlias = path.join(state.temporaryRoot, "backup-root-alias");
+  await fs.symlink(backupRoot, rootAlias, "dir");
+  await assert.rejects(() => inspectBackupSet(rootAlias), /existing real directory/);
+
+  const linkedEntry = path.join(backupRoot, "backup-linked");
+  await fs.symlink(path.join(backupRoot, "backup-valid"), linkedEntry, "dir");
+  await assert.rejects(() => inspectBackupSet(backupRoot), /real backup directories/);
+  await fs.unlink(linkedEntry);
+
+  await fs.writeFile(path.join(backupRoot, "backup-file"), "not a backup\n");
+  await assert.rejects(() => inspectBackupSet(backupRoot), /real backup directories/);
+});
+
+test("backup retention reports partial deletion and forces a new preview", async (context) => {
+  const state = await fixture("retention-partial");
+  context.after(() => fs.rm(state.temporaryRoot, { recursive: true, force: true }));
+  const backupRoot = path.join(state.temporaryRoot, "backup-set");
+  await fs.mkdir(backupRoot);
+  await createNamedBackup(state.target, backupRoot, "backup-one", "2026-08-01T00:00:00.000Z");
+  await createNamedBackup(state.target, backupRoot, "backup-two", "2026-08-02T00:00:00.000Z");
+  await createNamedBackup(state.target, backupRoot, "backup-three", "2026-08-03T00:00:00.000Z");
+  const options = { minimumToKeep: 1 };
+  const preview = await planBackupRetention(state.target, backupRoot, options);
+
+  await assert.rejects(
+    () => applyBackupRetention(state.target, backupRoot, {
+      ...options,
+      expectedPlan: preview.plan_digest,
+      confirmDelete: true,
+      simulateFailureAfterDeletes: 1
+    }),
+    (error) => {
+      assert.equal(error.code, "TEMPLE_BACKUP_RETENTION_PARTIAL_FAILURE");
+      assert.deepEqual(error.deleted, ["backup-one"]);
+      assert.deepEqual(error.remaining, ["backup-two"]);
+      return true;
+    }
+  );
+  assert.equal(await fs.stat(path.join(backupRoot, "backup-two")).then(() => true), true);
+  await assert.rejects(
+    () => applyBackupRetention(state.target, backupRoot, {
+      ...options,
+      expectedPlan: preview.plan_digest,
+      confirmDelete: true
+    }),
+    /preview is stale/
+  );
 });
 
 test("restore preview is stale-safe, requires replacement consent, and preserves target-only files", async (context) => {
@@ -364,4 +545,68 @@ test("an internally consistent older backup restores with an upgrade-required re
   assert.deepEqual(upgrade.conflicts, []);
   const upgradedLock = await executeUpgrade(upgrade);
   assert.equal(upgradedLock.template.version, "0.1.0-alpha.26");
+});
+
+test("post-upgrade rollback and interruption rehearsals touch only disposable project copies", async (context) => {
+  const state = await fixture("disposable-rehearsal");
+  context.after(() => fs.rm(state.temporaryRoot, { recursive: true, force: true }));
+  const primaryArtifact = path.join(state.target, ".ai-org/artifacts/data-bearing.md");
+  await fs.mkdir(path.dirname(primaryArtifact), { recursive: true });
+  await fs.writeFile(primaryArtifact, "primary project remains untouched\n");
+  const primaryLock = await fs.readFile(path.join(state.target, "temple.lock"), "utf8");
+  const primaryArtifactContent = await fs.readFile(primaryArtifact, "utf8");
+
+  const olderVersion = "0.1.0-alpha.23";
+  const preUpgradeCopy = path.join(state.temporaryRoot, "pre-upgrade-copy");
+  const upgradedCopy = path.join(state.temporaryRoot, "upgraded-copy");
+  const rollbackCopy = path.join(state.temporaryRoot, "rollback-copy");
+  const interruptedCopy = path.join(state.temporaryRoot, "interrupted-copy");
+  await Promise.all([
+    fs.cp(state.target, preUpgradeCopy, { recursive: true }),
+    fs.cp(state.target, upgradedCopy, { recursive: true }),
+    fs.cp(state.target, rollbackCopy, { recursive: true }),
+    fs.cp(state.target, interruptedCopy, { recursive: true })
+  ]);
+  await Promise.all([
+    setInstalledVersion(preUpgradeCopy, olderVersion),
+    setInstalledVersion(upgradedCopy, olderVersion),
+    setInstalledVersion(rollbackCopy, olderVersion),
+    setInstalledVersion(interruptedCopy, olderVersion)
+  ]);
+
+  const preUpgradeBackup = path.join(state.temporaryRoot, "pre-upgrade-backup");
+  await createBackup(preUpgradeCopy, preUpgradeBackup);
+  const upgrade = await planUpgrade(upgradedCopy);
+  assert.deepEqual(upgrade.conflicts, []);
+  assert.equal((await executeUpgrade(upgrade)).template.version, TEMPLATE_VERSION);
+
+  await fs.writeFile(path.join(rollbackCopy, ".ai-org/artifacts/data-bearing.md"), "changed after upgrade\n");
+  const rollbackPreview = await planRestore(rollbackCopy, preUpgradeBackup);
+  assert.deepEqual(rollbackPreview.conflicts, []);
+  await applyRestore(rollbackCopy, preUpgradeBackup, {
+    expectedPlan: rollbackPreview.plan_digest,
+    allowReplace: true
+  });
+  assert.equal(
+    await fs.readFile(path.join(rollbackCopy, ".ai-org/artifacts/data-bearing.md"), "utf8"),
+    primaryArtifactContent
+  );
+
+  const interruptedPath = path.join(interruptedCopy, ".ai-org/project/agents.json");
+  const interruptedBefore = `${await fs.readFile(interruptedPath, "utf8")}\n`;
+  await fs.writeFile(interruptedPath, interruptedBefore);
+  const interruptionPreview = await planRestore(interruptedCopy, preUpgradeBackup);
+  await assert.rejects(
+    () => applyRestore(interruptedCopy, preUpgradeBackup, {
+      expectedPlan: interruptionPreview.plan_digest,
+      allowReplace: true,
+      simulateCrashAfterWrites: 1
+    }),
+    /Simulated restore interruption/
+  );
+  assert.equal((await recoverRestore(interruptedCopy)).status, "rolled_back");
+  assert.equal(await fs.readFile(interruptedPath, "utf8"), interruptedBefore);
+
+  assert.equal(await fs.readFile(path.join(state.target, "temple.lock"), "utf8"), primaryLock);
+  assert.equal(await fs.readFile(primaryArtifact, "utf8"), primaryArtifactContent);
 });

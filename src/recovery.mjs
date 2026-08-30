@@ -19,6 +19,9 @@ import {
 import { compareTempleVersions } from "./migrations.mjs";
 
 export const BACKUP_MANIFEST_SCHEMA = "temple.backup-manifest/v1";
+export const BACKUP_SET_INSPECTION_SCHEMA = "temple.backup-set-inspection/v1";
+export const BACKUP_RETENTION_PLAN_SCHEMA = "temple.backup-retention-plan/v1";
+export const BACKUP_RETENTION_RESULT_SCHEMA = "temple.backup-retention-result/v1";
 export const RESTORE_PLAN_SCHEMA = "temple.restore-plan/v1";
 export const RECOVERY_LEDGER_SCHEMA = "temple.restore-transaction/v1";
 
@@ -26,6 +29,7 @@ const MAX_FILE_COUNT = 100_000;
 const MAX_SINGLE_FILE_SIZE = 256 * 1024 * 1024;
 const MAX_TOTAL_SIZE = 2 * 1024 * 1024 * 1024;
 const TERMINAL_TRANSACTION_RETENTION = 20;
+const SAFE_BACKUP_NAME = /^[A-Za-z0-9][A-Za-z0-9._-]{0,159}$/;
 const PROJECT_DIRECTORIES = [
   ".ai-org/project",
   ".ai-org/learning",
@@ -47,9 +51,32 @@ function isInside(parentPath, candidatePath) {
   return relative !== "" && !relative.startsWith(`..${path.sep}`) && relative !== ".." && !path.isAbsolute(relative);
 }
 
+function rootsOverlap(leftPath, rightPath) {
+  return leftPath === rightPath || isInside(leftPath, rightPath) || isInside(rightPath, leftPath);
+}
+
 async function canonicalExistingPath(targetPath) {
   const absolutePath = path.resolve(targetPath);
   return (await pathExists(absolutePath)) ? fs.realpath(absolutePath) : absolutePath;
+}
+
+function assertSafeBackupName(name) {
+  if (typeof name !== "string" || !SAFE_BACKUP_NAME.test(name)) {
+    throw new Error(`Unsafe backup-set entry name: ${name}`);
+  }
+  return name;
+}
+
+async function explicitBackupRoot(backupRoot) {
+  if (typeof backupRoot !== "string" || backupRoot.trim().length === 0) {
+    throw new Error("An explicit backup root is required");
+  }
+  const requestedRoot = path.resolve(backupRoot);
+  const rootStat = await lstatOrNull(requestedRoot);
+  if (!rootStat || rootStat.isSymbolicLink() || !rootStat.isDirectory()) {
+    throw new Error(`Backup root must be an existing real directory: ${requestedRoot}`);
+  }
+  return fs.realpath(requestedRoot);
 }
 
 function assertSafeRelativePath(relativePath) {
@@ -328,6 +355,218 @@ export async function inspectBackup(backupDirectory) {
     content_digest: manifest.content_digest,
     manifest_digest: manifestDigest(manifest),
     manifest
+  };
+}
+
+function backupSetDigest(backups) {
+  return sha256(
+    JSON.stringify(
+      backups.map((backup) => ({
+        name: backup.name,
+        project_id: backup.project_id,
+        created_at: backup.created_at,
+        temple_version: backup.temple_version,
+        file_count: backup.file_count,
+        total_size: backup.total_size,
+        content_digest: backup.content_digest,
+        manifest_digest: backup.manifest_digest
+      }))
+    )
+  );
+}
+
+export async function inspectBackupSet(backupRoot, options = {}) {
+  const absoluteRoot = await explicitBackupRoot(backupRoot);
+  if (options.projectRoot !== undefined && options.projectRoot !== null) {
+    const projectRoot = await canonicalExistingPath(options.projectRoot);
+    if (rootsOverlap(projectRoot, absoluteRoot)) {
+      throw new Error("Backup root and project worktree must not contain one another");
+    }
+  }
+
+  const backups = [];
+  const entries = await fs.readdir(absoluteRoot, { withFileTypes: true });
+  entries.sort((left, right) => left.name.localeCompare(right.name));
+  for (const entry of entries) {
+    const name = assertSafeBackupName(entry.name);
+    const candidate = path.join(absoluteRoot, name);
+    const stat = await fs.lstat(candidate);
+    if (stat.isSymbolicLink() || !stat.isDirectory()) {
+      throw new Error(`Backup-set entries must be real backup directories: ${name}`);
+    }
+    if (path.dirname(candidate) !== absoluteRoot || !isInside(absoluteRoot, candidate)) {
+      throw new Error(`Backup-set entry resolves outside the backup root: ${name}`);
+    }
+    const inspection = await inspectBackup(candidate);
+    const createdAt = inspection.manifest.created_at;
+    if (typeof createdAt !== "string" || Number.isNaN(Date.parse(createdAt))) {
+      throw new Error(`Backup has an invalid creation time: ${name}`);
+    }
+    backups.push({
+      name,
+      backup: candidate,
+      project_id: inspection.project_id,
+      created_at: createdAt,
+      temple_version: inspection.temple_version,
+      file_count: inspection.file_count,
+      total_size: inspection.total_size,
+      content_digest: inspection.content_digest,
+      manifest_digest: inspection.manifest_digest
+    });
+  }
+
+  return {
+    schema_version: BACKUP_SET_INSPECTION_SCHEMA,
+    backup_root: absoluteRoot,
+    backup_count: backups.length,
+    inspection_digest: backupSetDigest(backups),
+    backups
+  };
+}
+
+function retentionPlanDigest(plan) {
+  return sha256(
+    JSON.stringify({
+      schema_version: plan.schema_version,
+      backup_root: plan.backup_root,
+      project_root: plan.project_root,
+      project_id: plan.project_id,
+      minimum_to_keep: plan.minimum_to_keep,
+      preserve_backup_names: plan.preserve_backup_names,
+      inspection_digest: plan.inspection_digest,
+      decisions: plan.decisions
+    })
+  );
+}
+
+function retentionOptions(options) {
+  const minimumToKeep = options.minimumToKeep;
+  if (!Number.isSafeInteger(minimumToKeep) || minimumToKeep < 1) {
+    throw new Error("Backup retention requires an explicit minimumToKeep integer of at least 1");
+  }
+  if (options.preserveBackupNames !== undefined && !Array.isArray(options.preserveBackupNames)) {
+    throw new Error("preserveBackupNames must be an array of direct backup names");
+  }
+  const preserveBackupNames = [...new Set((options.preserveBackupNames ?? []).map(assertSafeBackupName))].sort();
+  return { minimumToKeep, preserveBackupNames };
+}
+
+export async function planBackupRetention(target, backupRoot, options = {}) {
+  const absoluteTarget = await canonicalExistingPath(target);
+  const { projectId } = await readInstalledState(absoluteTarget);
+  const { minimumToKeep, preserveBackupNames } = retentionOptions(options);
+  const inspection = await inspectBackupSet(backupRoot, { projectRoot: absoluteTarget });
+  const knownNames = new Set(inspection.backups.map((backup) => backup.name));
+  const unknownPreserves = preserveBackupNames.filter((name) => !knownNames.has(name));
+  if (unknownPreserves.length > 0) {
+    throw new Error(`Preserved backup names are not present under the backup root: ${unknownPreserves.join(", ")}`);
+  }
+
+  const targetBackups = inspection.backups
+    .filter((backup) => backup.project_id === projectId)
+    .sort((left, right) => Date.parse(right.created_at) - Date.parse(left.created_at) || left.name.localeCompare(right.name));
+  const minimumNames = new Set(targetBackups.slice(0, minimumToKeep).map((backup) => backup.name));
+  const preserveNames = new Set(preserveBackupNames);
+  const decisions = inspection.backups.map((backup) => {
+    let action = "keep";
+    let reason = "different-project";
+    if (backup.project_id === projectId) {
+      if (preserveNames.has(backup.name)) reason = "explicit-preserve";
+      else if (minimumNames.has(backup.name)) reason = "minimum-preservation";
+      else {
+        action = "delete";
+        reason = "outside-retention-minimum";
+      }
+    }
+    return {
+      name: backup.name,
+      backup: backup.backup,
+      project_id: backup.project_id,
+      created_at: backup.created_at,
+      manifest_digest: backup.manifest_digest,
+      action,
+      reason
+    };
+  });
+  const plan = {
+    schema_version: BACKUP_RETENTION_PLAN_SCHEMA,
+    backup_root: inspection.backup_root,
+    project_root: absoluteTarget,
+    project_id: projectId,
+    minimum_to_keep: minimumToKeep,
+    preserve_backup_names: preserveBackupNames,
+    inspection_digest: inspection.inspection_digest,
+    decisions,
+    keep_count: decisions.filter((entry) => entry.action === "keep").length,
+    delete_count: decisions.filter((entry) => entry.action === "delete").length
+  };
+  plan.plan_digest = retentionPlanDigest(plan);
+  return plan;
+}
+
+async function preflightRetentionDeletion(plan, decision) {
+  assertSafeBackupName(decision.name);
+  const expectedPath = path.join(plan.backup_root, decision.name);
+  if (
+    decision.backup !== expectedPath ||
+    path.dirname(expectedPath) !== plan.backup_root ||
+    !isInside(plan.backup_root, expectedPath) ||
+    rootsOverlap(plan.project_root, expectedPath)
+  ) {
+    throw new Error(`Refusing retention target outside its resolved backup root: ${decision.name}`);
+  }
+  const stat = await lstatOrNull(expectedPath);
+  if (!stat || stat.isSymbolicLink() || !stat.isDirectory()) {
+    throw new Error(`Retention target is missing, linked, or not a directory: ${decision.name}`);
+  }
+  const inspection = await inspectBackup(expectedPath);
+  if (inspection.project_id !== plan.project_id || inspection.manifest_digest !== decision.manifest_digest) {
+    throw new Error(`Retention target changed after preview: ${decision.name}`);
+  }
+}
+
+export async function applyBackupRetention(target, backupRoot, options = {}) {
+  if (typeof options.expectedPlan !== "string" || options.expectedPlan.length === 0) {
+    throw new Error("Backup retention apply requires the digest returned by retention preview");
+  }
+  if (options.confirmDelete !== true) {
+    throw new Error("Backup retention apply requires explicit delete consent");
+  }
+  const plan = await planBackupRetention(target, backupRoot, options);
+  if (plan.plan_digest !== options.expectedPlan) {
+    throw new Error("Backup retention preview is stale; create and review a new plan");
+  }
+  const deletions = plan.decisions.filter((entry) => entry.action === "delete");
+  for (const decision of deletions) await preflightRetentionDeletion(plan, decision);
+
+  const deleted = [];
+  try {
+    for (const decision of deletions) {
+      await fs.rm(decision.backup, { recursive: true });
+      deleted.push(decision.name);
+      if (options.simulateFailureAfterDeletes === deleted.length) {
+        throw new Error("Simulated backup retention deletion failure");
+      }
+    }
+  } catch (error) {
+    const failure = new Error(
+      `Backup retention stopped after ${deleted.length} deletion(s); create a new preview before retrying: ${error.message}`,
+      { cause: error }
+    );
+    failure.code = "TEMPLE_BACKUP_RETENTION_PARTIAL_FAILURE";
+    failure.deleted = deleted;
+    failure.remaining = deletions.filter((entry) => !deleted.includes(entry.name)).map((entry) => entry.name);
+    throw failure;
+  }
+
+  return {
+    schema_version: BACKUP_RETENTION_RESULT_SCHEMA,
+    backup_root: plan.backup_root,
+    project_id: plan.project_id,
+    plan_digest: plan.plan_digest,
+    deleted,
+    deleted_count: deleted.length,
+    preserved_count: plan.keep_count
   };
 }
 
