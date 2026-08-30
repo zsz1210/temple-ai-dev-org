@@ -1,29 +1,43 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T10:25:54.353Z",
-  "source_fingerprint": "c610fe16b7eb6a621b0c9ae15e6220802a6dedc4f8f9bfc28ac633a71bce275a",
+  "generated_at": "2026-08-30T12:18:51.931Z",
+  "source_fingerprint": "3322f6378d214d1972a01fd1b5f4f7538f5e5c75b602a3b6ce83c0c2f911f55c",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
-    "selected_work_item_ids": []
+    "selected_work_item_ids": [
+      "WI-0029"
+    ]
   },
-  "max_workers": 3,
+  "max_workers": 1,
   "summary": {
-    "selected": 0,
+    "selected": 1,
     "dispatchable": 0,
     "active": 0,
-    "sequential": 0,
+    "sequential": 1,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
   "active": [],
-  "sequential": [],
+  "sequential": [
+    {
+      "work_item_id": "WI-0029",
+      "title": "Prototype local Agent Command Gateway",
+      "disposition": "sequential",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "requested_mode_sequential"
+      ]
+    }
+  ],
   "blocked": [],
   "conflicts": [],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": 3,
+    "runtime_capacity_limit": 1,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,

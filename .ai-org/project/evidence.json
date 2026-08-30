@@ -3241,6 +3241,120 @@
         "scenario": "Exercise disabled, idle, active, preview-confirmed, accepted, completed, rejected, interrupted, delivery-unknown, desktop, and narrow Agent Command Dashboard states without mutating a real Codex task",
         "provenance": "fixture"
       }
+    },
+    {
+      "id": "EVID-20260830T123024Z-97BF169D",
+      "work_item_id": "WI-0029",
+      "recorded_at": "2026-08-30T12:30:24.280Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0029 Quality privacy verification",
+      "outcome": "fail",
+      "scope_revision": "6a27378b758cdbb7be35dcd0957001b8ce810f66",
+      "observed_at": "2026-08-30T12:29:34.000Z",
+      "summary": "Mechanical checks passed, but fresh runtime proved complete short instructions are retained verbatim; Quality NO-GO.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0029/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0029/quality-test-observation.json",
+          "sha256": "f109f511b66c72c0e23a5b69a21092b41c08cb23860004246852a62fcf230898"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0029/quality-test-report.md",
+          "sha256": "47bb67e045c2d06599da8387395d877e47ebbb088b1c40f95b92ba4c5b80a1a9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0029/qa-runtime-harness.mjs",
+          "sha256": "7ba2220a36e8a966206084f4d2d6dbbd5c2c7b8d42fa56cd44a0de08c8856de0"
+        },
+        {
+          "path": "output/playwright/wi-0029-quality-command-history-desktop.png",
+          "sha256": "f463973676e5b0201477c786f4c7c9018bb8ce2582093f15401cd75b17072d18"
+        },
+        {
+          "path": "output/playwright/wi-0029-quality-command-history-narrow.png",
+          "sha256": "55fbd661e7531233a587dd05ca7fe4c458e34455c63ba6e446e6525dbd46deb3"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/control-plane-inbox.test.mjs test/control-plane-live.test.mjs",
+          "npm run verify",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "git diff --check",
+          "fresh isolated qa-runtime-harness.mjs plus headed Playwright desktop and 420px review",
+          "compare durable commands.json previews with fake-provider input"
+        ],
+        "exit_code": 1,
+        "started_at": "2026-08-30T12:22:26.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T123029Z-3BF37AAD",
+      "work_item_id": "WI-0029",
+      "recorded_at": "2026-08-30T12:30:29.346Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "WI-0029 Quality Dashboard privacy review",
+      "outcome": "fail",
+      "scope_revision": "6a27378b758cdbb7be35dcd0957001b8ce810f66",
+      "observed_at": "2026-08-30T12:29:34.000Z",
+      "summary": "Fresh isolated desktop and narrow runtime exercised required states but failed durable non-retention for complete short instructions.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0029/quality-runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0029/quality-runtime-observation.json",
+          "sha256": "16a1542e0554341872a9c8c354e190e1ee0845cd33c148854cadc0bde84a5380"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0029/quality-test-report.md",
+          "sha256": "47bb67e045c2d06599da8387395d877e47ebbb088b1c40f95b92ba4c5b80a1a9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0029/qa-runtime-harness.mjs",
+          "sha256": "7ba2220a36e8a966206084f4d2d6dbbd5c2c7b8d42fa56cd44a0de08c8856de0"
+        },
+        {
+          "path": "output/playwright/wi-0029-quality-disabled-desktop.png",
+          "sha256": "27aae830c346d9f5cc013f2df07d5ca3bec0088641518a6a69bffd9fefb73d28"
+        },
+        {
+          "path": "output/playwright/wi-0029-quality-confirmed-preview.png",
+          "sha256": "824277a536116fdb04b58ad072a7d038a309531c0857e7cd5cd0a9e89796a8b6"
+        },
+        {
+          "path": "output/playwright/wi-0029-quality-command-history-desktop.png",
+          "sha256": "f463973676e5b0201477c786f4c7c9018bb8ce2582093f15401cd75b17072d18"
+        },
+        {
+          "path": "output/playwright/wi-0029-quality-command-history-narrow.png",
+          "sha256": "55fbd661e7531233a587dd05ca7fe4c458e34455c63ba6e446e6525dbd46deb3"
+        }
+      ],
+      "details": {
+        "environment": "Fresh isolated temporary Temple project, loopback Control Plane, deterministic fake Codex App Server, and headed Chromium at 1440px and 420px widths",
+        "scenario": "Independently exercise disabled, idle, active, confirmed preview, turn-started, provider-rejected, delivery-unknown, interrupted, completed, desktop, narrow, and durable privacy behavior without a real Codex task",
+        "provenance": "fixture"
+      }
     }
   ]
 }

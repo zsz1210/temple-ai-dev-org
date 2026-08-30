@@ -1,0 +1,17 @@
+{
+  "schema_version": "temple.runtime-observation/v1",
+  "revision": "6a27378b758cdbb7be35dcd0957001b8ce810f66",
+  "environment": "Fresh isolated temporary Temple project, loopback Control Plane, deterministic fake Codex App Server, and headed Chromium at 1440px and 420px widths",
+  "scenario": "Independently exercise disabled, idle, active, confirmed preview, turn-started, provider-rejected, delivery-unknown, interrupted, completed, desktop, narrow, and durable privacy behavior without a real Codex task",
+  "result": "fail",
+  "provenance": "fixture",
+  "observed_at": "2026-08-30T12:29:34.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0029/quality-test-report.md",
+    ".ai-org/artifacts/WI-0029/qa-runtime-harness.mjs",
+    "output/playwright/wi-0029-quality-disabled-desktop.png",
+    "output/playwright/wi-0029-quality-confirmed-preview.png",
+    "output/playwright/wi-0029-quality-command-history-desktop.png",
+    "output/playwright/wi-0029-quality-command-history-narrow.png"
+  ]
+}

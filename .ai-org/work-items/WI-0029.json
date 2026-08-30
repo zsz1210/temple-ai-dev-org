@@ -6,7 +6,7 @@
   "owner_position": "quality_evaluator",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-08-30T11:40:38.319Z",
-  "updated_at": "2026-08-30T12:07:13.217Z",
+  "updated_at": "2026-08-30T12:30:50.018Z",
   "scope": [
     "Implement an opt-in loopback-only Dashboard command gateway for registered existing Codex tasks. Support visible new turns, active-turn steering, and interruption with explicit preview, idempotency, provider acknowledgement, truthful delivery state, and no automatic retry.",
     "Exclude remote control, mobile control, cross-host dispatch, new Codex task creation, background task spawning, automatic model switching, and any release or publication."
@@ -44,7 +44,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "4d441b31b6ecd684bb51af8c96d535b6d25486d0",
+  "base_revision": "6a27378",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -52,16 +52,18 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260830114307-26207596",
+    "id": "claim-20260830121921-4ac0141a",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "4d441b31b6ecd684bb51af8c96d535b6d25486d0",
-    "branch": "codex/wi-0029-agent-command-gateway",
-    "worktree": "/Users/zsz1210/.codex/worktrees/5e74/temple-ai-dev-org",
-    "claimed_at": "2026-08-30T11:43:07.761Z",
-    "released_at": "2026-08-30T12:07:13.217Z",
-    "release_reason": "position_transition"
+    "agent_id": "agent-lulu",
+    "base_revision": "6a27378",
+    "branch": "main",
+    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "claimed_at": "2026-08-30T12:19:21.097Z",
+    "released_at": "2026-08-30T12:30:50.018Z",
+    "release_reason": [
+      "quality_no_go_blocking_privacy_defect"
+    ]
   },
   "claims": [
     {
@@ -75,6 +77,20 @@
       "claimed_at": "2026-08-30T11:43:07.761Z",
       "released_at": "2026-08-30T12:07:13.217Z",
       "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260830121921-4ac0141a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "6a27378",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-08-30T12:19:21.097Z",
+      "released_at": "2026-08-30T12:30:50.018Z",
+      "release_reason": [
+        "quality_no_go_blocking_privacy_defect"
+      ]
     }
   ],
   "gate_evidence": {
@@ -120,7 +136,8 @@
     "EVID-20260830T120640Z-91A964AE"
   ],
   "unresolved": [
-    "Real Codex execution remains a separately authorized validation boundary requiring a safe disposable eligible registered task; no real task was mutated in Developer verification."
+    "Real Codex execution remains a separately authorized validation boundary requiring a safe disposable eligible registered task; no real task was mutated in Developer verification.",
+    "Blocking Quality defect at 6a27378b758cdbb7be35dcd0957001b8ce810f66: ordinary instructions shorter than 240 characters are stored verbatim as instruction_preview and rendered under Retained preview, violating the approved complete-instruction non-retention boundary."
   ],
   "next_position": "quality_evaluator",
   "handoffs": [

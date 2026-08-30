@@ -36,7 +36,7 @@
 - Fresh: no
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 0 / 0
+- Active / sequential / blocked: 0 / 1 / 0
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -72,7 +72,7 @@
 | WI-0026 | Ship Phase 4 project contracts and Alpha.27 metadata | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0d48f087` | 0 | 8 | 0 |
 | WI-0027 | Resolve terminal historical-evidence dashboard noise | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `591b4369` | 0 | 8 | 0 |
 | WI-0028 | Publish Alpha.27 private release checkpoint | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5e90ba28` | 0 | 8 | 0 |
-| WI-0029 | Prototype local Agent Command Gateway | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `38a185eb` | 1 | 8 | 1 |
+| WI-0029 | Prototype local Agent Command Gateway | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `38a185eb` | 1 | 8 | 2 |
 
 ## Codex task registry
 
@@ -178,14 +178,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-30T12:30:50.018Z | work_item_claim_released | WI-0029 | human |
+| 2026-08-30T12:30:37.985Z | work_item_unresolved_updated | WI-0029 | agent-lulu |
+| 2026-08-30T12:30:29.346Z | evidence_recorded | WI-0029 | human |
+| 2026-08-30T12:30:24.280Z | evidence_recorded | WI-0029 | human |
+| 2026-08-30T12:19:21.097Z | work_item_claimed | WI-0029 | human |
 | 2026-08-30T12:07:19.585Z | task_status_changed | WI-0029 | agent-rikku |
 | 2026-08-30T12:07:13.217Z | work_item_transitioned | WI-0029 | agent-rikku |
 | 2026-08-30T12:07:01.867Z | handoff_created | WI-0029 | agent-rikku |
-| 2026-08-30T12:06:40.598Z | evidence_recorded | WI-0029 | agent-rikku |
-| 2026-08-30T12:06:36.618Z | evidence_recorded | WI-0029 | agent-rikku |
-| 2026-08-30T12:06:27.061Z | evidence_recorded | WI-0029 | agent-rikku |
-| 2026-08-30T11:43:08.052Z | task_registered | WI-0029 | human |
-| 2026-08-30T11:43:07.761Z | work_item_claimed | WI-0029 | human |
 
 ## Assignments
 
