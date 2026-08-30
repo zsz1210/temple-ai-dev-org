@@ -1,0 +1,16 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "command": [
+    "npm",
+    "run",
+    "verify"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-30T06:20:23.760Z",
+  "completed_at": "2026-08-30T06:20:59.823Z",
+  "revision": "3872ac71630e8a52d69f1b624793bfa6e7cf5475",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0012/developer-evidence.md"
+  ]
+}

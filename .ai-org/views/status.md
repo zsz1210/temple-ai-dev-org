@@ -4,8 +4,8 @@
 - Organization system version: `0.1.0-alpha.26`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=false
-- Work items: 12 total, 1 active
+- Parallel plan: 0 wave(s), fresh=true
+- Work items: 12 total, 0 active
 - Codex tasks: 1 registered, 1 archive-ready
 - Runtime workers: 0 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -16,7 +16,7 @@
 - Learning revalidation: 0 due, 0 contradicted
 - Specifications: 0 indexed, 0 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 2
+- Attention signals: 1
 
 ## Collaboration
 
@@ -33,7 +33,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: no
+- Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 0 / 0
@@ -55,7 +55,7 @@
 | WI-0009 | Harden Dashboard lifecycle semantics and startup | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `98718675` | 0 | 13 | 0 |
 | WI-0010 | Implement Phase 4B policy evaluation and usage attribution | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `7052388e` | 0 | 12 | 0 |
 | WI-0011 | Qualify live Token telemetry and establish the first real baseline | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `25a979e5` | 0 | 12 | 0 |
-| WI-0012 | Keep reconciled Codex history out of live task signals | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
+| WI-0012 | Keep reconciled Codex history out of live task signals | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `3872ac71` | 0 | 13 | 0 |
 
 ## Codex task registry
 
@@ -74,7 +74,6 @@ No runtime workers registered yet.
 ## Attention
 
 - task-0001 can be archived
-- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
@@ -129,14 +128,14 @@ No runtime workers registered yet.
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-30T06:12:05.992Z | work_item_transitioned | WI-0012 | agent-tidus |
-| 2026-08-30T06:11:59.466Z | work_item_transitioned | WI-0012 | agent-yuna |
-| 2026-08-30T06:11:59.112Z | work_item_transitioned | WI-0012 | agent-mog |
-| 2026-08-30T06:09:27.672Z | work_item_created | WI-0012 | agent-mog |
-| 2026-08-30T06:04:15.958Z | work_item_closed | WI-0011 | agent-mog |
-| 2026-08-30T06:04:15.958Z | release_gate_completed | WI-0011 | agent-mog |
-| 2026-08-30T06:03:14.651Z | work_item_transitioned | WI-0011 | agent-lulu |
-| 2026-08-30T06:03:09.017Z | evidence_recorded | WI-0011 | agent-lulu |
+| 2026-08-30T06:25:21.178Z | work_item_closed | WI-0012 | agent-mog |
+| 2026-08-30T06:25:21.178Z | release_gate_completed | WI-0012 | agent-mog |
+| 2026-08-30T06:24:41.790Z | work_item_transitioned | WI-0012 | agent-lulu |
+| 2026-08-30T06:24:41.379Z | work_item_transitioned | WI-0012 | agent-lulu |
+| 2026-08-30T06:24:41.023Z | work_item_transitioned | WI-0012 | agent-lulu |
+| 2026-08-30T06:24:33.951Z | evidence_recorded | WI-0012 | agent-lulu |
+| 2026-08-30T06:21:30.898Z | work_item_transitioned | WI-0012 | agent-rikku |
+| 2026-08-30T06:21:26.308Z | handoff_created | WI-0012 | agent-rikku |
 
 ## Assignments
 

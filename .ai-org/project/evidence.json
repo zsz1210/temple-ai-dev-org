@@ -1204,6 +1204,125 @@
         "exit_code": 0,
         "started_at": "2026-08-30T06:00:18Z"
       }
+    },
+    {
+      "id": "EVID-20260830T062120Z-75A733EC",
+      "work_item_id": "WI-0012",
+      "recorded_at": "2026-08-30T06:21:20.485Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Alpha.26 history visibility developer verification",
+      "outcome": "pass",
+      "scope_revision": "3872ac71630e8a52d69f1b624793bfa6e7cf5475",
+      "observed_at": "2026-08-30T06:20:59.823Z",
+      "summary": "Repository checks, documentation links, and all 160 tests passed at the exact candidate revision",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/history-visibility-developer.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/history-visibility-developer.json",
+          "sha256": "8f578948e4541fb3cd0d45ce53fe5f549b58c325f7477f38fdf45367f9f78851"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0012/developer-evidence.md",
+          "sha256": "1f892702e26ab4153eea22b7908e60cd9341faf322b91500914ca1be81ecfaa3"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T06:20:23.760Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T062120Z-83963E9C",
+      "work_item_id": "WI-0012",
+      "recorded_at": "2026-08-30T06:21:20.845Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Alpha.26 live history reconciliation restart",
+      "outcome": "pass",
+      "scope_revision": "3872ac71630e8a52d69f1b624793bfa6e7cf5475",
+      "observed_at": "2026-08-30T06:20:15.402Z",
+      "summary": "Two real Provider starts preserved ready health, projected terminal history honestly, and appended only the changed summary plus new history",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/history-visibility-runtime.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/history-visibility-runtime.json",
+          "sha256": "7242722d1e0dbaca5fdd74c32e35276787cce61a3b9069ce2f0579abc1fbf3e4"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0012/developer-evidence.md",
+          "sha256": "1f892702e26ab4153eea22b7908e60cd9341faf322b91500914ca1be81ecfaa3"
+        }
+      ],
+      "details": {
+        "environment": "Temple self-host repository, loopback HTTP server, locally bundled Codex App Server 0.150.0-alpha.12.2",
+        "scenario": "Rebuild generated telemetry, start the real Codex Provider twice, and verify history-only projection plus incremental reconciliation without Provider degradation",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260830T062433Z-E0964441",
+      "work_item_id": "WI-0012",
+      "recorded_at": "2026-08-30T06:24:33.951Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Alpha.26 history visibility Independent QA",
+      "outcome": "pass",
+      "scope_revision": "3872ac71630e8a52d69f1b624793bfa6e7cf5475",
+      "observed_at": "2026-08-30T06:22:30.891Z",
+      "summary": "Fresh detached worktree reproduced repository checks, documentation checks, and all 160 tests at the exact candidate revision",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/history-visibility-independent-qa.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/history-visibility-independent-qa.json",
+          "sha256": "31faae92a3f8b681436cca40cf4df8df9092da76f46941d0ef4f3c9e28cb3f20"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0012/independent-qa-report.md",
+          "sha256": "d727bba0ad1b9c21d40d7bbc9a4292ad774e094a8ec123d4e74384a603cb5999"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T06:21:54.930Z"
+      }
     }
   ]
 }

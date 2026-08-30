@@ -1,0 +1,12 @@
+{
+  "schema_version": "temple.runtime-observation/v1",
+  "environment": "Temple self-host repository, loopback HTTP server, locally bundled Codex App Server 0.150.0-alpha.12.2",
+  "scenario": "Rebuild generated telemetry, start the real Codex Provider twice, and verify history-only projection plus incremental reconciliation without Provider degradation",
+  "result": "pass",
+  "provenance": "live",
+  "observed_at": "2026-08-30T06:20:15.402Z",
+  "revision": "3872ac71630e8a52d69f1b624793bfa6e7cf5475",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0012/developer-evidence.md"
+  ]
+}
