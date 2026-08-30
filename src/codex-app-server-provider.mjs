@@ -10,6 +10,8 @@ import {
 
 export const CODEX_APP_SERVER_PROTOCOL_PROFILE = "codex-app-server-v2-observer-2026-08-30";
 export const CODEX_APP_SERVER_SOURCE = "urn:temple:provider:codex-app-server:local";
+export const DEFAULT_CODEX_HISTORY_TURN_LIMIT = 20;
+export const DEFAULT_CODEX_HISTORY_ITEM_LIMIT = 200;
 
 const NOTIFICATION_TYPES = new Map([
   ["thread/started", "org.temple.codex.thread.started.v1"],
@@ -350,13 +352,65 @@ export function normalizeCodexMessage(projectId, tasks, message, options = {}) {
   };
 }
 
-function snapshotMessages(thread, observedAt) {
+function validatedHistoryLimit(value, fallback, maximum, name) {
+  const resolved = value ?? fallback;
+  if (!Number.isInteger(resolved) || resolved < 1 || resolved > maximum) {
+    throw new Error(`${name} must be an integer from 1 to ${maximum}`);
+  }
+  return resolved;
+}
+
+function boundedSnapshotWindow(thread, options = {}) {
+  const turnLimit = validatedHistoryLimit(
+    options.historyTurnLimit,
+    DEFAULT_CODEX_HISTORY_TURN_LIMIT,
+    100,
+    "Codex history turn limit"
+  );
+  const itemLimit = validatedHistoryLimit(
+    options.historyItemLimit,
+    DEFAULT_CODEX_HISTORY_ITEM_LIMIT,
+    1000,
+    "Codex history item limit"
+  );
+  const availableTurns = Array.isArray(thread?.turns) ? thread.turns : [];
+  const retainedTurns = availableTurns.slice(-turnLimit);
+  const boundedTurns = new Array(retainedTurns.length);
+  let remainingItems = itemLimit;
+  for (let index = retainedTurns.length - 1; index >= 0; index -= 1) {
+    const turn = retainedTurns[index];
+    const availableItems = Array.isArray(turn?.items) ? turn.items : [];
+    const retainedItems = remainingItems > 0 ? availableItems.slice(-remainingItems) : [];
+    remainingItems -= retainedItems.length;
+    boundedTurns[index] = { ...turn, items: retainedItems };
+  }
+  const availableItemCount = availableTurns.reduce(
+    (total, turn) => total + (Array.isArray(turn?.items) ? turn.items.length : 0),
+    0
+  );
+  const retainedItemCount = boundedTurns.reduce((total, turn) => total + turn.items.length, 0);
+  return {
+    turns: boundedTurns,
+    metadata: {
+      turn_limit: turnLimit,
+      item_limit: itemLimit,
+      available_turns: availableTurns.length,
+      retained_turns: boundedTurns.length,
+      available_items: availableItemCount,
+      retained_items: retainedItemCount,
+      truncated: availableTurns.length > boundedTurns.length || availableItemCount > retainedItemCount
+    }
+  };
+}
+
+function snapshotMessages(thread, observedAt, options = {}) {
+  const window = boundedSnapshotWindow(thread, options);
   const output = [{
     method: "thread/status/changed",
     params: { threadId: thread.id, status: thread.status },
     emittedAtMs: Date.parse(observedAt)
   }];
-  for (const turn of thread.turns ?? []) {
+  for (const turn of window.turns) {
     const method = turn.status === "inProgress" ? "turn/started" : "turn/completed";
     output.push({ method, params: { threadId: thread.id, turn }, emittedAtMs: Date.parse(observedAt) });
     for (const item of turn.items ?? []) {
@@ -373,13 +427,14 @@ function snapshotMessages(thread, observedAt) {
       });
     }
   }
-  return output;
+  return { messages: output, metadata: window.metadata };
 }
 
 export function normalizeCodexThreadSnapshot(projectId, tasks, thread, options = {}) {
   const observedAt = options.observedAt ?? new Date().toISOString();
   const snapshotTime = timestamp(thread?.updatedAt ?? thread?.createdAt, observedAt);
-  return snapshotMessages(thread, observedAt)
+  const snapshot = snapshotMessages(thread, observedAt, options);
+  return snapshot.messages
     .map((message) => normalizeCodexMessage(projectId, tasks, message, { observedAt }))
     .filter(Boolean)
     .map((event) => ({
@@ -395,7 +450,12 @@ export function normalizeCodexThreadSnapshot(projectId, tasks, thread, options =
         snapshotTime
       ])).slice(0, 32)}`,
       time: snapshotTime,
-      data: { ...event.data, reconciled: true, reconciliation_source: "provider-snapshot" }
+      data: {
+        ...event.data,
+        reconciled: true,
+        reconciliation_source: options.source ?? "provider-snapshot",
+        reconciliation_window: snapshot.metadata
+      }
     }));
 }
 
@@ -488,6 +548,18 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
   const command = options.command ?? "codex";
   const commandArgs = options.commandArgs ?? ["app-server", "--stdio"];
   const pendingRuntimeRequests = new Map();
+  const historyTurnLimit = validatedHistoryLimit(
+    options.historyTurnLimit,
+    DEFAULT_CODEX_HISTORY_TURN_LIMIT,
+    100,
+    "Codex history turn limit"
+  );
+  const historyItemLimit = validatedHistoryLimit(
+    options.historyItemLimit,
+    DEFAULT_CODEX_HISTORY_ITEM_LIMIT,
+    1000,
+    "Codex history item limit"
+  );
   let connection = null;
   let stopped = false;
   let reconnectTimer = null;
@@ -504,7 +576,13 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
   }
 
   async function reconcile(thread, source) {
-    for (const event of normalizeCodexThreadSnapshot(project.id, tasks, thread, { source })) await journal.append(event);
+    const events = normalizeCodexThreadSnapshot(project.id, tasks, thread, {
+      source,
+      historyTurnLimit,
+      historyItemLimit
+    });
+    for (const event of events) await journal.append(event);
+    return events.length;
   }
 
   function scheduleReconnect() {
@@ -572,11 +650,15 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
 
         for (const task of tasks) {
           try {
+            let snapshotReconciled = false;
             const read = await activeConnection.request("thread/read", { threadId: task.thread_id, includeTurns: true });
-            if (read?.thread) await reconcile(read.thread, "thread/read");
+            if (read?.thread) {
+              await reconcile(read.thread, "thread/read");
+              snapshotReconciled = true;
+            }
             if (options.resumeThreads !== false) {
               const resumed = await activeConnection.request("thread/resume", { threadId: task.thread_id });
-              if (resumed?.thread) await reconcile(resumed.thread, "thread/resume");
+              if (resumed?.thread && !snapshotReconciled) await reconcile(resumed.thread, "thread/resume");
             }
           } catch (error) {
             const event = normalizeCodexMessage(project.id, tasks, {

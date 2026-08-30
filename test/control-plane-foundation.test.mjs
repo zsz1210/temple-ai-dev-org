@@ -16,6 +16,8 @@ import {
   openTelemetryJournal,
   resolveControlPlaneStateDirectory
 } from "../src/telemetry.mjs";
+import { defaultControlPlaneConfig, validateControlPlaneConfig } from "../src/control-plane-config.mjs";
+import { renderControlPlaneDashboard } from "../src/control-plane-dashboard.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const cli = path.join(root, "bin/temple.mjs");
@@ -234,6 +236,80 @@ test("HTTP snapshot and SSE replay expose local events while arbitrary mutation 
   assert.equal(mutation.status, 405);
   assert.equal((await mutation.json()).error, "Phase 3C accepts mutations only through bounded Human Inbox routes");
   await controlPlane.close();
+});
+
+test("HTTP becomes available before a slow Codex history reconciliation completes", async (context) => {
+  const { temporaryRoot, target, stateDirectory } = await fixture(context);
+  const created = run([
+    "work-item", "create", target,
+    "--title", "Slow provider fixture",
+    "--scope", "Prove HTTP-first startup",
+    "--acceptance", "Health remains responsive",
+    "--affected-path", "src/control-plane",
+    "--ui-mode", "not-applicable",
+    "--json"
+  ]);
+  assert.equal(created.status, 0, created.stderr || created.stdout);
+  const workItemId = JSON.parse(created.stdout).item.id;
+  const registered = run([
+    "task", "register", target,
+    "--work-item", workItemId,
+    "--position", "developer",
+    "--thread-id", "thread-slow-001",
+    "--revision", "a".repeat(40),
+    "--json"
+  ]);
+  assert.equal(registered.status, 0, registered.stderr || registered.stdout);
+  const fakeServer = path.join(temporaryRoot, "slow-app-server.mjs");
+  await fs.writeFile(fakeServer, `
+    import readline from "node:readline";
+    const input=readline.createInterface({input:process.stdin});
+    const send=(value)=>process.stdout.write(JSON.stringify(value)+"\\n");
+    input.on("line",line=>{const message=JSON.parse(line);if(message.method==="initialize")send({jsonrpc:"2.0",id:message.id,result:{serverInfo:{version:"slow-fixture"}}});});
+  `);
+  const startedAt = Date.now();
+  const controlPlane = await startControlPlaneServer(target, {
+    stateDirectory,
+    port: 0,
+    repositoryIntervalMs: 50,
+    enableCodex: true,
+    codexCommand: process.execPath,
+    codexCommandArgs: [fakeServer],
+    resumeCodexThreads: false
+  });
+  context.after(() => controlPlane.close());
+  assert.ok(Date.now() - startedAt < 1000, "server startup waited for Codex history reconciliation");
+  assert.ok(controlPlane.codexStartup instanceof Promise);
+  const health = await fetch(`${controlPlane.url}/healthz`);
+  const snapshot = await fetch(`${controlPlane.url}/api/v1/snapshot`);
+  assert.equal(health.status, 200);
+  assert.equal(snapshot.status, 200);
+  assert.equal((await snapshot.json()).schema_version, "temple.control-plane-snapshot/v1");
+  await controlPlane.close();
+});
+
+test("Codex history bounds are validated and the Dashboard exposes terminal work", () => {
+  const config = defaultControlPlaneConfig();
+  config.providers.push({
+    id: "codex-local",
+    kind: "codex-app-server",
+    enabled: true,
+    options: {
+      resume_threads: false,
+      history_turn_limit: 20,
+      history_item_limit: 200
+    }
+  });
+  assert.deepEqual(validateControlPlaneConfig(config), { valid: true, errors: [] });
+  config.providers[1].options.history_item_limit = 1001;
+  config.providers[1].options.unknown_option = true;
+  const invalid = validateControlPlaneConfig(config);
+  assert.equal(invalid.valid, false);
+  assert.match(invalid.errors.join("\n"), /history_item_limit/);
+  assert.match(invalid.errors.join("\n"), /unsupported fields/);
+  const html = renderControlPlaneDashboard("Fixture Project");
+  assert.match(html, /Terminal/);
+  assert.match(html, /badge\.terminal/);
 });
 
 test("rebuild preserves the previous journal and reconstructs canonical repository events", async (context) => {

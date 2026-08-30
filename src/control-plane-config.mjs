@@ -107,6 +107,41 @@ export function validateControlPlaneConfig(document) {
       }
       if (!CONTROL_PLANE_PROVIDER_KINDS.includes(provider?.kind)) errors.push("providers contain an unsupported kind");
       if (typeof provider?.enabled !== "boolean") errors.push("provider.enabled must be boolean");
+      if (provider?.kind === "codex-app-server" && provider?.enabled === true) {
+        const options = provider.options ?? {};
+        if (typeof options !== "object" || Array.isArray(options)) {
+          errors.push(`Codex provider ${provider.id} options must be an object`);
+        } else {
+          if (options.command !== undefined && (typeof options.command !== "string" || !options.command.trim())) {
+            errors.push(`Codex provider ${provider.id} options.command must be a non-empty string`);
+          }
+          if (
+            options.command_args !== undefined &&
+            (!Array.isArray(options.command_args) || options.command_args.some((entry) => typeof entry !== "string"))
+          ) {
+            errors.push(`Codex provider ${provider.id} options.command_args must contain strings`);
+          }
+          if (options.resume_threads !== undefined && typeof options.resume_threads !== "boolean") {
+            errors.push(`Codex provider ${provider.id} options.resume_threads must be boolean`);
+          }
+          if (
+            options.history_turn_limit !== undefined &&
+            (!Number.isInteger(options.history_turn_limit) || options.history_turn_limit < 1 || options.history_turn_limit > 100)
+          ) {
+            errors.push(`Codex provider ${provider.id} options.history_turn_limit must be from 1 to 100`);
+          }
+          if (
+            options.history_item_limit !== undefined &&
+            (!Number.isInteger(options.history_item_limit) || options.history_item_limit < 1 || options.history_item_limit > 1000)
+          ) {
+            errors.push(`Codex provider ${provider.id} options.history_item_limit must be from 1 to 1000`);
+          }
+          const known = new Set(["command", "command_args", "resume_threads", "history_turn_limit", "history_item_limit"]);
+          if (Object.keys(options).some((key) => !known.has(key))) {
+            errors.push(`Codex provider ${provider.id} options contain unsupported fields`);
+          }
+        }
+      }
       if (provider?.kind === "github" && provider?.enabled === true) {
         const options = provider.options;
         if (!options || typeof options !== "object" || Array.isArray(options)) {

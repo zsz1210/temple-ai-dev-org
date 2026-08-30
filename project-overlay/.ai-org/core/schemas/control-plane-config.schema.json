@@ -65,6 +65,33 @@
           {
             "if": {
               "properties": {
+                "kind": { "const": "codex-app-server" },
+                "enabled": { "const": true }
+              },
+              "required": ["kind", "enabled"]
+            },
+            "then": {
+              "properties": {
+                "options": {
+                  "type": "object",
+                  "properties": {
+                    "command": { "type": "string", "minLength": 1 },
+                    "command_args": {
+                      "type": "array",
+                      "items": { "type": "string" }
+                    },
+                    "resume_threads": { "type": "boolean" },
+                    "history_turn_limit": { "type": "integer", "minimum": 1, "maximum": 100 },
+                    "history_item_limit": { "type": "integer", "minimum": 1, "maximum": 1000 }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
                 "kind": { "const": "github" },
                 "enabled": { "const": true }
               },

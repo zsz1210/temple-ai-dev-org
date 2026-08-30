@@ -44,7 +44,26 @@ Opt in to the pinned Codex App Server observer for registered task thread IDs:
 node ./templew.mjs control-plane start . --codex
 ```
 
-`--codex` performs an App Server handshake, reads each non-archived registered thread, and explicitly resumes it to receive live notifications. A task that is only registered, cannot be attached, or uses an unavailable provider remains `registered-only` or `unknown`; it is never inferred to be idle or complete. The adapter pins the `codex-app-server-v2-observer-2026-08-30` protocol profile and reports the detected App Server user agent at runtime.
+The HTTP server and repository snapshot become available before optional Codex history synchronization begins. During that background synchronization, provider-dependent state remains capability-labelled as `registered-only` or `unknown`; the Dashboard does not wait for an entire conversation history before serving health and snapshot routes.
+
+`--codex` performs an App Server handshake, reads each non-archived registered thread, and explicitly resumes it to receive live notifications. The initial reconciliation retains the newest 20 turns and at most 200 items per registered thread by default. A successful `thread/read` snapshot is not duplicated by the following resume response. A task that cannot be attached or uses an unavailable provider remains `registered-only` or `unknown`; it is never inferred to be idle or complete. The adapter pins the `codex-app-server-v2-observer-2026-08-30` protocol profile and reports the detected App Server user agent at runtime.
+
+Projects may reduce or increase the bounded startup window without retaining raw content:
+
+```json
+{
+  "id": "codex-local",
+  "kind": "codex-app-server",
+  "enabled": true,
+  "options": {
+    "resume_threads": true,
+    "history_turn_limit": 20,
+    "history_item_limit": 200
+  }
+}
+```
+
+`history_turn_limit` accepts 1–100 and `history_item_limit` accepts 1–1000. Larger values increase local startup work and journal volume; they do not grant more lifecycle authority.
 
 The server exposes:
 
@@ -107,7 +126,7 @@ Capture rechecks the configured, observed, and locally resolvable Git commit, th
 
 ## Live observation and alert semantics
 
-The live view correlates only registered task thread IDs with Work Items. It retains plan steps, changed-file counts, diff statistics, token counts, lifecycle state, and request metadata. It does not retain raw prompts, hidden reasoning, commands, command output, diff bodies, or full tool arguments and results. Reconciliation uses fresh `thread/read` and `thread/resume` snapshots; terminal item state wins over a later transient delta.
+The live view correlates only registered task thread IDs with Work Items. It retains plan steps, changed-file counts, diff statistics, token counts, lifecycle state, and request metadata. It does not retain raw prompts, hidden reasoning, commands, command output, diff bodies, or full tool arguments and results. Initial reconciliation uses a bounded `thread/read` snapshot and then resumes the thread for live notifications; terminal item state wins over a later transient delta. Canonical Work Items in `done` or `cancelled` appear in the `terminal` category rather than returning to the queued-work count.
 
 Conditions use `true`, `false`, or `unknown` status and a separate `pending`, `firing`, `suppressed`, or `resolved` lifecycle. The initial set covers stalled work, orphaned work, scope conflict, stale evidence, and token-usage anomaly. Provider outages suppress dependent conclusions as `unknown`. Failing or interrupted turns create observed blocked attention without changing the canonical Work Item lifecycle.
 
@@ -152,4 +171,4 @@ A rebuild restores canonical history projection. Provider-only transient history
 
 ## Current capability boundary
 
-Alpha.22 completes the local Phase 3 increments: replay-safe telemetry, the live Observer, capability-proven Codex App Server observation, stateful conditions, the authority-separated Human Inbox, and an exact-SHA read-only GitHub PR and Checks provider with explicit evidence capture. It does not provide remote access, notifications, tracker or PR writes, merge, deployment, production operations, universal visibility into existing Codex Desktop tasks, cross-clone consensus, or production-grade retention. See the accepted [Phase 3 design](../planning/phase-3-control-plane.md), [work breakdown](../planning/phase-3-work-items.md), and validation records.
+The local Phase 3 increments include replay-safe telemetry, the live Observer, capability-proven Codex App Server observation, stateful conditions, the authority-separated Human Inbox, and an exact-SHA read-only GitHub PR and Checks provider with explicit evidence capture. The current reliability pass also separates terminal work from queued work and prevents optional Codex history synchronization from blocking the local HTTP surface. It does not provide remote access, notifications, tracker or PR writes, merge, deployment, production operations, universal visibility into existing Codex Desktop tasks, cross-clone consensus, or production-grade retention. See the accepted [Phase 3 design](../planning/phase-3-control-plane.md), [work breakdown](../planning/phase-3-work-items.md), and validation records.

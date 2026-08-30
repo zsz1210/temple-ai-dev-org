@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 8 total, 0 active
+- Work items: 9 total, 1 active
 - Codex tasks: 1 registered, 1 archive-ready
 - Runtime workers: 0 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -36,7 +36,7 @@
 - Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 0 / 0
+- Active / sequential / blocked: 0 / 1 / 0
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -52,6 +52,7 @@
 | WI-0006 | Design Phase 4 reliability, token efficiency, and model routing | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `7b6a7abe` | 0 | 9 | 0 |
 | WI-0007 | Implement Phase 4A backup and crash-safe restore | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ffba88a` | 0 | 12 | 0 |
 | WI-0008 | Validate Phase 4A recovery with AiPet | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0e9891cf` | 1 | 10 | 0 |
+| WI-0009 | Harden Dashboard lifecycle semantics and startup | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `—` | 0 | 3 | 0 |
 
 ## Codex task registry
 
@@ -124,14 +125,14 @@ No runtime workers registered yet.
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-30T05:07:59.406Z | work_item_transitioned | WI-0009 | agent-tidus |
+| 2026-08-30T05:07:52.440Z | work_item_transitioned | WI-0009 | agent-yuna |
+| 2026-08-30T05:07:52.160Z | work_item_transitioned | WI-0009 | agent-mog |
+| 2026-08-30T05:05:18.319Z | work_item_coordination_configured | WI-0009 | agent-mog |
+| 2026-08-30T05:05:18.061Z | work_item_created | WI-0009 | agent-mog |
 | 2026-08-30T05:02:27.089Z | work_item_closed | WI-0008 | agent-mog |
 | 2026-08-30T05:02:27.089Z | release_gate_completed | WI-0008 | agent-mog |
 | 2026-08-30T05:02:07.235Z | work_item_transitioned | WI-0008 | agent-lulu |
-| 2026-08-30T05:02:06.984Z | evidence_recorded | WI-0008 | human |
-| 2026-08-30T04:58:43.614Z | work_item_transitioned | WI-0008 | agent-lulu |
-| 2026-08-30T04:58:43.336Z | work_item_transitioned | WI-0008 | agent-lulu |
-| 2026-08-30T04:58:43.070Z | evidence_recorded | WI-0008 | human |
-| 2026-08-30T04:56:50.586Z | task_status_changed | WI-0008 | agent-rikku |
 
 ## Assignments
 

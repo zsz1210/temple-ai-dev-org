@@ -217,6 +217,7 @@ export async function startControlPlaneServer(target, options = {}) {
   let journal = null;
   let repositoryProvider = null;
   let codexProvider = null;
+  let codexStartup = null;
   const githubProviders = [];
   let server = null;
   let serverOrigin = null;
@@ -240,9 +241,10 @@ export async function startControlPlaneServer(target, options = {}) {
         providerId: configuredCodex?.id,
         command: options.codexCommand ?? configuredCodex?.options?.command,
         commandArgs: options.codexCommandArgs ?? configuredCodex?.options?.command_args,
-        resumeThreads: options.resumeCodexThreads ?? configuredCodex?.options?.resume_threads ?? true
+        resumeThreads: options.resumeCodexThreads ?? configuredCodex?.options?.resume_threads ?? true,
+        historyTurnLimit: options.codexHistoryTurnLimit ?? configuredCodex?.options?.history_turn_limit,
+        historyItemLimit: options.codexHistoryItemLimit ?? configuredCodex?.options?.history_item_limit
       });
-      await codexProvider.start();
     }
     for (const githubConfig of config.providers.filter((provider) => provider.kind === "github" && provider.enabled)) {
       const provider = await startGitHubControlPlaneProvider(
@@ -381,6 +383,15 @@ export async function startControlPlaneServer(target, options = {}) {
       startedAt,
       version: TEMPLATE_VERSION
     });
+    if (codexProvider) {
+      codexStartup = codexProvider.start().catch((error) => {
+        registry.update(codexProvider.providerId, {
+          status: "degraded",
+          degraded_reason: error.message
+        });
+        return null;
+      });
+    }
 
     let closed = false;
     return {
@@ -391,6 +402,7 @@ export async function startControlPlaneServer(target, options = {}) {
       journal,
       registry,
       codexProvider,
+      codexStartup,
       githubProviders,
       sessionSecret,
       async close() {
@@ -398,6 +410,7 @@ export async function startControlPlaneServer(target, options = {}) {
         closed = true;
         for (const close of [...clients]) close();
         if (codexProvider) await codexProvider.stop();
+        if (codexStartup) await codexStartup.catch(() => {});
         for (const provider of githubProviders) await provider.stop();
         await repositoryProvider.stop();
         await persistProviderRegistry(stateDirectory, registry);

@@ -1,0 +1,84 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0009",
+  "title": "Harden Dashboard lifecycle semantics and startup",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T05:05:18.061Z",
+  "updated_at": "2026-08-30T05:07:59.406Z",
+  "scope": [
+    "Correct terminal Work Item categorization and prevent registered Codex task history synchronization from blocking local Dashboard availability."
+  ],
+  "acceptance_criteria": [
+    "Done and cancelled Work Items are represented as terminal rather than queued in Observer data, Dashboard metrics, and tests.",
+    "The loopback HTTP health and snapshot surfaces become available without waiting for Codex provider history synchronization.",
+    "Initial Codex history synchronization is explicitly bounded while live events and honest unknown or registered-only states remain available.",
+    "Existing privacy, replay, provider capability, and no-external-mutation guarantees continue to pass.",
+    "Operations and validation documentation explain startup order, history bounds, terminal categories, and retained limits."
+  ],
+  "affected_paths": [
+    "src/observer.mjs",
+    "src/control-plane.mjs",
+    "src/codex-provider.mjs",
+    "src/control-plane-dashboard.mjs",
+    "test/control-plane.test.mjs",
+    "docs/operations/control-plane.md",
+    "docs/validation"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "code-first",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [
+    "general-development"
+  ],
+  "stage_requirements": {},
+  "base_revision": "f4443b4d9ec6494ad882dafb17ad850b561684bd",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0009.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0009.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0009.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0009.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0009.md"
+    ],
+    "ui_brief": [
+      ".ai-org/artifacts/WI-0009/ui-design-brief.md"
+    ],
+    "required_state_coverage": [
+      ".ai-org/artifacts/WI-0009/ui-design-brief.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0009.md",
+    ".ai-org/work-items/WI-0009.json",
+    ".ai-org/artifacts/WI-0009/ui-design-brief.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

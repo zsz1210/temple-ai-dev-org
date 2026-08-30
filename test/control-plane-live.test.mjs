@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 import {
   buildCodexRuntimeRequestResponse,
   normalizeCodexMessage,
+  normalizeCodexThreadSnapshot,
   startCodexAppServerProvider,
   summarizeUnifiedDiff
 } from "../src/codex-app-server-provider.mjs";
@@ -160,6 +161,74 @@ test("Codex runtime-request responses match the pinned App Server response shape
     ),
     /answer every current question/
   );
+});
+
+test("Codex snapshot reconciliation retains only the configured newest history window", () => {
+  const tasks = [{ id: "task-0001", work_item_id: "WI-0001", thread_id: "thread-1", current_revision: "a".repeat(40) }];
+  const thread = {
+    id: "thread-1",
+    status: { type: "idle" },
+    turns: Array.from({ length: 4 }, (_, turnIndex) => ({
+      id: `turn-${turnIndex + 1}`,
+      status: "completed",
+      items: Array.from({ length: 4 }, (_, itemIndex) => ({
+        id: `item-${turnIndex + 1}-${itemIndex + 1}`,
+        type: "agentMessage"
+      }))
+    }))
+  };
+  const events = normalizeCodexThreadSnapshot("project", tasks, thread, {
+    observedAt: "2026-08-30T00:00:00.000Z",
+    historyTurnLimit: 2,
+    historyItemLimit: 3
+  });
+  assert.equal(events.length, 6);
+  assert.deepEqual(
+    [...new Set(events.map((entry) => entry.data.provider_turn_id).filter(Boolean))],
+    ["turn-3", "turn-4"]
+  );
+  assert.deepEqual(
+    events.map((entry) => entry.data.provider_item_id).filter(Boolean),
+    ["item-4-2", "item-4-3", "item-4-4"]
+  );
+  assert.deepEqual(events[0].data.reconciliation_window, {
+    turn_limit: 2,
+    item_limit: 3,
+    available_turns: 4,
+    retained_turns: 2,
+    available_items: 16,
+    retained_items: 3,
+    truncated: true
+  });
+  assert.doesNotMatch(JSON.stringify(events), /item-1-|item-2-|item-3-/);
+});
+
+test("repository observer classifies completed and cancelled work as terminal", async (context) => {
+  const { target, workItemId } = await fixture(context);
+  const firstPath = path.join(target, `.ai-org/work-items/${workItemId}.json`);
+  const first = JSON.parse(await fs.readFile(firstPath, "utf8"));
+  first.state = "done";
+  await writeJson(firstPath, first);
+  const created = run([
+    "work-item", "create", target,
+    "--title", "Cancelled fixture",
+    "--scope", "Exercise terminal categorization",
+    "--acceptance", "Cancellation is terminal",
+    "--affected-path", "src/cancelled",
+    "--ui-mode", "not-applicable",
+    "--json"
+  ]);
+  assert.equal(created.status, 0, created.stderr || created.stdout);
+  const cancelledId = JSON.parse(created.stdout).item.id;
+  const cancelledPath = path.join(target, `.ai-org/work-items/${cancelledId}.json`);
+  const cancelled = JSON.parse(await fs.readFile(cancelledPath, "utf8"));
+  cancelled.state = "cancelled";
+  await writeJson(cancelledPath, cancelled);
+
+  const observer = await buildObserverProjection(target);
+  assert.equal(observer.work.categories.terminal, 2);
+  assert.equal(observer.work.categories.queued, 0);
+  assert.ok(observer.work.items.every((entry) => entry.category === "terminal"));
 });
 
 test("live projection labels unobserved tasks honestly and terminal item state wins over later transient deltas", async (context) => {

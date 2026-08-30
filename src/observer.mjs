@@ -34,6 +34,7 @@ function resolveCurrentRevision(target, item) {
 }
 
 function categoryFor(item, workers) {
+  if (["done", "cancelled"].includes(item.state)) return "terminal";
   if (item.state === "blocked") return "blocked";
   if (item.state === "release_gate") return "approval_pending";
   if (["test", "eval", "independent_qa"].includes(item.state)) return "qa_pending";
@@ -106,7 +107,7 @@ export async function buildObserverProjection(target) {
     ...events.map((event) => ({ timestamp: event.timestamp, type: "event", name: event.event_type, work_item_id: event.work_item_id ?? null, actor: event.actor ?? null, reference: null })),
     ...evidence.map((entry) => ({ timestamp: entry.observed_at, type: "evidence", name: entry.kind, work_item_id: entry.work_item_id, actor: entry.recorded_by, reference: entry.id, outcome: entry.outcome }))
   ].sort((left, right) => String(right.timestamp).localeCompare(String(left.timestamp))).slice(0, 100);
-  const categories = Object.fromEntries(["active", "blocked", "qa_pending", "approval_pending", "queued"].map((category) => [category, work.filter((item) => item.category === category).length]));
+  const categories = Object.fromEntries(["active", "blocked", "qa_pending", "approval_pending", "queued", "terminal"].map((category) => [category, work.filter((item) => item.category === category).length]));
   return {
     schema_version: OBSERVER_SCHEMA,
     generated_at: new Date().toISOString(),
