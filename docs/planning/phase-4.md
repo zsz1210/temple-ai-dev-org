@@ -1,8 +1,9 @@
 # Phase 4: reliability at daily and multi-project scale
 
-- Status: implementation in progress; the Alpha.24 local Phase 4A mechanism is shipped, while real data-bearing restore, migration rehearsal, and broader failure evidence remain open
+- Status: implementation in progress; Alpha.24 is shipped and one real data-bearing restore plus forward-upgrade rehearsal passed, while rollback, retention/audit export, real interruption, and broader environment evidence remain open
 - Entry baseline: `0.1.0-alpha.23`
 - Governing Work Item: `WI-0006`
+- Recovery validation Work Item: `WI-0008`
 
 Phase 4 turns Temple's locally proven organization model into a system that can survive failure, expose policy mistakes, and coordinate several authoritative repositories. It is an evidence phase, not a promise that adding more features makes Temple enterprise-ready.
 
@@ -37,7 +38,7 @@ The accepted decisions are:
 
 Generated views are rebuilt after restore. Runtime telemetry is exported separately and is not required to recover canonical project truth.
 
-Alpha.24 implements the local versioned manifest, integrity inspection, stale-safe restore preview, explicit replacement consent, external recovery ledger, automatic rollback, and guarded interrupted-restore recovery. It intentionally does not close Phase 4A: the real clean-environment recovery, migration rehearsal, retention/audit export policy, and broader crash validation below remain required.
+Alpha.24 implements the local versioned manifest, integrity inspection, stale-safe restore preview, explicit replacement consent, external recovery ledger, automatic rollback, and guarded interrupted-restore recovery. The [AiPet recovery rehearsal](../validation/alpha-24-aipet-recovery.md) restored all 21 included organization-state files into an isolated clean checkout, rejected a stale plan, upgraded the restored project from Alpha.5 to Alpha.24, and passed Doctor without changing the primary AiPet worktree. That closes one real-project restore and one forward-migration evidence gap; it does not close Phase 4A because post-upgrade rollback, retention/audit export policy, real interruption boundaries, and broader environments remain unverified.
 
 ### Exit evidence
 
@@ -45,6 +46,8 @@ Alpha.24 implements the local versioned manifest, integrity inspection, stale-sa
 - Reproduce the same canonical digests and pass Doctor after regeneration.
 - Inject failure at meaningful write boundaries and prove that recovery neither duplicates a mutation nor overwrites project-owned data.
 - Exercise one forward migration and one rollback with documented stop conditions.
+
+Current evidence: one forward migration passed in the AiPet rehearsal; the rollback half of this requirement remains open.
 
 ## Phase 4B — policy, evaluation, and daily reliability
 

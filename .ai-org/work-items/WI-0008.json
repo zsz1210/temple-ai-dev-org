@@ -1,0 +1,73 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0008",
+  "title": "Validate Phase 4A recovery with AiPet",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T04:48:02.139Z",
+  "updated_at": "2026-08-30T04:48:48.767Z",
+  "scope": [
+    "Run the retained Phase 4A recovery rehearsal against a clean, isolated AiPet checkout without upgrading or modifying the primary AiPet working tree."
+  ],
+  "acceptance_criteria": [
+    "A verified Alpha.5 backup records the AiPet project ID, exact Git revision, clean source state, 21 files, and a stable content digest.",
+    "A stale restore plan is rejected after bounded fault injection, and a fresh plan reports one create, one replace, no conflicts, and upgrade_required=true.",
+    "Restore reproduces all 21 backup file digests in the isolated checkout without touching the primary AiPet working tree.",
+    "The isolated checkout upgrades from Alpha.5 to Alpha.24, generated views rebuild, and Doctor passes.",
+    "A validation record captures results and retained limits; no AiPet feature work, external release, or primary worktree mutation occurs."
+  ],
+  "affected_paths": [
+    "docs/validation/alpha-24-aipet-recovery.md",
+    "docs/validation/README.md",
+    "docs/planning/phase-4.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [
+    "general-development"
+  ],
+  "stage_requirements": {},
+  "base_revision": "fc23facc7d8e6af99b5afc013e96a5e1b2f9a6a8",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0008.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0008.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0008.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0008.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0008.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0008.md",
+    ".ai-org/work-items/WI-0008.json"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
