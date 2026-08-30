@@ -4,7 +4,7 @@
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 1 wave(s), fresh=false
+- Parallel plan: 1 wave(s), fresh=true
 - Work items: 35 total, 7 active
 - Codex tasks: 4 registered, 3 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
@@ -16,7 +16,7 @@
 - Learning revalidation: 0 due, 0 contradicted
 - Specifications: 0 indexed, 0 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 9
+- Attention signals: 8
 
 ## Collaboration
 
@@ -33,7 +33,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: no
+- Fresh: yes
 - Safe waves: 1
 - Dispatchable Work Items: 1
 - Active / sequential / blocked: 0 / 0 / 3
@@ -133,7 +133,6 @@
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
-- Generated parallel plan is stale; rebuild it before dispatch
 - Parallel plan has 3 blocked Work Item(s)
 
 ## External tracker coordination

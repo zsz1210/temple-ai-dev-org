@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T14:24:40.088Z",
-  "source_fingerprint": "d6b3d9cdc4644cd1b1de73a3ea19b84661f7905f7076c69a0c5de29774411cbe",
+  "generated_at": "2026-08-30T14:34:19.320Z",
+  "source_fingerprint": "08a5630e6e92ef47b7ce9644794e1313777da6857c5319e089b5c4731529100d",
   "scope": {
     "mode": "parent-descendants",
     "parent_work_item_id": "WI-0031",
@@ -29,10 +29,10 @@
         {
           "work_item_id": "WI-0032",
           "title": "Sandbox federation participant Git inspection",
-          "position_id": "independent_qa",
-          "agent_id": "agent-lulu",
-          "agent_name": "Lulu",
-          "suggested_task_title": "WI-0032 · Independent QA · Lulu",
+          "position_id": "release_manager",
+          "agent_id": "agent-mog",
+          "agent_name": "Mog",
+          "suggested_task_title": "WI-0032 · Release Manager · Mog",
           "base_revision": "68d4cf448df8f76ba08ce9b64ddf2c27967a39a0",
           "affected_paths": [
             "src/federation.mjs",
@@ -43,13 +43,13 @@
           "dependencies": [],
           "required_disciplines": [],
           "active_requirements": {
-            "stage": "independent_qa",
+            "stage": "release_gate",
             "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "34c44ad6f30a899b47a2b8e54279d1a55ba7c05c5b3bf4fe39a28906d0921d7c",
+          "preparation_fingerprint": "c5a632120dbdac402fb2ff87fff61d910a9495ddff9cda452bad034032028e27",
           "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0032 --position independent_qa --no-write --json",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0032 --position release_manager --no-write --json",
           "claim_required_before_work": true,
           "task_registration_required_after_creation": true,
           "task_creation_performed": false,
