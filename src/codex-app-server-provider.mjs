@@ -84,6 +84,10 @@ function boundedText(value, limit = 240) {
 }
 
 function timestamp(value, fallback) {
+  if (typeof value === "string" && value.trim()) {
+    const date = new Date(value);
+    if (!Number.isNaN(date.valueOf())) return date.toISOString();
+  }
   if (Number.isFinite(value)) {
     const milliseconds = value > 10_000_000_000 ? value : value * 1000;
     const date = new Date(milliseconds);
@@ -498,27 +502,30 @@ function boundedSnapshotWindow(thread, options = {}) {
   };
 }
 
-function snapshotMessages(thread, observedAt, options = {}) {
+function snapshotMessages(thread, fallbackTime, options = {}) {
   const window = boundedSnapshotWindow(thread, options);
   const output = [{
     method: "thread/status/changed",
     params: { threadId: thread.id, status: thread.status },
-    emittedAtMs: Date.parse(observedAt)
+    emittedAtMs: fallbackTime
   }];
   for (const turn of window.turns) {
     const method = turn.status === "inProgress" ? "turn/started" : "turn/completed";
-    output.push({ method, params: { threadId: thread.id, turn }, emittedAtMs: Date.parse(observedAt) });
+    output.push({ method, params: { threadId: thread.id, turn }, emittedAtMs: fallbackTime });
     for (const item of turn.items ?? []) {
       const completed = turn.status !== "inProgress" || ["completed", "failed", "declined"].includes(item?.status);
+      const itemTime = completed
+        ? item?.completedAtMs ?? item?.completedAt ?? fallbackTime
+        : item?.startedAtMs ?? item?.startedAt ?? fallbackTime;
       output.push({
         method: completed ? "item/completed" : "item/started",
         params: {
           threadId: thread.id,
           turnId: turn.id,
           item,
-          ...(completed ? { completedAtMs: Date.parse(observedAt) } : { startedAtMs: Date.parse(observedAt) })
+          ...(completed ? { completedAtMs: itemTime } : { startedAtMs: itemTime })
         },
-        emittedAtMs: Date.parse(observedAt)
+        emittedAtMs: fallbackTime
       });
     }
   }
@@ -527,8 +534,9 @@ function snapshotMessages(thread, observedAt, options = {}) {
 
 export function normalizeCodexThreadSnapshot(projectId, tasks, thread, options = {}) {
   const observedAt = options.observedAt ?? new Date().toISOString();
-  const snapshotTime = timestamp(thread?.updatedAt ?? thread?.createdAt, observedAt);
-  const snapshot = snapshotMessages(thread, observedAt, options);
+  const task = taskForThread(tasks, thread?.id);
+  const snapshotTime = timestamp(thread?.createdAt, timestamp(task?.created_at, observedAt));
+  const snapshot = snapshotMessages(thread, snapshotTime, options);
   return snapshot.messages
     .map((message) => normalizeCodexMessage(projectId, tasks, message, {
       observedAt,
@@ -537,26 +545,34 @@ export function normalizeCodexThreadSnapshot(projectId, tasks, thread, options =
       reconciliation: true
     }))
     .filter(Boolean)
-    .map((event) => ({
-      ...event,
-      id: `reconcile-${sha256(JSON.stringify([
-        event.type,
-        event.data.provider_thread_id,
-        event.data.provider_turn_id,
-        event.data.provider_item_id,
-        event.data.status,
-        event.data.lifecycle,
-        event.data.item_status,
-        snapshotTime
-      ])).slice(0, 32)}`,
-      time: snapshotTime,
-      data: {
-        ...event.data,
-        reconciled: true,
-        reconciliation_source: options.source ?? "provider-snapshot",
-        reconciliation_window: snapshot.metadata
-      }
-    }));
+    .map((event, index) => {
+      const windowState = index === 0 ? snapshot.metadata : null;
+      return {
+        ...event,
+        id: `reconcile-${sha256(JSON.stringify([
+          event.type,
+          event.data.provider_thread_id,
+          event.data.provider_turn_id,
+          event.data.provider_item_id,
+          event.data.status,
+          event.data.lifecycle,
+          event.data.item_status,
+          event.data.scope_revision,
+          event.time,
+          windowState
+        ])).slice(0, 32)}`,
+        data: {
+          ...event.data,
+          reconciled: true,
+          reconciliation_source: options.source ?? "provider-snapshot",
+          reconciliation_bounds: {
+            turn_limit: snapshot.metadata.turn_limit,
+            item_limit: snapshot.metadata.item_limit
+          },
+          ...(windowState ? { reconciliation_window: windowState } : {})
+        }
+      };
+    });
 }
 
 export function createJsonRpcProcess(command, args = [], options = {}) {

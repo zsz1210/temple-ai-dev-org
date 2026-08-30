@@ -1,5 +1,6 @@
 import path from "node:path";
 import { pathExists, readJson } from "./files.mjs";
+import { classifyCodexTasks } from "./codex-app-server-provider.mjs";
 
 export const LIVE_OBSERVER_SCHEMA = "temple.live-observer/v1";
 
@@ -44,23 +45,40 @@ function itemReducer(records) {
   return [...items.values()];
 }
 
-function taskProjection(task, records, providers, now) {
+function taskProjection(task, records, providers, now, liveResumableIds) {
   const taskRecords = records.filter((record) =>
     record.data?.task_id === task.id || (task.thread_id && record.data?.provider_thread_id === task.thread_id)
   );
   const provider = providerForTask(providers, task);
-  const last = taskRecords.at(-1) ?? null;
-  const statusRecord = latestBy(taskRecords, (record) =>
+  const liveEligible = liveResumableIds.has(task.id);
+  const liveRecords = liveEligible
+    ? taskRecords.filter((record) => record.data?.reconciled !== true)
+    : [];
+  const historyRecords = liveEligible
+    ? taskRecords.filter((record) => record.data?.reconciled === true)
+    : taskRecords;
+  const liveVisible = provider?.status === "ready" && liveRecords.length > 0;
+  const historyVisible = !liveVisible && historyRecords.length > 0;
+  const projectionRecords = liveVisible ? liveRecords : historyVisible ? historyRecords : [];
+  const last = projectionRecords.at(-1) ?? null;
+  const statusRecord = latestBy(projectionRecords, (record) =>
     record.type.includes("thread.status") || record.type.includes("turn.completed") || record.type.includes("turn.started")
   );
-  const planRecord = latestBy(taskRecords, (record) => record.type.includes("plan.updated"));
-  const diffRecord = latestBy(taskRecords, (record) => record.type.includes("diff.updated"));
-  const usageRecord = latestBy(taskRecords, (record) => record.type.includes("usage.updated"));
-  const failureRecord = latestBy(taskRecords, (record) =>
+  const planRecord = latestBy(projectionRecords, (record) => record.type.includes("plan.updated"));
+  const diffRecord = latestBy(projectionRecords, (record) => record.type.includes("diff.updated"));
+  const usageRecord = latestBy(projectionRecords, (record) => record.type.includes("usage.updated"));
+  const failureRecord = latestBy(liveRecords, (record) =>
     record.type.includes("failure.observed") || ["failed", "interrupted"].includes(record.data?.status)
   );
-  const liveVisible = provider?.status === "ready" && taskRecords.length > 0;
-  const visibility = liveVisible ? "live" : provider?.status === "ready" ? "registered-only" : "unknown";
+  const visibility = liveVisible
+    ? "live"
+    : historyVisible
+      ? "history-only"
+      : provider?.status === "ready" ? "registered-only" : "unknown";
+  const runtimeProvenance = liveVisible ? "observed" : historyVisible ? "historical" : "unavailable";
+  const capabilityQuality = liveVisible
+    ? provider?.capabilities?.live_events ?? "unknown"
+    : historyVisible ? provider?.capabilities?.history_snapshot ?? "unknown" : "unknown";
   return {
     id: task.id,
     work_item_id: task.work_item_id,
@@ -70,29 +88,29 @@ function taskProjection(task, records, providers, now) {
     provider_thread_id: task.thread_id,
     provider_id: provider?.id ?? null,
     visibility,
-    observed_status: liveVisible ? statusRecord?.data?.status ?? "unknown" : "unknown",
+    observed_status: liveVisible || historyVisible ? statusRecord?.data?.status ?? "unknown" : "unknown",
     exact_revision: task.current_revision ?? task.base_revision ?? null,
     provenance: {
       registration: "canonical",
-      runtime: liveVisible ? "observed" : "unavailable",
+      runtime: runtimeProvenance,
       source: provider?.id ?? "task-registry",
-      capability_quality: provider?.capabilities?.live_events ?? "unknown"
+      capability_quality: capabilityQuality
     },
     freshness: freshness(last?.templeobservedat, now),
     plan: planRecord ? {
       steps: planRecord.data?.plan ?? [],
       observed_at: planRecord.templeobservedat,
-      provenance: "observed"
+      provenance: runtimeProvenance
     } : null,
     diff: diffRecord ? {
       ...diffRecord.data?.diff_summary,
       observed_at: diffRecord.templeobservedat,
-      provenance: "observed"
+      provenance: runtimeProvenance
     } : null,
     usage: usageRecord ? {
       ...usageRecord.data?.usage,
       observed_at: usageRecord.templeobservedat,
-      provenance: "observed"
+      provenance: runtimeProvenance
     } : null,
     items: itemReducer(taskRecords),
     attention: failureRecord ? {
@@ -114,7 +132,9 @@ export async function buildLiveObserverProjection(target, observer, journal, reg
   const replay = journal.readAfter(0);
   const records = replay.records;
   const now = options.now ? Date.parse(options.now) : Date.now();
-  const tasks = (taskDocument.tasks ?? []).map((task) => taskProjection(task, records, providers, now));
+  const taskTopology = classifyCodexTasks(taskDocument.tasks ?? [], { workItems: observer.work.items });
+  const liveResumableIds = new Set(taskTopology.live_resumable.map((task) => task.id));
+  const tasks = (taskDocument.tasks ?? []).map((task) => taskProjection(task, records, providers, now, liveResumableIds));
   const workItems = observer.work.items.map((item) => {
     const itemTasks = tasks.filter((task) => task.work_item_id === item.id);
     return {
@@ -122,7 +142,9 @@ export async function buildLiveObserverProjection(target, observer, journal, reg
       exact_revision: item.current_revision?.revision ?? item.current_revision?.reference ?? null,
       provenance: {
         lifecycle: "canonical",
-        runtime: itemTasks.some((task) => task.visibility === "live") ? "observed" : "unavailable"
+        runtime: itemTasks.some((task) => task.visibility === "live")
+          ? "observed"
+          : itemTasks.some((task) => task.visibility === "history-only") ? "historical" : "unavailable"
       },
       freshness: itemTasks.length
         ? itemTasks.map((task) => task.freshness).sort((left, right) => (left.age_ms ?? Infinity) - (right.age_ms ?? Infinity))[0]
@@ -140,7 +162,7 @@ export async function buildLiveObserverProjection(target, observer, journal, reg
     work_item_id: record.data?.work_item_id ?? null,
     task_id: record.data?.task_id ?? null,
     provider: record.source,
-    provenance: "observed",
+    provenance: record.data?.reconciled === true ? "historical" : "observed",
     exact_revision: record.data?.scope_revision ?? null
   }));
   const combinedTimeline = [
@@ -155,12 +177,14 @@ export async function buildLiveObserverProjection(target, observer, journal, reg
       ...observer.work,
       items: workItems,
       live: workItems.filter((item) => item.tasks.some((task) => task.visibility === "live")).length,
-      registered_only: tasks.filter((task) => task.visibility === "registered-only").length,
-      unknown: tasks.filter((task) => task.visibility === "unknown").length
+      history_only: workItems.filter((item) => !item.tasks.some((task) => task.visibility === "live") && item.tasks.some((task) => task.visibility === "history-only")).length,
+      registered_only: workItems.filter((item) => item.tasks.length > 0 && item.tasks.every((task) => task.visibility === "registered-only")).length,
+      unknown: workItems.filter((item) => item.tasks.some((task) => task.visibility === "unknown")).length
     },
     tasks: {
       total: tasks.length,
       live: tasks.filter((task) => task.visibility === "live").length,
+      history_only: tasks.filter((task) => task.visibility === "history-only").length,
       registered_only: tasks.filter((task) => task.visibility === "registered-only").length,
       unknown: tasks.filter((task) => task.visibility === "unknown").length,
       items: tasks

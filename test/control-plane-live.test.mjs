@@ -164,8 +164,16 @@ test("Codex runtime-request responses match the pinned App Server response shape
   );
 });
 
-test("Codex snapshot reconciliation retains only the configured newest history window", () => {
-  const tasks = [{ id: "task-0001", work_item_id: "WI-0001", thread_id: "thread-1", current_revision: "a".repeat(40) }];
+test("Codex snapshot reconciliation retains a bounded window and deduplicates equivalent observations", async (context) => {
+  const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-reconciliation-test-"));
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  const tasks = [{
+    id: "task-0001",
+    work_item_id: "WI-0001",
+    thread_id: "thread-1",
+    current_revision: "a".repeat(40),
+    created_at: "2026-08-29T23:59:00.000Z"
+  }];
   const thread = {
     id: "thread-1",
     status: { type: "idle" },
@@ -201,7 +209,41 @@ test("Codex snapshot reconciliation retains only the configured newest history w
     retained_items: 3,
     truncated: true
   });
+  assert.deepEqual(events[0].data.reconciliation_bounds, { turn_limit: 2, item_limit: 3 });
+  assert.ok(events.slice(1).every((entry) => entry.data.reconciliation_window === undefined));
+  assert.ok(events.every((entry) => entry.data.reconciliation_bounds.turn_limit === 2));
   assert.doesNotMatch(JSON.stringify(events), /item-1-|item-2-|item-3-/);
+
+  const repeated = normalizeCodexThreadSnapshot("project", tasks, thread, {
+    observedAt: "2026-08-30T00:30:00.000Z",
+    historyTurnLimit: 2,
+    historyItemLimit: 3
+  });
+  assert.deepEqual(repeated.map((entry) => entry.id), events.map((entry) => entry.id));
+  assert.deepEqual(repeated.map((entry) => entry.time), events.map((entry) => entry.time));
+
+  const journal = await openTelemetryJournal(temporaryRoot, {
+    maxEvents: 100,
+    privacy: defaultControlPlaneConfig().privacy
+  });
+  context.after(() => journal.close());
+  for (const entry of events) assert.equal((await journal.append(entry)).duplicate, false);
+  for (const entry of repeated) assert.equal((await journal.append(entry)).duplicate, true);
+  assert.equal(journal.snapshot().retained_events, events.length);
+
+  const expandedThread = {
+    ...thread,
+    turns: [...thread.turns, { id: "turn-5", status: "completed", items: [] }]
+  };
+  const expanded = normalizeCodexThreadSnapshot("project", tasks, expandedThread, {
+    observedAt: "2026-08-30T00:45:00.000Z",
+    historyTurnLimit: 2,
+    historyItemLimit: 3
+  });
+  assert.notEqual(expanded[0].id, events[0].id, "the changing snapshot summary must remain observable");
+  const retainedTurn = events.find((entry) => entry.data.provider_turn_id === "turn-4" && !entry.data.provider_item_id);
+  const expandedRetainedTurn = expanded.find((entry) => entry.data.provider_turn_id === "turn-4" && !entry.data.provider_item_id);
+  assert.equal(expandedRetainedTurn.id, retainedTurn.id, "an unchanged historical turn must retain its identity");
 });
 
 test("repository observer classifies completed and cancelled work as terminal", async (context) => {
@@ -435,5 +477,17 @@ test("Codex App Server provider reconciles terminal task history without attempt
   const calls = (await fs.readFile(callsPath, "utf8")).trim().split("\n");
   assert.deepEqual(calls, ["initialize", "initialized", "thread/read"]);
   assert.ok(journal.readAfter(0).records.some((record) => record.data?.reconciled));
+  const observer = await buildObserverProjection(target);
+  const live = await buildLiveObserverProjection(target, observer, journal, registry, {
+    now: "2026-08-30T00:00:10.000Z"
+  });
+  const projectedTask = live.tasks.items.find((entry) => entry.id === task.id);
+  assert.equal(projectedTask.visibility, "history-only");
+  assert.equal(projectedTask.provenance.runtime, "historical");
+  assert.equal(projectedTask.provenance.capability_quality, "supported");
+  assert.equal(projectedTask.attention, null);
+  assert.equal(live.tasks.live, 0);
+  assert.equal(live.tasks.history_only, 1);
+  assert.ok(live.timeline.some((entry) => entry.provenance === "historical"));
   await provider.stop();
 });

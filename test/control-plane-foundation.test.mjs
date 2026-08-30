@@ -309,7 +309,9 @@ test("Codex history bounds are validated and the Dashboard exposes terminal work
   assert.match(invalid.errors.join("\n"), /unsupported fields/);
   const html = renderControlPlaneDashboard("Fixture Project");
   assert.match(html, /Terminal/);
+  assert.match(html, /History only/);
   assert.match(html, /badge\.terminal/);
+  assert.match(html, /badge\.history-only/);
 });
 
 test("rebuild preserves the previous journal and reconstructs canonical repository events", async (context) => {

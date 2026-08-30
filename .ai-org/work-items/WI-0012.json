@@ -1,0 +1,78 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0012",
+  "title": "Keep reconciled Codex history out of live task signals",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T06:09:27.672Z",
+  "updated_at": "2026-08-30T06:12:05.992Z",
+  "scope": [
+    "Deduplicate repeated Codex snapshot reconciliation and distinguish historical observations from active live task events in the control plane and Dashboard."
+  ],
+  "acceptance_criteria": [
+    "Repeated equivalent provider snapshots retain stable event IDs and do not grow the telemetry journal.",
+    "Reconciled terminal-task history is labeled history-only, never counted as live, and never raises current runtime-failure attention.",
+    "Dashboard counters and task provenance distinguish live, history-only, registered-only, and unknown states.",
+    "Focused and full automated tests pass, then the recoverable local journal is rebuilt and the Dashboard is rechecked."
+  ],
+  "affected_paths": [
+    "src/codex-app-server-provider.mjs",
+    "src/live-observer.mjs",
+    "src/control-plane-dashboard.mjs",
+    "test/control-plane-live.test.mjs",
+    "docs/validation"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "code-first",
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": null,
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0012.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0012.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0012.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0012.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0012.md"
+    ],
+    "ui_brief": [
+      ".ai-org/artifacts/work-orders/WI-0012.md"
+    ],
+    "required_state_coverage": [
+      ".ai-org/artifacts/work-orders/WI-0012.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0012.md",
+    ".ai-org/work-items/WI-0012.json"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
