@@ -3729,6 +3729,74 @@
         "exit_code": 0,
         "started_at": "2026-08-30T14:06:04.000Z"
       }
+    },
+    {
+      "id": "EVID-20260830T141637Z-1465AB57",
+      "work_item_id": "WI-0035",
+      "recorded_at": "2026-08-30T14:16:37.214Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0035 CI candidate",
+      "outcome": "verified",
+      "scope_revision": "0b02e1c5de3d10aedc0f0ec64cb96af4d9de1e72",
+      "observed_at": "2026-08-30T14:16:37.214Z",
+      "summary": "Exact committed candidate for strict CI scope selection and independent governance/behavior reporting",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "0b02e1c5de3d10aedc0f0ec64cb96af4d9de1e72"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "0b02e1c5de3d10aedc0f0ec64cb96af4d9de1e72",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260830T141637Z-FBBE2971",
+      "work_item_id": "WI-0035",
+      "recorded_at": "2026-08-30T14:16:37.477Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0035 Developer verification",
+      "outcome": "pass",
+      "scope_revision": "0b02e1c5de3d10aedc0f0ec64cb96af4d9de1e72",
+      "observed_at": "2026-08-30T14:14:27.000Z",
+      "summary": "Repository checks and all 205 tests passed on the exact CI classifier candidate; focused evidence/state verification, schema validation, and Doctor also passed",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0035/test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0035/test-observation.json",
+          "sha256": "d3bd1bfc2fab508d23f0f7d4a3c5cbb257a30ce0b3812356ddad3f26dc0f2240"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0035/developer-evidence.md",
+          "sha256": "449d98fe76b7d2a717375b78b6a835b4ef2e484ae83df420df08ece79d94d939"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T14:13:45.000Z"
+      }
     }
   ]
 }
