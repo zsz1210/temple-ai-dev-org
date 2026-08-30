@@ -2,21 +2,21 @@
   "schema_version": "temple.lock/v1",
   "template": {
     "name": "@zsz1210/temple-ai-dev-org",
-    "version": "0.1.0-alpha.26",
+    "version": "0.1.0-alpha.27",
     "repository": "zsz1210/temple-ai-dev-org",
     "bootstrap": {
       "schema_version": "temple.cli-bootstrap/v1",
-      "version": "0.1.0-alpha.26",
+      "version": "0.1.0-alpha.27",
       "node": ">=20",
       "launcher": "templew.mjs",
-      "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.26",
+      "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.27",
       "repository_spec": null,
-      "source_revision": "c74ef2b6522fd1fa6f93432305f0040ee2832e1a",
+      "source_revision": "2ef16d4ee038fb621cdc32adc5f8ba3677e9c9bb",
       "source_clean": false,
       "invocation": "node ./templew.mjs <command> ."
     },
     "installed_at": "2026-08-30T02:28:18.355Z",
-    "upgraded_at": "2026-08-30T06:31:50.248Z",
+    "upgraded_at": "2026-08-30T08:56:06.619Z",
     "upgraded_from": "0.1.0-alpha.26"
   },
   "installation": {
@@ -154,7 +154,13 @@
     "usage_attribution": true,
     "usage_baseline_report": true,
     "usage_telemetry_preflight": true,
-    "codex_account_usage_probe": true
+    "codex_account_usage_probe": true,
+    "backup_retention": true,
+    "redacted_audit_export": true,
+    "usage_qualification": true,
+    "provider_attach_outcomes": true,
+    "repository_federation": true,
+    "read_only_portfolio": true
   },
   "optional_packs": [],
   "managed_files": [
@@ -251,6 +257,14 @@
       "sha256": "e8d9b9505cda1d5398ff80ea616b9551ffd6407bffd3e1aad4330f64966a4890"
     },
     {
+      "path": ".ai-org/core/schemas/federated-portfolio.schema.json",
+      "sha256": "88f57b061349e05a6fcef30eb0336d4b9e7c881ed862ce4c1ba52d5a993069ca"
+    },
+    {
+      "path": ".ai-org/core/schemas/federation.schema.json",
+      "sha256": "0dc3f4df300895d1455ae41074d930dfa1bd2e6a99be1ec8526037356a17af90"
+    },
+    {
       "path": ".ai-org/core/schemas/high-assurance.schema.json",
       "sha256": "55569de92977cf455815173b20ed4c06239d8211b2b703efbb757e81fbd6220b"
     },
@@ -296,7 +310,7 @@
     },
     {
       "path": ".ai-org/core/schemas/schema-catalog.json",
-      "sha256": "20f9325ede92334deedbdb2b82272aef216ba7623d83c276a38411c7f4a4ddbf"
+      "sha256": "fb0a55ba7f183a5ae64fdffa984de6a7b186aa24d162704b6ac0ee260428783f"
     },
     {
       "path": ".ai-org/core/schemas/spec-index.schema.json",

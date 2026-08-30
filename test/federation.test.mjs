@@ -44,7 +44,7 @@ async function createRepository(target, options) {
   await fs.mkdir(path.join(target, ".ai-org/work-items"), { recursive: true });
   await writeJson(path.join(target, "temple.lock"), {
     schema_version: "temple.lock/v1",
-    template: { version: "0.1.0-alpha.26" },
+    template: { version: "0.1.0-alpha.27" },
     project_id: options.lockProjectId ?? options.projectId,
     credential: "must-never-be-projected"
   });

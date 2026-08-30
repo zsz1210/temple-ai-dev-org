@@ -6,9 +6,9 @@ Temple is moving from a locally proven AI development organization framework tow
 
 ## Current position
 
-- **Current release line:** `0.1.0-alpha.26`
-- **Current stage:** Phase 4A local recovery and the Phase 4B policy/usage foundation are implemented; longitudinal reliability evidence remains open
-- **Suitable today:** low-risk local projects and bounded pilots with human supervision
+- **Current release line:** `0.1.0-alpha.27`
+- **Current stage:** Phase 4 local implementation and bounded exit rehearsals are complete; enterprise and statistical qualification remain retained validations
+- **Suitable today:** individual, small-team, and bounded multi-repository local workflows with human supervision
 - **Not yet claimed:** production-grade distributed coordination, regulated operation, or unattended external actions
 
 ## Delivered foundation
@@ -45,32 +45,29 @@ The immediate priority is to turn the proven local foundation into something a d
 
 - Alpha.24 ships a local versioned backup manifest, complete payload verification, stale-safe restore preview, and recoverable multi-file apply for project-owned Temple state.
 - Generated views remain rebuildable; framework-managed files, application source and data, external systems, and control-plane telemetry remain outside this backup boundary.
-- Automated interruption tests preserve newer human changes, and one clean-environment AiPet restore plus forward migration passed. Post-upgrade rollback, real interruption, broader crash evidence, and additional environments remain required.
+- Alpha.27 adds digest-bound retention preview/apply, redacted audit export, and exact rollback plus interrupted-recovery evidence from disposable copies of AiPet. Physical power loss, filesystem corruption, remote transport, production recovery, and additional operating systems remain retained validations.
 
 ### Everyday operating signals
 
-- Alpha.25 provides a seven-scenario adversarial policy scorecard across Solo, Collaborative, and High-Assurance fixtures; Alpha.26 adds a truthful live-usage preflight and keeps account-wide activity unallocated. Real-operation and longitudinal evidence remain required.
+- Alpha.25 provides a seven-scenario adversarial policy scorecard across Solo, Collaborative, and High-Assurance fixtures; Alpha.26 adds truthful live-usage preflight; Alpha.27 exposes the qualification and attach-outcome contracts without manufacturing observations. The self-host result remains not-qualified with zero detailed live observations, so no Token, cost, quality, or routing improvement is claimed.
 - Attribute provider usage to every provable Work Item, Position, observed stage, task, attempt, provider, model, and outcome dimension while keeping missing data and monetary cost unknown.
 - Define useful, low-noise historical measures for duplicate scope, lost context, stale evidence, rework, blocked time, and verification quality.
 - Keep usage and cost visible without allowing the framework to authorize spending or switch models automatically.
 - Make Human Inbox and Observer attention actionable without turning them into a second tracker.
 
-## Next — prove daily multi-project use
+## Next — qualify broader environments and repeated outcomes
 
-Phase 4 exits only when the framework works repeatedly, not merely when another feature is added.
+Alpha.27 closes the bounded local Phase 4 implementation. The following retained tests qualify broader environments and stronger claims; fixtures or extra features do not replace them.
 
-- Complete at least ten Work Items across different change types and project sizes.
-- Recover one project from a documented backup in a clean environment.
-- Add a project-owned multi-repository registry and a read-only portfolio view; each project remains authoritative for its own state.
-- Show capacity, shared-resource, evidence, and cost signals across projects without centralizing credentials or business truth.
-- Exercise upgrade and rollback against real data-bearing projects.
-- Evaluate false completion, wrong revision, self-approval, unauthorized external action, and notification-noise scenarios.
+- Collect at least ten correlated, varied, completed Work Items before qualifying a longitudinal Token baseline or making any savings claim.
+- Repeat disaster recovery with physical or process-level failure, another supported operating system, and an explicitly authorized production-like environment.
+- Exercise the project-owned federation and read-only portfolio across real separately maintained repositories without centralizing credentials or business truth.
 - Run the retained large multi-human, multi-machine collaboration test with real branches, pull requests, protected rules, CI, conflicts, and integration ownership.
 - Run explicitly authorized live provider, soak, disconnect, and crash-recovery validation before making production-readiness claims.
 
 ## Later — optional enterprise integrations
 
-Only after Phase 4 exit evidence:
+Only after the relevant retained qualification evidence:
 
 - Approved write actions for Jira, GitHub, Linear, Asana, or other trackers.
 - CI/CD and deployment actions with explicit authorization, preview, rollback, and audit evidence.

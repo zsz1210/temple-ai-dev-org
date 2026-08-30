@@ -1,7 +1,7 @@
 # Temple AI Development Organization Framework — AI development organization status
 
 - Project ID: `temple`
-- Organization system version: `0.1.0-alpha.26`
+- Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=false

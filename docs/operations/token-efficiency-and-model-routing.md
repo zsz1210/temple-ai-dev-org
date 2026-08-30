@@ -1,6 +1,6 @@
 # Token Efficiency and Model Routing
 
-- Status: Alpha.26 telemetry qualification and low-confidence read-only candidate implemented; matched evaluation and routing remain unavailable
+- Status: Alpha.27 exposes telemetry qualification and low-confidence read-only candidates through the integrated toolkit; matched evaluation and routing remain unavailable
 - Primary readers: maintainers, Engineering Managers, Tech Leads, Observers, and cost-accountable humans
 
 Temple treats Token usage as an operational signal. The goal is not the smallest prompt or the cheapest individual turn. The goal is a correct, accepted Work Item with less waste, rework, latency, and coordination cost.
@@ -65,7 +65,7 @@ Qualification is deliberately strict. A Work Item contributes only when it is cu
 
 The ten-Work-Item count is only an observation threshold. Even when the exploratory candidate is available, its confidence is `low`, its evidence basis is `accepted-closeout-token-observation-only`, and `matched_evaluation` remains false. Different Work Items can differ in difficulty, so lower observed Tokens do not prove superior model quality or causal savings. Savings, cost, model-quality, and routing claims remain disabled; a future matched evaluation must authorize any routing policy separately.
 
-The report places this observation at `source.longitudinal_coverage.recommendation`. The top-level `routing` contract remains `not-implemented` and fully disabled because Alpha.26 does not add routing authority. `usage preflight` mirrors the exploratory object under `routing.recommendation` for read-only inspection.
+The report places this observation at `source.longitudinal_coverage.recommendation`. The top-level `routing` contract remains `not-implemented` and fully disabled because Alpha.27 does not add routing authority. `usage preflight` mirrors the exploratory object under `routing.recommendation` for read-only inspection.
 
 ## Check whether a real baseline is possible
 

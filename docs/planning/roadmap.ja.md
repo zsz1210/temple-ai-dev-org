@@ -6,9 +6,9 @@ Temple は、local で実証された AI Development Organization Framework か�
 
 ## 現在地
 
-- **現在の release line:** `0.1.0-alpha.26`
-- **現在の段階:** Phase 4A local recovery と Phase 4B policy / usage foundation は実装済み。Longitudinal reliability evidence は未完了
-- **現在適している用途:** 人間が監督する低リスクの local project と bounded pilot
+- **現在の release line:** `0.1.0-alpha.27`
+- **現在の段階:** Phase 4 の local implementation と bounded exit rehearsal は完了。Enterprise と statistical qualification は retained validation
+- **現在適している用途:** 人間が監督する個人、小規模チーム、bounded multi-repository local workflow
 - **まだ主張しないもの:** production-grade の distributed coordination、regulated operation、無人の外部操作
 
 ## 提供済みの基盤
@@ -45,32 +45,29 @@ Temple は、local で実証された AI Development Organization Framework か�
 
 - Alpha.24 は project-owned Temple state を対象に、local versioned backup manifest、完全な payload verification、stale-safe restore preview、recoverable な multi-file apply を提供します。
 - Generated view は rebuildable のまま維持し、framework-managed file、application source / data、external system、control-plane telemetry はこの backup 境界に含めません。
-- Automated interruption test は新しい human change を保護し、clean environment での AiPet restore と forward migration も1回通過しました。Post-upgrade rollback、real interruption、より広範な crash evidence と追加 environment は未完了です。
+- Alpha.27 は digest-bound retention preview／apply、redacted audit export、AiPet の disposable copy による exact rollback と interrupted-recovery evidence を追加しました。Physical power loss、filesystem corruption、remote transport、production recovery、追加 operating system は retained validation です。
 
 ### 日常運用の signal
 
-- Alpha.25 は Solo、Collaborative、High-Assurance fixture 向けの7 scenario adversarial policy scorecard を提供し、Alpha.26 は正直な live usage preflight を追加して account-wide activity を unallocated のまま扱います。Real operation と longitudinal evidence は未完了です。
+- Alpha.25 は Solo、Collaborative、High-Assurance fixture 向けの7 scenario adversarial policy scorecard を提供し、Alpha.26 は正直な live usage preflight を追加しました。Alpha.27 は qualification と attach-outcome contract を操作面へ接続しますが、観測を捏造しません。Self-host の結果は not-qualified、detailed live observation はゼロのため、Token、cost、quality、routing の改善は主張しません。
 - Provider usage を証明可能な Work Item、Position、observed stage、task、attempt、provider、model、outcome に attribution し、不明な data と monetary cost は unknown のまま保持。
 - Duplicate scope、lost context、stale evidence、rework、blocked time、verification quality の低ノイズな historical measure を定義。
 - Framework に spending authority や automatic model switching を与えず、usage と cost を可視化。
 - Human Inbox と Observer attention を、第二の tracker にせず actionable にする。
 
-## Next — 日常的な multi-project use を証明
+## Next — より広い環境と反復結果を qualification する
 
-Phase 4 は、別の feature を追加しただけでは終了しません。繰り返し運用できる evidence が必要です。
+Alpha.27 で bounded local Phase 4 implementation は完了です。以下の retained test は、より広い環境と強い主張を qualification するためのもので、fixture や追加 feature では代替できません。
 
-- 種類と規模が異なる Work Item を最低10件完了。
-- Clean environment で documented backup から1 project を recovery。
-- Project-owned multi-repository registry と read-only portfolio view を追加し、各 project が自分の state の authority を維持。
-- Credential や business truth を中央集約せず、project 横断の capacity、shared resource、evidence、cost signal を表示。
-- Real data-bearing project で upgrade と rollback を実行。
-- False completion、wrong revision、self-approval、unauthorized external action、notification noise を評価。
+- Longitudinal Token baseline や savings を主張する前に、正しく相関し、形状が異なる完了済み Work Item を少なくとも10件収集。
+- Physical または process-level failure、別の対応 operating system、明示承認された production-like environment で disaster recovery を反復。
+- Credential や business truth を中央集約せず、実際に別々に保守される repositories で project-owned federation と read-only portfolio を演習。
 - Real branch、pull request、protected rule、CI、conflict、integration ownership を使った大規模 multi-human／multi-machine test を実行。
 - Production-readiness を主張する前に、明示的に承認された live provider、soak、disconnect、crash-recovery validation を実行。
 
 ## Later — optional enterprise integration
 
-Phase 4 exit evidence の後にのみ検討します。
+関連する retained qualification evidence の後にのみ検討します。
 
 - Jira、GitHub、Linear、Asana などへの承認済み write action。
 - 明示的な authorization、preview、rollback、audit evidence を持つ CI/CD と deployment action。

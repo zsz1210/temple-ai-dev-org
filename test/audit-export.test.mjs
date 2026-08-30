@@ -18,7 +18,7 @@ async function fixture(projectId = "audit-fixture") {
   );
   await fs.writeFile(
     path.join(target, "temple.lock"),
-    formatJson({ schema_version: "temple.lock/v1", project_id: projectId, template: { version: "0.1.0-alpha.26" } })
+    formatJson({ schema_version: "temple.lock/v1", project_id: projectId, template: { version: "0.1.0-alpha.27" } })
   );
   return { temporaryRoot, target };
 }

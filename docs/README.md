@@ -13,6 +13,7 @@ The root README explains what Temple is and why it exists. This index routes imp
 | Add engineering methods or project Skills | [Capability catalog](extensions/capability-catalog.md) | [Skill authoring](extensions/skill-authoring.md), [Engineering Learning Loop](extensions/engineering-learning.md) |
 | Inspect evidence, risk, or live project state | [Evidence and Observer](operations/evidence-and-observer.md) | [Local control plane](operations/control-plane.md), [High-Assurance](operations/high-assurance.md) |
 | Back up or recover Temple project state | [Backup and recovery](operations/backup-and-recovery.md) | [Architecture](concepts/architecture.md), [ADR-0031](adr/0031-durable-recovery-before-persistence-growth.md) |
+| Coordinate several authoritative repositories | [Multi-repository federation](operations/multi-repository-federation.md) | [ADR-0033](adr/0033-federate-project-authority-with-read-only-portfolios.md), [Phase 4 design](planning/phase-4.md) |
 | Test whether policy resists realistic failure | [Adversarial policy evaluation](operations/policy-evaluation.md) | [ADR-0032](adr/0032-evaluate-policy-with-adversarial-evidence.md), [Phase 4 design](planning/phase-4.md) |
 | Understand Token usage or plan model selection | [Token Efficiency and Model Routing](operations/token-efficiency-and-model-routing.md) | [Phase 4 design](planning/phase-4.md), [ADR-0034](adr/0034-attribute-usage-before-routing-models.md) |
 | Audit a decision or claim | [ADR index](adr/README.md) | [Validation index](validation/README.md), [Research index](research/README.md) |
@@ -45,6 +46,7 @@ The root README explains what Temple is and why it exists. This index routes imp
 - [Backup and recovery](operations/backup-and-recovery.md) — project-owned-state manifests, integrity checks, restore preview, and interrupted-write rollback.
 - [Adversarial policy evaluation](operations/policy-evaluation.md) — versioned failure scenarios, profile fixtures, fail-closed scorecards, and authority boundaries.
 - [Token Efficiency and Model Routing](operations/token-efficiency-and-model-routing.md) — provider-reported usage, attribution, budgets, model policy, and the boundary before automatic routing.
+- [Multi-repository federation](operations/multi-repository-federation.md) — project-owned participants, exact revisions, composite references, rollout waves, and read-only portfolio authority.
 
 ### Extensions and learning
 
@@ -60,7 +62,7 @@ The root README explains what Temple is and why it exists. This index routes imp
 
 - [Roadmap](planning/roadmap.md) ([Japanese](planning/roadmap.ja.md), [Traditional Chinese](planning/roadmap.zh-TW.md)) — delivered foundation, current work, next gates, and later options.
 - [Pre-Phase 4 closeout review](planning/pre-phase-4-closeout-review.md) — the readiness audit that closed the earlier phases.
-- [Phase 4 design](planning/phase-4.md) — accepted durability, evaluation, federation, usage, and model-routing contracts; implementation remains staged.
+- [Phase 4 design](planning/phase-4.md) — completed local durability, evaluation, federation, and usage contracts plus retained enterprise qualification.
 - [Phase 1 contract](planning/phase-1.md) — original foundation scope and exit gate.
 - [Phase 3 design](planning/phase-3-control-plane.md) and [work breakdown](planning/phase-3-work-items.md) — accepted control-plane plan.
 - [Changelog](../CHANGELOG.md) — chronological release history.
