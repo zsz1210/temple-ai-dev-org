@@ -329,6 +329,95 @@ test("transition refuses missing named gate evidence without changing state", as
   assert.equal((await readJson(path.join(target, ".ai-org/work-items/WI-0001.json"))).state, "intake");
 });
 
+test("transition validates normalized gate evidence before mutating canonical state", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  const created = run([
+    "work-item",
+    "create",
+    target,
+    "--title",
+    "Guard normalized gate evidence",
+    "--ui-mode",
+    "not-applicable"
+  ]);
+  assert.equal(created.status, 0, created.stderr || created.stdout);
+
+  const itemPath = path.join(target, ".ai-org/work-items/WI-0001.json");
+  const eventsPath = path.join(target, ".ai-org/events/events.jsonl");
+  const item = await readJson(itemPath);
+  await fs.writeFile(
+    itemPath,
+    `${JSON.stringify(
+      {
+        ...item,
+        state: "independent_qa",
+        owner_position: "independent_qa",
+        assigned_agent_id: "agent-fixture-hollis"
+      },
+      null,
+      2
+    )}\n`
+  );
+
+  const passId = "EVID-20260830T000000Z-11111111";
+  const otherId = "EVID-20260830T000001Z-22222222";
+  const failedId = "EVID-20260830T000002Z-33333333";
+  const expiredId = "EVID-20260830T000003Z-44444444";
+  const invalidatedId = "EVID-20260830T000004Z-55555555";
+  const evidencePath = path.join(target, ".ai-org/project/evidence.json");
+  const evidence = await readJson(evidencePath);
+  evidence.entries.push(
+    { id: passId, work_item_id: "WI-0001", kind: "test", outcome: "pass", expires_at: null, invalidated_at: null },
+    { id: otherId, work_item_id: "WI-0002", kind: "test", outcome: "pass", expires_at: null, invalidated_at: null },
+    { id: failedId, work_item_id: "WI-0001", kind: "test", outcome: "fail", expires_at: null, invalidated_at: null },
+    { id: expiredId, work_item_id: "WI-0001", kind: "runtime", outcome: "pass", expires_at: "2020-01-01T00:00:00.000Z", invalidated_at: null },
+    { id: invalidatedId, work_item_id: "WI-0001", kind: "runtime", outcome: "pass", expires_at: null, invalidated_at: "2026-08-30T00:00:00.000Z" }
+  );
+  await fs.writeFile(evidencePath, `${JSON.stringify(evidence, null, 2)}\n`);
+
+  for (const [reference, message] of [
+    ["EVID-20260830T000000Z-PLACEHOLDER", /not present in the normalized registry/],
+    ["EVID-20260830T000005Z-66666666", /not present in the normalized registry/],
+    [otherId, /belongs to WI-0002, not WI-0001/],
+    [failedId, /outcome fail does not satisfy independent_qa_pass/],
+    [expiredId, /is expired/],
+    [invalidatedId, /is invalidated/]
+  ]) {
+    const beforeItem = await fs.readFile(itemPath, "utf8");
+    const beforeEvents = await fs.readFile(eventsPath, "utf8");
+    const rejected = run([
+      "transition",
+      target,
+      "--work-item",
+      "WI-0001",
+      "--to",
+      "release_gate",
+      "--satisfy",
+      `independent_qa_pass=${reference}`
+    ]);
+    assert.equal(rejected.status, 1, rejected.stderr || rejected.stdout);
+    assert.match(rejected.stderr, message);
+    assert.equal(await fs.readFile(itemPath, "utf8"), beforeItem);
+    assert.equal(await fs.readFile(eventsPath, "utf8"), beforeEvents);
+  }
+
+  const accepted = run([
+    "transition",
+    target,
+    "--work-item",
+    "WI-0001",
+    "--to",
+    "release_gate",
+    "--satisfy",
+    `independent_qa_pass=${passId}`
+  ]);
+  assert.equal(accepted.status, 0, accepted.stderr || accepted.stdout);
+  const transitioned = await readJson(itemPath);
+  assert.equal(transitioned.state, "release_gate");
+  assert.deepEqual(transitioned.gate_evidence.independent_qa_pass, [passId]);
+});
+
 test("legacy Build work remains configurable when UI mode did not exist", async (context) => {
   const { temporaryRoot, target } = await fixture();
   context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));

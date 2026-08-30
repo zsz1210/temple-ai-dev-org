@@ -1,0 +1,126 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0038",
+  "title": "Reject invalid lifecycle gate evidence references",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T16:17:53.546Z",
+  "updated_at": "2026-08-30T16:18:19.159Z",
+  "scope": [
+    "Validate every EVID-prefixed gate reference against the normalized evidence registry before any lifecycle transition mutates canonical state."
+  ],
+  "acceptance_criteria": [
+    "A nonexistent, malformed, cross-Work-Item, expired, invalidated, or non-pass Independent QA evidence reference is rejected without changing the Work Item or events; valid current evidence still advances the gate."
+  ],
+  "affected_paths": [
+    "src/work-items.mjs",
+    "test/workflow.test.mjs"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": "WI-0031",
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "17637e902a2a32885d3b7eb98481e6c2695309b2",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0034 exposed the defect but is now at Release Gate; WI-0038 owns only transition validation and its workflow tests."
+  ],
+  "claim": {
+    "id": "claim-20260830161819-9ef30bbe",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "17637e902a2a32885d3b7eb98481e6c2695309b2",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-08-30T16:18:19.159Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260830161817-ba019d83",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "17637e902a2a32885d3b7eb98481e6c2695309b2",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T16:18:17.475Z",
+      "released_at": "2026-08-30T16:18:17.756Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260830161818-884ab8f7",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "17637e902a2a32885d3b7eb98481e6c2695309b2",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T16:18:18.042Z",
+      "released_at": "2026-08-30T16:18:18.313Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260830161818-c857dbf9",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "17637e902a2a32885d3b7eb98481e6c2695309b2",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T16:18:18.611Z",
+      "released_at": "2026-08-30T16:18:18.877Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260830161819-9ef30bbe",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "17637e902a2a32885d3b7eb98481e6c2695309b2",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T16:18:19.159Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0038.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0038.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0038.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/work-orders/WI-0038.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/work-orders/WI-0038.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0038.md",
+    ".ai-org/work-items/WI-0038.json"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

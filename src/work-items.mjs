@@ -914,6 +914,37 @@ function normalizeSatisfiedRequirements(satisfied = {}) {
   return output;
 }
 
+async function assertNormalizedGateEvidence(target, item, gateEvidence) {
+  const normalizedReferences = Object.entries(gateEvidence).flatMap(([requirement, references]) =>
+    (references ?? [])
+      .filter((reference) => String(reference).startsWith("EVID-"))
+      .map((reference) => ({ requirement, reference }))
+  );
+  if (normalizedReferences.length === 0) return;
+
+  const registry = await readJson(path.join(target, ".ai-org/project/evidence.json"));
+  if (!Array.isArray(registry?.entries)) throw new Error("Normalized evidence registry is invalid");
+  const byId = new Map(registry.entries.map((entry) => [entry.id, entry]));
+  const now = Date.now();
+  for (const { requirement, reference } of normalizedReferences) {
+    const entry = byId.get(reference);
+    if (!entry) throw new Error(`Gate evidence reference is not present in the normalized registry: ${reference}`);
+    if (entry.work_item_id !== item.id) {
+      throw new Error(`Gate evidence ${reference} belongs to ${entry.work_item_id}, not ${item.id}`);
+    }
+    if (entry.invalidated_at) throw new Error(`Gate evidence ${reference} is invalidated`);
+    if (entry.expires_at && Date.parse(entry.expires_at) <= now) throw new Error(`Gate evidence ${reference} is expired`);
+    if (requirement === "independent_qa_pass") {
+      if (!new Set(["test", "runtime"]).has(entry.kind)) {
+        throw new Error(`Gate evidence ${reference} must be test or runtime evidence for independent_qa_pass`);
+      }
+      if (entry.outcome !== "pass") {
+        throw new Error(`Gate evidence ${reference} outcome ${entry.outcome} does not satisfy independent_qa_pass`);
+      }
+    }
+  }
+}
+
 export async function transitionWorkItem(target, options) {
   const context = await loadProjectContext(target);
   const item = await readWorkItem(target, options.workItemId);
@@ -955,6 +986,7 @@ export async function transitionWorkItem(target, options) {
   );
   const additions = normalizeSatisfiedRequirements(options.satisfied);
   const mergedGates = mergeGateEvidence(item, additions);
+  await assertNormalizedGateEvidence(target, item, mergedGates);
   if (toState === "build") await assertUiEvidence(target, item, mergedGates, "prebuild");
   await assertHighAssuranceTransition(target, context, item, toState, mergedGates);
   const missing = (transition.requires ?? []).filter((requirement) => !(mergedGates[requirement]?.length > 0));
