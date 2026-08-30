@@ -1469,6 +1469,152 @@
         "scenario": "Run the repository launcher Doctor without TEMPLE_CLI_PATH and verify the current worktree's bootstrap, self-host boundary, and managed files",
         "provenance": "live"
       }
+    },
+    {
+      "id": "EVID-20260830T071616Z-9F21BDC8",
+      "work_item_id": "WI-0014",
+      "recorded_at": "2026-08-30T07:16:16.750Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0014 exact integrated candidate",
+      "outcome": "verified",
+      "scope_revision": "23768e74ceb35a15589e194e0929f70914e8f407",
+      "observed_at": "2026-08-30T07:16:16.750Z",
+      "summary": "Mog integrated the single Developer implementation commit without conflicts; exact candidate for downstream verification is 23768e74ceb35a15589e194e0929f70914e8f407.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "23768e74ceb35a15589e194e0929f70914e8f407"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "23768e74ceb35a15589e194e0929f70914e8f407",
+        "working_tree_dirty": false
+      }
+    },
+    {
+      "id": "EVID-20260830T071617Z-F40BAB29",
+      "work_item_id": "WI-0014",
+      "recorded_at": "2026-08-30T07:16:17.028Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0014 Developer verification",
+      "outcome": "pass",
+      "scope_revision": "23768e74ceb35a15589e194e0929f70914e8f407",
+      "observed_at": "2026-08-30T06:59:01Z",
+      "summary": "Focused Phase 4B passed 8/8 and the full repository verification passed 165/165 on the delivered behavior.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/wi-0014-developer.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/wi-0014-developer.json",
+          "sha256": "f4a3ef5e4569e57ed3c547490fc838c2913bea9c4dd44b656910c1060f68e997"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0014/developer-evidence.md",
+          "sha256": "1dadc6dc2ad6fdf0a20724d471e372544b579a31a5b04a31ef1db8af7f7fe7a6"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T06:49:21Z"
+      }
+    },
+    {
+      "id": "EVID-20260830T071617Z-0C9677E5",
+      "work_item_id": "WI-0014",
+      "recorded_at": "2026-08-30T07:16:17.281Z",
+      "recorded_by": "agent-mog",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "WI-0014 live telemetry bridge attempt",
+      "outcome": "fail",
+      "scope_revision": "23768e74ceb35a15589e194e0929f70914e8f407",
+      "observed_at": "2026-08-30T07:09:24Z",
+      "summary": "The registered active task was visible, but Codex App Server resume failed with -32600; no detailed Token observation arrived and Token values remain unknown.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/wi-0014-live-telemetry.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/wi-0014-live-telemetry.json",
+          "sha256": "8775f0c113e95460cf6a842f9bb4b9b7ce6777ae69924c982ec1b71dea41e833"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0014/independent-qa-report.md",
+          "sha256": "afa70923ef01c045787e5a86c2d5608d8c12518dcdf3fab161a61ca793f3c74f"
+        }
+      ],
+      "details": {
+        "environment": "Temple self-host Control Plane with a registered active user-owned Codex task on the local Codex Desktop host",
+        "scenario": "Resume the registered active task through the Codex App Server and receive a provider-owned detailed Token usage observation",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260830T071617Z-A71FCFF5",
+      "work_item_id": "WI-0014",
+      "recorded_at": "2026-08-30T07:16:17.536Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0014 fresh Independent QA",
+      "outcome": "pass",
+      "scope_revision": "23768e74ceb35a15589e194e0929f70914e8f407",
+      "observed_at": "2026-08-30T07:11:47Z",
+      "summary": "Fresh detached exact-candidate QA passed focused 8/8, full 165/165, adversarial 14/14, and Doctor 35 pass with 0 fail.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/observations/wi-0014-independent-qa.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/observations/wi-0014-independent-qa.json",
+          "sha256": "c843cf49ad47cb47746b3df179b6d1d644a7b5c021aa5669d7f56a11833e48ea"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0014/independent-qa-report.md",
+          "sha256": "afa70923ef01c045787e5a86c2d5608d8c12518dcdf3fab161a61ca793f3c74f"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-30T07:08:10Z"
+      }
     }
   ]
 }

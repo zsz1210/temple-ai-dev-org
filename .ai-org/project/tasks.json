@@ -53,7 +53,7 @@
       "position_id": "independent_qa",
       "agent_id": "agent-lulu",
       "suggested_title": "WI-0014 · Independent QA · Lulu",
-      "status": "active",
+      "status": "completed",
       "thread_id": "01a0517e-4be9-74a1-84fd-529af3a11c5f",
       "client_thread_id": null,
       "host_id": "local",
@@ -65,9 +65,10 @@
       "worktree": null,
       "worker_id": null,
       "created_at": "2026-08-30T07:07:45.666Z",
-      "updated_at": "2026-08-30T07:07:45.666Z",
+      "updated_at": "2026-08-30T07:16:38.946Z",
       "registered_by": "agent-mog",
-      "notes": "Fresh detached exact-candidate Independent QA; read-only candidate verification."
+      "notes": "Fresh detached Independent QA passed: focused 8/8, full 165/165, adversarial 14/14, Doctor 35 pass and 0 fail. Provider bridge limit retained.",
+      "last_updated_by": "agent-lulu"
     }
   ]
 }

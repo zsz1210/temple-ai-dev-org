@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T06:25:28.624Z",
-  "source_fingerprint": "11d69c40a506903b243c1655452f88d2b8133efdc92703e282f73cecbf1635b5",
+  "generated_at": "2026-08-30T07:16:39.477Z",
+  "source_fingerprint": "499c7efee16d9d21ad80eee8213fa7cc132ca30f651ea8572bcc1e3832f0789e",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,

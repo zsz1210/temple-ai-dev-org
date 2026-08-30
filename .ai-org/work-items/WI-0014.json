@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0014",
   "title": "Establish the first correlated active-task usage baseline",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T06:45:44.449Z",
-  "updated_at": "2026-08-30T06:46:29.447Z",
+  "updated_at": "2026-08-30T07:16:39.206Z",
   "scope": [
     "Extend the read-only Phase 4B usage baseline so canonical Work Items and provider-owned Codex task observations can be compared without storing prompts, inventing token values, looking up prices, switching models, or writing to external systems."
   ],
@@ -70,12 +70,80 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/work-orders/WI-0014.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0014/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260830T071616Z-9F21BDC8",
+      "EVID-20260830T071617Z-F40BAB29",
+      ".ai-org/artifacts/WI-0014/developer-evidence.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0014/quality-test-report.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0014/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0014/independent-qa-report.md",
+      "EVID-20260830T071617Z-A71FCFF5"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/work-orders/WI-0014.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0014/independent-qa-report.md"
+    ],
+    "exact_candidate_revision": [
+      "23768e74ceb35a15589e194e0929f70914e8f407"
+    ],
+    "normalized_test_evidence": [
+      "EVID-20260830T071617Z-F40BAB29"
+    ],
+    "normalized_independent_qa_evidence": [
+      "EVID-20260830T071617Z-A71FCFF5"
+    ],
+    "normalized_runtime_evidence": [
+      "EVID-20260830T071617Z-0C9677E5"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0014/release-record.md"
+    ],
+    "required_human_approval": [
+      "The project owner explicitly authorized the recommended WI-0014 Independent QA, integration, and complete local stage closeout. This grants no push, publication, deployment, external tracker write, model switch, spending, production release, or unsupported efficiency claim."
     ]
   },
   "evidence": [
     ".ai-org/artifacts/work-orders/WI-0014.md",
-    ".ai-org/work-items/WI-0014.json"
+    ".ai-org/work-items/WI-0014.json",
+    ".ai-org/artifacts/WI-0014/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260830T071616Z-9F21BDC8",
+    "EVID-20260830T071617Z-F40BAB29",
+    ".ai-org/artifacts/WI-0014/developer-evidence.md",
+    ".ai-org/artifacts/WI-0014/quality-test-report.md",
+    ".ai-org/artifacts/WI-0014/evaluation-report.md",
+    ".ai-org/artifacts/WI-0014/independent-qa-report.md",
+    "EVID-20260830T071617Z-A71FCFF5",
+    ".ai-org/artifacts/WI-0014/release-record.md",
+    "docs/validation/wi-0014-active-task-usage-baseline.md",
+    "EVID-20260830T071617Z-0C9677E5",
+    "23768e74ceb35a15589e194e0929f70914e8f407"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "23768e74ceb35a15589e194e0929f70914e8f407",
+      "artifact": ".ai-org/artifacts/WI-0014/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-30T07:16:27.575Z"
+    }
+  ],
+  "developer_candidate_revision": "23768e74ceb35a15589e194e0929f70914e8f407",
+  "tested_revision": "23768e74ceb35a15589e194e0929f70914e8f407",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "The project owner explicitly authorized the recommended WI-0014 Independent QA, integration, and complete local stage closeout. This grants no push, publication, deployment, external tracker write, model switch, spending, production release, or unsupported efficiency claim."
 }
