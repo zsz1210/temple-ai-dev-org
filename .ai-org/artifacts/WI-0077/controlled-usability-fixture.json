@@ -1,0 +1,625 @@
+{
+  "schema_version": "temple.controlled-usability-fixture/v1",
+  "fixture_id": "wi-0077-mixed-state-v1",
+  "title": "Management Console mixed-state comparison fixture",
+  "purpose": "Give the current production renderer and the design proposal the same semantic facts for a bounded usability comparison.",
+  "reference_time": "2026-09-01T00:00:00.000Z",
+  "current_objective": {
+    "work_item_id": "WI-0077",
+    "next_human_action": "Review the Management Console design direction before Build planning.",
+    "external_action_authorized": false
+  },
+  "semantic_cases": {
+    "true_local_blocker": {
+      "work_item_id": "WI-0067",
+      "reason": "The bounded commerce rehearsal reached its approved Token ceiling.",
+      "blocks_current_objective": false
+    },
+    "retained_future_validation": {
+      "work_item_id": "WI-0064",
+      "reason": "The inspected Provider protocol did not expose effective turn reasoning.",
+      "blocks_current_objective": false
+    },
+    "current_provider_condition": {
+      "condition_id": "condition-codex-coverage-limited",
+      "summary": "Live Codex task activity may be incomplete; repository lifecycle state remains available.",
+      "blocks_current_objective": false
+    },
+    "historical_provider_failure": {
+      "event_name": "Codex task observation recovered after a provider disconnect",
+      "resolved": true
+    },
+    "usage_boundary": {
+      "qualified_observations": 1,
+      "required_correlated_work_items": 10,
+      "supports": [
+        "Attribution to WI-0056, Developer, Build, gpt-5.6-luna, and recorded Token fields"
+      ],
+      "does_not_support": [
+        "Monetary cost",
+        "Savings",
+        "Model superiority",
+        "Automatic routing",
+        "Cross-project generalization"
+      ]
+    }
+  },
+  "proposal_contract": {
+    "source": "management-console-preview.html",
+    "required_markers": [
+      "WI-0077 design preview · not production",
+      "Review the Management Console direction",
+      "Important, but not blocking this objective",
+      "WI-0067",
+      "WI-0064",
+      "No current provider failure is stopping the design review.",
+      "Lifecycle</span><strong>Design",
+      "Execution</span><strong>Unclaimed",
+      "Impediment</span><strong>Clear",
+      "Tech Lead",
+      "Tidus",
+      "Not recorded",
+      "23,433",
+      "gpt-5.6-luna",
+      "Supported",
+      "Not supported yet",
+      "Audit trail"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "T1",
+      "prompt": "Identify the next human action and say what it does not authorize.",
+      "start_route": "overview",
+      "threshold_seconds": 10
+    },
+    {
+      "id": "T2",
+      "prompt": "Find the lifecycle, execution, and impediment states for WI-0077.",
+      "start_route": "overview",
+      "threshold_seconds": 15
+    },
+    {
+      "id": "T3",
+      "prompt": "Find the responsible Position, Agent or Human, and effective model for WI-0077. State unavailable facts explicitly.",
+      "start_route": "overview",
+      "threshold_seconds": 15
+    },
+    {
+      "id": "T4",
+      "prompt": "Explain whether WI-0067 stops the current WI-0077 objective.",
+      "start_route": "overview",
+      "threshold_seconds": 20
+    },
+    {
+      "id": "T5",
+      "prompt": "Distinguish the current Provider condition from the recovered historical Provider failure.",
+      "start_route": "overview",
+      "threshold_seconds": 15
+    },
+    {
+      "id": "T6",
+      "prompt": "Explain what the recorded usage evidence supports and what it cannot establish.",
+      "start_route": "overview",
+      "threshold_seconds": 15
+    },
+    {
+      "id": "T7",
+      "prompt": "Retrieve the completed WI-0064 record or its audit event without opening raw project files.",
+      "start_route": "overview",
+      "threshold_seconds": 20
+    }
+  ],
+  "snapshot": {
+    "schema_version": "temple.control-plane-snapshot/v1",
+    "generated_at": "2026-09-01T00:00:00.000Z",
+    "project": {
+      "id": "temple-controlled-comparison",
+      "name": "Temple controlled comparison"
+    },
+    "authority": {
+      "canonical_source": "controlled fixture",
+      "telemetry_satisfies_gates": false,
+      "write_capability": false
+    },
+    "private_viewer": {
+      "transport": "loopback-controlled-test",
+      "read_only": true,
+      "identity_present": false
+    },
+    "journal": {
+      "first_cursor": 1,
+      "last_cursor": 18,
+      "retained_events": 18
+    },
+    "providers": {
+      "providers": [
+        {
+          "id": "repository",
+          "kind": "repository",
+          "status": "ready",
+          "last_observed_at": "2026-09-01T00:00:00.000Z",
+          "capabilities": {
+            "live_events": "supported"
+          }
+        },
+        {
+          "id": "codex-app-server",
+          "kind": "codex-app-server",
+          "status": "degraded",
+          "last_observed_at": "2026-08-31T23:58:00.000Z",
+          "degraded_reason": "Live task activity may be incomplete; repository lifecycle state remains available.",
+          "capabilities": {
+            "live_events": "limited"
+          }
+        }
+      ]
+    },
+    "conditions": {
+      "summary": {
+        "firing": 0,
+        "pending": 1,
+        "resolved": 1
+      },
+      "conditions": [
+        {
+          "id": "condition-codex-coverage-limited",
+          "type": "provider-coverage-limited",
+          "status": "unknown",
+          "lifecycle": "pending",
+          "message": "Live Codex task activity may be incomplete. Repository lifecycle state remains available.",
+          "suggested_action": "Review observation coverage",
+          "recovery_href": "#health"
+        },
+        {
+          "id": "condition-codex-disconnect-resolved",
+          "type": "provider-disconnected",
+          "status": "false",
+          "lifecycle": "resolved",
+          "message": "A prior Codex Provider disconnect recovered and is historical evidence only.",
+          "suggested_action": "No current action",
+          "recovery_href": "#activity"
+        }
+      ]
+    },
+    "observer": {
+      "organization": {
+        "profile": "solo",
+        "coordination_backend": "repository",
+        "private_view_redactions": false,
+        "counts": {
+          "accountable_people": 1,
+          "active_agents": 5,
+          "positions": 10,
+          "assigned_positions": 10,
+          "active_memberships": 10,
+          "qualification_attention": 0
+        },
+        "principals": [
+          {
+            "id": "human-project-owner",
+            "display_name": "Project Owner",
+            "status": "active",
+            "provider_identity_count": 0
+          }
+        ],
+        "agents": [
+          {
+            "id": "agent-mog",
+            "display_name": "Mog",
+            "active": true,
+            "assignments": [
+              { "position_id": "engineering_manager", "display_name": "Engineering Manager" },
+              { "position_id": "release_manager", "display_name": "Release Manager" },
+              { "position_id": "observer", "display_name": "Observer" }
+            ],
+            "memberships": [
+              { "position_id": "engineering_manager", "disciplines": ["coordination"] },
+              { "position_id": "release_manager", "disciplines": ["release"] },
+              { "position_id": "observer", "disciplines": ["observability"] }
+            ],
+            "current_work_items": [
+              { "id": "WI-0069" },
+              { "id": "WI-0067" }
+            ]
+          },
+          {
+            "id": "agent-yuna",
+            "display_name": "Yuna",
+            "active": true,
+            "assignments": [
+              { "position_id": "product_manager", "display_name": "Product Manager" },
+              { "position_id": "ux_designer", "display_name": "UX Designer" },
+              { "position_id": "ui_designer", "display_name": "UI Designer" }
+            ],
+            "memberships": [
+              { "position_id": "product_manager", "disciplines": ["product"] },
+              { "position_id": "ux_designer", "disciplines": ["ux"] },
+              { "position_id": "ui_designer", "disciplines": ["ui"] }
+            ],
+            "current_work_items": [
+              { "id": "WI-0071" },
+              { "id": "WI-0072" }
+            ]
+          },
+          {
+            "id": "agent-tidus",
+            "display_name": "Tidus",
+            "active": true,
+            "assignments": [
+              { "position_id": "tech_lead", "display_name": "Tech Lead" }
+            ],
+            "memberships": [
+              { "position_id": "tech_lead", "disciplines": ["architecture"] }
+            ],
+            "current_work_items": [
+              { "id": "WI-0077" }
+            ]
+          },
+          {
+            "id": "agent-rikku",
+            "display_name": "Rikku",
+            "active": true,
+            "assignments": [
+              { "position_id": "developer", "display_name": "Developer" }
+            ],
+            "memberships": [
+              { "position_id": "developer", "disciplines": ["implementation"] }
+            ],
+            "current_work_items": [
+              { "id": "WI-0056" }
+            ]
+          },
+          {
+            "id": "agent-lulu",
+            "display_name": "Lulu",
+            "active": true,
+            "assignments": [
+              { "position_id": "quality_evaluator", "display_name": "Quality Evaluator" },
+              { "position_id": "independent_qa", "display_name": "Independent QA" }
+            ],
+            "memberships": [
+              { "position_id": "quality_evaluator", "disciplines": ["evaluation"] },
+              { "position_id": "independent_qa", "disciplines": ["independent_qa"] }
+            ],
+            "current_work_items": [
+              { "id": "WI-0029" }
+            ]
+          }
+        ],
+        "positions": [
+          { "id": "product_manager", "display_name": "Product Manager", "purpose": "Own product outcomes and scope.", "owns": ["product_scope"], "eligible_pool_size": 1, "assignment": { "agent_id": "agent-yuna", "agent_display_name": "Yuna" }, "memberships": [{ "disciplines": ["product"] }], "cannot_approve": ["release"] },
+          { "id": "ux_designer", "display_name": "UX Designer", "purpose": "Own flows and usability evidence.", "owns": ["ux_evidence"], "eligible_pool_size": 1, "assignment": { "agent_id": "agent-yuna", "agent_display_name": "Yuna" }, "memberships": [{ "disciplines": ["ux"] }], "cannot_approve": ["release"] },
+          { "id": "ui_designer", "display_name": "UI Designer", "purpose": "Own visual hierarchy and interaction evidence.", "owns": ["ui_evidence"], "eligible_pool_size": 1, "assignment": { "agent_id": "agent-yuna", "agent_display_name": "Yuna" }, "memberships": [{ "disciplines": ["ui"] }], "cannot_approve": ["release"] },
+          { "id": "engineering_manager", "display_name": "Engineering Manager", "purpose": "Coordinate delivery and shared resources.", "owns": ["coordination"], "eligible_pool_size": 1, "assignment": { "agent_id": "agent-mog", "agent_display_name": "Mog" }, "memberships": [{ "disciplines": ["coordination"] }], "cannot_approve": ["independent_qa"] },
+          { "id": "tech_lead", "display_name": "Tech Lead", "purpose": "Own architecture and technical integration.", "owns": ["architecture"], "eligible_pool_size": 1, "assignment": { "agent_id": "agent-tidus", "agent_display_name": "Tidus" }, "memberships": [{ "disciplines": ["architecture"] }], "cannot_approve": ["release"] },
+          { "id": "developer", "display_name": "Developer", "purpose": "Implement approved work.", "owns": ["implementation"], "eligible_pool_size": 1, "assignment": { "agent_id": "agent-rikku", "agent_display_name": "Rikku" }, "memberships": [{ "disciplines": ["implementation"] }], "cannot_approve": ["independent_qa", "release"] },
+          { "id": "quality_evaluator", "display_name": "Quality Evaluator", "purpose": "Evaluate quality and evidence.", "owns": ["evaluation"], "eligible_pool_size": 1, "assignment": { "agent_id": "agent-lulu", "agent_display_name": "Lulu" }, "memberships": [{ "disciplines": ["evaluation"] }], "cannot_approve": ["release"] },
+          { "id": "independent_qa", "display_name": "Independent QA", "purpose": "Provide an independent delivery verdict.", "owns": ["independent_qa"], "eligible_pool_size": 1, "assignment": { "agent_id": "agent-lulu", "agent_display_name": "Lulu" }, "memberships": [{ "disciplines": ["independent_qa"] }], "cannot_approve": ["implementation", "release"] },
+          { "id": "release_manager", "display_name": "Release Manager", "purpose": "Own release readiness and rollback planning.", "owns": ["release_gate"], "eligible_pool_size": 1, "assignment": { "agent_id": "agent-mog", "agent_display_name": "Mog" }, "memberships": [{ "disciplines": ["release"] }], "cannot_approve": ["product_scope"] },
+          { "id": "observer", "display_name": "Observer", "purpose": "Build read-only project views.", "owns": ["observability"], "eligible_pool_size": 1, "assignment": { "agent_id": "agent-mog", "agent_display_name": "Mog" }, "memberships": [{ "disciplines": ["observability"] }], "cannot_approve": ["implementation", "release"] }
+        ],
+        "safeguards": [
+          {
+            "id": "developer-independent-qa-separation",
+            "status": "pass",
+            "message": "Developer and Independent QA are different Agent Identities for delivery work.",
+            "participants": [
+              { "position_id": "developer", "agent_id": "agent-rikku" },
+              { "position_id": "independent_qa", "agent_id": "agent-lulu" }
+            ]
+          }
+        ],
+        "issues": [],
+        "bootstrap_owner": { "status": "configured" },
+        "recovery": { "status": "not_configured", "threshold": 0, "trustee_count": 0 },
+        "validation": {
+          "automated": { "status": "passed" },
+          "simulated_collaborative": { "status": "passed_with_limits" },
+          "real_collaborative": { "status": "not_run" },
+          "representative_pilot": { "status": "not_run" },
+          "high_assurance_drill": { "status": "not_run" }
+        },
+        "large_scale_validation": { "status": "deferred" },
+        "authority_grants": []
+      }
+    },
+    "live_observer": {
+      "work": {
+        "total": 16,
+        "categories": {
+          "active": 2,
+          "blocked": 1,
+          "qa_pending": 1,
+          "approval_pending": 1,
+          "queued": 3,
+          "terminal": 8
+        },
+        "items": [
+          {
+            "id": "WI-0077",
+            "title": "Review the Management Console as a complete human operating experience",
+            "state": "design",
+            "category": "active",
+            "owner_position": "tech_lead",
+            "assigned_agent_id": "agent-tidus",
+            "active_claim": false,
+            "evidence_count": 11,
+            "unresolved_count": 0,
+            "exact_revision": "fixture-wi-0077-r1",
+            "provenance": { "lifecycle": "controlled-fixture" },
+            "freshness": { "quality": "controlled", "observed_at": "2026-09-01T00:00:00.000Z" },
+            "tasks": [
+              {
+                "id": "task-wi-0077-design",
+                "agent_id": "agent-tidus",
+                "position_id": "tech_lead",
+                "visibility": "registered-only",
+                "registered_status": "registered",
+                "observed_status": "unknown",
+                "exact_revision": "fixture-wi-0077-r1",
+                "freshness": { "observed_at": "2026-09-01T00:00:00.000Z" },
+                "provenance": { "runtime": "controlled-fixture", "capability_quality": "not-observed" }
+              }
+            ]
+          },
+          {
+            "id": "WI-0056",
+            "title": "Capture provider-owned usage evidence",
+            "state": "build",
+            "category": "active",
+            "owner_position": "developer",
+            "assigned_agent_id": "agent-rikku",
+            "active_claim": true,
+            "active_claim_agent_id": "agent-rikku",
+            "evidence_count": 1,
+            "unresolved_count": 0,
+            "exact_revision": "fixture-wi-0056-r3",
+            "provenance": { "lifecycle": "controlled-fixture" },
+            "freshness": { "quality": "controlled", "observed_at": "2026-08-31T23:59:00.000Z" },
+            "tasks": [
+              {
+                "id": "task-wi-0056-build",
+                "agent_id": "agent-rikku",
+                "position_id": "developer",
+                "visibility": "live",
+                "registered_status": "active",
+                "observed_status": "running",
+                "requested_model": "gpt-5.6-luna",
+                "effective_model": "gpt-5.6-luna",
+                "requested_reasoning_effort": "max",
+                "observed_thread_reasoning_effort": "max",
+                "effective_turn_reasoning_effort": null,
+                "reasoning_effort": "max",
+                "reasoning_effort_source": "provider-thread",
+                "exact_revision": "fixture-wi-0056-r3",
+                "freshness": { "observed_at": "2026-08-31T23:59:00.000Z" },
+                "provenance": { "runtime": "controlled-fixture", "capability_quality": "observed" },
+                "usage": {
+                  "attribution": { "model": "gpt-5.6-luna" },
+                  "total": { "total_tokens": 23433 }
+                }
+              }
+            ]
+          },
+          {
+            "id": "WI-0029",
+            "title": "Prototype local Agent Command Gateway",
+            "state": "test",
+            "category": "qa_pending",
+            "owner_position": "quality_evaluator",
+            "assigned_agent_id": "agent-lulu",
+            "active_claim": false,
+            "evidence_count": 7,
+            "unresolved_count": 1,
+            "exact_revision": "fixture-wi-0029-r5",
+            "provenance": { "lifecycle": "controlled-fixture" },
+            "freshness": { "quality": "controlled", "observed_at": "2026-08-31T20:00:00.000Z" },
+            "tasks": []
+          },
+          {
+            "id": "WI-0069",
+            "title": "Establish progressive usage calibration and autonomy policy",
+            "state": "release_gate",
+            "category": "approval_pending",
+            "owner_position": "release_manager",
+            "assigned_agent_id": "agent-mog",
+            "active_claim": false,
+            "evidence_count": 9,
+            "unresolved_count": 0,
+            "exact_revision": "fixture-wi-0069-r2",
+            "provenance": { "lifecycle": "controlled-fixture" },
+            "freshness": { "quality": "controlled", "observed_at": "2026-08-31T17:00:00.000Z" },
+            "tasks": []
+          },
+          {
+            "id": "WI-0067",
+            "title": "Run bounded four-repository commerce rehearsal",
+            "state": "blocked",
+            "category": "blocked",
+            "owner_position": "engineering_manager",
+            "assigned_agent_id": "agent-mog",
+            "active_claim": false,
+            "evidence_count": 6,
+            "unresolved_count": 1,
+            "exact_revision": "fixture-wi-0067-r4",
+            "provenance": { "lifecycle": "controlled-fixture" },
+            "freshness": { "quality": "controlled", "observed_at": "2026-08-31T12:28:00.000Z" },
+            "tasks": []
+          },
+          {
+            "id": "WI-0071",
+            "title": "Define the first production Console slice",
+            "state": "spec",
+            "category": "queued",
+            "owner_position": "product_manager",
+            "assigned_agent_id": "agent-yuna",
+            "active_claim": false,
+            "evidence_count": 0,
+            "unresolved_count": 0,
+            "exact_revision": "fixture-wi-0071-r1",
+            "provenance": { "lifecycle": "controlled-fixture" },
+            "freshness": { "quality": "controlled", "observed_at": "2026-08-31T11:00:00.000Z" },
+            "tasks": []
+          },
+          {
+            "id": "WI-0072",
+            "title": "Prepare responsive implementation evidence",
+            "state": "spec",
+            "category": "queued",
+            "owner_position": "ui_designer",
+            "assigned_agent_id": "agent-yuna",
+            "active_claim": false,
+            "evidence_count": 0,
+            "unresolved_count": 0,
+            "exact_revision": "fixture-wi-0072-r1",
+            "provenance": { "lifecycle": "controlled-fixture" },
+            "freshness": { "quality": "controlled", "observed_at": "2026-08-31T10:30:00.000Z" },
+            "tasks": []
+          },
+          {
+            "id": "WI-0073",
+            "title": "Plan History retrieval behavior",
+            "state": "spec",
+            "category": "queued",
+            "owner_position": "tech_lead",
+            "assigned_agent_id": "agent-tidus",
+            "active_claim": false,
+            "evidence_count": 0,
+            "unresolved_count": 0,
+            "exact_revision": "fixture-wi-0073-r1",
+            "provenance": { "lifecycle": "controlled-fixture" },
+            "freshness": { "quality": "controlled", "observed_at": "2026-08-31T10:00:00.000Z" },
+            "tasks": []
+          },
+          {
+            "id": "WI-0064",
+            "title": "Validate Provider-observed model attribution",
+            "state": "done",
+            "category": "terminal",
+            "owner_position": "quality_evaluator",
+            "assigned_agent_id": "agent-lulu",
+            "active_claim": false,
+            "evidence_count": 5,
+            "unresolved_count": 1,
+            "exact_revision": "fixture-wi-0064-r2",
+            "provenance": { "lifecycle": "controlled-fixture" },
+            "freshness": { "quality": "controlled", "observed_at": "2026-08-31T10:55:00.000Z" },
+            "tasks": []
+          },
+          { "id": "WI-0001", "title": "Initialize project organization", "state": "done", "category": "terminal", "owner_position": "engineering_manager", "assigned_agent_id": "agent-mog", "active_claim": false, "evidence_count": 3, "unresolved_count": 0, "exact_revision": "fixture-wi-0001-r1", "provenance": { "lifecycle": "controlled-fixture" }, "freshness": { "quality": "controlled", "observed_at": "2026-08-20T03:00:00.000Z" }, "tasks": [] },
+          { "id": "WI-0002", "title": "Define product direction", "state": "done", "category": "terminal", "owner_position": "product_manager", "assigned_agent_id": "agent-yuna", "active_claim": false, "evidence_count": 2, "unresolved_count": 0, "exact_revision": "fixture-wi-0002-r1", "provenance": { "lifecycle": "controlled-fixture" }, "freshness": { "quality": "controlled", "observed_at": "2026-08-21T03:00:00.000Z" }, "tasks": [] },
+          { "id": "WI-0003", "title": "Design context routing", "state": "done", "category": "terminal", "owner_position": "tech_lead", "assigned_agent_id": "agent-tidus", "active_claim": false, "evidence_count": 4, "unresolved_count": 0, "exact_revision": "fixture-wi-0003-r1", "provenance": { "lifecycle": "controlled-fixture" }, "freshness": { "quality": "controlled", "observed_at": "2026-08-22T03:00:00.000Z" }, "tasks": [] },
+          { "id": "WI-0004", "title": "Implement deterministic retrieval", "state": "done", "category": "terminal", "owner_position": "developer", "assigned_agent_id": "agent-rikku", "active_claim": false, "evidence_count": 6, "unresolved_count": 0, "exact_revision": "fixture-wi-0004-r1", "provenance": { "lifecycle": "controlled-fixture" }, "freshness": { "quality": "controlled", "observed_at": "2026-08-23T03:00:00.000Z" }, "tasks": [] },
+          { "id": "WI-0005", "title": "Evaluate retrieval quality", "state": "done", "category": "terminal", "owner_position": "quality_evaluator", "assigned_agent_id": "agent-lulu", "active_claim": false, "evidence_count": 5, "unresolved_count": 0, "exact_revision": "fixture-wi-0005-r1", "provenance": { "lifecycle": "controlled-fixture" }, "freshness": { "quality": "controlled", "observed_at": "2026-08-24T03:00:00.000Z" }, "tasks": [] },
+          { "id": "WI-0006", "title": "Run independent retrieval QA", "state": "done", "category": "terminal", "owner_position": "independent_qa", "assigned_agent_id": "agent-lulu", "active_claim": false, "evidence_count": 4, "unresolved_count": 0, "exact_revision": "fixture-wi-0006-r1", "provenance": { "lifecycle": "controlled-fixture" }, "freshness": { "quality": "controlled", "observed_at": "2026-08-25T03:00:00.000Z" }, "tasks": [] },
+          { "id": "WI-0007", "title": "Close retrieval release gate", "state": "done", "category": "terminal", "owner_position": "release_manager", "assigned_agent_id": "agent-mog", "active_claim": false, "evidence_count": 7, "unresolved_count": 0, "exact_revision": "fixture-wi-0007-r1", "provenance": { "lifecycle": "controlled-fixture" }, "freshness": { "quality": "controlled", "observed_at": "2026-08-26T03:00:00.000Z" }, "tasks": [] }
+        ]
+      },
+      "tasks": {
+        "live": 1,
+        "history_only": 0,
+        "registered_only": 1
+      },
+      "attention": [
+        {
+          "type": "design_review",
+          "label": "Owner review · WI-0077",
+          "work_item_id": "WI-0077",
+          "message": "Review the Management Console design direction before Build planning. This does not authorize release or publication.",
+          "suggested_action": "Review WI-0077",
+          "jump_view": "execution"
+        },
+        {
+          "type": "approval_pending",
+          "work_item_id": "WI-0069",
+          "message": "Release Gate remains held; no external action is authorized."
+        }
+      ],
+      "timeline": [
+        { "name": "WI-0069 reached Release Gate", "work_item_id": "WI-0069", "timestamp": "2026-08-31T14:38:00.000Z", "observed_at": "2026-08-31T14:38:03.000Z", "provenance": "repository", "exact_revision": "fixture-wi-0069-r2" },
+        { "name": "WI-0067 reached its approved Token ceiling", "work_item_id": "WI-0067", "timestamp": "2026-08-31T12:28:00.000Z", "observed_at": "2026-08-31T12:28:02.000Z", "provenance": "repository", "exact_revision": "fixture-wi-0067-r4" },
+        { "name": "WI-0064 closed with protocol limits recorded", "work_item_id": "WI-0064", "timestamp": "2026-08-31T10:55:00.000Z", "observed_at": "2026-08-31T10:55:02.000Z", "provenance": "repository", "exact_revision": "fixture-wi-0064-r2" },
+        { "name": "Codex task observation recovered after a provider disconnect", "timestamp": "2026-08-31T09:30:00.000Z", "observed_at": "2026-08-31T09:31:00.000Z", "provenance": "provider-history" },
+        { "name": "WI-0029 returned to Test", "work_item_id": "WI-0029", "timestamp": "2026-08-31T05:04:00.000Z", "observed_at": "2026-08-31T05:04:01.000Z", "provenance": "repository", "exact_revision": "fixture-wi-0029-r5" },
+        { "name": "Usage observation recorded", "work_item_id": "WI-0056", "task_id": "task-wi-0056-build", "timestamp": "2026-08-30T23:59:00.000Z", "observed_at": "2026-08-30T23:59:01.000Z", "provenance": "codex-provider" },
+        { "name": "WI-0007 release gate closed", "work_item_id": "WI-0007", "timestamp": "2026-08-26T03:00:00.000Z", "observed_at": "2026-08-26T03:00:01.000Z", "provenance": "repository" },
+        { "name": "WI-0006 independent QA passed", "work_item_id": "WI-0006", "timestamp": "2026-08-25T03:00:00.000Z", "observed_at": "2026-08-25T03:00:01.000Z", "provenance": "repository" },
+        { "name": "WI-0005 evaluation completed", "work_item_id": "WI-0005", "timestamp": "2026-08-24T03:00:00.000Z", "observed_at": "2026-08-24T03:00:01.000Z", "provenance": "repository" },
+        { "name": "WI-0004 implementation completed", "work_item_id": "WI-0004", "timestamp": "2026-08-23T03:00:00.000Z", "observed_at": "2026-08-23T03:00:01.000Z", "provenance": "repository" },
+        { "name": "WI-0003 design approved", "work_item_id": "WI-0003", "timestamp": "2026-08-22T03:00:00.000Z", "observed_at": "2026-08-22T03:00:01.000Z", "provenance": "repository" },
+        { "name": "WI-0002 product direction accepted", "work_item_id": "WI-0002", "timestamp": "2026-08-21T03:00:00.000Z", "observed_at": "2026-08-21T03:00:01.000Z", "provenance": "repository" },
+        { "name": "WI-0001 organization initialized", "work_item_id": "WI-0001", "timestamp": "2026-08-20T03:00:00.000Z", "observed_at": "2026-08-20T03:00:01.000Z", "provenance": "repository" },
+        { "name": "Control Plane configuration validated", "timestamp": "2026-08-19T03:00:00.000Z", "observed_at": "2026-08-19T03:00:01.000Z", "provenance": "repository" },
+        { "name": "Usage policy indexed", "timestamp": "2026-08-18T03:00:00.000Z", "observed_at": "2026-08-18T03:00:01.000Z", "provenance": "repository" },
+        { "name": "UI policy indexed", "timestamp": "2026-08-17T03:00:00.000Z", "observed_at": "2026-08-17T03:00:01.000Z", "provenance": "repository" },
+        { "name": "Learning index rebuilt", "timestamp": "2026-08-16T03:00:00.000Z", "observed_at": "2026-08-16T03:00:01.000Z", "provenance": "repository" },
+        { "name": "Capability index rebuilt", "timestamp": "2026-08-15T03:00:00.000Z", "observed_at": "2026-08-15T03:00:01.000Z", "provenance": "repository" }
+      ]
+    },
+    "usage": {
+      "schema_version": "temple.usage-baseline/v1",
+      "baseline_status": "insufficient-data",
+      "totals": {
+        "input_tokens": 23400,
+        "cached_input_tokens": 9984,
+        "output_tokens": 33,
+        "reasoning_output_tokens": 16,
+        "total_tokens": 23433,
+        "cost_status": "unknown"
+      },
+      "unknown_dimensions": {
+        "monetary_cost": 1,
+        "effective_turn_reasoning_effort": 1
+      },
+      "source": {
+        "longitudinal_coverage": {
+          "qualification": {
+            "status": "not-qualified",
+            "required_correlated_work_items": 10
+          },
+          "detailed_token_observation_coverage": {
+            "observations": 1,
+            "qualified_completed_work_items": 1
+          },
+          "registered_task_coverage": {
+            "completed_work_items_with_registered_task": 1
+          },
+          "canonical_work_items": {
+            "completed": 8
+          }
+        },
+        "history": {
+          "status": "complete",
+          "archived_observations_included": 0,
+          "archive_files": { "skipped": 0 },
+          "conflicting_identities": 0,
+          "duplicates_removed": 0
+        }
+      },
+      "driver_groups": [
+        {
+          "dimensions": {
+            "work_item_id": "WI-0056",
+            "task_id": "task-wi-0056-build",
+            "position_id": "developer",
+            "lifecycle_stage": "build",
+            "model": "gpt-5.6-luna",
+            "reasoning_effort": "max",
+            "outcome": "observed"
+          },
+          "tokens": {
+            "input_tokens": 23400,
+            "cached_input_tokens": 9984,
+            "output_tokens": 33,
+            "reasoning_output_tokens": 16,
+            "total_tokens": 23433
+          },
+          "observations": 1,
+          "first_observed_at": "2026-08-31T23:59:00.000Z",
+          "last_observed_at": "2026-08-31T23:59:00.000Z"
+        }
+      ]
+    }
+  }
+}

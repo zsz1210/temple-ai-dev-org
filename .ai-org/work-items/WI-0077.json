@@ -1,0 +1,183 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0077",
+  "title": "Review the Management Console as a complete human operating experience",
+  "state": "design",
+  "owner_position": "tech_lead",
+  "assigned_agent_id": "agent-tidus",
+  "created_at": "2026-08-31T21:53:58.198Z",
+  "updated_at": "2026-08-31T23:36:19.737Z",
+  "scope": [
+    "Audit the current Temple Management Console end to end using the repository's real mixed lifecycle, collaboration, model, usage, system, evidence, and history state.",
+    "Research current human-facing operations-console and dashboard information-architecture practices, then distinguish applicable principles from product preference.",
+    "Produce a preview-first information architecture, interaction model, responsive state coverage, measurable usability validation plan, and prioritized implementation slices for owner review.",
+    "Stop before Console implementation, remote command expansion, external release, publication, or open-source preparation."
+  ],
+  "acceptance_criteria": [
+    "The review covers Overview, Work, Team, Usage, System, Evidence, History, navigation, data freshness, attention semantics, responsive behavior, accessibility, and the Agent to Position to Work Item to task to model chain.",
+    "Verified findings, user preferences, retained invariants, unavailable evidence, and future ideas are labeled separately and supported by repository or external research evidence.",
+    "One coherent information architecture serves Solo, Collaborative, and Enterprise contexts through progressive disclosure rather than three conflicting products.",
+    "Preview-first artifacts demonstrate the proposed shell and highest-risk states at wide desktop, desktop, tablet, and mobile widths before any Build authorization.",
+    "A measurable validation plan and sequenced implementation backlog are ready for explicit owner review; no production Console code is changed."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0077"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [
+    {
+      "id": "UI-0002",
+      "revision": "ui-1"
+    }
+  ],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "preview-first",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [
+    "product"
+  ],
+  "stage_requirements": {
+    "design": {
+      "disciplines": [
+        "architecture"
+      ],
+      "resources": []
+    },
+    "spec": {
+      "disciplines": [
+        "product"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "c7e0ca1500d3982b729f50e458fb7fc369a291b5",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260831232415-5164d919",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-tidus",
+    "base_revision": "c7e0ca1500d3982b729f50e458fb7fc369a291b5",
+    "branch": "main",
+    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "claimed_at": "2026-08-31T23:24:15.973Z",
+    "released_at": "2026-08-31T23:36:19.737Z",
+    "release_reason": [
+      "controlled-usability-fixture-harness-and-human-test-kit-verified-build-still-unapproved"
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260831223351-137ef24f",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "c7e0ca1500d3982b729f50e458fb7fc369a291b5",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-08-31T22:33:51.557Z",
+      "released_at": "2026-08-31T22:43:27.604Z",
+      "release_reason": [
+        "preview-refinement-complete-owner-review-pending"
+      ]
+    },
+    {
+      "id": "claim-20260831224926-a6df1eeb",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "c7e0ca1500d3982b729f50e458fb7fc369a291b5",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-08-31T22:49:26.473Z",
+      "released_at": "2026-08-31T22:50:42.345Z",
+      "release_reason": [
+        "owner-direction-accepted-build-plan-prepared"
+      ]
+    },
+    {
+      "id": "claim-20260831230625-313667d9",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "c7e0ca1500d3982b729f50e458fb7fc369a291b5",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-08-31T23:06:25.108Z",
+      "released_at": "2026-08-31T23:11:37.178Z",
+      "release_reason": [
+        "diagnostic-usability-rehearsal-recorded-build-still-unapproved"
+      ]
+    },
+    {
+      "id": "claim-20260831232415-5164d919",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "c7e0ca1500d3982b729f50e458fb7fc369a291b5",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-08-31T23:24:15.973Z",
+      "released_at": "2026-08-31T23:36:19.737Z",
+      "release_reason": [
+        "controlled-usability-fixture-harness-and-human-test-kit-verified-build-still-unapproved"
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0077/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0077/product-direction.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0077/product-direction.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0077/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0077/work-order.md",
+    ".ai-org/artifacts/WI-0077/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0077/README.md",
+    ".ai-org/artifacts/WI-0077/research.md",
+    ".ai-org/artifacts/WI-0077/product-direction.md",
+    ".ai-org/artifacts/WI-0077/current-state-audit.md",
+    ".ai-org/artifacts/WI-0077/ui-brief.md",
+    ".ai-org/artifacts/WI-0077/required-state-coverage.md",
+    ".ai-org/artifacts/WI-0077/management-console-preview.html",
+    ".ai-org/artifacts/WI-0077/preview-review.md",
+    ".ai-org/artifacts/WI-0077/validation-plan.md",
+    ".ai-org/artifacts/WI-0077/implementation-slices.md"
+  ],
+  "unresolved": [],
+  "next_position": "developer",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "c7e0ca1500d3982b729f50e458fb7fc369a291b5",
+      "artifact": ".ai-org/artifacts/WI-0077/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-08-31T21:54:24.863Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "c7e0ca1500d3982b729f50e458fb7fc369a291b5",
+      "artifact": ".ai-org/artifacts/WI-0077/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-31T22:16:24.889Z"
+    }
+  ]
+}

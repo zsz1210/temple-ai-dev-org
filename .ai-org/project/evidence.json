@@ -10901,6 +10901,162 @@
         "status": "planned",
         "procedure": ".ai-org/artifacts/WI-0076/developer-report.md"
       }
+    },
+    {
+      "id": "EVID-20260831T234353Z-EB41C8D1",
+      "work_item_id": "WI-0078",
+      "recorded_at": "2026-08-31T23:43:53.861Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0078 exact-candidate quality verification",
+      "outcome": "pass",
+      "scope_revision": "8ae725d677eb26bcfeec67f60f53193c20c12e2a",
+      "observed_at": "2026-08-31T23:43:16Z",
+      "summary": "Fresh detached candidate passed repository checks, documentation links, 257 tests, SVG parsing, localization/accessibility assertions, and diff checks.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0078/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0078/quality-test-observation.json",
+          "sha256": "1e539f5b431285c6ddf7497c9632638624f269eec8cf789848d5f1a7df5d18ed"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0078/developer-evidence.md",
+          "sha256": "83146954a1b393d2415eccaecc0b2a720a00848d9705936bca1f48cac625bfe6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0078/runtime-visual-review.md",
+          "sha256": "220498e80c041e08f17fea8f6db8879bc0e5102ada0c24ef5f288f2ef3becc4d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0078/required-state-coverage.md",
+          "sha256": "69e1c4685e04705eaae74d201b880fb57b17d4d68f98ada934be5a3b719b8bc9"
+        }
+      ],
+      "details": {
+        "command": [
+          "create a fresh detached worktree at the exact candidate",
+          "npm ci --ignore-scripts --no-audit --no-fund",
+          "npm run verify",
+          "xmllint --noout on all three localized SVGs",
+          "run localized README and SVG accessibility assertions",
+          "git diff --check candidate^ candidate"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T23:42:16Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T234354Z-C78E3D5E",
+      "work_item_id": "WI-0078",
+      "recorded_at": "2026-08-31T23:43:54.163Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "WI-0078 localized README visual review",
+      "outcome": "pass",
+      "scope_revision": "8ae725d677eb26bcfeec67f60f53193c20c12e2a",
+      "observed_at": "2026-08-31T23:43:16Z",
+      "summary": "Desktop, narrow, light, dark, localization, clipping, and structural contrast review passed for the exact candidate.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0078/runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0078/runtime-observation.json",
+          "sha256": "a7623b2ce04df260aa88746f5dfc5909aa7a9ad1784bab2aceede46c55ce2dd6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0078/runtime-visual-review.md",
+          "sha256": "220498e80c041e08f17fea8f6db8879bc0e5102ada0c24ef5f288f2ef3becc4d"
+        },
+        {
+          "path": "docs/assets/temple-overview.en.svg",
+          "sha256": "ad4eaffd20ef86d17a64d36371c4c097d7e078732f9f8ec4bf5ad5d7cb65f063"
+        },
+        {
+          "path": "docs/assets/temple-overview.ja.svg",
+          "sha256": "e76002ea6aa1420d0e352c1c01277974af2b3b0b3a6dd1bfbc6f09ec88f8e45a"
+        },
+        {
+          "path": "docs/assets/temple-overview.zh-TW.svg",
+          "sha256": "1b72c1446d1e0b09cce29f9b63574150a6b859d8a264f974719f4284b65195b6"
+        }
+      ],
+      "details": {
+        "environment": "macOS local SVG renderers and headless Chromium",
+        "scenario": "Render and inspect English, Japanese, and Traditional Chinese README overview SVGs at desktop and 360 px widths, including a forced-dark representative capture and structural contrast checks",
+        "provenance": "simulator"
+      }
+    },
+    {
+      "id": "EVID-20260831T234626Z-E864348D",
+      "work_item_id": "WI-0078",
+      "recorded_at": "2026-08-31T23:46:26.195Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0078 independent exact-candidate verification",
+      "outcome": "pass",
+      "scope_revision": "8ae725d677eb26bcfeec67f60f53193c20c12e2a",
+      "observed_at": "2026-08-31T23:45:41Z",
+      "summary": "A second fresh detached worktree passed all 257 tests and focused scope, parity, authority, maturity, accessibility, and optional-dependency challenges.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0078/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0078/independent-qa-observation.json",
+          "sha256": "d9f57d374a12e4d53fd8a597bd08fccb8f2749bf68bd51f35b23288fe1ff29e0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0078/independent-qa-report.md",
+          "sha256": "74cddc08f4c4fcd7b8974d1a04d06d47568841e00859b747c8adb53ada1c662c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0078/evaluation-report.md",
+          "sha256": "502a2fafdbd1fdfca3f648bea6467dab1cab1fdcf5e8a82af6ee2de7264a6967"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0078/runtime-visual-review.md",
+          "sha256": "220498e80c041e08f17fea8f6db8879bc0e5102ada0c24ef5f288f2ef3becc4d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0078/research.md",
+          "sha256": "91fb0b5788d47fba04b199582102a5e22d5ef4b13554ee53f70c4b5dac647602"
+        }
+      ],
+      "details": {
+        "command": [
+          "create a second fresh detached worktree at the exact candidate",
+          "npm ci --ignore-scripts --no-audit --no-fund",
+          "npm run verify",
+          "assert the candidate changes exactly three READMEs and three localized SVGs",
+          "assert heading parity, Early Alpha limits, human authority, image semantics, and no Archify or remote runtime dependency"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T23:44:41Z"
+      }
     }
   ]
 }

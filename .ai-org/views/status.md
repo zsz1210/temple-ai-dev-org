@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 76 total, 7 active
+- Work items: 78 total, 8 active
 - Codex tasks: 5 registered, 4 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -39,7 +39,7 @@
 - Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 5 / 2
+- Active / sequential / blocked: 0 / 6 / 2
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -123,6 +123,8 @@
 | WI-0074 | Remove hosted control-plane test races | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `66bc5dd8` | 0 | 16 | 0 |
 | WI-0075 | Separate validation wall-clock test boundaries | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `66bc5dd8` | 0 | 14 | 0 |
 | WI-0076 | Operationalize multi-human team governance | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `006ef112` | 0 | 20 | 0 |
+| WI-0077 | Review the Management Console as a complete human operating experience | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | preview-first | 1 | 0 | 0 | — | `—` | 0 | 13 | 0 |
+| WI-0078 | Make the public README visual and human-first | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `8ae725d6` | 0 | 21 | 0 |
 
 ## Codex task registry
 
@@ -240,14 +242,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T18:59:54.264Z | work_item_closed | WI-0076 | agent-mog |
-| 2026-08-31T18:59:54.264Z | release_gate_completed | WI-0076 | agent-mog |
-| 2026-08-31T18:59:48.637Z | evidence_recorded | WI-0076 | human |
-| 2026-08-31T18:59:21.579Z | work_item_claimed | WI-0076 | human |
-| 2026-08-31T18:59:16.258Z | work_item_transitioned | WI-0076 | agent-lulu |
-| 2026-08-31T18:59:15.950Z | work_item_claim_released | WI-0076 | human |
-| 2026-08-31T18:59:15.650Z | handoff_created | WI-0076 | agent-lulu |
-| 2026-08-31T18:59:06.690Z | evidence_recorded | WI-0076 | human |
+| 2026-08-31T23:46:59.230Z | work_item_closed | WI-0078 | agent-mog |
+| 2026-08-31T23:46:59.230Z | release_gate_completed | WI-0078 | agent-mog |
+| 2026-08-31T23:46:55.158Z | work_item_claimed | WI-0078 | human |
+| 2026-08-31T23:46:42.795Z | work_item_transitioned | WI-0078 | agent-lulu |
+| 2026-08-31T23:46:38.472Z | work_item_claim_released | WI-0078 | human |
+| 2026-08-31T23:46:34.188Z | handoff_created | WI-0078 | agent-lulu |
+| 2026-08-31T23:46:26.195Z | evidence_recorded | WI-0078 | human |
+| 2026-08-31T23:44:16.635Z | work_item_claimed | WI-0078 | human |
 
 ## Assignments
 

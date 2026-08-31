@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-31T19:00:03.697Z",
-  "source_fingerprint": "72dfe0be5209054cc4ebbae56ba81e56c93f1803f1e6d3763aab159615a79112",
+  "generated_at": "2026-08-31T23:47:37.475Z",
+  "source_fingerprint": "cd8b737d57f1b90da55c05cf2e693994fa9ef51b67c0da4197c62cf1e6512013",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -12,15 +12,16 @@
       "WI-0035",
       "WI-0064",
       "WI-0067",
-      "WI-0069"
+      "WI-0069",
+      "WI-0077"
     ]
   },
   "max_workers": null,
   "summary": {
-    "selected": 7,
+    "selected": 8,
     "dispatchable": 0,
     "active": 0,
-    "sequential": 5,
+    "sequential": 6,
     "blocked": 2,
     "waves": 0
   },
@@ -80,6 +81,17 @@
       "integration_owner_agent_id": null,
       "reasons": [
         "requested_mode_sequential"
+      ]
+    },
+    {
+      "work_item_id": "WI-0077",
+      "title": "Review the Management Console as a complete human operating experience",
+      "disposition": "sequential",
+      "position_id": "tech_lead",
+      "agent_id": "agent-tidus",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "integration_owner_assigned"
       ]
     }
   ],
