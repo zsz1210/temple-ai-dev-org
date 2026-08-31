@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 70 total, 9 active
+- Work items: 70 total, 8 active
 - Codex tasks: 5 registered, 4 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -14,6 +14,7 @@
 - Context routes: 0 active (repository-deterministic, semantic=false)
 - Engineering learning: 3 Lessons, 1 Practices
 - Learning revalidation: 0 due, 0 contradicted
+- Skill promotion: 0 candidate(s), 0 approval pending, 0 authoring Work Item(s)
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Attention signals: 12
@@ -25,7 +26,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -113,7 +114,7 @@
 | WI-0067 | Run bounded four-repository commerce rehearsal | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0d656df5` | 0 | 18 | 3 |
 | WI-0068 | Fail closed on invalid experiment telemetry paths | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `123a9fda` | 0 | 18 | 0 |
 | WI-0069 | Establish progressive usage calibration and autonomy policy | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `aead7f54` | 0 | 5 | 0 |
-| WI-0070 | Automate Skill candidate proposals with human activation | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260831135153-4a274d3e | `—` | 0 | 4 | 0 |
+| WI-0070 | Automate Skill candidate proposals with human activation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `406bc213` | 0 | 15 | 0 |
 
 ## Codex task registry
 
@@ -221,6 +222,10 @@
 - Deprecated: 0
 - Revalidation due: 0
 - Contradicted: 0
+- Skill candidates: 0
+- Skill Proposals awaiting approval: 0
+- Deferred Skill Proposals due: 0
+- Skill authoring Work Items created: 0
 - Retrieval index: `.ai-org/learning/index.json`
 
 
@@ -228,14 +233,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T13:51:53.210Z | work_item_claimed | WI-0070 | human |
-| 2026-08-31T13:51:52.575Z | work_item_transitioned | WI-0070 | agent-tidus |
-| 2026-08-31T13:48:00.186Z | work_item_claimed | WI-0070 | human |
-| 2026-08-31T13:47:59.572Z | work_item_transitioned | WI-0070 | agent-yuna |
-| 2026-08-31T13:45:49.717Z | work_item_claimed | WI-0070 | human |
-| 2026-08-31T13:45:49.414Z | work_item_coordination_configured | WI-0070 | agent-yuna |
-| 2026-08-31T13:45:38.885Z | work_item_transitioned | WI-0070 | agent-mog |
-| 2026-08-31T13:45:26.679Z | work_item_coordination_configured | WI-0070 | agent-mog |
+| 2026-08-31T14:19:50.000Z | evidence_invalidated | WI-0070 | agent-lulu |
+| 2026-08-31T14:19:44.607Z | evidence_recorded | WI-0070 | agent-lulu |
+| 2026-08-31T14:16:08.664Z | work_item_closed | WI-0070 | agent-mog |
+| 2026-08-31T14:16:08.664Z | release_gate_completed | WI-0070 | agent-mog |
+| 2026-08-31T14:16:08.361Z | work_item_claimed | WI-0070 | human |
+| 2026-08-31T14:16:08.038Z | work_item_coordination_configured | WI-0070 | agent-mog |
+| 2026-08-31T14:15:40.489Z | work_item_transitioned | WI-0070 | agent-lulu |
+| 2026-08-31T14:15:40.178Z | handoff_created | WI-0070 | agent-lulu |
 
 ## Assignments
 

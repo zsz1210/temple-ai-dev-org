@@ -9253,6 +9253,171 @@
         "exit_code": 0,
         "started_at": "2026-08-31T13:36:45Z"
       }
+    },
+    {
+      "id": "EVID-20260831T141256Z-F2462E6A",
+      "work_item_id": "WI-0070",
+      "recorded_at": "2026-08-31T14:12:56.118Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0070 developer candidate",
+      "outcome": "verified",
+      "scope_revision": "406bc213d7b4d0345c4a6f90f5895cc77de4aa7a",
+      "observed_at": "2026-08-31T14:12:56.118Z",
+      "summary": "Exact candidate containing the governed Skill promotion pipeline",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "406bc213d7b4d0345c4a6f90f5895cc77de4aa7a"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "406bc213d7b4d0345c4a6f90f5895cc77de4aa7a",
+        "working_tree_dirty": false
+      }
+    },
+    {
+      "id": "EVID-20260831T141328Z-782E1548",
+      "work_item_id": "WI-0070",
+      "recorded_at": "2026-08-31T14:13:28.169Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": "2026-08-31T14:19:50.000Z",
+      "invalidated_by": "agent-lulu",
+      "invalidation_reason": "Superseded by EVID-20260831T141944Z-5C4653E3 because the original observation used timestamps that preceded the recorded candidate commit.",
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0070 full quality verification",
+      "outcome": "pass",
+      "scope_revision": "406bc213d7b4d0345c4a6f90f5895cc77de4aa7a",
+      "observed_at": "2026-08-31T14:09:00.000Z",
+      "summary": "All 249 repository tests and repository/document checks passed on the exact developer candidate",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0070/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0070/quality-test-observation.json",
+          "sha256": "cfd14ec4c8ff9527212d393ca2a4b5a0244bbccaae054c541d197eb785c5a814"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0070/developer-verification.md",
+          "sha256": "364f13c59c77e4b51593a15b97140ce27e87352285b57c873dc4a15e4e79fdd5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0070/ui-runtime-review.md",
+          "sha256": "56e66d7686f71be6b17b479984404d9c2cc8315a8e0b7ff55feacabab20c1109"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T14:08:00.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T141533Z-330495EC",
+      "work_item_id": "WI-0070",
+      "recorded_at": "2026-08-31T14:15:33.146Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0070 Independent QA",
+      "outcome": "pass",
+      "scope_revision": "406bc213d7b4d0345c4a6f90f5895cc77de4aa7a",
+      "observed_at": "2026-08-31T14:14:36.000Z",
+      "summary": "Independent QA reproduced 40 focused tests, schema validation, Doctor, and exact candidate immutability",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0070/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0070/independent-qa-observation.json",
+          "sha256": "168c99f2c62dabb002fffa5f5a1f7e3077fe18895661a137cbf965c3755c9b6b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0070/evaluation-report.md",
+          "sha256": "27c677161a8dff3ba23724e5011b84e91861fc3e5a69e065c939aa6d13811d74"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0070/ui-runtime-review.md",
+          "sha256": "56e66d7686f71be6b17b479984404d9c2cc8315a8e0b7ff55feacabab20c1109"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "test",
+          "--",
+          "test/learning-operations.test.mjs",
+          "test/evidence-observer.test.mjs",
+          "test/cli.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T14:14:16.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T141944Z-5C4653E3",
+      "work_item_id": "WI-0070",
+      "recorded_at": "2026-08-31T14:19:44.607Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0070 corrected full quality verification",
+      "outcome": "pass",
+      "scope_revision": "406bc213d7b4d0345c4a6f90f5895cc77de4aa7a",
+      "observed_at": "2026-08-31T14:18:37.000Z",
+      "summary": "All 249 repository tests and repository/document checks passed on the exact developer candidate; this observation supersedes EVID-20260831T141328Z-782E1548 because that record used pre-commit timestamps",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0070/quality-test-observation-2.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0070/quality-test-observation-2.json",
+          "sha256": "3531df1a8580523d240fd4a12846e548bc4a87ee9796ce5e8bc6937e404fe2f6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0070/developer-verification.md",
+          "sha256": "364f13c59c77e4b51593a15b97140ce27e87352285b57c873dc4a15e4e79fdd5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0070/ui-runtime-review.md",
+          "sha256": "56e66d7686f71be6b17b479984404d9c2cc8315a8e0b7ff55feacabab20c1109"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T14:17:33.000Z"
+      }
     }
   ]
 }
