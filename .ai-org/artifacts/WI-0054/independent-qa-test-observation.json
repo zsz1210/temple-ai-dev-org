@@ -1,0 +1,22 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "5de1ae88304d7c6d7876d28f2518c812f0443f65",
+  "command": [
+    "create fresh detached worktree at candidate revision",
+    "npm run verify using the existing local dependency directory",
+    "node ./templew.mjs doctor . --json",
+    "inspect the Provider-owned thread/start sandbox encoding and stale mock expectations",
+    "git diff --check and confirm detached worktree clean",
+    "review WI-0054 result evidence without repeating thread/start"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T07:14:24Z",
+  "completed_at": "2026-08-31T07:15:21Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0054/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0054/live-proof-result.md",
+    ".ai-org/artifacts/WI-0054/runtime-observation.json",
+    ".ai-org/artifacts/WI-0054/quality-report.md"
+  ]
+}

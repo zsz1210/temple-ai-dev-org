@@ -1,0 +1,59 @@
+{
+  "schema_version": "temple.live-proof-observation/v1",
+  "work_item_id": "WI-0054",
+  "classification": "fail",
+  "candidate_revision": "5de1ae88304d7c6d7876d28f2518c812f0443f65",
+  "execution_contract": {
+    "requested_model": "gpt-5.6-luna",
+    "reasoning_effort": "max",
+    "approval_policy": "never",
+    "sandbox_requested": "read-only",
+    "network_access": false,
+    "maximum_threads": 1,
+    "maximum_turns": 1,
+    "automatic_retries": 0,
+    "reactive_total_token_threshold": 20000,
+    "wall_clock_interrupt_seconds": 180
+  },
+  "observed": {
+    "launch_attempts": 1,
+    "elapsed_milliseconds": 2628,
+    "provider_status_before_launch": "ready",
+    "thread_start_status": "rejected",
+    "provider_thread_id": null,
+    "canonical_task_id": null,
+    "provider_turn_id": null,
+    "turn_started": false,
+    "instruction_sent": false,
+    "interrupt_requested": false,
+    "automatic_retry_performed": false,
+    "repository_diff_before": "clean",
+    "repository_diff_after": "clean",
+    "dashboard_restored": true,
+    "dashboard_url": "http://192.168.79.5:41741/"
+  },
+  "usage": {
+    "detailed_observation_received": false,
+    "input_tokens": null,
+    "cached_input_tokens": null,
+    "output_tokens": null,
+    "reasoning_output_tokens": null,
+    "total_tokens": null,
+    "effective_model": null,
+    "service_tier": null
+  },
+  "diagnosis": {
+    "root_cause": "Temple encoded the App Server thread/start sandbox field as readOnly, while the installed App Server v2 schema accepts read-only, workspace-write, or danger-full-access.",
+    "source_location": "src/codex-app-server-provider.mjs:1197",
+    "schema_evidence": "codex app-server generate-json-schema -> codex_app_server_protocol.v2.schemas.json SandboxMode",
+    "test_gap": "Mock provider tests accepted the camelCase value and did not validate the request against the installed protocol schema.",
+    "provider_rejection_detail_retained": false
+  },
+  "claims": {
+    "model_generation_observed": false,
+    "token_usage_observed": false,
+    "cost_claim": false,
+    "savings_claim": false,
+    "routing_claim": false
+  }
+}

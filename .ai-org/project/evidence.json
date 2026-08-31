@@ -6994,6 +6994,143 @@
         "exit_code": 0,
         "started_at": "2026-08-31T05:20:06.855Z"
       }
+    },
+    {
+      "id": "EVID-20260831T071227Z-2B91601F",
+      "work_item_id": "WI-0054",
+      "recorded_at": "2026-08-31T07:12:27.454Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Prepared one-shot provider-owned live proof",
+      "outcome": "verified",
+      "scope_revision": "5de1ae88304d7c6d7876d28f2518c812f0443f65",
+      "observed_at": "2026-08-31T07:12:27.454Z",
+      "summary": "Pinned the exact approved experiment contract before the single real launch.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "5de1ae88304d7c6d7876d28f2518c812f0443f65"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "5de1ae88304d7c6d7876d28f2518c812f0443f65",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260831T071407Z-AF40D65E",
+      "work_item_id": "WI-0054",
+      "recorded_at": "2026-08-31T07:14:07.600Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality verification of failed one-shot live proof",
+      "outcome": "pass",
+      "scope_revision": "5de1ae88304d7c6d7876d28f2518c812f0443f65",
+      "observed_at": "2026-08-31T07:13:46Z",
+      "summary": "Quality reproduced the protocol mismatch and confirmed zero retry, no phantom task, clean repository state, and restored Dashboard.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0054/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0054/quality-test-observation.json",
+          "sha256": "ee89da6a8b2b5a2388a1f01b9e2e6a75c3cccd052a3ff10bf908e2491411ecea"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0054/quality-report.md",
+          "sha256": "79aba268347e4bf77a75544c4ec3ed98315f05362e098665ad557e5aa9847de2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0054/evaluation-report.md",
+          "sha256": "8e39644a4d7dc12972c66ca32d501678223ad6deb549986bb3eeb16f23052be8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0054/live-proof-result.md",
+          "sha256": "800ed77ddd0ece30d87bd1c0a73081100933bfa3edab46f7b72aedcd28d3c752"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0054/runtime-observation.json",
+          "sha256": "14a95421153a73192fcdf1d1d3b01ed2d5117489c890853e476f2adf5cf13e33"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify",
+          "node ./templew.mjs doctor . --json",
+          "codex app-server generate-json-schema and inspect ThreadStartParams SandboxMode",
+          "compare live request encoding with src/codex-app-server-provider.mjs and its mock expectations"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T07:12:36Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T071540Z-BC8AE598",
+      "work_item_id": "WI-0054",
+      "recorded_at": "2026-08-31T07:15:40.608Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA of failed one-shot live proof",
+      "outcome": "pass",
+      "scope_revision": "5de1ae88304d7c6d7876d28f2518c812f0443f65",
+      "observed_at": "2026-08-31T07:15:21Z",
+      "summary": "Independent QA reproduced the exact candidate, verified the protocol mismatch and safety evidence, and did not repeat the Provider launch.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0054/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0054/independent-qa-test-observation.json",
+          "sha256": "36015dfd831df8eba5229fbf9916333a673c79eede69348b693a9a93016699ba"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0054/independent-qa-report.md",
+          "sha256": "36d31f6c2d0c20415a0693fba210d9d3ee9eb8f1919f6e19b41f2dac1e5fae74"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0054/live-proof-result.md",
+          "sha256": "800ed77ddd0ece30d87bd1c0a73081100933bfa3edab46f7b72aedcd28d3c752"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0054/runtime-observation.json",
+          "sha256": "14a95421153a73192fcdf1d1d3b01ed2d5117489c890853e476f2adf5cf13e33"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0054/quality-report.md",
+          "sha256": "79aba268347e4bf77a75544c4ec3ed98315f05362e098665ad557e5aa9847de2"
+        }
+      ],
+      "details": {
+        "command": [
+          "create fresh detached worktree at candidate revision",
+          "npm run verify using the existing local dependency directory",
+          "node ./templew.mjs doctor . --json",
+          "inspect the Provider-owned thread/start sandbox encoding and stale mock expectations",
+          "git diff --check and confirm detached worktree clean",
+          "review WI-0054 result evidence without repeating thread/start"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T07:14:24Z"
+      }
     }
   ]
 }
