@@ -9099,6 +9099,83 @@
         "exit_code": 0,
         "started_at": "2026-08-31T12:25:30Z"
       }
+    },
+    {
+      "id": "EVID-20260831T123401Z-284C591D",
+      "work_item_id": "WI-0068",
+      "recorded_at": "2026-08-31T12:34:01.123Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Telemetry path correction candidate",
+      "outcome": "verified",
+      "scope_revision": "123a9fda2bb4eabd6de38d0360bf6834380b69d6",
+      "observed_at": "2026-08-31T12:34:01.123Z",
+      "summary": "Shared Git-common-directory resolution for inspection and reporting",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "123a9fda2bb4eabd6de38d0360bf6834380b69d6"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "123a9fda2bb4eabd6de38d0360bf6834380b69d6",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260831T123402Z-F1D9FC17",
+      "work_item_id": "WI-0068",
+      "recorded_at": "2026-08-31T12:34:02.387Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Telemetry path regression verification",
+      "outcome": "pass",
+      "scope_revision": "123a9fda2bb4eabd6de38d0360bf6834380b69d6",
+      "observed_at": "2026-08-31T12:31:10Z",
+      "summary": "Focused and full suites pass at the exact candidate revision",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0068/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0068/quality-test-observation.json",
+          "sha256": "5e94acce1ec28fc30f2f357c14301e2576515f69a29a9d04f83c4b1a56bbb272"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0068/quality-report.md",
+          "sha256": "03e2bb18ff62b310f6f1b3b17ed0db4c2779e9373801149cc335a65e6e7e9dfb"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0068/evaluation-report.md",
+          "sha256": "1dc96a3a1f9429969f0b0afab7f369a1d204266001d5b8a338488f1fc0e23128"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0068/independent-qa-report.md",
+          "sha256": "17cb6d773b611a42aa977add5a90239919b6a8f9af19c69628b22afd2aee637a"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/validation-program.test.mjs",
+          "npm run check",
+          "npm run verify in a fresh detached worktree",
+          "experiment inspect against the retained invalid manifest"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T12:29:50Z"
+      }
     }
   ]
 }
