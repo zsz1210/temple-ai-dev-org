@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0043",
   "title": "Review Dashboard information architecture and operator usability",
-  "state": "spec",
-  "owner_position": "product_manager",
-  "assigned_agent_id": "agent-yuna",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
   "created_at": "2026-08-30T23:32:00.549Z",
-  "updated_at": "2026-08-30T23:32:58.598Z",
+  "updated_at": "2026-08-31T18:10:27.862Z",
   "scope": [
     "Audit the current Dashboard from solo, small-team, and enterprise operator perspectives; produce an evidence-backed prioritized review and decision agenda before authorizing any redesign."
   ],
@@ -27,7 +27,7 @@
   "ui_refs": [],
   "contract_refs": [],
   "specification_mode": "gate-evidence",
-  "ui_delivery_mode": "code-first",
+  "ui_delivery_mode": "not-applicable",
   "parent_work_item_id": "WI-0031",
   "tracker_visibility": "internal",
   "tracker_refs": [],
@@ -72,7 +72,7 @@
       "resources": []
     }
   },
-  "base_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
+  "base_revision": "50de31f901c852e85e0c0a666e04767ef67e6457",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -88,16 +88,15 @@
     "WI-0042 is the verified private-LAN transport and provides review runtime evidence; WI-0043 does not reopen its authority boundary."
   ],
   "claim": {
-    "id": "claim-20260830233258-35c87836",
-    "status": "released",
+    "id": "claim-20260831181027-a20687b7",
+    "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-mog",
-    "base_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
-    "branch": "main",
-    "worktree": null,
-    "claimed_at": "2026-08-30T23:32:58.068Z",
-    "released_at": "2026-08-30T23:32:58.598Z",
-    "release_reason": "position_transition"
+    "agent_id": "agent-rikku",
+    "base_revision": "50de31f901c852e85e0c0a666e04767ef67e6457",
+    "branch": "codex/wi-0043-team-organization-review",
+    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "claimed_at": "2026-08-31T18:10:27.862Z",
+    "released_at": null
   },
   "claims": [
     {
@@ -111,21 +110,76 @@
       "claimed_at": "2026-08-30T23:32:58.068Z",
       "released_at": "2026-08-30T23:32:58.598Z",
       "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831180646-7aad7528",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "50de31f901c852e85e0c0a666e04767ef67e6457",
+      "branch": "codex/wi-0043-team-organization-review",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-08-31T18:06:46.317Z",
+      "released_at": "2026-08-31T18:08:57.401Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260831180858-89d60b9a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "50de31f901c852e85e0c0a666e04767ef67e6457",
+      "branch": "codex/wi-0043-team-organization-review",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-08-31T18:08:58.014Z",
+      "released_at": "2026-08-31T18:10:27.284Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260831181027-a20687b7",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "50de31f901c852e85e0c0a666e04767ef67e6457",
+      "branch": "codex/wi-0043-team-organization-review",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-08-31T18:10:27.862Z",
+      "released_at": null
     }
   ],
   "gate_evidence": {
     "work_order": [
       ".ai-org/artifacts/WI-0043/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0043/product-review.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0043/product-review.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0043/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0043/technical-design.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0043/handoff-001-engineering_manager-to-product_manager.md",
     ".ai-org/artifacts/WI-0043/work-order.md",
     ".ai-org/artifacts/WI-0043/dashboard-review-inventory.md",
-    ".ai-org/artifacts/WI-0042/evaluation-report.md"
+    ".ai-org/artifacts/WI-0042/evaluation-report.md",
+    ".ai-org/artifacts/WI-0043/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0043/product-review.md",
+    ".ai-org/artifacts/WI-0043/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0043/technical-design.md"
   ],
   "unresolved": [],
-  "next_position": "tech_lead",
+  "next_position": "quality_evaluator",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -133,6 +187,20 @@
       "input_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
       "artifact": ".ai-org/artifacts/WI-0043/handoff-001-engineering_manager-to-product_manager.md",
       "created_at": "2026-08-30T23:32:58.324Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "50de31f901c852e85e0c0a666e04767ef67e6457",
+      "artifact": ".ai-org/artifacts/WI-0043/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-31T18:08:57.054Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "50de31f901c852e85e0c0a666e04767ef67e6457",
+      "artifact": ".ai-org/artifacts/WI-0043/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-08-31T18:10:26.998Z"
     }
   ]
 }
