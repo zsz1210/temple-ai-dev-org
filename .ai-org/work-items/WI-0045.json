@@ -1,0 +1,157 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0045",
+  "title": "Prioritize firing recovery conditions on Dashboard Now",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-31T00:17:01.158Z",
+  "updated_at": "2026-08-31T00:18:06.657Z",
+  "scope": [
+    "Correct WI-0044 candidate rework by grouping firing stale-evidence conditions into one actionable Now signal ahead of release decisions without restoring the previous high-noise list."
+  ],
+  "acceptance_criteria": [
+    "Now groups firing stale-evidence conditions into one recovery signal, links to System, and prioritizes that signal over release bookkeeping.",
+    "The grouped signal reports the underlying condition count while the Attention panel stays bounded.",
+    "Focused tests, full repository verification, and desktop/mobile/private-LAN browser checks pass on a new exact candidate."
+  ],
+  "affected_paths": [
+    "src/control-plane-dashboard.mjs",
+    "test/control-plane-foundation.test.mjs",
+    ".ai-org/artifacts/WI-0045"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "code-first",
+  "parent_work_item_id": "WI-0044",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "d17a5f263e4e93eab2922d14e55456fd3d6c5b25",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0044 remains at Independent QA with a failed candidate and no active claim; WI-0045 is the explicit child rework and sole implementation editor."
+  ],
+  "claim": {
+    "id": "claim-20260831001806-2d6820e7",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "d17a5f263e4e93eab2922d14e55456fd3d6c5b25",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-08-31T00:18:06.657Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260831001707-119e18a0",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "d17a5f263e4e93eab2922d14e55456fd3d6c5b25",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T00:17:07.738Z",
+      "released_at": "2026-08-31T00:17:17.801Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831001721-5bf6b9c8",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "d17a5f263e4e93eab2922d14e55456fd3d6c5b25",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T00:17:21.794Z",
+      "released_at": "2026-08-31T00:17:42.449Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831001746-d5ef7b60",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "d17a5f263e4e93eab2922d14e55456fd3d6c5b25",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T00:17:46.520Z",
+      "released_at": "2026-08-31T00:18:02.341Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831001806-2d6820e7",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "d17a5f263e4e93eab2922d14e55456fd3d6c5b25",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T00:18:06.657Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0045/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0045/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0045.json"
+    ],
+    "ui_brief": [
+      ".ai-org/artifacts/WI-0045/ui-brief.md"
+    ],
+    "required_state_coverage": [
+      ".ai-org/artifacts/WI-0045/ui-brief.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0045/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0045/technical-design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0045/work-order.md",
+    ".ai-org/artifacts/WI-0045/handoff-001-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0045/product-spec.md",
+    ".ai-org/artifacts/WI-0045/ui-brief.md",
+    ".ai-org/work-items/WI-0045.json",
+    ".ai-org/artifacts/WI-0045/handoff-002-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0045/technical-design.md",
+    ".ai-org/artifacts/WI-0044/independent-qa-fail-report.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "d17a5f263e4e93eab2922d14e55456fd3d6c5b25",
+      "artifact": ".ai-org/artifacts/WI-0045/handoff-001-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-31T00:17:37.600Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "d17a5f263e4e93eab2922d14e55456fd3d6c5b25",
+      "artifact": ".ai-org/artifacts/WI-0045/handoff-002-tech_lead-to-developer.md",
+      "created_at": "2026-08-31T00:17:58.500Z"
+    }
+  ]
+}

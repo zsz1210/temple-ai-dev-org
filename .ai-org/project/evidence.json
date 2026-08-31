@@ -5404,6 +5404,236 @@
         "scenario": "Reproduce the focused listener contract from the exact candidate, then independently fetch the LAN snapshot, reject Inbox and Agent Command requests, inspect both listening sockets, and inspect Tailscale Funnel status",
         "provenance": "live"
       }
+    },
+    {
+      "id": "EVID-20260831T000612Z-BD58E609",
+      "work_item_id": "WI-0044",
+      "recorded_at": "2026-08-31T00:06:12.736Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Dashboard redesign candidate",
+      "outcome": "verified",
+      "scope_revision": "d17a5f263e4e93eab2922d14e55456fd3d6c5b25",
+      "observed_at": "2026-08-31T00:06:12.736Z",
+      "summary": "Exact implementation revision for the researched navigation and operator information architecture.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "d17a5f263e4e93eab2922d14e55456fd3d6c5b25"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "d17a5f263e4e93eab2922d14e55456fd3d6c5b25",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260831T000613Z-BF689260",
+      "work_item_id": "WI-0044",
+      "recorded_at": "2026-08-31T00:06:13.019Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer verification",
+      "outcome": "pass",
+      "scope_revision": "d17a5f263e4e93eab2922d14e55456fd3d6c5b25",
+      "observed_at": "2026-08-31T00:05:41Z",
+      "summary": "Focused Control Plane suites and the full 221-test repository verification passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0044/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0044/developer-test-observation.json",
+          "sha256": "2a622356c568508f33460a6d913c022467fcf926dabe6fcc614539698cd07719"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0044/developer-report.md",
+          "sha256": "3559d11c5c6fb152efa83d3c10571cde7226b9f6927e08f6f55fe0b12f20369f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0044/product-spec.md",
+          "sha256": "a1b3487c6faf6e09fea6a0dc60611dca6dbaa59f10a5dd8b484a0797ced0ed10"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0044/technical-design.md",
+          "sha256": "c78877e7f97e95a0db4a173f21063e416b24f1fb55555754c6d4a5e97df7a14b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0044/ui-brief.md",
+          "sha256": "8de3779f385d67de7c23c8258ac65303c05abe6f720d0ad0a24b817adf0fc1fd"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0044/dashboard-ui-research.md",
+          "sha256": "567a8b6466b02059ffacf71a74c15cb6482c51abea051f8c5eec286cc95fa0fc"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/control-plane-foundation.test.mjs test/control-plane-private-viewer.test.mjs test/control-plane-live.test.mjs",
+          "node --test test/control-plane-inbox.test.mjs",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T00:04:43Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T000613Z-9DE8E1FC",
+      "work_item_id": "WI-0044",
+      "recorded_at": "2026-08-31T00:06:13.337Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Responsive Dashboard runtime",
+      "outcome": "pass",
+      "scope_revision": "d17a5f263e4e93eab2922d14e55456fd3d6c5b25",
+      "observed_at": "2026-08-31T00:05:41Z",
+      "summary": "Desktop, mobile, and private-LAN tablet browser validation passed with truthful ownership and redaction.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0044/runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0044/runtime-observation.json",
+          "sha256": "1a2fd3a2c192cbbbd033536af9f963517f7bcdf43c0c37e148be4aa5dc13b079"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0044/developer-report.md",
+          "sha256": "3559d11c5c6fb152efa83d3c10571cde7226b9f6927e08f6f55fe0b12f20369f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0044/ui-brief.md",
+          "sha256": "8de3779f385d67de7c23c8258ac65303c05abe6f720d0ad0a24b817adf0fc1fd"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0044/dashboard-ui-research.md",
+          "sha256": "567a8b6466b02059ffacf71a74c15cb6482c51abea051f8c5eec286cc95fa0fc"
+        }
+      ],
+      "details": {
+        "environment": "Temple self-host repository on the Mac Mini, live loopback Control Plane with Codex observation, exact 192.168.79.5 home-LAN read-only listener, and fresh Chromium sessions",
+        "scenario": "Render and navigate the redesigned Dashboard on loopback desktop at 1440 by 1000, loopback mobile at 420 by 900, and home-LAN private tablet at 1024 by 1366; inspect responsibility and work-item counts, canonical ownership, private-viewer redaction, snapshot wording, console output, and horizontal overflow",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260831T000812Z-92093458",
+      "work_item_id": "WI-0044",
+      "recorded_at": "2026-08-31T00:08:12.409Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality verification",
+      "outcome": "pass",
+      "scope_revision": "d17a5f263e4e93eab2922d14e55456fd3d6c5b25",
+      "observed_at": "2026-08-31T00:07:47Z",
+      "summary": "Fresh detached candidate verification passed 33 focused tests and the full 221-test suite.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0044/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0044/quality-test-observation.json",
+          "sha256": "f801bd014398f8b9d4f09c2f06315642a0e3b135e5b9058ac8abeee42920d680"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0044/quality-report.md",
+          "sha256": "6fa1cd13d0c2a66fe0765d67de07b0fca61a3f101487b767498c173fae77d6e2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0044/developer-report.md",
+          "sha256": "3559d11c5c6fb152efa83d3c10571cde7226b9f6927e08f6f55fe0b12f20369f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0044/product-spec.md",
+          "sha256": "a1b3487c6faf6e09fea6a0dc60611dca6dbaa59f10a5dd8b484a0797ced0ed10"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0044/ui-brief.md",
+          "sha256": "8de3779f385d67de7c23c8258ac65303c05abe6f720d0ad0a24b817adf0fc1fd"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/control-plane-foundation.test.mjs test/control-plane-inbox.test.mjs test/control-plane-live.test.mjs test/control-plane-private-viewer.test.mjs",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T00:06:36Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T001643Z-6E63B252",
+      "work_item_id": "WI-0044",
+      "recorded_at": "2026-08-31T00:16:43.091Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA candidate 1",
+      "outcome": "fail",
+      "scope_revision": "d17a5f263e4e93eab2922d14e55456fd3d6c5b25",
+      "observed_at": "2026-08-31T00:16:27Z",
+      "summary": "Automated and responsive checks passed, but Now failed the firing-recovery-condition priority acceptance criterion.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0044/independent-qa-fail-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0044/independent-qa-fail-observation.json",
+          "sha256": "4b00d6806d1739e0ce0089ecf35edcca1a1ac1536a279a47e6bffa9f86561707"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0044/independent-qa-fail-report.md",
+          "sha256": "5463be5df866d3ad72facb52b37474b12ab58f1e9144f2bc7ba8d85397293c19"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0044/product-spec.md",
+          "sha256": "a1b3487c6faf6e09fea6a0dc60611dca6dbaa59f10a5dd8b484a0797ced0ed10"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0044/ui-brief.md",
+          "sha256": "8de3779f385d67de7c23c8258ac65303c05abe6f720d0ad0a24b817adf0fc1fd"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify",
+          "node --test test/control-plane-foundation.test.mjs test/control-plane-inbox.test.mjs test/control-plane-live.test.mjs test/control-plane-private-viewer.test.mjs",
+          "fresh private-LAN browser acceptance inspection at 1440x1000, 1024x1366, 768x1024, and 420x900"
+        ],
+        "exit_code": 1,
+        "started_at": "2026-08-31T00:09:04Z"
+      }
     }
   ]
 }

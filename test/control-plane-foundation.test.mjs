@@ -17,7 +17,11 @@ import {
   resolveControlPlaneStateDirectory
 } from "../src/telemetry.mjs";
 import { defaultControlPlaneConfig, validateControlPlaneConfig } from "../src/control-plane-config.mjs";
-import { createRefreshCoordinator, renderControlPlaneDashboard } from "../src/control-plane-dashboard.mjs";
+import {
+  createRefreshCoordinator,
+  normalizeDashboardAttention,
+  renderControlPlaneDashboard
+} from "../src/control-plane-dashboard.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const cli = path.join(root, "bin/temple.mjs");
@@ -112,6 +116,34 @@ test("Dashboard refresh coordination coalesces replay bursts without concurrent 
   idleScheduled.shift()();
   await new Promise((resolve) => setImmediate(resolve));
   assert.equal(idleCalls, 1);
+});
+
+test("Dashboard attention groups firing stale evidence ahead of release bookkeeping", () => {
+  const attention = normalizeDashboardAttention({
+    observerAttention: [{ type: "approval_pending", work_item_id: "WI-0099", message: "Release decision" }],
+    conditions: [
+      ...Array.from({ length: 10 }, (_, index) => ({
+        type: "stale-evidence",
+        lifecycle: "firing",
+        status: "true",
+        work_item_id: `WI-${String(index + 1).padStart(4, "0")}`
+      })),
+      {
+        type: "provider-offline",
+        lifecycle: "firing",
+        status: "true",
+        message: "Provider needs recovery",
+        suggested_action: "Review provider"
+      }
+    ],
+    inbox: { runtime_permissions: [{ request_id: "request-1" }] }
+  });
+
+  assert.deepEqual(attention.map((item) => item.type), ["runtime_permission", "stale_evidence", "provider-offline"]);
+  assert.equal(attention[1].count, 10);
+  assert.equal(attention[1].label, "10 stale evidence conditions");
+  assert.equal(attention[1].jump_view, "system");
+  assert.match(attention[1].message, /before release bookkeeping/);
 });
 
 test("telemetry journal redacts secrets, deduplicates stable identities, retains cursors, and excludes a second writer", async (context) => {

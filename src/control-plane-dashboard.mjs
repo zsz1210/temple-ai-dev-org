@@ -53,6 +53,58 @@ export function reconcileAgentCommandDraft(previous = {}, eligibleTargets = []) 
   };
 }
 
+export function normalizeDashboardAttention({ observerAttention = [], conditions = [], inbox = {} } = {}) {
+  const entries = [];
+  for (const item of observerAttention) {
+    if (["stale_evidence", "failed_evidence", "approval_pending"].includes(item.type)) continue;
+    entries.push({ ...item, source: "work" });
+  }
+  const firingConditions = conditions.filter((item) => item.lifecycle === "firing" && item.status === "true");
+  const staleConditions = firingConditions.filter((item) => item.type === "stale-evidence");
+  if (staleConditions.length) {
+    entries.push({
+      type: "stale_evidence",
+      count: staleConditions.length,
+      label: `${staleConditions.length} stale evidence condition${staleConditions.length === 1 ? "" : "s"}`,
+      message: `${staleConditions.length} firing stale-evidence condition${staleConditions.length === 1 ? " requires" : "s require"} recovery review before release bookkeeping.`,
+      suggested_action: "Review system conditions",
+      jump_view: "system",
+      source: "condition"
+    });
+  }
+  for (const item of firingConditions) {
+    if (item.type === "stale-evidence") continue;
+    entries.push({
+      type: item.type,
+      work_item_id: item.work_item_id,
+      message: item.message,
+      suggested_action: item.suggested_action,
+      recovery_href: item.recovery_href,
+      jump_view: "system",
+      source: "condition"
+    });
+  }
+  if (inbox.runtime_permissions?.length) {
+    entries.unshift({
+      type: "runtime_permission",
+      message: `${inbox.runtime_permissions.length} live runtime permission request${inbox.runtime_permissions.length === 1 ? "" : "s"} need an answer.`,
+      suggested_action: "Open Human Inbox",
+      jump_view: "inbox",
+      source: "inbox"
+    });
+  }
+  if (inbox.business_facts?.length) {
+    entries.push({
+      type: "business_question",
+      message: `${inbox.business_facts.length} product or scope question${inbox.business_facts.length === 1 ? "" : "s"} need a human fact.`,
+      suggested_action: "Open Human Inbox",
+      jump_view: "inbox",
+      source: "inbox"
+    });
+  }
+  return entries;
+}
+
 export function createRefreshCoordinator(refresh, schedule = (callback) => setTimeout(callback, 40)) {
   let inFlight = null;
   let pending = false;
@@ -205,6 +257,7 @@ export function renderControlPlaneDashboard(projectName, options = {}) {
     function renderTimeline(snapshot){const target=byId("timeline");clear(target);for(const item of snapshot.live_observer.timeline.slice(0,100)){const row=node("div","row");const main=node("div","row-main");main.append(node("strong","",item.name),node("div","sub",[item.work_item_id,item.task_id,formatTime(item.observed_at||item.timestamp)].filter(Boolean).join(" · ")));const marks=node("div","badges");marks.append(badge(item.provenance));if(item.exact_revision)marks.append(badge("revision"));row.append(main,marks);target.append(row)}if(!target.children.length)target.append(empty("No timeline observations."))}
     const agentCommandTargetFingerprint=${agentCommandTargetFingerprint.toString()};
     const reconcileAgentCommandDraft=${reconcileAgentCommandDraft.toString()};
+    const normalizeDashboardAttention=${normalizeDashboardAttention.toString()};
     const createRefreshCoordinator=${createRefreshCoordinator.toString()};
     const baseRenderMetrics=renderMetrics;
     const baseRenderWork=renderWork;
@@ -223,26 +276,21 @@ export function renderControlPlaneDashboard(projectName, options = {}) {
     }
 
     function actionableAttention(snapshot){
-      const observer=snapshot.live_observer;const inbox=snapshot.inbox||{};const entries=[];
-      for(const item of observer.attention||[]){if(["stale_evidence","failed_evidence","approval_pending"].includes(item.type))continue;entries.push({...item,source:"work"})}
-      for(const item of snapshot.conditions?.conditions||[]){if(item.lifecycle!=="firing"||item.status!=="true"||item.type==="stale-evidence")continue;entries.push({type:item.type,work_item_id:item.work_item_id,message:item.message,suggested_action:item.suggested_action,recovery_href:item.recovery_href,source:"condition"})}
-      if(inbox.runtime_permissions?.length)entries.unshift({type:"runtime_permission",message:inbox.runtime_permissions.length+" live runtime permission request"+(inbox.runtime_permissions.length===1?"":"s")+" need an answer.",suggested_action:"Open Human Inbox",jump_view:"inbox",source:"inbox"});
-      if(inbox.business_facts?.length)entries.push({type:"business_question",message:inbox.business_facts.length+" product or scope question"+(inbox.business_facts.length===1?"":"s")+" need a human fact.",suggested_action:"Open Human Inbox",jump_view:"inbox",source:"inbox"});
-      return entries;
+      return normalizeDashboardAttention({observerAttention:snapshot.live_observer.attention||[],conditions:snapshot.conditions?.conditions||[],inbox:snapshot.inbox||{}});
     }
 
     function renderNowSummary(snapshot){
       const target=byId("now-summary");clear(target);const categories=snapshot.live_observer.work.categories||{};const actionable=actionableAttention(snapshot);const approvals=(snapshot.live_observer.attention||[]).filter((item)=>item.type==="approval_pending");const hero=node("article","hero-status");
       let kicker="Current state",title="Operations are stable",copy="No blocked work or live operational request needs immediate action. Review work in focus or continue to Execution.";let tone="";let nextView="execution";let nextLabel="Open execution";
       if((categories.blocked||0)>0){tone="danger";title=(categories.blocked||0)+" blocked Work Item"+((categories.blocked||0)===1?"":"s");copy="Resolve blocked canonical work before starting more execution.";nextView="execution";nextLabel="Review blocked work"}
-      else if(actionable.length){tone="warning";title=actionable.length+" item"+(actionable.length===1?"":"s")+" need attention";copy=actionable[0].message||"Review the highest-priority operational signal below.";nextView=actionable[0].jump_view||"system";nextLabel=actionable[0].suggested_action||"Review attention"}
+      else if(actionable.length){const operationalCount=actionable.reduce((total,item)=>total+(item.count||1),0);tone="warning";title=operationalCount+" operational condition"+(operationalCount===1?" needs":"s need")+" attention";copy=actionable[0].message||"Review the highest-priority operational signal below.";nextView=actionable[0].jump_view||"system";nextLabel=actionable[0].suggested_action||"Review attention"}
       else if(approvals.length){tone="warning";title=approvals.length+" release decision"+(approvals.length===1?"":"s")+" waiting";copy="No live incident is firing. Release-gate decisions are queued for deliberate human review.";nextView=privateViewer?"execution":"inbox";nextLabel=privateViewer?"Review candidates":"Open Human Inbox"}
       hero.className="hero-status"+(tone?" "+tone:"");hero.append(node("div","view-kicker",kicker),node("h2","",title),node("p","",copy));const actions=node("div","hero-actions");const button=actionButton(nextLabel,"secondary",()=>activateView(nextView,{focus:true}));actions.append(button,badge(snapshotFresh?"current":"checking"));hero.append(actions);target.append(hero)
     }
 
     function renderAttention(snapshot){
       const target=byId("attention");clear(target);const items=actionableAttention(snapshot);const approvals=(snapshot.live_observer.attention||[]).filter((item)=>item.type==="approval_pending");
-      const cardFor=(item,primary=false)=>{const card=node("div","attention-card"+(primary?" primary":""));const heading=[item.work_item_id,humanize(item.type)].filter(Boolean).join(" · ")||"Attention";card.append(node("strong","",heading),node("div","sub",item.message||"Review the current project state."));if(item.suggested_action){const action=node("button","plain-link",item.suggested_action);action.type="button";action.addEventListener("click",()=>item.jump_view?activateView(item.jump_view,{focus:true}):activateView("system",{focus:true}));card.append(action)}return card};
+      const cardFor=(item,primary=false)=>{const card=node("div","attention-card"+(primary?" primary":""));const heading=item.label||[item.work_item_id,humanize(item.type)].filter(Boolean).join(" · ")||"Attention";card.append(node("strong","",heading),node("div","sub",item.message||"Review the current project state."));if(item.suggested_action){const action=node("button","plain-link",item.suggested_action);action.type="button";action.addEventListener("click",()=>item.jump_view?activateView(item.jump_view,{focus:true}):activateView("system",{focus:true}));card.append(action)}return card};
       for(const [index,item] of items.slice(0,4).entries())target.append(cardFor(item,index===0));
       if(!items.length&&approvals.length){const card=node("div","attention-card");card.append(node("strong","",approvals.length+" release-gate decisions"),node("div","sub","Queued decisions are important, but no live incident currently outranks them."));const action=node("button","plain-link",privateViewer?"Review execution":"Open Human Inbox");action.type="button";action.addEventListener("click",()=>activateView(privateViewer?"execution":"inbox",{focus:true}));card.append(action);target.append(card)}
       if(!target.children.length)target.append(empty("Nothing needs immediate action."));

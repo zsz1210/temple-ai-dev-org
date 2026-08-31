@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 44 total, 15 active
+- Work items: 45 total, 16 active
 - Codex tasks: 4 registered, 3 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -87,7 +87,8 @@
 | WI-0041 | Coalesce Dashboard refreshes after SSE replay | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `660f397a` | 0 | 18 | 0 |
 | WI-0042 | Add a private home-LAN read-only Dashboard viewer | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `5b622e24` | 0 | 20 | 0 |
 | WI-0043 | Review Dashboard information architecture and operator usability | spec | Product Manager | Yuna | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `—` | 0 | 4 | 0 |
-| WI-0044 | Redesign Dashboard navigation and operator information architecture | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260830234552-bbac2f44 | `—` | 0 | 8 | 0 |
+| WI-0044 | Redesign Dashboard navigation and operator information architecture | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `d17a5f26` | 0 | 17 | 0 |
+| WI-0045 | Prioritize firing recovery conditions on Dashboard Now | build | Developer | Rikku | pending | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260831001806-2d6820e7 | `—` | 0 | 8 | 0 |
 
 ## Codex task registry
 
@@ -198,14 +199,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-30T23:45:52.555Z | work_item_claimed | WI-0044 | human |
-| 2026-08-30T23:45:52.264Z | work_item_coordination_configured | WI-0044 | agent-rikku |
-| 2026-08-30T23:45:52.001Z | work_item_transitioned | WI-0044 | agent-tidus |
-| 2026-08-30T23:45:45.644Z | work_item_coordination_configured | WI-0044 | agent-tidus |
-| 2026-08-30T23:45:45.094Z | handoff_created | WI-0044 | agent-tidus |
-| 2026-08-30T23:45:44.834Z | work_item_claimed | WI-0044 | human |
-| 2026-08-30T23:45:44.540Z | work_item_coordination_configured | WI-0044 | agent-tidus |
-| 2026-08-30T23:45:44.267Z | work_item_transitioned | WI-0044 | agent-yuna |
+| 2026-08-31T00:18:06.657Z | work_item_claimed | WI-0045 | human |
+| 2026-08-31T00:18:02.341Z | work_item_transitioned | WI-0045 | agent-tidus |
+| 2026-08-31T00:17:58.500Z | handoff_created | WI-0045 | agent-tidus |
+| 2026-08-31T00:17:46.520Z | work_item_claimed | WI-0045 | human |
+| 2026-08-31T00:17:42.449Z | work_item_transitioned | WI-0045 | agent-yuna |
+| 2026-08-31T00:17:37.600Z | handoff_created | WI-0045 | agent-yuna |
+| 2026-08-31T00:17:21.794Z | work_item_claimed | WI-0045 | human |
+| 2026-08-31T00:17:17.801Z | work_item_transitioned | WI-0045 | agent-mog |
 
 ## Assignments
 
