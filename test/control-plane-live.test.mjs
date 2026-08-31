@@ -114,7 +114,28 @@ async function fixture(context) {
   const target = path.join(temporaryRoot, "live-product");
   const configPath = path.join(temporaryRoot, "init.json");
   const stateDirectory = path.join(temporaryRoot, "state");
-  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  const cleanupSteps = [];
+  const cleanup = {
+    add(step) {
+      cleanupSteps.push(step);
+    }
+  };
+  context.after(async () => {
+    let cleanupError = null;
+    for (const step of cleanupSteps.reverse()) {
+      try {
+        await step();
+      } catch (error) {
+        cleanupError ??= error;
+      }
+    }
+    try {
+      await fs.rm(temporaryRoot, { recursive: true, force: true });
+    } catch (error) {
+      cleanupError ??= error;
+    }
+    if (cleanupError) throw cleanupError;
+  });
   await writeJson(configPath, {
     schema_version: "temple.init/v1",
     project: { id: "live-product", name: "Live Product" },
@@ -150,7 +171,7 @@ async function fixture(context) {
     "--json"
   ]);
   assert.equal(registered.status, 0, registered.stderr || registered.stdout);
-  return { temporaryRoot, target, stateDirectory, workItemId, task: JSON.parse(registered.stdout) };
+  return { temporaryRoot, target, stateDirectory, workItemId, task: JSON.parse(registered.stdout), cleanup };
 }
 
 function claimFixtureWorkItem(target, workItemId, revision = "a".repeat(40)) {
@@ -442,12 +463,12 @@ test("repository observer projects canonical organization independently of live 
 });
 
 test("live projection forwards current attention and does not replay canonical repository events as fresh timeline rows", async (context) => {
-  const { target, stateDirectory, workItemId } = await fixture(context);
+  const { target, stateDirectory, workItemId, cleanup } = await fixture(context);
   const journal = await openTelemetryJournal(stateDirectory, {
     maxEvents: 100,
     privacy: defaultControlPlaneConfig().privacy
   });
-  context.after(() => journal.close());
+  cleanup.add(() => journal.close());
   await journal.append({
     id: "canonical-replay-1",
     source: "urn:temple:repository:live-product",
@@ -487,7 +508,7 @@ test("live projection forwards current attention and does not replay canonical r
 });
 
 test("condition engine alerts on nonterminal stale evidence but keeps terminal evidence as history", async (context) => {
-  const { target, stateDirectory, workItemId } = await fixture(context);
+  const { target, stateDirectory, workItemId, cleanup } = await fixture(context);
   const itemPath = path.join(target, `.ai-org/work-items/${workItemId}.json`);
   const item = JSON.parse(await fs.readFile(itemPath, "utf8"));
   item.state = "done";
@@ -505,7 +526,7 @@ test("condition engine alerts on nonterminal stale evidence but keeps terminal e
     maxEvents: 100,
     privacy: defaultControlPlaneConfig().privacy
   });
-  context.after(() => journal.close());
+  cleanup.add(() => journal.close());
   const registry = createProviderRegistry([repositoryProviderContract()]);
   const terminal = await buildConditionProjection(target, observer, journal, registry, defaultControlPlaneConfig(), {
     stateDirectory,
@@ -528,12 +549,12 @@ test("condition engine alerts on nonterminal stale evidence but keeps terminal e
 });
 
 test("live projection labels unobserved tasks honestly and terminal item state wins over later transient deltas", async (context) => {
-  const { target, stateDirectory, task } = await fixture(context);
+  const { target, stateDirectory, task, cleanup } = await fixture(context);
   const journal = await openTelemetryJournal(stateDirectory, {
     maxEvents: 100,
     privacy: defaultControlPlaneConfig().privacy
   });
-  context.after(() => journal.close());
+  cleanup.add(() => journal.close());
   const registry = createProviderRegistry([
     repositoryProviderContract(),
     codexAppServerProviderContract({ status: "ready" })
@@ -572,7 +593,7 @@ test("live projection labels unobserved tasks honestly and terminal item state w
 });
 
 test("condition engine keeps provider outages unknown and detects scope conflict, orphaning, and explicit usage budgets", async (context) => {
-  const { target, stateDirectory, workItemId, task } = await fixture(context);
+  const { target, stateDirectory, workItemId, task, cleanup } = await fixture(context);
   const second = run([
     "work-item", "create", target,
     "--title", "Conflicting implementation",
@@ -595,7 +616,7 @@ test("condition engine keeps provider outages unknown and detects scope conflict
     maxEvents: 100,
     privacy: defaultControlPlaneConfig().privacy
   });
-  context.after(() => journal.close());
+  cleanup.add(() => journal.close());
   await journal.append(normalizeCodexMessage("live-product", [task], {
     method: "thread/tokenUsage/updated",
     params: {
@@ -654,7 +675,7 @@ test("condition engine keeps provider outages unknown and detects scope conflict
 });
 
 test("Codex App Server provider handshakes, reconciles registered threads, and retains live requests only in memory", async (context) => {
-  const { temporaryRoot, target, stateDirectory } = await fixture(context);
+  const { temporaryRoot, target, stateDirectory, cleanup } = await fixture(context);
   const fakeServer = path.join(temporaryRoot, "fake-app-server.mjs");
   await fs.writeFile(fakeServer, `
     import readline from "node:readline";
@@ -667,7 +688,7 @@ test("Codex App Server provider handshakes, reconciles registered threads, and r
     maxEvents: 100,
     privacy: defaultControlPlaneConfig().privacy
   });
-  context.after(() => journal.close());
+  cleanup.add(() => journal.close());
   const registry = createProviderRegistry([repositoryProviderContract()]);
   const provider = await startCodexAppServerProvider(target, journal, registry, {
     command: process.execPath,
@@ -675,7 +696,7 @@ test("Codex App Server provider handshakes, reconciles registered threads, and r
     reconnectMs: 60000
   });
   await provider.start();
-  context.after(() => provider.stop());
+  cleanup.add(() => provider.stop());
   await Promise.all([
     waitForJournalRecord(
       journal,
@@ -702,7 +723,7 @@ test("Codex App Server provider handshakes, reconciles registered threads, and r
 });
 
 test("Codex App Server provider-owned launch registers before generation and correlates usage", async (context) => {
-  const { temporaryRoot, target, stateDirectory, workItemId } = await fixture(context);
+  const { temporaryRoot, target, stateDirectory, workItemId, cleanup } = await fixture(context);
   const claimRevision = "a".repeat(40);
   const launchRevision = "b".repeat(40);
   claimFixtureWorkItem(target, workItemId, claimRevision);
@@ -750,7 +771,7 @@ test("Codex App Server provider-owned launch registers before generation and cor
     maxEvents: 100,
     privacy: defaultControlPlaneConfig().privacy
   });
-  context.after(() => journal.close());
+  cleanup.add(() => journal.close());
   const registry = createProviderRegistry([repositoryProviderContract()]);
   const provider = await startCodexAppServerProvider(target, journal, registry, {
     command: process.execPath,
@@ -759,7 +780,7 @@ test("Codex App Server provider-owned launch registers before generation and cor
     reconnectMs: 60000
   });
   await provider.start();
-  context.after(() => provider.stop());
+  cleanup.add(() => provider.stop());
   const instruction = "Implement the bounded fixture without retaining secret-provider-launch-marker";
   const usageRecorded = waitForJournalRecord(
     journal,
@@ -901,7 +922,7 @@ test("Codex App Server provider-owned launch registers before generation and cor
 });
 
 test("Codex App Server keeps an uncorrelated model reroute observable without mutating a registered task", async (context) => {
-  const { temporaryRoot, target, stateDirectory } = await fixture(context);
+  const { temporaryRoot, target, stateDirectory, cleanup } = await fixture(context);
   const taskRegistryPath = path.join(target, ".ai-org/project/tasks.json");
   const before = JSON.parse(await fs.readFile(taskRegistryPath, "utf8"));
   const fakeServer = path.join(temporaryRoot, "fake-uncorrelated-reroute-app-server.mjs");
@@ -923,7 +944,7 @@ test("Codex App Server keeps an uncorrelated model reroute observable without mu
     maxEvents: 100,
     privacy: defaultControlPlaneConfig().privacy
   });
-  context.after(() => journal.close());
+  cleanup.add(() => journal.close());
   const registry = createProviderRegistry([repositoryProviderContract()]);
   const provider = await startCodexAppServerProvider(target, journal, registry, {
     command: process.execPath,
@@ -932,7 +953,7 @@ test("Codex App Server keeps an uncorrelated model reroute observable without mu
     reconnectMs: 60000
   });
   await provider.start();
-  context.after(() => provider.stop());
+  cleanup.add(() => provider.stop());
   await new Promise((resolve) => setTimeout(resolve, 40));
 
   const after = JSON.parse(await fs.readFile(taskRegistryPath, "utf8"));
@@ -954,7 +975,7 @@ test("Codex App Server keeps an uncorrelated model reroute observable without mu
 });
 
 test("Codex App Server provider-owned thread rejection retains only bounded protocol metadata", async (context) => {
-  const { temporaryRoot, target, stateDirectory, workItemId } = await fixture(context);
+  const { temporaryRoot, target, stateDirectory, workItemId, cleanup } = await fixture(context);
   const claimRevision = "1".repeat(40);
   claimFixtureWorkItem(target, workItemId, claimRevision);
   const callsPath = path.join(temporaryRoot, "thread-rejection-calls.jsonl");
@@ -977,7 +998,7 @@ test("Codex App Server provider-owned thread rejection retains only bounded prot
     maxEvents: 100,
     privacy: defaultControlPlaneConfig().privacy
   });
-  context.after(() => journal.close());
+  cleanup.add(() => journal.close());
   const registry = createProviderRegistry([repositoryProviderContract()]);
   const provider = await startCodexAppServerProvider(target, journal, registry, {
     command: process.execPath,
@@ -986,7 +1007,7 @@ test("Codex App Server provider-owned thread rejection retains only bounded prot
     reconnectMs: 60000
   });
   await provider.start();
-  context.after(() => provider.stop());
+  cleanup.add(() => provider.stop());
 
   await assert.rejects(
     () => provider.launchProviderOwnedTask({
@@ -1033,7 +1054,7 @@ test("Codex App Server provider-owned thread rejection retains only bounded prot
 });
 
 test("Codex App Server provider-owned launch never starts a turn after canonical registration failure", async (context) => {
-  const { temporaryRoot, target, stateDirectory, workItemId } = await fixture(context);
+  const { temporaryRoot, target, stateDirectory, workItemId, cleanup } = await fixture(context);
   const claimRevision = "c".repeat(40);
   claimFixtureWorkItem(target, workItemId, claimRevision);
   const callsPath = path.join(temporaryRoot, "registration-failure-calls.jsonl");
@@ -1057,7 +1078,7 @@ test("Codex App Server provider-owned launch never starts a turn after canonical
     maxEvents: 100,
     privacy: defaultControlPlaneConfig().privacy
   });
-  context.after(() => journal.close());
+  cleanup.add(() => journal.close());
   const registry = createProviderRegistry([repositoryProviderContract()]);
   const provider = await startCodexAppServerProvider(target, journal, registry, {
     command: process.execPath,
@@ -1069,7 +1090,7 @@ test("Codex App Server provider-owned launch never starts a turn after canonical
     }
   });
   await provider.start();
-  context.after(() => provider.stop());
+  cleanup.add(() => provider.stop());
   await assert.rejects(
     () => provider.launchProviderOwnedTask({
       workItemId,
@@ -1110,7 +1131,7 @@ test("Codex App Server provider-owned launch never starts a turn after canonical
 });
 
 test("Codex App Server provider-owned launch records attention without retry after turn rejection", async (context) => {
-  const { temporaryRoot, target, stateDirectory, workItemId } = await fixture(context);
+  const { temporaryRoot, target, stateDirectory, workItemId, cleanup } = await fixture(context);
   const claimRevision = "e".repeat(40);
   claimFixtureWorkItem(target, workItemId, claimRevision);
   const callsPath = path.join(temporaryRoot, "turn-rejection-calls.jsonl");
@@ -1136,7 +1157,7 @@ test("Codex App Server provider-owned launch records attention without retry aft
     maxEvents: 100,
     privacy: defaultControlPlaneConfig().privacy
   });
-  context.after(() => journal.close());
+  cleanup.add(() => journal.close());
   const registry = createProviderRegistry([repositoryProviderContract()]);
   const provider = await startCodexAppServerProvider(target, journal, registry, {
     command: process.execPath,
@@ -1145,7 +1166,7 @@ test("Codex App Server provider-owned launch records attention without retry aft
     reconnectMs: 60000
   });
   await provider.start();
-  context.after(() => provider.stop());
+  cleanup.add(() => provider.stop());
   const result = await provider.launchProviderOwnedTask({
     workItemId,
     positionId: "engineering_manager",
@@ -1190,7 +1211,7 @@ test("Codex App Server provider-owned launch records attention without retry aft
 });
 
 test("Codex App Server Agent commands enforce registered state, exact active turns, and no retry after unknown delivery", async (context) => {
-  const { temporaryRoot, target, stateDirectory, workItemId } = await fixture(context);
+  const { temporaryRoot, target, stateDirectory, workItemId, cleanup } = await fixture(context);
   const callsPath = path.join(temporaryRoot, "agent-command-calls.jsonl");
   const fakeServer = path.join(temporaryRoot, "fake-agent-command-app-server.mjs");
   await fs.writeFile(fakeServer, `
@@ -1205,7 +1226,7 @@ test("Codex App Server Agent commands enforce registered state, exact active tur
     maxEvents: 100,
     privacy: defaultControlPlaneConfig().privacy
   });
-  context.after(() => journal.close());
+  cleanup.add(() => journal.close());
   const registry = createProviderRegistry([repositoryProviderContract()]);
   const provider = await startCodexAppServerProvider(target, journal, registry, {
     command: process.execPath,
@@ -1214,7 +1235,7 @@ test("Codex App Server Agent commands enforce registered state, exact active tur
     reconnectMs: 60000
   });
   await provider.start();
-  context.after(() => provider.stop());
+  cleanup.add(() => provider.stop());
   const idle = (await provider.agentCommandTargets())[0];
   assert.equal(idle.available, true);
   assert.deepEqual(idle.operations, ["new-turn"]);
@@ -1284,7 +1305,11 @@ test("Codex App Server Agent commands enforce registered state, exact active tur
     expected_active_turn_id: "turn-created-1"
   });
   assert.equal(interrupted.status, "provider-accepted");
-  await new Promise((resolve) => setTimeout(resolve, 40));
+  await waitForJournalRecord(
+    journal,
+    (record) => record.type === "org.temple.codex.turn.completed.v1"
+      && record.data.status === "interrupted"
+  );
   assert.deepEqual((await provider.agentCommandTargets())[0].operations, ["new-turn"]);
   assert.ok(journal.readAfter(0).records.some((record) =>
     record.type === "org.temple.codex.turn.completed.v1" && record.data.status === "interrupted"
@@ -1319,7 +1344,7 @@ test("Codex App Server Agent commands enforce registered state, exact active tur
 });
 
 test("Codex App Server provider reconciles terminal task history without attempting a live resume", async (context) => {
-  const { temporaryRoot, target, stateDirectory, workItemId, task } = await fixture(context);
+  const { temporaryRoot, target, stateDirectory, workItemId, task, cleanup } = await fixture(context);
   const cancelled = run([
     "transition", target,
     "--work-item", workItemId,
@@ -1344,7 +1369,7 @@ test("Codex App Server provider reconciles terminal task history without attempt
     maxEvents: 100,
     privacy: defaultControlPlaneConfig().privacy
   });
-  context.after(() => journal.close());
+  cleanup.add(() => journal.close());
   const registry = createProviderRegistry([repositoryProviderContract()]);
   const provider = await startCodexAppServerProvider(target, journal, registry, {
     command: process.execPath,
@@ -1352,7 +1377,7 @@ test("Codex App Server provider reconciles terminal task history without attempt
     reconnectMs: 60000
   });
   await provider.start();
-  context.after(() => provider.stop());
+  cleanup.add(() => provider.stop());
 
   assert.deepEqual(
     Object.fromEntries(Object.entries(provider.taskTopology).map(([key, value]) => [key, value.length])),
@@ -1379,7 +1404,7 @@ test("Codex App Server provider reconciles terminal task history without attempt
 });
 
 test("unsupported history read does not block a supported live resume", async (context) => {
-  const { temporaryRoot, target, stateDirectory } = await fixture(context);
+  const { temporaryRoot, target, stateDirectory, cleanup } = await fixture(context);
   const callsPath = path.join(temporaryRoot, "unsupported-read-calls.log");
   const fakeServer = path.join(temporaryRoot, "fake-unsupported-read-app-server.mjs");
   await fs.writeFile(fakeServer, `
@@ -1394,7 +1419,7 @@ test("unsupported history read does not block a supported live resume", async (c
     maxEvents: 100,
     privacy: defaultControlPlaneConfig().privacy
   });
-  context.after(() => journal.close());
+  cleanup.add(() => journal.close());
   const registry = createProviderRegistry([repositoryProviderContract()]);
   const provider = await startCodexAppServerProvider(target, journal, registry, {
     command: process.execPath,
@@ -1402,7 +1427,7 @@ test("unsupported history read does not block a supported live resume", async (c
     reconnectMs: 60000
   });
   await provider.start();
-  context.after(() => provider.stop());
+  cleanup.add(() => provider.stop());
 
   const calls = (await fs.readFile(callsPath, "utf8")).trim().split("\n");
   assert.deepEqual(calls, ["initialize", "initialized", "thread/read", "thread/resume"]);
@@ -1423,7 +1448,7 @@ test("unsupported history read does not block a supported live resume", async (c
 });
 
 test("host-owned unresumable tasks degrade once without resume retry churn", async (context) => {
-  const { temporaryRoot, target, stateDirectory } = await fixture(context);
+  const { temporaryRoot, target, stateDirectory, cleanup } = await fixture(context);
   assert.deepEqual(
     classifyCodexAttachFailure({ rpcCode: -32602, providerReason: "invalid params secret-marker" }),
     { reason_code: "thread-resume-invalid", retryable: false, provider_wide: false }
@@ -1442,7 +1467,7 @@ test("host-owned unresumable tasks degrade once without resume retry churn", asy
     maxEvents: 100,
     privacy: defaultControlPlaneConfig().privacy
   });
-  context.after(() => journal.close());
+  cleanup.add(() => journal.close());
   const registry = createProviderRegistry([repositoryProviderContract()]);
   const provider = await startCodexAppServerProvider(target, journal, registry, {
     command: process.execPath,
@@ -1450,7 +1475,7 @@ test("host-owned unresumable tasks degrade once without resume retry churn", asy
     reconnectMs: 60000
   });
   await provider.start();
-  context.after(() => provider.stop());
+  cleanup.add(() => provider.stop());
   assert.equal(provider.attachmentOutcomes()[0].reason_code, "thread-not-in-app-server-store");
   assert.equal(provider.attachmentOutcomes()[0].retry_suppressed, true);
   await provider.reconnect();
