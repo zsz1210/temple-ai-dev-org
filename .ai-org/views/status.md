@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
 - Work items: 70 total, 9 active
 - Codex tasks: 5 registered, 4 archive-ready
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -112,8 +112,8 @@
 | WI-0066 | Add bounded multi-repository experiment runner | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ab212c0f` | 0 | 19 | 0 |
 | WI-0067 | Run bounded four-repository commerce rehearsal | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0d656df5` | 0 | 18 | 3 |
 | WI-0068 | Fail closed on invalid experiment telemetry paths | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `123a9fda` | 0 | 18 | 0 |
-| WI-0069 | Establish progressive usage calibration and autonomy policy | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `aead7f54` | 0 | 12 | 1 |
-| WI-0070 | Stabilize provider-owned usage notification test timing | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831142717-491c10a2 | `—` | 0 | 6 | 0 |
+| WI-0069 | Establish progressive usage calibration and autonomy policy | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `aead7f54` | 0 | 12 | 0 |
+| WI-0070 | Stabilize provider-owned usage notification test timing | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a5f3860a` | 0 | 17 | 0 |
 
 ## Codex task registry
 
@@ -228,14 +228,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T14:27:17.873Z | work_item_claimed | WI-0070 | human |
-| 2026-08-31T14:27:08.999Z | work_item_transitioned | WI-0070 | agent-tidus |
-| 2026-08-31T14:27:08.697Z | handoff_created | WI-0070 | agent-tidus |
-| 2026-08-31T14:26:34.115Z | work_item_claimed | WI-0070 | human |
-| 2026-08-31T14:26:28.493Z | work_item_transitioned | WI-0070 | agent-yuna |
-| 2026-08-31T14:26:28.125Z | handoff_created | WI-0070 | agent-yuna |
-| 2026-08-31T14:26:07.256Z | work_item_claimed | WI-0070 | human |
-| 2026-08-31T14:25:59.177Z | work_item_transitioned | WI-0070 | agent-mog |
+| 2026-08-31T14:38:08.989Z | work_item_claim_released | WI-0069 | human |
+| 2026-08-31T14:37:31.691Z | work_item_unresolved_updated | WI-0069 | agent-mog |
+| 2026-08-31T14:37:31.385Z | work_item_claimed | WI-0069 | human |
+| 2026-08-31T14:37:31.073Z | work_item_coordination_configured | WI-0069 | agent-mog |
+| 2026-08-31T14:37:30.770Z | work_item_claim_released | WI-0070 | human |
+| 2026-08-31T14:37:11.073Z | work_item_claimed | WI-0070 | human |
+| 2026-08-31T14:36:21.054Z | work_item_transitioned | WI-0070 | agent-lulu |
+| 2026-08-31T14:36:20.760Z | handoff_created | WI-0070 | agent-lulu |
 
 ## Assignments
 

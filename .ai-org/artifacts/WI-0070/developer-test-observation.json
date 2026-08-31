@@ -1,0 +1,21 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "a5f3860a0a4cef5cd54260b75a74f0f6391d787f",
+  "command": [
+    "node --test --test-name-pattern=provider-owned launch registers before generation test/control-plane-live.test.mjs",
+    "48 focused executions with concurrency 8",
+    "npm run verify",
+    "node ./templew.mjs schema validate . --json",
+    "node ./templew.mjs doctor . --json",
+    "git diff --check",
+    "git diff --exit-code 7f0b0ca6b64bf7cb947021fb8d185a4887f1be9f..a5f3860a0a4cef5cd54260b75a74f0f6391d787f -- src/codex-app-server-provider.mjs"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T14:28:44.000Z",
+  "completed_at": "2026-08-31T14:29:47.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0070/developer-report.md",
+    ".ai-org/artifacts/WI-0070/technical-design.md"
+  ]
+}

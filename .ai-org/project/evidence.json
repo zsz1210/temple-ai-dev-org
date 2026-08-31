@@ -9343,6 +9343,238 @@
         "exit_code": 0,
         "started_at": "2026-08-31T13:50:20.000Z"
       }
+    },
+    {
+      "id": "EVID-20260831T143047Z-D8A32369",
+      "work_item_id": "WI-0070",
+      "recorded_at": "2026-08-31T14:30:47.375Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0070 Developer candidate",
+      "outcome": "verified",
+      "scope_revision": "a5f3860a0a4cef5cd54260b75a74f0f6391d787f",
+      "observed_at": "2026-08-31T14:30:47.375Z",
+      "summary": "Exact candidate changes only the provider-owned launch test ordering and lifecycle artifacts; production provider source is unchanged.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "a5f3860a0a4cef5cd54260b75a74f0f6391d787f"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "a5f3860a0a4cef5cd54260b75a74f0f6391d787f",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260831T143047Z-23720BC0",
+      "work_item_id": "WI-0070",
+      "recorded_at": "2026-08-31T14:30:47.697Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0070 Developer verification",
+      "outcome": "pass",
+      "scope_revision": "a5f3860a0a4cef5cd54260b75a74f0f6391d787f",
+      "observed_at": "2026-08-31T14:29:47.000Z",
+      "summary": "Event-driven durable-record wait passed 48/48 at concurrency eight and the complete 246-test repository suite.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0070/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0070/developer-test-observation.json",
+          "sha256": "6c7e861a1a3e3a8f118e79fbcba80777140d0a6c526c20c6f5a3c729487552c6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0070/developer-report.md",
+          "sha256": "675b55531ef10a7fc2983ad2d73e6039988db79595a1edf10284d0dd8fcedde6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0070/technical-design.md",
+          "sha256": "6c824b1f0193fc51d014a3f9a7dc15ebb2caf79600e83e790f0bc2cd7f59fefb"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test --test-name-pattern=provider-owned launch registers before generation test/control-plane-live.test.mjs",
+          "48 focused executions with concurrency 8",
+          "npm run verify",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "git diff --check",
+          "git diff --exit-code 7f0b0ca6b64bf7cb947021fb8d185a4887f1be9f..a5f3860a0a4cef5cd54260b75a74f0f6391d787f -- src/codex-app-server-provider.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T14:28:44.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T143309Z-429DF622",
+      "work_item_id": "WI-0070",
+      "recorded_at": "2026-08-31T14:33:09.535Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0070 Quality evaluation",
+      "outcome": "pass",
+      "scope_revision": "a5f3860a0a4cef5cd54260b75a74f0f6391d787f",
+      "observed_at": "2026-08-31T14:32:30.000Z",
+      "summary": "Lulu reproduced the exact candidate with 64/64 focused runs at concurrency eight, the complete 20-test control-plane file, schema 91/27, and Doctor 35 pass / 1 known warning / 0 fail.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0070/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0070/quality-test-observation.json",
+          "sha256": "3cfcdd463efaa7533a4662f2091862804119f424315b454cf6c3a7000aac3d39"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0070/quality-test-report.md",
+          "sha256": "805a741240d2bd33e8e6f03fb5c4063225c2486b5f551afcc2e8787931b6d025"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0070/evaluation-report.md",
+          "sha256": "8f452e78a33490744f8737a85aaf7ac191d2e961ef68c938045ca1ff9ac1f039"
+        }
+      ],
+      "details": {
+        "command": [
+          "64 focused executions with concurrency 8",
+          "node --test test/control-plane-live.test.mjs",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "git diff --check",
+          "git diff --exit-code 7f0b0ca6b64bf7cb947021fb8d185a4887f1be9f..a5f3860a0a4cef5cd54260b75a74f0f6391d787f -- src/codex-app-server-provider.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T14:31:36.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T143605Z-E38C1CFA",
+      "work_item_id": "WI-0070",
+      "recorded_at": "2026-08-31T14:36:05.045Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0070 Independent QA",
+      "outcome": "pass",
+      "scope_revision": "a5f3860a0a4cef5cd54260b75a74f0f6391d787f",
+      "observed_at": "2026-08-31T14:35:25.000Z",
+      "summary": "Exact candidate passed 96/96 focused runs at concurrency 12, complete 246/246 repository verification, schema 91/27, and Doctor 35 pass / 1 known warning / 0 fail; production provider source remained unchanged.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0070/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0070/independent-qa-observation.json",
+          "sha256": "3779431783b4ec5e70faa81da27c12a4582e541ca3df425c28991f7f4a2780eb"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0070/independent-qa-report.md",
+          "sha256": "01ed1615cca538594876e8231a763e559726cd5a82d97599e7bc7cdb33516fd1"
+        }
+      ],
+      "details": {
+        "command": [
+          "96 focused executions with concurrency 12",
+          "npm run verify",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "git diff --check",
+          "git diff --exit-code 7f0b0ca6b64bf7cb947021fb8d185a4887f1be9f..a5f3860a0a4cef5cd54260b75a74f0f6391d787f -- src/codex-app-server-provider.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T14:33:46.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T143846Z-9B9F0662",
+      "work_item_id": "WI-0070",
+      "recorded_at": "2026-08-31T14:38:46.700Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "a5f3860a0a4cef5cd54260b75a74f0f6391d787f",
+      "observed_at": "2026-08-31T14:38:46.700Z",
+      "summary": "Release-held test-only rollback procedure",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0070/release-manager-review.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0070/release-manager-review.md",
+          "sha256": "558fd24070ddf37ba4fda62ef700d82955d390f7bf9148bde553b48891307c42"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0070/release-manager-review.md"
+      }
+    },
+    {
+      "id": "EVID-20260831T143846Z-15377A43",
+      "work_item_id": "WI-0069",
+      "recorded_at": "2026-08-31T14:38:46.981Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "aead7f548adde729e607d3db2806f62dd2251967",
+      "observed_at": "2026-08-31T14:38:46.981Z",
+      "summary": "Release-held Usage Policy rollback procedure",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0069/release-manager-review.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0069/release-manager-review.md",
+          "sha256": "09514c088e112bc77ee3a2f754320946dae0c6a3dda26bfded9d517bcacb4c90"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0069/release-manager-review.md"
+      }
     }
   ]
 }

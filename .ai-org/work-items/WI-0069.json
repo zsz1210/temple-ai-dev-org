@@ -6,7 +6,7 @@
   "owner_position": "release_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-31T13:20:59.516Z",
-  "updated_at": "2026-08-31T13:54:38.874Z",
+  "updated_at": "2026-08-31T14:38:08.989Z",
   "scope": [
     "Implement the data-driven Usage Protocol v2 foundation: project-local learning, a cold-start seed policy, progressive calibration states, evidence-gated routing modes, versioned cost provenance, and an exception-only autonomy envelope. No live model generation or external write is authorized."
   ],
@@ -65,6 +65,12 @@
       ],
       "resources": []
     },
+    "release_gate": {
+      "disciplines": [
+        "release"
+      ],
+      "resources": []
+    },
     "test": {
       "disciplines": [
         "quality"
@@ -80,16 +86,18 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260831134759-01e4d253",
+    "id": "claim-20260831143731-230d371b",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-lulu",
+    "agent_id": "agent-mog",
     "base_revision": "aead7f548adde729e607d3db2806f62dd2251967",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-08-31T13:47:59.582Z",
-    "released_at": "2026-08-31T13:54:38.874Z",
-    "release_reason": "position_transition"
+    "claimed_at": "2026-08-31T14:37:31.385Z",
+    "released_at": "2026-08-31T14:38:08.989Z",
+    "release_reason": [
+      "release-manager-review-complete-release-held"
+    ]
   },
   "claims": [
     {
@@ -163,6 +171,20 @@
       "claimed_at": "2026-08-31T13:47:59.582Z",
       "released_at": "2026-08-31T13:54:38.874Z",
       "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831143731-230d371b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "aead7f548adde729e607d3db2806f62dd2251967",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T14:37:31.385Z",
+      "released_at": "2026-08-31T14:38:08.989Z",
+      "release_reason": [
+        "release-manager-review-complete-release-held"
+      ]
     }
   ],
   "gate_evidence": {
@@ -212,9 +234,7 @@
     "EVID-20260831T135351Z-264BC144",
     ".ai-org/artifacts/WI-0069/independent-qa-report.md"
   ],
-  "unresolved": [
-    "Non-blocking test-stability follow-up is recorded as WI-0070; no WI-0069 product regression was reproduced."
-  ],
+  "unresolved": [],
   "next_position": "engineering_manager",
   "handoffs": [
     {
