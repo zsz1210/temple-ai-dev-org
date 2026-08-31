@@ -310,7 +310,7 @@
     },
     {
       "path": ".ai-org/core/schemas/schema-catalog.json",
-      "sha256": "4363286863c4a96d04816bfe12f429d57880f96c40c94c43b54b347c5958aca4"
+      "sha256": "08041f5d5f0e46d1e2a27bab491b4ba9a1d89cbbb64b6dffb9dbbd6d9a0fbad5"
     },
     {
       "path": ".ai-org/core/schemas/spec-index.schema.json",
@@ -327,6 +327,14 @@
     {
       "path": ".ai-org/core/schemas/usage-baseline.schema.json",
       "sha256": "c26693023e609c18d9fb93afee44d7e682a076a08895c01d5e1de1bdecea01db"
+    },
+    {
+      "path": ".ai-org/core/schemas/validation-program-report.schema.json",
+      "sha256": "15d84148f5c8bbe0f67028df66a83564157fb2582dc030c28e63836b1693f0f6"
+    },
+    {
+      "path": ".ai-org/core/schemas/validation-program.schema.json",
+      "sha256": "d2471c5d4b002a07a2b084feae74f62cc72bdd8874c36d1616bfddedc1fd3c48"
     },
     {
       "path": ".ai-org/core/schemas/work-item.schema.json",
@@ -419,6 +427,10 @@
     {
       "path": ".ai-org/templates/ui-interaction-contract.md",
       "sha256": "2e35f05e5b7a095c877f3c6a0a34e29b4ea8e18c8d698120a56ee24599cc7cb9"
+    },
+    {
+      "path": ".ai-org/templates/validation-program.json",
+      "sha256": "96fc994977b63fff84370c65ba8de2e906ae2da2048c7819bfe419f77ccb2344"
     },
     {
       "path": ".ai-org/templates/work-item.json",

@@ -103,6 +103,10 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
   assert.equal(lock.managed_files.some((entry) => entry.path === FEDERATION_REGISTRY_RELATIVE_PATH), false);
   assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/federation.schema.json"));
   assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/federated-portfolio.schema.json"));
+  assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/validation-program.schema.json"));
+  assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/validation-program-report.schema.json"));
+  assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/templates/validation-program.json"));
+  assert.equal(lock.managed_files.some((entry) => entry.path === ".ai-org/project/validation-program.json"), false);
 
   const packageDocument = await readJson(path.join(root, "package.json"));
   const packageLock = await readJson(path.join(root, "package-lock.json"));
@@ -131,6 +135,37 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
       ownership: "generated"
     }
   );
+  assert.deepEqual(
+    catalog.documents.find((entry) => entry.id === "validation-program"),
+    {
+      id: "validation-program",
+      path: ".ai-org/project/validation-program.json",
+      schema: "validation-program.schema.json",
+      required: false,
+      ownership: "project"
+    }
+  );
+  assert.deepEqual(
+    catalog.documents.find((entry) => entry.id === "validation-program-report"),
+    {
+      id: "validation-program-report",
+      path: ".ai-org/views/validation-program-report.json",
+      schema: "validation-program-report.schema.json",
+      required: false,
+      ownership: "generated"
+    }
+  );
+
+  const validationTemplate = await readJson(path.join(target, ".ai-org/templates/validation-program.json"));
+  validationTemplate.id = "fresh-phase4-validation";
+  validationTemplate.coordinator_project_id = "fresh-phase4";
+  validationTemplate.participants[0].id = "fresh-phase4";
+  validationTemplate.participants[0].expected_project_id = "fresh-phase4";
+  validationTemplate.waves[0].turns[0].project_id = "fresh-phase4";
+  await fs.writeFile(
+    path.join(target, ".ai-org/project/validation-program.json"),
+    `${JSON.stringify(validationTemplate, null, 2)}\n`
+  );
 
   registry.participants.push({
     id: "missing-participant",
@@ -151,6 +186,7 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
   assert.equal(validSchemas.valid, true, JSON.stringify(validSchemas.errors, null, 2));
   assert.ok(validSchemas.checked.some((entry) => entry.document === FEDERATION_REGISTRY_RELATIVE_PATH && entry.valid));
   assert.ok(validSchemas.checked.some((entry) => entry.document === ".ai-org/views/portfolio.json" && entry.valid));
+  assert.ok(validSchemas.checked.some((entry) => entry.document === ".ai-org/project/validation-program.json" && entry.valid));
 
   portfolio.authority.lifecycle_mutations_performed = true;
   await fs.writeFile(portfolioPath, `${JSON.stringify(portfolio, null, 2)}\n`);

@@ -1,0 +1,137 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0066",
+  "title": "Add bounded multi-repository experiment runner",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-31T11:27:12.025Z",
+  "updated_at": "2026-08-31T11:30:25.321Z",
+  "scope": [
+    "Provide a reusable versioned experiment manifest and runner with persistent wave checkpoints, aggregate Token and time ceilings, zero retry, bounded concurrency, per-repository telemetry, and path allowlists.",
+    "Aggregate already-qualified repository usage samples into a cross-repository longitudinal report without granting lifecycle, savings, cost, quality, or routing authority.",
+    "Use the runner for the retained four-repository local commerce rehearsal after exact-candidate verification."
+  ],
+  "acceptance_criteria": [
+    "Pure runner tests prove hard-stop behavior for turn, attempt, retry, concurrency, per-turn Token, aggregate Token, wall-clock, disk, and path-diff limits.",
+    "A four-participant fixture can qualify ten distinct completed Work Items across at least two task shapes without requiring ten items inside one repository.",
+    "Fresh init, schema validation, full verification, Doctor, and Independent QA pass; no live model turn starts during this Work Item."
+  ],
+  "affected_paths": [
+    "src/validation-program.mjs",
+    "src/cli.mjs",
+    "src/schema-validation.mjs",
+    ".ai-org/core/schemas/validation-program.schema.json",
+    ".ai-org/core/schemas/validation-program-report.schema.json",
+    ".ai-org/core/schemas/schema-catalog.json",
+    ".ai-org/templates/validation-program.json",
+    "project-overlay/.ai-org/core/schemas/validation-program.schema.json",
+    "project-overlay/.ai-org/core/schemas/validation-program-report.schema.json",
+    "project-overlay/.ai-org/core/schemas/schema-catalog.json",
+    "project-overlay/.ai-org/templates/validation-program.json",
+    "test/validation-program.test.mjs",
+    "test/phase4-installation.test.mjs",
+    "docs/operations/validation-programs.md",
+    "docs/README.md",
+    "docs/planning/temple-effectiveness-and-microservice-validation.md",
+    "temple.lock"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "c6d2a6f6ac7215d5831701ee1ca7841ab0870fd4",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0064: WI-0066 implements the reusable runner and updates future validation planning only; WI-0064 remains blocked and its Provider evidence and decision are unchanged."
+  ],
+  "claim": {
+    "id": "claim-20260831113025-7e9a8f39",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "c6d2a6f6ac7215d5831701ee1ca7841ab0870fd4",
+    "branch": "main",
+    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "claimed_at": "2026-08-31T11:30:25.321Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260831113025-7e9a8f39",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "c6d2a6f6ac7215d5831701ee1ca7841ab0870fd4",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-08-31T11:30:25.321Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0066/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0066/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0066/approved-scope.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0066/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0066/risk-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0066/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0066/work-order.md",
+    ".ai-org/artifacts/WI-0066/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0066/approved-scope.md",
+    ".ai-org/artifacts/WI-0066/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0066/technical-design.md",
+    ".ai-org/artifacts/WI-0066/risk-review.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "c6d2a6f6ac7215d5831701ee1ca7841ab0870fd4",
+      "artifact": ".ai-org/artifacts/WI-0066/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-08-31T11:30:22.922Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "c6d2a6f6ac7215d5831701ee1ca7841ab0870fd4",
+      "artifact": ".ai-org/artifacts/WI-0066/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-31T11:30:23.561Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "c6d2a6f6ac7215d5831701ee1ca7841ab0870fd4",
+      "artifact": ".ai-org/artifacts/WI-0066/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-08-31T11:30:24.574Z"
+    }
+  ]
+}

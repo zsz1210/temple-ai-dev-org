@@ -18,12 +18,14 @@
     { "id": "specifications", "path": ".ai-org/project/spec-index.json", "schema": "spec-index.schema.json", "required": true, "ownership": "project" },
     { "id": "tasks", "path": ".ai-org/project/tasks.json", "schema": "task-registry.schema.json", "required": true, "ownership": "project" },
     { "id": "tracker", "path": ".ai-org/project/tracker.json", "schema": "tracker.schema.json", "required": true, "ownership": "project" },
+    { "id": "validation-program", "path": ".ai-org/project/validation-program.json", "schema": "validation-program.schema.json", "required": false, "ownership": "project" },
     { "id": "work-items", "path": ".ai-org/work-items/*.json", "schema": "work-item.schema.json", "required": false, "ownership": "project" },
     { "id": "parallel-plan", "path": ".ai-org/views/parallel-plan.json", "schema": "parallel-plan.schema.json", "required": false, "ownership": "generated" },
     { "id": "capabilities", "path": ".ai-org/views/capabilities.json", "schema": "capability-registry.schema.json", "required": false, "ownership": "generated" },
     { "id": "context-capsules", "path": ".ai-org/views/work-items/*.json", "schema": "context-capsule.schema.json", "required": false, "ownership": "generated" },
     { "id": "federated-portfolio", "path": ".ai-org/views/portfolio.json", "schema": "federated-portfolio.schema.json", "required": false, "ownership": "generated" },
     { "id": "policy-evaluation", "path": ".ai-org/views/policy-evaluation.json", "schema": "policy-evaluation-result.schema.json", "required": false, "ownership": "generated" },
-    { "id": "usage-baseline", "path": ".ai-org/views/usage-baseline.json", "schema": "usage-baseline.schema.json", "required": false, "ownership": "generated" }
+    { "id": "usage-baseline", "path": ".ai-org/views/usage-baseline.json", "schema": "usage-baseline.schema.json", "required": false, "ownership": "generated" },
+    { "id": "validation-program-report", "path": ".ai-org/views/validation-program-report.json", "schema": "validation-program-report.schema.json", "required": false, "ownership": "generated" }
   ]
 }

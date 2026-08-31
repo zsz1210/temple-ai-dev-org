@@ -81,6 +81,11 @@ import {
 } from "./recovery.mjs";
 import { writeAuditExport } from "./audit-export.mjs";
 import { buildFederatedPortfolio, readFederationRegistry, validateFederationRegistry } from "./federation.mjs";
+import {
+  buildCrossRepositoryUsageReport,
+  inspectValidationProgram,
+  VALIDATION_PROGRAM_REPORT_VIEW
+} from "./validation-program.mjs";
 import { buildParallelPlan, writeParallelPlan } from "./orchestration.mjs";
 import { defineResource, readResourceRegistry } from "./resources.mjs";
 import { attachInternalWorker, listRuntimeWorkers, prepareWorkerDispatch, updateRuntimeWorker } from "./workers.mjs";
@@ -113,6 +118,8 @@ Usage:
   temple audit export [target] --output file [--work-item WI-ID] [--event-type type] [--redact-key key] [--max-events number] [--max-recovery-transactions number] [--max-event-bytes number] [--json]
   temple federation validate [target] [--json]
   temple portfolio build [target] [--allowed-root directory] [--no-write] [--json]
+  temple experiment inspect [target] --manifest path --allowed-root directory [--json]
+  temple experiment report [target] --manifest path --allowed-root directory [--no-write] [--json]
   temple doctor [target] [--json]
   temple status [target] [--json] [--no-write]
   temple observe [target] [--json] [--no-write]
@@ -192,6 +199,7 @@ Core commands:
   audit       Export a bounded privacy-filtered audit record to an exclusive output file.
   federation  Validate coordinator-owned multi-repository federation configuration.
   portfolio   Build a read-only federated portfolio and optionally write its coordinator view.
+  experiment  Inspect a bounded validation manifest or aggregate qualified participant usage.
   doctor      Validate managed files, identities, work items, tasks, and integrations.
   status      Rebuild the observable project status from canonical files.
   observe     Build a read-only lifecycle, evidence, approval, and recovery projection.
@@ -371,6 +379,7 @@ const VALUE_FLAGS = new Set([
   "--root",
   "--backup-root",
   "--allowed-root",
+  "--manifest",
   "--minimum-to-keep",
   "--preserve",
   "--event-type",
@@ -411,7 +420,7 @@ const REPEATABLE_FLAGS = new Set([
   "--event-type",
   "--redact-key"
 ]);
-const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence", "schema", "migration", "learning", "retrieval", "evaluation", "usage", "adapter", "control-plane", "backup", "restore", "audit", "federation", "portfolio"]);
+const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence", "schema", "migration", "learning", "retrieval", "evaluation", "usage", "adapter", "control-plane", "backup", "restore", "audit", "federation", "portfolio", "experiment"]);
 
 function parseCommand(argv) {
   if (argv.length === 0 || argv[0] === "--help" || argv[0] === "-h") {
@@ -826,6 +835,45 @@ async function runPortfolio(parsed) {
     console.log(`Work Items projected: ${portfolio.summary.work_items_projected}`);
     if (!parsed.flags.has("--no-write")) console.log(`Portfolio view: ${path.relative(target, outputPath).split(path.sep).join("/")}`);
     console.log("Participant and lifecycle state changed: no");
+  }
+  return 0;
+}
+
+async function runExperiment(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (!parsed.options["--manifest"] || !parsed.options["--allowed-root"]) {
+    throw new Error(`experiment ${parsed.action ?? "command"} requires --manifest and --allowed-root`);
+  }
+  const options = {
+    manifestPath: parsed.options["--manifest"],
+    allowedRoot: parsed.options["--allowed-root"]
+  };
+  if (parsed.action === "inspect") {
+    const inspection = await inspectValidationProgram(target, options);
+    if (parsed.flags.has("--json")) console.log(JSON.stringify(inspection, null, 2));
+    else {
+      console.log(`Validation program: ${inspection.id}`);
+      console.log(`Participants / waves: ${inspection.participants.length} / ${inspection.waves.length}`);
+      console.log(`Turns / concurrency: ${inspection.waves.reduce((sum, wave) => sum + wave.turns.length, 0)} / ${inspection.limits.max_concurrency}`);
+      console.log(`Retries / network / external spend: ${inspection.limits.max_retries} / disabled / ¥0`);
+      console.log("Model generation requested: no");
+      console.log("Canonical state changed: no");
+    }
+    return 0;
+  }
+  if (parsed.action !== "report") throw new Error(`Unknown experiment action: ${parsed.action}`);
+  const report = await buildCrossRepositoryUsageReport(target, options);
+  const outputPath = path.join(target, VALIDATION_PROGRAM_REPORT_VIEW);
+  if (!parsed.flags.has("--no-write")) await atomicWrite(outputPath, formatJson(report));
+  if (parsed.flags.has("--json")) console.log(JSON.stringify(report, null, 2));
+  else {
+    console.log(`Cross-repository usage: ${report.status}`);
+    console.log(`Qualified Work Items: ${report.qualification.qualified_completed_work_items}/${report.qualification.required_completed_work_items}`);
+    console.log(`Task shapes: ${report.qualification.qualified_task_shapes}/${report.qualification.required_task_shapes}`);
+    console.log(`Qualified Tokens: ${report.totals.total_tokens ?? "unknown"}; monetary cost: unknown`);
+    console.log("Savings, quality, enterprise-readiness, and routing claims: not authorized");
+    if (!parsed.flags.has("--no-write")) console.log(`Report: ${VALIDATION_PROGRAM_REPORT_VIEW}`);
+    console.log("Participant lifecycle state changed: no");
   }
   return 0;
 }
@@ -2084,6 +2132,7 @@ export async function main(argv) {
   if (parsed.command === "audit") return runAudit(parsed);
   if (parsed.command === "federation") return runFederation(parsed);
   if (parsed.command === "portfolio") return runPortfolio(parsed);
+  if (parsed.command === "experiment") return runExperiment(parsed);
   if (parsed.command === "doctor") return runDoctorCommand(parsed);
   if (parsed.command === "status") return runStatusCommand(parsed);
   if (parsed.command === "observe") return runObserveCommand(parsed);

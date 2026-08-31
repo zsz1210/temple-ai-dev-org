@@ -14,6 +14,7 @@ The root README explains what Temple is and why it exists. This index routes imp
 | Inspect evidence, risk, or live project state | [Evidence and Observer](operations/evidence-and-observer.md) | [Local control plane](operations/control-plane.md), [High-Assurance](operations/high-assurance.md) |
 | Back up or recover Temple project state | [Backup and recovery](operations/backup-and-recovery.md) | [Architecture](concepts/architecture.md), [ADR-0031](adr/0031-durable-recovery-before-persistence-growth.md) |
 | Coordinate several authoritative repositories | [Multi-repository federation](operations/multi-repository-federation.md) | [ADR-0033](adr/0033-federate-project-authority-with-read-only-portfolios.md), [Phase 4 design](planning/phase-4.md) |
+| Run a bounded multi-repository experiment | [Validation programs](operations/validation-programs.md) | [Effectiveness and microservice validation](planning/temple-effectiveness-and-microservice-validation.md), [Token Efficiency](operations/token-efficiency-and-model-routing.md) |
 | Test whether policy resists realistic failure | [Adversarial policy evaluation](operations/policy-evaluation.md) | [ADR-0032](adr/0032-evaluate-policy-with-adversarial-evidence.md), [Phase 4 design](planning/phase-4.md) |
 | Understand Token usage or plan model selection | [Token Efficiency and Model Routing](operations/token-efficiency-and-model-routing.md) | [Phase 4 design](planning/phase-4.md), [ADR-0034](adr/0034-attribute-usage-before-routing-models.md) |
 | Audit a decision or claim | [ADR index](adr/README.md) | [Validation index](validation/README.md), [Research index](research/README.md) |
@@ -47,6 +48,7 @@ The root README explains what Temple is and why it exists. This index routes imp
 - [Adversarial policy evaluation](operations/policy-evaluation.md) — versioned failure scenarios, profile fixtures, fail-closed scorecards, and authority boundaries.
 - [Token Efficiency and Model Routing](operations/token-efficiency-and-model-routing.md) — provider-reported usage, attribution, budgets, model policy, and the boundary before automatic routing.
 - [Multi-repository federation](operations/multi-repository-federation.md) — project-owned participants, exact revisions, composite references, rollout waves, and read-only portfolio authority.
+- [Bounded validation programs](operations/validation-programs.md) — reviewed multi-repository waves, resource ceilings, durable checkpoints, write allowlists, and limitation-aware usage aggregation.
 
 ### Extensions and learning
 

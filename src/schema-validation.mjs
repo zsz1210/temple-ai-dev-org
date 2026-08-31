@@ -3,6 +3,7 @@ import path from "node:path";
 import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 import { pathExists, readJson } from "./files.mjs";
+import { validateValidationProgramManifest } from "./validation-program.mjs";
 
 export const SCHEMA_VALIDATION_SCHEMA = "temple.schema-validation/v1";
 export const SCHEMA_CATALOG_RELATIVE_PATH = ".ai-org/core/schemas/schema-catalog.json";
@@ -59,9 +60,24 @@ export async function validateProjectSchemas(target) {
     for (const documentPath of documents) {
       try {
         const document = await readJson(path.join(target, documentPath));
-        const valid = validate(document);
+        const jsonSchemaValid = validate(document);
+        const semantic = entry.id === "validation-program" && jsonSchemaValid
+          ? validateValidationProgramManifest(document)
+          : { valid: true, errors: [] };
+        const valid = jsonSchemaValid && semantic.valid;
         checked.push({ document: documentPath, schema: schemaPath, valid });
-        if (!valid) errors.push(...normalizeAjvErrors(documentPath, schemaPath, validate.errors));
+        if (!jsonSchemaValid) errors.push(...normalizeAjvErrors(documentPath, schemaPath, validate.errors));
+        if (!semantic.valid) {
+          errors.push(...semantic.errors.map((message) => ({
+            document: documentPath,
+            schema: schemaPath,
+            instance_path: "",
+            schema_path: "semantic",
+            keyword: "semantic",
+            message,
+            params: {}
+          })));
+        }
       } catch (error) {
         checked.push({ document: documentPath, schema: schemaPath, valid: false });
         errors.push({ document: documentPath, schema: schemaPath, instance_path: "", schema_path: "", keyword: "parse", message: error.message, params: {} });

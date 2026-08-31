@@ -1,6 +1,6 @@
 # Temple effectiveness and multi-repository validation plan
 
-- Status: planning candidate; experiment not run
+- Status: bounded runner implemented locally; four-repository experiment not yet run
 - Scope: local-first synthetic validation
 - Public, production, GitHub, hosted CI, and paid actions: not authorized
 
@@ -105,9 +105,11 @@ Token counts are a diagnostic signal, not a verdict. A design or Independent QA 
 - The baseline keeps necessary specifications, tests, and safety gates; it is not intentionally weakened.
 - No automatic model routing is enabled from these observations.
 
-## Known measurement limitation
+## Known measurement limitations
 
-The current Alpha.27 usage qualification accepts one task/model/shape identity per Work Item. A Work Item with several correlated task identities is excluded rather than cherry-picked. Therefore the first rehearsal must say exactly whether a number describes one registered task or complete Work Item coverage. Multi-role aggregation needs a separately versioned implementation before any total-cost claim.
+The current Alpha.27 usage qualification accepts one task/model/shape identity per Work Item. A Work Item with several correlated task identities is excluded rather than cherry-picked. The cross-repository report now composes those already-qualified local samples with `project-id:WI-####` identities, so the ten-item observational threshold can span several repositories without weakening local qualification.
+
+That aggregation does not establish monetary cost or complete workflow cost. Unknown Token fields remain unknown; task duration is not inferred from chat timestamps; and a Work Item excluded locally stays excluded globally. A controlled matched baseline is still required before any savings claim.
 
 ## Failure is useful evidence
 
@@ -143,10 +145,8 @@ The planning review records that decision as `WI-0061`. The repository owner app
 
 WI-0062 subsequently ran that one-turn instrumentation pilot. It produced task-correlated detailed Token usage but remained `partial`: Temple had preserved the requested model while failing to read the Provider-acknowledged model from the documented top-level `thread/start` response. The four-repository experiment therefore remains blocked by the minimum model-correlation gate.
 
-WI-0063 is the bounded local correction. It reads top-level model, reasoning-effort, and service-tier acknowledgement, normalizes `model/rerouted`, updates only an exactly correlated canonical task before later usage attribution, and preserves zero-retry and telemetry privacy boundaries. Local verification and Independent QA of that correction do not themselves rerun the pilot.
+WI-0063 corrected Provider model acknowledgement. WI-0064 then performed the separately governed revalidation and stopped no-go because the installed protocol did not expose a direct effective-turn reasoning-effort acknowledgement. WI-0065 corrected the data model instead of guessing: Temple now records requested turn effort, thread-reported effort, and effective-turn effort separately, leaving the last value unavailable when the Provider does not report it.
 
-The next decision remains small and explicit after the WI-0063 candidate passes its local gates:
+WI-0066 adds the reusable control boundary needed before the larger rehearsal: a versioned manifest, semantic safety checks, durable wave and attempt checkpoints, cumulative Token interruption, wall-clock and disk ceilings, path allowlists, zero retry, and a cross-repository report that cannot grant lifecycle or marketing authority. Its framework verification does not itself start a model turn.
 
-> Authorize one separately governed Provider-owned revalidation with the existing strict resource, privacy, retry, and correlation limits.
-
-Only if that revalidation observes the requested-versus-effective model boundary, any reroute, and subsequent Token attribution correctly should Temple create the four-repository execution program.
+The next execution gate is the retained four-repository commerce rehearsal under the already approved envelope: at most ten Luna Max turns, two concurrent turns, no retries or fallback, 60,000 Tokens per turn, 400,000 Tokens for the program, fifteen minutes per turn, four hours for the program, 50 MiB per repository, 200 MiB aggregate, network disabled, approval policy `never`, no API key or usage reset, and ¥0 external spend. Any failed correlation, dirty start, path escape, resource ceiling, protocol drift, or QA-independence breach stops the program.
