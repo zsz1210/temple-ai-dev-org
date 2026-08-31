@@ -141,8 +141,12 @@ The experiment stops when a ceiling is reached, correlation is lost, authority w
 
 The planning review records that decision as `WI-0061`. The repository owner approved the exact local path, GPT-5.6 profile, Token, time, disk, retry, correlation, and stop boundaries in [the bounded instrumentation pilot proposal](../../.ai-org/artifacts/WI-0061/pilot-proposal.md) on 2026-08-31. Approval does not itself mean that the pilot has run; execution remains a separate, bounded Work Item.
 
-The next decision remains small and explicit:
+WI-0062 subsequently ran that one-turn instrumentation pilot. It produced task-correlated detailed Token usage but remained `partial`: Temple had preserved the requested model while failing to read the Provider-acknowledged model from the documented top-level `thread/start` response. The four-repository experiment therefore remains blocked by the minimum model-correlation gate.
 
-> Run one approved local instrumentation pilot with one synthetic repository, one disposable registered Codex task, and fixed resource and stop limits.
+WI-0063 is the bounded local correction. It reads top-level model, reasoning-effort, and service-tier acknowledgement, normalizes `model/rerouted`, updates only an exactly correlated canonical task before later usage attribution, and preserves zero-retry and telemetry privacy boundaries. Local verification and Independent QA of that correction do not themselves rerun the pilot.
 
-Only after that pilot shows a trustworthy measurement path should Temple create the four-repository execution program.
+The next decision remains small and explicit after the WI-0063 candidate passes its local gates:
+
+> Authorize one separately governed Provider-owned revalidation with the existing strict resource, privacy, retry, and correlation limits.
+
+Only if that revalidation observes the requested-versus-effective model boundary, any reroute, and subsequent Token attribution correctly should Temple create the four-repository execution program.

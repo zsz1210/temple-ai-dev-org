@@ -33,6 +33,8 @@ const cli = path.join(root, "bin/temple.mjs");
 const INSPECTED_APP_SERVER_V2_CONTRACT = Object.freeze({
   source: "codex-cli 0.151.0-alpha.7.2 generated schema observed 2026-08-31",
   threadStartParamsSha256: "792e2f32e37cece971bd616664ea2053741acbed4e9c92e9d1766427718f2ecd",
+  threadStartResponseSha256: "c8fb6bcd1e4fb5ead6b487f0f35a90d8f13c9272edd4285914012dda403a77d2",
+  modelReroutedNotificationSha256: "37cd3c1b3a3560b85b01d4061a07d830fc9ed93b80e4663f975f9197cdb501ef",
   threadSandboxModes: Object.freeze(["read-only", "workspace-write", "danger-full-access"]),
   approvalPolicies: Object.freeze(["untrusted", "on-request", "never"]),
   turnSandboxPolicyTypes: Object.freeze(["dangerFullAccess", "readOnly", "externalSandbox", "workspaceWrite"])
@@ -671,7 +673,7 @@ test("Codex App Server provider-owned launch registers before generation and cor
     const input=readline.createInterface({input:process.stdin});
     const send=(value)=>process.stdout.write(JSON.stringify(value)+"\\n");
     const existing={id:"thread-live-001",status:{type:"idle"},turns:[]};
-    const created={id:"thread-provider-owned-001",sessionId:"thread-provider-owned-001",status:{type:"idle"},ephemeral:false,modelProvider:"openai"};
+    const created={id:"thread-provider-owned-001",sessionId:"thread-provider-owned-001",status:{type:"idle"},ephemeral:false,modelProvider:"openai",model:"nested-model-must-not-be-used"};
     const threadSandboxModes=${JSON.stringify(INSPECTED_APP_SERVER_V2_CONTRACT.threadSandboxModes)};
     const approvalPolicies=${JSON.stringify(INSPECTED_APP_SERVER_V2_CONTRACT.approvalPolicies)};
     input.on("line",line=>{
@@ -689,12 +691,13 @@ test("Codex App Server provider-owned launch registers before generation and cor
           send({jsonrpc:"2.0",id:message.id,error:{code:-32602,message:"wire contract rejected thread/start"}});
         }else{
           send({jsonrpc:"2.0",method:"thread/started",params:{thread:created}});
-          send({jsonrpc:"2.0",id:message.id,result:{thread:created,instructionSources:[]}});
+          send({jsonrpc:"2.0",id:message.id,result:{thread:created,model:"gpt-5.6-terra",modelProvider:"openai",reasoningEffort:"medium",serviceTier:"priority",instructionSources:[]}});
         }
       }else if(message.method==="turn/start"){
         const turn={id:"turn-provider-owned-001",status:"inProgress",items:[]};
         send({jsonrpc:"2.0",id:message.id,result:{turn}});
         send({jsonrpc:"2.0",method:"turn/started",params:{threadId:created.id,turn}});
+        send({jsonrpc:"2.0",method:"model/rerouted",params:{threadId:created.id,turnId:turn.id,fromModel:"gpt-5.6-terra",toModel:"gpt-5.6-sol",reason:"highRiskCyberActivity",rawResponse:"secret-reroute-payload-must-not-be-retained"}});
         send({jsonrpc:"2.0",method:"thread/tokenUsage/updated",params:{threadId:created.id,turnId:turn.id,tokenUsage:{total:{inputTokens:90,cachedInputTokens:10,outputTokens:20,reasoningOutputTokens:5,totalTokens:125},last:{inputTokens:90,cachedInputTokens:10,outputTokens:20,reasoningOutputTokens:5,totalTokens:125},modelContextWindow:10000}}});
       }
     });
@@ -729,10 +732,30 @@ test("Codex App Server provider-owned launch registers before generation and cor
   assert.equal(launched.status, "turn-started");
   assert.equal(launched.provider_thread_id, "thread-provider-owned-001");
   assert.equal(launched.provider_turn_id, "turn-provider-owned-001");
+  assert.equal(launched.requested_model, "gpt-5.6-luna");
+  assert.equal(launched.effective_model, "gpt-5.6-terra");
+  assert.equal(launched.reasoning_effort, "medium");
+  assert.equal(launched.service_tier, "priority");
   assert.equal(launched.instruction_length, instruction.length);
   assert.equal(launched.instruction_retained, false);
   assert.equal(launched.automatic_retry, false);
-  await new Promise((resolve) => setTimeout(resolve, 40));
+
+  await assert.rejects(
+    () => provider.launchProviderOwnedTask({
+      workItemId,
+      positionId: "engineering_manager",
+      actor: "agent-fixture-rowan",
+      instruction: "This invalid policy must not reach the Provider",
+      requestedModel: "gpt-5.6-luna",
+      reasoningEffort: "low",
+      launchRevision,
+      approvalPolicy: "onFailure",
+      sandboxMode: "readOnly",
+      networkAccess: false
+    }),
+    (error) => error.reasonCode === "launch-request-invalid"
+  );
+  await provider.stop();
 
   const calls = (await fs.readFile(callsPath, "utf8")).trim().split("\n").map((line) => JSON.parse(line));
   const threadStartIndex = calls.findIndex((entry) => entry.method === "thread/start");
@@ -750,22 +773,6 @@ test("Codex App Server provider-owned launch registers before generation and cor
   assert.equal(calls[turnStartIndex].params.sandboxPolicy.type, "workspaceWrite");
   assert.equal(calls[turnStartIndex].params.sandboxPolicy.networkAccess, false);
 
-  await assert.rejects(
-    () => provider.launchProviderOwnedTask({
-      workItemId,
-      positionId: "engineering_manager",
-      actor: "agent-fixture-rowan",
-      instruction: "This invalid policy must not reach the Provider",
-      requestedModel: "gpt-5.6-luna",
-      reasoningEffort: "low",
-      launchRevision,
-      approvalPolicy: "onFailure",
-      sandboxMode: "readOnly",
-      networkAccess: false
-    }),
-    (error) => error.reasonCode === "launch-request-invalid"
-  );
-
   assert.equal(calls.filter((entry) => entry.method === "thread/start").length, 1);
 
   const taskRegistry = JSON.parse(await fs.readFile(taskRegistryPath, "utf8"));
@@ -774,9 +781,9 @@ test("Codex App Server provider-owned launch registers before generation and cor
   assert.equal(task.execution_origin, "temple-provider-owned");
   assert.equal(task.provider_id, "codex-local");
   assert.equal(task.requested_model, "gpt-5.6-luna");
-  assert.equal(task.effective_model, null);
-  assert.equal(task.reasoning_effort, "low");
-  assert.equal(task.service_tier, null);
+  assert.equal(task.effective_model, "gpt-5.6-sol");
+  assert.equal(task.reasoning_effort, "medium");
+  assert.equal(task.service_tier, "priority");
   assert.equal(task.base_revision, claimRevision);
   assert.equal(task.launch_revision, launchRevision);
   assert.equal(task.current_revision, launchRevision);
@@ -784,17 +791,30 @@ test("Codex App Server provider-owned launch registers before generation and cor
   assert.equal(attachment.attach_outcome, "live-attached");
   assert.equal(attachment.live_resume, "not-required");
 
-  const usage = journal.readAfter(0).records.find((record) =>
+  const records = journal.readAfter(0).records;
+  const reroute = records.find((record) =>
+    record.type === "org.temple.codex.model.rerouted.v1" && record.data?.task_id === task.id
+  );
+  assert.ok(reroute);
+  assert.equal(reroute.data.provider_thread_id, "thread-provider-owned-001");
+  assert.equal(reroute.data.provider_turn_id, "turn-provider-owned-001");
+  assert.equal(reroute.data.work_item_id, workItemId);
+  assert.equal(reroute.data.from_model, "gpt-5.6-terra");
+  assert.equal(reroute.data.to_model, "gpt-5.6-sol");
+  assert.equal(reroute.data.reason, "highRiskCyberActivity");
+  assert.equal(reroute.data.correlation, "registered");
+  const usage = records.find((record) =>
     record.type === "org.temple.codex.usage.updated.v1" && record.data?.task_id === task.id
   );
   assert.ok(usage);
+  assert.ok(records.indexOf(reroute) < records.indexOf(usage));
   assert.equal(usage.data.work_item_id, workItemId);
   assert.equal(usage.data.position_id, "engineering_manager");
   assert.equal(usage.data.scope_revision, launchRevision);
-  assert.equal(usage.data.attribution.model, "gpt-5.6-luna");
-  assert.equal(usage.data.attribution.model_source, "canonical-requested");
-  assert.equal(usage.data.attribution.reasoning_effort, "low");
-  assert.equal(usage.data.attribution.service_tier, null);
+  assert.equal(usage.data.attribution.model, "gpt-5.6-sol");
+  assert.equal(usage.data.attribution.model_source, "canonical-effective");
+  assert.equal(usage.data.attribution.reasoning_effort, "medium");
+  assert.equal(usage.data.attribution.service_tier, "priority");
 
   const observer = await buildObserverProjection(target);
   const live = await buildLiveObserverProjection(target, observer, journal, registry, {
@@ -803,6 +823,7 @@ test("Codex App Server provider-owned launch registers before generation and cor
   const projected = live.tasks.items.find((entry) => entry.id === task.id);
   assert.equal(projected.execution_origin, "temple-provider-owned");
   assert.equal(projected.requested_model, "gpt-5.6-luna");
+  assert.equal(projected.effective_model, "gpt-5.6-sol");
   assert.equal(projected.launch_revision, launchRevision);
   assert.equal(projected.claim_base_revision, claimRevision);
 
@@ -813,6 +834,61 @@ test("Codex App Server provider-owned launch registers before generation and cor
     JSON.stringify(registry.document())
   ].join("\n");
   assert.doesNotMatch(retained, /secret-provider-launch-marker/);
+  assert.doesNotMatch(retained, /secret-reroute-payload-must-not-be-retained/);
+  assert.doesNotMatch(retained, /nested-model-must-not-be-used/);
+});
+
+test("Codex App Server keeps an uncorrelated model reroute observable without mutating a registered task", async (context) => {
+  const { temporaryRoot, target, stateDirectory } = await fixture(context);
+  const taskRegistryPath = path.join(target, ".ai-org/project/tasks.json");
+  const before = JSON.parse(await fs.readFile(taskRegistryPath, "utf8"));
+  const fakeServer = path.join(temporaryRoot, "fake-uncorrelated-reroute-app-server.mjs");
+  await fs.writeFile(fakeServer, `
+    import readline from "node:readline";
+    const input=readline.createInterface({input:process.stdin});
+    const send=(value)=>process.stdout.write(JSON.stringify(value)+"\\n");
+    const thread={id:"thread-live-001",status:{type:"idle"},turns:[]};
+    input.on("line",line=>{
+      const message=JSON.parse(line);
+      if(message.method==="initialize")send({jsonrpc:"2.0",id:message.id,result:{serverInfo:{version:"fixture-uncorrelated-reroute"}}});
+      else if(message.method==="thread/read"){
+        send({jsonrpc:"2.0",id:message.id,result:{thread}});
+        send({jsonrpc:"2.0",method:"model/rerouted",params:{threadId:"thread-unregistered",turnId:"turn-unregistered",fromModel:"gpt-5.6-terra",toModel:"gpt-5.6-sol",reason:"highRiskCyberActivity",rawResponse:"secret-uncorrelated-reroute-payload"}});
+      }
+    });
+  `);
+  const journal = await openTelemetryJournal(stateDirectory, {
+    maxEvents: 100,
+    privacy: defaultControlPlaneConfig().privacy
+  });
+  context.after(() => journal.close());
+  const registry = createProviderRegistry([repositoryProviderContract()]);
+  const provider = await startCodexAppServerProvider(target, journal, registry, {
+    command: process.execPath,
+    commandArgs: [fakeServer],
+    resumeThreads: false,
+    reconnectMs: 60000
+  });
+  await provider.start();
+  context.after(() => provider.stop());
+  await new Promise((resolve) => setTimeout(resolve, 40));
+
+  const after = JSON.parse(await fs.readFile(taskRegistryPath, "utf8"));
+  assert.deepEqual(after, before);
+  const reroute = journal.readAfter(0).records.find((record) =>
+    record.type === "org.temple.codex.model.rerouted.v1"
+  );
+  assert.ok(reroute);
+  assert.equal(reroute.data.provider_thread_id, "thread-unregistered");
+  assert.equal(reroute.data.provider_turn_id, "turn-unregistered");
+  assert.equal(reroute.data.task_id, null);
+  assert.equal(reroute.data.work_item_id, null);
+  assert.equal(reroute.data.correlation, "unregistered");
+  assert.equal(reroute.data.from_model, "gpt-5.6-terra");
+  assert.equal(reroute.data.to_model, "gpt-5.6-sol");
+  assert.equal(reroute.data.reason, "highRiskCyberActivity");
+  assert.equal(registry.get("codex-local").status, "ready");
+  assert.doesNotMatch(JSON.stringify(journal.readAfter(0).records), /secret-uncorrelated-reroute-payload/);
 });
 
 test("Codex App Server provider-owned thread rejection retains only bounded protocol metadata", async (context) => {
@@ -984,7 +1060,7 @@ test("Codex App Server provider-owned launch records attention without retry aft
     const input=readline.createInterface({input:process.stdin});
     const send=(value)=>process.stdout.write(JSON.stringify(value)+"\\n");
     const existing={id:"thread-live-001",status:{type:"idle"},turns:[]};
-    const created={id:"thread-provider-rejected",sessionId:"thread-provider-rejected",ephemeral:false,status:{type:"idle"}};
+    const created={id:"thread-provider-rejected",sessionId:"thread-provider-rejected",ephemeral:false,status:{type:"idle"},model:"nested-model-must-not-be-used"};
     input.on("line",line=>{
       const message=JSON.parse(line);
       fs.appendFileSync(${JSON.stringify(callsPath)},JSON.stringify({method:message.method,params:message.params??null})+"\\n");
@@ -1032,6 +1108,10 @@ test("Codex App Server provider-owned launch records attention without retry aft
   const taskRegistry = JSON.parse(await fs.readFile(taskRegistryPath, "utf8"));
   const task = taskRegistry.tasks.find((entry) => entry.thread_id === "thread-provider-rejected");
   assert.equal(task.status, "attention");
+  assert.equal(task.requested_model, "gpt-5.6-luna");
+  assert.equal(task.effective_model, null);
+  assert.equal(task.reasoning_effort, null);
+  assert.equal(task.service_tier, null);
   assert.match(task.notes, /automatic retry disabled/);
   const retained = [
     await fs.readFile(taskRegistryPath, "utf8"),

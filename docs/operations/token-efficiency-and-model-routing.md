@@ -46,6 +46,10 @@ Current `main` includes a locally tested provider-owned launch primitive. It fol
 
 New task registrations distinguish `codex-host-owned` from `temple-provider-owned` execution. They can retain requested and effective model, reasoning effort, service tier when known, Provider ID, and three separate revisions: claim base, task launch, and current candidate. A successful request does not make the requested model an observed effective model, and the stable App Server launch surface does not currently accept a service-tier override. Legacy task documents remain valid and missing values remain unknown.
 
+For Provider-owned registration, the Provider acknowledgement is the top-level `thread/start` result: `model` supplies `effective_model`, while nullable `reasoningEffort` and `serviceTier` supply the corresponding observed task dimensions. The nested `thread` remains the source of thread identity and lifecycle only. Temple never copies the requested model or reasoning effort into a missing Provider acknowledgement.
+
+The normalized `model/rerouted` notification retains only the correlated thread and turn identifiers, canonical task and Work Item identifiers when exactly one registered thread matches, bounded `from_model`, `to_model`, and the Provider reason. For a valid correlated `toModel`, Temple updates the canonical task through the ordinary mutation boundary before appending the reroute observation; serialized notification processing then ensures later Token usage sees that effective model. An uncorrelated or malformed reroute remains observable but cannot update another task. A correlated update failure degrades the Provider, does not retry or select a fallback model, and does not retain raw Provider payloads.
+
 The first bounded live proof reached the real App Server but failed before thread creation because Temple sent its internal `readOnly` label where the installed `thread/start` schema required `read-only`. No Temple task, turn, instruction delivery, model generation, or detailed Token observation followed, and the zero-retry boundary held. See the [WI-0054 result](../../.ai-org/artifacts/WI-0054/live-proof-result.md). This failure is not evidence that Luna, Codex Desktop, or detailed usage is unavailable; it is evidence that Provider readiness and self-consistent mocks do not prove wire compatibility.
 
 ### App Server protocol compatibility gate
@@ -64,6 +68,8 @@ Before a future live proof, Temple keeps its caller vocabulary separate from the
 The contract snapshot records the official lifecycle source, inspected CLI version, and generated-schema digests in [WI-0055 protocol research](../../.ai-org/artifacts/WI-0055/protocol-research.md). Tests validate the emitted request against those separately recorded enums rather than teaching the fake Provider to accept Temple's internal names. A Provider rejection exposes only a stable Temple reason, integer JSON-RPC code when available, and bounded category; the raw Provider message remains outside returned and durable launch state.
 
 Passing the compatibility gate proves local encoding and fail-closed behavior only. No Dashboard launch control or remote mutation route exists, and another real proof still requires explicit approval for its exact model, reasoning, instruction, Token threshold, retry ceiling, and wall-clock boundary.
+
+The effective-model attribution correction is likewise a local gate. Passing its contract tests and Independent QA authorizes only a separately governed one-turn revalidation. It does not qualify the instrumentation path, enable automatic routing, or start the four-repository rehearsal.
 
 Create a read-only report:
 

@@ -87,6 +87,7 @@ const NOTIFICATION_TYPES = new Map([
   ["item/completed", "org.temple.codex.item.completed.v1"],
   ["turn/plan/updated", "org.temple.codex.plan.updated.v1"],
   ["turn/diff/updated", "org.temple.codex.diff.updated.v1"],
+  ["model/rerouted", "org.temple.codex.model.rerouted.v1"],
   ["thread/tokenUsage/updated", "org.temple.codex.usage.updated.v1"],
   ["serverRequest/resolved", "org.temple.codex.runtime-request.resolved.v1"],
   ["error", "org.temple.codex.failure.observed.v1"]
@@ -263,7 +264,8 @@ function timestamp(value, fallback) {
 }
 
 function taskForThread(tasks, threadId) {
-  return (tasks ?? []).find((task) => task.thread_id === threadId) ?? null;
+  const matches = (tasks ?? []).filter((task) => task.thread_id === threadId);
+  return matches.length === 1 ? matches[0] : null;
 }
 
 function terminalWorkItemIds(workItems = []) {
@@ -566,6 +568,9 @@ function eventId(method, data, occurredAt) {
     data.lifecycle,
     data.plan,
     data.diff_summary,
+    data.from_model,
+    data.to_model,
+    data.reason,
     data.usage,
     occurredAt
   ];
@@ -609,6 +614,11 @@ export function normalizeCodexMessage(projectId, tasks, message, options = {}) {
   } else if (method === "turn/diff/updated") {
     data.status = "updated";
     data.diff_summary = summarizeUnifiedDiff(params.diff);
+  } else if (method === "model/rerouted") {
+    data.status = "rerouted";
+    data.from_model = optionalDimension(params.fromModel);
+    data.to_model = optionalDimension(params.toModel);
+    data.reason = boundedText(params.reason, 120);
   } else if (method === "thread/tokenUsage/updated") {
     data.status = "updated";
     data.usage = safeUsage(params.tokenUsage);
@@ -846,12 +856,12 @@ export function createJsonRpcProcess(command, args = [], options = {}) {
     async close() {
       if (closed) return;
       closed = true;
-      lines.close();
       child.kill("SIGTERM");
       await new Promise((resolve) => {
         const timer = setTimeout(resolve, 1000);
         child.once("exit", () => { clearTimeout(timer); resolve(); });
       });
+      lines.close();
     }
   };
 }
@@ -880,6 +890,12 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
     1000,
     "Codex history item limit"
   );
+  const notificationDrainTimeoutMs = validatedHistoryLimit(
+    options.notificationDrainTimeoutMs,
+    1000,
+    30000,
+    "Codex notification drain timeout"
+  );
   let connection = null;
   let stopped = false;
   let reconnectTimer = null;
@@ -892,6 +908,7 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
   let readMethodUnavailable = false;
   let resumeMethodUnavailable = false;
   const activeTurnByThread = new Map();
+  let notificationQueue = Promise.resolve();
 
   async function refreshWorkItems() {
     const current = await listWorkItemDocuments(target);
@@ -1011,11 +1028,64 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
 
   async function append(message) {
     observeTurnMessage(message);
+    if (message?.method === "model/rerouted") {
+      const task = taskForThread(tasks, message.params?.threadId);
+      const toModel = optionalDimension(message.params?.toModel);
+      if (task && toModel) {
+        try {
+          const updated = await withProjectMutationLock(target, () => taskUpdater(target, {
+            taskId: task.id,
+            status: task.status,
+            effectiveModel: toModel,
+            reasoningEffort: task.reasoning_effort,
+            serviceTier: task.service_tier,
+            actor: task.agent_id
+          }));
+          replaceCorrelatedTask(updated);
+        } catch {
+          registry.update(providerId, {
+            status: "degraded",
+            degraded_reason: "provider-model-reroute-task-update-failed"
+          });
+        }
+      }
+    }
     const event = normalizeCodexMessage(project.id, tasks, message, { workItems, providerId });
     if (!event) return null;
     const result = await journal.append(event);
     registry.update(providerId, { last_observed_at: result.record?.templeobservedat ?? new Date().toISOString() });
     return result;
+  }
+
+  async function drainNotificationQueue() {
+    const deadline = Date.now() + notificationDrainTimeoutMs;
+    while (true) {
+      const pending = notificationQueue;
+      const remaining = deadline - Date.now();
+      if (remaining <= 0) {
+        registry.update(providerId, {
+          ...(stopped ? {} : { status: "degraded" }),
+          degraded_reason: "provider-notification-drain-timeout"
+        });
+        return false;
+      }
+      let timer;
+      const drained = await Promise.race([
+        pending.then(() => true),
+        new Promise((resolve) => {
+          timer = setTimeout(() => resolve(false), remaining);
+        })
+      ]);
+      if (timer) clearTimeout(timer);
+      if (!drained) {
+        registry.update(providerId, {
+          ...(stopped ? {} : { status: "degraded" }),
+          degraded_reason: "provider-notification-drain-timeout"
+        });
+        return false;
+      }
+      if (pending === notificationQueue) return true;
+    }
   }
 
   async function reconcile(thread, source) {
@@ -1169,14 +1239,15 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
 
   async function markProviderOwnedTaskAttention(task, reasonCode) {
     try {
+      const current = tasks.find((entry) => entry.id === task.id) ?? task;
       const updated = await withProjectMutationLock(target, () => taskUpdater(target, {
-        taskId: task.id,
+        taskId: current.id,
         status: "attention",
-        effectiveModel: task.effective_model,
-        reasoningEffort: task.reasoning_effort,
-        serviceTier: task.service_tier,
+        effectiveModel: current.effective_model,
+        reasoningEffort: current.reasoning_effort,
+        serviceTier: current.service_tier,
         notes: `Provider-owned launch ${reasonCode}; instruction content not retained; automatic retry disabled.`,
-        actor: task.agent_id
+        actor: current.agent_id
       }));
       replaceCorrelatedTask(updated);
       return updated;
@@ -1261,7 +1332,9 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
         { providerThreadId: thread.id, turnStarted: false }
       );
     }
-    const effectiveModel = optionalDimension(thread.model);
+    const effectiveModel = optionalDimension(threadResponse?.model);
+    const reasoningEffort = optionalDimension(threadResponse?.reasoningEffort);
+    const serviceTier = optionalDimension(threadResponse?.serviceTier);
     let task;
     try {
       task = await withProjectMutationLock(target, () => taskRegistrar(target, {
@@ -1276,8 +1349,8 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
         providerId,
         requestedModel: launch.requestedModel,
         effectiveModel,
-        reasoningEffort: launch.reasoningEffort,
-        serviceTier: null,
+        reasoningEffort,
+        serviceTier,
         notes: "Provider-owned launch; instruction content not retained; automatic retry disabled.",
         actor: launch.actor
       }));
@@ -1316,8 +1389,8 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
           provider_turn_id: null,
           requested_model: launch.requestedModel,
           effective_model: effectiveModel,
-          reasoning_effort: launch.reasoningEffort,
-          service_tier: null,
+          reasoning_effort: reasoningEffort,
+          service_tier: serviceTier,
           launch_revision: launch.launchRevision,
           instruction_length: launch.instructionLength,
           instruction_retained: false,
@@ -1334,8 +1407,8 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
         provider_turn_id: providerTurnId,
         requested_model: launch.requestedModel,
         effective_model: effectiveModel,
-        reasoning_effort: launch.reasoningEffort,
-        service_tier: null,
+        reasoning_effort: reasoningEffort,
+        service_tier: serviceTier,
         launch_revision: launch.launchRevision,
         instruction_length: launch.instructionLength,
         instruction_retained: false,
@@ -1354,8 +1427,8 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
         provider_turn_id: null,
         requested_model: launch.requestedModel,
         effective_model: effectiveModel,
-        reasoning_effort: launch.reasoningEffort,
-        service_tier: null,
+        reasoning_effort: reasoningEffort,
+        service_tier: serviceTier,
         launch_revision: launch.launchRevision,
         rejection_code: reasonCode,
         provider_rpc_code: rejection.providerRpcCode,
@@ -1384,7 +1457,7 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
           cwd: target,
           onNotification(message) {
             if (message.method === "serverRequest/resolved") pendingRuntimeRequests.delete(String(message.params?.requestId));
-            void append(message).catch((error) => {
+            notificationQueue = notificationQueue.then(() => append(message)).catch((error) => {
               registry.update(providerId, { status: "degraded", degraded_reason: error.message });
             });
           },
@@ -1542,7 +1615,9 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
       return { request_id: String(requestId), method: request.method, answered: true, request_class: request.safe.request_class };
     },
     async reconnect() {
+      await drainNotificationQueue();
       if (connection) await connection.close();
+      await drainNotificationQueue();
       if (reconnectTimer) clearTimeout(reconnectTimer);
       reconnectTimer = null;
       return connect();
@@ -1551,8 +1626,10 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
       stopped = true;
       if (reconnectTimer) clearTimeout(reconnectTimer);
       reconnectTimer = null;
+      await drainNotificationQueue();
       if (connection) await connection.close();
       connection = null;
+      await drainNotificationQueue();
       registry.update(providerId, { status: "disabled", degraded_reason: "stopped" });
     }
   };
