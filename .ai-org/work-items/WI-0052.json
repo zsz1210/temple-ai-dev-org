@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0052",
   "title": "Establish provider-owned Codex observability bridge",
-  "state": "design",
-  "owner_position": "tech_lead",
-  "assigned_agent_id": "agent-tidus",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
   "created_at": "2026-08-31T06:08:45.709Z",
-  "updated_at": "2026-08-31T06:11:42.435Z",
+  "updated_at": "2026-08-31T06:14:07.694Z",
   "scope": [
     "Add a local provider-owned launch contract that creates a Codex App Server thread, registers its stable identity with Temple, and only then begins generation.",
     "Persist execution origin, provider, requested and effective model, reasoning effort, service tier, launch revision, current revision, and claim base as distinct bounded task metadata.",
@@ -47,7 +47,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "b25c030",
+  "base_revision": "68ee5a7",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-rikku",
   "planned_agent_id": null,
@@ -72,8 +72,30 @@
     "WI-0048 is unclaimed and integrated; visual style and system diagrams remain unchanged.",
     "WI-0049 is unclaimed and integrated; human-readable status copy remains unchanged."
   ],
-  "claim": null,
-  "claims": [],
+  "claim": {
+    "id": "claim-20260831061407-dbf0de99",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "68ee5a7",
+    "branch": "main",
+    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "claimed_at": "2026-08-31T06:14:07.694Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260831061407-dbf0de99",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "68ee5a7",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-08-31T06:14:07.694Z",
+      "released_at": null
+    }
+  ],
   "gate_evidence": {
     "work_order": [
       ".ai-org/artifacts/WI-0052/work-order.md"
@@ -83,6 +105,12 @@
     ],
     "acceptance_criteria": [
       ".ai-org/work-items/WI-0052.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0052/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0052/technical-design.md"
     ]
   },
   "evidence": [
@@ -91,10 +119,12 @@
     ".ai-org/artifacts/WI-0052/human-approval.md",
     ".ai-org/artifacts/WI-0052/handoff-002-product_manager-to-tech_lead.md",
     ".ai-org/artifacts/WI-0052/product-spec.md",
-    ".ai-org/work-items/WI-0052.json"
+    ".ai-org/work-items/WI-0052.json",
+    ".ai-org/artifacts/WI-0052/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0052/technical-design.md"
   ],
   "unresolved": [],
-  "next_position": "developer",
+  "next_position": "quality_evaluator",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -109,6 +139,13 @@
       "input_revision": "e706ea5",
       "artifact": ".ai-org/artifacts/WI-0052/handoff-002-product_manager-to-tech_lead.md",
       "created_at": "2026-08-31T06:11:42.178Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "68ee5a7",
+      "artifact": ".ai-org/artifacts/WI-0052/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-08-31T06:14:07.158Z"
     }
   ]
 }
