@@ -671,7 +671,20 @@ test("Codex App Server provider handshakes, reconciles registered threads, and r
   });
   await provider.start();
   context.after(() => provider.stop());
-  await new Promise((resolve) => setTimeout(resolve, 50));
+  await Promise.all([
+    waitForJournalRecord(
+      journal,
+      (record) => record.type === "org.temple.codex.plan.updated.v1"
+        && record.data?.provider_thread_id === "thread-live-001"
+        && record.data?.provider_turn_id === "turn-live"
+    ),
+    waitForJournalRecord(
+      journal,
+      (record) => record.type === "org.temple.codex.diff.updated.v1"
+        && record.data?.provider_thread_id === "thread-live-001"
+        && record.data?.provider_turn_id === "turn-live"
+    )
+  ]);
   assert.equal(registry.get("codex-local").status, "ready");
   assert.equal(registry.get("codex-local").protocol.detected_cli_version, "fixture-1");
   assert.equal(provider.pendingRequests()[0].request_id, "approval-live");
