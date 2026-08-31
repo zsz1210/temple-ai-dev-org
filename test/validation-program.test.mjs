@@ -321,8 +321,8 @@ test("runner interrupts a turn at its wall-clock hard limit", async (testContext
   const result = await stoppedRun(testContext, {
     per_turn_warning_ms: 5,
     per_turn_hard_ms: 20,
-    program_warning_ms: 100,
-    program_hard_ms: 200
+    program_warning_ms: 30000,
+    program_hard_ms: 60000
   }, async ({ signal }) => new Promise((resolve, reject) => {
     signal.addEventListener("abort", () => reject(Object.assign(new Error("interrupted"), { code: signal.reason?.code ?? signal.reason?.message })), { once: true });
   }));
@@ -333,8 +333,8 @@ test("runner interrupts a turn at its wall-clock hard limit", async (testContext
 
 test("runner interrupts a turn at the program wall-clock hard limit", async (testContext) => {
   const result = await stoppedRun(testContext, {
-    per_turn_warning_ms: 100,
-    per_turn_hard_ms: 200,
+    per_turn_warning_ms: 30000,
+    per_turn_hard_ms: 60000,
     program_warning_ms: 5,
     program_hard_ms: 20
   }, async ({ signal }) => new Promise((resolve, reject) => {

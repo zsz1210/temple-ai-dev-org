@@ -10334,6 +10334,167 @@
         "exit_code": 0,
         "started_at": "2026-08-31T16:15:09.000Z"
       }
+    },
+    {
+      "id": "EVID-20260831T162612Z-AA6EAD91",
+      "work_item_id": "WI-0075",
+      "recorded_at": "2026-08-31T16:26:12.825Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Deterministic timeout-test candidate",
+      "outcome": "verified",
+      "scope_revision": "025c9c67c3a2ba8eae4d87f7f8140b397f72de9d",
+      "observed_at": "2026-08-31T16:26:12.825Z",
+      "summary": "Competing non-target limits are separated without runtime changes.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "025c9c67c3a2ba8eae4d87f7f8140b397f72de9d"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "025c9c67c3a2ba8eae4d87f7f8140b397f72de9d",
+        "working_tree_dirty": true,
+        "dirty_path_count": 2,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260831T162613Z-332E8DE6",
+      "work_item_id": "WI-0075",
+      "recorded_at": "2026-08-31T16:26:13.128Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer full verification",
+      "outcome": "pass",
+      "scope_revision": "025c9c67c3a2ba8eae4d87f7f8140b397f72de9d",
+      "observed_at": "2026-08-31T16:25:44.000Z",
+      "summary": "Twenty focused timeout executions and all 250 local tests pass.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0075/developer-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0075/developer-observation.json",
+          "sha256": "9074f5f6fabc5be234a9147805573d86eca1108381d6b5e170510e833bafd802"
+        },
+        {
+          "path": "test/validation-program.test.mjs",
+          "sha256": "e72bdf255490e9c3e6edca85abdfa0dc70d6e556fcb02bdca2d91eb7e430f76e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0075/developer-verification.md",
+          "sha256": "2419d5a05c729369542babdd773fcd0109861abfeff1199eaaf26d9431b84488"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T16:24:51.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T162647Z-1A8561D2",
+      "work_item_id": "WI-0075",
+      "recorded_at": "2026-08-31T16:26:47.046Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality validation-program regression",
+      "outcome": "pass",
+      "scope_revision": "025c9c67c3a2ba8eae4d87f7f8140b397f72de9d",
+      "observed_at": "2026-08-31T16:26:21.000Z",
+      "summary": "All 12 tests pass with exact timeout stop codes.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0075/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0075/quality-test-observation.json",
+          "sha256": "3ea16fb280f4afb0628bd02d0bcc7a3eb8a32dd97b3a3ccc2e669119eeee6620"
+        },
+        {
+          "path": "test/validation-program.test.mjs",
+          "sha256": "e72bdf255490e9c3e6edca85abdfa0dc70d6e556fcb02bdca2d91eb7e430f76e"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/validation-program.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T16:26:20.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T162743Z-475E51C0",
+      "work_item_id": "WI-0075",
+      "recorded_at": "2026-08-31T16:27:43.464Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA exact-candidate verification",
+      "outcome": "pass",
+      "scope_revision": "025c9c67c3a2ba8eae4d87f7f8140b397f72de9d",
+      "observed_at": "2026-08-31T16:27:17.000Z",
+      "summary": "Fresh detached candidate passed 12 validation-program tests and Doctor.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0075/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0075/independent-qa-observation.json",
+          "sha256": "4769f8aea964bfeb8eccc54e191c8329a39a29161f8c41a1a32799bba3424e7c"
+        },
+        {
+          "path": "test/validation-program.test.mjs",
+          "sha256": "e72bdf255490e9c3e6edca85abdfa0dc70d6e556fcb02bdca2d91eb7e430f76e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0075/independent-qa-report.md",
+          "sha256": "26697aaea8235880f80e2abc2407f1faa2a60087ffb6b95b99b500e5dcb03e68"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/validation-program.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T16:27:05.000Z"
+      }
     }
   ]
 }

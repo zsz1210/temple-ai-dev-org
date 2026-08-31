@@ -1,0 +1,17 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "025c9c67c3a2ba8eae4d87f7f8140b397f72de9d",
+  "command": [
+    "node",
+    "--test",
+    "test/validation-program.test.mjs"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T16:26:20.000Z",
+  "completed_at": "2026-08-31T16:26:21.000Z",
+  "artifact_refs": [
+    "test/validation-program.test.mjs"
+  ],
+  "summary": "All 12 validation-program tests passed, including both exact wall-clock stop-code cases."
+}
