@@ -1,0 +1,141 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0063",
+  "title": "Correct Provider-observed model attribution",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-31T10:19:18.515Z",
+  "updated_at": "2026-08-31T10:20:37.322Z",
+  "scope": [
+    "Read the installed App Server thread/start response at its documented top-level model, reasoningEffort, and serviceTier fields and preserve unavailable values as unknown.",
+    "Normalize model/rerouted notifications, update the correlated Provider-owned task to the Provider toModel value without retaining raw prompt or response content, and keep requested and effective model distinct.",
+    "Add exact contract tests, documentation, and bounded protocol evidence; do not launch a model, call a paid API, push, deploy, publish, or begin the four-repository rehearsal in this Work Item."
+  ],
+  "acceptance_criteria": [
+    "Provider-owned registration records the top-level thread/start model as effective_model, the acknowledged reasoning effort and service tier when present, and does not read thread.model.",
+    "A model/rerouted notification is correlated to the exact thread and turn, records bounded from/to/reason evidence, and updates the canonical task effective_model before subsequent usage attribution.",
+    "Missing or malformed Provider fields remain unknown or fail closed, no automatic retry or fallback is introduced, and existing privacy boundaries remain intact.",
+    "Focused tests, full npm run verify, Doctor, and independent exact-candidate QA pass before organizational closeout."
+  ],
+  "affected_paths": [
+    "src/codex-app-server-provider.mjs",
+    "test/control-plane-live.test.mjs",
+    "docs/operations/token-efficiency-and-model-routing.md",
+    "docs/planning/temple-effectiveness-and-microservice-validation.md",
+    ".ai-org/artifacts/WI-0063"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [
+    "WI-0062"
+  ],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "3ab84bd57dadc9ec15ed0d36642720c541bb4495",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260831102005-f2f08de0",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-tidus",
+    "base_revision": "3ab84bd57dadc9ec15ed0d36642720c541bb4495",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-08-31T10:20:05.066Z",
+    "released_at": "2026-08-31T10:20:37.322Z",
+    "release_reason": "position_transition"
+  },
+  "claims": [
+    {
+      "id": "claim-20260831101947-ebde1cf1",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "3ab84bd57dadc9ec15ed0d36642720c541bb4495",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T10:19:47.590Z",
+      "released_at": "2026-08-31T10:20:04.773Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831102005-f2f08de0",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "3ab84bd57dadc9ec15ed0d36642720c541bb4495",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T10:20:05.066Z",
+      "released_at": "2026-08-31T10:20:37.322Z",
+      "release_reason": "position_transition"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0063/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0063/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0063.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0063/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0063/technical-design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0063/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0063/work-order.md",
+    ".ai-org/artifacts/WI-0063/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0063/product-spec.md",
+    ".ai-org/work-items/WI-0063.json",
+    ".ai-org/artifacts/WI-0063/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0063/technical-design.md",
+    ".ai-org/artifacts/WI-0063/protocol-research.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "3ab84bd57dadc9ec15ed0d36642720c541bb4495",
+      "artifact": ".ai-org/artifacts/WI-0063/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-08-31T10:19:46.971Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "3ab84bd57dadc9ec15ed0d36642720c541bb4495",
+      "artifact": ".ai-org/artifacts/WI-0063/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-31T10:20:04.485Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "3ab84bd57dadc9ec15ed0d36642720c541bb4495",
+      "artifact": ".ai-org/artifacts/WI-0063/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-08-31T10:20:37.042Z"
+    }
+  ]
+}
