@@ -1,0 +1,12 @@
+{
+  "schema_version": "temple.runtime-observation/v1",
+  "revision": "5913ea0c3b1e68fdce21da93299e9e440fc52a39",
+  "environment": "Fresh HTTPS GitHub clone of origin/main with npm ci --ignore-scripts",
+  "scenario": "Resolve both historical evidence revisions from published deterministic tags and run Doctor",
+  "result": "pass",
+  "provenance": "live",
+  "observed_at": "2026-08-31T15:39:21.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0072/remote-preservation-report.md"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "5913ea0c3b1e68fdce21da93299e9e440fc52a39",
+  "command": [
+    "npm",
+    "run",
+    "verify"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T15:34:38.000Z",
+  "completed_at": "2026-08-31T15:35:41.000Z",
+  "artifact_refs": [
+    "src/evidence.mjs",
+    "src/cli.mjs",
+    "test/evidence-observer.test.mjs",
+    "docs/operations/evidence-and-observer.md"
+  ],
+  "summary": "Repository and documentation checks passed; all 252 tests passed in 62.8 seconds, including deterministic evidence-tag retention, fresh-clone recovery, conflict rejection, and affected-scope dirty-path cases."
+}

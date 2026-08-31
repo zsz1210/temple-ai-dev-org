@@ -9740,6 +9740,264 @@
         "status": "planned",
         "procedure": ".ai-org/artifacts/WI-0069/release-manager-review.md"
       }
+    },
+    {
+      "id": "EVID-20260831T153602Z-E25434A6",
+      "work_item_id": "WI-0072",
+      "recorded_at": "2026-08-31T15:36:02.091Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Evidence durability candidate",
+      "outcome": "verified",
+      "scope_revision": "5913ea0c3b1e68fdce21da93299e9e440fc52a39",
+      "observed_at": "2026-08-31T15:36:02.091Z",
+      "summary": "Exact candidate adds deterministic evidence preservation tags, local durability validation, and affected-scope dirty-path protection.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "5913ea0c3b1e68fdce21da93299e9e440fc52a39"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "5913ea0c3b1e68fdce21da93299e9e440fc52a39",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260831T153632Z-C4BF69C7",
+      "work_item_id": "WI-0072",
+      "recorded_at": "2026-08-31T15:36:32.020Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Evidence durability full verification",
+      "outcome": "pass",
+      "scope_revision": "5913ea0c3b1e68fdce21da93299e9e440fc52a39",
+      "observed_at": "2026-08-31T15:35:41.000Z",
+      "summary": "Repository and documentation checks passed; all 252 tests passed in 62.8 seconds on exact candidate 5913ea0.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0072/developer-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0072/developer-observation.json",
+          "sha256": "17327ff2358398fc1092c0f51706ccdf342ea49c27d0b14db158c455ef3257eb"
+        },
+        {
+          "path": "src/evidence.mjs",
+          "sha256": "a37881cd2b24890c1021149c21d8c1f1a8aaa2d1e16e70ab948935ed2b2d353a"
+        },
+        {
+          "path": "src/cli.mjs",
+          "sha256": "b4629f55fd99ec20a25cb72732e298818e923fca5586f2a01af9aecf03d2813e"
+        },
+        {
+          "path": "test/evidence-observer.test.mjs",
+          "sha256": "558ba7612545106ca58ce258cee663f234b26e7acc6d0115b2e93a98491844e5"
+        },
+        {
+          "path": "docs/operations/evidence-and-observer.md",
+          "sha256": "2f6aa0d93aa852280f9803794f58df1154ae1f0f313ab524a7745848a97548ae"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T15:34:38.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T153819Z-DE07D1F6",
+      "work_item_id": "WI-0072",
+      "recorded_at": "2026-08-31T15:38:19.674Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Evidence durability Quality reproduction",
+      "outcome": "pass",
+      "scope_revision": "5913ea0c3b1e68fdce21da93299e9e440fc52a39",
+      "observed_at": "2026-08-31T15:37:43.000Z",
+      "summary": "Quality independently reproduced all 14 focused cases; schema validation and Doctor also passed on the exact candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0072/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0072/quality-test-observation.json",
+          "sha256": "55c042a1ed09e67fed400c9ad6b76ad591c8c597c1e96144fe29688d169858c0"
+        },
+        {
+          "path": "src/evidence.mjs",
+          "sha256": "a37881cd2b24890c1021149c21d8c1f1a8aaa2d1e16e70ab948935ed2b2d353a"
+        },
+        {
+          "path": "src/cli.mjs",
+          "sha256": "b4629f55fd99ec20a25cb72732e298818e923fca5586f2a01af9aecf03d2813e"
+        },
+        {
+          "path": "test/evidence-observer.test.mjs",
+          "sha256": "558ba7612545106ca58ce258cee663f234b26e7acc6d0115b2e93a98491844e5"
+        },
+        {
+          "path": "docs/operations/evidence-and-observer.md",
+          "sha256": "2f6aa0d93aa852280f9803794f58df1154ae1f0f313ab524a7745848a97548ae"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/evidence-observer.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T15:37:27.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T153955Z-4A5BD57F",
+      "work_item_id": "WI-0072",
+      "recorded_at": "2026-08-31T15:39:55.072Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Fresh GitHub clone evidence recovery",
+      "outcome": "pass",
+      "scope_revision": "5913ea0c3b1e68fdce21da93299e9e440fc52a39",
+      "observed_at": "2026-08-31T15:39:21.000Z",
+      "summary": "Both historical commits resolved from published deterministic tags and Doctor passed in a fresh CI-equivalent clone.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0072/remote-preservation-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0072/remote-preservation-observation.json",
+          "sha256": "0e4e289d6700e2957d1a60db9f8bc92d17e5a1b3ad570bc3cd3257bf7e873570"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0072/remote-preservation-report.md",
+          "sha256": "a14d1042c48e97e216aa20af2ed456c39cd12408f873dae57743711e9cf5544b"
+        }
+      ],
+      "details": {
+        "environment": "Fresh HTTPS GitHub clone of origin/main with npm ci --ignore-scripts",
+        "scenario": "Resolve both historical evidence revisions from published deterministic tags and run Doctor",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260831T154122Z-39890F44",
+      "work_item_id": "WI-0072",
+      "recorded_at": "2026-08-31T15:41:22.744Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Evidence durability Independent QA",
+      "outcome": "pass",
+      "scope_revision": "5913ea0c3b1e68fdce21da93299e9e440fc52a39",
+      "observed_at": "2026-08-31T15:41:02.000Z",
+      "summary": "Independent QA reproduced all 14 focused cases, schema validation, and Doctor in a fresh detached exact-candidate worktree.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0072/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0072/independent-qa-observation.json",
+          "sha256": "44cc8d84ecde3663b4e603ac75a96419eba6d56c15d2b07540bac49e8083e48e"
+        },
+        {
+          "path": "src/evidence.mjs",
+          "sha256": "a37881cd2b24890c1021149c21d8c1f1a8aaa2d1e16e70ab948935ed2b2d353a"
+        },
+        {
+          "path": "src/cli.mjs",
+          "sha256": "b4629f55fd99ec20a25cb72732e298818e923fca5586f2a01af9aecf03d2813e"
+        },
+        {
+          "path": "test/evidence-observer.test.mjs",
+          "sha256": "558ba7612545106ca58ce258cee663f234b26e7acc6d0115b2e93a98491844e5"
+        },
+        {
+          "path": "docs/operations/evidence-and-observer.md",
+          "sha256": "2f6aa0d93aa852280f9803794f58df1154ae1f0f313ab524a7745848a97548ae"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/evidence-observer.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T15:40:35.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T154213Z-50B8138D",
+      "work_item_id": "WI-0072",
+      "recorded_at": "2026-08-31T15:42:13.793Z",
+      "recorded_by": "agent-mog",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "5913ea0c3b1e68fdce21da93299e9e440fc52a39",
+      "observed_at": "2026-08-31T15:42:13.793Z",
+      "summary": "Revert the evidence-durability implementation while retaining historical evidence tags and re-verifying fresh-clone availability.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0072/rollback-procedure.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0072/rollback-procedure.md",
+          "sha256": "49cee7b220eb0077180c5b57ee30863732fd7a4133000af0d41229366941d2f2"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0072/rollback-procedure.md"
+      }
     }
   ]
 }
