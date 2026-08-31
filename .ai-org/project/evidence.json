@@ -9176,6 +9176,83 @@
         "exit_code": 0,
         "started_at": "2026-08-31T12:29:50Z"
       }
+    },
+    {
+      "id": "EVID-20260831T133926Z-41F08155",
+      "work_item_id": "WI-0069",
+      "recorded_at": "2026-08-31T13:39:26.045Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Usage calibration candidate",
+      "outcome": "verified",
+      "scope_revision": "aead7f548adde729e607d3db2806f62dd2251967",
+      "observed_at": "2026-08-31T13:39:26.045Z",
+      "summary": "Exact candidate revision for project-owned usage policy, calibration projections, autonomy envelope, documentation, and tests.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "aead7f548adde729e607d3db2806f62dd2251967"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "aead7f548adde729e607d3db2806f62dd2251967",
+        "working_tree_dirty": false
+      }
+    },
+    {
+      "id": "EVID-20260831T134008Z-D216CD2E",
+      "work_item_id": "WI-0069",
+      "recorded_at": "2026-08-31T13:40:08.657Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Local developer verification",
+      "outcome": "pass",
+      "scope_revision": "aead7f548adde729e607d3db2806f62dd2251967",
+      "observed_at": "2026-08-31T13:38:55Z",
+      "summary": "Focused tests, schema validation, Doctor, read-only usage report, and full 246-test verification passed without live generation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0069/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0069/developer-test-observation.json",
+          "sha256": "d8f675168481605b306919baaf40c799f5f1e4fc0e989daf6a2610b6f9406f47"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0069/technical-design.md",
+          "sha256": "aaa223bef50055f3c1d6858e119dc266d14e8b69f9ad58b4e140ec4f837218ec"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0069/verification.md",
+          "sha256": "64dd32a12b65174a23c09e974f2be4a0e5ded3cd8c9bac545ecf3b35321f0e64"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --check src/usage-policy.mjs",
+          "node --check src/usage-attribution.mjs",
+          "node --check src/upgrade.mjs",
+          "node --test test/phase4-installation.test.mjs test/phase-4b.test.mjs",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "node ./templew.mjs usage report . --no-write --json",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T13:36:45Z"
+      }
     }
   ]
 }

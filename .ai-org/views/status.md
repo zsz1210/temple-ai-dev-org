@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
 - Work items: 69 total, 8 active
 - Codex tasks: 5 registered, 4 archive-ready
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -112,7 +112,7 @@
 | WI-0066 | Add bounded multi-repository experiment runner | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ab212c0f` | 0 | 19 | 0 |
 | WI-0067 | Run bounded four-repository commerce rehearsal | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0d656df5` | 0 | 18 | 3 |
 | WI-0068 | Fail closed on invalid experiment telemetry paths | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `123a9fda` | 0 | 18 | 0 |
-| WI-0069 | Establish progressive usage calibration and autonomy policy | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831132506-e2b7f9ec | `—` | 0 | 2 | 0 |
+| WI-0069 | Establish progressive usage calibration and autonomy policy | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `aead7f54` | 0 | 5 | 0 |
 
 ## Codex task registry
 
@@ -227,14 +227,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-31T13:40:26.287Z | work_item_transitioned | WI-0069 | agent-rikku |
+| 2026-08-31T13:40:17.165Z | handoff_created | WI-0069 | agent-rikku |
+| 2026-08-31T13:40:08.657Z | evidence_recorded | WI-0069 | human |
+| 2026-08-31T13:39:26.045Z | evidence_recorded | WI-0069 | human |
 | 2026-08-31T13:25:06.459Z | work_item_claimed | WI-0069 | human |
 | 2026-08-31T13:25:02.426Z | work_item_coordination_configured | WI-0069 | agent-rikku |
 | 2026-08-31T13:24:58.036Z | work_item_transitioned | WI-0069 | agent-tidus |
 | 2026-08-31T13:22:33.490Z | work_item_claimed | WI-0069 | human |
-| 2026-08-31T13:22:29.194Z | work_item_coordination_configured | WI-0069 | agent-tidus |
-| 2026-08-31T13:22:23.198Z | work_item_transitioned | WI-0069 | agent-yuna |
-| 2026-08-31T13:22:18.185Z | work_item_claimed | WI-0069 | human |
-| 2026-08-31T13:22:14.351Z | work_item_coordination_configured | WI-0069 | agent-yuna |
 
 ## Assignments
 
