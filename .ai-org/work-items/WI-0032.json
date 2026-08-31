@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0032",
   "title": "Sandbox federation participant Git inspection",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T13:55:47.366Z",
-  "updated_at": "2026-08-30T14:31:45.695Z",
+  "updated_at": "2026-08-31T08:50:14.020Z",
   "scope": [
     "Prevent participant-controlled Git configuration, ambient credentials, nested repository discovery, and partial-clone lazy fetch from violating the read-only federation boundary."
   ],
@@ -125,6 +125,18 @@
     ],
     "independent_qa_pass": [
       ".ai-org/artifacts/WI-0032/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/work-orders/WI-0032.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0032/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0032/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0059/human-approval.md"
     ]
   },
   "evidence": [
@@ -141,10 +153,11 @@
     ".ai-org/artifacts/WI-0032/evaluation-report.md",
     "EVID-20260830T143137Z-8CFE173F",
     "EVID-20260830T143137Z-32893E8B",
-    ".ai-org/artifacts/WI-0032/independent-qa-report.md"
+    ".ai-org/artifacts/WI-0032/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0032/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -161,5 +174,9 @@
       "created_at": "2026-08-30T14:20:48.587Z"
     }
   ],
-  "developer_candidate_revision": "27d735d89d30915ee2399f80f85ad563477d420c"
+  "developer_candidate_revision": "27d735d89d30915ee2399f80f85ad563477d420c",
+  "tested_revision": "024af6123163c52d4aa06b051c2d39de9fb2ace1",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0059/human-approval.md"
 }

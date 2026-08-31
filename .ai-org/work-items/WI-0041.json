@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0041",
   "title": "Coalesce Dashboard refreshes after SSE replay",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T19:39:56.799Z",
-  "updated_at": "2026-08-30T19:47:06.771Z",
+  "updated_at": "2026-08-31T08:50:15.759Z",
   "scope": [
     "Prevent historical SSE replay from launching unbounded concurrent Dashboard snapshot requests."
   ],
@@ -216,6 +216,21 @@
     ],
     "independent_qa_pass": [
       "EVID-20260830T194700Z-7D2630A4"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0041/work-order.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0041/independent-qa-report.md"
+    ],
+    "runtime_visual_review": [
+      "EVID-20260830T194544Z-B4FC8FF0"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0041/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0059/human-approval.md"
     ]
   },
   "evidence": [
@@ -236,10 +251,12 @@
     ".ai-org/artifacts/WI-0041/runtime-observation.json",
     ".ai-org/artifacts/WI-0041/handoff-006-independent_qa-to-release_manager.md",
     ".ai-org/artifacts/WI-0041/independent-qa-report.md",
-    "EVID-20260830T194700Z-7D2630A4"
+    "EVID-20260830T194700Z-7D2630A4",
+    ".ai-org/artifacts/WI-0041/release-record.md",
+    "EVID-20260830T194544Z-B4FC8FF0"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -284,5 +301,9 @@
       "created_at": "2026-08-30T19:47:01.014Z"
     }
   ],
-  "developer_candidate_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134"
+  "developer_candidate_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+  "tested_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0059/human-approval.md"
 }

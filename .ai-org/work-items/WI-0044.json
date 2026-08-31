@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0044",
   "title": "Redesign Dashboard navigation and operator information architecture",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T23:42:02.351Z",
-  "updated_at": "2026-08-31T00:31:26.594Z",
+  "updated_at": "2026-08-31T08:50:16.342Z",
   "scope": [
     "Replace the long single-page Dashboard with a responsive operational cockpit organized around Now, Execution, Usage, System, and History while preserving truthful evidence, privacy boundaries, and local-only mutation authority."
   ],
@@ -197,6 +197,21 @@
     ],
     "independent_qa_pass": [
       "EVID-20260831T003101Z-2D914CCC"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0044/product-spec.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0044/independent-qa-pass-report.md"
+    ],
+    "runtime_visual_review": [
+      ".ai-org/artifacts/WI-0044/independent-qa-pass-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0044/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0059/human-approval.md"
     ]
   },
   "evidence": [
@@ -219,10 +234,11 @@
     ".ai-org/artifacts/WI-0044/evaluation-report.md",
     ".ai-org/artifacts/WI-0044/handoff-005-independent_qa-to-release_manager.md",
     ".ai-org/artifacts/WI-0044/independent-qa-pass-report.md",
-    "EVID-20260831T003101Z-2D914CCC"
+    "EVID-20260831T003101Z-2D914CCC",
+    ".ai-org/artifacts/WI-0044/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "product_manager",
@@ -260,5 +276,9 @@
       "created_at": "2026-08-31T00:31:17.809Z"
     }
   ],
-  "developer_candidate_revision": "d17a5f263e4e93eab2922d14e55456fd3d6c5b25"
+  "developer_candidate_revision": "d17a5f263e4e93eab2922d14e55456fd3d6c5b25",
+  "tested_revision": "fbb6aa965baf1f7bbd6e4721e9735ddd4d882bbe",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0059/human-approval.md"
 }

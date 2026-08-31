@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0030",
   "title": "Prevent complete command retention",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T12:33:56.699Z",
-  "updated_at": "2026-08-30T13:14:27.420Z",
+  "updated_at": "2026-08-31T08:47:59.600Z",
   "scope": [
     "Correct the WI-0029 Quality NO-GO by ensuring durable command records and Dashboard history never retain or reconstruct the complete instruction, including ordinary one-character and short instructions.",
     "Preserve transient pre-send confirmation and exact provider delivery after explicit confirmation; do not execute a real Codex task, add remote control, push, release, publish, or expand command scope."
@@ -135,6 +135,21 @@
     ],
     "independent_qa_pass": [
       ".ai-org/artifacts/WI-0030/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/work-orders/WI-0030.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0030/independent-qa-report.md"
+    ],
+    "runtime_visual_review": [
+      "EVID-20260830T131422Z-1F689119"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0030/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0059/human-approval.md"
     ]
   },
   "evidence": [
@@ -148,13 +163,15 @@
     "EVID-20260830T125424Z-B921FF54",
     ".ai-org/artifacts/WI-0030/quality-test-report.md",
     ".ai-org/artifacts/WI-0030/evaluation-report.md",
-    ".ai-org/artifacts/WI-0030/independent-qa-report.md"
+    ".ai-org/artifacts/WI-0030/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0030/release-record.md",
+    "EVID-20260830T131422Z-1F689119"
   ],
   "unresolved": [
     "No command was sent to a real Codex task; real execution remains separately authorized and untested, with deterministic fixtures only.",
     "After process restart, a matching idempotency key and non-content request shape returns the prior result without dispatch; exact same-length content equality is intentionally unknowable because durable content and reversible digests are prohibited."
   ],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -164,5 +181,9 @@
       "created_at": "2026-08-30T12:54:31.163Z"
     }
   ],
-  "developer_candidate_revision": "ba066d73900ba2cba70366aeb65af11ec6b944d3"
+  "developer_candidate_revision": "ba066d73900ba2cba70366aeb65af11ec6b944d3",
+  "tested_revision": "ba066d73900ba2cba70366aeb65af11ec6b944d3",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0059/human-approval.md"
 }

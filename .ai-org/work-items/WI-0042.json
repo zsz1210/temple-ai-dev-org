@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0042",
   "title": "Add a private home-LAN read-only Dashboard viewer",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T23:19:27.179Z",
-  "updated_at": "2026-08-30T23:31:28.729Z",
+  "updated_at": "2026-08-31T08:50:16.053Z",
   "scope": [
     "Expose the redacted read-only Dashboard on one explicitly configured RFC1918 address while preserving the loopback control plane and the existing tailnet-only Tailscale viewer."
   ],
@@ -218,6 +218,21 @@
     ],
     "independent_qa_pass": [
       "EVID-20260830T233121Z-F3CBC060"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0042/product-spec.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0042/independent-qa-report.md"
+    ],
+    "runtime_visual_review": [
+      "EVID-20260830T233121Z-50313BBA"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0042/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0059/human-approval.md"
     ]
   },
   "evidence": [
@@ -240,10 +255,11 @@
     ".ai-org/artifacts/WI-0042/handoff-005-independent_qa-to-release_manager.md",
     ".ai-org/artifacts/WI-0042/independent-qa-report.md",
     "EVID-20260830T233121Z-F3CBC060",
-    "EVID-20260830T233121Z-50313BBA"
+    "EVID-20260830T233121Z-50313BBA",
+    ".ai-org/artifacts/WI-0042/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "product_manager",
@@ -281,5 +297,9 @@
       "created_at": "2026-08-30T23:31:28.468Z"
     }
   ],
-  "developer_candidate_revision": "5b622e242f71d8d45e606d23e34e511697aa8686"
+  "developer_candidate_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
+  "tested_revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0059/human-approval.md"
 }

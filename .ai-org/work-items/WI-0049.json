@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0049",
   "title": "Make Temple Workspace status language human-readable",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-31T03:43:07.298Z",
-  "updated_at": "2026-08-31T04:14:32.400Z",
+  "updated_at": "2026-08-31T08:50:17.794Z",
   "scope": [
     "Refine the human-facing Temple Workspace so open work, disclosure behavior, lifecycle status, and update freshness are understandable without exposing internal telemetry jargon in the primary reading path."
   ],
@@ -173,6 +173,21 @@
     ],
     "independent_qa_pass": [
       "EVID-20260831T041423Z-8E8005CF"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0049/product-spec.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0049/independent-qa-report.md"
+    ],
+    "runtime_visual_review": [
+      "EVID-20260831T041424Z-A613B250"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0049/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0059/human-approval.md"
     ]
   },
   "evidence": [
@@ -196,10 +211,11 @@
     ".ai-org/artifacts/WI-0049/handoff-006-independent_qa-to-release_manager.md",
     ".ai-org/artifacts/WI-0049/independent-qa-report.md",
     "EVID-20260831T041423Z-8E8005CF",
-    "EVID-20260831T041424Z-A613B250"
+    "EVID-20260831T041424Z-A613B250",
+    ".ai-org/artifacts/WI-0049/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -244,5 +260,9 @@
       "created_at": "2026-08-31T04:14:32.107Z"
     }
   ],
-  "developer_candidate_revision": "6acb200dbe5090dea7d1e10b212bcff5b8079938"
+  "developer_candidate_revision": "6acb200dbe5090dea7d1e10b212bcff5b8079938",
+  "tested_revision": "6acb200dbe5090dea7d1e10b212bcff5b8079938",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0059/human-approval.md"
 }

@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 58 total, 21 active
+- Work items: 59 total, 6 active
 - Codex tasks: 5 registered, 4 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -73,27 +73,27 @@
 | WI-0027 | Resolve terminal historical-evidence dashboard noise | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `591b4369` | 0 | 8 | 0 |
 | WI-0028 | Publish Alpha.27 private release checkpoint | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5e90ba28` | 0 | 8 | 0 |
 | WI-0029 | Prototype local Agent Command Gateway | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `38a185eb` | 1 | 8 | 1 |
-| WI-0030 | Prevent complete command retention | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `ba066d73` | 0 | 11 | 2 |
+| WI-0030 | Prevent complete command retention | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `ba066d73` | 0 | 13 | 2 |
 | WI-0031 | Harden Temple before the next release | spec | Product Manager | Yuna | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 0 |
-| WI-0032 | Sandbox federation participant Git inspection | release_gate | Release Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `27d735d8` | 0 | 14 | 0 |
+| WI-0032 | Sandbox federation participant Git inspection | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `024af612` | 0 | 15 | 0 |
 | WI-0033 | Establish operator-owned provider trust | spec | Product Manager | Yuna | blocked | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 1 |
-| WI-0034 | Make Dashboard current-state interaction trustworthy | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `7a528964` | 0 | 10 | 0 |
+| WI-0034 | Make Dashboard current-state interaction trustworthy | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `7a528964` | 0 | 12 | 0 |
 | WI-0035 | Reduce CI cost without hiding behavioral results | test | Quality & Evaluation Engineer | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0b02e1c5` | 0 | 7 | 1 |
-| WI-0036 | Add a private read-only Dashboard viewer | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `f68186ba` | 0 | 9 | 0 |
-| WI-0037 | Make private Dashboard shutdown cleanup signal-safe | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2b48a14a` | 0 | 9 | 0 |
-| WI-0038 | Reject invalid lifecycle gate evidence references | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `787c6faf` | 0 | 8 | 0 |
+| WI-0036 | Add a private read-only Dashboard viewer | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `f68186ba` | 0 | 12 | 0 |
+| WI-0037 | Make private Dashboard shutdown cleanup signal-safe | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2b48a14a` | 0 | 11 | 0 |
+| WI-0038 | Reject invalid lifecycle gate evidence references | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `787c6faf` | 0 | 10 | 0 |
 | WI-0039 | Expose truthful usage and model observability in the Dashboard | cancelled | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `—` | 0 | 1 | 0 |
-| WI-0040 | Expose truthful usage and model observability in the Dashboard | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `9de63df1` | 0 | 18 | 0 |
-| WI-0041 | Coalesce Dashboard refreshes after SSE replay | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `660f397a` | 0 | 18 | 0 |
-| WI-0042 | Add a private home-LAN read-only Dashboard viewer | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `5b622e24` | 0 | 20 | 0 |
+| WI-0040 | Expose truthful usage and model observability in the Dashboard | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `660f397a` | 0 | 19 | 0 |
+| WI-0041 | Coalesce Dashboard refreshes after SSE replay | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `660f397a` | 0 | 20 | 0 |
+| WI-0042 | Add a private home-LAN read-only Dashboard viewer | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `5b622e24` | 0 | 21 | 0 |
 | WI-0043 | Review Dashboard information architecture and operator usability | spec | Product Manager | Yuna | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `—` | 0 | 4 | 0 |
-| WI-0044 | Redesign Dashboard navigation and operator information architecture | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `d17a5f26` | 0 | 20 | 0 |
-| WI-0045 | Prioritize firing recovery conditions on Dashboard Now | release_gate | Release Manager | Mog | pending | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `fbb6aa96` | 0 | 20 | 0 |
-| WI-0046 | Reframe Control Plane as management console and add Organization | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `7f03cbca` | 0 | 18 | 0 |
-| WI-0047 | Make Temple Workspace human-first and fluid across screen sizes | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | preview-first | 1 | 0 | 0 | — | `b6bbe09e` | 0 | 22 | 0 |
-| WI-0048 | Adopt dark engineering style and visualize Temple structure | release_gate | Release Manager | Mog | pending | internal | 0 | gate-evidence | preview-first | 1 | 0 | 0 | — | `78495198` | 0 | 23 | 0 |
-| WI-0049 | Make Temple Workspace status language human-readable | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `6acb200d` | 0 | 21 | 0 |
-| WI-0050 | Design Temple effectiveness and multi-repository validation | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c9993415` | 0 | 22 | 0 |
+| WI-0044 | Redesign Dashboard navigation and operator information architecture | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `fbb6aa96` | 0 | 21 | 0 |
+| WI-0045 | Prioritize firing recovery conditions on Dashboard Now | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `fbb6aa96` | 0 | 21 | 0 |
+| WI-0046 | Reframe Control Plane as management console and add Organization | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `7f03cbca` | 0 | 19 | 0 |
+| WI-0047 | Make Temple Workspace human-first and fluid across screen sizes | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | preview-first | 1 | 0 | 0 | — | `b6bbe09e` | 0 | 23 | 0 |
+| WI-0048 | Adopt dark engineering style and visualize Temple structure | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | preview-first | 1 | 0 | 0 | — | `78495198` | 0 | 24 | 0 |
+| WI-0049 | Make Temple Workspace status language human-readable | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `6acb200d` | 0 | 22 | 0 |
+| WI-0050 | Design Temple effectiveness and multi-repository validation | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c9993415` | 0 | 23 | 0 |
 | WI-0051 | Run bounded Temple instrumentation pilot | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `7dc0080a` | 0 | 17 | 0 |
 | WI-0052 | Establish provider-owned Codex observability bridge | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `42044e99` | 0 | 16 | 0 |
 | WI-0053 | Define Temple self-development model selection policy | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0077b4ff` | 0 | 17 | 0 |
@@ -102,6 +102,7 @@
 | WI-0056 | Run the corrected provider-owned live Token proof | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ca33afdc` | 1 | 23 | 0 |
 | WI-0057 | Serialize concurrent telemetry journal appends | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `50765844` | 0 | 21 | 0 |
 | WI-0058 | Preserve Token history across telemetry rebuilds | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `31c78a2d` | 0 | 25 | 0 |
+| WI-0059 | Reconcile the nonterminal Work Item ledger | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831085026-8c20c0a9 | `—` | 0 | 9 | 0 |
 
 ## Codex task registry
 
@@ -214,14 +215,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T08:34:56.115Z | work_item_closed | WI-0058 | agent-mog |
-| 2026-08-31T08:34:56.115Z | release_gate_completed | WI-0058 | agent-mog |
-| 2026-08-31T08:34:55.842Z | work_item_claimed | WI-0058 | human |
-| 2026-08-31T08:34:55.567Z | work_item_transitioned | WI-0058 | agent-lulu |
-| 2026-08-31T08:34:55.301Z | handoff_created | WI-0058 | agent-lulu |
-| 2026-08-31T08:34:38.338Z | evidence_recorded | WI-0058 | human |
-| 2026-08-31T08:34:14.341Z | work_item_claimed | WI-0058 | human |
-| 2026-08-31T08:34:14.040Z | work_item_transitioned | WI-0058 | agent-lulu |
+| 2026-08-31T08:50:26.967Z | work_item_claimed | WI-0059 | human |
+| 2026-08-31T08:50:17.794Z | work_item_closed | WI-0049 | agent-mog |
+| 2026-08-31T08:50:17.794Z | release_gate_completed | WI-0049 | agent-mog |
+| 2026-08-31T08:50:17.507Z | work_item_closed | WI-0048 | agent-mog |
+| 2026-08-31T08:50:17.507Z | release_gate_completed | WI-0048 | agent-mog |
+| 2026-08-31T08:50:17.230Z | work_item_closed | WI-0047 | agent-mog |
+| 2026-08-31T08:50:17.230Z | release_gate_completed | WI-0047 | agent-mog |
+| 2026-08-31T08:50:16.914Z | work_item_closed | WI-0046 | agent-mog |
 
 ## Assignments
 

@@ -1,0 +1,163 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0059",
+  "title": "Reconcile the nonterminal Work Item ledger",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-31T08:45:01.256Z",
+  "updated_at": "2026-08-31T08:50:26.967Z",
+  "scope": [
+    "Audit every currently nonterminal Work Item against canonical evidence and classify it as organizationally complete, retained validation, decision-blocked, or active planning.",
+    "Close only evidence-complete release-gate items with external release explicitly not performed; preserve genuinely unfinished test and specification boundaries.",
+    "Rebuild project status and the parallel plan so the next multi-repository experiment starts from a truthful local baseline without creating experiment repositories or Codex tasks."
+  ],
+  "acceptance_criteria": [
+    "Every pre-existing nonterminal Work Item is named with a canonical evidence-backed disposition.",
+    "Every evidence-complete release-gate item receives an organizational closeout without publication, push, deployment, or external release.",
+    "Retained test and specification items remain nonterminal with their exact missing decision or validation recorded in the reconciliation report.",
+    "Status, Doctor, schema, repository checks, and the full verification suite pass after lifecycle reconciliation.",
+    "The resulting dashboard baseline distinguishes genuine retained work from completed historical work and contains no active claim created solely by reconciliation."
+  ],
+  "affected_paths": [
+    ".ai-org/work-items",
+    ".ai-org/project/evidence.json",
+    ".ai-org/events/events.jsonl",
+    ".ai-org/views",
+    ".ai-org/artifacts/WI-0059"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "0ac3aac979ef1c961243f1fa03927d4c2c15f547",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260831085026-8c20c0a9",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "0ac3aac979ef1c961243f1fa03927d4c2c15f547",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-08-31T08:50:26.967Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260831084637-06623504",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "0ac3aac979ef1c961243f1fa03927d4c2c15f547",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T08:46:37.925Z",
+      "released_at": "2026-08-31T08:46:38.454Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831084646-0fe78173",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "0ac3aac979ef1c961243f1fa03927d4c2c15f547",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T08:46:46.231Z",
+      "released_at": "2026-08-31T08:46:46.743Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831084654-6481927a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "0ac3aac979ef1c961243f1fa03927d4c2c15f547",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T08:46:54.864Z",
+      "released_at": "2026-08-31T08:46:55.377Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831085026-8c20c0a9",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "0ac3aac979ef1c961243f1fa03927d4c2c15f547",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T08:50:26.967Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0059/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0059/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0059.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0059/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0059/technical-design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0059/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0059/work-order.md",
+    ".ai-org/artifacts/WI-0059/human-approval.md",
+    ".ai-org/artifacts/WI-0059/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0059/product-spec.md",
+    ".ai-org/artifacts/WI-0059/reconciliation-plan.md",
+    ".ai-org/work-items/WI-0059.json",
+    ".ai-org/artifacts/WI-0059/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0059/technical-design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "0ac3aac979ef1c961243f1fa03927d4c2c15f547",
+      "artifact": ".ai-org/artifacts/WI-0059/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-08-31T08:46:38.182Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "0ac3aac979ef1c961243f1fa03927d4c2c15f547",
+      "artifact": ".ai-org/artifacts/WI-0059/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-31T08:46:46.482Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "0ac3aac979ef1c961243f1fa03927d4c2c15f547",
+      "artifact": ".ai-org/artifacts/WI-0059/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-08-31T08:46:55.117Z"
+    }
+  ]
+}

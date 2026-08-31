@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0034",
   "title": "Make Dashboard current-state interaction trustworthy",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T13:55:47.894Z",
-  "updated_at": "2026-08-30T16:16:53.370Z",
+  "updated_at": "2026-08-31T08:50:14.289Z",
   "scope": [
     "Preserve in-progress Agent Command input across unrelated live refreshes and make current, approval, QA, stale, and attention states truthful and discoverable before terminal history."
   ],
@@ -148,6 +148,21 @@
     ],
     "independent_qa_pass": [
       "EVID-20260830T161617Z-DC1B358B"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/work-orders/WI-0034.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0034/independent-qa-report.md"
+    ],
+    "runtime_visual_review": [
+      "EVID-20260830T161338Z-CF5CCFFA"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0034/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0059/human-approval.md"
     ]
   },
   "evidence": [
@@ -160,10 +175,12 @@
     "EVID-20260830T161338Z-CF5CCFFA",
     ".ai-org/artifacts/WI-0034/quality-test-report.md",
     ".ai-org/artifacts/WI-0034/evaluation-report.md",
-    "EVID-20260830T161617Z-DC1B358B"
+    "EVID-20260830T161617Z-DC1B358B",
+    ".ai-org/artifacts/WI-0034/release-record.md",
+    ".ai-org/artifacts/WI-0034/independent-qa-report.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -173,5 +190,9 @@
       "created_at": "2026-08-30T16:13:50.330Z"
     }
   ],
-  "developer_candidate_revision": "7a52896443e5055bd0b572f1df30e1536488c90f"
+  "developer_candidate_revision": "7a52896443e5055bd0b572f1df30e1536488c90f",
+  "tested_revision": "7a52896443e5055bd0b572f1df30e1536488c90f",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0059/human-approval.md"
 }

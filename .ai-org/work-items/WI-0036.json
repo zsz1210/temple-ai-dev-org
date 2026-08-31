@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0036",
   "title": "Add a private read-only Dashboard viewer",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T14:45:37.088Z",
-  "updated_at": "2026-08-30T15:42:32.993Z",
+  "updated_at": "2026-08-31T08:50:14.560Z",
   "scope": [
     "Expose the live Temple Dashboard through an explicitly trusted tailnet HTTPS reverse proxy while the control plane remains bound to 127.0.0.1 and every remote request remains read-only."
   ],
@@ -175,6 +175,21 @@
     ],
     "independent_qa_pass": [
       "EVID-20260830T154223Z-8D1B960C"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/work-orders/WI-0036.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0036/independent-qa-report.md"
+    ],
+    "runtime_visual_review": [
+      "EVID-20260830T154016Z-86813807"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0036/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0059/human-approval.md"
     ]
   },
   "evidence": [
@@ -186,10 +201,13 @@
     "EVID-20260830T145500Z-24370B0E",
     ".ai-org/artifacts/WI-0036/quality-test-report.md",
     ".ai-org/artifacts/WI-0036/evaluation-report.md",
-    "EVID-20260830T154223Z-8D1B960C"
+    "EVID-20260830T154223Z-8D1B960C",
+    ".ai-org/artifacts/WI-0036/release-record.md",
+    ".ai-org/artifacts/WI-0036/independent-qa-report.md",
+    "EVID-20260830T154016Z-86813807"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -199,5 +217,9 @@
       "created_at": "2026-08-30T14:55:07.830Z"
     }
   ],
-  "developer_candidate_revision": "f68186ba2c5ae20657847cbc651b3969b986db90"
+  "developer_candidate_revision": "f68186ba2c5ae20657847cbc651b3969b986db90",
+  "tested_revision": "f68186ba2c5ae20657847cbc651b3969b986db90",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0059/human-approval.md"
 }

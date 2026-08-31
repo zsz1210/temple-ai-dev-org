@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0050",
   "title": "Design Temple effectiveness and multi-repository validation",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-31T05:03:14.971Z",
-  "updated_at": "2026-08-31T05:22:07.073Z",
+  "updated_at": "2026-08-31T08:47:20.189Z",
   "scope": [
     "Classify the current nonterminal Work Item ledger into release-held, retained-validation, decision-blocked, and planning-parent groups without closing, releasing, or rewriting existing evidence.",
     "Design a bounded local-first experiment that combines a coordinator repository, three service repositories, real Codex task registration, cross-repository contracts, and at least ten completed varied Work Items.",
@@ -164,6 +164,18 @@
     ],
     "independent_qa_pass": [
       "EVID-20260831T052158Z-68D59A8D"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0050/product-spec.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0050/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0050/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0059/human-approval.md"
     ]
   },
   "evidence": [
@@ -188,10 +200,11 @@
     ".ai-org/artifacts/WI-0050/evaluation-report.md",
     ".ai-org/artifacts/WI-0050/handoff-006-independent_qa-to-release_manager.md",
     ".ai-org/artifacts/WI-0050/independent-qa-report.md",
-    "EVID-20260831T052158Z-68D59A8D"
+    "EVID-20260831T052158Z-68D59A8D",
+    ".ai-org/artifacts/WI-0050/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -236,5 +249,9 @@
       "created_at": "2026-08-31T05:22:06.788Z"
     }
   ],
-  "developer_candidate_revision": "c9993415ee1e4e3b9dafbe477f008f0375e7845c"
+  "developer_candidate_revision": "c9993415ee1e4e3b9dafbe477f008f0375e7845c",
+  "tested_revision": "c9993415ee1e4e3b9dafbe477f008f0375e7845c",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0059/human-approval.md"
 }

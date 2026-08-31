@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0046",
   "title": "Reframe Control Plane as management console and add Organization",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-31T00:43:14.596Z",
-  "updated_at": "2026-08-31T01:18:32.664Z",
+  "updated_at": "2026-08-31T08:50:16.914Z",
   "scope": [
     "Turn the current Dashboard shell into a Temple management console whose Now view is the operational dashboard, and add an always-visible Organization view backed by canonical Agent Identity, Position, Assignment, membership, and collaboration-profile data."
   ],
@@ -194,6 +194,18 @@
     ],
     "independent_qa_pass": [
       ".ai-org/artifacts/WI-0046/independent-qa-observation.json"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0046/product-spec.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0046/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0046/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0059/human-approval.md"
     ]
   },
   "evidence": [
@@ -214,10 +226,11 @@
     ".ai-org/artifacts/WI-0046/quality-report.md",
     ".ai-org/artifacts/WI-0046/handoff-006-independent_qa-to-release_manager.md",
     ".ai-org/artifacts/WI-0046/independent-qa-report.md",
-    ".ai-org/artifacts/WI-0046/independent-qa-observation.json"
+    ".ai-org/artifacts/WI-0046/independent-qa-observation.json",
+    ".ai-org/artifacts/WI-0046/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -262,5 +275,9 @@
       "created_at": "2026-08-31T01:18:24.816Z"
     }
   ],
-  "developer_candidate_revision": "7f03cbcab1100ffc94064674c954fa44196017f4"
+  "developer_candidate_revision": "7f03cbcab1100ffc94064674c954fa44196017f4",
+  "tested_revision": "7f03cbcab1100ffc94064674c954fa44196017f4",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0059/human-approval.md"
 }

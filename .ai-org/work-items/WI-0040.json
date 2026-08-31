@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0040",
   "title": "Expose truthful usage and model observability in the Dashboard",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T19:26:14.382Z",
-  "updated_at": "2026-08-30T19:48:11.802Z",
+  "updated_at": "2026-08-31T08:50:15.466Z",
   "scope": [
     "Add a read-only usage and model workspace to the control-plane snapshot and Dashboard using existing provider-reported attribution data.",
     "Preserve unknown values, qualification status, missing-dimension reasons, and model-routing non-authority instead of displaying fabricated savings, cost, or model conclusions."
@@ -241,6 +241,21 @@
     ],
     "independent_qa_pass": [
       "EVID-20260830T194807Z-B0D08A41"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0040/product-spec.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0040/independent-qa-report.md"
+    ],
+    "runtime_visual_review": [
+      "EVID-20260830T194745Z-C878B30A"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0040/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0059/human-approval.md"
     ]
   },
   "evidence": [
@@ -261,10 +276,11 @@
     "EVID-20260830T194745Z-C878B30A",
     ".ai-org/artifacts/WI-0040/handoff-006-independent_qa-to-release_manager.md",
     ".ai-org/artifacts/WI-0040/independent-qa-report.md",
-    "EVID-20260830T194807Z-B0D08A41"
+    "EVID-20260830T194807Z-B0D08A41",
+    ".ai-org/artifacts/WI-0040/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -309,5 +325,9 @@
       "created_at": "2026-08-30T19:48:07.798Z"
     }
   ],
-  "developer_candidate_revision": "9de63df1df394687d223d8ef453873e3d4fd653f"
+  "developer_candidate_revision": "9de63df1df394687d223d8ef453873e3d4fd653f",
+  "tested_revision": "660f397a6f17c805ec2ef0467d27c8a53ca28134",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0059/human-approval.md"
 }

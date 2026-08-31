@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0038",
   "title": "Reject invalid lifecycle gate evidence references",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T16:17:53.546Z",
-  "updated_at": "2026-08-30T16:23:10.544Z",
+  "updated_at": "2026-08-31T08:50:15.152Z",
   "scope": [
     "Validate every EVID-prefixed gate reference against the normalized evidence registry before any lifecycle transition mutates canonical state."
   ],
@@ -157,6 +157,18 @@
     ],
     "independent_qa_pass": [
       "EVID-20260830T162305Z-843DF0C3"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/work-orders/WI-0038.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0038/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0038/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0059/human-approval.md"
     ]
   },
   "evidence": [
@@ -167,10 +179,12 @@
     "EVID-20260830T162046Z-3DE14A9C",
     ".ai-org/artifacts/WI-0038/quality-test-report.md",
     ".ai-org/artifacts/WI-0038/evaluation-report.md",
-    "EVID-20260830T162305Z-843DF0C3"
+    "EVID-20260830T162305Z-843DF0C3",
+    ".ai-org/artifacts/WI-0038/release-record.md",
+    ".ai-org/artifacts/WI-0038/independent-qa-report.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -180,5 +194,9 @@
       "created_at": "2026-08-30T16:20:54.764Z"
     }
   ],
-  "developer_candidate_revision": "787c6faf4ea8e127e9308a7311628de0f0dc5eb9"
+  "developer_candidate_revision": "787c6faf4ea8e127e9308a7311628de0f0dc5eb9",
+  "tested_revision": "787c6faf4ea8e127e9308a7311628de0f0dc5eb9",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0059/human-approval.md"
 }
