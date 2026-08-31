@@ -112,6 +112,45 @@
         ],
         "history": []
       }
+    },
+    {
+      "id": "LESSON-0003",
+      "kind": "lesson",
+      "title": "Validate external wire contracts before live integration",
+      "summary": "Before the first live external-service call, inspect current official documentation and the exact installed schema or discovery endpoint, define explicit internal-to-wire mappings, and test emitted requests against that independently recorded contract. Mocks that repeat implementation assumptions do not prove compatibility; unsupported values must fail before provider contact and protocol drift must not trigger automatic retries.",
+      "status": "candidate",
+      "confidence": "high",
+      "tags": [
+        "external-integration",
+        "protocol",
+        "contract-test"
+      ],
+      "applies_to": [
+        "solo",
+        "collaborative"
+      ],
+      "source_work_items": [
+        "WI-0055"
+      ],
+      "path": ".ai-org/learning/lessons/LESSON-0003.md",
+      "updated_at": "2026-08-31T07:30:13.919Z",
+      "last_validated_at": null,
+      "promotion": {
+        "target": "none",
+        "status": "none",
+        "reference": null
+      },
+      "derived_from": [],
+      "owner_position": null,
+      "revalidation": {
+        "last_result": null,
+        "review_after": null,
+        "evidence_refs": [
+          ".ai-org/artifacts/WI-0054/live-proof-result.md",
+          ".ai-org/artifacts/WI-0055/protocol-research.md"
+        ],
+        "history": []
+      }
     }
   ]
 }

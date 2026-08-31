@@ -1,0 +1,136 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0055",
+  "title": "Harden Codex App Server protocol compatibility",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-31T07:25:33.369Z",
+  "updated_at": "2026-08-31T07:28:00.894Z",
+  "scope": [
+    "Translate Temple's internal Provider-owned launch policy values into the exact installed App Server wire protocol before thread/start.",
+    "Validate Provider-owned launch requests against an explicit compatibility contract and fail closed before a live thread call when a value is unsupported.",
+    "Preserve bounded App Server rejection metadata for diagnosis without retaining raw Provider payloads, prompts, credentials, or hidden reasoning."
+  ],
+  "acceptance_criteria": [
+    "Current App Server sandbox values are derived from inspected official documentation and the installed generated schema, with a documented internal-to-wire compatibility table.",
+    "Focused contract tests reject stale internal labels at the wire boundary and prove readOnly maps to read-only and workspaceWrite maps to workspace-write.",
+    "Provider launch errors retain a safe Temple reason code plus bounded RPC code classification, perform no automatic retry, and retain no raw rejection body.",
+    "Full verification and distinct Independent QA pass without any real thread/start, turn/start, model generation, Token use, external write, push, deployment, publication, or release."
+  ],
+  "affected_paths": [
+    "src/codex-app-server-provider.mjs",
+    "test/control-plane-live.test.mjs",
+    "docs/operations/token-efficiency-and-model-routing.md",
+    ".ai-org/artifacts/WI-0055",
+    ".ai-org/learning"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "35dcc8ed9ad9699b6a1204823aa4ae8d88d1c623",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-rikku",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0029: released claim; integrated provider bridge is the base and WI-0055 owns only protocol hardening.",
+    "WI-0030: released claim; privacy behavior is retained and WI-0055 does not change command content retention.",
+    "WI-0033: unclaimed Spec work; WI-0055 does not define provider trust policy and changes only installed-protocol compatibility.",
+    "WI-0034: released claim; current-state Dashboard behavior is retained.",
+    "WI-0040: released claim; usage projection behavior is retained and no routing authority is added.",
+    "WI-0044: released claim; Dashboard information architecture is unchanged.",
+    "WI-0046: released claim; Organization view behavior is unchanged.",
+    "WI-0047: released claim; responsive shell behavior is unchanged.",
+    "WI-0048: released claim; visual style and system diagrams are unchanged."
+  ],
+  "claim": {
+    "id": "claim-20260831072800-40d75191",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "35dcc8ed9ad9699b6a1204823aa4ae8d88d1c623",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-08-31T07:28:00.894Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260831072800-40d75191",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "35dcc8ed9ad9699b6a1204823aa4ae8d88d1c623",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T07:28:00.894Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0055/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0055/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0055.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0055/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0055/technical-design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0055/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0055/work-order.md",
+    ".ai-org/artifacts/WI-0055/human-approval.md",
+    ".ai-org/artifacts/WI-0055/protocol-research.md",
+    ".ai-org/artifacts/WI-0055/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0055/product-spec.md",
+    ".ai-org/work-items/WI-0055.json",
+    ".ai-org/artifacts/WI-0055/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0055/technical-design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "35dcc8ed9ad9699b6a1204823aa4ae8d88d1c623",
+      "artifact": ".ai-org/artifacts/WI-0055/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-08-31T07:27:59.208Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "35dcc8ed9ad9699b6a1204823aa4ae8d88d1c623",
+      "artifact": ".ai-org/artifacts/WI-0055/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-31T07:27:59.738Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "35dcc8ed9ad9699b6a1204823aa4ae8d88d1c623",
+      "artifact": ".ai-org/artifacts/WI-0055/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-08-31T07:28:00.300Z"
+    }
+  ]
+}

@@ -46,7 +46,24 @@ Current `main` includes a locally tested provider-owned launch primitive. It fol
 
 New task registrations distinguish `codex-host-owned` from `temple-provider-owned` execution. They can retain requested and effective model, reasoning effort, service tier when known, Provider ID, and three separate revisions: claim base, task launch, and current candidate. A successful request does not make the requested model an observed effective model, and the stable App Server launch surface does not currently accept a service-tier override. Legacy task documents remain valid and missing values remain unknown.
 
-The bridge has passed fake App Server tests only. This is not evidence that its threads appear in Codex Desktop, that a real account emits correlatable detailed usage in this environment, or that Temple reduces Tokens. No Dashboard launch control or remote mutation route exists. One live proof remains separately gated by an explicit model, reasoning, instruction, Token ceiling, retry ceiling, and wall-clock budget.
+The first bounded live proof reached the real App Server but failed before thread creation because Temple sent its internal `readOnly` label where the installed `thread/start` schema required `read-only`. No Temple task, turn, instruction delivery, model generation, or detailed Token observation followed, and the zero-retry boundary held. See the [WI-0054 result](../../.ai-org/artifacts/WI-0054/live-proof-result.md). This failure is not evidence that Luna, Codex Desktop, or detailed usage is unavailable; it is evidence that Provider readiness and self-consistent mocks do not prove wire compatibility.
+
+### App Server protocol compatibility gate
+
+Before a future live proof, Temple keeps its caller vocabulary separate from the inspected App Server wire contract:
+
+| Temple internal policy | `thread/start` | `turn/start` |
+|---|---|---|
+| `readOnly` | `read-only` | `sandboxPolicy.type = readOnly` with network disabled |
+| `workspaceWrite` | `workspace-write` | `sandboxPolicy.type = workspaceWrite` with explicit writable roots and network policy |
+| `never` | `never` | `never` |
+| `onRequest` | `on-request` | `on-request` |
+| `unlessTrusted` | `untrusted` | `untrusted` |
+| `onFailure` | unsupported; fail before Provider contact | no request |
+
+The contract snapshot records the official lifecycle source, inspected CLI version, and generated-schema digests in [WI-0055 protocol research](../../.ai-org/artifacts/WI-0055/protocol-research.md). Tests validate the emitted request against those separately recorded enums rather than teaching the fake Provider to accept Temple's internal names. A Provider rejection exposes only a stable Temple reason, integer JSON-RPC code when available, and bounded category; the raw Provider message remains outside returned and durable launch state.
+
+Passing the compatibility gate proves local encoding and fail-closed behavior only. No Dashboard launch control or remote mutation route exists, and another real proof still requires explicit approval for its exact model, reasoning, instruction, Token threshold, retry ceiling, and wall-clock boundary.
 
 Create a read-only report:
 

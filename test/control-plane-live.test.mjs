@@ -8,7 +8,9 @@ import { fileURLToPath } from "node:url";
 import {
   buildCodexRuntimeRequestResponse,
   classifyCodexAttachFailure,
+  classifyCodexProviderRejection,
   classifyCodexTasks,
+  codexProviderOwnedWirePolicy,
   normalizeCodexMessage,
   normalizeCodexThreadSnapshot,
   startCodexAppServerProvider,
@@ -28,9 +30,77 @@ import { openTelemetryJournal } from "../src/telemetry.mjs";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const cli = path.join(root, "bin/temple.mjs");
 
+const INSPECTED_APP_SERVER_V2_CONTRACT = Object.freeze({
+  source: "codex-cli 0.151.0-alpha.7.2 generated schema observed 2026-08-31",
+  threadStartParamsSha256: "792e2f32e37cece971bd616664ea2053741acbed4e9c92e9d1766427718f2ecd",
+  threadSandboxModes: Object.freeze(["read-only", "workspace-write", "danger-full-access"]),
+  approvalPolicies: Object.freeze(["untrusted", "on-request", "never"]),
+  turnSandboxPolicyTypes: Object.freeze(["dangerFullAccess", "readOnly", "externalSandbox", "workspaceWrite"])
+});
+
 function run(args) {
   return spawnSync(process.execPath, [cli, ...args], { encoding: "utf8" });
 }
+
+test("Provider-owned wire policy matches the inspected App Server v2 contract", () => {
+  const readOnly = codexProviderOwnedWirePolicy({
+    approvalPolicy: "onRequest",
+    sandboxMode: "readOnly",
+    networkAccess: true,
+    cwd: "/tmp/example"
+  });
+  assert.equal(readOnly.approvalPolicy, "on-request");
+  assert.equal(readOnly.threadSandboxMode, "read-only");
+  assert.deepEqual(readOnly.turnSandboxPolicy, { type: "readOnly", networkAccess: false });
+
+  const workspaceWrite = codexProviderOwnedWirePolicy({
+    approvalPolicy: "unlessTrusted",
+    sandboxMode: "workspaceWrite",
+    networkAccess: false,
+    cwd: "/tmp/example"
+  });
+  assert.equal(workspaceWrite.approvalPolicy, "untrusted");
+  assert.equal(workspaceWrite.threadSandboxMode, "workspace-write");
+  assert.deepEqual(workspaceWrite.turnSandboxPolicy, {
+    type: "workspaceWrite",
+    writableRoots: ["/tmp/example"],
+    networkAccess: false
+  });
+
+  for (const wireValue of [readOnly.threadSandboxMode, workspaceWrite.threadSandboxMode]) {
+    assert.ok(INSPECTED_APP_SERVER_V2_CONTRACT.threadSandboxModes.includes(wireValue));
+  }
+  for (const wireValue of [readOnly.approvalPolicy, workspaceWrite.approvalPolicy, "never"]) {
+    assert.ok(INSPECTED_APP_SERVER_V2_CONTRACT.approvalPolicies.includes(wireValue));
+  }
+  for (const policy of [readOnly.turnSandboxPolicy, workspaceWrite.turnSandboxPolicy]) {
+    assert.ok(INSPECTED_APP_SERVER_V2_CONTRACT.turnSandboxPolicyTypes.includes(policy.type));
+  }
+  assert.throws(
+    () => codexProviderOwnedWirePolicy({ approvalPolicy: "onFailure", sandboxMode: "readOnly", cwd: "/tmp/example" }),
+    (error) => error.reasonCode === "launch-request-invalid"
+  );
+  assert.throws(
+    () => codexProviderOwnedWirePolicy({ approvalPolicy: "never", sandboxMode: "read-only", cwd: "/tmp/example" }),
+    (error) => error.reasonCode === "launch-request-invalid"
+  );
+  assert.deepEqual(classifyCodexProviderRejection({ rpcCode: -32602, providerReason: "must not escape" }), {
+    providerRpcCode: -32602,
+    rejectionCategory: "invalid-request"
+  });
+  assert.deepEqual(classifyCodexProviderRejection({ rpcCode: -32601 }), {
+    providerRpcCode: -32601,
+    rejectionCategory: "method-unsupported"
+  });
+  assert.deepEqual(classifyCodexProviderRejection({ rpcCode: -32000 }), {
+    providerRpcCode: -32000,
+    rejectionCategory: "provider-rejected"
+  });
+  assert.deepEqual(classifyCodexProviderRejection(new Error("transport secret must not affect classification")), {
+    providerRpcCode: null,
+    rejectionCategory: "transport-unavailable"
+  });
+});
 
 async function writeJson(targetPath, value) {
   await fs.mkdir(path.dirname(targetPath), { recursive: true });
@@ -602,6 +672,8 @@ test("Codex App Server provider-owned launch registers before generation and cor
     const send=(value)=>process.stdout.write(JSON.stringify(value)+"\\n");
     const existing={id:"thread-live-001",status:{type:"idle"},turns:[]};
     const created={id:"thread-provider-owned-001",sessionId:"thread-provider-owned-001",status:{type:"idle"},ephemeral:false,modelProvider:"openai"};
+    const threadSandboxModes=${JSON.stringify(INSPECTED_APP_SERVER_V2_CONTRACT.threadSandboxModes)};
+    const approvalPolicies=${JSON.stringify(INSPECTED_APP_SERVER_V2_CONTRACT.approvalPolicies)};
     input.on("line",line=>{
       const message=JSON.parse(line);
       let registeredBeforeTurn=null;
@@ -613,8 +685,12 @@ test("Codex App Server provider-owned launch registers before generation and cor
       if(message.method==="initialize")send({jsonrpc:"2.0",id:message.id,result:{serverInfo:{version:"fixture-provider-owned"}}});
       else if(message.method==="thread/read")send({jsonrpc:"2.0",id:message.id,result:{thread:existing}});
       else if(message.method==="thread/start"){
-        send({jsonrpc:"2.0",method:"thread/started",params:{thread:created}});
-        send({jsonrpc:"2.0",id:message.id,result:{thread:created,instructionSources:[]}});
+        if(!threadSandboxModes.includes(message.params?.sandbox)||!approvalPolicies.includes(message.params?.approvalPolicy)){
+          send({jsonrpc:"2.0",id:message.id,error:{code:-32602,message:"wire contract rejected thread/start"}});
+        }else{
+          send({jsonrpc:"2.0",method:"thread/started",params:{thread:created}});
+          send({jsonrpc:"2.0",id:message.id,result:{thread:created,instructionSources:[]}});
+        }
       }else if(message.method==="turn/start"){
         const turn={id:"turn-provider-owned-001",status:"inProgress",items:[]};
         send({jsonrpc:"2.0",id:message.id,result:{turn}});
@@ -667,8 +743,30 @@ test("Codex App Server provider-owned launch registers before generation and cor
   assert.equal(Object.hasOwn(calls[threadStartIndex].params, "ephemeral"), false);
   assert.equal(calls[threadStartIndex].params.serviceName, "temple-control-plane");
   assert.equal(calls[threadStartIndex].params.model, "gpt-5.6-luna");
+  assert.equal(calls[threadStartIndex].params.approvalPolicy, "never");
+  assert.equal(calls[threadStartIndex].params.sandbox, "workspace-write");
   assert.equal(calls[turnStartIndex].params.model, "gpt-5.6-luna");
+  assert.equal(calls[turnStartIndex].params.approvalPolicy, "never");
+  assert.equal(calls[turnStartIndex].params.sandboxPolicy.type, "workspaceWrite");
   assert.equal(calls[turnStartIndex].params.sandboxPolicy.networkAccess, false);
+
+  await assert.rejects(
+    () => provider.launchProviderOwnedTask({
+      workItemId,
+      positionId: "engineering_manager",
+      actor: "agent-fixture-rowan",
+      instruction: "This invalid policy must not reach the Provider",
+      requestedModel: "gpt-5.6-luna",
+      reasoningEffort: "low",
+      launchRevision,
+      approvalPolicy: "onFailure",
+      sandboxMode: "readOnly",
+      networkAccess: false
+    }),
+    (error) => error.reasonCode === "launch-request-invalid"
+  );
+
+  assert.equal(calls.filter((entry) => entry.method === "thread/start").length, 1);
 
   const taskRegistry = JSON.parse(await fs.readFile(taskRegistryPath, "utf8"));
   const task = taskRegistry.tasks.find((entry) => entry.thread_id === "thread-provider-owned-001");
@@ -715,6 +813,85 @@ test("Codex App Server provider-owned launch registers before generation and cor
     JSON.stringify(registry.document())
   ].join("\n");
   assert.doesNotMatch(retained, /secret-provider-launch-marker/);
+});
+
+test("Codex App Server provider-owned thread rejection retains only bounded protocol metadata", async (context) => {
+  const { temporaryRoot, target, stateDirectory, workItemId } = await fixture(context);
+  const claimRevision = "1".repeat(40);
+  claimFixtureWorkItem(target, workItemId, claimRevision);
+  const callsPath = path.join(temporaryRoot, "thread-rejection-calls.jsonl");
+  const fakeServer = path.join(temporaryRoot, "fake-thread-rejection-app-server.mjs");
+  await fs.writeFile(fakeServer, `
+    import fs from "node:fs";
+    import readline from "node:readline";
+    const input=readline.createInterface({input:process.stdin});
+    const send=(value)=>process.stdout.write(JSON.stringify(value)+"\\n");
+    const existing={id:"thread-live-001",status:{type:"idle"},turns:[]};
+    input.on("line",line=>{
+      const message=JSON.parse(line);
+      fs.appendFileSync(${JSON.stringify(callsPath)},JSON.stringify({method:message.method,params:message.params??null})+"\\n");
+      if(message.method==="initialize")send({jsonrpc:"2.0",id:message.id,result:{serverInfo:{version:"fixture-thread-rejection"}}});
+      else if(message.method==="thread/read")send({jsonrpc:"2.0",id:message.id,result:{thread:existing}});
+      else if(message.method==="thread/start")send({jsonrpc:"2.0",id:message.id,error:{code:-32602,message:"secret-thread-rejection-marker"}});
+    });
+  `);
+  const journal = await openTelemetryJournal(stateDirectory, {
+    maxEvents: 100,
+    privacy: defaultControlPlaneConfig().privacy
+  });
+  context.after(() => journal.close());
+  const registry = createProviderRegistry([repositoryProviderContract()]);
+  const provider = await startCodexAppServerProvider(target, journal, registry, {
+    command: process.execPath,
+    commandArgs: [fakeServer],
+    resumeThreads: false,
+    reconnectMs: 60000
+  });
+  await provider.start();
+  context.after(() => provider.stop());
+
+  await assert.rejects(
+    () => provider.launchProviderOwnedTask({
+      workItemId,
+      positionId: "engineering_manager",
+      actor: "agent-fixture-rowan",
+      instruction: "secret-thread-rejection-marker must not be retained",
+      requestedModel: "gpt-5.6-luna",
+      reasoningEffort: "low",
+      launchRevision: "2".repeat(40),
+      approvalPolicy: "never",
+      sandboxMode: "readOnly",
+      networkAccess: false
+    }),
+    (error) => {
+      assert.equal(error.name, "CodexProviderOwnedLaunchError");
+      assert.equal(error.reasonCode, "thread-start-rejected");
+      assert.equal(error.providerRpcCode, -32602);
+      assert.equal(error.rejectionCategory, "invalid-request");
+      assert.equal(error.providerThreadId, null);
+      assert.equal(error.turnStarted, false);
+      assert.equal(error.automaticRetry, false);
+      assert.equal(error.instructionRetained, false);
+      assert.doesNotMatch(error.message, /secret-thread-rejection-marker/);
+      assert.doesNotMatch(JSON.stringify(error), /secret-thread-rejection-marker/);
+      return true;
+    }
+  );
+
+  const calls = (await fs.readFile(callsPath, "utf8")).trim().split("\n").map((line) => JSON.parse(line));
+  const threadStart = calls.find((entry) => entry.method === "thread/start");
+  assert.ok(threadStart);
+  assert.equal(threadStart.params.sandbox, "read-only");
+  assert.equal(threadStart.params.approvalPolicy, "never");
+  assert.equal(calls.filter((entry) => entry.method === "thread/start").length, 1);
+  assert.equal(calls.filter((entry) => entry.method === "turn/start").length, 0);
+  const retained = [
+    await fs.readFile(path.join(target, ".ai-org/project/tasks.json"), "utf8"),
+    await fs.readFile(path.join(target, ".ai-org/events/events.jsonl"), "utf8"),
+    JSON.stringify(journal.readAfter(0).records),
+    JSON.stringify(registry.document())
+  ].join("\n");
+  assert.doesNotMatch(retained, /secret-thread-rejection-marker/);
 });
 
 test("Codex App Server provider-owned launch never starts a turn after canonical registration failure", async (context) => {
@@ -781,6 +958,8 @@ test("Codex App Server provider-owned launch never starts a turn after canonical
   );
   const calls = (await fs.readFile(callsPath, "utf8")).trim().split("\n").map((line) => JSON.parse(line));
   assert.equal(calls.filter((entry) => entry.method === "thread/start").length, 1);
+  assert.equal(calls.find((entry) => entry.method === "thread/start").params.sandbox, "read-only");
+  assert.equal(calls.find((entry) => entry.method === "thread/start").params.approvalPolicy, "never");
   assert.equal(calls.filter((entry) => entry.method === "turn/start").length, 0);
   const retained = [
     await fs.readFile(path.join(target, ".ai-org/project/tasks.json"), "utf8"),
@@ -844,6 +1023,8 @@ test("Codex App Server provider-owned launch records attention without retry aft
   assert.equal(result.status, "provider-rejected");
   assert.equal(result.execution_status, "not-started");
   assert.equal(result.rejection_code, "turn-start-rejected");
+  assert.equal(result.provider_rpc_code, -32602);
+  assert.equal(result.rejection_category, "invalid-request");
   assert.equal(result.automatic_retry, false);
   assert.equal(result.instruction_retained, false);
   const calls = (await fs.readFile(callsPath, "utf8")).trim().split("\n").map((line) => JSON.parse(line));

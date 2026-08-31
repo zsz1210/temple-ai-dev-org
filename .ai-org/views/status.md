@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 54 total, 21 active
+- Work items: 55 total, 22 active
 - Codex tasks: 4 registered, 3 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -98,6 +98,7 @@
 | WI-0052 | Establish provider-owned Codex observability bridge | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `42044e99` | 0 | 16 | 0 |
 | WI-0053 | Define Temple self-development model selection policy | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0077b4ff` | 0 | 17 | 0 |
 | WI-0054 | Run the first bounded provider-owned live Token proof | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5de1ae88` | 0 | 22 | 0 |
+| WI-0055 | Harden Codex App Server protocol compatibility | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831072800-40d75191 | `—` | 0 | 9 | 0 |
 
 ## Codex task registry
 
@@ -208,14 +209,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T07:15:56.326Z | work_item_closed | WI-0054 | agent-mog |
-| 2026-08-31T07:15:56.326Z | release_gate_completed | WI-0054 | agent-mog |
-| 2026-08-31T07:15:56.045Z | work_item_claimed | WI-0054 | human |
-| 2026-08-31T07:15:45.144Z | work_item_transitioned | WI-0054 | agent-lulu |
-| 2026-08-31T07:15:40.888Z | handoff_created | WI-0054 | agent-lulu |
-| 2026-08-31T07:15:40.608Z | evidence_recorded | WI-0054 | human |
-| 2026-08-31T07:14:24.600Z | work_item_claimed | WI-0054 | human |
-| 2026-08-31T07:14:08.424Z | work_item_transitioned | WI-0054 | agent-lulu |
+| 2026-08-31T07:28:00.894Z | work_item_claimed | WI-0055 | human |
+| 2026-08-31T07:28:00.601Z | work_item_transitioned | WI-0055 | agent-tidus |
+| 2026-08-31T07:28:00.300Z | handoff_created | WI-0055 | agent-tidus |
+| 2026-08-31T07:28:00.015Z | work_item_transitioned | WI-0055 | agent-yuna |
+| 2026-08-31T07:27:59.738Z | handoff_created | WI-0055 | agent-yuna |
+| 2026-08-31T07:27:59.475Z | work_item_transitioned | WI-0055 | agent-mog |
+| 2026-08-31T07:27:59.208Z | handoff_created | WI-0055 | agent-mog |
+| 2026-08-31T07:25:58.057Z | work_item_coordination_configured | WI-0055 | agent-mog |
 
 ## Assignments
 

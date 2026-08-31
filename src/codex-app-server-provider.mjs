@@ -20,7 +20,7 @@ export const CODEX_TERMINAL_TASK_STATUSES = ["completed", "archived"];
 export const CODEX_TERMINAL_WORK_ITEM_STATES = ["done", "cancelled"];
 export const CODEX_AGENT_COMMAND_OPERATIONS = ["new-turn", "steer", "interrupt"];
 export const CODEX_PROVIDER_OWNED_INSTRUCTION_LIMIT = 4000;
-export const CODEX_PROVIDER_OWNED_APPROVAL_POLICIES = ["never", "onRequest", "onFailure", "unlessTrusted"];
+export const CODEX_PROVIDER_OWNED_APPROVAL_POLICIES = ["never", "onRequest", "unlessTrusted"];
 export const CODEX_PROVIDER_OWNED_SANDBOX_MODES = ["readOnly", "workspaceWrite"];
 export const CODEX_PROVIDER_OWNED_REASONING_EFFORTS = ["none", "low", "medium", "high", "xhigh", "max"];
 export const CODEX_ATTACH_OUTCOMES = ["detached", "pending", "history-only", "live-attached", "degraded"];
@@ -55,11 +55,24 @@ export class CodexProviderOwnedLaunchError extends Error {
     this.reasonCode = reasonCode;
     this.providerThreadId = details.providerThreadId ?? null;
     this.taskId = details.taskId ?? null;
+    this.providerRpcCode = Number.isInteger(details.providerRpcCode) ? details.providerRpcCode : null;
+    this.rejectionCategory = details.rejectionCategory ?? null;
     this.turnStarted = details.turnStarted === true;
     this.automaticRetry = false;
     this.instructionRetained = false;
   }
 }
+
+const PROVIDER_OWNED_APPROVAL_WIRE_VALUES = Object.freeze({
+  never: "never",
+  onRequest: "on-request",
+  unlessTrusted: "untrusted"
+});
+
+const PROVIDER_OWNED_SANDBOX_WIRE_VALUES = Object.freeze({
+  readOnly: "read-only",
+  workspaceWrite: "workspace-write"
+});
 
 const LIVE_TASK_STATUS_SET = new Set(CODEX_LIVE_TASK_STATUSES);
 const TERMINAL_TASK_STATUS_SET = new Set(CODEX_TERMINAL_TASK_STATUSES);
@@ -199,13 +212,41 @@ function providerOwnedLaunchRequest(request, target) {
   };
 }
 
-function turnSandboxPolicy(request) {
-  if (request.sandboxMode === "readOnly") return { type: "readOnly" };
+export function codexProviderOwnedWirePolicy(request) {
+  const approvalPolicy = PROVIDER_OWNED_APPROVAL_WIRE_VALUES[request?.approvalPolicy];
+  const threadSandboxMode = PROVIDER_OWNED_SANDBOX_WIRE_VALUES[request?.sandboxMode];
+  if (!approvalPolicy || !threadSandboxMode) {
+    throw new CodexProviderOwnedLaunchError(
+      "Provider-owned policy has no verified App Server wire mapping",
+      "launch-request-invalid"
+    );
+  }
+  const turnSandboxPolicy = request.sandboxMode === "readOnly"
+    ? { type: "readOnly", networkAccess: false }
+    : {
+        type: "workspaceWrite",
+        writableRoots: [request.cwd],
+        networkAccess: request.networkAccess === true
+      };
   return {
-    type: "workspaceWrite",
-    writableRoots: [request.cwd],
-    networkAccess: request.networkAccess
+    approvalPolicy,
+    threadSandboxMode,
+    turnSandboxPolicy
   };
+}
+
+export function classifyCodexProviderRejection(error) {
+  const providerRpcCode = Number.isInteger(error?.rpcCode) ? error.rpcCode : null;
+  if (providerRpcCode === -32600 || providerRpcCode === -32602) {
+    return { providerRpcCode, rejectionCategory: "invalid-request" };
+  }
+  if (providerRpcCode === -32601) {
+    return { providerRpcCode, rejectionCategory: "method-unsupported" };
+  }
+  if (providerRpcCode !== null) {
+    return { providerRpcCode, rejectionCategory: "provider-rejected" };
+  }
+  return { providerRpcCode: null, rejectionCategory: "transport-unavailable" };
 }
 
 function timestamp(value, fallback) {
@@ -1187,20 +1228,23 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
         "work-item-claim-mismatch"
       );
     }
+    const wirePolicy = codexProviderOwnedWirePolicy(launch);
 
     let threadResponse;
     try {
       threadResponse = await connection.request("thread/start", {
         model: launch.requestedModel,
         cwd: launch.cwd,
-        approvalPolicy: launch.approvalPolicy,
-        sandbox: launch.sandboxMode,
+        approvalPolicy: wirePolicy.approvalPolicy,
+        sandbox: wirePolicy.threadSandboxMode,
         serviceName: "temple-control-plane"
       }, options.launchTimeoutMs ?? 15000);
     } catch (error) {
+      const rejection = classifyCodexProviderRejection(error);
       throw new CodexProviderOwnedLaunchError(
         "Codex App Server did not create the provider-owned thread",
-        Number.isInteger(error?.rpcCode) ? "thread-start-rejected" : "thread-start-unavailable"
+        rejection.providerRpcCode !== null ? "thread-start-rejected" : "thread-start-unavailable",
+        rejection
       );
     }
     const thread = threadResponse?.thread;
@@ -1253,8 +1297,8 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
       input: [{ type: "text", text: launch.instruction }],
       turnTrigger: "user",
       cwd: launch.cwd,
-      approvalPolicy: launch.approvalPolicy,
-      sandboxPolicy: turnSandboxPolicy(launch),
+      approvalPolicy: wirePolicy.approvalPolicy,
+      sandboxPolicy: wirePolicy.turnSandboxPolicy,
       model: launch.requestedModel,
       ...(launch.reasoningEffort ? { effort: launch.reasoningEffort } : {})
     };
@@ -1298,12 +1342,13 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
         automatic_retry: false
       };
     } catch (error) {
-      const reasonCode = Number.isInteger(error?.rpcCode) ? "turn-start-rejected" : "turn-start-delivery-unknown";
+      const rejection = classifyCodexProviderRejection(error);
+      const reasonCode = rejection.providerRpcCode !== null ? "turn-start-rejected" : "turn-start-delivery-unknown";
       await markProviderOwnedTaskAttention(task, reasonCode);
       return {
-        status: Number.isInteger(error?.rpcCode) ? "provider-rejected" : "delivery-unknown",
-        transport_status: Number.isInteger(error?.rpcCode) ? "provider-rejected" : "delivery-unknown",
-        execution_status: Number.isInteger(error?.rpcCode) ? "not-started" : "unknown",
+        status: rejection.providerRpcCode !== null ? "provider-rejected" : "delivery-unknown",
+        transport_status: rejection.providerRpcCode !== null ? "provider-rejected" : "delivery-unknown",
+        execution_status: rejection.providerRpcCode !== null ? "not-started" : "unknown",
         task_id: task.id,
         provider_thread_id: thread.id,
         provider_turn_id: null,
@@ -1313,6 +1358,8 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
         service_tier: null,
         launch_revision: launch.launchRevision,
         rejection_code: reasonCode,
+        provider_rpc_code: rejection.providerRpcCode,
+        rejection_category: rejection.rejectionCategory,
         instruction_length: launch.instructionLength,
         instruction_retained: false,
         automatic_retry: false
