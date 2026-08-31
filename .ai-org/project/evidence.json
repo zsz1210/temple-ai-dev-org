@@ -7609,6 +7609,227 @@
         "exit_code": 0,
         "started_at": "2026-08-31T08:01:10.000Z"
       }
+    },
+    {
+      "id": "EVID-20260831T083307Z-76334028",
+      "work_item_id": "WI-0058",
+      "recorded_at": "2026-08-31T08:33:07.722Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Archive-aware Token history candidate",
+      "outcome": "verified",
+      "scope_revision": "31c78a2d7a523de6991c50de19db59235bc78166",
+      "observed_at": "2026-08-31T08:33:07.722Z",
+      "summary": "Exact committed candidate containing the bounded archive usage projection, Dashboard provenance copy, documentation, and regression coverage",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "31c78a2d7a523de6991c50de19db59235bc78166"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "31c78a2d7a523de6991c50de19db59235bc78166",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260831T083307Z-03C8C6FA",
+      "work_item_id": "WI-0058",
+      "recorded_at": "2026-08-31T08:33:07.984Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Archive-aware Token history developer verification",
+      "outcome": "pass",
+      "scope_revision": "31c78a2d7a523de6991c50de19db59235bc78166",
+      "observed_at": "2026-08-31T08:24:02.000Z",
+      "summary": "Focused tests and full verification passed 232 tests on the exact candidate revision",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0058/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0058/developer-test-observation.json",
+          "sha256": "746fff20675d5e25433a8641b4c3e073d6e8283b2f6ea2afe376bb8c201ff45e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0058/developer-evidence.md",
+          "sha256": "a3fe1e771faedfa464f9dda49c7b9da0d32683d6afd14faa74b3fede56476770"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0058/technical-design.md",
+          "sha256": "21c3a16ad62c598275b4886f510f906b2472605895695d4ad20170ecb47f3d38"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/phase-4b.test.mjs test/control-plane-foundation.test.mjs",
+          "npm run check",
+          "git diff --check",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T08:23:20.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T083308Z-B4168BA2",
+      "work_item_id": "WI-0058",
+      "recorded_at": "2026-08-31T08:33:08.249Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Live historical Token restoration and visual review",
+      "outcome": "pass",
+      "scope_revision": "31c78a2d7a523de6991c50de19db59235bc78166",
+      "observed_at": "2026-08-31T08:24:41.000Z",
+      "summary": "The immutable WI-0056 archive restored 23,433 Tokens in loopback and private-LAN Usage views without another model turn",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0058/runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0058/runtime-observation.json",
+          "sha256": "9279e8f981f5567f58beaf30b83c2034d0d014b1485d7bd53ddbd1cc367dbac4"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0058/developer-evidence.md",
+          "sha256": "a3fe1e771faedfa464f9dda49c7b9da0d32683d6afd14faa74b3fede56476770"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0058/ui-design-brief.md",
+          "sha256": "4420e9cfdf8202bfd41e20bd13257bc36f4737d25f5040ac8bbb8a080863f674"
+        }
+      ],
+      "details": {
+        "environment": "Temple self-host repository on the Mac Mini, loopback Control Plane with real Codex App Server observation, and 192.168.79.5 home-LAN read-only Temple Workspace",
+        "scenario": "Start the exact archive-aware candidate without another model turn, read the preserved WI-0056 Provider usage from immutable local archives, verify the loopback and LAN snapshots, and visually review Usage at wide and tablet widths",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260831T083354Z-E14BB802",
+      "work_item_id": "WI-0058",
+      "recorded_at": "2026-08-31T08:33:54.128Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Archive-aware Token history quality verification",
+      "outcome": "pass",
+      "scope_revision": "31c78a2d7a523de6991c50de19db59235bc78166",
+      "observed_at": "2026-08-31T08:26:24.000Z",
+      "summary": "Fresh detached-worktree focused tests and live archive/read-only boundary checks passed on the exact candidate",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0058/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0058/quality-test-observation.json",
+          "sha256": "cd07f7f85a3b2ab9ba12bc3c36e1efdde8fbdae6c23f11a95e2ead01ac1b8c11"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0058/quality-report.md",
+          "sha256": "8773328e42abe68c88576d7037a56a2bf910481c106e0583933243768d630968"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0058/evaluation-report.md",
+          "sha256": "fe86f7b8233dd2269d01b189d6dba6505dd9597588ac9d227fa2d3d062f6233f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0058/developer-test-observation.json",
+          "sha256": "746fff20675d5e25433a8641b4c3e073d6e8283b2f6ea2afe376bb8c201ff45e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0058/runtime-observation.json",
+          "sha256": "9279e8f981f5567f58beaf30b83c2034d0d014b1485d7bd53ddbd1cc367dbac4"
+        }
+      ],
+      "details": {
+        "command": [
+          "create a fresh detached worktree at the exact candidate",
+          "npm ci --ignore-scripts",
+          "node --test test/phase-4b.test.mjs test/control-plane-foundation.test.mjs",
+          "npm run check",
+          "inspect loopback and private-LAN snapshots and rehash both immutable archives"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T08:26:03.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T083438Z-F5AD00DB",
+      "work_item_id": "WI-0058",
+      "recorded_at": "2026-08-31T08:34:38.338Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Archive-aware Token history Independent QA",
+      "outcome": "pass",
+      "scope_revision": "31c78a2d7a523de6991c50de19db59235bc78166",
+      "observed_at": "2026-08-31T08:29:05.000Z",
+      "summary": "A second fresh detached worktree passed all 232 tests and Independent QA confirmed archive integrity, live projection, and responsive read-only Usage UI without generation",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0058/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0058/independent-qa-test-observation.json",
+          "sha256": "e1e8e1567f188a4a464cdec5cb99c2d9c1e359b6355962326969d6713e444c07"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0058/independent-qa-report.md",
+          "sha256": "7ca94b21857cd7b970c22ebf4e5d02616b9fef5d472c653dea19d7e23627b568"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0058/evaluation-report.md",
+          "sha256": "fe86f7b8233dd2269d01b189d6dba6505dd9597588ac9d227fa2d3d062f6233f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0058/runtime-observation.json",
+          "sha256": "9279e8f981f5567f58beaf30b83c2034d0d014b1485d7bd53ddbd1cc367dbac4"
+        }
+      ],
+      "details": {
+        "command": [
+          "create a second fresh detached worktree at the exact candidate",
+          "npm ci --ignore-scripts",
+          "npm run verify",
+          "read the live loopback usage projection without generation",
+          "rehash both immutable archives",
+          "use Playwright CLI against the private-LAN Usage view at 1024x768"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T08:27:25.000Z"
+      }
     }
   ]
 }

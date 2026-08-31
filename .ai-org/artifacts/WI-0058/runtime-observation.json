@@ -1,0 +1,76 @@
+{
+  "schema_version": "temple.runtime-observation/v1",
+  "revision": "31c78a2d7a523de6991c50de19db59235bc78166",
+  "environment": "Temple self-host repository on the Mac Mini, loopback Control Plane with real Codex App Server observation, and 192.168.79.5 home-LAN read-only Temple Workspace",
+  "scenario": "Start the exact archive-aware candidate without another model turn, read the preserved WI-0056 Provider usage from immutable local archives, verify the loopback and LAN snapshots, and visually review Usage at wide and tablet widths",
+  "result": "pass",
+  "provenance": "live",
+  "observed_at": "2026-08-31T08:24:41.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0058/developer-evidence.md",
+    ".ai-org/artifacts/WI-0058/ui-design-brief.md"
+  ],
+  "control_plane": {
+    "loopback_url": "http://127.0.0.1:54357/",
+    "home_lan_url": "http://192.168.79.5:41741/",
+    "repository_provider_status": "ready",
+    "codex_provider_status": "ready",
+    "lan_read_only": true,
+    "lan_daemon_field_exposed": false,
+    "lan_inbox_field_exposed": false,
+    "lan_recent_events_exposed": false,
+    "loopback_snapshot_sha256": "4463317c896e45c788daaf00340ed7b8508a6b9e13825851e3fae446feab7850",
+    "lan_snapshot_sha256": "ce2ef88f06c557d62d6bd0e2f363945de1d7a592db8b80ed88df80e9cb261ea7"
+  },
+  "usage": {
+    "history_status": "complete",
+    "active_observations_read": 0,
+    "archived_observations_read": 1,
+    "archived_observations_included": 1,
+    "duplicates_removed": 0,
+    "conflicting_identities": 0,
+    "total_tokens": 23433,
+    "input_tokens": 23400,
+    "cached_input_tokens": 9984,
+    "output_tokens": 33,
+    "reasoning_output_tokens": 16,
+    "work_item_id": "WI-0056",
+    "task_id": "task-0005",
+    "position_id": "developer",
+    "lifecycle_stage": "build",
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "max",
+    "monetary_cost": null,
+    "archive_mutation_performed": false,
+    "canonical_state_changed": false
+  },
+  "archives": [
+    {
+      "path": ".git/temple/control-plane/archive/events-2026-08-31T07-45-54-118Z.jsonl",
+      "sha256": "af32cd123e67beb0b0c128cc00306f13c128978c3e6e76cdf15eaae9d93da1"
+    },
+    {
+      "path": ".git/temple/control-plane/archive/events-2026-08-31T07-57-45-000Z.jsonl",
+      "sha256": "cc2933a36182a806740fc9bc804639e107c844d957358504b34cf5ac0b01384c"
+    }
+  ],
+  "visual_review": {
+    "browser": "Chromium through Playwright CLI",
+    "wide_viewport": "1440x1000",
+    "wide_screenshot_sha256": "810d8165e2c646bce8c9591e55ad31c8c3054f595c6711fcdae55be097a3f23c",
+    "tablet_viewport": "1024x768",
+    "tablet_screenshot_sha256": "ad7b91f0e97cd4bf9c216651d1d3f0b2b0a67f008ce8e74f876f56a11bbc18f2",
+    "expected_text_visible": [
+      "23,433",
+      "WI-0056",
+      "gpt-5.6-luna",
+      "Token totals include 1 validated observation restored from local history."
+    ],
+    "console_errors": 0,
+    "console_warnings": 0
+  },
+  "model_generation_requested": false,
+  "external_release_performed": false,
+  "publication_performed": false,
+  "push_performed": false
+}

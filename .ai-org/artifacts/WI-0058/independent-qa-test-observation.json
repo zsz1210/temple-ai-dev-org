@@ -1,0 +1,30 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "31c78a2d7a523de6991c50de19db59235bc78166",
+  "command": [
+    "create a second fresh detached worktree at the exact candidate",
+    "npm ci --ignore-scripts",
+    "npm run verify",
+    "read the live loopback usage projection without generation",
+    "rehash both immutable archives",
+    "use Playwright CLI against the private-LAN Usage view at 1024x768"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T08:27:25.000Z",
+  "completed_at": "2026-08-31T08:29:05.000Z",
+  "summary": {
+    "full_tests_passed": 232,
+    "full_tests_failed": 0,
+    "full_verify_duration_ms": 43977.728834,
+    "fresh_worktree_clean": true,
+    "full_verify_log_sha256": "2790bb60a6620441e97d55d232daf9473dedd3b89d9174a13d2c494c1cac8ab4",
+    "runtime_check_sha256": "8b7d6cc71062e569f4e935aabf5c7a3270e33299f78213e2cd9add769fa11c99",
+    "tablet_screenshot_sha256": "ffa68baa663cfb8da64a277e072d07c6375c0d5ae6d142a93e0c77b08c156324"
+  },
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0058/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0058/evaluation-report.md",
+    ".ai-org/artifacts/WI-0058/runtime-observation.json"
+  ]
+}

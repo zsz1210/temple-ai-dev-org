@@ -1,0 +1,28 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "31c78a2d7a523de6991c50de19db59235bc78166",
+  "command": [
+    "create a fresh detached worktree at the exact candidate",
+    "npm ci --ignore-scripts",
+    "node --test test/phase-4b.test.mjs test/control-plane-foundation.test.mjs",
+    "npm run check",
+    "inspect loopback and private-LAN snapshots and rehash both immutable archives"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T08:26:03.000Z",
+  "completed_at": "2026-08-31T08:26:24.000Z",
+  "summary": {
+    "focused_tests_passed": 24,
+    "focused_tests_failed": 0,
+    "fresh_worktree_clean": true,
+    "test_log_sha256": "417195aafcca0955b53eabc2455fd1e34e58b62ecfb8cba8588e5b3d4a73ddf3",
+    "runtime_check_sha256": "50c3e5a4a8eed6a942315efc95ef2ea99407db130ebd157484292f7b7a52ef2a"
+  },
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0058/quality-report.md",
+    ".ai-org/artifacts/WI-0058/evaluation-report.md",
+    ".ai-org/artifacts/WI-0058/developer-test-observation.json",
+    ".ai-org/artifacts/WI-0058/runtime-observation.json"
+  ]
+}
