@@ -1,0 +1,162 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0050",
+  "title": "Design Temple effectiveness and multi-repository validation",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-31T05:03:14.971Z",
+  "updated_at": "2026-08-31T05:13:47.804Z",
+  "scope": [
+    "Classify the current nonterminal Work Item ledger into release-held, retained-validation, decision-blocked, and planning-parent groups without closing, releasing, or rewriting existing evidence.",
+    "Design a bounded local-first experiment that combines a coordinator repository, three service repositories, real Codex task registration, cross-repository contracts, and at least ten completed varied Work Items.",
+    "Define truthful measurement, privacy, cost, stop conditions, and later authorization gates before creating repositories, GitHub resources, external CI runs, or implementation tasks."
+  ],
+  "acceptance_criteria": [
+    "The ledger review names every current nonterminal Work Item and recommends an explicit keep, defer, reconcile, or later-decision action without changing its lifecycle.",
+    "The validation plan defines repository topology, authority boundaries, participant roles, cross-service scenario, work-item matrix, contract ownership, integration flow, and failure injections.",
+    "The measurement protocol separates an instrumentation pilot from any later causal savings claim and defines Token, elapsed-time, context-recovery, overlap, rework, handoff, QA, and completion metrics.",
+    "The pilot requires at least ten correctly correlated completed Work Items across multiple task shapes before longitudinal Token or model-routing claims are eligible.",
+    "Human approval gates are explicit for external repositories, GitHub writes, hosted CI, material Token or compute cost, sensitive data, and any public or production action.",
+    "The planning slice stops with an independently reviewed plan; it creates no service repository, Codex task, GitHub resource, release, deployment, or public artifact."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0050",
+    "docs/planning/temple-effectiveness-and-microservice-validation.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "41f6df89f4b79fc13a2fc5501a5cf456e2f5bc3f",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260831051347-79945fe7",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "41f6df89f4b79fc13a2fc5501a5cf456e2f5bc3f",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-08-31T05:13:47.804Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260831050338-096f6cfe",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "41f6df89f4b79fc13a2fc5501a5cf456e2f5bc3f",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T05:03:38.414Z",
+      "released_at": "2026-08-31T05:08:39.694Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831050929-d4fe93f2",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "41f6df89f4b79fc13a2fc5501a5cf456e2f5bc3f",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T05:09:29.762Z",
+      "released_at": "2026-08-31T05:10:19.689Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831051019-db7a9fd9",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "41f6df89f4b79fc13a2fc5501a5cf456e2f5bc3f",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T05:10:19.990Z",
+      "released_at": "2026-08-31T05:13:47.494Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831051347-79945fe7",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "41f6df89f4b79fc13a2fc5501a5cf456e2f5bc3f",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T05:13:47.804Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0050/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0050/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0050.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0050/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0050/technical-design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0050/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0050/work-order.md",
+    ".ai-org/artifacts/WI-0050/current-ledger-review.md",
+    ".ai-org/artifacts/WI-0050/research-basis.md",
+    ".ai-org/artifacts/WI-0050/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0050/product-spec.md",
+    ".ai-org/work-items/WI-0050.json",
+    ".ai-org/artifacts/WI-0050/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0050/technical-design.md",
+    "docs/planning/temple-effectiveness-and-microservice-validation.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "41f6df89f4b79fc13a2fc5501a5cf456e2f5bc3f",
+      "artifact": ".ai-org/artifacts/WI-0050/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-08-31T05:08:39.377Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "41f6df89f4b79fc13a2fc5501a5cf456e2f5bc3f",
+      "artifact": ".ai-org/artifacts/WI-0050/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-31T05:10:19.409Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "41f6df89f4b79fc13a2fc5501a5cf456e2f5bc3f",
+      "artifact": ".ai-org/artifacts/WI-0050/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-08-31T05:13:47.198Z"
+    }
+  ]
+}
