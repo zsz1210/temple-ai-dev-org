@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0044",
   "title": "Redesign Dashboard navigation and operator information architecture",
-  "state": "independent_qa",
-  "owner_position": "independent_qa",
-  "assigned_agent_id": "agent-lulu",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T23:42:02.351Z",
-  "updated_at": "2026-08-31T00:16:53.083Z",
+  "updated_at": "2026-08-31T00:31:26.594Z",
   "scope": [
     "Replace the long single-page Dashboard with a responsive operational cockpit organized around Now, Execution, Usage, System, and History while preserving truthful evidence, privacy boundaries, and local-only mutation authority."
   ],
@@ -42,7 +42,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "d17a5f263e4e93eab2922d14e55456fd3d6c5b25",
+  "base_revision": "fbb6aa965baf1f7bbd6e4721e9735ddd4d882bbe",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -55,17 +55,17 @@
     "WI-0043 is the completed review input; WI-0044 implements its accepted hierarchy without rewriting that review artifact."
   ],
   "claim": {
-    "id": "claim-20260831000854-3d9433d4",
+    "id": "claim-20260831003110-1896f569",
     "status": "released",
     "principal_id": "human",
     "agent_id": "agent-lulu",
-    "base_revision": "d17a5f263e4e93eab2922d14e55456fd3d6c5b25",
+    "base_revision": "fbb6aa965baf1f7bbd6e4721e9735ddd4d882bbe",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-08-31T00:08:54.210Z",
-    "released_at": "2026-08-31T00:16:53.083Z",
+    "claimed_at": "2026-08-31T00:31:10.859Z",
+    "released_at": "2026-08-31T00:31:25.956Z",
     "release_reason": [
-      "independent_qa_failed_candidate_rework_required"
+      "independent_qa_candidate2_passed_release_gate_pending"
     ]
   },
   "claims": [
@@ -142,6 +142,20 @@
       "release_reason": [
         "independent_qa_failed_candidate_rework_required"
       ]
+    },
+    {
+      "id": "claim-20260831003110-1896f569",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "fbb6aa965baf1f7bbd6e4721e9735ddd4d882bbe",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T00:31:10.859Z",
+      "released_at": "2026-08-31T00:31:25.956Z",
+      "release_reason": [
+        "independent_qa_candidate2_passed_release_gate_pending"
+      ]
     }
   ],
   "gate_evidence": {
@@ -180,6 +194,9 @@
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0044/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260831T003101Z-2D914CCC"
     ]
   },
   "evidence": [
@@ -199,10 +216,13 @@
     "EVID-20260831T000812Z-92093458",
     ".ai-org/artifacts/WI-0044/handoff-004-quality_evaluator-to-independent_qa.md",
     ".ai-org/artifacts/WI-0044/quality-report.md",
-    ".ai-org/artifacts/WI-0044/evaluation-report.md"
+    ".ai-org/artifacts/WI-0044/evaluation-report.md",
+    ".ai-org/artifacts/WI-0044/handoff-005-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0044/independent-qa-pass-report.md",
+    "EVID-20260831T003101Z-2D914CCC"
   ],
   "unresolved": [],
-  "next_position": "release_manager",
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "product_manager",
@@ -231,6 +251,13 @@
       "input_revision": "d17a5f263e4e93eab2922d14e55456fd3d6c5b25",
       "artifact": ".ai-org/artifacts/WI-0044/handoff-004-quality_evaluator-to-independent_qa.md",
       "created_at": "2026-08-31T00:08:37.235Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "fbb6aa965baf1f7bbd6e4721e9735ddd4d882bbe",
+      "artifact": ".ai-org/artifacts/WI-0044/handoff-005-independent_qa-to-release_manager.md",
+      "created_at": "2026-08-31T00:31:17.809Z"
     }
   ],
   "developer_candidate_revision": "d17a5f263e4e93eab2922d14e55456fd3d6c5b25"

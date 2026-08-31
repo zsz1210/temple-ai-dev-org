@@ -5634,6 +5634,280 @@
         "exit_code": 1,
         "started_at": "2026-08-31T00:09:04Z"
       }
+    },
+    {
+      "id": "EVID-20260831T002425Z-02300A56",
+      "work_item_id": "WI-0045",
+      "recorded_at": "2026-08-31T00:24:25.239Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Dashboard recovery-priority candidate",
+      "outcome": "verified",
+      "scope_revision": "fbb6aa965baf1f7bbd6e4721e9735ddd4d882bbe",
+      "observed_at": "2026-08-31T00:24:25.239Z",
+      "summary": "Exact candidate groups firing stale-evidence conditions ahead of release bookkeeping.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "fbb6aa965baf1f7bbd6e4721e9735ddd4d882bbe"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "fbb6aa965baf1f7bbd6e4721e9735ddd4d882bbe",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260831T002425Z-2D672FEA",
+      "work_item_id": "WI-0045",
+      "recorded_at": "2026-08-31T00:24:25.529Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer verification",
+      "outcome": "pass",
+      "scope_revision": "fbb6aa965baf1f7bbd6e4721e9735ddd4d882bbe",
+      "observed_at": "2026-08-31T00:24:03Z",
+      "summary": "Focused tests and full repository verification passed on the exact candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0045/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0045/developer-test-observation.json",
+          "sha256": "51661dbaef1ca18ff7e277684eba2e00a85b71c03e352276bd34f2fe6a598597"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0045/developer-report.md",
+          "sha256": "d5478c315d5e1c024b72424d53737e1c8c04e2c81627a179af2d81aafd62172e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0045/product-spec.md",
+          "sha256": "c9d95d89f6fde328318a03071cc74ca0023df3ca25b1cbba42f45486d4c61053"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0045/technical-design.md",
+          "sha256": "1acd748bb5a884e0ce6f54d37f665fd93b5008f1de65d59fa1619e8ded3e4123"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0045/ui-brief.md",
+          "sha256": "a5fa63d0727c921754d161265cc8ff07ddf8d6a47c4d228a16a2fc90c52210e6"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/control-plane-foundation.test.mjs test/control-plane-inbox.test.mjs test/control-plane-live.test.mjs test/control-plane-private-viewer.test.mjs",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T00:21:34Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T002425Z-5B40836C",
+      "work_item_id": "WI-0045",
+      "recorded_at": "2026-08-31T00:24:25.831Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Private Dashboard browser verification",
+      "outcome": "pass",
+      "scope_revision": "fbb6aa965baf1f7bbd6e4721e9735ddd4d882bbe",
+      "observed_at": "2026-08-31T00:24:03Z",
+      "summary": "Tablet and mobile browser checks passed with bounded recovery priority and private-viewer redaction.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0045/runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0045/runtime-observation.json",
+          "sha256": "7606b06bbd25b844f13facd92202fa1780d0f6cb9d870aaa499940cccdb0fcda"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0045/developer-report.md",
+          "sha256": "d5478c315d5e1c024b72424d53737e1c8c04e2c81627a179af2d81aafd62172e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0045/ui-brief.md",
+          "sha256": "a5fa63d0727c921754d161265cc8ff07ddf8d6a47c4d228a16a2fc90c52210e6"
+        }
+      ],
+      "details": {
+        "environment": "Temple self-host repository on the Mac Mini, live exact 192.168.79.5 home-LAN read-only listener, and fresh Chromium sessions",
+        "scenario": "Render Dashboard Now on a private tablet viewport at 1024 by 1366 and mobile viewport at 420 by 900; verify grouped recovery priority and count, bounded attention, System navigation, underlying condition visibility, private-viewer redaction, console output, and horizontal overflow",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260831T002625Z-9BE08AA3",
+      "work_item_id": "WI-0045",
+      "recorded_at": "2026-08-31T00:26:25.361Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality verification",
+      "outcome": "pass",
+      "scope_revision": "fbb6aa965baf1f7bbd6e4721e9735ddd4d882bbe",
+      "observed_at": "2026-08-31T00:26:09Z",
+      "summary": "Fresh detached exact-candidate focused and full verification passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0045/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0045/quality-test-observation.json",
+          "sha256": "944eb67d927f939c49607575e89c112466c4f32997b729601e5f7ebd4720bff6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0045/quality-report.md",
+          "sha256": "82b69ac86028ed18110ce52ddf4e12f739a7fb13de1f3fee62cb938fc74ba886"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0045/product-spec.md",
+          "sha256": "c9d95d89f6fde328318a03071cc74ca0023df3ca25b1cbba42f45486d4c61053"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0045/technical-design.md",
+          "sha256": "1acd748bb5a884e0ce6f54d37f665fd93b5008f1de65d59fa1619e8ded3e4123"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0045/ui-brief.md",
+          "sha256": "a5fa63d0727c921754d161265cc8ff07ddf8d6a47c4d228a16a2fc90c52210e6"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/control-plane-foundation.test.mjs test/control-plane-inbox.test.mjs test/control-plane-live.test.mjs test/control-plane-private-viewer.test.mjs",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T00:24:58Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T003101Z-585AED0C",
+      "work_item_id": "WI-0045",
+      "recorded_at": "2026-08-31T00:31:01.514Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA pass",
+      "outcome": "pass",
+      "scope_revision": "fbb6aa965baf1f7bbd6e4721e9735ddd4d882bbe",
+      "observed_at": "2026-08-31T00:30:35Z",
+      "summary": "Independent reproduction passed and the prior Dashboard priority counterexample is corrected.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0045/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0045/independent-qa-observation.json",
+          "sha256": "1cccd404ea13825f20a1139dea455d89a0e16d700712ffe9e5a5e0b80775ea1f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0045/independent-qa-report.md",
+          "sha256": "63afbfc3476945ecfd42d228d1627ad572f74e517fb8d93b4c58a30822df2dbb"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0045/product-spec.md",
+          "sha256": "c9d95d89f6fde328318a03071cc74ca0023df3ca25b1cbba42f45486d4c61053"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0045/ui-brief.md",
+          "sha256": "a5fa63d0727c921754d161265cc8ff07ddf8d6a47c4d228a16a2fc90c52210e6"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/control-plane-foundation.test.mjs test/control-plane-inbox.test.mjs test/control-plane-live.test.mjs test/control-plane-private-viewer.test.mjs",
+          "npm run verify",
+          "playwright-cli private tablet and mobile counterexample review"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T00:27:16Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T003101Z-2D914CCC",
+      "work_item_id": "WI-0044",
+      "recorded_at": "2026-08-31T00:31:01.566Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA candidate-2 pass",
+      "outcome": "pass",
+      "scope_revision": "fbb6aa965baf1f7bbd6e4721e9735ddd4d882bbe",
+      "observed_at": "2026-08-31T00:30:35Z",
+      "summary": "Candidate 2 resolves the candidate-1 recovery-priority failure while retaining private read-only boundaries.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0044/independent-qa-pass-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0044/independent-qa-pass-observation.json",
+          "sha256": "f5ddfefca7e8525d29cddf8eff2a61ff08bcc19a73462630b7e7b247b1ab35d1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0044/independent-qa-pass-report.md",
+          "sha256": "35fa31f88c1c12cd4033d86a8edbecab78f1e986ba38a53c983c3613a120bdf6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0044/product-spec.md",
+          "sha256": "a1b3487c6faf6e09fea6a0dc60611dca6dbaa59f10a5dd8b484a0797ced0ed10"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0044/ui-brief.md",
+          "sha256": "8de3779f385d67de7c23c8258ac65303c05abe6f720d0ad0a24b817adf0fc1fd"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0045/independent-qa-report.md",
+          "sha256": "63afbfc3476945ecfd42d228d1627ad572f74e517fb8d93b4c58a30822df2dbb"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/control-plane-foundation.test.mjs test/control-plane-inbox.test.mjs test/control-plane-live.test.mjs test/control-plane-private-viewer.test.mjs",
+          "npm run verify",
+          "playwright-cli private tablet and mobile counterexample review"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T00:27:16Z"
+      }
     }
   ]
 }

@@ -12,7 +12,7 @@ Research date: 2026-08-31
 | [Nielsen Norman Group — Complex Application Design](https://www.nngroup.com/articles/complex-application-design/) | Reduce clutter without removing capability, provide flexible paths, ease movement between primary and secondary information, and make critical information salient by removing noise. | Navigation is non-linear, details stay in context, and historical noise moves away from operational attention. |
 | [Nielsen Norman Group — Prompt to Design Interfaces](https://www.nngroup.com/articles/vague-prototyping/) | AI-generated dashboards often suffer from repeated content, illogical flow, and large low-information cards when goals and hierarchy are vague. | Treat the prior page as a known failure mode; every prominent container must answer an operator question. |
 | [Grafana — Dashboard best practices](https://grafana.com/docs/grafana/latest/visualizations/dashboards/build-dashboards/best-practices/) | A dashboard should tell a story or answer a question, progress general-to-specific, reduce cognitive load, avoid unnecessary refresh, and support directed browsing. | Each Temple view owns one question; the existing SSE cadence remains provider-driven rather than adding UI polling. |
-| [Grafana — Alerting best practices](https://grafana.com/docs/grafana-cloud/observe-and-act/alert-and-measure-reliability/alerting/guides/best-practices/) | Alerts should be understandable and actionable by a first responder; informational alerts add noise and should not be escalated as action. | `Now` ranks blocked/runtime/actionable conditions above approvals and moves stale or informational evidence to History/System. |
+| [Grafana — Alerting best practices](https://grafana.com/docs/grafana-cloud/observe-and-act/alert-and-measure-reliability/alerting/guides/best-practices/) | Alerts should be understandable and actionable by a first responder; informational alerts add noise and should not be escalated as action. | `Now` ranks blocked/runtime/actionable conditions above approvals. Current firing stale-evidence conditions are grouped into one recovery signal that links to System; suppressed, resolved, or historical evidence stays in System/History. |
 
 ## Synthesis
 
@@ -29,7 +29,7 @@ The previous single page mixed all three layers. The redesign separates them whi
 1. Every view title is a question the view can answer.
 2. The landing view contains at most four supporting metrics.
 3. A warning shown in `Now` must identify an owner or concrete next action.
-4. Historical or informational evidence never outranks live work merely because it has a warning color.
+4. Current firing recovery conditions outrank release bookkeeping, but historical, suppressed, or informational evidence never outranks live work merely because it has a warning color.
 5. Unknown data uses explicit text; charts and large metric containers are omitted when evidence is insufficient.
 6. Primary navigation stays one level deep and the active destination has both structural and visual indication.
 7. Tablet keeps the persistent sidebar when enough width remains; mobile uses the same labels in a compact sticky row.
