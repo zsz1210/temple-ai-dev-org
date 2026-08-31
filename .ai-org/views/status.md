@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=true
-- Work items: 59 total, 5 active
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Parallel plan: 0 wave(s), fresh=false
+- Work items: 60 total, 6 active
 - Codex tasks: 5 registered, 4 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -16,7 +16,7 @@
 - Learning revalidation: 0 due, 0 contradicted
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 9
+- Attention signals: 10
 
 ## Collaboration
 
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -33,7 +33,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: yes
+- Fresh: no
 - Safe waves: 0
 - Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 3 / 2
@@ -103,6 +103,7 @@
 | WI-0057 | Serialize concurrent telemetry journal appends | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `50765844` | 0 | 21 | 0 |
 | WI-0058 | Preserve Token history across telemetry rebuilds | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `31c78a2d` | 0 | 25 | 0 |
 | WI-0059 | Reconcile the nonterminal Work Item ledger | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b505f004` | 0 | 22 | 0 |
+| WI-0060 | Show truthful Agent model state in Team | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260831091245-25ea816b | `—` | 0 | 8 | 0 |
 
 ## Codex task registry
 
@@ -159,6 +160,7 @@
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
+- Generated parallel plan is stale; rebuild it before dispatch
 - Parallel plan has 2 blocked Work Item(s)
 
 ## External tracker coordination
@@ -214,14 +216,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T08:58:42.713Z | work_item_closed | WI-0059 | agent-mog |
-| 2026-08-31T08:58:42.713Z | release_gate_completed | WI-0059 | agent-mog |
-| 2026-08-31T08:58:42.453Z | work_item_claimed | WI-0059 | human |
-| 2026-08-31T08:58:34.520Z | work_item_transitioned | WI-0059 | agent-lulu |
-| 2026-08-31T08:58:34.250Z | handoff_created | WI-0059 | agent-lulu |
-| 2026-08-31T08:58:26.765Z | evidence_recorded | WI-0059 | human |
-| 2026-08-31T08:56:42.040Z | work_item_claimed | WI-0059 | human |
-| 2026-08-31T08:56:33.428Z | work_item_transitioned | WI-0059 | agent-lulu |
+| 2026-08-31T09:12:45.632Z | work_item_claimed | WI-0060 | human |
+| 2026-08-31T09:12:45.335Z | work_item_transitioned | WI-0060 | agent-tidus |
+| 2026-08-31T09:12:45.058Z | work_item_claim_released | WI-0060 | human |
+| 2026-08-31T09:12:44.797Z | handoff_created | WI-0060 | agent-tidus |
+| 2026-08-31T09:11:57.987Z | work_item_claimed | WI-0060 | human |
+| 2026-08-31T09:11:57.692Z | work_item_transitioned | WI-0060 | agent-yuna |
+| 2026-08-31T09:11:57.432Z | work_item_claim_released | WI-0060 | human |
+| 2026-08-31T09:11:57.175Z | handoff_created | WI-0060 | agent-yuna |
 
 ## Assignments
 

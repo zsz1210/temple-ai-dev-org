@@ -1,0 +1,177 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0060",
+  "title": "Show truthful Agent model state in Team",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-31T09:09:59.365Z",
+  "updated_at": "2026-08-31T09:12:45.632Z",
+  "scope": [
+    "Add a human-readable model status to each active Agent card in Team without treating a model as a permanent Agent property.",
+    "Resolve model evidence from active registered task observations first, otherwise the latest correlated observation, while preserving requested versus effective model differences and unknown states.",
+    "Keep the private LAN viewer read-only and responsive, document the evidence boundary, and verify the Team view in a real browser."
+  ],
+  "acceptance_criteria": [
+    "Each active Agent card shows Active model, Last observed model, Requested model, or No model observation according to available evidence.",
+    "Effective or correlated observed model takes precedence over requested model; a requested-only value is never presented as observed execution.",
+    "Reasoning effort, task or Work Item provenance, and observation time are shown only when known without exposing prompt content or credentials.",
+    "The Team view remains usable at wide desktop, tablet, and mobile widths and the LAN viewer remains read-only.",
+    "Focused tests, full repository verification, and runtime visual review pass before organizational closeout."
+  ],
+  "affected_paths": [
+    "src/control-plane-dashboard.mjs",
+    "test/control-plane-foundation.test.mjs",
+    "docs/operations/control-plane.md",
+    ".ai-org/artifacts/WI-0060"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "code-first",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "c06ffb710e880902d45ee57352f1af0ff6af2fa8",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0029 retained at Test; WI-0060 changes only read-only Team model presentation and will preserve Agent Command Gateway behavior.",
+    "WI-0033 retained at Spec; WI-0060 does not change provider trust policy or external-provider authority.",
+    "WI-0043 retained at Spec; WI-0060 is the user-approved bounded Team model slice and does not resolve the broader Dashboard review."
+  ],
+  "claim": {
+    "id": "claim-20260831091245-25ea816b",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "c06ffb710e880902d45ee57352f1af0ff6af2fa8",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-08-31T09:12:45.632Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260831091004-5591b04a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "c06ffb710e880902d45ee57352f1af0ff6af2fa8",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T09:10:04.935Z",
+      "released_at": "2026-08-31T09:10:38.774Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260831091039-a5f1fe50",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "c06ffb710e880902d45ee57352f1af0ff6af2fa8",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T09:10:39.351Z",
+      "released_at": "2026-08-31T09:11:57.432Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260831091157-863a562d",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "c06ffb710e880902d45ee57352f1af0ff6af2fa8",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T09:11:57.987Z",
+      "released_at": "2026-08-31T09:12:45.058Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260831091245-25ea816b",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "c06ffb710e880902d45ee57352f1af0ff6af2fa8",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T09:12:45.632Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0060/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0060/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0060.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0060/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0060/technical-design.md"
+    ],
+    "ui_brief": [
+      ".ai-org/artifacts/WI-0060/ui-brief.md"
+    ],
+    "required_state_coverage": [
+      ".ai-org/artifacts/WI-0060/ui-brief.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0060/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0060/work-order.md",
+    ".ai-org/artifacts/WI-0060/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0060/product-spec.md",
+    ".ai-org/artifacts/WI-0060/ui-brief.md",
+    ".ai-org/work-items/WI-0060.json",
+    ".ai-org/artifacts/WI-0060/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0060/technical-design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "c06ffb710e880902d45ee57352f1af0ff6af2fa8",
+      "artifact": ".ai-org/artifacts/WI-0060/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-08-31T09:10:38.514Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "c06ffb710e880902d45ee57352f1af0ff6af2fa8",
+      "artifact": ".ai-org/artifacts/WI-0060/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-31T09:11:57.175Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "c06ffb710e880902d45ee57352f1af0ff6af2fa8",
+      "artifact": ".ai-org/artifacts/WI-0060/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-08-31T09:12:44.797Z"
+    }
+  ]
+}

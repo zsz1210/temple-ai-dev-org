@@ -18,6 +18,7 @@ import {
 } from "../src/telemetry.mjs";
 import { defaultControlPlaneConfig, validateControlPlaneConfig } from "../src/control-plane-config.mjs";
 import {
+  agentModelStatus,
   createRefreshCoordinator,
   normalizeDashboardAttention,
   renderControlPlaneDashboard
@@ -77,6 +78,97 @@ function event(id, data = {}) {
     data
   };
 }
+
+test("Team model status keeps active, observed, requested, and unknown evidence distinct", () => {
+  const snapshot = {
+    live_observer: {
+      work: {
+        items: [
+          {
+            id: "WI-1000",
+            tasks: [{
+              id: "task-history",
+              agent_id: "agent-rikku",
+              visibility: "history-only",
+              observed_status: "completed",
+              requested_model: "gpt-5.6-terra",
+              reasoning_effort: "high",
+              freshness: { observed_at: "2026-08-30T10:00:00.000Z" }
+            }]
+          },
+          {
+            id: "WI-1001",
+            tasks: [{
+              id: "task-live",
+              agent_id: "agent-rikku",
+              visibility: "live",
+              observed_status: "in-progress",
+              requested_model: "gpt-5.6-terra",
+              effective_model: "gpt-5.6-sol",
+              reasoning_effort: "xhigh",
+              freshness: { observed_at: "2026-08-31T10:00:00.000Z" }
+            }]
+          },
+          {
+            id: "WI-1002",
+            tasks: [{
+              id: "task-requested",
+              agent_id: "agent-yuna",
+              visibility: "registered-only",
+              observed_status: "unknown",
+              requested_model: "gpt-5.6-luna",
+              reasoning_effort: "max"
+            }]
+          },
+          {
+            id: "WI-1003",
+            tasks: [{
+              id: "task-unknown",
+              agent_id: "agent-lulu",
+              visibility: "history-only",
+              observed_status: "completed"
+            }]
+          }
+        ]
+      }
+    },
+    usage: {
+      driver_groups: [{
+        dimensions: { task_id: "task-history", model: "gpt-5.6-luna", reasoning_effort: "max" },
+        last_observed_at: "2026-08-30T10:00:00.000Z"
+      }]
+    }
+  };
+
+  assert.deepEqual(agentModelStatus(snapshot, "agent-rikku"), {
+    state: "active",
+    label: "Active model",
+    model: "gpt-5.6-sol",
+    requested_model: "gpt-5.6-terra",
+    model_version: null,
+    reasoning_effort: "xhigh",
+    work_item_id: "WI-1001",
+    task_id: "task-live",
+    observed_at: "2026-08-31T10:00:00.000Z"
+  });
+  assert.equal(agentModelStatus(snapshot, "agent-yuna").state, "requested");
+  assert.equal(agentModelStatus(snapshot, "agent-yuna").label, "Requested model");
+  assert.deepEqual(agentModelStatus(snapshot, "agent-lulu"), {
+    state: "unknown",
+    label: "No model observation",
+    model: null,
+    requested_model: null,
+    model_version: null,
+    reasoning_effort: null,
+    work_item_id: null,
+    task_id: null,
+    observed_at: null
+  });
+
+  snapshot.live_observer.work.items[1].tasks[0].visibility = "history-only";
+  assert.equal(agentModelStatus(snapshot, "agent-rikku").state, "observed");
+  assert.equal(agentModelStatus(snapshot, "agent-rikku").label, "Last observed");
+});
 
 test("Dashboard refresh coordination coalesces replay bursts without concurrent snapshot loads", async () => {
   let calls = 0;
@@ -486,6 +578,11 @@ test("Codex history bounds are validated and Temple Workspace exposes terminal w
   assert.match(html, /role="tablist"/);
   assert.match(html, /Structure/);
   assert.match(html, /Teammates/);
+  assert.match(html, /Active model/);
+  assert.match(html, /Last observed/);
+  assert.match(html, /Requested model/);
+  assert.match(html, /No model observation/);
+  assert.match(html, /No task-level model evidence is available/);
   assert.match(html, /organizationMode="structure"/);
   assert.match(html, /Product & Experience/);
   assert.match(html, /Engineering Delivery/);
