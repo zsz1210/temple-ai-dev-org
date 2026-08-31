@@ -1,0 +1,19 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "cdd05741de38f7c1148f16ae0a4f6db57b7a947c",
+  "command": [
+    "fresh detached worktree at exact revision",
+    "npm ci --offline --ignore-scripts",
+    "npm run verify",
+    "node ./templew.mjs doctor . --json",
+    "git diff --check",
+    "clean worktree assertion"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T09:50:49Z",
+  "completed_at": "2026-08-31T09:51:57Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0061/independent-qa-report.md"
+  ]
+}

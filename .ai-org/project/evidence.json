@@ -8236,6 +8236,122 @@
         "exit_code": 0,
         "started_at": "2026-08-31T09:25:35Z"
       }
+    },
+    {
+      "id": "EVID-20260831T094957Z-57425FBB",
+      "work_item_id": "WI-0061",
+      "recorded_at": "2026-08-31T09:49:57.049Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0061 approved proposal candidate",
+      "outcome": "verified",
+      "scope_revision": "cdd05741de38f7c1148f16ae0a4f6db57b7a947c",
+      "observed_at": "2026-08-31T09:49:57.049Z",
+      "summary": "Exact committed revision recording the human-approved pilot contract and execution boundary.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "cdd05741de38f7c1148f16ae0a4f6db57b7a947c"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "cdd05741de38f7c1148f16ae0a4f6db57b7a947c",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260831T095028Z-7C6E8374",
+      "work_item_id": "WI-0061",
+      "recorded_at": "2026-08-31T09:50:28.753Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0061 approval-record verification",
+      "outcome": "pass",
+      "scope_revision": "cdd05741de38f7c1148f16ae0a4f6db57b7a947c",
+      "observed_at": "2026-08-31T09:49:17Z",
+      "summary": "Repository checks, documentation links, Doctor, diff checks, and 233 tests passed for the approved proposal candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0061/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0061/quality-test-observation.json",
+          "sha256": "8200e8b5722c36016444ec18bdc0168c21bf65f61011f0e31fa969efced41e39"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0061/quality-report.md",
+          "sha256": "248c611eb157c758e8737594c6eee37204ec869c3d81ff50357d140e5cc469ab"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0061/evaluation-report.md",
+          "sha256": "a324016a22ee46ddb0e9cd1883edcd37e7b729ee0607d6f5ae7419181933ef79"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify",
+          "node ./templew.mjs doctor . --json",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T09:47:24Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T095218Z-8E4B5F41",
+      "work_item_id": "WI-0061",
+      "recorded_at": "2026-08-31T09:52:18.587Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0061 independent QA",
+      "outcome": "pass",
+      "scope_revision": "cdd05741de38f7c1148f16ae0a4f6db57b7a947c",
+      "observed_at": "2026-08-31T09:51:57Z",
+      "summary": "Fresh detached-worktree verification passed 233 tests and Doctor on the exact approved-proposal candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0061/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0061/independent-qa-test-observation.json",
+          "sha256": "be23933a01f741a656caa7b0e3ace67c5698bfaaeae3d54bf46328bce93c40bf"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0061/independent-qa-report.md",
+          "sha256": "c61560e5225a77558cf6c7c4cf9bef1f920fdac36e85fb19425a84647dc78d10"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached worktree at exact revision",
+          "npm ci --offline --ignore-scripts",
+          "npm run verify",
+          "node ./templew.mjs doctor . --json",
+          "git diff --check",
+          "clean worktree assertion"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T09:50:49Z"
+      }
     }
   ]
 }
