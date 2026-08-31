@@ -1,0 +1,22 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "c9993415ee1e4e3b9dafbe477f008f0375e7845c",
+  "command": [
+    "npm run verify in a fresh detached worktree using the existing local dependency directory",
+    "verify 21 of 21 nonterminal Work Items are named and at least 10 planned Work Item handles exist",
+    "verify required measurement and safety sections exist",
+    "git status --porcelain after removing the temporary dependency link"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T05:20:06.855Z",
+  "completed_at": "2026-08-31T05:21:12.551Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0050/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0050/current-ledger-review.md",
+    ".ai-org/artifacts/WI-0050/product-spec.md",
+    ".ai-org/artifacts/WI-0050/technical-design.md",
+    "docs/planning/temple-effectiveness-and-microservice-validation.md"
+  ]
+}
+

@@ -6789,6 +6789,211 @@
         "scenario": "At 390 CSS pixels, verify no horizontal overflow, exactly one Last updated status, absence of Snapshot current and healthy Live updates messages, private read-only boundary, Enter expansion to Hide details, Space collapse to View details, retained focus, and browser console output",
         "provenance": "live"
       }
+    },
+    {
+      "id": "EVID-20260831T051725Z-134A2E8F",
+      "work_item_id": "WI-0050",
+      "recorded_at": "2026-08-31T05:17:25.598Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0050 planning candidate",
+      "outcome": "verified",
+      "scope_revision": "c9993415ee1e4e3b9dafbe477f008f0375e7845c",
+      "observed_at": "2026-08-31T05:17:25.598Z",
+      "summary": "Reviewed planning candidate containing ledger classification, product scope, technical design, and human-facing execution plan.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "c9993415ee1e4e3b9dafbe477f008f0375e7845c"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "c9993415ee1e4e3b9dafbe477f008f0375e7845c",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260831T051725Z-310EF23E",
+      "work_item_id": "WI-0050",
+      "recorded_at": "2026-08-31T05:17:25.894Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0050 developer verification",
+      "outcome": "pass",
+      "scope_revision": "c9993415ee1e4e3b9dafbe477f008f0375e7845c",
+      "observed_at": "2026-08-31T05:16:50.709Z",
+      "summary": "Repository checks, documentation links, and all 223 tests passed; ledger review covers all 21 nonterminal Work Items.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0050/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0050/developer-test-observation.json",
+          "sha256": "f182685951372095b35f9eaa06f32609c7c0d39ecd5a5bf6890b196b618685dd"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0050/developer-report.md",
+          "sha256": "1ce48866df830e09dce82c810ed27c344a5a605353a886afc7283a5154df060c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0050/focused-test-results.md",
+          "sha256": "1440a3ed48e19491398b1ace7afbea80637b925b7727e28e0ad7415e4ddfb26c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0050/current-ledger-review.md",
+          "sha256": "562eb419f6d0647cf92daa8c9787b2098544cf4fe177513fbb4a603e83d7c53d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0050/product-spec.md",
+          "sha256": "05fd02c6d5641fc31660dfd2324caede8eb0e2f8487e67972409484946562ca9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0050/technical-design.md",
+          "sha256": "e51fedf884e74ca7d3947315a7b00b7b79a7a279daebf29543a35fbdf8889bcb"
+        },
+        {
+          "path": "docs/planning/temple-effectiveness-and-microservice-validation.md",
+          "sha256": "adc2fd5e8ad849b30e93ae506e53c69a67fafdc077624968667054b113d2a5f0"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T05:16:06.911Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T051843Z-24F60813",
+      "work_item_id": "WI-0050",
+      "recorded_at": "2026-08-31T05:18:43.485Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0050 quality review",
+      "outcome": "pass",
+      "scope_revision": "c9993415ee1e4e3b9dafbe477f008f0375e7845c",
+      "observed_at": "2026-08-31T05:18:02.442Z",
+      "summary": "Quality review passed acceptance coverage, 21-of-21 ledger completeness, documentation checks, and candidate path boundaries.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0050/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0050/quality-test-observation.json",
+          "sha256": "36a5bebd1c577a10a89f01baadcc67ee0db2a94bb6a6ee813b1cdff7479ddea4"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0050/quality-report.md",
+          "sha256": "0775edecf1fbf4a79e9f31f2ae25ef5bb65b4ed839bd8104bd0446f2358599b7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0050/evaluation-report.md",
+          "sha256": "8b4bb3a54bf57ecfda553bf3aad044ab8cb6d2b0dd275dda2474f810c110e869"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0050/current-ledger-review.md",
+          "sha256": "562eb419f6d0647cf92daa8c9787b2098544cf4fe177513fbb4a603e83d7c53d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0050/product-spec.md",
+          "sha256": "05fd02c6d5641fc31660dfd2324caede8eb0e2f8487e67972409484946562ca9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0050/technical-design.md",
+          "sha256": "e51fedf884e74ca7d3947315a7b00b7b79a7a279daebf29543a35fbdf8889bcb"
+        },
+        {
+          "path": "docs/planning/temple-effectiveness-and-microservice-validation.md",
+          "sha256": "adc2fd5e8ad849b30e93ae506e53c69a67fafdc077624968667054b113d2a5f0"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run check",
+          "verify all nonterminal Work Item IDs are present in current-ledger-review.md",
+          "verify candidate paths against the WI-0050 planning allowlist"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T05:18:02.004Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T052158Z-68D59A8D",
+      "work_item_id": "WI-0050",
+      "recorded_at": "2026-08-31T05:21:58.470Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0050 independent planning QA",
+      "outcome": "pass",
+      "scope_revision": "c9993415ee1e4e3b9dafbe477f008f0375e7845c",
+      "observed_at": "2026-08-31T05:21:12.551Z",
+      "summary": "Fresh detached-worktree QA passed 223 tests, reproduced 21-of-21 ledger coverage, reviewed 15 planned Work Items, and confirmed the experiment was not executed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0050/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0050/independent-qa-test-observation.json",
+          "sha256": "152f9241c75bf7813758ace4d923bfc6616d20f8ed47be35162f0fcd3d71bc73"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0050/independent-qa-report.md",
+          "sha256": "062d6d73cd4cc5c5df67019c8b8fd371cc4a262f7746b28053da74997821e7f3"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0050/current-ledger-review.md",
+          "sha256": "562eb419f6d0647cf92daa8c9787b2098544cf4fe177513fbb4a603e83d7c53d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0050/product-spec.md",
+          "sha256": "05fd02c6d5641fc31660dfd2324caede8eb0e2f8487e67972409484946562ca9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0050/technical-design.md",
+          "sha256": "e51fedf884e74ca7d3947315a7b00b7b79a7a279daebf29543a35fbdf8889bcb"
+        },
+        {
+          "path": "docs/planning/temple-effectiveness-and-microservice-validation.md",
+          "sha256": "adc2fd5e8ad849b30e93ae506e53c69a67fafdc077624968667054b113d2a5f0"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify in a fresh detached worktree using the existing local dependency directory",
+          "verify 21 of 21 nonterminal Work Items are named and at least 10 planned Work Item handles exist",
+          "verify required measurement and safety sections exist",
+          "git status --porcelain after removing the temporary dependency link"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T05:20:06.855Z"
+      }
     }
   ]
 }

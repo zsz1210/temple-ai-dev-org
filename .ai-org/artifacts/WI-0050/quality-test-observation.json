@@ -1,0 +1,22 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "c9993415ee1e4e3b9dafbe477f008f0375e7845c",
+  "command": [
+    "npm run check",
+    "verify all nonterminal Work Item IDs are present in current-ledger-review.md",
+    "verify candidate paths against the WI-0050 planning allowlist"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T05:18:02.004Z",
+  "completed_at": "2026-08-31T05:18:02.442Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0050/quality-report.md",
+    ".ai-org/artifacts/WI-0050/evaluation-report.md",
+    ".ai-org/artifacts/WI-0050/current-ledger-review.md",
+    ".ai-org/artifacts/WI-0050/product-spec.md",
+    ".ai-org/artifacts/WI-0050/technical-design.md",
+    "docs/planning/temple-effectiveness-and-microservice-validation.md"
+  ]
+}
+
