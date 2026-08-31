@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0053",
   "title": "Define Temple self-development model selection policy",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-31T06:55:57.215Z",
-  "updated_at": "2026-08-31T06:56:48.343Z",
+  "updated_at": "2026-08-31T07:00:11.765Z",
   "scope": [
     "Record a project-owned manual model-selection policy for Temple repository work using the GPT-5.6 family, without changing initialized-project defaults.",
     "Keep requested and effective model metadata distinct and keep automatic routing disabled until representative evidence exists.",
@@ -37,7 +37,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "bcea9b39fbb2bb7742d21d37cbd05d8970e1b0c4",
+  "base_revision": "0077b4ffcc96d7bb904adae2a6338dc7ed1163b8",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -45,27 +45,65 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260831065648-77888e79",
-    "status": "active",
+    "id": "claim-20260831070011-f7229a57",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "bcea9b39fbb2bb7742d21d37cbd05d8970e1b0c4",
+    "agent_id": "agent-mog",
+    "base_revision": "0077b4ffcc96d7bb904adae2a6338dc7ed1163b8",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-08-31T06:56:48.343Z",
-    "released_at": null
+    "claimed_at": "2026-08-31T07:00:11.475Z",
+    "released_at": "2026-08-31T07:00:11.765Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
       "id": "claim-20260831065648-77888e79",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "bcea9b39fbb2bb7742d21d37cbd05d8970e1b0c4",
       "branch": "main",
       "worktree": null,
       "claimed_at": "2026-08-31T06:56:48.343Z",
-      "released_at": null
+      "released_at": "2026-08-31T06:58:30.260Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831065830-6fdb9f19",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "0077b4ffcc96d7bb904adae2a6338dc7ed1163b8",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T06:58:30.564Z",
+      "released_at": "2026-08-31T06:58:46.135Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831065846-d0b3ae3b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "0077b4ffcc96d7bb904adae2a6338dc7ed1163b8",
+      "branch": "qa/wi-0053-model-policy",
+      "worktree": null,
+      "claimed_at": "2026-08-31T06:58:46.442Z",
+      "released_at": "2026-08-31T07:00:11.184Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831070011-f7229a57",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "0077b4ffcc96d7bb904adae2a6338dc7ed1163b8",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T07:00:11.475Z",
+      "released_at": "2026-08-31T07:00:11.765Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -83,6 +121,34 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0053/technical-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0053/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0053/developer-evidence.md",
+      ".ai-org/decisions/DEC-0002-temple-development-model-routing.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0053/test-evidence.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0053/evaluation-report.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0053/independent-qa-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0053/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0053/product-spec.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0053/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0053/human-approval.md"
     ]
   },
   "evidence": [
@@ -93,10 +159,19 @@
     ".ai-org/artifacts/WI-0053/product-spec.md",
     ".ai-org/work-items/WI-0053.json",
     ".ai-org/artifacts/WI-0053/handoff-003-tech_lead-to-developer.md",
-    ".ai-org/artifacts/WI-0053/technical-design.md"
+    ".ai-org/artifacts/WI-0053/technical-design.md",
+    ".ai-org/artifacts/WI-0053/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0053/developer-evidence.md",
+    ".ai-org/decisions/DEC-0002-temple-development-model-routing.md",
+    ".ai-org/artifacts/WI-0053/test-evidence.md",
+    ".ai-org/artifacts/WI-0053/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0053/evaluation-report.md",
+    ".ai-org/artifacts/WI-0053/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0053/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0053/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -118,6 +193,32 @@
       "input_revision": "bcea9b39fbb2bb7742d21d37cbd05d8970e1b0c4",
       "artifact": ".ai-org/artifacts/WI-0053/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-08-31T06:56:47.771Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "0077b4ffcc96d7bb904adae2a6338dc7ed1163b8",
+      "artifact": ".ai-org/artifacts/WI-0053/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-31T06:58:29.982Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "0077b4ffcc96d7bb904adae2a6338dc7ed1163b8",
+      "artifact": ".ai-org/artifacts/WI-0053/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-08-31T06:58:45.855Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "0077b4ffcc96d7bb904adae2a6338dc7ed1163b8",
+      "artifact": ".ai-org/artifacts/WI-0053/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-08-31T07:00:10.902Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "0077b4ffcc96d7bb904adae2a6338dc7ed1163b8",
+  "tested_revision": "0077b4ffcc96d7bb904adae2a6338dc7ed1163b8",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0053/human-approval.md"
 }
