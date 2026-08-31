@@ -8497,6 +8497,129 @@
         "exit_code": 0,
         "started_at": "2026-08-31T10:08:08Z"
       }
+    },
+    {
+      "id": "EVID-20260831T103147Z-6591145A",
+      "work_item_id": "WI-0063",
+      "recorded_at": "2026-08-31T10:31:47.782Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Provider model attribution candidate",
+      "outcome": "verified",
+      "scope_revision": "c44bbdf5b680244311b1aa8205b8581f1cd0a391",
+      "observed_at": "2026-08-31T10:31:47.782Z",
+      "summary": "Exact developer candidate for top-level Provider acknowledgement and serialized reroute attribution.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "c44bbdf5b680244311b1aa8205b8581f1cd0a391"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "c44bbdf5b680244311b1aa8205b8581f1cd0a391",
+        "working_tree_dirty": false
+      }
+    },
+    {
+      "id": "EVID-20260831T103427Z-030B3E98",
+      "work_item_id": "WI-0063",
+      "recorded_at": "2026-08-31T10:34:27.249Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Exact-candidate quality verification",
+      "outcome": "pass",
+      "scope_revision": "c44bbdf5b680244311b1aa8205b8581f1cd0a391",
+      "observed_at": "2026-08-31T10:34:06Z",
+      "summary": "Detached local worktree: control-plane 20/20, full verification 234/234, Doctor healthy with one stale generated-plan warning.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0063/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0063/quality-test-observation.json",
+          "sha256": "33eac5658f2ce57bc056b4078a0d0c5f4e7b85bce979e1efc8d8041aac4e2c84"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0063/quality-report.md",
+          "sha256": "08f6f73cc15427096c1e7667acb809911ba5641936582c774a0e3d66d90c0881"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0063/evaluation-report.md",
+          "sha256": "ae6321d31bf87904341c0b22840ba7f9deda688e8e64c6b9c5f484fb4ee701fd"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm ci --offline --ignore-scripts in a detached worktree",
+          "node --test test/control-plane-live.test.mjs in the detached worktree",
+          "npm run verify in the detached worktree",
+          "Doctor in the detached worktree"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T10:32:08Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T103746Z-6105EF4E",
+      "work_item_id": "WI-0063",
+      "recorded_at": "2026-08-31T10:37:46.815Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent exact-candidate verification",
+      "outcome": "pass",
+      "scope_revision": "c44bbdf5b680244311b1aa8205b8581f1cd0a391",
+      "observed_at": "2026-08-31T10:37:22Z",
+      "summary": "Second detached worktree after entering Independent QA: 234/234, Doctor healthy with one stale generated-plan warning.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0063/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0063/independent-qa-test-observation.json",
+          "sha256": "eb0396cc64f793329d33f2da0a277aa18dcdc384039df079ef8b9f9fb9c10fd9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0063/independent-qa-report.md",
+          "sha256": "9b3353f2c3e1616b23288c8b7dde1fb64cd0663e6ee723e47c0b3ce4f185aeed"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0063/developer-report.md",
+          "sha256": "7edc8bb8de36f0836d3e7ba06c0ae375868ec51707a9f9f08d48dd23c78727a0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0063/quality-report.md",
+          "sha256": "08f6f73cc15427096c1e7667acb809911ba5641936582c774a0e3d66d90c0881"
+        }
+      ],
+      "details": {
+        "command": [
+          "confirm exact revision and clean detached worktree",
+          "npm ci --offline --ignore-scripts in an Independent QA worktree",
+          "npm run verify after entering the independent_qa lifecycle state",
+          "Doctor after entering the independent_qa lifecycle state"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T10:36:15Z"
+      }
     }
   ]
 }
