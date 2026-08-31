@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0073",
   "title": "Consolidate evidence durability CI fixtures",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-31T15:57:54.960Z",
-  "updated_at": "2026-08-31T16:07:52.377Z",
+  "updated_at": "2026-08-31T16:35:42.808Z",
   "scope": [
     "Preserve every WI-0072 regression scenario while reducing repeated Temple fixture initialization and Doctor work on constrained hosted runners."
   ],
@@ -89,14 +89,15 @@
   "overlap_resolution": [],
   "claim": {
     "id": "claim-20260831160752-f3eedf27",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-mog",
     "base_revision": "ddbf04a84903b8883ad5c32bc5f2cea93c368654",
     "branch": "codex/wi-0073-ci-fixture-consolidation",
     "worktree": null,
     "claimed_at": "2026-08-31T16:07:52.377Z",
-    "released_at": null
+    "released_at": "2026-08-31T16:35:42.808Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -185,14 +186,15 @@
     },
     {
       "id": "claim-20260831160752-f3eedf27",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-mog",
       "base_revision": "ddbf04a84903b8883ad5c32bc5f2cea93c368654",
       "branch": "codex/wi-0073-ci-fixture-consolidation",
       "worktree": null,
       "claimed_at": "2026-08-31T16:07:52.377Z",
-      "released_at": null
+      "released_at": "2026-08-31T16:35:42.808Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -220,7 +222,8 @@
       ".ai-org/artifacts/WI-0073/developer-verification.md"
     ],
     "test_evidence": [
-      ".ai-org/artifacts/WI-0073/quality-test-observation.json"
+      ".ai-org/artifacts/WI-0073/quality-test-observation.json",
+      "EVID-20260831T163532Z-7DB57BD3"
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0073/evaluation-report.md"
@@ -230,6 +233,15 @@
     ],
     "independent_qa_report": [
       ".ai-org/artifacts/WI-0073/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0073/optimization-plan.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0073/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -247,10 +259,12 @@
     ".ai-org/artifacts/WI-0073/evaluation-report.md",
     ".ai-org/artifacts/WI-0073/handoff-006-independent_qa-to-release_manager.md",
     ".ai-org/artifacts/WI-0073/independent-qa-report.md",
-    ".ai-org/artifacts/WI-0073/independent-qa-observation.json"
+    ".ai-org/artifacts/WI-0073/independent-qa-observation.json",
+    ".ai-org/artifacts/WI-0073/release-record.md",
+    "EVID-20260831T163532Z-7DB57BD3"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -295,5 +309,9 @@
       "created_at": "2026-08-31T16:07:51.362Z"
     }
   ],
-  "developer_candidate_revision": "ddbf04a84903b8883ad5c32bc5f2cea93c368654"
+  "developer_candidate_revision": "ddbf04a84903b8883ad5c32bc5f2cea93c368654",
+  "tested_revision": "66bc5dd8b6f1a4bc5016039ca7af36303f401fc8",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

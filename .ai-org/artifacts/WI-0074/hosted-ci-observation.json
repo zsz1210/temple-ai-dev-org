@@ -1,0 +1,19 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "66bc5dd8b6f1a4bc5016039ca7af36303f401fc8",
+  "command": [
+    "gh",
+    "run",
+    "view",
+    "33414248025"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T16:28:06.000Z",
+  "completed_at": "2026-08-31T16:34:21.000Z",
+  "artifact_refs": [
+    "test/control-plane-live.test.mjs",
+    "test/control-plane-private-viewer.test.mjs"
+  ],
+  "summary": "GitHub Actions verify completed successfully in 6 minutes 15 seconds under the unchanged 10-minute job limit; both repaired control-plane suites and the 250-test full suite passed. Run: https://github.com/zsz1210/temple-ai-dev-org/actions/runs/33414248025"
+}

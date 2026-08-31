@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0074",
   "title": "Remove hosted control-plane test races",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-31T16:08:17.455Z",
-  "updated_at": "2026-08-31T16:16:00.997Z",
+  "updated_at": "2026-08-31T16:35:54.561Z",
   "scope": [
     "Replace timing-based control-plane assertions with durable event waits and stop the private-viewer server before fixture cleanup so hosted CI exits deterministically."
   ],
@@ -84,7 +84,7 @@
   "base_revision": "947d4e70cf44ba65c9ec2c69bcbe295e1ed7f29b",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
-  "planned_agent_id": "agent-mog",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [
@@ -92,14 +92,15 @@
   ],
   "claim": {
     "id": "claim-20260831161600-c0733b38",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-mog",
     "base_revision": "947d4e70cf44ba65c9ec2c69bcbe295e1ed7f29b",
     "branch": "codex/wi-0074-control-plane-ci-races",
     "worktree": null,
     "claimed_at": "2026-08-31T16:16:00.997Z",
-    "released_at": null
+    "released_at": "2026-08-31T16:35:54.561Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -188,14 +189,15 @@
     },
     {
       "id": "claim-20260831161600-c0733b38",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-mog",
       "base_revision": "947d4e70cf44ba65c9ec2c69bcbe295e1ed7f29b",
       "branch": "codex/wi-0074-control-plane-ci-races",
       "worktree": null,
       "claimed_at": "2026-08-31T16:16:00.997Z",
-      "released_at": null
+      "released_at": "2026-08-31T16:35:54.561Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -223,7 +225,8 @@
       ".ai-org/artifacts/WI-0074/developer-verification.md"
     ],
     "test_evidence": [
-      ".ai-org/artifacts/WI-0074/quality-test-observation.json"
+      ".ai-org/artifacts/WI-0074/quality-test-observation.json",
+      "EVID-20260831T163532Z-A25E77DA"
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0074/evaluation-report.md"
@@ -233,6 +236,15 @@
     ],
     "independent_qa_report": [
       ".ai-org/artifacts/WI-0074/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0074/ci-race-repair.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0074/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -249,10 +261,12 @@
     ".ai-org/artifacts/WI-0074/evaluation-report.md",
     ".ai-org/artifacts/WI-0074/handoff-006-independent_qa-to-release_manager.md",
     ".ai-org/artifacts/WI-0074/independent-qa-report.md",
-    ".ai-org/artifacts/WI-0074/independent-qa-observation.json"
+    ".ai-org/artifacts/WI-0074/independent-qa-observation.json",
+    ".ai-org/artifacts/WI-0074/release-record.md",
+    "EVID-20260831T163532Z-A25E77DA"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -297,5 +311,9 @@
       "created_at": "2026-08-31T16:15:59.716Z"
     }
   ],
-  "developer_candidate_revision": "947d4e70cf44ba65c9ec2c69bcbe295e1ed7f29b"
+  "developer_candidate_revision": "947d4e70cf44ba65c9ec2c69bcbe295e1ed7f29b",
+  "tested_revision": "66bc5dd8b6f1a4bc5016039ca7af36303f401fc8",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

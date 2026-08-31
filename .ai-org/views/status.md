@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 3 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 75 total, 11 active
+- Work items: 75 total, 8 active
 - Codex tasks: 5 registered, 4 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -26,7 +26,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 3
+- Active Work Item claims: 0
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -117,9 +117,9 @@
 | WI-0070 | Stabilize provider-owned usage notification test timing | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a5f3860a` | 0 | 19 | 0 |
 | WI-0071 | Automate Skill candidate proposals with human activation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `406bc213` | 0 | 15 | 0 |
 | WI-0072 | Preserve evidence revisions across remote CI | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5913ea0c` | 0 | 19 | 0 |
-| WI-0073 | Consolidate evidence durability CI fixtures | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831160752-f3eedf27 | `ddbf04a8` | 0 | 15 | 0 |
-| WI-0074 | Remove hosted control-plane test races | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831161600-c0733b38 | `947d4e70` | 0 | 14 | 0 |
-| WI-0075 | Separate validation wall-clock test boundaries | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831162745-bb966d00 | `025c9c67` | 0 | 12 | 0 |
+| WI-0073 | Consolidate evidence durability CI fixtures | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `66bc5dd8` | 0 | 17 | 0 |
+| WI-0074 | Remove hosted control-plane test races | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `66bc5dd8` | 0 | 16 | 0 |
+| WI-0075 | Separate validation wall-clock test boundaries | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `66bc5dd8` | 0 | 14 | 0 |
 
 ## Codex task registry
 
@@ -238,14 +238,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T16:27:45.049Z | work_item_claimed | WI-0075 | human |
-| 2026-08-31T16:27:44.715Z | work_item_coordination_configured | WI-0075 | agent-mog |
-| 2026-08-31T16:27:44.376Z | work_item_transitioned | WI-0075 | agent-lulu |
-| 2026-08-31T16:27:44.059Z | work_item_claim_released | WI-0075 | human |
-| 2026-08-31T16:27:43.741Z | handoff_created | WI-0075 | agent-lulu |
-| 2026-08-31T16:27:43.464Z | evidence_recorded | WI-0075 | human |
-| 2026-08-31T16:26:48.643Z | work_item_claimed | WI-0075 | human |
-| 2026-08-31T16:26:48.299Z | work_item_transitioned | WI-0075 | agent-lulu |
+| 2026-08-31T16:35:54.857Z | work_item_closed | WI-0075 | agent-mog |
+| 2026-08-31T16:35:54.857Z | release_gate_completed | WI-0075 | agent-mog |
+| 2026-08-31T16:35:54.561Z | work_item_closed | WI-0074 | agent-mog |
+| 2026-08-31T16:35:54.561Z | release_gate_completed | WI-0074 | agent-mog |
+| 2026-08-31T16:35:42.808Z | work_item_closed | WI-0073 | agent-mog |
+| 2026-08-31T16:35:42.808Z | release_gate_completed | WI-0073 | agent-mog |
+| 2026-08-31T16:35:32.828Z | evidence_recorded | WI-0075 | human |
+| 2026-08-31T16:35:32.539Z | evidence_recorded | WI-0074 | human |
 
 ## Assignments
 
