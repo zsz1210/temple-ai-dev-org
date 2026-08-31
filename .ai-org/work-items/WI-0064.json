@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-08-31T10:39:13.047Z",
-  "updated_at": "2026-08-31T10:41:11.027Z",
+  "updated_at": "2026-08-31T10:41:17.019Z",
   "scope": [
     "Run exactly one local Provider-owned Luna Max turn against the existing synthetic instrumentation pilot after a fresh installed-schema check.",
     "Require exact project, Work Item, task, Position, Agent, revision, Provider, effective-model, reasoning, terminal-outcome, and positive detailed-Token correlation before passing.",
@@ -38,26 +38,23 @@
   ],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "5e9ac438d39d0093b7cd66ff8213c264dc9c3833",
+  "base_revision": "0175b171a0b957c6797e60ce0145bddc706a2c21",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
-  "planned_agent_id": null,
+  "planned_agent_id": "agent-rikku",
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260831104009-84750c9e",
-    "status": "released",
+    "id": "claim-20260831104117-46b5822f",
+    "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-tidus",
-    "base_revision": "5e9ac438d39d0093b7cd66ff8213c264dc9c3833",
+    "agent_id": "agent-rikku",
+    "base_revision": "0175b171a0b957c6797e60ce0145bddc706a2c21",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-08-31T10:40:09.525Z",
-    "released_at": "2026-08-31T10:41:10.739Z",
-    "release_reason": [
-      "position_transition"
-    ]
+    "claimed_at": "2026-08-31T10:41:17.019Z",
+    "released_at": null
   },
   "claims": [
     {
@@ -101,6 +98,17 @@
       "release_reason": [
         "position_transition"
       ]
+    },
+    {
+      "id": "claim-20260831104117-46b5822f",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "0175b171a0b957c6797e60ce0145bddc706a2c21",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T10:41:17.019Z",
+      "released_at": null
     }
   ],
   "gate_evidence": {
