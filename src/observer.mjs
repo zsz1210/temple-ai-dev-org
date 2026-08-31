@@ -4,7 +4,7 @@ import { atomicWrite, formatJson, pathExists, readJson } from "./files.mjs";
 import { readEvidenceRegistry, resolveGitRevision } from "./evidence.mjs";
 import { listWorkItemDocuments } from "./work-items.mjs";
 import { readRuntimeWorkerRegistry } from "./workers.mjs";
-import { listLearningEntries } from "./learning.mjs";
+import { listLearningEntries, validateLearningRepository } from "./learning.mjs";
 
 export const OBSERVER_SCHEMA = "temple.observer/v1";
 export const ORGANIZATION_VIEW_SCHEMA = "temple.organization-view/v1";
@@ -193,7 +193,7 @@ function buildOrganizationProjection({ agentsDocument, assignmentsDocument, posi
 }
 
 export async function buildObserverProjection(target) {
-  const [project, agentsDocument, assignmentsDocument, positionsDocument, collaboration, workItems, workersDocument, evidenceRegistry, events, learning] = await Promise.all([
+  const [project, agentsDocument, assignmentsDocument, positionsDocument, collaboration, workItems, workersDocument, evidenceRegistry, events, learning, learningValidation] = await Promise.all([
     readJson(path.join(target, ".ai-org/project/project.json")),
     readJson(path.join(target, ".ai-org/project/agents.json")),
     readJson(path.join(target, ".ai-org/project/assignments.json")),
@@ -203,9 +203,11 @@ export async function buildObserverProjection(target) {
     readRuntimeWorkerRegistry(target),
     readEvidenceRegistry(target),
     readEvents(target),
-    listLearningEntries(target)
+    listLearningEntries(target),
+    validateLearningRepository(target)
   ]);
   const revisions = new Map(workItems.map((item) => [item.id, resolveCurrentRevision(target, item)]));
+  const skillProposals = new Map((learningValidation.proposals ?? []).map((proposal) => [proposal.id, proposal]));
   const terminalWorkItemIds = new Set(
     workItems.filter((item) => ["done", "cancelled"].includes(item.state)).map((item) => item.id)
   );
@@ -244,7 +246,39 @@ export async function buildObserverProjection(target) {
       .map((entry) => ({ type: "learning_revalidation_overdue", learning_id: entry.id, message: `${entry.id} is overdue for revalidation` })),
     ...learning.entries
       .filter((entry) => entry.revalidation.signal === "contradicted")
-      .map((entry) => ({ type: "learning_contradicted", learning_id: entry.id, message: `${entry.id} has contradictory revalidation evidence` }))
+      .map((entry) => ({ type: "learning_contradicted", learning_id: entry.id, message: `${entry.id} has contradictory revalidation evidence` })),
+    ...learning.entries
+      .filter((entry) => entry.skill_promotion?.eligible)
+      .map((entry) => ({
+        type: "skill_candidate_ready",
+        learning_id: entry.id,
+        message: `${entry.id} is ready for an evidence-backed Skill Proposal from ${entry.skill_promotion.recurrence_count} Work Items`,
+        suggested_action: "Review the candidate through the local CLI",
+        jump_view: "system"
+      })),
+    ...learning.entries
+      .filter((entry) => entry.skill_promotion?.decision_signal === "approval_pending")
+      .map((entry) => {
+        const proposal = skillProposals.get(entry.promotion.proposal_id);
+        return {
+          type: "skill_proposal_pending",
+          learning_id: entry.id,
+          proposal_id: entry.promotion.proposal_id,
+          evidence_refs: proposal?.evidence_refs ?? [],
+          authority: proposal?.authority ?? null,
+          message: proposal
+            ? `${proposal.id} awaits a Human Principal decision. ${proposal.summary} Authority: ${proposal.authority}`
+            : `${entry.promotion.proposal_id} awaits a Human Principal decision`,
+          suggested_action: "Approve, reject, or defer through the local CLI",
+          jump_view: "system"
+        };
+      }),
+    ...learning.entries
+      .filter((entry) => entry.skill_promotion?.decision_signal === "review_due")
+      .map((entry) => ({ type: "skill_proposal_review_due", learning_id: entry.id, proposal_id: entry.promotion.proposal_id, message: `${entry.promotion.proposal_id} is due for renewed human review` })),
+    ...(!learningValidation.valid
+      ? [{ type: "invalid_skill_promotion", message: `Skill promotion records are inconsistent: ${learningValidation.errors.join("; ")}` }]
+      : [])
   ];
   const timeline = [
     ...events.map((event) => ({ timestamp: event.timestamp, type: "event", name: event.event_type, work_item_id: event.work_item_id ?? null, actor: event.actor ?? null, reference: null })),
@@ -268,7 +302,13 @@ export async function buildObserverProjection(target) {
     learning: {
       total: learning.entries.length,
       revalidation_due: learning.entries.filter((entry) => ["due", "overdue"].includes(entry.revalidation.signal)).length,
-      contradicted: learning.entries.filter((entry) => entry.revalidation.signal === "contradicted").length
+      contradicted: learning.entries.filter((entry) => entry.revalidation.signal === "contradicted").length,
+      skill_candidates: learning.entries.filter((entry) => entry.skill_promotion?.eligible).length,
+      skill_proposals_pending: learning.entries.filter((entry) => entry.skill_promotion?.decision_signal === "approval_pending").length,
+      skill_proposal_reviews_due: learning.entries.filter((entry) => entry.skill_promotion?.decision_signal === "review_due").length,
+      skill_authoring_created: learning.entries.filter((entry) => entry.skill_promotion?.decision_signal === "authoring_created").length,
+      valid: learningValidation.valid,
+      errors: learningValidation.errors
     },
     attention,
     timeline,

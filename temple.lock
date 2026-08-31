@@ -276,7 +276,7 @@
     },
     {
       "path": ".ai-org/core/schemas/learning-index.schema.json",
-      "sha256": "ecded260b1aa9847170d5c1c82f75181bf0e8714b06589bbba48d72ce1c7c197"
+      "sha256": "40400b30eb53914f9885ca59a6e5c976581c5c2a24d1782a3985d54c15c41563"
     },
     {
       "path": ".ai-org/core/schemas/parallel-plan.schema.json",
