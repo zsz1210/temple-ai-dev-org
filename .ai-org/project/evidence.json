@@ -7267,6 +7267,51 @@
         "exit_code": 0,
         "started_at": "2026-08-31T07:33:15Z"
       }
+    },
+    {
+      "id": "EVID-20260831T074903Z-6CDF5683",
+      "work_item_id": "WI-0056",
+      "recorded_at": "2026-08-31T07:49:03.581Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Corrected provider-owned live Token proof passed",
+      "outcome": "pass",
+      "scope_revision": "247a78155d23c02485ad005dbf775d22e7c590c7",
+      "observed_at": "2026-08-31T07:46:01.553Z",
+      "summary": "One Luna Max thread and one turn completed with exact output, canonical correlation, 23,433 Provider-reported total Tokens, zero retries, and restored LAN Dashboard; a telemetry cursor race was archived for separate correction.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0056/runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0056/runtime-observation.json",
+          "sha256": "3741a739fcd714bfb7fb3e1e04a9b5655d326d2454f821d1ce7f4d267ca29f94"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0056/preflight.md",
+          "sha256": "ed666f9c2680fee7d7aa74f8b40d25dbed4cd2db3bfd2db0231e2864bbc23051"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0056/live-proof-result.md",
+          "sha256": "c303200327472306be6df90ee1a54898ec2ebcdf1681a8febc94c6b58e7d7527"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0056/developer-evidence.md",
+          "sha256": "a18fba4206fde9b396267b74af5fa6a5d043d55d442f8f05d2adfb3db10b475d"
+        }
+      ],
+      "details": {
+        "environment": "Temple self-host repository on the Mac Mini, real local Codex App Server, loopback Control Plane, exact 192.168.79.5 home-LAN read-only Dashboard, and signed-in Codex account",
+        "scenario": "Validate installed thread/start and turn/start contracts, then execute exactly one Provider-owned Luna Max read-only and network-disabled turn, verify its fixed output and detailed Token usage, and restore the normal Dashboard without retry",
+        "provenance": "live"
+      }
     }
   ]
 }

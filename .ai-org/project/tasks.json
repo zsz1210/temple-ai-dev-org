@@ -92,6 +92,36 @@
       "registered_by": "human",
       "notes": "Developer handoff recorded; exact candidate passed 197/197 and isolated code-first Dashboard review. Quality & Evaluation remains pending.",
       "last_updated_by": "agent-rikku"
+    },
+    {
+      "id": "task-0005",
+      "work_item_id": "WI-0056",
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
+      "suggested_title": "WI-0056 · Developer · Rikku",
+      "status": "completed",
+      "thread_id": "01a056c7-0e93-7e10-9925-afdcd243a203",
+      "client_thread_id": null,
+      "host_id": "local",
+      "execution_origin": "temple-provider-owned",
+      "provider_id": "codex-local",
+      "requested_model": "gpt-5.6-luna",
+      "effective_model": null,
+      "reasoning_effort": "max",
+      "service_tier": null,
+      "launch_revision": "247a78155d23c02485ad005dbf775d22e7c590c7",
+      "current_revision": "247a78155d23c02485ad005dbf775d22e7c590c7",
+      "principal_id": "human",
+      "claim_id": "claim-20260831074317-e6b46b33",
+      "base_revision": "247a78155d23c02485ad005dbf775d22e7c590c7",
+      "branch": "main",
+      "worktree": null,
+      "worker_id": null,
+      "created_at": "2026-08-31T07:44:41.230Z",
+      "updated_at": "2026-08-31T07:45:24.257Z",
+      "registered_by": "agent-rikku",
+      "notes": "Provider-owned launch; instruction content not retained; automatic retry disabled.",
+      "last_updated_by": "agent-rikku"
     }
   ]
 }

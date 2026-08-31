@@ -1,0 +1,92 @@
+{
+  "schema_version": "temple.runtime-observation/v1",
+  "revision": "247a78155d23c02485ad005dbf775d22e7c590c7",
+  "environment": "Temple self-host repository on the Mac Mini, real local Codex App Server, loopback Control Plane, exact 192.168.79.5 home-LAN read-only Dashboard, and signed-in Codex account",
+  "scenario": "Validate installed thread/start and turn/start contracts, then execute exactly one Provider-owned Luna Max read-only and network-disabled turn, verify its fixed output and detailed Token usage, and restore the normal Dashboard without retry",
+  "result": "pass",
+  "provenance": "live",
+  "work_item_id": "WI-0056",
+  "observed_at": "2026-08-31T07:46:01.553Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0056/preflight.md",
+    ".ai-org/artifacts/WI-0056/live-proof-result.md",
+    ".ai-org/artifacts/WI-0056/developer-evidence.md"
+  ],
+  "provider": {
+    "id": "codex-local",
+    "thread_id": "01a056c7-0e93-7e10-9925-afdcd243a203",
+    "turn_id": "01a056c7-0f13-7570-9def-073f5f09aeec",
+    "task_id": "task-0005",
+    "thread_start_attempts": 1,
+    "turn_start_attempts": 1,
+    "automatic_retry": false,
+    "thread_visible_in_list": true,
+    "terminal_status": "completed",
+    "duration_ms": 5041
+  },
+  "output": {
+    "agent_message_count": 1,
+    "exact_marker_matches": 1,
+    "marker_containing_non_exact_messages": 0,
+    "exact_output_verified": true,
+    "raw_output_retained": false
+  },
+  "usage": {
+    "input_tokens": 23400,
+    "cached_input_tokens": 9984,
+    "output_tokens": 33,
+    "reasoning_output_tokens": 16,
+    "total_tokens": 23433,
+    "model_context_window": 258400,
+    "monetary_cost": null,
+    "price_source": null
+  },
+  "attribution": {
+    "project_id": "temple",
+    "work_item_id": "WI-0056",
+    "position_id": "developer",
+    "task_id": "task-0005",
+    "attempt_id": "01a056c7-0f13-7570-9def-073f5f09aeec",
+    "provider_id": "codex-local",
+    "model": "gpt-5.6-luna",
+    "model_source": "canonical-requested",
+    "reasoning_effort": "max",
+    "launch_revision": "247a78155d23c02485ad005dbf775d22e7c590c7",
+    "quality": "partial",
+    "missing_dimensions": [
+      "model_version",
+      "service_tier",
+      "context_capsule_digest",
+      "capability_set_digest"
+    ]
+  },
+  "stop_boundary": {
+    "reported_token_threshold": 20000,
+    "first_reported_total_tokens": 23433,
+    "threshold_evaluator_fired": true,
+    "interrupt_path_entries": 1,
+    "interrupt_provider_acknowledgement": "unknown",
+    "terminal_status_after_threshold": "completed",
+    "wall_clock_interrupt_fired": false,
+    "threshold_is_hard_cap": false
+  },
+  "repository": {
+    "non_ai_org_diff_after_model": false,
+    "model_file_changes_observed": false
+  },
+  "dashboard_recovery": {
+    "restored": true,
+    "lan_url": "http://192.168.79.5:41741/",
+    "provider_status_after_restart": "ready",
+    "journal_rebuild_required": true,
+    "archived_journal": ".git/temple/control-plane/archive/events-2026-08-31T07-45-54-118Z.jsonl",
+    "archived_journal_sha256": "af32cd123e67beb0b0c0b128cc00306f13c128978c3e6e76cdf15eaae9d93da1",
+    "archived_journal_lines": 4938,
+    "rebuild_source_events": 1237
+  },
+  "privacy": {
+    "instruction_retained_in_telemetry": false,
+    "arbitrary_model_content_retained": false,
+    "raw_provider_payload_retained": false
+  }
+}
