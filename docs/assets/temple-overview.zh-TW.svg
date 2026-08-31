@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 500" role="img" aria-labelledby="title desc">
+  <title id="title">從你的想法，走到可信賴的軟體</title>
+  <desc id="desc">人類決定方向，Temple 整理共同工作，人類與 AI 一起完成，最後以證據建立可信賴的成果。Repository 保存決策、工作、程式碼、測試與證據，讓下一個任務能繼續。</desc>
+  <style>
+    :root {
+      --surface: #f8f3e9;
+      --surface-strong: #fffaf1;
+      --ink: #26313a;
+      --muted: #68737b;
+      --line: #918572;
+      --coral: #d96543;
+      --coral-soft: #f8dfd4;
+      --teal: #287b73;
+      --teal-soft: #dceeea;
+      --gold: #a87519;
+      --gold-soft: #f5e8c6;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --surface: #191c20;
+        --surface-strong: #24282d;
+        --ink: #f3eee5;
+        --muted: #b8b2a8;
+        --line: #73787c;
+        --coral: #f08a68;
+        --coral-soft: #402b25;
+        --teal: #63b9ae;
+        --teal-soft: #203733;
+        --gold: #e0b14f;
+        --gold-soft: #3d321e;
+      }
+    }
+    text {
+      fill: var(--ink);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", "Segoe UI", sans-serif;
+    }
+    .eyebrow { fill: var(--coral); font-size: 14px; font-weight: 700; letter-spacing: 1.5px; }
+    .headline { font-size: 29px; font-weight: 750; letter-spacing: -0.4px; }
+    .stage-title { font-size: 18px; font-weight: 700; }
+    .stage-copy { fill: var(--muted); font-size: 13px; font-weight: 550; }
+    .temple-name { fill: var(--coral); font-size: 14px; font-weight: 800; letter-spacing: 1.6px; }
+    .chip { font-size: 12px; font-weight: 650; }
+    .rail-title { font-size: 17px; font-weight: 700; }
+    .rail-chip { fill: var(--muted); font-size: 12px; font-weight: 650; }
+    .icon { fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  </style>
+
+  <rect x="8" y="8" width="944" height="484" rx="30" fill="var(--surface)"/>
+  <text class="eyebrow" x="480" y="47" text-anchor="middle">讓大家共享同一套開發方式</text>
+  <text class="headline" x="480" y="80" text-anchor="middle">從你的想法，走到可信賴的軟體</text>
+
+  <path d="M168 176 C194 176 207 176 232 176" fill="none" stroke="var(--line)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M221 167 L233 176 L221 185" fill="none" stroke="var(--line)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M526 176 C552 176 566 176 590 176" fill="none" stroke="var(--line)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M579 167 L591 176 L579 185" fill="none" stroke="var(--line)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M708 176 C736 176 750 176 776 176" fill="none" stroke="var(--line)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M765 167 L777 176 L765 185" fill="none" stroke="var(--line)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <g aria-label="你決定方向">
+    <circle cx="112" cy="176" r="56" fill="var(--coral-soft)"/>
+    <g color="var(--coral)">
+      <circle class="icon" cx="112" cy="157" r="14"/>
+      <path class="icon" d="M82 205 C87 181 99 175 112 175 C125 175 137 181 142 205"/>
+      <path class="icon" d="M137 133 H157 C164 133 169 138 169 145 V153 C169 160 164 165 157 165 H151 L143 173 V165 H137"/>
+      <path class="icon" d="M148 143 V155 M142 149 H154"/>
+    </g>
+    <text class="stage-title" x="112" y="260" text-anchor="middle">你決定方向</text>
+    <text class="stage-copy" x="112" y="282" text-anchor="middle">目標與授權</text>
+  </g>
+
+  <g aria-label="Temple 整理共同工作">
+    <rect x="236" y="105" width="286" height="215" rx="56" fill="var(--surface-strong)" stroke="var(--coral)" stroke-width="2"/>
+    <text class="temple-name" x="379" y="132" text-anchor="middle">TEMPLE</text>
+    <g color="var(--coral)">
+      <path class="icon" d="M337 171 L379 145 L421 171"/>
+      <path class="icon" d="M344 174 H414 M350 215 H408 M342 223 H416"/>
+      <path class="icon" d="M354 178 V211 M371 178 V211 M388 178 V211 M405 178 V211"/>
+    </g>
+    <text class="stage-title" x="379" y="251" text-anchor="middle">Temple 整理共同工作</text>
+    <text class="chip" x="379" y="278" text-anchor="middle">明確職責・共享脈絡・有界工作</text>
+    <text class="chip" x="379" y="300" text-anchor="middle">獨立驗證・可重用學習</text>
+  </g>
+
+  <g aria-label="人類與 AI 一起完成">
+    <circle cx="650" cy="176" r="56" fill="var(--teal-soft)"/>
+    <g color="var(--teal)">
+      <circle class="icon" cx="632" cy="158" r="11"/>
+      <path class="icon" d="M609 198 C613 178 622 173 632 173 C642 173 651 178 655 198"/>
+      <rect class="icon" x="658" y="149" width="31" height="25" rx="8"/>
+      <path class="icon" d="M667 149 V142 M681 149 V142 M669 162 H670 M679 162 H680 M666 181 C669 187 684 187 687 181"/>
+      <path class="icon" d="M697 137 L700 145 L708 148 L700 151 L697 159 L694 151 L686 148 L694 145 Z"/>
+    </g>
+    <text class="stage-title" x="650" y="252" text-anchor="middle">人類與 AI</text>
+    <text class="stage-title" x="650" y="274" text-anchor="middle">一起完成</text>
+    <text class="stage-copy" x="650" y="296" text-anchor="middle">規劃・實作・審查</text>
+  </g>
+
+  <g aria-label="證據建立信任">
+    <circle cx="836" cy="176" r="56" fill="var(--gold-soft)"/>
+    <g color="var(--gold)">
+      <path class="icon" d="M836 135 L867 147 V169 C867 191 854 207 836 217 C818 207 805 191 805 169 V147 Z"/>
+      <path class="icon" d="M820 174 L831 185 L853 160"/>
+    </g>
+    <text class="stage-title" x="836" y="252" text-anchor="middle">證據建立</text>
+    <text class="stage-title" x="836" y="274" text-anchor="middle">信任</text>
+    <text class="stage-copy" x="836" y="296" text-anchor="middle">成果可持續接手</text>
+  </g>
+
+  <path d="M112 303 V365 M379 320 V365 M650 310 V365 M836 310 V365" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="3 8" stroke-linecap="round"/>
+
+  <g aria-label="Repository 留下共同真相">
+    <rect x="48" y="365" width="864" height="96" rx="26" fill="var(--surface-strong)" stroke="var(--line)" stroke-width="2"/>
+    <g color="var(--teal)">
+      <path class="icon" d="M77 394 H99 L107 403 H131 V435 H77 Z"/>
+      <path class="icon" d="M87 414 H121 M87 424 H112"/>
+    </g>
+    <text class="rail-title" x="151" y="403">Repository 留下共同真相</text>
+    <text class="stage-copy" x="151" y="428">每個任務都能找回決策、工作、程式碼、測試與學習。</text>
+    <g transform="translate(568 390)">
+      <rect width="70" height="28" rx="14" fill="var(--coral-soft)"/>
+      <text class="rail-chip" x="35" y="18" text-anchor="middle">決策</text>
+      <rect x="78" width="55" height="28" rx="14" fill="var(--teal-soft)"/>
+      <text class="rail-chip" x="105.5" y="18" text-anchor="middle">工作</text>
+      <rect x="141" width="54" height="28" rx="14" fill="var(--gold-soft)"/>
+      <text class="rail-chip" x="168" y="18" text-anchor="middle">程式碼</text>
+      <rect x="203" width="54" height="28" rx="14" fill="var(--teal-soft)"/>
+      <text class="rail-chip" x="230" y="18" text-anchor="middle">測試</text>
+      <rect x="265" width="72" height="28" rx="14" fill="var(--coral-soft)"/>
+      <text class="rail-chip" x="301" y="18" text-anchor="middle">證據</text>
+    </g>
+    <path d="M878 443 C882 472 550 480 474 452" fill="none" stroke="var(--coral)" stroke-width="2" stroke-dasharray="5 7" stroke-linecap="round"/>
+    <path d="M484 448 L473 452 L480 462" fill="none" stroke="var(--coral)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text class="stage-copy" x="676" y="451" text-anchor="middle">證據成為下一次學習</text>
+  </g>
+</svg>

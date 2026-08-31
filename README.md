@@ -20,6 +20,12 @@ Temple installs a repository-native operating framework into a new or existing p
 
 ---
 
+## From intent to trustworthy software
+
+![Diagram showing a human setting direction, Temple organizing shared work, people and AI collaborating, and repository evidence supporting a trustworthy result.](docs/assets/temple-overview.en.svg)
+
+Temple is the shared operating layer around the work: humans retain intent and approval, people and AI take bounded responsibilities, and the repository preserves enough truth for another task or teammate to verify and continue.
+
 ## Why Temple?
 
 More agents do not automatically create a better engineering team.
@@ -36,29 +42,15 @@ Temple keeps the coordination layer in the repository:
 
 Temple is not a shared chat log and not a bag of prompts. It is the operating layer between product intent and the humans and agents that deliver it.
 
-## One operating loop, at any scale
+## One request through Temple
 
-```mermaid
-flowchart LR
-    accTitle: Temple development operating loop
-    accDescr: Product intent moves through definition, coordination, delivery, and verification into a release-ready result. Lessons and improved Skills feed the next iteration.
+1. A human brings one bounded outcome and keeps authority over priorities and meaningful approvals.
+2. Product and design responsibilities make the scope, language, states, and acceptance criteria explicit.
+3. Temple gives the work an owner, the relevant context and methods, and safe coordination boundaries. Independent work may run in parallel only when its dependencies and affected paths allow it.
+4. Implementation moves through testing, evaluation, and Independent QA with evidence tied to the exact candidate revision.
+5. The Release Gate records readiness; decisions, evidence, and reusable learning remain in the repository for the next task.
 
-    INTENT([Product intent])
-    subgraph TEMPLE[Temple]
-        direction LR
-        DEFINE[Define<br/>specs and language]
-        PLAN[Coordinate<br/>work and ownership]
-        BUILD[Deliver<br/>bounded parallel work]
-        VERIFY[Verify<br/>evidence and QA]
-        DEFINE --> PLAN --> BUILD --> VERIFY
-    end
-    READY([Release-ready result])
-    INTENT --> DEFINE
-    VERIFY --> READY
-    READY -. lessons and Skills .-> DEFINE
-```
-
-The loop stays the same as a project grows. What changes is how many Agent Identities and specialists occupy each Position, how much evidence is required, and which systems remain authoritative.
+This path stays recognizable as a project grows. What changes is how many people and Agent Identities cover each Position, how much evidence the risk requires, and which existing systems remain authoritative.
 
 ---
 
@@ -134,6 +126,13 @@ Open Temple in Codex and ask:
 
 > Use `$temple-init` to initialize `/absolute/path/to/my-project`. Propose English names for the Agent Identities and wait for my confirmation before writing files.
 
+Initialization keeps the operating layer visible in the project:
+
+- `TEMPLE.md` and Position configurations define how responsibility is separated.
+- `.ai-org/` holds project-owned identity, Work Items, context, evidence, learning, and rebuildable views.
+- `templew.mjs` and `temple.lock` keep framework execution and managed-file ownership tied to the installed version.
+- Core Skills provide repeatable methods, while the project can add its own governed Skills without changing Position authority.
+
 ### 3. Start the first Work Item
 
 Inside the initialized project, ask:
@@ -152,6 +151,14 @@ You install Temple into each project; you do not fork the framework for every pr
 > Start with the Solo profile and one bounded outcome. Add more agents, disciplines, integrations, or stricter gates only when the project actually needs them.
 
 See the [usage guide](docs/getting-started/usage.md) for adoption, upgrades, self-hosting, parallel work, trackers, UI modes, and troubleshooting.
+
+## What is ready today?
+
+| Status | Current boundary |
+|---|---|
+| **Available now** | Human-supervised Solo workflow, ten stable Positions with flexible Assignments, Work Items and lifecycle gates, deterministic context and capability routing, governed Skills and learning, evidence records, local status, and upgrade/recovery boundaries. |
+| **Experimental or bounded** | Collaborative and High-Assurance contracts, safe parallel planning, provider and usage observation, read-only tracker and portfolio coordination, and the local control plane have repository tests or bounded local validation—not general organizational qualification. |
+| **Planned or unverified** | Real large multi-human and multi-machine operation, production monitoring or remediation, unattended external writes, configured semantic retrieval, regulated acceptance, and broad enterprise proof. |
 
 ## Engineering methods that can grow
 
@@ -188,6 +195,8 @@ Start with the [documentation map](docs/README.md), then use:
 - [Collaborative development](docs/operations/collaboration.md)
 - [Capability catalog](docs/extensions/capability-catalog.md)
 - [Architecture decisions](docs/adr/README.md)
+- [Contributing](CONTRIBUTING.md)
+- [Security policy](SECURITY.md)
 - [Changelog](CHANGELOG.md)
 
 ## License

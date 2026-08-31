@@ -20,6 +20,12 @@ Temple は、新規または既存 project に repository-native な operating f
 
 ---
 
+## アイデアから、信頼できるソフトウェアへ
+
+![人が方向を決め、Temple が共同作業を整え、人と AI が協力し、repository の evidence が信頼できる成果を支える流れ。](docs/assets/temple-overview.ja.svg)
+
+Temple は作業を囲む共通の operating layer です。人が目的と承認を担い、人と AI が境界のある責任を分担し、別の task や teammate が検証・継続できる事実を repository に残します。
+
 ## なぜ Temple が必要なのか
 
 Agent の数を増やすだけでは、優れた engineering team にはなりません。
@@ -36,29 +42,15 @@ Temple は coordination layer を repository に残します。
 
 Temple は shared chat log でも prompt 集でもありません。Product intent と、それを届ける人・Agent の間にある operating layer です。
 
-## 規模が変わっても一つの operating loop
+## 一つの request が Temple を通る流れ
 
-```mermaid
-flowchart LR
-    accTitle: Temple development operating loop
-    accDescr: Product intent moves through definition, coordination, delivery, and verification into a release-ready result. Lessons and improved Skills feed the next iteration.
+1. 人が一つの bounded outcome を提示し、priority と重要な approval の authority を持ち続けます。
+2. Product と design の責任が scope、language、state、acceptance criteria を明確にします。
+3. Temple が owner、必要な context と method、安全な coordination boundary を割り当てます。Dependency と affected path が許す independent work だけを parallel に進めます。
+4. Implementation は exact candidate revision に結び付く evidence とともに、test、evaluation、Independent QA へ進みます。
+5. Release Gate が readiness を記録し、decision、evidence、再利用可能な learning は次の task のため repository に残ります。
 
-    INTENT([Product intent])
-    subgraph TEMPLE[Temple]
-        direction LR
-        DEFINE[Define<br/>specs and language]
-        PLAN[Coordinate<br/>work and ownership]
-        BUILD[Deliver<br/>bounded parallel work]
-        VERIFY[Verify<br/>evidence and QA]
-        DEFINE --> PLAN --> BUILD --> VERIFY
-    end
-    READY([Release-ready result])
-    INTENT --> DEFINE
-    VERIFY --> READY
-    READY -. lessons and Skills .-> DEFINE
-```
-
-Project が成長しても loop は変わりません。変わるのは各 Position を担う Agent Identity と specialist の数、必要な evidence の深さ、そしてどの外部 system を authority として維持するかです。
+Project が成長してもこの流れは共通です。変わるのは各 Position を担う Agent Identity と specialist の数、risk に応じた evidence の深さ、そしてどの外部 system を authority として維持するかです。
 
 ---
 
@@ -134,6 +126,13 @@ Temple を Codex で開き、次のように依頼します。
 
 > `$temple-init` を使って `/absolute/path/to/my-project` を initialize してください。Agent Identity の英語名を提案し、file を書く前に私の確認を待ってください。
 
+Initialization によって、project 内の operating layer が見える形で追加されます。
+
+- `TEMPLE.md` と Position configuration は責任の分離方法を定義します。
+- `.ai-org/` は project-owned な identity、Work Item、context、evidence、learning、再生成可能な view を保持します。
+- `templew.mjs` と `temple.lock` は framework の実行と managed-file ownership を install 済み version に結び付けます。
+- Core Skills は反復可能な method を提供し、project は Position authority を変えずに独自の governed Skill を追加できます。
+
 ### 3. 最初の Work Item を開始
 
 Initialized project 内では次のように依頼します。
@@ -152,6 +151,14 @@ Product ごとに framework を fork するのではなく、各 project に Tem
 > Solo profile と一つの bounded outcome から始めてください。Agent、discipline、integration、厳格な gate は、project が本当に必要とした時に追加します。
 
 Adoption、upgrade、self-hosting、parallel work、tracker、UI mode、troubleshooting は [Usage guide（英語）](docs/getting-started/usage.md) を参照してください。
+
+## 現在、どこまで使えるのか？
+
+| Status | 現在の boundary |
+|---|---|
+| **現在利用可能** | Human-supervised Solo workflow、柔軟な Assignment を持つ十個の安定した Position、Work Item と lifecycle gate、決定的な context / capability routing、governed Skill と learning、evidence record、local status、upgrade / recovery boundary。 |
+| **Experimental / bounded** | Collaborative と High-Assurance の contract、安全な parallel planning、provider / usage observation、read-only tracker / portfolio coordination、local control plane は repository test または限定的な local validation を持ちますが、一般的な組織運用の実証ではありません。 |
+| **Planned / unverified** | 大規模な multi-human / multi-machine の実運用、production monitoring / remediation、無人の external write、構成済み semantic retrieval、regulated acceptance、広範な enterprise proof。 |
 
 ## Project とともに成長する engineering method
 
@@ -188,6 +195,8 @@ Temple は repository work を coordinate しますが、business truth、priori
 - [Collaborative development（英語）](docs/operations/collaboration.md)
 - [Capability catalog（英語）](docs/extensions/capability-catalog.md)
 - [Architecture decisions（英語）](docs/adr/README.md)
+- [Contributing（英語）](CONTRIBUTING.md)
+- [Security policy（英語）](SECURITY.md)
 - [Changelog（英語）](CHANGELOG.md)
 
 ## License

@@ -20,6 +20,12 @@ Temple 會在新的或既有的專案裡安裝一套 repository-native operating
 
 ---
 
+## 從想法走到可信賴的軟體
+
+![人類決定方向、Temple 整理共同工作、人類與 AI 協作，最後由 repository evidence 支撐可信賴成果的流程。](docs/assets/temple-overview.zh-TW.svg)
+
+Temple 是包圍整個工作的共同 operating layer：人類保留目標與授權，人類和 AI 承擔邊界清楚的責任，而 repository 保存足以讓下一個 task 或 teammate 驗證並接手的真相。
+
 ## 為什麼需要 Temple？
 
 增加 Agent 數量，不會自動形成更好的 engineering team。
@@ -36,29 +42,15 @@ Temple 把 coordination layer 留在 repository 裡：
 
 Temple 不是 shared chat log，也不是 prompt 大全。它是 product intent 與負責交付的人類、Agent 之間的 operating layer。
 
-## 不同規模，共用一個 operating loop
+## 一項需求如何通過 Temple
 
-```mermaid
-flowchart LR
-    accTitle: Temple development operating loop
-    accDescr: Product intent moves through definition, coordination, delivery, and verification into a release-ready result. Lessons and improved Skills feed the next iteration.
+1. 人類提出一個 bounded outcome，並保留 priority 與重要 approval 的 authority。
+2. Product 與 design 責任把 scope、language、state、acceptance criteria 說清楚。
+3. Temple 為工作指定 owner、相關 context 和 method，以及安全的 coordination boundary。只有 dependency 與 affected path 允許時，獨立工作才會並行。
+4. Implementation 帶著綁定 exact candidate revision 的 evidence，依序通過 test、evaluation 與 Independent QA。
+5. Release Gate 記錄 readiness；decision、evidence 與可重用 learning 留在 repository，供下一個 task 使用。
 
-    INTENT([Product intent])
-    subgraph TEMPLE[Temple]
-        direction LR
-        DEFINE[Define<br/>specs and language]
-        PLAN[Coordinate<br/>work and ownership]
-        BUILD[Deliver<br/>bounded parallel work]
-        VERIFY[Verify<br/>evidence and QA]
-        DEFINE --> PLAN --> BUILD --> VERIFY
-    end
-    READY([Release-ready result])
-    INTENT --> DEFINE
-    VERIFY --> READY
-    READY -. lessons and Skills .-> DEFINE
-```
-
-專案變大時，loop 不需要改變。改變的是每個 Position 裡有多少 Agent Identity 與 specialist、需要多深的 evidence，以及哪些外部系統繼續作為 authority。
+專案變大時，這條路徑仍然相同。改變的是每個 Position 裡有多少 Agent Identity 與 specialist、risk 需要多深的 evidence，以及哪些外部系統繼續作為 authority。
 
 ---
 
@@ -134,6 +126,13 @@ npm link
 
 > 使用 `$temple-init` 初始化 `/absolute/path/to/my-project`。請先提議 Agent Identity 的英文名字，等我確認後再寫入檔案。
 
+Initialization 會把 operating layer 清楚地放進專案裡：
+
+- `TEMPLE.md` 與 Position configuration 定義責任如何分開。
+- `.ai-org/` 保存 project-owned identity、Work Item、context、evidence、learning 與可重建的 view。
+- `templew.mjs` 和 `temple.lock` 讓 framework 執行方式與 managed-file ownership 綁定已安裝的版本。
+- Core Skills 提供可重複的方法；專案也能加入自己的 governed Skill，而不會改變 Position authority。
+
 ### 3. 開始第一個 Work Item
 
 進入 initialized project 後，可以提出：
@@ -152,6 +151,14 @@ node ./templew.mjs observe .
 > 從 Solo profile 與一個 bounded outcome 開始。只有當專案真的需要時，再加入更多 Agent、discipline、integration 或更嚴格的 gate。
 
 Adoption、upgrade、self-hosting、parallel work、tracker、UI mode 與 troubleshooting 請查看[英文 Usage guide](docs/getting-started/usage.md)。
+
+## 現在可以使用到什麼程度？
+
+| 狀態 | 目前的 boundary |
+|---|---|
+| **現在可用** | Human-supervised Solo workflow、具備彈性 Assignment 的十個穩定 Position、Work Item 與 lifecycle gate、deterministic context / capability routing、governed Skill 與 learning、evidence record、local status，以及 upgrade / recovery boundary。 |
+| **Experimental / bounded** | Collaborative 與 High-Assurance contract、安全的 parallel planning、provider / usage observation、read-only tracker / portfolio coordination，以及 local control plane 已有 repository test 或限定的 local validation，但還不是一般性組織驗證。 |
+| **Planned / unverified** | 大型 multi-human / multi-machine 實際運作、production monitoring / remediation、無人 external write、已配置的 semantic retrieval、regulated acceptance，以及廣泛的 enterprise proof。 |
 
 ## 能跟著專案成長的 engineering method
 
@@ -188,6 +195,8 @@ Temple 負責 coordinate repository work，但不擁有 business truth、priorit
 - [Collaborative development（英文）](docs/operations/collaboration.md)
 - [Capability catalog（英文）](docs/extensions/capability-catalog.md)
 - [Architecture decisions（英文）](docs/adr/README.md)
+- [Contributing（英文）](CONTRIBUTING.md)
+- [Security policy（英文）](SECURITY.md)
 - [Changelog（英文）](CHANGELOG.md)
 
 ## License
