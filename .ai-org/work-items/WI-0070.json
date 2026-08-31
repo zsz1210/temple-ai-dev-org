@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0070",
   "title": "Stabilize provider-owned usage notification test timing",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-31T13:54:11.919Z",
-  "updated_at": "2026-08-31T14:37:30.770Z",
+  "updated_at": "2026-08-31T14:42:31.461Z",
   "scope": [
     "Investigate and remove the intermittent timing dependency observed in test/control-plane-live.test.mjs during WI-0069 Independent QA. Preserve provider protocol semantics and do not add sleeps as proof."
   ],
@@ -93,18 +93,16 @@
     "WI-0033: WI-0070 does not change provider executable selection, origins, credentials, or operator-owned trust policy."
   ],
   "claim": {
-    "id": "claim-20260831143711-8c8835ed",
+    "id": "claim-20260831144219-779a28e2",
     "status": "released",
     "principal_id": "human",
     "agent_id": "agent-mog",
     "base_revision": "a5f3860a0a4cef5cd54260b75a74f0f6391d787f",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-08-31T14:37:11.073Z",
-    "released_at": "2026-08-31T14:37:30.770Z",
-    "release_reason": [
-      "release-manager-review-complete-release-held"
-    ]
+    "claimed_at": "2026-08-31T14:42:19.407Z",
+    "released_at": "2026-08-31T14:42:31.461Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -192,6 +190,18 @@
       "release_reason": [
         "release-manager-review-complete-release-held"
       ]
+    },
+    {
+      "id": "claim-20260831144219-779a28e2",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "a5f3860a0a4cef5cd54260b75a74f0f6391d787f",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T14:42:19.407Z",
+      "released_at": "2026-08-31T14:42:31.461Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -226,6 +236,18 @@
     ],
     "independent_qa_pass": [
       "EVID-20260831T143605Z-E38C1CFA"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0070/product-spec.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0070/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0070/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -245,10 +267,12 @@
     ".ai-org/artifacts/WI-0070/evaluation-report.md",
     ".ai-org/artifacts/WI-0070/handoff-006-independent_qa-to-release_manager.md",
     "EVID-20260831T143605Z-E38C1CFA",
-    ".ai-org/artifacts/WI-0070/independent-qa-report.md"
+    ".ai-org/artifacts/WI-0070/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0070/release-record.md",
+    ".ai-org/artifacts/WI-0070/release-manager-review.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -293,5 +317,9 @@
       "created_at": "2026-08-31T14:36:20.760Z"
     }
   ],
-  "developer_candidate_revision": "a5f3860a0a4cef5cd54260b75a74f0f6391d787f"
+  "developer_candidate_revision": "a5f3860a0a4cef5cd54260b75a74f0f6391d787f",
+  "tested_revision": "a5f3860a0a4cef5cd54260b75a74f0f6391d787f",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

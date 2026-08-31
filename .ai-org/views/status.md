@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 70 total, 9 active
+- Work items: 70 total, 8 active
 - Codex tasks: 5 registered, 4 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -113,7 +113,7 @@
 | WI-0067 | Run bounded four-repository commerce rehearsal | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0d656df5` | 0 | 18 | 3 |
 | WI-0068 | Fail closed on invalid experiment telemetry paths | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `123a9fda` | 0 | 18 | 0 |
 | WI-0069 | Establish progressive usage calibration and autonomy policy | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `aead7f54` | 0 | 12 | 0 |
-| WI-0070 | Stabilize provider-owned usage notification test timing | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a5f3860a` | 0 | 17 | 0 |
+| WI-0070 | Stabilize provider-owned usage notification test timing | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a5f3860a` | 0 | 19 | 0 |
 
 ## Codex task registry
 
@@ -228,14 +228,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-31T14:42:31.461Z | work_item_closed | WI-0070 | agent-mog |
+| 2026-08-31T14:42:31.461Z | release_gate_completed | WI-0070 | agent-mog |
+| 2026-08-31T14:42:19.407Z | work_item_claimed | WI-0070 | human |
+| 2026-08-31T14:38:46.981Z | evidence_recorded | WI-0069 | human |
+| 2026-08-31T14:38:46.700Z | evidence_recorded | WI-0070 | human |
 | 2026-08-31T14:38:08.989Z | work_item_claim_released | WI-0069 | human |
 | 2026-08-31T14:37:31.691Z | work_item_unresolved_updated | WI-0069 | agent-mog |
 | 2026-08-31T14:37:31.385Z | work_item_claimed | WI-0069 | human |
-| 2026-08-31T14:37:31.073Z | work_item_coordination_configured | WI-0069 | agent-mog |
-| 2026-08-31T14:37:30.770Z | work_item_claim_released | WI-0070 | human |
-| 2026-08-31T14:37:11.073Z | work_item_claimed | WI-0070 | human |
-| 2026-08-31T14:36:21.054Z | work_item_transitioned | WI-0070 | agent-lulu |
-| 2026-08-31T14:36:20.760Z | handoff_created | WI-0070 | agent-lulu |
 
 ## Assignments
 
