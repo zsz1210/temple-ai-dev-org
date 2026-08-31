@@ -11,6 +11,7 @@ import { readWorkItem } from "./work-items.mjs";
 export const EVIDENCE_REGISTRY_RELATIVE_PATH = ".ai-org/project/evidence.json";
 export const EVIDENCE_SCHEMA = "temple.evidence/v1";
 export const EVIDENCE_KINDS = ["git-revision", "test", "runtime", "unverified-claim", "risk", "rollback", "github"];
+export const EVIDENCE_TAG_PREFIX = "temple/evidence";
 
 const SHA = /^[0-9a-f]{40}$/;
 const DIGEST = /^[0-9a-f]{64}$/;
@@ -105,6 +106,35 @@ function gitObjectExists(target, object) {
   return result.status === 0;
 }
 
+function gitOutput(target, args) {
+  const result = spawnSync("git", ["-C", target, ...args], { encoding: "utf8" });
+  if (result.status !== 0 || result.error) {
+    throw new Error(result.error?.message ?? result.stderr?.trim() ?? `Git ${args[0]} failed`);
+  }
+  return result.stdout.trim();
+}
+
+export function evidencePreservationTag(revision) {
+  const normalized = String(revision ?? "").trim().toLowerCase();
+  if (!SHA.test(normalized)) throw new Error(`Evidence preservation requires an exact Git commit: ${revision ?? "missing"}`);
+  return `${EVIDENCE_TAG_PREFIX}/${normalized}`;
+}
+
+function preservedEvidenceRevision(target, revision) {
+  const tag = evidencePreservationTag(revision);
+  const result = spawnSync("git", ["-C", target, "rev-parse", "--verify", `refs/tags/${tag}^{commit}`], { encoding: "utf8" });
+  if (result.status !== 0) return { durable: false, tag, target_revision: null };
+  const targetRevision = result.stdout.trim().toLowerCase();
+  return { durable: targetRevision === revision, tag, target_revision: targetRevision };
+}
+
+export function evidenceRevisionDurability(target, revision) {
+  const ancestor = spawnSync("git", ["-C", target, "merge-base", "--is-ancestor", revision, "HEAD"], { encoding: "utf8" });
+  if (ancestor.status === 0) return { durable: true, method: "head-ancestry", tag: null, target_revision: revision };
+  const preserved = preservedEvidenceRevision(target, revision);
+  return { ...preserved, method: preserved.durable ? "evidence-tag" : null };
+}
+
 function gitArtifactAtRevision(target, revision, relativePath) {
   const gitPath = relativePath.split(/[\\/]+/).join("/");
   const object = `${revision}:${gitPath}`;
@@ -126,6 +156,17 @@ export async function validateEvidenceArtifacts(target, registry, workItemIds = 
     if (entry.scope_revision && !gitObjectExists(target, `${entry.scope_revision}^{commit}`)) {
       errors.push(`${entry.id}: recorded revision ${entry.scope_revision} is unavailable`);
       continue;
+    }
+    if (entry.scope_revision) {
+      const durability = evidenceRevisionDurability(target, entry.scope_revision);
+      if (!durability.durable) {
+        const tagRef = `refs/tags/${durability.tag}`;
+        const conflict = durability.target_revision ? ` but that tag targets ${durability.target_revision}` : "";
+        errors.push(
+          `${entry.id}: recorded revision ${entry.scope_revision} is not durable; retain it in HEAD ancestry or preserve it as ${tagRef}${conflict}`
+        );
+        continue;
+      }
     }
     for (const artifact of entry.artifacts ?? []) {
       if (entry.scope_revision) {
@@ -161,10 +202,38 @@ export function resolveGitRevision(target, revision) {
   return resolved;
 }
 
-function gitDirty(target) {
-  const result = spawnSync("git", ["-C", target, "status", "--porcelain=v1"], { encoding: "utf8" });
-  if (result.status !== 0) throw new Error("Git working-tree state could not be inspected");
-  return result.stdout.length > 0;
+function gitPathList(target, args) {
+  const result = spawnSync("git", ["-C", target, ...args, "-z"], { encoding: "utf8" });
+  if (result.status !== 0 || result.error) throw new Error("Git working-tree paths could not be inspected");
+  return result.stdout.split("\0").filter(Boolean);
+}
+
+function overlapStem(value) {
+  return String(value ?? "").split("*")[0].replace(/\/+$/, "");
+}
+
+function pathsOverlap(left, right) {
+  const leftStem = overlapStem(left);
+  const rightStem = overlapStem(right);
+  if (!leftStem || !rightStem) return false;
+  return leftStem === rightStem || leftStem.startsWith(`${rightStem}/`) || rightStem.startsWith(`${leftStem}/`);
+}
+
+function gitWorkingTreeScope(target, workItem) {
+  const dirtyPaths = [...new Set([
+    ...gitPathList(target, ["diff", "--name-only"]),
+    ...gitPathList(target, ["diff", "--cached", "--name-only"]),
+    ...gitPathList(target, ["ls-files", "--others", "--exclude-standard"])
+  ])].sort();
+  const affectedPathsDirty = dirtyPaths.filter((dirtyPath) =>
+    (workItem.affected_paths ?? []).some((affectedPath) => pathsOverlap(dirtyPath, affectedPath))
+  );
+  return {
+    working_tree_dirty: dirtyPaths.length > 0,
+    dirty_path_count: dirtyPaths.length,
+    dirty_scope: affectedPathsDirty.length > 0 ? "affected-scope" : dirtyPaths.length > 0 ? "outside-affected-scope" : "clean",
+    affected_paths_dirty: affectedPathsDirty
+  };
 }
 
 async function repositoryArtifact(target, relativePath) {
@@ -239,7 +308,7 @@ async function buildRuntimeEvidence(target, options, base) {
 }
 
 async function buildEvidence(target, kind, options) {
-  await readWorkItem(target, options.workItemId);
+  const workItem = await readWorkItem(target, options.workItemId);
   const timestamp = new Date().toISOString();
   const recordedBy = String(options.actor ?? "human").trim() || "human";
   const agents = await readJson(path.join(target, ".ai-org/project/agents.json"));
@@ -261,6 +330,12 @@ async function buildEvidence(target, kind, options) {
   if (kind === "runtime") return buildRuntimeEvidence(target, options, base);
   if (kind === "git-revision") {
     const scopeRevision = resolveGitRevision(target, options.revision);
+    const workingTree = gitWorkingTreeScope(target, workItem);
+    if (workingTree.affected_paths_dirty.length > 0) {
+      throw new Error(
+        `Cannot record exact Git evidence while declared affected paths are uncommitted: ${workingTree.affected_paths_dirty.join(", ")}`
+      );
+    }
     return {
       ...base,
       kind,
@@ -271,7 +346,7 @@ async function buildEvidence(target, kind, options) {
       summary: options.summary ?? `Resolved ${options.revision} to ${scopeRevision}`,
       adapter: { id: "git-local", version: "1", source_ref: String(options.revision) },
       artifacts: [],
-      details: { requested_revision: String(options.revision), working_tree_dirty: gitDirty(target) }
+      details: { requested_revision: String(options.revision), ...workingTree }
     };
   }
   if (kind === "unverified-claim") {
@@ -330,6 +405,47 @@ async function buildEvidence(target, kind, options) {
     };
   }
   throw new Error(`Unsupported evidence kind: ${kind}`);
+}
+
+export async function preserveEvidenceRevision(target, options) {
+  const workItem = await readWorkItem(target, options.workItemId);
+  const revision = resolveGitRevision(target, options.revision);
+  const actor = String(options.actor ?? "human").trim() || "human";
+  const agents = await readJson(path.join(target, ".ai-org/project/agents.json"));
+  if (actor !== "human" && !(agents.agents ?? []).some((agent) => agent.id === actor && agent.active !== false)) {
+    throw new Error(`Unknown evidence actor: ${actor}`);
+  }
+  const registry = await readEvidenceRegistry(target);
+  const evidenceIds = registry.entries
+    .filter((entry) => entry.work_item_id === workItem.id && entry.scope_revision === revision)
+    .map((entry) => entry.id);
+  if (evidenceIds.length === 0) {
+    throw new Error(`${workItem.id} has no recorded evidence bound to ${revision}`);
+  }
+
+  const tag = evidencePreservationTag(revision);
+  const existing = preservedEvidenceRevision(target, revision);
+  if (existing.target_revision && !existing.durable) {
+    throw new Error(`Evidence tag ${tag} targets ${existing.target_revision}, not ${revision}`);
+  }
+  if (existing.durable) {
+    return { work_item_id: workItem.id, revision, tag, created: false, evidence_ids: evidenceIds, external_action_performed: false };
+  }
+
+  gitOutput(target, ["tag", tag, revision]);
+  const timestamp = new Date().toISOString();
+  await appendEvent(target, {
+    timestamp,
+    event_type: "evidence_revision_preserved",
+    actor,
+    work_item_id: workItem.id,
+    revision,
+    tag: `refs/tags/${tag}`,
+    evidence_ids: evidenceIds,
+    external_action_performed: false,
+    refs: [EVIDENCE_REGISTRY_RELATIVE_PATH, `refs/tags/${tag}`]
+  });
+  return { work_item_id: workItem.id, revision, tag, created: true, evidence_ids: evidenceIds, external_action_performed: false };
 }
 
 export async function recordEvidence(target, kind, options) {

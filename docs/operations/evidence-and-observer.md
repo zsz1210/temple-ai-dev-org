@@ -25,6 +25,26 @@ Supported kinds are:
 
 The adapters inspect supplied local state. They do not execute tests, launch runtimes, deploy, publish, contact a provider, mutate an external tracker, or add a reference to `gate_evidence`.
 
+## Revision durability
+
+An exact evidence revision must remain obtainable after the worker branch or worktree disappears. Doctor therefore accepts a revision only when it is either an ancestor of the current `HEAD` or retained by the deterministic tag `refs/tags/temple/evidence/<exact-sha>`. An ordinary local branch is not durable evidence retention.
+
+If integration preserves ancestry through a merge, no additional tag is needed. If integration uses a cherry-pick, squash, patch application, or another operation that changes the commit identity, preserve the original evidence revision locally:
+
+```bash
+node ./templew.mjs evidence preserve . \
+  --work-item WI-0001 \
+  --revision 0123456789abcdef0123456789abcdef01234567
+```
+
+The command succeeds only when that Work Item already has evidence bound to the exact revision. It creates a lightweight local `temple/evidence/<sha>` tag and is idempotent; it does not contact or mutate a remote. Publish that exact tag through the project's normal reviewed Git workflow before deleting the source branch:
+
+```bash
+git push origin refs/tags/temple/evidence/0123456789abcdef0123456789abcdef01234567
+```
+
+A fresh clone or CI checkout must resolve the original revision. Do not rewrite historical evidence to a patch-equivalent integration commit: the recorded observation did not run at that different commit.
+
 ## Capture examples
 
 Copy the managed observation templates into a project-owned artifact path and replace every placeholder with facts from the actual run.
@@ -43,6 +63,8 @@ node ./templew.mjs evidence runtime . \
   --work-item WI-0001 \
   --observation .ai-org/artifacts/WI-0001/runtime-observation.json
 ```
+
+Git evidence capture inspects staged, unstaged, and untracked paths. It refuses capture when a declared Work Item `affected_path` is dirty because the exact commit would not contain the implementation being described. Unrelated or governance-only changes remain allowed and are classified in evidence metadata as `outside-affected-scope`; this keeps post-candidate handoff artifacts from being confused with uncommitted implementation.
 
 When the correct environment is unavailable, record that limitation rather than manufacturing a pass:
 
@@ -73,4 +95,4 @@ For terminal Work Items, `tested_revision` is the current exact-revision authori
 
 After the responsible Position reviews a registry entry and its source, it may deliberately cite the entry ID or artifact path through the normal `transition --satisfy requirement=reference` command. Recording evidence alone never changes the Work Item.
 
-`doctor` validates the registry structure, Work Item references, and captured artifact digests. It does not claim that a supplied observation is truthful or that an external environment was actually exercised; Independent QA must still reproduce the required behavior.
+`doctor` validates the registry structure, Work Item references, revision durability, and captured artifact digests. It does not claim that a local preservation tag was pushed, that a supplied observation is truthful, or that an external environment was actually exercised; a fresh-clone check and Independent QA must still reproduce the required behavior.

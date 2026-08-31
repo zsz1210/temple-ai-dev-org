@@ -64,7 +64,7 @@ async function fixture(context) {
   assert.equal(git(target, ["config", "user.name", "Temple Tests"]).status, 0);
   assert.equal(git(target, ["add", "."]).status, 0);
   assert.equal(git(target, ["commit", "-qm", "initial state"]).status, 0);
-  return { target };
+  return { target, temporaryRoot };
 }
 
 function createWorkItem(target, title = "Evidence work") {
@@ -110,6 +110,84 @@ test("init owns an empty evidence registry and exact Git evidence resolves to a 
   assert.match(registry.entries[0].scope_revision, /^[0-9a-f]{40}$/);
   assert.equal(registry.entries[0].adapter.id, "git-local");
   assert.equal(registry.entries[0].external_action_performed, false);
+  assert.equal(registry.entries[0].details.working_tree_dirty, true);
+  assert.equal(registry.entries[0].details.dirty_scope, "outside-affected-scope");
+  assert.deepEqual(registry.entries[0].details.affected_paths_dirty, []);
+});
+
+test("Git evidence rejects uncommitted changes inside the declared affected scope", async (context) => {
+  const { target } = await fixture(context);
+  const workItemId = createWorkItem(target);
+  await fs.mkdir(path.join(target, "src/evidence"), { recursive: true });
+  await fs.writeFile(path.join(target, "src/evidence/candidate.mjs"), "export const candidate = true;\n");
+
+  const rejected = run(["evidence", "git", target, "--work-item", workItemId, "--revision", "HEAD"]);
+  assert.equal(rejected.status, 1, rejected.stdout);
+  assert.match(rejected.stderr, /declared affected paths are uncommitted.*src\/evidence\/candidate\.mjs/);
+
+  assert.equal(git(target, ["add", "src/evidence/candidate.mjs"]).status, 0);
+  assert.equal(git(target, ["commit", "-qm", "commit exact candidate"]).status, 0);
+  const accepted = run(["evidence", "git", target, "--work-item", workItemId, "--revision", "HEAD"]);
+  assert.equal(accepted.status, 0, accepted.stderr || accepted.stdout);
+  const registry = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/evidence.json"), "utf8"));
+  assert.equal(registry.entries[0].details.dirty_scope, "outside-affected-scope");
+  assert.deepEqual(registry.entries[0].details.affected_paths_dirty, []);
+});
+
+test("Doctor requires non-ancestral evidence revisions to use deterministic preservation tags", async (context) => {
+  const { target, temporaryRoot } = await fixture(context);
+  const workItemId = createWorkItem(target);
+  const tree = git(target, ["rev-parse", "HEAD^{tree}"]).stdout.trim();
+  const candidate = git(target, ["commit-tree", tree, "-p", "HEAD", "-m", "detached evidence candidate"]).stdout.trim();
+  assert.match(candidate, /^[0-9a-f]{40}$/);
+
+  const recorded = run(["evidence", "git", target, "--work-item", workItemId, "--revision", candidate]);
+  assert.equal(recorded.status, 0, recorded.stderr || recorded.stdout);
+  const unpreservedDoctor = run(["doctor", target, "--json"]);
+  assert.equal(unpreservedDoctor.status, 1, unpreservedDoctor.stderr || unpreservedDoctor.stdout);
+  assert.match(
+    JSON.parse(unpreservedDoctor.stdout).checks.find((entry) => entry.id === "evidence_registry").message,
+    new RegExp(`not durable.*refs/tags/temple/evidence/${candidate}`)
+  );
+
+  const preserved = run(["evidence", "preserve", target, "--work-item", workItemId, "--revision", candidate]);
+  assert.equal(preserved.status, 0, preserved.stderr || preserved.stdout);
+  assert.match(preserved.stdout, /Created local evidence tag/);
+  assert.match(preserved.stdout, /External action: not performed/);
+  assert.equal(git(target, ["rev-parse", `refs/tags/temple/evidence/${candidate}^{commit}`]).stdout.trim(), candidate);
+
+  const repeated = run(["evidence", "preserve", target, "--work-item", workItemId, "--revision", candidate]);
+  assert.equal(repeated.status, 0, repeated.stderr || repeated.stdout);
+  assert.match(repeated.stdout, /Retained local evidence tag/);
+  const preservedDoctor = run(["doctor", target, "--json"]);
+  assert.equal(preservedDoctor.status, 0, preservedDoctor.stderr || preservedDoctor.stdout);
+
+  assert.equal(git(target, ["add", "."]).status, 0);
+  assert.equal(git(target, ["commit", "-qm", "record preserved evidence"]).status, 0);
+  const freshClone = path.join(temporaryRoot, "fresh-clone");
+  const cloned = spawnSync("git", ["clone", "--no-local", "-q", target, freshClone], { encoding: "utf8" });
+  assert.equal(cloned.status, 0, cloned.stderr || cloned.stdout);
+  assert.equal(git(freshClone, ["rev-parse", candidate]).stdout.trim(), candidate);
+  const freshDoctor = run(["doctor", freshClone, "--json"]);
+  assert.equal(freshDoctor.status, 0, freshDoctor.stderr || freshDoctor.stdout);
+});
+
+test("Evidence preservation rejects unrecorded revisions and conflicting deterministic tags", async (context) => {
+  const { target } = await fixture(context);
+  const workItemId = createWorkItem(target);
+  const tree = git(target, ["rev-parse", "HEAD^{tree}"]).stdout.trim();
+  const candidate = git(target, ["commit-tree", tree, "-p", "HEAD", "-m", "conflicting evidence candidate"]).stdout.trim();
+
+  const unrecorded = run(["evidence", "preserve", target, "--work-item", workItemId, "--revision", candidate]);
+  assert.equal(unrecorded.status, 1, unrecorded.stdout);
+  assert.match(unrecorded.stderr, /has no recorded evidence bound/);
+
+  const recorded = run(["evidence", "git", target, "--work-item", workItemId, "--revision", candidate]);
+  assert.equal(recorded.status, 0, recorded.stderr || recorded.stdout);
+  assert.equal(git(target, ["tag", `temple/evidence/${candidate}`, "HEAD"]).status, 0);
+  const conflict = run(["evidence", "preserve", target, "--work-item", workItemId, "--revision", candidate]);
+  assert.equal(conflict.status, 1, conflict.stdout);
+  assert.match(conflict.stderr, /targets .* not/);
 });
 
 test("upgrade seeds a missing evidence registry without adopting project evidence", async (context) => {

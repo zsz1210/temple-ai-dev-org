@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 71 total, 8 active
+- Work items: 72 total, 8 active
 - Codex tasks: 5 registered, 4 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -116,6 +116,7 @@
 | WI-0069 | Establish progressive usage calibration and autonomy policy | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `aead7f54` | 0 | 12 | 0 |
 | WI-0070 | Stabilize provider-owned usage notification test timing | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a5f3860a` | 0 | 19 | 0 |
 | WI-0071 | Automate Skill candidate proposals with human activation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `406bc213` | 0 | 15 | 0 |
+| WI-0072 | Preserve evidence revisions across remote CI | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5913ea0c` | 0 | 19 | 0 |
 
 ## Codex task registry
 
@@ -234,14 +235,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T14:42:31.461Z | work_item_closed | WI-0070 | agent-mog |
-| 2026-08-31T14:42:31.461Z | release_gate_completed | WI-0070 | agent-mog |
-| 2026-08-31T14:42:19.407Z | work_item_claimed | WI-0070 | human |
-| 2026-08-31T14:38:46.981Z | evidence_recorded | WI-0069 | human |
-| 2026-08-31T14:38:46.700Z | evidence_recorded | WI-0070 | human |
-| 2026-08-31T14:38:08.989Z | work_item_claim_released | WI-0069 | human |
-| 2026-08-31T14:37:31.691Z | work_item_unresolved_updated | WI-0069 | agent-mog |
-| 2026-08-31T14:37:31.385Z | work_item_claimed | WI-0069 | human |
+| 2026-08-31T15:42:25.243Z | work_item_closed | WI-0072 | agent-mog |
+| 2026-08-31T15:42:25.243Z | release_gate_completed | WI-0072 | agent-mog |
+| 2026-08-31T15:42:13.793Z | evidence_recorded | WI-0072 | agent-mog |
+| 2026-08-31T15:41:44.579Z | work_item_claimed | WI-0072 | human |
+| 2026-08-31T15:41:31.074Z | work_item_transitioned | WI-0072 | agent-lulu |
+| 2026-08-31T15:41:30.786Z | work_item_claim_released | WI-0072 | human |
+| 2026-08-31T15:41:30.498Z | handoff_created | WI-0072 | agent-lulu |
+| 2026-08-31T15:41:22.744Z | evidence_recorded | WI-0072 | agent-lulu |
 
 ## Assignments
 
