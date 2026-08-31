@@ -177,7 +177,18 @@ Examples of reasonable defaults—not hard-coded model names—are:
 - Quality Evaluator and Independent QA: exact candidate, acceptance criteria, and evidence with sufficient independence and reasoning quality.
 - Observer: compact structured projections and inexpensive deterministic aggregation whenever model judgment is unnecessary.
 
-Concrete model preferences belong to project-owned policy, not the framework-managed template. Temple's own development project currently prefers the GPT-5.6 family and uses `gpt-5.6-luna` for lightweight, bounded work. Balanced or consequential tasks still require an explicit GPT-5.6 selection until a separately evaluated policy defines when to choose Terra or Sol. This is an operating preference, not automatic-routing behavior and not a default imposed on repositories that adopt Temple. OpenAI's current [GPT-5.6 guidance](https://developers.openai.com/api/docs/guides/latest-model) likewise describes Luna for efficient high-volume work, Terra for a balance of capability and cost, and Sol for flagship capability; Temple still requires project-specific evaluation before automating that choice.
+Concrete model preferences belong to project-owned policy, not the framework-managed template. Temple's own development project uses the accepted manual profiles in [DEC-0002](../../.ai-org/decisions/DEC-0002-temple-development-model-routing.md):
+
+| Profile | Model and reasoning | Typical Temple task |
+|---|---|---|
+| `critical-planning` | `gpt-5.6-sol`, `xhigh` | consequential planning, architecture, security, migrations, and high-risk review |
+| `standard` | `gpt-5.6-terra`, `medium` or `high` | ordinary implementation, diagnosis, documentation synthesis, and broad exploration |
+| `lightweight-quality` | `gpt-5.6-luna`, `max` | bounded and reversible work with objective acceptance checks where quality matters |
+| `mechanical-fast` | `gpt-5.6-luna`, `medium` or `low`, or no model | formatting, extraction, inventory, repetitive transformation, and deterministic checks |
+
+These are coordinator choices for the exact task, not automatic-routing behavior and not defaults imposed on repositories that adopt Temple. Task shape and risk take precedence over Position or Agent display name. Explicit human task-level selection still wins within the authorized scope and spending boundary, and a fallback outside the GPT-5.6 family requires an explicit exception. Requested and effective model remain distinct facts.
+
+OpenAI's current [GPT-5.6 guidance](https://developers.openai.com/api/docs/guides/latest-model) describes Luna for efficient high-volume work, Terra for a balance of capability and cost, and Sol for flagship capability. Higher reasoning effort can improve difficult-task quality while increasing Token use and latency. `Luna max` is therefore a deliberate quality-first lightweight profile, not a claim that every task becomes cheaper or better. Temple still requires project-specific evaluation before automating any choice.
 
 Selection precedence is:
 
