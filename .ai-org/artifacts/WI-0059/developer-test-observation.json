@@ -1,0 +1,18 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "b505f004989b3c89aa3737f1655d95c4a71d3371",
+  "command": [
+    "npm run verify",
+    "node ./templew.mjs schema validate . --json",
+    "node ./templew.mjs doctor . --json",
+    "git diff --check"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T08:52:10Z",
+  "completed_at": "2026-08-31T08:53:02Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0059/developer-report.md",
+    ".ai-org/artifacts/WI-0059/reconciliation-result.md"
+  ]
+}

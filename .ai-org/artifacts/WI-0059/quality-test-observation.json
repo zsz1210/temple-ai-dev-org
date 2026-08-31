@@ -1,0 +1,21 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "b505f004989b3c89aa3737f1655d95c4a71d3371",
+  "command": [
+    "npm run check",
+    "node --test test/workflow.test.mjs test/evidence-observer.test.mjs test/control-plane-foundation.test.mjs",
+    "node ./templew.mjs schema validate . --json",
+    "node ./templew.mjs doctor . --json",
+    "exact 16-close and 5-retained ledger assertions",
+    "git diff --check",
+    "clean detached-worktree assertion"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T08:54:20Z",
+  "completed_at": "2026-08-31T08:55:42Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0059/quality-report.md",
+    ".ai-org/artifacts/WI-0059/reconciliation-result.md"
+  ]
+}

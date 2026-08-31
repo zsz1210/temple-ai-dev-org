@@ -1,77 +1,64 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-30T14:34:19.320Z",
-  "source_fingerprint": "08a5630e6e92ef47b7ce9644794e1313777da6857c5319e089b5c4731529100d",
+  "generated_at": "2026-08-31T08:58:57.833Z",
+  "source_fingerprint": "9d2a839758eea96f333a23ded06bb6ab9d8319bcacd07d6c6b598a94da773759",
   "scope": {
-    "mode": "parent-descendants",
-    "parent_work_item_id": "WI-0031",
+    "mode": "all-active",
+    "parent_work_item_id": null,
     "selected_work_item_ids": [
-      "WI-0032",
+      "WI-0029",
+      "WI-0031",
       "WI-0033",
-      "WI-0034",
-      "WI-0035"
+      "WI-0035",
+      "WI-0043"
     ]
   },
   "max_workers": 3,
   "summary": {
-    "selected": 4,
-    "dispatchable": 1,
+    "selected": 5,
+    "dispatchable": 0,
     "active": 0,
-    "sequential": 0,
-    "blocked": 3,
-    "waves": 1
+    "sequential": 3,
+    "blocked": 2,
+    "waves": 0
   },
-  "waves": [
+  "waves": [],
+  "active": [],
+  "sequential": [
     {
-      "id": "wave-001",
-      "order": 1,
-      "dispatch": [
-        {
-          "work_item_id": "WI-0032",
-          "title": "Sandbox federation participant Git inspection",
-          "position_id": "release_manager",
-          "agent_id": "agent-mog",
-          "agent_name": "Mog",
-          "suggested_task_title": "WI-0032 · Release Manager · Mog",
-          "base_revision": "68d4cf448df8f76ba08ce9b64ddf2c27967a39a0",
-          "affected_paths": [
-            "src/federation.mjs",
-            "test/federation.test.mjs",
-            "docs/operations/multi-repository-federation.md",
-            "SECURITY.md"
-          ],
-          "dependencies": [],
-          "required_disciplines": [],
-          "active_requirements": {
-            "stage": "release_gate",
-            "disciplines": [],
-            "resources": []
-          },
-          "preparation_fingerprint": "c5a632120dbdac402fb2ff87fff61d910a9495ddff9cda452bad034032028e27",
-          "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0032 --position release_manager --no-write --json",
-          "claim_required_before_work": true,
-          "task_registration_required_after_creation": true,
-          "task_creation_performed": false,
-          "claim_performed": false,
-          "external_action_performed": false
-        }
-      ],
-      "join_gate": {
-        "integration_owner_agent_ids": [
-          "agent-mog"
-        ],
-        "required_evidence": [
-          "exact_candidate_revision",
-          "verification_results",
-          "unresolved_items"
-        ],
-        "rule": "Join every dispatched Work Item through its Integration Owner before dispatching dependent work or advancing the lifecycle."
-      }
+      "work_item_id": "WI-0029",
+      "title": "Prototype local Agent Command Gateway",
+      "disposition": "sequential",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "requested_mode_sequential"
+      ]
+    },
+    {
+      "work_item_id": "WI-0031",
+      "title": "Harden Temple before the next release",
+      "disposition": "sequential",
+      "position_id": "product_manager",
+      "agent_id": "agent-yuna",
+      "integration_owner_agent_id": "agent-mog",
+      "reasons": [
+        "requested_mode_sequential"
+      ]
+    },
+    {
+      "work_item_id": "WI-0043",
+      "title": "Review Dashboard information architecture and operator usability",
+      "disposition": "sequential",
+      "position_id": "product_manager",
+      "agent_id": "agent-yuna",
+      "integration_owner_agent_id": "agent-mog",
+      "reasons": [
+        "requested_mode_sequential"
+      ]
     }
   ],
-  "active": [],
-  "sequential": [],
   "blocked": [
     {
       "work_item_id": "WI-0033",
@@ -82,18 +69,6 @@
       "integration_owner_agent_id": "agent-mog",
       "reasons": [
         "requested_mode_blocked"
-      ]
-    },
-    {
-      "work_item_id": "WI-0034",
-      "title": "Make Dashboard current-state interaction trustworthy",
-      "disposition": "blocked",
-      "position_id": "developer",
-      "agent_id": "agent-rikku",
-      "integration_owner_agent_id": "agent-mog",
-      "reasons": [
-        "overlap_outside_scope:WI-0029",
-        "overlap_outside_scope:WI-0030"
       ]
     },
     {
@@ -111,20 +86,52 @@
   "conflicts": [
     {
       "kind": "affected-path",
-      "left_work_item_id": "WI-0032",
+      "left_work_item_id": "WI-0029",
       "right_work_item_id": "WI-0033",
       "paths": [
         {
-          "left_path": "SECURITY.md",
-          "right_path": "SECURITY.md"
+          "left_path": "src/control-plane-config.mjs",
+          "right_path": "src/control-plane-config.mjs"
+        },
+        {
+          "left_path": "src/codex-app-server-provider.mjs",
+          "right_path": "src/codex-app-server-provider.mjs"
+        },
+        {
+          "left_path": "src/control-plane-server.mjs",
+          "right_path": "src/control-plane-server.mjs"
+        },
+        {
+          "left_path": ".ai-org/core/schemas/control-plane-config.schema.json",
+          "right_path": ".ai-org/core/schemas/control-plane-config.schema.json"
+        },
+        {
+          "left_path": "docs/operations/control-plane.md",
+          "right_path": "docs/operations/control-plane.md"
         }
       ],
-      "resolution": "explicit-bidirectional"
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0029",
+      "right_work_item_id": "WI-0043",
+      "paths": [
+        {
+          "left_path": "src/control-plane-dashboard.mjs",
+          "right_path": "src/control-plane-dashboard.mjs"
+        },
+        {
+          "left_path": "docs/operations/control-plane.md",
+          "right_path": "docs/operations/control-plane.md"
+        }
+      ],
+      "resolution": "separate-waves"
     },
     {
       "kind": "affected-path",
       "left_work_item_id": "WI-0033",
-      "right_work_item_id": "WI-0034",
+      "right_work_item_id": "WI-0043",
       "paths": [
         {
           "left_path": "docs/operations/control-plane.md",

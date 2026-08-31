@@ -7830,6 +7830,180 @@
         "exit_code": 0,
         "started_at": "2026-08-31T08:27:25.000Z"
       }
+    },
+    {
+      "id": "EVID-20260831T085337Z-BCDD0A0D",
+      "work_item_id": "WI-0059",
+      "recorded_at": "2026-08-31T08:53:37.445Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0059 reconciliation candidate",
+      "outcome": "verified",
+      "scope_revision": "b505f004989b3c89aa3737f1655d95c4a71d3371",
+      "observed_at": "2026-08-31T08:53:37.445Z",
+      "summary": "Exact candidate closes 16 evidence-complete Release Gate items and retains five genuine unfinished boundaries without external release.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "b505f004989b3c89aa3737f1655d95c4a71d3371"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "b505f004989b3c89aa3737f1655d95c4a71d3371",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260831T085337Z-D2AB0E4B",
+      "work_item_id": "WI-0059",
+      "recorded_at": "2026-08-31T08:53:37.708Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0059 Developer verification",
+      "outcome": "pass",
+      "scope_revision": "b505f004989b3c89aa3737f1655d95c4a71d3371",
+      "observed_at": "2026-08-31T08:53:02Z",
+      "summary": "Repository checks, documentation links, schema, Doctor, diff checks, and all 232 tests passed on the exact reconciliation candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0059/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0059/developer-test-observation.json",
+          "sha256": "2fe3380ded9b2b71495f09c2f81ddffa673173c4209e98b73b639ccb001f3001"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0059/developer-report.md",
+          "sha256": "d9923559dffcecbc4cce18ece57c6c39fd94d138ba4349ce431d4f0813004403"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0059/reconciliation-result.md",
+          "sha256": "04c9a49df27ee70cd6ddd6f405a367b7095e8bdf78ab510654bc8d28de47395d"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T08:52:10Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T085624Z-A3A50DD1",
+      "work_item_id": "WI-0059",
+      "recorded_at": "2026-08-31T08:56:24.792Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0059 Quality verification",
+      "outcome": "pass",
+      "scope_revision": "b505f004989b3c89aa3737f1655d95c4a71d3371",
+      "observed_at": "2026-08-31T08:55:42Z",
+      "summary": "Fresh detached worktree passed 39 focused tests, repository checks, schema, Doctor, exact 16/5 ledger assertions, and clean-tree verification.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0059/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0059/quality-test-observation.json",
+          "sha256": "97f76694ca717121f1f54c87fd88f0f0afa72cb840d2c56bb6b2f74182ed59e9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0059/quality-report.md",
+          "sha256": "2053df5671ca57745366b0670fd8b3ab20d99f66d68c8c0c00ed47003ba9d79a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0059/reconciliation-result.md",
+          "sha256": "04c9a49df27ee70cd6ddd6f405a367b7095e8bdf78ab510654bc8d28de47395d"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run check",
+          "node --test test/workflow.test.mjs test/evidence-observer.test.mjs test/control-plane-foundation.test.mjs",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "exact 16-close and 5-retained ledger assertions",
+          "git diff --check",
+          "clean detached-worktree assertion"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T08:54:20Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T085826Z-6838CAF7",
+      "work_item_id": "WI-0059",
+      "recorded_at": "2026-08-31T08:58:26.765Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0059 Independent QA verification",
+      "outcome": "pass",
+      "scope_revision": "b505f004989b3c89aa3737f1655d95c4a71d3371",
+      "observed_at": "2026-08-31T08:57:59Z",
+      "summary": "Second fresh detached worktree passed full 232/232 verification, schema, Doctor, exact 16/5 ledger assertions, and clean-tree checks.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0059/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0059/independent-qa-test-observation.json",
+          "sha256": "ccc785c788502468504f9a639ab3bf0ff81d1c77abed79b761aa628a0dd0a1b0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0059/independent-qa-report.md",
+          "sha256": "076cc9df604cab3169d6a8ca89d2cf4b5e6a6d74eface556bc72562685e47979"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0059/reconciliation-result.md",
+          "sha256": "04c9a49df27ee70cd6ddd6f405a367b7095e8bdf78ab510654bc8d28de47395d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0059/human-approval.md",
+          "sha256": "f4f8299998c5c6aa3cc2488681d258cf7e2aa9c62103ce3e497d60918024ac96"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "exact 16-close and 5-retained ledger assertions",
+          "git diff --check",
+          "clean detached-worktree assertion"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T08:57:10Z"
+      }
     }
   ]
 }
