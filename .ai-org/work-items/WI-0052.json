@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0052",
   "title": "Establish provider-owned Codex observability bridge",
-  "state": "intake",
-  "owner_position": "engineering_manager",
-  "assigned_agent_id": "agent-mog",
+  "state": "spec",
+  "owner_position": "product_manager",
+  "assigned_agent_id": "agent-yuna",
   "created_at": "2026-08-31T06:08:45.709Z",
-  "updated_at": "2026-08-31T06:09:50.421Z",
+  "updated_at": "2026-08-31T06:10:51.091Z",
   "scope": [
     "Add a local provider-owned launch contract that creates a Codex App Server thread, registers its stable identity with Temple, and only then begins generation.",
     "Persist execution origin, provider, requested and effective model, reasoning effort, service tier, launch revision, current revision, and claim base as distinct bounded task metadata.",
@@ -50,7 +50,7 @@
   "base_revision": "b25c030",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-rikku",
-  "planned_agent_id": "agent-mog",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [
@@ -74,8 +74,25 @@
   ],
   "claim": null,
   "claims": [],
-  "gate_evidence": {},
-  "evidence": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0052/work-order.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0052/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0052/work-order.md",
+    ".ai-org/artifacts/WI-0052/human-approval.md"
+  ],
   "unresolved": [],
-  "next_position": "product_manager"
+  "next_position": "tech_lead",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "d331256",
+      "artifact": ".ai-org/artifacts/WI-0052/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-08-31T06:10:50.827Z"
+    }
+  ]
 }
