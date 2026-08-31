@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
 - Work items: 64 total, 6 active
 - Codex tasks: 5 registered, 4 archive-ready
@@ -16,7 +16,7 @@
 - Learning revalidation: 0 due, 0 contradicted
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 10
+- Attention signals: 11
 
 ## Collaboration
 
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -107,7 +107,7 @@
 | WI-0061 | Approve a bounded local instrumentation pilot | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `cdd05741` | 0 | 19 | 0 |
 | WI-0062 | Run the approved provider-owned instrumentation pilot | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5979c1e3` | 0 | 20 | 0 |
 | WI-0063 | Correct Provider-observed model attribution | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c44bbdf5` | 0 | 22 | 0 |
-| WI-0064 | Revalidate Provider-observed model attribution | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831105023-2bbff216 | `6974cec3` | 0 | 14 | 0 |
+| WI-0064 | Revalidate Provider-observed model attribution | blocked | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6bdcf181` | 0 | 22 | 2 |
 
 ## Codex task registry
 
@@ -156,6 +156,7 @@
 
 ## Attention
 
+- WI-0064 is blocked
 - task-0001 can be archived
 - task-0002 can be archived
 - task-0003 can be archived
@@ -220,14 +221,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T10:50:23.339Z | work_item_claimed | WI-0064 | human |
-| 2026-08-31T10:50:23.039Z | work_item_transitioned | WI-0064 | agent-rikku |
-| 2026-08-31T10:50:22.757Z | work_item_claim_released | WI-0064 | human |
-| 2026-08-31T10:50:22.471Z | handoff_created | WI-0064 | agent-rikku |
-| 2026-08-31T10:49:52.393Z | evidence_recorded | WI-0064 | human |
-| 2026-08-31T10:41:17.019Z | work_item_claimed | WI-0064 | human |
-| 2026-08-31T10:41:16.692Z | work_item_coordination_configured | WI-0064 | agent-rikku |
-| 2026-08-31T10:41:11.027Z | work_item_transitioned | WI-0064 | agent-tidus |
+| 2026-08-31T10:55:46.714Z | release_gate_completed | WI-0064 | agent-mog |
+| 2026-08-31T10:55:10.832Z | work_item_claimed | WI-0064 | human |
+| 2026-08-31T10:55:10.508Z | work_item_transitioned | WI-0064 | agent-lulu |
+| 2026-08-31T10:55:10.197Z | work_item_claim_released | WI-0064 | human |
+| 2026-08-31T10:55:09.902Z | handoff_created | WI-0064 | agent-lulu |
+| 2026-08-31T10:54:54.573Z | evidence_recorded | WI-0064 | human |
+| 2026-08-31T10:52:48.411Z | work_item_claimed | WI-0064 | human |
+| 2026-08-31T10:52:48.080Z | work_item_transitioned | WI-0064 | agent-lulu |
 
 ## Assignments
 

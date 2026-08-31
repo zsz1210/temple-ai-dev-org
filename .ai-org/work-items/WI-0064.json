@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0064",
   "title": "Revalidate Provider-observed model attribution",
-  "state": "test",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "blocked",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-31T10:39:13.047Z",
-  "updated_at": "2026-08-31T10:50:23.339Z",
+  "updated_at": "2026-08-31T10:55:46.714Z",
   "scope": [
     "Run exactly one local Provider-owned Luna Max turn against the existing synthetic instrumentation pilot after a fresh installed-schema check.",
     "Require exact project, Work Item, task, Position, Agent, revision, Provider, effective-model, reasoning, terminal-outcome, and positive detailed-Token correlation before passing.",
@@ -38,7 +38,7 @@
   ],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "6974cec387adc2d86282d0f57a4add7a1db43cc5",
+  "base_revision": "6bdcf18173a80f7bf314f20b44fa71f33a7628c0",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -46,15 +46,16 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260831105023-2bbff216",
-    "status": "active",
+    "id": "claim-20260831105510-b0d69f85",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-lulu",
-    "base_revision": "6974cec387adc2d86282d0f57a4add7a1db43cc5",
+    "agent_id": "agent-mog",
+    "base_revision": "6bdcf18173a80f7bf314f20b44fa71f33a7628c0",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-08-31T10:50:23.339Z",
-    "released_at": null
+    "claimed_at": "2026-08-31T10:55:10.832Z",
+    "released_at": "2026-08-31T10:55:46.714Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -115,14 +116,43 @@
     },
     {
       "id": "claim-20260831105023-2bbff216",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-lulu",
       "base_revision": "6974cec387adc2d86282d0f57a4add7a1db43cc5",
       "branch": "main",
       "worktree": null,
       "claimed_at": "2026-08-31T10:50:23.339Z",
-      "released_at": null
+      "released_at": "2026-08-31T10:52:47.771Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260831105248-25a0eb3f",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "6bdcf18173a80f7bf314f20b44fa71f33a7628c0",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T10:52:48.411Z",
+      "released_at": "2026-08-31T10:55:10.197Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260831105510-b0d69f85",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "6bdcf18173a80f7bf314f20b44fa71f33a7628c0",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T10:55:10.832Z",
+      "released_at": "2026-08-31T10:55:46.714Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -149,6 +179,27 @@
       ".ai-org/artifacts/WI-0064/runtime-observation.json",
       ".ai-org/artifacts/WI-0064/diagnosis.md",
       "EVID-20260831T104952Z-14965D35"
+    ],
+    "test_evidence": [
+      "EVID-20260831T105235Z-176D4F94"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0064/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260831T105454Z-011A9838"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0064/product-spec.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0064/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0064/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0064/human-approval.md"
     ]
   },
   "evidence": [
@@ -165,10 +216,21 @@
     ".ai-org/artifacts/WI-0064/developer-report.md",
     ".ai-org/artifacts/WI-0064/runtime-observation.json",
     ".ai-org/artifacts/WI-0064/diagnosis.md",
-    "EVID-20260831T104952Z-14965D35"
+    "EVID-20260831T104952Z-14965D35",
+    "EVID-20260831T105235Z-176D4F94",
+    ".ai-org/artifacts/WI-0064/evaluation-report.md",
+    ".ai-org/artifacts/WI-0064/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0064/quality-report.md",
+    ".ai-org/artifacts/WI-0064/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0064/independent-qa-report.md",
+    "EVID-20260831T105454Z-011A9838",
+    ".ai-org/artifacts/WI-0064/release-record.md"
   ],
-  "unresolved": [],
-  "next_position": "quality_evaluator",
+  "unresolved": [
+    "Effective turn reasoning is unavailable through the inspected Provider protocol, so the predeclared strict gate did not pass.",
+    "The four-repository harness and cross-repository reporting prerequisites remain incomplete."
+  ],
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -197,7 +259,26 @@
       "input_revision": "6974cec387adc2d86282d0f57a4add7a1db43cc5",
       "artifact": ".ai-org/artifacts/WI-0064/handoff-004-developer-to-quality_evaluator.md",
       "created_at": "2026-08-31T10:50:22.471Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "6bdcf18173a80f7bf314f20b44fa71f33a7628c0",
+      "artifact": ".ai-org/artifacts/WI-0064/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-08-31T10:52:47.464Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "6bdcf18173a80f7bf314f20b44fa71f33a7628c0",
+      "artifact": ".ai-org/artifacts/WI-0064/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-08-31T10:55:09.902Z"
     }
   ],
-  "developer_candidate_revision": "6974cec387adc2d86282d0f57a4add7a1db43cc5"
+  "developer_candidate_revision": "6974cec387adc2d86282d0f57a4add7a1db43cc5",
+  "tested_revision": "6bdcf18173a80f7bf314f20b44fa71f33a7628c0",
+  "release_gate_result": "no-go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0064/human-approval.md",
+  "previous_state": "release_gate"
 }

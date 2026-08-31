@@ -8665,6 +8665,108 @@
         "scenario": "one Provider-owned read-only Luna turn completed with correct effective-model and Token attribution; the stricter reasoning and response gate remained partial",
         "provenance": "live"
       }
+    },
+    {
+      "id": "EVID-20260831T105235Z-176D4F94",
+      "work_item_id": "WI-0064",
+      "recorded_at": "2026-08-31T10:52:35.656Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality review of partial live revalidation",
+      "outcome": "pass",
+      "scope_revision": "6bdcf18173a80f7bf314f20b44fa71f33a7628c0",
+      "observed_at": "2026-08-31T10:51:30Z",
+      "summary": "234/234 plus healthy Doctor; live model and Token attribution verified, strict gate remains no-go.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0064/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0064/quality-test-observation.json",
+          "sha256": "ae598edbecce1420d40b3130ea2523b2d5d449ac9e9bca707397642db0e70b1c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0064/quality-report.md",
+          "sha256": "fd41c0844d4313e34f1ce9c91d3c57b6ad0cdfec844f4257917c1f0f80336eb2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0064/evaluation-report.md",
+          "sha256": "c71c5c33cdae604e5db57fd6a3af4f12de62f3ca991be14c3182a946f299d0e9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0064/runtime-observation.json",
+          "sha256": "35b44fccd0ded2e3fa9c02aa9a1b7520bdad39bb923f348a2a5e1b56c1f3d247"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify",
+          "Doctor",
+          "read-only usage preflight and report over the isolated WI-0064 telemetry state",
+          "canonical task, telemetry, response-inspection, privacy, and zero-retry review",
+          "synthetic repository npm test and Doctor"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T10:50:39Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T105454Z-011A9838",
+      "work_item_id": "WI-0064",
+      "recorded_at": "2026-08-31T10:54:54.573Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent verification of partial live revalidation",
+      "outcome": "pass",
+      "scope_revision": "6bdcf18173a80f7bf314f20b44fa71f33a7628c0",
+      "observed_at": "2026-08-31T10:54:25Z",
+      "summary": "Exact candidate verified; effective-model fix passes, strict reasoning provenance remains no-go.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0064/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0064/independent-qa-test-observation.json",
+          "sha256": "a1607b5c050b318c9a41e09763f449b940c839e38e0defb9d95e698c828d00a8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0064/independent-qa-report.md",
+          "sha256": "b348625f8443262d89af719f21df5277a136ddb80a464b8000f3b23918280fb5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0064/runtime-observation.json",
+          "sha256": "35b44fccd0ded2e3fa9c02aa9a1b7520bdad39bb923f348a2a5e1b56c1f3d247"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0064/diagnosis.md",
+          "sha256": "712bd3e316d6b8c7c5354ba3e2063ab524fe019bab6fcc45295c86f80995504a"
+        }
+      ],
+      "details": {
+        "command": [
+          "confirm exact revision and clean detached worktree",
+          "npm ci --offline --ignore-scripts",
+          "npm run verify",
+          "Doctor",
+          "independent read-only comparison of canonical task, telemetry, usage report, and documented protocol limits"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T10:53:17Z"
+      }
     }
   ]
 }
