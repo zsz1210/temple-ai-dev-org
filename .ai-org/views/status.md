@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 69 total, 8 active
+- Work items: 70 total, 9 active
 - Codex tasks: 5 registered, 4 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -112,7 +112,8 @@
 | WI-0066 | Add bounded multi-repository experiment runner | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ab212c0f` | 0 | 19 | 0 |
 | WI-0067 | Run bounded four-repository commerce rehearsal | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0d656df5` | 0 | 18 | 3 |
 | WI-0068 | Fail closed on invalid experiment telemetry paths | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `123a9fda` | 0 | 18 | 0 |
-| WI-0069 | Establish progressive usage calibration and autonomy policy | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `aead7f54` | 0 | 5 | 0 |
+| WI-0069 | Establish progressive usage calibration and autonomy policy | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `aead7f54` | 0 | 12 | 1 |
+| WI-0070 | Stabilize provider-owned usage notification test timing | intake | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
 
 ## Codex task registry
 
@@ -227,14 +228,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T13:40:26.287Z | work_item_transitioned | WI-0069 | agent-rikku |
-| 2026-08-31T13:40:17.165Z | handoff_created | WI-0069 | agent-rikku |
-| 2026-08-31T13:40:08.657Z | evidence_recorded | WI-0069 | human |
-| 2026-08-31T13:39:26.045Z | evidence_recorded | WI-0069 | human |
-| 2026-08-31T13:25:06.459Z | work_item_claimed | WI-0069 | human |
-| 2026-08-31T13:25:02.426Z | work_item_coordination_configured | WI-0069 | agent-rikku |
-| 2026-08-31T13:24:58.036Z | work_item_transitioned | WI-0069 | agent-tidus |
-| 2026-08-31T13:22:33.490Z | work_item_claimed | WI-0069 | human |
+| 2026-08-31T13:54:38.874Z | work_item_transitioned | WI-0069 | agent-lulu |
+| 2026-08-31T13:54:38.575Z | handoff_created | WI-0069 | agent-lulu |
+| 2026-08-31T13:54:11.919Z | work_item_created | WI-0070 | agent-mog |
+| 2026-08-31T13:53:51.356Z | evidence_recorded | WI-0069 | human |
+| 2026-08-31T13:47:59.582Z | work_item_claimed | WI-0069 | human |
+| 2026-08-31T13:47:52.084Z | work_item_transitioned | WI-0069 | agent-lulu |
+| 2026-08-31T13:47:45.793Z | handoff_created | WI-0069 | agent-lulu |
+| 2026-08-31T13:47:45.487Z | work_item_transitioned | WI-0069 | agent-lulu |
 
 ## Assignments
 

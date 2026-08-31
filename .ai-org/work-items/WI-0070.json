@@ -1,0 +1,49 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0070",
+  "title": "Stabilize provider-owned usage notification test timing",
+  "state": "intake",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-08-31T13:54:11.919Z",
+  "updated_at": "2026-08-31T13:54:11.919Z",
+  "scope": [
+    "Investigate and remove the intermittent timing dependency observed in test/control-plane-live.test.mjs during WI-0069 Independent QA. Preserve provider protocol semantics and do not add sleeps as proof."
+  ],
+  "acceptance_criteria": [
+    "The provider-owned launch usage-notification scenario passes deterministically under repeated local execution and the full repository verification suite, with an explicit event-ordering contract and no live provider call."
+  ],
+  "affected_paths": [
+    "test/control-plane-live.test.mjs",
+    "src/codex-app-server-provider.mjs"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [
+    "general-development"
+  ],
+  "stage_requirements": {},
+  "base_revision": null,
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {},
+  "evidence": [],
+  "unresolved": [],
+  "next_position": "product_manager"
+}

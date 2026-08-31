@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0069",
   "title": "Establish progressive usage calibration and autonomy policy",
-  "state": "test",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-31T13:20:59.516Z",
-  "updated_at": "2026-08-31T13:40:26.287Z",
+  "updated_at": "2026-08-31T13:54:38.874Z",
   "scope": [
     "Implement the data-driven Usage Protocol v2 foundation: project-local learning, a cold-start seed policy, progressive calibration states, evidence-gated routing modes, versioned cost provenance, and an exception-only autonomy envelope. No live model generation or external write is authorized."
   ],
@@ -52,8 +52,27 @@
   "required_disciplines": [
     "general-development"
   ],
-  "stage_requirements": {},
-  "base_revision": "f69cdf65d7ff71d183622897504e6466a10c10fe",
+  "stage_requirements": {
+    "eval": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "independent_qa": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "test": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "aead7f548adde729e607d3db2806f62dd2251967",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -61,15 +80,15 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260831132506-e2b7f9ec",
+    "id": "claim-20260831134759-01e4d253",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "f69cdf65d7ff71d183622897504e6466a10c10fe",
+    "agent_id": "agent-lulu",
+    "base_revision": "aead7f548adde729e607d3db2806f62dd2251967",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-08-31T13:25:06.459Z",
-    "released_at": "2026-08-31T13:40:26.287Z",
+    "claimed_at": "2026-08-31T13:47:59.582Z",
+    "released_at": "2026-08-31T13:54:38.874Z",
     "release_reason": "position_transition"
   },
   "claims": [
@@ -120,6 +139,30 @@
       "claimed_at": "2026-08-31T13:25:06.459Z",
       "released_at": "2026-08-31T13:40:26.287Z",
       "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831134548-bb782ce4",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "aead7f548adde729e607d3db2806f62dd2251967",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T13:45:48.175Z",
+      "released_at": "2026-08-31T13:47:52.084Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831134759-01e4d253",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "aead7f548adde729e607d3db2806f62dd2251967",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T13:47:59.582Z",
+      "released_at": "2026-08-31T13:54:38.874Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -144,6 +187,15 @@
     "developer_evidence": [
       "EVID-20260831T133926Z-41F08155",
       "EVID-20260831T134008Z-D216CD2E"
+    ],
+    "test_evidence": [
+      "EVID-20260831T134735Z-5E291B14"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0069/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260831T135351Z-264BC144"
     ]
   },
   "evidence": [
@@ -151,10 +203,19 @@
     ".ai-org/artifacts/WI-0069/technical-design.md",
     ".ai-org/artifacts/WI-0069/handoff-001-developer-to-quality_evaluator.md",
     "EVID-20260831T133926Z-41F08155",
-    "EVID-20260831T134008Z-D216CD2E"
+    "EVID-20260831T134008Z-D216CD2E",
+    "EVID-20260831T134735Z-5E291B14",
+    ".ai-org/artifacts/WI-0069/handoff-002-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0069/quality-test-report.md",
+    ".ai-org/artifacts/WI-0069/evaluation-report.md",
+    ".ai-org/artifacts/WI-0069/handoff-003-independent_qa-to-release_manager.md",
+    "EVID-20260831T135351Z-264BC144",
+    ".ai-org/artifacts/WI-0069/independent-qa-report.md"
   ],
-  "unresolved": [],
-  "next_position": "quality_evaluator",
+  "unresolved": [
+    "Non-blocking test-stability follow-up is recorded as WI-0070; no WI-0069 product regression was reproduced."
+  ],
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "developer",
@@ -162,6 +223,20 @@
       "input_revision": "aead7f548adde729e607d3db2806f62dd2251967",
       "artifact": ".ai-org/artifacts/WI-0069/handoff-001-developer-to-quality_evaluator.md",
       "created_at": "2026-08-31T13:40:17.165Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "aead7f548adde729e607d3db2806f62dd2251967",
+      "artifact": ".ai-org/artifacts/WI-0069/handoff-002-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-08-31T13:47:45.793Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "aead7f548adde729e607d3db2806f62dd2251967",
+      "artifact": ".ai-org/artifacts/WI-0069/handoff-003-independent_qa-to-release_manager.md",
+      "created_at": "2026-08-31T13:54:38.575Z"
     }
   ],
   "developer_candidate_revision": "aead7f548adde729e607d3db2806f62dd2251967"
