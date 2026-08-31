@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 67 total, 7 active
+- Work items: 68 total, 8 active
 - Codex tasks: 5 registered, 4 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -111,6 +111,7 @@
 | WI-0065 | Separate reasoning request and observation provenance | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | code-first | 1 | 0 | 0 | — | `c984f249` | 0 | 20 | 0 |
 | WI-0066 | Add bounded multi-repository experiment runner | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ab212c0f` | 0 | 19 | 0 |
 | WI-0067 | Run bounded four-repository commerce rehearsal | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0d656df5` | 0 | 18 | 3 |
+| WI-0068 | Fail closed on invalid experiment telemetry paths | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831122948-8d7e18c9 | `—` | 0 | 7 | 0 |
 
 ## Codex task registry
 
@@ -225,14 +226,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T12:28:52.927Z | release_gate_completed | WI-0067 | agent-mog |
-| 2026-08-31T12:28:52.605Z | work_item_transitioned | WI-0067 | agent-lulu |
-| 2026-08-31T12:28:52.277Z | handoff_created | WI-0067 | agent-lulu |
-| 2026-08-31T12:28:51.966Z | work_item_transitioned | WI-0067 | agent-lulu |
-| 2026-08-31T12:28:51.653Z | handoff_created | WI-0067 | agent-lulu |
-| 2026-08-31T12:28:51.345Z | work_item_transitioned | WI-0067 | agent-lulu |
-| 2026-08-31T12:28:51.057Z | evidence_recorded | WI-0067 | human |
-| 2026-08-31T12:28:06.503Z | work_item_transitioned | WI-0067 | agent-rikku |
+| 2026-08-31T12:29:48.208Z | work_item_claimed | WI-0068 | human |
+| 2026-08-31T12:29:47.867Z | work_item_transitioned | WI-0068 | agent-tidus |
+| 2026-08-31T12:29:47.553Z | handoff_created | WI-0068 | agent-tidus |
+| 2026-08-31T12:29:47.187Z | work_item_coordination_configured | WI-0068 | agent-tidus |
+| 2026-08-31T12:29:46.858Z | work_item_transitioned | WI-0068 | agent-yuna |
+| 2026-08-31T12:29:46.539Z | handoff_created | WI-0068 | agent-yuna |
+| 2026-08-31T12:29:46.230Z | work_item_transitioned | WI-0068 | agent-mog |
+| 2026-08-31T12:29:45.934Z | handoff_created | WI-0068 | agent-mog |
 
 ## Assignments
 

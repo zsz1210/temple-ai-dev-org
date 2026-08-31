@@ -10,6 +10,7 @@ import {
   sha256,
   toPosix
 } from "./files.mjs";
+import { resolveControlPlaneStateDirectory } from "./telemetry.mjs";
 import { buildUsageBaseline } from "./usage-attribution.mjs";
 
 const execFile = promisify(execFileCallback);
@@ -337,6 +338,15 @@ export async function resolveValidationProgram(coordinatorRoot, options = {}) {
     if (project.id !== participant.expected_project_id) {
       throw new Error(`participant ${participant.id} project mismatch: expected ${participant.expected_project_id}, observed ${project.id}`);
     }
+    let resolvedUsageStateDirectory;
+    try {
+      resolvedUsageStateDirectory = resolveControlPlaneStateDirectory(
+        root,
+        participant.usage_state_directory ?? null
+      );
+    } catch (error) {
+      throw new Error(`participant ${participant.id} usage state directory is invalid: ${error.message}`);
+    }
     const instructions = new Map();
     for (const wave of manifest.waves) {
       for (const turn of wave.turns.filter((entry) => entry.project_id === participant.id)) {
@@ -349,7 +359,13 @@ export async function resolveValidationProgram(coordinatorRoot, options = {}) {
         instructions.set(turn.id, instructionPath);
       }
     }
-    participants.push({ ...participant, root, project, instructions });
+    participants.push({
+      ...participant,
+      root,
+      project,
+      instructions,
+      resolved_usage_state_directory: resolvedUsageStateDirectory
+    });
   }
   return {
     manifest,
@@ -375,7 +391,9 @@ export async function inspectValidationProgram(coordinatorRoot, options = {}) {
       project_id: participant.project.id,
       path: toPosix(path.relative(resolved.coordinator_root, participant.root)) || ".",
       instructions: participant.instructions.size,
-      allowed_paths: participant.allowed_paths
+      allowed_paths: participant.allowed_paths,
+      usage_state_directory_policy: "git-common-directory",
+      usage_state_directory_configured: participant.usage_state_directory !== undefined
     })),
     waves: [...resolved.manifest.waves]
       .sort((left, right) => left.order - right.order)
@@ -974,9 +992,7 @@ export async function buildCrossRepositoryUsageReport(coordinatorRoot, options =
   const participants = [];
   for (const participant of resolved.participants) {
     const baseline = await buildUsageBaseline(participant.root, {
-      stateDirectory: participant.usage_state_directory
-        ? path.join(participant.root, participant.usage_state_directory)
-        : undefined,
+      stateDirectory: participant.resolved_usage_state_directory,
       write: false
     });
     const repository = await inspectGitRepository(participant.root);

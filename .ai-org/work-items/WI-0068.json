@@ -1,0 +1,119 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0068",
+  "title": "Fail closed on invalid experiment telemetry paths",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-31T12:29:14.250Z",
+  "updated_at": "2026-08-31T12:29:48.208Z",
+  "scope": [
+    "Make validation-program inspection and reporting use the same Git-common-directory telemetry resolver so an unusable worktree-local path is rejected before generation.",
+    "Add regression coverage for invalid explicit paths, the safe default, and cross-repository reporting without changing the stopped WI-0067 evidence."
+  ],
+  "acceptance_criteria": [
+    "experiment inspect rejects a worktree-local usage_state_directory before any model launch, while omitted or Git-common-directory state remains reportable.",
+    "The full Temple verification passes and documentation describes the private runtime boundary."
+  ],
+  "affected_paths": [
+    "src/validation-program.mjs",
+    "test/validation-program.test.mjs",
+    "docs/operations/validation-programs.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "99de8d4e4405cdf9d5de05e82d1956c50fab0e8e",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260831122948-8d7e18c9",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "99de8d4e4405cdf9d5de05e82d1956c50fab0e8e",
+    "branch": "main",
+    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "claimed_at": "2026-08-31T12:29:48.208Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260831122948-8d7e18c9",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "99de8d4e4405cdf9d5de05e82d1956c50fab0e8e",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-08-31T12:29:48.208Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0068/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0068/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0068/approved-scope.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0068/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0068/risk-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0068/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0068/work-order.md",
+    ".ai-org/artifacts/WI-0068/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0068/approved-scope.md",
+    ".ai-org/artifacts/WI-0068/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0068/technical-design.md",
+    ".ai-org/artifacts/WI-0068/risk-review.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "99de8d4e4405cdf9d5de05e82d1956c50fab0e8e",
+      "artifact": ".ai-org/artifacts/WI-0068/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-08-31T12:29:45.934Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "99de8d4e4405cdf9d5de05e82d1956c50fab0e8e",
+      "artifact": ".ai-org/artifacts/WI-0068/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-31T12:29:46.539Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "99de8d4e4405cdf9d5de05e82d1956c50fab0e8e",
+      "artifact": ".ai-org/artifacts/WI-0068/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-08-31T12:29:47.553Z"
+    }
+  ]
+}

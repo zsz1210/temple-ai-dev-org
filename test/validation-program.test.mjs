@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
+import { spawnSync } from "node:child_process";
 import test from "node:test";
 import {
   buildCrossRepositoryUsageReportFromBaselines,
@@ -123,6 +124,8 @@ test("program resolution verifies project identity and rejects repository or ins
   const instruction = path.join(coordinator, ".ai-org/artifacts/WI-0001/instructions.md");
   await fs.mkdir(path.dirname(instruction), { recursive: true });
   await fs.mkdir(path.join(coordinator, ".ai-org/project"), { recursive: true });
+  const initialized = spawnSync("git", ["-C", coordinator, "init", "-b", "main"], { encoding: "utf8" });
+  assert.equal(initialized.status, 0, initialized.stderr);
   await fs.writeFile(path.join(coordinator, ".ai-org/project/project.json"), JSON.stringify({ id: "coordinator", name: "Coordinator" }));
   await fs.writeFile(instruction, "Bounded fixture.\n");
   await fs.writeFile(path.join(coordinator, ".ai-org/project/validation-program.json"), JSON.stringify(manifestFixture()));
@@ -133,6 +136,25 @@ test("program resolution verifies project identity and rejects repository or ins
   });
   assert.equal(resolved.participants[0].project.id, "coordinator");
   assert.equal(resolved.participants[0].instructions.get("turn-1"), await fs.realpath(instruction));
+  assert.equal(
+    resolved.participants[0].resolved_usage_state_directory,
+    path.join(await fs.realpath(path.join(coordinator, ".git")), "temple", "control-plane")
+  );
+
+  const worktreeTelemetry = manifestFixture({
+    participants: [{
+      id: "coordinator",
+      path: ".",
+      expected_project_id: "coordinator",
+      allowed_paths: ["src", "test"],
+      usage_state_directory: ".ai-org/runtime/control-plane"
+    }]
+  });
+  await fs.writeFile(path.join(coordinator, ".ai-org/project/validation-program.json"), JSON.stringify(worktreeTelemetry));
+  await assert.rejects(
+    () => resolveValidationProgram(coordinator, { manifestPath: ".ai-org/project/validation-program.json", allowedRoot }),
+    /participant coordinator usage state directory is invalid: Control-plane telemetry cannot be stored in the version-controlled worktree/
+  );
 
   await fs.mkdir(path.join(outsideRoot, ".ai-org/project"), { recursive: true });
   await fs.writeFile(path.join(outsideRoot, ".ai-org/project/project.json"), JSON.stringify({ id: "outside", name: "Outside" }));
