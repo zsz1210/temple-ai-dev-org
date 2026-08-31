@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 55 total, 21 active
+- Work items: 56 total, 22 active
 - Codex tasks: 4 registered, 3 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -99,6 +99,7 @@
 | WI-0053 | Define Temple self-development model selection policy | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0077b4ff` | 0 | 17 | 0 |
 | WI-0054 | Run the first bounded provider-owned live Token proof | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5de1ae88` | 0 | 22 | 0 |
 | WI-0055 | Harden Codex App Server protocol compatibility | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `eef29084` | 0 | 22 | 0 |
+| WI-0056 | Run the corrected provider-owned live Token proof | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 9 | 0 |
 
 ## Codex task registry
 
@@ -209,14 +210,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T07:34:41.815Z | work_item_closed | WI-0055 | agent-mog |
-| 2026-08-31T07:34:41.815Z | release_gate_completed | WI-0055 | agent-mog |
-| 2026-08-31T07:34:41.545Z | work_item_claimed | WI-0055 | human |
-| 2026-08-31T07:34:41.257Z | work_item_transitioned | WI-0055 | agent-lulu |
-| 2026-08-31T07:34:31.870Z | handoff_created | WI-0055 | agent-lulu |
-| 2026-08-31T07:34:31.604Z | evidence_recorded | WI-0055 | human |
-| 2026-08-31T07:33:03.399Z | work_item_claimed | WI-0055 | human |
-| 2026-08-31T07:33:03.100Z | work_item_transitioned | WI-0055 | agent-lulu |
+| 2026-08-31T07:43:05.809Z | work_item_transitioned | WI-0056 | agent-tidus |
+| 2026-08-31T07:43:05.510Z | handoff_created | WI-0056 | agent-tidus |
+| 2026-08-31T07:43:05.226Z | work_item_transitioned | WI-0056 | agent-yuna |
+| 2026-08-31T07:43:04.940Z | handoff_created | WI-0056 | agent-yuna |
+| 2026-08-31T07:43:04.653Z | work_item_transitioned | WI-0056 | agent-mog |
+| 2026-08-31T07:43:04.390Z | handoff_created | WI-0056 | agent-mog |
+| 2026-08-31T07:41:58.168Z | work_item_coordination_configured | WI-0056 | agent-mog |
+| 2026-08-31T07:41:49.783Z | work_item_created | WI-0056 | agent-mog |
 
 ## Assignments
 
