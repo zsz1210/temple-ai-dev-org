@@ -8004,6 +8004,238 @@
         "exit_code": 0,
         "started_at": "2026-08-31T08:57:10Z"
       }
+    },
+    {
+      "id": "EVID-20260831T092341Z-485B86F9",
+      "work_item_id": "WI-0060",
+      "recorded_at": "2026-08-31T09:23:41.721Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0060 developer candidate",
+      "outcome": "verified",
+      "scope_revision": "d47e50f792b6a39c4e980cad634e7574d6da52b8",
+      "observed_at": "2026-08-31T09:23:41.721Z",
+      "summary": "Exact committed candidate containing the Team model-state implementation, tests, documentation, and browser-review artifacts",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "d47e50f792b6a39c4e980cad634e7574d6da52b8"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "d47e50f792b6a39c4e980cad634e7574d6da52b8",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260831T092341Z-FA90C2FA",
+      "work_item_id": "WI-0060",
+      "recorded_at": "2026-08-31T09:23:41.996Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0060 developer verification",
+      "outcome": "pass",
+      "scope_revision": "d47e50f792b6a39c4e980cad634e7574d6da52b8",
+      "observed_at": "2026-08-31T09:22:31Z",
+      "summary": "Focused 12/12 and full 233/233 local tests passed with repository and documentation checks",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0060/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0060/developer-test-observation.json",
+          "sha256": "2c37b7034faa447f39bb5ba1b67fed118041566499157b41d54f06be0b8d2ec1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0060/developer-report.md",
+          "sha256": "f73e1560595e8c749a99aba5ee0122249ae4387821184b488ad9b3cdd8f86825"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0060/browser-review.md",
+          "sha256": "7c6e5263d81c62096228080a25593461335e89e0af4ae3ca2b88246dfdcc8daf"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/control-plane-foundation.test.mjs",
+          "npm run check",
+          "npm run verify",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T09:19:58Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T092342Z-D19B763F",
+      "work_item_id": "WI-0060",
+      "recorded_at": "2026-08-31T09:23:42.278Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "WI-0060 Team browser review",
+      "outcome": "pass",
+      "scope_revision": "d47e50f792b6a39c4e980cad634e7574d6da52b8",
+      "observed_at": "2026-08-31T09:19:52Z",
+      "summary": "Wide, tablet, and mobile Team model cards passed live LAN read-only browser review with zero console errors",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0060/runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0060/runtime-observation.json",
+          "sha256": "f10649d89a5599e62b2910d60cc4e5cd043bd7735184f59e744afbf3ec7275a9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0060/browser-review.md",
+          "sha256": "7c6e5263d81c62096228080a25593461335e89e0af4ae3ca2b88246dfdcc8daf"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0060/team-wide.png",
+          "sha256": "d8ac30dcfb7801ffa02c5f8f99657233ee74f0f11268ba75d3f008f28d1f0cc6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0060/team-tablet.png",
+          "sha256": "e72ad92b8a2e5e04a5bc2be9d722b66799cd3b470b0d0905a1538a7dc508a7c0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0060/team-mobile.png",
+          "sha256": "104df9576cc4fedc7c96bd077cda67dbfcb03b845923034a134997a26c7d35cf"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0060/team-mobile-model-card.png",
+          "sha256": "1563dc116716f179651d70d300749eadf8f7e2c26f6802172fba1dac470af349"
+        }
+      ],
+      "details": {
+        "environment": "Temple self-host repository on the Mac Mini, live Control Plane with Codex observation, exact 192.168.79.5 home-LAN read-only listener, and headed Chromium through Playwright",
+        "scenario": "Open Team, switch to Teammates, verify truthful model states and provenance at 1720x980, 1024x900, and 390x844, inspect the mobile Rikku card, check the browser console, and confirm the LAN mutation route returns HTTP 405",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260831T092514Z-97550754",
+      "work_item_id": "WI-0060",
+      "recorded_at": "2026-08-31T09:25:14.916Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0060 quality verification",
+      "outcome": "pass",
+      "scope_revision": "d47e50f792b6a39c4e980cad634e7574d6da52b8",
+      "observed_at": "2026-08-31T09:24:31Z",
+      "summary": "Quality evaluation passed focused tests, current LAN snapshot truth states, and Doctor with only expected stale-plan warning",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0060/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0060/quality-test-observation.json",
+          "sha256": "5b5519dcb232ce8841a72b572e59398999b078bd90923bb7cfab19a35fd258c0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0060/quality-report.md",
+          "sha256": "4c5e2afefdfcfe115d5efc9a5edb0fd8a1b0398ed931aa2638dc2c01c719bd04"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0060/evaluation-report.md",
+          "sha256": "209f76cb6d07660a55302002d827c43973e8532755ab8b12b3964ef3f636484d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0060/browser-review.md",
+          "sha256": "7c6e5263d81c62096228080a25593461335e89e0af4ae3ca2b88246dfdcc8daf"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/control-plane-foundation.test.mjs",
+          "evaluate agentModelStatus against the private LAN snapshot",
+          "node ./templew.mjs doctor . --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T09:24:19Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T092703Z-6F717D0B",
+      "work_item_id": "WI-0060",
+      "recorded_at": "2026-08-31T09:27:03.611Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0060 independent QA",
+      "outcome": "pass",
+      "scope_revision": "d47e50f792b6a39c4e980cad634e7574d6da52b8",
+      "observed_at": "2026-08-31T09:26:18Z",
+      "summary": "Fresh detached worktree verification passed 233/233 tests on the exact committed candidate",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0060/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0060/independent-qa-test-observation.json",
+          "sha256": "e42e00a2386328930141db8090d41310d87d6fd1b9af97e4bbff0edd66ca981e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0060/independent-qa-report.md",
+          "sha256": "10b17cd2a47981c6ac8a94ff5805c128cc4bbc25e135df5743991167c56311de"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0060/browser-review.md",
+          "sha256": "7c6e5263d81c62096228080a25593461335e89e0af4ae3ca2b88246dfdcc8daf"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0060/team-wide.png",
+          "sha256": "d8ac30dcfb7801ffa02c5f8f99657233ee74f0f11268ba75d3f008f28d1f0cc6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0060/team-tablet.png",
+          "sha256": "e72ad92b8a2e5e04a5bc2be9d722b66799cd3b470b0d0905a1538a7dc508a7c0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0060/team-mobile-model-card.png",
+          "sha256": "1563dc116716f179651d70d300749eadf8f7e2c26f6802172fba1dac470af349"
+        }
+      ],
+      "details": {
+        "command": [
+          "git worktree add --detach <temporary>/repo d47e50f792b6a39c4e980cad634e7574d6da52b8",
+          "npm ci --offline --ignore-scripts",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T09:25:35Z"
+      }
     }
   ]
 }

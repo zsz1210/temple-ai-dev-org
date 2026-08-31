@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 60 total, 6 active
+- Work items: 60 total, 5 active
 - Codex tasks: 5 registered, 4 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -103,7 +103,7 @@
 | WI-0057 | Serialize concurrent telemetry journal appends | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `50765844` | 0 | 21 | 0 |
 | WI-0058 | Preserve Token history across telemetry rebuilds | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `31c78a2d` | 0 | 25 | 0 |
 | WI-0059 | Reconcile the nonterminal Work Item ledger | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b505f004` | 0 | 22 | 0 |
-| WI-0060 | Show truthful Agent model state in Team | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260831091245-25ea816b | `—` | 0 | 8 | 0 |
+| WI-0060 | Show truthful Agent model state in Team | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `d47e50f7` | 0 | 21 | 0 |
 
 ## Codex task registry
 
@@ -216,14 +216,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T09:12:45.632Z | work_item_claimed | WI-0060 | human |
-| 2026-08-31T09:12:45.335Z | work_item_transitioned | WI-0060 | agent-tidus |
-| 2026-08-31T09:12:45.058Z | work_item_claim_released | WI-0060 | human |
-| 2026-08-31T09:12:44.797Z | handoff_created | WI-0060 | agent-tidus |
-| 2026-08-31T09:11:57.987Z | work_item_claimed | WI-0060 | human |
-| 2026-08-31T09:11:57.692Z | work_item_transitioned | WI-0060 | agent-yuna |
-| 2026-08-31T09:11:57.432Z | work_item_claim_released | WI-0060 | human |
-| 2026-08-31T09:11:57.175Z | handoff_created | WI-0060 | agent-yuna |
+| 2026-08-31T09:27:26.392Z | work_item_closed | WI-0060 | agent-mog |
+| 2026-08-31T09:27:26.392Z | release_gate_completed | WI-0060 | agent-mog |
+| 2026-08-31T09:27:04.767Z | work_item_claimed | WI-0060 | human |
+| 2026-08-31T09:27:04.474Z | work_item_transitioned | WI-0060 | agent-lulu |
+| 2026-08-31T09:27:04.179Z | work_item_claim_released | WI-0060 | human |
+| 2026-08-31T09:27:03.873Z | handoff_created | WI-0060 | agent-lulu |
+| 2026-08-31T09:27:03.611Z | evidence_recorded | WI-0060 | human |
+| 2026-08-31T09:25:16.381Z | work_item_claimed | WI-0060 | human |
 
 ## Assignments
 
