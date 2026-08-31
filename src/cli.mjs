@@ -21,7 +21,7 @@ import {
 } from "./collaboration.mjs";
 import { assertSafeTarget, atomicWrite, formatJson, readJson } from "./files.mjs";
 import { executeInit, formatInitPlan, planInit } from "./install.mjs";
-import { readEvidenceRegistry, recordEvidence } from "./evidence.mjs";
+import { preserveEvidenceRevision, readEvidenceRegistry, recordEvidence } from "./evidence.mjs";
 import { validateInitConfig } from "./model.mjs";
 import {
   executePackInstall,
@@ -151,6 +151,7 @@ Usage:
   temple worker update [target] --worker-id id --status active|waiting|attention|completed|failed|cancelled [--revision ref] [--evidence ref]
   temple worker list [target] [--json]
   temple evidence git [target] --work-item WI-ID --revision ref [--title text] [--summary text]
+  temple evidence preserve [target] --work-item WI-ID --revision ref
   temple evidence test [target] --work-item WI-ID --observation path [--title text] [--summary text]
   temple evidence runtime [target] --work-item WI-ID --observation path [--title text] [--summary text]
   temple evidence unverified [target] --work-item WI-ID --summary text --reason text --expected-verification text
@@ -1158,6 +1159,24 @@ async function runEvidence(parsed) {
     if (parsed.flags.has("--json")) console.log(JSON.stringify({ ...registry, entries }, null, 2));
     else if (entries.length === 0) console.log("No normalized evidence recorded.");
     else for (const entry of entries) console.log(`${entry.id}\t${entry.work_item_id}\t${entry.kind}\t${entry.outcome}\t${entry.scope_revision ?? "unbound"}`);
+    return 0;
+  }
+  if (parsed.action === "preserve") {
+    if (!parsed.options["--work-item"] || !parsed.options["--revision"]) {
+      throw new Error("evidence preserve requires --work-item and --revision");
+    }
+    const result = await withProjectMutationLock(target, () => preserveEvidenceRevision(target, {
+      workItemId: parsed.options["--work-item"],
+      revision: parsed.options["--revision"],
+      actor: parsed.options["--actor"]
+    }));
+    printResult(parsed, result, [
+      `${result.created ? "Created" : "Retained"} local evidence tag: ${result.tag}`,
+      `Revision: ${result.revision}`,
+      `Evidence entries: ${result.evidence_ids.join(", ")}`,
+      `Remote preservation: git push origin refs/tags/${result.tag}`,
+      "External action: not performed"
+    ]);
     return 0;
   }
   const kindByAction = {

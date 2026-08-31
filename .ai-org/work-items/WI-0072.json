@@ -1,0 +1,216 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0072",
+  "title": "Preserve evidence revisions across remote CI",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-31T15:26:06.067Z",
+  "updated_at": "2026-08-31T15:30:04.558Z",
+  "scope": [
+    "Preserve exact evidence-bound commits when integration does not retain their ancestry, without rewriting historical evidence or weakening Doctor.",
+    "Add a deterministic local durability check and documented preservation workflow for evidence revisions."
+  ],
+  "acceptance_criteria": [
+    "The two missing WI-0032 and WI-0035 candidate commits are available from a fresh GitHub clone through durable evidence refs.",
+    "Doctor rejects a recorded revision that is neither in HEAD ancestry nor preserved by a Temple evidence tag, while accepting ancestral or correctly tagged revisions.",
+    "Dirty-worktree reporting distinguishes implementation-scope changes from governance-only changes instead of treating every dirty worktree as invalid."
+  ],
+  "affected_paths": [
+    "src/evidence.mjs",
+    "src/cli.mjs",
+    "test/evidence-observer.test.mjs",
+    "docs/operations/evidence-and-observer.md",
+    "temple.lock"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [
+    "general-development"
+  ],
+  "stage_requirements": {
+    "build": {
+      "disciplines": [
+        "general-development"
+      ],
+      "resources": []
+    },
+    "design": {
+      "disciplines": [
+        "architecture"
+      ],
+      "resources": []
+    },
+    "eval": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "independent_qa": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "intake": {
+      "disciplines": [
+        "architecture"
+      ],
+      "resources": []
+    },
+    "release_gate": {
+      "disciplines": [
+        "release"
+      ],
+      "resources": []
+    },
+    "spec": {
+      "disciplines": [
+        "product"
+      ],
+      "resources": []
+    },
+    "test": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "9d110b037592f3c00e73ba6569db45b5497e0ee8",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": "agent-rikku",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0069 owns temple.lock through its current release-gate closeout; WI-0072 will not modify temple.lock and only edits its other declared paths."
+  ],
+  "claim": {
+    "id": "claim-20260831153004-cea531ba",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "9d110b037592f3c00e73ba6569db45b5497e0ee8",
+    "branch": "codex/wi-0072-evidence-durability",
+    "worktree": null,
+    "claimed_at": "2026-08-31T15:30:04.558Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260831152708-d4cb0b3a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "9d110b037592f3c00e73ba6569db45b5497e0ee8",
+      "branch": "codex/wi-0072-evidence-durability",
+      "worktree": null,
+      "claimed_at": "2026-08-31T15:27:08.138Z",
+      "released_at": "2026-08-31T15:27:46.621Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260831152801-f56c7f73",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "9d110b037592f3c00e73ba6569db45b5497e0ee8",
+      "branch": "codex/wi-0072-evidence-durability",
+      "worktree": null,
+      "claimed_at": "2026-08-31T15:28:01.130Z",
+      "released_at": "2026-08-31T15:28:28.476Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260831152836-dc40c62f",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "9d110b037592f3c00e73ba6569db45b5497e0ee8",
+      "branch": "codex/wi-0072-evidence-durability",
+      "worktree": null,
+      "claimed_at": "2026-08-31T15:28:36.443Z",
+      "released_at": "2026-08-31T15:29:56.673Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260831153004-cea531ba",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "9d110b037592f3c00e73ba6569db45b5497e0ee8",
+      "branch": "codex/wi-0072-evidence-durability",
+      "worktree": null,
+      "claimed_at": "2026-08-31T15:30:04.558Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0072/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0072/product-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0072/product-scope.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0072/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0072/technical-design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0072/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0072/work-order.md",
+    ".ai-org/artifacts/WI-0072/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0072/product-scope.md",
+    ".ai-org/artifacts/WI-0072/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0072/technical-design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "HEAD",
+      "artifact": ".ai-org/artifacts/WI-0072/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-08-31T15:27:46.323Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "HEAD",
+      "artifact": ".ai-org/artifacts/WI-0072/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-31T15:28:28.177Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "HEAD",
+      "artifact": ".ai-org/artifacts/WI-0072/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-08-31T15:29:56.376Z"
+    }
+  ]
+}
