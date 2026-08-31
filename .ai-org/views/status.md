@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 65 total, 7 active
+- Work items: 65 total, 6 active
 - Codex tasks: 5 registered, 4 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -108,7 +108,7 @@
 | WI-0062 | Run the approved provider-owned instrumentation pilot | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5979c1e3` | 0 | 20 | 0 |
 | WI-0063 | Correct Provider-observed model attribution | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c44bbdf5` | 0 | 22 | 0 |
 | WI-0064 | Revalidate Provider-observed model attribution | blocked | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6bdcf181` | 0 | 22 | 2 |
-| WI-0065 | Separate reasoning request and observation provenance | test | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | code-first | 1 | 0 | 0 | — | `dccc2059` | 0 | 12 | 0 |
+| WI-0065 | Separate reasoning request and observation provenance | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | code-first | 1 | 0 | 0 | — | `c984f249` | 0 | 20 | 0 |
 
 ## Codex task registry
 
@@ -222,14 +222,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T11:18:44.413Z | work_item_transitioned | WI-0065 | agent-rikku |
-| 2026-08-31T11:18:44.102Z | work_item_claim_released | WI-0065 | human |
-| 2026-08-31T11:18:43.799Z | handoff_created | WI-0065 | agent-rikku |
-| 2026-08-31T11:18:24.333Z | evidence_recorded | WI-0065 | human |
-| 2026-08-31T11:16:47.331Z | work_item_coordination_configured | WI-0065 | agent-rikku |
-| 2026-08-31T11:04:30.040Z | work_item_claimed | WI-0065 | human |
-| 2026-08-31T11:04:29.723Z | work_item_transitioned | WI-0065 | agent-tidus |
-| 2026-08-31T11:04:29.428Z | work_item_coordination_configured | WI-0065 | agent-tidus |
+| 2026-08-31T11:25:29.184Z | work_item_closed | WI-0065 | agent-mog |
+| 2026-08-31T11:25:29.184Z | release_gate_completed | WI-0065 | agent-mog |
+| 2026-08-31T11:25:12.020Z | work_item_transitioned | WI-0065 | agent-lulu |
+| 2026-08-31T11:25:11.714Z | handoff_created | WI-0065 | agent-lulu |
+| 2026-08-31T11:25:11.426Z | evidence_recorded | WI-0065 | human |
+| 2026-08-31T11:23:07.814Z | work_item_transitioned | WI-0065 | agent-lulu |
+| 2026-08-31T11:23:07.498Z | handoff_created | WI-0065 | agent-lulu |
+| 2026-08-31T11:23:07.201Z | work_item_transitioned | WI-0065 | agent-lulu |
 
 ## Assignments
 

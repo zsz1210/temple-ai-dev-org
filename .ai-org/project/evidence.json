@@ -8794,6 +8794,107 @@
         "requested_revision": "dccc20596bf5061cd14ed963b5756ff72bd59a37",
         "working_tree_dirty": false
       }
+    },
+    {
+      "id": "EVID-20260831T112306Z-9EB6E619",
+      "work_item_id": "WI-0065",
+      "recorded_at": "2026-08-31T11:23:06.917Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0065 exact-candidate quality verification",
+      "outcome": "pass",
+      "scope_revision": "c984f2497a458c873b4cd1b8043d2d0f87ffd43a",
+      "observed_at": "2026-08-31T11:22:37Z",
+      "summary": "Fresh detached candidate passed 234 tests, Doctor with no failures, diff check, clean-tree assertion, and reasoning-provenance acceptance review.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0065/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0065/quality-test-observation.json",
+          "sha256": "8823330a3de7c16332dbab94846023a1ec2932de0a28403800d0c78336032ddc"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0065/quality-report.md",
+          "sha256": "67538587455d98d9e5405af13cf35852a90ac5981708b264970d2e91b7b7db01"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0065/visual-review.md",
+          "sha256": "9ed407720aec36c5337915278623d797f8e000759ac50efc012ba3575e42b35d"
+        }
+      ],
+      "details": {
+        "command": [
+          "confirm exact detached revision and clean worktree",
+          "npm ci --offline --ignore-scripts",
+          "npm run verify",
+          "node ./templew.mjs doctor . --json",
+          "git diff --check",
+          "clean worktree assertion"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T11:21:13Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T112511Z-556CEB91",
+      "work_item_id": "WI-0065",
+      "recorded_at": "2026-08-31T11:25:11.426Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0065 Independent QA",
+      "outcome": "pass",
+      "scope_revision": "c984f2497a458c873b4cd1b8043d2d0f87ffd43a",
+      "observed_at": "2026-08-31T11:24:31Z",
+      "summary": "Second fresh exact-candidate worktree passed 234 full tests, 32 focused tests, Doctor with no failures, diff checks, and clean-tree assertion.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0065/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0065/independent-qa-test-observation.json",
+          "sha256": "00d58c3ef04570880f2b44c384f6fbc4eb7fe4a12c10e1d7f6fd52fc50c41554"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0065/independent-qa-report.md",
+          "sha256": "8810cb6fd7f41d3c14789f3d39825865387ebf5159016dc7156272d4b0ab20b0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0065/quality-report.md",
+          "sha256": "67538587455d98d9e5405af13cf35852a90ac5981708b264970d2e91b7b7db01"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0065/visual-review.md",
+          "sha256": "9ed407720aec36c5337915278623d797f8e000759ac50efc012ba3575e42b35d"
+        }
+      ],
+      "details": {
+        "command": [
+          "confirm exact revision in a second fresh detached worktree",
+          "npm ci --offline --ignore-scripts",
+          "npm run verify",
+          "node --test test/control-plane-live.test.mjs test/control-plane-foundation.test.mjs",
+          "node ./templew.mjs doctor . --json",
+          "git diff --check",
+          "clean worktree assertion"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T11:23:27Z"
+      }
     }
   ]
 }
