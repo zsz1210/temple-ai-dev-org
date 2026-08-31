@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0051",
   "title": "Run bounded Temple instrumentation pilot",
-  "state": "intake",
-  "owner_position": "engineering_manager",
-  "assigned_agent_id": "agent-mog",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
   "created_at": "2026-08-31T05:27:09.141Z",
-  "updated_at": "2026-08-31T05:28:06.913Z",
+  "updated_at": "2026-08-31T05:33:19.545Z",
   "scope": [
     "Coordinate one local synthetic repository and one disposable registered Codex task to test exact Work Item, task, revision, Position, model, and Token-observation correlation.",
     "Use synthetic data, one low-reasoning gpt-5.4-mini task, no network dependency, no GitHub, no hosted CI, no release, no deployment, and no public action.",
@@ -36,41 +36,123 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "2b72d5e9c9c8c1b1d9ec2736ff846b8706c79c2d",
+  "base_revision": "e0fa6804f85cb1caa789a51defb81e74e539aa5b",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
-  "planned_agent_id": "agent-mog",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260831052718-3b09c6b5",
+    "id": "claim-20260831053319-8929e509",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-mog",
-    "base_revision": "2b72d5e9c9c8c1b1d9ec2736ff846b8706c79c2d",
+    "agent_id": "agent-rikku",
+    "base_revision": "e0fa6804f85cb1caa789a51defb81e74e539aa5b",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-08-31T05:27:18.557Z",
+    "claimed_at": "2026-08-31T05:33:19.545Z",
     "released_at": null
   },
   "claims": [
     {
       "id": "claim-20260831052718-3b09c6b5",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-mog",
       "base_revision": "2b72d5e9c9c8c1b1d9ec2736ff846b8706c79c2d",
       "branch": "main",
       "worktree": null,
       "claimed_at": "2026-08-31T05:27:18.557Z",
+      "released_at": "2026-08-31T05:31:37.405Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831053137-23d54296",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "e0fa6804f85cb1caa789a51defb81e74e539aa5b",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T05:31:37.714Z",
+      "released_at": "2026-08-31T05:32:04.361Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831053204-27057614",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "e0fa6804f85cb1caa789a51defb81e74e539aa5b",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T05:32:04.666Z",
+      "released_at": "2026-08-31T05:33:19.237Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831053319-8929e509",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "e0fa6804f85cb1caa789a51defb81e74e539aa5b",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T05:33:19.545Z",
       "released_at": null
     }
   ],
-  "gate_evidence": {},
-  "evidence": [],
-  "unresolved": [
-    "Human confirmation required before init: approve the five proposed project-local Agent names and the fixed one-task pilot budget in .ai-org/artifacts/WI-0051/work-order.md."
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0051/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0051/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0051.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0051/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0051/technical-design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0051/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0051/work-order.md",
+    ".ai-org/artifacts/WI-0051/human-approval.md",
+    ".ai-org/artifacts/WI-0051/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0051/product-spec.md",
+    ".ai-org/work-items/WI-0051.json",
+    ".ai-org/artifacts/WI-0051/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0051/technical-design.md"
   ],
-  "next_position": "product_manager"
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "e0fa6804f85cb1caa789a51defb81e74e539aa5b",
+      "artifact": ".ai-org/artifacts/WI-0051/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-08-31T05:31:37.122Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "e0fa6804f85cb1caa789a51defb81e74e539aa5b",
+      "artifact": ".ai-org/artifacts/WI-0051/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-31T05:32:04.078Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "e0fa6804f85cb1caa789a51defb81e74e539aa5b",
+      "artifact": ".ai-org/artifacts/WI-0051/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-08-31T05:33:18.936Z"
+    }
+  ]
 }

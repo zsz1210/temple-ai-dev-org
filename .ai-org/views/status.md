@@ -94,7 +94,7 @@
 | WI-0048 | Adopt dark engineering style and visualize Temple structure | release_gate | Release Manager | Mog | pending | internal | 0 | gate-evidence | preview-first | 1 | 0 | 0 | — | `78495198` | 0 | 23 | 0 |
 | WI-0049 | Make Temple Workspace status language human-readable | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `6acb200d` | 0 | 21 | 0 |
 | WI-0050 | Design Temple effectiveness and multi-repository validation | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c9993415` | 0 | 22 | 0 |
-| WI-0051 | Run bounded Temple instrumentation pilot | intake | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831052718-3b09c6b5 | `—` | 0 | 0 | 1 |
+| WI-0051 | Run bounded Temple instrumentation pilot | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831053319-8929e509 | `—` | 0 | 8 | 0 |
 
 ## Codex task registry
 
@@ -205,14 +205,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T05:28:06.913Z | work_item_unresolved_updated | WI-0051 | agent-mog |
-| 2026-08-31T05:27:18.557Z | work_item_claimed | WI-0051 | human |
-| 2026-08-31T05:27:18.256Z | work_item_coordination_configured | WI-0051 | agent-mog |
-| 2026-08-31T05:27:09.141Z | work_item_created | WI-0051 | agent-mog |
-| 2026-08-31T05:22:07.073Z | work_item_transitioned | WI-0050 | agent-lulu |
-| 2026-08-31T05:22:06.788Z | handoff_created | WI-0050 | agent-lulu |
-| 2026-08-31T05:21:58.470Z | evidence_recorded | WI-0050 | human |
-| 2026-08-31T05:18:56.544Z | work_item_claimed | WI-0050 | human |
+| 2026-08-31T05:33:19.545Z | work_item_claimed | WI-0051 | human |
+| 2026-08-31T05:33:19.237Z | work_item_transitioned | WI-0051 | agent-tidus |
+| 2026-08-31T05:33:18.936Z | handoff_created | WI-0051 | agent-tidus |
+| 2026-08-31T05:32:04.666Z | work_item_claimed | WI-0051 | human |
+| 2026-08-31T05:32:04.361Z | work_item_transitioned | WI-0051 | agent-yuna |
+| 2026-08-31T05:32:04.078Z | handoff_created | WI-0051 | agent-yuna |
+| 2026-08-31T05:31:37.714Z | work_item_claimed | WI-0051 | human |
+| 2026-08-31T05:31:37.405Z | work_item_transitioned | WI-0051 | agent-mog |
 
 ## Assignments
 
