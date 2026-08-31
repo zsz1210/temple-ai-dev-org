@@ -1,4 +1,7 @@
+import { createReadStream } from "node:fs";
+import fs from "node:fs/promises";
 import path from "node:path";
+import { createInterface } from "node:readline";
 import { atomicWrite, formatJson, pathExists, readJson } from "./files.mjs";
 import { readControlPlaneConfig } from "./control-plane-config.mjs";
 import { openTelemetryJournal, resolveControlPlaneStateDirectory } from "./telemetry.mjs";
@@ -24,9 +27,331 @@ export const USAGE_DIMENSIONS = [
 ];
 
 const TOKEN_FIELDS = ["input_tokens", "cached_input_tokens", "output_tokens", "reasoning_output_tokens", "total_tokens"];
+const USAGE_EVENT_TYPE = "org.temple.codex.usage.updated.v1";
+const ARCHIVE_FILE_PATTERN = /^events-\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z\.jsonl$/;
+const DEFAULT_ARCHIVE_LIMITS = {
+  maxArchiveFiles: 64,
+  maxArchiveBytes: 32 * 1024 * 1024,
+  maxTotalArchiveBytes: 128 * 1024 * 1024,
+  maxArchiveLineBytes: 1024 * 1024,
+  maxWarnings: 32
+};
+const archiveUsageFileCache = new Map();
+
+function usageEventIdentity(record) {
+  return `${record.source}\u0000${record.id}`;
+}
+
+function stableValue(value) {
+  if (value === null || typeof value !== "object") return value;
+  if (Array.isArray(value)) return value.map(stableValue);
+  return Object.fromEntries(Object.keys(value).sort().map((key) => [key, stableValue(value[key])]));
+}
+
+function comparableUsageRecord(record) {
+  const { templecursor: _cursor, templeobservedat: _observedAt, ...stable } = record;
+  return JSON.stringify(stableValue(stable));
+}
+
+function boundedString(value, field, options = {}) {
+  if (value === null || value === undefined) return null;
+  if (
+    typeof value !== "string" ||
+    (!options.allowEmpty && !value.trim()) ||
+    value.length > (options.maxLength ?? 512) ||
+    /[\u0000-\u001f\u007f]/.test(value)
+  ) {
+    throw new Error(`invalid-${field}`);
+  }
+  return value;
+}
+
+function validDateTime(value) {
+  return typeof value === "string" && value.length <= 64 && !Number.isNaN(Date.parse(value));
+}
+
+function validSource(value) {
+  if (typeof value !== "string" || !value.trim() || value.length > 2048) return false;
+  try {
+    new URL(value);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function projectTokenFields(value, options = {}) {
+  if (value === null || typeof value !== "object" || Array.isArray(value)) {
+    if (options.required) throw new Error(`invalid-${options.field ?? "token-fields"}`);
+    return null;
+  }
+  const projected = {};
+  for (const field of TOKEN_FIELDS) {
+    const candidate = value[field];
+    if (candidate === null || candidate === undefined) continue;
+    if (!Number.isSafeInteger(candidate) || candidate < 0) throw new Error(`invalid-${options.field ?? "token-fields"}`);
+    projected[field] = candidate;
+  }
+  if (options.required && Object.keys(projected).length === 0) throw new Error(`invalid-${options.field ?? "token-fields"}`);
+  return projected;
+}
+
+function projectUsageRecord(record, projectId = null) {
+  if (record === null || typeof record !== "object" || Array.isArray(record)) throw new Error("invalid-event");
+  if (record.specversion !== "1.0" || record.type !== USAGE_EVENT_TYPE) throw new Error("invalid-event-envelope");
+  const id = boundedString(record.id, "event-id");
+  if (!validSource(record.source)) throw new Error("invalid-event-source");
+  if (!validDateTime(record.time) || !validDateTime(record.templeobservedat)) throw new Error("invalid-event-time");
+  if (!Number.isSafeInteger(record.templecursor) || record.templecursor < 1) throw new Error("invalid-event-cursor");
+  const data = record.data;
+  if (data === null || typeof data !== "object" || Array.isArray(data)) throw new Error("invalid-event-data");
+  const observedProjectId = boundedString(data.project_id ?? data.attribution?.project_id, "project-id");
+  if (projectId && observedProjectId !== projectId) throw new Error("project-mismatch");
+  const attribution = {};
+  for (const field of USAGE_DIMENSIONS) {
+    const candidate = data.attribution?.[field] ?? data[field] ?? null;
+    attribution[field] = candidate === null ? null : boundedString(candidate, `attribution-${field}`);
+  }
+  const total = projectTokenFields(data.usage?.total, { field: "usage-total" });
+  const last = projectTokenFields(data.usage?.last, { field: "usage-last", required: true });
+  const modelContextWindow = data.usage?.model_context_window;
+  if (modelContextWindow !== null && modelContextWindow !== undefined && (!Number.isSafeInteger(modelContextWindow) || modelContextWindow < 0)) {
+    throw new Error("invalid-model-context-window");
+  }
+  return {
+    specversion: "1.0",
+    id,
+    source: record.source,
+    type: USAGE_EVENT_TYPE,
+    ...(record.subject ? { subject: boundedString(record.subject, "event-subject", { maxLength: 2048 }) } : {}),
+    time: record.time,
+    templeobservedat: record.templeobservedat,
+    templecursor: record.templecursor,
+    data: {
+      project_id: observedProjectId,
+      work_item_id: attribution.work_item_id,
+      task_id: attribution.task_id,
+      scope_revision: data.scope_revision === null || data.scope_revision === undefined
+        ? null
+        : boundedString(data.scope_revision, "scope-revision"),
+      attribution,
+      usage: {
+        total,
+        last,
+        model_context_window: modelContextWindow ?? null,
+        monetary_cost: null,
+        price_source: null
+      }
+    }
+  };
+}
+
+function archiveWarning(history, code, file = null) {
+  if (history.warnings.length >= history.limits.max_warnings) return;
+  history.warnings.push({ code, ...(file ? { file } : {}) });
+}
+
+async function readArchiveUsageFile(filePath, metadata, options) {
+  const fingerprint = `${filePath}\u0000${metadata.dev}\u0000${metadata.ino}\u0000${metadata.size}\u0000${metadata.mtimeMs}\u0000${metadata.ctimeMs}\u0000${options.projectId ?? ""}\u0000${options.maxArchiveLineBytes}`;
+  const cached = archiveUsageFileCache.get(fingerprint);
+  if (cached) return cached;
+  const records = [];
+  const input = createReadStream(filePath, { encoding: "utf8" });
+  const lines = createInterface({ input, crlfDelay: Infinity });
+  try {
+    for await (const line of lines) {
+      if (Buffer.byteLength(line, "utf8") > options.maxArchiveLineBytes) throw new Error("archive-line-too-large");
+      if (!/"type"\s*:\s*"org\.temple\.codex\.usage\.updated\.v1"/.test(line)) continue;
+      let parsed;
+      try {
+        parsed = JSON.parse(line);
+      } catch {
+        throw new Error("invalid-usage-json");
+      }
+      if (parsed.type !== USAGE_EVENT_TYPE) continue;
+      records.push(projectUsageRecord(parsed, options.projectId));
+    }
+  } finally {
+    lines.close();
+    input.destroy();
+  }
+  const after = await fs.stat(filePath);
+  if (
+    !after.isFile() ||
+    after.dev !== metadata.dev ||
+    after.ino !== metadata.ino ||
+    after.size !== metadata.size ||
+    after.mtimeMs !== metadata.mtimeMs ||
+    after.ctimeMs !== metadata.ctimeMs
+  ) {
+    throw new Error("archive-changed-during-read");
+  }
+  const result = { records };
+  archiveUsageFileCache.set(fingerprint, result);
+  return result;
+}
+
+async function readArchivedUsageRecords(stateDirectory, projectId, history, limits) {
+  if (!stateDirectory) return [];
+  const archiveDirectory = path.join(stateDirectory, "archive");
+  let entries;
+  try {
+    entries = await fs.readdir(archiveDirectory, { withFileTypes: true });
+  } catch (error) {
+    if (error.code === "ENOENT") return [];
+    archiveWarning(history, "archive-directory-unreadable");
+    return [];
+  }
+  const namedEntries = entries
+    .filter((entry) => ARCHIVE_FILE_PATTERN.test(entry.name))
+    .sort((left, right) => right.name.localeCompare(left.name));
+  history.archive_files.discovered = namedEntries.length;
+  const candidates = [];
+  for (const entry of namedEntries) {
+    if (!entry.isFile()) {
+      history.archive_files.skipped += 1;
+      archiveWarning(history, "unsafe-archive-file-type", entry.name);
+      continue;
+    }
+    const filePath = path.join(archiveDirectory, entry.name);
+    try {
+      const metadata = await fs.lstat(filePath);
+      if (!metadata.isFile() || metadata.isSymbolicLink()) throw new Error("unsafe-archive-file-type");
+      if (metadata.size > limits.maxArchiveBytes) throw new Error("archive-file-too-large");
+      candidates.push({ name: entry.name, filePath, metadata });
+    } catch (error) {
+      history.archive_files.skipped += 1;
+      archiveWarning(history, error.message === "archive-file-too-large" ? error.message : "archive-file-unreadable", entry.name);
+    }
+  }
+  const selected = candidates.slice(0, limits.maxArchiveFiles);
+  if (candidates.length > selected.length) {
+    const skipped = candidates.length - selected.length;
+    history.archive_files.skipped += skipped;
+    history.archive_files.over_limit += skipped;
+    archiveWarning(history, "archive-file-count-limit");
+  }
+  const records = [];
+  let totalBytes = 0;
+  for (const candidate of selected) {
+    if (totalBytes + candidate.metadata.size > limits.maxTotalArchiveBytes) {
+      history.archive_files.skipped += 1;
+      history.archive_files.over_limit += 1;
+      archiveWarning(history, "archive-total-byte-limit", candidate.name);
+      continue;
+    }
+    totalBytes += candidate.metadata.size;
+    history.archive_files.scanned += 1;
+    try {
+      const result = await readArchiveUsageFile(candidate.filePath, candidate.metadata, {
+        ...limits,
+        projectId
+      });
+      history.archive_files.accepted += 1;
+      records.push(...result.records.map((record) => ({ record, origin: "archive" })));
+    } catch (error) {
+      history.archive_files.skipped += 1;
+      archiveWarning(history, String(error.message || "invalid-archive-usage-record").slice(0, 96), candidate.name);
+    }
+  }
+  history.archive_bytes_scanned = totalBytes;
+  return records;
+}
+
+export async function readUsageTelemetryHistory(stateDirectory, activeRecords = [], options = {}) {
+  const limits = {
+    maxArchiveFiles: options.maxArchiveFiles ?? DEFAULT_ARCHIVE_LIMITS.maxArchiveFiles,
+    maxArchiveBytes: options.maxArchiveBytes ?? DEFAULT_ARCHIVE_LIMITS.maxArchiveBytes,
+    maxTotalArchiveBytes: options.maxTotalArchiveBytes ?? DEFAULT_ARCHIVE_LIMITS.maxTotalArchiveBytes,
+    maxArchiveLineBytes: options.maxArchiveLineBytes ?? DEFAULT_ARCHIVE_LIMITS.maxArchiveLineBytes,
+    maxWarnings: options.maxWarnings ?? DEFAULT_ARCHIVE_LIMITS.maxWarnings
+  };
+  for (const [name, value] of Object.entries(limits)) {
+    if (!Number.isSafeInteger(value) || value < 1) throw new Error(`Usage history ${name} must be a positive integer`);
+  }
+  const history = {
+    schema_version: "temple.usage-history/v1",
+    status: "active-only",
+    active_observations_read: 0,
+    archived_observations_read: 0,
+    active_observations_included: 0,
+    archived_observations_included: 0,
+    observations_included: 0,
+    duplicates_removed: 0,
+    conflicting_identities: 0,
+    invalid_active_observations: 0,
+    archive_bytes_scanned: 0,
+    archive_files: { discovered: 0, scanned: 0, accepted: 0, skipped: 0, over_limit: 0 },
+    warnings: [],
+    limits: {
+      max_archive_files: limits.maxArchiveFiles,
+      max_archive_bytes: limits.maxArchiveBytes,
+      max_total_archive_bytes: limits.maxTotalArchiveBytes,
+      max_archive_line_bytes: limits.maxArchiveLineBytes,
+      max_warnings: limits.maxWarnings
+    },
+    archive_mutation_performed: false,
+    canonical_state_changed: false
+  };
+  const candidates = [];
+  for (const record of activeRecords.filter((entry) => entry.type === USAGE_EVENT_TYPE)) {
+    try {
+      candidates.push({ record: projectUsageRecord(record, options.projectId), origin: "active" });
+      history.active_observations_read += 1;
+    } catch {
+      history.invalid_active_observations += 1;
+      archiveWarning(history, "invalid-active-usage-record");
+    }
+  }
+  const archived = await readArchivedUsageRecords(stateDirectory, options.projectId ?? null, history, limits);
+  history.archived_observations_read = archived.length;
+  candidates.push(...archived);
+
+  const byIdentity = new Map();
+  const conflicts = new Set();
+  for (const candidate of candidates) {
+    const identity = usageEventIdentity(candidate.record);
+    if (conflicts.has(identity)) continue;
+    const existing = byIdentity.get(identity);
+    if (!existing) {
+      byIdentity.set(identity, { ...candidate, origins: new Set([candidate.origin]) });
+      continue;
+    }
+    if (comparableUsageRecord(existing.record) === comparableUsageRecord(candidate.record)) {
+      existing.origins.add(candidate.origin);
+      history.duplicates_removed += 1;
+      continue;
+    }
+    byIdentity.delete(identity);
+    conflicts.add(identity);
+    history.conflicting_identities += 1;
+    archiveWarning(history, "usage-event-identity-conflict");
+  }
+  const included = [...byIdentity.values()];
+  history.active_observations_included = included.filter((entry) => entry.origins.has("active")).length;
+  history.archived_observations_included = included.filter((entry) => entry.origins.has("archive") && !entry.origins.has("active")).length;
+  history.observations_included = included.length;
+  const partial = history.archive_files.skipped > 0 || history.invalid_active_observations > 0 || history.conflicting_identities > 0;
+  history.status = partial ? "partial" : history.archive_files.accepted > 0 ? "complete" : "active-only";
+  const records = included
+    .map((entry) => entry.record)
+    .sort((left, right) =>
+      String(left.templeobservedat).localeCompare(String(right.templeobservedat)) ||
+      String(left.time).localeCompare(String(right.time)) ||
+      left.source.localeCompare(right.source) ||
+      left.id.localeCompare(right.id));
+  return {
+    records,
+    history,
+    activeJournal: {
+      first_cursor: activeRecords[0]?.templecursor ?? null,
+      last_cursor: activeRecords.at(-1)?.templecursor ?? 0
+    }
+  };
+}
 
 function usageRecordsFrom(records) {
-  return records.filter((record) => record.type === "org.temple.codex.usage.updated.v1" && record.data?.usage);
+  return records.filter((record) => record.type === USAGE_EVENT_TYPE && record.data?.usage);
 }
 
 function zeroTokens() {
@@ -354,10 +679,26 @@ export function buildUsageBaselineFromRecords(project, records, options = {}) {
     source: {
       kind: "provider-reported",
       state_directory: options.stateDirectory ?? null,
-      first_cursor: records[0]?.templecursor ?? null,
-      last_cursor: records.at(-1)?.templecursor ?? 0,
+      first_cursor: options.activeJournal?.first_cursor ?? records[0]?.templecursor ?? null,
+      last_cursor: options.activeJournal?.last_cursor ?? records.at(-1)?.templecursor ?? 0,
       observations: usageRecords.length,
       aggregation_basis: "provider-last-usage-delta",
+      history: options.history ?? {
+        schema_version: "temple.usage-history/v1",
+        status: "active-only",
+        active_observations_read: usageRecords.length,
+        archived_observations_read: 0,
+        active_observations_included: usageRecords.length,
+        archived_observations_included: 0,
+        observations_included: usageRecords.length,
+        duplicates_removed: 0,
+        conflicting_identities: 0,
+        invalid_active_observations: 0,
+        archive_files: { discovered: 0, scanned: 0, accepted: 0, skipped: 0, over_limit: 0 },
+        warnings: [],
+        archive_mutation_performed: false,
+        canonical_state_changed: false
+      },
       longitudinal_coverage: buildLongitudinalCoverage(options.workItems, options.tasks, usageRecords, options)
     },
     totals: {
@@ -571,7 +912,7 @@ export async function buildUsagePreflight(target, options = {}) {
   const stateDirectory = resolveControlPlaneStateDirectory(target, options.stateDirectory ?? config.state_directory);
   const journalPath = path.join(stateDirectory, "journal/events.jsonl");
   const providerPath = path.join(stateDirectory, "providers.json");
-  let records = [];
+  let activeRecords = [];
   if (await pathExists(journalPath)) {
     const journal = await openTelemetryJournal(stateDirectory, {
       maxEvents: config.retention.max_events,
@@ -579,7 +920,7 @@ export async function buildUsagePreflight(target, options = {}) {
       readOnly: true
     });
     try {
-      records = journal.readAfter(0).records;
+      activeRecords = journal.readAfter(0).records;
     } finally {
       await journal.close();
     }
@@ -596,7 +937,17 @@ export async function buildUsagePreflight(target, options = {}) {
         version: options.version
       })
     : unavailableAccountProbe(false);
-  return buildUsagePreflightFromRecords(project, taskRegistry.tasks ?? [], records, providers, accountProbe, { workItems });
+  const usageHistory = await readUsageTelemetryHistory(stateDirectory, activeRecords, { projectId: project.id });
+  const report = buildUsagePreflightFromRecords(
+    project,
+    taskRegistry.tasks ?? [],
+    usageHistory.records,
+    providers,
+    accountProbe,
+    { workItems }
+  );
+  report.detailed_thread_usage.history = usageHistory.history;
+  return report;
 }
 
 export async function buildUsageBaseline(target, options = {}) {
@@ -608,7 +959,7 @@ export async function buildUsageBaseline(target, options = {}) {
   const config = await readControlPlaneConfig(target);
   const stateDirectory = resolveControlPlaneStateDirectory(target, options.stateDirectory ?? config.state_directory);
   const journalPath = path.join(stateDirectory, "journal/events.jsonl");
-  let records = [];
+  let activeRecords = [];
   if (await pathExists(journalPath)) {
     const journal = await openTelemetryJournal(stateDirectory, {
       maxEvents: config.retention.max_events,
@@ -616,16 +967,19 @@ export async function buildUsageBaseline(target, options = {}) {
       readOnly: true
     });
     try {
-      records = journal.readAfter(0).records;
+      activeRecords = journal.readAfter(0).records;
     } finally {
       await journal.close();
     }
   }
-  const report = buildUsageBaselineFromRecords(project, records, {
+  const usageHistory = await readUsageTelemetryHistory(stateDirectory, activeRecords, { projectId: project.id });
+  const report = buildUsageBaselineFromRecords(project, usageHistory.records, {
     stateDirectory,
     workItems,
     tasks: taskRegistry.tasks ?? [],
-    longitudinalWorkItemsRequired: options.longitudinalWorkItemsRequired
+    longitudinalWorkItemsRequired: options.longitudinalWorkItemsRequired,
+    history: usageHistory.history,
+    activeJournal: usageHistory.activeJournal
   });
   if (options.write !== false) await atomicWrite(path.join(target, USAGE_BASELINE_VIEW), formatJson(report));
   return report;

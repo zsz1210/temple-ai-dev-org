@@ -32,7 +32,7 @@ import {
 } from "./control-plane-providers.mjs";
 import { buildObserverProjection } from "./observer.mjs";
 import { buildLiveObserverProjection } from "./live-observer.mjs";
-import { buildUsageBaselineFromRecords } from "./usage-attribution.mjs";
+import { buildUsageBaselineFromRecords, readUsageTelemetryHistory } from "./usage-attribution.mjs";
 import {
   acquireControlPlaneLease,
   openTelemetryJournal,
@@ -201,10 +201,15 @@ export async function buildControlPlaneSnapshot(target, journal, registry, optio
   ]);
   const journalSnapshot = journal.snapshot();
   const retainedRecords = journal.readAfter(0).records;
-  const usage = buildUsageBaselineFromRecords(observer.project, retainedRecords, {
+  const usageHistory = await readUsageTelemetryHistory(options.stateDirectory ?? null, retainedRecords, {
+    projectId: observer.project.id
+  });
+  const usage = buildUsageBaselineFromRecords(observer.project, usageHistory.records, {
     stateDirectory: options.stateDirectory ?? null,
     workItems: observer.work.items,
-    tasks: taskRegistry.tasks ?? []
+    tasks: taskRegistry.tasks ?? [],
+    history: usageHistory.history,
+    activeJournal: usageHistory.activeJournal
   });
   const eventWindow = journal.readAfter(Math.max(0, journalSnapshot.last_cursor - (options.eventLimit ?? 100)));
   return {

@@ -521,6 +521,8 @@ test("Codex history bounds are validated and Temple Workspace exposes terminal w
   assert.match(html, /governanceDecisions/);
   assert.match(html, /No detailed Token observations yet/);
   assert.match(html, /formatUsageNumber/);
+  assert.match(html, /Token totals include/);
+  assert.match(html, /Historical coverage is partial/);
   assert.match(html, /automatic model switching remain unavailable/);
   assert.match(html, /createRefreshCoordinator/);
   assert.match(html, /events\.onmessage=scheduleLoad/);
@@ -542,7 +544,43 @@ test("rebuild preserves the previous journal and reconstructs canonical reposito
   await writeJson(fixturePath, {
     schema_version: "temple.provider-fixture/v1",
     provider_id: "fixture-rebuild",
-    events: [event("transient-only", { status: "active" })]
+    events: [
+      event("transient-only", { status: "active" }),
+      {
+        id: "provider-usage-only",
+        source: "urn:temple:provider:fixture:rebuild",
+        type: "org.temple.codex.usage.updated.v1",
+        subject: "project/control-product/work-item/WI-0001",
+        time: "2026-08-30T00:00:00.000Z",
+        data: {
+          project_id: "control-product",
+          work_item_id: "WI-0001",
+          task_id: "task-provider-only",
+          scope_revision: "provider-only-revision",
+          attribution: {
+            project_id: "control-product",
+            work_item_id: "WI-0001",
+            position_id: "developer",
+            lifecycle_stage: "build",
+            task_id: "task-provider-only",
+            attempt_id: "turn-provider-only",
+            provider_id: "fixture-rebuild",
+            model: "gpt-5.6-luna",
+            model_version: null,
+            reasoning_effort: "max",
+            service_tier: null,
+            context_capsule_digest: null,
+            capability_set_digest: null,
+            outcome: "completed"
+          },
+          usage: {
+            total: { input_tokens: 90, cached_input_tokens: 10, output_tokens: 20, reasoning_output_tokens: 5, total_tokens: 125 },
+            last: { input_tokens: 90, cached_input_tokens: 10, output_tokens: 20, reasoning_output_tokens: 5, total_tokens: 125 },
+            model_context_window: 10000
+          }
+        }
+      }
+    ]
   });
   await ingestControlPlaneFixture(target, fixturePath, { stateDirectory });
   const rebuilt = await rebuildControlPlane(target, { stateDirectory });
@@ -551,4 +589,8 @@ test("rebuild preserves the previous journal and reconstructs canonical reposito
   assert.ok(rebuilt.repository.source_events >= 1);
   assert.ok(rebuilt.snapshot.recent_events.some((entry) => entry.source.startsWith("urn:temple:repository:")));
   assert.ok(!rebuilt.snapshot.recent_events.some((entry) => entry.id === "transient-only"));
+  assert.ok(!rebuilt.snapshot.recent_events.some((entry) => entry.id === "provider-usage-only"));
+  assert.equal(rebuilt.snapshot.usage.totals.total_tokens, 125);
+  assert.equal(rebuilt.snapshot.usage.source.history.archived_observations_included, 1);
+  assert.equal(rebuilt.snapshot.usage.source.history.archive_mutation_performed, false);
 });

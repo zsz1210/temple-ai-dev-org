@@ -14,7 +14,8 @@ import { classifyCodexTasks, normalizeCodexMessage } from "../src/codex-app-serv
 import {
   buildUsageBaselineFromRecords,
   buildUsagePreflightFromRecords,
-  probeCodexAccountUsage
+  probeCodexAccountUsage,
+  readUsageTelemetryHistory
 } from "../src/usage-attribution.mjs";
 import { defaultControlPlaneConfig } from "../src/control-plane-config.mjs";
 import { openTelemetryJournal } from "../src/telemetry.mjs";
@@ -787,4 +788,132 @@ test("usage baseline sums provider deltas, preserves unknowns, and never invents
   assert.equal(preflightReport.account_usage.availability, "not-probed");
   assert.equal(preflightReport.baseline_qualification.status, "not-qualified");
   assert.equal(preflightReport.canonical_state_changed, false);
+});
+
+test("usage history restores strict archive projections, ignores archive cursor order, and deduplicates Provider identities", async (context) => {
+  const stateDirectory = await fs.mkdtemp(path.join(os.tmpdir(), "temple-usage-history-test-"));
+  context.after(() => fs.rm(stateDirectory, { recursive: true, force: true }));
+  const archiveDirectory = path.join(stateDirectory, "archive");
+  await fs.mkdir(archiveDirectory, { recursive: true });
+  const makeUsage = (id, cursor, total, observedAt, extraData = {}) => ({
+    specversion: "1.0",
+    id,
+    source: "urn:temple:provider:codex-app-server:history-test",
+    type: "org.temple.codex.usage.updated.v1",
+    subject: "project/policy-product/work-item/WI-0056",
+    time: "2026-08-31T07:44:46.273Z",
+    templeobservedat: observedAt,
+    templecursor: cursor,
+    data: {
+      project_id: "policy-product",
+      work_item_id: "WI-0056",
+      task_id: "task-0005",
+      scope_revision: "candidate",
+      attribution: {
+        project_id: "policy-product",
+        work_item_id: "WI-0056",
+        position_id: "developer",
+        lifecycle_stage: "build",
+        task_id: "task-0005",
+        attempt_id: "turn-1",
+        provider_id: "codex-local",
+        model: "gpt-5.6-luna",
+        model_version: null,
+        reasoning_effort: "max",
+        service_tier: null,
+        context_capsule_digest: null,
+        capability_set_digest: null,
+        outcome: "in-progress"
+      },
+      usage: {
+        total: { input_tokens: total, cached_input_tokens: 0, output_tokens: 0, reasoning_output_tokens: 0, total_tokens: total },
+        last: { input_tokens: total, cached_input_tokens: 0, output_tokens: 0, reasoning_output_tokens: 0, total_tokens: total },
+        model_context_window: 258400
+      },
+      ...extraData
+    }
+  });
+  const active = makeUsage("usage-active", 9, 40, "2026-08-31T07:44:46.273Z");
+  const duplicate = makeUsage("usage-active", 3, 40, "2026-08-31T07:45:00.000Z");
+  const archivedOnly = makeUsage("usage-archived", 3, 60, "2026-08-31T07:46:00.000Z", {
+    raw_prompt: "must-not-enter-the-projection",
+    tool_payload: { secret: "must-not-enter-the-projection" }
+  });
+  await fs.writeFile(
+    path.join(archiveDirectory, "events-2026-08-31T07-45-54-118Z.jsonl"),
+    `${JSON.stringify(duplicate)}\n${JSON.stringify(archivedOnly)}\n`
+  );
+
+  const history = await readUsageTelemetryHistory(stateDirectory, [active], { projectId: "policy-product" });
+  assert.equal(history.history.status, "complete");
+  assert.equal(history.history.active_observations_read, 1);
+  assert.equal(history.history.archived_observations_read, 2);
+  assert.equal(history.history.archived_observations_included, 1);
+  assert.equal(history.history.duplicates_removed, 1);
+  assert.equal(history.records.length, 2);
+  assert.doesNotMatch(JSON.stringify(history), /must-not-enter-the-projection|raw_prompt|tool_payload/);
+  const baseline = buildUsageBaselineFromRecords({ id: "policy-product", name: "Policy Product" }, history.records, {
+    history: history.history,
+    activeJournal: history.activeJournal
+  });
+  assert.equal(baseline.totals.total_tokens, 100);
+  assert.equal(baseline.source.history.archived_observations_included, 1);
+  assert.equal(baseline.source.first_cursor, 9);
+  assert.equal(baseline.source.last_cursor, 9);
+});
+
+test("usage history quarantines identity conflicts and isolates unsafe, malformed, and oversized archives", async (context) => {
+  const stateDirectory = await fs.mkdtemp(path.join(os.tmpdir(), "temple-usage-history-failure-test-"));
+  context.after(() => fs.rm(stateDirectory, { recursive: true, force: true }));
+  const archiveDirectory = path.join(stateDirectory, "archive");
+  await fs.mkdir(archiveDirectory, { recursive: true });
+  const makeUsage = (id, cursor, total) => ({
+    specversion: "1.0",
+    id,
+    source: "urn:temple:provider:codex-app-server:history-test",
+    type: "org.temple.codex.usage.updated.v1",
+    subject: "project/policy-product/work-item/WI-0056",
+    time: "2026-08-31T07:44:46.273Z",
+    templeobservedat: "2026-08-31T07:44:46.273Z",
+    templecursor: cursor,
+    data: {
+      project_id: "policy-product",
+      work_item_id: "WI-0056",
+      task_id: "task-0005",
+      scope_revision: "candidate",
+      attribution: { project_id: "policy-product", work_item_id: "WI-0056", task_id: "task-0005", model: "gpt-5.6-luna" },
+      usage: { last: { total_tokens: total } }
+    }
+  });
+  const activeConflict = makeUsage("usage-conflict", 1, 10);
+  await fs.writeFile(
+    path.join(archiveDirectory, "events-2026-08-31T07-40-00-000Z.jsonl"),
+    `${JSON.stringify(makeUsage("usage-safe", 1, 5))}\n${JSON.stringify(makeUsage("usage-conflict", 1, 11))}\n`
+  );
+  await fs.writeFile(
+    path.join(archiveDirectory, "events-2026-08-31T07-41-00-000Z.jsonl"),
+    "{\"type\":\"org.temple.codex.usage.updated.v1\",not-json}\n"
+  );
+  await fs.writeFile(
+    path.join(archiveDirectory, "events-2026-08-31T07-42-00-000Z.jsonl"),
+    `${"x".repeat(5000)}\n`
+  );
+  await fs.symlink(
+    path.join(archiveDirectory, "events-2026-08-31T07-40-00-000Z.jsonl"),
+    path.join(archiveDirectory, "events-2026-08-31T07-43-00-000Z.jsonl")
+  );
+
+  const history = await readUsageTelemetryHistory(stateDirectory, [activeConflict], {
+    projectId: "policy-product",
+    maxArchiveBytes: 3000
+  });
+  assert.equal(history.history.status, "partial");
+  assert.equal(history.history.conflicting_identities, 1);
+  assert.equal(history.history.archive_files.skipped, 3);
+  assert.deepEqual(history.records.map((record) => record.id), ["usage-safe"]);
+  assert.equal(buildUsageBaselineFromRecords({ id: "policy-product", name: "Policy Product" }, history.records).totals.total_tokens, 5);
+  assert.ok(history.history.warnings.some((warning) => warning.code === "invalid-usage-json"));
+  assert.ok(history.history.warnings.some((warning) => warning.code === "archive-file-too-large"));
+  assert.ok(history.history.warnings.some((warning) => warning.code === "unsafe-archive-file-type"));
+  assert.doesNotMatch(JSON.stringify(history.history), /not-json|\/tmp\//);
 });

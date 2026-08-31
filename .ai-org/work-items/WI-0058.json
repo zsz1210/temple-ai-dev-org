@@ -1,0 +1,136 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0058",
+  "title": "Preserve Token history across telemetry rebuilds",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-31T08:12:46.061Z",
+  "updated_at": "2026-08-31T08:14:55.868Z",
+  "scope": [
+    "Read normalized provider Token-usage observations from the active telemetry journal and bounded local archives so a Control Plane rebuild does not erase historical usage from Temple Workspace.",
+    "Keep archives immutable, telemetry observational, and raw prompt or content payloads outside the usage projection."
+  ],
+  "acceptance_criteria": [
+    "Usage report and Workspace include deduplicated normalized usage observations from active and eligible archived journals.",
+    "Malformed, unsafe, oversized, or conflicting archive inputs fail closed per file without breaking the active Dashboard and expose bounded coverage diagnostics.",
+    "The preserved WI-0056 Provider observation reappears as 23,433 total Tokens after rebuild without another model call.",
+    "Automated tests cover archive discovery, validation, deduplication, conflict handling, privacy boundaries, and active-only compatibility."
+  ],
+  "affected_paths": [
+    "src/usage-attribution.mjs",
+    "src/control-plane-server.mjs",
+    "src/control-plane-dashboard.mjs",
+    "test/phase-4b.test.mjs",
+    "test/control-plane-foundation.test.mjs",
+    "docs/operations/token-efficiency-and-model-routing.md",
+    "docs/operations/control-plane.md",
+    ".ai-org/artifacts/WI-0058"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "code-first",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "1631f8abda63e3421aad9273b9ad3eb2209bdb4a",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0029, WI-0033, and WI-0043 are unclaimed earlier-scope items; WI-0058 is the sole current editor, is sequential, and will preserve their accepted Control Plane and information-architecture boundaries while adding only archive-aware usage history.",
+    "WI-0030, WI-0034, WI-0036, WI-0040, WI-0041, WI-0042, WI-0044, WI-0045, WI-0046, WI-0047, WI-0048, and WI-0049 are unclaimed release-gate candidates already contained in the current base; WI-0058 will not alter their lifecycle evidence and its later tested revision becomes the integration base for any resumed work."
+  ],
+  "claim": {
+    "id": "claim-20260831081455-0b88c2c6",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "1631f8abda63e3421aad9273b9ad3eb2209bdb4a",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-08-31T08:14:55.868Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260831081455-0b88c2c6",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "1631f8abda63e3421aad9273b9ad3eb2209bdb4a",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T08:14:55.868Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0058/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0058/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0058.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0058/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0058/technical-design.md"
+    ],
+    "ui_brief": [
+      ".ai-org/artifacts/WI-0058/ui-design-brief.md"
+    ],
+    "required_state_coverage": [
+      ".ai-org/artifacts/WI-0058/product-spec.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0058/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0058/work-order.md",
+    ".ai-org/artifacts/WI-0058/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0058/product-spec.md",
+    ".ai-org/artifacts/WI-0058/ui-design-brief.md",
+    ".ai-org/work-items/WI-0058.json",
+    ".ai-org/artifacts/WI-0058/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0058/technical-design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "1631f8abda63e3421aad9273b9ad3eb2209bdb4a",
+      "artifact": ".ai-org/artifacts/WI-0058/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-08-31T08:14:54.104Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "1631f8abda63e3421aad9273b9ad3eb2209bdb4a",
+      "artifact": ".ai-org/artifacts/WI-0058/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-31T08:14:54.679Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "1631f8abda63e3421aad9273b9ad3eb2209bdb4a",
+      "artifact": ".ai-org/artifacts/WI-0058/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-08-31T08:14:55.243Z"
+    }
+  ]
+}

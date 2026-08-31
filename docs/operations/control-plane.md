@@ -261,7 +261,7 @@ Rebuild generated telemetry from canonical repository events while preserving th
 node ./templew.mjs control-plane rebuild . --json
 ```
 
-A rebuild restores canonical history projection. Provider-only transient history remains only in the archived journal and is not presented as canonical truth.
+A rebuild restores the active canonical history projection. Provider-only transient events remain only in the archived journal and are never copied back into the active event stream or presented as canonical truth. The Usage projection may read a bounded, strict Token-only subset from eligible local archives so historical resource analysis survives rebuild. It ignores archive cursor order, deduplicates by Provider event identity, quarantines identity conflicts, skips unsafe or invalid files, and exposes only bounded coverage diagnostics. It never rewrites an archive or lets archived telemetry satisfy a lifecycle gate.
 
 ## Current capability boundary
 

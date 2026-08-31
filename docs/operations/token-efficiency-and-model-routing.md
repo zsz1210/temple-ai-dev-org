@@ -73,6 +73,10 @@ node ./templew.mjs usage report . --no-write --json
 
 Remove `--no-write` to create `.ai-org/views/usage-baseline.json`. The report sums provider last-usage deltas instead of cumulative totals, groups drivers by the attribution dimensions below, and leaves monetary cost unknown without a versioned price source. This remains observation infrastructure, not a completed optimization system.
 
+The report combines the active journal with bounded local journal archives so a Control Plane rebuild does not erase provider-only Token evidence from the Usage view. Archive cursors are not globally comparable, so Temple deduplicates by the Provider event identity (`source` plus `id`). Equal identities count once; conflicting identities are excluded entirely. Only a strict usage-only projection is retained in memory. Arbitrary event data, prompts, responses, instructions, tool payloads, hidden reasoning, and credentials do not enter the report.
+
+Read `source.history` before interpreting the totals. `complete` means all eligible bounded archive files were read, `active-only` means no eligible archive contributed, and `partial` means at least one archive or identity was excluded. Counts cover active and archived observations, duplicates, conflicts, skipped files, and applied limits. These are coverage diagnostics, not cryptographic archive verification or lifecycle authority.
+
 ### Read longitudinal coverage
 
 `source.longitudinal_coverage` compares three bounded sources without promoting an observation into canonical state:
