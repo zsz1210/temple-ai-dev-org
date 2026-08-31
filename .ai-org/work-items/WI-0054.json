@@ -1,0 +1,122 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0054",
+  "title": "Run the first bounded provider-owned live Token proof",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-31T07:07:15.223Z",
+  "updated_at": "2026-08-31T07:08:31.496Z",
+  "scope": [
+    "Create exactly one Temple-provider-owned Codex thread and one turn using gpt-5.6-luna with max reasoning, read-only sandbox, and network disabled.",
+    "Correlate the thread to the exact Work Item, task, Position, Agent, Provider, launch revision, requested/effective model, and detailed Token usage when emitted.",
+    "Use zero automatic retries, a 20,000 total-Token reactive interrupt threshold, and a 180-second wall-clock interrupt; report unavailable dimensions honestly."
+  ],
+  "acceptance_criteria": [
+    "The exact approved instruction is sent once only after canonical task registration; no repository file is modified by the model.",
+    "The outcome records thread and turn identity, completion or interruption status, Desktop/list visibility when observable, detailed Token fields, attribution, and whether each stop boundary activated.",
+    "Missing usage, effective model, service tier, or visibility remains unknown and no cost, savings, or routing claim is made.",
+    "The task is finalized, local verification and Doctor pass, and distinct Independent QA reviews exact evidence before organizational closeout."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0054",
+    ".ai-org/project/tasks.json"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "33c9892d18ef609f4caedd0edb6e9e2915a9b2c8",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260831070831-a8d04ca1",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "33c9892d18ef609f4caedd0edb6e9e2915a9b2c8",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-08-31T07:08:31.496Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260831070831-a8d04ca1",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "33c9892d18ef609f4caedd0edb6e9e2915a9b2c8",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T07:08:31.496Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0054/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0054/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0054.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0054/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0054/technical-design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0054/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0054/work-order.md",
+    ".ai-org/artifacts/WI-0054/human-approval.md",
+    ".ai-org/artifacts/WI-0054/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0054/product-spec.md",
+    ".ai-org/work-items/WI-0054.json",
+    ".ai-org/artifacts/WI-0054/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0054/technical-design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "33c9892d18ef609f4caedd0edb6e9e2915a9b2c8",
+      "artifact": ".ai-org/artifacts/WI-0054/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-08-31T07:07:31.231Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "33c9892d18ef609f4caedd0edb6e9e2915a9b2c8",
+      "artifact": ".ai-org/artifacts/WI-0054/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-31T07:07:45.286Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "33c9892d18ef609f4caedd0edb6e9e2915a9b2c8",
+      "artifact": ".ai-org/artifacts/WI-0054/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-08-31T07:08:30.925Z"
+    }
+  ]
+}
