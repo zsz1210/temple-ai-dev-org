@@ -1,0 +1,183 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0047",
+  "title": "Make Temple Workspace human-first and fluid across screen sizes",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-31T01:59:38.303Z",
+  "updated_at": "2026-08-31T02:03:26.678Z",
+  "scope": [
+    "Reframe the existing private management surface as Temple Workspace, replace system-centric labels and numeric navigation with human-facing names and semantic icons, add light and dark themes, and make the shell fluid across ultrawide desktop, laptop, tablet, and mobile while preserving canonical data, privacy, and local-command boundaries."
+  ],
+  "acceptance_criteria": [
+    "The visible product and destination names use Temple Workspace, Overview, Team, Work, Usage, Health, and Activity; internal technical terminology remains available only where it adds traceability.",
+    "Primary navigation uses accessible semantic icons and visible labels, becomes an icon rail on tablet widths, and becomes an accessible drawer on mobile without numeric prefixes.",
+    "At 3440, 2560, 1440, 1024, 768, and 390 CSS-pixel widths the page has no horizontal overflow and uses available wide-screen space for meaningful content columns.",
+    "Light and dark themes respect the first system preference, can be changed explicitly, and persist locally without changing project or command state.",
+    "Private-viewer redaction, read-only behavior, one-snapshot refresh semantics, and loopback-only Human Inbox and Agent Commands remain unchanged.",
+    "Focused tests, full verification, and independent browser QA pass on the exact candidate revision before the work stops at Release Gate."
+  ],
+  "affected_paths": [
+    "src/control-plane-dashboard.mjs",
+    "test/control-plane-foundation.test.mjs",
+    "test/control-plane-inbox.test.mjs",
+    "test/control-plane-live.test.mjs",
+    "test/control-plane-private-viewer.test.mjs",
+    "docs/operations/control-plane.md",
+    "docs/integrations/home-lan-private-dashboard.md",
+    "docs/integrations/tailscale-private-dashboard.md",
+    ".ai-org/artifacts/WI-0047"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [
+    {
+      "id": "UI-0001",
+      "revision": "ui-1"
+    }
+  ],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "preview-first",
+  "parent_work_item_id": "WI-0043",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "b5d65bc81ef52509bc335fc02417ecfcfc853df6",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0029, WI-0030, WI-0033, WI-0034, WI-0036, WI-0037, WI-0040, WI-0041, WI-0042, WI-0043, WI-0044, WI-0045, and WI-0046 are unclaimed predecessor or review items. WI-0047 is their approved sequential successor and the sole editor of the declared Control Plane UI, test, and documentation paths until its candidate is integrated."
+  ],
+  "claim": {
+    "id": "claim-20260831020326-892d241f",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "b5d65bc81ef52509bc335fc02417ecfcfc853df6",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-08-31T02:03:26.678Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260831020024-e1c0912c",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "b5d65bc81ef52509bc335fc02417ecfcfc853df6",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T02:00:24.590Z",
+      "released_at": "2026-08-31T02:00:49.452Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831020049-dbb8e596",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "b5d65bc81ef52509bc335fc02417ecfcfc853df6",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T02:00:49.994Z",
+      "released_at": "2026-08-31T02:01:54.403Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831020154-1518c43f",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "b5d65bc81ef52509bc335fc02417ecfcfc853df6",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T02:01:54.672Z",
+      "released_at": "2026-08-31T02:03:26.395Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831020326-892d241f",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "b5d65bc81ef52509bc335fc02417ecfcfc853df6",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T02:03:26.678Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0047/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0047/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0047.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0047/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0047/technical-design.md"
+    ],
+    "ui_brief": [
+      ".ai-org/artifacts/WI-0047/ui-brief.md"
+    ],
+    "preview_artifact": [
+      ".ai-org/artifacts/WI-0047/approved-preview.svg"
+    ],
+    "review_record": [
+      ".ai-org/artifacts/WI-0047/preview-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0047/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0047/work-order.md",
+    ".ai-org/artifacts/WI-0047/approved-preview.svg",
+    ".ai-org/artifacts/WI-0047/preview-review.md",
+    ".ai-org/artifacts/WI-0047/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0047/product-spec.md",
+    ".ai-org/artifacts/WI-0047/ui-brief.md",
+    ".ai-org/work-items/WI-0047.json",
+    ".ai-org/artifacts/WI-0047/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0047/technical-design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "b5d65bc81ef52509bc335fc02417ecfcfc853df6",
+      "artifact": ".ai-org/artifacts/WI-0047/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-08-31T02:00:49.195Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "b5d65bc81ef52509bc335fc02417ecfcfc853df6",
+      "artifact": ".ai-org/artifacts/WI-0047/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-31T02:01:54.141Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "b5d65bc81ef52509bc335fc02417ecfcfc853df6",
+      "artifact": ".ai-org/artifacts/WI-0047/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-08-31T02:03:15.070Z"
+    }
+  ]
+}

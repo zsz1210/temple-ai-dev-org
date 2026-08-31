@@ -1,4 +1,4 @@
-# Local control plane and Management Console
+# Local control plane and Temple Workspace
 
 The Phase 3 control plane combines canonical repository state with generated local telemetry without giving telemetry authority over lifecycle gates.
 
@@ -39,22 +39,22 @@ Start the local server:
 node ./templew.mjs control-plane start .
 ```
 
-Expose a separate redacted read-only Management Console on one exact trusted home-LAN address:
+Expose a separate redacted read-only Temple Workspace on one exact trusted home-LAN address:
 
 ```bash
 node ./templew.mjs control-plane start . \
   --lan-viewer-host 192.168.79.5
 ```
 
-The LAN listener defaults to port `41741`. It accepts only an RFC1918 IPv4 address and never turns the loopback mutation gateway into a network listener. See [Home-LAN private Dashboard](../integrations/home-lan-private-dashboard.md).
+The LAN listener defaults to port `41741`. It accepts only an RFC1918 IPv4 address and never turns the loopback mutation gateway into a network listener. See [Home-LAN private Temple Workspace](../integrations/home-lan-private-dashboard.md).
 
-Expose only a redacted read-only Management Console to an authenticated device on the same permitted Tailscale network:
+Expose only a redacted read-only Temple Workspace to an authenticated device on the same permitted Tailscale network:
 
 ```bash
 node ./templew.mjs control-plane start . --tailscale-viewer
 ```
 
-The listener still binds only to `127.0.0.1`. The pinned optional launcher configures Tailscale Serve as a localhost reverse proxy and prints a tailnet HTTPS URL. The private page contains no Human Inbox, Agent Commands, session secret, daemon path, raw event payload, or mutation route. See [Tailscale private Dashboard](../integrations/tailscale-private-dashboard.md).
+The listener still binds only to `127.0.0.1`. The pinned optional launcher configures Tailscale Serve as a localhost reverse proxy and prints a tailnet HTTPS URL. The private page contains no Human Inbox, Agent Commands, session secret, daemon path, raw event payload, or mutation route. See [Tailscale private Temple Workspace](../integrations/tailscale-private-dashboard.md).
 
 Opt in to the pinned Codex App Server observer for registered task thread IDs:
 
@@ -62,22 +62,24 @@ Opt in to the pinned Codex App Server observer for registered task thread IDs:
 node ./templew.mjs control-plane start . --codex
 ```
 
-The HTTP server and repository snapshot become available before optional Codex history synchronization begins. During that background synchronization, provider-dependent state remains capability-labelled as `registered-only`, `history-only`, or `unknown`; the Management Console does not wait for an entire conversation history before serving health and snapshot routes.
+The HTTP server and repository snapshot become available before optional Codex history synchronization begins. During that background synchronization, provider-dependent state remains capability-labelled as `registered-only`, `history-only`, or `unknown`; Temple Workspace does not wait for an entire conversation history before serving health and snapshot routes.
 
-### Read the Management Console by question
+### Read Temple Workspace by question
 
-The complete browser surface is the **Temple Management Console**. `Now` is its operational Dashboard, not the name of the whole application. One-level navigation keeps organization, execution, resource, and diagnostic questions from competing on one long page:
+The complete human-facing browser surface is **Temple Workspace**. It uses familiar destination names while retaining canonical IDs and technical terms in traceable detail:
 
-- **Now** is the Dashboard. It answers what needs attention and shows only four flow metrics: active work, blocked work, live tasks, and human decisions.
-- **Organization** answers how the organization is composed. It projects canonical Agent Identities, Positions, Assignments, membership Disciplines, collaboration profile, and separation safeguards even when no Work Item is active. `Configured` never means online, and Assignment lines do not imply a reporting hierarchy.
-- **Execution** answers who is doing what now. Its responsibility map follows `Agent → Position → Work Item → Codex task → observed model`; only claimed, blocked, or live-attached execution appears in that map. Queued and approval-pending inventory is collapsed by default.
+- **Overview** answers what needs attention and shows only four flow metrics: active work, blocked work, live tasks, and human decisions.
+- **Team** shows configured teammates and Roles from canonical Agent Identities, Positions, Assignments, membership Disciplines, collaboration profile, and separation safeguards even when no Work Item is active. `Configured` never means online, and Assignment lines do not imply a reporting hierarchy.
+- **Work** answers who is working on what. Its responsibility map follows `Teammate → Role → Work Item → Codex task → observed model`; only claimed, blocked, or live-attached work appears in that map. Queued and approval-pending inventory is collapsed by default.
 - **Usage** answers where observed Tokens and models are going. It shows an explicit evidence-not-ready state instead of treating missing provider observations as zero.
-- **System** answers whether providers and control-plane conditions are healthy.
-- **History** keeps terminal Work Items and the bounded occurrence timeline out of the operational starting view.
+- **Health** answers whether providers and control-plane conditions are healthy.
+- **Activity** keeps terminal Work Items and the bounded occurrence timeline out of the operational starting view.
 
-The Management Console separates stream connectivity from snapshot freshness. A connected SSE stream does not make an old or failed snapshot actionable. The page labels the last successful snapshot independently, keeps the previous read-only information visible when a refresh fails, and disables every loopback mutation until a current snapshot is available again. On a private viewer, the same status is expressed as read-only snapshot freshness rather than action readiness.
+Temple Workspace separates stream connectivity from snapshot freshness. A connected SSE stream does not make an old or failed snapshot actionable. The page labels the last successful snapshot independently, keeps the previous read-only information visible when a refresh fails, and disables every loopback mutation until a current snapshot is available again. On a private viewer, the same status is expressed as read-only snapshot freshness rather than action readiness.
 
-`Organization` is a bounded projection from `.ai-org/project/agents.json`, `.ai-org/project/assignments.json`, `.ai-org/core/positions.json`, and `.ai-org/project/collaboration.json`. Private viewers may read this roster and governance metadata, but the projection excludes Human Principal records, sponsorships, credentials, prompts, command payloads, local Inbox state, and inferred online presence. Membership eligibility remains distinct from the active Assignment that holds a Position.
+`Team` is a bounded presentation of the organization projection from `.ai-org/project/agents.json`, `.ai-org/project/assignments.json`, `.ai-org/core/positions.json`, and `.ai-org/project/collaboration.json`. Private viewers may read this roster and governance metadata, but the projection excludes Human Principal records, sponsorships, credentials, prompts, command payloads, local Inbox state, and inferred online presence. Membership eligibility remains distinct from the active Assignment that holds a Position.
+
+The public hashes are `#overview`, `#team`, `#work`, `#usage`, `#health`, and `#activity`. Existing bookmarks using `#now`, `#organization`, `#execution`, `#system`, or `#history` remain accepted and normalize to the new names. Wide screens receive a labeled sidebar and fluid content area, compact desktop and tablet widths receive an accessible icon rail, and mobile receives a Menu drawer. The light/dark preference is browser-local presentation state and never enters canonical project state or telemetry.
 
 Current attention and Work Items are still classified with the Observer's canonical categories: active, QA pending, approval pending, queued, blocked, and terminal. The interface changes presentation and progressive disclosure; it does not change lifecycle authority.
 
@@ -106,7 +108,7 @@ Projects may reduce or increase the bounded startup window without retaining raw
 
 ### Opt in to local Agent Commands
 
-Agent Commands are a prototype for deliberately continuing one existing registered Codex task from the loopback Management Console. Starting the observer with `--codex` does not enable commands. Opt in separately in `.ai-org/project/control-plane.json`:
+Agent Commands are a prototype for deliberately continuing one existing registered Codex task from the loopback Temple Workspace. Starting the observer with `--codex` does not enable commands. Opt in separately in `.ai-org/project/control-plane.json`:
 
 ```json
 {
@@ -127,7 +129,7 @@ The Codex App Server provider must also be explicitly enabled and ready. A targe
 
 An idle eligible target offers `new-turn`. A target with an observed active turn offers only `steer` and `interrupt`, bound to that exact turn ID. Every submission carries the expected task status, Work Item state, provider thread, active turn, an idempotency key, and an explicit confirmation. The route accepts no provider executable, shell command, model override, host, arbitrary thread ID, or new-task request.
 
-The Management Console shows the complete normalized instruction only in the transient local preview. Generated command state and history retain the target identity, operation, timestamps, instruction length, and a fixed non-content omission summary. They retain no instruction prefix, suffix, content-derived digest, or provider credentials, so even one-character and short instructions cannot be recovered from history. Do not enter credentials or secrets.
+Temple Workspace shows the complete normalized instruction only in the transient local preview. Generated command state and history retain the target identity, operation, timestamps, instruction length, and a fixed non-content omission summary. They retain no instruction prefix, suffix, content-derived digest, or provider credentials, so even one-character and short instructions cannot be recovered from history. Do not enter credentials or secrets.
 
 The server exposes:
 
@@ -152,7 +154,7 @@ The optional private viewer is a separate request class, not a remotely accessib
 
 Private requests may use only `GET /`, `GET /healthz`, `GET /api/v1/snapshot`, and `GET /api/v1/events`. The snapshot omits `daemon`, `inbox`, and `recent_events`. The event stream sends refresh cursors rather than raw journal records. `GET /api/v1/inbox` returns `403`; every private-viewer non-GET request returns `405` before command parsing.
 
-The full loopback Management Console retains its local tools. `--tailscale-viewer` does not enable `--codex`, change `agent_commands`, mutate a tailnet policy, bind to a LAN address, or invoke Funnel. `--lan-viewer-host` does not enable `--codex`, change `agent_commands`, configure a router, start at login, or make the listener public. Both read-only transports may run concurrently.
+The full loopback Temple Workspace retains its local tools. `--tailscale-viewer` does not enable `--codex`, change `agent_commands`, mutate a tailnet policy, bind to a LAN address, or invoke Funnel. `--lan-viewer-host` does not enable `--codex`, change `agent_commands`, configure a router, start at login, or make the listener public. Both read-only transports may run concurrently.
 
 ## Human Inbox authority
 
@@ -166,7 +168,7 @@ Accepted and rejected commands are audited below the generated control-plane sta
 
 ## Agent Command delivery states
 
-Transport acknowledgement and Agent execution are separate. The Management Console and snapshot use these textual states:
+Transport acknowledgement and Agent execution are separate. Temple Workspace and the snapshot use these textual states:
 
 - `submitted` — persisted locally before the provider request; repeat submission is disabled;
 - `provider-accepted` — the provider acknowledged steering or interruption, but completion is not observed;
@@ -263,4 +265,4 @@ A rebuild restores canonical history projection. Provider-only transient history
 
 ## Current capability boundary
 
-The local Phase 3 increments include replay-safe telemetry, the live Observer, the Management Console and its Organization/Now/Execution/Usage/System/History workspaces, capability-proven Codex App Server observation, stateful conditions, the authority-separated Human Inbox, an opt-in loopback-only Agent Command prototype, an optional private read-only Tailscale viewer, and an exact-SHA read-only GitHub PR and Checks provider with explicit evidence capture. The current reliability pass also separates terminal work from queued work and prevents optional Codex history synchronization from blocking the local HTTP surface. It does not provide remote or mobile control, public Management Console access, notifications, tracker or PR writes, new-task creation through the gateway, model switching, automatic command retry, merge, deployment, production operations, universal visibility into existing Codex Desktop tasks, cross-clone consensus, or production-grade retention. See the accepted [Phase 3 design](../planning/phase-3-control-plane.md), [work breakdown](../planning/phase-3-work-items.md), and validation records.
+The local Phase 3 increments include replay-safe telemetry, the live Observer, Temple Workspace and its Overview/Team/Work/Usage/Health/Activity destinations, capability-proven Codex App Server observation, stateful conditions, the authority-separated Human Inbox, an opt-in loopback-only Agent Command prototype, an optional private read-only Tailscale viewer, and an exact-SHA read-only GitHub PR and Checks provider with explicit evidence capture. The current reliability pass also separates terminal work from queued work and prevents optional Codex history synchronization from blocking the local HTTP surface. It does not provide remote or mobile control, public Temple Workspace access, notifications, tracker or PR writes, new-task creation through the gateway, model switching, automatic command retry, merge, deployment, production operations, universal visibility into existing Codex Desktop tasks, cross-clone consensus, or production-grade retention. See the accepted [Phase 3 design](../planning/phase-3-control-plane.md), [work breakdown](../planning/phase-3-work-items.md), and validation records.

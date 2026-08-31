@@ -2,5 +2,29 @@
   "schema_version": "temple.spec-index/v1",
   "adoption_profile": "hybrid",
   "delivery_method": "contract-guided-iterative",
-  "entries": []
+  "entries": [
+    {
+      "id": "UI-0001",
+      "kind": "ui_contract",
+      "title": "Temple Workspace human-first responsive shell",
+      "authority": "temple_native",
+      "status": "approved",
+      "revision": "ui-1",
+      "source": {
+        "kind": "repository",
+        "location": ".ai-org/artifacts/WI-0047/approved-preview.svg",
+        "system": "git",
+        "content_sha256": "bf3777b895aff45c40957df5bc5d795bb1bee76a3b83c8cd7e075c02b09e00ab"
+      },
+      "owner_position": "ui_designer",
+      "approved_by": "human",
+      "approved_at": "2026-08-31T01:59:08.000Z",
+      "approval_ref": ".ai-org/artifacts/WI-0047/preview-review.md",
+      "source_refs": [],
+      "related_work_items": [
+        "WI-0047"
+      ],
+      "updated_at": "2026-08-31T01:59:08.000Z"
+    }
+  ]
 }

@@ -406,7 +406,7 @@ test("HTTP becomes available before a slow Codex history reconciliation complete
   await controlPlane.close();
 });
 
-test("Codex history bounds are validated and the Dashboard exposes terminal work", () => {
+test("Codex history bounds are validated and Temple Workspace exposes terminal work", () => {
   const config = defaultControlPlaneConfig();
   config.providers.push({
     id: "codex-local",
@@ -436,17 +436,25 @@ test("Codex history bounds are validated and the Dashboard exposes terminal work
   assert.match(html, /data-nav-target="usage"/);
   assert.match(html, /data-nav-target="system"/);
   assert.match(html, /data-nav-target="history"/);
-  assert.match(html, /Temple Management Console/);
-  assert.match(html, /How is this organization composed\?/);
+  assert.match(html, /Temple Workspace/);
+  assert.match(html, /Who is part of this project\?/);
   assert.match(html, /role="tablist"/);
-  assert.match(html, /By Agent/);
-  assert.match(html, /By Position/);
-  assert.match(html, /Who is doing what now\?/);
-  assert.match(html, /Live execution/);
+  assert.match(html, /Teammates/);
+  assert.match(html, /Roles/);
+  assert.match(html, /Who is working on what\?/);
+  assert.match(html, /Current work/);
   assert.match(html, /Responsibility map/);
+  assert.match(html, /data-icon="overview"/);
+  assert.match(html, /data-icon="team"/);
+  assert.doesNotMatch(html, /<span class="nav-icon">0[1-6]<\/span>/);
+  assert.match(html, /routeToView=\{overview:"now",team:"organization",work:"execution"/);
+  assert.match(html, /temple-workspace-theme/);
+  assert.match(html, /@container workspace/);
+  assert.match(html, /max-width:1199px/);
+  assert.match(html, /max-width:759px/);
   assert.match(html, /renderOrganization\(snapshot\)/);
   assert.match(html, /filter\(hasLiveExecution\)/);
-  assert.match(html, /No claimed, blocked, or live-attached execution is currently observed/);
+  assert.match(html, /No claimed, blocked, or live-attached work is currently observed/);
   assert.match(html, /Queued and waiting \(/);
   assert.match(html, /governanceDecisions/);
   assert.match(html, /No detailed Token observations yet/);

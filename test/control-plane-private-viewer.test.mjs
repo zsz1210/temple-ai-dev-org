@@ -322,7 +322,7 @@ test("dedicated home-LAN listener is redacted and read-only regardless of reques
   await assert.rejects(lanRequest(controlPlane, "/healthz"), /ECONNREFUSED|socket hang up/);
 });
 
-test("private Dashboard is redacted, refresh-only, and cannot reach Inbox or mutations", async (context) => {
+test("private Temple Workspace is redacted, refresh-only, and cannot reach Inbox or mutations", async (context) => {
   const { target, stateDirectory } = await fixture(context);
   const controlPlane = await startControlPlaneServer(target, {
     stateDirectory,
@@ -344,7 +344,7 @@ test("private Dashboard is redacted, refresh-only, and cannot reach Inbox or mut
   assert.doesNotMatch(page.body, /<h2>Agent Commands/);
   assert.match(page.body, /data-nav-target="usage"/);
   assert.match(page.body, /data-nav-target="organization"/);
-  assert.match(page.body, /How is this organization composed\?/);
+  assert.match(page.body, /Who is part of this project\?/);
   assert.match(page.body, /Where are resources going\?/);
   assert.doesNotMatch(page.body, /data-nav-target="inbox"|data-nav-target="commands"|id="view-inbox"|id="view-commands"/);
   assert.doesNotMatch(page.body, new RegExp(controlPlane.sessionSecret));

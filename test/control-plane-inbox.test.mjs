@@ -35,7 +35,7 @@ async function writeJson(targetPath, value) {
   await fs.writeFile(targetPath, `${JSON.stringify(value, null, 2)}\n`);
 }
 
-test("Management Console command drafts survive unrelated refreshes and invalidate changed targets", () => {
+test("Temple Workspace command drafts survive unrelated refreshes and invalidate changed targets", () => {
   const firstTarget = {
     task_id: "task-0001",
     work_item_id: "WI-0001",
@@ -75,8 +75,8 @@ test("Management Console command drafts survive unrelated refreshes and invalida
   assert.match(replacement.staleReason, /no longer eligible/i);
 
   const dashboard = renderControlPlaneDashboard("Dashboard fixture", { inboxEnabled: true, sessionSecret: "fixture-secret" });
-  assert.match(dashboard, /Skip to Management Console content/);
-  assert.match(dashboard, /What needs you now\?/);
+  assert.match(dashboard, /Skip to Temple Workspace content/);
+  assert.match(dashboard, /What needs your attention\?/);
   assert.match(dashboard, /Snapshot stale/);
   assert.match(dashboard, /Terminal Work Items/);
   assert.match(dashboard, /Where are resources going\?/);

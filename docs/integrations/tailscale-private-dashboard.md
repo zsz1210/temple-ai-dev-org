@@ -1,8 +1,8 @@
-# Tailscale private Dashboard
+# Tailscale private Temple Workspace
 
-Temple can expose a redacted, read-only Dashboard to another device in the same Tailscale network. The full Human Inbox and Agent Command gateway remain available only at the Mac's loopback URL.
+Temple can expose a redacted, read-only Temple Workspace to another device in the same Tailscale network. The full Human Inbox and Agent Command gateway remain available only at the Mac's loopback URL.
 
-For a trusted tablet on the same home Wi-Fi, the [Home-LAN private Dashboard](home-lan-private-dashboard.md) provides a separate opt-in read-only listener without requiring the tablet to enable Tailscale. Both modes may run at the same time.
+For a trusted tablet on the same home Wi-Fi, the [Home-LAN private Temple Workspace](home-lan-private-dashboard.md) provides a separate opt-in read-only listener without requiring the tablet to enable Tailscale. Both modes may run at the same time.
 
 ## Boundary
 
@@ -15,7 +15,7 @@ Tailscale Serve
     ▼
 Temple 127.0.0.1
     ├─ private Host → redacted GET-only viewer
-    └─ loopback Host → full local Dashboard
+    └─ loopback Host → full local Temple Workspace
 ```
 
 The private viewer includes Work Items, provider health, conditions, usage observations already present in the live projection, and the combined timeline. It excludes:
@@ -60,7 +60,7 @@ node ./templew.mjs control-plane start . \
   --tailscale-viewer
 ```
 
-Temple prints two URLs. Open `Private read-only Dashboard` on the tablet while Tailscale is connected. The local URL remains the only interactive surface.
+Temple prints two URLs. Open the URL currently labelled `Private read-only Dashboard` on the tablet while Tailscale is connected; it loads the read-only Temple Workspace. The local URL remains the only interactive surface.
 
 The launcher:
 
@@ -98,4 +98,4 @@ Temple executes a user-installed binary and adds no Tailscale package. The valid
 
 ## Agent Command boundary
 
-Private Dashboard access is not remote-control authorization. `--tailscale-viewer` does not enable the Codex provider or `agent_commands`. Even if local Agent Commands are enabled separately, private-viewer requests cannot fetch Inbox state, receive a session secret, or call a POST route.
+Private Temple Workspace access is not remote-control authorization. `--tailscale-viewer` does not enable the Codex provider or `agent_commands`. Even if local Agent Commands are enabled separately, private-viewer requests cannot fetch Inbox state, receive a session secret, or call a POST route.

@@ -1,6 +1,6 @@
-# Home-LAN private Dashboard
+# Home-LAN private Temple Workspace
 
-Temple can expose the redacted read-only Dashboard on one exact private IPv4 address. Use this mode when a trusted tablet or computer is on the same home Wi-Fi and enabling a VPN for every observation would add unnecessary friction.
+Temple can expose the redacted read-only Temple Workspace on one exact private IPv4 address. Use this mode when a trusted tablet or computer is on the same home Wi-Fi and enabling a VPN for every observation would add unnecessary friction.
 
 The full control plane still listens only on `127.0.0.1`. The LAN address belongs to a separate GET-only listener with no Human Inbox, Agent Commands, session secret, daemon path, raw event payload, or mutation route.
 
@@ -15,10 +15,10 @@ Mac private IPv4:41741
     ▼
 redacted snapshot + refresh-only events
 
-Mac browser ── 127.0.0.1:<port> ── full local Dashboard
+Mac browser ── 127.0.0.1:<port> ── full local Temple Workspace
 ```
 
-This mode does not authenticate another device or encrypt traffic. Any device that can reach the listener can view its project operational metadata. Use it only on a trusted LAN; use the [Tailscale private Dashboard](tailscale-private-dashboard.md) away from home or on an untrusted network.
+This mode does not authenticate another device or encrypt traffic. Any device that can reach the listener can view its project operational metadata. Use it only on a trusted LAN; use the [Tailscale private Temple Workspace](tailscale-private-dashboard.md) away from home or on an untrusted network.
 
 ## Find the Mac address
 
@@ -68,4 +68,3 @@ Temple does not start at login, edit the macOS firewall, configure a router, or 
 ## Authority check
 
 The LAN listener derives its read-only authority from the exact socket that accepted the request. A caller cannot obtain loopback authority by supplying a localhost Host header, a Tailscale identity header, an Origin, or a forwarded header. Every non-GET request is rejected before body parsing, and `GET /api/v1/inbox` remains forbidden.
-

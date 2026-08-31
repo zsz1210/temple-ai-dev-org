@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title description">
+  <title id="title">Approved Temple Workspace desktop direction</title>
+  <desc id="description">A human-facing operations workspace with a labeled icon sidebar, wide responsive content, calm cards, team visibility, and resource usage.</desc>
+  <defs>
+    <linearGradient id="page" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7f8f5"/>
+      <stop offset="1" stop-color="#edf3ef"/>
+    </linearGradient>
+    <linearGradient id="hero" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#173d37"/>
+      <stop offset="1" stop-color="#235b50"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#16332d" flood-opacity=".08"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#page)"/>
+  <rect x="0" y="0" width="248" height="1000" fill="#10211e"/>
+  <circle cx="39" cy="43" r="19" fill="#6ee0c1"/>
+  <path d="M30 46c8-18 19-14 20-2-5 9-14 12-20 2Z" fill="#10211e"/>
+  <text x="70" y="39" fill="#f5fffc" font-family="Inter,system-ui,sans-serif" font-size="17" font-weight="700">Temple</text>
+  <text x="70" y="58" fill="#8da59f" font-family="Inter,system-ui,sans-serif" font-size="11">Workspace</text>
+  <text x="24" y="112" fill="#6f8982" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="700" letter-spacing="1.5">WORKSPACE</text>
+  <g font-family="Inter,system-ui,sans-serif" font-size="14" font-weight="600">
+    <rect x="14" y="130" width="220" height="48" rx="12" fill="#1c3a34" stroke="#3c6d61"/>
+    <circle cx="42" cy="154" r="8" fill="none" stroke="#6ee0c1" stroke-width="2"/>
+    <path d="M42 148v7l5 3" fill="none" stroke="#6ee0c1" stroke-width="2" stroke-linecap="round"/>
+    <text x="66" y="159" fill="#f3fffc">Overview</text>
+    <g fill="none" stroke="#89a19b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="42" cy="211" r="6"/><path d="M31 228c2-8 20-8 22 0M56 210h8M60 206v8"/>
+      <rect x="34" y="258" width="16" height="15" rx="3"/><path d="M38 258v-4h8v4M42 274v6"/>
+      <path d="M33 328h18M35 322l4-8 5 5 5-12"/>
+      <path d="M42 362v7M42 384v7M31 376h7M46 376h7"/>
+      <path d="M33 429h18M33 436h14M33 443h10"/>
+    </g>
+    <text x="66" y="216" fill="#c6d5d1">Team</text>
+    <text x="66" y="271" fill="#c6d5d1">Work</text>
+    <text x="66" y="329" fill="#c6d5d1">Usage</text>
+    <text x="66" y="382" fill="#c6d5d1">Health</text>
+    <text x="66" y="440" fill="#c6d5d1">Activity</text>
+  </g>
+  <rect x="20" y="877" width="208" height="92" rx="14" fill="#152d28" stroke="#294941"/>
+  <circle cx="39" cy="901" r="5" fill="#58cf95"/>
+  <text x="54" y="905" fill="#d8eee8" font-family="Inter,system-ui,sans-serif" font-size="12" font-weight="600">Private viewer</text>
+  <text x="34" y="932" fill="#7e9b94" font-family="Inter,system-ui,sans-serif" font-size="10">Read only · Current snapshot</text>
+  <text x="34" y="950" fill="#7e9b94" font-family="Inter,system-ui,sans-serif" font-size="10">Home Wi-Fi</text>
+
+  <g font-family="Inter,system-ui,sans-serif">
+    <text x="302" y="58" fill="#73847f" font-size="12" font-weight="700" letter-spacing="1.7">TEMPLE WORKSPACE</text>
+    <text x="302" y="104" fill="#17231f" font-size="36" font-weight="750" letter-spacing="-1.4">Good morning. Here is what needs attention.</text>
+    <text x="302" y="134" fill="#6d7d78" font-size="14">A clear view of your AI development organization, current work, and operating health.</text>
+    <rect x="1375" y="48" width="160" height="42" rx="11" fill="#ffffff" stroke="#d7e0dc"/>
+    <circle cx="1402" cy="69" r="7" fill="#ffbe55"/>
+    <text x="1420" y="74" fill="#354640" font-size="12" font-weight="650">Light theme</text>
+  </g>
+
+  <rect x="296" y="174" width="1238" height="166" rx="22" fill="url(#hero)" filter="url(#shadow)"/>
+  <text x="328" y="213" fill="#8de6cf" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="750" letter-spacing="1.4">CURRENT FOCUS</text>
+  <text x="328" y="256" fill="#ffffff" font-family="Inter,system-ui,sans-serif" font-size="27" font-weight="720">The organization is ready for the next review.</text>
+  <text x="328" y="287" fill="#bfdbd4" font-family="Inter,system-ui,sans-serif" font-size="13">No blocked work is preventing progress. Review the active workspace redesign and its evidence.</text>
+  <rect x="1314" y="274" width="184" height="42" rx="11" fill="#78e2c5"/>
+  <text x="1352" y="300" fill="#12332d" font-family="Inter,system-ui,sans-serif" font-size="13" font-weight="700">Open current work</text>
+
+  <g filter="url(#shadow)" font-family="Inter,system-ui,sans-serif">
+    <rect x="296" y="364" width="240" height="126" rx="17" fill="#fff" stroke="#dce4e0"/>
+    <rect x="554" y="364" width="240" height="126" rx="17" fill="#fff" stroke="#dce4e0"/>
+    <rect x="812" y="364" width="240" height="126" rx="17" fill="#fff" stroke="#dce4e0"/>
+    <rect x="1070" y="364" width="240" height="126" rx="17" fill="#fff" stroke="#dce4e0"/>
+    <rect x="1328" y="364" width="206" height="126" rx="17" fill="#fff" stroke="#dce4e0"/>
+    <g fill="#6d7d78" font-size="11" font-weight="650">
+      <text x="318" y="396">ACTIVE WORK</text><text x="576" y="396">TEAMMATES</text><text x="834" y="396">NEEDS REVIEW</text><text x="1092" y="396">TOKEN EVIDENCE</text><text x="1350" y="396">HEALTH</text>
+    </g>
+    <g fill="#17231f" font-size="34" font-weight="740">
+      <text x="318" y="446">3</text><text x="576" y="446">5</text><text x="834" y="446">1</text><text x="1092" y="446">—</text><text x="1350" y="446">Good</text>
+    </g>
+    <g fill="#83918d" font-size="11">
+      <text x="318" y="472">Across the current lifecycle</text><text x="576" y="472">Across ten assigned roles</text><text x="834" y="472">Release Gate decision</text><text x="1092" y="472">Awaiting provider totals</text><text x="1350" y="472">Fresh snapshot</text>
+    </g>
+  </g>
+
+  <g filter="url(#shadow)" font-family="Inter,system-ui,sans-serif">
+    <rect x="296" y="514" width="760" height="420" rx="18" fill="#fff" stroke="#dce4e0"/>
+    <text x="322" y="551" fill="#17231f" font-size="16" font-weight="720">Work in focus</text>
+    <text x="322" y="575" fill="#7a8984" font-size="12">Responsibility, lifecycle stage, and verified evidence.</text>
+    <g>
+      <rect x="322" y="602" width="708" height="88" rx="13" fill="#f6f8f6" stroke="#e1e7e4"/>
+      <circle cx="351" cy="632" r="14" fill="#dff4ec"/><text x="346" y="637" fill="#28695b" font-size="12" font-weight="750">R</text>
+      <text x="377" y="628" fill="#17231f" font-size="13" font-weight="700">Rikku · Developer</text>
+      <text x="377" y="651" fill="#75847f" font-size="11">Temple Workspace responsive implementation</text>
+      <rect x="884" y="620" width="122" height="29" rx="14" fill="#e4f3ed"/><text x="910" y="639" fill="#296756" font-size="10" font-weight="700">BUILD</text>
+      <rect x="322" y="706" width="708" height="88" rx="13" fill="#f6f8f6" stroke="#e1e7e4"/>
+      <circle cx="351" cy="736" r="14" fill="#ece7f8"/><text x="346" y="741" fill="#67509a" font-size="12" font-weight="750">L</text>
+      <text x="377" y="732" fill="#17231f" font-size="13" font-weight="700">Lulu · Independent QA</text>
+      <text x="377" y="755" fill="#75847f" font-size="11">Fresh browser verification after candidate commit</text>
+      <rect x="884" y="724" width="122" height="29" rx="14" fill="#f1edf8"/><text x="910" y="743" fill="#67509a" font-size="10" font-weight="700">QUEUED</text>
+    </g>
+  </g>
+  <g filter="url(#shadow)" font-family="Inter,system-ui,sans-serif">
+    <rect x="1078" y="514" width="456" height="420" rx="18" fill="#fff" stroke="#dce4e0"/>
+    <text x="1104" y="551" fill="#17231f" font-size="16" font-weight="720">AI team</text>
+    <text x="1104" y="575" fill="#7a8984" font-size="12">Configured teammates and their current roles.</text>
+    <g font-size="12">
+      <circle cx="1130" cy="626" r="18" fill="#dff4ec"/><text x="1121" y="631" fill="#28695b" font-weight="750">MO</text><text x="1162" y="623" fill="#17231f" font-weight="700">Mog</text><text x="1162" y="644" fill="#7a8984">Engineering Manager</text>
+      <circle cx="1130" cy="688" r="18" fill="#f5e8ec"/><text x="1121" y="693" fill="#8d5365" font-weight="750">YU</text><text x="1162" y="685" fill="#17231f" font-weight="700">Yuna</text><text x="1162" y="706" fill="#7a8984">Product · UX · UI</text>
+      <circle cx="1130" cy="750" r="18" fill="#e5ecf7"/><text x="1121" y="755" fill="#526b92" font-weight="750">TI</text><text x="1162" y="747" fill="#17231f" font-weight="700">Tidus</text><text x="1162" y="768" fill="#7a8984">Tech Lead</text>
+      <circle cx="1130" cy="812" r="18" fill="#f7efe0"/><text x="1121" y="817" fill="#8a6a35" font-weight="750">RI</text><text x="1162" y="809" fill="#17231f" font-weight="700">Rikku</text><text x="1162" y="830" fill="#7a8984">Developer</text>
+      <circle cx="1130" cy="874" r="18" fill="#ece7f8"/><text x="1121" y="879" fill="#67509a" font-weight="750">LU</text><text x="1162" y="871" fill="#17231f" font-weight="700">Lulu</text><text x="1162" y="892" fill="#7a8984">Quality · Independent QA</text>
+    </g>
+  </g>
+</svg>
