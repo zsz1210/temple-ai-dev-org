@@ -6,7 +6,8 @@ Temple's Collaborative profile lets several people use their own AI Agents in on
 
 ```mermaid
 flowchart LR
-    HP[Human Principal] -->|sponsors| AI[Agent Identity]
+    LOCAL[Clone-local actor binding] -->|binds verified actor| HP[Human Principal]
+    HP -->|sponsors| AI[Agent Identity]
     AI -->|joins with Disciplines| PM[Position Membership]
     PM -->|eligible for| POS[Position]
     POS -->|accountable through| WA[Work Assignment]
@@ -15,6 +16,8 @@ flowchart LR
     WI --> PR[Branch / PR]
     PR --> EV[Tests, review, QA, evidence]
     EV --> GATE[Lifecycle gate]
+    HP -->|holds scoped| AUTH[Human Authority Grant]
+    AUTH --> GATE
 
     FILES[(Repository canonical state)]
     HP --> FILES
@@ -27,12 +30,15 @@ flowchart LR
 
 The terms are deliberately separate:
 
-- **Human Principal** is the accountable person operating or supervising an Agent Identity.
+- **Human Principal** is an immutable, project-scoped accountable-person ID. Display names may repeat; names and email addresses are not identity keys. Personnel changes suspend or deactivate the record instead of deleting or reusing it.
+- **Local Actor Binding** binds one Git clone to a Human Principal without committing credentials or the binding. It lives under the Git common directory at `.git/temple/identity.json`; Solo may be self-asserted, while Collaborative and High-Assurance require externally supplied evidence.
 - **Agent Identity** is the durable project identity of an AI participant. It is not a Codex task and does not disappear when a conversation closes.
 - **Position** defines responsibility and authority, such as Developer, UI Designer, or Independent QA.
 - **Discipline** describes technical capability inside a Position, such as frontend, backend, full-stack, infrastructure, mobile, UI, or UX.
-- **Position Membership** makes an Agent eligible to work in a Position with declared Disciplines. Several Agents may belong to the same Position pool.
+- **Position Membership** makes an Agent eligible to work in a Position with declared Disciplines. Non-default memberships start `provisional` and need qualification evidence before activation. Membership can later be suspended, expired, or revoked without deleting history.
 - **Assignment** in `assignments.json` remains the single default owner for backward compatibility. A claim may select another eligible pool member for one Work Item.
+- **Human Authority Grant** is a scoped, risk-bounded, optionally expiring grant to a Human Principal. It is separate from Position membership and Agent capability.
+- **Bootstrap Owner** is a temporary setup authority for the first Human Principal. Retiring it requires two active authority holders and a ready recovery configuration; it is not a permanent backdoor.
 - **Runtime worker** is the execution reservation tied to a plan, claim, and optional scarce resources. It is either an internal subagent or a separate user-owned Codex task.
 - **Codex task record** exists only for a separate task visible to the user: thread identity, host, revision, status, work-item link, and runtime-worker correlation. An internal subagent never enters this registry.
 - **Work claim** records the selected Principal, Agent, base revision, branch, optional worktree, and timestamps for one bounded Work Item.
@@ -42,8 +48,8 @@ The terms are deliberately separate:
 | Profile | Intended use | Current status |
 |---|---|---|
 | Solo | One person operates the organization with lightweight repository coordination | Stable alpha path |
-| Collaborative | Several people sponsor Agent Identities, use Position pools, and claim isolated work | Foundation implemented; large-scale validation pending |
-| High-Assurance | Risk-driven evidence, rollback, human approvals, and stronger separation of duties | Selectable after its human-accountability prerequisites pass; real regulated and multi-machine validation pending |
+| Collaborative | Several people sponsor Agent Identities, use Position pools, and claim isolated work | Operational contract implemented; Real Collaborative validation remains `not_run` |
+| High-Assurance | Risk-driven evidence, rollback, human approvals, and stronger separation of duties | Selectable after its human-accountability prerequisites pass; representative-pilot and High-Assurance drills remain separate gates |
 
 A company with five engineers may still use Solo for a low-risk experiment. One developer may choose Collaborative when several independent Agents need explicit scope isolation. Select the profile from coordination risk, not headcount alone.
 
@@ -113,13 +119,17 @@ If several backend engineers participate, give each one a distinct Agent Identit
 
 Temple owns repository-readable organizational state: Principals, sponsorships, membership eligibility, Work Items, claims, Context Capsules, handoffs, and evidence pointers. GitHub remains authoritative for repository access, branch protection or rulesets, CODEOWNERS, pull-request approval, checks, merge queue, and the final merged commit.
 
-Repository mutations use a short-lived local lock. That protects processes using the same checkout, not separate machines. Cross-machine safety therefore depends on collision-resistant Collaborative Work Item IDs, one work-item file per claim, normal Git conflict handling, protected branches, and pull-request review. A future remote coordination backend may strengthen this boundary; the current release does not claim distributed locking.
+Repository mutations use a short-lived local lock. That protects processes using the same checkout, not separate machines. Cross-machine safety therefore depends on collision-resistant Collaborative Work Item IDs, one work-item file per claim, normal Git conflict handling, protected branches, and pull-request review. Conflicting writes are expected to become visible Git conflicts or rejected non-fast-forward pushes; Temple does not claim a distributed lock or silently elect a winner.
+
+The Team dashboard is a read-only organizational view with three surfaces: **Responsibilities**, **People & Agents**, and **Authority**. It deliberately does not draw Human Principals as a reporting apex. The private network viewer exposes aggregate governance readiness but redacts Principal records, sponsorships, grant holders and scopes, recovery trustees, and every clone-local actor binding.
 
 When the company plans work in Jira, GitHub, or another tracker, map the team-visible parent outcome rather than mirroring every AI child. Frontend, backend, infrastructure, UI, UX, evaluation, and QA child Work Items can remain internal while inheriting the parent reference for context. Expose a child only when another human or team must coordinate it. The external board does not replace claims, affected-path checks, shared-contract readiness, lifecycle evidence, or Independent QA. See [Task and external tracker coordination](task-and-tracker-coordination.md).
 
 ## Configure a collaborative project
 
 ```bash
+node ./templew.mjs collaboration migrate .
+
 node ./templew.mjs collaboration add-principal . \
   --principal-id principal-alice \
   --name "Alice Morgan"
@@ -137,10 +147,41 @@ node ./templew.mjs collaboration add-membership . \
   --position developer \
   --discipline backend
 
+node ./templew.mjs collaboration qualify-membership . \
+  --agent-id agent-taylor \
+  --position developer \
+  --status active \
+  --evidence docs/qualifications/taylor-backend.md \
+  --risk-tier standard
+
 node ./templew.mjs collaboration set-profile . --profile collaborative
+
+# Run in each collaborator's clone. This file is stored under the Git common
+# directory and is not added to the repository.
+node ./templew.mjs collaboration bind-identity . \
+  --principal-id principal-alice \
+  --verification-class external-evidence \
+  --provider-id github \
+  --provider-subject 12345678 \
+  --provider-handle alice \
+  --evidence-ref github:organization-membership-review
+
 node ./templew.mjs doctor .
 node ./templew.mjs status .
 ```
+
+Migration never guesses a Bootstrap Owner. If v1 already contained Principals, establish the temporary owner explicitly; teams with at least two active Principals need two distinct approvals:
+
+```bash
+node ./templew.mjs collaboration establish-bootstrap . \
+  --principal-id principal-alice \
+  --approved-by principal-alice \
+  --approved-by principal-casey
+```
+
+Provider subjects are opaque stable IDs supplied by the provider or organization, not email addresses. Temple records evidence references but does not authenticate GitHub or another identity provider itself. Keep email, tokens, session data, and credentials out of `collaboration.json`.
+
+Authority expansion is explicit. While the Bootstrap Owner is active, that Principal must approve new grants. After bootstrap retirement, authority changes require two distinct active grant holders. Recovery trustees and threshold are project configuration; Temple does not hardcode a particular team size or a fixed `2-of-3` policy.
 
 Create and configure bounded work before claiming it:
 
@@ -185,4 +226,4 @@ Do not copy placeholder IDs, revisions, or evidence paths literally. The created
 
 ## Current evidence boundary
 
-Automated tests prove local initialization, migration, model validation, readiness checks, deterministic group waves, dependency and overlap separation, stage requirements, declared resource capacity, atomic first-wave preparation and rollback, pooled membership, runtime/task correlation, resource release, stale-plan rejection, status projection, and the local High-Assurance risk contract. They do not prove multi-human behavior on several machines under real Git and pull-request contention or acceptance by a regulated external auditor. The retained [large-scale collaborative test plan](../validation/collaborative-large-scale-test-plan.md) is an explicit release-evidence gap and remains `not_run`.
+Validation is a ladder, not one boolean: `automated`, `simulated_collaborative`, `real_collaborative`, `representative_pilot`, and `high_assurance_drill`. A lower gate never satisfies a higher one. Automated and disposable-clone simulations can prove local initialization, migration, qualification, authority invariants, Git-conflict visibility, recovery, projections, and exact-revision behavior. They do not prove several real people operating independently administered environments or external-auditor acceptance. The retained [Real Collaborative test plan](../validation/collaborative-large-scale-test-plan.md) is an explicit evidence gap and remains `not_run` until that exact gate is performed.

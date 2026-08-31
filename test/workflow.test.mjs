@@ -1081,7 +1081,7 @@ test("upgrade migrates legacy identity and safely removes obsolete managed skill
 
   const dryRun = run(["upgrade", target, "--dry-run"]);
   assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
-  assert.match(dryRun.stdout, /0\.1\.0-alpha\.3 -> 0\.1\.0-alpha\.27/);
+  assert.match(dryRun.stdout, /0\.1\.0-alpha\.3 -> 0\.1\.0-alpha\.28/);
   assert.match(dryRun.stdout, /remove-managed: 3/);
   assert.equal(await fs.readFile(installedTemple, "utf8"), oldContent);
   await fs.access(path.join(target, obsoleteSkills[0]));
@@ -1090,7 +1090,7 @@ test("upgrade migrates legacy identity and safely removes obsolete managed skill
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = await fs.readFile(lockPath, "utf8");
   assert.equal(JSON.parse(upgradedLock).template.name, "@zsz1210/temple-ai-dev-org");
-  assert.equal(JSON.parse(upgradedLock).template.version, "0.1.0-alpha.27");
+  assert.equal(JSON.parse(upgradedLock).template.version, "0.1.0-alpha.28");
   assert.equal(JSON.parse(upgradedLock).capabilities.group_parallel_planning, true);
   assert.equal(JSON.parse(upgradedLock).capabilities.parallel_plan_freshness, true);
   assert.ok(
@@ -1266,6 +1266,7 @@ test("parallel canonical mutations are serialized without losing task records", 
 test("collaborative profile supports principals, pooled membership, readiness, and explicit claims", async (context) => {
   const { temporaryRoot, target } = await fixture();
   context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  assert.equal(spawnSync("git", ["-C", target, "init", "-q"], { encoding: "utf8" }).status, 0);
 
   const addPrincipal = run([
     "collaboration",
@@ -1307,7 +1308,44 @@ test("collaborative profile supports principals, pooled membership, readiness, a
     ]).status,
     0
   );
+  const provisional = await readJson(path.join(target, ".ai-org/project/collaboration.json"));
+  assert.equal(
+    provisional.memberships.find((entry) => entry.agent_id === "agent-taylor" && entry.position_id === "developer").status,
+    "provisional"
+  );
+  const qualified = run([
+    "collaboration",
+    "qualify-membership",
+    target,
+    "--agent-id",
+    "agent-taylor",
+    "--position",
+    "developer",
+    "--status",
+    "active",
+    "--evidence",
+    "docs/taylor-backend-qualification.md",
+    "--risk-tier",
+    "standard"
+  ]);
+  assert.equal(qualified.status, 0, qualified.stderr || qualified.stdout);
   assert.equal(run(["collaboration", "set-profile", target, "--profile", "collaborative"]).status, 0);
+  const bound = run([
+    "collaboration",
+    "bind-identity",
+    target,
+    "--principal-id",
+    "principal-alice",
+    "--verification-class",
+    "external-evidence",
+    "--provider-id",
+    "fixture",
+    "--provider-subject",
+    "alice-immutable-subject",
+    "--evidence-ref",
+    "fixture:verified-principal-alice"
+  ]);
+  assert.equal(bound.status, 0, bound.stderr || bound.stdout);
 
   const created = run([
     "work-item",
@@ -1409,13 +1447,13 @@ test("collaborative profile supports principals, pooled membership, readiness, a
   const activeStatus = JSON.parse(run(["status", target, "--json", "--no-write"]).stdout);
   assert.equal(activeStatus.collaboration.profile, "collaborative");
   assert.equal(activeStatus.collaboration.active_claims, 1);
-  assert.equal(activeStatus.collaboration.large_scale_validation.status, "not_run");
+  assert.equal(activeStatus.collaboration.validation.real_collaborative.status, "not_run");
   const collaborationState = await readJson(path.join(target, ".ai-org/project/collaboration.json"));
   assert.equal(
-    collaborationState.large_scale_validation.plan,
+    collaborationState.validation.real_collaborative.plan,
     ".ai-org/templates/collaborative-large-scale-test-plan.md"
   );
-  await fs.access(path.join(target, collaborationState.large_scale_validation.plan));
+  await fs.access(path.join(target, collaborationState.validation.real_collaborative.plan));
 
   const released = run([
     "work-item",
@@ -1438,6 +1476,44 @@ test("collaborative profile supports principals, pooled membership, readiness, a
   const doctorDocument = JSON.parse(doctor.stdout);
   assert.equal(doctorDocument.summary.fail, 0);
   assert.ok(doctorDocument.checks.some((check) => check.id === "collaboration_validation" && check.status === "warn"));
+});
+
+test("upgrade preserves collaboration v1 bytes until explicit migration", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  const collaborationPath = path.join(target, ".ai-org/project/collaboration.json");
+  const current = await readJson(collaborationPath);
+  const legacy = {
+    schema_version: "temple.collaboration/v1",
+    profile: current.profile,
+    coordination_backend: current.coordination_backend,
+    principals: [],
+    sponsorships: [],
+    memberships: current.memberships.map((entry) => ({
+      position_id: entry.position_id,
+      agent_id: entry.agent_id,
+      disciplines: entry.disciplines,
+      default: entry.default,
+      active: entry.active
+    })),
+    large_scale_validation: {
+      status: "not_run",
+      plan: ".ai-org/templates/collaborative-large-scale-test-plan.md"
+    }
+  };
+  const legacyBytes = `${JSON.stringify(legacy, null, 2)}\n`;
+  await fs.writeFile(collaborationPath, legacyBytes);
+  const upgraded = run(["upgrade", target]);
+  assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
+  assert.equal(await fs.readFile(collaborationPath, "utf8"), legacyBytes);
+
+  const preview = run(["collaboration", "migrate", target, "--dry-run", "--json"]);
+  assert.equal(preview.status, 0, preview.stderr || preview.stdout);
+  assert.equal(JSON.parse(preview.stdout).changed, true);
+  assert.equal(await fs.readFile(collaborationPath, "utf8"), legacyBytes);
+  const migrated = run(["collaboration", "migrate", target, "--json"]);
+  assert.equal(migrated.status, 0, migrated.stderr || migrated.stdout);
+  assert.equal((await readJson(collaborationPath)).schema_version, "temple.collaboration/v2");
 });
 
 test("parallel readiness detects unresolved affected-path overlap", async (context) => {

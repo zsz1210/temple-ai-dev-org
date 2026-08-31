@@ -1,7 +1,7 @@
 # Collaborative large-scale real-environment test plan
 
 - Status: planned / not run
-- Minimum: three Human Principals, four Agent Identities, and two independently administered development environments
+- Minimum: two real Human Principals, enough distinct Agent Identities to preserve implementation and Independent QA separation, and two independently administered development environments
 - Hosting: protected default branch, pull requests, required CI, and review rules
 
 ## Scenario
@@ -21,4 +21,4 @@
 - Developer and Independent QA remain separate on the accepted revision.
 - A new task can recover active, blocked, QA-pending, and closed state from repository files.
 
-Passing local automated tests does not pass this plan. Preserve a separate validation record with environment, commands, commit and pull-request evidence, failures, final results, and residual risks before changing the canonical status to `passed`.
+Passing local automated or simulated-clone tests does not pass this plan. Preserve a separate validation record with real participants, environment, commands, commit and pull-request evidence, failures, final results, and residual risks before changing `validation.real_collaborative.status` to `passed`.

@@ -6,7 +6,7 @@ Temple is moving from a locally proven AI development organization framework tow
 
 ## Current position
 
-- **Current release line:** `0.1.0-alpha.27`
+- **Current release line:** `0.1.0-alpha.28`
 - **Current stage:** Phase 4 local implementation and bounded exit rehearsals are complete; enterprise and statistical qualification remain retained validations
 - **Suitable today:** individual, small-team, and bounded multi-repository local workflows with human supervision
 - **Not yet claimed:** production-grade distributed coordination, regulated operation, or unattended external actions
@@ -20,6 +20,7 @@ The first three phases established the framework's operating model:
 - Preserve product specifications, decisions, Work Items, handoffs, learning, and evidence in repository-owned state.
 - Run a visible `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle.
 - Support Solo, Collaborative, and High-Assurance profiles with explicit human-accountability boundaries.
+- Alpha.28 operationalizes multi-human governance with clone-local actor binding, qualified Position pools, scoped Human Authority Grants, configurable recovery, a non-hierarchical Team view, and a validation ladder that keeps real multi-human evidence open.
 - Route bounded context and likely Skills without loading the full repository or enabling semantic retrieval by default.
 - Coordinate dependency-safe parallel waves, affected paths, claims, shared resources, runtime workers, and integration joins.
 - Keep company trackers, Temple Work Items, and Codex tasks as separate layers with explicit reconciliation.

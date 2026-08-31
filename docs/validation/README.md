@@ -23,6 +23,7 @@ Validation records preserve bounded evidence for framework capabilities. They id
 - [Phase 4A AiPet digest rehearsal — exact rollback and interrupted-recovery digests passed](phase-4a-aipet-digest-rehearsal.md)
 - [Phase 4 bounded local completion — Alpha.27 with retained enterprise qualification](phase-4-local-completion.md)
 - [Alpha.27 private release checkpoint](alpha-27-release-checkpoint.md)
+- [Alpha.28 multi-human governance — automated and simulated gates passed](alpha-28-multi-human-governance.md)
 - [WI-0014 active-task usage baseline — Developer verified; live observation degraded](wi-0014-active-task-usage-baseline.md)
 - [Dashboard reliability dogfood — passed with retained provider limits](dashboard-reliability-dogfood.md)
 - [Closeout-0A release integrity — passed with retained limits](closeout-0a-release-integrity.md)

@@ -8,7 +8,14 @@ import {
 } from "./context.mjs";
 import { atomicWrite, pathExists, readJson } from "./files.mjs";
 import { emptyLearningIndex, LEARNING_INDEX_RELATIVE_PATH, summarizeLearningIndex } from "./learning.mjs";
-import { COLLABORATION_RELATIVE_PATH, buildCollaborationState } from "./collaboration.mjs";
+import {
+  COLLABORATION_RELATIVE_PATH,
+  buildCollaborationState,
+  normalizedCollaborationState,
+  membershipStatus,
+  principalStatus,
+  sponsorshipStatus
+} from "./collaboration.mjs";
 import { inspectParallelPlan, PARALLEL_PLAN_RELATIVE_PATH } from "./orchestration.mjs";
 import {
   SPEC_INDEX_RELATIVE_PATH,
@@ -256,7 +263,8 @@ export async function buildStatus(target, options = {}) {
 
   const byState = {};
   for (const item of workItems) byState[item.state] = (byState[item.state] ?? 0) + 1;
-  const collaborationState = collaboration ?? buildCollaborationState(assignmentsDocument);
+  const collaborationState = normalizedCollaborationState(collaboration ?? buildCollaborationState(assignmentsDocument));
+  const realCollaborativeValidation = collaborationState.validation?.real_collaborative ?? { status: "not_run", plan: null };
   const parallelInspection = await inspectParallelPlan(target);
   const parallelPlan = parallelInspection.plan;
   const orchestration = {
@@ -361,10 +369,10 @@ export async function buildStatus(target, options = {}) {
     ...(orchestration.installed && orchestration.valid && orchestration.blocked > 0
       ? [{ type: "parallel_plan_blocked", message: `Parallel plan has ${orchestration.blocked} blocked Work Item(s)` }]
       : []),
-    ...(["collaborative", "high-assurance"].includes(collaborationState.profile) && collaborationState.large_scale_validation?.status !== "passed"
+    ...(["collaborative", "high-assurance"].includes(collaborationState.profile) && realCollaborativeValidation.status !== "passed"
       ? [{
-          type: "large_collaboration_validation_pending",
-          message: "Large multi-human, multi-machine collaboration validation is still pending"
+          type: "real_collaborative_validation_pending",
+          message: "Real multi-human, independently administered environment validation is still pending"
         }]
       : [])
   ];
@@ -439,14 +447,19 @@ export async function buildStatus(target, options = {}) {
     collaboration: {
       profile: collaborationState.profile,
       coordination_backend: collaborationState.coordination_backend,
-      principals: (collaborationState.principals ?? []).length,
-      sponsorships: (collaborationState.sponsorships ?? []).length,
-      memberships: (collaborationState.memberships ?? []).filter((entry) => entry.active !== false).length,
+      principals: (collaborationState.principals ?? []).filter((entry) => principalStatus(entry) === "active").length,
+      sponsorships: (collaborationState.sponsorships ?? []).filter((entry) => sponsorshipStatus(entry) === "active").length,
+      memberships: (collaborationState.memberships ?? []).filter((entry) => membershipStatus(entry) === "active").length,
+      authority_grants: (collaborationState.authority_grants ?? []).filter((entry) => entry.status === "active").length,
       active_claims: workItems.filter((item) => item.active_claim).length,
       principal_items: collaborationState.principals ?? [],
       sponsorship_items: collaborationState.sponsorships ?? [],
-      membership_items: (collaborationState.memberships ?? []).filter((entry) => entry.active !== false),
-      large_scale_validation: collaborationState.large_scale_validation ?? { status: "not_run" }
+      membership_items: collaborationState.memberships ?? [],
+      authority_grant_items: collaborationState.authority_grants ?? [],
+      bootstrap_owner: collaborationState.bootstrap_owner,
+      recovery: collaborationState.recovery,
+      validation: collaborationState.validation,
+      large_scale_validation: realCollaborativeValidation
     },
     orchestration,
     cli_bootstrap: lock.template.bootstrap ?? null,
@@ -486,7 +499,9 @@ export function renderStatusMarkdown(status) {
     `- Agent sponsorships: ${status.collaboration.sponsorships}`,
     `- Active Position memberships: ${status.collaboration.memberships}`,
     `- Active Work Item claims: ${status.collaboration.active_claims}`,
-    `- Large-scale validation: \`${status.collaboration.large_scale_validation.status}\` (${status.collaboration.large_scale_validation.plan ?? "no plan recorded"})`,
+    `- Active Human Authority Grants: ${status.collaboration.authority_grants}`,
+    `- Governance recovery: \`${status.collaboration.recovery?.status ?? "unknown"}\``,
+    `- Real Collaborative validation: \`${status.collaboration.validation?.real_collaborative?.status ?? "not_run"}\` (${status.collaboration.validation?.real_collaborative?.plan ?? "no plan recorded"})`,
     "",
     "## Parallel orchestration",
     "",

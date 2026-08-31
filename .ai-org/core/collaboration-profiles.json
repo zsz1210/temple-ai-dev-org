@@ -9,15 +9,15 @@
     },
     {
       "id": "collaborative",
-      "status": "foundation",
+      "status": "operational-contract",
       "selectable": true,
-      "description": "Several Human Principals sponsor Agent Identities that join Position pools and claim bounded work."
+      "description": "Several Human Principals use clone-local actor binding, sponsor Agent Identities, qualify Position memberships, and govern scoped authority through repository evidence; real multi-human validation remains a separate gate."
     },
     {
       "id": "high-assurance",
       "status": "stable",
       "selectable": true,
-      "description": "Risk-driven evidence, approval, rollback, and separation-of-duties gates backed by local exact-revision records."
+      "description": "Risk-driven evidence, approval, rollback, and separation-of-duties gates backed by local exact-revision records; representative and High-Assurance drills remain separate validation gates."
     }
   ]
 }

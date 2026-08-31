@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0076",
   "title": "Operationalize multi-human team governance",
-  "state": "intake",
-  "owner_position": "engineering_manager",
-  "assigned_agent_id": "agent-mog",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
   "created_at": "2026-08-31T18:11:19.404Z",
-  "updated_at": "2026-08-31T18:11:19.404Z",
+  "updated_at": "2026-08-31T18:18:21.382Z",
   "scope": [
     "Implement versioned Human Principal lifecycle, local actor binding, Agent sponsorship, qualified Position pools, scoped Human Authority Grants, bootstrap retirement, configurable recovery, and explicit simulated versus real validation status while preserving Solo compatibility.",
     "Replace the Team Human Principal apex with read-only Responsibilities, People & Agents, and Authority views that preserve Work execution and private-viewer boundaries.",
@@ -68,9 +68,7 @@
   "tracker_refs": [],
   "tracker_reconciliations": [],
   "dependencies": [],
-  "required_disciplines": [
-    "general-development"
-  ],
+  "required_disciplines": [],
   "stage_requirements": {
     "build": {
       "disciplines": [
@@ -91,17 +89,141 @@
       "resources": []
     }
   },
-  "base_revision": null,
-  "parallel_mode": "pending",
-  "integration_owner_agent_id": null,
+  "base_revision": "8d41f2bbe2d68e2540a7a000f733bcc3c44a3a50",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
   "shared_contract_refs": [],
-  "contract_status": "not_required",
-  "overlap_resolution": [],
-  "claim": null,
-  "claims": [],
-  "gate_evidence": {},
-  "evidence": [],
+  "contract_status": "stable",
+  "overlap_resolution": [
+    "WI-0029 is at Test with no active claim; WI-0076 starts from its integrated candidate and preserves Agent Command behavior.",
+    "WI-0033 is at Spec with no active claim; WI-0076 changes only Team redaction and does not expand provider trust or commands.",
+    "WI-0067 is blocked with no active claim; WI-0076 updates only the collaboration validation index without changing its commerce experiment.",
+    "WI-0069 is at Release Gate with no active claim; WI-0076 starts from its integrated policy candidate and does not alter its release decision."
+  ],
+  "claim": {
+    "id": "claim-20260831181821-9d74c9f4",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "8d41f2bbe2d68e2540a7a000f733bcc3c44a3a50",
+    "branch": "codex/wi-0076-multi-human-governance",
+    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "claimed_at": "2026-08-31T18:18:21.382Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260831181449-de4f40ec",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "8d41f2bbe2d68e2540a7a000f733bcc3c44a3a50",
+      "branch": "codex/wi-0076-multi-human-governance",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-08-31T18:14:49.413Z",
+      "released_at": "2026-08-31T18:15:08.911Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260831181509-7591a0b2",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "8d41f2bbe2d68e2540a7a000f733bcc3c44a3a50",
+      "branch": "codex/wi-0076-multi-human-governance",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-08-31T18:15:09.499Z",
+      "released_at": "2026-08-31T18:16:46.942Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260831181647-c5a71f86",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "8d41f2bbe2d68e2540a7a000f733bcc3c44a3a50",
+      "branch": "codex/wi-0076-multi-human-governance",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-08-31T18:16:47.507Z",
+      "released_at": "2026-08-31T18:18:20.766Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260831181821-9d74c9f4",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "8d41f2bbe2d68e2540a7a000f733bcc3c44a3a50",
+      "branch": "codex/wi-0076-multi-human-governance",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-08-31T18:18:21.382Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0076/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0076/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0076/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0076/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0076/technical-design.md"
+    ],
+    "ui_brief": [
+      ".ai-org/artifacts/WI-0076/ui-brief.md"
+    ],
+    "required_state_coverage": [
+      ".ai-org/artifacts/WI-0076/required-state-coverage.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0076/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0076/work-order.md",
+    ".ai-org/artifacts/WI-0076/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0076/product-spec.md",
+    ".ai-org/artifacts/WI-0076/ui-brief.md",
+    ".ai-org/artifacts/WI-0076/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0076/technical-design.md",
+    ".ai-org/decisions/DEC-0004-multi-human-team-governance.md",
+    ".ai-org/artifacts/WI-0076/required-state-coverage.md"
+  ],
   "unresolved": [],
-  "next_position": "product_manager"
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "8d41f2bbe2d68e2540a7a000f733bcc3c44a3a50",
+      "artifact": ".ai-org/artifacts/WI-0076/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-08-31T18:15:08.636Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "8d41f2bbe2d68e2540a7a000f733bcc3c44a3a50",
+      "artifact": ".ai-org/artifacts/WI-0076/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-31T18:16:46.655Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "8d41f2bbe2d68e2540a7a000f733bcc3c44a3a50",
+      "artifact": ".ai-org/artifacts/WI-0076/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-08-31T18:18:20.471Z"
+    }
+  ]
 }

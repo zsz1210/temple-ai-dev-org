@@ -92,12 +92,24 @@ temple collaboration add-membership . \
   --agent-id agent-taylor \
   --position developer \
   --discipline backend
+temple collaboration qualify-membership . \
+  --agent-id agent-taylor \
+  --position developer \
+  --status active \
+  --evidence docs/qualifications/taylor-backend.md \
+  --risk-tier standard
 temple collaboration set-profile . --profile collaborative
+temple collaboration bind-identity . \
+  --principal-id principal-alice \
+  --verification-class external-evidence \
+  --provider-id github \
+  --provider-subject 12345678 \
+  --evidence-ref github:organization-membership-review
 temple collaboration show .
 temple doctor .
 ```
 
-The original Assignment remains the default Position owner. A membership makes another Agent eligible for bounded claims; it does not replace the default Assignment or change the Position's authority. Add more `--discipline` values for a full-stack or cross-specialty Agent.
+The original Assignment remains the default Position owner. A new non-default membership starts provisional; evidence-backed qualification makes the Agent eligible for bounded claims. It does not replace the default Assignment or create Human Authority. Add more `--discipline` values for a full-stack or cross-specialty Agent. The local actor binding is stored under the Git common directory, never pushed, and contains no credential.
 
 Collaborative Work Item IDs include a date and random suffix so separate clones are unlikely to allocate the same file. This is not distributed locking. Use protected branches, pull requests, CI, and normal Git conflict handling across machines. See the [Collaborative development model](../operations/collaboration.md).
 

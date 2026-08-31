@@ -5,6 +5,12 @@ import { readEvidenceRegistry, resolveGitRevision } from "./evidence.mjs";
 import { listWorkItemDocuments } from "./work-items.mjs";
 import { readRuntimeWorkerRegistry } from "./workers.mjs";
 import { listLearningEntries, validateLearningRepository } from "./learning.mjs";
+import {
+  membershipStatus,
+  normalizedCollaborationState,
+  principalStatus,
+  sponsorshipStatus
+} from "./collaboration.mjs";
 
 export const OBSERVER_SCHEMA = "temple.observer/v1";
 export const ORGANIZATION_VIEW_SCHEMA = "temple.organization-view/v1";
@@ -95,11 +101,22 @@ function organizationSafeguard(id, leftPosition, rightPosition, assignments, age
 }
 
 function buildOrganizationProjection({ agentsDocument, assignmentsDocument, positionsDocument, collaboration, work }) {
+  collaboration = normalizedCollaborationState(collaboration);
   const agents = new Map((agentsDocument.agents ?? []).map((agent) => [agent.id, agent]));
   const positions = new Map((positionsDocument.positions ?? []).map((position) => [position.id, position]));
   const activeAssignments = (assignmentsDocument.assignments ?? []).filter((assignment) => assignment.active !== false);
   const assignments = new Map(activeAssignments.map((assignment) => [assignment.position_id, assignment.agent_id]));
-  const activeMemberships = (collaboration.memberships ?? []).filter((membership) => membership.active !== false);
+  const activeMemberships = (collaboration.memberships ?? []).filter((membership) => membershipStatus(membership) === "active");
+  const activePrincipals = (collaboration.principals ?? []).filter((principal) => principalStatus(principal) === "active");
+  const qualificationAttention = (collaboration.memberships ?? []).flatMap((membership) => {
+    const status = membershipStatus(membership);
+    const reviewDue = Boolean(membership.qualification?.review_after && Date.parse(membership.qualification.review_after) <= Date.now());
+    const expired = Boolean(membership.qualification?.expires_at && Date.parse(membership.qualification.expires_at) <= Date.now());
+    if (status === "provisional") return [{ type: "provisional", agent_id: membership.agent_id, position_id: membership.position_id }];
+    if (expired) return [{ type: "expired", agent_id: membership.agent_id, position_id: membership.position_id }];
+    if (reviewDue) return [{ type: "review_due", agent_id: membership.agent_id, position_id: membership.position_id }];
+    return [];
+  });
   const issues = [];
 
   for (const assignment of activeAssignments) {
@@ -132,7 +149,9 @@ function buildOrganizationProjection({ agentsDocument, assignmentsDocument, posi
       .map((membership) => ({
         position_id: membership.position_id,
         disciplines: membership.disciplines ?? [],
-        default: membership.default === true
+        default: membership.default === true,
+        status: membershipStatus(membership),
+        qualification: membership.qualification ?? null
       }));
     const currentWorkItems = currentWork
       .filter((item) => item.active_claim_agent_id === agent.id || item.assigned_agent_id === agent.id)
@@ -155,7 +174,9 @@ function buildOrganizationProjection({ agentsDocument, assignmentsDocument, posi
         agent_id: membership.agent_id,
         agent_display_name: agents.get(membership.agent_id)?.display_name ?? null,
         disciplines: membership.disciplines ?? [],
-        default: membership.default === true
+        default: membership.default === true,
+        status: membershipStatus(membership),
+        qualification: membership.qualification ?? null
       }));
     return {
       id: position.id,
@@ -165,6 +186,7 @@ function buildOrganizationProjection({ agentsDocument, assignmentsDocument, posi
       cannot_approve: position.cannot_approve ?? [],
       assignment: agentId ? { agent_id: agentId, agent_display_name: agents.get(agentId)?.display_name ?? null } : null,
       memberships: positionMemberships,
+      eligible_pool_size: positionMemberships.length,
       current_work_items: currentWork
         .filter((item) => item.owner_position === position.id)
         .map((item) => ({ id: item.id, title: item.title, state: item.state, category: item.category }))
@@ -176,11 +198,31 @@ function buildOrganizationProjection({ agentsDocument, assignmentsDocument, posi
     profile: collaboration.profile ?? "unknown",
     coordination_backend: collaboration.coordination_backend ?? "unknown",
     counts: {
+      accountable_people: collaboration.profile === "solo" ? 1 : activePrincipals.length,
       active_agents: organizationAgents.filter((agent) => agent.active).length,
       positions: organizationPositions.length,
       assigned_positions: organizationPositions.filter((position) => position.assignment).length,
-      active_memberships: activeMemberships.length
+      active_memberships: activeMemberships.length,
+      provisional_memberships: (collaboration.memberships ?? []).filter((entry) => membershipStatus(entry) === "provisional").length,
+      active_authority_grants: (collaboration.authority_grants ?? []).filter((entry) => entry.status === "active").length,
+      qualification_attention: qualificationAttention.length
     },
+    principals: (collaboration.principals ?? []).map((principal) => ({
+      id: principal.id,
+      display_name: principal.display_name,
+      status: principalStatus(principal),
+      provider_identity_count: (principal.provider_identities ?? []).filter((entry) => entry.status === "active").length
+    })),
+    sponsorships: (collaboration.sponsorships ?? []).map((entry) => ({
+      principal_id: entry.principal_id,
+      agent_id: entry.agent_id,
+      status: sponsorshipStatus(entry)
+    })),
+    authority_grants: collaboration.authority_grants ?? [],
+    bootstrap_owner: collaboration.bootstrap_owner ?? null,
+    recovery: collaboration.recovery ?? { status: "not_configured", trustee_principal_ids: [], threshold: 0 },
+    validation: collaboration.validation,
+    qualification_attention: qualificationAttention,
     agents: organizationAgents,
     positions: organizationPositions,
     safeguards: [
@@ -188,7 +230,7 @@ function buildOrganizationProjection({ agentsDocument, assignmentsDocument, posi
       organizationSafeguard("developer-release-manager-separation", "developer", "release_manager", assignments, agents)
     ],
     issues,
-    large_scale_validation: collaboration.large_scale_validation ?? { status: "unknown", plan: null }
+    large_scale_validation: collaboration.validation?.real_collaborative ?? { status: "unknown", plan: null }
   };
 }
 

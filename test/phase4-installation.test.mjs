@@ -23,7 +23,7 @@ import {
 } from "../src/usage-policy.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const releaseVersion = "0.1.0-alpha.27";
+const releaseVersion = "0.1.0-alpha.28";
 const phase4Capabilities = [
   "backup_retention",
   "redacted_audit_export",
@@ -97,7 +97,7 @@ test("federation registry creation is exclusive and preserves existing project b
   assert.equal(await fs.readFile(registryPath, "utf8"), projectOwnedBytes);
 });
 
-test("fresh init seeds project-owned federation state, schemas, capabilities, and Alpha.27 metadata", async (testContext) => {
+test("fresh init seeds project-owned federation state, schemas, capabilities, and Alpha.28 metadata", async (testContext) => {
   const target = await temporaryProject(testContext, "fresh-phase4");
   const registryPath = path.join(target, FEDERATION_REGISTRY_RELATIVE_PATH);
   const registry = await readJson(registryPath);

@@ -405,10 +405,14 @@ test("repository observer projects canonical organization independently of live 
   assert.equal(organization.profile, "solo");
   assert.equal(organization.coordination_backend, "repository");
   assert.deepEqual(organization.counts, {
+    accountable_people: 1,
     active_agents: 5,
     positions: 10,
     assigned_positions: 10,
-    active_memberships: 10
+    active_memberships: 10,
+    provisional_memberships: 0,
+    active_authority_grants: 0,
+    qualification_attention: 0
   });
   assert.deepEqual(
     organization.agents.map((agent) => agent.display_name),
@@ -421,8 +425,9 @@ test("repository observer projects canonical organization independently of live 
   assert.equal(organization.positions.find((position) => position.id === "developer").assignment.agent_display_name, "Fixture Devon");
   assert.deepEqual(organization.positions.find((position) => position.id === "developer").memberships[0].disciplines, ["general-development"]);
   assert.ok(organization.safeguards.every((safeguard) => safeguard.status === "pass"));
-  assert.equal(Object.hasOwn(organization, "principals"), false);
-  assert.equal(Object.hasOwn(organization, "sponsorships"), false);
+  assert.deepEqual(organization.principals, []);
+  assert.deepEqual(organization.sponsorships, []);
+  assert.equal(organization.validation.real_collaborative.status, "not_run");
 
   const assignmentsPath = path.join(target, ".ai-org/project/assignments.json");
   const assignments = JSON.parse(await fs.readFile(assignmentsPath, "utf8"));

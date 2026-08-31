@@ -126,7 +126,26 @@ export function classifyControlPlaneRequest(headers, port, privateViewerHost = n
 }
 
 export function privateViewerSnapshot(snapshot, identity, transport = "tailscale-serve") {
-  const { daemon: _daemon, inbox: _inbox, recent_events: _recentEvents, ...safe } = snapshot;
+  const { daemon: _daemon, inbox: _inbox, recent_events: _recentEvents, ...rest } = snapshot;
+  const safe = structuredClone(rest);
+  const organization = safe.observer?.organization;
+  if (organization) {
+    delete organization.principals;
+    delete organization.sponsorships;
+    delete organization.authority_grants;
+    if (organization.bootstrap_owner) {
+      organization.bootstrap_owner = { status: organization.bootstrap_owner.status, principal_id: "redacted" };
+    }
+    if (organization.recovery) {
+      organization.recovery = {
+        status: organization.recovery.status,
+        threshold: organization.recovery.threshold,
+        trustee_count: organization.recovery.trustee_principal_ids?.length ?? 0,
+        principal_ids_redacted: true
+      };
+    }
+    organization.private_view_redactions = ["principals", "sponsorships", "authority-grants", "recovery-trustees"];
+  }
   return {
     ...safe,
     authority: {

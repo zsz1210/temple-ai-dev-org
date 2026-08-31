@@ -6,6 +6,7 @@ import {
   readCollaborationState,
   sponsoredPrincipal
 } from "./collaboration.mjs";
+import { assertLocalActorBinding } from "./local-identity.mjs";
 import { atomicWrite, formatJson, pathExists, readJson } from "./files.mjs";
 import { claimId, collaborativeWorkItemId, isWorkItemId } from "./ids.mjs";
 import {
@@ -816,6 +817,9 @@ export async function claimWorkItem(target, options) {
   if (["collaborative", HIGH_ASSURANCE_PROFILE].includes(collaboration.profile) && !expectedPrincipal) throw new Error(`${agentId} has no Human Principal sponsor`);
   if (expectedPrincipal && principalId !== expectedPrincipal) {
     throw new Error(`${agentId} is sponsored by ${expectedPrincipal}, not ${principalId}`);
+  }
+  if (["collaborative", HIGH_ASSURANCE_PROFILE].includes(collaboration.profile)) {
+    await assertLocalActorBinding(target, principalId);
   }
   const baseRevision = String(options.baseRevision ?? item.base_revision ?? "").trim();
   const branch = String(options.branch ?? "").trim();

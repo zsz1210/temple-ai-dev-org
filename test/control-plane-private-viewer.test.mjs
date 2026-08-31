@@ -378,6 +378,14 @@ test("private Temple Workspace is redacted, refresh-only, and cannot reach Inbox
   assert.equal(snapshot.observer.organization.counts.assigned_positions, 10);
   assert.equal(Object.hasOwn(snapshot.observer.organization, "principals"), false);
   assert.equal(Object.hasOwn(snapshot.observer.organization, "sponsorships"), false);
+  assert.equal(Object.hasOwn(snapshot.observer.organization, "authority_grants"), false);
+  assert.deepEqual(snapshot.observer.organization.private_view_redactions, [
+    "principals",
+    "sponsorships",
+    "authority-grants",
+    "recovery-trustees"
+  ]);
+  assert.equal(snapshotResponse.body.includes("identity.json"), false);
   assert.equal(snapshot.usage.schema_version, "temple.usage-baseline/v1");
   assert.equal(snapshot.usage.privacy.raw_prompts_retained, false);
   assert.equal(snapshot.usage.routing.automatic_routing, false);

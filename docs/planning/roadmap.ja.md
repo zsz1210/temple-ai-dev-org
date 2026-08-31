@@ -6,7 +6,7 @@ Temple は、local で実証された AI Development Organization Framework か�
 
 ## 現在地
 
-- **現在の release line:** `0.1.0-alpha.27`
+- **現在の release line:** `0.1.0-alpha.28`
 - **現在の段階:** Phase 4 の local implementation と bounded exit rehearsal は完了。Enterprise と statistical qualification は retained validation
 - **現在適している用途:** 人間が監督する個人、小規模チーム、bounded multi-repository local workflow
 - **まだ主張しないもの:** production-grade の distributed coordination、regulated operation、無人の外部操作

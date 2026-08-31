@@ -3,7 +3,7 @@
 - Status: **planned / not run**
 - Capability: Collaborative profile
 - Evidence class: multi-human, multi-machine, real Git hosting
-- Canonical status field: `.ai-org/project/collaboration.json -> large_scale_validation`
+- Canonical status field: `.ai-org/project/collaboration.json -> validation.real_collaborative`
 
 ## Why this test is retained
 
@@ -11,8 +11,8 @@ Local automated tests cannot reproduce organizational behavior, repository laten
 
 ## Required environment
 
-- At least three Human Principals.
-- At least four distinct Agent Identities.
+- At least two active Human Principals who are actually operated by different people.
+- Enough distinct Agent Identities to exercise implementation, integration, and Independent QA separation; no fixed team size is implied.
 - At least two physical computers or independently administered development environments.
 - One Git-hosted repository with protected default branch, pull requests, required CI, and review rules.
 - Developer memberships covering frontend, backend, and infrastructure or mobile Disciplines.
@@ -50,5 +50,4 @@ Record rejected claims, merge conflicts, stale-base findings, CI failures, contr
 
 ## Completion record
 
-When the test is actually run, create a separate immutable validation record containing repository and commit references, participating roles, environment details, commands, CI URLs, PR evidence, observed failures, final results, and residual risks. Only then may an approved project change set `large_scale_validation.status` to `passed`.
-
+When the test is actually run, create a separate immutable validation record containing repository and commit references, real participating Principals, environment details, commands, CI URLs, PR evidence, observed failures, final results, and residual risks. Only then may an approved project change set `validation.real_collaborative.status` to `passed`. A passing `simulated_collaborative` gate is useful evidence but cannot be promoted or copied into this gate.

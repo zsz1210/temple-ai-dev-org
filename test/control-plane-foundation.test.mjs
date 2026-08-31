@@ -405,7 +405,7 @@ test("upgrade seeds missing project-owned control-plane configuration without ma
   const upgraded = run(["upgrade", target]);
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.27");
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.28");
   assert.equal(upgradedLock.capabilities.local_telemetry_journal, true);
   assert.equal(upgradedLock.capabilities.live_observer, true);
   assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/project/control-plane.json"));
@@ -592,8 +592,9 @@ test("Codex history bounds are validated and Temple Workspace exposes terminal w
   assert.match(html, /Temple Workspace/);
   assert.match(html, /Who is part of this project\?/);
   assert.match(html, /role="tablist"/);
-  assert.match(html, /Structure/);
-  assert.match(html, /Teammates/);
+  assert.match(html, /Responsibilities/);
+  assert.match(html, /People &amp; Agents/);
+  assert.match(html, /Authority/);
   assert.match(html, /Active model/);
   assert.match(html, /Last observed/);
   assert.match(html, /Requested model/);
@@ -602,12 +603,13 @@ test("Codex history bounds are validated and Temple Workspace exposes terminal w
   assert.match(html, /Requested turn ·/);
   assert.match(html, /Thread reported ·/);
   assert.match(html, /Effective turn ·/);
-  assert.match(html, /organizationMode="structure"/);
+  assert.match(html, /organizationMode="responsibilities"/);
   assert.match(html, /Product & Experience/);
   assert.match(html, /Engineering Delivery/);
   assert.match(html, /Assurance & Release/);
   assert.match(html, /Additional responsibilities/);
-  assert.match(html, /data-organization-agent-filter/);
+  assert.match(html, /Eligible pool/);
+  assert.doesNotMatch(html, /Owns business authority and approval boundaries/);
   assert.match(html, /Independent delivery check/);
   assert.match(html, /Who is working on what\?/);
   assert.match(html, /Current work/);

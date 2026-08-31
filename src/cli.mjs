@@ -15,10 +15,21 @@ import {
   addMembership,
   addAgentIdentity,
   addPrincipal,
+  configureGovernanceRecovery,
+  establishBootstrapOwner,
+  grantHumanAuthority,
+  migrateCollaborationState,
+  normalizedCollaborationState,
   readCollaborationState,
+  recordCollaborationValidation,
+  retireBootstrapOwner,
+  revokeHumanAuthority,
+  setMembershipQualification,
   setCollaborationProfile,
+  setPrincipalStatus,
   sponsorAgent
 } from "./collaboration.mjs";
+import { clearLocalActorBinding, readLocalActorBinding, writeLocalActorBinding } from "./local-identity.mjs";
 import { assertSafeTarget, atomicWrite, formatJson, readJson } from "./files.mjs";
 import { executeInit, formatInitPlan, planInit } from "./install.mjs";
 import { preserveEvidenceRevision, readEvidenceRegistry, recordEvidence } from "./evidence.mjs";
@@ -132,13 +143,25 @@ Usage:
   temple control-plane capture-github [target] --provider-id id --work-item WI-ID --revision commit [--state-dir path] [--actor id] [--title text] [--summary text] [--json]
   temple control-plane start [target] [--host 127.0.0.1] [--port number] [--state-dir path] [--fixture path] [--codex] [--tailscale-viewer] [--lan-viewer-host private-ip] [--lan-viewer-port number]
   temple collaboration show [target] [--json]
+  temple collaboration migrate [target] [--dry-run] [--json]
+  temple collaboration show-identity [target] [--json]
+  temple collaboration bind-identity [target] --principal-id principal-name|human --verification-class self-asserted|external-evidence|step-up-evidence [--provider-id id] [--provider-subject subject] [--provider-handle handle] [--evidence-ref ref] [--expires-at timestamp]
+  temple collaboration clear-identity [target]
   temple collaboration set-profile [target] --profile solo|collaborative|high-assurance
-  temple collaboration add-principal [target] --principal-id principal-name --name "Human Name"
+  temple collaboration add-principal [target] --principal-id principal-name --name "Human Name" [--provider-id id --provider-subject subject --provider-handle handle --evidence-ref ref]
+  temple collaboration set-principal-status [target] --principal-id principal-name --status active|suspended|inactive
   temple collaboration add-agent [target] --agent-id agent-name --name "Agent Name"
   temple collaboration sponsor [target] --principal-id principal-name --agent-id agent-name
   temple collaboration add-membership [target] --agent-id agent-name --position developer [--discipline backend]
+  temple collaboration qualify-membership [target] --agent-id agent-name --position developer --status provisional|active|suspended|expired|revoked [--evidence ref] [--risk-tier tier] [--review-after timestamp] [--expires-at timestamp]
+  temple collaboration grant-authority [target] --grant-id grant-name --principal-id principal-name --authority authority --scope scope --risk-tier tier --approved-by principal-name [--expires-at timestamp]
+  temple collaboration revoke-authority [target] --grant-id grant-name --approved-by principal-name
+  temple collaboration configure-recovery [target] --trustee principal-name --threshold number --approved-by principal-name
+  temple collaboration establish-bootstrap [target] --principal-id principal-name --approved-by principal-name
+  temple collaboration retire-bootstrap [target] --approved-by principal-name
+  temple collaboration record-validation [target] --validation-level level --status status [--revision ref] [--evidence ref] [--participant-principal principal-name] [--environment id]
   temple work-item create [target] --title text [--scope text] [--acceptance text] [--affected-path path] [--context-ref id] [--spec-mode gate-evidence|indexed] [--spec-ref ID@revision] [--ui-mode mode] [--risk-tier low|standard|high|critical] [--discipline backend] [--stage-discipline build=backend] [--stage-resource test=ios-simulator[:units]] [--tracker-visibility internal|team-visible]
-  temple work-item configure [target] --work-item WI-ID [--parent WI-ID] [--depends-on WI-ID] [--agent-id agent-name] [--discipline backend] [--stage-discipline build=backend] [--stage-resource test=ios-simulator[:units]] [--clear-stage-requirement test] [--base-revision ref] [--parallel-mode mode] [--spec-ref ID@revision] [--replace-spec-refs]
+  temple work-item configure [target] --work-item WI-ID [--parent WI-ID] [--depends-on WI-ID] [--agent-id agent-name] [--discipline backend] [--clear-disciplines] [--stage-discipline build=backend] [--stage-resource test=ios-simulator[:units]] [--clear-stage-requirement test] [--base-revision ref] [--parallel-mode mode] [--spec-ref ID@revision] [--replace-spec-refs]
   temple work-item claim [target] --work-item WI-ID --agent-id agent-name --principal-id principal-name --base-revision ref --branch name [--worktree path]
   temple work-item release [target] --work-item WI-ID [--agent-id agent-name] [--principal-id principal-name] [--reason text]
   temple work-item unresolved [target] --work-item WI-0001 [--resolve text] [--merge text]
@@ -258,6 +281,7 @@ const BOOLEAN_FLAGS = new Set([
   "--replace-ux-refs",
   "--replace-ui-refs",
   "--replace-contract-refs",
+  "--clear-disciplines",
   "--codex",
   "--tailscale-viewer",
   "--probe-codex-account",
@@ -316,6 +340,18 @@ const VALUE_FLAGS = new Set([
   "--ui-mode",
   "--profile",
   "--principal-id",
+  "--verification-class",
+  "--provider-subject",
+  "--provider-handle",
+  "--evidence-ref",
+  "--expires-at",
+  "--grant-id",
+  "--approved-by",
+  "--trustee",
+  "--threshold",
+  "--validation-level",
+  "--participant-principal",
+  "--environment",
   "--name",
   "--agent-id",
   "--discipline",
@@ -436,7 +472,11 @@ const REPEATABLE_FLAGS = new Set([
   "--alternative",
   "--preserve",
   "--event-type",
-  "--redact-key"
+  "--redact-key",
+  "--approved-by",
+  "--trustee",
+  "--participant-principal",
+  "--environment"
 ]);
 const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence", "schema", "migration", "learning", "retrieval", "evaluation", "usage", "adapter", "control-plane", "backup", "restore", "audit", "federation", "portfolio", "experiment"]);
 
@@ -1492,24 +1532,72 @@ async function runWorkItemCreate(parsed) {
 async function runCollaboration(parsed) {
   const target = await assertSafeTarget(parsed.target);
   if (parsed.action === "show") {
-    const document = await readCollaborationState(target);
+    const document = normalizedCollaborationState(await readCollaborationState(target));
     printResult(parsed, document, [
       `Profile: ${document.profile}`,
-      `Human Principals: ${(document.principals ?? []).length}`,
+      `Human Principals: ${(document.principals ?? []).filter((entry) => entry.status === "active").length} active`,
       `Sponsorships: ${(document.sponsorships ?? []).length}`,
-      `Position memberships: ${(document.memberships ?? []).filter((entry) => entry.active !== false).length}`,
-      `Large-scale validation: ${document.large_scale_validation?.status ?? "not_run"}`
+      `Position memberships: ${(document.memberships ?? []).filter((entry) => entry.status === "active").length} active`,
+      `Authority grants: ${(document.authority_grants ?? []).filter((entry) => entry.status === "active").length} active`,
+      `Real Collaborative validation: ${document.validation?.real_collaborative?.status ?? "not_run"}`
     ]);
+    return 0;
+  }
+  if (parsed.action === "show-identity") {
+    const result = await readLocalActorBinding(target);
+    printResult(parsed, result, [
+      `Local actor binding: ${result.status}`,
+      `Principal: ${result.binding?.principal_id ?? "not bound"}`,
+      `Verification: ${result.binding?.verification_class ?? "not available"}`,
+      `Stored outside tracked project files: ${result.path}`
+    ]);
+    return 0;
+  }
+  if (parsed.action === "bind-identity") {
+    const result = await writeLocalActorBinding(target, {
+      principalId: parsed.options["--principal-id"],
+      verificationClass: parsed.options["--verification-class"],
+      providerId: parsed.options["--provider-id"],
+      providerSubject: parsed.options["--provider-subject"],
+      providerHandle: parsed.options["--provider-handle"],
+      evidenceRef: parsed.options["--evidence-ref"],
+      expiresAt: parsed.options["--expires-at"]
+    });
+    printResult(parsed, result, [
+      `Bound this Git clone to ${result.binding.principal_id}`,
+      `Verification: ${result.binding.verification_class}`,
+      `Credentials stored: no`
+    ]);
+    return 0;
+  }
+  if (parsed.action === "clear-identity") {
+    const result = await clearLocalActorBinding(target);
+    printResult(parsed, result, [result.removed ? "Removed the local actor binding" : "No local actor binding existed"]);
     return 0;
   }
   const result = await withProjectMutationLock(target, async () => {
     let changed;
-    if (parsed.action === "set-profile") {
+    if (parsed.action === "migrate") {
+      changed = await migrateCollaborationState(target, {
+        dryRun: parsed.flags.has("--dry-run"),
+        actor: parsed.options["--actor"]
+      });
+    } else if (parsed.action === "set-profile") {
       changed = await setCollaborationProfile(target, parsed.options["--profile"]);
     } else if (parsed.action === "add-principal") {
       changed = await addPrincipal(target, {
         principalId: parsed.options["--principal-id"],
-        displayName: parsed.options["--name"]
+        displayName: parsed.options["--name"],
+        providerId: parsed.options["--provider-id"],
+        providerSubject: parsed.options["--provider-subject"],
+        providerHandle: parsed.options["--provider-handle"],
+        evidenceRef: parsed.options["--evidence-ref"]
+      });
+    } else if (parsed.action === "set-principal-status") {
+      changed = await setPrincipalStatus(target, {
+        principalId: parsed.options["--principal-id"],
+        status: parsed.options["--status"],
+        actor: parsed.options["--actor"]
       });
     } else if (parsed.action === "add-agent") {
       changed = await addAgentIdentity(target, {
@@ -1527,10 +1615,66 @@ async function runCollaboration(parsed) {
         positionId: parsed.options["--position"],
         disciplines: listOption(parsed, "--discipline")
       });
+    } else if (parsed.action === "qualify-membership") {
+      changed = await setMembershipQualification(target, {
+        agentId: parsed.options["--agent-id"],
+        positionId: parsed.options["--position"],
+        status: parsed.options["--status"],
+        evidenceRefs: listOption(parsed, "--evidence"),
+        riskCeiling: parsed.options["--risk-tier"],
+        reviewAfter: parsed.options["--review-after"],
+        expiresAt: parsed.options["--expires-at"],
+        actor: parsed.options["--actor"]
+      });
+    } else if (parsed.action === "grant-authority") {
+      changed = await grantHumanAuthority(target, {
+        grantId: parsed.options["--grant-id"],
+        principalId: parsed.options["--principal-id"],
+        authority: parsed.options["--authority"],
+        scope: parsed.options["--scope"],
+        riskCeiling: parsed.options["--risk-tier"],
+        approvedBy: listOption(parsed, "--approved-by"),
+        expiresAt: parsed.options["--expires-at"],
+        actor: parsed.options["--actor"]
+      });
+    } else if (parsed.action === "revoke-authority") {
+      changed = await revokeHumanAuthority(target, {
+        grantId: parsed.options["--grant-id"],
+        approvedBy: listOption(parsed, "--approved-by"),
+        actor: parsed.options["--actor"]
+      });
+    } else if (parsed.action === "configure-recovery") {
+      changed = await configureGovernanceRecovery(target, {
+        trusteePrincipalIds: listOption(parsed, "--trustee"),
+        threshold: parsed.options["--threshold"],
+        approvedBy: listOption(parsed, "--approved-by"),
+        actor: parsed.options["--actor"]
+      });
+    } else if (parsed.action === "establish-bootstrap") {
+      changed = await establishBootstrapOwner(target, {
+        principalId: parsed.options["--principal-id"],
+        approvedBy: listOption(parsed, "--approved-by"),
+        actor: parsed.options["--actor"]
+      });
+    } else if (parsed.action === "retire-bootstrap") {
+      changed = await retireBootstrapOwner(target, {
+        approvedBy: listOption(parsed, "--approved-by"),
+        actor: parsed.options["--actor"]
+      });
+    } else if (parsed.action === "record-validation") {
+      changed = await recordCollaborationValidation(target, {
+        level: parsed.options["--validation-level"],
+        status: parsed.options["--status"],
+        revision: parsed.options["--revision"],
+        evidenceRefs: listOption(parsed, "--evidence"),
+        participants: listOption(parsed, "--participant-principal"),
+        environments: listOption(parsed, "--environment"),
+        actor: parsed.options["--actor"]
+      });
     } else {
       throw new Error(`Unknown collaboration action: ${parsed.action}`);
     }
-    await refreshViews(target);
+    if (!(parsed.action === "migrate" && parsed.flags.has("--dry-run"))) await refreshViews(target);
     return changed;
   });
   printResult(parsed, result, [`Updated collaboration state: ${parsed.action}`]);
@@ -1545,7 +1689,11 @@ async function runWorkItemConfigure(parsed) {
       actor: parsed.options["--actor"],
       parentWorkItemId: parsed.options["--parent"],
       dependencies: parsed.options["--depends-on"] === undefined ? undefined : listOption(parsed, "--depends-on"),
-      requiredDisciplines: parsed.options["--discipline"] === undefined ? undefined : listOption(parsed, "--discipline"),
+      requiredDisciplines: parsed.flags.has("--clear-disciplines")
+        ? []
+        : parsed.options["--discipline"] === undefined
+          ? undefined
+          : listOption(parsed, "--discipline"),
       stageRequirements: parseStageRequirements(
         listOption(parsed, "--stage-discipline"),
         listOption(parsed, "--stage-resource"),

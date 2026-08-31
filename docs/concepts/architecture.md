@@ -39,22 +39,26 @@ Solid arrows show governed project flow. The dotted arrow is deliberately weaker
 ## Identity and collaboration model
 
 ```text
-Human Principal (project-defined)
-    │ sponsors
-    ▼
-Agent Identity (project-defined)
-    │ joins with Disciplines
-    ▼
+Local Actor Binding ── binds clone to ──> Human Principal
+                                           │ sponsors
+                                           ▼
+                                    Agent Identity
+                                           │ joins with Disciplines
+                                           ▼
 Position Membership ── eligible for ──> Position (framework-defined)
-    │                                      │ authority
-    └────────────── claim ────────────────> Work Item + Evidence
+         │                                 │ responsibility
+         └──────────── claim ─────────────> Work Item + Evidence
+
+Human Principal ── holds ──> Human Authority Grant ── governs ──> bounded approval
 ```
 
 - The central framework defines each Position's ID, responsibilities, and gates.
 - An Agent Identity has a stable `agent_id` and mutable `display_name`; renaming must not change its historical ID.
 - An Assignment has an activation state and preserves one default Agent per Position for backward compatibility.
-- A Position Membership adds eligible pool members and technical Disciplines without changing Position authority.
-- A Human Principal sponsors an Agent Identity and remains attributable when that Agent claims work.
+- A Position Membership adds eligible pool members and technical Disciplines without changing Position responsibility or Human Authority.
+- A Human Principal has an immutable ID, may share a display name with another Principal, sponsors an Agent Identity, and remains attributable when that Agent claims work.
+- A clone-local actor binding lives below the Git common directory and contains attribution evidence but no credential.
+- A Human Authority Grant is scoped, risk-bounded, revocable, and separate from company title, Agent capability, and Git-hosting permission.
 - A Work Item claim binds Principal, Agent, base revision, branch, optional worktree, and timestamps to one bounded scope.
 
 Codex `.codex/agents/*.toml` files are runtime configuration for Positions, not names of project participants. Actual project names are stored in `.ai-org/project/agents.json`.
@@ -93,7 +97,7 @@ The framework uses Git-friendly JSON and Markdown:
 - `project.json`: project identity and initialization time.
 - `agents.json`: Agent Identities.
 - `assignments.json`: mappings from Positions to Identities.
-- `collaboration.json`: selected profile, Human Principals, sponsorships, Position Memberships with Disciplines, and the large-scale validation status.
+- `collaboration.json`: selected profile, Human Principals, sponsorship history, qualified Position Memberships, scoped Human Authority Grants, temporary bootstrap and recovery state, and tiered validation gates.
 - `tasks.json`: stable IDs, Positions, Agents, revisions, and states for separate user-owned Codex tasks and threads; internal subagents do not enter this registry and it is not an app-control API.
 - `runtime-workers.json`: internal-subagent or user-task reservations tied to an exact Work Item claim, plan, wave, runtime identity, evidence, and optional task record.
 - `resources.json`: project-defined runtime or verification capacity and worker-owned active or released reservations.
@@ -150,7 +154,7 @@ Maintainers may initialize the toolkit checkout itself only with `--self-host`. 
 
 ### `temple doctor`
 
-Validate managed checksums and the pinned launcher, cataloged JSON Schemas, Position completeness, Agent-name uniqueness, collaboration and High-Assurance prerequisites, active claims, stage requirements, worker-to-claim and worker-to-resource integrity, internal/user-task separation, specification and Work Item references, tracker mappings, Context Map paths, generated plans, Retrieval Provider configuration, Capability Registry, learning records and revalidation metadata, normalized evidence, optional adapter provenance and digests, Skills, and `AGENTS.md` integration. Collaborative and High-Assurance projects warn until the retained large-scale validation passes.
+Validate managed checksums and the pinned launcher, cataloged JSON Schemas, Position completeness, Agent-name uniqueness, collaboration and High-Assurance prerequisites, active claims, stage requirements, worker-to-claim and worker-to-resource integrity, internal/user-task separation, specification and Work Item references, tracker mappings, Context Map paths, generated plans, Retrieval Provider configuration, Capability Registry, learning records and revalidation metadata, normalized evidence, optional adapter provenance and digests, Skills, and `AGENTS.md` integration. Collaborative and High-Assurance projects warn until Real Collaborative validation passes; simulated evidence cannot silence that warning.
 
 ### `temple status`
 
@@ -176,7 +180,7 @@ Read canonical state and output the collaboration profile, Principal and members
 
 ### Collaboration and parallel commands
 
-- `temple collaboration` configures the selected profile, Human Principals, Agent Identities, sponsorships, and Position Memberships.
+- `temple collaboration` explicitly migrates the collaboration contract; configures profile, Principal lifecycle, Agent sponsorship, membership qualification, authority grants, recovery, and validation; and manages the untracked clone-local actor binding.
 - `temple work-item configure` records parent/dependency links, default or stage-specific Disciplines, stage-specific resource requirements, base revision, shared-contract status, integration owner, overlap resolution, and requested parallel mode.
 - `temple parallel check` evaluates the deterministic readiness contract without mutating canonical state.
 - `temple parallel plan` selects all active Work Items or one parent's descendants, derives dependency-, path-, and resource-capacity-safe waves, applies an optional worker limit, and writes a generated plan unless `--no-write` is set. It never creates tasks, claims, or external actions.

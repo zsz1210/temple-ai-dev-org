@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.28
+
+- Added collaboration v2 with immutable Human Principal lifecycle, duplicate-safe display names, append-preserving sponsorship, evidence-qualified Position memberships, scoped Human Authority Grants, temporary Bootstrap Owner retirement, configurable governance recovery, and explicit v1 migration.
+- Added clone-local actor binding under the Git common directory with Solo self-assertion, external and step-up evidence classes, mode-`0600` storage, and no credential or repository retention.
+- Reworked Team into Responsibilities, People & Agents, and Authority without a Human Principal hierarchy; added governance and qualification projection while redacting Principal, sponsorship, grant, trustee, and local-binding detail from private viewers.
+- Split collaboration validation into automated, simulated Collaborative, Real Collaborative, representative-pilot, and High-Assurance gates. Disposable-clone simulation cannot satisfy the retained real multi-human gate.
+- Preserved one default Assignment per Position, unlimited evidence-qualified membership pools, Developer/Independent-QA separation, Git-visible cross-clone conflict handling, and the Human-approved Skill promotion boundary.
+
 ## 0.1.0-alpha.27
 
 - Added project-owned repository federation state, a read-only federated portfolio contract, and Draft 2020-12 schemas with explicit project and generated ownership.

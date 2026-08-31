@@ -6,7 +6,7 @@ Temple 正在從已通過 local 驗證的 AI Development Organization Framework�
 
 ## 目前位置
 
-- **目前 release line：** `0.1.0-alpha.27`
+- **目前 release line：** `0.1.0-alpha.28`
 - **目前階段：** Phase 4 的 local implementation 與 bounded exit rehearsal 已完成；enterprise 與 statistical qualification 保留為後續驗證
 - **現在適合：** 有人類監督的個人、小型團隊與 bounded multi-repository local workflow
 - **尚未宣稱：** production-grade distributed coordination、regulated operation 或無人監督的外部操作

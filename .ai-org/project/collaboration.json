@@ -1,5 +1,5 @@
 {
-  "schema_version": "temple.collaboration/v1",
+  "schema_version": "temple.collaboration/v2",
   "profile": "solo",
   "coordination_backend": "repository",
   "principals": [],
@@ -12,7 +12,16 @@
         "general-development"
       ],
       "default": true,
-      "active": true
+      "status": "active",
+      "active": true,
+      "qualification": {
+        "basis": "bootstrap-assignment",
+        "evidence_refs": [],
+        "risk_ceiling": "standard",
+        "qualified_at": null,
+        "review_after": null,
+        "expires_at": null
+      }
     },
     {
       "position_id": "engineering_manager",
@@ -21,7 +30,16 @@
         "architecture"
       ],
       "default": true,
-      "active": true
+      "status": "active",
+      "active": true,
+      "qualification": {
+        "basis": "bootstrap-assignment",
+        "evidence_refs": [],
+        "risk_ceiling": "standard",
+        "qualified_at": null,
+        "review_after": null,
+        "expires_at": null
+      }
     },
     {
       "position_id": "independent_qa",
@@ -31,7 +49,16 @@
         "general-development"
       ],
       "default": true,
-      "active": true
+      "status": "active",
+      "active": true,
+      "qualification": {
+        "basis": "bootstrap-assignment",
+        "evidence_refs": [],
+        "risk_ceiling": "standard",
+        "qualified_at": null,
+        "review_after": null,
+        "expires_at": null
+      }
     },
     {
       "position_id": "observer",
@@ -40,7 +67,16 @@
         "observability"
       ],
       "default": true,
-      "active": true
+      "status": "active",
+      "active": true,
+      "qualification": {
+        "basis": "bootstrap-assignment",
+        "evidence_refs": [],
+        "risk_ceiling": "standard",
+        "qualified_at": null,
+        "review_after": null,
+        "expires_at": null
+      }
     },
     {
       "position_id": "product_manager",
@@ -49,7 +85,16 @@
         "product"
       ],
       "default": true,
-      "active": true
+      "status": "active",
+      "active": true,
+      "qualification": {
+        "basis": "bootstrap-assignment",
+        "evidence_refs": [],
+        "risk_ceiling": "standard",
+        "qualified_at": null,
+        "review_after": null,
+        "expires_at": null
+      }
     },
     {
       "position_id": "quality_evaluator",
@@ -58,7 +103,16 @@
         "quality"
       ],
       "default": true,
-      "active": true
+      "status": "active",
+      "active": true,
+      "qualification": {
+        "basis": "bootstrap-assignment",
+        "evidence_refs": [],
+        "risk_ceiling": "standard",
+        "qualified_at": null,
+        "review_after": null,
+        "expires_at": null
+      }
     },
     {
       "position_id": "release_manager",
@@ -67,7 +121,16 @@
         "release"
       ],
       "default": true,
-      "active": true
+      "status": "active",
+      "active": true,
+      "qualification": {
+        "basis": "bootstrap-assignment",
+        "evidence_refs": [],
+        "risk_ceiling": "standard",
+        "qualified_at": null,
+        "review_after": null,
+        "expires_at": null
+      }
     },
     {
       "position_id": "tech_lead",
@@ -76,7 +139,16 @@
         "architecture"
       ],
       "default": true,
-      "active": true
+      "status": "active",
+      "active": true,
+      "qualification": {
+        "basis": "bootstrap-assignment",
+        "evidence_refs": [],
+        "risk_ceiling": "standard",
+        "qualified_at": null,
+        "review_after": null,
+        "expires_at": null
+      }
     },
     {
       "position_id": "ui_designer",
@@ -85,7 +157,16 @@
         "ui"
       ],
       "default": true,
-      "active": true
+      "status": "active",
+      "active": true,
+      "qualification": {
+        "basis": "bootstrap-assignment",
+        "evidence_refs": [],
+        "risk_ceiling": "standard",
+        "qualified_at": null,
+        "review_after": null,
+        "expires_at": null
+      }
     },
     {
       "position_id": "ux_designer",
@@ -94,11 +175,66 @@
         "ux"
       ],
       "default": true,
-      "active": true
+      "status": "active",
+      "active": true,
+      "qualification": {
+        "basis": "bootstrap-assignment",
+        "evidence_refs": [],
+        "risk_ceiling": "standard",
+        "qualified_at": null,
+        "review_after": null,
+        "expires_at": null
+      }
     }
   ],
-  "large_scale_validation": {
-    "status": "not_run",
-    "plan": ".ai-org/templates/collaborative-large-scale-test-plan.md"
+  "authority_grants": [],
+  "bootstrap_owner": null,
+  "recovery": {
+    "status": "not_configured",
+    "trustee_principal_ids": [],
+    "threshold": 0,
+    "last_verified_at": null
+  },
+  "validation": {
+    "automated": {
+      "status": "not_run",
+      "tested_revision": null,
+      "evidence": [],
+      "participants": [],
+      "environments": [],
+      "plan": null
+    },
+    "simulated_collaborative": {
+      "status": "not_run",
+      "tested_revision": null,
+      "evidence": [],
+      "participants": [],
+      "environments": [],
+      "plan": null
+    },
+    "real_collaborative": {
+      "status": "not_run",
+      "tested_revision": null,
+      "evidence": [],
+      "participants": [],
+      "environments": [],
+      "plan": ".ai-org/templates/collaborative-large-scale-test-plan.md"
+    },
+    "representative_pilot": {
+      "status": "not_run",
+      "tested_revision": null,
+      "evidence": [],
+      "participants": [],
+      "environments": [],
+      "plan": null
+    },
+    "high_assurance_drill": {
+      "status": "not_run",
+      "tested_revision": null,
+      "evidence": [],
+      "participants": [],
+      "environments": [],
+      "plan": null
+    }
   }
 }

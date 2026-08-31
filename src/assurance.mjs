@@ -33,7 +33,7 @@ function readEvidenceRegistry(target) {
 }
 
 function activePrincipals(document) {
-  return (document?.principals ?? []).filter((entry) => entry.active !== false);
+  return (document?.principals ?? []).filter((entry) => (entry.status ?? (entry.active === false ? "inactive" : "active")) === "active");
 }
 
 function activeAgents(document) {
@@ -55,7 +55,7 @@ export function validateHighAssuranceProfilePrerequisites(collaboration, agentsD
   const agents = activeAgents(agentsDocument);
   const sponsorByAgent = new Map(
     (collaboration?.sponsorships ?? [])
-      .filter((entry) => entry.active !== false && principalIds.has(entry.principal_id))
+      .filter((entry) => (entry.status ?? (entry.active === false ? "inactive" : "active")) === "active" && principalIds.has(entry.principal_id))
       .map((entry) => [entry.agent_id, entry.principal_id])
   );
   const assignments = activeAssignments(assignmentsDocument);

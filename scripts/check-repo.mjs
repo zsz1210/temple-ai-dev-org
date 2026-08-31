@@ -81,7 +81,7 @@ for (const [file, schemaId] of [
   ["context-capsule.schema.json", "temple.context-capsule/v1"],
   ["context-map.schema.json", "temple.context-map/v1"],
   ["retrieval-provider.schema.json", "temple.retrieval-provider/v1"],
-  ["collaboration.schema.json", "temple.collaboration/v1"],
+  ["collaboration.schema.json", "temple.collaboration/v2"],
   ["parallel-plan.schema.json", "temple.parallel-plan/v1"],
   ["parallel-readiness.schema.json", "temple.parallel-readiness/v1"],
   ["spec-index.schema.json", "temple.spec-index/v1"],

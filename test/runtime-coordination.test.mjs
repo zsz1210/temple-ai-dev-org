@@ -341,8 +341,8 @@ test("upgrade adds the runtime coordination contract without adopting project-ow
   const upgraded = run(["upgrade", target]);
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.27");
-  assert.equal(upgradedLock.template.bootstrap.version, "0.1.0-alpha.27");
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.28");
+  assert.equal(upgradedLock.template.bootstrap.version, "0.1.0-alpha.28");
   assert.equal(upgradedLock.capabilities.atomic_worker_preparation, true);
   assert.ok(upgradedLock.managed_files.some((entry) => entry.path === "templew.mjs"));
   assert.deepEqual(JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/resources.json"), "utf8")), {

@@ -2,21 +2,21 @@
   "schema_version": "temple.lock/v1",
   "template": {
     "name": "@zsz1210/temple-ai-dev-org",
-    "version": "0.1.0-alpha.27",
+    "version": "0.1.0-alpha.28",
     "repository": "zsz1210/temple-ai-dev-org",
     "bootstrap": {
       "schema_version": "temple.cli-bootstrap/v1",
-      "version": "0.1.0-alpha.27",
+      "version": "0.1.0-alpha.28",
       "node": ">=20",
       "launcher": "templew.mjs",
-      "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.27",
+      "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.28",
       "repository_spec": null,
       "source_revision": "3c75f57f4e06aac0f2b5a54a70438961a578951c",
       "source_clean": false,
       "invocation": "node ./templew.mjs <command> ."
     },
     "installed_at": "2026-08-30T02:28:18.355Z",
-    "upgraded_at": "2026-08-30T16:03:46.572Z",
+    "upgraded_at": "2026-08-31T18:28:38.188Z",
     "upgraded_from": "0.1.0-alpha.27"
   },
   "installation": {
@@ -40,6 +40,11 @@
         "id": "MIG-0019-PHASE2C",
         "applied_at": "2026-08-30T02:28:18.355Z",
         "mode": "baseline"
+      },
+      {
+        "id": "MIG-0028-COLLABORATION-V2",
+        "applied_at": "2026-08-31T18:28:38.188Z",
+        "mode": "framework-and-explicit-project-migration"
       }
     ]
   },
@@ -200,7 +205,7 @@
     },
     {
       "path": ".ai-org/core/collaboration-profiles.json",
-      "sha256": "7f1e339da7c80be697a39d5b5f44b8d2930a3d81fa1ca7cdcdb39050ebb89b37"
+      "sha256": "adbc271a1f64e36ee844f71b5e9080cc65c0dd01ae738306a014d2f931f8c6f2"
     },
     {
       "path": ".ai-org/core/high-assurance.json",
@@ -208,7 +213,7 @@
     },
     {
       "path": ".ai-org/core/migrations.json",
-      "sha256": "7064367d55e3c7824c513eeba886d5cc2080db12aa08ab7fb505fe7b8a6bdce8"
+      "sha256": "44ebe5457b3351fd509d67e7e2fe557139e510368039cc0350f95ceb7c81590b"
     },
     {
       "path": ".ai-org/core/policies.json",
@@ -240,7 +245,7 @@
     },
     {
       "path": ".ai-org/core/schemas/collaboration.schema.json",
-      "sha256": "6a0ffa5d12d8ef7e8547fa1420e378549145650cf6492f2131aba4e96b1e2967"
+      "sha256": "baf38a2864c3cdfc6e2920f24f1f7b520cf3f6185e18f3dfe7357ed915107046"
     },
     {
       "path": ".ai-org/core/schemas/context-capsule.schema.json",
@@ -356,7 +361,7 @@
     },
     {
       "path": ".ai-org/templates/collaborative-large-scale-test-plan.md",
-      "sha256": "3eca232047511ce90b57cf0f0eefcca93636a0ec748ceccd09f448cdc18da756"
+      "sha256": "2534183c21738eb8abb23ed3e8d4cfd5f992e749e115312a1429ce0737645ae1"
     },
     {
       "path": ".ai-org/templates/decision-ledger.md",
