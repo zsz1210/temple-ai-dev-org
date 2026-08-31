@@ -75,6 +75,43 @@
         "evidence_refs": [],
         "history": []
       }
+    },
+    {
+      "id": "LESSON-0002",
+      "kind": "lesson",
+      "title": "Task registration does not guarantee live Token observation",
+      "summary": "A one-turn Codex task was registered and history-correlated to its Work Item, Position, thread, and revision, but live attachment returned thread-resume-invalid and no thread/tokenUsage/updated event was captured. Future baselines must establish observer readiness or a provider-owned launch before work begins, and missing usage must remain unknown rather than zero.",
+      "status": "candidate",
+      "confidence": "medium",
+      "tags": [
+        "instrumentation",
+        "codex",
+        "token-usage"
+      ],
+      "applies_to": [
+        "solo"
+      ],
+      "source_work_items": [
+        "WI-0051"
+      ],
+      "path": ".ai-org/learning/lessons/LESSON-0002.md",
+      "updated_at": "2026-08-31T05:51:17.367Z",
+      "last_validated_at": null,
+      "promotion": {
+        "target": "none",
+        "status": "none",
+        "reference": null
+      },
+      "derived_from": [],
+      "owner_position": null,
+      "revalidation": {
+        "last_result": null,
+        "review_after": null,
+        "evidence_refs": [
+          ".ai-org/artifacts/WI-0051/pilot-result.md"
+        ],
+        "history": []
+      }
     }
   ]
 }
