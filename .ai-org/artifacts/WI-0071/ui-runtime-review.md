@@ -1,4 +1,4 @@
-# WI-0070 UI Runtime Review
+# WI-0071 UI Runtime Review
 
 - Delivery mode: `code-first`
 - Surface: existing Management Console Now attention normalization and read-only Observer projection

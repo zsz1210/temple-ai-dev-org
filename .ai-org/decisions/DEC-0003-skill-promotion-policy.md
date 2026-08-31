@@ -6,7 +6,7 @@
 - Status: accepted
 - Date: 2026-08-31
 - Owner position: Product Manager and Tech Lead
-- Work item: WI-0070
+- Work item: WI-0071
 
 ## Context
 
@@ -32,7 +32,7 @@ Risk changes the validation and approval depth, not the need for authorization. 
 
 ## Consequences and follow-up
 
-- Files or work items affected: `WI-0070`, the Learning CLI and schema, Observer and Management Console projections, and engineering-learning documentation.
+- Files or work items affected: `WI-0071`, the Learning CLI and schema, Observer and Management Console projections, and engineering-learning documentation.
 - Open questions: whether a later opt-in standing authorization can safely activate narrowly defined low-risk project Skills without per-proposal approval.
 - Revisit trigger: at least ten real Skill Proposals, high acceptance without material rewrite, zero authority-boundary violations, verified rollback, and representative routing evaluation across more than one project.
 

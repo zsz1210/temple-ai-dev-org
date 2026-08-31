@@ -1,4 +1,4 @@
-# Handoff — WI-0070
+# Handoff — WI-0071
 
 - Created: `2026-08-31T14:15:40.178Z`
 - From Position: Independent QA (`independent_qa`)
@@ -14,7 +14,7 @@
 ## Evidence
 
 - EVID-20260831T141533Z-330495EC
-- .ai-org/artifacts/WI-0070/independent-qa-report.md
+- .ai-org/artifacts/WI-0071/independent-qa-report.md
 
 ## Unresolved
 

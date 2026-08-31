@@ -1,4 +1,4 @@
-# WI-0070 Technical Design
+# WI-0071 Technical Design
 
 ## Decision
 
@@ -108,4 +108,4 @@ Rollback is local and reversible:
 
 ## Overlap boundary
 
-WI-0069 owns usage-policy changes. WI-0070 starts after its Developer candidate and changes only Learning promotion fields in the shared schema/catalog/lock surface. WI-0043 retains ownership of broader Dashboard information architecture; WI-0070 relies on the existing generic attention renderer and does not change navigation or layout.
+WI-0069 owns usage-policy changes. WI-0071 starts after its Developer candidate and changes only Learning promotion fields in the shared schema/catalog/lock surface. WI-0043 retains ownership of broader Dashboard information architecture; WI-0071 relies on the existing generic attention renderer and does not change navigation or layout.

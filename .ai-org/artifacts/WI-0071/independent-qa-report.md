@@ -1,4 +1,4 @@
-# WI-0070 Independent QA Report
+# WI-0071 Independent QA Report
 
 - Candidate revision: `406bc213d7b4d0345c4a6f90f5895cc77de4aa7a`
 - Developer Agent Identity: Rikku (`agent-rikku`)
@@ -10,7 +10,7 @@
 - Re-ran `test/learning-operations.test.mjs`, `test/evidence-observer.test.mjs`, and `test/cli.test.mjs`: 40 passed, 0 failed.
 - Re-ran runtime schema validation: 91 documents checked against 27 cataloged schemas, 0 errors.
 - Re-ran Doctor: healthy, 35 pass, 1 unrelated stale-plan warning, 0 fail.
-- Confirmed the candidate commit is unchanged. All post-candidate differences are canonical lifecycle/evidence projections and WI-0070 QA artifacts; no source, test, documentation, managed schema, or lock content changed during QA.
+- Confirmed the candidate commit is unchanged. All post-candidate differences are canonical lifecycle/evidence projections and WI-0071 QA artifacts; no source, test, documentation, managed schema, or lock content changed during QA.
 
 ## Adversarial findings
 
@@ -30,4 +30,4 @@
 
 ## Verdict
 
-Pass for organizational release gate at the exact candidate revision. This verdict authorizes closeout of WI-0070 only; it does not authorize release, deployment, publication, or creation of a real project Skill.
+Pass for organizational release gate at the exact candidate revision. This verdict authorizes closeout of WI-0071 only; it does not authorize release, deployment, publication, or creation of a real project Skill.

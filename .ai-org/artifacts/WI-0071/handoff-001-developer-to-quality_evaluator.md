@@ -1,4 +1,4 @@
-# Handoff — WI-0070
+# Handoff — WI-0071
 
 - Created: `2026-08-31T14:12:56.430Z`
 - From Position: Developer (`developer`)
@@ -15,8 +15,8 @@
 
 ## Evidence
 
-- .ai-org/artifacts/WI-0070/developer-verification.md
-- .ai-org/artifacts/WI-0070/ui-runtime-review.md
+- .ai-org/artifacts/WI-0071/developer-verification.md
+- .ai-org/artifacts/WI-0071/ui-runtime-review.md
 
 ## Unresolved
 

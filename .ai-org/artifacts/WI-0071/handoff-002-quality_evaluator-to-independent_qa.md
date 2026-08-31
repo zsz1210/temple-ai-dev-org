@@ -1,4 +1,4 @@
-# Handoff — WI-0070
+# Handoff — WI-0071
 
 - Created: `2026-08-31T14:14:02.348Z`
 - From Position: Quality & Evaluation Engineer (`quality_evaluator`)
@@ -14,7 +14,7 @@
 ## Evidence
 
 - EVID-20260831T141328Z-782E1548
-- .ai-org/artifacts/WI-0070/evaluation-report.md
+- .ai-org/artifacts/WI-0071/evaluation-report.md
 
 ## Unresolved
 

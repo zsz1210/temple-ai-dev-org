@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted on 2026-08-31 by the user for WI-0070.
+Accepted on 2026-08-31 by the user for WI-0071.
 
 ## Context
 

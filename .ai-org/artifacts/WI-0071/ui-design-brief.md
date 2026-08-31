@@ -1,13 +1,13 @@
 # UI design brief
 
-- Work item: WI-0070
+- Work item: WI-0071
 - UI Designer Position owner: UI Designer
 - Agent Identity: Yuna (`agent-yuna`)
 - Delivery mode: `code-first`
 - Selected tool or medium: Existing Temple Workspace attention projection and Codex/CLI decision path
 - Artifact path or URL: `src/control-plane-dashboard.mjs`
-- Artifact revision: bounded changes on `codex/wi-0070-skill-promotion`
-- Approval record, when required: user acceptance recorded by WI-0070 and DEC-0003
+- Artifact revision: bounded changes on `codex/wi-0071-skill-promotion`
+- Approval record, when required: user acceptance recorded by WI-0071 and DEC-0003
 
 ## Why this mode
 

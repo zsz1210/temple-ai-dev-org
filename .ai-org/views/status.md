@@ -114,7 +114,7 @@
 | WI-0067 | Run bounded four-repository commerce rehearsal | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0d656df5` | 0 | 18 | 3 |
 | WI-0068 | Fail closed on invalid experiment telemetry paths | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `123a9fda` | 0 | 18 | 0 |
 | WI-0069 | Establish progressive usage calibration and autonomy policy | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `aead7f54` | 0 | 5 | 0 |
-| WI-0070 | Automate Skill candidate proposals with human activation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `406bc213` | 0 | 15 | 0 |
+| WI-0071 | Automate Skill candidate proposals with human activation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `406bc213` | 0 | 15 | 0 |
 
 ## Codex task registry
 
@@ -233,14 +233,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T14:19:50.000Z | evidence_invalidated | WI-0070 | agent-lulu |
-| 2026-08-31T14:19:44.607Z | evidence_recorded | WI-0070 | agent-lulu |
-| 2026-08-31T14:16:08.664Z | work_item_closed | WI-0070 | agent-mog |
-| 2026-08-31T14:16:08.664Z | release_gate_completed | WI-0070 | agent-mog |
-| 2026-08-31T14:16:08.361Z | work_item_claimed | WI-0070 | human |
-| 2026-08-31T14:16:08.038Z | work_item_coordination_configured | WI-0070 | agent-mog |
-| 2026-08-31T14:15:40.489Z | work_item_transitioned | WI-0070 | agent-lulu |
-| 2026-08-31T14:15:40.178Z | handoff_created | WI-0070 | agent-lulu |
+| 2026-08-31T14:19:50.000Z | evidence_invalidated | WI-0071 | agent-lulu |
+| 2026-08-31T14:19:44.607Z | evidence_recorded | WI-0071 | agent-lulu |
+| 2026-08-31T14:16:08.664Z | work_item_closed | WI-0071 | agent-mog |
+| 2026-08-31T14:16:08.664Z | release_gate_completed | WI-0071 | agent-mog |
+| 2026-08-31T14:16:08.361Z | work_item_claimed | WI-0071 | human |
+| 2026-08-31T14:16:08.038Z | work_item_coordination_configured | WI-0071 | agent-mog |
+| 2026-08-31T14:15:40.489Z | work_item_transitioned | WI-0071 | agent-lulu |
+| 2026-08-31T14:15:40.178Z | handoff_created | WI-0071 | agent-lulu |
 
 ## Assignments
 
