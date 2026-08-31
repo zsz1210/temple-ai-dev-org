@@ -1,0 +1,91 @@
+{
+  "schema_version": "temple.live-instrumentation-observation/v1",
+  "coordinator_work_item_id": "WI-0062",
+  "target_work_item_id": "WI-0002",
+  "classification": "partial",
+  "started_at": "2026-08-31T10:00:48.872Z",
+  "completed_at": "2026-08-31T10:00:56.886Z",
+  "elapsed_milliseconds": 8013,
+  "execution_contract": {
+    "requested_model": "gpt-5.6-luna",
+    "reasoning_effort": "max",
+    "approval_policy": "never",
+    "sandbox_mode": "read-only",
+    "network_access": false,
+    "maximum_launch_attempts": 1,
+    "maximum_turns": 1,
+    "automatic_retries": 0,
+    "warning_total_tokens": 40000,
+    "stop_total_tokens": 60000,
+    "task_ceiling_minutes": 15
+  },
+  "prelaunch": {
+    "codex_cli": "0.151.0-alpha.7.2",
+    "thread_start_schema_sha256": "792e2f32e37cece971bd616664ea2053741acbed4e9c92e9d1766427718f2ecd",
+    "turn_start_schema_sha256": "a3835e8c1e942e4b358e1a670939b89918b16c4d13105a579899892b7ade6dea",
+    "combined_v2_schema_sha256": "2442b15801bc019ad55987ad03e0f0ae60c51417825b9b6d708db640e6c2651c",
+    "model_list_confirmed": true,
+    "luna_max_confirmed": true,
+    "provider_status_before_launch": "ready"
+  },
+  "observed": {
+    "launch_attempts": 1,
+    "turn_started": true,
+    "canonical_task_id": "task-0002",
+    "provider_thread_id": "01a05743-b0ea-7f20-ac5d-f3d74d37699c",
+    "provider_turn_id": "01a05743-b165-7d90-adcc-807ad0f9504b",
+    "terminal_status": "completed",
+    "task_status": "completed",
+    "interrupt_requested": false,
+    "timed_out": false,
+    "warning_observed": false,
+    "automatic_retry_performed": false,
+    "response_contract_checked": true,
+    "response_contract_matched": false,
+    "raw_response_retained": false,
+    "non_organization_changes_before": [],
+    "non_organization_changes_after": []
+  },
+  "usage": {
+    "detailed_observation_received": true,
+    "input_tokens": 23159,
+    "cached_input_tokens": 9984,
+    "output_tokens": 80,
+    "reasoning_output_tokens": 22,
+    "total_tokens": 23239,
+    "model_context_window": 258400,
+    "requested_model": "gpt-5.6-luna",
+    "observed_model": null,
+    "model_source": "canonical-requested",
+    "reasoning_effort": "max",
+    "service_tier": null,
+    "observation_time": "2026-08-31T10:00:54.529Z",
+    "provenance": "urn:temple:provider:codex-app-server:local",
+    "minimum_correlation_passed": false,
+    "monetary_cost": null,
+    "price_source": null
+  },
+  "resource_result": {
+    "target_repository_before_kib": 1472,
+    "target_repository_after_kib": 1580,
+    "isolated_telemetry_state_kib": 52,
+    "additional_local_disk_kib": 160,
+    "disk_ceiling_kib": 256000
+  },
+  "privacy": {
+    "instruction_retained_in_telemetry": false,
+    "hidden_reasoning_retained": false,
+    "raw_provider_payload_retained": false,
+    "company_or_production_data_used": false
+  },
+  "claims": {
+    "token_savings": false,
+    "monetary_savings": false,
+    "model_quality": false,
+    "routing_preference": false,
+    "microservice_effectiveness": false,
+    "enterprise_readiness": false
+  },
+  "temporary_state_directory": "/var/folders/wy/bkc6__f557nb9z8_jy9m9brc0000gp/T/temple-wi0062-state-ny4Odz",
+  "cleanup_status": "retained_for_independent_qa"
+}
