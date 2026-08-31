@@ -1,11 +1,11 @@
 # Temple AI Development Organization Framework — AI development organization status
 
 - Project ID: `temple`
-- Organization system version: `0.1.0-alpha.27`
+- Organization system version: `0.1.0-alpha.28`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
-- Parallel plan: 0 wave(s), fresh=false
-- Work items: 76 total, 8 active
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Parallel plan: 0 wave(s), fresh=true
+- Work items: 76 total, 7 active
 - Codex tasks: 5 registered, 4 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -17,7 +17,7 @@
 - Skill promotion: 0 candidate(s), 0 approval pending, 0 authoring Work Item(s)
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 12
+- Attention signals: 11
 
 ## Collaboration
 
@@ -26,15 +26,17 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
-- Large-scale validation: `not_run` (no plan recorded)
+- Active Work Item claims: 0
+- Active Human Authority Grants: 0
+- Governance recovery: `not_configured`
+- Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
 
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: no
+- Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 5 / 2
@@ -120,7 +122,7 @@
 | WI-0073 | Consolidate evidence durability CI fixtures | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `66bc5dd8` | 0 | 17 | 0 |
 | WI-0074 | Remove hosted control-plane test races | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `66bc5dd8` | 0 | 16 | 0 |
 | WI-0075 | Separate validation wall-clock test boundaries | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `66bc5dd8` | 0 | 14 | 0 |
-| WI-0076 | Operationalize multi-human team governance | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260831181821-9d74c9f4 | `—` | 0 | 9 | 0 |
+| WI-0076 | Operationalize multi-human team governance | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `006ef112` | 0 | 20 | 0 |
 
 ## Codex task registry
 
@@ -179,7 +181,6 @@
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
-- Generated parallel plan is stale; rebuild it before dispatch
 - Parallel plan has 2 blocked Work Item(s)
 
 ## External tracker coordination
@@ -239,14 +240,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T18:28:38.188Z | collaboration_state_migrated | — | human |
-| 2026-08-31T18:18:21.382Z | work_item_claimed | WI-0076 | human |
-| 2026-08-31T18:18:21.071Z | work_item_transitioned | WI-0076 | agent-tidus |
-| 2026-08-31T18:18:20.766Z | work_item_claim_released | WI-0076 | human |
-| 2026-08-31T18:18:20.471Z | handoff_created | WI-0076 | agent-tidus |
-| 2026-08-31T18:16:47.507Z | work_item_claimed | WI-0076 | human |
-| 2026-08-31T18:16:47.218Z | work_item_transitioned | WI-0076 | agent-yuna |
-| 2026-08-31T18:16:46.942Z | work_item_claim_released | WI-0076 | human |
+| 2026-08-31T18:59:54.264Z | work_item_closed | WI-0076 | agent-mog |
+| 2026-08-31T18:59:54.264Z | release_gate_completed | WI-0076 | agent-mog |
+| 2026-08-31T18:59:48.637Z | evidence_recorded | WI-0076 | human |
+| 2026-08-31T18:59:21.579Z | work_item_claimed | WI-0076 | human |
+| 2026-08-31T18:59:16.258Z | work_item_transitioned | WI-0076 | agent-lulu |
+| 2026-08-31T18:59:15.950Z | work_item_claim_released | WI-0076 | human |
+| 2026-08-31T18:59:15.650Z | handoff_created | WI-0076 | agent-lulu |
+| 2026-08-31T18:59:06.690Z | evidence_recorded | WI-0076 | human |
 
 ## Assignments
 

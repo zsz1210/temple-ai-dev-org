@@ -197,20 +197,26 @@
   },
   "validation": {
     "automated": {
-      "status": "not_run",
-      "tested_revision": null,
-      "evidence": [],
+      "status": "passed",
+      "tested_revision": "006ef1123d7d00560f56e0d03477737ea0ab9d10",
+      "evidence": [
+        ".ai-org/artifacts/WI-0076/quality-test-observation.json"
+      ],
       "participants": [],
       "environments": [],
-      "plan": null
+      "plan": null,
+      "recorded_at": "2026-08-31T18:56:37.118Z"
     },
     "simulated_collaborative": {
-      "status": "not_run",
-      "tested_revision": null,
-      "evidence": [],
+      "status": "passed",
+      "tested_revision": "006ef1123d7d00560f56e0d03477737ea0ab9d10",
+      "evidence": [
+        ".ai-org/artifacts/WI-0076/simulated-collaboration-report.md"
+      ],
       "participants": [],
       "environments": [],
-      "plan": null
+      "plan": null,
+      "recorded_at": "2026-08-31T18:56:37.422Z"
     },
     "real_collaborative": {
       "status": "not_run",

@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-31T12:38:01.072Z",
-  "source_fingerprint": "d83f48f620a28b636a609802756c53d3f69598d8edd0cf4e3db5d910a54152b7",
+  "generated_at": "2026-08-31T19:00:03.697Z",
+  "source_fingerprint": "72dfe0be5209054cc4ebbae56ba81e56c93f1803f1e6d3763aab159615a79112",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -10,12 +10,12 @@
       "WI-0031",
       "WI-0033",
       "WI-0035",
-      "WI-0043",
       "WI-0064",
-      "WI-0067"
+      "WI-0067",
+      "WI-0069"
     ]
   },
-  "max_workers": 3,
+  "max_workers": null,
   "summary": {
     "selected": 7,
     "dispatchable": 0,
@@ -50,17 +50,6 @@
       ]
     },
     {
-      "work_item_id": "WI-0043",
-      "title": "Review Dashboard information architecture and operator usability",
-      "disposition": "sequential",
-      "position_id": "product_manager",
-      "agent_id": "agent-yuna",
-      "integration_owner_agent_id": "agent-mog",
-      "reasons": [
-        "requested_mode_sequential"
-      ]
-    },
-    {
       "work_item_id": "WI-0064",
       "title": "Revalidate Provider-observed model attribution",
       "disposition": "sequential",
@@ -76,6 +65,17 @@
       "title": "Run bounded four-repository commerce rehearsal",
       "disposition": "sequential",
       "position_id": "engineering_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "requested_mode_sequential"
+      ]
+    },
+    {
+      "work_item_id": "WI-0069",
+      "title": "Establish progressive usage calibration and autonomy policy",
+      "disposition": "sequential",
+      "position_id": "release_manager",
       "agent_id": "agent-mog",
       "integration_owner_agent_id": null,
       "reasons": [
@@ -138,34 +138,6 @@
     },
     {
       "kind": "affected-path",
-      "left_work_item_id": "WI-0029",
-      "right_work_item_id": "WI-0043",
-      "paths": [
-        {
-          "left_path": "src/control-plane-dashboard.mjs",
-          "right_path": "src/control-plane-dashboard.mjs"
-        },
-        {
-          "left_path": "docs/operations/control-plane.md",
-          "right_path": "docs/operations/control-plane.md"
-        }
-      ],
-      "resolution": "separate-waves"
-    },
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0033",
-      "right_work_item_id": "WI-0043",
-      "paths": [
-        {
-          "left_path": "docs/operations/control-plane.md",
-          "right_path": "docs/operations/control-plane.md"
-        }
-      ],
-      "resolution": "separate-waves"
-    },
-    {
-      "kind": "affected-path",
       "left_work_item_id": "WI-0064",
       "right_work_item_id": "WI-0067",
       "paths": [
@@ -179,7 +151,7 @@
   ],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": 3,
+    "runtime_capacity_limit": null,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,

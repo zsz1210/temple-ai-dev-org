@@ -1,0 +1,35 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "work_item_id": "WI-0076",
+  "position": "independent_qa",
+  "agent_id": "agent-lulu",
+  "revision": "006ef1123d7d00560f56e0d03477737ea0ab9d10",
+  "started_at": "2026-08-31T18:57:30.000Z",
+  "completed_at": "2026-08-31T18:58:26.000Z",
+  "command": [
+    "create a second fresh detached worktree at the exact candidate",
+    "npm ci --ignore-scripts --no-audit --no-fund",
+    "npm run verify",
+    "node ./templew.mjs schema validate . --json",
+    "node ./templew.mjs doctor . --json"
+  ],
+  "exit_code": 0,
+  "result": "pass",
+  "summary": {
+    "tests_passed": 257,
+    "tests_failed": 0,
+    "documents_checked": 97,
+    "schemas_checked": 27,
+    "doctor_pass": 35,
+    "doctor_warn": 1,
+    "doctor_fail": 0,
+    "doctor_warning": "pre-existing generated parallel plan is stale and must be rebuilt before any future dispatch",
+    "fresh_detached_worktree": true
+  },
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0076/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0076/evaluation-report.md",
+    ".ai-org/artifacts/WI-0076/browser-review.md",
+    ".ai-org/artifacts/WI-0076/simulated-collaboration-report.md"
+  ]
+}

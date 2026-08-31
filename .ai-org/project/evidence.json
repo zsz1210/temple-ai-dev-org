@@ -10723,6 +10723,184 @@
         "exit_code": 0,
         "started_at": "2026-08-31T18:54:00.000Z"
       }
+    },
+    {
+      "id": "EVID-20260831T185629Z-9FC0F493",
+      "work_item_id": "WI-0076",
+      "recorded_at": "2026-08-31T18:56:29.588Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0076 implementation candidate",
+      "outcome": "verified",
+      "scope_revision": "006ef1123d7d00560f56e0d03477737ea0ab9d10",
+      "observed_at": "2026-08-31T18:56:29.588Z",
+      "summary": "Exact candidate for multi-human governance evaluation and Independent QA.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "006ef1123d7d00560f56e0d03477737ea0ab9d10"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "006ef1123d7d00560f56e0d03477737ea0ab9d10",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260831T185629Z-391D8CB0",
+      "work_item_id": "WI-0076",
+      "recorded_at": "2026-08-31T18:56:29.894Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Team browser and simulated collaboration runtime",
+      "outcome": "pass",
+      "scope_revision": "006ef1123d7d00560f56e0d03477737ea0ab9d10",
+      "observed_at": "2026-08-31T18:48:40.000Z",
+      "summary": "Responsive Team review and two-clone conflict/recovery simulation passed; real Collaborative remains not run.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0076/runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0076/runtime-observation.json",
+          "sha256": "513462940b244a60c5d514b0defd3501105cb543c9bb61d6dfd8e901749d31d8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0076/browser-review.md",
+          "sha256": "7eb9ada91e7778696b97f419d996d17537bbf2336277a1434493de846f4fe65b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0076/simulated-collaboration-report.md",
+          "sha256": "df37187a39d31de5de0dbbc40c59fd7d4156edf889c625720c58163c3465df06"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0076/screenshots/team-responsibilities-1440.png",
+          "sha256": "85555c4be8d890ce84748d572812f9c5c91182fb8cd35f87e9b4d2685b1c50f7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0076/screenshots/team-authority-1440.png",
+          "sha256": "67d8b59cb99deb6f2ea3213dac9fc9273a6fa8a3cab6013bd951f6a0164fc5fc"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0076/screenshots/team-responsibilities-390.png",
+          "sha256": "bfa8af9a038417396883791baf8018d3cf7fb3a64f7c120f27e682df68ebf19e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0076/screenshots/team-people-agents-390.png",
+          "sha256": "9c69e776a8a43a3216c9cf8cce566e1c089139ee9a49be2e79c296117e82ad23"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0076/screenshots/team-authority-390.png",
+          "sha256": "037b76d397dd4c23c7afcd408a9274fef2adad7db5213f5bfec15db9cf320326"
+        }
+      ],
+      "details": {
+        "environment": "Temple self-host repository on macOS, loopback Control Plane, headed Chromium through Playwright CLI, and a disposable bare origin with two local clones",
+        "scenario": "Review Team at 1440 px and 390 px, exercise keyboard tab navigation, inspect console and overflow, then execute the automated two-clone conflict and cold-recovery scenario",
+        "provenance": "simulator"
+      }
+    },
+    {
+      "id": "EVID-20260831T185906Z-8F236FE6",
+      "work_item_id": "WI-0076",
+      "recorded_at": "2026-08-31T18:59:06.690Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent exact-candidate verification",
+      "outcome": "pass",
+      "scope_revision": "006ef1123d7d00560f56e0d03477737ea0ab9d10",
+      "observed_at": "2026-08-31T18:58:26.000Z",
+      "summary": "Second fresh detached worktree passed 257 tests, 97 document schema validation, and Doctor with 0 failures.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0076/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0076/independent-qa-observation.json",
+          "sha256": "fa193536ac2ab3c33d220ed2bb733268ce59dc0c2f280007daa627ae415aec70"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0076/independent-qa-report.md",
+          "sha256": "a40561eb2b971b151508066816dac98585796ddfe5b88158806e3b73813864be"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0076/evaluation-report.md",
+          "sha256": "c0031abccf83359177dd2838c0ee70d22be3d160003f3b2302c44b733c32f429"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0076/browser-review.md",
+          "sha256": "7eb9ada91e7778696b97f419d996d17537bbf2336277a1434493de846f4fe65b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0076/simulated-collaboration-report.md",
+          "sha256": "df37187a39d31de5de0dbbc40c59fd7d4156edf889c625720c58163c3465df06"
+        }
+      ],
+      "details": {
+        "command": [
+          "create a second fresh detached worktree at the exact candidate",
+          "npm ci --ignore-scripts --no-audit --no-fund",
+          "npm run verify",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T18:57:30.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T185948Z-0CE6D80D",
+      "work_item_id": "WI-0076",
+      "recorded_at": "2026-08-31T18:59:48.637Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "006ef1123d7d00560f56e0d03477737ea0ab9d10",
+      "observed_at": "2026-08-31T18:59:48.637Z",
+      "summary": "Revert WI-0076 implementation and Alpha.28 metadata together; v1 projects remain readable until explicitly migrated.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0076/developer-report.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0076/developer-report.md",
+          "sha256": "51d9c76fa257762a67c0e3abe6c192bc2e611550ec009d6b13574ca81f48fec6"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0076/developer-report.md"
+      }
     }
   ]
 }
