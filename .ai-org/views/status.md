@@ -119,7 +119,7 @@
 | WI-0072 | Preserve evidence revisions across remote CI | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5913ea0c` | 0 | 19 | 0 |
 | WI-0073 | Consolidate evidence durability CI fixtures | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831160752-f3eedf27 | `ddbf04a8` | 0 | 15 | 0 |
 | WI-0074 | Remove hosted control-plane test races | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831161600-c0733b38 | `947d4e70` | 0 | 14 | 0 |
-| WI-0075 | Separate validation wall-clock test boundaries | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831162410-8a12cfbd | `—` | 0 | 4 | 0 |
+| WI-0075 | Separate validation wall-clock test boundaries | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831162745-bb966d00 | `025c9c67` | 0 | 12 | 0 |
 
 ## Codex task registry
 
@@ -238,14 +238,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T16:24:10.150Z | work_item_claimed | WI-0075 | human |
-| 2026-08-31T16:24:09.841Z | work_item_coordination_configured | WI-0075 | agent-rikku |
-| 2026-08-31T16:24:09.538Z | work_item_transitioned | WI-0075 | agent-tidus |
-| 2026-08-31T16:24:09.223Z | work_item_claim_released | WI-0075 | human |
-| 2026-08-31T16:24:08.924Z | handoff_created | WI-0075 | agent-tidus |
-| 2026-08-31T16:24:08.627Z | work_item_claimed | WI-0075 | human |
-| 2026-08-31T16:24:08.325Z | work_item_coordination_configured | WI-0075 | agent-tidus |
-| 2026-08-31T16:23:58.305Z | work_item_transitioned | WI-0075 | agent-yuna |
+| 2026-08-31T16:27:45.049Z | work_item_claimed | WI-0075 | human |
+| 2026-08-31T16:27:44.715Z | work_item_coordination_configured | WI-0075 | agent-mog |
+| 2026-08-31T16:27:44.376Z | work_item_transitioned | WI-0075 | agent-lulu |
+| 2026-08-31T16:27:44.059Z | work_item_claim_released | WI-0075 | human |
+| 2026-08-31T16:27:43.741Z | handoff_created | WI-0075 | agent-lulu |
+| 2026-08-31T16:27:43.464Z | evidence_recorded | WI-0075 | human |
+| 2026-08-31T16:26:48.643Z | work_item_claimed | WI-0075 | human |
+| 2026-08-31T16:26:48.299Z | work_item_transitioned | WI-0075 | agent-lulu |
 
 ## Assignments
 

@@ -1,0 +1,18 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "025c9c67c3a2ba8eae4d87f7f8140b397f72de9d",
+  "command": [
+    "node",
+    "--test",
+    "test/validation-program.test.mjs"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T16:27:05.000Z",
+  "completed_at": "2026-08-31T16:27:17.000Z",
+  "artifact_refs": [
+    "test/validation-program.test.mjs",
+    ".ai-org/artifacts/WI-0075/independent-qa-report.md"
+  ],
+  "summary": "A fresh detached exact-candidate worktree with clean dependencies passed all 12 validation-program tests and Doctor (35 pass, one unrelated stale-plan warning, zero failures)."
+}

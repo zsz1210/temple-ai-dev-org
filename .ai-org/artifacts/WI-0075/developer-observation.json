@@ -1,0 +1,18 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "025c9c67c3a2ba8eae4d87f7f8140b397f72de9d",
+  "command": [
+    "npm",
+    "run",
+    "verify"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T16:24:51.000Z",
+  "completed_at": "2026-08-31T16:25:44.000Z",
+  "artifact_refs": [
+    "test/validation-program.test.mjs",
+    ".ai-org/artifacts/WI-0075/developer-verification.md"
+  ],
+  "summary": "Repository and documentation checks passed; all 250 tests passed in 52.1 seconds of Node test time and 53.0 seconds wall time."
+}
