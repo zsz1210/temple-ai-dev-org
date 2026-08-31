@@ -9255,6 +9255,96 @@
       }
     },
     {
+      "id": "EVID-20260831T134735Z-5E291B14",
+      "work_item_id": "WI-0069",
+      "recorded_at": "2026-08-31T13:47:35.955Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality evaluation at the exact Usage Policy candidate",
+      "outcome": "pass",
+      "scope_revision": "aead7f548adde729e607d3db2806f62dd2251967",
+      "observed_at": "2026-08-31T13:46:26.000Z",
+      "summary": "Lulu reproduced 17 focused tests, 90 schema documents across 27 schemas, and Doctor 35 pass / 1 known warning / 0 fail at candidate aead7f5; no model generation or external action occurred.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0069/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0069/quality-test-observation.json",
+          "sha256": "89868277d4ed7f5b7235374076caab60096e07dbb5db7b78258fbf08c6fe5a46"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0069/quality-test-report.md",
+          "sha256": "ef1183243e6734040d30c09ede0030b5c3b4ca05cb230ab1a9aa85d18eec1edf"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0069/evaluation-report.md",
+          "sha256": "2a4147026b1e0a24c1503f9985ec523db07104a2a7116ebd98973d168d7ddc38"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/phase-4b.test.mjs test/phase4-installation.test.mjs",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T13:46:13.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T135351Z-264BC144",
+      "work_item_id": "WI-0069",
+      "recorded_at": "2026-08-31T13:53:51.356Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA at the exact Usage Policy candidate",
+      "outcome": "pass",
+      "scope_revision": "aead7f548adde729e607d3db2806f62dd2251967",
+      "observed_at": "2026-08-31T13:52:47.000Z",
+      "summary": "Independent QA completed a clean 246/246 repository verification, schema 90/27, Doctor 35 pass / 1 known warning / 0 fail, and a read-only Usage Policy projection at candidate aead7f5. One unrelated control-plane timing signal was reproducible only as an intermittent suite issue and passed both in isolation and in the final full run.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0069/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0069/independent-qa-observation.json",
+          "sha256": "2c624802e93533be37184e8371bf5011ac2102a56c41ba2b9759003c432342a8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0069/independent-qa-report.md",
+          "sha256": "9b573f058891ced2df8e2367f2f144817a2cc6808545153c31edca2c612a5382"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify",
+          "node --test --test-name-pattern=toolkit self-host init requires explicit scope test/cli.test.mjs",
+          "node --test --test-name-pattern=provider-owned launch registers before generation test/control-plane-live.test.mjs",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "node ./templew.mjs usage report . --no-write --json",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T13:50:20.000Z"
+      }
+    },
+    {
       "id": "EVID-20260831T141256Z-F2462E6A",
       "work_item_id": "WI-0071",
       "recorded_at": "2026-08-31T14:12:56.118Z",
