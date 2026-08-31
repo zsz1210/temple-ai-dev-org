@@ -1,0 +1,70 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "work_item_id": "WI-0067",
+  "revision": "0d656df54405f04f1149b469da2d9476c091275d",
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T12:25:30Z",
+  "completed_at": "2026-08-31T12:27:30Z",
+  "command": [
+    "npm run verify in a fresh detached worktree",
+    "temple doctor and npm test in four synthetic repositories",
+    "temple portfolio build --no-write"
+  ],
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0067/quality-report.md",
+    ".ai-org/artifacts/WI-0067/evaluation-report.md",
+    ".ai-org/artifacts/WI-0067/independent-qa-report.md"
+  ],
+  "checks": [
+    {
+      "command": "npm run verify",
+      "environment": "fresh detached worktree with repository node_modules linked",
+      "tests": 246,
+      "passed": 246,
+      "failed": 0
+    },
+    {
+      "command": "temple doctor and npm test",
+      "environment": "commerce-coordinator",
+      "doctor": "36 pass, 0 warn, 0 fail",
+      "tests": 1,
+      "failed": 0
+    },
+    {
+      "command": "temple doctor and npm test",
+      "environment": "commerce-catalog",
+      "doctor": "36 pass, 0 warn, 0 fail",
+      "tests": 1,
+      "failed": 0
+    },
+    {
+      "command": "temple doctor and npm test",
+      "environment": "commerce-orders",
+      "doctor": "36 pass, 0 warn, 0 fail",
+      "tests": 1,
+      "failed": 0
+    },
+    {
+      "command": "temple doctor and npm test",
+      "environment": "commerce-notifications",
+      "doctor": "36 pass, 0 warn, 0 fail",
+      "tests": 1,
+      "failed": 0
+    },
+    {
+      "command": "temple portfolio build --no-write",
+      "environment": "commerce-coordinator",
+      "result": "three current participant revisions; Catalog and Orders usage observed; Notifications usage unknown because no turn launched"
+    }
+  ],
+  "program": {
+    "started_turns": 2,
+    "completed_turns": 0,
+    "unlaunched_turns": 8,
+    "automatic_retries": 0,
+    "total_tokens": 148648,
+    "stop_code": "per-turn-token-hard-limit"
+  },
+  "external_action_performed": false
+}

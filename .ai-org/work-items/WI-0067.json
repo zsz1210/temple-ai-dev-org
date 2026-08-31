@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0067",
   "title": "Run bounded four-repository commerce rehearsal",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "blocked",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-31T11:58:24.023Z",
-  "updated_at": "2026-08-31T12:02:57.156Z",
+  "updated_at": "2026-08-31T12:28:52.927Z",
   "scope": [
     "Initialize four independent local Temple repositories for Coordinator, Catalog, Orders, and Notifications under the retained experiment root.",
     "Execute the predeclared 15-Work-Item commerce scenario through at most ten Provider-owned gpt-5.6-luna Max turns using the WI-0066 runner, zero retry, and all approved hard limits.",
@@ -46,26 +46,32 @@
   ],
   "claim": {
     "id": "claim-20260831120257-14949948",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "base_revision": "e65682d5a7ed69b177cd6f1a9c38b08925ef780b",
     "branch": "main",
     "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
     "claimed_at": "2026-08-31T12:02:57.156Z",
-    "released_at": null
+    "released_at": "2026-08-31T12:28:06.189Z",
+    "release_reason": [
+      "position-transition"
+    ]
   },
   "claims": [
     {
       "id": "claim-20260831120257-14949948",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "e65682d5a7ed69b177cd6f1a9c38b08925ef780b",
       "branch": "main",
       "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
       "claimed_at": "2026-08-31T12:02:57.156Z",
-      "released_at": null
+      "released_at": "2026-08-31T12:28:06.189Z",
+      "release_reason": [
+        "position-transition"
+      ]
     }
   ],
   "gate_evidence": {
@@ -83,6 +89,35 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0067/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0067/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "0d656df54405f04f1149b469da2d9476c091275d",
+      ".ai-org/artifacts/WI-0067/developer-report.md",
+      ".ai-org/artifacts/WI-0067/rollback-plan.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0067/quality-test-observation.json"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0067/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0067/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0067/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0067/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0067/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -92,10 +127,25 @@
     ".ai-org/artifacts/WI-0067/approved-scope.md",
     ".ai-org/artifacts/WI-0067/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0067/technical-design.md",
-    ".ai-org/artifacts/WI-0067/risk-review.md"
+    ".ai-org/artifacts/WI-0067/risk-review.md",
+    ".ai-org/artifacts/WI-0067/handoff-004-developer-to-quality_evaluator.md",
+    "0d656df54405f04f1149b469da2d9476c091275d",
+    ".ai-org/artifacts/WI-0067/developer-report.md",
+    ".ai-org/artifacts/WI-0067/rollback-plan.md",
+    ".ai-org/artifacts/WI-0067/quality-test-observation.json",
+    ".ai-org/artifacts/WI-0067/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0067/quality-report.md",
+    ".ai-org/artifacts/WI-0067/evaluation-report.md",
+    ".ai-org/artifacts/WI-0067/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0067/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0067/release-record.md"
   ],
-  "unresolved": [],
-  "next_position": "quality_evaluator",
+  "unresolved": [
+    "The retained 60,000-Token per-turn ceiling interrupted both Wave 1 turns before completion.",
+    "Zero of ten model Work Items qualified, and the remaining eight turns plus planned failure and cold-recovery checks were not run.",
+    "The as-run telemetry directory was incompatible with the formal report builder and requires a separate framework correction."
+  ],
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -117,6 +167,33 @@
       "input_revision": "e65682d5a7ed69b177cd6f1a9c38b08925ef780b",
       "artifact": ".ai-org/artifacts/WI-0067/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-08-31T12:02:56.440Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "0d656df54405f04f1149b469da2d9476c091275d",
+      "artifact": ".ai-org/artifacts/WI-0067/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-31T12:28:05.877Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "0d656df54405f04f1149b469da2d9476c091275d",
+      "artifact": ".ai-org/artifacts/WI-0067/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-08-31T12:28:51.653Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "0d656df54405f04f1149b469da2d9476c091275d",
+      "artifact": ".ai-org/artifacts/WI-0067/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-08-31T12:28:52.277Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "0d656df54405f04f1149b469da2d9476c091275d",
+  "tested_revision": "0d656df54405f04f1149b469da2d9476c091275d",
+  "release_gate_result": "no-go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required",
+  "previous_state": "release_gate"
 }

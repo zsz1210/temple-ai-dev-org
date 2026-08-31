@@ -9023,6 +9023,82 @@
         "exit_code": 0,
         "started_at": "2026-08-31T11:54:45Z"
       }
+    },
+    {
+      "id": "EVID-20260831T122805Z-900AD5BE",
+      "work_item_id": "WI-0067",
+      "recorded_at": "2026-08-31T12:28:05.573Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Bounded rehearsal candidate",
+      "outcome": "verified",
+      "scope_revision": "0d656df54405f04f1149b469da2d9476c091275d",
+      "observed_at": "2026-08-31T12:28:05.573Z",
+      "summary": "Four-repository stopped-run implementation and evidence",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "0d656df54405f04f1149b469da2d9476c091275d"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "0d656df54405f04f1149b469da2d9476c091275d",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260831T122851Z-1D9D5A8D",
+      "work_item_id": "WI-0067",
+      "recorded_at": "2026-08-31T12:28:51.057Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Stopped rehearsal verification",
+      "outcome": "pass",
+      "scope_revision": "0d656df54405f04f1149b469da2d9476c091275d",
+      "observed_at": "2026-08-31T12:27:30Z",
+      "summary": "246 framework tests and all four participant health checks passed; experiment outcome remains no-go",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0067/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0067/quality-test-observation.json",
+          "sha256": "97e6e7de7d83f0d29bcf8c7d81c3f02221adb777284f23b1f3e557b80c1eed58"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0067/quality-report.md",
+          "sha256": "a7762359ae0af03cd9cfd699a761cbee48d31d173d580f85f9f212d2c70ce5a5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0067/evaluation-report.md",
+          "sha256": "7180ac4b50a2a7b05d9a0b43d0a23a2d3286e93dda9fdf2368e5db9fb00cda8d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0067/independent-qa-report.md",
+          "sha256": "e6bc9b504aac822408f9efe9e5af1436a2303ea78081f475175c26b19fc22dcb"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify in a fresh detached worktree",
+          "temple doctor and npm test in four synthetic repositories",
+          "temple portfolio build --no-write"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T12:25:30Z"
+      }
     }
   ]
 }
