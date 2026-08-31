@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-31T10:13:26.084Z",
-  "source_fingerprint": "317fe65f137b3fceabb1364e51e1db982bb8a541fd2925d4d6e7b5fd5422690d",
+  "generated_at": "2026-08-31T12:38:01.072Z",
+  "source_fingerprint": "d83f48f620a28b636a609802756c53d3f69598d8edd0cf4e3db5d910a54152b7",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -10,15 +10,17 @@
       "WI-0031",
       "WI-0033",
       "WI-0035",
-      "WI-0043"
+      "WI-0043",
+      "WI-0064",
+      "WI-0067"
     ]
   },
   "max_workers": 3,
   "summary": {
-    "selected": 5,
+    "selected": 7,
     "dispatchable": 0,
     "active": 0,
-    "sequential": 3,
+    "sequential": 5,
     "blocked": 2,
     "waves": 0
   },
@@ -54,6 +56,28 @@
       "position_id": "product_manager",
       "agent_id": "agent-yuna",
       "integration_owner_agent_id": "agent-mog",
+      "reasons": [
+        "requested_mode_sequential"
+      ]
+    },
+    {
+      "work_item_id": "WI-0064",
+      "title": "Revalidate Provider-observed model attribution",
+      "disposition": "sequential",
+      "position_id": "engineering_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "requested_mode_sequential"
+      ]
+    },
+    {
+      "work_item_id": "WI-0067",
+      "title": "Run bounded four-repository commerce rehearsal",
+      "disposition": "sequential",
+      "position_id": "engineering_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": null,
       "reasons": [
         "requested_mode_sequential"
       ]
@@ -136,6 +160,18 @@
         {
           "left_path": "docs/operations/control-plane.md",
           "right_path": "docs/operations/control-plane.md"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0064",
+      "right_work_item_id": "WI-0067",
+      "paths": [
+        {
+          "left_path": "docs/planning/temple-effectiveness-and-microservice-validation.md",
+          "right_path": "docs/planning/temple-effectiveness-and-microservice-validation.md"
         }
       ],
       "resolution": "separate-waves"
