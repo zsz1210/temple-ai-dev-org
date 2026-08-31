@@ -7312,6 +7312,110 @@
         "scenario": "Validate installed thread/start and turn/start contracts, then execute exactly one Provider-owned Luna Max read-only and network-disabled turn, verify its fixed output and detailed Token usage, and restore the normal Dashboard without retry",
         "provenance": "live"
       }
+    },
+    {
+      "id": "EVID-20260831T075118Z-E7EDB986",
+      "work_item_id": "WI-0056",
+      "recorded_at": "2026-08-31T07:51:18.660Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Fresh exact-candidate quality verification",
+      "outcome": "pass",
+      "scope_revision": "ca33afdc038584a105a801fe7da6eb4f912dd1fa",
+      "observed_at": "2026-08-31T07:50:43.300Z",
+      "summary": "229 tests passed; the fixed marker, durable thread, archived usage, and duplicate-cursor defect were independently reproduced without a generation request.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0056/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0056/quality-test-observation.json",
+          "sha256": "1eb76aa9adea49cff064496c505e30dc0ac452856abc05bf5cf3aa66c0c7effd"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0056/quality-report.md",
+          "sha256": "591f75ddbaf5f22d6fffb55560eaee056f2e789eae28603a640ed47dde2eb5bc"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0056/live-proof-result.md",
+          "sha256": "c303200327472306be6df90ee1a54898ec2ebcdf1681a8febc94c6b58e7d7527"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0056/runtime-observation.json",
+          "sha256": "3741a739fcd714bfb7fb3e1e04a9b5655d326d2454f821d1ce7f4d267ca29f94"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify in a fresh detached exact-candidate worktree",
+          "no-generation App Server thread/read and thread/list for the recorded thread",
+          "SHA-256 and bounded event inspection of the archived live journal"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T07:49:30.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T075305Z-E0B93BD9",
+      "work_item_id": "WI-0056",
+      "recorded_at": "2026-08-31T07:53:05.740Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent exact-candidate live-proof verification",
+      "outcome": "pass",
+      "scope_revision": "ca33afdc038584a105a801fe7da6eb4f912dd1fa",
+      "observed_at": "2026-08-31T07:52:42.000Z",
+      "summary": "Independent QA reproduced 229 passing tests, installed-schema digests, exact output, durable visibility, archived usage, Dashboard health, and the disclosed cursor race without model generation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0056/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0056/independent-qa-test-observation.json",
+          "sha256": "cfc5c3f86c336ad9ca910cc2f16366c369864f870b5ef218ccfbbe961355faee"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0056/independent-qa-report.md",
+          "sha256": "92bbe537b7fe6e7a686fef6505f327204c0c983c40954e6b47809ec697a517c5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0056/live-proof-result.md",
+          "sha256": "c303200327472306be6df90ee1a54898ec2ebcdf1681a8febc94c6b58e7d7527"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0056/runtime-observation.json",
+          "sha256": "3741a739fcd714bfb7fb3e1e04a9b5655d326d2454f821d1ce7f4d267ca29f94"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0056/quality-report.md",
+          "sha256": "591f75ddbaf5f22d6fffb55560eaee056f2e789eae28603a640ed47dde2eb5bc"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify in a second fresh detached exact-candidate worktree",
+          "regenerate installed App Server schemas and compare SHA-256 digests",
+          "no-generation App Server thread/read and thread/list for the recorded thread",
+          "verify archived journal digest, bounded correlation, privacy, and duplicate-cursor evidence",
+          "verify the live home-LAN Dashboard remains private read-only with Codex Provider ready"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T07:51:35.000Z"
+      }
     }
   ]
 }
