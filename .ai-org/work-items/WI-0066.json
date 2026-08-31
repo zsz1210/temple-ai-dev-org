@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0066",
   "title": "Add bounded multi-repository experiment runner",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-31T11:27:12.025Z",
-  "updated_at": "2026-08-31T11:30:25.321Z",
+  "updated_at": "2026-08-31T11:57:05.057Z",
   "scope": [
     "Provide a reusable versioned experiment manifest and runner with persistent wave checkpoints, aggregate Token and time ceilings, zero retry, bounded concurrency, per-repository telemetry, and path allowlists.",
     "Aggregate already-qualified repository usage samples into a cross-repository longitudinal report without granting lifecycle, savings, cost, quality, or routing authority.",
@@ -61,26 +61,32 @@
   ],
   "claim": {
     "id": "claim-20260831113025-7e9a8f39",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "base_revision": "c6d2a6f6ac7215d5831701ee1ca7841ab0870fd4",
     "branch": "main",
     "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
     "claimed_at": "2026-08-31T11:30:25.321Z",
-    "released_at": null
+    "released_at": "2026-08-31T11:52:35.050Z",
+    "release_reason": [
+      "position_transition"
+    ]
   },
   "claims": [
     {
       "id": "claim-20260831113025-7e9a8f39",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "c6d2a6f6ac7215d5831701ee1ca7841ab0870fd4",
       "branch": "main",
       "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
       "claimed_at": "2026-08-31T11:30:25.321Z",
-      "released_at": null
+      "released_at": "2026-08-31T11:52:35.050Z",
+      "release_reason": [
+        "position_transition"
+      ]
     }
   ],
   "gate_evidence": {
@@ -98,6 +104,35 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0066/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0066/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "ab212c0f74106a011bfdcf6fedcf230dbfc84d03",
+      ".ai-org/artifacts/WI-0066/developer-report.md",
+      ".ai-org/artifacts/WI-0066/rollback-plan.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0066/quality-test-observation.json"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0066/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0066/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0066/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0066/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0066/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -107,10 +142,22 @@
     ".ai-org/artifacts/WI-0066/approved-scope.md",
     ".ai-org/artifacts/WI-0066/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0066/technical-design.md",
-    ".ai-org/artifacts/WI-0066/risk-review.md"
+    ".ai-org/artifacts/WI-0066/risk-review.md",
+    ".ai-org/artifacts/WI-0066/handoff-004-developer-to-quality_evaluator.md",
+    "ab212c0f74106a011bfdcf6fedcf230dbfc84d03",
+    ".ai-org/artifacts/WI-0066/developer-report.md",
+    ".ai-org/artifacts/WI-0066/rollback-plan.md",
+    ".ai-org/artifacts/WI-0066/quality-test-observation.json",
+    ".ai-org/artifacts/WI-0066/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0066/quality-report.md",
+    ".ai-org/artifacts/WI-0066/evaluation-report.md",
+    ".ai-org/artifacts/WI-0066/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0066/independent-qa-test-observation.json",
+    ".ai-org/artifacts/WI-0066/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0066/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -132,6 +179,32 @@
       "input_revision": "c6d2a6f6ac7215d5831701ee1ca7841ab0870fd4",
       "artifact": ".ai-org/artifacts/WI-0066/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-08-31T11:30:24.574Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "ab212c0f74106a011bfdcf6fedcf230dbfc84d03",
+      "artifact": ".ai-org/artifacts/WI-0066/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-31T11:52:34.719Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "ab212c0f74106a011bfdcf6fedcf230dbfc84d03",
+      "artifact": ".ai-org/artifacts/WI-0066/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-08-31T11:54:42.618Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "ab212c0f74106a011bfdcf6fedcf230dbfc84d03",
+      "artifact": ".ai-org/artifacts/WI-0066/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-08-31T11:56:40.113Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "ab212c0f74106a011bfdcf6fedcf230dbfc84d03",
+  "tested_revision": "ab212c0f74106a011bfdcf6fedcf230dbfc84d03",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

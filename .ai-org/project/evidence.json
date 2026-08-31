@@ -8895,6 +8895,134 @@
         "exit_code": 0,
         "started_at": "2026-08-31T11:23:27Z"
       }
+    },
+    {
+      "id": "EVID-20260831T115234Z-BCBF67CA",
+      "work_item_id": "WI-0066",
+      "recorded_at": "2026-08-31T11:52:34.403Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Bounded validation runner candidate",
+      "outcome": "verified",
+      "scope_revision": "ab212c0f74106a011bfdcf6fedcf230dbfc84d03",
+      "observed_at": "2026-08-31T11:52:34.403Z",
+      "summary": "Versioned manifest, fail-closed runner, aggregate report, schemas, CLI inspection, documentation, and pure limit tests.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "ab212c0f74106a011bfdcf6fedcf230dbfc84d03"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "ab212c0f74106a011bfdcf6fedcf230dbfc84d03",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260831T115441Z-1B4399B2",
+      "work_item_id": "WI-0066",
+      "recorded_at": "2026-08-31T11:54:41.966Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Bounded runner quality verification",
+      "outcome": "pass",
+      "scope_revision": "ab212c0f74106a011bfdcf6fedcf230dbfc84d03",
+      "observed_at": "2026-08-31T11:54:10Z",
+      "summary": "Fresh detached candidate passed 246/246, Doctor 35 pass and 0 fail, diff check, schema and ownership assertions.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0066/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0066/quality-test-observation.json",
+          "sha256": "1a5068a518cd08fd0a5604cbae43d79ff59e95a20491505183395a86c1ad521e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0066/quality-report.md",
+          "sha256": "d2cd14c3c030a81b875cf514e2c26e87276196fd1e2d5fdf0a66e114139e14ed"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0066/evaluation-report.md",
+          "sha256": "6c6451668b6759b23734ffc956fea435106f9d19e1a9ba01681ab78788ea50da"
+        }
+      ],
+      "details": {
+        "command": [
+          "confirm exact detached revision and clean worktree",
+          "npm ci --offline --ignore-scripts",
+          "npm run verify",
+          "node ./templew.mjs doctor . --json",
+          "git diff --check",
+          "clean worktree assertion"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T11:52:45Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T115639Z-311E8D83",
+      "work_item_id": "WI-0066",
+      "recorded_at": "2026-08-31T11:56:39.802Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Bounded runner Independent QA",
+      "outcome": "pass",
+      "scope_revision": "ab212c0f74106a011bfdcf6fedcf230dbfc84d03",
+      "observed_at": "2026-08-31T11:56:12Z",
+      "summary": "Second fresh detached worktree passed 246/246, 12/12 focused, Doctor 35 pass and 0 fail, diff and clean-state checks.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0066/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0066/independent-qa-test-observation.json",
+          "sha256": "2d2e5c3e190b3819dc0c4ea2ed6be174742e872568a037e33993656d78229de2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0066/independent-qa-report.md",
+          "sha256": "af5710c57d1a1284780707c29cd04a618cea3d7d394a0072be824aa299f378f1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0066/quality-report.md",
+          "sha256": "d2cd14c3c030a81b875cf514e2c26e87276196fd1e2d5fdf0a66e114139e14ed"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0066/evaluation-report.md",
+          "sha256": "6c6451668b6759b23734ffc956fea435106f9d19e1a9ba01681ab78788ea50da"
+        }
+      ],
+      "details": {
+        "command": [
+          "confirm exact revision in a second fresh detached worktree",
+          "npm ci --offline --ignore-scripts",
+          "npm run verify",
+          "node --test test/validation-program.test.mjs",
+          "node ./templew.mjs doctor . --json",
+          "git diff --check",
+          "clean worktree assertion"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T11:54:45Z"
+      }
     }
   ]
 }
