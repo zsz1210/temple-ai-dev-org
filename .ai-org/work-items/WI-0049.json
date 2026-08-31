@@ -1,0 +1,171 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0049",
+  "title": "Make Temple Workspace status language human-readable",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-31T03:43:07.298Z",
+  "updated_at": "2026-08-31T03:45:53.435Z",
+  "scope": [
+    "Refine the human-facing Temple Workspace so open work, disclosure behavior, lifecycle status, and update freshness are understandable without exposing internal telemetry jargon in the primary reading path."
+  ],
+  "acceptance_criteria": [
+    "Work item rows have a visible disclosure affordance and remain keyboard-operable, read-only details.",
+    "Primary work-item summaries use concise human status labels while technical provenance, freshness, revision, and runtime evidence remain available inside details.",
+    "Open work separates in-progress, testing, release-decision, planned, and blocked states without the ambiguous Queued and waiting group.",
+    "A healthy refresh shows only one quiet last-updated timestamp; stale or failed refreshes remain prominent and disable loopback mutations.",
+    "Prominent Workspace copy is audited for operator-facing language while canonical IDs and exact evidence remain traceable.",
+    "Responsive layout, private read-only boundaries, focused tests, full verification, and browser review pass."
+  ],
+  "affected_paths": [
+    "src/control-plane-dashboard.mjs",
+    "test/control-plane-foundation.test.mjs",
+    "test/control-plane-inbox.test.mjs",
+    "test/control-plane-private-viewer.test.mjs",
+    "docs/operations/control-plane.md",
+    ".ai-org/artifacts/WI-0049"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "code-first",
+  "parent_work_item_id": "WI-0048",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "acbcc8b8f3afe99bc3b8d9314099c693ec0d27a0",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0029, WI-0030, WI-0033, WI-0034, WI-0036, WI-0040, WI-0041, WI-0042, WI-0043, WI-0044, WI-0045, WI-0046, WI-0047, and WI-0048 retain their existing scope and evidence with no active claim. WI-0049 is the explicitly approved sequential successor and sole editor of the declared Temple Workspace UI, test, and documentation paths for this human-language refinement."
+  ],
+  "claim": {
+    "id": "claim-20260831034553-99ec1ad8",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "acbcc8b8f3afe99bc3b8d9314099c693ec0d27a0",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-08-31T03:45:53.435Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260831034401-18a1f421",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "acbcc8b8f3afe99bc3b8d9314099c693ec0d27a0",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T03:44:01.705Z",
+      "released_at": "2026-08-31T03:44:32.540Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831034432-6254debb",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "acbcc8b8f3afe99bc3b8d9314099c693ec0d27a0",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T03:44:32.977Z",
+      "released_at": "2026-08-31T03:45:16.842Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831034517-f4a5968d",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "acbcc8b8f3afe99bc3b8d9314099c693ec0d27a0",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T03:45:17.315Z",
+      "released_at": "2026-08-31T03:45:53.049Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831034553-99ec1ad8",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "acbcc8b8f3afe99bc3b8d9314099c693ec0d27a0",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T03:45:53.435Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0049/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0049/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0049.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0049/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0049/technical-design.md"
+    ],
+    "ui_brief": [
+      ".ai-org/artifacts/WI-0049/ui-brief.md"
+    ],
+    "required_state_coverage": [
+      ".ai-org/artifacts/WI-0049/ui-brief.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0049/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0049/work-order.md",
+    ".ai-org/artifacts/WI-0049/research-notes.md",
+    ".ai-org/artifacts/WI-0049/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0049/product-spec.md",
+    ".ai-org/artifacts/WI-0049/ui-brief.md",
+    ".ai-org/work-items/WI-0049.json",
+    ".ai-org/artifacts/WI-0049/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0049/technical-design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "acbcc8b8f3afe99bc3b8d9314099c693ec0d27a0",
+      "artifact": ".ai-org/artifacts/WI-0049/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-08-31T03:44:32.130Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "acbcc8b8f3afe99bc3b8d9314099c693ec0d27a0",
+      "artifact": ".ai-org/artifacts/WI-0049/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-31T03:45:16.455Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "acbcc8b8f3afe99bc3b8d9314099c693ec0d27a0",
+      "artifact": ".ai-org/artifacts/WI-0049/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-08-31T03:45:45.110Z"
+    }
+  ]
+}

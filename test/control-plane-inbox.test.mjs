@@ -77,8 +77,8 @@ test("Temple Workspace command drafts survive unrelated refreshes and invalidate
   const dashboard = renderControlPlaneDashboard("Dashboard fixture", { inboxEnabled: true, sessionSecret: "fixture-secret" });
   assert.match(dashboard, /Skip to Temple Workspace content/);
   assert.match(dashboard, /What needs your attention\?/);
-  assert.match(dashboard, /Snapshot stale/);
-  assert.match(dashboard, /Terminal Work Items/);
+  assert.match(dashboard, /Updates delayed/);
+  assert.match(dashboard, /Finished Work Items/);
   assert.match(dashboard, /Where are resources going\?/);
   assert.match(dashboard, /Models represented: no observed model evidence/);
 });

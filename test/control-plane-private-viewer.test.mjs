@@ -286,7 +286,8 @@ test("dedicated home-LAN listener is redacted and read-only regardless of reques
   });
   assert.equal(page.status, 200);
   assert.match(page.body, /Private network · Read only/);
-  assert.match(page.body, /Read-only views use this exact snapshot/);
+  assert.match(page.body, /Last updated /);
+  assert.match(page.body, /Read-only private view/);
   assert.doesNotMatch(page.body, /<h2>Human Inbox<\/h2>|<h2>Agent Commands/);
   assert.doesNotMatch(page.body, new RegExp(controlPlane.sessionSecret));
 
