@@ -2,7 +2,7 @@
 
 ## Decision status
 
-**Pending human approval. Nothing in this proposal has been executed.**
+**Approved by the repository owner on 2026-08-31.** This approval authorizes one execution attempt inside the exact resource and stop limits below. It does not record that the pilot has run.
 
 ## Exact local scope
 
@@ -30,9 +30,9 @@ The repository is initialized mechanically from the current local Temple launche
 
 The model choice is for a bounded, reversible task with objective checks. It is not an Agent default and does not authorize automatic routing.
 
-## Proposed budgets
+## Approved experiment resources and stop limits
 
-| Budget | Warning | Hard stop |
+| Resource or boundary | Warning | Hard stop |
 |---|---:|---:|
 | Provider-reported total Tokens | 40,000 | 60,000 |
 | Model turns | — | 1 |
@@ -45,6 +45,8 @@ The model choice is for a bounded, reversible task with objective checks. It is 
 | External infrastructure spend | ¥0 | ¥0 |
 
 Token observation may arrive during or after the single turn, so the hard limit authorizes interruption when observable and always forbids a second turn or retry. If the first report already exceeds 60,000 Tokens, the pilot records the overrun and stops; it does not attempt to repair the sample with another model call.
+
+These limits are not a quoted monetary price or a new paid plan. They bound the experiment's use of the existing signed-in Codex entitlement, elapsed time, local storage, and execution attempts.
 
 The task uses the user's existing Codex account entitlement only. Temple cannot infer billing from Token telemetry. If the provider requests an API key, pay-as-you-go account, purchase, usage reset, or other paid action, the pilot stops before proceeding.
 
@@ -71,7 +73,7 @@ Input, cached-input, output, reasoning-output, model version, and service tier a
 
 Stop without retry when any of the following occurs:
 
-- the exact path or budget is not approved;
+- the exact path or resource and stop limits are not approved;
 - the provider is unavailable or protocol compatibility fails;
 - the effective model is outside GPT-5.6 or differs from the requested Luna profile without explicit approval;
 - Work Item, task, Position, Agent, or revision correlation is missing or conflicting;
@@ -87,4 +89,3 @@ The pilot records its exact configuration, task registration, provider handshake
 ## What success does not prove
 
 One correlated task proves only that this instrumentation path worked once. It does not prove Token savings, cost savings, model quality, automatic routing, microservice coordination, enterprise readiness, or the ten-Work-Item longitudinal threshold.
-

@@ -4,7 +4,7 @@
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=true
+- Parallel plan: 0 wave(s), fresh=false
 - Work items: 61 total, 6 active
 - Codex tasks: 5 registered, 4 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
@@ -16,7 +16,7 @@
 - Learning revalidation: 0 due, 0 contradicted
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 9
+- Attention signals: 10
 
 ## Collaboration
 
@@ -33,7 +33,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: yes
+- Fresh: no
 - Safe waves: 0
 - Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 3 / 3
@@ -104,7 +104,7 @@
 | WI-0058 | Preserve Token history across telemetry rebuilds | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `31c78a2d` | 0 | 25 | 0 |
 | WI-0059 | Reconcile the nonterminal Work Item ledger | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b505f004` | 0 | 22 | 0 |
 | WI-0060 | Show truthful Agent model state in Team | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `d47e50f7` | 0 | 21 | 0 |
-| WI-0061 | Approve a bounded local instrumentation pilot | spec | Product Manager | Yuna | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 1 |
+| WI-0061 | Approve a bounded local instrumentation pilot | build | Developer | Rikku | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 8 | 0 |
 
 ## Codex task registry
 
@@ -161,6 +161,7 @@
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
+- Generated parallel plan is stale; rebuild it before dispatch
 - Parallel plan has 3 blocked Work Item(s)
 
 ## External tracker coordination
@@ -216,14 +217,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T09:30:06.779Z | work_item_claim_released | WI-0061 | human |
-| 2026-08-31T09:30:06.517Z | work_item_unresolved_updated | WI-0061 | agent-yuna |
-| 2026-08-31T09:28:52.503Z | work_item_claimed | WI-0061 | human |
-| 2026-08-31T09:28:52.192Z | work_item_transitioned | WI-0061 | agent-mog |
-| 2026-08-31T09:28:51.919Z | work_item_claim_released | WI-0061 | human |
-| 2026-08-31T09:28:51.655Z | handoff_created | WI-0061 | agent-mog |
-| 2026-08-31T09:28:24.600Z | work_item_claimed | WI-0061 | human |
-| 2026-08-31T09:28:24.316Z | work_item_created | WI-0061 | agent-mog |
+| 2026-08-31T09:47:19.990Z | work_item_transitioned | WI-0061 | agent-tidus |
+| 2026-08-31T09:47:19.707Z | work_item_claim_released | WI-0061 | human |
+| 2026-08-31T09:47:19.430Z | handoff_created | WI-0061 | agent-tidus |
+| 2026-08-31T09:47:19.167Z | work_item_claimed | WI-0061 | human |
+| 2026-08-31T09:46:58.075Z | work_item_transitioned | WI-0061 | agent-yuna |
+| 2026-08-31T09:46:57.795Z | work_item_claim_released | WI-0061 | human |
+| 2026-08-31T09:46:57.516Z | handoff_created | WI-0061 | agent-yuna |
+| 2026-08-31T09:46:57.233Z | work_item_unresolved_updated | WI-0061 | agent-yuna |
 
 ## Assignments
 

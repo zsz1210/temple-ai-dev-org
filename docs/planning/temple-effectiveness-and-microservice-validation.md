@@ -124,12 +124,12 @@ The rehearsal deliberately tests:
 
 Temple should reject, block, or label these conditions unknown. Silently repairing the fixture would fail the experiment.
 
-## Approval and cost boundary
+## Approval and resource boundary
 
 This plan creates nothing outside the current repository. A later execution requires explicit approval for:
 
 - the experiment design and local repository locations;
-- its Token, wall-clock, compute, and disk ceilings;
+- its Token, wall-clock, compute, and disk stop limits;
 - every real Codex task wave;
 - private GitHub repositories, hosted CI, or additional machines;
 - sensitive or company data;
@@ -139,10 +139,10 @@ The experiment stops when a ceiling is reached, correlation is lost, authority w
 
 ## Decision after this plan
 
-The planning review now records that next decision as `WI-0061`. Its proposed local path, GPT-5.6 profile, Token, time, disk, retry, correlation, and stop boundaries are in [the bounded instrumentation pilot proposal](../../.ai-org/artifacts/WI-0061/pilot-proposal.md). The proposal remains unexecuted until the repository owner approves or revises those exact ceilings.
+The planning review records that decision as `WI-0061`. The repository owner approved the exact local path, GPT-5.6 profile, Token, time, disk, retry, correlation, and stop boundaries in [the bounded instrumentation pilot proposal](../../.ai-org/artifacts/WI-0061/pilot-proposal.md) on 2026-08-31. Approval does not itself mean that the pilot has run; execution remains a separate, bounded Work Item.
 
 The next decision remains small and explicit:
 
-> Approve or revise a local instrumentation pilot with one synthetic repository, one disposable registered Codex task, and a fixed budget.
+> Run one approved local instrumentation pilot with one synthetic repository, one disposable registered Codex task, and fixed resource and stop limits.
 
 Only after that pilot shows a trustworthy measurement path should Temple create the four-repository execution program.
