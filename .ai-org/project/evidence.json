@@ -10159,6 +10159,181 @@
         "exit_code": 0,
         "started_at": "2026-08-31T16:06:49.000Z"
       }
+    },
+    {
+      "id": "EVID-20260831T161352Z-23A7B5D4",
+      "work_item_id": "WI-0074",
+      "recorded_at": "2026-08-31T16:13:52.426Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Deterministic control-plane test candidate",
+      "outcome": "verified",
+      "scope_revision": "947d4e70cf44ba65c9ec2c69bcbe295e1ed7f29b",
+      "observed_at": "2026-08-31T16:13:52.426Z",
+      "summary": "Event-based waits and ordered cleanup remove the two hosted-runner races without production changes.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "947d4e70cf44ba65c9ec2c69bcbe295e1ed7f29b"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "947d4e70cf44ba65c9ec2c69bcbe295e1ed7f29b",
+        "working_tree_dirty": true,
+        "dirty_path_count": 2,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260831T161352Z-E2BFC5FE",
+      "work_item_id": "WI-0074",
+      "recorded_at": "2026-08-31T16:13:52.775Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer full verification",
+      "outcome": "pass",
+      "scope_revision": "947d4e70cf44ba65c9ec2c69bcbe295e1ed7f29b",
+      "observed_at": "2026-08-31T16:13:30.000Z",
+      "summary": "Three focused stress rounds and all 250 local tests pass.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0074/developer-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0074/developer-observation.json",
+          "sha256": "41eff9612fd0cc7d40a58a08ba4134602d3291f8c9e8449df50bc5a8cf5dd5e5"
+        },
+        {
+          "path": "test/control-plane-live.test.mjs",
+          "sha256": "3da83ee04e4cfc800397cfd22b5abf75856c215d644cc2b029d6ede7c0291101"
+        },
+        {
+          "path": "test/control-plane-private-viewer.test.mjs",
+          "sha256": "1b47af7d40a72b54606e83e892bf05bacb319efd3efd3d5761fb58753bf524c2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0074/developer-verification.md",
+          "sha256": "dbb526b5ceca7f89a37b56432e40416a74a22bb37cdc275e6f50f4f852805bc1"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T16:12:35.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T161453Z-3F26568E",
+      "work_item_id": "WI-0074",
+      "recorded_at": "2026-08-31T16:14:53.437Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality control-plane regression",
+      "outcome": "pass",
+      "scope_revision": "947d4e70cf44ba65c9ec2c69bcbe295e1ed7f29b",
+      "observed_at": "2026-08-31T16:14:27.000Z",
+      "summary": "Both affected suites pass 25/25 with deterministic cleanup.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0074/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0074/quality-test-observation.json",
+          "sha256": "aa33db6db9380957540eac28a71bf3bef15ec59c3310836c61d8c8a467c39188"
+        },
+        {
+          "path": "test/control-plane-live.test.mjs",
+          "sha256": "3da83ee04e4cfc800397cfd22b5abf75856c215d644cc2b029d6ede7c0291101"
+        },
+        {
+          "path": "test/control-plane-private-viewer.test.mjs",
+          "sha256": "1b47af7d40a72b54606e83e892bf05bacb319efd3efd3d5761fb58753bf524c2"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/control-plane-live.test.mjs",
+          "test/control-plane-private-viewer.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T16:14:14.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T161559Z-AF522DA1",
+      "work_item_id": "WI-0074",
+      "recorded_at": "2026-08-31T16:15:59.442Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA exact-candidate verification",
+      "outcome": "pass",
+      "scope_revision": "947d4e70cf44ba65c9ec2c69bcbe295e1ed7f29b",
+      "observed_at": "2026-08-31T16:15:33.000Z",
+      "summary": "Fresh detached worktree passed 25 focused tests and Doctor.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0074/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0074/independent-qa-observation.json",
+          "sha256": "a9a683fb6803b8d0ddb5d281a309d605e6449012b4e295ab53155eee16161d7a"
+        },
+        {
+          "path": "test/control-plane-live.test.mjs",
+          "sha256": "3da83ee04e4cfc800397cfd22b5abf75856c215d644cc2b029d6ede7c0291101"
+        },
+        {
+          "path": "test/control-plane-private-viewer.test.mjs",
+          "sha256": "1b47af7d40a72b54606e83e892bf05bacb319efd3efd3d5761fb58753bf524c2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0074/independent-qa-report.md",
+          "sha256": "b629ae1cdeaa630a42de59d4326ce19703d9f2844424c6a976866a92d907baf3"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/control-plane-live.test.mjs",
+          "test/control-plane-private-viewer.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T16:15:09.000Z"
+      }
     }
   ]
 }

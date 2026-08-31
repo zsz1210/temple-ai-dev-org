@@ -118,7 +118,7 @@
 | WI-0071 | Automate Skill candidate proposals with human activation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `406bc213` | 0 | 15 | 0 |
 | WI-0072 | Preserve evidence revisions across remote CI | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5913ea0c` | 0 | 19 | 0 |
 | WI-0073 | Consolidate evidence durability CI fixtures | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831160752-f3eedf27 | `ddbf04a8` | 0 | 15 | 0 |
-| WI-0074 | Remove hosted control-plane test races | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831160931-b687e67d | `—` | 0 | 4 | 0 |
+| WI-0074 | Remove hosted control-plane test races | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831161600-c0733b38 | `947d4e70` | 0 | 14 | 0 |
 
 ## Codex task registry
 
@@ -237,14 +237,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T16:09:31.454Z | work_item_claimed | WI-0074 | human |
-| 2026-08-31T16:09:31.116Z | work_item_coordination_configured | WI-0074 | agent-rikku |
-| 2026-08-31T16:09:30.802Z | work_item_transitioned | WI-0074 | agent-tidus |
-| 2026-08-31T16:09:30.509Z | work_item_claim_released | WI-0074 | human |
-| 2026-08-31T16:09:30.215Z | handoff_created | WI-0074 | agent-tidus |
-| 2026-08-31T16:09:21.828Z | work_item_claimed | WI-0074 | human |
-| 2026-08-31T16:09:21.492Z | work_item_coordination_configured | WI-0074 | agent-tidus |
-| 2026-08-31T16:09:21.179Z | work_item_transitioned | WI-0074 | agent-yuna |
+| 2026-08-31T16:16:00.997Z | work_item_claimed | WI-0074 | human |
+| 2026-08-31T16:16:00.670Z | work_item_coordination_configured | WI-0074 | agent-mog |
+| 2026-08-31T16:16:00.310Z | work_item_transitioned | WI-0074 | agent-lulu |
+| 2026-08-31T16:16:00.014Z | work_item_claim_released | WI-0074 | human |
+| 2026-08-31T16:15:59.716Z | handoff_created | WI-0074 | agent-lulu |
+| 2026-08-31T16:15:59.442Z | evidence_recorded | WI-0074 | human |
+| 2026-08-31T16:14:55.046Z | work_item_claimed | WI-0074 | human |
+| 2026-08-31T16:14:54.707Z | work_item_transitioned | WI-0074 | agent-lulu |
 
 ## Assignments
 
