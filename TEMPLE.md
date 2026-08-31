@@ -4,7 +4,7 @@ This repository's AI development organization separates responsibility from iden
 
 Before acting:
 
-1. Read `.ai-org/project/project.json`, `agents.json`, `assignments.json`, `collaboration.json`, `spec-index.json`, `tracker.json`, `retrieval.json`, `evidence.json`, and `control-plane.json` as relevant to the work.
+1. Read `.ai-org/project/project.json`, `agents.json`, `assignments.json`, `collaboration.json`, `spec-index.json`, `tracker.json`, `retrieval.json`, `usage-policy.json`, `evidence.json`, and `control-plane.json` as relevant to the work.
 2. Identify the Position you are acting as and the durable work item ID.
 3. Preview the bounded route with `temple context resolve . --work-item <work-item-id> --position <position> --no-write --json`.
 4. Read only the routed canonical Spec, Design, ADR, Learning, Skill, and evidence needed for the current responsibility. Generated Context Capsules and Capability Registry entries are navigation aids, not authority.

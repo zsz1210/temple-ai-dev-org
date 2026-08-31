@@ -18,6 +18,7 @@
     { "id": "specifications", "path": ".ai-org/project/spec-index.json", "schema": "spec-index.schema.json", "required": true, "ownership": "project" },
     { "id": "tasks", "path": ".ai-org/project/tasks.json", "schema": "task-registry.schema.json", "required": true, "ownership": "project" },
     { "id": "tracker", "path": ".ai-org/project/tracker.json", "schema": "tracker.schema.json", "required": true, "ownership": "project" },
+    { "id": "usage-policy", "path": ".ai-org/project/usage-policy.json", "schema": "usage-policy.schema.json", "required": true, "ownership": "project" },
     { "id": "validation-program", "path": ".ai-org/project/validation-program.json", "schema": "validation-program.schema.json", "required": false, "ownership": "project" },
     { "id": "work-items", "path": ".ai-org/work-items/*.json", "schema": "work-item.schema.json", "required": false, "ownership": "project" },
     { "id": "parallel-plan", "path": ".ai-org/views/parallel-plan.json", "schema": "parallel-plan.schema.json", "required": false, "ownership": "generated" },

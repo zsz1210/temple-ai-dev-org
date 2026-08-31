@@ -650,10 +650,25 @@ test("ten completed revision-current Work Items qualify one deterministic read-o
   assert.equal(coverage.recommendation.context_required, true);
   assert.equal(coverage.recommendation.developer_evidence_required, true);
   assert.equal(coverage.recommendation.independent_qa_required, true);
-  assert.equal(coverage.recommendation.human_approval_required, true);
+  assert.equal(coverage.recommendation.approval_mode, "exceptions-only");
+  assert.equal(coverage.recommendation.routine_human_approval_required, false);
+  assert.equal(coverage.recommendation.routing_change_requires_approval, true);
+  assert.equal(coverage.recommendation.human_approval_required, false);
   assert.equal(coverage.recommendation.release_authority_granted, false);
+  assert.equal(coverage.calibration.diagnostic_observation_threshold_met, true);
+  assert.equal(coverage.calibration.statistical_qualification_status, "unconfigured");
+  assert.equal(coverage.calibration.automatic_routing_eligible, false);
+  assert.ok(coverage.calibration.promotion_blockers.includes("exact-task-shape-evidence-missing"));
+  assert.ok(coverage.calibration.promotion_blockers.includes("matched-quality-evaluation-missing"));
+  assert.ok(coverage.calibration.promotion_blockers.includes("statistical-qualification-unconfigured"));
   assert.equal(coverage.qualification.routing_claim_allowed, false);
   assert.equal(coverage.qualification.model_quality_claim_allowed, false);
+  assert.equal(coverage.qualification.observation_threshold_purpose, "diagnostic-only");
+  assert.equal(report.policy.data_scope.raw_observations, "project-local");
+  assert.equal(report.policy.autonomy.routine_decision, "automatic");
+  assert.equal(report.routing.recommendation_status, "available");
+  assert.equal(report.routing.recommendation_mode, "shadow");
+  assert.equal(report.routing.routine_human_approval_required, false);
   assert.equal(report.routing.automatic_routing, false);
   assert.equal(report.routing.budget_can_skip_gates, false);
 
@@ -685,7 +700,7 @@ test("ten completed revision-current Work Items qualify one deterministic read-o
         context_required: true,
         developer_evidence_required: true,
         independent_qa_required: true,
-        human_approval_required: true,
+        human_approval_required: false,
         release_authority_granted: false
       },
       `${collaborationProfile} recommendation authority must fail closed`
@@ -703,6 +718,9 @@ test("ten completed revision-current Work Items qualify one deterministic read-o
   assert.equal(preflight.baseline_qualification.status, "qualified");
   assert.equal(preflight.routing.recommendation_status, "available");
   assert.equal(preflight.routing.recommendation.recommended_model, "model-alpha");
+  assert.equal(preflight.routing.recommendation_mode, "shadow");
+  assert.equal(preflight.routing.routine_human_approval_required, false);
+  assert.equal(preflight.policy.calibration.statistical_qualification_status, "unconfigured");
   assert.equal(preflight.routing.automatic_routing, false);
   assert.equal(preflight.routing.budget_can_skip_gates, false);
 });
@@ -750,8 +768,14 @@ test("usage baseline sums provider deltas, preserves unknowns, and never invents
   assert.equal(report.totals.total_tokens, 180);
   assert.equal(report.driver_groups[0].tokens.total_tokens, 180);
   assert.equal(report.unknown_dimensions.model_version, 2);
+  assert.equal(report.unknown_dimensions.task_shape_id, 2);
   assert.equal(report.totals.monetary_cost, null);
   assert.equal(report.totals.cost_status, "unknown");
+  assert.equal(report.policy.seed_policy.mapping_status, "provider-mapping-required");
+  assert.equal(report.policy.cost.status, "unknown");
+  assert.equal(report.policy.cost.token_limits_are_financial_limits, false);
+  assert.equal(report.routing.approval_mode, "exceptions-only");
+  assert.equal(report.routing.routine_human_approval_required, false);
   assert.equal(report.routing.automatic_routing, false);
   assert.equal(report.routing.budget_can_skip_gates, false);
 

@@ -4,6 +4,7 @@ import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 import { pathExists, readJson } from "./files.mjs";
 import { validateValidationProgramManifest } from "./validation-program.mjs";
+import { validateUsagePolicy } from "./usage-policy.mjs";
 
 export const SCHEMA_VALIDATION_SCHEMA = "temple.schema-validation/v1";
 export const SCHEMA_CATALOG_RELATIVE_PATH = ".ai-org/core/schemas/schema-catalog.json";
@@ -61,8 +62,12 @@ export async function validateProjectSchemas(target) {
       try {
         const document = await readJson(path.join(target, documentPath));
         const jsonSchemaValid = validate(document);
-        const semantic = entry.id === "validation-program" && jsonSchemaValid
-          ? validateValidationProgramManifest(document)
+        const semantic = jsonSchemaValid
+          ? entry.id === "validation-program"
+            ? validateValidationProgramManifest(document)
+            : entry.id === "usage-policy"
+              ? validateUsagePolicy(document)
+              : { valid: true, errors: [] }
           : { valid: true, errors: [] };
         const valid = jsonSchemaValid && semantic.valid;
         checked.push({ document: documentPath, schema: schemaPath, valid });

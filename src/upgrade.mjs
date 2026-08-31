@@ -44,6 +44,7 @@ import {
   ensureControlPlaneConfig
 } from "./control-plane-config.mjs";
 import { ensureFederationRegistry, FEDERATION_REGISTRY_RELATIVE_PATH } from "./federation.mjs";
+import { ensureUsagePolicy, USAGE_POLICY_RELATIVE_PATH } from "./usage-policy.mjs";
 
 function isManaged(relativePath) {
   return MANAGED_EXACT_PATHS.has(relativePath) || MANAGED_SOURCE_PREFIXES.some((prefix) => relativePath.startsWith(prefix));
@@ -234,6 +235,11 @@ export async function planUpgrade(target) {
     type: hasFederationRegistry ? "skip-federation-registry" : "create-federation-registry",
     path: FEDERATION_REGISTRY_RELATIVE_PATH
   });
+  const hasUsagePolicy = await pathExists(path.join(target, USAGE_POLICY_RELATIVE_PATH));
+  actions.push({
+    type: hasUsagePolicy ? "skip-usage-policy" : "create-usage-policy",
+    path: USAGE_POLICY_RELATIVE_PATH
+  });
   const assignmentMigration = await planUiAssignmentMigration(target, conflicts);
   actions.push({
     type: assignmentMigration ? "add-ui-assignment" : "skip-ui-assignment",
@@ -355,6 +361,8 @@ export async function planUpgrade(target) {
     lock.capabilities?.backup_retention !== true ||
     lock.capabilities?.redacted_audit_export !== true ||
     lock.capabilities?.usage_qualification !== true ||
+    lock.capabilities?.progressive_usage_calibration !== true ||
+    lock.capabilities?.exception_only_autonomy !== true ||
     lock.capabilities?.provider_attach_outcomes !== true ||
     lock.capabilities?.repository_federation !== true ||
     lock.capabilities?.read_only_portfolio !== true;
@@ -382,6 +390,7 @@ export async function planUpgrade(target) {
       hasRetrievalConfig &&
       hasControlPlaneConfig &&
       hasFederationRegistry &&
+      hasUsagePolicy &&
       migrationPlan.pending.length === 0
         ? "skip-current-lock"
         : "update-lock",
@@ -483,6 +492,10 @@ export async function executeUpgrade(plan) {
     const federationRegistry = await ensureFederationRegistry(plan.target);
     if (federationRegistry.created) {
       changes.push({ path: federationRegistry.path, before: null, afterHash: federationRegistry.afterHash });
+    }
+    const usagePolicy = await ensureUsagePolicy(plan.target);
+    if (usagePolicy.created) {
+      changes.push({ path: usagePolicy.path, before: null, afterHash: usagePolicy.afterHash });
     }
     if (plan.assignmentMigration) {
       const assignmentsPath = path.join(plan.target, plan.assignmentMigration.path);
@@ -633,6 +646,8 @@ export async function executeUpgrade(plan) {
         backup_retention: true,
         redacted_audit_export: true,
         usage_qualification: true,
+        progressive_usage_calibration: true,
+        exception_only_autonomy: true,
         provider_attach_outcomes: true,
         repository_federation: true,
         read_only_portfolio: true,

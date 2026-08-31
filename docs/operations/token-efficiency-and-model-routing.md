@@ -1,6 +1,6 @@
 # Token Efficiency and Model Routing
 
-- Status: Alpha.27 exposes telemetry qualification and low-confidence read-only candidates through the integrated toolkit; matched evaluation and routing remain unavailable
+- Status: Alpha.27 exposes telemetry qualification, project-owned usage policy, progressive calibration state, and low-confidence shadow candidates; matched evaluation and routing execution remain unavailable
 - Primary readers: maintainers, Engineering Managers, Tech Leads, Observers, and cost-accountable humans
 
 Temple treats Token usage as an operational signal. The goal is not the smallest prompt or the cheapest individual turn. The goal is a correct, accepted Work Item with less waste, rework, latency, and coordination cost.
@@ -33,6 +33,8 @@ The control plane can normalize provider-emitted:
 - an explicit project Token budget and usage-anomaly condition.
 
 It deliberately keeps raw prompts, hidden reasoning, command output, secrets, and full tool payloads out of durable telemetry. Monetary cost remains unavailable without a configured, versioned price source.
+
+Every initialized project now owns `.ai-org/project/usage-policy.json`. The file defines its optimization objective, data boundary, seed profiles, calibration state, cost provenance, and autonomy envelope. Temple upgrades create it only when absent and never overwrite project choices.
 
 Alpha.25 adds a usage-attribution envelope and a read-only baseline report. Every observation carries the dimensions the provider and repository can prove, plus a `missing_dimensions` list and `partial` quality when model, version, service tier, Context Capsule digest, capability digest, or another field is unavailable. Reconciled history labels lifecycle stage as the current canonical stage at reconciliation rather than inventing a historical stage.
 
@@ -101,14 +103,16 @@ Read `source.history` before interpreting the totals. `complete` means all eligi
 - `registered_task_coverage` reports how many completed Work Items have a registered Codex task;
 - `task_eligibility` separates live-resumable tasks, history-reconcilable tasks, historical-only tasks, terminal tasks, and detached archived tasks;
 - `detailed_token_observation_coverage` counts only an exact Work Item/task pair as correlated and reports `observed`, `partial`, or `unknown` support for each Token field;
-- `qualification` shows the remaining gap to ten distinct qualified completed Work Items and at least two task shapes;
+- `qualification` shows the remaining gap to the project's diagnostic observation threshold;
 - `recommendation` is a deterministic, read-only exploratory candidate only after that threshold and a within-shape, two-model comparison with at least two accepted Work Items per model.
 
 The lists are sorted so coverage does not depend on repository-directory or task-registry order. A provider event with a missing or mismatched Work Item/task pair remains uncorrelated. A detailed event may prove one Token field while others remain `unknown`; if any included observation lacks a field, that aggregate remains unknown instead of treating the missing value as zero.
 
 Qualification is deliberately strict. A Work Item contributes only when it is currently `done`, its registered task is `completed`, its Work Item/task pair matches, the observation revision matches the task's launch revision when recorded (otherwise its current revision), the Position and task shape are known, the Position matches the registered task, a provider-reported `total_tokens` delta is present, and the model is known. Mismatched, stale, partial, zero-field, and uncorrelated observations remain visible but do not fill the threshold. Multiple task/model/shape identities for one Work Item are excluded rather than cherry-picked.
 
-The ten-Work-Item count is only an observation threshold. Even when the exploratory candidate is available, its confidence is `low`, its evidence basis is `accepted-closeout-token-observation-only`, and `matched_evaluation` remains false. Different Work Items can differ in difficulty, so lower observed Tokens do not prove superior model quality or causal savings. Savings, cost, model-quality, and routing claims remain disabled; a future matched evaluation must authorize any routing policy separately.
+The default ten-Work-Item count is only a **diagnostic observation threshold**. It is not a universal sample-size claim and never qualifies automatic routing. NIST notes that a defensible sample size depends on assumptions such as variance, meaningful effect, and decision risks; there is no correct context-free number. See [NIST sample-size guidance](https://www.itl.nist.gov/div898/handbook/prc/section2/prc222.htm).
+
+Even when the exploratory candidate is available, its confidence is `low`, its evidence basis is `accepted-closeout-token-observation-only`, and `matched_evaluation` remains false. Different Work Items can differ in difficulty, so lower observed Tokens do not prove superior model quality or causal savings. Savings, cost, model-quality, and routing claims remain disabled until the project configures a statistical decision contract and produces matched quality evidence.
 
 The report places this observation at `source.longitudinal_coverage.recommendation`. The top-level `routing` contract remains `not-implemented` and fully disabled because Alpha.27 does not add routing authority. `usage preflight` mirrors the exploratory object under `routing.recommendation` for read-only inspection.
 
@@ -194,6 +198,8 @@ Temple should call this **usage-driver analysis**, not blame an Agent or Positio
 
 Budgets may be declared at project, Work Item, Position, lifecycle-stage, or task level. More-specific policies can tighten a parent budget; relaxing an organizational limit requires explicit authority.
 
+The project policy uses **Credits** as its accounting unit because that is the user-facing resource that may matter operationally. A Credits value remains `unknown` until the project supplies a versioned authoritative source and effective date. Token ceilings remain useful as reactive runtime safety guards, but they are not financial limits and cannot prove that an account will not be charged.
+
 The first implementation uses budgets as:
 
 - forecasts before dispatch;
@@ -202,6 +208,31 @@ The first implementation uses budgets as:
 - inputs to a human-approved routing recommendation.
 
 A budget must not authorize Temple to remove required specifications, evidence, privacy controls, Independent QA, or approval gates. When safe completion cannot fit the budget, Temple escalates the conflict instead of silently degrading the work.
+
+## Progressive Project Calibration
+
+Temple does not assume that one person's results or one repository's optimal route applies to another project. Each project begins with a provider-neutral Seed Policy and learns only from its own correlated evidence by default.
+
+Calibration progresses through explicit states:
+
+1. `cold-start` — use Seed Policy profiles and collect evidence;
+2. `exploratory` — show usage drivers and shadow candidates;
+3. `calibrating` — run representative matched evaluations after the project defines quality measures and statistical assumptions;
+4. `calibrated` — permit a separately implemented routing executor only inside the approved policy;
+5. `stale` or `invalid` — fall back to the Seed Policy when models, prices, task distribution, or evidence no longer match.
+
+Raw observations remain project-local. Organization-level aggregates and anonymous framework learning are independent opt-ins and are disabled by default. A future shared learning service must never silently pool private project telemetry.
+
+Task shape is more than Position and lifecycle stage. The policy requires task kind, risk class, and Context Profile digest for a statistically meaningful comparison. The current Position-and-stage identifier remains a fallback for descriptive reporting and cannot by itself qualify automatic routing.
+
+## Autonomy without approval gridlock
+
+Temple's project policy uses an **exception-only autonomy envelope**:
+
+- routine, reversible, local-only work inside approved scope, configured budget, provider allowlist, and confidence boundary proceeds automatically;
+- approval is required only for external spend, external writes, irreversible action, deployment or release, privacy-boundary changes, an unapproved provider or model, budget exceedance, high-risk low-confidence decisions, or a policy change.
+
+This does not remove lifecycle evidence or separation of duties. It removes redundant per-task approval for ordinary in-envelope decisions. In this release, routing execution is still not implemented, so a shadow recommendation cannot switch a model even when no approval is needed to inspect it.
 
 ## Model-routing contract
 
@@ -229,10 +260,10 @@ OpenAI's current [GPT-5.6 guidance](https://developers.openai.com/api/docs/guide
 
 Selection precedence is:
 
-1. an explicit human override for the exact task, within the configured allowlist and spending boundary;
-2. mandatory High-Assurance, privacy, data-residency, or capability requirements;
+1. mandatory High-Assurance, privacy, data-residency, capability, and spending requirements;
+2. an explicit human override for the exact task when it remains inside those boundaries;
 3. project and Work Item routing policy;
-4. Position and lifecycle-stage default;
+4. Seed Policy profile selected by task shape and risk;
 5. provider default, recorded as such.
 
 Every routed task records requested and effective provider, model, model version or alias resolution when available, reasoning configuration, service tier, routing-policy version, and fallback reason. An unavailable preferred model must not silently fall back to a model that violates a capability, privacy, or risk requirement.
@@ -248,7 +279,7 @@ Model choice is promoted only after representative evaluations compare:
 - latency and human intervention;
 - monetary cost when a user-approved versioned price source exists.
 
-The initial release should show observations and recommendations. Opt-in automatic routing follows only after the policy has reproducible evaluation evidence and a safe fallback. Adaptive self-modifying routing is later scope.
+The current release shows observations, calibration blockers, and shadow recommendations. Opt-in automatic routing follows only after the project has reproducible matched evaluation evidence, configured statistical assumptions, and a safe fallback. Adaptive self-modifying routing is later scope.
 
 ## Cost and pricing boundary
 
@@ -272,8 +303,8 @@ Usage reporting retains bounded identifiers and numeric measurements. It does no
 2. **Attribution — implemented:** normalized usage includes proven Work Item, Position, observed stage, task, attempt, provider, model, provenance, quality, and outcome fields; unavailable values stay unknown.
 3. **Reporting — longitudinal coverage implemented:** `usage report` compares canonical Work Items, registered task eligibility, exact correlated observations, revision freshness, task shapes, and per-field support.
 4. **Provider-owned execution — locally implemented, live proof pending:** fake App Server tests enforce thread creation, canonical registration, and then turn start without prompt retention or automatic retry.
-5. **Policy — pending:** add hierarchical warning budgets and model allowlists without automatic switching.
-6. **Recommendation — exploratory observation implemented:** after the local threshold, display a low-confidence read-only candidate with explicit non-authority. Matched representative evaluation remains pending.
+5. **Policy foundation — implemented:** project-owned Seed Policy, data scope, Credits provenance, progressive calibration state, and exception-only autonomy are schema-validated without automatic switching.
+6. **Recommendation — exploratory shadow observation implemented:** after the diagnostic threshold, display a low-confidence candidate with explicit non-authority. Matched representative evaluation and statistical qualification remain pending.
 7. **Opt-in routing — later:** apply an approved route, record the effective configuration, and preserve fallback and refusal evidence.
 
 None of these slices changes lifecycle authority or replaces outcome-based evaluation.

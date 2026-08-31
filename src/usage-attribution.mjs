@@ -7,6 +7,12 @@ import { readControlPlaneConfig } from "./control-plane-config.mjs";
 import { openTelemetryJournal, resolveControlPlaneStateDirectory } from "./telemetry.mjs";
 import { classifyCodexTasks, createJsonRpcProcess } from "./codex-app-server-provider.mjs";
 import { listWorkItemDocuments } from "./work-items.mjs";
+import {
+  defaultUsagePolicy,
+  readUsagePolicy,
+  usagePolicyProjection,
+  validateUsagePolicy
+} from "./usage-policy.mjs";
 
 export const USAGE_BASELINE_VIEW = ".ai-org/views/usage-baseline.json";
 export const USAGE_DIMENSIONS = [
@@ -14,6 +20,10 @@ export const USAGE_DIMENSIONS = [
   "work_item_id",
   "position_id",
   "lifecycle_stage",
+  "task_shape_id",
+  "task_kind",
+  "risk_class",
+  "context_profile_digest",
   "task_id",
   "attempt_id",
   "provider_id",
@@ -424,8 +434,9 @@ function knownString(value) {
 }
 
 function taskShapeFor(dimensions) {
+  if (knownString(dimensions.task_shape_id)) return { id: dimensions.task_shape_id, source: "explicit" };
   if (!knownString(dimensions.position_id) || !knownString(dimensions.lifecycle_stage)) return null;
-  return `${dimensions.position_id}:${dimensions.lifecycle_stage}`;
+  return { id: `${dimensions.position_id}:${dimensions.lifecycle_stage}`, source: "fallback-position-stage" };
 }
 
 function qualificationSamples(correlatedRecords, completedItemIdSet) {
@@ -454,7 +465,8 @@ function qualificationSamples(correlatedRecords, completedItemIdSet) {
     candidate.push({
       work_item_id: workItemId,
       task_id: task.id,
-      task_shape: taskShape,
+      task_shape: taskShape.id,
+      task_shape_source: taskShape.source,
       model: dimensions.model,
       total_tokens: totalTokens
     });
@@ -473,6 +485,7 @@ function qualificationSamples(correlatedRecords, completedItemIdSet) {
       work_item_id: workItemId,
       task_id: first.task_id,
       task_shape: first.task_shape,
+      task_shape_source: first.task_shape_source,
       model: first.model,
       observations: candidates.length,
       total_tokens: candidates.reduce((sum, candidate) => sum + candidate.total_tokens, 0)
@@ -481,10 +494,13 @@ function qualificationSamples(correlatedRecords, completedItemIdSet) {
   return { samples, staleRecords, incompleteRecords };
 }
 
-function buildReadOnlyRecommendation(samples, thresholdMet) {
+function buildReadOnlyRecommendation(samples, thresholdMet, usagePolicy) {
+  const mode = usagePolicy.calibration.recommendation_mode;
+  const statisticalStatus = usagePolicy.calibration.statistical_qualification.status;
+  const minimumSamples = usagePolicy.calibration.observation_threshold.samples_per_candidate;
   const base = {
     status: "not-qualified",
-    mode: "read-only",
+    mode,
     task_shape: null,
     recommended_model: null,
     compared_models: [],
@@ -493,6 +509,8 @@ function buildReadOnlyRecommendation(samples, thresholdMet) {
     confidence: "none",
     evidence_basis: "accepted-closeout-token-observation-only",
     matched_evaluation: false,
+    statistical_qualification_status: statisticalStatus,
+    automatic_routing_eligible: false,
     routing_authority: false,
     automatic_routing: false,
     model_switch_performed: false,
@@ -500,7 +518,11 @@ function buildReadOnlyRecommendation(samples, thresholdMet) {
     context_required: true,
     developer_evidence_required: true,
     independent_qa_required: true,
-    human_approval_required: true,
+    approval_mode: usagePolicy.autonomy.mode,
+    routine_human_approval_required: false,
+    routing_change_requires_approval: true,
+    approval_triggers: usagePolicy.autonomy.approval_triggers,
+    human_approval_required: false,
     release_authority_granted: false
   };
   if (!thresholdMet) return base;
@@ -520,7 +542,7 @@ function buildReadOnlyRecommendation(samples, thresholdMet) {
   }
   const comparableByShape = new Map();
   for (const group of byShapeAndModel.values()) {
-    if (group.work_items.size < 2) continue;
+    if (group.work_items.size < minimumSamples) continue;
     const models = comparableByShape.get(group.task_shape) ?? [];
     models.push({
       model: group.model,
@@ -557,6 +579,9 @@ function buildReadOnlyRecommendation(samples, thresholdMet) {
 }
 
 function buildLongitudinalCoverage(workItems = [], tasks = [], usageRecords = [], options = {}) {
+  const usagePolicy = options.usagePolicy ?? defaultUsagePolicy();
+  const policyValidation = validateUsagePolicy(usagePolicy);
+  if (!policyValidation.valid) throw new Error(`Invalid usage policy: ${policyValidation.errors.join("; ")}`);
   const canonicalItems = [...workItems]
     .filter((item) => typeof item?.id === "string" && item.id.trim())
     .sort((left, right) => left.id.localeCompare(right.id));
@@ -574,12 +599,24 @@ function buildLongitudinalCoverage(workItems = [], tasks = [], usageRecords = []
   const correlatedCompletedWorkItemIds = correlatedWorkItemIds.filter((id) => completedItemIdSet.has(id));
   const requiredWorkItems = Number.isInteger(options.longitudinalWorkItemsRequired) && options.longitudinalWorkItemsRequired > 0
     ? options.longitudinalWorkItemsRequired
-    : 10;
+    : usagePolicy.calibration.observation_threshold.completed_work_items;
+  const requiredTaskShapes = usagePolicy.calibration.observation_threshold.task_shapes;
   const qualificationEvidence = qualificationSamples(correlatedRecords, completedItemIdSet);
   const qualifiedWorkItemIds = sortedUnique(qualificationEvidence.samples.map((sample) => sample.work_item_id));
   const qualifiedTaskShapes = sortedUnique(qualificationEvidence.samples.map((sample) => sample.task_shape));
-  const thresholdMet = qualifiedWorkItemIds.length >= requiredWorkItems && qualifiedTaskShapes.length >= 2;
-  const recommendation = buildReadOnlyRecommendation(qualificationEvidence.samples, thresholdMet);
+  const explicitTaskShapeSamples = qualificationEvidence.samples.filter((sample) => sample.task_shape_source === "explicit");
+  const thresholdMet = qualifiedWorkItemIds.length >= requiredWorkItems && qualifiedTaskShapes.length >= requiredTaskShapes;
+  const recommendation = buildReadOnlyRecommendation(qualificationEvidence.samples, thresholdMet, usagePolicy);
+  const statisticalStatus = usagePolicy.calibration.statistical_qualification.status;
+  const promotionBlockers = [
+    ...(thresholdMet ? [] : ["diagnostic-observation-threshold-not-met"]),
+    ...(explicitTaskShapeSamples.length === qualificationEvidence.samples.length && qualificationEvidence.samples.length > 0
+      ? []
+      : ["exact-task-shape-evidence-missing"]),
+    ...(statisticalStatus === "satisfied" ? [] : [`statistical-qualification-${statisticalStatus}`]),
+    ...(recommendation.matched_evaluation ? [] : ["matched-quality-evaluation-missing"]),
+    ...(usagePolicy.calibration.recommendation_mode === "automatic" ? [] : [`recommendation-mode-${usagePolicy.calibration.recommendation_mode}`])
+  ];
   const remainingObserved = Math.max(0, requiredWorkItems - correlatedWorkItemIds.length);
   const remainingCompletedObserved = Math.max(0, requiredWorkItems - qualifiedWorkItemIds.length);
   return {
@@ -631,18 +668,33 @@ function buildLongitudinalCoverage(workItems = [], tasks = [], usageRecords = []
       remaining_correlated_work_items: remainingObserved,
       remaining_correlated_completed_work_items: remainingCompletedObserved,
       completed_coverage_threshold_met: qualifiedWorkItemIds.length >= requiredWorkItems,
-      varied_task_shapes: qualifiedTaskShapes.length >= 2 ? "qualified" : "insufficient",
+      varied_task_shapes: qualifiedTaskShapes.length >= requiredTaskShapes ? "qualified" : "insufficient",
       longitudinal_comparison: recommendation.status === "available" ? "exploratory-only" : "insufficient",
+      observation_threshold_purpose: usagePolicy.calibration.observation_threshold.purpose,
       savings_claim_allowed: false,
       cost_claim_allowed: false,
       model_quality_claim_allowed: false,
       routing_claim_allowed: false
+    },
+    calibration: {
+      state: usagePolicy.calibration.state,
+      recommendation_mode: usagePolicy.calibration.recommendation_mode,
+      diagnostic_observation_threshold_met: thresholdMet,
+      exact_task_shape_samples: explicitTaskShapeSamples.length,
+      statistical_qualification_status: statisticalStatus,
+      matched_evaluation_available: false,
+      automatic_routing_eligible: false,
+      promotion_blockers: sortedUnique(promotionBlockers)
     },
     recommendation
   };
 }
 
 export function buildUsageBaselineFromRecords(project, records, options = {}) {
+  const usagePolicy = options.usagePolicy ?? defaultUsagePolicy();
+  const policyValidation = validateUsagePolicy(usagePolicy);
+  if (!policyValidation.valid) throw new Error(`Invalid usage policy: ${policyValidation.errors.join("; ")}`);
+  const policy = usagePolicyProjection(usagePolicy, options.usagePolicySource ?? "framework-default");
   const usageRecords = usageRecordsFrom(records);
   const groups = new Map();
   const unknownDimensions = Object.fromEntries(USAGE_DIMENSIONS.map((field) => [field, 0]));
@@ -675,6 +727,10 @@ export function buildUsageBaselineFromRecords(project, records, options = {}) {
   const cachedDenominator = finalTotals.input_tokens !== null && finalTotals.cached_input_tokens !== null
     ? finalTotals.input_tokens + finalTotals.cached_input_tokens
     : null;
+  const longitudinalCoverage = buildLongitudinalCoverage(options.workItems, options.tasks, usageRecords, {
+    ...options,
+    usagePolicy
+  });
   return {
     schema_version: "temple.usage-baseline/v1",
     generated_at: new Date().toISOString(),
@@ -703,7 +759,7 @@ export function buildUsageBaselineFromRecords(project, records, options = {}) {
         archive_mutation_performed: false,
         canonical_state_changed: false
       },
-      longitudinal_coverage: buildLongitudinalCoverage(options.workItems, options.tasks, usageRecords, options)
+      longitudinal_coverage: longitudinalCoverage
     },
     totals: {
       ...finalTotals,
@@ -714,11 +770,17 @@ export function buildUsageBaselineFromRecords(project, records, options = {}) {
     },
     unknown_dimensions: unknownDimensions,
     driver_groups: driverGroups,
+    policy,
     routing: {
-      recommendation_status: "not-implemented",
+      recommendation_status: longitudinalCoverage.recommendation.status,
+      recommendation_mode: usagePolicy.calibration.recommendation_mode,
+      execution_status: "not-implemented",
       automatic_routing: false,
       budget_can_skip_gates: false,
-      model_switch_performed: false
+      model_switch_performed: false,
+      approval_mode: usagePolicy.autonomy.mode,
+      routine_human_approval_required: false,
+      approval_triggers: usagePolicy.autonomy.approval_triggers
     },
     privacy: {
       raw_prompts_retained: false,
@@ -808,9 +870,16 @@ export async function probeCodexAccountUsage(target, options = {}) {
 }
 
 export function buildUsagePreflightFromRecords(project, tasks, records, providers = [], accountProbe = null, options = {}) {
+  const usagePolicy = options.usagePolicy ?? defaultUsagePolicy();
+  const policyValidation = validateUsagePolicy(usagePolicy);
+  if (!policyValidation.valid) throw new Error(`Invalid usage policy: ${policyValidation.errors.join("; ")}`);
+  const policy = usagePolicyProjection(usagePolicy, options.usagePolicySource ?? "framework-default");
   const topology = classifyCodexTasks(tasks, { workItems: options.workItems });
   const usageRecords = usageRecordsFrom(records);
-  const longitudinalCoverage = buildLongitudinalCoverage(options.workItems, tasks, usageRecords, options);
+  const longitudinalCoverage = buildLongitudinalCoverage(options.workItems, tasks, usageRecords, {
+    ...options,
+    usagePolicy
+  });
   const codexProvider = providers.find((provider) => provider.kind === "codex-app-server" || provider.id === "codex-local") ?? null;
   const tokenCapability = codexProvider?.capabilities?.token_usage ?? "unknown";
   const providerOperational = codexProvider && !["offline", "disabled"].includes(codexProvider.status);
@@ -823,7 +892,7 @@ export function buildUsagePreflightFromRecords(project, tasks, records, provider
   const probe = accountProbe ?? unavailableAccountProbe(false);
   const nextAction = detailedStatus === "observed"
     ? longitudinalCoverage.qualification.status === "qualified"
-      ? "Review the read-only longitudinal recommendation and its governance limits; no model switch is authorized."
+      ? "Review the shadow recommendation and its evidence gaps; routine observation needs no approval and no model switch is authorized."
       : "Accumulate varied, completed, revision-current real Work Items before comparing usage or recommending a model."
     : detailedStatus === "awaiting-observation"
       ? "Run a real turn on the provider-owned active task and check for a detailed usage notification."
@@ -888,12 +957,18 @@ export function buildUsagePreflightFromRecords(project, tasks, records, provider
       model_generation_requested: false,
       token_counting_model_call_performed: false
     },
+    policy,
     routing: {
       recommendation_status: longitudinalCoverage.recommendation.status,
       recommendation: longitudinalCoverage.recommendation,
+      recommendation_mode: usagePolicy.calibration.recommendation_mode,
+      execution_status: "not-implemented",
       automatic_routing: false,
       model_switch_performed: false,
-      budget_can_skip_gates: false
+      budget_can_skip_gates: false,
+      approval_mode: usagePolicy.autonomy.mode,
+      routine_human_approval_required: false,
+      approval_triggers: usagePolicy.autonomy.approval_triggers
     },
     privacy: {
       raw_account_values_retained: false,
@@ -909,9 +984,12 @@ export function buildUsagePreflightFromRecords(project, tasks, records, provider
 }
 
 export async function buildUsagePreflight(target, options = {}) {
-  const project = await readJson(path.join(target, ".ai-org/project/project.json"));
-  const taskRegistry = await readJson(path.join(target, ".ai-org/project/tasks.json"));
-  const workItems = await listWorkItemDocuments(target);
+  const [project, taskRegistry, workItems, usagePolicyResult] = await Promise.all([
+    readJson(path.join(target, ".ai-org/project/project.json")),
+    readJson(path.join(target, ".ai-org/project/tasks.json")),
+    listWorkItemDocuments(target),
+    readUsagePolicy(target)
+  ]);
   const config = await readControlPlaneConfig(target);
   const stateDirectory = resolveControlPlaneStateDirectory(target, options.stateDirectory ?? config.state_directory);
   const journalPath = path.join(stateDirectory, "journal/events.jsonl");
@@ -948,17 +1026,22 @@ export async function buildUsagePreflight(target, options = {}) {
     usageHistory.records,
     providers,
     accountProbe,
-    { workItems }
+    {
+      workItems,
+      usagePolicy: usagePolicyResult.policy,
+      usagePolicySource: usagePolicyResult.source
+    }
   );
   report.detailed_thread_usage.history = usageHistory.history;
   return report;
 }
 
 export async function buildUsageBaseline(target, options = {}) {
-  const [project, taskRegistry, workItems] = await Promise.all([
+  const [project, taskRegistry, workItems, usagePolicyResult] = await Promise.all([
     readJson(path.join(target, ".ai-org/project/project.json")),
     readJson(path.join(target, ".ai-org/project/tasks.json")),
-    listWorkItemDocuments(target)
+    listWorkItemDocuments(target),
+    readUsagePolicy(target)
   ]);
   const config = await readControlPlaneConfig(target);
   const stateDirectory = resolveControlPlaneStateDirectory(target, options.stateDirectory ?? config.state_directory);
@@ -981,6 +1064,8 @@ export async function buildUsageBaseline(target, options = {}) {
     stateDirectory,
     workItems,
     tasks: taskRegistry.tasks ?? [],
+    usagePolicy: usagePolicyResult.policy,
+    usagePolicySource: usagePolicyResult.source,
     longitudinalWorkItemsRequired: options.longitudinalWorkItemsRequired,
     history: usageHistory.history,
     activeJournal: usageHistory.activeJournal

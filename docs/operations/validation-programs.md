@@ -12,6 +12,8 @@ A `temple.validation-program/v1` manifest declares:
 - hard and warning ceilings for turns, attempts, concurrency, Tokens, wall-clock time, and disk growth;
 - zero retry, no fallback, no network access, no external write, no API-key use, no usage reset, no deployment, no publication, and ¥0 external spend.
 
+Token ceilings in this manifest are reactive safety stops, not billing guarantees. A Provider may report usage only after work has already occurred, and Tokens do not determine Credits without an authoritative rate source. Before any future paid validation, the coordinator must configure the project-owned Credits source and budget in `.ai-org/project/usage-policy.json`; otherwise Credits and cost remain `unknown` and the program retains its zero-external-spend boundary.
+
 Start from `.ai-org/templates/validation-program.json`, copy it to the project-owned `.ai-org/project/validation-program.json`, and replace the example IDs, paths, turns, and ceilings. Do not edit the framework template in place.
 
 ## Inspect before execution

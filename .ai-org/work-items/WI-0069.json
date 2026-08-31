@@ -1,0 +1,146 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0069",
+  "title": "Establish progressive usage calibration and autonomy policy",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-31T13:20:59.516Z",
+  "updated_at": "2026-08-31T13:25:06.459Z",
+  "scope": [
+    "Implement the data-driven Usage Protocol v2 foundation: project-local learning, a cold-start seed policy, progressive calibration states, evidence-gated routing modes, versioned cost provenance, and an exception-only autonomy envelope. No live model generation or external write is authorized."
+  ],
+  "acceptance_criteria": [
+    "Newly initialized and upgraded projects receive a project-owned usage policy with explicit seed, calibration, privacy, budget, and autonomy boundaries.",
+    "Usage reporting reads the project policy, exposes calibration status, and keeps model recommendations in shadow or advisory mode until project evidence satisfies configured criteria.",
+    "Routine in-envelope decisions do not require per-task approval; only enumerated risk, authority, privacy, cost, and confidence exceptions require human approval.",
+    "Token ceilings are documented as runtime safety guards rather than monetary limits, and Credits or cost remain unknown without a configured versioned source.",
+    "Focused tests, schema validation, Doctor, and the repository verification suite pass without a live model call."
+  ],
+  "affected_paths": [
+    ".ai-org/project/usage-policy.json",
+    "project-overlay/.ai-org/project/usage-policy.json",
+    ".ai-org/core/schemas/usage-policy.schema.json",
+    "project-overlay/.ai-org/core/schemas/usage-policy.schema.json",
+    ".ai-org/core/schemas/schema-catalog.json",
+    "project-overlay/.ai-org/core/schemas/schema-catalog.json",
+    "src/usage-policy.mjs",
+    "src/usage-attribution.mjs",
+    "src/install.mjs",
+    "src/upgrade.mjs",
+    "src/doctor.mjs",
+    "temple.lock",
+    "docs/operations/token-efficiency-and-model-routing.md",
+    "docs/operations/validation-programs.md",
+    "docs/README.md",
+    "test/phase4-installation.test.mjs",
+    "test/phase-4b.test.mjs",
+    "test/model.test.mjs"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [
+    "general-development"
+  ],
+  "stage_requirements": {},
+  "base_revision": "f69cdf65d7ff71d183622897504e6466a10c10fe",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": "agent-rikku",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260831132506-e2b7f9ec",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "f69cdf65d7ff71d183622897504e6466a10c10fe",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-08-31T13:25:06.459Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260831132158-9215a800",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "f69cdf65d7ff71d183622897504e6466a10c10fe",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T13:21:58.141Z",
+      "released_at": "2026-08-31T13:22:03.609Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831132218-5011b888",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "f69cdf65d7ff71d183622897504e6466a10c10fe",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T13:22:18.185Z",
+      "released_at": "2026-08-31T13:22:23.198Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831132233-0a3ea05e",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "f69cdf65d7ff71d183622897504e6466a10c10fe",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T13:22:33.490Z",
+      "released_at": "2026-08-31T13:24:58.036Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831132506-e2b7f9ec",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "f69cdf65d7ff71d183622897504e6466a10c10fe",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T13:25:06.459Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/work-items/WI-0069.json"
+    ],
+    "approved_scope": [
+      ".ai-org/work-items/WI-0069.json"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0069.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0069/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0069/technical-design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/work-items/WI-0069.json",
+    ".ai-org/artifacts/WI-0069/technical-design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

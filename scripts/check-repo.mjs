@@ -13,6 +13,7 @@ import { emptyResourceRegistry, validateResourceRegistry } from "../src/resource
 import { emptyRuntimeWorkerRegistry, validateRuntimeWorkerRegistry } from "../src/workers.mjs";
 import { defaultControlPlaneConfig, validateControlPlaneConfig } from "../src/control-plane-config.mjs";
 import { validateAdversarialScenarioCatalog, validatePolicyEvaluationFixture } from "../src/policy-evaluation.mjs";
+import { defaultUsagePolicy, validateUsagePolicy } from "../src/usage-policy.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
@@ -90,6 +91,7 @@ for (const [file, schemaId] of [
   ["control-plane-config.schema.json", "temple.control-plane-config/v1"],
   ["adversarial-scenarios.schema.json", "temple.adversarial-scenarios/v1"],
   ["policy-evaluation-result.schema.json", "temple.policy-evaluation-result/v1"],
+  ["usage-policy.schema.json", "temple.usage-policy/v1"],
   ["usage-baseline.schema.json", "temple.usage-baseline/v1"]
 ]) {
   const schema = await readJson(path.join(projectOverlayRoot, ".ai-org/core/schemas", file));
@@ -155,6 +157,14 @@ check(controlPlaneValidation.valid, `control-plane seed is invalid: ${controlPla
 check(
   JSON.stringify(controlPlaneConfig) === JSON.stringify(defaultControlPlaneConfig()),
   "project overlay control-plane configuration must remain the safe local seed"
+);
+
+const usagePolicy = await readJson(path.join(projectOverlayRoot, ".ai-org/project/usage-policy.json"));
+const usagePolicyValidation = validateUsagePolicy(usagePolicy);
+check(usagePolicyValidation.valid, `usage policy seed is invalid: ${usagePolicyValidation.errors.join("; ")}`);
+check(
+  JSON.stringify(usagePolicy) === JSON.stringify(defaultUsagePolicy()),
+  "project overlay usage policy must remain the provider-neutral cold-start seed"
 );
 
 const adversarialCatalog = await readJson(path.join(projectOverlayRoot, ".ai-org/core/adversarial-scenarios.json"));

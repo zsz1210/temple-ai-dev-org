@@ -155,6 +155,8 @@
     "backup_retention": true,
     "redacted_audit_export": true,
     "usage_qualification": true,
+    "progressive_usage_calibration": true,
+    "exception_only_autonomy": true,
     "provider_attach_outcomes": true,
     "repository_federation": true,
     "read_only_portfolio": true,
@@ -310,7 +312,7 @@
     },
     {
       "path": ".ai-org/core/schemas/schema-catalog.json",
-      "sha256": "08041f5d5f0e46d1e2a27bab491b4ba9a1d89cbbb64b6dffb9dbbd6d9a0fbad5"
+      "sha256": "806bf5270f22ec68a2c34af45520698e22f3cba7de5aaf2ccbad2b73e9e093d9"
     },
     {
       "path": ".ai-org/core/schemas/spec-index.schema.json",
@@ -326,7 +328,11 @@
     },
     {
       "path": ".ai-org/core/schemas/usage-baseline.schema.json",
-      "sha256": "c26693023e609c18d9fb93afee44d7e682a076a08895c01d5e1de1bdecea01db"
+      "sha256": "7545f2f85e7b37cd3d988c1a98cfc85327c3c7d42296c7efb652c4020f1b5ac1"
+    },
+    {
+      "path": ".ai-org/core/schemas/usage-policy.schema.json",
+      "sha256": "bc269c75eb43ea620ad5a6656bfe5350467a3d716935ae423b5497e187932717"
     },
     {
       "path": ".ai-org/core/schemas/validation-program-report.schema.json",
@@ -478,7 +484,7 @@
     },
     {
       "path": "TEMPLE.md",
-      "sha256": "1ed8003269f7764a077f3af14bdd9653ca5f7e815b3fe520110ff9dd6b23db4c"
+      "sha256": "aaeea6487cc58ce8e6c91294da4df0eb9dc207cb6e05aa363af0c35bc0eb1df6"
     },
     {
       "path": "templew.mjs",
