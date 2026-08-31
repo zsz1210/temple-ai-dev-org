@@ -67,7 +67,7 @@ import {
   validateTrackerReconciliationArtifact,
   validateTrackerView
 } from "./tracker.mjs";
-import { TASK_EXECUTION_ORIGINS } from "./tasks.mjs";
+import { REASONING_EFFORT_SOURCES, TASK_EXECUTION_ORIGINS } from "./tasks.mjs";
 
 function summarize(checks) {
   return checks.reduce(
@@ -744,6 +744,9 @@ export async function runDoctor(target) {
         [task.provider_id, 160],
         [task.requested_model, 160],
         [task.effective_model, 160],
+        [task.requested_reasoning_effort, 80],
+        [task.observed_thread_reasoning_effort, 80],
+        [task.effective_turn_reasoning_effort, 80],
         [task.reasoning_effort, 80],
         [task.service_tier, 80],
         [task.launch_revision, 240]
@@ -756,6 +759,8 @@ export async function runDoctor(target) {
       );
       const providerIdValid =
         task.provider_id === undefined || task.provider_id === null || /^[a-z0-9][a-z0-9-]*$/.test(task.provider_id);
+      const reasoningSourceValid = task.reasoning_effort_source === undefined || task.reasoning_effort_source === null ||
+        REASONING_EFFORT_SOURCES.includes(task.reasoning_effort_source);
       const providerOwnedValid = task.execution_origin !== "temple-provider-owned" ||
         (providerIdValid && Boolean(task.provider_id) && Boolean(task.thread_id) && Boolean(task.launch_revision));
       const valid =
@@ -771,6 +776,7 @@ export async function runDoctor(target) {
         executionOriginValid &&
         metadataValid &&
         providerIdValid &&
+        reasoningSourceValid &&
         providerOwnedValid &&
         (!task.registered_by || task.registered_by === "human" || agentIds.has(task.registered_by)) &&
         (!task.last_updated_by || task.last_updated_by === "human" || agentIds.has(task.last_updated_by)) &&

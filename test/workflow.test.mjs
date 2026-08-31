@@ -206,7 +206,11 @@ test("work item lifecycle, handoff, task registry, close, and observer status wo
   assert.equal(registry.tasks[0].provider_id, "codex-local");
   assert.equal(registry.tasks[0].requested_model, "model-beta");
   assert.equal(registry.tasks[0].effective_model, "model-beta-v2");
+  assert.equal(registry.tasks[0].requested_reasoning_effort, null);
+  assert.equal(registry.tasks[0].observed_thread_reasoning_effort, null);
+  assert.equal(registry.tasks[0].effective_turn_reasoning_effort, null);
   assert.equal(registry.tasks[0].reasoning_effort, "low");
+  assert.equal(registry.tasks[0].reasoning_effort_source, "unknown");
   assert.equal(registry.tasks[0].service_tier, "priority");
   assert.equal(registry.tasks[0].launch_revision, "design-revision");
   assert.equal(registry.tasks[0].current_revision, "candidate-123");

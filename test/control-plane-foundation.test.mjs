@@ -105,7 +105,11 @@ test("Team model status keeps active, observed, requested, and unknown evidence 
               observed_status: "in-progress",
               requested_model: "gpt-5.6-terra",
               effective_model: "gpt-5.6-sol",
+              requested_reasoning_effort: "max",
+              observed_thread_reasoning_effort: "xhigh",
+              effective_turn_reasoning_effort: null,
               reasoning_effort: "xhigh",
+              reasoning_effort_source: "provider-thread",
               freshness: { observed_at: "2026-08-31T10:00:00.000Z" }
             }]
           },
@@ -117,6 +121,7 @@ test("Team model status keeps active, observed, requested, and unknown evidence 
               visibility: "registered-only",
               observed_status: "unknown",
               requested_model: "gpt-5.6-luna",
+              requested_reasoning_effort: "max",
               reasoning_effort: "max"
             }]
           },
@@ -146,7 +151,11 @@ test("Team model status keeps active, observed, requested, and unknown evidence 
     model: "gpt-5.6-sol",
     requested_model: "gpt-5.6-terra",
     model_version: null,
+    requested_reasoning_effort: "max",
+    observed_thread_reasoning_effort: "xhigh",
+    effective_turn_reasoning_effort: null,
     reasoning_effort: "xhigh",
+    reasoning_effort_source: "provider-thread",
     work_item_id: "WI-1001",
     task_id: "task-live",
     observed_at: "2026-08-31T10:00:00.000Z"
@@ -159,7 +168,11 @@ test("Team model status keeps active, observed, requested, and unknown evidence 
     model: null,
     requested_model: null,
     model_version: null,
+    requested_reasoning_effort: null,
+    observed_thread_reasoning_effort: null,
+    effective_turn_reasoning_effort: null,
     reasoning_effort: null,
+    reasoning_effort_source: "unknown",
     work_item_id: null,
     task_id: null,
     observed_at: null
@@ -563,6 +576,9 @@ test("Codex history bounds are validated and Temple Workspace exposes terminal w
   assert.match(invalid.errors.join("\n"), /history_item_limit/);
   assert.match(invalid.errors.join("\n"), /unsupported fields/);
   const html = renderControlPlaneDashboard("Fixture Project");
+  const scripts = [...html.matchAll(/<script(?:[^>]*)>([\s\S]*?)<\/script>/g)].map((match) => match[1]);
+  assert.ok(scripts.length >= 2);
+  for (const script of scripts) assert.doesNotThrow(() => new Function(script));
   assert.match(html, /Terminal/);
   assert.match(html, /History only/);
   assert.match(html, /badge\.terminal/);
@@ -583,6 +599,9 @@ test("Codex history bounds are validated and Temple Workspace exposes terminal w
   assert.match(html, /Requested model/);
   assert.match(html, /No model observation/);
   assert.match(html, /No task-level model evidence is available/);
+  assert.match(html, /Requested turn ·/);
+  assert.match(html, /Thread reported ·/);
+  assert.match(html, /Effective turn ·/);
   assert.match(html, /organizationMode="structure"/);
   assert.match(html, /Product & Experience/);
   assert.match(html, /Engineering Delivery/);

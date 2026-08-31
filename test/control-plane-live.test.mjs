@@ -691,7 +691,7 @@ test("Codex App Server provider-owned launch registers before generation and cor
           send({jsonrpc:"2.0",id:message.id,error:{code:-32602,message:"wire contract rejected thread/start"}});
         }else{
           send({jsonrpc:"2.0",method:"thread/started",params:{thread:created}});
-          send({jsonrpc:"2.0",id:message.id,result:{thread:created,model:"gpt-5.6-terra",modelProvider:"openai",reasoningEffort:"medium",serviceTier:"priority",instructionSources:[]}});
+          send({jsonrpc:"2.0",id:message.id,result:{thread:created,model:"gpt-5.6-terra",modelProvider:"openai",reasoningEffort:"xhigh",serviceTier:"priority",instructionSources:[]}});
         }
       }else if(message.method==="turn/start"){
         const turn={id:"turn-provider-owned-001",status:"inProgress",items:[]};
@@ -723,7 +723,7 @@ test("Codex App Server provider-owned launch registers before generation and cor
     actor: "agent-fixture-rowan",
     instruction,
     requestedModel: "gpt-5.6-luna",
-    reasoningEffort: "low",
+    reasoningEffort: "max",
     launchRevision,
     approvalPolicy: "never",
     sandboxMode: "workspaceWrite",
@@ -734,7 +734,11 @@ test("Codex App Server provider-owned launch registers before generation and cor
   assert.equal(launched.provider_turn_id, "turn-provider-owned-001");
   assert.equal(launched.requested_model, "gpt-5.6-luna");
   assert.equal(launched.effective_model, "gpt-5.6-terra");
-  assert.equal(launched.reasoning_effort, "medium");
+  assert.equal(launched.requested_reasoning_effort, "max");
+  assert.equal(launched.observed_thread_reasoning_effort, "xhigh");
+  assert.equal(launched.effective_turn_reasoning_effort, null);
+  assert.equal(launched.reasoning_effort, "xhigh");
+  assert.equal(launched.reasoning_effort_source, "provider-thread");
   assert.equal(launched.service_tier, "priority");
   assert.equal(launched.instruction_length, instruction.length);
   assert.equal(launched.instruction_retained, false);
@@ -782,7 +786,11 @@ test("Codex App Server provider-owned launch registers before generation and cor
   assert.equal(task.provider_id, "codex-local");
   assert.equal(task.requested_model, "gpt-5.6-luna");
   assert.equal(task.effective_model, "gpt-5.6-sol");
-  assert.equal(task.reasoning_effort, "medium");
+  assert.equal(task.requested_reasoning_effort, "max");
+  assert.equal(task.observed_thread_reasoning_effort, "xhigh");
+  assert.equal(task.effective_turn_reasoning_effort, null);
+  assert.equal(task.reasoning_effort, "xhigh");
+  assert.equal(task.reasoning_effort_source, "provider-thread");
   assert.equal(task.service_tier, "priority");
   assert.equal(task.base_revision, claimRevision);
   assert.equal(task.launch_revision, launchRevision);
@@ -813,7 +821,11 @@ test("Codex App Server provider-owned launch registers before generation and cor
   assert.equal(usage.data.scope_revision, launchRevision);
   assert.equal(usage.data.attribution.model, "gpt-5.6-sol");
   assert.equal(usage.data.attribution.model_source, "canonical-effective");
-  assert.equal(usage.data.attribution.reasoning_effort, "medium");
+  assert.equal(usage.data.attribution.requested_reasoning_effort, "max");
+  assert.equal(usage.data.attribution.observed_thread_reasoning_effort, "xhigh");
+  assert.equal(usage.data.attribution.effective_turn_reasoning_effort, null);
+  assert.equal(usage.data.attribution.reasoning_effort, "xhigh");
+  assert.equal(usage.data.attribution.reasoning_effort_source, "provider-thread");
   assert.equal(usage.data.attribution.service_tier, "priority");
 
   const observer = await buildObserverProjection(target);
@@ -824,6 +836,10 @@ test("Codex App Server provider-owned launch registers before generation and cor
   assert.equal(projected.execution_origin, "temple-provider-owned");
   assert.equal(projected.requested_model, "gpt-5.6-luna");
   assert.equal(projected.effective_model, "gpt-5.6-sol");
+  assert.equal(projected.requested_reasoning_effort, "max");
+  assert.equal(projected.observed_thread_reasoning_effort, "xhigh");
+  assert.equal(projected.effective_turn_reasoning_effort, null);
+  assert.equal(projected.reasoning_effort_source, "provider-thread");
   assert.equal(projected.launch_revision, launchRevision);
   assert.equal(projected.claim_base_revision, claimRevision);
 
@@ -1110,7 +1126,11 @@ test("Codex App Server provider-owned launch records attention without retry aft
   assert.equal(task.status, "attention");
   assert.equal(task.requested_model, "gpt-5.6-luna");
   assert.equal(task.effective_model, null);
-  assert.equal(task.reasoning_effort, null);
+  assert.equal(task.requested_reasoning_effort, "low");
+  assert.equal(task.observed_thread_reasoning_effort, null);
+  assert.equal(task.effective_turn_reasoning_effort, null);
+  assert.equal(task.reasoning_effort, "low");
+  assert.equal(task.reasoning_effort_source, "canonical-requested");
   assert.equal(task.service_tier, null);
   assert.match(task.notes, /automatic retry disabled/);
   const retained = [

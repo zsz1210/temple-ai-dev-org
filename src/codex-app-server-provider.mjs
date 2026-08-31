@@ -427,6 +427,24 @@ function usageOutcome(workItem) {
 function safeUsageAttribution(data, task, workItem, params, tokenUsage, options) {
   const providerModel = optionalDimension(params?.model, params?.effectiveModel, tokenUsage?.model, tokenUsage?.effectiveModel);
   const model = providerModel ?? optionalDimension(task?.effective_model, task?.requested_model);
+  const requestedReasoningEffort = optionalDimension(task?.requested_reasoning_effort);
+  const observedThreadReasoningEffort = optionalDimension(task?.observed_thread_reasoning_effort);
+  const effectiveTurnReasoningEffort = optionalDimension(
+    params?.effectiveTurnReasoningEffort,
+    tokenUsage?.effectiveTurnReasoningEffort,
+    task?.effective_turn_reasoning_effort
+  );
+  const compatibilityReasoningEffort = effectiveTurnReasoningEffort
+    ?? observedThreadReasoningEffort
+    ?? requestedReasoningEffort
+    ?? optionalDimension(task?.reasoning_effort);
+  const reasoningEffortSource = effectiveTurnReasoningEffort
+    ? "provider-turn"
+    : observedThreadReasoningEffort
+      ? "provider-thread"
+      : requestedReasoningEffort
+        ? "canonical-requested"
+        : optionalDimension(task?.reasoning_effort_source) ?? "unknown";
   const attribution = {
     project_id: data.project_id,
     work_item_id: data.work_item_id,
@@ -447,7 +465,11 @@ function safeUsageAttribution(data, task, workItem, params, tokenUsage, options)
           ? "canonical-requested"
           : "unknown",
     model_version: optionalDimension(params?.modelVersion, params?.effectiveModelVersion, tokenUsage?.modelVersion),
-    reasoning_effort: optionalDimension(params?.reasoningEffort, tokenUsage?.reasoningEffort, task?.reasoning_effort),
+    requested_reasoning_effort: requestedReasoningEffort,
+    observed_thread_reasoning_effort: observedThreadReasoningEffort,
+    effective_turn_reasoning_effort: effectiveTurnReasoningEffort,
+    reasoning_effort: compatibilityReasoningEffort,
+    reasoning_effort_source: reasoningEffortSource,
     service_tier: optionalDimension(params?.serviceTier, tokenUsage?.serviceTier, task?.service_tier),
     context_capsule_digest: optionalDimension(params?.contextCapsuleDigest, task?.context_capsule_digest),
     capability_set_digest: optionalDimension(params?.capabilitySetDigest, task?.capability_set_digest),
@@ -1333,7 +1355,7 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
       );
     }
     const effectiveModel = optionalDimension(threadResponse?.model);
-    const reasoningEffort = optionalDimension(threadResponse?.reasoningEffort);
+    const observedThreadReasoningEffort = optionalDimension(threadResponse?.reasoningEffort);
     const serviceTier = optionalDimension(threadResponse?.serviceTier);
     let task;
     try {
@@ -1349,7 +1371,9 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
         providerId,
         requestedModel: launch.requestedModel,
         effectiveModel,
-        reasoningEffort,
+        requestedReasoningEffort: launch.reasoningEffort,
+        observedThreadReasoningEffort,
+        effectiveTurnReasoningEffort: null,
         serviceTier,
         notes: "Provider-owned launch; instruction content not retained; automatic retry disabled.",
         actor: launch.actor
@@ -1389,7 +1413,11 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
           provider_turn_id: null,
           requested_model: launch.requestedModel,
           effective_model: effectiveModel,
-          reasoning_effort: reasoningEffort,
+          requested_reasoning_effort: launch.reasoningEffort,
+          observed_thread_reasoning_effort: observedThreadReasoningEffort,
+          effective_turn_reasoning_effort: null,
+          reasoning_effort: observedThreadReasoningEffort ?? launch.reasoningEffort,
+          reasoning_effort_source: observedThreadReasoningEffort ? "provider-thread" : "canonical-requested",
           service_tier: serviceTier,
           launch_revision: launch.launchRevision,
           instruction_length: launch.instructionLength,
@@ -1407,7 +1435,11 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
         provider_turn_id: providerTurnId,
         requested_model: launch.requestedModel,
         effective_model: effectiveModel,
-        reasoning_effort: reasoningEffort,
+        requested_reasoning_effort: launch.reasoningEffort,
+        observed_thread_reasoning_effort: observedThreadReasoningEffort,
+        effective_turn_reasoning_effort: null,
+        reasoning_effort: observedThreadReasoningEffort ?? launch.reasoningEffort,
+        reasoning_effort_source: observedThreadReasoningEffort ? "provider-thread" : "canonical-requested",
         service_tier: serviceTier,
         launch_revision: launch.launchRevision,
         instruction_length: launch.instructionLength,
@@ -1427,7 +1459,11 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
         provider_turn_id: null,
         requested_model: launch.requestedModel,
         effective_model: effectiveModel,
-        reasoning_effort: reasoningEffort,
+        requested_reasoning_effort: launch.reasoningEffort,
+        observed_thread_reasoning_effort: observedThreadReasoningEffort,
+        effective_turn_reasoning_effort: null,
+        reasoning_effort: observedThreadReasoningEffort ?? launch.reasoningEffort,
+        reasoning_effort_source: observedThreadReasoningEffort ? "provider-thread" : "canonical-requested",
         service_tier: serviceTier,
         launch_revision: launch.launchRevision,
         rejection_code: reasonCode,

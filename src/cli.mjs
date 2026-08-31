@@ -164,8 +164,8 @@ Usage:
   temple handoff [target] --work-item WI-0001 --to position --input-revision ref --completed text --evidence ref
   temple transition [target] --work-item WI-0001 --to state --satisfy requirement=reference
   temple close [target] --work-item WI-0001 --decision go|no-go --tested-revision ref --rollback text --approval record
-  temple task register [target] --work-item WI-0001 --position developer --thread-id id [--worker-id worker-id] [--execution-origin codex-host-owned|temple-provider-owned] [--provider-id id] [--requested-model model] [--effective-model model] [--reasoning-effort effort] [--service-tier tier] [--launch-revision ref]
-  temple task update [target] --task-id task-0001 --status completed [--effective-model model] [--reasoning-effort effort] [--service-tier tier]
+  temple task register [target] --work-item WI-0001 --position developer --thread-id id [--worker-id worker-id] [--execution-origin codex-host-owned|temple-provider-owned] [--provider-id id] [--requested-model model] [--effective-model model] [--requested-reasoning-effort effort] [--observed-thread-reasoning-effort effort] [--effective-turn-reasoning-effort effort] [--reasoning-effort effort] [--reasoning-effort-source source] [--service-tier tier] [--launch-revision ref]
+  temple task update [target] --task-id task-0001 --status completed [--effective-model model] [--requested-reasoning-effort effort] [--observed-thread-reasoning-effort effort] [--effective-turn-reasoning-effort effort] [--reasoning-effort effort] [--reasoning-effort-source source] [--service-tier tier]
   temple task list [target] [--json]
   temple tracker show [target] [--json]
   temple tracker configure [target] --tracker-profile linked-tracker --provider-id github-main --provider-kind github --project owner/repository [--write-policy plan-only]
@@ -270,6 +270,10 @@ const VALUE_FLAGS = new Set([
   "--requested-model",
   "--effective-model",
   "--reasoning-effort",
+  "--requested-reasoning-effort",
+  "--observed-thread-reasoning-effort",
+  "--effective-turn-reasoning-effort",
+  "--reasoning-effort-source",
   "--service-tier",
   "--task-id",
   "--notes",
@@ -1734,6 +1738,10 @@ async function runTask(parsed) {
         requestedModel: parsed.options["--requested-model"],
         effectiveModel: parsed.options["--effective-model"],
         reasoningEffort: parsed.options["--reasoning-effort"],
+        requestedReasoningEffort: parsed.options["--requested-reasoning-effort"],
+        observedThreadReasoningEffort: parsed.options["--observed-thread-reasoning-effort"],
+        effectiveTurnReasoningEffort: parsed.options["--effective-turn-reasoning-effort"],
+        reasoningEffortSource: parsed.options["--reasoning-effort-source"],
         serviceTier: parsed.options["--service-tier"],
         launchRevision: parsed.options["--launch-revision"],
         status: parsed.options["--status"],
@@ -1760,6 +1768,10 @@ async function runTask(parsed) {
         revision: parsed.options["--revision"],
         effectiveModel: parsed.options["--effective-model"],
         reasoningEffort: parsed.options["--reasoning-effort"],
+        requestedReasoningEffort: parsed.options["--requested-reasoning-effort"],
+        observedThreadReasoningEffort: parsed.options["--observed-thread-reasoning-effort"],
+        effectiveTurnReasoningEffort: parsed.options["--effective-turn-reasoning-effort"],
+        reasoningEffortSource: parsed.options["--reasoning-effort-source"],
         serviceTier: parsed.options["--service-tier"],
         notes: parsed.options["--notes"],
         actor: parsed.options["--actor"]

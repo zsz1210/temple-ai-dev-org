@@ -46,7 +46,17 @@ Current `main` includes a locally tested provider-owned launch primitive. It fol
 
 New task registrations distinguish `codex-host-owned` from `temple-provider-owned` execution. They can retain requested and effective model, reasoning effort, service tier when known, Provider ID, and three separate revisions: claim base, task launch, and current candidate. A successful request does not make the requested model an observed effective model, and the stable App Server launch surface does not currently accept a service-tier override. Legacy task documents remain valid and missing values remain unknown.
 
-For Provider-owned registration, the Provider acknowledgement is the top-level `thread/start` result: `model` supplies `effective_model`, while nullable `reasoningEffort` and `serviceTier` supply the corresponding observed task dimensions. The nested `thread` remains the source of thread identity and lifecycle only. Temple never copies the requested model or reasoning effort into a missing Provider acknowledgement.
+For Provider-owned registration, the Provider acknowledgement is the top-level `thread/start` result: `model` supplies `effective_model`, while nullable `reasoningEffort` supplies only the thread-level observation and `serviceTier` supplies the observed service tier. The nested `thread` remains the source of thread identity and lifecycle only. Temple never copies the requested model into a missing Provider acknowledgement.
+
+Reasoning configuration has three separate meanings:
+
+| Field | Evidence | What it proves |
+|---|---|---|
+| `requested_reasoning_effort` | Temple's exact `turn/start.effort` request | intent for that turn |
+| `observed_thread_reasoning_effort` | top-level `thread/start.reasoningEffort` | the Provider's thread-level value |
+| `effective_turn_reasoning_effort` | a Provider acknowledgement tied to that turn | the actual turn-effective value, when the protocol exposes it |
+
+The inspected App Server `0.151.0-alpha.7.2` does not expose the third value in `TurnStartResponse`, the Turn record, or Token-usage notifications. Temple therefore records it as unknown. It does not infer it from the thread value, the requested value, reasoning-output Tokens, latency, or model output. The legacy `reasoning_effort` field remains as a source-labelled compatibility projection with `reasoning_effort_source`; consumers must not call it turn-effective evidence unless the source is `provider-turn`.
 
 The normalized `model/rerouted` notification retains only the correlated thread and turn identifiers, canonical task and Work Item identifiers when exactly one registered thread matches, bounded `from_model`, `to_model`, and the Provider reason. For a valid correlated `toModel`, Temple updates the canonical task through the ordinary mutation boundary before appending the reroute observation; serialized notification processing then ensures later Token usage sees that effective model. An uncorrelated or malformed reroute remains observable but cannot update another task. A correlated update failure degrades the Provider, does not retry or select a fallback model, and does not retain raw Provider payloads.
 
@@ -151,7 +161,7 @@ Each usage observation should carry the dimensions the provider and Temple can p
 | `task_id` and provider task ID | Identifies the actual execution session |
 | attempt or retry chain | Exposes repeated work and failure loops |
 | provider, model, and effective model version | Makes comparisons reproducible |
-| reasoning configuration and service tier | Explains material execution differences |
+| requested, thread-observed, and turn-effective reasoning configuration plus service tier | Separates execution intent from Provider evidence and exposes protocol gaps |
 | Context Capsule and capability-set digest | Detects repeated or oversized routed context without storing its body |
 | source and quality | Distinguishes provider-reported, locally estimated, and unknown usage |
 | outcome | Relates usage to accepted, rejected, blocked, or abandoned work |

@@ -160,7 +160,7 @@ test("provider usage carries proven dimensions and leaves unavailable routing da
       turnId: "turn-1",
       model: "model-alpha",
       modelVersion: "2026-08-30",
-      reasoningEffort: "medium",
+      effectiveTurnReasoningEffort: "medium",
       serviceTier: "priority",
       tokenUsage: {
         total: { inputTokens: 90, cachedInputTokens: 10, outputTokens: 20, reasoningOutputTokens: 5, totalTokens: 125 },
@@ -174,6 +174,11 @@ test("provider usage carries proven dimensions and leaves unavailable routing da
   assert.equal(event.data.attribution.lifecycle_stage, "build");
   assert.equal(event.data.attribution.attempt_id, "turn-1");
   assert.equal(event.data.attribution.model, "model-alpha");
+  assert.equal(event.data.attribution.requested_reasoning_effort, null);
+  assert.equal(event.data.attribution.observed_thread_reasoning_effort, null);
+  assert.equal(event.data.attribution.effective_turn_reasoning_effort, "medium");
+  assert.equal(event.data.attribution.reasoning_effort, "medium");
+  assert.equal(event.data.attribution.reasoning_effort_source, "provider-turn");
   assert.equal(event.data.attribution.source, "provider-reported");
   assert.equal(event.data.attribution.quality, "partial");
   assert.deepEqual(event.data.attribution.missing_dimensions, ["context_capsule_digest", "capability_set_digest"]);

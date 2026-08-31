@@ -15,6 +15,7 @@ import { readWorkItem } from "./work-items.mjs";
 import { attachUserTaskWorker, syncUserTaskWorker, validateUserTaskReservation } from "./workers.mjs";
 
 export const TASK_EXECUTION_ORIGINS = ["codex-host-owned", "temple-provider-owned"];
+export const REASONING_EFFORT_SOURCES = ["provider-turn", "provider-thread", "canonical-requested", "unknown"];
 
 function optionalTaskMetadata(value, label, maximum = 160) {
   if (value === undefined || value === null || value === "") return null;
@@ -32,6 +33,50 @@ function taskExecutionOrigin(value) {
     throw new Error(`Invalid task execution origin ${origin}; use ${TASK_EXECUTION_ORIGINS.join(", ")}`);
   }
   return origin;
+}
+
+function reasoningEffortSource(value) {
+  if (value === undefined || value === null || value === "") return null;
+  const source = optionalTaskMetadata(value, "Reasoning effort source", 40);
+  if (!REASONING_EFFORT_SOURCES.includes(source)) {
+    throw new Error(`Invalid reasoning effort source ${source}; use ${REASONING_EFFORT_SOURCES.join(", ")}`);
+  }
+  return source;
+}
+
+function reasoningProvenance(options, current = {}) {
+  const requested = options.requestedReasoningEffort === undefined
+    ? current.requested_reasoning_effort ?? null
+    : optionalTaskMetadata(options.requestedReasoningEffort, "Requested reasoning effort", 80);
+  const observedThread = options.observedThreadReasoningEffort === undefined
+    ? current.observed_thread_reasoning_effort ?? null
+    : optionalTaskMetadata(options.observedThreadReasoningEffort, "Observed thread reasoning effort", 80);
+  const effectiveTurn = options.effectiveTurnReasoningEffort === undefined
+    ? current.effective_turn_reasoning_effort ?? null
+    : optionalTaskMetadata(options.effectiveTurnReasoningEffort, "Effective turn reasoning effort", 80);
+  const legacyWasExplicitlyUpdated = options.reasoningEffort !== undefined;
+  const legacy = legacyWasExplicitlyUpdated
+    ? optionalTaskMetadata(options.reasoningEffort, "Reasoning effort", 80)
+    : current.reasoning_effort ?? null;
+  const selected = effectiveTurn ?? observedThread ?? requested ?? legacy;
+  const derivedSource = effectiveTurn
+    ? "provider-turn"
+    : observedThread
+      ? "provider-thread"
+      : requested
+        ? "canonical-requested"
+        : "unknown";
+  const explicitSource = reasoningEffortSource(options.reasoningEffortSource);
+  if (explicitSource && explicitSource !== derivedSource) {
+    throw new Error(`Reasoning effort source ${explicitSource} does not match the recorded provenance ${derivedSource}`);
+  }
+  return {
+    requested_reasoning_effort: requested,
+    observed_thread_reasoning_effort: observedThread,
+    effective_turn_reasoning_effort: effectiveTurn,
+    reasoning_effort: selected,
+    reasoning_effort_source: explicitSource ?? derivedSource
+  };
 }
 
 function nextTaskId(tasks) {
@@ -105,7 +150,7 @@ export async function registerTask(target, options) {
   }
   const requestedModel = optionalTaskMetadata(options.requestedModel, "Requested model");
   const effectiveModel = optionalTaskMetadata(options.effectiveModel, "Effective model");
-  const reasoningEffort = optionalTaskMetadata(options.reasoningEffort, "Reasoning effort", 80);
+  const reasoning = reasoningProvenance(options);
   const serviceTier = optionalTaskMetadata(options.serviceTier, "Service tier", 80);
   const launchRevision = optionalTaskMetadata(
     options.launchRevision ?? options.revision,
@@ -141,7 +186,7 @@ export async function registerTask(target, options) {
     provider_id: providerId,
     requested_model: requestedModel,
     effective_model: effectiveModel,
-    reasoning_effort: reasoningEffort,
+    ...reasoning,
     service_tier: serviceTier,
     launch_revision: launchRevision,
     current_revision: options.revision ?? null,
@@ -205,9 +250,7 @@ export async function updateTask(target, options) {
   const effectiveModel = options.effectiveModel === undefined
     ? current.effective_model ?? null
     : optionalTaskMetadata(options.effectiveModel, "Effective model");
-  const reasoningEffort = options.reasoningEffort === undefined
-    ? current.reasoning_effort ?? null
-    : optionalTaskMetadata(options.reasoningEffort, "Reasoning effort", 80);
+  const reasoning = reasoningProvenance(options, current);
   const serviceTier = options.serviceTier === undefined
     ? current.service_tier ?? null
     : optionalTaskMetadata(options.serviceTier, "Service tier", 80);
@@ -216,7 +259,7 @@ export async function updateTask(target, options) {
     status,
     current_revision: options.revision ?? current.current_revision,
     effective_model: effectiveModel,
-    reasoning_effort: reasoningEffort,
+    ...reasoning,
     service_tier: serviceTier,
     notes: options.notes ?? current.notes,
     registered_by: current.registered_by ?? actor,
