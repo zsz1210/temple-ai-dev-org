@@ -35,12 +35,11 @@ async function writeJson(targetPath, value) {
   await fs.writeFile(targetPath, `${JSON.stringify(value, null, 2)}\n`);
 }
 
-async function fixture(context) {
+async function fixture() {
   const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-private-viewer-test-"));
   const target = path.join(temporaryRoot, "private-viewer-product");
   const configPath = path.join(temporaryRoot, "init.json");
   const stateDirectory = path.join(temporaryRoot, "runtime-state");
-  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
   await writeJson(configPath, {
     schema_version: "temple.init/v1",
     project: { id: "private-viewer-product", name: "Private Viewer Product" },
@@ -60,7 +59,11 @@ async function fixture(context) {
   assert.equal(git(target, ["config", "user.name", "Temple Tests"]).status, 0);
   assert.equal(git(target, ["add", "."]).status, 0);
   assert.equal(git(target, ["commit", "-qm", "initial state"]).status, 0);
-  return { target, stateDirectory };
+  return {
+    target,
+    stateDirectory,
+    cleanup: () => fs.rm(temporaryRoot, { recursive: true, force: true, maxRetries: 3, retryDelay: 50 })
+  };
 }
 
 function privateRequest(controlPlane, pathname, options = {}) {
@@ -238,7 +241,9 @@ test("home-LAN viewer accepts only exact RFC1918 IPv4 addresses", () => {
 });
 
 test("home-LAN CLI requires an explicit private host before accepting a port", async (context) => {
-  const { target } = await fixture(context);
+  const fixtureState = await fixture();
+  context.after(() => fixtureState.cleanup());
+  const { target } = fixtureState;
   const portOnly = run(["control-plane", "start", target, "--lan-viewer-port", "0"]);
   assert.notEqual(portOnly.status, 0);
   assert.match(portOnly.stderr, /--lan-viewer-port requires --lan-viewer-host/);
@@ -262,12 +267,18 @@ test("dedicated home-LAN listener is redacted and read-only regardless of reques
     context.skip("No RFC1918 interface is available for the listener integration test");
     return;
   }
-  const { target, stateDirectory } = await fixture(context);
+  const fixtureState = await fixture();
+  let controlPlane = null;
+  context.after(async () => {
+    await controlPlane?.close();
+    await fixtureState.cleanup();
+  });
+  const { target, stateDirectory } = fixtureState;
   await assert.rejects(
     startControlPlaneServer(target, { stateDirectory, port: 0, lanViewerHost: "0.0.0.0", lanViewerPort: 0 }),
     /LAN viewer host/
   );
-  const controlPlane = await startControlPlaneServer(target, {
+  controlPlane = await startControlPlaneServer(target, {
     stateDirectory,
     port: 0,
     repositoryIntervalMs: 50,
@@ -275,7 +286,6 @@ test("dedicated home-LAN listener is redacted and read-only regardless of reques
     lanViewerHost,
     lanViewerPort: 0
   });
-  context.after(() => controlPlane.close());
 
   assert.equal(controlPlane.lanViewerHost, lanViewerHost);
   assert.match(controlPlane.lanViewerUrl, new RegExp(`^http://${lanViewerHost.replaceAll(".", "\\.")}:\\d+$`));
@@ -324,14 +334,19 @@ test("dedicated home-LAN listener is redacted and read-only regardless of reques
 });
 
 test("private Temple Workspace is redacted, refresh-only, and cannot reach Inbox or mutations", async (context) => {
-  const { target, stateDirectory } = await fixture(context);
-  const controlPlane = await startControlPlaneServer(target, {
+  const fixtureState = await fixture();
+  let controlPlane = null;
+  context.after(async () => {
+    await controlPlane?.close();
+    await fixtureState.cleanup();
+  });
+  const { target, stateDirectory } = fixtureState;
+  controlPlane = await startControlPlaneServer(target, {
     stateDirectory,
     port: 0,
     repositoryIntervalMs: 50,
     privateViewerHost: privateHost
   });
-  context.after(() => controlPlane.close());
 
   const missingIdentity = await privateRequest(controlPlane, "/", { identity: false });
   assert.equal(missingIdentity.status, 403);
@@ -395,4 +410,6 @@ test("private Temple Workspace is redacted, refresh-only, and cannot reach Inbox
   const localSnapshot = await (await fetch(`${controlPlane.url}/api/v1/snapshot`)).json();
   assert.ok(localSnapshot.inbox);
   assert.ok(localSnapshot.recent_events.some((entry) => entry.id === "private-refresh-fixture"));
+
+  await controlPlane.close();
 });

@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 2 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 73 total, 9 active
+- Work items: 74 total, 10 active
 - Codex tasks: 5 registered, 4 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -26,7 +26,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 2
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -118,6 +118,7 @@
 | WI-0071 | Automate Skill candidate proposals with human activation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `406bc213` | 0 | 15 | 0 |
 | WI-0072 | Preserve evidence revisions across remote CI | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5913ea0c` | 0 | 19 | 0 |
 | WI-0073 | Consolidate evidence durability CI fixtures | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831160752-f3eedf27 | `ddbf04a8` | 0 | 15 | 0 |
+| WI-0074 | Remove hosted control-plane test races | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831161600-c0733b38 | `947d4e70` | 0 | 14 | 0 |
 
 ## Codex task registry
 
@@ -236,14 +237,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T16:07:52.377Z | work_item_claimed | WI-0073 | human |
-| 2026-08-31T16:07:52.019Z | work_item_transitioned | WI-0073 | agent-lulu |
-| 2026-08-31T16:07:51.691Z | work_item_claim_released | WI-0073 | human |
-| 2026-08-31T16:07:51.362Z | handoff_created | WI-0073 | agent-lulu |
-| 2026-08-31T16:07:51.071Z | evidence_recorded | WI-0073 | human |
-| 2026-08-31T16:06:33.148Z | work_item_claimed | WI-0073 | human |
-| 2026-08-31T16:06:32.780Z | work_item_transitioned | WI-0073 | agent-lulu |
-| 2026-08-31T16:06:32.424Z | work_item_claim_released | WI-0073 | human |
+| 2026-08-31T16:16:00.997Z | work_item_claimed | WI-0074 | human |
+| 2026-08-31T16:16:00.670Z | work_item_coordination_configured | WI-0074 | agent-mog |
+| 2026-08-31T16:16:00.310Z | work_item_transitioned | WI-0074 | agent-lulu |
+| 2026-08-31T16:16:00.014Z | work_item_claim_released | WI-0074 | human |
+| 2026-08-31T16:15:59.716Z | handoff_created | WI-0074 | agent-lulu |
+| 2026-08-31T16:15:59.442Z | evidence_recorded | WI-0074 | human |
+| 2026-08-31T16:14:55.046Z | work_item_claimed | WI-0074 | human |
+| 2026-08-31T16:14:54.707Z | work_item_transitioned | WI-0074 | agent-lulu |
 
 ## Assignments
 

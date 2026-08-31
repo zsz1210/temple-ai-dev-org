@@ -1,0 +1,19 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "947d4e70cf44ba65c9ec2c69bcbe295e1ed7f29b",
+  "command": [
+    "node",
+    "--test",
+    "test/control-plane-live.test.mjs",
+    "test/control-plane-private-viewer.test.mjs"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T16:14:14.000Z",
+  "completed_at": "2026-08-31T16:14:27.000Z",
+  "artifact_refs": [
+    "test/control-plane-live.test.mjs",
+    "test/control-plane-private-viewer.test.mjs"
+  ],
+  "summary": "Both affected suites passed 25 tests with no failures, cancellations, or skipped tests."
+}

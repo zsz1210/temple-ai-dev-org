@@ -1,0 +1,19 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "947d4e70cf44ba65c9ec2c69bcbe295e1ed7f29b",
+  "command": [
+    "npm",
+    "run",
+    "verify"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T16:12:35.000Z",
+  "completed_at": "2026-08-31T16:13:30.000Z",
+  "artifact_refs": [
+    "test/control-plane-live.test.mjs",
+    "test/control-plane-private-viewer.test.mjs",
+    ".ai-org/artifacts/WI-0074/developer-verification.md"
+  ],
+  "summary": "Repository and documentation checks passed; all 250 tests passed in 53.9 seconds of Node test time and 54.8 seconds wall time."
+}

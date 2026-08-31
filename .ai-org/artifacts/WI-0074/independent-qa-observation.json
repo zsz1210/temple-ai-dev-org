@@ -1,0 +1,20 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "947d4e70cf44ba65c9ec2c69bcbe295e1ed7f29b",
+  "command": [
+    "node",
+    "--test",
+    "test/control-plane-live.test.mjs",
+    "test/control-plane-private-viewer.test.mjs"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T16:15:09.000Z",
+  "completed_at": "2026-08-31T16:15:33.000Z",
+  "artifact_refs": [
+    "test/control-plane-live.test.mjs",
+    "test/control-plane-private-viewer.test.mjs",
+    ".ai-org/artifacts/WI-0074/independent-qa-report.md"
+  ],
+  "summary": "A fresh detached exact-candidate worktree with clean dependencies passed both affected suites (25/25) and Doctor (35 pass, one unrelated stale-plan warning, zero failures)."
+}
