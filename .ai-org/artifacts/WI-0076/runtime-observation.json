@@ -1,0 +1,38 @@
+{
+  "schema_version": "temple.runtime-observation/v1",
+  "work_item_id": "WI-0076",
+  "revision": "006ef1123d7d00560f56e0d03477737ea0ab9d10",
+  "environment": "Temple self-host repository on macOS, loopback Control Plane, headed Chromium through Playwright CLI, and a disposable bare origin with two local clones",
+  "scenario": "Review Team at 1440 px and 390 px, exercise keyboard tab navigation, inspect console and overflow, then execute the automated two-clone conflict and cold-recovery scenario",
+  "result": "pass",
+  "provenance": "simulator",
+  "observed_at": "2026-08-31T18:48:40.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0076/browser-review.md",
+    ".ai-org/artifacts/WI-0076/simulated-collaboration-report.md",
+    ".ai-org/artifacts/WI-0076/screenshots/team-responsibilities-1440.png",
+    ".ai-org/artifacts/WI-0076/screenshots/team-authority-1440.png",
+    ".ai-org/artifacts/WI-0076/screenshots/team-responsibilities-390.png",
+    ".ai-org/artifacts/WI-0076/screenshots/team-people-agents-390.png",
+    ".ai-org/artifacts/WI-0076/screenshots/team-authority-390.png"
+  ],
+  "browser": {
+    "desktop_viewport": "1440x1000",
+    "mobile_viewport": "390x844",
+    "horizontal_page_overflow": false,
+    "keyboard_arrow_navigation": "pass",
+    "console_errors": 0,
+    "console_warnings": 0
+  },
+  "collaboration": {
+    "classification": "simulated_collaborative",
+    "independent_humans": 1,
+    "independently_administered_environments": 0,
+    "non_fast_forward_rejected": true,
+    "merge_conflict_visible": true,
+    "both_writer_commits_recoverable": true,
+    "cold_clone_recovery": "pass",
+    "real_collaborative_gate_satisfied": false
+  },
+  "external_action_performed": false
+}
