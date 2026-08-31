@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-08-31T08:58:57.833Z",
-  "source_fingerprint": "9d2a839758eea96f333a23ded06bb6ab9d8319bcacd07d6c6b598a94da773759",
+  "generated_at": "2026-08-31T09:31:12.330Z",
+  "source_fingerprint": "995d2f0103db7adca33af2c497ab6ce3fb4525bbfc33b370efc55ec1af242307",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -10,16 +10,17 @@
       "WI-0031",
       "WI-0033",
       "WI-0035",
-      "WI-0043"
+      "WI-0043",
+      "WI-0061"
     ]
   },
   "max_workers": 3,
   "summary": {
-    "selected": 5,
+    "selected": 6,
     "dispatchable": 0,
     "active": 0,
     "sequential": 3,
-    "blocked": 2,
+    "blocked": 3,
     "waves": 0
   },
   "waves": [],
@@ -78,6 +79,17 @@
       "position_id": "quality_evaluator",
       "agent_id": "agent-lulu",
       "integration_owner_agent_id": "agent-mog",
+      "reasons": [
+        "unresolved_items_cleared"
+      ]
+    },
+    {
+      "work_item_id": "WI-0061",
+      "title": "Approve a bounded local instrumentation pilot",
+      "disposition": "blocked",
+      "position_id": "product_manager",
+      "agent_id": "agent-yuna",
+      "integration_owner_agent_id": null,
       "reasons": [
         "unresolved_items_cleared"
       ]

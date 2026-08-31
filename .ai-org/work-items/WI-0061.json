@@ -1,0 +1,112 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0061",
+  "title": "Approve a bounded local instrumentation pilot",
+  "state": "spec",
+  "owner_position": "product_manager",
+  "assigned_agent_id": "agent-yuna",
+  "created_at": "2026-08-31T09:28:24.316Z",
+  "updated_at": "2026-08-31T09:30:06.779Z",
+  "scope": [
+    "Define one local synthetic Temple repository and one disposable provider-owned Codex task that test Work Item, task, revision, model, reasoning, outcome, and Token correlation before any four-repository experiment.",
+    "Propose exact local paths, GPT-5.6-only model selection, Token and wall-clock ceilings, zero-retry rules, stop conditions, evidence, and cleanup without creating the repository or starting a model task.",
+    "Keep GitHub, hosted CI, public release, deployment, company data, additional machines, and the four-repository rehearsal outside this Work Item."
+  ],
+  "acceptance_criteria": [
+    "The proposal names one exact local repository path and one bounded synthetic task with no production or company data.",
+    "Requested model, reasoning effort, warning and hard Token thresholds, task and retry ceilings, wall-clock ceiling, disk ceiling, and stop rules are explicit.",
+    "The proposal explains which usage fields must correlate before the later multi-repository experiment may start and leaves unavailable fields unknown.",
+    "No repository, Codex task, model call, external write, hosted CI, push, deployment, or public release is performed before human budget approval."
+  ],
+  "affected_paths": [
+    "docs/planning/temple-effectiveness-and-microservice-validation.md",
+    ".ai-org/artifacts/WI-0061"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "fee3ebefa2ba86efd754e55662922c194dcae7d2",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260831092852-b5eafc17",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-yuna",
+    "base_revision": "fee3ebefa2ba86efd754e55662922c194dcae7d2",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-08-31T09:28:52.503Z",
+    "released_at": "2026-08-31T09:30:06.779Z",
+    "release_reason": [
+      "awaiting_human_budget_approval"
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260831092824-1107e3b9",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "fee3ebefa2ba86efd754e55662922c194dcae7d2",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T09:28:24.600Z",
+      "released_at": "2026-08-31T09:28:51.919Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260831092852-b5eafc17",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "fee3ebefa2ba86efd754e55662922c194dcae7d2",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T09:28:52.503Z",
+      "released_at": "2026-08-31T09:30:06.779Z",
+      "release_reason": [
+        "awaiting_human_budget_approval"
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0061/work-order.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0061/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0061/work-order.md"
+  ],
+  "unresolved": [
+    "Awaiting Human Principal approval or revision of the exact lab path, gpt-5.6-luna max profile, 40,000/60,000 Token thresholds, one-turn zero-retry rule, 15-minute task ceiling, 45-minute pilot ceiling, 250 MiB disk ceiling, and minimum correlation gate in the pilot proposal."
+  ],
+  "next_position": "tech_lead",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "fee3ebefa2ba86efd754e55662922c194dcae7d2",
+      "artifact": ".ai-org/artifacts/WI-0061/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-08-31T09:28:51.655Z"
+    }
+  ]
+}

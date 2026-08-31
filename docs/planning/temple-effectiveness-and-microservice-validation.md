@@ -139,7 +139,9 @@ The experiment stops when a ceiling is reached, correlation is lost, authority w
 
 ## Decision after this plan
 
-When this planning Work Item passes Independent QA, the next decision is small and explicit:
+The planning review now records that next decision as `WI-0061`. Its proposed local path, GPT-5.6 profile, Token, time, disk, retry, correlation, and stop boundaries are in [the bounded instrumentation pilot proposal](../../.ai-org/artifacts/WI-0061/pilot-proposal.md). The proposal remains unexecuted until the repository owner approves or revises those exact ceilings.
+
+The next decision remains small and explicit:
 
 > Approve or revise a local instrumentation pilot with one synthetic repository, one disposable registered Codex task, and a fixed budget.
 
