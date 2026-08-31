@@ -6504,6 +6504,291 @@
         "scenario": "Independently render Team Structure at 1440 CSS pixels, verify dark default and 10 Position nodes, select Rikku and verify one highlighted assignment while every node remains present, keyboard-switch to Teammates, resize to 320 CSS pixels, confirm no horizontal overflow, and inspect browser console output",
         "provenance": "live"
       }
+    },
+    {
+      "id": "EVID-20260831T040925Z-DEA67A86",
+      "work_item_id": "WI-0049",
+      "recorded_at": "2026-08-31T04:09:25.168Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Human-readable Workspace candidate",
+      "outcome": "verified",
+      "scope_revision": "6acb200dbe5090dea7d1e10b212bcff5b8079938",
+      "observed_at": "2026-08-31T04:09:25.168Z",
+      "summary": "Exact candidate implementing the approved status, disclosure, freshness, responsive, and private-viewer refinements.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "6acb200dbe5090dea7d1e10b212bcff5b8079938"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "6acb200dbe5090dea7d1e10b212bcff5b8079938",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260831T040925Z-CEF1311B",
+      "work_item_id": "WI-0049",
+      "recorded_at": "2026-08-31T04:09:25.451Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer verification",
+      "outcome": "pass",
+      "scope_revision": "6acb200dbe5090dea7d1e10b212bcff5b8079938",
+      "observed_at": "2026-08-31T04:07:10Z",
+      "summary": "Focused 21-test suite and full 223-test verification passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0049/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0049/developer-test-observation.json",
+          "sha256": "9af19cb9e47a8c6a12d3f7bdb3faf821bb389d7c0583c79869dc2fe3a3e6c08b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0049/developer-report.md",
+          "sha256": "a204c8a979992b6b9ce17c8af972d3a32242da6b92073ba72f7105d9d2434a24"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0049/focused-test-results.md",
+          "sha256": "be93ad3896bb02834a6121433faf1ca20c385bd963c0f0ebde8074f080725f40"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0049/product-spec.md",
+          "sha256": "145b5b50660e145b1485cfd2a218b13644c31c8da37da6df74568fdf1838e3ea"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0049/technical-design.md",
+          "sha256": "bc89d59754da606573d645e2e88240a01c3062368284c1c93f7fedfc20b907d0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0049/ui-brief.md",
+          "sha256": "63166338f24f5296b59a4ebcdb499260baa41c5d314734e897f00ab68c303ccb"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --check src/control-plane-dashboard.mjs",
+          "node --test test/control-plane-foundation.test.mjs test/control-plane-inbox.test.mjs test/control-plane-private-viewer.test.mjs",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T03:59:00Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T040925Z-E32C8BCD",
+      "work_item_id": "WI-0049",
+      "recorded_at": "2026-08-31T04:09:25.748Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Developer browser review",
+      "outcome": "pass",
+      "scope_revision": "6acb200dbe5090dea7d1e10b212bcff5b8079938",
+      "observed_at": "2026-08-31T04:08:25Z",
+      "summary": "Fresh headed Chromium review passed across wide, compact, and mobile private-viewer layouts.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0049/runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0049/runtime-observation.json",
+          "sha256": "41a98df0cd129aba138bb2a9fb7b1ab78591e6c8e8d2eed3a7295750208e0a0b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0049/browser-review.md",
+          "sha256": "845d6c286dfeeb77a47ea734f8b30a83f714f229315733a2da9361378ebcdf7d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0049/developer-report.md",
+          "sha256": "a204c8a979992b6b9ce17c8af972d3a32242da6b92073ba72f7105d9d2434a24"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0049/ui-brief.md",
+          "sha256": "63166338f24f5296b59a4ebcdb499260baa41c5d314734e897f00ab68c303ccb"
+        }
+      ],
+      "details": {
+        "environment": "Temple self-host repository on the Mac Mini, live Control Plane with Codex observation, exact 192.168.79.5 home-LAN read-only listener, and a fresh headed Chromium session",
+        "scenario": "Render Work at 3440, 1440, 1024, and 390 CSS-pixel widths; expand WI-0049; verify human status labels, View details and Hide details, nested technical details, one quiet Last updated timestamp, private-viewer redaction, browser console output, and horizontal overflow",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260831T041049Z-8FD71E16",
+      "work_item_id": "WI-0049",
+      "recorded_at": "2026-08-31T04:10:49.407Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality evaluation",
+      "outcome": "pass",
+      "scope_revision": "6acb200dbe5090dea7d1e10b212bcff5b8079938",
+      "observed_at": "2026-08-31T04:10:16Z",
+      "summary": "Lulu re-ran the focused suite and matched the exact candidate to every WI-0049 acceptance criterion.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0049/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0049/quality-test-observation.json",
+          "sha256": "625d935a248ce828ac987b113b73786b2631c02f32b2ccb54d83dee59b53cdc0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0049/quality-report.md",
+          "sha256": "dba7dac8bff0c788bb0722a53285ee147f321169730e4f1b1f5e01cb2d0f0893"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0049/evaluation-report.md",
+          "sha256": "b4d16cc35fcf64b8ee5dc9599fd4f15d3eddabd22ea09b940caa737cd3f7c1cd"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0049/developer-report.md",
+          "sha256": "a204c8a979992b6b9ce17c8af972d3a32242da6b92073ba72f7105d9d2434a24"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0049/browser-review.md",
+          "sha256": "845d6c286dfeeb77a47ea734f8b30a83f714f229315733a2da9361378ebcdf7d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0049/product-spec.md",
+          "sha256": "145b5b50660e145b1485cfd2a218b13644c31c8da37da6df74568fdf1838e3ea"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0049/ui-brief.md",
+          "sha256": "63166338f24f5296b59a4ebcdb499260baa41c5d314734e897f00ab68c303ccb"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/control-plane-foundation.test.mjs test/control-plane-inbox.test.mjs test/control-plane-private-viewer.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T04:10:10Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T041423Z-8E8005CF",
+      "work_item_id": "WI-0049",
+      "recorded_at": "2026-08-31T04:14:23.790Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA verification",
+      "outcome": "pass",
+      "scope_revision": "6acb200dbe5090dea7d1e10b212bcff5b8079938",
+      "observed_at": "2026-08-31T04:12:20Z",
+      "summary": "Fresh detached candidate worktree passed repository checks, documentation checks, and all 223 tests.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0049/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0049/independent-qa-test-observation.json",
+          "sha256": "5cc512685ef1e1b3eb08cffbb56efdcf487849e46918641c28e8e39107f634fe"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0049/independent-qa-report.md",
+          "sha256": "6a142f6bc932f409bc319d132ac8059a7ddb0b3219e9ed9a93cce6dc1a282bac"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0049/product-spec.md",
+          "sha256": "145b5b50660e145b1485cfd2a218b13644c31c8da37da6df74568fdf1838e3ea"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0049/technical-design.md",
+          "sha256": "bc89d59754da606573d645e2e88240a01c3062368284c1c93f7fedfc20b907d0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0049/ui-brief.md",
+          "sha256": "63166338f24f5296b59a4ebcdb499260baa41c5d314734e897f00ab68c303ccb"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm ci",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T04:11:20Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T041424Z-A613B250",
+      "work_item_id": "WI-0049",
+      "recorded_at": "2026-08-31T04:14:24.059Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Independent QA browser review",
+      "outcome": "pass",
+      "scope_revision": "6acb200dbe5090dea7d1e10b212bcff5b8079938",
+      "observed_at": "2026-08-31T04:13:48Z",
+      "summary": "Fresh Chromium reproduced responsive, disclosure, timestamp, and private-viewer behavior without console errors.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0049/independent-qa-runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0049/independent-qa-runtime-observation.json",
+          "sha256": "3cde47b296c90a8d9821f91ef14b94b04698b43a97a0665b2020788e66529844"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0049/independent-qa-report.md",
+          "sha256": "6a142f6bc932f409bc319d132ac8059a7ddb0b3219e9ed9a93cce6dc1a282bac"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0049/browser-review.md",
+          "sha256": "845d6c286dfeeb77a47ea734f8b30a83f714f229315733a2da9361378ebcdf7d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0049/ui-brief.md",
+          "sha256": "63166338f24f5296b59a4ebcdb499260baa41c5d314734e897f00ab68c303ccb"
+        }
+      ],
+      "details": {
+        "environment": "Fresh headed Chromium session against the private home-LAN viewer, with served dashboard source and focused tests confirmed byte-identical to the exact candidate revision",
+        "scenario": "At 390 CSS pixels, verify no horizontal overflow, exactly one Last updated status, absence of Snapshot current and healthy Live updates messages, private read-only boundary, Enter expansion to Hide details, Space collapse to View details, retained focus, and browser console output",
+        "provenance": "live"
+      }
     }
   ]
 }

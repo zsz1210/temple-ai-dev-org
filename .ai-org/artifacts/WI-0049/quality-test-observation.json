@@ -1,0 +1,19 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "6acb200dbe5090dea7d1e10b212bcff5b8079938",
+  "command": [
+    "node --test test/control-plane-foundation.test.mjs test/control-plane-inbox.test.mjs test/control-plane-private-viewer.test.mjs"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T04:10:10Z",
+  "completed_at": "2026-08-31T04:10:16Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0049/quality-report.md",
+    ".ai-org/artifacts/WI-0049/evaluation-report.md",
+    ".ai-org/artifacts/WI-0049/developer-report.md",
+    ".ai-org/artifacts/WI-0049/browser-review.md",
+    ".ai-org/artifacts/WI-0049/product-spec.md",
+    ".ai-org/artifacts/WI-0049/ui-brief.md"
+  ]
+}

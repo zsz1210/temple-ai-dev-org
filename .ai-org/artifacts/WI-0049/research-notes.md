@@ -12,7 +12,7 @@
 2. The concise summary remains separate from the richer content. Status is shown as a short lozenge for scanning, while revision, provenance, freshness, task IDs, and evidence stay inside the expanded region.
 3. Healthy refresh is ordinary metadata, not an alert. Only delayed or failed refresh needs a bordered, high-attention message.
 4. Human labels describe the decision or activity: `Testing`, `Waiting for release decision`, and `Planned`. Canonical enum values remain available in technical details for traceability.
-5. Normal update time appears once in the main content. Connection transport remains in the sidebar; the footer does not repeat the timestamp.
+5. Normal update time appears once in the main content. The access boundary remains in the sidebar, but healthy connectivity is not repeated as another status message; reconnecting is shown only as an exception.
 
 ## Accessibility and motion
 

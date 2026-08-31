@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=false
 - Work items: 49 total, 20 active
 - Codex tasks: 4 registered, 3 archive-ready
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -92,7 +92,7 @@
 | WI-0046 | Reframe Control Plane as management console and add Organization | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `7f03cbca` | 0 | 18 | 0 |
 | WI-0047 | Make Temple Workspace human-first and fluid across screen sizes | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | preview-first | 1 | 0 | 0 | — | `b6bbe09e` | 0 | 22 | 0 |
 | WI-0048 | Adopt dark engineering style and visualize Temple structure | release_gate | Release Manager | Mog | pending | internal | 0 | gate-evidence | preview-first | 1 | 0 | 0 | — | `78495198` | 0 | 23 | 0 |
-| WI-0049 | Make Temple Workspace status language human-readable | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260831034553-99ec1ad8 | `—` | 0 | 9 | 0 |
+| WI-0049 | Make Temple Workspace status language human-readable | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `6acb200d` | 0 | 21 | 0 |
 
 ## Codex task registry
 
@@ -203,14 +203,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T03:45:53.435Z | work_item_claimed | WI-0049 | human |
-| 2026-08-31T03:45:53.049Z | work_item_transitioned | WI-0049 | agent-tidus |
-| 2026-08-31T03:45:45.110Z | handoff_created | WI-0049 | agent-tidus |
-| 2026-08-31T03:45:17.315Z | work_item_claimed | WI-0049 | human |
-| 2026-08-31T03:45:16.842Z | work_item_transitioned | WI-0049 | agent-yuna |
-| 2026-08-31T03:45:16.455Z | handoff_created | WI-0049 | agent-yuna |
-| 2026-08-31T03:44:32.977Z | work_item_claimed | WI-0049 | human |
-| 2026-08-31T03:44:32.540Z | work_item_transitioned | WI-0049 | agent-mog |
+| 2026-08-31T04:14:32.400Z | work_item_transitioned | WI-0049 | agent-lulu |
+| 2026-08-31T04:14:32.107Z | handoff_created | WI-0049 | agent-lulu |
+| 2026-08-31T04:14:24.059Z | evidence_recorded | WI-0049 | human |
+| 2026-08-31T04:14:23.790Z | evidence_recorded | WI-0049 | human |
+| 2026-08-31T04:11:08.073Z | work_item_claimed | WI-0049 | human |
+| 2026-08-31T04:11:02.207Z | work_item_transitioned | WI-0049 | agent-lulu |
+| 2026-08-31T04:11:01.914Z | handoff_created | WI-0049 | agent-lulu |
+| 2026-08-31T04:11:01.643Z | work_item_transitioned | WI-0049 | agent-lulu |
 
 ## Assignments
 

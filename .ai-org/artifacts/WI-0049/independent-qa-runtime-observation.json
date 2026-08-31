@@ -1,0 +1,14 @@
+{
+  "schema_version": "temple.runtime-observation/v1",
+  "revision": "6acb200dbe5090dea7d1e10b212bcff5b8079938",
+  "environment": "Fresh headed Chromium session against the private home-LAN viewer, with served dashboard source and focused tests confirmed byte-identical to the exact candidate revision",
+  "scenario": "At 390 CSS pixels, verify no horizontal overflow, exactly one Last updated status, absence of Snapshot current and healthy Live updates messages, private read-only boundary, Enter expansion to Hide details, Space collapse to View details, retained focus, and browser console output",
+  "result": "pass",
+  "provenance": "live",
+  "observed_at": "2026-08-31T04:13:48Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0049/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0049/browser-review.md",
+    ".ai-org/artifacts/WI-0049/ui-brief.md"
+  ]
+}
