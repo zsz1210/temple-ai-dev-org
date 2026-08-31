@@ -1,0 +1,76 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0051",
+  "title": "Run bounded Temple instrumentation pilot",
+  "state": "intake",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-08-31T05:27:09.141Z",
+  "updated_at": "2026-08-31T05:28:06.913Z",
+  "scope": [
+    "Coordinate one local synthetic repository and one disposable registered Codex task to test exact Work Item, task, revision, Position, model, and Token-observation correlation.",
+    "Use synthetic data, one low-reasoning gpt-5.4-mini task, no network dependency, no GitHub, no hosted CI, no release, no deployment, and no public action.",
+    "Stop after reporting the measurement path as observed, partial, or unavailable; do not expand into the four-repository rehearsal."
+  ],
+  "acceptance_criteria": [
+    "The human owner explicitly confirms five project-local Agent display names and the fixed pilot budget before temple init or task creation.",
+    "A new local Git repository is initialized through temple init dry-run and real init, then passes temple doctor and status without adding its identities to the central template.",
+    "One synthetic repository Work Item is prepared, one real user-owned Codex task is created with gpt-5.4-mini and low reasoning, and its stable thread ID is registered before execution evidence is interpreted.",
+    "Usage preflight and report record exact correlation or an explicit unsupported, partial, or unavailable result without retaining prompts or claiming savings.",
+    "The pilot preserves exact verification evidence, Developer and Independent QA identity separation, and stops without creating another product feature, service repository, external resource, or release."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0051"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "2b72d5e9c9c8c1b1d9ec2736ff846b8706c79c2d",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": "agent-mog",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260831052718-3b09c6b5",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "2b72d5e9c9c8c1b1d9ec2736ff846b8706c79c2d",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-08-31T05:27:18.557Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260831052718-3b09c6b5",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "2b72d5e9c9c8c1b1d9ec2736ff846b8706c79c2d",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T05:27:18.557Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {},
+  "evidence": [],
+  "unresolved": [
+    "Human confirmation required before init: approve the five proposed project-local Agent names and the fixed one-task pilot budget in .ai-org/artifacts/WI-0051/work-order.md."
+  ],
+  "next_position": "product_manager"
+}
