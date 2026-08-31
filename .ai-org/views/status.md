@@ -5,14 +5,14 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 51 total, 21 active
+- Work items: 52 total, 22 active
 - Codex tasks: 4 registered, 3 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
 - Context routes: 0 active (repository-deterministic, semantic=false)
-- Engineering learning: 1 Lessons, 1 Practices
+- Engineering learning: 2 Lessons, 1 Practices
 - Learning revalidation: 0 due, 0 contradicted
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
@@ -95,6 +95,7 @@
 | WI-0049 | Make Temple Workspace status language human-readable | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `6acb200d` | 0 | 21 | 0 |
 | WI-0050 | Design Temple effectiveness and multi-repository validation | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c9993415` | 0 | 22 | 0 |
 | WI-0051 | Run bounded Temple instrumentation pilot | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `7dc0080a` | 0 | 17 | 0 |
+| WI-0052 | Establish provider-owned Codex observability bridge | intake | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
 
 ## Codex task registry
 
@@ -192,7 +193,7 @@
 
 ## Engineering learning
 
-- Candidate: 2
+- Candidate: 3
 - Validated: 0
 - Active: 0
 - Deprecated: 0
@@ -205,14 +206,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-31T06:09:50.421Z | work_item_coordination_configured | WI-0052 | agent-mog |
+| 2026-08-31T06:09:36.199Z | work_item_coordination_configured | WI-0052 | agent-mog |
+| 2026-08-31T06:08:45.709Z | work_item_created | WI-0052 | agent-mog |
+| 2026-08-31T05:51:17.367Z | learning_added | — | human |
 | 2026-08-31T05:51:01.820Z | work_item_closed | WI-0051 | agent-mog |
 | 2026-08-31T05:51:01.820Z | release_gate_completed | WI-0051 | agent-mog |
 | 2026-08-31T05:49:41.020Z | work_item_claimed | WI-0051 | human |
 | 2026-08-31T05:49:40.686Z | work_item_transitioned | WI-0051 | agent-lulu |
-| 2026-08-31T05:49:40.392Z | handoff_created | WI-0051 | agent-lulu |
-| 2026-08-31T05:49:40.107Z | work_item_claimed | WI-0051 | human |
-| 2026-08-31T05:49:39.804Z | work_item_transitioned | WI-0051 | agent-lulu |
-| 2026-08-31T05:49:39.504Z | handoff_created | WI-0051 | agent-lulu |
 
 ## Assignments
 
