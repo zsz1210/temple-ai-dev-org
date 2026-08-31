@@ -5,9 +5,26 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import { normalizeDashboardAttention } from "../src/control-plane-dashboard.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const cli = path.join(root, "bin/temple.mjs");
+
+test("Dashboard Now preserves read-only Skill Proposal evidence and authority attention", () => {
+  const proposalAttention = {
+    type: "skill_proposal_pending",
+    learning_id: "PRACTICE-0001",
+    proposal_id: "SKILL-PROPOSAL-0001",
+    evidence_refs: [".ai-org/learning/practices/PRACTICE-0001.md"],
+    authority: "Guidance only; no lifecycle or external-write authority.",
+    message: "SKILL-PROPOSAL-0001 awaits a Human Principal decision. Authority: Guidance only; no lifecycle or external-write authority.",
+    suggested_action: "Approve, reject, or defer through the local CLI",
+    jump_view: "system"
+  };
+  const attention = normalizeDashboardAttention({ observerAttention: [proposalAttention] });
+  assert.deepEqual(attention, [{ ...proposalAttention, source: "work" }]);
+  assert.doesNotMatch(JSON.stringify(attention), /endpoint|mutation|remote write/i);
+});
 
 function run(args) {
   return spawnSync(process.execPath, [cli, ...args], { encoding: "utf8" });

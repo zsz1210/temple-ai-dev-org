@@ -65,8 +65,11 @@
             "required": ["target", "status", "reference"],
             "properties": {
               "target": { "enum": ["none", "practice", "skill", "automated-check", "adr", "instruction"] },
-              "status": { "enum": ["none", "proposed", "accepted", "rejected"] },
-              "reference": { "type": ["string", "null"] }
+              "status": { "enum": ["none", "proposed", "accepted", "rejected", "deferred"] },
+              "reference": { "type": ["string", "null"] },
+              "proposal_id": { "type": ["string", "null"], "pattern": "^SKILL-PROPOSAL-[0-9]{4,}$" },
+              "review_after": { "type": ["string", "null"], "format": "date-time" },
+              "work_item_id": { "type": ["string", "null"], "pattern": "^WI-(?:[0-9]{4,}|[0-9]{8}-[A-F0-9]{10})$" }
             },
             "additionalProperties": false
           },

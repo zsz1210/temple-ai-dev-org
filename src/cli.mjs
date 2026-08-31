@@ -48,8 +48,11 @@ import { validateProjectSchemas } from "./schema-validation.mjs";
 import { buildMigrationPlan } from "./migrations.mjs";
 import {
   addLearningEntry,
+  decideSkillProposal,
   listLearningEntries,
+  listSkillPromotionCandidates,
   migrateLearningIndex,
+  proposeSkillFromLearning,
   revalidateLearningEntry
 } from "./learning.mjs";
 import { evaluateRetrieval, readRetrievalConfig } from "./retrieval.mjs";
@@ -160,6 +163,9 @@ Usage:
   temple learning add-practice [target] --title text --summary text --confidence low|medium|high --derived-from LESSON-ID --owner-position position [--tag value] [--applies-to value]
   temple learning revalidate [target] --learning-id ID --result confirmed|narrowed|contradicted [--evidence ref] [--review-after timestamp]
   temple learning list [target] [--json]
+  temple learning skill-candidates [target] [--json]
+  temple learning propose-skill [target] --learning-id PRACTICE-ID --work-item WI-ID --skill-name name --summary text --trigger text --non-trigger text --authority text --risk-class low|standard|high|critical --overlap-review text [--dependency value] [--alternative value] [--evidence ref] [--actor id] [--json]
+  temple learning decide-skill [target] --proposal-id ID --decision approve|reject|defer --principal-id id --reason text [--review-after timestamp] [--json]
   temple learning migrate [target] [--dry-run] [--json]
   temple learning evaluate [target] --fixture path [--no-write] [--json]
   temple retrieval show [target] [--json]
@@ -363,6 +369,15 @@ const VALUE_FLAGS = new Set([
   "--derived-from",
   "--owner-position",
   "--learning-id",
+  "--proposal-id",
+  "--skill-name",
+  "--trigger",
+  "--non-trigger",
+  "--authority",
+  "--risk-class",
+  "--overlap-review",
+  "--dependency",
+  "--alternative",
   "--result",
   "--review-after",
   "--fixture",
@@ -416,6 +431,8 @@ const REPEATABLE_FLAGS = new Set([
   "--applies-to",
   "--source-work-item",
   "--derived-from",
+  "--dependency",
+  "--alternative",
   "--preserve",
   "--event-type",
   "--redact-key"
@@ -1241,6 +1258,57 @@ async function runLearning(parsed) {
     if (parsed.flags.has("--json")) console.log(JSON.stringify(result, null, 2));
     else if (result.entries.length === 0) console.log("No project learning recorded.");
     else for (const entry of result.entries) console.log(`${entry.id}\t${entry.status}\t${entry.revalidation.signal}\t${entry.title}`);
+    return 0;
+  }
+  if (parsed.action === "skill-candidates") {
+    const result = await listSkillPromotionCandidates(target);
+    if (parsed.flags.has("--json")) console.log(JSON.stringify(result, null, 2));
+    else if (result.candidates.length === 0) console.log("No Practices recorded for Skill promotion.");
+    else {
+      for (const entry of result.candidates) {
+        console.log(`${entry.learning_id}\t${entry.eligible ? "eligible" : entry.decision_signal}\t${entry.recurrence_count}\t${entry.title}`);
+      }
+      console.log("Human approval required: yes");
+      console.log("Automatic Skill activation: no");
+    }
+    return 0;
+  }
+  if (parsed.action === "propose-skill") {
+    const proposal = await withProjectMutationLock(target, () => proposeSkillFromLearning(target, {
+      learningId: parsed.options["--learning-id"],
+      reviewWorkItemId: parsed.options["--work-item"],
+      skillName: parsed.options["--skill-name"],
+      summary: parsed.options["--summary"],
+      trigger: parsed.options["--trigger"],
+      nonTrigger: parsed.options["--non-trigger"],
+      authority: parsed.options["--authority"],
+      riskClass: parsed.options["--risk-class"],
+      dependencies: listOption(parsed, "--dependency"),
+      alternatives: listOption(parsed, "--alternative"),
+      overlapReview: parsed.options["--overlap-review"],
+      evidence: listOption(parsed, "--evidence"),
+      actor: parsed.options["--actor"]
+    }));
+    printResult(parsed, proposal, [
+      `Created ${proposal.id} for ${proposal.skill_path}`,
+      `Decision: pending human approval`,
+      `Skill created or activated: no`
+    ]);
+    return 0;
+  }
+  if (parsed.action === "decide-skill") {
+    const result = await withProjectMutationLock(target, () => decideSkillProposal(target, {
+      proposalId: parsed.options["--proposal-id"],
+      decision: parsed.options["--decision"],
+      principalId: parsed.options["--principal-id"],
+      reason: listOption(parsed, "--reason").join("; "),
+      reviewAfter: parsed.options["--review-after"]
+    }));
+    printResult(parsed, result, [
+      `${result.proposal.id}: ${result.proposal.status}${result.idempotent ? " (already recorded)" : ""}`,
+      `Authoring Work Item: ${result.authoring_work_item?.id ?? "not created"}`,
+      `Skill created or activated: no`
+    ]);
     return 0;
   }
   if (parsed.action === "migrate") {

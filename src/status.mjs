@@ -316,6 +316,15 @@ export async function buildStatus(target, options = {}) {
     ...(summarizeLearningIndex(learningIndex).contradicted > 0
       ? [{ type: "contradicted_learning", message: `${summarizeLearningIndex(learningIndex).contradicted} learning entries are contradicted` }]
       : []),
+    ...(summarizeLearningIndex(learningIndex).skill_candidates > 0
+      ? [{ type: "skill_candidate_ready", message: `${summarizeLearningIndex(learningIndex).skill_candidates} Practice(s) are ready for a Skill Proposal` }]
+      : []),
+    ...(summarizeLearningIndex(learningIndex).skill_proposals_pending > 0
+      ? [{ type: "skill_proposal_pending", message: `${summarizeLearningIndex(learningIndex).skill_proposals_pending} Skill Proposal(s) await human approval` }]
+      : []),
+    ...(summarizeLearningIndex(learningIndex).skill_proposal_reviews_due > 0
+      ? [{ type: "skill_proposal_review_due", message: `${summarizeLearningIndex(learningIndex).skill_proposal_reviews_due} deferred Skill Proposal(s) are due for review` }]
+      : []),
     ...(archifyAdapter.status === "invalid"
       ? [{ type: "invalid_archify_adapter", message: archifyAdapter.reason }]
       : []),
@@ -464,6 +473,7 @@ export function renderStatusMarkdown(status) {
     `- Context routes: ${status.context_routing.active_routes} active (${status.context_routing.provider_id}, semantic=${status.context_routing.semantic})`,
     `- Engineering learning: ${status.learning.lessons} Lessons, ${status.learning.practices} Practices`,
     `- Learning revalidation: ${status.learning.revalidation_due} due, ${status.learning.contradicted} contradicted`,
+    `- Skill promotion: ${status.learning.skill_candidates} candidate(s), ${status.learning.skill_proposals_pending} approval pending, ${status.learning.skill_authoring_created} authoring Work Item(s)`,
     `- Specifications: ${status.specifications.total_entries} indexed, ${status.specifications.approved_entries} approved (${status.specifications.adoption_profile})`,
     `- Tracker: \`${status.tracker.profile}\` (${status.tracker.active_providers} active provider(s), ${status.tracker.linked_work_items} linked Work Item(s))`,
     `- Attention signals: ${status.attention.length}`,
@@ -595,6 +605,10 @@ export function renderStatusMarkdown(status) {
     `- Deprecated: ${status.learning.deprecated}`,
     `- Revalidation due: ${status.learning.revalidation_due}`,
     `- Contradicted: ${status.learning.contradicted}`,
+    `- Skill candidates: ${status.learning.skill_candidates}`,
+    `- Skill Proposals awaiting approval: ${status.learning.skill_proposals_pending}`,
+    `- Deferred Skill Proposals due: ${status.learning.skill_proposal_reviews_due}`,
+    `- Skill authoring Work Items created: ${status.learning.skill_authoring_created}`,
     "- Retrieval index: `.ai-org/learning/index.json`",
     ""
   );

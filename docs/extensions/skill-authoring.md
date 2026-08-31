@@ -19,6 +19,8 @@ Do not create a Skill merely to store:
 
 When the fit is unclear, preserve the idea as a candidate and write down its trigger plus two bounded examples before installing anything.
 
+Temple can now identify a narrowly qualified candidate and prepare a governed proposal. Run `learning skill-candidates` to inspect the deterministic threshold. A claimed Tech Lead may use `learning propose-skill` during Design to preserve the evidence and routing contract. A Human Principal's `learning decide-skill --decision approve` creates an internal authoring Work Item; it does not create or activate the Skill. Author the Skill only inside that separately governed Work Item.
+
 ## Choose the distribution class
 
 | Class | Installed by | Ownership | Update path |
@@ -81,6 +83,6 @@ Ideas may inform an independent implementation, but provenance must describe tha
 
 ## Current limits
 
-The current alpha has no Skill mutation command, custom-pack publisher, generic dependency resolver, automated model-routing evaluation, or third-party Skill update manager. It does generate a read-only Capability Registry and can retrieve likely Skills; discovery does not install, approve, publish, or take ownership of a project extension. Official Pack v2 can declare Skill entrypoints, references, scripts, assets, dependencies, provenance, and compatibility. Project extensions may use the same progressive-disclosure structure while remaining project-owned; promotion into an official pack still requires repeated project evidence, an ADR, license review, scenario coverage, and install/remove/upgrade tests.
+The current alpha has no command that writes or activates `SKILL.md`, custom-pack publisher, generic dependency resolver, automated model-routing evaluation, or third-party Skill update manager. It can detect evidence-backed candidates, preserve Skill Proposals, and create a separate authoring Work Item after human approval. It also generates a read-only Capability Registry and can retrieve existing Skills; discovery and proposal approval do not install, publish, activate, or take ownership of a project extension. Official Pack v2 can declare Skill entrypoints, references, scripts, assets, dependencies, provenance, and compatibility. Project extensions may use the same progressive-disclosure structure while remaining project-owned; promotion into an official pack still requires repeated project evidence, an ADR, license review, scenario coverage, and install/remove/upgrade tests.
 
 See [ADR-0013](../adr/0013-governed-skill-extensions.md) for the ownership decision and [Skill scenario matrix](skill-scenarios.md) for the installed routing contract.

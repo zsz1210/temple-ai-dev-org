@@ -5,6 +5,7 @@ import addFormats from "ajv-formats";
 import { pathExists, readJson } from "./files.mjs";
 import { validateValidationProgramManifest } from "./validation-program.mjs";
 import { validateUsagePolicy } from "./usage-policy.mjs";
+import { validateLearningRepository } from "./learning.mjs";
 
 export const SCHEMA_VALIDATION_SCHEMA = "temple.schema-validation/v1";
 export const SCHEMA_CATALOG_RELATIVE_PATH = ".ai-org/core/schemas/schema-catalog.json";
@@ -89,6 +90,23 @@ export async function validateProjectSchemas(target) {
       }
     }
   }
+  const skillProposals = await validateLearningRepository(target);
+  for (const proposal of skillProposals.checked) {
+    checked.push({
+      document: proposal.document,
+      schema: "runtime:temple.skill-proposal/v1",
+      valid: proposal.valid
+    });
+  }
+  errors.push(...skillProposals.errors.map((message) => ({
+    document: message.split(": ")[0],
+    schema: "runtime:temple.skill-proposal/v1",
+    instance_path: "",
+    schema_path: "semantic",
+    keyword: "semantic",
+    message,
+    params: {}
+  })));
   return {
     schema_version: SCHEMA_VALIDATION_SCHEMA,
     generated_at: new Date().toISOString(),

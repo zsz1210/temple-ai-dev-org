@@ -36,5 +36,6 @@
 - [ADR-0034: Attribute usage before routing models](0034-attribute-usage-before-routing-models.md)
 - [ADR-0035: Separate private Dashboard viewing from remote Agent control](0035-private-read-only-dashboard.md)
 - [ADR-0036: Use a dedicated listener for the private LAN Dashboard](0036-dedicated-private-lan-dashboard-listener.md)
+- [ADR-0037: Automatically propose Skills, require human activation](0037-human-approved-skill-promotion.md)
 
 An ADR is an Architecture Decision Record. It preserves the context, decision, rationale, and consequences of an important technical or organizational choice so that later Agents do not have to infer why it was made from chat memory.

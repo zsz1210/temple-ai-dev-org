@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 70 total, 8 active
+- Work items: 71 total, 8 active
 - Codex tasks: 5 registered, 4 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -14,6 +14,7 @@
 - Context routes: 0 active (repository-deterministic, semantic=false)
 - Engineering learning: 3 Lessons, 1 Practices
 - Learning revalidation: 0 due, 0 contradicted
+- Skill promotion: 0 candidate(s), 0 approval pending, 0 authoring Work Item(s)
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Attention signals: 12
@@ -114,6 +115,7 @@
 | WI-0068 | Fail closed on invalid experiment telemetry paths | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `123a9fda` | 0 | 18 | 0 |
 | WI-0069 | Establish progressive usage calibration and autonomy policy | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `aead7f54` | 0 | 12 | 0 |
 | WI-0070 | Stabilize provider-owned usage notification test timing | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a5f3860a` | 0 | 19 | 0 |
+| WI-0071 | Automate Skill candidate proposals with human activation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `406bc213` | 0 | 15 | 0 |
 
 ## Codex task registry
 
@@ -180,7 +182,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 12
+- Team-visible Work Items: 13
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -221,6 +223,10 @@
 - Deprecated: 0
 - Revalidation due: 0
 - Contradicted: 0
+- Skill candidates: 0
+- Skill Proposals awaiting approval: 0
+- Deferred Skill Proposals due: 0
+- Skill authoring Work Items created: 0
 - Retrieval index: `.ai-org/learning/index.json`
 
 

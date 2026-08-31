@@ -35,8 +35,10 @@ Learning is project-owned canonical state:
 ├── index.json
 ├── lessons/
 │   └── LESSON-0001.md
-└── practices/
-    └── PRACTICE-0001.md
+├── practices/
+│   └── PRACTICE-0001.md
+└── proposals/
+    └── SKILL-PROPOSAL-0001.json
 ```
 
 The initialized project includes an empty v2 `index.json`. Record templates are available in `.ai-org/templates/lesson.md` and `.ai-org/templates/practice.md`; the record directories are created only when the project has something authorized to preserve.
@@ -55,7 +57,7 @@ The index is a compact retrieval registry, not a copy of every record. Each entr
 - the record path;
 - update, last-validation, next-review, and revalidation-history fields;
 - revalidation evidence and confirmed, narrowed, or contradicted result;
-- proposed or accepted promotion target.
+- promotion target, proposal reference, human-decision status, review date, and authoring Work Item link.
 
 An Agent should search the index first, select entries relevant to the current Position, work item, and technical area, then read only the referenced records. It must not load the whole learning history into every task.
 
@@ -69,6 +71,14 @@ An Agent should search the index first, select entries relevant to the current P
 6. **Revalidate:** revisit the Practice after relevant technology, architecture, policy, or evidence changes. Deprecate it when it no longer holds.
 
 Promotion is optional. A valuable Lesson may remain a Lesson, and a simple Practice may never need a Skill.
+
+### Skill promotion boundary
+
+Temple detects a Skill candidate only when one Practice is active, has high confidence, has a confirmed revalidation result, and traces to at least two distinct Work Items. This is a deterministic triage threshold, not proof that a Skill should exist.
+
+An eligible Practice may become a `SKILL-PROPOSAL-*` record. The proposal preserves the trigger, neighboring non-trigger, authority, risk class, dependencies, alternatives, overlap review, and evidence provenance. Observer and status surface eligible candidates, pending proposals, and deferred proposals whose review date has arrived.
+
+A Human Principal must still choose `approve`, `reject`, or `defer`. Approval creates exactly one internal authoring Work Item scoped to the proposed `.agents/skills/<name>/` path. It does not write `SKILL.md`, activate a Skill, install a dependency, publish a pack, change a lifecycle gate, or perform the proposed procedure. Risk changes the validation depth of the later authoring work; low risk does not remove the approval boundary.
 
 ## CLI workflow
 
@@ -95,6 +105,25 @@ node ./templew.mjs learning revalidate . \
   --review-after 2026-12-01T00:00:00.000Z
 
 node ./templew.mjs learning list . --json
+
+node ./templew.mjs learning skill-candidates . --json
+
+node ./templew.mjs learning propose-skill . \
+  --learning-id PRACTICE-0001 \
+  --work-item WI-0042 \
+  --skill-name revision-bound-runtime-check \
+  --summary "Preserve revision-bound runtime verification as a reusable procedure." \
+  --trigger "Use when runtime evidence must support a repository claim." \
+  --non-trigger "Do not use to approve a release or perform an external action." \
+  --authority "Guidance only; no lifecycle or release authority." \
+  --risk-class medium \
+  --overlap-review "No existing Skill has this exact routing boundary."
+
+node ./templew.mjs learning decide-skill . \
+  --proposal-id SKILL-PROPOSAL-0001 \
+  --decision approve \
+  --principal-id human \
+  --reason "The evidence and routing boundary are sufficient."
 ```
 
 `learning migrate --dry-run` reports whether a legacy v1 index would change; remove `--dry-run` for the explicit atomic v2 migration. Revalidation records history in both the index and Markdown record. Due, overdue, and contradicted entries appear in status or Observer attention; they do not rewrite guidance automatically.
@@ -105,10 +134,10 @@ node ./templew.mjs learning list . --json
 
 - Any Position may propose a Lesson from evidence in its authorized work.
 - The Engineering Manager triages duplicates, missing evidence, ownership, and follow-up.
-- The Tech Lead validates technical Practices and decides whether a deterministic check, ADR, or Skill proposal is appropriate.
+- The Tech Lead validates technical Practices and may create an evidence-backed Skill Proposal from an eligible candidate while holding the Design-stage claim.
 - Quality & Evaluation and Independent QA may challenge generalization and add counterexamples.
-- The Observer surfaces counts, candidate Lessons, active Practices, stale validation, and contradictions without approving them.
-- Humans approve cross-project sharing, recurring instructions, and promotion into the central framework.
+- The Observer surfaces counts, candidate Lessons, active Practices, stale validation, contradictions, Skill candidates, and proposal decisions that need attention without approving them.
+- Human Principals approve, reject, or defer project Skill authoring and approve cross-project sharing, recurring instructions, and promotion into the central framework.
 
 ## Privacy and cross-project learning
 
@@ -116,4 +145,4 @@ Project learning never flows into the central framework automatically. A framewo
 
 ## Current alpha boundary
 
-Alpha.19 installs the project-owned index, managed templates, atomic Learning CLI, explicit migration, revalidation signals, deterministic retrieval evaluation, doctor validation, and status/Observer counts. It does not execute retrospectives on a schedule, promote learning automatically, synchronize projects, install or select a semantic runtime, or provide a `$retrospective` Skill. Large-repository retrieval evaluation remains `not_run`.
+Alpha.27 installs the project-owned index, managed templates, atomic Learning CLI, explicit migration, revalidation signals, deterministic retrieval evaluation, candidate detection, evidence-backed Skill Proposals, Human Principal decisions, idempotent authoring Work Item creation, doctor validation, and status/Observer attention. It does not execute retrospectives on a schedule, write or activate a Skill automatically, synchronize projects, install or select a semantic runtime, or provide a `$retrospective` Skill. Large-repository retrieval evaluation remains `not_run`.
