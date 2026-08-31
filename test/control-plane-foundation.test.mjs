@@ -183,6 +183,51 @@ test("telemetry journal redacts secrets, deduplicates stable identities, retains
   await lease.release();
 });
 
+test("telemetry journal serializes concurrent appends, duplicate identities, failures, and close", async (context) => {
+  const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-journal-concurrency-test-"));
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  const journal = await openTelemetryJournal(temporaryRoot, { maxEvents: 1000 });
+  const observedCursors = [];
+  journal.subscribe((record) => observedCursors.push(record.templecursor));
+
+  const burst = await Promise.all(Array.from({ length: 64 }, (_, index) =>
+    journal.append(event(`burst-${String(index + 1).padStart(3, "0")}`, { index }))
+  ));
+  assert.deepEqual(burst.map((result) => result.record.templecursor),
+    Array.from({ length: 64 }, (_, index) => index + 1));
+
+  const duplicateEvent = event("burst-duplicate", { status: "same" });
+  const duplicateResults = await Promise.all([
+    journal.append(duplicateEvent),
+    journal.append(duplicateEvent)
+  ]);
+  assert.deepEqual(duplicateResults.map((result) => result.duplicate), [false, true]);
+  assert.equal(duplicateResults[0].record.templecursor, 65);
+  assert.equal(duplicateResults[1].record.templecursor, 65);
+
+  await assert.rejects(
+    () => journal.append(event("burst-duplicate", { status: "different" })),
+    /identity collision/
+  );
+  const acceptedBeforeClose = journal.append(event("accepted-before-close", { status: "completed" }));
+  const closing = journal.close();
+  assert.equal((await acceptedBeforeClose).record.templecursor, 66);
+  await closing;
+  await assert.rejects(() => journal.append(event("after-close")), /closed telemetry journal/);
+
+  assert.deepEqual(observedCursors, Array.from({ length: 66 }, (_, index) => index + 1));
+  const reopened = await openTelemetryJournal(temporaryRoot, { readOnly: true });
+  assert.deepEqual(reopened.snapshot(), {
+    schema_version: "temple.control-plane-checkpoint/v1",
+    first_cursor: 1,
+    last_cursor: 66,
+    retained_events: 66
+  });
+  assert.deepEqual(reopened.readAfter(0).records.map((record) => record.templecursor),
+    Array.from({ length: 66 }, (_, index) => index + 1));
+  await reopened.close();
+});
+
 test("linked worktrees resolve one generated control-plane state directory", async (context) => {
   const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-worktree-state-test-"));
   context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));

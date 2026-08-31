@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 56 total, 21 active
+- Work items: 57 total, 22 active
 - Codex tasks: 5 registered, 4 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -100,6 +100,7 @@
 | WI-0054 | Run the first bounded provider-owned live Token proof | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5de1ae88` | 0 | 22 | 0 |
 | WI-0055 | Harden Codex App Server protocol compatibility | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `eef29084` | 0 | 22 | 0 |
 | WI-0056 | Run the corrected provider-owned live Token proof | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ca33afdc` | 1 | 23 | 0 |
+| WI-0057 | Serialize concurrent telemetry journal appends | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831075530-b8330ca7 | `—` | 0 | 7 | 0 |
 
 ## Codex task registry
 
@@ -212,14 +213,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T07:53:36.321Z | work_item_closed | WI-0056 | agent-mog |
-| 2026-08-31T07:53:36.321Z | release_gate_completed | WI-0056 | agent-mog |
-| 2026-08-31T07:53:29.914Z | work_item_claimed | WI-0056 | human |
-| 2026-08-31T07:53:29.622Z | work_item_transitioned | WI-0056 | agent-lulu |
-| 2026-08-31T07:53:29.351Z | handoff_created | WI-0056 | agent-lulu |
-| 2026-08-31T07:53:05.740Z | evidence_recorded | WI-0056 | human |
-| 2026-08-31T07:51:29.412Z | work_item_claimed | WI-0056 | human |
-| 2026-08-31T07:51:29.101Z | work_item_transitioned | WI-0056 | agent-lulu |
+| 2026-08-31T07:55:30.772Z | work_item_claimed | WI-0057 | human |
+| 2026-08-31T07:55:30.478Z | work_item_transitioned | WI-0057 | agent-tidus |
+| 2026-08-31T07:55:30.178Z | handoff_created | WI-0057 | agent-tidus |
+| 2026-08-31T07:55:29.891Z | work_item_transitioned | WI-0057 | agent-yuna |
+| 2026-08-31T07:55:29.602Z | handoff_created | WI-0057 | agent-yuna |
+| 2026-08-31T07:55:29.324Z | work_item_transitioned | WI-0057 | agent-mog |
+| 2026-08-31T07:55:29.061Z | handoff_created | WI-0057 | agent-mog |
+| 2026-08-31T07:54:42.783Z | work_item_coordination_configured | WI-0057 | agent-mog |
 
 ## Assignments
 

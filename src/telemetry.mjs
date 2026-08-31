@@ -202,6 +202,15 @@ export async function openTelemetryJournal(stateDirectory, options = {}) {
   const identities = new Map(records.map((record) => [identityFor(record), record]));
   const listeners = new Set();
   const maxEvents = options.maxEvents ?? 10000;
+  let mutationTail = Promise.resolve();
+  let acceptingAppends = !options.readOnly;
+  let closePromise = null;
+
+  function enqueueMutation(operation) {
+    const result = mutationTail.then(operation, operation);
+    mutationTail = result.catch(() => {});
+    return result;
+  }
 
   async function writeCheckpoint() {
     const firstCursor = records[0]?.templecursor ?? null;
@@ -235,27 +244,30 @@ export async function openTelemetryJournal(stateDirectory, options = {}) {
     checkpointPath,
     async append(input, appendOptions = {}) {
       if (options.readOnly) throw new Error("Cannot append through a read-only telemetry journal");
+      if (!acceptingAppends) throw new Error("Cannot append through a closed telemetry journal");
       const event = normalizeTelemetryEvent(input, {
         observedAt: appendOptions.observedAt,
         privacy: options.privacy
       });
-      const identity = identityFor(event);
-      const existing = identities.get(identity);
-      if (existing) {
-        if (stableStringify(comparableEvent(existing)) !== stableStringify(comparableEvent(event))) {
-          throw new Error(`Telemetry event identity collision for ${event.source} ${event.id}`);
+      return enqueueMutation(async () => {
+        const identity = identityFor(event);
+        const existing = identities.get(identity);
+        if (existing) {
+          if (stableStringify(comparableEvent(existing)) !== stableStringify(comparableEvent(event))) {
+            throw new Error(`Telemetry event identity collision for ${event.source} ${event.id}`);
+          }
+          return { record: existing, duplicate: true };
         }
-        return { record: existing, duplicate: true };
-      }
-      const lastCursor = records.at(-1)?.templecursor ?? 0;
-      const record = { ...event, templecursor: lastCursor + 1 };
-      await durableAppend(journalPath, `${JSON.stringify(record)}\n`);
-      records.push(record);
-      identities.set(identity, record);
-      await compactIfNeeded();
-      await writeCheckpoint();
-      for (const listener of listeners) listener(record);
-      return { record, duplicate: false };
+        const lastCursor = records.at(-1)?.templecursor ?? 0;
+        const record = { ...event, templecursor: lastCursor + 1 };
+        await durableAppend(journalPath, `${JSON.stringify(record)}\n`);
+        records.push(record);
+        identities.set(identity, record);
+        await compactIfNeeded();
+        await writeCheckpoint();
+        for (const listener of listeners) listener(record);
+        return { record, duplicate: false };
+      });
     },
     readAfter(cursor = 0) {
       const normalized = Number(cursor);
@@ -281,8 +293,14 @@ export async function openTelemetryJournal(stateDirectory, options = {}) {
       return () => listeners.delete(listener);
     },
     async close() {
-      listeners.clear();
-      if (!options.readOnly) await writeCheckpoint();
+      if (closePromise) return closePromise;
+      acceptingAppends = false;
+      closePromise = (async () => {
+        await mutationTail;
+        listeners.clear();
+        if (!options.readOnly) await writeCheckpoint();
+      })();
+      return closePromise;
     }
   };
 }
