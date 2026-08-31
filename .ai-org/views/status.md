@@ -107,7 +107,7 @@
 | WI-0061 | Approve a bounded local instrumentation pilot | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `cdd05741` | 0 | 19 | 0 |
 | WI-0062 | Run the approved provider-owned instrumentation pilot | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5979c1e3` | 0 | 20 | 0 |
 | WI-0063 | Correct Provider-observed model attribution | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c44bbdf5` | 0 | 22 | 0 |
-| WI-0064 | Revalidate Provider-observed model attribution | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831104117-46b5822f | `—` | 0 | 9 | 0 |
+| WI-0064 | Revalidate Provider-observed model attribution | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831105023-2bbff216 | `6974cec3` | 0 | 14 | 0 |
 
 ## Codex task registry
 
@@ -220,14 +220,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-31T10:50:23.339Z | work_item_claimed | WI-0064 | human |
+| 2026-08-31T10:50:23.039Z | work_item_transitioned | WI-0064 | agent-rikku |
+| 2026-08-31T10:50:22.757Z | work_item_claim_released | WI-0064 | human |
+| 2026-08-31T10:50:22.471Z | handoff_created | WI-0064 | agent-rikku |
+| 2026-08-31T10:49:52.393Z | evidence_recorded | WI-0064 | human |
 | 2026-08-31T10:41:17.019Z | work_item_claimed | WI-0064 | human |
 | 2026-08-31T10:41:16.692Z | work_item_coordination_configured | WI-0064 | agent-rikku |
 | 2026-08-31T10:41:11.027Z | work_item_transitioned | WI-0064 | agent-tidus |
-| 2026-08-31T10:41:10.739Z | work_item_claim_released | WI-0064 | human |
-| 2026-08-31T10:41:10.455Z | handoff_created | WI-0064 | agent-tidus |
-| 2026-08-31T10:40:09.525Z | work_item_claimed | WI-0064 | human |
-| 2026-08-31T10:40:09.214Z | work_item_transitioned | WI-0064 | agent-yuna |
-| 2026-08-31T10:40:08.926Z | work_item_claim_released | WI-0064 | human |
 
 ## Assignments
 

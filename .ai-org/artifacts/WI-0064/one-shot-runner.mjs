@@ -172,7 +172,7 @@ async function inspectResponse(threadId) {
       capabilities: { experimentalApi: false }
     });
     connection.notify("initialized", {});
-    const response = await connection.request("thread/read", { threadId });
+    const response = await connection.request("thread/read", { threadId, includeTurns: true });
     return {
       checked: true,
       matched: responseContractMatches(response),

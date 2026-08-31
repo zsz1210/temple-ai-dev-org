@@ -8620,6 +8620,51 @@
         "exit_code": 0,
         "started_at": "2026-08-31T10:36:15Z"
       }
+    },
+    {
+      "id": "EVID-20260831T104952Z-14965D35",
+      "work_item_id": "WI-0064",
+      "recorded_at": "2026-08-31T10:49:52.393Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Bounded live model-attribution revalidation",
+      "outcome": "pass",
+      "scope_revision": "6974cec387adc2d86282d0f57a4add7a1db43cc5",
+      "observed_at": "2026-08-31T10:46:00.599Z",
+      "summary": "One Luna turn completed with exact effective-model and Token attribution; strict reasoning/response gate remained partial and the large rehearsal stayed blocked.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0064/runtime-evidence-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0064/runtime-evidence-observation.json",
+          "sha256": "b82922c2ad2abe13ba2ad328fa580996246ac04d1a742b832d6f10b2b09b1a96"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0064/runtime-observation.json",
+          "sha256": "35b44fccd0ded2e3fa9c02aa9a1b7520bdad39bb923f348a2a5e1b56c1f3d247"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0064/live-result.md",
+          "sha256": "13dc6b4ebfdcc6a393e368f6b84f18a05031fba4a51c02b91986c20611859451"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0064/diagnosis.md",
+          "sha256": "712bd3e316d6b8c7c5354ba3e2063ab524fe019bab6fcc45295c86f80995504a"
+        }
+      ],
+      "details": {
+        "environment": "local Codex App Server 0.151.0-alpha.7.2 with the retained synthetic instrumentation repository",
+        "scenario": "one Provider-owned read-only Luna turn completed with correct effective-model and Token attribution; the stricter reasoning and response gate remained partial",
+        "provenance": "live"
+      }
     }
   ]
 }
