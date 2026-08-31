@@ -1,0 +1,35 @@
+{
+  "schema_version": "temple.runtime-observation/v1",
+  "revision": "50765844f6123025a78004eb4498a0a8752ffcdf",
+  "environment": "Temple self-host repository on the Mac Mini, corrected loopback Control Plane with real Codex App Server observation, and exact 192.168.79.5 home-LAN read-only Dashboard",
+  "scenario": "Archive a second journal corrupted by the pre-fix live process, rebuild canonical events, start the corrected Control Plane through a real startup notification burst, stop it cleanly, reopen the same journal, and verify strict cursors plus Dashboard health",
+  "result": "pass",
+  "provenance": "live",
+  "observed_at": "2026-08-31T07:58:57.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0057/developer-evidence.md",
+    ".ai-org/artifacts/WI-0057/developer-test-observation.json"
+  ],
+  "pre_fix_recurrence": {
+    "archive": ".git/temple/control-plane/archive/events-2026-08-31T07-57-45-000Z.jsonl",
+    "sha256": "cc2933a36182a806740fc9bc804639e107c844d957358504b34cf5ac0b01384c",
+    "lines": 1910,
+    "non_increasing_adjacent_cursors": 4,
+    "first_invalid_line": 1772
+  },
+  "corrected_runtime": {
+    "initial_start_succeeded": true,
+    "clean_stop_succeeded": true,
+    "same_journal_reopen_succeeded": true,
+    "dashboard_url": "http://192.168.79.5:41741/",
+    "dashboard_read_only": true,
+    "provider_status": "ready",
+    "active_journal_records": 1514,
+    "first_cursor": 1,
+    "last_cursor": 1514,
+    "non_increasing_adjacent_cursors": 0
+  },
+  "model_generation_requested": false,
+  "external_release_performed": false
+}
+

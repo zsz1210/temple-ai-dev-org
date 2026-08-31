@@ -1,0 +1,20 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "50765844f6123025a78004eb4498a0a8752ffcdf",
+  "command": [
+    "npm run check in a fresh detached exact-candidate worktree",
+    "run the focused concurrent journal regression five times",
+    "append and reopen a separate 512-event concurrent burst",
+    "inspect the live corrected journal and private Dashboard"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T08:00:05.000Z",
+  "completed_at": "2026-08-31T08:00:20.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0057/quality-report.md",
+    ".ai-org/artifacts/WI-0057/developer-evidence.md",
+    ".ai-org/artifacts/WI-0057/runtime-observation.json"
+  ]
+}
+

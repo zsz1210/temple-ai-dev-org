@@ -1,0 +1,19 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "50765844f6123025a78004eb4498a0a8752ffcdf",
+  "command": [
+    "focused telemetry journal tests on the corrected working tree",
+    "apply only the new regression to pre-fix revision 24747c2 and require failure",
+    "npm run verify on the corrected candidate"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T07:55:35.000Z",
+  "completed_at": "2026-08-31T07:57:02.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0057/developer-evidence.md",
+    ".ai-org/artifacts/WI-0057/runtime-observation.json",
+    ".ai-org/artifacts/WI-0057/technical-design.md"
+  ]
+}
+
