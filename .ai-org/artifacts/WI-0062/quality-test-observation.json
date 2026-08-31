@@ -1,0 +1,21 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "5979c1e35c86cb094088766ac4ce2bf08eed89d9",
+  "command": [
+    "npm run verify",
+    "npm test in the synthetic repository",
+    "Doctor in the synthetic repository",
+    "read-only usage preflight over the isolated telemetry state",
+    "bounded journal correlation and privacy assertions",
+    "non-organization Git diff assertion"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T10:03:40Z",
+  "completed_at": "2026-08-31T10:05:22Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0062/quality-report.md",
+    ".ai-org/artifacts/WI-0062/evaluation-report.md",
+    ".ai-org/artifacts/WI-0062/runtime-observation.json"
+  ]
+}

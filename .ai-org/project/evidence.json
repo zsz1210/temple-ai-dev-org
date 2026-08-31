@@ -8393,6 +8393,110 @@
         "scenario": "one approved Provider-owned turn completed within stop limits and emitted one correlated detailed Token observation; strict pilot classification remained partial",
         "provenance": "live"
       }
+    },
+    {
+      "id": "EVID-20260831T100620Z-368FB115",
+      "work_item_id": "WI-0062",
+      "recorded_at": "2026-08-31T10:06:20.290Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0062 quality verification",
+      "outcome": "pass",
+      "scope_revision": "5979c1e35c86cb094088766ac4ce2bf08eed89d9",
+      "observed_at": "2026-08-31T10:05:22Z",
+      "summary": "Framework and synthetic tests, Doctor, usage correlation, privacy, and non-organization diff assertions passed for the partial pilot result.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0062/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0062/quality-test-observation.json",
+          "sha256": "8ccdab3c685acd3f226c07ccf5757ba617e29a89cd709116852d61c7efde961a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0062/quality-report.md",
+          "sha256": "9e31372d217aca23667d2c4815fe66b8070215c9ee1f9671e9f54908b08be07f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0062/evaluation-report.md",
+          "sha256": "29f9ecae02a8e89e12fd88971d5e94c78f8dca8d61628605c7fa72ccccea108f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0062/runtime-observation.json",
+          "sha256": "6fa9b74a79c1f778765770b2530fbe1e3e6775d1318f347196175088ccdc3ac9"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify",
+          "npm test in the synthetic repository",
+          "Doctor in the synthetic repository",
+          "read-only usage preflight over the isolated telemetry state",
+          "bounded journal correlation and privacy assertions",
+          "non-organization Git diff assertion"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T10:03:40Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T101217Z-35B28C32",
+      "work_item_id": "WI-0062",
+      "recorded_at": "2026-08-31T10:12:17.447Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA for WI-0062",
+      "outcome": "pass",
+      "scope_revision": "5979c1e35c86cb094088766ac4ce2bf08eed89d9",
+      "observed_at": "2026-08-31T10:11:22Z",
+      "summary": "Exact-candidate detached verification and retained telemetry assertions passed; experiment classification remains partial.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0062/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0062/independent-qa-test-observation.json",
+          "sha256": "b4c50d6d2d82ab24401f43d60e02ed4715ef48f948ad920dc0d04af1768182ad"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0062/independent-qa-report.md",
+          "sha256": "3f0fa8f45ae02f47d7a084289e109dc71ee5fb9bded6e9c5870405c986445f7b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0062/runtime-observation.json",
+          "sha256": "6fa9b74a79c1f778765770b2530fbe1e3e6775d1318f347196175088ccdc3ac9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0062/pilot-result.md",
+          "sha256": "c35e77ea2462861481d7229846ea14a4fdfb975882eadfe8b7ffdc934a0e0dd4"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm ci --offline --ignore-scripts in a detached worktree",
+          "npm run verify in a detached worktree",
+          "Doctor in the detached worktree",
+          "read-only usage preflight over the retained isolated telemetry state",
+          "independent bounded journal correlation and privacy assertions",
+          "synthetic repository npm test and Doctor in a detached worktree"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T10:08:08Z"
+      }
     }
   ]
 }
