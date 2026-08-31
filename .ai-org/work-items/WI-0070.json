@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0070",
   "title": "Stabilize provider-owned usage notification test timing",
-  "state": "intake",
-  "owner_position": "engineering_manager",
-  "assigned_agent_id": "agent-mog",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
   "created_at": "2026-08-31T13:54:11.919Z",
-  "updated_at": "2026-08-31T13:54:11.919Z",
+  "updated_at": "2026-08-31T14:27:17.873Z",
   "scope": [
     "Investigate and remove the intermittent timing dependency observed in test/control-plane-live.test.mjs during WI-0069 Independent QA. Preserve provider protocol semantics and do not add sleeps as proof."
   ],
@@ -32,18 +32,174 @@
   "required_disciplines": [
     "general-development"
   ],
-  "stage_requirements": {},
-  "base_revision": null,
-  "parallel_mode": "pending",
-  "integration_owner_agent_id": null,
+  "stage_requirements": {
+    "build": {
+      "disciplines": [
+        "general-development"
+      ],
+      "resources": []
+    },
+    "design": {
+      "disciplines": [
+        "architecture"
+      ],
+      "resources": []
+    },
+    "eval": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "independent_qa": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "intake": {
+      "disciplines": [
+        "architecture"
+      ],
+      "resources": []
+    },
+    "release_gate": {
+      "disciplines": [
+        "release"
+      ],
+      "resources": []
+    },
+    "spec": {
+      "disciplines": [
+        "product"
+      ],
+      "resources": []
+    },
+    "test": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "7f0b0ca6b64bf7cb947021fb8d185a4887f1be9f",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
   "shared_contract_refs": [],
-  "contract_status": "not_required",
-  "overlap_resolution": [],
-  "claim": null,
-  "claims": [],
-  "gate_evidence": {},
-  "evidence": [],
+  "contract_status": "stable",
+  "overlap_resolution": [
+    "WI-0029: WI-0070 owns only provider usage-notification test ordering and leaves Agent Command behavior and its real-command validation boundary unchanged.",
+    "WI-0033: WI-0070 does not change provider executable selection, origins, credentials, or operator-owned trust policy."
+  ],
+  "claim": {
+    "id": "claim-20260831142717-491c10a2",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "7f0b0ca6b64bf7cb947021fb8d185a4887f1be9f",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-08-31T14:27:17.873Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260831142530-e8e1c0b5",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "7f0b0ca6b64bf7cb947021fb8d185a4887f1be9f",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T14:25:30.253Z",
+      "released_at": "2026-08-31T14:25:59.177Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831142607-1e0b71a2",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "7f0b0ca6b64bf7cb947021fb8d185a4887f1be9f",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T14:26:07.256Z",
+      "released_at": "2026-08-31T14:26:28.493Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831142634-6354aad0",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "7f0b0ca6b64bf7cb947021fb8d185a4887f1be9f",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T14:26:34.115Z",
+      "released_at": "2026-08-31T14:27:08.999Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260831142717-491c10a2",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "7f0b0ca6b64bf7cb947021fb8d185a4887f1be9f",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T14:27:17.873Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0070/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0070/work-order.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0070/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0070/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0070/technical-design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0070/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0070/work-order.md",
+    ".ai-org/artifacts/WI-0070/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0070/product-spec.md",
+    ".ai-org/artifacts/WI-0070/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0070/technical-design.md"
+  ],
   "unresolved": [],
-  "next_position": "product_manager"
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "7f0b0ca6b64bf7cb947021fb8d185a4887f1be9f",
+      "artifact": ".ai-org/artifacts/WI-0070/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-08-31T14:25:58.877Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "7f0b0ca6b64bf7cb947021fb8d185a4887f1be9f",
+      "artifact": ".ai-org/artifacts/WI-0070/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-31T14:26:28.125Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "7f0b0ca6b64bf7cb947021fb8d185a4887f1be9f",
+      "artifact": ".ai-org/artifacts/WI-0070/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-08-31T14:27:08.697Z"
+    }
+  ]
 }

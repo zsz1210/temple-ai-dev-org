@@ -177,6 +177,30 @@ function claimFixtureWorkItem(target, workItemId, revision = "a".repeat(40)) {
   assert.equal(claimed.status, 0, claimed.stderr || claimed.stdout);
 }
 
+function waitForJournalRecord(journal, predicate, timeoutMs = 5000) {
+  return new Promise((resolve, reject) => {
+    let settled = false;
+    let unsubscribe = () => {};
+    const finish = (error, record = null) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      unsubscribe();
+      if (error) reject(error);
+      else resolve(record);
+    };
+    const timer = setTimeout(
+      () => finish(new Error(`Timed out after ${timeoutMs}ms waiting for the durable telemetry record`)),
+      timeoutMs
+    );
+    unsubscribe = journal.subscribe((record) => {
+      if (predicate(record)) finish(null, record);
+    });
+    const retained = journal.readAfter(0).records.find(predicate);
+    if (retained) finish(null, retained);
+  });
+}
+
 test("Codex normalization retains bounded summaries and excludes raw prompts, commands, diffs, and tool payloads", () => {
   const tasks = [{ id: "task-0001", work_item_id: "WI-0001", thread_id: "thread-1", current_revision: "a".repeat(40) }];
   const plan = normalizeCodexMessage("project", tasks, {
@@ -696,9 +720,11 @@ test("Codex App Server provider-owned launch registers before generation and cor
       }else if(message.method==="turn/start"){
         const turn={id:"turn-provider-owned-001",status:"inProgress",items:[]};
         send({jsonrpc:"2.0",id:message.id,result:{turn}});
-        send({jsonrpc:"2.0",method:"turn/started",params:{threadId:created.id,turn}});
-        send({jsonrpc:"2.0",method:"model/rerouted",params:{threadId:created.id,turnId:turn.id,fromModel:"gpt-5.6-terra",toModel:"gpt-5.6-sol",reason:"highRiskCyberActivity",rawResponse:"secret-reroute-payload-must-not-be-retained"}});
-        send({jsonrpc:"2.0",method:"thread/tokenUsage/updated",params:{threadId:created.id,turnId:turn.id,tokenUsage:{total:{inputTokens:90,cachedInputTokens:10,outputTokens:20,reasoningOutputTokens:5,totalTokens:125},last:{inputTokens:90,cachedInputTokens:10,outputTokens:20,reasoningOutputTokens:5,totalTokens:125},modelContextWindow:10000}}});
+        setImmediate(()=>{
+          send({jsonrpc:"2.0",method:"turn/started",params:{threadId:created.id,turn}});
+          send({jsonrpc:"2.0",method:"model/rerouted",params:{threadId:created.id,turnId:turn.id,fromModel:"gpt-5.6-terra",toModel:"gpt-5.6-sol",reason:"highRiskCyberActivity",rawResponse:"secret-reroute-payload-must-not-be-retained"}});
+          send({jsonrpc:"2.0",method:"thread/tokenUsage/updated",params:{threadId:created.id,turnId:turn.id,tokenUsage:{total:{inputTokens:90,cachedInputTokens:10,outputTokens:20,reasoningOutputTokens:5,totalTokens:125},last:{inputTokens:90,cachedInputTokens:10,outputTokens:20,reasoningOutputTokens:5,totalTokens:125},modelContextWindow:10000}}});
+        });
       }
     });
   `);
@@ -717,6 +743,10 @@ test("Codex App Server provider-owned launch registers before generation and cor
   await provider.start();
   context.after(() => provider.stop());
   const instruction = "Implement the bounded fixture without retaining secret-provider-launch-marker";
+  const usageRecorded = waitForJournalRecord(
+    journal,
+    (record) => record.type === "org.temple.codex.usage.updated.v1" && record.data?.work_item_id === workItemId
+  );
   const launched = await provider.launchProviderOwnedTask({
     workItemId,
     positionId: "engineering_manager",
@@ -743,6 +773,7 @@ test("Codex App Server provider-owned launch registers before generation and cor
   assert.equal(launched.instruction_length, instruction.length);
   assert.equal(launched.instruction_retained, false);
   assert.equal(launched.automatic_retry, false);
+  const usage = await usageRecorded;
 
   await assert.rejects(
     () => provider.launchProviderOwnedTask({
@@ -811,10 +842,7 @@ test("Codex App Server provider-owned launch registers before generation and cor
   assert.equal(reroute.data.to_model, "gpt-5.6-sol");
   assert.equal(reroute.data.reason, "highRiskCyberActivity");
   assert.equal(reroute.data.correlation, "registered");
-  const usage = records.find((record) =>
-    record.type === "org.temple.codex.usage.updated.v1" && record.data?.task_id === task.id
-  );
-  assert.ok(usage);
+  assert.equal(usage.data.task_id, task.id);
   assert.ok(records.indexOf(reroute) < records.indexOf(usage));
   assert.equal(usage.data.work_item_id, workItemId);
   assert.equal(usage.data.position_id, "engineering_manager");
