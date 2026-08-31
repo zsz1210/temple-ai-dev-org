@@ -6246,6 +6246,264 @@
         "scenario": "Independently inspect Temple Workspace at 2560 by 1080 and 390 by 844; verify fluid width, Team counts, private-viewer redaction, mobile drawer inert and focus behavior, Escape focus return, console output, and document-level horizontal overflow",
         "provenance": "live"
       }
+    },
+    {
+      "id": "EVID-20260831T032105Z-4410F816",
+      "work_item_id": "WI-0048",
+      "recorded_at": "2026-08-31T03:21:05.496Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer regression for dark Workspace structure",
+      "outcome": "pass",
+      "scope_revision": "784951987786988c81bb4b7a5997c8d776838852",
+      "observed_at": "2026-08-31T03:18:10Z",
+      "summary": "Focused Control Plane tests and the full repository verification passed on candidate 784951987786988c81bb4b7a5997c8d776838852.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0048/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0048/developer-test-observation.json",
+          "sha256": "c57180903dbe756190fe8ce1cdd19ba71540a8c16b41346900e1c82ed26f99b2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0048/developer-report.md",
+          "sha256": "39bfa28656f7447746a7346c4f1bed45ab3dbdfb7fd0b64537b1b0fbcd83d6a6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0048/focused-test-results.md",
+          "sha256": "69f6882012e43bd0b3581e7c9882a4801c39b3445271cd18f1db3922208819b1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0048/product-spec.md",
+          "sha256": "aaadf7f21939dd33bace43f05892405c0bf02405ee55b9c7c7e54f78b7ed79f8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0048/technical-design.md",
+          "sha256": "12068d14d981b09b33f53636a3e2e430b0873442f3b62acb8a68719bc6d85f96"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0048/ui-brief.md",
+          "sha256": "83c885eb2133af8a8a3b0d7eaa1672a6426b69db9eb75919123a2ef3cfbba0d1"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/control-plane-foundation.test.mjs test/control-plane-live.test.mjs test/control-plane-private-viewer.test.mjs test/control-plane-inbox.test.mjs",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T03:10:30Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T032105Z-89198862",
+      "work_item_id": "WI-0048",
+      "recorded_at": "2026-08-31T03:21:05.749Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Responsive private Workspace browser review",
+      "outcome": "pass",
+      "scope_revision": "784951987786988c81bb4b7a5997c8d776838852",
+      "observed_at": "2026-08-31T03:15:46Z",
+      "summary": "Dark default, Position-first structure, Agent filters, keyboard tabs, responsive widths, and private-viewer redaction passed in a real browser.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0048/runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0048/runtime-observation.json",
+          "sha256": "2d997671fb6dc61e705342b0c79990cb42b2734324b9294ad98d39d98d2210fe"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0048/browser-review.md",
+          "sha256": "5da2f36bc37dd83ce299b9de05acd643a3c472d3b5818c0dee9e0e41b3611725"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0048/developer-report.md",
+          "sha256": "39bfa28656f7447746a7346c4f1bed45ab3dbdfb7fd0b64537b1b0fbcd83d6a6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0048/approved-preview.svg",
+          "sha256": "99301b3ab8d6e0794985ee612bbd5529ce75a05184c8ef8c8c3666e0644e2b53"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0048/ui-brief.md",
+          "sha256": "83c885eb2133af8a8a3b0d7eaa1672a6426b69db9eb75919123a2ef3cfbba0d1"
+        }
+      ],
+      "details": {
+        "environment": "Temple self-host repository on the Mac Mini, live Control Plane with Codex observation, exact 192.168.79.5 home-LAN read-only listener, and fresh headed Chromium",
+        "scenario": "Render and interact with Team Structure and Teammates at 3440, 2560, 390, and 320 CSS-pixel widths; verify dark default, stored light preference, all 10 Position nodes, Agent highlighting, assurance labels, keyboard tab operation, private-viewer redaction, console output, and horizontal overflow",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260831T032335Z-F6F654FB",
+      "work_item_id": "WI-0048",
+      "recorded_at": "2026-08-31T03:23:35.128Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality verification in detached worktree",
+      "outcome": "pass",
+      "scope_revision": "784951987786988c81bb4b7a5997c8d776838852",
+      "observed_at": "2026-08-31T03:22:59Z",
+      "summary": "Quality & Evaluation reran the full verification in a fresh detached worktree; 223 tests passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0048/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0048/quality-test-observation.json",
+          "sha256": "42bddf6ce2111b035fa03f25fd60f924ccaf29b51d18c5b33dcecc0706194e36"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0048/quality-report.md",
+          "sha256": "1aba6637f78c69d502cc6c8daeb23ae9d0e47183731135f02115037fe577ef83"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0048/developer-report.md",
+          "sha256": "39bfa28656f7447746a7346c4f1bed45ab3dbdfb7fd0b64537b1b0fbcd83d6a6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0048/browser-review.md",
+          "sha256": "5da2f36bc37dd83ce299b9de05acd643a3c472d3b5818c0dee9e0e41b3611725"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0048/product-spec.md",
+          "sha256": "aaadf7f21939dd33bace43f05892405c0bf02405ee55b9c7c7e54f78b7ed79f8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0048/ui-brief.md",
+          "sha256": "83c885eb2133af8a8a3b0d7eaa1672a6426b69db9eb75919123a2ef3cfbba0d1"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm ci --ignore-scripts --no-audit --no-fund",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T03:21:55Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T032713Z-40A23D70",
+      "work_item_id": "WI-0048",
+      "recorded_at": "2026-08-31T03:27:13.992Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA verification in fresh worktree",
+      "outcome": "pass",
+      "scope_revision": "784951987786988c81bb4b7a5997c8d776838852",
+      "observed_at": "2026-08-31T03:25:45Z",
+      "summary": "Independent QA reran the full verification in a new detached worktree; 223 tests passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0048/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0048/independent-qa-test-observation.json",
+          "sha256": "5622fec66d0d4d6441b70f08a3c2c2ea87b204d4e765c7a5e15826ca1b8b1e3a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0048/independent-qa-report.md",
+          "sha256": "69d88f4de77aa80e153b0fa5892e074821c2880acd6869e42d10fe2b88840c86"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0048/product-spec.md",
+          "sha256": "aaadf7f21939dd33bace43f05892405c0bf02405ee55b9c7c7e54f78b7ed79f8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0048/technical-design.md",
+          "sha256": "12068d14d981b09b33f53636a3e2e430b0873442f3b62acb8a68719bc6d85f96"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0048/ui-brief.md",
+          "sha256": "83c885eb2133af8a8a3b0d7eaa1672a6426b69db9eb75919123a2ef3cfbba0d1"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm ci --ignore-scripts --no-audit --no-fund",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T03:24:20Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T032714Z-47D824F4",
+      "work_item_id": "WI-0048",
+      "recorded_at": "2026-08-31T03:27:14.245Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Independent QA browser reproduction",
+      "outcome": "pass",
+      "scope_revision": "784951987786988c81bb4b7a5997c8d776838852",
+      "observed_at": "2026-08-31T03:26:10Z",
+      "summary": "Independent QA reproduced the Team structure, Rikku filter, keyboard tab, dark default, and 320-pixel no-overflow behavior in fresh Chromium.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0048/independent-qa-runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0048/independent-qa-runtime-observation.json",
+          "sha256": "f1807b61840cad9d24dbdda69aaa26bafd2f6dd9c304769a97645d4dfe32f723"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0048/independent-qa-report.md",
+          "sha256": "69d88f4de77aa80e153b0fa5892e074821c2880acd6869e42d10fe2b88840c86"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0048/approved-preview.svg",
+          "sha256": "99301b3ab8d6e0794985ee612bbd5529ce75a05184c8ef8c8c3666e0644e2b53"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0048/ui-brief.md",
+          "sha256": "83c885eb2133af8a8a3b0d7eaa1672a6426b69db9eb75919123a2ef3cfbba0d1"
+        }
+      ],
+      "details": {
+        "environment": "fresh detached Git worktree, isolated generated Control Plane state, random loopback port, and fresh headed Chromium",
+        "scenario": "Independently render Team Structure at 1440 CSS pixels, verify dark default and 10 Position nodes, select Rikku and verify one highlighted assignment while every node remains present, keyboard-switch to Teammates, resize to 320 CSS pixels, confirm no horizontal overflow, and inspect browser console output",
+        "provenance": "live"
+      }
     }
   ]
 }

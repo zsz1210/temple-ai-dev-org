@@ -1,0 +1,14 @@
+{
+  "schema_version": "temple.runtime-observation/v1",
+  "revision": "784951987786988c81bb4b7a5997c8d776838852",
+  "environment": "fresh detached Git worktree, isolated generated Control Plane state, random loopback port, and fresh headed Chromium",
+  "scenario": "Independently render Team Structure at 1440 CSS pixels, verify dark default and 10 Position nodes, select Rikku and verify one highlighted assignment while every node remains present, keyboard-switch to Teammates, resize to 320 CSS pixels, confirm no horizontal overflow, and inspect browser console output",
+  "result": "pass",
+  "provenance": "live",
+  "observed_at": "2026-08-31T03:26:10Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0048/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0048/approved-preview.svg",
+    ".ai-org/artifacts/WI-0048/ui-brief.md"
+  ]
+}
