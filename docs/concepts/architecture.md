@@ -1,5 +1,41 @@
 # Architecture
 
+## System boundary at a glance
+
+```mermaid
+flowchart LR
+    H[Human Principal<br/>intent and approvals]
+
+    subgraph Local[Local Temple interfaces]
+        W[Temple Workspace<br/>human-readable projections]
+        C[Temple CLI<br/>validated mutation gateway]
+    end
+
+    R[(Repository and Git evidence<br/>canonical authority)]
+    O[Positions, Agent Identities<br/>and Work Items]
+    X[Codex tasks and workers<br/>bounded execution]
+    B[Observer<br/>generated local state]
+    U[Usage and health<br/>projections]
+    L[Learning and retrieval<br/>bounded context]
+    E[External trackers and providers<br/>observations only]
+
+    H -->|reviews| W
+    H -->|authorizes| C
+    C -->|policy-checked writes| R
+    R -->|defines| O
+    O -->|claims and registers| X
+    X -->|evidence and events| R
+    R -->|projects| B
+    E -.->|never lifecycle authority| B
+    B --> W
+    B --> U
+    U --> W
+    R --> L
+    L -->|routed context| O
+```
+
+Solid arrows show governed project flow. The dotted arrow is deliberately weaker: an external tracker or provider may contribute an observation, but it cannot complete a Work Item, satisfy QA, or grant release authority. Temple Workspace reads generated projections; canonical changes still pass through the local CLI and repository evidence.
+
 ## Identity and collaboration model
 
 ```text

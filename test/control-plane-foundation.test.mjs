@@ -439,8 +439,15 @@ test("Codex history bounds are validated and Temple Workspace exposes terminal w
   assert.match(html, /Temple Workspace/);
   assert.match(html, /Who is part of this project\?/);
   assert.match(html, /role="tablist"/);
+  assert.match(html, /Structure/);
   assert.match(html, /Teammates/);
-  assert.match(html, /Roles/);
+  assert.match(html, /organizationMode="structure"/);
+  assert.match(html, /Product & Experience/);
+  assert.match(html, /Engineering Delivery/);
+  assert.match(html, /Assurance & Release/);
+  assert.match(html, /Additional responsibilities/);
+  assert.match(html, /data-organization-agent-filter/);
+  assert.match(html, /Independent delivery check/);
   assert.match(html, /Who is working on what\?/);
   assert.match(html, /Current work/);
   assert.match(html, /Responsibility map/);
@@ -449,6 +456,7 @@ test("Codex history bounds are validated and Temple Workspace exposes terminal w
   assert.doesNotMatch(html, /<span class="nav-icon">0[1-6]<\/span>/);
   assert.match(html, /routeToView=\{overview:"now",team:"organization",work:"execution"/);
   assert.match(html, /temple-workspace-theme/);
+  assert.match(html, /dataset\.theme="dark"/);
   assert.match(html, /@container workspace/);
   assert.match(html, /max-width:1199px/);
   assert.match(html, /max-width:759px/);

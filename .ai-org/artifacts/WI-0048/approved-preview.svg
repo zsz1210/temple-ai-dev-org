@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Temple Workspace dark engineering Team concept</title>
+  <desc id="desc">A charcoal black-gray Temple Workspace with a semantic sidebar and a position-first responsibility map for Product and Experience, Engineering Delivery, and Assurance and Release.</desc>
+  <rect width="1200" height="760" rx="22" fill="#07090c"/>
+  <rect x="1" y="1" width="1198" height="758" rx="21" fill="none" stroke="#252b33" stroke-width="2"/>
+  <path d="M230 1v758" stroke="#252b33"/>
+  <rect x="24" y="25" width="36" height="36" rx="9" fill="#10231f" stroke="#33685f"/>
+  <text x="42" y="49" text-anchor="middle" fill="#63d8c2" font-family="ui-monospace, monospace" font-size="16">T</text>
+  <text x="74" y="41" fill="#edf0f3" font-family="system-ui, sans-serif" font-size="16" font-weight="600">Temple</text>
+  <text x="74" y="58" fill="#5f6975" font-family="system-ui, sans-serif" font-size="11">Workspace</text>
+  <text x="26" y="102" fill="#5f6975" font-family="ui-monospace, monospace" font-size="10" letter-spacing="1.2">WORKSPACE</text>
+  <g font-family="system-ui, sans-serif" font-size="13">
+    <text x="54" y="145" fill="#8c96a3">Overview</text>
+    <rect x="18" y="162" width="194" height="42" rx="9" fill="#13201e" stroke="#32655c"/>
+    <circle cx="34" cy="183" r="5" fill="none" stroke="#63d8c2"/>
+    <text x="54" y="188" fill="#edf0f3">Team</text>
+    <text x="54" y="232" fill="#8c96a3">Work</text>
+    <text x="54" y="274" fill="#8c96a3">Usage</text>
+    <text x="54" y="316" fill="#8c96a3">Health</text>
+    <text x="54" y="358" fill="#8c96a3">Activity</text>
+  </g>
+  <circle cx="28" cy="704" r="4" fill="#63d8c2"/>
+  <text x="40" y="708" fill="#63d8c2" font-family="ui-monospace, monospace" font-size="10">PRIVATE · READ ONLY</text>
+
+  <text x="270" y="44" fill="#8c96a3" font-family="system-ui, sans-serif" font-size="12">Temple Workspace / <tspan fill="#edf0f3">Team</tspan></text>
+  <text x="1154" y="44" text-anchor="end" fill="#63d8c2" font-family="ui-monospace, monospace" font-size="10">SNAPSHOT CURRENT</text>
+  <path d="M270 66h884" stroke="#252b33"/>
+  <text x="270" y="112" fill="#63d8c2" font-family="ui-monospace, monospace" font-size="10" letter-spacing="1.2">OPERATING STRUCTURE</text>
+  <text x="270" y="154" fill="#edf0f3" font-family="system-ui, sans-serif" font-size="34" font-weight="600">Team responsibilities</text>
+  <text x="1154" y="127" text-anchor="end" fill="#8c96a3" font-family="system-ui, sans-serif" font-size="12">Positions define responsibility.</text>
+  <text x="1154" y="146" text-anchor="end" fill="#8c96a3" font-family="system-ui, sans-serif" font-size="12">Agent names show current assignments.</text>
+
+  <g font-family="system-ui, sans-serif" font-size="11">
+    <rect x="270" y="181" width="52" height="32" rx="7" fill="#13201e" stroke="#3d796e"/><text x="296" y="201" text-anchor="middle" fill="#edf0f3">All</text>
+    <rect x="330" y="181" width="58" height="32" rx="7" fill="#0c1014" stroke="#252b33"/><text x="359" y="201" text-anchor="middle" fill="#8c96a3">Mog</text>
+    <rect x="396" y="181" width="62" height="32" rx="7" fill="#0c1014" stroke="#252b33"/><text x="427" y="201" text-anchor="middle" fill="#8c96a3">Yuna</text>
+    <rect x="466" y="181" width="62" height="32" rx="7" fill="#0c1014" stroke="#252b33"/><text x="497" y="201" text-anchor="middle" fill="#8c96a3">Tidus</text>
+    <rect x="536" y="181" width="62" height="32" rx="7" fill="#0c1014" stroke="#252b33"/><text x="567" y="201" text-anchor="middle" fill="#8c96a3">Rikku</text>
+    <rect x="606" y="181" width="58" height="32" rx="7" fill="#0c1014" stroke="#252b33"/><text x="635" y="201" text-anchor="middle" fill="#8c96a3">Lulu</text>
+  </g>
+
+  <rect x="500" y="242" width="430" height="62" rx="10" fill="#151a20" stroke="#343c46"/>
+  <text x="715" y="268" text-anchor="middle" fill="#edf0f3" font-family="system-ui, sans-serif" font-size="14" font-weight="600">Human Principal</text>
+  <text x="715" y="288" text-anchor="middle" fill="#8c96a3" font-family="system-ui, sans-serif" font-size="11">Intent · approval · external authority</text>
+  <path d="M715 305v28M382 333h666M382 333v24M715 333v24M1048 333v24" fill="none" stroke="#343c46"/>
+
+  <g font-family="ui-monospace, monospace" font-size="10" fill="#8c96a3" letter-spacing=".7">
+    <text x="382" y="378" text-anchor="middle">PRODUCT &amp; EXPERIENCE</text>
+    <text x="715" y="378" text-anchor="middle">ENGINEERING DELIVERY</text>
+    <text x="1048" y="378" text-anchor="middle">ASSURANCE &amp; RELEASE</text>
+  </g>
+
+  <g font-family="system-ui, sans-serif">
+    <g transform="translate(270 398)">
+      <rect width="224" height="66" rx="9" fill="#0c1014" stroke="#252b33"/><text x="14" y="26" fill="#edf0f3" font-size="13" font-weight="600">Product Manager</text><text x="14" y="48" fill="#8c96a3" font-size="11">Yuna · product direction</text>
+      <rect y="76" width="224" height="66" rx="9" fill="#0c1014" stroke="#252b33"/><text x="14" y="102" fill="#edf0f3" font-size="13" font-weight="600">UX Designer</text><text x="14" y="124" fill="#8c96a3" font-size="11">Yuna · interaction model</text>
+      <rect y="152" width="224" height="66" rx="9" fill="#0c1014" stroke="#252b33"/><text x="14" y="178" fill="#edf0f3" font-size="13" font-weight="600">UI Designer</text><text x="14" y="200" fill="#8c96a3" font-size="11">Yuna · visual system</text>
+    </g>
+    <g transform="translate(603 398)">
+      <rect width="224" height="66" rx="9" fill="#0c1014" stroke="#252b33"/><text x="14" y="26" fill="#edf0f3" font-size="13" font-weight="600">Engineering Manager</text><text x="14" y="48" fill="#8c96a3" font-size="11">Mog · coordination</text>
+      <rect y="76" width="224" height="66" rx="9" fill="#0c1014" stroke="#252b33"/><text x="14" y="102" fill="#edf0f3" font-size="13" font-weight="600">Tech Lead</text><text x="14" y="124" fill="#8c96a3" font-size="11">Tidus · architecture</text>
+      <rect y="152" width="224" height="66" rx="9" fill="#0c1014" stroke="#252b33"/><text x="14" y="178" fill="#edf0f3" font-size="13" font-weight="600">Developer</text><text x="14" y="200" fill="#8c96a3" font-size="11">Rikku · implementation</text>
+    </g>
+    <g transform="translate(936 398)">
+      <rect width="218" height="66" rx="9" fill="#0c1014" stroke="#79a8ff"/><text x="14" y="26" fill="#edf0f3" font-size="13" font-weight="600">Quality Evaluator</text><text x="14" y="48" fill="#8c96a3" font-size="11">Lulu · tests and evaluation</text>
+      <rect y="76" width="218" height="66" rx="9" fill="#0c1014" stroke="#79a8ff"/><text x="14" y="102" fill="#edf0f3" font-size="13" font-weight="600">Independent QA</text><text x="14" y="124" fill="#8c96a3" font-size="11">Lulu · independent reproduction</text>
+      <rect y="152" width="218" height="66" rx="9" fill="#0c1014" stroke="#252b33"/><text x="14" y="178" fill="#edf0f3" font-size="13" font-weight="600">Release Manager</text><text x="14" y="200" fill="#8c96a3" font-size="11">Mog · release gate</text>
+      <rect y="228" width="218" height="66" rx="9" fill="#0c1014" stroke="#252b33"/><text x="14" y="254" fill="#edf0f3" font-size="13" font-weight="600">Observer</text><text x="14" y="276" fill="#8c96a3" font-size="11">Mog · operational signals</text>
+    </g>
+  </g>
+  <text x="715" y="722" text-anchor="middle" fill="#8c96a3" font-family="system-ui, sans-serif" font-size="11">Position-first responsibility map · current Agent assignments remain inspectable</text>
+</svg>

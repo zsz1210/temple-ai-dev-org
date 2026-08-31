@@ -25,6 +25,29 @@
         "WI-0047"
       ],
       "updated_at": "2026-08-31T01:59:08.000Z"
+    },
+    {
+      "id": "UI-0002",
+      "kind": "ui_contract",
+      "title": "Temple Workspace dark engineering shell and position-first Team map",
+      "authority": "temple_native",
+      "status": "approved",
+      "revision": "ui-1",
+      "source": {
+        "kind": "repository",
+        "location": ".ai-org/artifacts/WI-0048/approved-preview.svg",
+        "system": "git",
+        "content_sha256": "99301b3ab8d6e0794985ee612bbd5529ce75a05184c8ef8c8c3666e0644e2b53"
+      },
+      "owner_position": "ui_designer",
+      "approved_by": "human",
+      "approved_at": "2026-08-31T03:00:26.000Z",
+      "approval_ref": ".ai-org/artifacts/WI-0048/preview-review.md",
+      "source_refs": [],
+      "related_work_items": [
+        "WI-0048"
+      ],
+      "updated_at": "2026-08-31T03:00:26.000Z"
     }
   ]
 }

@@ -29,7 +29,7 @@ The root README explains what Temple is and why it exists. This index routes imp
 ### Concepts
 
 - [Vision and operating model](concepts/vision.md) — Positions, Agent Identities, Skills, human authority, and lifecycle.
-- [Architecture](concepts/architecture.md) — canonical state, ownership, mutation safety, generated views, and extension boundaries.
+- [Architecture](concepts/architecture.md) — a compact system-boundary diagram plus canonical state, ownership, mutation safety, generated views, and extension boundaries.
 - [Product specification system](concepts/product-specifications.md) — product truth, revisions, Feature Specs, and external authority.
 - [UI design modes](concepts/ui-design.md) — proportionate design evidence without requiring a particular vendor.
 - [UI interaction contracts](concepts/ui-interaction-contracts.md) — connect behavior, screens, implementation, APIs, and backend rules.
