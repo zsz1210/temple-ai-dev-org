@@ -1,0 +1,204 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0075",
+  "title": "Separate validation wall-clock test boundaries",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-31T16:23:24.335Z",
+  "updated_at": "2026-08-31T16:24:10.150Z",
+  "scope": [
+    "Make per-turn and whole-program timeout tests deterministic under slow hosted runners by separating the non-target hard limit without changing production behavior."
+  ],
+  "acceptance_criteria": [
+    "The per-turn timeout test cannot exhaust the program limit first, the program timeout test cannot exhaust the per-turn limit first, and both still assert the exact stop code.",
+    "Repeated focused runs, full local verification, and hosted CI pass under the unchanged 10-minute workflow limit."
+  ],
+  "affected_paths": [
+    "test/validation-program.test.mjs"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {
+    "build": {
+      "disciplines": [
+        "general-development"
+      ],
+      "resources": []
+    },
+    "design": {
+      "disciplines": [
+        "architecture"
+      ],
+      "resources": []
+    },
+    "eval": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "independent_qa": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "intake": {
+      "disciplines": [
+        "architecture"
+      ],
+      "resources": []
+    },
+    "release_gate": {
+      "disciplines": [
+        "release"
+      ],
+      "resources": []
+    },
+    "spec": {
+      "disciplines": [
+        "product"
+      ],
+      "resources": []
+    },
+    "test": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "6daaf9194af56950f8e99782082f0f71a3beb040",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": "agent-rikku",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260831162410-8a12cfbd",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "6daaf9194af56950f8e99782082f0f71a3beb040",
+    "branch": "codex/wi-0075-validation-timeout-test",
+    "worktree": null,
+    "claimed_at": "2026-08-31T16:24:10.150Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260831162333-d2c72719",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "6daaf9194af56950f8e99782082f0f71a3beb040",
+      "branch": "codex/wi-0075-validation-timeout-test",
+      "worktree": null,
+      "claimed_at": "2026-08-31T16:23:33.762Z",
+      "released_at": "2026-08-31T16:23:56.389Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260831162357-e9491dd0",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "6daaf9194af56950f8e99782082f0f71a3beb040",
+      "branch": "codex/wi-0075-validation-timeout-test",
+      "worktree": null,
+      "claimed_at": "2026-08-31T16:23:57.338Z",
+      "released_at": "2026-08-31T16:23:58.000Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260831162408-384ed4e3",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "6daaf9194af56950f8e99782082f0f71a3beb040",
+      "branch": "codex/wi-0075-validation-timeout-test",
+      "worktree": null,
+      "claimed_at": "2026-08-31T16:24:08.627Z",
+      "released_at": "2026-08-31T16:24:09.223Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260831162410-8a12cfbd",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "6daaf9194af56950f8e99782082f0f71a3beb040",
+      "branch": "codex/wi-0075-validation-timeout-test",
+      "worktree": null,
+      "claimed_at": "2026-08-31T16:24:10.150Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0075/timeout-test-boundary.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0075/timeout-test-boundary.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0075/timeout-test-boundary.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0075/timeout-test-boundary.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0075/timeout-test-boundary.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0075/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0075/timeout-test-boundary.md",
+    ".ai-org/artifacts/WI-0075/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0075/handoff-003-tech_lead-to-developer.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "HEAD",
+      "artifact": ".ai-org/artifacts/WI-0075/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-08-31T16:23:56.111Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "HEAD",
+      "artifact": ".ai-org/artifacts/WI-0075/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-31T16:23:57.651Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "HEAD",
+      "artifact": ".ai-org/artifacts/WI-0075/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-08-31T16:24:08.924Z"
+    }
+  ]
+}
