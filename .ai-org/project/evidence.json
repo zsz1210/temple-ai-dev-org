@@ -9998,6 +9998,167 @@
         "status": "planned",
         "procedure": ".ai-org/artifacts/WI-0072/rollback-procedure.md"
       }
+    },
+    {
+      "id": "EVID-20260831T160449Z-71E2D243",
+      "work_item_id": "WI-0073",
+      "recorded_at": "2026-08-31T16:04:49.939Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Consolidated evidence fixture candidate",
+      "outcome": "verified",
+      "scope_revision": "ddbf04a84903b8883ad5c32bc5f2cea93c368654",
+      "observed_at": "2026-08-31T16:04:49.939Z",
+      "summary": "Two repeated fixture initializations removed while preserving all WI-0072 regression assertions.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "ddbf04a84903b8883ad5c32bc5f2cea93c368654"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "ddbf04a84903b8883ad5c32bc5f2cea93c368654",
+        "working_tree_dirty": true,
+        "dirty_path_count": 1,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260831T160520Z-824CEA26",
+      "work_item_id": "WI-0073",
+      "recorded_at": "2026-08-31T16:05:20.321Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer full verification",
+      "outcome": "pass",
+      "scope_revision": "ddbf04a84903b8883ad5c32bc5f2cea93c368654",
+      "observed_at": "2026-08-31T16:03:44.000Z",
+      "summary": "Focused evidence tests and the 250-test local suite pass on the exact candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0073/developer-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0073/developer-observation.json",
+          "sha256": "4987fa6fa90cb86f25052aa3953d0faec811d419e72b81ee60cb36257595925f"
+        },
+        {
+          "path": "test/evidence-observer.test.mjs",
+          "sha256": "1646b8ebf58762b44be2e318b15a7fc46f6845c2ddd60245cf342278f854fc56"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0073/developer-verification.md",
+          "sha256": "34d5c53b3ebc61a8c74444a9f6e70c43a845d03feaf11fcdd03951278007f174"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T16:02:38.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T160622Z-642A0984",
+      "work_item_id": "WI-0073",
+      "recorded_at": "2026-08-31T16:06:22.465Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality focused regression",
+      "outcome": "pass",
+      "scope_revision": "ddbf04a84903b8883ad5c32bc5f2cea93c368654",
+      "observed_at": "2026-08-31T16:06:04.000Z",
+      "summary": "All 12 assertion-preserving evidence durability tests pass.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0073/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0073/quality-test-observation.json",
+          "sha256": "89b2edddc1eeaa4ce7108c973cc49b6c3a519423d6793a2a7100ce40c03768a7"
+        },
+        {
+          "path": "test/evidence-observer.test.mjs",
+          "sha256": "1646b8ebf58762b44be2e318b15a7fc46f6845c2ddd60245cf342278f854fc56"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/evidence-observer.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T16:05:48.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T160751Z-60E6167A",
+      "work_item_id": "WI-0073",
+      "recorded_at": "2026-08-31T16:07:51.071Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA exact-candidate verification",
+      "outcome": "pass",
+      "scope_revision": "ddbf04a84903b8883ad5c32bc5f2cea93c368654",
+      "observed_at": "2026-08-31T16:07:18.000Z",
+      "summary": "Fresh detached worktree passed focused tests and Doctor.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0073/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0073/independent-qa-observation.json",
+          "sha256": "b17d9193e262d0a309f8a4502829a6ec49e973ea210a7ad3e8252e9c7c3641f5"
+        },
+        {
+          "path": "test/evidence-observer.test.mjs",
+          "sha256": "1646b8ebf58762b44be2e318b15a7fc46f6845c2ddd60245cf342278f854fc56"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0073/independent-qa-report.md",
+          "sha256": "564129b0c6e3b8f54846ffee603f3cb182b4b5c2e3a2500f8ab8f2a7847f8747"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/evidence-observer.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T16:06:49.000Z"
+      }
     }
   ]
 }

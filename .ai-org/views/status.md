@@ -117,7 +117,7 @@
 | WI-0070 | Stabilize provider-owned usage notification test timing | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a5f3860a` | 0 | 19 | 0 |
 | WI-0071 | Automate Skill candidate proposals with human activation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `406bc213` | 0 | 15 | 0 |
 | WI-0072 | Preserve evidence revisions across remote CI | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5913ea0c` | 0 | 19 | 0 |
-| WI-0073 | Consolidate evidence durability CI fixtures | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831155836-d5cd90ff | `—` | 0 | 4 | 0 |
+| WI-0073 | Consolidate evidence durability CI fixtures | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831160752-f3eedf27 | `ddbf04a8` | 0 | 15 | 0 |
 
 ## Codex task registry
 
@@ -236,14 +236,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T15:58:36.316Z | work_item_claimed | WI-0073 | human |
-| 2026-08-31T15:58:35.970Z | work_item_coordination_configured | WI-0073 | agent-rikku |
-| 2026-08-31T15:58:35.621Z | work_item_transitioned | WI-0073 | agent-tidus |
-| 2026-08-31T15:58:35.306Z | work_item_claim_released | WI-0073 | human |
-| 2026-08-31T15:58:34.963Z | handoff_created | WI-0073 | agent-tidus |
-| 2026-08-31T15:58:34.621Z | work_item_claimed | WI-0073 | human |
-| 2026-08-31T15:58:34.266Z | work_item_transitioned | WI-0073 | agent-yuna |
-| 2026-08-31T15:58:33.938Z | work_item_claim_released | WI-0073 | human |
+| 2026-08-31T16:07:52.377Z | work_item_claimed | WI-0073 | human |
+| 2026-08-31T16:07:52.019Z | work_item_transitioned | WI-0073 | agent-lulu |
+| 2026-08-31T16:07:51.691Z | work_item_claim_released | WI-0073 | human |
+| 2026-08-31T16:07:51.362Z | handoff_created | WI-0073 | agent-lulu |
+| 2026-08-31T16:07:51.071Z | evidence_recorded | WI-0073 | human |
+| 2026-08-31T16:06:33.148Z | work_item_claimed | WI-0073 | human |
+| 2026-08-31T16:06:32.780Z | work_item_transitioned | WI-0073 | agent-lulu |
+| 2026-08-31T16:06:32.424Z | work_item_claim_released | WI-0073 | human |
 
 ## Assignments
 

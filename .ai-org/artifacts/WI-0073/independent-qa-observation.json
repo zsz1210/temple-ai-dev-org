@@ -1,0 +1,18 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "ddbf04a84903b8883ad5c32bc5f2cea93c368654",
+  "command": [
+    "node",
+    "--test",
+    "test/evidence-observer.test.mjs"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T16:06:49.000Z",
+  "completed_at": "2026-08-31T16:07:18.000Z",
+  "artifact_refs": [
+    "test/evidence-observer.test.mjs",
+    ".ai-org/artifacts/WI-0073/independent-qa-report.md"
+  ],
+  "summary": "A fresh detached exact-candidate worktree passed all 12 focused tests after a clean npm install; Doctor then reported 35 pass, one unrelated stale-plan warning, and zero failures."
+}

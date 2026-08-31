@@ -1,0 +1,17 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "ddbf04a84903b8883ad5c32bc5f2cea93c368654",
+  "command": [
+    "node",
+    "--test",
+    "test/evidence-observer.test.mjs"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T16:05:48.000Z",
+  "completed_at": "2026-08-31T16:06:04.000Z",
+  "artifact_refs": [
+    "test/evidence-observer.test.mjs"
+  ],
+  "summary": "All 12 focused tests passed. Assertions still cover affected-scope rejection, unpreserved and preserved revisions, idempotence, unrecorded revision rejection, conflicting tags, and fresh-clone recovery."
+}

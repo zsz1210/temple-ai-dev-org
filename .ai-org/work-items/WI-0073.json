@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0073",
   "title": "Consolidate evidence durability CI fixtures",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-31T15:57:54.960Z",
-  "updated_at": "2026-08-31T15:58:36.316Z",
+  "updated_at": "2026-08-31T16:07:52.377Z",
   "scope": [
     "Preserve every WI-0072 regression scenario while reducing repeated Temple fixture initialization and Doctor work on constrained hosted runners."
   ],
@@ -80,22 +80,22 @@
       "resources": []
     }
   },
-  "base_revision": "ec3f5cdb6ea282a6e1d372c6ef05665f48d655cb",
+  "base_revision": "ddbf04a84903b8883ad5c32bc5f2cea93c368654",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
-  "planned_agent_id": "agent-rikku",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260831155836-d5cd90ff",
+    "id": "claim-20260831160752-f3eedf27",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "ec3f5cdb6ea282a6e1d372c6ef05665f48d655cb",
+    "agent_id": "agent-mog",
+    "base_revision": "ddbf04a84903b8883ad5c32bc5f2cea93c368654",
     "branch": "codex/wi-0073-ci-fixture-consolidation",
     "worktree": null,
-    "claimed_at": "2026-08-31T15:58:36.316Z",
+    "claimed_at": "2026-08-31T16:07:52.377Z",
     "released_at": null
   },
   "claims": [
@@ -143,13 +143,55 @@
     },
     {
       "id": "claim-20260831155836-d5cd90ff",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "ec3f5cdb6ea282a6e1d372c6ef05665f48d655cb",
       "branch": "codex/wi-0073-ci-fixture-consolidation",
       "worktree": null,
       "claimed_at": "2026-08-31T15:58:36.316Z",
+      "released_at": "2026-08-31T16:05:41.250Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260831160541-2e1f7910",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "ddbf04a84903b8883ad5c32bc5f2cea93c368654",
+      "branch": "codex/wi-0073-ci-fixture-consolidation",
+      "worktree": null,
+      "claimed_at": "2026-08-31T16:05:41.932Z",
+      "released_at": "2026-08-31T16:06:32.424Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260831160633-74062b75",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "ddbf04a84903b8883ad5c32bc5f2cea93c368654",
+      "branch": "codex/wi-0073-ci-fixture-consolidation",
+      "worktree": null,
+      "claimed_at": "2026-08-31T16:06:33.148Z",
+      "released_at": "2026-08-31T16:07:51.691Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260831160752-f3eedf27",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "ddbf04a84903b8883ad5c32bc5f2cea93c368654",
+      "branch": "codex/wi-0073-ci-fixture-consolidation",
+      "worktree": null,
+      "claimed_at": "2026-08-31T16:07:52.377Z",
       "released_at": null
     }
   ],
@@ -168,16 +210,47 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0073/optimization-plan.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0073/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260831T160449Z-71E2D243",
+      "EVID-20260831T160520Z-824CEA26",
+      ".ai-org/artifacts/WI-0073/developer-verification.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0073/quality-test-observation.json"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0073/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0073/independent-qa-observation.json"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0073/independent-qa-report.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0073/handoff-001-engineering_manager-to-product_manager.md",
     ".ai-org/artifacts/WI-0073/optimization-plan.md",
     ".ai-org/artifacts/WI-0073/handoff-002-product_manager-to-tech_lead.md",
-    ".ai-org/artifacts/WI-0073/handoff-003-tech_lead-to-developer.md"
+    ".ai-org/artifacts/WI-0073/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0073/handoff-004-developer-to-quality_evaluator.md",
+    "EVID-20260831T160449Z-71E2D243",
+    "EVID-20260831T160520Z-824CEA26",
+    ".ai-org/artifacts/WI-0073/developer-verification.md",
+    ".ai-org/artifacts/WI-0073/quality-test-observation.json",
+    ".ai-org/artifacts/WI-0073/handoff-005-quality_evaluator-to-independent_qa.md",
+    "EVID-20260831T160622Z-642A0984",
+    ".ai-org/artifacts/WI-0073/evaluation-report.md",
+    ".ai-org/artifacts/WI-0073/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0073/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0073/independent-qa-observation.json"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -199,6 +272,28 @@
       "input_revision": "HEAD",
       "artifact": ".ai-org/artifacts/WI-0073/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-08-31T15:58:34.963Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "ddbf04a84903b8883ad5c32bc5f2cea93c368654",
+      "artifact": ".ai-org/artifacts/WI-0073/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-31T16:05:33.210Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "ddbf04a84903b8883ad5c32bc5f2cea93c368654",
+      "artifact": ".ai-org/artifacts/WI-0073/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-08-31T16:06:32.088Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "ddbf04a84903b8883ad5c32bc5f2cea93c368654",
+      "artifact": ".ai-org/artifacts/WI-0073/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-08-31T16:07:51.362Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "ddbf04a84903b8883ad5c32bc5f2cea93c368654"
 }
