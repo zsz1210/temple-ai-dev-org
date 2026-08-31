@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0052",
   "title": "Establish provider-owned Codex observability bridge",
-  "state": "spec",
-  "owner_position": "product_manager",
-  "assigned_agent_id": "agent-yuna",
+  "state": "design",
+  "owner_position": "tech_lead",
+  "assigned_agent_id": "agent-tidus",
   "created_at": "2026-08-31T06:08:45.709Z",
-  "updated_at": "2026-08-31T06:10:51.091Z",
+  "updated_at": "2026-08-31T06:11:42.435Z",
   "scope": [
     "Add a local provider-owned launch contract that creates a Codex App Server thread, registers its stable identity with Temple, and only then begins generation.",
     "Persist execution origin, provider, requested and effective model, reasoning effort, service tier, launch revision, current revision, and claim base as distinct bounded task metadata.",
@@ -77,15 +77,24 @@
   "gate_evidence": {
     "work_order": [
       ".ai-org/artifacts/WI-0052/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0052/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0052.json"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0052/handoff-001-engineering_manager-to-product_manager.md",
     ".ai-org/artifacts/WI-0052/work-order.md",
-    ".ai-org/artifacts/WI-0052/human-approval.md"
+    ".ai-org/artifacts/WI-0052/human-approval.md",
+    ".ai-org/artifacts/WI-0052/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0052/product-spec.md",
+    ".ai-org/work-items/WI-0052.json"
   ],
   "unresolved": [],
-  "next_position": "tech_lead",
+  "next_position": "developer",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -93,6 +102,13 @@
       "input_revision": "d331256",
       "artifact": ".ai-org/artifacts/WI-0052/handoff-001-engineering_manager-to-product_manager.md",
       "created_at": "2026-08-31T06:10:50.827Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "e706ea5",
+      "artifact": ".ai-org/artifacts/WI-0052/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-31T06:11:42.178Z"
     }
   ]
 }

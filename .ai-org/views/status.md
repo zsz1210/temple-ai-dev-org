@@ -95,7 +95,7 @@
 | WI-0049 | Make Temple Workspace status language human-readable | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `6acb200d` | 0 | 21 | 0 |
 | WI-0050 | Design Temple effectiveness and multi-repository validation | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c9993415` | 0 | 22 | 0 |
 | WI-0051 | Run bounded Temple instrumentation pilot | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `7dc0080a` | 0 | 17 | 0 |
-| WI-0052 | Establish provider-owned Codex observability bridge | spec | Product Manager | Yuna | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 3 | 0 |
+| WI-0052 | Establish provider-owned Codex observability bridge | design | Tech Lead | Tidus | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 6 | 0 |
 
 ## Codex task registry
 
@@ -206,14 +206,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-31T06:11:42.435Z | work_item_transitioned | WI-0052 | agent-yuna |
+| 2026-08-31T06:11:42.178Z | handoff_created | WI-0052 | agent-yuna |
 | 2026-08-31T06:10:51.091Z | work_item_transitioned | WI-0052 | agent-mog |
 | 2026-08-31T06:10:50.827Z | handoff_created | WI-0052 | agent-mog |
 | 2026-08-31T06:09:50.421Z | work_item_coordination_configured | WI-0052 | agent-mog |
 | 2026-08-31T06:09:36.199Z | work_item_coordination_configured | WI-0052 | agent-mog |
 | 2026-08-31T06:08:45.709Z | work_item_created | WI-0052 | agent-mog |
 | 2026-08-31T05:51:17.367Z | learning_added | — | human |
-| 2026-08-31T05:51:01.820Z | work_item_closed | WI-0051 | agent-mog |
-| 2026-08-31T05:51:01.820Z | release_gate_completed | WI-0051 | agent-mog |
 
 ## Assignments
 
