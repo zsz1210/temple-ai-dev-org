@@ -1,0 +1,20 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "eef2908440d900568b07a60a221a89566615e77d",
+  "command": [
+    "npm run check",
+    "node --test test/control-plane-live.test.mjs",
+    "codex app-server generate-json-schema and compare current ThreadStartParams and TurnStartParams enums",
+    "sha256 current generated ThreadStartParams and TurnStartParams"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T07:32:27Z",
+  "completed_at": "2026-08-31T07:32:39Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0055/quality-report.md",
+    ".ai-org/artifacts/WI-0055/evaluation-report.md",
+    ".ai-org/artifacts/WI-0055/protocol-research.md",
+    ".ai-org/artifacts/WI-0055/developer-evidence.md"
+  ]
+}

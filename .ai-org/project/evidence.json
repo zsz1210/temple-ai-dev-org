@@ -7131,6 +7131,142 @@
         "exit_code": 0,
         "started_at": "2026-08-31T07:14:24Z"
       }
+    },
+    {
+      "id": "EVID-20260831T073200Z-2B775FF6",
+      "work_item_id": "WI-0055",
+      "recorded_at": "2026-08-31T07:32:00.163Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Codex App Server protocol compatibility candidate",
+      "outcome": "verified",
+      "scope_revision": "eef2908440d900568b07a60a221a89566615e77d",
+      "observed_at": "2026-08-31T07:32:00.163Z",
+      "summary": "Exact candidate adds verified wire translation, schema-derived contract tests, bounded rejection metadata, operator documentation, and a candidate engineering Lesson without a live Provider call.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "eef2908440d900568b07a60a221a89566615e77d"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "eef2908440d900568b07a60a221a89566615e77d",
+        "working_tree_dirty": false
+      }
+    },
+    {
+      "id": "EVID-20260831T073302Z-97D8026F",
+      "work_item_id": "WI-0055",
+      "recorded_at": "2026-08-31T07:33:02.279Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality verification of App Server protocol contract",
+      "outcome": "pass",
+      "scope_revision": "eef2908440d900568b07a60a221a89566615e77d",
+      "observed_at": "2026-08-31T07:32:39Z",
+      "summary": "Quality regenerated the installed schema, matched recorded digests and enums, and passed the focused suite without a live Provider call.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0055/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0055/quality-test-observation.json",
+          "sha256": "fdd32ce6ec5f43e7915cf725674312b50c29260ae812716ddcddcb2647809d9c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0055/quality-report.md",
+          "sha256": "2e1a887dcee2d608bbeb9dfc3983df2c7cab916b2f9d608f7e8101cd6a7bc87d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0055/evaluation-report.md",
+          "sha256": "12f6488daf35f1194dc69bb88779fa8de7682fb1035d1f6f4dcf68455319690e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0055/protocol-research.md",
+          "sha256": "27037e98a7063769b7cf9a62507a14410d40f3dc0fc0b5f8c8d13d3ee9517986"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0055/developer-evidence.md",
+          "sha256": "5f346795cc3dba5b219fd3bd7ce52dba1d5eeb0bfc24e6cca248d5399ae25af4"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run check",
+          "node --test test/control-plane-live.test.mjs",
+          "codex app-server generate-json-schema and compare current ThreadStartParams and TurnStartParams enums",
+          "sha256 current generated ThreadStartParams and TurnStartParams"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T07:32:27Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T073431Z-E2245E01",
+      "work_item_id": "WI-0055",
+      "recorded_at": "2026-08-31T07:34:31.604Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA of App Server protocol compatibility",
+      "outcome": "pass",
+      "scope_revision": "eef2908440d900568b07a60a221a89566615e77d",
+      "observed_at": "2026-08-31T07:34:09Z",
+      "summary": "Independent QA reproduced the exact candidate, full verification, Doctor, and installed-schema contract in a fresh detached worktree without a live Provider call.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0055/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0055/independent-qa-test-observation.json",
+          "sha256": "9b342588f1da38b3916018f41488850b807d29fa5469df5aba70c2c833ceea69"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0055/independent-qa-report.md",
+          "sha256": "5f96767a97092a32ebe29446eaa8eea95ba92468951886976986f9ee11a0fc6c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0055/protocol-research.md",
+          "sha256": "27037e98a7063769b7cf9a62507a14410d40f3dc0fc0b5f8c8d13d3ee9517986"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0055/quality-report.md",
+          "sha256": "2e1a887dcee2d608bbeb9dfc3983df2c7cab916b2f9d608f7e8101cd6a7bc87d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0055/developer-evidence.md",
+          "sha256": "5f346795cc3dba5b219fd3bd7ce52dba1d5eeb0bfc24e6cca248d5399ae25af4"
+        }
+      ],
+      "details": {
+        "command": [
+          "create fresh detached worktree at the exact candidate",
+          "npm run verify using the existing local dependency directory",
+          "node ./templew.mjs doctor . --json",
+          "regenerate App Server JSON schema and compare enums and SHA-256 digests",
+          "git diff --check and confirm detached worktree clean"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T07:33:15Z"
+      }
     }
   ]
 }

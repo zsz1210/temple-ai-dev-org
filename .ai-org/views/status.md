@@ -3,16 +3,16 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 55 total, 22 active
+- Work items: 55 total, 21 active
 - Codex tasks: 4 registered, 3 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
 - Context routes: 0 active (repository-deterministic, semantic=false)
-- Engineering learning: 2 Lessons, 1 Practices
+- Engineering learning: 3 Lessons, 1 Practices
 - Learning revalidation: 0 due, 0 contradicted
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -98,7 +98,7 @@
 | WI-0052 | Establish provider-owned Codex observability bridge | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `42044e99` | 0 | 16 | 0 |
 | WI-0053 | Define Temple self-development model selection policy | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0077b4ff` | 0 | 17 | 0 |
 | WI-0054 | Run the first bounded provider-owned live Token proof | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5de1ae88` | 0 | 22 | 0 |
-| WI-0055 | Harden Codex App Server protocol compatibility | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831072800-40d75191 | `—` | 0 | 9 | 0 |
+| WI-0055 | Harden Codex App Server protocol compatibility | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `eef29084` | 0 | 22 | 0 |
 
 ## Codex task registry
 
@@ -196,7 +196,7 @@
 
 ## Engineering learning
 
-- Candidate: 3
+- Candidate: 4
 - Validated: 0
 - Active: 0
 - Deprecated: 0
@@ -209,14 +209,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T07:28:00.894Z | work_item_claimed | WI-0055 | human |
-| 2026-08-31T07:28:00.601Z | work_item_transitioned | WI-0055 | agent-tidus |
-| 2026-08-31T07:28:00.300Z | handoff_created | WI-0055 | agent-tidus |
-| 2026-08-31T07:28:00.015Z | work_item_transitioned | WI-0055 | agent-yuna |
-| 2026-08-31T07:27:59.738Z | handoff_created | WI-0055 | agent-yuna |
-| 2026-08-31T07:27:59.475Z | work_item_transitioned | WI-0055 | agent-mog |
-| 2026-08-31T07:27:59.208Z | handoff_created | WI-0055 | agent-mog |
-| 2026-08-31T07:25:58.057Z | work_item_coordination_configured | WI-0055 | agent-mog |
+| 2026-08-31T07:34:41.815Z | work_item_closed | WI-0055 | agent-mog |
+| 2026-08-31T07:34:41.815Z | release_gate_completed | WI-0055 | agent-mog |
+| 2026-08-31T07:34:41.545Z | work_item_claimed | WI-0055 | human |
+| 2026-08-31T07:34:41.257Z | work_item_transitioned | WI-0055 | agent-lulu |
+| 2026-08-31T07:34:31.870Z | handoff_created | WI-0055 | agent-lulu |
+| 2026-08-31T07:34:31.604Z | evidence_recorded | WI-0055 | human |
+| 2026-08-31T07:33:03.399Z | work_item_claimed | WI-0055 | human |
+| 2026-08-31T07:33:03.100Z | work_item_transitioned | WI-0055 | agent-lulu |
 
 ## Assignments
 
