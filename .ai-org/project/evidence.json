@@ -8767,6 +8767,33 @@
         "exit_code": 0,
         "started_at": "2026-08-31T10:53:17Z"
       }
+    },
+    {
+      "id": "EVID-20260831T111824Z-A0EB3316",
+      "work_item_id": "WI-0065",
+      "recorded_at": "2026-08-31T11:18:24.333Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0065 reasoning-provenance candidate",
+      "outcome": "verified",
+      "scope_revision": "dccc20596bf5061cd14ed963b5756ff72bd59a37",
+      "observed_at": "2026-08-31T11:18:24.333Z",
+      "summary": "Exact committed candidate with explicit request, thread observation, effective-turn unknown state, compatibility provenance, and responsive Team evidence.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "dccc20596bf5061cd14ed963b5756ff72bd59a37"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "dccc20596bf5061cd14ed963b5756ff72bd59a37",
+        "working_tree_dirty": false
+      }
     }
   ]
 }

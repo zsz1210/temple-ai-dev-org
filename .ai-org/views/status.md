@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
 - Work items: 65 total, 7 active
 - Codex tasks: 5 registered, 4 archive-ready
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -108,7 +108,7 @@
 | WI-0062 | Run the approved provider-owned instrumentation pilot | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5979c1e3` | 0 | 20 | 0 |
 | WI-0063 | Correct Provider-observed model attribution | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c44bbdf5` | 0 | 22 | 0 |
 | WI-0064 | Revalidate Provider-observed model attribution | blocked | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6bdcf181` | 0 | 22 | 2 |
-| WI-0065 | Separate reasoning request and observation provenance | build | Developer | Rikku | pending | internal | 0 | gate-evidence | code-first | 1 | 0 | 0 | claim-20260831110430-a01b8aea | `—` | 0 | 8 | 0 |
+| WI-0065 | Separate reasoning request and observation provenance | test | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | code-first | 1 | 0 | 0 | — | `dccc2059` | 0 | 12 | 0 |
 
 ## Codex task registry
 
@@ -222,14 +222,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-08-31T11:18:44.413Z | work_item_transitioned | WI-0065 | agent-rikku |
+| 2026-08-31T11:18:44.102Z | work_item_claim_released | WI-0065 | human |
+| 2026-08-31T11:18:43.799Z | handoff_created | WI-0065 | agent-rikku |
+| 2026-08-31T11:18:24.333Z | evidence_recorded | WI-0065 | human |
 | 2026-08-31T11:16:47.331Z | work_item_coordination_configured | WI-0065 | agent-rikku |
 | 2026-08-31T11:04:30.040Z | work_item_claimed | WI-0065 | human |
 | 2026-08-31T11:04:29.723Z | work_item_transitioned | WI-0065 | agent-tidus |
 | 2026-08-31T11:04:29.428Z | work_item_coordination_configured | WI-0065 | agent-tidus |
-| 2026-08-31T11:04:20.095Z | handoff_created | WI-0065 | agent-tidus |
-| 2026-08-31T11:04:19.799Z | work_item_coordination_configured | WI-0065 | agent-tidus |
-| 2026-08-31T11:03:36.508Z | work_item_transitioned | WI-0065 | agent-yuna |
-| 2026-08-31T11:03:36.224Z | handoff_created | WI-0065 | agent-yuna |
 
 ## Assignments
 

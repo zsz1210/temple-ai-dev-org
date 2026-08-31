@@ -318,7 +318,7 @@
     },
     {
       "path": ".ai-org/core/schemas/task-registry.schema.json",
-      "sha256": "5cde37ca707dc1cbb6f3dd39656ff3eb0a311398168267e4f54228104486c9be"
+      "sha256": "89590de18740e993c5397ab2da30f3bbc13175143b85af9956d5aee41b9b7cd5"
     },
     {
       "path": ".ai-org/core/schemas/tracker.schema.json",

@@ -7,6 +7,7 @@
 - Updated Provider-owned launch registration, launch results, usage attribution, live projections, Doctor validation, schemas, CLI options, and Team cards.
 - Added contract coverage for a `max` turn request with an `xhigh` thread response and no turn-effective acknowledgement.
 - Added a generated-dashboard JavaScript syntax check after the runtime review caught a missing parenthesis that module syntax checks could not see inside the HTML template.
+- Synchronized the self-host `temple.lock` digest for the changed managed task schema after exact-candidate Doctor detected the stale checksum.
 - Updated human-facing operational documentation and the project glossary.
 
 ## Verification

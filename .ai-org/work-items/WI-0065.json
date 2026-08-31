@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0065",
   "title": "Separate reasoning request and observation provenance",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-08-31T11:02:24.198Z",
-  "updated_at": "2026-08-31T11:16:47.331Z",
+  "updated_at": "2026-08-31T11:18:44.413Z",
   "scope": [
     "Define requested turn reasoning, Provider-observed thread reasoning, and Provider-observed effective turn reasoning as distinct bounded concepts.",
     "Preserve legacy task compatibility while preventing dashboards, usage reports, and runtime evidence from presenting a thread-level value as a turn-effective value.",
@@ -24,12 +24,19 @@
     "src/live-observer.mjs",
     "src/usage-attribution.mjs",
     "src/control-plane-dashboard.mjs",
+    "src/doctor.mjs",
     ".ai-org/core/schemas/task-registry.schema.json",
     "project-overlay/.ai-org/core/schemas/task-registry.schema.json",
     "test/control-plane-live.test.mjs",
+    "test/control-plane-foundation.test.mjs",
     "test/phase-4b.test.mjs",
+    "test/workflow.test.mjs",
     "docs/operations/token-efficiency-and-model-routing.md",
-    ".ai-org/project/domain-glossary.md"
+    ".ai-org/project/domain-glossary.md",
+    "temple.lock",
+    ".ai-org/artifacts/WI-0065",
+    "output/playwright/WI-0065-team-wide.png",
+    "output/playwright/WI-0065-team-narrow.png"
   ],
   "context_refs": [],
   "spec_refs": [],
@@ -53,7 +60,7 @@
   "base_revision": "78fc2f6bdcb778e881625de2ffa4ef84415a6843",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
-  "planned_agent_id": "agent-rikku",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [
@@ -62,26 +69,32 @@
   ],
   "claim": {
     "id": "claim-20260831110430-a01b8aea",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "base_revision": "78fc2f6bdcb778e881625de2ffa4ef84415a6843",
     "branch": "main",
     "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
     "claimed_at": "2026-08-31T11:04:30.040Z",
-    "released_at": null
+    "released_at": "2026-08-31T11:18:44.102Z",
+    "release_reason": [
+      "position_transition"
+    ]
   },
   "claims": [
     {
       "id": "claim-20260831110430-a01b8aea",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "78fc2f6bdcb778e881625de2ffa4ef84415a6843",
       "branch": "main",
       "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
       "claimed_at": "2026-08-31T11:04:30.040Z",
-      "released_at": null
+      "released_at": "2026-08-31T11:18:44.102Z",
+      "release_reason": [
+        "position_transition"
+      ]
     }
   ],
   "gate_evidence": {
@@ -105,6 +118,14 @@
     ],
     "required_state_coverage": [
       ".ai-org/artifacts/WI-0065/ui-design-brief.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0065/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "dccc20596bf5061cd14ed963b5756ff72bd59a37",
+      ".ai-org/artifacts/WI-0065/developer-report.md",
+      ".ai-org/artifacts/WI-0065/visual-review.md"
     ]
   },
   "evidence": [
@@ -115,7 +136,11 @@
     ".ai-org/artifacts/WI-0065/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0065/technical-design.md",
     ".ai-org/artifacts/WI-0065/risk-review.md",
-    ".ai-org/artifacts/WI-0065/ui-design-brief.md"
+    ".ai-org/artifacts/WI-0065/ui-design-brief.md",
+    ".ai-org/artifacts/WI-0065/handoff-004-developer-to-quality_evaluator.md",
+    "dccc20596bf5061cd14ed963b5756ff72bd59a37",
+    ".ai-org/artifacts/WI-0065/developer-report.md",
+    ".ai-org/artifacts/WI-0065/visual-review.md"
   ],
   "unresolved": [],
   "next_position": "quality_evaluator",
@@ -140,6 +165,14 @@
       "input_revision": "78fc2f6bdcb778e881625de2ffa4ef84415a6843",
       "artifact": ".ai-org/artifacts/WI-0065/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-08-31T11:04:20.095Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "dccc20596bf5061cd14ed963b5756ff72bd59a37",
+      "artifact": ".ai-org/artifacts/WI-0065/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-31T11:18:43.799Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "dccc20596bf5061cd14ed963b5756ff72bd59a37"
 }
