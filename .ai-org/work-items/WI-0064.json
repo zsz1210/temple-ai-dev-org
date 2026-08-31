@@ -1,0 +1,159 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0064",
+  "title": "Revalidate Provider-observed model attribution",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-31T10:39:13.047Z",
+  "updated_at": "2026-08-31T10:41:11.027Z",
+  "scope": [
+    "Run exactly one local Provider-owned Luna Max turn against the existing synthetic instrumentation pilot after a fresh installed-schema check.",
+    "Require exact project, Work Item, task, Position, Agent, revision, Provider, effective-model, reasoning, terminal-outcome, and positive detailed-Token correlation before passing.",
+    "Keep network disabled, approval never, one launch attempt, one turn, zero retries, 40k Token warning, 60k Token stop, 15-minute turn ceiling, no API key, no reset, no external write, and no public release."
+  ],
+  "acceptance_criteria": [
+    "The installed App Server schema and model list pass the preflight with the pinned protocol hashes and Luna Max availability.",
+    "The one turn completes with an exactly correlated Provider-observed effective GPT-5.6 model, max reasoning when acknowledged, positive detailed Token usage, and no unapproved reroute.",
+    "Repository product files remain unchanged, raw Provider content is not retained, zero retry holds, and any missing strict field stops the later rehearsal.",
+    "Local verification, Doctor, Quality, Independent QA, and a limitation-aware closeout pass before the four-repository program is created."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0064",
+    "docs/planning/temple-effectiveness-and-microservice-validation.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [
+    "WI-0063"
+  ],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "5e9ac438d39d0093b7cd66ff8213c264dc9c3833",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260831104009-84750c9e",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-tidus",
+    "base_revision": "5e9ac438d39d0093b7cd66ff8213c264dc9c3833",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-08-31T10:40:09.525Z",
+    "released_at": "2026-08-31T10:41:10.739Z",
+    "release_reason": [
+      "position_transition"
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260831103921-9ea8f049",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "5e9ac438d39d0093b7cd66ff8213c264dc9c3833",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T10:39:21.680Z",
+      "released_at": "2026-08-31T10:39:59.619Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260831104000-4c60d48c",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "5e9ac438d39d0093b7cd66ff8213c264dc9c3833",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T10:40:00.237Z",
+      "released_at": "2026-08-31T10:40:08.926Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260831104009-84750c9e",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "5e9ac438d39d0093b7cd66ff8213c264dc9c3833",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T10:40:09.525Z",
+      "released_at": "2026-08-31T10:41:10.739Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0064/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0064/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0064.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0064/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0064/technical-design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0064/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0064/work-order.md",
+    ".ai-org/artifacts/WI-0064/human-approval.md",
+    ".ai-org/artifacts/WI-0064/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0064/product-spec.md",
+    ".ai-org/work-items/WI-0064.json",
+    ".ai-org/artifacts/WI-0064/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0064/technical-design.md",
+    ".ai-org/artifacts/WI-0064/protocol-preflight.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "5e9ac438d39d0093b7cd66ff8213c264dc9c3833",
+      "artifact": ".ai-org/artifacts/WI-0064/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-08-31T10:39:59.335Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "5e9ac438d39d0093b7cd66ff8213c264dc9c3833",
+      "artifact": ".ai-org/artifacts/WI-0064/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-31T10:40:08.639Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "5e9ac438d39d0093b7cd66ff8213c264dc9c3833",
+      "artifact": ".ai-org/artifacts/WI-0064/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-08-31T10:41:10.455Z"
+    }
+  ]
+}

@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 63 total, 5 active
+- Work items: 64 total, 6 active
 - Codex tasks: 5 registered, 4 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -107,6 +107,7 @@
 | WI-0061 | Approve a bounded local instrumentation pilot | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `cdd05741` | 0 | 19 | 0 |
 | WI-0062 | Run the approved provider-owned instrumentation pilot | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5979c1e3` | 0 | 20 | 0 |
 | WI-0063 | Correct Provider-observed model attribution | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c44bbdf5` | 0 | 22 | 0 |
+| WI-0064 | Revalidate Provider-observed model attribution | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 9 | 0 |
 
 ## Codex task registry
 
@@ -171,7 +172,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 10
+- Team-visible Work Items: 11
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -219,14 +220,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T10:38:24.776Z | work_item_closed | WI-0063 | agent-mog |
-| 2026-08-31T10:38:24.776Z | release_gate_completed | WI-0063 | agent-mog |
-| 2026-08-31T10:37:56.589Z | work_item_claimed | WI-0063 | human |
-| 2026-08-31T10:37:56.266Z | work_item_transitioned | WI-0063 | agent-lulu |
-| 2026-08-31T10:37:47.402Z | work_item_claim_released | WI-0063 | human |
-| 2026-08-31T10:37:47.105Z | handoff_created | WI-0063 | agent-lulu |
-| 2026-08-31T10:37:46.815Z | evidence_recorded | WI-0063 | human |
-| 2026-08-31T10:36:15.795Z | work_item_claimed | WI-0063 | human |
+| 2026-08-31T10:41:11.027Z | work_item_transitioned | WI-0064 | agent-tidus |
+| 2026-08-31T10:41:10.739Z | work_item_claim_released | WI-0064 | human |
+| 2026-08-31T10:41:10.455Z | handoff_created | WI-0064 | agent-tidus |
+| 2026-08-31T10:40:09.525Z | work_item_claimed | WI-0064 | human |
+| 2026-08-31T10:40:09.214Z | work_item_transitioned | WI-0064 | agent-yuna |
+| 2026-08-31T10:40:08.926Z | work_item_claim_released | WI-0064 | human |
+| 2026-08-31T10:40:08.639Z | handoff_created | WI-0064 | agent-yuna |
+| 2026-08-31T10:40:00.237Z | work_item_claimed | WI-0064 | human |
 
 ## Assignments
 
