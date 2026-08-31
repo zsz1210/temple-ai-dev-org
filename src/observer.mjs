@@ -86,9 +86,11 @@ export async function buildObserverProjection(target) {
       title: item.title,
       state: item.state,
       owner_position: item.owner_position,
+      assigned_agent_id: item.assigned_agent_id ?? null,
       category,
       current_revision: revisions.get(item.id),
       active_claim: item.claim?.status === "active" ? item.claim.id : null,
+      active_claim_agent_id: item.claim?.status === "active" ? item.claim.agent_id ?? null : null,
       runtime_workers: itemWorkers.map((worker) => ({ id: worker.id, status: worker.status, runtime_kind: worker.runtime_kind })),
       evidence_count: evidence.filter((entry) => entry.work_item_id === item.id).length,
       unresolved_count: (item.unresolved ?? []).length

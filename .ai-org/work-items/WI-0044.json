@@ -1,0 +1,168 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0044",
+  "title": "Redesign Dashboard navigation and operator information architecture",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-30T23:42:02.351Z",
+  "updated_at": "2026-08-30T23:45:52.555Z",
+  "scope": [
+    "Replace the long single-page Dashboard with a responsive operational cockpit organized around Now, Execution, Usage, System, and History while preserving truthful evidence, privacy boundaries, and local-only mutation authority."
+  ],
+  "acceptance_criteria": [
+    "A persistent desktop sidebar and compact mobile/tablet navigation expose Now, Execution, Usage, System, and History as directly reachable views.",
+    "The default Now view lets an operator identify current health, highest-priority action, active work, and human decisions without understanding Temple internals.",
+    "Execution visibly maps Agent to Position to Work Item to Codex task and observed model, preserving unknown states when evidence is absent.",
+    "Usage collapses insufficient evidence into a concise truthful state and exposes deeper analysis only when observations exist.",
+    "Private LAN and Tailscale viewers remain redacted and read-only; Human Inbox and Agent Commands remain local-only.",
+    "Desktop, tablet, and mobile browser validation has no console errors, inaccessible navigation, or horizontal overflow."
+  ],
+  "affected_paths": [
+    "src/control-plane-dashboard.mjs",
+    "src/observer.mjs",
+    "test/control-plane-foundation.test.mjs",
+    "test/control-plane-inbox.test.mjs",
+    "test/control-plane-live.test.mjs",
+    "test/control-plane-private-viewer.test.mjs",
+    "docs/operations/control-plane.md",
+    ".ai-org/artifacts/WI-0044"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "code-first",
+  "parent_work_item_id": "WI-0043",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "d14a343f0fe9d1d4b80b4759c08ed179a0c1871c",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": "agent-rikku",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0029 has no active claim; WI-0044 is the sole editor and preserves its accepted provider and Dashboard behavior.",
+    "WI-0030, WI-0034, WI-0036, WI-0040, WI-0041, and WI-0042 are retained at release_gate without active claims; WI-0044 changes presentation only and preserves their accepted privacy, control, replay, and usage contracts.",
+    "WI-0033 remains specification-only with no active claim; WI-0044 does not implement remote-control expansion.",
+    "WI-0043 is the completed review input; WI-0044 implements its accepted hierarchy without rewriting that review artifact."
+  ],
+  "claim": {
+    "id": "claim-20260830234552-bbac2f44",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "d14a343f0fe9d1d4b80b4759c08ed179a0c1871c",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-08-30T23:45:52.555Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260830234309-63bd5efb",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "d14a343f0fe9d1d4b80b4759c08ed179a0c1871c",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T23:43:09.810Z",
+      "released_at": "2026-08-30T23:45:43.164Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260830234543-ce5b03d7",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "d14a343f0fe9d1d4b80b4759c08ed179a0c1871c",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T23:45:43.711Z",
+      "released_at": "2026-08-30T23:45:44.267Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260830234544-c5ce5386",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "d14a343f0fe9d1d4b80b4759c08ed179a0c1871c",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T23:45:44.834Z",
+      "released_at": "2026-08-30T23:45:52.001Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260830234552-bbac2f44",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "d14a343f0fe9d1d4b80b4759c08ed179a0c1871c",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-30T23:45:52.555Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0044/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0044/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0044.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0044/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0044/technical-design.md"
+    ],
+    "ui_brief": [
+      ".ai-org/artifacts/WI-0044/ui-brief.md"
+    ],
+    "required_state_coverage": [
+      ".ai-org/artifacts/WI-0044/ui-brief.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0044/work-order.md",
+    ".ai-org/artifacts/WI-0044/handoff-001-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0044/product-spec.md",
+    ".ai-org/artifacts/WI-0044/ui-brief.md",
+    ".ai-org/artifacts/WI-0044/dashboard-ui-research.md",
+    ".ai-org/work-items/WI-0044.json",
+    ".ai-org/artifacts/WI-0044/handoff-002-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0044/technical-design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "d14a343f0fe9d1d4b80b4759c08ed179a0c1871c",
+      "artifact": ".ai-org/artifacts/WI-0044/handoff-001-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-30T23:45:43.988Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "d14a343f0fe9d1d4b80b4759c08ed179a0c1871c",
+      "artifact": ".ai-org/artifacts/WI-0044/handoff-002-tech_lead-to-developer.md",
+      "created_at": "2026-08-30T23:45:45.094Z"
+    }
+  ]
+}

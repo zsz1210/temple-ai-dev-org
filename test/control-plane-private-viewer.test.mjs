@@ -286,6 +286,7 @@ test("dedicated home-LAN listener is redacted and read-only regardless of reques
   });
   assert.equal(page.status, 200);
   assert.match(page.body, /Private network · Read only/);
+  assert.match(page.body, /Read-only views use this exact snapshot/);
   assert.doesNotMatch(page.body, /<h2>Human Inbox<\/h2>|<h2>Agent Commands/);
   assert.doesNotMatch(page.body, new RegExp(controlPlane.sessionSecret));
 
@@ -341,7 +342,9 @@ test("private Dashboard is redacted, refresh-only, and cannot reach Inbox or mut
   assert.match(page.body, /Private network · Read only/);
   assert.doesNotMatch(page.body, /<h2>Human Inbox<\/h2>/);
   assert.doesNotMatch(page.body, /<h2>Agent Commands/);
-  assert.match(page.body, /Usage &amp; models/);
+  assert.match(page.body, /data-nav-target="usage"/);
+  assert.match(page.body, /Where are resources going\?/);
+  assert.doesNotMatch(page.body, /data-nav-target="inbox"|data-nav-target="commands"|id="view-inbox"|id="view-commands"/);
   assert.doesNotMatch(page.body, new RegExp(controlPlane.sessionSecret));
 
   const snapshotResponse = await privateRequest(controlPlane, "/api/v1/snapshot");

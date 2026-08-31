@@ -448,6 +448,9 @@ test("condition engine keeps provider outages unknown and detects scope conflict
     codexAppServerProviderContract({ status: "offline", degradedReason: "fixture disconnect" })
   ]);
   const observer = await buildObserverProjection(target);
+  const claimedWork = observer.work.items.find((item) => item.id === workItemId);
+  assert.equal(claimedWork.assigned_agent_id, "agent-fixture-rowan");
+  assert.equal(claimedWork.active_claim_agent_id, "agent-fixture-rowan");
   const config = defaultControlPlaneConfig();
   config.alerts.pending_for_ms = 0;
   config.alerts.token_budget = 1000;

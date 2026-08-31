@@ -398,7 +398,17 @@ test("Codex history bounds are validated and the Dashboard exposes terminal work
   assert.match(html, /History only/);
   assert.match(html, /badge\.terminal/);
   assert.match(html, /badge\.history-only/);
-  assert.match(html, /Usage &amp; models/);
+  assert.match(html, /data-nav-target="now"/);
+  assert.match(html, /data-nav-target="execution"/);
+  assert.match(html, /data-nav-target="usage"/);
+  assert.match(html, /data-nav-target="system"/);
+  assert.match(html, /data-nav-target="history"/);
+  assert.match(html, /Who is doing what\?/);
+  assert.match(html, /Responsibility map/);
+  assert.match(html, /filter\(hasLiveExecution\)/);
+  assert.match(html, /No claimed, blocked, or live-attached execution is currently observed/);
+  assert.match(html, /Queued and waiting \(/);
+  assert.match(html, /governanceDecisions/);
   assert.match(html, /No detailed Token observations yet/);
   assert.match(html, /formatUsageNumber/);
   assert.match(html, /automatic model switching remain unavailable/);

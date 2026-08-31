@@ -75,11 +75,11 @@ test("Dashboard command drafts survive unrelated refreshes and invalidate change
   assert.match(replacement.staleReason, /no longer eligible/i);
 
   const dashboard = renderControlPlaneDashboard("Dashboard fixture", { inboxEnabled: true, sessionSecret: "fixture-secret" });
-  assert.match(dashboard, /Skip to current status/);
-  assert.match(dashboard, /Needs attention now/);
+  assert.match(dashboard, /Skip to Dashboard content/);
+  assert.match(dashboard, /What needs you now\?/);
   assert.match(dashboard, /Snapshot stale/);
-  assert.match(dashboard, /Terminal history/);
-  assert.match(dashboard, /Usage &amp; models/);
+  assert.match(dashboard, /Terminal Work Items/);
+  assert.match(dashboard, /Where are resources going\?/);
   assert.match(dashboard, /Models represented: no observed model evidence/);
 });
 
@@ -713,7 +713,8 @@ test("loopback command gateway rejects cross-origin, unauthenticated, and arbitr
   assert.equal(JSON.parse(snapshotText).inbox.agent_commands.enabled, false);
   assert.equal(JSON.parse(snapshotText).inbox.agent_commands.availability_reason, "disabled-by-configuration");
   const dashboard = await (await fetch(controlPlane.url)).text();
-  assert.match(dashboard, /Agent Commands · local and opt-in/);
+  assert.match(dashboard, /Local and opt-in/);
+  assert.match(dashboard, /id="view-commands-title"[^>]*>Agent Commands/);
   assert.match(dashboard, /Delivery is unknown/);
   assert.match(dashboard, /I reviewed the exact target, operation, and local preview/);
   assert.match(dashboard, /History retains only a non-content summary and instruction length/);

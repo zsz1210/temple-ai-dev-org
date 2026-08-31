@@ -66,9 +66,17 @@ The HTTP server and repository snapshot become available before optional Codex h
 
 ### Read the Dashboard as current state first
 
-The Dashboard separates stream connectivity from snapshot freshness. A connected SSE stream does not make an old or failed snapshot actionable. The page labels the last successful snapshot independently, keeps the previous read-only information visible when a refresh fails, and disables every mutation until a current snapshot is available again.
+The Dashboard uses one-level navigation so that operational questions do not compete on one long page:
 
-Current attention and nonterminal Work Items appear before terminal history. The operational metrics use the same canonical categories as the Observer: active, QA pending, approval pending, queued, blocked, and terminal. Terminal Work Items remain available in a collapsed history section instead of filling the initial operational view.
+- **Now** answers what needs attention and shows only four flow metrics: active work, blocked work, live tasks, and human decisions.
+- **Execution** answers who is doing what. Its responsibility map follows `Agent → Position → Work Item → Codex task → observed model`; only claimed, blocked, or live-attached execution appears in that map. Queued and approval-pending inventory is collapsed by default.
+- **Usage** answers where observed Tokens and models are going. It shows an explicit evidence-not-ready state instead of treating missing provider observations as zero.
+- **System** answers whether providers and control-plane conditions are healthy.
+- **History** keeps terminal Work Items and the bounded occurrence timeline out of the operational starting view.
+
+The Dashboard separates stream connectivity from snapshot freshness. A connected SSE stream does not make an old or failed snapshot actionable. The page labels the last successful snapshot independently, keeps the previous read-only information visible when a refresh fails, and disables every loopback mutation until a current snapshot is available again. On a private viewer, the same status is expressed as read-only snapshot freshness rather than action readiness.
+
+Current attention and Work Items are still classified with the Observer's canonical categories: active, QA pending, approval pending, queued, blocked, and terminal. The interface changes presentation and progressive disclosure; it does not change lifecycle authority.
 
 An unrelated refresh preserves an in-progress Agent Command instruction, selection, and focus. If the exact registered task, Work Item state, provider thread, active turn, or supported operation changes, the page keeps the draft but clears confirmation and explains which precondition must be reviewed. A stale snapshot cannot submit that draft. These client safeguards supplement the server's exact-state and idempotency checks; they do not grant command authority.
 
