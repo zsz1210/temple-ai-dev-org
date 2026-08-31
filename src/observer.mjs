@@ -7,6 +7,7 @@ import { readRuntimeWorkerRegistry } from "./workers.mjs";
 import { listLearningEntries } from "./learning.mjs";
 
 export const OBSERVER_SCHEMA = "temple.observer/v1";
+export const ORGANIZATION_VIEW_SCHEMA = "temple.organization-view/v1";
 export const OBSERVER_JSON_RELATIVE_PATH = ".ai-org/views/observer.json";
 export const OBSERVER_HTML_RELATIVE_PATH = ".ai-org/views/overview.html";
 
@@ -60,9 +61,144 @@ function attentionForEvidence(entry, stale) {
   return output;
 }
 
+function organizationSafeguard(id, leftPosition, rightPosition, assignments, agents) {
+  const leftAgentId = assignments.get(leftPosition) ?? null;
+  const rightAgentId = assignments.get(rightPosition) ?? null;
+  const participant = (positionId, agentId) => ({
+    position_id: positionId,
+    agent_id: agentId,
+    agent_display_name: agents.get(agentId)?.display_name ?? null
+  });
+  const participants = [participant(leftPosition, leftAgentId), participant(rightPosition, rightAgentId)];
+  if (!leftAgentId || !rightAgentId) {
+    return {
+      id,
+      status: "warning",
+      participants,
+      message: `${leftPosition} and ${rightPosition} must both be assigned before separation can be verified.`
+    };
+  }
+  if (leftAgentId === rightAgentId) {
+    return {
+      id,
+      status: "fail",
+      participants,
+      message: `${agents.get(leftAgentId)?.display_name ?? leftAgentId} holds both ${leftPosition} and ${rightPosition}.`
+    };
+  }
+  return {
+    id,
+    status: "pass",
+    participants,
+    message: `${agents.get(leftAgentId)?.display_name ?? leftAgentId} and ${agents.get(rightAgentId)?.display_name ?? rightAgentId} are distinct Agent Identities.`
+  };
+}
+
+function buildOrganizationProjection({ agentsDocument, assignmentsDocument, positionsDocument, collaboration, work }) {
+  const agents = new Map((agentsDocument.agents ?? []).map((agent) => [agent.id, agent]));
+  const positions = new Map((positionsDocument.positions ?? []).map((position) => [position.id, position]));
+  const activeAssignments = (assignmentsDocument.assignments ?? []).filter((assignment) => assignment.active !== false);
+  const assignments = new Map(activeAssignments.map((assignment) => [assignment.position_id, assignment.agent_id]));
+  const activeMemberships = (collaboration.memberships ?? []).filter((membership) => membership.active !== false);
+  const issues = [];
+
+  for (const assignment of activeAssignments) {
+    if (!agents.has(assignment.agent_id)) {
+      issues.push({ type: "unknown_assignment_agent", position_id: assignment.position_id, agent_id: assignment.agent_id });
+    }
+    if (!positions.has(assignment.position_id)) {
+      issues.push({ type: "unknown_assignment_position", position_id: assignment.position_id, agent_id: assignment.agent_id });
+    }
+  }
+  for (const membership of activeMemberships) {
+    if (!agents.has(membership.agent_id)) {
+      issues.push({ type: "unknown_membership_agent", position_id: membership.position_id, agent_id: membership.agent_id });
+    }
+    if (!positions.has(membership.position_id)) {
+      issues.push({ type: "unknown_membership_position", position_id: membership.position_id, agent_id: membership.agent_id });
+    }
+  }
+
+  const currentWork = work.filter((item) => item.category !== "terminal");
+  const organizationAgents = (agentsDocument.agents ?? []).map((agent) => {
+    const agentAssignments = activeAssignments
+      .filter((assignment) => assignment.agent_id === agent.id)
+      .map((assignment) => ({
+        position_id: assignment.position_id,
+        display_name: positions.get(assignment.position_id)?.display_name ?? assignment.position_id
+      }));
+    const memberships = activeMemberships
+      .filter((membership) => membership.agent_id === agent.id)
+      .map((membership) => ({
+        position_id: membership.position_id,
+        disciplines: membership.disciplines ?? [],
+        default: membership.default === true
+      }));
+    const currentWorkItems = currentWork
+      .filter((item) => item.active_claim_agent_id === agent.id || item.assigned_agent_id === agent.id)
+      .map((item) => ({ id: item.id, title: item.title, state: item.state, category: item.category }));
+    return {
+      id: agent.id,
+      display_name: agent.display_name,
+      active: agent.active !== false,
+      assignments: agentAssignments,
+      memberships,
+      current_work_items: currentWorkItems
+    };
+  });
+
+  const organizationPositions = (positionsDocument.positions ?? []).map((position) => {
+    const agentId = assignments.get(position.id) ?? null;
+    const positionMemberships = activeMemberships
+      .filter((membership) => membership.position_id === position.id)
+      .map((membership) => ({
+        agent_id: membership.agent_id,
+        agent_display_name: agents.get(membership.agent_id)?.display_name ?? null,
+        disciplines: membership.disciplines ?? [],
+        default: membership.default === true
+      }));
+    return {
+      id: position.id,
+      display_name: position.display_name,
+      purpose: position.purpose,
+      owns: position.owns ?? [],
+      cannot_approve: position.cannot_approve ?? [],
+      assignment: agentId ? { agent_id: agentId, agent_display_name: agents.get(agentId)?.display_name ?? null } : null,
+      memberships: positionMemberships,
+      current_work_items: currentWork
+        .filter((item) => item.owner_position === position.id)
+        .map((item) => ({ id: item.id, title: item.title, state: item.state, category: item.category }))
+    };
+  });
+
+  return {
+    schema_version: ORGANIZATION_VIEW_SCHEMA,
+    profile: collaboration.profile ?? "unknown",
+    coordination_backend: collaboration.coordination_backend ?? "unknown",
+    counts: {
+      active_agents: organizationAgents.filter((agent) => agent.active).length,
+      positions: organizationPositions.length,
+      assigned_positions: organizationPositions.filter((position) => position.assignment).length,
+      active_memberships: activeMemberships.length
+    },
+    agents: organizationAgents,
+    positions: organizationPositions,
+    safeguards: [
+      organizationSafeguard("developer-independent-qa-separation", "developer", "independent_qa", assignments, agents),
+      organizationSafeguard("developer-release-manager-separation", "developer", "release_manager", assignments, agents)
+    ],
+    issues,
+    large_scale_validation: collaboration.large_scale_validation ?? { status: "unknown", plan: null }
+  };
+}
+
 export async function buildObserverProjection(target) {
-  const [project, workItems, workersDocument, evidenceRegistry, events, learning] = await Promise.all([
+  const [project, agentsDocument, assignmentsDocument, positionsDocument, collaboration, workItems, workersDocument, evidenceRegistry, events, learning] = await Promise.all([
     readJson(path.join(target, ".ai-org/project/project.json")),
+    readJson(path.join(target, ".ai-org/project/agents.json")),
+    readJson(path.join(target, ".ai-org/project/assignments.json")),
+    readJson(path.join(target, ".ai-org/core/positions.json")),
+    readJson(path.join(target, ".ai-org/project/collaboration.json")),
     listWorkItemDocuments(target),
     readRuntimeWorkerRegistry(target),
     readEvidenceRegistry(target),
@@ -115,10 +251,12 @@ export async function buildObserverProjection(target) {
     ...evidence.map((entry) => ({ timestamp: entry.observed_at, type: "evidence", name: entry.kind, work_item_id: entry.work_item_id, actor: entry.recorded_by, reference: entry.id, outcome: entry.outcome }))
   ].sort((left, right) => String(right.timestamp).localeCompare(String(left.timestamp))).slice(0, 100);
   const categories = Object.fromEntries(["active", "blocked", "qa_pending", "approval_pending", "queued", "terminal"].map((category) => [category, work.filter((item) => item.category === category).length]));
+  const organization = buildOrganizationProjection({ agentsDocument, assignmentsDocument, positionsDocument, collaboration, work });
   return {
     schema_version: OBSERVER_SCHEMA,
     generated_at: new Date().toISOString(),
     project: { id: project.id, name: project.name },
+    organization,
     work: { total: work.length, categories, items: work },
     evidence: {
       total: evidence.length,

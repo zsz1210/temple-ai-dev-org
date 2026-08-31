@@ -1,0 +1,179 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0046",
+  "title": "Reframe Control Plane as management console and add Organization",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-08-31T00:43:14.596Z",
+  "updated_at": "2026-08-31T01:09:58.000Z",
+  "scope": [
+    "Turn the current Dashboard shell into a Temple management console whose Now view is the operational dashboard, and add an always-visible Organization view backed by canonical Agent Identity, Position, Assignment, membership, and collaboration-profile data."
+  ],
+  "acceptance_criteria": [
+    "Navigation and copy present the surface as a management console; Now remains the operational Dashboard and Organization is a distinct primary destination.",
+    "Organization renders all active Agent Identities and all ten assigned Positions even when no Work Item is actively claimed, with Agent-centric and Position-centric views and clear responsibilities.",
+    "Organization exposes the current collaboration profile and visible separation safeguards without conflating permanent organization topology with current execution.",
+    "Execution remains scoped to current claimed, blocked, or live-attached work and preserves Agent to Position to Work Item to Codex task to observed model mapping.",
+    "The implementation uses shadcn-inspired composition and density without adding or copying the shadcn dependency, preserves private-viewer redaction and mutation boundaries, and works at desktop, tablet, and mobile widths.",
+    "A repository-backed requirements audit distinguishes shipped, partial, planned, and intentionally deferred control-plane capabilities; focused tests, full verification, and independent browser QA pass on an exact candidate."
+  ],
+  "affected_paths": [
+    "src/control-plane-dashboard.mjs",
+    "src/observer.mjs",
+    "test/control-plane-foundation.test.mjs",
+    "test/control-plane-inbox.test.mjs",
+    "test/control-plane-live.test.mjs",
+    "test/control-plane-private-viewer.test.mjs",
+    "docs/operations/control-plane.md",
+    ".ai-org/artifacts/WI-0046"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "code-first",
+  "parent_work_item_id": "WI-0044",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "20d2371742395867627219b18213890337603e16",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0029 and WI-0033 have no active claim and are not being edited; WI-0030, WI-0034, WI-0036, WI-0040, WI-0041, WI-0042, WI-0044, and WI-0045 are verified unclosed predecessors whose behavior is retained; WI-0043 is the review parent of WI-0044. WI-0046 is the sole sequential editor for the shared control-plane UI and documentation until its candidate is integrated."
+  ],
+  "claim": {
+    "id": "claim-20260831004938-d7c94e53",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "20d2371742395867627219b18213890337603e16",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-08-31T00:49:38.135Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260831004324-a933262a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "20d2371742395867627219b18213890337603e16",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T00:43:24.557Z",
+      "released_at": "2026-08-31T00:44:38.173Z",
+      "release_reason": [
+        "engineering_management_intake_complete"
+      ]
+    },
+    {
+      "id": "claim-20260831004438-73945edc",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "20d2371742395867627219b18213890337603e16",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T00:44:38.820Z",
+      "released_at": "2026-08-31T00:48:00.835Z",
+      "release_reason": [
+        "Product specification handed to Tech Lead"
+      ]
+    },
+    {
+      "id": "claim-20260831004801-fc2a3a10",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "20d2371742395867627219b18213890337603e16",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T00:48:01.861Z",
+      "released_at": "2026-08-31T00:49:28.513Z",
+      "release_reason": [
+        "Technical design handed to Developer"
+      ]
+    },
+    {
+      "id": "claim-20260831004938-d7c94e53",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "20d2371742395867627219b18213890337603e16",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T00:49:38.135Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0046/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0046/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0046.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0046/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0046/technical-design.md"
+    ],
+    "ui_brief": [
+      ".ai-org/artifacts/WI-0046/ui-brief.md"
+    ],
+    "required_state_coverage": [
+      ".ai-org/artifacts/WI-0046/ui-brief.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0046/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0046/work-order.md",
+    ".ai-org/artifacts/WI-0046/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0046/product-spec.md",
+    ".ai-org/artifacts/WI-0046/management-console-requirements-audit.md",
+    ".ai-org/work-items/WI-0046.json",
+    ".ai-org/artifacts/WI-0046/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0046/technical-design.md",
+    ".ai-org/artifacts/WI-0046/ui-brief.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "20d2371742395867627219b18213890337603e16",
+      "artifact": ".ai-org/artifacts/WI-0046/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-08-31T00:44:37.892Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "20d2371742395867627219b18213890337603e16",
+      "artifact": ".ai-org/artifacts/WI-0046/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-08-31T00:48:00.365Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "20d2371742395867627219b18213890337603e16",
+      "artifact": ".ai-org/artifacts/WI-0046/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-08-31T00:49:28.020Z"
+    }
+  ]
+}

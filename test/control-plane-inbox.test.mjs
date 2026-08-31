@@ -35,7 +35,7 @@ async function writeJson(targetPath, value) {
   await fs.writeFile(targetPath, `${JSON.stringify(value, null, 2)}\n`);
 }
 
-test("Dashboard command drafts survive unrelated refreshes and invalidate changed targets", () => {
+test("Management Console command drafts survive unrelated refreshes and invalidate changed targets", () => {
   const firstTarget = {
     task_id: "task-0001",
     work_item_id: "WI-0001",
@@ -75,7 +75,7 @@ test("Dashboard command drafts survive unrelated refreshes and invalidate change
   assert.match(replacement.staleReason, /no longer eligible/i);
 
   const dashboard = renderControlPlaneDashboard("Dashboard fixture", { inboxEnabled: true, sessionSecret: "fixture-secret" });
-  assert.match(dashboard, /Skip to Dashboard content/);
+  assert.match(dashboard, /Skip to Management Console content/);
   assert.match(dashboard, /What needs you now\?/);
   assert.match(dashboard, /Snapshot stale/);
   assert.match(dashboard, /Terminal Work Items/);

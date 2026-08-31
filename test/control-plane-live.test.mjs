@@ -276,6 +276,46 @@ test("repository observer classifies completed and cancelled work as terminal", 
   assert.ok(observer.work.items.every((entry) => entry.category === "terminal"));
 });
 
+test("repository observer projects canonical organization independently of live execution", async (context) => {
+  const { target } = await fixture(context);
+  const observer = await buildObserverProjection(target);
+  const organization = observer.organization;
+
+  assert.equal(organization.schema_version, "temple.organization-view/v1");
+  assert.equal(organization.profile, "solo");
+  assert.equal(organization.coordination_backend, "repository");
+  assert.deepEqual(organization.counts, {
+    active_agents: 5,
+    positions: 10,
+    assigned_positions: 10,
+    active_memberships: 10
+  });
+  assert.deepEqual(
+    organization.agents.map((agent) => agent.display_name),
+    ["Fixture Rowan", "Fixture Linden", "Fixture Ellis", "Fixture Devon", "Fixture Hollis"]
+  );
+  assert.deepEqual(
+    organization.positions.map((position) => position.id),
+    ["engineering_manager", "product_manager", "ux_designer", "ui_designer", "tech_lead", "developer", "quality_evaluator", "independent_qa", "release_manager", "observer"]
+  );
+  assert.equal(organization.positions.find((position) => position.id === "developer").assignment.agent_display_name, "Fixture Devon");
+  assert.deepEqual(organization.positions.find((position) => position.id === "developer").memberships[0].disciplines, ["general-development"]);
+  assert.ok(organization.safeguards.every((safeguard) => safeguard.status === "pass"));
+  assert.equal(Object.hasOwn(organization, "principals"), false);
+  assert.equal(Object.hasOwn(organization, "sponsorships"), false);
+
+  const assignmentsPath = path.join(target, ".ai-org/project/assignments.json");
+  const assignments = JSON.parse(await fs.readFile(assignmentsPath, "utf8"));
+  const developerAgentId = assignments.assignments.find((assignment) => assignment.position_id === "developer").agent_id;
+  assignments.assignments.find((assignment) => assignment.position_id === "independent_qa").agent_id = developerAgentId;
+  await writeJson(assignmentsPath, assignments);
+  const unsafe = await buildObserverProjection(target);
+  assert.equal(
+    unsafe.organization.safeguards.find((safeguard) => safeguard.id === "developer-independent-qa-separation").status,
+    "fail"
+  );
+});
+
 test("live projection forwards current attention and does not replay canonical repository events as fresh timeline rows", async (context) => {
   const { target, stateDirectory, workItemId } = await fixture(context);
   const journal = await openTelemetryJournal(stateDirectory, {

@@ -343,6 +343,8 @@ test("private Dashboard is redacted, refresh-only, and cannot reach Inbox or mut
   assert.doesNotMatch(page.body, /<h2>Human Inbox<\/h2>/);
   assert.doesNotMatch(page.body, /<h2>Agent Commands/);
   assert.match(page.body, /data-nav-target="usage"/);
+  assert.match(page.body, /data-nav-target="organization"/);
+  assert.match(page.body, /How is this organization composed\?/);
   assert.match(page.body, /Where are resources going\?/);
   assert.doesNotMatch(page.body, /data-nav-target="inbox"|data-nav-target="commands"|id="view-inbox"|id="view-commands"/);
   assert.doesNotMatch(page.body, new RegExp(controlPlane.sessionSecret));
@@ -355,6 +357,11 @@ test("private Dashboard is redacted, refresh-only, and cannot reach Inbox or mut
   assert.equal(Object.hasOwn(snapshot, "daemon"), false);
   assert.equal(Object.hasOwn(snapshot, "inbox"), false);
   assert.equal(Object.hasOwn(snapshot, "recent_events"), false);
+  assert.equal(snapshot.observer.organization.schema_version, "temple.organization-view/v1");
+  assert.equal(snapshot.observer.organization.counts.active_agents, 5);
+  assert.equal(snapshot.observer.organization.counts.assigned_positions, 10);
+  assert.equal(Object.hasOwn(snapshot.observer.organization, "principals"), false);
+  assert.equal(Object.hasOwn(snapshot.observer.organization, "sponsorships"), false);
   assert.equal(snapshot.usage.schema_version, "temple.usage-baseline/v1");
   assert.equal(snapshot.usage.privacy.raw_prompts_retained, false);
   assert.equal(snapshot.usage.routing.automatic_routing, false);
