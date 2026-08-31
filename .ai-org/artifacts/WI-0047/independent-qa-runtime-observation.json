@@ -1,0 +1,14 @@
+{
+  "schema_version": "temple.runtime-observation/v1",
+  "revision": "b6bbe09e430d4f40c98dd0a581a25b2e2c6b6e88",
+  "environment": "Temple self-host repository on the Mac Mini, exact home-LAN private read-only listener, and a fresh Playwright Chromium session",
+  "scenario": "Independently inspect Temple Workspace at 2560 by 1080 and 390 by 844; verify fluid width, Team counts, private-viewer redaction, mobile drawer inert and focus behavior, Escape focus return, console output, and document-level horizontal overflow",
+  "result": "pass",
+  "provenance": "live",
+  "observed_at": "2026-08-31T02:29:43Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0047/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0047/runtime-2560-dark.png",
+    ".ai-org/artifacts/WI-0047/runtime-390-drawer-dark.png"
+  ]
+}

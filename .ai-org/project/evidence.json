@@ -5963,6 +5963,289 @@
         "exit_code": 0,
         "started_at": "2026-08-31T01:14:00Z"
       }
+    },
+    {
+      "id": "EVID-20260831T022409Z-525C1A00",
+      "work_item_id": "WI-0047",
+      "recorded_at": "2026-08-31T02:24:09.751Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Temple Workspace candidate",
+      "outcome": "verified",
+      "scope_revision": "b6bbe09e430d4f40c98dd0a581a25b2e2c6b6e88",
+      "observed_at": "2026-08-31T02:24:09.751Z",
+      "summary": "Human-first naming, semantic navigation, themes, fluid responsive shell, and compatibility tests.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "b6bbe09e430d4f40c98dd0a581a25b2e2c6b6e88"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "b6bbe09e430d4f40c98dd0a581a25b2e2c6b6e88",
+        "working_tree_dirty": true
+      }
+    },
+    {
+      "id": "EVID-20260831T022410Z-5D78B102",
+      "work_item_id": "WI-0047",
+      "recorded_at": "2026-08-31T02:24:10.015Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer verification",
+      "outcome": "pass",
+      "scope_revision": "b6bbe09e430d4f40c98dd0a581a25b2e2c6b6e88",
+      "observed_at": "2026-08-31T02:22:40Z",
+      "summary": "Focused Control Plane tests and full 223-test repository verification passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0047/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0047/developer-test-observation.json",
+          "sha256": "03a1641743d0064d41f8478c9cb4694c433db565fdfbff8105f41610f9be4ac7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0047/developer-report.md",
+          "sha256": "7e782e32056c1a8268aaa4c8c62f26651ca4e28775bad31cb54a838c7f8ded7d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0047/product-spec.md",
+          "sha256": "4ec584881560914046d1f840190eae14c62efcdd1667fd159760ded70aaf2716"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0047/technical-design.md",
+          "sha256": "5045619d9354a2f5ab4a7ca879766eeabfbe6148b13b47ba2795252b9da0d5eb"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0047/ui-brief.md",
+          "sha256": "587a5620df5befac1d58365e868e4e991d47fdc704dec6d6bad3f9e43860f67f"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/control-plane-foundation.test.mjs test/control-plane-inbox.test.mjs test/control-plane-live.test.mjs test/control-plane-private-viewer.test.mjs",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T02:13:00Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T022410Z-58369A98",
+      "work_item_id": "WI-0047",
+      "recorded_at": "2026-08-31T02:24:10.295Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Temple Workspace browser evaluation",
+      "outcome": "pass",
+      "scope_revision": "b6bbe09e430d4f40c98dd0a581a25b2e2c6b6e88",
+      "observed_at": "2026-08-31T02:21:10Z",
+      "summary": "Six viewports, both themes, Team modes, route compatibility, drawer accessibility, private viewer, and zero overflow passed.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0047/runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0047/runtime-observation.json",
+          "sha256": "5eeaa062c152f6b6f2725e393e98a0c12103d6626278aa1cfe0f26f1b15c8635"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0047/developer-report.md",
+          "sha256": "7e782e32056c1a8268aaa4c8c62f26651ca4e28775bad31cb54a838c7f8ded7d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0047/runtime-1440-light.png",
+          "sha256": "e3a0a367f928b088fe31ad37e5e69695acf6dfbbcaf6bacce00788429cf71a0b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0047/runtime-1440-dark.png",
+          "sha256": "a095607ca33b334f4b964a596f461bf61ca93b910fffb56d1b96e6fcb9b742a9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0047/runtime-2560-dark.png",
+          "sha256": "edf60f7bd6ff588f1703eab3f2405af539d00203cf246362ddbb4f5ea40d3474"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0047/runtime-390-drawer-dark.png",
+          "sha256": "546ca333d476fa2a53aebcfd1113f197353d591e72113a41d9117e4f84199cd1"
+        }
+      ],
+      "details": {
+        "environment": "Temple self-host repository on the Mac Mini, live loopback Control Plane with Codex observation, exact 192.168.79.5 home-LAN read-only listener, Tailscale Serve private viewer, and fresh headed Chromium",
+        "scenario": "Render and navigate Temple Workspace at 3440 by 1440, 2560 by 1080, 1440 by 1000, 1024 by 1366, 768 by 1024, and 390 by 844; inspect fluid content width, sidebar modes, mobile drawer accessibility, light and dark persistence, Team modes, legacy route normalization, private-viewer boundaries, console output, and horizontal overflow",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260831T022538Z-EE7A2CEA",
+      "work_item_id": "WI-0047",
+      "recorded_at": "2026-08-31T02:25:38.128Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality verification",
+      "outcome": "pass",
+      "scope_revision": "b6bbe09e430d4f40c98dd0a581a25b2e2c6b6e88",
+      "observed_at": "2026-08-31T02:24:53Z",
+      "summary": "Fresh detached candidate worktree passed the focused 35-test Control Plane suite.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0047/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0047/quality-test-observation.json",
+          "sha256": "d486c965d3d2905c974c4281a6fee1f267c1cf50365db0c9c20f7e73a8b558c7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0047/quality-report.md",
+          "sha256": "1fb5a37362b9ff8d2b005cea34db71c6f4706c1c7aa9665da89a65942c6228b4"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0047/product-spec.md",
+          "sha256": "4ec584881560914046d1f840190eae14c62efcdd1667fd159760ded70aaf2716"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0047/technical-design.md",
+          "sha256": "5045619d9354a2f5ab4a7ca879766eeabfbe6148b13b47ba2795252b9da0d5eb"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0047/ui-brief.md",
+          "sha256": "587a5620df5befac1d58365e868e4e991d47fdc704dec6d6bad3f9e43860f67f"
+        }
+      ],
+      "details": {
+        "command": [
+          "git worktree add --detach <temporary-quality-worktree> b6bbe09e430d4f40c98dd0a581a25b2e2c6b6e88",
+          "link existing repository node_modules into the detached worktree",
+          "node --test test/control-plane-foundation.test.mjs test/control-plane-inbox.test.mjs test/control-plane-live.test.mjs test/control-plane-private-viewer.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T02:24:12Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T023040Z-8C651C00",
+      "work_item_id": "WI-0047",
+      "recorded_at": "2026-08-31T02:30:40.434Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA full verification",
+      "outcome": "pass",
+      "scope_revision": "b6bbe09e430d4f40c98dd0a581a25b2e2c6b6e88",
+      "observed_at": "2026-08-31T02:28:11Z",
+      "summary": "Fresh detached exact-candidate verification passed 223 of 223 tests.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0047/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0047/independent-qa-test-observation.json",
+          "sha256": "05da5cccee65734899d4cd8205a0908ed920bb46d9e2973b0ebfb2a19eb08e49"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0047/independent-qa-report.md",
+          "sha256": "83ee8c8cf7732ded730547d1cf01f4bb790744c7a3f654c47717ede22e82d32e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0047/product-spec.md",
+          "sha256": "4ec584881560914046d1f840190eae14c62efcdd1667fd159760ded70aaf2716"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0047/technical-design.md",
+          "sha256": "5045619d9354a2f5ab4a7ca879766eeabfbe6148b13b47ba2795252b9da0d5eb"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0047/ui-brief.md",
+          "sha256": "587a5620df5befac1d58365e868e4e991d47fdc704dec6d6bad3f9e43860f67f"
+        }
+      ],
+      "details": {
+        "command": [
+          "git worktree add --detach <temporary-independent-qa-worktree> b6bbe09e430d4f40c98dd0a581a25b2e2c6b6e88",
+          "link existing repository node_modules into the detached worktree",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T02:27:28Z"
+      }
+    },
+    {
+      "id": "EVID-20260831T023040Z-A96704D9",
+      "work_item_id": "WI-0047",
+      "recorded_at": "2026-08-31T02:30:40.696Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Independent QA responsive browser reproduction",
+      "outcome": "pass",
+      "scope_revision": "b6bbe09e430d4f40c98dd0a581a25b2e2c6b6e88",
+      "observed_at": "2026-08-31T02:29:43Z",
+      "summary": "Fresh Chromium reproduced wide and mobile Temple Workspace behavior with private-viewer boundaries intact.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0047/independent-qa-runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0047/independent-qa-runtime-observation.json",
+          "sha256": "79769187a36cd029dab712e1e107c2fd185ce7f3d730eba171472b429e4409c2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0047/independent-qa-report.md",
+          "sha256": "83ee8c8cf7732ded730547d1cf01f4bb790744c7a3f654c47717ede22e82d32e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0047/runtime-2560-dark.png",
+          "sha256": "edf60f7bd6ff588f1703eab3f2405af539d00203cf246362ddbb4f5ea40d3474"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0047/runtime-390-drawer-dark.png",
+          "sha256": "546ca333d476fa2a53aebcfd1113f197353d591e72113a41d9117e4f84199cd1"
+        }
+      ],
+      "details": {
+        "environment": "Temple self-host repository on the Mac Mini, exact home-LAN private read-only listener, and a fresh Playwright Chromium session",
+        "scenario": "Independently inspect Temple Workspace at 2560 by 1080 and 390 by 844; verify fluid width, Team counts, private-viewer redaction, mobile drawer inert and focus behavior, Escape focus return, console output, and document-level horizontal overflow",
+        "provenance": "live"
+      }
     }
   ]
 }
