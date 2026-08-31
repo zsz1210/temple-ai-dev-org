@@ -34,11 +34,11 @@ Ordinary `temple task register` defaults to `codex-host-owned`. New CLI flags al
 The method:
 
 1. Validates bounded request fields and rejects empty or oversized instructions.
-2. Sends `thread/start` with `ephemeral: false`, the project root, requested model, explicit approval policy, sandbox mode, and `serviceName: "temple-control-plane"`.
+2. Sends `thread/start` with the project root, requested model, explicit approval policy, sandbox mode, and `serviceName: "temple-control-plane"`. The stable protocol creates a durable thread by default; the bridge rejects an explicitly ephemeral response instead of sending an undocumented `thread/start.ephemeral` field.
 3. Uses the project mutation lock and the existing task registrar to create a canonical active task with provider-owned metadata.
 4. Adds the registered task to the provider's in-memory correlation set and records `live-attached`; it never calls `thread/resume` for this new thread.
 5. Sends one `turn/start` with the thread ID, in-memory text input, model, reasoning effort when present, working directory, approval policy, and sandbox policy.
-6. Returns bounded identifiers and configuration plus `instruction_retained: false` and `automatic_retry: false`.
+6. Returns bounded identifiers and configuration plus `instruction_retained: false` and `automatic_retry: false`. Requested model remains distinct from effective model; the latter stays unknown unless the Provider reports it.
 
 The provider receives injectable task-register and task-update functions for deterministic failure testing. Production defaults remain the existing canonical mutation functions.
 
@@ -57,9 +57,9 @@ No error or task note contains the instruction text or raw Provider message.
 
 The provider's task collection becomes mutable for tasks created after startup. The new task enters the collection before `turn/start`, so streamed turn, item, plan, diff, and usage notifications correlate to the correct Work Item and task even when they arrive before the `turn/start` response.
 
-Usage attribution prefers Provider event dimensions, then canonical effective/requested model, reasoning effort, and service tier. Canonical fallback fields are explicitly identified as task metadata and do not turn account-wide usage into project evidence. The scope revision for launch-time events is `launch_revision`; later task updates may associate candidate evidence with `current_revision`.
+Usage attribution prefers Provider event dimensions, then canonical effective/requested model, reasoning effort, and service tier. Canonical fallback fields are explicitly identified as task metadata and do not turn account-wide usage into project evidence. The stable App Server launch contract does not expose a service-tier input, so provider-owned launch keeps that dimension unknown until observed. The scope revision for launch-time events is `launch_revision`; later task updates may associate candidate evidence with `current_revision`.
 
-The live observer exposes origin, model, reasoning, and the three distinct revisions. The existing human-facing console may display canonical requested/effective model when no usage event exists, but it must label that value as configured rather than observed.
+The live observer exposes origin, model, reasoning, and the three distinct revisions for a future separately governed UI slice. This Work Item does not change the human-facing console. A later UI may display canonical requested/effective model when no usage event exists, but it must label that value as configured rather than observed.
 
 ## Privacy controls
 
@@ -80,8 +80,9 @@ Focused tests prove:
 3. live attachment without `thread/resume`;
 4. exact usage correlation and model/reasoning fallback;
 5. no turn after registration failure;
-6. no instruction retention;
-7. host-owned registration and degraded attach behavior remain compatible.
+6. attention without retry after Provider turn rejection;
+7. no instruction retention;
+8. host-owned registration and degraded attach behavior remain compatible.
 
 Full `npm run verify`, Doctor, and a fresh detached-worktree run provide the final evidence. No test starts the real `codex` command.
 

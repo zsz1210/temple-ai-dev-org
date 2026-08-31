@@ -107,12 +107,12 @@ function qualificationSamples(correlatedRecords, completedItemIdSet) {
     const { record, task, workItemId } = entry;
     const dimensions = dimensionsFor(record);
     const observedRevision = record.data?.scope_revision;
-    const currentRevision = task.current_revision;
-    if (nonEmptyString(currentRevision) && nonEmptyString(observedRevision) && currentRevision !== observedRevision) {
+    const expectedRevision = task.launch_revision ?? task.current_revision;
+    if (nonEmptyString(expectedRevision) && nonEmptyString(observedRevision) && expectedRevision !== observedRevision) {
       staleRecords.push(entry);
       continue;
     }
-    const revisionProven = nonEmptyString(currentRevision) && observedRevision === currentRevision;
+    const revisionProven = nonEmptyString(expectedRevision) && observedRevision === expectedRevision;
     const totalTokens = record.data?.usage?.last?.total_tokens;
     const taskShape = taskShapeFor(dimensions);
     const complete = completedItemIdSet.has(workItemId) && task.status === "completed";

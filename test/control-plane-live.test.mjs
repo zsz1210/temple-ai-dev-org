@@ -81,6 +81,30 @@ async function fixture(context) {
   return { temporaryRoot, target, stateDirectory, workItemId, task: JSON.parse(registered.stdout) };
 }
 
+function claimFixtureWorkItem(target, workItemId, revision = "a".repeat(40)) {
+  const configured = run([
+    "work-item", "configure", target,
+    "--work-item", workItemId,
+    "--base-revision", revision,
+    "--parallel-mode", "sequential",
+    "--integration-owner", "agent-fixture-rowan",
+    "--agent-id", "agent-fixture-rowan",
+    "--json"
+  ]);
+  assert.equal(configured.status, 0, configured.stderr || configured.stdout);
+  const claimed = run([
+    "work-item", "claim", target,
+    "--work-item", workItemId,
+    "--agent-id", "agent-fixture-rowan",
+    "--principal-id", "human",
+    "--base-revision", revision,
+    "--branch", "main",
+    "--worktree", target,
+    "--json"
+  ]);
+  assert.equal(claimed.status, 0, claimed.stderr || claimed.stdout);
+}
+
 test("Codex normalization retains bounded summaries and excludes raw prompts, commands, diffs, and tool payloads", () => {
   const tasks = [{ id: "task-0001", work_item_id: "WI-0001", thread_id: "thread-1", current_revision: "a".repeat(40) }];
   const plan = normalizeCodexMessage("project", tasks, {
@@ -561,6 +585,281 @@ test("Codex App Server provider handshakes, reconciles registered threads, and r
   assert.doesNotMatch(durable, /do-not-store-(?:explanation|diff|command)/);
   assert.ok(journal.readAfter(0).records.some((record) => record.data?.reconciled));
   await provider.stop();
+});
+
+test("Codex App Server provider-owned launch registers before generation and correlates usage", async (context) => {
+  const { temporaryRoot, target, stateDirectory, workItemId } = await fixture(context);
+  const claimRevision = "a".repeat(40);
+  const launchRevision = "b".repeat(40);
+  claimFixtureWorkItem(target, workItemId, claimRevision);
+  const callsPath = path.join(temporaryRoot, "provider-owned-calls.jsonl");
+  const taskRegistryPath = path.join(target, ".ai-org/project/tasks.json");
+  const fakeServer = path.join(temporaryRoot, "fake-provider-owned-app-server.mjs");
+  await fs.writeFile(fakeServer, `
+    import fs from "node:fs";
+    import readline from "node:readline";
+    const input=readline.createInterface({input:process.stdin});
+    const send=(value)=>process.stdout.write(JSON.stringify(value)+"\\n");
+    const existing={id:"thread-live-001",status:{type:"idle"},turns:[]};
+    const created={id:"thread-provider-owned-001",sessionId:"thread-provider-owned-001",status:{type:"idle"},ephemeral:false,modelProvider:"openai"};
+    input.on("line",line=>{
+      const message=JSON.parse(line);
+      let registeredBeforeTurn=null;
+      if(message.method==="turn/start"){
+        const tasks=JSON.parse(fs.readFileSync(${JSON.stringify(taskRegistryPath)},"utf8")).tasks;
+        registeredBeforeTurn=tasks.some(task=>task.thread_id===created.id&&task.execution_origin==="temple-provider-owned");
+      }
+      fs.appendFileSync(${JSON.stringify(callsPath)},JSON.stringify({method:message.method,threadId:message.params?.threadId??null,registeredBeforeTurn,params:message.params??null})+"\\n");
+      if(message.method==="initialize")send({jsonrpc:"2.0",id:message.id,result:{serverInfo:{version:"fixture-provider-owned"}}});
+      else if(message.method==="thread/read")send({jsonrpc:"2.0",id:message.id,result:{thread:existing}});
+      else if(message.method==="thread/start"){
+        send({jsonrpc:"2.0",method:"thread/started",params:{thread:created}});
+        send({jsonrpc:"2.0",id:message.id,result:{thread:created,instructionSources:[]}});
+      }else if(message.method==="turn/start"){
+        const turn={id:"turn-provider-owned-001",status:"inProgress",items:[]};
+        send({jsonrpc:"2.0",id:message.id,result:{turn}});
+        send({jsonrpc:"2.0",method:"turn/started",params:{threadId:created.id,turn}});
+        send({jsonrpc:"2.0",method:"thread/tokenUsage/updated",params:{threadId:created.id,turnId:turn.id,tokenUsage:{total:{inputTokens:90,cachedInputTokens:10,outputTokens:20,reasoningOutputTokens:5,totalTokens:125},last:{inputTokens:90,cachedInputTokens:10,outputTokens:20,reasoningOutputTokens:5,totalTokens:125},modelContextWindow:10000}}});
+      }
+    });
+  `);
+  const journal = await openTelemetryJournal(stateDirectory, {
+    maxEvents: 100,
+    privacy: defaultControlPlaneConfig().privacy
+  });
+  context.after(() => journal.close());
+  const registry = createProviderRegistry([repositoryProviderContract()]);
+  const provider = await startCodexAppServerProvider(target, journal, registry, {
+    command: process.execPath,
+    commandArgs: [fakeServer],
+    resumeThreads: false,
+    reconnectMs: 60000
+  });
+  await provider.start();
+  context.after(() => provider.stop());
+  const instruction = "Implement the bounded fixture without retaining secret-provider-launch-marker";
+  const launched = await provider.launchProviderOwnedTask({
+    workItemId,
+    positionId: "engineering_manager",
+    actor: "agent-fixture-rowan",
+    instruction,
+    requestedModel: "gpt-5.6-luna",
+    reasoningEffort: "low",
+    launchRevision,
+    approvalPolicy: "never",
+    sandboxMode: "workspaceWrite",
+    networkAccess: false
+  });
+  assert.equal(launched.status, "turn-started");
+  assert.equal(launched.provider_thread_id, "thread-provider-owned-001");
+  assert.equal(launched.provider_turn_id, "turn-provider-owned-001");
+  assert.equal(launched.instruction_length, instruction.length);
+  assert.equal(launched.instruction_retained, false);
+  assert.equal(launched.automatic_retry, false);
+  await new Promise((resolve) => setTimeout(resolve, 40));
+
+  const calls = (await fs.readFile(callsPath, "utf8")).trim().split("\n").map((line) => JSON.parse(line));
+  const threadStartIndex = calls.findIndex((entry) => entry.method === "thread/start");
+  const turnStartIndex = calls.findIndex((entry) => entry.method === "turn/start");
+  assert.ok(threadStartIndex >= 0 && turnStartIndex > threadStartIndex);
+  assert.equal(calls[turnStartIndex].registeredBeforeTurn, true);
+  assert.equal(calls.filter((entry) => entry.method === "thread/resume" && entry.threadId === "thread-provider-owned-001").length, 0);
+  assert.equal(Object.hasOwn(calls[threadStartIndex].params, "ephemeral"), false);
+  assert.equal(calls[threadStartIndex].params.serviceName, "temple-control-plane");
+  assert.equal(calls[threadStartIndex].params.model, "gpt-5.6-luna");
+  assert.equal(calls[turnStartIndex].params.model, "gpt-5.6-luna");
+  assert.equal(calls[turnStartIndex].params.sandboxPolicy.networkAccess, false);
+
+  const taskRegistry = JSON.parse(await fs.readFile(taskRegistryPath, "utf8"));
+  const task = taskRegistry.tasks.find((entry) => entry.thread_id === "thread-provider-owned-001");
+  assert.ok(task);
+  assert.equal(task.execution_origin, "temple-provider-owned");
+  assert.equal(task.provider_id, "codex-local");
+  assert.equal(task.requested_model, "gpt-5.6-luna");
+  assert.equal(task.effective_model, null);
+  assert.equal(task.reasoning_effort, "low");
+  assert.equal(task.service_tier, null);
+  assert.equal(task.base_revision, claimRevision);
+  assert.equal(task.launch_revision, launchRevision);
+  assert.equal(task.current_revision, launchRevision);
+  const attachment = provider.attachmentOutcomes().find((entry) => entry.task_id === task.id);
+  assert.equal(attachment.attach_outcome, "live-attached");
+  assert.equal(attachment.live_resume, "not-required");
+
+  const usage = journal.readAfter(0).records.find((record) =>
+    record.type === "org.temple.codex.usage.updated.v1" && record.data?.task_id === task.id
+  );
+  assert.ok(usage);
+  assert.equal(usage.data.work_item_id, workItemId);
+  assert.equal(usage.data.position_id, "engineering_manager");
+  assert.equal(usage.data.scope_revision, launchRevision);
+  assert.equal(usage.data.attribution.model, "gpt-5.6-luna");
+  assert.equal(usage.data.attribution.model_source, "canonical-requested");
+  assert.equal(usage.data.attribution.reasoning_effort, "low");
+  assert.equal(usage.data.attribution.service_tier, null);
+
+  const observer = await buildObserverProjection(target);
+  const live = await buildLiveObserverProjection(target, observer, journal, registry, {
+    now: "2026-08-31T00:00:10.000Z"
+  });
+  const projected = live.tasks.items.find((entry) => entry.id === task.id);
+  assert.equal(projected.execution_origin, "temple-provider-owned");
+  assert.equal(projected.requested_model, "gpt-5.6-luna");
+  assert.equal(projected.launch_revision, launchRevision);
+  assert.equal(projected.claim_base_revision, claimRevision);
+
+  const retained = [
+    await fs.readFile(taskRegistryPath, "utf8"),
+    await fs.readFile(path.join(target, ".ai-org/events/events.jsonl"), "utf8"),
+    JSON.stringify(journal.readAfter(0).records),
+    JSON.stringify(registry.document())
+  ].join("\n");
+  assert.doesNotMatch(retained, /secret-provider-launch-marker/);
+});
+
+test("Codex App Server provider-owned launch never starts a turn after canonical registration failure", async (context) => {
+  const { temporaryRoot, target, stateDirectory, workItemId } = await fixture(context);
+  const claimRevision = "c".repeat(40);
+  claimFixtureWorkItem(target, workItemId, claimRevision);
+  const callsPath = path.join(temporaryRoot, "registration-failure-calls.jsonl");
+  const fakeServer = path.join(temporaryRoot, "fake-registration-failure-app-server.mjs");
+  await fs.writeFile(fakeServer, `
+    import fs from "node:fs";
+    import readline from "node:readline";
+    const input=readline.createInterface({input:process.stdin});
+    const send=(value)=>process.stdout.write(JSON.stringify(value)+"\\n");
+    const existing={id:"thread-live-001",status:{type:"idle"},turns:[]};
+    input.on("line",line=>{
+      const message=JSON.parse(line);
+      fs.appendFileSync(${JSON.stringify(callsPath)},JSON.stringify({method:message.method,params:message.params??null})+"\\n");
+      if(message.method==="initialize")send({jsonrpc:"2.0",id:message.id,result:{serverInfo:{version:"fixture-registration-failure"}}});
+      else if(message.method==="thread/read")send({jsonrpc:"2.0",id:message.id,result:{thread:existing}});
+      else if(message.method==="thread/start")send({jsonrpc:"2.0",id:message.id,result:{thread:{id:"thread-orphaned-safe",ephemeral:false}}});
+      else if(message.method==="turn/start")send({jsonrpc:"2.0",id:message.id,result:{turn:{id:"turn-must-not-start",status:"inProgress",items:[]}}});
+    });
+  `);
+  const journal = await openTelemetryJournal(stateDirectory, {
+    maxEvents: 100,
+    privacy: defaultControlPlaneConfig().privacy
+  });
+  context.after(() => journal.close());
+  const registry = createProviderRegistry([repositoryProviderContract()]);
+  const provider = await startCodexAppServerProvider(target, journal, registry, {
+    command: process.execPath,
+    commandArgs: [fakeServer],
+    resumeThreads: false,
+    reconnectMs: 60000,
+    taskRegistrar: async () => {
+      throw new Error("registration failed secret-registration-failure-marker");
+    }
+  });
+  await provider.start();
+  context.after(() => provider.stop());
+  await assert.rejects(
+    () => provider.launchProviderOwnedTask({
+      workItemId,
+      positionId: "engineering_manager",
+      actor: "agent-fixture-rowan",
+      instruction: "secret-registration-failure-marker must never reach generation",
+      requestedModel: "gpt-5.6-luna",
+      reasoningEffort: "low",
+      launchRevision: "d".repeat(40),
+      approvalPolicy: "never",
+      sandboxMode: "readOnly",
+      networkAccess: false
+    }),
+    (error) => {
+      assert.equal(error.name, "CodexProviderOwnedLaunchError");
+      assert.equal(error.reasonCode, "task-registration-failed");
+      assert.equal(error.providerThreadId, "thread-orphaned-safe");
+      assert.equal(error.turnStarted, false);
+      assert.equal(error.automaticRetry, false);
+      assert.equal(error.instructionRetained, false);
+      assert.doesNotMatch(error.message, /secret-registration-failure-marker/);
+      return true;
+    }
+  );
+  const calls = (await fs.readFile(callsPath, "utf8")).trim().split("\n").map((line) => JSON.parse(line));
+  assert.equal(calls.filter((entry) => entry.method === "thread/start").length, 1);
+  assert.equal(calls.filter((entry) => entry.method === "turn/start").length, 0);
+  const retained = [
+    await fs.readFile(path.join(target, ".ai-org/project/tasks.json"), "utf8"),
+    await fs.readFile(path.join(target, ".ai-org/events/events.jsonl"), "utf8"),
+    JSON.stringify(journal.readAfter(0).records),
+    JSON.stringify(registry.document()),
+    JSON.stringify(provider.attachmentOutcomes())
+  ].join("\n");
+  assert.doesNotMatch(retained, /secret-registration-failure-marker/);
+});
+
+test("Codex App Server provider-owned launch records attention without retry after turn rejection", async (context) => {
+  const { temporaryRoot, target, stateDirectory, workItemId } = await fixture(context);
+  const claimRevision = "e".repeat(40);
+  claimFixtureWorkItem(target, workItemId, claimRevision);
+  const callsPath = path.join(temporaryRoot, "turn-rejection-calls.jsonl");
+  const taskRegistryPath = path.join(target, ".ai-org/project/tasks.json");
+  const fakeServer = path.join(temporaryRoot, "fake-turn-rejection-app-server.mjs");
+  await fs.writeFile(fakeServer, `
+    import fs from "node:fs";
+    import readline from "node:readline";
+    const input=readline.createInterface({input:process.stdin});
+    const send=(value)=>process.stdout.write(JSON.stringify(value)+"\\n");
+    const existing={id:"thread-live-001",status:{type:"idle"},turns:[]};
+    const created={id:"thread-provider-rejected",sessionId:"thread-provider-rejected",ephemeral:false,status:{type:"idle"}};
+    input.on("line",line=>{
+      const message=JSON.parse(line);
+      fs.appendFileSync(${JSON.stringify(callsPath)},JSON.stringify({method:message.method,params:message.params??null})+"\\n");
+      if(message.method==="initialize")send({jsonrpc:"2.0",id:message.id,result:{serverInfo:{version:"fixture-turn-rejection"}}});
+      else if(message.method==="thread/read")send({jsonrpc:"2.0",id:message.id,result:{thread:existing}});
+      else if(message.method==="thread/start"){send({jsonrpc:"2.0",method:"thread/started",params:{thread:created}});send({jsonrpc:"2.0",id:message.id,result:{thread:created}})}
+      else if(message.method==="turn/start")send({jsonrpc:"2.0",id:message.id,error:{code:-32602,message:"secret-turn-rejection-marker"}});
+    });
+  `);
+  const journal = await openTelemetryJournal(stateDirectory, {
+    maxEvents: 100,
+    privacy: defaultControlPlaneConfig().privacy
+  });
+  context.after(() => journal.close());
+  const registry = createProviderRegistry([repositoryProviderContract()]);
+  const provider = await startCodexAppServerProvider(target, journal, registry, {
+    command: process.execPath,
+    commandArgs: [fakeServer],
+    resumeThreads: false,
+    reconnectMs: 60000
+  });
+  await provider.start();
+  context.after(() => provider.stop());
+  const result = await provider.launchProviderOwnedTask({
+    workItemId,
+    positionId: "engineering_manager",
+    actor: "agent-fixture-rowan",
+    instruction: "secret-turn-rejection-marker must not be retained",
+    requestedModel: "gpt-5.6-luna",
+    reasoningEffort: "low",
+    launchRevision: "f".repeat(40),
+    approvalPolicy: "never",
+    sandboxMode: "readOnly",
+    networkAccess: false
+  });
+  assert.equal(result.status, "provider-rejected");
+  assert.equal(result.execution_status, "not-started");
+  assert.equal(result.rejection_code, "turn-start-rejected");
+  assert.equal(result.automatic_retry, false);
+  assert.equal(result.instruction_retained, false);
+  const calls = (await fs.readFile(callsPath, "utf8")).trim().split("\n").map((line) => JSON.parse(line));
+  assert.equal(calls.filter((entry) => entry.method === "turn/start").length, 1);
+  const taskRegistry = JSON.parse(await fs.readFile(taskRegistryPath, "utf8"));
+  const task = taskRegistry.tasks.find((entry) => entry.thread_id === "thread-provider-rejected");
+  assert.equal(task.status, "attention");
+  assert.match(task.notes, /automatic retry disabled/);
+  const retained = [
+    await fs.readFile(taskRegistryPath, "utf8"),
+    await fs.readFile(path.join(target, ".ai-org/events/events.jsonl"), "utf8"),
+    JSON.stringify(journal.readAfter(0).records),
+    JSON.stringify(registry.document()),
+    JSON.stringify(result)
+  ].join("\n");
+  assert.doesNotMatch(retained, /secret-turn-rejection-marker/);
 });
 
 test("Codex App Server Agent commands enforce registered state, exact active turns, and no retry after unknown delivery", async (context) => {

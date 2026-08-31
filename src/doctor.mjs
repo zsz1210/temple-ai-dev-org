@@ -67,6 +67,7 @@ import {
   validateTrackerReconciliationArtifact,
   validateTrackerView
 } from "./tracker.mjs";
+import { TASK_EXECUTION_ORIGINS } from "./tasks.mjs";
 
 function summarize(checks) {
   return checks.reduce(
@@ -739,6 +740,24 @@ export async function runDoctor(target) {
     const principalIds = new Set((collaboration?.principals ?? []).map((principal) => principal.id));
     for (const task of tasksDocument.tasks ?? []) {
       const taskThreadIds = [task.thread_id, task.client_thread_id].filter(Boolean);
+      const optionalMetadata = [
+        [task.provider_id, 160],
+        [task.requested_model, 160],
+        [task.effective_model, 160],
+        [task.reasoning_effort, 80],
+        [task.service_tier, 80],
+        [task.launch_revision, 240]
+      ];
+      const executionOriginValid =
+        task.execution_origin === undefined || TASK_EXECUTION_ORIGINS.includes(task.execution_origin);
+      const metadataValid = optionalMetadata.every(([value, maximum]) =>
+        value === undefined || value === null ||
+        (typeof value === "string" && value.trim().length > 0 && value.length <= maximum && !value.includes("\0"))
+      );
+      const providerIdValid =
+        task.provider_id === undefined || task.provider_id === null || /^[a-z0-9][a-z0-9-]*$/.test(task.provider_id);
+      const providerOwnedValid = task.execution_origin !== "temple-provider-owned" ||
+        (providerIdValid && Boolean(task.provider_id) && Boolean(task.thread_id) && Boolean(task.launch_revision));
       const valid =
         /^task-[0-9]{4,}$/.test(task.id ?? "") &&
         !seenTaskIds.has(task.id) &&
@@ -749,6 +768,10 @@ export async function runDoctor(target) {
           (collaboration && agentIsEligible(collaboration, task.agent_id, task.position_id))) &&
         TASK_STATUSES.includes(task.status) &&
         taskThreadIds.length > 0 &&
+        executionOriginValid &&
+        metadataValid &&
+        providerIdValid &&
+        providerOwnedValid &&
         (!task.registered_by || task.registered_by === "human" || agentIds.has(task.registered_by)) &&
         (!task.last_updated_by || task.last_updated_by === "human" || agentIds.has(task.last_updated_by)) &&
         (!task.principal_id || task.principal_id === "human" || principalIds.has(task.principal_id)) &&

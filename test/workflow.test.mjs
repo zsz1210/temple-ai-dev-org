@@ -101,6 +101,16 @@ test("work item lifecycle, handoff, task registry, close, and observer status wo
     "thread-fixture-developer",
     "--host-id",
     "local",
+    "--provider-id",
+    "codex-local",
+    "--requested-model",
+    "model-beta",
+    "--reasoning-effort",
+    "low",
+    "--service-tier",
+    "priority",
+    "--launch-revision",
+    "design-revision",
     "--revision",
     "design-revision"
   ]);
@@ -169,7 +179,9 @@ test("work item lifecycle, handoff, task registry, close, and observer status wo
     "--status",
     "completed",
     "--revision",
-    "candidate-123"
+    "candidate-123",
+    "--effective-model",
+    "model-beta-v2"
   ]);
   assert.equal(completed.status, 0, completed.stderr || completed.stdout);
 
@@ -190,6 +202,15 @@ test("work item lifecycle, handoff, task registry, close, and observer status wo
   const registry = await readJson(path.join(target, ".ai-org/project/tasks.json"));
   assert.equal(registry.tasks[0].registered_by, "agent-fixture-rowan");
   assert.equal(registry.tasks[0].last_updated_by, "agent-fixture-devon");
+  assert.equal(registry.tasks[0].execution_origin, "codex-host-owned");
+  assert.equal(registry.tasks[0].provider_id, "codex-local");
+  assert.equal(registry.tasks[0].requested_model, "model-beta");
+  assert.equal(registry.tasks[0].effective_model, "model-beta-v2");
+  assert.equal(registry.tasks[0].reasoning_effort, "low");
+  assert.equal(registry.tasks[0].service_tier, "priority");
+  assert.equal(registry.tasks[0].launch_revision, "design-revision");
+  assert.equal(registry.tasks[0].current_revision, "candidate-123");
+  assert.equal(registry.tasks[0].base_revision, null);
 
   const status = run(["status", target, "--json", "--no-write"]);
   assert.equal(status.status, 0, status.stderr || status.stdout);

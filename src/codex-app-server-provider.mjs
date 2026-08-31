@@ -3,6 +3,8 @@ import readline from "node:readline";
 import path from "node:path";
 import { TEMPLATE_VERSION } from "./constants.mjs";
 import { readJson, sha256 } from "./files.mjs";
+import { withProjectMutationLock } from "./project.mjs";
+import { registerTask, updateTask } from "./tasks.mjs";
 import { listWorkItemDocuments } from "./work-items.mjs";
 import {
   PROVIDER_CAPABILITIES,
@@ -17,6 +19,10 @@ export const CODEX_LIVE_TASK_STATUSES = ["active", "waiting", "attention"];
 export const CODEX_TERMINAL_TASK_STATUSES = ["completed", "archived"];
 export const CODEX_TERMINAL_WORK_ITEM_STATES = ["done", "cancelled"];
 export const CODEX_AGENT_COMMAND_OPERATIONS = ["new-turn", "steer", "interrupt"];
+export const CODEX_PROVIDER_OWNED_INSTRUCTION_LIMIT = 4000;
+export const CODEX_PROVIDER_OWNED_APPROVAL_POLICIES = ["never", "onRequest", "onFailure", "unlessTrusted"];
+export const CODEX_PROVIDER_OWNED_SANDBOX_MODES = ["readOnly", "workspaceWrite"];
+export const CODEX_PROVIDER_OWNED_REASONING_EFFORTS = ["none", "low", "medium", "high", "xhigh", "max"];
 export const CODEX_ATTACH_OUTCOMES = ["detached", "pending", "history-only", "live-attached", "degraded"];
 export const CODEX_ATTACH_REASON_CODES = [
   "archived-task",
@@ -39,6 +45,19 @@ export class CodexAgentCommandError extends Error {
     this.statusCode = statusCode;
     this.reasonCode = reasonCode;
     this.providerBoundaryCrossed = false;
+  }
+}
+
+export class CodexProviderOwnedLaunchError extends Error {
+  constructor(message, reasonCode, details = {}) {
+    super(message);
+    this.name = "CodexProviderOwnedLaunchError";
+    this.reasonCode = reasonCode;
+    this.providerThreadId = details.providerThreadId ?? null;
+    this.taskId = details.taskId ?? null;
+    this.turnStarted = details.turnStarted === true;
+    this.automaticRetry = false;
+    this.instructionRetained = false;
   }
 }
 
@@ -89,6 +108,7 @@ export function codexAppServerProviderContract(options = {}) {
       diff_summary: "supported",
       token_usage: "supported",
       runtime_approval: "supported",
+      thread_launch: "supported",
       thread_resume: "supported"
     }),
     last_observed_at: null,
@@ -103,6 +123,14 @@ export function codexAppServerProviderContract(options = {}) {
         existing_registered_threads_only: true,
         loopback_only: true,
         automatic_retry: false
+      },
+      provider_owned_launch: {
+        support: "supported",
+        methods: ["thread/start", "turn/start"],
+        canonical_registration_before_turn: true,
+        loopback_only: true,
+        automatic_retry: false,
+        instruction_retained: false
       }
     }
   };
@@ -113,6 +141,71 @@ function boundedText(value, limit = 240) {
   const normalized = value.replaceAll(/\s+/g, " ").trim();
   if (!normalized) return null;
   return normalized.length > limit ? `${normalized.slice(0, limit - 1)}…` : normalized;
+}
+
+function requiredLaunchText(value, label, maximum = 160) {
+  if (typeof value !== "string") throw new CodexProviderOwnedLaunchError(`${label} is required`, "launch-request-invalid");
+  const normalized = value.trim();
+  if (!normalized || normalized.includes("\0") || normalized.length > maximum) {
+    throw new CodexProviderOwnedLaunchError(
+      `${label} must be a non-empty string of at most ${maximum} characters`,
+      "launch-request-invalid"
+    );
+  }
+  return normalized;
+}
+
+function optionalLaunchText(value, label, maximum = 160) {
+  if (value === undefined || value === null || value === "") return null;
+  return requiredLaunchText(value, label, maximum);
+}
+
+function providerOwnedLaunchRequest(request, target) {
+  const approvalPolicy = requiredLaunchText(request?.approvalPolicy, "Approval policy", 40);
+  if (!CODEX_PROVIDER_OWNED_APPROVAL_POLICIES.includes(approvalPolicy)) {
+    throw new CodexProviderOwnedLaunchError("Approval policy is unsupported", "launch-request-invalid");
+  }
+  const sandboxMode = requiredLaunchText(request?.sandboxMode, "Sandbox mode", 40);
+  if (!CODEX_PROVIDER_OWNED_SANDBOX_MODES.includes(sandboxMode)) {
+    throw new CodexProviderOwnedLaunchError("Sandbox mode is unsupported", "launch-request-invalid");
+  }
+  if (request?.networkAccess !== undefined && typeof request.networkAccess !== "boolean") {
+    throw new CodexProviderOwnedLaunchError("Network access must be boolean", "launch-request-invalid");
+  }
+  const instruction = requiredLaunchText(
+    request?.instruction,
+    "Instruction",
+    CODEX_PROVIDER_OWNED_INSTRUCTION_LIMIT
+  );
+  const requestedModel = requiredLaunchText(request?.requestedModel, "Requested model");
+  const reasoningEffort = optionalLaunchText(request?.reasoningEffort, "Reasoning effort", 80);
+  if (reasoningEffort && !CODEX_PROVIDER_OWNED_REASONING_EFFORTS.includes(reasoningEffort)) {
+    throw new CodexProviderOwnedLaunchError("Reasoning effort is unsupported", "launch-request-invalid");
+  }
+  const launchRevision = requiredLaunchText(request?.launchRevision, "Launch revision", 240);
+  return {
+    workItemId: requiredLaunchText(request?.workItemId, "Work Item ID", 80),
+    positionId: requiredLaunchText(request?.positionId, "Position ID", 80),
+    actor: requiredLaunchText(request?.actor, "Actor", 160),
+    instruction,
+    instructionLength: instruction.length,
+    requestedModel,
+    reasoningEffort,
+    launchRevision,
+    approvalPolicy,
+    sandboxMode,
+    networkAccess: request?.networkAccess === true,
+    cwd: target
+  };
+}
+
+function turnSandboxPolicy(request) {
+  if (request.sandboxMode === "readOnly") return { type: "readOnly" };
+  return {
+    type: "workspaceWrite",
+    writableRoots: [request.cwd],
+    networkAccess: request.networkAccess
+  };
 }
 
 function timestamp(value, fallback) {
@@ -189,7 +282,7 @@ function commonData(projectId, tasks, params) {
     provider_thread_id: threadId,
     provider_turn_id: params?.turnId ?? params?.turn?.id ?? null,
     provider_item_id: params?.itemId ?? params?.item?.id ?? null,
-    scope_revision: task?.current_revision ?? null,
+    scope_revision: task?.launch_revision ?? task?.current_revision ?? null,
     correlation: task ? "registered" : "unregistered"
   };
 }
@@ -289,7 +382,8 @@ function usageOutcome(workItem) {
 }
 
 function safeUsageAttribution(data, task, workItem, params, tokenUsage, options) {
-  const model = optionalDimension(params?.model, params?.effectiveModel, tokenUsage?.model, tokenUsage?.effectiveModel);
+  const providerModel = optionalDimension(params?.model, params?.effectiveModel, tokenUsage?.model, tokenUsage?.effectiveModel);
+  const model = providerModel ?? optionalDimension(task?.effective_model, task?.requested_model);
   const attribution = {
     project_id: data.project_id,
     work_item_id: data.work_item_id,
@@ -300,11 +394,18 @@ function safeUsageAttribution(data, task, workItem, params, tokenUsage, options)
     provider_thread_id: data.provider_thread_id,
     attempt_id: data.provider_turn_id,
     retry_of_attempt_id: optionalDimension(params?.retryOfTurnId, params?.retryOfAttemptId),
-    provider_id: options.providerId ?? "codex-local",
+    provider_id: task?.provider_id ?? options.providerId ?? "codex-local",
     model,
+    model_source: providerModel
+      ? "provider-event"
+      : task?.effective_model
+        ? "canonical-effective"
+        : task?.requested_model
+          ? "canonical-requested"
+          : "unknown",
     model_version: optionalDimension(params?.modelVersion, params?.effectiveModelVersion, tokenUsage?.modelVersion),
-    reasoning_effort: optionalDimension(params?.reasoningEffort, tokenUsage?.reasoningEffort),
-    service_tier: optionalDimension(params?.serviceTier, tokenUsage?.serviceTier),
+    reasoning_effort: optionalDimension(params?.reasoningEffort, tokenUsage?.reasoningEffort, task?.reasoning_effort),
+    service_tier: optionalDimension(params?.serviceTier, tokenUsage?.serviceTier, task?.service_tier),
     context_capsule_digest: optionalDimension(params?.contextCapsuleDigest, task?.context_capsule_digest),
     capability_set_digest: optionalDimension(params?.capabilitySetDigest, task?.capability_set_digest),
     source: "provider-reported",
@@ -488,7 +589,7 @@ export function normalizeCodexMessage(projectId, tasks, message, options = {}) {
     data.work_item_id = task.work_item_id;
     data.task_id = task.id;
     data.runtime_worker_id = task.worker_id ?? null;
-    data.scope_revision = task.current_revision ?? null;
+    data.scope_revision = task.launch_revision ?? task.current_revision ?? null;
     data.correlation = "registered";
   }
   return {
@@ -721,6 +822,8 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
   const taskTopology = classifyCodexTasks(taskRegistry.tasks ?? [], { workItems });
   const tasks = taskTopology.history_reconcilable;
   const providerId = options.providerId ?? "codex-local";
+  const taskRegistrar = options.taskRegistrar ?? registerTask;
+  const taskUpdater = options.taskUpdater ?? updateTask;
   const command = options.command ?? "codex";
   const commandArgs = options.commandArgs ?? ["app-server", "--stdio"];
   const pendingRuntimeRequests = new Map();
@@ -748,6 +851,19 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
   let readMethodUnavailable = false;
   let resumeMethodUnavailable = false;
   const activeTurnByThread = new Map();
+
+  async function refreshWorkItems() {
+    const current = await listWorkItemDocuments(target);
+    workItems.splice(0, workItems.length, ...current);
+    return current;
+  }
+
+  function replaceCorrelatedTask(updated) {
+    for (const collection of [taskTopology.registered, tasks, taskTopology.live_resumable]) {
+      const index = collection.findIndex((task) => task.id === updated.id);
+      if (index >= 0) collection[index] = updated;
+    }
+  }
 
   function observeThreadSnapshot(thread) {
     const turns = Array.isArray(thread?.turns) ? thread.turns : [];
@@ -1010,6 +1126,200 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
     }
   }
 
+  async function markProviderOwnedTaskAttention(task, reasonCode) {
+    try {
+      const updated = await withProjectMutationLock(target, () => taskUpdater(target, {
+        taskId: task.id,
+        status: "attention",
+        effectiveModel: task.effective_model,
+        reasoningEffort: task.reasoning_effort,
+        serviceTier: task.service_tier,
+        notes: `Provider-owned launch ${reasonCode}; instruction content not retained; automatic retry disabled.`,
+        actor: task.agent_id
+      }));
+      replaceCorrelatedTask(updated);
+      return updated;
+    } catch {
+      registry.update(providerId, { status: "degraded", degraded_reason: "provider-owned-task-update-failed" });
+      return task;
+    }
+  }
+
+  function rememberProviderOwnedTask(task) {
+    if (!taskTopology.registered.some((entry) => entry.id === task.id)) taskTopology.registered.push(task);
+    if (!tasks.some((entry) => entry.id === task.id)) tasks.push(task);
+    if (!taskTopology.live_resumable.some((entry) => entry.id === task.id)) taskTopology.live_resumable.push(task);
+    attachOutcomes.set(task.id, {
+      task_id: task.id,
+      work_item_id: task.work_item_id,
+      provider_thread_id: task.thread_id,
+      history_read: "not-required",
+      live_resume: "not-required",
+      attach_outcome: "live-attached",
+      reason_code: null,
+      retry_suppressed: false
+    });
+    registry.update(providerId, { attachment: attachmentSummary() });
+  }
+
+  async function launchProviderOwnedTask(request) {
+    if (!connection || registry.get(providerId)?.status !== "ready") {
+      throw new CodexProviderOwnedLaunchError(
+        "Codex provider is not ready for a provider-owned launch",
+        "provider-not-ready"
+      );
+    }
+    const launch = providerOwnedLaunchRequest(request, target);
+    await refreshWorkItems();
+    const workItem = workItems.find((item) => item.id === launch.workItemId);
+    if (!workItem || TERMINAL_WORK_ITEM_STATE_SET.has(workItem.state)) {
+      throw new CodexProviderOwnedLaunchError("Work Item is unavailable for launch", "work-item-not-launchable");
+    }
+    if (workItem.owner_position !== launch.positionId || workItem.claim?.status !== "active") {
+      throw new CodexProviderOwnedLaunchError(
+        "Provider-owned launch requires the current Position and an active claim",
+        "work-item-not-claimed"
+      );
+    }
+    if (workItem.claim.agent_id !== launch.actor) {
+      throw new CodexProviderOwnedLaunchError(
+        "Provider-owned launch actor must hold the active Work Item claim",
+        "work-item-claim-mismatch"
+      );
+    }
+
+    let threadResponse;
+    try {
+      threadResponse = await connection.request("thread/start", {
+        model: launch.requestedModel,
+        cwd: launch.cwd,
+        approvalPolicy: launch.approvalPolicy,
+        sandbox: launch.sandboxMode,
+        serviceName: "temple-control-plane"
+      }, options.launchTimeoutMs ?? 15000);
+    } catch (error) {
+      throw new CodexProviderOwnedLaunchError(
+        "Codex App Server did not create the provider-owned thread",
+        Number.isInteger(error?.rpcCode) ? "thread-start-rejected" : "thread-start-unavailable"
+      );
+    }
+    const thread = threadResponse?.thread;
+    if (typeof thread?.id !== "string" || !thread.id.trim()) {
+      throw new CodexProviderOwnedLaunchError(
+        "Codex App Server returned an invalid provider-owned thread",
+        "thread-start-invalid"
+      );
+    }
+    if (thread.ephemeral === true) {
+      throw new CodexProviderOwnedLaunchError(
+        "Codex App Server returned an ephemeral thread for a durable provider-owned launch",
+        "thread-start-ephemeral",
+        { providerThreadId: thread.id, turnStarted: false }
+      );
+    }
+    const effectiveModel = optionalDimension(thread.model);
+    let task;
+    try {
+      task = await withProjectMutationLock(target, () => taskRegistrar(target, {
+        workItemId: launch.workItemId,
+        positionId: launch.positionId,
+        threadId: thread.id,
+        hostId: "local",
+        status: "active",
+        revision: launch.launchRevision,
+        launchRevision: launch.launchRevision,
+        executionOrigin: "temple-provider-owned",
+        providerId,
+        requestedModel: launch.requestedModel,
+        effectiveModel,
+        reasoningEffort: launch.reasoningEffort,
+        serviceTier: null,
+        notes: "Provider-owned launch; instruction content not retained; automatic retry disabled.",
+        actor: launch.actor
+      }));
+    } catch {
+      throw new CodexProviderOwnedLaunchError(
+        "Provider thread was created, but canonical task registration failed before generation",
+        "task-registration-failed",
+        { providerThreadId: thread.id, turnStarted: false }
+      );
+    }
+
+    rememberProviderOwnedTask(task);
+    const clientUserMessageId = `temple-${sha256(`${task.id}\0${thread.id}\0${launch.launchRevision}`).slice(0, 32)}`;
+    const turnParams = {
+      threadId: thread.id,
+      clientUserMessageId,
+      input: [{ type: "text", text: launch.instruction }],
+      turnTrigger: "user",
+      cwd: launch.cwd,
+      approvalPolicy: launch.approvalPolicy,
+      sandboxPolicy: turnSandboxPolicy(launch),
+      model: launch.requestedModel,
+      ...(launch.reasoningEffort ? { effort: launch.reasoningEffort } : {})
+    };
+    try {
+      const response = await connection.request("turn/start", turnParams, options.launchTimeoutMs ?? 15000);
+      const providerTurnId = response?.turn?.id ?? null;
+      if (!providerTurnId) {
+        await markProviderOwnedTaskAttention(task, "turn-start-invalid");
+        return {
+          status: "provider-invalid-response",
+          transport_status: "provider-accepted",
+          execution_status: "unknown",
+          task_id: task.id,
+          provider_thread_id: thread.id,
+          provider_turn_id: null,
+          requested_model: launch.requestedModel,
+          effective_model: effectiveModel,
+          reasoning_effort: launch.reasoningEffort,
+          service_tier: null,
+          launch_revision: launch.launchRevision,
+          instruction_length: launch.instructionLength,
+          instruction_retained: false,
+          automatic_retry: false
+        };
+      }
+      activeTurnByThread.set(thread.id, providerTurnId);
+      return {
+        status: "turn-started",
+        transport_status: "provider-accepted",
+        execution_status: response.turn?.status ?? "inProgress",
+        task_id: task.id,
+        provider_thread_id: thread.id,
+        provider_turn_id: providerTurnId,
+        requested_model: launch.requestedModel,
+        effective_model: effectiveModel,
+        reasoning_effort: launch.reasoningEffort,
+        service_tier: null,
+        launch_revision: launch.launchRevision,
+        instruction_length: launch.instructionLength,
+        instruction_retained: false,
+        automatic_retry: false
+      };
+    } catch (error) {
+      const reasonCode = Number.isInteger(error?.rpcCode) ? "turn-start-rejected" : "turn-start-delivery-unknown";
+      await markProviderOwnedTaskAttention(task, reasonCode);
+      return {
+        status: Number.isInteger(error?.rpcCode) ? "provider-rejected" : "delivery-unknown",
+        transport_status: Number.isInteger(error?.rpcCode) ? "provider-rejected" : "delivery-unknown",
+        execution_status: Number.isInteger(error?.rpcCode) ? "not-started" : "unknown",
+        task_id: task.id,
+        provider_thread_id: thread.id,
+        provider_turn_id: null,
+        requested_model: launch.requestedModel,
+        effective_model: effectiveModel,
+        reasoning_effort: launch.reasoningEffort,
+        service_tier: null,
+        launch_revision: launch.launchRevision,
+        rejection_code: reasonCode,
+        instruction_length: launch.instructionLength,
+        instruction_retained: false,
+        automatic_retry: false
+      };
+    }
+  }
+
   function scheduleReconnect() {
     if (stopped || reconnectTimer) return;
     reconnectTimer = setTimeout(() => {
@@ -1166,6 +1476,7 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
     agentCommandTargets,
     prepareAgentCommand,
     dispatchAgentCommand,
+    launchProviderOwnedTask,
     async start() {
       await connect();
       return this;

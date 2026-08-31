@@ -180,6 +180,51 @@ test("provider usage carries proven dimensions and leaves unavailable routing da
   assert.doesNotMatch(JSON.stringify(event), /prompt|hidden reasoning|source code/i);
 });
 
+test("provider-owned usage qualifies against launch revision without conflating the later candidate", () => {
+  const launchRevision = "a".repeat(40);
+  const candidateRevision = "b".repeat(40);
+  const task = {
+    id: "task-0001",
+    work_item_id: "WI-0001",
+    position_id: "developer",
+    agent_id: "agent-devon",
+    status: "completed",
+    thread_id: "thread-provider-owned",
+    execution_origin: "temple-provider-owned",
+    provider_id: "codex-local",
+    requested_model: "model-beta",
+    effective_model: "model-beta",
+    reasoning_effort: "low",
+    launch_revision: launchRevision,
+    current_revision: candidateRevision
+  };
+  const workItems = [{ id: "WI-0001", state: "done" }];
+  const event = normalizeCodexMessage("policy-product", [task], {
+    method: "thread/tokenUsage/updated",
+    params: {
+      threadId: task.thread_id,
+      turnId: "turn-1",
+      tokenUsage: {
+        total: { inputTokens: 10, cachedInputTokens: 0, outputTokens: 2, reasoningOutputTokens: 1, totalTokens: 13 },
+        last: { inputTokens: 10, cachedInputTokens: 0, outputTokens: 2, reasoningOutputTokens: 1, totalTokens: 13 }
+      }
+    }
+  }, { observedAt: "2026-08-31T00:00:00.000Z", workItems, providerId: "codex-local" });
+  assert.equal(event.data.scope_revision, launchRevision);
+  assert.equal(event.data.attribution.model, "model-beta");
+  assert.equal(event.data.attribution.model_source, "canonical-effective");
+  const coverage = buildUsageBaselineFromRecords(
+    { id: "policy-product", name: "Policy Product" },
+    [event],
+    { workItems, tasks: [task], longitudinalWorkItemsRequired: 1 }
+  ).source.longitudinal_coverage;
+  assert.equal(coverage.detailed_token_observation_coverage.stale_observations, 0);
+  assert.equal(coverage.detailed_token_observation_coverage.qualified_completed_work_items, 1);
+  assert.equal(coverage.qualification.completed_coverage_threshold_met, true);
+  assert.equal(coverage.qualification.varied_task_shapes, "insufficient");
+  assert.equal(coverage.qualification.savings_claim_allowed, false);
+});
+
 test("usage preflight distinguishes live task telemetry from account-wide unallocated availability", async () => {
   const tasks = [
     { id: "task-setup", status: "setup", thread_id: "thread-setup" },

@@ -40,6 +40,14 @@ Alpha.26 keeps App Server and Desktop/session ownership separate. `thread/read` 
 
 The missing-session code `thread-not-in-app-server-store` means only that this App Server process cannot resume the registered host-owned thread. It does not mean that the Desktop task is absent, failed, or safe to recreate. Temple retains any available history, marks the provider degraded, and never creates a replacement task automatically.
 
+### Provider-owned launch bridge
+
+Current `main` includes a locally tested provider-owned launch primitive. It follows the official App Server boundary: `thread/start` creates and subscribes the local connection, Temple registers the returned thread as canonical state, and only then may `turn/start` begin generation. If canonical registration fails, no turn is started and no automatic retry occurs.
+
+New task registrations distinguish `codex-host-owned` from `temple-provider-owned` execution. They can retain requested and effective model, reasoning effort, service tier when known, Provider ID, and three separate revisions: claim base, task launch, and current candidate. A successful request does not make the requested model an observed effective model, and the stable App Server launch surface does not currently accept a service-tier override. Legacy task documents remain valid and missing values remain unknown.
+
+The bridge has passed fake App Server tests only. This is not evidence that its threads appear in Codex Desktop, that a real account emits correlatable detailed usage in this environment, or that Temple reduces Tokens. No Dashboard launch control or remote mutation route exists. One live proof remains separately gated by an explicit model, reasoning, instruction, Token ceiling, retry ceiling, and wall-clock budget.
+
 Create a read-only report:
 
 ```bash
@@ -61,7 +69,7 @@ Remove `--no-write` to create `.ai-org/views/usage-baseline.json`. The report su
 
 The lists are sorted so coverage does not depend on repository-directory or task-registry order. A provider event with a missing or mismatched Work Item/task pair remains uncorrelated. A detailed event may prove one Token field while others remain `unknown`; if any included observation lacks a field, that aggregate remains unknown instead of treating the missing value as zero.
 
-Qualification is deliberately strict. A Work Item contributes only when it is currently `done`, its registered task is `completed`, its Work Item/task pair matches, the observation revision matches the task's current revision, the Position and task shape are known, the Position matches the registered task, a provider-reported `total_tokens` delta is present, and the model is known. Mismatched, stale, partial, zero-field, and uncorrelated observations remain visible but do not fill the threshold. Multiple task/model/shape identities for one Work Item are excluded rather than cherry-picked.
+Qualification is deliberately strict. A Work Item contributes only when it is currently `done`, its registered task is `completed`, its Work Item/task pair matches, the observation revision matches the task's launch revision when recorded (otherwise its current revision), the Position and task shape are known, the Position matches the registered task, a provider-reported `total_tokens` delta is present, and the model is known. Mismatched, stale, partial, zero-field, and uncorrelated observations remain visible but do not fill the threshold. Multiple task/model/shape identities for one Work Item are excluded rather than cherry-picked.
 
 The ten-Work-Item count is only an observation threshold. Even when the exploratory candidate is available, its confidence is `low`, its evidence basis is `accepted-closeout-token-observation-only`, and `matched_evaluation` remains false. Different Work Items can differ in difficulty, so lower observed Tokens do not prove superior model quality or causal savings. Savings, cost, model-quality, and routing claims remain disabled; a future matched evaluation must authorize any routing policy separately.
 
@@ -169,6 +177,8 @@ Examples of reasonable defaults—not hard-coded model names—are:
 - Quality Evaluator and Independent QA: exact candidate, acceptance criteria, and evidence with sufficient independence and reasoning quality.
 - Observer: compact structured projections and inexpensive deterministic aggregation whenever model judgment is unnecessary.
 
+Concrete model preferences belong to project-owned policy, not the framework-managed template. Temple's own development project currently prefers the GPT-5.6 family and uses `gpt-5.6-luna` for lightweight, bounded work. Balanced or consequential tasks still require an explicit GPT-5.6 selection until a separately evaluated policy defines when to choose Terra or Sol. This is an operating preference, not automatic-routing behavior and not a default imposed on repositories that adopt Temple. OpenAI's current [GPT-5.6 guidance](https://developers.openai.com/api/docs/guides/latest-model) likewise describes Luna for efficient high-volume work, Terra for a balance of capability and cost, and Sol for flagship capability; Temple still requires project-specific evaluation before automating that choice.
+
 Selection precedence is:
 
 1. an explicit human override for the exact task, within the configured allowlist and spending boundary;
@@ -213,8 +223,9 @@ Usage reporting retains bounded identifiers and numeric measurements. It does no
 1. **Telemetry qualification — implemented:** `usage preflight` distinguishes live task readiness, detailed observations, and optional account-wide capability without mixing their authority.
 2. **Attribution — implemented:** normalized usage includes proven Work Item, Position, observed stage, task, attempt, provider, model, provenance, quality, and outcome fields; unavailable values stay unknown.
 3. **Reporting — longitudinal coverage implemented:** `usage report` compares canonical Work Items, registered task eligibility, exact correlated observations, revision freshness, task shapes, and per-field support.
-4. **Policy — pending:** add hierarchical warning budgets and model allowlists without automatic switching.
-5. **Recommendation — exploratory observation implemented:** after the local threshold, display a low-confidence read-only candidate with explicit non-authority. Matched representative evaluation remains pending.
-6. **Opt-in routing — later:** apply an approved route, record the effective configuration, and preserve fallback and refusal evidence.
+4. **Provider-owned execution — locally implemented, live proof pending:** fake App Server tests enforce thread creation, canonical registration, and then turn start without prompt retention or automatic retry.
+5. **Policy — pending:** add hierarchical warning budgets and model allowlists without automatic switching.
+6. **Recommendation — exploratory observation implemented:** after the local threshold, display a low-confidence read-only candidate with explicit non-authority. Matched representative evaluation remains pending.
+7. **Opt-in routing — later:** apply an approved route, record the effective configuration, and preserve fallback and refusal evidence.
 
 None of these slices changes lifecycle authority or replaces outcome-based evaluation.

@@ -14,6 +14,26 @@ import {
 import { readWorkItem } from "./work-items.mjs";
 import { attachUserTaskWorker, syncUserTaskWorker, validateUserTaskReservation } from "./workers.mjs";
 
+export const TASK_EXECUTION_ORIGINS = ["codex-host-owned", "temple-provider-owned"];
+
+function optionalTaskMetadata(value, label, maximum = 160) {
+  if (value === undefined || value === null || value === "") return null;
+  if (typeof value !== "string") throw new Error(`${label} must be a string when provided`);
+  const normalized = value.trim();
+  if (!normalized || normalized.includes("\0") || normalized.length > maximum) {
+    throw new Error(`${label} must be a non-empty string of at most ${maximum} characters`);
+  }
+  return normalized;
+}
+
+function taskExecutionOrigin(value) {
+  const origin = value ?? "codex-host-owned";
+  if (!TASK_EXECUTION_ORIGINS.includes(origin)) {
+    throw new Error(`Invalid task execution origin ${origin}; use ${TASK_EXECUTION_ORIGINS.join(", ")}`);
+  }
+  return origin;
+}
+
 function nextTaskId(tasks) {
   const numbers = tasks.map((task) => /^task-([0-9]+)$/.exec(task.id)?.[1]).filter(Boolean).map(Number);
   return `task-${String((numbers.length ? Math.max(...numbers) : 0) + 1).padStart(4, "0")}`;
@@ -78,6 +98,23 @@ export async function registerTask(target, options) {
     throw new Error(`Actor ${actor} cannot register a task for ${positionId}; expected ${agent.id}, ${manager.id}, or human`);
   }
   const timestamp = new Date().toISOString();
+  const executionOrigin = taskExecutionOrigin(options.executionOrigin);
+  const providerId = optionalTaskMetadata(options.providerId, "Provider ID");
+  if (providerId && !/^[a-z0-9][a-z0-9-]*$/.test(providerId)) {
+    throw new Error("Provider ID must use lowercase letters, numbers, and hyphens");
+  }
+  const requestedModel = optionalTaskMetadata(options.requestedModel, "Requested model");
+  const effectiveModel = optionalTaskMetadata(options.effectiveModel, "Effective model");
+  const reasoningEffort = optionalTaskMetadata(options.reasoningEffort, "Reasoning effort", 80);
+  const serviceTier = optionalTaskMetadata(options.serviceTier, "Service tier", 80);
+  const launchRevision = optionalTaskMetadata(
+    options.launchRevision ?? options.revision,
+    "Launch revision",
+    240
+  );
+  if (executionOrigin === "temple-provider-owned" && (!providerId || !threadId || !launchRevision)) {
+    throw new Error("A Temple-provider-owned task requires --provider-id, --thread-id, and --launch-revision");
+  }
   const workerId = String(options.workerId ?? "").trim() || null;
   if (workerId) {
     await validateUserTaskReservation(target, workerId, {
@@ -100,6 +137,13 @@ export async function registerTask(target, options) {
     thread_id: threadId || null,
     client_thread_id: clientThreadId || null,
     host_id: options.hostId ?? null,
+    execution_origin: executionOrigin,
+    provider_id: providerId,
+    requested_model: requestedModel,
+    effective_model: effectiveModel,
+    reasoning_effort: reasoningEffort,
+    service_tier: serviceTier,
+    launch_revision: launchRevision,
     current_revision: options.revision ?? null,
     principal_id: item.claim?.status === "active" ? item.claim.principal_id : null,
     claim_id: item.claim?.status === "active" ? item.claim.id : null,
@@ -125,6 +169,9 @@ export async function registerTask(target, options) {
       work_item_id: item.id,
       position: positionId,
       thread_id: task.thread_id,
+      execution_origin: task.execution_origin,
+      provider_id: task.provider_id,
+      launch_revision: task.launch_revision,
       status,
       refs: [".ai-org/project/tasks.json"]
     });
@@ -155,10 +202,22 @@ export async function updateTask(target, options) {
     throw new Error("A task may be archived only after it is completed or its work item is terminal");
   }
   const timestamp = new Date().toISOString();
+  const effectiveModel = options.effectiveModel === undefined
+    ? current.effective_model ?? null
+    : optionalTaskMetadata(options.effectiveModel, "Effective model");
+  const reasoningEffort = options.reasoningEffort === undefined
+    ? current.reasoning_effort ?? null
+    : optionalTaskMetadata(options.reasoningEffort, "Reasoning effort", 80);
+  const serviceTier = options.serviceTier === undefined
+    ? current.service_tier ?? null
+    : optionalTaskMetadata(options.serviceTier, "Service tier", 80);
   const updated = {
     ...current,
     status,
     current_revision: options.revision ?? current.current_revision,
+    effective_model: effectiveModel,
+    reasoning_effort: reasoningEffort,
+    service_tier: serviceTier,
     notes: options.notes ?? current.notes,
     registered_by: current.registered_by ?? actor,
     last_updated_by: actor,

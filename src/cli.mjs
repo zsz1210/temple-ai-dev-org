@@ -164,8 +164,8 @@ Usage:
   temple handoff [target] --work-item WI-0001 --to position --input-revision ref --completed text --evidence ref
   temple transition [target] --work-item WI-0001 --to state --satisfy requirement=reference
   temple close [target] --work-item WI-0001 --decision go|no-go --tested-revision ref --rollback text --approval record
-  temple task register [target] --work-item WI-0001 --position developer --thread-id id [--worker-id worker-id]
-  temple task update [target] --task-id task-0001 --status completed
+  temple task register [target] --work-item WI-0001 --position developer --thread-id id [--worker-id worker-id] [--execution-origin codex-host-owned|temple-provider-owned] [--provider-id id] [--requested-model model] [--effective-model model] [--reasoning-effort effort] [--service-tier tier] [--launch-revision ref]
+  temple task update [target] --task-id task-0001 --status completed [--effective-model model] [--reasoning-effort effort] [--service-tier tier]
   temple task list [target] [--json]
   temple tracker show [target] [--json]
   temple tracker configure [target] --tracker-profile linked-tracker --provider-id github-main --provider-kind github --project owner/repository [--write-policy plan-only]
@@ -265,6 +265,12 @@ const VALUE_FLAGS = new Set([
   "--host-id",
   "--status",
   "--revision",
+  "--launch-revision",
+  "--execution-origin",
+  "--requested-model",
+  "--effective-model",
+  "--reasoning-effort",
+  "--service-tier",
   "--task-id",
   "--notes",
   "--pack",
@@ -1723,6 +1729,13 @@ async function runTask(parsed) {
         threadId: parsed.options["--thread-id"],
         clientThreadId: parsed.options["--client-thread-id"],
         hostId: parsed.options["--host-id"],
+        executionOrigin: parsed.options["--execution-origin"],
+        providerId: parsed.options["--provider-id"],
+        requestedModel: parsed.options["--requested-model"],
+        effectiveModel: parsed.options["--effective-model"],
+        reasoningEffort: parsed.options["--reasoning-effort"],
+        serviceTier: parsed.options["--service-tier"],
+        launchRevision: parsed.options["--launch-revision"],
         status: parsed.options["--status"],
         revision: parsed.options["--revision"],
         notes: parsed.options["--notes"],
@@ -1745,6 +1758,9 @@ async function runTask(parsed) {
         taskId: parsed.options["--task-id"],
         status: parsed.options["--status"],
         revision: parsed.options["--revision"],
+        effectiveModel: parsed.options["--effective-model"],
+        reasoningEffort: parsed.options["--reasoning-effort"],
+        serviceTier: parsed.options["--service-tier"],
         notes: parsed.options["--notes"],
         actor: parsed.options["--actor"]
       });

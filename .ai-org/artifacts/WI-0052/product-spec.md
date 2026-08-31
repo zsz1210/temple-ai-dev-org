@@ -22,7 +22,7 @@ The provider-owned operation accepts one bounded launch request containing:
 
 - Work Item ID and Position ID;
 - one non-empty instruction held only in memory for provider delivery;
-- requested model and optional reasoning effort and service tier;
+- requested model and optional reasoning effort;
 - exact task-launch revision;
 - explicit approval and sandbox settings appropriate to the later live proof;
 - actor and local Provider identity.
@@ -45,9 +45,9 @@ New registrations preserve these concepts separately:
 | `execution_origin` | `codex-host-owned` or `temple-provider-owned` |
 | `provider_id` | Provider that owns or observes the execution when known |
 | `requested_model` | Model requested for launch |
-| `effective_model` | Effective model when the provider reports it; otherwise unknown |
+| `effective_model` | Effective model when the provider reports it; otherwise unknown; never copied from the request merely because launch succeeded |
 | `reasoning_effort` | Requested/effective reasoning setting when known |
-| `service_tier` | Provider service tier when known |
+| `service_tier` | Provider service tier when known; the stable App Server launch surface does not currently accept this setting |
 | `launch_revision` | Exact repository revision when the task began |
 | `current_revision` | Latest candidate revision associated with the task |
 | `base_revision` | Claim base revision, if the Work Item has an active claim |
@@ -65,6 +65,8 @@ Legacy task documents remain valid. Missing metadata stays `null`; it is not inf
 ## Usage attribution
 
 A detailed usage notification for a provider-owned thread correlates to the registered Work Item, task, Position, Agent, provider, and launch revision. Provider-reported model dimensions take precedence. Canonical requested/effective model, reasoning effort, and service tier may fill otherwise absent attribution dimensions, with provenance remaining explicit and missing dimensions still listed.
+
+The Temple framework remains provider-neutral and does not hard-code one model family into initialized projects. For this repository's own development, the confirmed operating preference is GPT-5.6 models, with `gpt-5.6-luna` for lightweight work. This preference is recorded as project evidence and is not automatic-routing authority.
 
 No account-wide usage value is allocated to the task. No price, monetary cost, savings, quality, or routing conclusion is produced by this slice.
 
