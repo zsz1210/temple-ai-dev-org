@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.27`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 52 total, 22 active
+- Work items: 52 total, 21 active
 - Codex tasks: 4 registered, 3 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -25,7 +25,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Large-scale validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
 
 ## Parallel orchestration
@@ -95,7 +95,7 @@
 | WI-0049 | Make Temple Workspace status language human-readable | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `6acb200d` | 0 | 21 | 0 |
 | WI-0050 | Design Temple effectiveness and multi-repository validation | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c9993415` | 0 | 22 | 0 |
 | WI-0051 | Run bounded Temple instrumentation pilot | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `7dc0080a` | 0 | 17 | 0 |
-| WI-0052 | Establish provider-owned Codex observability bridge | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260831061407-dbf0de99 | `—` | 0 | 8 | 0 |
+| WI-0052 | Establish provider-owned Codex observability bridge | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `42044e99` | 0 | 16 | 0 |
 
 ## Codex task registry
 
@@ -206,14 +206,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T06:14:07.694Z | work_item_claimed | WI-0052 | human |
-| 2026-08-31T06:14:07.414Z | work_item_transitioned | WI-0052 | agent-tidus |
-| 2026-08-31T06:14:07.158Z | handoff_created | WI-0052 | agent-tidus |
-| 2026-08-31T06:11:42.435Z | work_item_transitioned | WI-0052 | agent-yuna |
-| 2026-08-31T06:11:42.178Z | handoff_created | WI-0052 | agent-yuna |
-| 2026-08-31T06:10:51.091Z | work_item_transitioned | WI-0052 | agent-mog |
-| 2026-08-31T06:10:50.827Z | handoff_created | WI-0052 | agent-mog |
-| 2026-08-31T06:09:50.421Z | work_item_coordination_configured | WI-0052 | agent-mog |
+| 2026-08-31T06:55:28.528Z | work_item_closed | WI-0052 | agent-mog |
+| 2026-08-31T06:55:28.528Z | release_gate_completed | WI-0052 | agent-mog |
+| 2026-08-31T06:55:07.584Z | work_item_claimed | WI-0052 | human |
+| 2026-08-31T06:55:07.285Z | work_item_transitioned | WI-0052 | agent-lulu |
+| 2026-08-31T06:55:07.011Z | handoff_created | WI-0052 | agent-lulu |
+| 2026-08-31T06:53:56.814Z | work_item_claimed | WI-0052 | human |
+| 2026-08-31T06:53:41.791Z | work_item_transitioned | WI-0052 | agent-lulu |
+| 2026-08-31T06:53:41.509Z | handoff_created | WI-0052 | agent-lulu |
 
 ## Assignments
 
