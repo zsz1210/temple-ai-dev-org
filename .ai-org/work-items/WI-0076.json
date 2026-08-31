@@ -1,0 +1,107 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0076",
+  "title": "Operationalize multi-human team governance",
+  "state": "intake",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-08-31T18:11:19.404Z",
+  "updated_at": "2026-08-31T18:11:19.404Z",
+  "scope": [
+    "Implement versioned Human Principal lifecycle, local actor binding, Agent sponsorship, qualified Position pools, scoped Human Authority Grants, bootstrap retirement, configurable recovery, and explicit simulated versus real validation status while preserving Solo compatibility.",
+    "Replace the Team Human Principal apex with read-only Responsibilities, People & Agents, and Authority views that preserve Work execution and private-viewer boundaries.",
+    "Reconcile domain vocabulary, ADRs, migration behavior, operations documentation, and validation plans with the confirmed multi-human design."
+  ],
+  "acceptance_criteria": [
+    "Immutable IDs disambiguate duplicate human display names; active, suspended, and inactive personnel remain historically traceable, and no email or credential is required in project state.",
+    "Position Membership qualification, default Assignment, sponsorship, work claim, and Human Authority Grant remain separate and policy validation rejects invalid references, unsafe bootstrap retirement, and broken recovery quorum.",
+    "A local actor binding is stored below the Git common directory, never enters project-owned state, and reports self-asserted versus externally verified evidence without pretending to perform provider authentication.",
+    "Team exposes Responsibilities, People & Agents, and Authority without a single Human Principal apex; private viewers receive only redacted Agent, responsibility coverage, and governance-readiness data.",
+    "Validation distinguishes automated, simulated, real Collaborative, representative pilot, and High-Assurance drill evidence; simulated evidence cannot satisfy the real-environment gate and no distributed-lock claim is made.",
+    "Fresh init, explicit migration, upgrade preservation, schema checks, CLI tests, responsive browser review, full npm verification, simulated separate-clone recovery, and exact-revision Independent QA pass."
+  ],
+  "affected_paths": [
+    ".ai-org/project/domain-glossary.md",
+    ".ai-org/project/collaboration.json",
+    ".ai-org/decisions/DEC-0004-multi-human-team-governance.md",
+    ".ai-org/artifacts/WI-0076/**",
+    ".ai-org/core/schemas/collaboration.schema.json",
+    ".ai-org/core/collaboration-profiles.json",
+    ".ai-org/templates/collaborative-large-scale-test-plan.md",
+    "project-overlay/.ai-org/core/schemas/collaboration.schema.json",
+    "project-overlay/.ai-org/core/collaboration-profiles.json",
+    "project-overlay/.ai-org/templates/collaborative-large-scale-test-plan.md",
+    "src/collaboration.mjs",
+    "src/local-identity.mjs",
+    "src/cli.mjs",
+    "src/doctor.mjs",
+    "src/status.mjs",
+    "src/observer.mjs",
+    "src/control-plane-server.mjs",
+    "src/control-plane-dashboard.mjs",
+    "src/install.mjs",
+    "src/upgrade.mjs",
+    "test/collaboration-governance.test.mjs",
+    "test/workflow.test.mjs",
+    "test/control-plane-foundation.test.mjs",
+    "test/control-plane-private-viewer.test.mjs",
+    "docs/operations/collaboration.md",
+    "docs/operations/control-plane.md",
+    "docs/concepts/architecture.md",
+    "docs/validation/collaborative-large-scale-test-plan.md",
+    "docs/validation/README.md",
+    "docs/adr/0038-multi-human-team-governance.md",
+    "docs/adr/README.md",
+    "package.json",
+    "package-lock.json",
+    "temple.lock"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "code-first",
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [
+    "general-development"
+  ],
+  "stage_requirements": {
+    "build": {
+      "disciplines": [
+        "general-development"
+      ],
+      "resources": []
+    },
+    "independent_qa": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "test": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": null,
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {},
+  "evidence": [],
+  "unresolved": [],
+  "next_position": "product_manager"
+}

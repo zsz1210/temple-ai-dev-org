@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 75 total, 8 active
+- Work items: 76 total, 8 active
 - Codex tasks: 5 registered, 4 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -87,7 +87,7 @@
 | WI-0040 | Expose truthful usage and model observability in the Dashboard | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `660f397a` | 0 | 19 | 0 |
 | WI-0041 | Coalesce Dashboard refreshes after SSE replay | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `660f397a` | 0 | 20 | 0 |
 | WI-0042 | Add a private home-LAN read-only Dashboard viewer | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `5b622e24` | 0 | 21 | 0 |
-| WI-0043 | Review Dashboard information architecture and operator usability | spec | Product Manager | Yuna | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `—` | 0 | 4 | 0 |
+| WI-0043 | Review Dashboard information architecture and operator usability | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c0ea00c0` | 0 | 16 | 0 |
 | WI-0044 | Redesign Dashboard navigation and operator information architecture | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `fbb6aa96` | 0 | 21 | 0 |
 | WI-0045 | Prioritize firing recovery conditions on Dashboard Now | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `fbb6aa96` | 0 | 21 | 0 |
 | WI-0046 | Reframe Control Plane as management console and add Organization | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `7f03cbca` | 0 | 19 | 0 |
@@ -120,6 +120,7 @@
 | WI-0073 | Consolidate evidence durability CI fixtures | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `66bc5dd8` | 0 | 17 | 0 |
 | WI-0074 | Remove hosted control-plane test races | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `66bc5dd8` | 0 | 16 | 0 |
 | WI-0075 | Separate validation wall-clock test boundaries | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `66bc5dd8` | 0 | 14 | 0 |
+| WI-0076 | Operationalize multi-human team governance | intake | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
 
 ## Codex task registry
 
@@ -186,7 +187,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 13
+- Team-visible Work Items: 14
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -238,14 +239,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T16:35:54.857Z | work_item_closed | WI-0075 | agent-mog |
-| 2026-08-31T16:35:54.857Z | release_gate_completed | WI-0075 | agent-mog |
-| 2026-08-31T16:35:54.561Z | work_item_closed | WI-0074 | agent-mog |
-| 2026-08-31T16:35:54.561Z | release_gate_completed | WI-0074 | agent-mog |
-| 2026-08-31T16:35:42.808Z | work_item_closed | WI-0073 | agent-mog |
-| 2026-08-31T16:35:42.808Z | release_gate_completed | WI-0073 | agent-mog |
-| 2026-08-31T16:35:32.828Z | evidence_recorded | WI-0075 | human |
-| 2026-08-31T16:35:32.539Z | evidence_recorded | WI-0074 | human |
+| 2026-08-31T18:13:11.933Z | work_item_closed | WI-0043 | agent-mog |
+| 2026-08-31T18:13:11.933Z | release_gate_completed | WI-0043 | agent-mog |
+| 2026-08-31T18:12:57.660Z | work_item_claimed | WI-0043 | human |
+| 2026-08-31T18:12:57.360Z | work_item_transitioned | WI-0043 | agent-lulu |
+| 2026-08-31T18:12:57.082Z | work_item_claim_released | WI-0043 | human |
+| 2026-08-31T18:12:56.808Z | handoff_created | WI-0043 | agent-lulu |
+| 2026-08-31T18:12:45.021Z | work_item_claimed | WI-0043 | human |
+| 2026-08-31T18:12:44.716Z | work_item_transitioned | WI-0043 | agent-lulu |
 
 ## Assignments
 

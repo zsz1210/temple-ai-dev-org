@@ -10625,6 +10625,51 @@
         "exit_code": 0,
         "started_at": "2026-08-31T16:28:06.000Z"
       }
+    },
+    {
+      "id": "EVID-20260831T181220Z-FC8F1305",
+      "work_item_id": "WI-0043",
+      "recorded_at": "2026-08-31T18:12:20.769Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Team review repository verification",
+      "outcome": "pass",
+      "scope_revision": "c0ea00c090f7c0e62b44113f9478e5673f2a1bb2",
+      "observed_at": "2026-08-31T18:11:46.000Z",
+      "summary": "Repository structure and documentation links passed for the exact review candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0043/test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0043/test-observation.json",
+          "sha256": "898ed99720fb06edfd0a87c2665f78d271f87622ebc06644d21701c0dc1da642"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0043/product-review.md",
+          "sha256": "ecfcf5f86978da046b44c008810bd5fe4171d2ffb223c027d3dbb996ef2f3ea1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0043/technical-design.md",
+          "sha256": "696d0c4bdbfcd1d92d929ec69f9a74745322f4db9f47239d68e7e04e83b371de"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T18:11:45.000Z"
+      }
     }
   ]
 }
