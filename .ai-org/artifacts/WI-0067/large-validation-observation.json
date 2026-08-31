@@ -1,0 +1,101 @@
+{
+  "schema_version": "temple.large-validation-observation/v1",
+  "work_item_id": "WI-0067",
+  "program_id": "commerce-rehearsal-2026-08-31",
+  "decision": "stopped-no-go",
+  "preflight": {
+    "status": "pass",
+    "cli_version": "codex-cli 0.151.0-alpha.7.2",
+    "schema_digests_matched": 5,
+    "requested_model_available": true,
+    "requested_reasoning_available": true,
+    "generation_performed": false
+  },
+  "execution": {
+    "planned_turns": 10,
+    "started_turns": 2,
+    "completed_turns": 0,
+    "unlaunched_turns": 8,
+    "launch_attempts": 2,
+    "automatic_retries": 0,
+    "fallbacks": 0,
+    "elapsed_ms": 29201,
+    "stop_code": "per-turn-token-hard-limit"
+  },
+  "usage": {
+    "input_tokens": 145745,
+    "cached_input_tokens": 114176,
+    "output_tokens": 2903,
+    "reasoning_output_tokens": 1784,
+    "total_tokens": 148648,
+    "aggregate_hard_limit_tokens": 400000,
+    "monetary_cost": null,
+    "price_source": null,
+    "billing_attribution": "unavailable"
+  },
+  "turns": [
+    {
+      "id": "catalog-contract-design",
+      "project_id": "commerce-catalog",
+      "work_item_id": "WI-0001",
+      "position_id": "tech_lead",
+      "requested_model": "gpt-5.6-luna",
+      "effective_model": "gpt-5.6-luna",
+      "requested_reasoning_effort": "max",
+      "observed_thread_reasoning_effort": "xhigh",
+      "effective_turn_reasoning_effort": null,
+      "service_tier": "priority",
+      "total_tokens": 74266,
+      "hard_limit_tokens": 60000,
+      "overshoot_tokens": 14266,
+      "terminal_status": "interrupted",
+      "product_files_changed": []
+    },
+    {
+      "id": "orders-checkout-spec",
+      "project_id": "commerce-orders",
+      "work_item_id": "WI-0001",
+      "position_id": "product_manager",
+      "requested_model": "gpt-5.6-luna",
+      "effective_model": "gpt-5.6-luna",
+      "requested_reasoning_effort": "max",
+      "observed_thread_reasoning_effort": "xhigh",
+      "effective_turn_reasoning_effort": null,
+      "service_tier": "priority",
+      "total_tokens": 74382,
+      "hard_limit_tokens": 60000,
+      "overshoot_tokens": 14382,
+      "terminal_status": "interrupted",
+      "product_files_changed": []
+    }
+  ],
+  "participant_revisions": {
+    "commerce-coordinator": "72f5c7b227f2363c1690a0aace746be6d405f456",
+    "commerce-catalog": "e50d4eaec2632b7ceaa36fdf0ff3eb01ca19624f",
+    "commerce-orders": "daba2c019bf65ae1ba11a87dcde58d455d2f7e25",
+    "commerce-notifications": "77207fd0f0d17d56d002940aa60be046db388ed6"
+  },
+  "qualification": {
+    "status": "not-qualified",
+    "required_completed_work_items": 10,
+    "qualified_completed_work_items": 0,
+    "required_task_shapes": 2,
+    "qualified_task_shapes": 0
+  },
+  "reporting_boundary": {
+    "as_run_manifest_usage_directory_accepted_by_reporter": false,
+    "reason": "The adapter used a worktree-local ignored directory; the reporter accepts only the Git common directory for private telemetry.",
+    "raw_events_preserved": true,
+    "usage_projections_rebuilt_from_git_common_directory": true
+  },
+  "claims": {
+    "savings": false,
+    "monetary_cost": false,
+    "model_quality": false,
+    "routing_preference": false,
+    "enterprise_readiness": false,
+    "production_readiness": false,
+    "release_approval": false
+  },
+  "external_action_performed": false
+}

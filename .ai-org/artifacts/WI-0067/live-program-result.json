@@ -1,0 +1,256 @@
+{
+  "schema_version": "temple.live-commerce-program-result/v1",
+  "preflight": {
+    "pass": true,
+    "cli_version": "codex-cli 0.151.0-alpha.7.2",
+    "schema_digests": {
+      "ThreadStartParams.json": "792e2f32e37cece971bd616664ea2053741acbed4e9c92e9d1766427718f2ecd",
+      "TurnStartParams.json": "a3835e8c1e942e4b358e1a670939b89918b16c4d13105a579899892b7ade6dea",
+      "ThreadStartResponse.json": "c8fb6bcd1e4fb5ead6b487f0f35a90d8f13c9272edd4285914012dda403a77d2",
+      "ModelReroutedNotification.json": "37cd3c1b3a3560b85b01d4061a07d830fc9ed93b80e4663f975f9197cdb501ef",
+      "ThreadTokenUsageUpdatedNotification.json": "aba4f6c7e4a19b2b842c08ee793b57000c07dafd57b922ad0d8e7c76609108c2"
+    },
+    "requested_model": "gpt-5.6-luna",
+    "requested_reasoning_effort": "max",
+    "model_count": 7,
+    "generation_performed": false
+  },
+  "manifest_digest": "68b89e28faab0c57624172226c34fdf0e1b9ec7474e26a7e523a29de2b0f0f6c",
+  "state_path": "/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-lab/commerce-coordinator/.ai-org/runtime/validation-program/commerce-rehearsal-2026-08-31/state.json",
+  "events_path": "/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-lab/commerce-coordinator/.ai-org/runtime/validation-program/commerce-rehearsal-2026-08-31/events.jsonl",
+  "resumed": false,
+  "state": {
+    "schema_version": "temple.validation-program-state/v1",
+    "program_id": "commerce-rehearsal-2026-08-31",
+    "manifest_digest": "68b89e28faab0c57624172226c34fdf0e1b9ec7474e26a7e523a29de2b0f0f6c",
+    "status": "stopped",
+    "started_at": "2026-08-31T12:14:30.527Z",
+    "updated_at": "2026-08-31T12:14:59.728Z",
+    "completed_at": null,
+    "counters": {
+      "turns_started": 2,
+      "turns_completed": 0,
+      "launch_attempts": 2,
+      "aggregate_tokens": 148648,
+      "program_elapsed_ms": 29201,
+      "aggregate_disk_delta_bytes": 0
+    },
+    "repository_baselines": {
+      "commerce-coordinator": {
+        "revision": "70258a8cbdb0bf4cbdada6262e474ce024a181fd",
+        "bytes": 275678,
+        "current_bytes": null,
+        "disk_delta_bytes": 0
+      },
+      "commerce-catalog": {
+        "revision": "aefb46ba4712d3c5734469945cc9d40edcea8ba0",
+        "bytes": 261336,
+        "current_bytes": null,
+        "disk_delta_bytes": 0
+      },
+      "commerce-orders": {
+        "revision": "6de399a6617e5fa2d28ccf74c3d187aeed4a7204",
+        "bytes": 281507,
+        "current_bytes": null,
+        "disk_delta_bytes": 0
+      },
+      "commerce-notifications": {
+        "revision": "77207fd0f0d17d56d002940aa60be046db388ed6",
+        "bytes": 263660,
+        "current_bytes": null,
+        "disk_delta_bytes": 0
+      }
+    },
+    "waves": {
+      "wave-1-contract-and-product": {
+        "status": "stopped",
+        "completed_at": null
+      },
+      "wave-2-first-implementations": {
+        "status": "pending",
+        "completed_at": null
+      },
+      "wave-3-consumer-first": {
+        "status": "pending",
+        "completed_at": null
+      },
+      "wave-4-event-producer": {
+        "status": "pending",
+        "completed_at": null
+      },
+      "wave-5-event-consumer": {
+        "status": "pending",
+        "completed_at": null
+      },
+      "wave-6-independent-service-qa": {
+        "status": "pending",
+        "completed_at": null
+      },
+      "wave-7-cold-recovery": {
+        "status": "pending",
+        "completed_at": null
+      }
+    },
+    "turns": {
+      "catalog-contract-design": {
+        "status": "stopped",
+        "attempts": 1,
+        "started_at": "2026-08-31T12:14:30.663Z",
+        "completed_at": "2026-08-31T12:14:52.875Z",
+        "duration_ms": 22212,
+        "total_tokens": 74266,
+        "before_revision": "aefb46ba4712d3c5734469945cc9d40edcea8ba0",
+        "after_revision": null,
+        "changed_paths": [],
+        "disk_delta_bytes": 0,
+        "result": "stopped",
+        "stop_code": "per-turn-token-hard-limit",
+        "id": "catalog-contract-design"
+      },
+      "orders-checkout-spec": {
+        "status": "stopped",
+        "attempts": 1,
+        "started_at": "2026-08-31T12:14:30.691Z",
+        "completed_at": "2026-08-31T12:14:59.707Z",
+        "duration_ms": 29016,
+        "total_tokens": 74382,
+        "before_revision": "6de399a6617e5fa2d28ccf74c3d187aeed4a7204",
+        "after_revision": null,
+        "changed_paths": [],
+        "disk_delta_bytes": 0,
+        "result": "stopped",
+        "stop_code": "per-turn-token-hard-limit",
+        "id": "orders-checkout-spec"
+      },
+      "catalog-provider-build": {
+        "status": "pending",
+        "attempts": 0,
+        "started_at": null,
+        "completed_at": null,
+        "duration_ms": null,
+        "total_tokens": 0,
+        "before_revision": null,
+        "after_revision": null,
+        "changed_paths": [],
+        "disk_delta_bytes": 0,
+        "result": null,
+        "stop_code": null
+      },
+      "orders-v1-build": {
+        "status": "pending",
+        "attempts": 0,
+        "started_at": null,
+        "completed_at": null,
+        "duration_ms": null,
+        "total_tokens": 0,
+        "before_revision": null,
+        "after_revision": null,
+        "changed_paths": [],
+        "disk_delta_bytes": 0,
+        "result": null,
+        "stop_code": null
+      },
+      "orders-dual-version-build": {
+        "status": "pending",
+        "attempts": 0,
+        "started_at": null,
+        "completed_at": null,
+        "duration_ms": null,
+        "total_tokens": 0,
+        "before_revision": null,
+        "after_revision": null,
+        "changed_paths": [],
+        "disk_delta_bytes": 0,
+        "result": null,
+        "stop_code": null
+      },
+      "orders-event-build": {
+        "status": "pending",
+        "attempts": 0,
+        "started_at": null,
+        "completed_at": null,
+        "duration_ms": null,
+        "total_tokens": 0,
+        "before_revision": null,
+        "after_revision": null,
+        "changed_paths": [],
+        "disk_delta_bytes": 0,
+        "result": null,
+        "stop_code": null
+      },
+      "notifications-consumer-build": {
+        "status": "pending",
+        "attempts": 0,
+        "started_at": null,
+        "completed_at": null,
+        "duration_ms": null,
+        "total_tokens": 0,
+        "before_revision": null,
+        "after_revision": null,
+        "changed_paths": [],
+        "disk_delta_bytes": 0,
+        "result": null,
+        "stop_code": null
+      },
+      "orders-independent-qa": {
+        "status": "pending",
+        "attempts": 0,
+        "started_at": null,
+        "completed_at": null,
+        "duration_ms": null,
+        "total_tokens": 0,
+        "before_revision": null,
+        "after_revision": null,
+        "changed_paths": [],
+        "disk_delta_bytes": 0,
+        "result": null,
+        "stop_code": null
+      },
+      "notifications-independent-qa": {
+        "status": "pending",
+        "attempts": 0,
+        "started_at": null,
+        "completed_at": null,
+        "duration_ms": null,
+        "total_tokens": 0,
+        "before_revision": null,
+        "after_revision": null,
+        "changed_paths": [],
+        "disk_delta_bytes": 0,
+        "result": null,
+        "stop_code": null
+      },
+      "coordinator-cold-recovery-qa": {
+        "status": "pending",
+        "attempts": 0,
+        "started_at": null,
+        "completed_at": null,
+        "duration_ms": null,
+        "total_tokens": 0,
+        "before_revision": null,
+        "after_revision": null,
+        "changed_paths": [],
+        "disk_delta_bytes": 0,
+        "result": null,
+        "stop_code": null
+      }
+    },
+    "warnings": [
+      {
+        "code": "per-turn-token-warning",
+        "turn_id": "orders-checkout-spec"
+      },
+      {
+        "code": "per-turn-token-warning",
+        "turn_id": "catalog-contract-design"
+      }
+    ],
+    "stop": {
+      "code": "per-turn-token-hard-limit",
+      "message": "per-turn-token-hard-limit",
+      "turn_id": "catalog-contract-design",
+      "wave_id": "wave-1-contract-and-product",
+      "project_id": "commerce-catalog"
+    }
+  }
+}

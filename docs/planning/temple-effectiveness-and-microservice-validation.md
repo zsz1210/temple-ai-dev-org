@@ -1,6 +1,6 @@
 # Temple effectiveness and multi-repository validation plan
 
-- Status: bounded runner implemented locally; four-repository experiment not yet run
+- Status: first four-repository run stopped safely at the per-turn Token ceiling; replacement experiment not authorized
 - Scope: local-first synthetic validation
 - Public, production, GitHub, hosted CI, and paid actions: not authorized
 
@@ -149,4 +149,6 @@ WI-0063 corrected Provider model acknowledgement. WI-0064 then performed the sep
 
 WI-0066 adds the reusable control boundary needed before the larger rehearsal: a versioned manifest, semantic safety checks, durable wave and attempt checkpoints, cumulative Token interruption, wall-clock and disk ceilings, path allowlists, zero retry, and a cross-repository report that cannot grant lifecycle or marketing authority. Its framework verification does not itself start a model turn.
 
-The next execution gate is the retained four-repository commerce rehearsal under the already approved envelope: at most ten Luna Max turns, two concurrent turns, no retries or fallback, 60,000 Tokens per turn, 400,000 Tokens for the program, fifteen minutes per turn, four hours for the program, 50 MiB per repository, 200 MiB aggregate, network disabled, approval policy `never`, no API key or usage reset, and ¥0 external spend. Any failed correlation, dirty start, path escape, resource ceiling, protocol drift, or QA-independence breach stops the program.
+WI-0067 executed the retained four-repository commerce rehearsal under that envelope. The no-generation protocol and Luna Max preflight passed, then both Wave 1 turns reached the 60,000-Token per-turn ceiling. The first actionable Provider events reported 74,266 and 74,382 Tokens, Temple interrupted both turns, the program stopped after two launch attempts, zero retries occurred, and the remaining eight turns were not launched. No product file changed.
+
+The run is therefore a useful stopped-boundary observation, not a successful local rehearsal or longitudinal baseline. It also exposed a pre-run validation gap: the live adapter's worktree-local telemetry path was readable by the runner but rejected by the formal report builder, which requires the Git common directory. Raw telemetry was preserved and local usage projections were rebuilt, but the stopped manifest was not resumed or rewritten. A replacement experiment must first correct that configuration boundary and obtain a new explicit resource approval; no higher ceiling or retry is implied by this result.

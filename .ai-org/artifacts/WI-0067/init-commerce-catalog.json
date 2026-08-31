@@ -1,0 +1,12 @@
+{
+  "schema_version": "temple.init/v1",
+  "project": { "id": "commerce-catalog", "name": "Commerce Catalog" },
+  "naming_mode": "manual",
+  "agents": [
+    { "display_name": "Mog", "positions": ["engineering_manager", "release_manager", "observer"] },
+    { "display_name": "Yuna", "positions": ["product_manager", "ux_designer", "ui_designer"] },
+    { "display_name": "Tidus", "positions": ["tech_lead"] },
+    { "display_name": "Rikku", "positions": ["developer"] },
+    { "display_name": "Lulu", "positions": ["quality_evaluator", "independent_qa"] }
+  ]
+}
