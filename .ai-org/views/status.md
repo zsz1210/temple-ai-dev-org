@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 61 total, 5 active
+- Work items: 62 total, 6 active
 - Codex tasks: 5 registered, 4 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -105,6 +105,7 @@
 | WI-0059 | Reconcile the nonterminal Work Item ledger | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b505f004` | 0 | 22 | 0 |
 | WI-0060 | Show truthful Agent model state in Team | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `d47e50f7` | 0 | 21 | 0 |
 | WI-0061 | Approve a bounded local instrumentation pilot | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `cdd05741` | 0 | 19 | 0 |
+| WI-0062 | Run the approved provider-owned instrumentation pilot | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 8 | 0 |
 
 ## Codex task registry
 
@@ -217,14 +218,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T09:52:41.826Z | work_item_closed | WI-0061 | agent-mog |
-| 2026-08-31T09:52:41.826Z | release_gate_completed | WI-0061 | agent-mog |
-| 2026-08-31T09:52:34.434Z | work_item_claimed | WI-0061 | human |
-| 2026-08-31T09:52:27.179Z | work_item_transitioned | WI-0061 | agent-lulu |
-| 2026-08-31T09:52:26.894Z | work_item_claim_released | WI-0061 | human |
-| 2026-08-31T09:52:26.621Z | handoff_created | WI-0061 | agent-lulu |
-| 2026-08-31T09:52:18.587Z | evidence_recorded | WI-0061 | human |
-| 2026-08-31T09:52:18.317Z | work_item_claimed | WI-0061 | human |
+| 2026-08-31T09:54:12.654Z | work_item_transitioned | WI-0062 | agent-tidus |
+| 2026-08-31T09:54:12.351Z | work_item_claim_released | WI-0062 | human |
+| 2026-08-31T09:54:12.063Z | handoff_created | WI-0062 | agent-tidus |
+| 2026-08-31T09:54:11.772Z | work_item_claimed | WI-0062 | human |
+| 2026-08-31T09:54:11.397Z | work_item_transitioned | WI-0062 | agent-yuna |
+| 2026-08-31T09:54:11.106Z | work_item_claim_released | WI-0062 | human |
+| 2026-08-31T09:54:10.769Z | handoff_created | WI-0062 | agent-yuna |
+| 2026-08-31T09:54:10.491Z | work_item_claimed | WI-0062 | human |
 
 ## Assignments
 
