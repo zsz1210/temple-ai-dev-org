@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0046",
   "title": "Reframe Control Plane as management console and add Organization",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-31T00:43:14.596Z",
-  "updated_at": "2026-08-31T01:09:58.000Z",
+  "updated_at": "2026-08-31T01:18:32.664Z",
   "scope": [
     "Turn the current Dashboard shell into a Temple management console whose Now view is the operational dashboard, and add an always-visible Organization view backed by canonical Agent Identity, Position, Assignment, membership, and collaboration-profile data."
   ],
@@ -42,7 +42,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "20d2371742395867627219b18213890337603e16",
+  "base_revision": "7f03cbcab1100ffc94064674c954fa44196017f4",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -52,15 +52,18 @@
     "WI-0029 and WI-0033 have no active claim and are not being edited; WI-0030, WI-0034, WI-0036, WI-0040, WI-0041, WI-0042, WI-0044, and WI-0045 are verified unclosed predecessors whose behavior is retained; WI-0043 is the review parent of WI-0044. WI-0046 is the sole sequential editor for the shared control-plane UI and documentation until its candidate is integrated."
   ],
   "claim": {
-    "id": "claim-20260831004938-d7c94e53",
-    "status": "active",
+    "id": "claim-20260831011400-40f2f595",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "20d2371742395867627219b18213890337603e16",
+    "agent_id": "agent-lulu",
+    "base_revision": "7f03cbcab1100ffc94064674c954fa44196017f4",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-08-31T00:49:38.135Z",
-    "released_at": null
+    "claimed_at": "2026-08-31T01:14:00.171Z",
+    "released_at": "2026-08-31T01:18:32.377Z",
+    "release_reason": [
+      "Independent QA passed and handed exact candidate to Release Manager"
+    ]
   },
   "claims": [
     {
@@ -107,14 +110,45 @@
     },
     {
       "id": "claim-20260831004938-d7c94e53",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "20d2371742395867627219b18213890337603e16",
       "branch": "main",
       "worktree": null,
       "claimed_at": "2026-08-31T00:49:38.135Z",
-      "released_at": null
+      "released_at": "2026-08-31T01:12:34.620Z",
+      "release_reason": [
+        "Exact candidate handed to Quality Evaluator"
+      ]
+    },
+    {
+      "id": "claim-20260831011251-df187b2c",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "7f03cbcab1100ffc94064674c954fa44196017f4",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T01:12:51.502Z",
+      "released_at": "2026-08-31T01:13:48.658Z",
+      "release_reason": [
+        "Quality evaluation handed to Independent QA"
+      ]
+    },
+    {
+      "id": "claim-20260831011400-40f2f595",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "7f03cbcab1100ffc94064674c954fa44196017f4",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-08-31T01:14:00.171Z",
+      "released_at": "2026-08-31T01:18:32.377Z",
+      "release_reason": [
+        "Independent QA passed and handed exact candidate to Release Manager"
+      ]
     }
   ],
   "gate_evidence": {
@@ -137,7 +171,29 @@
       ".ai-org/artifacts/WI-0046/ui-brief.md"
     ],
     "required_state_coverage": [
-      ".ai-org/artifacts/WI-0046/ui-brief.md"
+      ".ai-org/artifacts/WI-0046/ui-brief.md",
+      ".ai-org/artifacts/WI-0046/developer-report.md",
+      ".ai-org/artifacts/WI-0046/independent-qa-report.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0046/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0046/developer-report.md",
+      ".ai-org/artifacts/WI-0046/developer-test-observation.json"
+    ],
+    "runtime_visual_review": [
+      ".ai-org/artifacts/WI-0046/developer-report.md",
+      ".ai-org/artifacts/WI-0046/independent-qa-report.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0046/quality-test-observation.json"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0046/quality-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0046/independent-qa-observation.json"
     ]
   },
   "evidence": [
@@ -149,10 +205,19 @@
     ".ai-org/work-items/WI-0046.json",
     ".ai-org/artifacts/WI-0046/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0046/technical-design.md",
-    ".ai-org/artifacts/WI-0046/ui-brief.md"
+    ".ai-org/artifacts/WI-0046/ui-brief.md",
+    ".ai-org/artifacts/WI-0046/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0046/developer-report.md",
+    ".ai-org/artifacts/WI-0046/developer-test-observation.json",
+    ".ai-org/artifacts/WI-0046/quality-test-observation.json",
+    ".ai-org/artifacts/WI-0046/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0046/quality-report.md",
+    ".ai-org/artifacts/WI-0046/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0046/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0046/independent-qa-observation.json"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -174,6 +239,28 @@
       "input_revision": "20d2371742395867627219b18213890337603e16",
       "artifact": ".ai-org/artifacts/WI-0046/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-08-31T00:49:28.020Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "7f03cbcab1100ffc94064674c954fa44196017f4",
+      "artifact": ".ai-org/artifacts/WI-0046/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-08-31T01:12:34.322Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "7f03cbcab1100ffc94064674c954fa44196017f4",
+      "artifact": ".ai-org/artifacts/WI-0046/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-08-31T01:13:48.354Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "7f03cbcab1100ffc94064674c954fa44196017f4",
+      "artifact": ".ai-org/artifacts/WI-0046/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-08-31T01:18:24.816Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "7f03cbcab1100ffc94064674c954fa44196017f4"
 }

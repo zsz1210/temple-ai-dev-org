@@ -5908,6 +5908,61 @@
         "exit_code": 0,
         "started_at": "2026-08-31T00:27:16Z"
       }
+    },
+    {
+      "id": "EVID-20260831T011824Z-3923A817",
+      "work_item_id": "WI-0046",
+      "recorded_at": "2026-08-31T01:18:24.520Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA verification",
+      "outcome": "pass",
+      "scope_revision": "7f03cbcab1100ffc94064674c954fa44196017f4",
+      "observed_at": "2026-08-31T01:17:54Z",
+      "summary": "Focused 29/29, full candidate verification 223/223, and private LAN browser QA passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0046/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0046/independent-qa-observation.json",
+          "sha256": "a7fec1d513df9cbe05efe1aa66b5dc297880f83951ac4f95a8badf45a29bafdf"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0046/independent-qa-report.md",
+          "sha256": "bb403d2f1ced45f39a990d0d5aee95d6413e348dff72b22cde9e242e494c9cdd"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0046/quality-report.md",
+          "sha256": "3f1dada459e24804152f44954a7295632eef09da38e713f4c6f32719ad9efbd3"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0046/ui-brief.md",
+          "sha256": "d7758258007b4f1b77f52926d7bb62b3f621737cd332d5814955f87b7c152276"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0046/management-console-requirements-audit.md",
+          "sha256": "a07331d3ab47e41b875cb4915e64d6c7e265be3cd35e9bfca32977276592cb0e"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/control-plane-foundation.test.mjs",
+          "test/control-plane-live.test.mjs",
+          "test/control-plane-private-viewer.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-08-31T01:14:00Z"
+      }
     }
   ]
 }

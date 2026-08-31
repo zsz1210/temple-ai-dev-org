@@ -1,0 +1,21 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "7f03cbcab1100ffc94064674c954fa44196017f4",
+  "command": [
+    "node",
+    "--test",
+    "test/control-plane-foundation.test.mjs",
+    "test/control-plane-live.test.mjs",
+    "test/control-plane-private-viewer.test.mjs"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T01:14:00Z",
+  "completed_at": "2026-08-31T01:17:54Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0046/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0046/quality-report.md",
+    ".ai-org/artifacts/WI-0046/ui-brief.md",
+    ".ai-org/artifacts/WI-0046/management-console-requirements-audit.md"
+  ]
+}

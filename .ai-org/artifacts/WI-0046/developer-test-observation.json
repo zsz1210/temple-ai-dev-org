@@ -1,0 +1,21 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "7f03cbcab1100ffc94064674c954fa44196017f4",
+  "command": [
+    "node --test test/control-plane-live.test.mjs test/control-plane-foundation.test.mjs test/control-plane-private-viewer.test.mjs",
+    "node --test test/control-plane-inbox.test.mjs",
+    "npm run verify",
+    "playwright-cli open http://192.168.79.5:41741/#organization and inspect Agent/Position modes at 1440x1000, 1024x1366, 768x1024, and 420x900"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-08-31T01:01:40.000Z",
+  "completed_at": "2026-08-31T01:11:18.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0046/developer-report.md",
+    ".ai-org/artifacts/WI-0046/product-spec.md",
+    ".ai-org/artifacts/WI-0046/technical-design.md",
+    ".ai-org/artifacts/WI-0046/ui-brief.md",
+    ".ai-org/artifacts/WI-0046/management-console-requirements-audit.md"
+  ]
+}
