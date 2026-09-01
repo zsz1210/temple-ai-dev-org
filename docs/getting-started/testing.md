@@ -25,6 +25,14 @@ Before proposing a behavioral change, run the complete suite:
 npm run verify
 ```
 
+Management Console changes also require the real-browser gate:
+
+```bash
+npm run test:browser
+```
+
+This command starts the repository-local Control Plane on loopback and opens four responsive layouts in an installed Google Chrome. It checks primary navigation, live rendering, browser errors, keyboard tabs, reduced-motion behavior, horizontal overflow, primary-text clipping, and named high-level layout regions. It does not download a browser or use the contributor's normal Chrome profile. A failure writes an actionable screenshot below `output/playwright/`.
+
 ## Continuous integration
 
 CI uses one job definition expanded across the supported Node.js LTS matrix. Within each matrix run, scope selection, repository checks, schema validation, Doctor, and the selected behavioral lane remain separately named steps. The summary reports both governance and behavior outcomes, and an always-run final step fails the job if any required result failed. A governance failure therefore does not hide the behavioral result.
@@ -33,6 +41,7 @@ CI uses one job definition expanded across the supported Node.js LTS matrix. Wit
 - A change containing only root reader documents, Markdown below `docs/`, or images below `docs/assets/` records a documentation-only behavioral result after repository checks; schema, Doctor, and behavioral tests are not required for this scope.
 - A strict evidence/state-only change additionally runs organization schema validation, Doctor, `npm run test:fast`, focused Evidence Observer tests, and the focused init/Doctor/status contract test instead of every integration test.
 - Any source, test, schema, project overlay, package, integration, workflow, mixed-scope, or unknown-path change runs the complete behavioral suite.
+- The Node.js 24 full lane additionally launches the real-browser Management Console gate in the same job. Node.js 22 retains the non-browser compatibility suite; no separate hosted job or browser download is added.
 - Manual workflow runs, including release-candidate verification, always execute the complete suite.
 - If the changed-path comparison is unavailable, empty, malformed, or fails, CI chooses the complete suite.
 
@@ -59,6 +68,7 @@ Prefer the smallest layer that proves the risk:
 1. Pure validation or contract tests for deterministic rules.
 2. In-process integration tests for module cooperation.
 3. A small number of subprocess CLI tests for packaging, command boundaries, atomic writes, and rollback.
-4. Explicit live validation only when a fixture cannot prove the behavior.
+4. Semantic real-browser tests for human-interface layout, navigation, accessibility interaction, and runtime failures that a DOM-string contract cannot prove.
+5. Explicit live validation only when a fixture cannot prove the behavior.
 
 Do not remove a safety assertion merely to shorten CI. When subprocess setup dominates runtime, keep the assertion and move shared behavior to a faster harness while retaining representative end-to-end coverage.

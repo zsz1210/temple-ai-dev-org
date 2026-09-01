@@ -68,6 +68,10 @@ jobs:
         name: Behavior — full test suite
         if: ${{ always() && steps.install.outcome == 'success' && (steps.scope.outputs.scope == 'full' || steps.scope.outcome != 'success') }}
         run: npm run test:full
+      - id: browser_console
+        name: Browser — Management Console
+        if: ${{ always() && steps.install.outcome == 'success' && (steps.scope.outputs.scope == 'full' || steps.scope.outcome != 'success') && matrix.node-version == 24 }}
+        run: npm run test:browser
       - id: behavior_documentation
         name: Behavior — documentation-only result
         if: ${{ always() && steps.scope.outputs.scope == 'documentation-only' }}
@@ -84,6 +88,7 @@ jobs:
           DOCTOR_OUTCOME: ${{ steps.doctor.outcome }}
           EVIDENCE_BEHAVIOR_OUTCOME: ${{ steps.behavior_evidence.outcome }}
           FULL_BEHAVIOR_OUTCOME: ${{ steps.behavior_full.outcome }}
+          BROWSER_CONSOLE_OUTCOME: ${{ steps.browser_console.outcome }}
           DOCUMENTATION_BEHAVIOR_OUTCOME: ${{ steps.behavior_documentation.outcome }}
         run: |
           case "$SCOPE" in
@@ -102,6 +107,7 @@ jobs:
             echo "- Governance / schema: \`$SCHEMA_OUTCOME\`"
             echo "- Governance / Doctor: \`$DOCTOR_OUTCOME\`"
             echo "- Behavioral lane: \`$behavior_outcome\`"
+            echo "- Management Console browser: \`$BROWSER_CONSOLE_OUTCOME\`"
           } >> "$GITHUB_STEP_SUMMARY"
       - name: Enforce aggregated verification result
         if: ${{ always() }}
@@ -114,7 +120,9 @@ jobs:
           DOCTOR_OUTCOME: ${{ steps.doctor.outcome }}
           EVIDENCE_BEHAVIOR_OUTCOME: ${{ steps.behavior_evidence.outcome }}
           FULL_BEHAVIOR_OUTCOME: ${{ steps.behavior_full.outcome }}
+          BROWSER_CONSOLE_OUTCOME: ${{ steps.browser_console.outcome }}
           DOCUMENTATION_BEHAVIOR_OUTCOME: ${{ steps.behavior_documentation.outcome }}
+          NODE_VERSION: ${{ matrix.node-version }}
         run: |
           failed=0
           require_success() {
@@ -137,6 +145,9 @@ jobs:
               require_success "Governance schema validation" "$SCHEMA_OUTCOME"
               require_success "Governance Doctor" "$DOCTOR_OUTCOME"
               require_success "Full behavioral lane" "$FULL_BEHAVIOR_OUTCOME"
+              if [ "$NODE_VERSION" = "24" ]; then
+                require_success "Management Console browser gate" "$BROWSER_CONSOLE_OUTCOME"
+              fi
               ;;
             *) echo "Unknown verification scope: $SCOPE"; failed=1 ;;
           esac

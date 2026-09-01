@@ -15,6 +15,17 @@ The npm lockfile currently resolves these runtime packages. They are installed a
 
 The dependency packages retain their own copyright and license files in an installed dependency tree. Review this inventory together with `package-lock.json` before each public release.
 
+## Development dependencies
+
+### Playwright Core
+
+- Project: <https://github.com/microsoft/playwright>
+- Package: `playwright-core`
+- Pinned version: `1.62.1`
+- License: Apache-2.0
+
+Temple uses Playwright Core only for repository development and the Management Console browser gate. The integration launches an already installed Google Chrome with an ephemeral automation profile. Temple does not download, vendor, redistribute, or include a browser binary in its npm package or runtime dependency tree.
+
 ## Mermaid README diagrams
 
 - Projects: <https://github.com/mermaid-js/mermaid> and <https://github.com/mermaid-js/mermaid-cli>

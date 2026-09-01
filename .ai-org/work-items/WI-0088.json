@@ -1,0 +1,169 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0088",
+  "title": "Add real-browser Management Console regression coverage",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-01T15:25:03.827Z",
+  "updated_at": "2026-09-01T15:28:57.347Z",
+  "scope": [
+    "Add a pinned, license-reviewed Playwright Core development integration that launches installed Google Chrome without downloading a browser, starts the repository-local Control Plane on loopback, and verifies the human-facing Management Console in a real browser.",
+    "Cover mobile, tablet, desktop, and ultrawide layouts; navigation, live rendering, console errors, keyboard tab behavior, reduced motion, horizontal overflow, clipping, and overlap must fail with actionable diagnostics and a screenshot.",
+    "Run the browser gate only in the Node.js 24 full hosted lane so documentation and evidence-only changes keep their measured low-cost path and the Node.js 22 compatibility lane is not duplicated."
+  ],
+  "acceptance_criteria": [
+    "A real browser opens the live repository-backed Management Console at 390x844, 768x1024, 1440x1000, and 3440x1440; every primary view renders, navigation works, and no viewport has document-level horizontal overflow, clipped primary text, or overlapping high-level layout regions.",
+    "Browser console errors, unhandled page errors, inaccessible primary navigation, incorrect mobile sidebar behavior, broken organization tabs, and reduced-motion regressions fail the gate; a failure screenshot is written below output/playwright/.",
+    "Playwright Core is pinned exactly, its Apache-2.0 license and non-runtime purpose are recorded, no browser binary is vendored or downloaded by the repository, and the integration has contract tests.",
+    "GitHub CI runs the browser gate only for the Node.js 24 full scope and includes it in the aggregated blocking result without adding a separate billed job."
+  ],
+  "affected_paths": [
+    "package.json",
+    "package-lock.json",
+    "scripts/verify-console-browser.mjs",
+    "test/console-browser-contract.test.mjs",
+    ".github/workflows/ci.yml",
+    "docs/getting-started/testing.md",
+    "docs/adr/0040-real-browser-console-regression.md",
+    "docs/adr/README.md",
+    "THIRD_PARTY_NOTICES.md",
+    ".ai-org/artifacts/WI-0088"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": "WI-0031",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "c6897c11b36a9f8a7d474b8ca8f8e0e521e3022b",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0086 is blocked at human and public-release gates and has no active claim. WI-0088 may change package.json and package-lock.json only to add the pinned browser-test development dependency; this makes the earlier Alpha.29 candidate stale, so WI-0086 must be revalidated or superseded before any later public release."
+  ],
+  "claim": {
+    "id": "claim-20260901152857-c26d58b4",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "c6897c11b36a9f8a7d474b8ca8f8e0e521e3022b",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-09-01T15:28:57.347Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260901152539-8c0dd3b7",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "c6897c11b36a9f8a7d474b8ca8f8e0e521e3022b",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T15:25:39.621Z",
+      "released_at": "2026-09-01T15:25:40.263Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901152546-e29fbc46",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "c6897c11b36a9f8a7d474b8ca8f8e0e521e3022b",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T15:25:46.407Z",
+      "released_at": "2026-09-01T15:26:04.470Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901152611-f52ec591",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "c6897c11b36a9f8a7d474b8ca8f8e0e521e3022b",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T15:26:11.799Z",
+      "released_at": "2026-09-01T15:28:53.365Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901152857-c26d58b4",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "c6897c11b36a9f8a7d474b8ca8f8e0e521e3022b",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T15:28:57.347Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0088/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0088/product-direction.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0088.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0088/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0088/risk-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0088/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0088/work-order.md",
+    ".ai-org/artifacts/WI-0088/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0088/product-direction.md",
+    ".ai-org/work-items/WI-0088.json",
+    ".ai-org/artifacts/WI-0088/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0088/technical-design.md",
+    ".ai-org/artifacts/WI-0088/risk-review.md",
+    "docs/adr/0040-real-browser-console-regression.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "c6897c11b36a9f8a7d474b8ca8f8e0e521e3022b",
+      "artifact": ".ai-org/artifacts/WI-0088/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-01T15:25:39.944Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "c6897c11b36a9f8a7d474b8ca8f8e0e521e3022b",
+      "artifact": ".ai-org/artifacts/WI-0088/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-01T15:26:04.122Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "c6897c11b36a9f8a7d474b8ca8f8e0e521e3022b",
+      "artifact": ".ai-org/artifacts/WI-0088/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-01T15:28:52.990Z"
+    }
+  ]
+}
