@@ -12242,6 +12242,196 @@
         "status": "planned",
         "procedure": ".ai-org/artifacts/WI-0035/rollback-plan.md"
       }
+    },
+    {
+      "id": "EVID-20260901T153605Z-384CFCF0",
+      "work_item_id": "WI-0088",
+      "recorded_at": "2026-09-01T15:36:05.275Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Real-browser Console implementation verification",
+      "outcome": "pass",
+      "scope_revision": "1a82106c9fdc61efaa3aa502be320432c0bf82bf",
+      "observed_at": "2026-09-01T15:35:18.000Z",
+      "summary": "At 1a82106c9fdc61efaa3aa502be320432c0bf82bf, repository checks, package boundary, 268 tests, four responsive Chrome viewports across six views, reduced-motion, schema, and Doctor passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0088/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0088/developer-test-observation.json",
+          "sha256": "4dab8b25e30d8480470b0d7c2928ef54468258b0705d8246234b5d40d35e4c31"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0088/developer-evidence.md",
+          "sha256": "74b82e57f392f806c3439b0adab0c0d17b78a1e70ad11dcb8e1eb5abad9e2226"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0088/technical-design.md",
+          "sha256": "cdd13961f9bb61a1e1f69b06af209bcb211ae378051a8c8601747fa3469e2f09"
+        },
+        {
+          "path": "docs/adr/0040-real-browser-console-regression.md",
+          "sha256": "50e9d994aa149f3179cbf6afea5d3d01b9ad03d881900aaf8d26c081ae737cfa"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/console-browser-contract.test.mjs test/ci-scope.test.mjs",
+          "npm run test:browser",
+          "npm run verify",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-01T15:29:20.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260901T153905Z-D4D9EE2F",
+      "work_item_id": "WI-0088",
+      "recorded_at": "2026-09-01T15:39:05.468Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Fresh Node 24 real-browser quality verification",
+      "outcome": "pass",
+      "scope_revision": "1a82106c9fdc61efaa3aa502be320432c0bf82bf",
+      "observed_at": "2026-09-01T15:38:17.000Z",
+      "summary": "A clean detached candidate passed 268 tests and 24 responsive view traversals in installed Chrome, plus reduced-motion, schema, Doctor, and package boundaries.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0088/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0088/quality-test-observation.json",
+          "sha256": "359a21d7add51fac267359a6ea3cbb1cd38a35f50be83a2abe7de117c0ca68dd"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0088/quality-report.md",
+          "sha256": "f8ef656b0ad8abddfb8b5e9b42525e5e50b9c565c6024b6b6d549ec593f7b83d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0088/developer-test-observation.json",
+          "sha256": "4dab8b25e30d8480470b0d7c2928ef54468258b0705d8246234b5d40d35e4c31"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0088/technical-design.md",
+          "sha256": "cdd13961f9bb61a1e1f69b06af209bcb211ae378051a8c8601747fa3469e2f09"
+        }
+      ],
+      "details": {
+        "command": [
+          "create a fresh detached worktree at 1a82106c9fdc61efaa3aa502be320432c0bf82bf",
+          "npx --yes --package=node@24 -c 'node --version && npm ci --ignore-scripts'",
+          "npx --yes --package=node@24 -c 'npm run verify'",
+          "npx --yes --package=node@24 -c 'npm run test:browser'",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-01T15:36:26.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260901T154120Z-53D19B0C",
+      "work_item_id": "WI-0088",
+      "recorded_at": "2026-09-01T15:41:20.541Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent positive and negative browser-gate verification",
+      "outcome": "pass",
+      "scope_revision": "1a82106c9fdc61efaa3aa502be320432c0bf82bf",
+      "observed_at": "2026-09-01T15:40:45.000Z",
+      "summary": "Independent QA confirmed the exact candidate passes and a disposable 200vw defect fails with viewport/view diagnostics and a bounded screenshot.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0088/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0088/independent-qa-test-observation.json",
+          "sha256": "d58e198be2701706710cada794f0c80bfe03da433d2414f2238fcf0235fe7f6e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0088/independent-qa-report.md",
+          "sha256": "49ca3626140383a25e641074d1337cad32a9d0cb7ba4235b902fd696f54420fc"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0088/quality-report.md",
+          "sha256": "f8ef656b0ad8abddfb8b5e9b42525e5e50b9c565c6024b6b6d549ec593f7b83d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0088/quality-test-observation.json",
+          "sha256": "359a21d7add51fac267359a6ea3cbb1cd38a35f50be83a2abe7de117c0ca68dd"
+        }
+      ],
+      "details": {
+        "command": [
+          "review fresh Node.js 24 positive-control evidence for the exact candidate",
+          "create a second disposable detached worktree at the exact candidate",
+          "npm ci --ignore-scripts under Node.js 24",
+          "inject an uncommitted 200vw view-header defect only in the disposable worktree",
+          "npm run test:browser and require a nonzero exit",
+          "verify the viewport/view diagnostics and bounded PNG failure artifact",
+          "remove the complete disposable worktree"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-01T15:39:49.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260901T154158Z-7C0A8360",
+      "work_item_id": "WI-0088",
+      "recorded_at": "2026-09-01T15:41:58.086Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "1a82106c9fdc61efaa3aa502be320432c0bf82bf",
+      "observed_at": "2026-09-01T15:41:58.086Z",
+      "summary": "Revert the exact browser-gate implementation commit in a dedicated rollback Work Item, then re-run both supported LTS verification lanes.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0088/rollback-plan.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0088/rollback-plan.md",
+          "sha256": "f7687729dadafc4a437af8578050fef7a2389cbba54d940ec340b817ad8f2f09"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0088/rollback-plan.md"
+      }
     }
   ]
 }

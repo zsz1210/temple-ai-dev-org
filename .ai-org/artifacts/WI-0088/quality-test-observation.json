@@ -1,0 +1,38 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "1a82106c9fdc61efaa3aa502be320432c0bf82bf",
+  "command": [
+    "create a fresh detached worktree at 1a82106c9fdc61efaa3aa502be320432c0bf82bf",
+    "npx --yes --package=node@24 -c 'node --version && npm ci --ignore-scripts'",
+    "npx --yes --package=node@24 -c 'npm run verify'",
+    "npx --yes --package=node@24 -c 'npm run test:browser'",
+    "node ./templew.mjs schema validate . --json",
+    "node ./templew.mjs doctor . --json",
+    "git status --short"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-01T15:36:26.000Z",
+  "completed_at": "2026-09-01T15:38:17.000Z",
+  "summary": {
+    "node_version": "v24.20.0",
+    "full_tests_passed": 268,
+    "full_tests_failed": 0,
+    "full_verify_duration_ms": 50921.000541,
+    "browser": "Google Chrome 152.0.7977.65 through playwright-core 1.62.1",
+    "browser_viewports_passed": 4,
+    "browser_view_traversals_passed": 24,
+    "reduced_motion_passed": true,
+    "schema_documents_checked": 109,
+    "doctor_pass": 35,
+    "doctor_warn": 1,
+    "doctor_fail": 0,
+    "fresh_worktree_clean": true,
+    "hosted_ci_observed": false
+  },
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0088/quality-report.md",
+    ".ai-org/artifacts/WI-0088/developer-test-observation.json",
+    ".ai-org/artifacts/WI-0088/technical-design.md"
+  ]
+}

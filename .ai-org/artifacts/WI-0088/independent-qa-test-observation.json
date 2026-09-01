@@ -1,0 +1,34 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "1a82106c9fdc61efaa3aa502be320432c0bf82bf",
+  "command": [
+    "review fresh Node.js 24 positive-control evidence for the exact candidate",
+    "create a second disposable detached worktree at the exact candidate",
+    "npm ci --ignore-scripts under Node.js 24",
+    "inject an uncommitted 200vw view-header defect only in the disposable worktree",
+    "npm run test:browser and require a nonzero exit",
+    "verify the viewport/view diagnostics and bounded PNG failure artifact",
+    "remove the complete disposable worktree"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-01T15:39:49.000Z",
+  "completed_at": "2026-09-01T15:40:45.000Z",
+  "summary": {
+    "positive_candidate_passed": true,
+    "negative_control_exit_code": 1,
+    "detected_document_overflow_px": 405,
+    "detected_region_escape": true,
+    "failure_viewport": "mobile 390x844",
+    "failure_view": "Overview",
+    "failure_screenshot_written": true,
+    "failure_screenshot_sha256": "d4cff44c946f4b443021591b3d624e0b8835e4a9d03e2a17373c774f431059c9",
+    "candidate_modified": false,
+    "external_action_performed": false
+  },
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0088/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0088/quality-report.md",
+    ".ai-org/artifacts/WI-0088/quality-test-observation.json"
+  ]
+}

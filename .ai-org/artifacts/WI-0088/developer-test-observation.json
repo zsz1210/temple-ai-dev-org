@@ -1,0 +1,32 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "1a82106c9fdc61efaa3aa502be320432c0bf82bf",
+  "command": [
+    "node --test test/console-browser-contract.test.mjs test/ci-scope.test.mjs",
+    "npm run test:browser",
+    "npm run verify",
+    "node ./templew.mjs schema validate . --json",
+    "node ./templew.mjs doctor . --json",
+    "git diff --check"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-01T15:29:20.000Z",
+  "completed_at": "2026-09-01T15:35:18.000Z",
+  "summary": {
+    "focused_tests_passed": 17,
+    "full_tests_passed": 268,
+    "full_tests_failed": 0,
+    "browser": "Google Chrome 152.0.7977.65 through playwright-core 1.62.1",
+    "browser_viewports_passed": 4,
+    "browser_primary_views_per_viewport": 6,
+    "reduced_motion_passed": true,
+    "browser_download_performed": false,
+    "additional_ci_job_added": false
+  },
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0088/developer-evidence.md",
+    ".ai-org/artifacts/WI-0088/technical-design.md",
+    "docs/adr/0040-real-browser-console-regression.md"
+  ]
+}
