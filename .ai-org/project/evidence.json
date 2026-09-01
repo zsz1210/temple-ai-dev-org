@@ -11331,6 +11331,55 @@
         "exit_code": 0,
         "started_at": "2026-09-01T12:36:38.000Z"
       }
+    },
+    {
+      "id": "EVID-20260901T124046Z-767EE8F4",
+      "work_item_id": "WI-0083",
+      "recorded_at": "2026-09-01T12:40:46.451Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA exact-candidate pass",
+      "outcome": "pass",
+      "scope_revision": "ad10d528113963673724d9b02004b62e87aaafbe",
+      "observed_at": "2026-09-01T12:39:37.000Z",
+      "summary": "A second fresh detached worktree passed all 260 tests plus schema, Doctor, preflight, documentation parity, privacy, comparability, and authority challenges at the exact candidate revision.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0083/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0083/independent-qa-observation.json",
+          "sha256": "d40cc90dee8add8758019b02cba6099b31bbd0500d69d4bdbd79ef5b89071136"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0083/independent-qa-report.md",
+          "sha256": "704ef8ea8a71ac416fb7144e7e5f42ecdd6457b6b2e93173e13cb3a837ddf126"
+        },
+        {
+          "path": "docs/validation/wi-0083-matched-model-advisory.md",
+          "sha256": "13f41c792ec4b09282b39b3e180966407714671a19760773f590a1268969d548"
+        }
+      ],
+      "details": {
+        "command": [
+          "remove the earlier Quality worktree and create a second fresh detached worktree at revision ad10d528113963673724d9b02004b62e87aaafbe",
+          "npm run verify",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "node ./templew.mjs usage preflight . --json",
+          "assert English, Traditional Chinese, and Japanese README level-two section counts match",
+          "remove the temporary worktree after recording the result"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-01T12:38:14.000Z"
+      }
     }
   ]
 }

@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0083",
   "title": "Add matched model evaluation and advisory recommendations",
-  "state": "independent_qa",
-  "owner_position": "independent_qa",
-  "assigned_agent_id": "agent-lulu",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-01T12:12:21.342Z",
-  "updated_at": "2026-09-01T12:37:55.889Z",
+  "updated_at": "2026-09-01T12:41:00.342Z",
   "scope": [
     "Define a project-owned matched evaluation contract that compares model and reasoning profiles only within the same exact task shape and quality rubric.",
     "Produce deterministic, explainable advisory recommendations from qualified matched evaluations while preserving requested and effective model evidence.",
@@ -95,14 +95,15 @@
   ],
   "claim": {
     "id": "claim-20260901123755-0f64aae6",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-lulu",
     "base_revision": "ad10d528113963673724d9b02004b62e87aaafbe",
     "branch": "main",
     "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
     "claimed_at": "2026-09-01T12:37:55.889Z",
-    "released_at": null
+    "released_at": "2026-09-01T12:41:00.342Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
@@ -173,14 +174,15 @@
     },
     {
       "id": "claim-20260901123755-0f64aae6",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-lulu",
       "base_revision": "ad10d528113963673724d9b02004b62e87aaafbe",
       "branch": "main",
       "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
       "claimed_at": "2026-09-01T12:37:55.889Z",
-      "released_at": null
+      "released_at": "2026-09-01T12:41:00.342Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -211,6 +213,9 @@
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0083/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0083/independent-qa-report.md"
     ]
   },
   "evidence": [
@@ -230,10 +235,14 @@
     ".ai-org/artifacts/WI-0083/quality-report.md",
     ".ai-org/artifacts/WI-0083/handoff-005-quality_evaluator-to-independent_qa.md",
     ".ai-org/artifacts/WI-0083/evaluation-report.md",
-    ".ai-org/artifacts/WI-0083/quality-observation.json"
+    ".ai-org/artifacts/WI-0083/quality-observation.json",
+    ".ai-org/artifacts/WI-0083/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0083/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0083/independent-qa-observation.json",
+    "docs/validation/wi-0083-matched-model-advisory.md"
   ],
   "unresolved": [],
-  "next_position": "release_manager",
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -269,6 +278,13 @@
       "input_revision": "ad10d528113963673724d9b02004b62e87aaafbe",
       "artifact": ".ai-org/artifacts/WI-0083/handoff-005-quality_evaluator-to-independent_qa.md",
       "created_at": "2026-09-01T12:37:47.986Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "ad10d528113963673724d9b02004b62e87aaafbe",
+      "artifact": ".ai-org/artifacts/WI-0083/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-01T12:40:51.492Z"
     }
   ],
   "developer_candidate_revision": "ad10d528113963673724d9b02004b62e87aaafbe"
