@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0089",
   "title": "Make Codex task titles outcome-first and refreshable",
-  "state": "test",
+  "state": "eval",
   "owner_position": "quality_evaluator",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-01T15:44:49.354Z",
-  "updated_at": "2026-09-01T16:06:11.152Z",
+  "updated_at": "2026-09-01T16:09:41.105Z",
   "scope": [
     "Generate ordinary task titles as Work Item ID, bounded short goal, Position, and Agent display name; define a separate project control-task convention.",
     "Add an explicit repository task-title refresh command and apply it to current registered tasks without changing thread identity, lifecycle authority, or archive state.",
@@ -148,6 +148,9 @@
       ".ai-org/artifacts/WI-0089/developer-verification.md",
       ".ai-org/artifacts/WI-0089/developer-test-observation.json",
       ".ai-org/artifacts/WI-0089/live-codex-title-observation.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0089/quality-report.md"
     ]
   },
   "evidence": [
@@ -163,10 +166,11 @@
     ".ai-org/artifacts/WI-0089/handoff-004-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0089/developer-verification.md",
     ".ai-org/artifacts/WI-0089/developer-test-observation.json",
-    ".ai-org/artifacts/WI-0089/live-codex-title-observation.md"
+    ".ai-org/artifacts/WI-0089/live-codex-title-observation.md",
+    ".ai-org/artifacts/WI-0089/quality-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "independent_qa",
   "handoffs": [
     {
       "from_position": "engineering_manager",
