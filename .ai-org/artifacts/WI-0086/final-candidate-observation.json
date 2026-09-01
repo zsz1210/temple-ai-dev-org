@@ -1,0 +1,20 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "420049e3831c2be5b6eabf7b51eff05413745a2a",
+  "command": [
+    "npm run verify",
+    "pack the exact Alpha.29 candidate tarball",
+    "install the exact tarball in separate clean Node.js 22 and 24 consumers",
+    "run version, first init, re-init, project launcher, and Doctor in both consumers",
+    "GitHub Actions run 33523312535",
+    "Verify (Node.js 22) job 99907722201",
+    "Verify (Node.js 24) job 99907722410"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-01T15:02:50.000Z",
+  "completed_at": "2026-09-01T15:09:37.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0086/independent-qa-report.md"
+  ]
+}

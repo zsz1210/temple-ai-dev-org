@@ -12077,6 +12077,51 @@
         "exit_code": 0,
         "started_at": "2026-09-01T14:58:10.000Z"
       }
+    },
+    {
+      "id": "EVID-20260901T151108Z-E44A9821",
+      "work_item_id": "WI-0086",
+      "recorded_at": "2026-09-01T15:11:08.984Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Final Alpha.29 exact-candidate verification",
+      "outcome": "pass",
+      "scope_revision": "420049e3831c2be5b6eabf7b51eff05413745a2a",
+      "observed_at": "2026-09-01T15:09:37.000Z",
+      "summary": "Exact tarball consumer smoke and hosted Node.js 22 and 24 full CI passed at revision 420049e.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0086/final-candidate-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0086/final-candidate-observation.json",
+          "sha256": "0c73cdb9c6352bbcef847f7d16833d0d85767dabd88675a61dfa225a620d5ac4"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0086/independent-qa-report.md",
+          "sha256": "36d69cca30616f710d7c9b2f11cde3cca6d69ef68cb24f03a454d149ac3a77a8"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify",
+          "pack the exact Alpha.29 candidate tarball",
+          "install the exact tarball in separate clean Node.js 22 and 24 consumers",
+          "run version, first init, re-init, project launcher, and Doctor in both consumers",
+          "GitHub Actions run 33523312535",
+          "Verify (Node.js 22) job 99907722201",
+          "Verify (Node.js 24) job 99907722410"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-01T15:02:50.000Z"
+      }
     }
   ]
 }

@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
 - Work items: 87 total, 5 active
 - Codex tasks: 5 registered, 5 archive-ready
@@ -17,7 +17,7 @@
 - Skill promotion: 0 candidate(s), 0 approval pending, 0 authoring Work Item(s)
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 13
+- Attention signals: 14
 
 ## Collaboration
 
@@ -26,7 +26,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -132,7 +132,7 @@
 | WI-0083 | Add matched model evaluation and advisory recommendations | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a0be19c7` | 0 | 23 | 0 |
 | WI-0084 | Reconcile release truth and refresh the public roadmap | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `dbfa2b7c` | 0 | 21 | 0 |
 | WI-0085 | Harden Temple for the first public alpha | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `31eb1707` | 0 | 22 | 0 |
-| WI-0086 | Prepare the first public Alpha release candidate | independent_qa | Independent QA | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260901150021-94efd29c | `fe9f7d98` | 0 | 17 | 0 |
+| WI-0086 | Prepare the first public Alpha release candidate | blocked | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `fe9f7d98` | 0 | 18 | 0 |
 | WI-0087 | Stabilize Linux temporary Git cleanup for Alpha.29 | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `680230f0` | 0 | 17 | 0 |
 
 ## Codex task registry
@@ -184,6 +184,7 @@
 
 - WI-0064 is blocked
 - WI-0067 is blocked
+- WI-0086 is blocked
 - task-0001 can be archived
 - task-0002 can be archived
 - task-0003 can be archived
@@ -253,14 +254,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-01T15:11:13.588Z | work_item_transitioned | WI-0086 | agent-lulu |
+| 2026-09-01T15:11:08.984Z | evidence_recorded | WI-0086 | human |
+| 2026-09-01T15:10:14.774Z | work_item_claimed | WI-0086 | human |
+| 2026-09-01T15:10:14.442Z | work_item_coordination_configured | WI-0086 | agent-lulu |
+| 2026-09-01T15:10:14.097Z | work_item_claim_released | WI-0086 | human |
 | 2026-09-01T15:00:21.893Z | work_item_claimed | WI-0086 | human |
 | 2026-09-01T15:00:15.152Z | work_item_transitioned | WI-0086 | agent-mog |
 | 2026-09-01T15:00:05.396Z | work_item_coordination_configured | WI-0086 | agent-mog |
-| 2026-09-01T14:59:56.612Z | work_item_closed | WI-0087 | agent-mog |
-| 2026-09-01T14:59:56.612Z | release_gate_completed | WI-0087 | agent-mog |
-| 2026-09-01T14:59:38.323Z | work_item_claimed | WI-0087 | human |
-| 2026-09-01T14:59:37.960Z | work_item_transitioned | WI-0087 | agent-lulu |
-| 2026-09-01T14:59:31.416Z | evidence_recorded | WI-0087 | human |
 
 ## Assignments
 
