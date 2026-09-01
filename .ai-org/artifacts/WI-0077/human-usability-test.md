@@ -9,7 +9,7 @@ Both surfaces use `controlled-usability-fixture.json`:
 - **Baseline:** the current production `renderControlPlaneDashboard()` output.
 - **Proposal:** the WI-0077 design preview, contract-checked and materialized for the controlled scenario.
 
-The proposal still contains intentionally illustrative History controls. Record what works; do not assist the participant or count a visual control as implemented behavior.
+The proposal contains local search, type, and outcome filtering for its fixed History records. Record what works; do not treat this preview-only behavior as production implementation.
 
 ## Start the local harness
 
@@ -91,13 +91,13 @@ Run this separately from the timed comparison.
 
 | Task | Correct interpretation | Target |
 | --- | --- | ---: |
-| T1 | Review the `WI-0077` Management Console design direction before Build planning. This does not authorize production Build, release, or publication. | 10 seconds |
+| T1 | Open the `WI-0077` review details before Build planning. This is a read-only navigation action: it does not start an Agent or authorize production Build, release, or publication. | 10 seconds |
 | T2 | Lifecycle: **Design**. Execution: **Unclaimed / no active Worker for WI-0077**. Impediment: **Clear**. A label that collapses these axes is only partial. | 15 seconds |
-| T3 | Position: **Tech Lead**. Agent: **Tidus**. The accountable Human is only shown as the generic Project Owner at organization level, not linked to `WI-0077`; the effective model is **not observed / not recorded**. Inventing either fact fails the task. | 15 seconds |
+| T3 | Responsible Position: **Tech Lead**. Assigned Agent: **Tidus**. Review authority: **Project Owner / Human**. The UI Designer Yuna relationship is supporting artifact ownership, not Work Item responsibility. Effective model: **not observed / not recorded**. Inventing model evidence fails the task. | 15 seconds |
 | T4 | `WI-0067` is genuinely blocked by its approved Token ceiling, but it is not a dependency of the current `WI-0077` design objective. It must not become a global stop signal. | 20 seconds |
 | T5 | Current condition: Codex live-task observation coverage is limited, while repository lifecycle state remains available; it does not block review. Historical failure: a Provider disconnect recovered and is retained only in Activity / history. | 15 seconds |
 | T6 | One observation supports attribution to `WI-0056`, Developer, Build, `gpt-5.6-luna`, and the recorded Token fields. It cannot establish monetary cost, savings, model superiority, automatic routing, or cross-project generalization. | 15 seconds |
-| T7 | Retrieve `WI-0064` as completed with Provider protocol limits retained, or retrieve its matching history event. Search, filter, or bounded pagination must actually change the result; an inert visual control is partial. | 20 seconds |
+| T7 | Retrieve `WI-0064` as completed with Provider protocol limits retained, or retrieve its matching history or evidence record. Proposal search and type/outcome filters must actually change the visible result. | 20 seconds |
 
 ## Scoring rules
 

@@ -4,8 +4,8 @@
 - Organization system version: `0.1.0-alpha.28`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=true
-- Work items: 78 total, 8 active
+- Parallel plan: 0 wave(s), fresh=false
+- Work items: 82 total, 11 active
 - Codex tasks: 5 registered, 4 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -17,7 +17,7 @@
 - Skill promotion: 0 candidate(s), 0 approval pending, 0 authoring Work Item(s)
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 11
+- Attention signals: 12
 
 ## Collaboration
 
@@ -36,7 +36,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: yes
+- Fresh: no
 - Safe waves: 0
 - Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 6 / 2
@@ -125,6 +125,10 @@
 | WI-0076 | Operationalize multi-human team governance | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `006ef112` | 0 | 20 | 0 |
 | WI-0077 | Review the Management Console as a complete human operating experience | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | preview-first | 1 | 0 | 0 | — | `—` | 0 | 13 | 0 |
 | WI-0078 | Make the public README visual and human-first | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `8ae725d6` | 0 | 21 | 0 |
+| WI-0079 | Create an Archify engineering architecture preview | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 3 | 0 |
+| WI-0080 | Redesign the human-facing README and overview diagram | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `de841e94` | 0 | 14 | 0 |
+| WI-0081 | Implement the approved Management Console with live project data | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | preview-first | 1 | 0 | 0 | — | `—` | 0 | 10 | 0 |
+| WI-0082 | Make Temple terms and Core Skills self-explanatory | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `8a7afd30` | 0 | 16 | 0 |
 
 ## Codex task registry
 
@@ -183,6 +187,7 @@
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
+- Generated parallel plan is stale; rebuild it before dispatch
 - Parallel plan has 2 blocked Work Item(s)
 
 ## External tracker coordination
@@ -190,7 +195,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 14
+- Team-visible Work Items: 15
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -242,14 +247,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-08-31T23:46:59.230Z | work_item_closed | WI-0078 | agent-mog |
-| 2026-08-31T23:46:59.230Z | release_gate_completed | WI-0078 | agent-mog |
-| 2026-08-31T23:46:55.158Z | work_item_claimed | WI-0078 | human |
-| 2026-08-31T23:46:42.795Z | work_item_transitioned | WI-0078 | agent-lulu |
-| 2026-08-31T23:46:38.472Z | work_item_claim_released | WI-0078 | human |
-| 2026-08-31T23:46:34.188Z | handoff_created | WI-0078 | agent-lulu |
-| 2026-08-31T23:46:26.195Z | evidence_recorded | WI-0078 | human |
-| 2026-08-31T23:44:16.635Z | work_item_claimed | WI-0078 | human |
+| 2026-09-01T06:32:08.023Z | work_item_claim_released | WI-0082 | human |
+| 2026-09-01T06:32:03.159Z | evidence_recorded | WI-0082 | human |
+| 2026-09-01T06:30:14.098Z | work_item_claim_released | WI-0081 | human |
+| 2026-09-01T06:27:14.604Z | work_item_claimed | WI-0081 | human |
+| 2026-09-01T06:26:00.200Z | work_item_claim_released | WI-0081 | human |
+| 2026-09-01T06:23:02.250Z | work_item_claimed | WI-0081 | human |
+| 2026-09-01T06:22:08.327Z | work_item_claimed | WI-0082 | human |
+| 2026-09-01T06:17:04.792Z | work_item_claim_released | WI-0081 | human |
 
 ## Assignments
 
@@ -274,6 +279,6 @@ No optional Skill packs installed.
 
 - Root AGENTS.md: present
 - Archify contract: available_not_enabled
-- Archify adapter: not_installed
+- Archify adapter: installed
 
 > This file is a generated projection. Update canonical files, then rebuild this view.

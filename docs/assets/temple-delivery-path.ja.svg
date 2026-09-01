@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 460" role="img" aria-labelledby="title desc">
+  <title id="title">Temple で一件の依頼を完了まで進める流れ</title>
+  <desc id="desc">最初に今回の目標と範囲を決め、設計、実装、テスト、評価、独立 QA を経て、リリースの準備が整っているかを確認します。各段階の判断と確認結果はリポジトリに残ります。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="arrow-fill" d="M0 0 10 5 0 10Z"/></marker>
+  </defs>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Segoe UI", sans-serif; }
+    .canvas { fill: #ffffff; } .lane { fill: #f6f8fa; stroke: #d0d7de; } .direction { fill: #eef5ff; stroke: #7aa7df; } .delivery { fill: #e9f5f3; stroke: #4a9b92; } .assurance { fill: #fff7e6; stroke: #c8912e; } .rail { fill: #f6f8fa; stroke: #8c959f; }
+    .ink { fill: #1f2328; } .muted { fill: #59636e; } .blue { fill: #245b99; } .teal { fill: #0f766e; } .amber { fill: #8a5a00; } .flow { fill: none; stroke: #59636e; } .arrow-fill { fill: #59636e; }
+    @media (prefers-color-scheme: dark) { .canvas { fill: #0d1117; } .lane { fill: #161b22; stroke: #30363d; } .direction { fill: #15263d; stroke: #416b9f; } .delivery { fill: #102d2c; stroke: #2a7770; } .assurance { fill: #342b17; stroke: #9a701f; } .rail { fill: #161b22; stroke: #6e7681; } .ink { fill: #f0f6fc; } .muted { fill: #9da7b3; } .blue { fill: #79b8ff; } .teal { fill: #5eead4; } .amber { fill: #f2cc60; } .flow { stroke: #9da7b3; } .arrow-fill { fill: #9da7b3; } }
+    @media (max-width: 520px) { .node .ink { font-size: 19px; } .node .muted { display: none; } .node.compact .ink { font-size: 17px; } text.blue, text.teal, text.amber { font-size: 15px; } }
+  </style>
+  <rect class="canvas" width="760" height="460" rx="12"/>
+  <text class="muted" x="24" y="28" font-size="13" font-weight="700" letter-spacing="1.5">ONE REQUEST · EVIDENCE-GATED DELIVERY</text>
+  <text class="ink" x="24" y="52" font-size="16" font-weight="650">必要な確認が終わるまで、Work Item は次の段階へ進みません。</text>
+
+  <rect class="lane" x="18" y="68" width="724" height="88" rx="8"/><text class="blue" x="36" y="94" font-size="12" font-weight="750" letter-spacing="1">要件と承認</text>
+  <g class="node"><rect class="direction" x="190" y="82" width="214" height="60" rx="7" stroke-width="1.5"/><circle class="blue" cx="214" cy="112" r="14"/><text x="214" y="117" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="750">1</text><text class="ink" x="238" y="107" font-size="17" font-weight="700">目標をそろえる</text><text class="muted" x="238" y="128" font-size="12">プロダクト判断</text></g>
+  <path class="flow" d="M404 112H432" stroke-width="2" marker-end="url(#arrow)"/>
+  <g class="node"><rect class="direction" x="438" y="82" width="214" height="60" rx="7" stroke-width="1.5"/><circle class="blue" cx="462" cy="112" r="14"/><text x="462" y="117" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="750">2</text><text class="ink" x="486" y="107" font-size="17" font-weight="700">今回の範囲を決める</text><text class="muted" x="486" y="128" font-size="12">人が承認</text></g>
+
+  <path class="flow" d="M545 142V164H297V178" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect class="lane" x="18" y="170" width="724" height="88" rx="8"/><text class="teal" x="36" y="196" font-size="12" font-weight="750" letter-spacing="1">設計と実装</text>
+  <g class="node"><rect class="delivery" x="190" y="184" width="214" height="60" rx="7" stroke-width="1.5"/><circle class="teal" cx="214" cy="214" r="14"/><text x="214" y="219" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="750">3</text><text class="ink" x="238" y="209" font-size="17" font-weight="700">進め方を決める</text><text class="muted" x="238" y="230" font-size="12">設計・契約</text></g>
+  <path class="flow" d="M404 214H432" stroke-width="2" marker-end="url(#arrow)"/>
+  <g class="node"><rect class="delivery" x="438" y="184" width="214" height="60" rx="7" stroke-width="1.5"/><circle class="teal" cx="462" cy="214" r="14"/><text x="462" y="219" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="750">4</text><text class="ink" x="486" y="209" font-size="17" font-weight="700">コードに反映する</text><text class="muted" x="486" y="230" font-size="12">実装差分</text></g>
+
+  <path class="flow" d="M545 244V266H231V280" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect class="lane" x="18" y="272" width="724" height="98" rx="8"/><text class="amber" x="36" y="298" font-size="12" font-weight="750" letter-spacing="1">テストと判定</text>
+  <g class="node compact"><rect class="assurance" x="148" y="286" width="170" height="70" rx="7" stroke-width="1.5"/><circle class="amber" cx="170" cy="321" r="14"/><text x="170" y="326" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="750">5</text><text class="ink" x="193" y="316" font-size="16" font-weight="700">テスト・評価</text><text class="muted" x="193" y="337" font-size="12">完了条件と照合</text></g>
+  <path class="flow" d="M318 321H334" stroke-width="2" marker-end="url(#arrow)"/>
+  <g class="node compact"><rect class="assurance" x="340" y="286" width="170" height="70" rx="7" stroke-width="1.5"/><circle class="amber" cx="362" cy="321" r="14"/><text x="362" y="326" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="750">6</text><text class="ink" x="385" y="316" font-size="16" font-weight="700">独立 QA</text><text class="muted" x="385" y="337" font-size="12">別の実行者が確認</text></g>
+  <path class="flow" d="M510 321H526" stroke-width="2" marker-end="url(#arrow)"/>
+  <g class="node compact"><rect class="assurance" x="532" y="286" width="190" height="70" rx="7" stroke-width="1.5"/><circle class="amber" cx="554" cy="321" r="14"/><text x="554" y="326" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="750">7</text><text class="ink" x="577" y="316" font-size="16" font-weight="700">リリース前確認</text><text class="muted" x="577" y="337" font-size="12">準備状況だけを判定</text></g>
+
+  <rect class="rail" x="18" y="390" width="724" height="52" rx="8" stroke-width="1.5"/><text class="muted" x="36" y="412" font-size="11" font-weight="750" letter-spacing="1">リポジトリに残す確認記録</text><text class="ink" x="36" y="431" font-size="13" font-weight="650">作業範囲 · 判断 · 仕様 · リビジョン · テスト · 評価 · QA · 承認</text>
+  <path class="flow" d="M627 356V384" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+</svg>

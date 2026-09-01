@@ -7,6 +7,7 @@ The root README explains what Temple is and why it exists. This index routes imp
 | I want to… | Start here | Continue with |
 |---|---|---|
 | Evaluate the framework | [Vision and operating model](concepts/vision.md) | [Architecture](concepts/architecture.md), [Roadmap](planning/roadmap.md) |
+| Understand Temple terms or the `$name` methods used in prompts | [Temple terminology](concepts/terminology.md) | [Temple Core Skills](getting-started/core-skills.md), [Capability catalog](extensions/capability-catalog.md) |
 | Install or adopt Temple | [Usage guide](getting-started/usage.md) | [Enterprise document adoption](getting-started/enterprise-document-adoption.md), [Testing strategy](getting-started/testing.md) |
 | Coordinate people and AI agents | [Collaborative development](operations/collaboration.md) | [Parallel orchestration](operations/parallel-orchestration.md), [Runtime coordination](operations/runtime-coordination.md) |
 | Define product, UX, UI, or API behavior | [Product specifications](concepts/product-specifications.md) | [UI design modes](concepts/ui-design.md), [UI interaction contracts](concepts/ui-interaction-contracts.md) |
@@ -24,12 +25,14 @@ The root README explains what Temple is and why it exists. This index routes imp
 ### Getting started
 
 - [Usage guide](getting-started/usage.md) — initialize, adopt, operate, self-host, upgrade, and troubleshoot.
+- [Temple Core Skills](getting-started/core-skills.md) — human-facing triggers, outcomes, examples, and authority limits for the six repository Core Skills.
 - [Enterprise document adoption](getting-started/enterprise-document-adoption.md) — preserve, bridge, or intentionally migrate an existing documentation system.
 - [Testing strategy](getting-started/testing.md) — fast local checks, full behavioral verification, release checks, and explicitly authorized live tests.
 
 ### Concepts
 
 - [Vision and operating model](concepts/vision.md) — Positions, Agent Identities, Skills, human authority, and lifecycle.
+- [Temple terminology](concepts/terminology.md) — plain-language definitions for responsibility, identity, work, evidence, profiles, learning, and repository ownership.
 - [Architecture](concepts/architecture.md) — a compact system-boundary diagram plus canonical state, ownership, mutation safety, generated views, and extension boundaries.
 - [Product specification system](concepts/product-specifications.md) — product truth, revisions, Feature Specs, and external authority.
 - [UI design modes](concepts/ui-design.md) — proportionate design evidence without requiring a particular vendor.

@@ -1,0 +1,339 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0082",
+  "title": "Make Temple terms and Core Skills self-explanatory",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-01T05:13:25.035Z",
+  "updated_at": "2026-09-01T06:32:08.023Z",
+  "scope": [
+    "Audit the English, Japanese, and Traditional Chinese README files for Temple-specific commands, concepts, profiles, paths, and lifecycle vocabulary that appear without a human-facing explanation.",
+    "Add one human-facing Core Skills guide and one concise Temple terminology guide; link README first-use concepts to those guides without linking beginners directly to agent-facing SKILL.md contracts.",
+    "Add one localized engineering-style delivery-path diagram to the request-flow section while keeping the README a compact two-diagram entry point.",
+    "Preserve WI-0077 and WI-0079 work, avoid optional dependencies and external diagram vendors, and do not commit or push without separate authorization."
+  ],
+  "acceptance_criteria": [
+    "All three READMEs keep the same information hierarchy and link every invoked Temple Core Skill to a matching human-facing explanation.",
+    "The terminology guide distinguishes Temple-specific names from ordinary software terms and explains authority boundaries in plain language.",
+    "The localized delivery-path diagrams use one geometry, remain readable at desktop and narrow widths, and do not duplicate the system-context diagram.",
+    "Documentation links, SVG parsing, repository checks, full verification, and independent QA pass without including WI-0077 or WI-0079 changes."
+  ],
+  "affected_paths": [
+    "README.md",
+    "README.ja.md",
+    "README.zh-TW.md",
+    "docs/README.md",
+    "docs/getting-started/core-skills.md",
+    "docs/concepts/terminology.md",
+    "docs/assets/temple-delivery-path.en.svg",
+    "docs/assets/temple-delivery-path.ja.svg",
+    "docs/assets/temple-delivery-path.zh-TW.svg"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0069: docs/README.md is integrated sequentially from the current committed file; WI-0082 adds only the new human-facing Core Skills and terminology navigation and does not rewrite WI-0069 content."
+  ],
+  "claim": {
+    "id": "claim-20260901062208-00c16b16",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-09-01T06:22:08.327Z",
+    "released_at": "2026-09-01T06:32:08.023Z",
+    "release_reason": [
+      "Completed the native Traditional Chinese README editorial pass, responsive render review, and fresh independent verification."
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260901051353-269379c4",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-01T05:13:53.704Z",
+      "released_at": "2026-09-01T05:15:39.567Z",
+      "release_reason": [
+        "Engineering Management intake and work-order handoff completed."
+      ]
+    },
+    {
+      "id": "claim-20260901051543-157c7d60",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-01T05:15:43.518Z",
+      "released_at": "2026-09-01T05:16:03.235Z",
+      "release_reason": [
+        "Product scope and acceptance criteria handed to Tech Lead."
+      ]
+    },
+    {
+      "id": "claim-20260901051608-f38702c1",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-01T05:16:08.445Z",
+      "released_at": "2026-09-01T05:16:33.902Z",
+      "release_reason": [
+        "Documentation design and risk review handed to Developer."
+      ]
+    },
+    {
+      "id": "claim-20260901051634-cb26fb50",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-01T05:16:34.610Z",
+      "released_at": "2026-09-01T05:28:44.863Z",
+      "release_reason": [
+        "Build complete; uncommitted documentation candidate handed to Quality Evaluation with the concurrent full-suite boundary recorded."
+      ]
+    },
+    {
+      "id": "claim-20260901052845-e059c7ad",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-01T05:28:45.536Z",
+      "released_at": "2026-09-01T05:32:49.038Z",
+      "release_reason": [
+        "Quality and evaluation completed; isolated full-suite result handed to Independent QA."
+      ]
+    },
+    {
+      "id": "claim-20260901053249-f8212868",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-01T05:32:49.622Z",
+      "released_at": "2026-09-01T05:33:04.135Z",
+      "release_reason": [
+        "Test and evaluation completed; exact evidence handed to Independent QA."
+      ]
+    },
+    {
+      "id": "claim-20260901053304-a3dc6c17",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-01T05:33:04.789Z",
+      "released_at": "2026-09-01T05:35:16.004Z",
+      "release_reason": [
+        "Independent QA passed the exact isolated documentation candidate and handed evidence to Release Manager."
+      ]
+    },
+    {
+      "id": "claim-20260901053516-a6908fc4",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-01T05:35:16.641Z",
+      "released_at": "2026-09-01T05:35:48.910Z",
+      "release_reason": [
+        "Release Gate readiness recorded; awaiting parallel WI-0081 stabilization, combined verification, and separate commit or push authorization."
+      ]
+    },
+    {
+      "id": "claim-20260901053918-98523203",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T05:39:18.240Z",
+      "released_at": "2026-09-01T05:39:33.243Z",
+      "release_reason": [
+        "Recorded post-concurrency shared-tree verification; candidate remains uncommitted at Release Gate."
+      ]
+    },
+    {
+      "id": "claim-20260901055742-a0cc711d",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T05:57:42.006Z",
+      "released_at": "2026-09-01T06:13:41.664Z",
+      "release_reason": [
+        "Completed language-native README rewrite, visual review, shared verification, and isolated Independent QA evidence."
+      ]
+    },
+    {
+      "id": "claim-20260901061419-91e3c896",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T06:14:19.082Z",
+      "released_at": "2026-09-01T06:14:58.317Z",
+      "release_reason": [
+        "Finalized release-gate documentation after language-native rewrite and evidence correction."
+      ]
+    },
+    {
+      "id": "claim-20260901062208-00c16b16",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T06:22:08.327Z",
+      "released_at": "2026-09-01T06:32:08.023Z",
+      "release_reason": [
+        "Completed the native Traditional Chinese README editorial pass, responsive render review, and fresh independent verification."
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0082/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0082/product-direction.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0082/product-direction.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0082/documentation-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0082/documentation-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0082/handoff-004-developer-to-quality_evaluator.md",
+      ".ai-org/artifacts/WI-0082/developer-report.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0082/developer-report.md",
+      ".ai-org/artifacts/WI-0082/documentation-design.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0082/quality-report.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0082/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260901T053508Z-4D7E0324"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0082/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0082/work-order.md",
+    ".ai-org/decisions/DEC-0005-temple-terms-and-core-skills-navigation.md",
+    ".ai-org/artifacts/WI-0082/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0082/product-direction.md",
+    ".ai-org/artifacts/WI-0082/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0082/documentation-design.md",
+    ".ai-org/artifacts/WI-0082/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0082/developer-report.md",
+    ".ai-org/artifacts/WI-0082/quality-report.md",
+    ".ai-org/artifacts/WI-0082/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0082/evaluation-report.md",
+    ".ai-org/artifacts/WI-0082/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0082/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0082/independent-qa-observation.json",
+    "EVID-20260901T053508Z-4D7E0324"
+  ],
+  "unresolved": [],
+  "next_position": "engineering_manager",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "artifact": ".ai-org/artifacts/WI-0082/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-01T05:15:39.265Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "artifact": ".ai-org/artifacts/WI-0082/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-01T05:16:02.947Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "artifact": ".ai-org/artifacts/WI-0082/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-01T05:16:33.612Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "artifact": ".ai-org/artifacts/WI-0082/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-01T05:28:44.548Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "artifact": ".ai-org/artifacts/WI-0082/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-01T05:33:03.831Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "artifact": ".ai-org/artifacts/WI-0082/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-01T05:35:15.689Z"
+    }
+  ],
+  "developer_candidate_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88"
+}

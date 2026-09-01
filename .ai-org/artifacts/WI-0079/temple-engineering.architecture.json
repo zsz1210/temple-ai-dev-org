@@ -1,0 +1,238 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Temple 如何把意圖變成可驗證的交付",
+    "output": "temple-engineering.html",
+    "quality_profile": "showcase",
+    "viewBox": [1550, 680],
+    "views": [
+      {
+        "id": "primary-delivery-path",
+        "label": "主要交付路徑",
+        "focus": ["human", "entry", "coordination", "execution", "evidence", "repository"],
+        "note": "從人類授權開始，沿著有界工作、執行與獨立證據，走到可恢復的 repository truth。"
+      },
+      {
+        "id": "recoverable-context",
+        "label": "可恢復的脈絡",
+        "focus": ["repository", "context", "coordination"],
+        "note": "下一個 task 從受版本控制的 Spec、ADR、Skill 與 Learning 取回脈絡。"
+      },
+      {
+        "id": "observation-boundary",
+        "label": "觀察與權限邊界",
+        "focus": ["external", "observer", "repository", "human"],
+        "note": "外部系統與 generated views 能呈現狀態，但不能取代 repository lifecycle authority。"
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "human",
+      "type": "external",
+      "label": "Human Principal",
+      "sublabel": "目標、優先度與核准",
+      "tag": "保留最終 authority",
+      "pos": [35, 300],
+      "size": [170, 82]
+    },
+    {
+      "id": "entry",
+      "type": "frontend",
+      "label": "Temple 入口",
+      "sublabel": "Skills · CLI · Workspace",
+      "tag": "人與 Agent 的共同介面",
+      "pos": [245, 300],
+      "size": [190, 82]
+    },
+    {
+      "id": "coordination",
+      "type": "backend",
+      "label": "工作協調",
+      "sublabel": "Work Item · claim · dependency",
+      "tag": "有界範圍與責任",
+      "pos": [495, 300],
+      "size": [215, 82]
+    },
+    {
+      "id": "context",
+      "type": "messagebus",
+      "label": "脈絡與能力路由",
+      "sublabel": "Spec · ADR · Skill · Learning",
+      "tag": "依 task 與 Position 取回",
+      "pos": [495, 105],
+      "size": [215, 82]
+    },
+    {
+      "id": "execution",
+      "type": "backend",
+      "label": "人類與 AI 執行",
+      "sublabel": "Position · affected paths",
+      "tag": "bounded execution",
+      "pos": [770, 300],
+      "size": [195, 82]
+    },
+    {
+      "id": "evidence",
+      "type": "security",
+      "label": "證據與 Gate",
+      "sublabel": "Test · Eval · Independent QA",
+      "tag": "exact candidate revision",
+      "pos": [1025, 300],
+      "size": [205, 82]
+    },
+    {
+      "id": "repository",
+      "type": "database",
+      "label": "Repository 真相",
+      "sublabel": ".ai-org · Git · code · evidence",
+      "tag": "canonical authority",
+      "pos": [1280, 300],
+      "size": [205, 82]
+    },
+    {
+      "id": "external",
+      "type": "external",
+      "label": "外部 Tracker / Provider",
+      "sublabel": "status · usage · provider signal",
+      "tag": "observation only",
+      "pos": [1025, 105],
+      "size": [205, 82]
+    },
+    {
+      "id": "observer",
+      "type": "cloud",
+      "label": "Observer / Workspace",
+      "sublabel": "Dashboard · status · attention",
+      "tag": "rebuildable projections",
+      "pos": [1280, 105],
+      "size": [205, 82]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Human authority",
+      "wraps": ["human"],
+      "pad": 20
+    },
+    {
+      "kind": "region",
+      "label": "Temple coordination layer",
+      "wraps": ["entry", "coordination", "context"],
+      "pad": 22
+    },
+    {
+      "kind": "region",
+      "label": "Bounded delivery and assurance",
+      "wraps": ["execution", "evidence"],
+      "pad": 22
+    },
+    {
+      "kind": "security-group",
+      "label": "Repository authority boundary",
+      "wraps": ["repository", "observer"],
+      "pad": 22
+    }
+  ],
+  "connections": [
+    {
+      "id": "human-authorizes-entry",
+      "from": "human",
+      "to": "entry",
+      "label": "提出意圖與授權",
+      "variant": "emphasis",
+      "labelDy": 65
+    },
+    {
+      "id": "entry-mutates-coordination",
+      "from": "entry",
+      "to": "coordination",
+      "label": "經 policy 檢查建立工作",
+      "variant": "emphasis",
+      "labelDy": -35
+    },
+    {
+      "id": "repository-routes-context",
+      "from": "repository",
+      "to": "context",
+      "label": "提供受版本控制的脈絡",
+      "variant": "dashed",
+      "fromSide": "left",
+      "toSide": "right",
+      "via": [[1240, 341], [1240, 240], [750, 240], [750, 146]]
+    },
+    {
+      "id": "context-guides-coordination",
+      "from": "context",
+      "to": "coordination",
+      "label": "路由規格、方法與學習",
+      "labelAt": [603, 240]
+    },
+    {
+      "id": "coordination-bounds-execution",
+      "from": "coordination",
+      "to": "execution",
+      "label": "指定 owner、範圍與依賴",
+      "variant": "emphasis",
+      "labelDy": 65
+    },
+    {
+      "id": "execution-submits-evidence",
+      "from": "execution",
+      "to": "evidence",
+      "label": "提交 candidate 與開發證據",
+      "variant": "emphasis",
+      "labelDy": -35
+    },
+    {
+      "id": "evidence-records-truth",
+      "from": "evidence",
+      "to": "repository",
+      "label": "記錄獨立驗證與 gate 結果",
+      "variant": "security",
+      "labelAt": [1255, 396]
+    },
+    {
+      "id": "repository-builds-projections",
+      "from": "repository",
+      "to": "observer",
+      "label": "重建可閱讀狀態"
+    },
+    {
+      "id": "external-informs-observer",
+      "from": "external",
+      "to": "observer",
+      "label": "唯讀 observation",
+      "variant": "dashed",
+      "labelDy": 65
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Canonical truth",
+      "items": [
+        "Repository 保存 Work Item、decision、code、test 與 evidence",
+        "Conversation 和 generated views 都不能覆寫 authority"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Delivery guardrails",
+      "items": [
+        "執行必須受 owner、scope、dependency 與 affected paths 約束",
+        "Developer、Independent QA 與 Release Gate 保持責任分離"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Recoverable organization",
+      "items": [
+        "Context routing 讓下一個 task 找回必要脈絡",
+        "Learning 與 Skill 可重用，但不會自行取得 authority"
+      ]
+    }
+  ]
+}

@@ -246,9 +246,9 @@ test("Dashboard attention groups firing stale evidence ahead of release bookkeep
 
   assert.deepEqual(attention.map((item) => item.type), ["runtime_permission", "stale_evidence", "provider-offline"]);
   assert.equal(attention[1].count, 10);
-  assert.equal(attention[1].label, "10 stale evidence conditions");
+  assert.equal(attention[1].label, "10 verification records need refreshing");
   assert.equal(attention[1].jump_view, "system");
-  assert.match(attention[1].message, /before release bookkeeping/);
+  assert.match(attention[1].message, /no longer prove the current revision/);
 });
 
 test("telemetry journal redacts secrets, deduplicates stable identities, retains cursors, and excludes a second writer", async (context) => {
@@ -590,7 +590,7 @@ test("Codex history bounds are validated and Temple Workspace exposes terminal w
   assert.match(html, /data-nav-target="system"/);
   assert.match(html, /data-nav-target="history"/);
   assert.match(html, /Temple Workspace/);
-  assert.match(html, /Who is part of this project\?/);
+  assert.match(html, /Who is responsible, and with what authority\?/);
   assert.match(html, /role="tablist"/);
   assert.match(html, /Responsibilities/);
   assert.match(html, /People &amp; Agents/);
@@ -611,9 +611,9 @@ test("Codex history bounds are validated and Temple Workspace exposes terminal w
   assert.match(html, /Eligible pool/);
   assert.doesNotMatch(html, /Owns business authority and approval boundaries/);
   assert.match(html, /Independent delivery check/);
-  assert.match(html, /Who is working on what\?/);
-  assert.match(html, /Current work/);
-  assert.match(html, /Responsibility map/);
+  assert.match(html, /What is being delivered\?/);
+  assert.match(html, /Search by Work Item or title/);
+  assert.match(html, /Observed execution map/);
   assert.match(html, /data-icon="overview"/);
   assert.match(html, /data-icon="team"/);
   assert.doesNotMatch(html, /<span class="nav-icon">0[1-6]<\/span>/);
@@ -622,16 +622,29 @@ test("Codex history bounds are validated and Temple Workspace exposes terminal w
   assert.match(html, /dataset\.theme="dark"/);
   assert.match(html, /@container workspace/);
   assert.match(html, /max-width:1199px/);
+  assert.match(html, /\.nav-item \.nav-count\{position:absolute;top:4px;right:3px/);
   assert.match(html, /max-width:759px/);
   assert.match(html, /renderOrganization\(snapshot\)/);
   assert.match(html, /filter\(hasLiveExecution\)/);
-  assert.match(html, /No assigned, blocked, or running work is currently visible/);
-  assert.match(html, /Open work/);
-  assert.match(html, /View details/);
-  assert.match(html, /Hide details/);
+  assert.match(html, /No claimed or currently observed execution/);
+  assert.match(html, /work-row-button/);
+  assert.match(html, /work-detail/);
   assert.match(html, /Waiting for release decision/);
-  assert.match(html, /appendGroup\("planned","Planned"/);
+  assert.match(html, /Release review/);
+  assert.match(html, /item\.state==="release_gate"\?"Release review":workStageLabel\(item\.state\)/);
+  assert.match(html, /verification record/);
+  assert.match(html, /Token anomaly monitoring is not configured/);
+  assert.match(html, /scrollTo\(0,0\)/);
+  assert.match(html, /workTableStatusBadge/);
+  assert.match(html, /@container workspace \(max-width:1279px\)/);
+  assert.match(html, /#view-now \.metrics\.compact\{margin-bottom:24px\}/);
+  assert.match(html, /#view-now #now-summary\+#attention\{margin-top:18px\}/);
+  assert.match(html, /#view-now \.attention-more\{grid-column:1\/-1/);
   assert.match(html, /Technical details/);
+  assert.match(html, /Effective workspace configuration/);
+  assert.match(html, /data-system-mode="configuration"/);
+  assert.match(html, /This is recorded evidence, not a live or account-wide meter/);
+  assert.doesNotMatch(html, /Scenario: worker running|WI-0077 design preview/);
   assert.match(html, /Last updated /);
   assert.match(html, /Updates delayed/);
   assert.doesNotMatch(html, /Snapshot current|Queued and waiting|Live updates/);

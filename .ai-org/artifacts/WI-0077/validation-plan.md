@@ -10,12 +10,30 @@ Validate comprehension and trust before changing production Console code. Visual
 | --- | --- |
 | Owner review of information architecture and visual direction | Accepted on 2026-09-01 |
 | Browser smoke, responsive reflow, reduced motion, private-view treatment | Passed for the preview artifact |
-| Seven scripted comprehension tasks | Machine retrievability rehearsal completed on 2026-09-01; no human comprehension timing yet |
-| Current Console versus preview comparison | Directional diagnostic completed; deterministic same-dataset harness prepared, but no human comparison result yet |
+| Seven scripted comprehension tasks | One owner-led directional session started on 2026-09-01 and stopped after Proposal T3; no comparable timing was recorded |
+| Current Console versus preview comparison | Same-dataset qualitative evidence recorded; incomplete and not statistically qualified |
 | First production slice comparison | Not available; Build not authorized |
 | Real multi-human and enterprise-scale qualification | Deferred |
 
 The accepted preview may guide implementation planning. It does not yet support a quantitative usability-improvement claim.
+
+## Owner-led directional observation — 2026-09-01
+
+The owner used the same controlled fixture on the baseline and proposal. Timing and confidence were not recorded, and the owner intentionally stopped the session after Proposal T3. These results are product feedback, not a completed usability comparison.
+
+| Surface | Result | Observation |
+| --- | --- | --- |
+| Baseline | 0 pass · 4 partial · 3 fail | The owner could often find a destination but could not reliably interpret urgency, execution, Provider state, responsibility, or a specific history record. Usage was discovered, but the static one-observation total looked like a broken live meter. |
+| Proposal | 1 pass · 2 partial · 4 not run | The owner immediately preferred the direction and correctly read Design, Unclaimed, and Clear. The review button's side effect was ambiguous, and duplicate `WI-0077` appearances caused UI Designer Yuna to be mistaken for the responsible owner. |
+
+Resulting refinements:
+
+- label read-only navigation separately from Agent execution or approval;
+- show Work Item responsibility, supporting artifact ownership, and Human review authority as distinct relationships;
+- label Usage coverage and freshness before showing totals;
+- make fixed-preview History retrieval controls functional rather than decorative.
+
+The refined preview is the current design baseline. Production Build, deployment, release, and publication remain outside WI-0077.
 
 ## Diagnostic usability rehearsal — 2026-09-01
 
@@ -64,7 +82,7 @@ The controlled kit was exercised in Chromium at 1440 × 900 and 390 × 844 CSS p
 - both Overview surfaces had no page-level horizontal overflow at 390 CSS pixels;
 - the proposal's six icon navigation controls now expose human-readable accessible names;
 - the proposal's closed mobile navigation is inert, opens from the keyboard, moves focus to the current destination, closes with Escape, and returns focus to the menu button;
-- the proposal's History search, tabs, and pagination remain illustrative: entering `WI-0064` and selecting `Audit trail` did not change the rows, so T7 cannot be scored as a functional retrieval pass.
+- the proposal's History search and type/outcome filters now change the fixed preview rows; pagination remains intentionally disabled because the preview contains only a bounded record set.
 
 Comparison screenshots are under `output/playwright/wi-0077/controlled-comparison/`. These machine checks validate harness operability and responsive mechanics, not human comprehension time.
 

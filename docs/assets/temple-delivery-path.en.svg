@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 460" role="img" aria-labelledby="title desc">
+  <title id="title">The delivery path for one request in Temple</title>
+  <desc id="desc">A request moves from clarifying the outcome and human approval of scope, through design and build, then test and evaluation, Independent QA, and a Release Gate. Scope, decisions, contracts, revisions, tests, QA, and approval remain as durable repository evidence.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path class="arrow-fill" d="M0 0 10 5 0 10Z"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif; }
+    .canvas { fill: #ffffff; }
+    .lane { fill: #f6f8fa; stroke: #d0d7de; }
+    .direction { fill: #eef5ff; stroke: #7aa7df; }
+    .delivery { fill: #e9f5f3; stroke: #4a9b92; }
+    .assurance { fill: #fff7e6; stroke: #c8912e; }
+    .rail { fill: #f6f8fa; stroke: #8c959f; }
+    .ink { fill: #1f2328; }
+    .muted { fill: #59636e; }
+    .blue { fill: #245b99; }
+    .teal { fill: #0f766e; }
+    .amber { fill: #8a5a00; }
+    .flow { fill: none; stroke: #59636e; }
+    .arrow-fill { fill: #59636e; }
+    @media (prefers-color-scheme: dark) {
+      .canvas { fill: #0d1117; }
+      .lane { fill: #161b22; stroke: #30363d; }
+      .direction { fill: #15263d; stroke: #416b9f; }
+      .delivery { fill: #102d2c; stroke: #2a7770; }
+      .assurance { fill: #342b17; stroke: #9a701f; }
+      .rail { fill: #161b22; stroke: #6e7681; }
+      .ink { fill: #f0f6fc; }
+      .muted { fill: #9da7b3; }
+      .blue { fill: #79b8ff; }
+      .teal { fill: #5eead4; }
+      .amber { fill: #f2cc60; }
+      .flow { stroke: #9da7b3; }
+      .arrow-fill { fill: #9da7b3; }
+    }
+    @media (max-width: 520px) {
+      .node .ink { font-size: 19px; }
+      .node .muted { display: none; }
+      .node.compact .ink { font-size: 17px; }
+      text.blue, text.teal, text.amber { font-size: 15px; }
+    }
+  </style>
+
+  <rect class="canvas" width="760" height="460" rx="12"/>
+  <text class="muted" x="24" y="28" font-size="13" font-weight="700" letter-spacing="1.5">ONE REQUEST · EVIDENCE-GATED DELIVERY</text>
+  <text class="ink" x="24" y="52" font-size="16" font-weight="650">A Work Item advances only when the next gate has the required evidence.</text>
+
+  <rect class="lane" x="18" y="68" width="724" height="88" rx="8"/>
+  <text class="blue" x="36" y="94" font-size="12" font-weight="750" letter-spacing="1">HUMAN DIRECTION</text>
+  <g class="node">
+    <rect class="direction" x="190" y="82" width="214" height="60" rx="7" stroke-width="1.5"/>
+    <circle class="blue" cx="214" cy="112" r="14"/><text x="214" y="117" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="750">1</text>
+    <text class="ink" x="238" y="107" font-size="17" font-weight="700">Clarify outcome</text>
+    <text class="muted" x="238" y="128" font-size="12">Product direction</text>
+  </g>
+  <path class="flow" d="M404 112H432" stroke-width="2" marker-end="url(#arrow)"/>
+  <g class="node">
+    <rect class="direction" x="438" y="82" width="214" height="60" rx="7" stroke-width="1.5"/>
+    <circle class="blue" cx="462" cy="112" r="14"/><text x="462" y="117" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="750">2</text>
+    <text class="ink" x="486" y="107" font-size="17" font-weight="700">Approve scope</text>
+    <text class="muted" x="486" y="128" font-size="12">Human authority boundary</text>
+  </g>
+
+  <path class="flow" d="M545 142V164H297V178" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect class="lane" x="18" y="170" width="724" height="88" rx="8"/>
+  <text class="teal" x="36" y="196" font-size="12" font-weight="750" letter-spacing="1">DELIVERY</text>
+  <g class="node">
+    <rect class="delivery" x="190" y="184" width="214" height="60" rx="7" stroke-width="1.5"/>
+    <circle class="teal" cx="214" cy="214" r="14"/><text x="214" y="219" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="750">3</text>
+    <text class="ink" x="238" y="209" font-size="17" font-weight="700">Design</text>
+    <text class="muted" x="238" y="230" font-size="12">Approach and contracts</text>
+  </g>
+  <path class="flow" d="M404 214H432" stroke-width="2" marker-end="url(#arrow)"/>
+  <g class="node">
+    <rect class="delivery" x="438" y="184" width="214" height="60" rx="7" stroke-width="1.5"/>
+    <circle class="teal" cx="462" cy="214" r="14"/><text x="462" y="219" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="750">4</text>
+    <text class="ink" x="486" y="209" font-size="17" font-weight="700">Build</text>
+    <text class="muted" x="486" y="230" font-size="12">Code and change</text>
+  </g>
+
+  <path class="flow" d="M545 244V266H231V280" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect class="lane" x="18" y="272" width="724" height="98" rx="8"/>
+  <text class="amber" x="36" y="298" font-size="12" font-weight="750" letter-spacing="1">ASSURANCE</text>
+  <g class="node compact">
+    <rect class="assurance" x="148" y="286" width="170" height="70" rx="7" stroke-width="1.5"/>
+    <circle class="amber" cx="170" cy="321" r="14"/><text x="170" y="326" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="750">5</text>
+    <text class="ink" x="193" y="316" font-size="15" font-weight="700">Test + evaluate</text>
+    <text class="muted" x="193" y="337" font-size="12">Acceptance evidence</text>
+  </g>
+  <path class="flow" d="M318 321H334" stroke-width="2" marker-end="url(#arrow)"/>
+  <g class="node compact">
+    <rect class="assurance" x="340" y="286" width="170" height="70" rx="7" stroke-width="1.5"/>
+    <circle class="amber" cx="362" cy="321" r="14"/><text x="362" y="326" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="750">6</text>
+    <text class="ink" x="385" y="316" font-size="15" font-weight="700">Independent QA</text>
+    <text class="muted" x="385" y="337" font-size="12">Different identity</text>
+  </g>
+  <path class="flow" d="M510 321H526" stroke-width="2" marker-end="url(#arrow)"/>
+  <g class="node compact">
+    <rect class="assurance" x="532" y="286" width="190" height="70" rx="7" stroke-width="1.5"/>
+    <circle class="amber" cx="554" cy="321" r="14"/><text x="554" y="326" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="750">7</text>
+    <text class="ink" x="577" y="316" font-size="15" font-weight="700">Release Gate</text>
+    <text class="muted" x="577" y="337" font-size="12">Readiness record only</text>
+  </g>
+
+  <rect class="rail" x="18" y="390" width="724" height="52" rx="8" stroke-width="1.5"/>
+  <text class="muted" x="36" y="412" font-size="11" font-weight="750" letter-spacing="1">PROJECT REPOSITORY · DURABLE EVIDENCE</text>
+  <text class="ink" x="36" y="431" font-size="13" font-weight="650">Scope · decisions · contracts · revision · tests · evaluation · QA · approval</text>
+  <path class="flow" d="M627 356V384" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+</svg>

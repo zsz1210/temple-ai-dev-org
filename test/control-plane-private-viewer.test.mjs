@@ -360,8 +360,8 @@ test("private Temple Workspace is redacted, refresh-only, and cannot reach Inbox
   assert.doesNotMatch(page.body, /<h2>Agent Commands/);
   assert.match(page.body, /data-nav-target="usage"/);
   assert.match(page.body, /data-nav-target="organization"/);
-  assert.match(page.body, /Who is part of this project\?/);
-  assert.match(page.body, /Where are resources going\?/);
+  assert.match(page.body, /Who is responsible, and with what authority\?/);
+  assert.match(page.body, /What did the organization consume\?/);
   assert.doesNotMatch(page.body, /data-nav-target="inbox"|data-nav-target="commands"|id="view-inbox"|id="view-commands"/);
   assert.doesNotMatch(page.body, new RegExp(controlPlane.sessionSecret));
 

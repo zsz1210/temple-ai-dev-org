@@ -51,15 +51,7 @@ Temple does not replace Jira, GitHub Projects, Figma, existing specifications, o
 
 ## One request through Temple
 
-```text
-Clarify the outcome
-  → approve the scope
-  → design the approach
-  → build
-  → test and evaluate
-  → independently verify
-  → record release readiness
-```
+![One Temple Work Item moves from human direction through engineering delivery and independent assurance while durable evidence accumulates in the project repository.](docs/assets/temple-delivery-path.en.svg)
 
 For each request, Temple keeps one bounded unit of work, the context and methods it needs, its owner, its handoffs, and the evidence required for the next stage. Safe independent work may run in parallel; dependent work rejoins through exact revisions and an explicit integration owner.
 
@@ -69,9 +61,9 @@ The decisions, evidence, and reusable learning remain in the repository so anoth
 
 | Profile | Use it when | What changes |
 |---|---|---|
-| **Solo** | One person is directing AI-assisted development | A few Agent Identities cover several responsibilities; development and Independent QA stay separate. |
-| **Collaborative** | Several people operate their own agents | Sponsorship, eligible responsibility pools, claims, disciplines, resources, and integration ownership become explicit. |
-| **High-Assurance** | The work has higher operational or business risk | Identity separation, risk-scaled evidence, rollback readiness, and distinct human approvals become stricter. |
+| **[Solo](docs/concepts/terminology.md#solo)** | One person is directing AI-assisted development | A few Agent Identities cover several responsibilities; development and Independent QA stay separate. |
+| **[Collaborative](docs/concepts/terminology.md#collaborative)** | Several people operate their own agents | Sponsorship, eligible responsibility pools, claims, disciplines, resources, and integration ownership become explicit. |
+| **[High-Assurance](docs/concepts/terminology.md#high-assurance)** | The work has higher operational or business risk | Identity separation, risk-scaled evidence, rollback readiness, and distinct human approvals become stricter. |
 
 Solo is the most thoroughly validated profile today. Collaborative and High-Assurance contracts are implemented and locally tested, but real large-scale multi-human and multi-machine qualification remains open.
 
@@ -92,10 +84,10 @@ Any Position can have no active worker, one default worker, or a larger eligible
 
 | Temple term | Plain meaning |
 |---|---|
-| **Position** | A stable contract for responsibility and approval boundaries. |
-| **Agent Identity** | A project-specific person or AI that can perform work. |
-| **Work Item** | One bounded outcome with scope, ownership, state, and acceptance evidence. |
-| **Evidence** | A revision-linked record that supports a test, review, approval, or delivery claim. |
+| **[Position](docs/concepts/terminology.md#position)** | A stable contract for responsibility and approval boundaries. |
+| **[Agent Identity](docs/concepts/terminology.md#agent-identity)** | A project-specific person or AI that can perform work. |
+| **[Work Item](docs/concepts/terminology.md#work-item)** | One bounded outcome with scope, ownership, state, and acceptance evidence. |
+| **[Evidence](docs/concepts/terminology.md#evidence)** | A revision-linked record that supports a test, review, approval, or delivery claim. |
 
 A Skill is a reusable engineering method. It can guide how work is performed, but it cannot grant authority, approve a dependency, or bypass a lifecycle gate.
 
@@ -117,22 +109,22 @@ npm link
 
 ### 2. Initialize a project
 
-Open the Temple repository in Codex and ask:
+Open the Temple repository in Codex and ask. The `$name` form tells Codex to use a [Temple Core Skill](docs/getting-started/core-skills.md); it is not a terminal command.
 
-> Use `$temple-init` to initialize `/absolute/path/to/my-project`. Propose English names for the Agent Identities and wait for my confirmation before writing files.
+> Use [`$temple-init`](docs/getting-started/core-skills.md#temple-init) to initialize `/absolute/path/to/my-project`. Propose English names for the Agent Identities and wait for my confirmation before writing files.
 
 Temple adds a visible operating layer to the target project:
 
-- `TEMPLE.md` and Position configurations define responsibility and authority boundaries.
-- `.ai-org/` stores project-owned identities, Work Items, context routes, evidence, learning, and rebuildable views.
-- `templew.mjs` and `temple.lock` pin framework execution and exact managed-file ownership.
-- Core Skills provide repeatable methods while project-specific Skills remain project-owned.
+- [`TEMPLE.md`](docs/concepts/terminology.md#temple-md) and Position configurations define responsibility and authority boundaries.
+- [`.ai-org/`](docs/concepts/terminology.md#ai-org) stores project-owned identities, Work Items, context routes, evidence, learning, and rebuildable views.
+- [`templew.mjs`](docs/concepts/terminology.md#templew) and [`temple.lock`](docs/concepts/terminology.md#temple-lock) pin framework execution and exact managed-file ownership.
+- [Core Skills](docs/getting-started/core-skills.md) provide repeatable methods while project-specific Skills remain project-owned.
 
 ### 3. Start the first Work Item
 
 Inside the initialized project, ask:
 
-> Use `$decision-interview` to clarify this change, then use `$temple-work` to create the smallest Work Item that can be independently verified.
+> Use [`$decision-interview`](docs/getting-started/core-skills.md#decision-interview) to clarify this change, then use [`$temple-work`](docs/getting-started/core-skills.md#temple-work) to create the smallest Work Item that can be independently verified.
 
 Then inspect the project locally:
 
@@ -162,6 +154,8 @@ Current claims come from automated repository checks and bounded validation reco
 
 | I want to… | Start here |
 |---|---|
+| Understand Temple-specific terms | [Temple terminology](docs/concepts/terminology.md) |
+| Understand the `$name` methods used in prompts | [Temple Core Skills](docs/getting-started/core-skills.md) |
 | Understand the full operating model | [Vision](docs/concepts/vision.md) |
 | Inspect the system and engineering boundaries | [Architecture](docs/concepts/architecture.md) |
 | Install, adopt, or upgrade Temple | [Usage guide](docs/getting-started/usage.md) |

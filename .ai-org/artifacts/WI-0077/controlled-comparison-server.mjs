@@ -87,7 +87,7 @@ function materializeSnapshot(fixture) {
 
 function materializeProposal(fixture, proposalSource) {
   const historicalEvent = escapeHtml(fixture.semantic_cases.historical_provider_failure.event_name);
-  const historyRow = `<article class="history-row" data-controlled-fixture="historical-provider-failure"><time>Aug 31 · 09:30</time><div class="history-copy"><strong>${historicalEvent}</strong><p>Historical Provider failure · resolved · no current action</p></div><span class="chip">Resolved</span></article>`;
+  const historyRow = `<article class="history-row" data-history-row data-history-kind="audit" data-outcome="done" data-controlled-fixture="historical-provider-failure"><time>Aug 31 · 09:30</time><div class="history-copy"><strong>${historicalEvent}</strong><p>Historical Provider failure · resolved · no current action</p></div><span class="chip">Resolved</span></article>`;
   return proposalSource
     .replaceAll("WI-0077 design preview · not production", "Controlled comparison · proposal · not production")
     .replaceAll("Preview scenario · historical activity replay", "Controlled fixture · active Worker")
@@ -99,7 +99,7 @@ function materializeProposal(fixture, proposalSource) {
     .replaceAll("Historical replay · not current state", "Controlled fixture · current execution")
     .replaceAll("Simulated for review", "Controlled fixture")
     .replace('id="scenario" aria-label="Preview scenario"', 'id="scenario" aria-label="Controlled fixture scenario" disabled')
-    .replace('<div class="pagination"><span>Showing 1–4 of 68</span>', `${historyRow}<div class="pagination"><span>Showing 1–5 of ${fixture.snapshot.live_observer.timeline.length}</span>`);
+    .replace('<div class="history-empty" id="history-empty" hidden>', `${historyRow}<div class="history-empty" id="history-empty" hidden>`);
 }
 
 function comparisonIndex(fixture) {

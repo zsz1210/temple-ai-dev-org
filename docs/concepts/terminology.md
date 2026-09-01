@@ -1,0 +1,191 @@
+# Temple terminology
+
+Temple reuses familiar software-development words but gives some of them precise project-local meanings. This guide is the human-facing map. Schemas, policy files, and operating guides remain authoritative for machine validation and detailed behavior.
+
+## How to read the vocabulary
+
+- **Temple-specific name:** a framework concept that should not be inferred from ordinary English alone.
+- **Precisely used software term:** a familiar word with an explicit Temple boundary.
+- **Repository surface:** a file or directory with a defined ownership or authority role.
+
+## People and responsibility
+
+<a id="human-principal"></a>
+
+### Human Principal
+
+The human identity that holds business authority and sponsors AI work in a project. A Human Principal may approve only within the authority the project records; the term does not mean manager, repository administrator, or permanent superuser.
+
+<a id="position"></a>
+
+### Position
+
+A stable responsibility contract such as Product Manager, Developer, or Independent QA. It describes expected work and approval boundaries. A Position is not a person, job title, reporting rank, or running Agent.
+
+<a id="agent-identity"></a>
+
+### Agent Identity
+
+A project-specific identity for a person or AI that may perform work. Display names can change or repeat; the stable identity ID is what connects Assignments, claims, handoffs, and evidence.
+
+<a id="assignment"></a>
+
+### Assignment
+
+The project's current default mapping from a Position to an Agent Identity. It answers who normally covers the responsibility; it does not prove that the Agent is online or currently owns a Work Item.
+
+<a id="position-membership"></a>
+
+### Position Membership
+
+An eligibility record used when several people or Agents can cover the same Position. Qualification and lifecycle status determine whether that membership can be used. It is broader than one default Assignment and narrower than business authority.
+
+<a id="discipline"></a>
+
+### Discipline
+
+A bounded specialization used for routing work inside a Position, such as frontend or backend development. A Discipline narrows expertise; it never expands the Position's authority.
+
+## Work and verification
+
+<a id="work-item"></a>
+
+### Work Item
+
+One durable, bounded outcome with scope, state, owner, affected paths, dependencies, and acceptance evidence. It is Temple's lifecycle unit—not a chat title, not necessarily an external issue, and not the same thing as a Codex task.
+
+<a id="claim"></a>
+
+### Claim
+
+A time-bounded record that an eligible Agent Identity is actively responsible for a Work Item in a specific checkout and revision context. It supports coordination but is not a distributed lock across machines.
+
+<a id="handoff"></a>
+
+### Handoff
+
+An evidence-bearing transfer from one Position to the next. It records completed responsibility, input revision, and supporting files. A chat message saying “done” is not a durable handoff.
+
+<a id="evidence"></a>
+
+### Evidence
+
+A normalized record that supports a claim about a known revision or environment: for example a test result, runtime observation, review, approval, risk, or rollback check. Evidence supports a gate; it does not automatically satisfy that gate or prove more than its stated scope.
+
+<a id="independent-qa"></a>
+
+### Independent QA
+
+Verification by an Agent Identity different from the Developer for the same Work Item. It challenges the candidate against acceptance criteria and evidence. It is not the developer re-running their own checks under a different label.
+
+<a id="release-gate"></a>
+
+### Release Gate
+
+The final organizational decision about whether the verified candidate is ready to be released. A `go` result records readiness; it does not itself deploy, publish, push, spend money, or perform another external action.
+
+## Operating profiles
+
+<a id="solo"></a>
+
+### Solo
+
+One human directs AI-assisted development. A small number of Agent Identities may cover several Positions, while Developer and Independent QA remain separate for the same work. Solo does not mean “no governance.”
+
+<a id="collaborative"></a>
+
+### Collaborative
+
+Several humans and their Agents share the project. Sponsorship, eligible Position pools, memberships, claims, resources, overlaps, and integration ownership become explicit. Collaborative does not require a fixed team size or one person per Position.
+
+<a id="high-assurance"></a>
+
+### High-Assurance
+
+A stricter profile for higher-risk work. It scales identity separation, revision-matched evidence, rollback readiness, and distinct human approvals by risk tier. It does not claim regulatory certification or authorize production action by itself.
+
+## Learning and reusable methods
+
+<a id="lesson"></a>
+
+### Lesson
+
+A project-owned observation captured from work and evidence. One Lesson is not automatically a rule, instruction, or Skill.
+
+<a id="practice"></a>
+
+### Practice
+
+A validated and revalidated working method derived from one or more Lessons, with an owner and bounded applicability. A Practice can inform future work but still does not grant authority.
+
+<a id="skill"></a>
+
+### Skill
+
+A reusable Agent method with a precise trigger, non-trigger, workflow, authority boundary, and completion condition. A Skill is not a Position, tool installation, project fact, or permission grant.
+
+<a id="skill-proposal"></a>
+
+### Skill Proposal
+
+A reviewable recommendation to turn validated project learning into a Skill. Approval may authorize a separate authoring Work Item; it does not create, activate, publish, or promote the Skill automatically.
+
+## Repository truth and ownership
+
+<a id="canonical-source"></a>
+
+### Canonical source
+
+The repository file whose contents have authority for a specific subject. Derived dashboards, external observations, and old chats may help explain current state, but they do not outrank the named canonical source.
+
+<a id="project-owned"></a>
+
+### Project-owned
+
+State the adopting project controls and preserves across Temple upgrades, such as its Agent Identities, Assignments, Work Items, evidence, and local extensions.
+
+<a id="framework-managed"></a>
+
+### Framework-managed
+
+An exact file listed in `temple.lock.managed_files` whose clean framework version Temple may upgrade. An allowed directory is not automatically framework-owned, and checksum drift must fail closed instead of overwriting project changes.
+
+<a id="generated-view"></a>
+
+### Generated view
+
+A rebuildable projection created from canonical sources for people or tools to inspect. A generated view may be deleted and rebuilt; editing it does not change lifecycle authority.
+
+## What Temple adds to a project
+
+<a id="temple-md"></a>
+
+### `TEMPLE.md`
+
+The project's human-readable entry to its installed AI development organization and operating boundaries.
+
+<a id="ai-org"></a>
+
+### `.ai-org/`
+
+The organization state area. It contains project-owned configuration and records, exact framework-managed files, evidence and artifacts, and rebuildable views; ownership is determined by the relevant contract, not by the directory name alone.
+
+<a id="templew"></a>
+
+### `templew.mjs`
+
+The repository launcher used to invoke the framework version pinned for that project. It prevents ordinary operation from silently depending on an unrelated global CLI version.
+
+<a id="temple-lock"></a>
+
+### `temple.lock`
+
+The installed framework contract that pins bootstrap information and exact managed-file ownership. It is not a general claim over every file below an allowed root.
+
+## Where to continue
+
+- [Vision and operating model](vision.md) explains how these concepts work together.
+- [Collaborative development](../operations/collaboration.md) explains multiple humans, sponsorship, memberships, and authority.
+- [Evidence and Observer](../operations/evidence-and-observer.md) explains revision-matched verification and projections.
+- [Engineering Learning Loop](../extensions/engineering-learning.md) explains Lesson, Practice, Skill Proposal, and promotion boundaries.
+- [Temple Core Skills](../getting-started/core-skills.md) explains the reusable methods invoked with `$name`.

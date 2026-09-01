@@ -1,0 +1,215 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0081",
+  "title": "Implement the approved Management Console with live project data",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-01T05:12:07.880Z",
+  "updated_at": "2026-09-01T06:30:14.098Z",
+  "scope": [
+    "Replace the current Temple Workspace presentation with the accepted WI-0077 whole-Console information architecture and visual language, driven exclusively by the existing real control-plane snapshot and SSE refresh path.",
+    "Keep the home-LAN surface private, read-only, redacted, and GET-only; retain local Inbox and Agent Commands only on loopback.",
+    "Do not infer lifecycle, execution, impediment, authority, cost, savings, or model quality when the snapshot does not provide evidence."
+  ],
+  "acceptance_criteria": [
+    "Overview, Work, Team, Usage, System, and History render current repository facts without hardcoded preview Work Items, Agents, Token totals, or scenarios.",
+    "The shell follows the accepted WI-0077 preview direction at wide, tablet, and mobile widths and remains keyboard accessible with reduced-motion support.",
+    "Private LAN HTML and snapshots expose no Inbox, Agent Commands, session secret, Principal details, sponsorships, authority grants, or mutation route.",
+    "Snapshot refresh and SSE coalescing preserve current navigation, selection, filters, and focus where applicable.",
+    "Focused control-plane tests, full local verification, and real-browser review pass before handoff."
+  ],
+  "affected_paths": [
+    "src/control-plane-dashboard.mjs",
+    "test/control-plane-foundation.test.mjs",
+    "test/control-plane-private-viewer.test.mjs",
+    "test/control-plane-inbox.test.mjs",
+    ".ai-org/artifacts/WI-0081"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [
+    {
+      "id": "UI-0002",
+      "revision": "ui-1"
+    }
+  ],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "preview-first",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [
+    "general-development"
+  ],
+  "stage_requirements": {
+    "build": {
+      "disciplines": [
+        "general-development"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": "agent-rikku",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0029 is unclaimed and remains at Test with its real-command validation boundary unchanged. WI-0081 is the sole current editor of the shared Dashboard renderer and focused presentation tests; it must preserve all Agent Command transport, privacy, redaction, draft-preservation, and local-only authority behavior."
+  ],
+  "claim": {
+    "id": "claim-20260901062714-51b5efee",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-09-01T06:27:14.604Z",
+    "released_at": "2026-09-01T06:30:14.098Z",
+    "release_reason": [
+      "Aligned the collapsed tablet sidebar icons independently of count badges; focused and full verification passed."
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260901052152-712f5196",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-01T05:21:52.320Z",
+      "released_at": "2026-09-01T05:29:55.408Z",
+      "release_reason": [
+        "Local implementation and preview review are complete; release the shared main-worktree claim until an exact candidate revision is prepared for Independent QA."
+      ]
+    },
+    {
+      "id": "claim-20260901055939-28338398",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-01T05:59:39.152Z",
+      "released_at": "2026-09-01T06:13:23.607Z",
+      "release_reason": [
+        "Completed the approved human-interface correction pass, full local verification, and real-browser responsive review; release the shared worktree claim pending an exact candidate revision and Independent QA."
+      ]
+    },
+    {
+      "id": "claim-20260901061413-a23805af",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-01T06:14:13.607Z",
+      "released_at": "2026-09-01T06:17:04.792Z",
+      "release_reason": [
+        "Completed the approved responsive Management Console UI pass and verified the final lifecycle-versus-execution presentation."
+      ]
+    },
+    {
+      "id": "claim-20260901062302-e88cab02",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T06:23:02.250Z",
+      "released_at": "2026-09-01T06:26:00.200Z",
+      "release_reason": [
+        "Corrected Overview spacing and information density after reproducing the user's 1750x1145 screenshot; focused and full verification passed."
+      ]
+    },
+    {
+      "id": "claim-20260901062714-51b5efee",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T06:27:14.604Z",
+      "released_at": "2026-09-01T06:30:14.098Z",
+      "release_reason": [
+        "Aligned the collapsed tablet sidebar icons independently of count badges; focused and full verification passed."
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0081.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0081/owner-authorization.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/work-orders/WI-0081.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0081/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0081/risk-review.md"
+    ],
+    "ui_brief": [
+      ".ai-org/artifacts/WI-0081/ui-brief.md"
+    ],
+    "preview_artifact": [
+      ".ai-org/artifacts/WI-0077/management-console-preview.html"
+    ],
+    "review_record": [
+      ".ai-org/artifacts/WI-0077/preview-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0081/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/work-orders/WI-0081.md",
+    ".ai-org/artifacts/WI-0081/owner-authorization.md",
+    ".ai-org/artifacts/WI-0081/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0081/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0081/technical-design.md",
+    ".ai-org/artifacts/WI-0081/risk-review.md",
+    ".ai-org/artifacts/WI-0081/ui-brief.md",
+    ".ai-org/artifacts/WI-0077/management-console-preview.html",
+    ".ai-org/artifacts/WI-0077/preview-review.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "artifact": ".ai-org/artifacts/WI-0081/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-01T05:13:26.958Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "artifact": ".ai-org/artifacts/WI-0081/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-01T05:13:37.955Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "artifact": ".ai-org/artifacts/WI-0081/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-01T05:13:38.915Z"
+    }
+  ]
+}

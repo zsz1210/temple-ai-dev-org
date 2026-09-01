@@ -15,6 +15,7 @@
 - [Deterministic mixed-state fixture](controlled-usability-fixture.json)
 - [Local comparison harness](controlled-comparison-server.mjs)
 - [Human usability test and evaluator key](human-usability-test.md)
+- [Owner-led usability observation](human-usability-observation-2026-09-01.md)
 
 Run `node .ai-org/artifacts/WI-0077/controlled-comparison-server.mjs --port 0` from the repository root. The harness uses the production renderer for the baseline and the contract-checked design preview for the proposal. It binds to loopback by default and does not mutate project state.
 

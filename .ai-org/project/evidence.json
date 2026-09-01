@@ -11057,6 +11057,160 @@
         "exit_code": 0,
         "started_at": "2026-08-31T23:44:41Z"
       }
+    },
+    {
+      "id": "EVID-20260901T052955Z-74BDE29E",
+      "work_item_id": "WI-0081",
+      "recorded_at": "2026-09-01T05:29:55.112Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "unverified-claim",
+      "title": "Explicitly unverified claim",
+      "outcome": "unverified",
+      "scope_revision": null,
+      "observed_at": "2026-09-01T05:29:55.112Z",
+      "summary": "The live Management Console passed local focused, full-suite, and responsive browser checks.",
+      "adapter": {
+        "id": "manual-unverified-claim",
+        "version": "1"
+      },
+      "artifacts": [],
+      "details": {
+        "reason": "The implementation is still an uncommitted working tree, so the observations cannot yet be bound honestly to an exact candidate revision.",
+        "expected_verification": "Commit the approved implementation, then repeat focused tests, full verification, and browser review at that exact revision before Independent QA."
+      }
+    },
+    {
+      "id": "EVID-20260901T053508Z-4D7E0324",
+      "work_item_id": "WI-0082",
+      "recorded_at": "2026-09-01T05:35:08.452Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA pass for Temple terminology and Core Skills documentation",
+      "outcome": "pass",
+      "scope_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "observed_at": "2026-09-01T05:34:56.000Z",
+      "summary": "Independent QA verified the exact nine-path documentation candidate in a fresh detached worktree: 257 of 257 tests passed, local links resolved, SVGs parsed, and concurrent WI-0077/WI-0079/WI-0081 changes were excluded.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0082/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0082/independent-qa-observation.json",
+          "sha256": "66aa990f93d8f45fa584aa0d097f0dc6bbba38f5549c3411cf5d0616930a0013"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0082/independent-qa-report.md",
+          "sha256": "fbbb51206471f8a52c267b9a43ebf50241db2af79b42b4769d271a848692a630"
+        }
+      ],
+      "details": {
+        "command": [
+          "create a fresh detached worktree at revision 8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+          "apply exactly the nine public WI-0082 documentation paths",
+          "npm run verify",
+          "remove the temporary worktree"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-01T05:33:15.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260901T060940Z-4086B1E4",
+      "work_item_id": "WI-0082",
+      "recorded_at": "2026-09-01T06:09:40.695Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Language-native README rewrite independent verification",
+      "outcome": "pass",
+      "scope_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "observed_at": "2026-09-01T06:08:03.000Z",
+      "summary": "Traditional Chinese and Japanese READMEs and delivery diagrams were independently verified in an isolated candidate; 257 of 257 tests passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0082/localization-independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0082/localization-independent-qa-observation.json",
+          "sha256": "f1c8b234e93e7e6a1ffbea188b519ad5419b82f3cfa143f4e3ace7b16815ef48"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0082/localization-independent-qa-report.md",
+          "sha256": "ba44dfa60c1c7f1f141067012295511d14572dcd7b38f7706b62859534c2e309"
+        }
+      ],
+      "details": {
+        "command": [
+          "create a fresh detached worktree at revision 8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+          "copy exactly the nine public WI-0082 documentation paths from the current candidate",
+          "npm run verify",
+          "remove the temporary worktree"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-01T06:07:08.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260901T063203Z-DCCB03D6",
+      "work_item_id": "WI-0082",
+      "recorded_at": "2026-09-01T06:32:03.159Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Traditional Chinese editorial independent QA",
+      "outcome": "pass",
+      "scope_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+      "observed_at": "2026-09-01T06:30:03.000Z",
+      "summary": "Native Traditional Chinese editorial review, GitHub-style desktop and mobile rendering, link and SVG checks, and an isolated 257-of-257 full-suite verification passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0082/traditional-chinese-editorial-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0082/traditional-chinese-editorial-observation.json",
+          "sha256": "93eaa044c6d19097369495181dd55a4723757ff5ec99ecba4ab77a80d4709614"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0082/traditional-chinese-editorial-report.md",
+          "sha256": "7da8cde8d66e072d6138eaa63d3a656d6eefc0fcea331c84f5f17fde1c48a224"
+        }
+      ],
+      "details": {
+        "command": [
+          "review the complete Traditional Chinese README and localized diagrams as native technical writing",
+          "render the GitHub-GFM preview at 1280 x 1000 and 390 x 844 in Chromium",
+          "create a fresh detached worktree at revision 8a7afd309e408c9257680f339d1c26cfc3ac6f88",
+          "copy exactly the nine public WI-0082 documentation paths from the current candidate",
+          "npm run verify",
+          "remove the temporary worktree"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-01T06:26:16.000Z"
+      }
     }
   ]
 }

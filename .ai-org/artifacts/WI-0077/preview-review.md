@@ -49,14 +49,16 @@
 - The interface contains no lock emoji, lock symbol, or lock icon. View-only state uses an eye icon plus text.
 - After the mobile top-bar correction, both `document.documentElement.scrollWidth` and `document.body.scrollWidth` equal `window.innerWidth` at 320 CSS px.
 - Browser inspection again reported zero console errors and zero warnings after the motion, System-tab, and responsive checks.
+- The owner diagnostic exposed three trust defects: the review button looked capable of starting an Agent, repeated `WI-0077` references made supporting UI ownership look like Work Item responsibility, and Usage looked like a live total despite containing one preserved observation.
+- The refined preview labels the review control as details-only, names the Work Item owner and Human review authority, separates supporting artifact ownership, and labels Usage as recorded rather than live or account-wide.
 
 ## Known prototype limits
 
-- Navigation and tab selection are demonstrable, but most filters and selected Work Item content are illustrative rather than data-driven.
+- Navigation and tab selection are demonstrable. History search and local type/outcome filters work against the fixed preview records; other filters and selected Work Item content remain illustrative rather than data-driven.
 - The local/private selector demonstrates access treatment; it does not grant or exercise authority.
 - Running and just-updated scenarios are review fixtures, not a live runtime feed.
 - The prototype uses a bounded set of current repository examples and does not prove large-data performance.
-- Visual review is not user-task validation. The task-based validation plan remains required before claiming usability improvement.
+- One owner-led task session produced directional findings but stopped after Proposal T3. It is not a timed comparison or a usability-improvement claim.
 
 ## Review boundary
 

@@ -1,0 +1,38 @@
+{
+  "schema_version": "temple.archify-preview-receipt/v1",
+  "work_item_id": "WI-0079",
+  "diagram_type": "architecture",
+  "tool": {
+    "repository": "tt-a1i/archify",
+    "tag": "v2.15.0",
+    "commit": "e1ac748f19cf805e44bf74fb93c796662152e273",
+    "license": "MIT",
+    "adapter_status": "installed"
+  },
+  "source": {
+    "path": ".ai-org/artifacts/WI-0079/temple-engineering.architecture.json",
+    "sha256": "166f79a6d03e05a145fe379e82139161a8a6a45c1e1144b03da491c65f96d081",
+    "bytes": 6486
+  },
+  "artifact": {
+    "path": ".ai-org/artifacts/WI-0079/temple-engineering.html",
+    "sha256": "f78a59f13fc42fcdd3c167df6472e266925d46e7ba409a792a38f5d6eba4092f",
+    "bytes": 644591
+  },
+  "validation": {
+    "profile": "showcase",
+    "checks_passed": 9,
+    "checks_total": 9,
+    "errors": 0,
+    "warnings": 0,
+    "composition_status": "pass"
+  },
+  "visual_review": {
+    "desktop": "passed",
+    "narrow": "failed",
+    "overall": "failed",
+    "correction_rounds": 2,
+    "reason": "The 390px viewer contains the page but clips part of the top control and cannot show the complete nine-node map at a glance."
+  },
+  "external_action_performed": false
+}
