@@ -46,6 +46,15 @@ Those results explain the candidate history but do not qualify the post-baseline
 
 The final documentation and evidence reconciliation commit must remain green before a tag is proposed for approval. Tag creation itself remains an unperformed external action.
 
+## Verified requalified evidence
+
+- Exact technical candidate `5b01b4f4b0022d0334edf0ca2a7304e16f4d4e96` passed 270 tests under local Node.js `v22.23.2` and `v24.20.0`, the installed-Chrome gate, schema validation, Doctor, production and complete dependency audits, package review, and clean exact-tarball consumer smoke under both supported majors.
+- The allowlisted package contains 307 files. The exact tarball SHA-256 is `4e27969ffd16e865cb669ea62008061a8b02ffdca4ceedf592db8f873b1f0c4c`.
+- Each clean consumer completed version, install, init, idempotent re-init, project launcher, status, and Doctor with 36 pass, 0 warning, and 0 failure.
+- A fresh detached Node.js 24 QA worktree repeated all 270 tests and the installed-Chrome four-viewport, six-view, reduced-motion gate at the exact technical candidate.
+- Private integration head `d55314f1dbb7ca0e26f1960bb0f7a10d72b14509` contains the technical candidate plus repository-only verification evidence. GitHub Actions run [`33570955370`](https://github.com/zsz1210/temple-ai-dev-org/actions/runs/33570955370) passed Node.js 22 job `100064577716` and Node.js 24 job `100064577877`; the browser step passed only in the intended Node.js 24 full lane.
+- User-owned `.playwright-cli/` and `output/playwright/**` remained untracked and outside the package. No visibility, repository-setting, tag, GitHub Release, announcement, or npm action was performed.
+
 ## Human and external gates
 
 The following cannot be satisfied by the maintainer's automated candidate run:

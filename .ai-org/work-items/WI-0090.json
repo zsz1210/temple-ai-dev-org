@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0090",
   "title": "Requalify Alpha.29 after final integrations",
-  "state": "eval",
-  "owner_position": "quality_evaluator",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-01T23:15:37.043Z",
-  "updated_at": "2026-09-01T23:25:15.350Z",
+  "updated_at": "2026-09-01T23:34:31.540Z",
   "scope": [
     "Integrate the completed WI-0088 real-browser regression gate and WI-0089 outcome-first task-title work into one new Alpha.29 release candidate.",
     "Reconcile changelog and release-readiness claims, verify the exact package and supported Node.js matrix, push the completed local history, and retain the existing Human and public-action blockers.",
@@ -51,14 +51,14 @@
     "WI-0086 remains the blocked parent for Human and public-release gates. WI-0090 is the sequential integration owner for CHANGELOG.md, docs/planning/release-readiness.md, and docs/validation/alpha-29-public-release-candidate.md after WI-0088 and WI-0089; it may reconcile and push the private candidate but cannot perform visibility, settings, tag, Release, announcement, or npm actions."
   ],
   "claim": {
-    "id": "claim-20260901232401-74ad36cb",
+    "id": "claim-20260901233431-cbb8b64d",
     "status": "active",
     "principal_id": "human",
     "agent_id": "agent-lulu",
     "base_revision": "5b01b4f4b0022d0334edf0ca2a7304e16f4d4e96",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-09-01T23:24:01.279Z",
+    "claimed_at": "2026-09-01T23:34:31.540Z",
     "released_at": null
   },
   "claims": [
@@ -112,13 +112,25 @@
     },
     {
       "id": "claim-20260901232401-74ad36cb",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-lulu",
       "base_revision": "5b01b4f4b0022d0334edf0ca2a7304e16f4d4e96",
       "branch": "main",
       "worktree": null,
       "claimed_at": "2026-09-01T23:24:01.279Z",
+      "released_at": "2026-09-01T23:34:31.192Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901233431-cbb8b64d",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "5b01b4f4b0022d0334edf0ca2a7304e16f4d4e96",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T23:34:31.540Z",
       "released_at": null
     }
   ],
@@ -147,6 +159,9 @@
     ],
     "test_evidence": [
       ".ai-org/artifacts/WI-0090/quality-report.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0090/evaluation-report.md"
     ]
   },
   "evidence": [
@@ -161,10 +176,13 @@
     ".ai-org/artifacts/WI-0090/handoff-004-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0090/developer-verification.md",
     ".ai-org/artifacts/WI-0090/developer-test-observation.json",
-    ".ai-org/artifacts/WI-0090/quality-report.md"
+    ".ai-org/artifacts/WI-0090/quality-report.md",
+    ".ai-org/artifacts/WI-0090/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0090/evaluation-report.md",
+    "https://github.com/zsz1210/temple-ai-dev-org/actions/runs/33570955370"
   ],
   "unresolved": [],
-  "next_position": "independent_qa",
+  "next_position": "release_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -193,6 +211,13 @@
       "input_revision": "5b01b4f4b0022d0334edf0ca2a7304e16f4d4e96",
       "artifact": ".ai-org/artifacts/WI-0090/handoff-004-developer-to-quality_evaluator.md",
       "created_at": "2026-09-01T23:24:00.606Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "5b01b4f4b0022d0334edf0ca2a7304e16f4d4e96",
+      "artifact": ".ai-org/artifacts/WI-0090/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-01T23:34:30.843Z"
     }
   ],
   "developer_candidate_revision": "5b01b4f4b0022d0334edf0ca2a7304e16f4d4e96"

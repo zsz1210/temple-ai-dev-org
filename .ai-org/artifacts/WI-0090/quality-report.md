@@ -21,6 +21,8 @@
 
 Focused Node.js 24 quality tests passed 29/29 across the browser contract, package contract, title behavior, lifecycle gates, and upgrade safety.
 
-## Remaining gate
+## Hosted result
 
-Hosted CI cannot pass before the private candidate is pushed. Quality approves the candidate for that bounded external write and requires the resulting Node.js 22 and 24 jobs, including the Node.js 24 browser lane, before Independent QA or internal closeout.
+The authorized private push produced GitHub Actions run `33570955370` at integration head `d55314f1dbb7ca0e26f1960bb0f7a10d72b14509`. Node.js 22 job `100064577716` and Node.js 24 job `100064577877` passed. The browser gate passed in the Node.js 24 full lane and remained skipped in Node.js 22 as designed.
+
+Quality approves the candidate for Independent QA. This result does not approve a public action.

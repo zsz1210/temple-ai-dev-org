@@ -10,9 +10,9 @@
 | Supported Node.js majors pass | Separate Node.js 22 and 24 complete verification and consumer smoke | Pass |
 | Real-browser behavior passes | Installed Chrome four-viewport, six-view, reduced-motion result | Pass |
 | Dependency and license boundary passes | Two zero-vulnerability audits and Playwright Core notice/package exclusion | Pass |
-| Pushed candidate and hosted CI agree | Cannot be evaluated until the authorized private push | Pending |
+| Pushed candidate and hosted CI agree | Private integration head `d55314f`; GitHub Actions run `33570955370`; both Node jobs passed and the browser gate ran only under Node.js 24 | Pass |
 | Public release remains unperformed | Repository and evidence review | Pass |
 
 ## Decision
 
-The technical candidate is suitable for a private push. Final acceptance remains conditional on exact-revision hosted CI and separate Independent QA. This decision authorizes no public action and does not satisfy the independent new-user, moderation-route, repository-protection, or Human release gates retained by WI-0086.
+Pass to Independent QA. The exact technical candidate passed locally, the private integration head passed hosted CI, and the distinction between technical readiness and public authority remains intact. This decision authorizes no public action and does not satisfy the independent new-user, moderation-route, repository-protection, or Human release gates retained by WI-0086.
