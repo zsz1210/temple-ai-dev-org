@@ -28,7 +28,10 @@
       "required": ["recommendation_status", "recommendation_mode", "execution_status", "automatic_routing", "budget_can_skip_gates", "model_switch_performed", "approval_mode", "routine_human_approval_required", "approval_triggers"],
       "properties": {
         "recommendation_status": { "enum": ["not-qualified", "available"] },
+        "recommendation_source": { "type": ["string", "null"], "enum": ["matched-evaluation", "observational-shadow", null] },
         "recommendation_mode": { "enum": ["shadow", "advisory", "automatic"] },
+        "shadow_recommendation": { "type": "object" },
+        "matched_advisory": { "type": "object" },
         "execution_status": { "const": "not-implemented" },
         "automatic_routing": { "const": false },
         "budget_can_skip_gates": { "const": false },

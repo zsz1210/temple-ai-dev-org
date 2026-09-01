@@ -68,7 +68,7 @@ import {
 } from "./learning.mjs";
 import { evaluateRetrieval, readRetrievalConfig } from "./retrieval.mjs";
 import { evaluatePolicy } from "./policy-evaluation.mjs";
-import { buildUsageBaseline, buildUsagePreflight } from "./usage-attribution.mjs";
+import { buildUsageBaseline, buildUsagePreflight, evaluateMatchedModelFixture } from "./usage-attribution.mjs";
 import { installArchifyAdapter, inspectArchifyAdapter } from "./archify-adapter.mjs";
 import { listTasks, registerTask, updateTask } from "./tasks.mjs";
 import {
@@ -196,6 +196,7 @@ Usage:
   temple evaluation run [target] --fixture path [--no-write] [--json]
   temple usage report [target] [--state-dir path] [--no-write] [--json]
   temple usage preflight [target] [--state-dir path] [--probe-codex-account] [--json]
+  temple usage evaluate [target] --fixture .ai-org/evaluations/model/name.json [--no-write] [--json]
   temple adapter archify-status [target] [--json]
   temple adapter archify-install [target] --source local-git-checkout [--json]
   temple handoff [target] --work-item WI-0001 --to position --input-revision ref --completed text --evidence ref
@@ -1420,6 +1421,21 @@ async function runEvaluation(parsed) {
 
 async function runUsage(parsed) {
   const target = await assertSafeTarget(parsed.target);
+  if (parsed.action === "evaluate") {
+    if (!parsed.options["--fixture"]) throw new Error("usage evaluate requires --fixture");
+    const report = await evaluateMatchedModelFixture(target, parsed.options["--fixture"]);
+    if (parsed.flags.has("--json")) console.log(JSON.stringify(report, null, 2));
+    else {
+      console.log(`Matched evaluation: ${report.status}`);
+      console.log(`Evaluation: ${report.evaluation_id ?? "unknown"}; task shape: ${report.task_shape ?? "unknown"}`);
+      console.log(`Recommendation: ${report.recommended_profile_id ?? "none"}; confidence: ${report.confidence}`);
+      console.log(`Reason: ${report.reason}`);
+      console.log("Automatic model routing: disabled");
+      console.log("Provider call: not performed");
+      console.log("Canonical state changed: no");
+    }
+    return ["available", "qualified-shadow"].includes(report.status) ? 0 : report.status === "invalid" ? 1 : 2;
+  }
   if (parsed.action === "preflight") {
     const report = await buildUsagePreflight(target, {
       stateDirectory: parsed.options["--state-dir"],
@@ -1432,6 +1448,7 @@ async function runUsage(parsed) {
       console.log(`Live / terminal registered tasks: ${report.task_topology.live_resumable} / ${report.task_topology.terminal}`);
       console.log(`Detailed observations: ${report.detailed_thread_usage.observations}; baseline: ${report.baseline_qualification.status}`);
       console.log(`Account probe: ${report.account_usage.availability} (${report.account_usage.scope}, ${report.account_usage.allocation})`);
+      console.log(`Matched advisory: ${report.routing.matched_advisory.status}`);
       console.log(`Next: ${report.recommended_next_action}`);
       console.log("Automatic model routing: disabled");
       console.log("Canonical state changed: no");
@@ -1452,6 +1469,7 @@ async function runUsage(parsed) {
     console.log(`Live / historical-only tasks: ${coverage.task_eligibility.live_resumable} / ${coverage.task_eligibility.historical_only}`);
     console.log(`Correlated Work Items: ${coverage.detailed_token_observation_coverage.correlated_work_items}/${coverage.qualification.required_correlated_work_items}; remaining: ${coverage.qualification.remaining_correlated_work_items}`);
     console.log(`Driver groups: ${report.driver_groups.length}; monetary cost: ${report.totals.cost_status}`);
+    console.log(`Matched advisory: ${report.routing.matched_advisory.status}`);
     console.log("Automatic model routing: disabled");
     console.log("Lifecycle gate changed: no");
   }

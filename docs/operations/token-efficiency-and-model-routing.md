@@ -1,6 +1,6 @@
 # Token Efficiency and Model Routing
 
-- Status: Alpha.27 exposes telemetry qualification, project-owned usage policy, progressive calibration state, and low-confidence shadow candidates; matched evaluation and routing execution remain unavailable
+- Status: the current implementation exposes telemetry qualification, project-owned usage policy, progressive calibration, low-confidence shadow candidates, and project-configured matched-evaluation advisories; evaluation execution and model-routing execution remain unavailable
 - Primary readers: maintainers, Engineering Managers, Tech Leads, Observers, and cost-accountable humans
 
 Temple treats Token usage as an operational signal. The goal is not the smallest prompt or the cheapest individual turn. The goal is a correct, accepted Work Item with less waste, rework, latency, and coordination cost.
@@ -112,9 +112,27 @@ Qualification is deliberately strict. A Work Item contributes only when it is cu
 
 The default ten-Work-Item count is only a **diagnostic observation threshold**. It is not a universal sample-size claim and never qualifies automatic routing. NIST notes that a defensible sample size depends on assumptions such as variance, meaningful effect, and decision risks; there is no correct context-free number. See [NIST sample-size guidance](https://www.itl.nist.gov/div898/handbook/prc/section2/prc222.htm).
 
-Even when the exploratory candidate is available, its confidence is `low`, its evidence basis is `accepted-closeout-token-observation-only`, and `matched_evaluation` remains false. Different Work Items can differ in difficulty, so lower observed Tokens do not prove superior model quality or causal savings. Savings, cost, model-quality, and routing claims remain disabled until the project configures a statistical decision contract and produces matched quality evidence.
+Even when the exploratory candidate is available, its confidence is `low`, its evidence basis is `accepted-closeout-token-observation-only`, and `matched_evaluation` remains false. Different Work Items can differ in difficulty, so lower observed Tokens do not prove superior model quality or causal savings. Savings, cost, model-quality, and routing claims remain disabled unless the project separately configures a statistical decision contract and produces matched quality evidence.
 
-The report places this observation at `source.longitudinal_coverage.recommendation`. The top-level `routing` contract remains `not-implemented` and fully disabled because Alpha.27 does not add routing authority. `usage preflight` mirrors the exploratory object under `routing.recommendation` for read-only inspection.
+The report places this observation at `source.longitudinal_coverage.recommendation` and mirrors it at `routing.shadow_recommendation`. A separately configured matched result appears at `routing.matched_advisory`, with `routing.recommendation_source` identifying which source is currently presented. The top-level routing executor remains `not-implemented`: every result has zero routing authority and cannot change a task or model.
+
+## Evaluate project-owned matched evidence
+
+Temple can evaluate an existing project-owned comparison without launching a model:
+
+```bash
+node ./templew.mjs usage evaluate . \
+  --fixture .ai-org/evaluations/model/example.json \
+  --no-write --json
+```
+
+To include an evaluation in ordinary `usage report` and `usage preflight` output, list its repository-relative path under `calibration.matched_evaluation.sources` in `.ai-org/project/usage-policy.json`. Temple reads only those explicitly configured JSON files below `.ai-org/evaluations/model/`; it does not scan for candidates, follow a symlink outside the repository, or promote a preview fixture into canonical evidence.
+
+The current evaluator supports the versioned `paired-sign-test-v1` method and the `balanced` policy objective. The policy's statistical status must be `satisfied`, and the evaluation's method, minimum effect, alpha, power, and pilot variance must exactly match the project policy. This is a reproducibility contract, not a claim that one method or case count is universally correct.
+
+Every candidate must use the same exact task shape, rubric, case IDs, input digests, and source revisions. Requested and effective provider, model, and reasoning evidence must also match a configured Seed Policy profile. Temple first rejects any candidate that misses the quality threshold. Only then does it compare paired Token use and apply the configured minimum effect and exact two-sided sign test; latency, rework, human intervention, and profile ID are deterministic tie-breakers.
+
+The evaluation document contains structured scores, numeric resource measures, bounded evidence references, and provenance. Raw prompts, responses, hidden reasoning, credentials, and raw provider payloads are prohibited. Expired, mismatched, incomplete, unsafe, or privacy-invalid evidence fails closed. A qualified result in `shadow` mode remains a shadow result; `advisory` mode permits a read-only recommendation only. Even a policy value of `automatic` does not activate an executor in this release.
 
 ## Check whether a real baseline is possible
 
@@ -140,7 +158,7 @@ The detailed source reports one of four states:
 
 Completed tasks and tasks attached to `done` or `cancelled` Work Items remain eligible for bounded history reconciliation, but Temple never resumes them as live subscriptions. Archived tasks remain detached from Provider reconciliation. Registering a Codex task does not itself create or take ownership of a live task.
 
-`usage preflight` uses the same completed-Work-Item qualification as `usage report`; a first Token observation is still `not-qualified`. If the threshold is met it includes the same exploratory candidate and all authority-denial flags. It never changes a model setting.
+`usage preflight` uses the same completed-Work-Item qualification as `usage report`; a first Token observation is still `not-qualified`. If the threshold is met it includes the same exploratory candidate. It also evaluates the project-configured matched sources and exposes their status separately. Both paths include authority-denial flags and never change a model setting.
 
 An optional account capability probe must be requested explicitly:
 
@@ -232,7 +250,7 @@ Temple's project policy uses an **exception-only autonomy envelope**:
 - routine, reversible, local-only work inside approved scope, configured budget, provider allowlist, and confidence boundary proceeds automatically;
 - approval is required only for external spend, external writes, irreversible action, deployment or release, privacy-boundary changes, an unapproved provider or model, budget exceedance, high-risk low-confidence decisions, or a policy change.
 
-This does not remove lifecycle evidence or separation of duties. It removes redundant per-task approval for ordinary in-envelope decisions. In this release, routing execution is still not implemented, so a shadow recommendation cannot switch a model even when no approval is needed to inspect it.
+This does not remove lifecycle evidence or separation of duties. It removes redundant per-task approval for ordinary in-envelope decisions. In this release, routing execution is still not implemented, so neither a shadow candidate nor a matched advisory can switch a model even when no approval is needed to inspect it.
 
 ## Model-routing contract
 
@@ -279,7 +297,7 @@ Model choice is promoted only after representative evaluations compare:
 - latency and human intervention;
 - monetary cost when a user-approved versioned price source exists.
 
-The current release shows observations, calibration blockers, and shadow recommendations. Opt-in automatic routing follows only after the project has reproducible matched evaluation evidence, configured statistical assumptions, and a safe fallback. Adaptive self-modifying routing is later scope.
+The current release shows observations, calibration blockers, shadow candidates, and read-only results from explicitly configured matched-evaluation files. It does not run the evaluation cases or apply the recommendation. Opt-in automatic routing requires a separately implemented executor, a project-approved autonomy boundary, reproducible evidence, and a safe fallback. Adaptive self-modifying routing is later scope.
 
 ## Cost and pricing boundary
 
@@ -304,7 +322,7 @@ Usage reporting retains bounded identifiers and numeric measurements. It does no
 3. **Reporting — longitudinal coverage implemented:** `usage report` compares canonical Work Items, registered task eligibility, exact correlated observations, revision freshness, task shapes, and per-field support.
 4. **Provider-owned execution — locally implemented, live proof pending:** fake App Server tests enforce thread creation, canonical registration, and then turn start without prompt retention or automatic retry.
 5. **Policy foundation — implemented:** project-owned Seed Policy, data scope, Credits provenance, progressive calibration state, and exception-only autonomy are schema-validated without automatic switching.
-6. **Recommendation — exploratory shadow observation implemented:** after the diagnostic threshold, display a low-confidence candidate with explicit non-authority. Matched representative evaluation and statistical qualification remain pending.
+6. **Recommendation — matched advisory evaluator implemented:** keep unmatched longitudinal observations as low-confidence shadow candidates; evaluate explicitly configured project-local matched evidence with a quality-first statistical contract and explicit non-authority. Real representative evaluation data remains project work rather than a framework claim.
 7. **Opt-in routing — later:** apply an approved route, record the effective configuration, and preserve fallback and refusal evidence.
 
 None of these slices changes lifecycle authority or replaces outcome-based evaluation.

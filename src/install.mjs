@@ -392,6 +392,7 @@ export async function executeInit(plan) {
         redacted_audit_export: true,
         usage_qualification: true,
         progressive_usage_calibration: true,
+        matched_model_advisory: true,
         exception_only_autonomy: true,
         provider_attach_outcomes: true,
         repository_federation: true,

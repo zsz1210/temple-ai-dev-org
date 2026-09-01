@@ -12,13 +12,17 @@ import {
 } from "../src/policy-evaluation.mjs";
 import { classifyCodexTasks, normalizeCodexMessage } from "../src/codex-app-server-provider.mjs";
 import {
+  buildMatchedModelAdvisory,
   buildUsageBaselineFromRecords,
   buildUsagePreflightFromRecords,
+  evaluateMatchedModelEvaluation,
   probeCodexAccountUsage,
-  readUsageTelemetryHistory
+  readUsageTelemetryHistory,
+  validateMatchedModelEvaluation
 } from "../src/usage-attribution.mjs";
 import { defaultControlPlaneConfig } from "../src/control-plane-config.mjs";
 import { openTelemetryJournal } from "../src/telemetry.mjs";
+import { defaultUsagePolicy, validateUsagePolicy } from "../src/usage-policy.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const cli = path.join(root, "bin/temple.mjs");
@@ -68,6 +72,100 @@ async function fixture(context) {
     await fs.copyFile(path.join(fixtureRoot, `${profile}.json`), path.join(evaluationDirectory, `${profile}.json`));
   }
   return { target, stateDirectory };
+}
+
+function matchedUsagePolicy(options = {}) {
+  const policy = defaultUsagePolicy({
+    profileMappings: [
+      { id: "mechanical-fast", provider_id: "codex-local", model: "gpt-5.6-luna", reasoning_effort: "medium" },
+      { id: "lightweight-quality", provider_id: "codex-local", model: "gpt-5.6-luna", reasoning_effort: "max" },
+      { id: "standard", provider_id: "codex-local", model: "gpt-5.6-terra", reasoning_effort: "medium" },
+      { id: "critical-planning", provider_id: "codex-local", model: "gpt-5.6-sol", reasoning_effort: "xhigh" }
+    ]
+  });
+  policy.calibration.state = "calibrating";
+  policy.calibration.recommendation_mode = options.mode ?? "advisory";
+  policy.calibration.statistical_qualification = {
+    status: "satisfied",
+    method: "paired-sign-test-v1",
+    minimum_effect: 0.1,
+    alpha: 0.05,
+    power: 0.8,
+    pilot_variance: 100
+  };
+  policy.calibration.matched_evaluation.sources = options.sources ?? [];
+  return policy;
+}
+
+function matchedEvaluationDocument(options = {}) {
+  const caseIds = Array.from({ length: 6 }, (_, index) => `case-${index + 1}`);
+  const makeCases = (profile) => caseIds.map((caseId, index) => ({
+    case_id: caseId,
+    input_digest: `sha256:${(index + 1).toString(16).padStart(64, "0")}`,
+    source_revision: "matched-source-revision",
+    quality_score: profile === "standard" ? 0.92 : 0.9,
+    quality_evidence_refs: [`.ai-org/evidence/${profile}-${caseId}.json`],
+    total_tokens: profile === "standard" ? 100 + index : 70 + index,
+    latency_ms: profile === "standard" ? 1000 + index : 800 + index,
+    rework_count: 0,
+    human_intervention_count: 0
+  }));
+  const document = {
+    schema_version: "temple.matched-model-evaluation/v1",
+    evaluation_id: options.evaluationId ?? "matched-model-fixture",
+    project_id: options.projectId ?? "policy-product",
+    observed_at: "2026-08-31T00:00:00.000Z",
+    expires_at: "2026-12-01T00:00:00.000Z",
+    task_shape: {
+      position_id: "developer",
+      lifecycle_stage: "build",
+      task_kind: "implementation",
+      risk_class: "standard",
+      context_profile_digest: `sha256:${"a".repeat(64)}`
+    },
+    rubric: {
+      id: "repository-quality-v1",
+      revision: "quality-1",
+      required_case_ids: caseIds,
+      minimum_score: 0.8
+    },
+    decision_contract: {
+      method: "paired-sign-test-v1",
+      minimum_effect: 0.1,
+      alpha: 0.05,
+      power: 0.8,
+      pilot_variance: 100
+    },
+    baseline_profile_id: "standard",
+    candidates: [
+      {
+        profile_id: "standard",
+        provider_id: "codex-local",
+        requested_model: "gpt-5.6-terra",
+        effective_model: "gpt-5.6-terra",
+        requested_reasoning_effort: "medium",
+        effective_reasoning_effort: "medium",
+        cases: makeCases("standard")
+      },
+      {
+        profile_id: "lightweight-quality",
+        provider_id: "codex-local",
+        requested_model: "gpt-5.6-luna",
+        effective_model: "gpt-5.6-luna",
+        requested_reasoning_effort: "max",
+        effective_reasoning_effort: "max",
+        cases: makeCases("lightweight-quality")
+      }
+    ],
+    privacy: {
+      raw_prompts_retained: false,
+      responses_retained: false,
+      hidden_reasoning_retained: false,
+      credentials_retained: false,
+      raw_provider_payloads_retained: false
+    }
+  };
+  return document;
 }
 
 test("the adversarial catalog covers the seven Phase 4B failure classes", async () => {
@@ -723,6 +821,142 @@ test("ten completed revision-current Work Items qualify one deterministic read-o
   assert.equal(preflight.policy.calibration.statistical_qualification_status, "unconfigured");
   assert.equal(preflight.routing.automatic_routing, false);
   assert.equal(preflight.routing.budget_can_skip_gates, false);
+});
+
+test("matched evaluation qualifies an advisory only after quality and paired resource evidence", () => {
+  const project = { id: "policy-product", name: "Policy Product" };
+  const policy = matchedUsagePolicy();
+  const document = matchedEvaluationDocument();
+  assert.deepEqual(validateUsagePolicy(policy), { valid: true, errors: [] });
+  assert.deepEqual(validateMatchedModelEvaluation(document), { valid: true, errors: [] });
+
+  const result = evaluateMatchedModelEvaluation(project, document, policy, {
+    source: ".ai-org/evaluations/model/matched.json",
+    now: new Date("2026-09-01T00:00:00.000Z")
+  });
+  assert.equal(result.status, "available");
+  assert.equal(result.recommended_profile_id, "lightweight-quality");
+  assert.equal(result.baseline_profile_id, "standard");
+  assert.equal(result.confidence, "project-qualified");
+  assert.equal(result.matched_evaluation, true);
+  assert.equal(result.candidates.find((candidate) => candidate.profile_id === "lightweight-quality").sign_test_p_value, 0.03125);
+  assert.equal(result.candidates.find((candidate) => candidate.profile_id === "lightweight-quality").qualified, true);
+  assert.equal(result.routing_authority, false);
+  assert.equal(result.automatic_routing, false);
+  assert.equal(result.model_switch_performed, false);
+  assert.equal(result.provider_call_performed, false);
+
+  const sources = [{ source: ".ai-org/evaluations/model/matched.json", document, error: null }];
+  const advisory = buildMatchedModelAdvisory(project, sources, policy, { now: new Date("2026-09-01T00:00:00.000Z") });
+  assert.equal(advisory.status, "available");
+  assert.equal(advisory.recommendations.length, 1);
+  const baseline = buildUsageBaselineFromRecords(project, [], {
+    usagePolicy: policy,
+    matchedEvaluationSources: sources,
+    now: new Date("2026-09-01T00:00:00.000Z")
+  });
+  assert.equal(baseline.baseline_status, "insufficient-data");
+  assert.equal(baseline.routing.recommendation_status, "available");
+  assert.equal(baseline.routing.recommendation_source, "matched-evaluation");
+  assert.equal(baseline.routing.matched_advisory.recommendations[0].recommended_profile_id, "lightweight-quality");
+  assert.equal(baseline.source.longitudinal_coverage.calibration.matched_evaluation_available, true);
+  assert.equal(baseline.routing.execution_status, "not-implemented");
+  assert.equal(baseline.routing.automatic_routing, false);
+
+  const preflight = buildUsagePreflightFromRecords(project, [], [], [], null, {
+    usagePolicy: policy,
+    matchedEvaluationSources: sources,
+    now: new Date("2026-09-01T00:00:00.000Z")
+  });
+  assert.equal(preflight.routing.recommendation_source, "matched-evaluation");
+  assert.match(preflight.recommended_next_action, /no model switch/i);
+  assert.equal(preflight.routing.automatic_routing, false);
+});
+
+test("matched evaluation rejects quality loss, drift, stale evidence, and unavailable advisory mode", () => {
+  const project = { id: "policy-product", name: "Policy Product" };
+  const policy = matchedUsagePolicy();
+
+  const qualityFailure = matchedEvaluationDocument({ evaluationId: "quality-failure" });
+  qualityFailure.candidates[1].cases[0].quality_score = 0.2;
+  const rejectedQuality = evaluateMatchedModelEvaluation(project, qualityFailure, policy, { now: new Date("2026-09-01T00:00:00.000Z") });
+  assert.equal(rejectedQuality.status, "not-qualified");
+  assert.equal(rejectedQuality.recommended_profile_id, null);
+  assert.ok(rejectedQuality.candidates.find((candidate) => candidate.profile_id === "lightweight-quality").rejection_reasons.includes("quality-gate-failed"));
+
+  const provenanceDrift = matchedEvaluationDocument({ evaluationId: "provenance-drift" });
+  provenanceDrift.candidates[1].cases[0].input_digest = `sha256:${"b".repeat(64)}`;
+  const rejectedDrift = evaluateMatchedModelEvaluation(project, provenanceDrift, policy, { now: new Date("2026-09-01T00:00:00.000Z") });
+  assert.equal(rejectedDrift.status, "invalid");
+  assert.equal(rejectedDrift.reason, "candidate-case-provenance-mismatch");
+
+  const stale = evaluateMatchedModelEvaluation(project, matchedEvaluationDocument({ evaluationId: "stale" }), policy, {
+    now: new Date("2027-01-01T00:00:00.000Z")
+  });
+  assert.equal(stale.status, "stale");
+  assert.equal(stale.recommended_profile_id, null);
+
+  const shadowPolicy = matchedUsagePolicy({ mode: "shadow" });
+  const shadow = evaluateMatchedModelEvaluation(project, matchedEvaluationDocument({ evaluationId: "shadow-only" }), shadowPolicy, {
+    now: new Date("2026-09-01T00:00:00.000Z")
+  });
+  assert.equal(shadow.status, "qualified-shadow");
+  assert.equal(shadow.recommended_profile_id, "lightweight-quality");
+  assert.equal(shadow.routing_authority, false);
+
+  const contractMismatch = matchedUsagePolicy();
+  contractMismatch.calibration.statistical_qualification.minimum_effect = 0.2;
+  const rejectedContract = evaluateMatchedModelEvaluation(project, matchedEvaluationDocument({ evaluationId: "contract-mismatch" }), contractMismatch, {
+    now: new Date("2026-09-01T00:00:00.000Z")
+  });
+  assert.equal(rejectedContract.status, "not-qualified");
+  assert.equal(rejectedContract.reason, "statistical-contract-mismatch");
+
+  const privacyEscape = matchedEvaluationDocument({ evaluationId: "privacy-escape" });
+  privacyEscape.raw_prompt = "must-not-be-accepted";
+  const privacyValidation = validateMatchedModelEvaluation(privacyEscape);
+  assert.equal(privacyValidation.valid, false);
+  assert.ok(privacyValidation.errors.includes("evaluation.raw_prompt is not allowed"));
+});
+
+test("usage evaluate previews configured repository evidence without writes or provider calls", async (context) => {
+  const { target } = await fixture(context);
+  const relative = ".ai-org/evaluations/model/matched.json";
+  const policy = matchedUsagePolicy({ sources: [relative] });
+  const policyPath = path.join(target, ".ai-org/project/usage-policy.json");
+  const evaluationPath = path.join(target, relative);
+  await writeJson(policyPath, policy);
+  await writeJson(evaluationPath, matchedEvaluationDocument());
+  const policyBefore = await fs.readFile(policyPath, "utf8");
+
+  const schemas = run(["schema", "validate", target, "--json"]);
+  assert.equal(schemas.status, 0, schemas.stderr || schemas.stdout);
+  const schemaReport = JSON.parse(schemas.stdout);
+  assert.ok(schemaReport.checked.some((entry) => entry.document === relative && entry.valid));
+
+  const preview = run(["usage", "evaluate", target, "--fixture", relative, "--no-write", "--json"]);
+  assert.equal(preview.status, 0, preview.stderr || preview.stdout);
+  const previewReport = JSON.parse(preview.stdout);
+  assert.equal(previewReport.status, "available");
+  assert.equal(previewReport.recommended_profile_id, "lightweight-quality");
+  assert.equal(previewReport.provider_call_performed, false);
+  assert.equal(previewReport.model_switch_performed, false);
+  assert.equal(await fs.readFile(policyPath, "utf8"), policyBefore);
+  await assert.rejects(() => fs.access(path.join(target, ".ai-org/views/usage-baseline.json")));
+
+  const report = run(["usage", "report", target, "--no-write", "--json"]);
+  assert.equal(report.status, 0, report.stderr || report.stdout);
+  const usage = JSON.parse(report.stdout);
+  assert.equal(usage.routing.matched_advisory.status, "available");
+  assert.equal(usage.routing.recommendation_source, "matched-evaluation");
+  assert.equal(usage.routing.automatic_routing, false);
+  assert.equal(await fs.readFile(policyPath, "utf8"), policyBefore);
+
+  const escaped = run(["usage", "evaluate", target, "--fixture", "../outside.json", "--no-write", "--json"]);
+  assert.equal(escaped.status, 1);
+  const escapedReport = JSON.parse(escaped.stdout);
+  assert.equal(escapedReport.status, "invalid");
+  assert.equal(escapedReport.reason, "unsafe-evaluation-source");
 });
 
 test("usage baseline sums provider deltas, preserves unknowns, and never invents cost or routing", async (context) => {

@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.28`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 82 total, 11 active
+- Work items: 83 total, 12 active
 - Codex tasks: 5 registered, 4 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -26,7 +26,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -129,6 +129,7 @@
 | WI-0080 | Redesign the human-facing README and overview diagram | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `de841e94` | 0 | 14 | 0 |
 | WI-0081 | Implement the approved Management Console with live project data | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | preview-first | 1 | 0 | 0 | — | `—` | 0 | 10 | 0 |
 | WI-0082 | Make Temple terms and Core Skills self-explanatory | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `8a7afd30` | 0 | 16 | 0 |
+| WI-0083 | Add matched model evaluation and advisory recommendations | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260901121823-0af25011 | `—` | 0 | 10 | 0 |
 
 ## Codex task registry
 
@@ -195,7 +196,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 15
+- Team-visible Work Items: 16
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -247,14 +248,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-01T06:32:08.023Z | work_item_claim_released | WI-0082 | human |
-| 2026-09-01T06:32:03.159Z | evidence_recorded | WI-0082 | human |
-| 2026-09-01T06:30:14.098Z | work_item_claim_released | WI-0081 | human |
-| 2026-09-01T06:27:14.604Z | work_item_claimed | WI-0081 | human |
-| 2026-09-01T06:26:00.200Z | work_item_claim_released | WI-0081 | human |
-| 2026-09-01T06:23:02.250Z | work_item_claimed | WI-0081 | human |
-| 2026-09-01T06:22:08.327Z | work_item_claimed | WI-0082 | human |
-| 2026-09-01T06:17:04.792Z | work_item_claim_released | WI-0081 | human |
+| 2026-09-01T12:18:23.120Z | work_item_claimed | WI-0083 | human |
+| 2026-09-01T12:18:22.796Z | work_item_coordination_configured | WI-0083 | agent-rikku |
+| 2026-09-01T12:18:22.492Z | work_item_transitioned | WI-0083 | agent-tidus |
+| 2026-09-01T12:18:22.186Z | work_item_claim_released | WI-0083 | human |
+| 2026-09-01T12:18:21.860Z | handoff_created | WI-0083 | agent-tidus |
+| 2026-09-01T12:15:02.097Z | work_item_claimed | WI-0083 | human |
+| 2026-09-01T12:15:01.790Z | work_item_coordination_configured | WI-0083 | agent-tidus |
+| 2026-09-01T12:15:01.481Z | work_item_transitioned | WI-0083 | agent-yuna |
 
 ## Assignments
 

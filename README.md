@@ -65,6 +65,16 @@ For each request, Temple keeps one bounded unit of work, the context and methods
 
 The decisions, evidence, and reusable learning remain in the repository so another person, AI, task, or machine can recover the current truth without treating an old conversation as authority.
 
+## Make Token use and model choice evidence-based
+
+When an execution environment exposes usage metadata, Temple can associate each Work Item's Token usage with its verified model when available, responsible Position, lifecycle stage, and outcome. This reveals usage drivers and may produce a low-confidence shadow candidate, but naturally completed tasks are not automatically comparable.
+
+A project can also register a **matched evaluation**: different model profiles attempt the same cases, for the same task shape and source revision, under one quality rubric. Temple applies the quality gate first, then compares Tokens, latency, rework, and human intervention. If the project's statistical decision contract also passes, Temple can expose a project-qualified, read-only advisory. A lower-Token candidate that fails quality cannot win.
+
+Temple does not run those evaluations through a provider, switch a task's model, rewrite project policy, or pool calibration data across projects. This repository currently has no configured matched-evaluation source, so Temple makes no real model recommendation for its own development yet. Automatic routing remains later work and requires separate execution, approval, fallback, and validation boundaries.
+
+See [Token efficiency and model routing](docs/operations/token-efficiency-and-model-routing.md) for the measurement, privacy, recommendation, and automation boundaries.
+
 ## One operating model at different scales
 
 | Profile | Use it when | What changes |
@@ -153,8 +163,8 @@ See the [usage guide](docs/getting-started/usage.md) for adoption, upgrades, sel
 | Status | Current boundary |
 |---|---|
 | **Available now** | Human-supervised Solo workflow, ten stable Positions with flexible Assignments, Work Items and lifecycle gates, deterministic context and capability routing, governed Skills and learning, evidence records, local status, and upgrade/recovery boundaries. |
-| **Experimental or bounded** | Collaborative and High-Assurance contracts, safe parallel planning, provider and usage observation, read-only tracker and portfolio coordination, and the local control plane have repository tests or bounded local validation—not general organizational qualification. |
-| **Planned or unverified** | Real large multi-human and multi-machine operation, production monitoring or remediation, unattended external writes, configured semantic retrieval, regulated acceptance, and broad enterprise proof. |
+| **Experimental or bounded** | Collaborative and High-Assurance contracts, safe parallel planning, provider status, per-Work-Item Token and model observation, low-confidence shadow candidates, project-configured matched-evaluation advisories, read-only tracker and portfolio coordination, and the local control plane have repository tests or bounded local validation—not general organizational qualification. |
+| **Planned or unverified** | Real large multi-human and multi-machine operation, production monitoring or remediation, unattended external writes, automatic model routing, cross-project learning, configured semantic retrieval, regulated acceptance, and broad enterprise proof. |
 
 Current claims come from automated repository checks and bounded validation records. They do not prove every enterprise topology, regulated audit, distributed race, or production deployment. Temple does not claim a percentage of time or tokens saved without a measured baseline.
 
@@ -169,6 +179,7 @@ Current claims come from automated repository checks and bounded validation reco
 | Install, adopt, or upgrade Temple | [Usage guide](docs/getting-started/usage.md) |
 | Coordinate several people and their AI agents | [Collaborative development](docs/operations/collaboration.md) |
 | Understand tests, evidence, and release readiness | [Evidence and Observer](docs/operations/evidence-and-observer.md) |
+| Understand Token usage and model calibration | [Token efficiency and model routing](docs/operations/token-efficiency-and-model-routing.md) |
 | Add or create engineering methods | [Capability catalog](docs/extensions/capability-catalog.md) and [Skill authoring](docs/extensions/skill-authoring.md) |
 | Understand learning and deliberate Skill promotion | [Engineering Learning Loop](docs/extensions/engineering-learning.md) |
 | See current limits and retained gates | [Roadmap](docs/planning/roadmap.md) and [Validation records](docs/validation/README.md) |

@@ -9,6 +9,9 @@ import { classifyCodexTasks, createJsonRpcProcess } from "./codex-app-server-pro
 import { listWorkItemDocuments } from "./work-items.mjs";
 import {
   defaultUsagePolicy,
+  MATCHED_EVALUATION_METHOD,
+  MATCHED_EVALUATION_ROOT,
+  matchedEvaluationPolicy,
   readUsagePolicy,
   usagePolicyProjection,
   validateUsagePolicy
@@ -51,6 +54,16 @@ const DEFAULT_ARCHIVE_LIMITS = {
   maxWarnings: 32
 };
 const archiveUsageFileCache = new Map();
+const MATCHED_EVALUATION_SCHEMA = "temple.matched-model-evaluation/v1";
+const MATCHED_ADVISORY_SCHEMA = "temple.matched-model-advisory/v1";
+const MAX_MATCHED_EVALUATION_BYTES = 1024 * 1024;
+const MATCHED_PRIVACY_FIELDS = [
+  "raw_prompts_retained",
+  "responses_retained",
+  "hidden_reasoning_retained",
+  "credentials_retained",
+  "raw_provider_payloads_retained"
+];
 
 function usageEventIdentity(record) {
   return `${record.source}\u0000${record.id}`;
@@ -82,6 +95,472 @@ function boundedString(value, field, options = {}) {
 
 function validDateTime(value) {
   return typeof value === "string" && value.length <= 64 && !Number.isNaN(Date.parse(value));
+}
+
+function exactObjectShape(value, label, keys, errors) {
+  if (value === null || typeof value !== "object" || Array.isArray(value)) {
+    errors.push(`${label} must be an object`);
+    return false;
+  }
+  const allowed = new Set(keys);
+  for (const key of keys) if (!Object.hasOwn(value, key)) errors.push(`${label}.${key} is required`);
+  for (const key of Object.keys(value)) if (!allowed.has(key)) errors.push(`${label}.${key} is not allowed`);
+  return true;
+}
+
+function boundedNonEmpty(value, maximum = 256) {
+  return typeof value === "string" && value.trim().length > 0 && value.length <= maximum && !/[\u0000-\u001f\u007f]/.test(value);
+}
+
+function uniqueBoundedStrings(values, minimum = 1, maximum = 256) {
+  return Array.isArray(values) && values.length >= minimum && values.length <= 1000 && values.every((value) => boundedNonEmpty(value, maximum)) && new Set(values).size === values.length;
+}
+
+function finiteRange(value, minimum, maximum, options = {}) {
+  if (typeof value !== "number" || !Number.isFinite(value)) return false;
+  if (options.integer && !Number.isSafeInteger(value)) return false;
+  if (options.exclusiveMinimum ? value <= minimum : value < minimum) return false;
+  if (options.exclusiveMaximum ? value >= maximum : value > maximum) return false;
+  return true;
+}
+
+function validSha256Digest(value) {
+  return typeof value === "string" && /^sha256:[a-f0-9]{64}$/.test(value);
+}
+
+export function validateMatchedModelEvaluation(document) {
+  const errors = [];
+  exactObjectShape(document, "evaluation", [
+    "schema_version",
+    "evaluation_id",
+    "project_id",
+    "observed_at",
+    "expires_at",
+    "task_shape",
+    "rubric",
+    "decision_contract",
+    "baseline_profile_id",
+    "candidates",
+    "privacy"
+  ], errors);
+  if (document?.schema_version !== MATCHED_EVALUATION_SCHEMA) errors.push(`schema_version must be ${MATCHED_EVALUATION_SCHEMA}`);
+  if (!boundedNonEmpty(document?.evaluation_id, 128) || !/^[a-z0-9][a-z0-9._-]*$/.test(document.evaluation_id)) errors.push("evaluation_id is invalid");
+  if (!boundedNonEmpty(document?.project_id)) errors.push("project_id is invalid");
+  if (!validDateTime(document?.observed_at)) errors.push("observed_at is invalid");
+  if (!validDateTime(document?.expires_at)) errors.push("expires_at is invalid");
+  if (validDateTime(document?.observed_at) && validDateTime(document?.expires_at) && Date.parse(document.expires_at) <= Date.parse(document.observed_at)) {
+    errors.push("expires_at must be after observed_at");
+  }
+
+  const shape = document?.task_shape;
+  exactObjectShape(shape, "task_shape", ["position_id", "lifecycle_stage", "task_kind", "risk_class", "context_profile_digest"], errors);
+  for (const field of ["position_id", "lifecycle_stage", "task_kind"]) if (!boundedNonEmpty(shape?.[field], 128)) errors.push(`task_shape.${field} is invalid`);
+  if (!["low", "standard", "high", "critical"].includes(shape?.risk_class)) errors.push("task_shape.risk_class is invalid");
+  if (!validSha256Digest(shape?.context_profile_digest)) errors.push("task_shape.context_profile_digest is invalid");
+
+  const rubric = document?.rubric;
+  exactObjectShape(rubric, "rubric", ["id", "revision", "required_case_ids", "minimum_score"], errors);
+  if (!boundedNonEmpty(rubric?.id) || !boundedNonEmpty(rubric?.revision)) errors.push("rubric identity is invalid");
+  if (!uniqueBoundedStrings(rubric?.required_case_ids, 2)) errors.push("rubric.required_case_ids must contain unique bounded case IDs");
+  if (!finiteRange(rubric?.minimum_score, 0, 1)) errors.push("rubric.minimum_score must be from 0 to 1");
+
+  const contract = document?.decision_contract;
+  exactObjectShape(contract, "decision_contract", ["method", "minimum_effect", "alpha", "power", "pilot_variance"], errors);
+  if (contract?.method !== MATCHED_EVALUATION_METHOD) errors.push(`decision_contract.method must be ${MATCHED_EVALUATION_METHOD}`);
+  for (const field of ["minimum_effect", "alpha", "power"]) {
+    if (!finiteRange(contract?.[field], 0, 1, { exclusiveMinimum: true, exclusiveMaximum: true })) errors.push(`decision_contract.${field} must be greater than 0 and less than 1`);
+  }
+  if (!finiteRange(contract?.pilot_variance, 0, Number.MAX_VALUE)) errors.push("decision_contract.pilot_variance must be non-negative");
+  if (!boundedNonEmpty(document?.baseline_profile_id, 128)) errors.push("baseline_profile_id is invalid");
+
+  const candidates = document?.candidates;
+  if (!Array.isArray(candidates) || candidates.length < 2 || candidates.length > 64) errors.push("candidates must contain 2 to 64 profiles");
+  const profileIds = [];
+  for (const [candidateIndex, candidate] of (Array.isArray(candidates) ? candidates : []).entries()) {
+    const label = `candidates[${candidateIndex}]`;
+    exactObjectShape(candidate, label, [
+      "profile_id",
+      "provider_id",
+      "requested_model",
+      "effective_model",
+      "requested_reasoning_effort",
+      "effective_reasoning_effort",
+      "cases"
+    ], errors);
+    for (const field of ["profile_id", "provider_id", "requested_model", "effective_model", "requested_reasoning_effort", "effective_reasoning_effort"]) {
+      if (!boundedNonEmpty(candidate?.[field], field === "profile_id" || field === "provider_id" ? 128 : 256)) errors.push(`${label}.${field} is invalid`);
+    }
+    profileIds.push(candidate?.profile_id);
+    if (!Array.isArray(candidate?.cases) || candidate.cases.length < 2 || candidate.cases.length > 1000) errors.push(`${label}.cases must contain 2 to 1000 cases`);
+    const caseIds = [];
+    for (const [caseIndex, item] of (Array.isArray(candidate?.cases) ? candidate.cases : []).entries()) {
+      const caseLabel = `${label}.cases[${caseIndex}]`;
+      exactObjectShape(item, caseLabel, [
+        "case_id",
+        "input_digest",
+        "source_revision",
+        "quality_score",
+        "quality_evidence_refs",
+        "total_tokens",
+        "latency_ms",
+        "rework_count",
+        "human_intervention_count"
+      ], errors);
+      if (!boundedNonEmpty(item?.case_id)) errors.push(`${caseLabel}.case_id is invalid`);
+      caseIds.push(item?.case_id);
+      if (!validSha256Digest(item?.input_digest)) errors.push(`${caseLabel}.input_digest is invalid`);
+      if (!boundedNonEmpty(item?.source_revision)) errors.push(`${caseLabel}.source_revision is invalid`);
+      if (!finiteRange(item?.quality_score, 0, 1)) errors.push(`${caseLabel}.quality_score must be from 0 to 1`);
+      if (!uniqueBoundedStrings(item?.quality_evidence_refs, 1, 1024)) errors.push(`${caseLabel}.quality_evidence_refs is invalid`);
+      for (const field of ["total_tokens", "latency_ms", "rework_count", "human_intervention_count"]) {
+        if (!finiteRange(item?.[field], 0, Number.MAX_SAFE_INTEGER, { integer: true })) errors.push(`${caseLabel}.${field} must be a non-negative integer`);
+      }
+    }
+    if (caseIds.some((value) => !boundedNonEmpty(value)) || new Set(caseIds).size !== caseIds.length) errors.push(`${label}.cases contains duplicate case IDs`);
+  }
+  if (profileIds.some((value) => !boundedNonEmpty(value, 128)) || new Set(profileIds).size !== profileIds.length) errors.push("candidates contains duplicate profile IDs");
+  if (boundedNonEmpty(document?.baseline_profile_id, 128) && !profileIds.includes(document.baseline_profile_id)) errors.push("baseline_profile_id does not reference a candidate");
+
+  const privacy = document?.privacy;
+  exactObjectShape(privacy, "privacy", MATCHED_PRIVACY_FIELDS, errors);
+  for (const field of MATCHED_PRIVACY_FIELDS) if (privacy?.[field] !== false) errors.push(`privacy.${field} must be false`);
+  return { valid: errors.length === 0, errors: [...new Set(errors)].sort() };
+}
+
+function taskShapeIdentity(shape) {
+  return [shape.position_id, shape.lifecycle_stage, shape.task_kind, shape.risk_class, shape.context_profile_digest].join(":");
+}
+
+function seedProfileForShape(policy, shape) {
+  const rule = policy.seed_policy.rules.find((entry) => entry.task_kinds.includes(shape.task_kind) && entry.risk_classes.includes(shape.risk_class));
+  return rule?.profile_id ?? policy.seed_policy.fallback_profile_id;
+}
+
+function roundMetric(value) {
+  return Number(value.toFixed(12));
+}
+
+function average(values) {
+  return values.reduce((total, value) => total + value, 0) / values.length;
+}
+
+function combination(n, k) {
+  const limit = Math.min(k, n - k);
+  let result = 1;
+  for (let index = 1; index <= limit; index += 1) result = (result * (n - limit + index)) / index;
+  return result;
+}
+
+function twoSidedSignTest(wins, losses) {
+  const pairs = wins + losses;
+  if (pairs === 0) return 1;
+  const extreme = Math.min(wins, losses);
+  let probability = 0;
+  for (let index = 0; index <= extreme; index += 1) probability += combination(pairs, index) / (2 ** pairs);
+  return roundMetric(Math.min(1, probability * 2));
+}
+
+function candidateAggregate(candidate, minimumScore) {
+  const cases = [...candidate.cases].sort((left, right) => left.case_id.localeCompare(right.case_id));
+  return {
+    profile_id: candidate.profile_id,
+    provider_id: candidate.provider_id,
+    requested_model: candidate.requested_model,
+    effective_model: candidate.effective_model,
+    requested_reasoning_effort: candidate.requested_reasoning_effort,
+    effective_reasoning_effort: candidate.effective_reasoning_effort,
+    cases,
+    case_count: cases.length,
+    quality_gate_passed: cases.every((item) => item.quality_score >= minimumScore),
+    average_quality_score: roundMetric(average(cases.map((item) => item.quality_score))),
+    average_total_tokens: roundMetric(average(cases.map((item) => item.total_tokens))),
+    average_latency_ms: roundMetric(average(cases.map((item) => item.latency_ms))),
+    average_rework_count: roundMetric(average(cases.map((item) => item.rework_count))),
+    average_human_intervention_count: roundMetric(average(cases.map((item) => item.human_intervention_count)))
+  };
+}
+
+function advisoryAuthorityFields(policy) {
+  return {
+    routing_authority: false,
+    automatic_routing_eligible: false,
+    automatic_routing: false,
+    model_switch_performed: false,
+    policy_change_performed: false,
+    provider_call_performed: false,
+    budget_can_skip_gates: false,
+    lifecycle_authority_granted: false,
+    approval_mode: policy.autonomy.mode,
+    approval_triggers: [...policy.autonomy.approval_triggers]
+  };
+}
+
+export function evaluateMatchedModelEvaluation(project, document, usagePolicy, options = {}) {
+  const policyValidation = validateUsagePolicy(usagePolicy);
+  if (!policyValidation.valid) throw new Error(`Invalid usage policy: ${policyValidation.errors.join("; ")}`);
+  const validation = validateMatchedModelEvaluation(document);
+  const base = {
+    schema_version: MATCHED_ADVISORY_SCHEMA,
+    evaluation_id: boundedNonEmpty(document?.evaluation_id, 128) ? document.evaluation_id : null,
+    source: options.source ?? null,
+    status: "invalid",
+    reason: validation.valid ? null : "invalid-evaluation-document",
+    errors: validation.errors,
+    task_shape: validation.valid ? taskShapeIdentity(document.task_shape) : null,
+    task_shape_dimensions: validation.valid ? { ...document.task_shape } : null,
+    observed_at: validation.valid ? document.observed_at : null,
+    expires_at: validation.valid ? document.expires_at : null,
+    baseline_profile_id: validation.valid ? document.baseline_profile_id : null,
+    recommended_profile_id: null,
+    fallback_profile_id: validation.valid ? seedProfileForShape(usagePolicy, document.task_shape) : usagePolicy.seed_policy.fallback_profile_id,
+    recommendation_mode: usagePolicy.calibration.recommendation_mode,
+    confidence: "none",
+    evidence_basis: "project-owned-matched-evaluation",
+    matched_evaluation: validation.valid,
+    statistical_qualification_status: usagePolicy.calibration.statistical_qualification.status,
+    candidates: [],
+    ...advisoryAuthorityFields(usagePolicy)
+  };
+  if (!validation.valid) return base;
+  if (document.project_id !== project.id) return { ...base, reason: "project-id-mismatch", errors: ["evaluation project does not match the current project"] };
+
+  const now = options.now instanceof Date ? options.now : new Date(options.now ?? Date.now());
+  const matchedPolicy = matchedEvaluationPolicy(usagePolicy);
+  const maximumAge = Date.parse(document.observed_at) + matchedPolicy.maximum_age_days * 24 * 60 * 60 * 1000;
+  const staleAt = Math.min(Date.parse(document.expires_at), maximumAge);
+  if (!Number.isFinite(now.getTime())) return { ...base, reason: "invalid-evaluation-time", errors: ["evaluation time is invalid"] };
+  if (now.getTime() > staleAt) return { ...base, status: "stale", reason: "evaluation-expired", errors: [] };
+  if (usagePolicy.objective !== "balanced") return { ...base, status: "not-qualified", reason: "unsupported-policy-objective", errors: [] };
+
+  const statistical = usagePolicy.calibration.statistical_qualification;
+  if (statistical.status !== "satisfied") {
+    return { ...base, status: "not-qualified", reason: `statistical-qualification-${statistical.status}`, errors: [] };
+  }
+  const contract = document.decision_contract;
+  const contractMatches =
+    contract.method === matchedPolicy.supported_method &&
+    contract.method === statistical.method &&
+    ["minimum_effect", "alpha", "power", "pilot_variance"].every((field) => contract[field] === statistical[field]);
+  if (!contractMatches) return { ...base, status: "not-qualified", reason: "statistical-contract-mismatch", errors: [] };
+
+  const profileById = new Map(usagePolicy.seed_policy.profiles.map((profile) => [profile.id, profile]));
+  for (const candidate of document.candidates) {
+    const profile = profileById.get(candidate.profile_id);
+    if (!profile) return { ...base, reason: "candidate-profile-not-in-seed-policy", errors: [`unknown profile ${candidate.profile_id}`] };
+    const mappingMatches =
+      boundedNonEmpty(profile.provider_id) &&
+      profile.provider_id === candidate.provider_id &&
+      profile.model === candidate.requested_model &&
+      profile.model === candidate.effective_model &&
+      profile.reasoning_effort === candidate.requested_reasoning_effort &&
+      profile.reasoning_effort === candidate.effective_reasoning_effort;
+    if (!mappingMatches) return { ...base, reason: "candidate-profile-mapping-mismatch", errors: [`profile mapping mismatch for ${candidate.profile_id}`] };
+  }
+
+  const requiredCaseIds = [...document.rubric.required_case_ids].sort((left, right) => left.localeCompare(right));
+  const aggregates = document.candidates.map((candidate) => candidateAggregate(candidate, document.rubric.minimum_score));
+  const baseline = aggregates.find((candidate) => candidate.profile_id === document.baseline_profile_id);
+  const baselineCases = new Map(baseline.cases.map((item) => [item.case_id, item]));
+  for (const candidate of aggregates) {
+    const ids = candidate.cases.map((item) => item.case_id);
+    if (JSON.stringify(ids) !== JSON.stringify(requiredCaseIds)) {
+      return { ...base, reason: "candidate-case-set-mismatch", errors: [`case set mismatch for ${candidate.profile_id}`] };
+    }
+    for (const item of candidate.cases) {
+      const expected = baselineCases.get(item.case_id);
+      if (!expected || item.input_digest !== expected.input_digest || item.source_revision !== expected.source_revision) {
+        return { ...base, reason: "candidate-case-provenance-mismatch", errors: [`case provenance mismatch for ${candidate.profile_id}:${item.case_id}`] };
+      }
+    }
+  }
+
+  const publicCandidate = (candidate, extra = {}) => ({
+    profile_id: candidate.profile_id,
+    provider_id: candidate.provider_id,
+    requested_model: candidate.requested_model,
+    effective_model: candidate.effective_model,
+    requested_reasoning_effort: candidate.requested_reasoning_effort,
+    effective_reasoning_effort: candidate.effective_reasoning_effort,
+    case_count: candidate.case_count,
+    quality_gate_passed: candidate.quality_gate_passed,
+    average_quality_score: candidate.average_quality_score,
+    average_total_tokens: candidate.average_total_tokens,
+    average_latency_ms: candidate.average_latency_ms,
+    average_rework_count: candidate.average_rework_count,
+    average_human_intervention_count: candidate.average_human_intervention_count,
+    ...extra
+  });
+
+  if (!baseline.quality_gate_passed) {
+    return {
+      ...base,
+      status: "not-qualified",
+      reason: "baseline-quality-gate-failed",
+      errors: [],
+      candidates: aggregates.map((candidate) => publicCandidate(candidate, { qualified: false, rejection_reasons: candidate.quality_gate_passed ? [] : ["quality-gate-failed"] }))
+    };
+  }
+  if (baseline.average_total_tokens <= 0) return { ...base, status: "not-qualified", reason: "baseline-total-tokens-not-positive", errors: [] };
+
+  const evaluated = [];
+  for (const candidate of aggregates) {
+    if (candidate.profile_id === baseline.profile_id) {
+      evaluated.push(publicCandidate(candidate, { qualified: false, baseline: true, token_reduction_ratio: 0, sign_test_p_value: null, wins: 0, losses: 0, ties: candidate.case_count, rejection_reasons: [] }));
+      continue;
+    }
+    let wins = 0;
+    let losses = 0;
+    let ties = 0;
+    for (const item of candidate.cases) {
+      const baselineCase = baselineCases.get(item.case_id);
+      if (item.total_tokens < baselineCase.total_tokens) wins += 1;
+      else if (item.total_tokens > baselineCase.total_tokens) losses += 1;
+      else ties += 1;
+    }
+    const effect = roundMetric((baseline.average_total_tokens - candidate.average_total_tokens) / baseline.average_total_tokens);
+    const probability = twoSidedSignTest(wins, losses);
+    const rejectionReasons = [
+      ...(candidate.quality_gate_passed ? [] : ["quality-gate-failed"]),
+      ...(effect >= contract.minimum_effect ? [] : ["minimum-effect-not-met"]),
+      ...(probability <= contract.alpha ? [] : ["sign-test-alpha-not-met"])
+    ];
+    evaluated.push(publicCandidate(candidate, {
+      qualified: rejectionReasons.length === 0,
+      baseline: false,
+      token_reduction_ratio: effect,
+      sign_test_p_value: probability,
+      wins,
+      losses,
+      ties,
+      rejection_reasons: rejectionReasons
+    }));
+  }
+  const qualified = evaluated
+    .filter((candidate) => candidate.qualified)
+    .sort((left, right) =>
+      left.average_total_tokens - right.average_total_tokens ||
+      left.average_latency_ms - right.average_latency_ms ||
+      left.average_rework_count - right.average_rework_count ||
+      left.average_human_intervention_count - right.average_human_intervention_count ||
+      left.profile_id.localeCompare(right.profile_id));
+  if (qualified.length === 0) return { ...base, status: "not-qualified", reason: "no-challenger-qualified", errors: [], candidates: evaluated };
+
+  const recommendationMode = usagePolicy.calibration.recommendation_mode;
+  return {
+    ...base,
+    status: recommendationMode === "shadow" ? "qualified-shadow" : "available",
+    reason: recommendationMode === "shadow" ? "recommendation-mode-shadow" : "matched-quality-and-resource-contract-satisfied",
+    errors: [],
+    recommended_profile_id: qualified[0].profile_id,
+    confidence: "project-qualified",
+    candidates: evaluated
+  };
+}
+
+function safeMatchedEvaluationPath(value) {
+  return typeof value === "string" && value.startsWith(MATCHED_EVALUATION_ROOT) && value.endsWith(".json") && !value.includes("\\") && path.posix.normalize(value) === value;
+}
+
+function matchedSourceError(error) {
+  if (error?.message === "unsafe-evaluation-source") return "unsafe-evaluation-source";
+  if (error?.message === "evaluation-source-too-large") return "evaluation-source-too-large";
+  if (error?.code === "ENOENT") return "evaluation-source-missing";
+  if (String(error?.message ?? "").startsWith("Invalid JSON")) return "evaluation-source-invalid-json";
+  return "evaluation-source-unavailable";
+}
+
+async function readMatchedEvaluationSource(target, source) {
+  if (!safeMatchedEvaluationPath(source)) throw new Error("unsafe-evaluation-source");
+  const repository = await fs.realpath(target);
+  const absolute = path.resolve(target, source);
+  const metadata = await fs.lstat(absolute);
+  if (!metadata.isFile() || metadata.isSymbolicLink()) throw new Error("unsafe-evaluation-source");
+  if (metadata.size > MAX_MATCHED_EVALUATION_BYTES) throw new Error("evaluation-source-too-large");
+  const real = await fs.realpath(absolute);
+  const relative = path.relative(repository, real);
+  if (!relative || relative.startsWith("..") || path.isAbsolute(relative)) throw new Error("unsafe-evaluation-source");
+  return readJson(real);
+}
+
+export async function readMatchedEvaluationSources(target, usagePolicy, options = {}) {
+  const policyValidation = validateUsagePolicy(usagePolicy);
+  if (!policyValidation.valid) throw new Error(`Invalid usage policy: ${policyValidation.errors.join("; ")}`);
+  const sources = options.sources ?? matchedEvaluationPolicy(usagePolicy).sources;
+  const output = [];
+  for (const source of [...new Set(sources)].sort((left, right) => left.localeCompare(right))) {
+    try {
+      output.push({ source, document: await readMatchedEvaluationSource(target, source), error: null });
+    } catch (error) {
+      output.push({ source, document: null, error: matchedSourceError(error) });
+    }
+  }
+  return output;
+}
+
+export function buildMatchedModelAdvisory(project, sourceEntries, usagePolicy, options = {}) {
+  const results = (sourceEntries ?? []).map((entry) => entry.error
+    ? {
+        schema_version: MATCHED_ADVISORY_SCHEMA,
+        evaluation_id: null,
+        source: entry.source,
+        status: "invalid",
+        reason: entry.error,
+        errors: [entry.error],
+        task_shape: null,
+        task_shape_dimensions: null,
+        observed_at: null,
+        expires_at: null,
+        baseline_profile_id: null,
+        recommended_profile_id: null,
+        fallback_profile_id: usagePolicy.seed_policy.fallback_profile_id,
+        recommendation_mode: usagePolicy.calibration.recommendation_mode,
+        confidence: "none",
+        evidence_basis: "project-owned-matched-evaluation",
+        matched_evaluation: false,
+        statistical_qualification_status: usagePolicy.calibration.statistical_qualification.status,
+        candidates: [],
+        ...advisoryAuthorityFields(usagePolicy)
+      }
+    : evaluateMatchedModelEvaluation(project, entry.document, usagePolicy, { ...options, source: entry.source }));
+  results.sort((left, right) => String(left.task_shape ?? "").localeCompare(String(right.task_shape ?? "")) || String(left.evaluation_id ?? left.source ?? "").localeCompare(String(right.evaluation_id ?? right.source ?? "")));
+  const recommendations = results.filter((result) => result.status === "available");
+  const shadowQualified = results.filter((result) => result.status === "qualified-shadow");
+  const status = recommendations.length > 0
+    ? "available"
+    : shadowQualified.length > 0
+      ? "qualified-shadow"
+      : results.length === 0
+        ? "not-configured"
+        : results.some((result) => result.status === "stale")
+          ? "stale"
+          : results.every((result) => result.status === "invalid")
+            ? "invalid"
+            : "not-qualified";
+  return {
+    schema_version: "temple.matched-model-advisory-set/v1",
+    status,
+    reason: status === "not-configured" ? "no-configured-matched-evaluation-sources" : status,
+    configured_sources: sourceEntries?.length ?? 0,
+    evaluated_sources: results.length,
+    qualified_sources: recommendations.length + shadowQualified.length,
+    invalid_sources: results.filter((result) => result.status === "invalid").length,
+    stale_sources: results.filter((result) => result.status === "stale").length,
+    recommendations,
+    shadow_qualified: shadowQualified,
+    results,
+    ...advisoryAuthorityFields(usagePolicy)
+  };
+}
+
+export async function evaluateMatchedModelFixture(target, fixturePath, options = {}) {
+  const [project, usagePolicyResult] = await Promise.all([
+    readJson(path.join(target, ".ai-org/project/project.json")),
+    readUsagePolicy(target)
+  ]);
+  const [source] = await readMatchedEvaluationSources(target, usagePolicyResult.policy, { sources: [fixturePath] });
+  return source.error
+    ? buildMatchedModelAdvisory(project, [source], usagePolicyResult.policy, options).results[0]
+    : evaluateMatchedModelEvaluation(project, source.document, usagePolicyResult.policy, { ...options, source: fixturePath });
 }
 
 function validSource(value) {
@@ -607,6 +1086,8 @@ function buildLongitudinalCoverage(workItems = [], tasks = [], usageRecords = []
   const explicitTaskShapeSamples = qualificationEvidence.samples.filter((sample) => sample.task_shape_source === "explicit");
   const thresholdMet = qualifiedWorkItemIds.length >= requiredWorkItems && qualifiedTaskShapes.length >= requiredTaskShapes;
   const recommendation = buildReadOnlyRecommendation(qualificationEvidence.samples, thresholdMet, usagePolicy);
+  const matchedAdvisory = options.matchedAdvisory ?? buildMatchedModelAdvisory({ id: options.projectId ?? "unknown" }, [], usagePolicy, options);
+  const matchedEvaluationAvailable = ["available", "qualified-shadow"].includes(matchedAdvisory.status);
   const statisticalStatus = usagePolicy.calibration.statistical_qualification.status;
   const promotionBlockers = [
     ...(thresholdMet ? [] : ["diagnostic-observation-threshold-not-met"]),
@@ -614,7 +1095,7 @@ function buildLongitudinalCoverage(workItems = [], tasks = [], usageRecords = []
       ? []
       : ["exact-task-shape-evidence-missing"]),
     ...(statisticalStatus === "satisfied" ? [] : [`statistical-qualification-${statisticalStatus}`]),
-    ...(recommendation.matched_evaluation ? [] : ["matched-quality-evaluation-missing"]),
+    ...(matchedEvaluationAvailable ? [] : ["matched-quality-evaluation-missing"]),
     ...(usagePolicy.calibration.recommendation_mode === "automatic" ? [] : [`recommendation-mode-${usagePolicy.calibration.recommendation_mode}`])
   ];
   const remainingObserved = Math.max(0, requiredWorkItems - correlatedWorkItemIds.length);
@@ -682,7 +1163,7 @@ function buildLongitudinalCoverage(workItems = [], tasks = [], usageRecords = []
       diagnostic_observation_threshold_met: thresholdMet,
       exact_task_shape_samples: explicitTaskShapeSamples.length,
       statistical_qualification_status: statisticalStatus,
-      matched_evaluation_available: false,
+      matched_evaluation_available: matchedEvaluationAvailable,
       automatic_routing_eligible: false,
       promotion_blockers: sortedUnique(promotionBlockers)
     },
@@ -695,6 +1176,7 @@ export function buildUsageBaselineFromRecords(project, records, options = {}) {
   const policyValidation = validateUsagePolicy(usagePolicy);
   if (!policyValidation.valid) throw new Error(`Invalid usage policy: ${policyValidation.errors.join("; ")}`);
   const policy = usagePolicyProjection(usagePolicy, options.usagePolicySource ?? "framework-default");
+  const matchedAdvisory = buildMatchedModelAdvisory(project, options.matchedEvaluationSources ?? [], usagePolicy, options);
   const usageRecords = usageRecordsFrom(records);
   const groups = new Map();
   const unknownDimensions = Object.fromEntries(USAGE_DIMENSIONS.map((field) => [field, 0]));
@@ -729,8 +1211,12 @@ export function buildUsageBaselineFromRecords(project, records, options = {}) {
     : null;
   const longitudinalCoverage = buildLongitudinalCoverage(options.workItems, options.tasks, usageRecords, {
     ...options,
-    usagePolicy
+    usagePolicy,
+    projectId: project.id,
+    matchedAdvisory
   });
+  const matchedAvailable = matchedAdvisory.status === "available";
+  const shadowAvailable = longitudinalCoverage.recommendation.status === "available";
   return {
     schema_version: "temple.usage-baseline/v1",
     generated_at: new Date().toISOString(),
@@ -772,8 +1258,11 @@ export function buildUsageBaselineFromRecords(project, records, options = {}) {
     driver_groups: driverGroups,
     policy,
     routing: {
-      recommendation_status: longitudinalCoverage.recommendation.status,
+      recommendation_status: matchedAvailable ? "available" : longitudinalCoverage.recommendation.status,
+      recommendation_source: matchedAvailable ? "matched-evaluation" : shadowAvailable ? "observational-shadow" : null,
       recommendation_mode: usagePolicy.calibration.recommendation_mode,
+      shadow_recommendation: longitudinalCoverage.recommendation,
+      matched_advisory: matchedAdvisory,
       execution_status: "not-implemented",
       automatic_routing: false,
       budget_can_skip_gates: false,
@@ -874,11 +1363,14 @@ export function buildUsagePreflightFromRecords(project, tasks, records, provider
   const policyValidation = validateUsagePolicy(usagePolicy);
   if (!policyValidation.valid) throw new Error(`Invalid usage policy: ${policyValidation.errors.join("; ")}`);
   const policy = usagePolicyProjection(usagePolicy, options.usagePolicySource ?? "framework-default");
+  const matchedAdvisory = buildMatchedModelAdvisory(project, options.matchedEvaluationSources ?? [], usagePolicy, options);
   const topology = classifyCodexTasks(tasks, { workItems: options.workItems });
   const usageRecords = usageRecordsFrom(records);
   const longitudinalCoverage = buildLongitudinalCoverage(options.workItems, tasks, usageRecords, {
     ...options,
-    usagePolicy
+    usagePolicy,
+    projectId: project.id,
+    matchedAdvisory
   });
   const codexProvider = providers.find((provider) => provider.kind === "codex-app-server" || provider.id === "codex-local") ?? null;
   const tokenCapability = codexProvider?.capabilities?.token_usage ?? "unknown";
@@ -890,7 +1382,11 @@ export function buildUsagePreflightFromRecords(project, tasks, records, provider
   else if (!providerOperational || tokenCapability !== "supported") detailedStatus = "provider-unavailable";
   else if (topology.live_resumable.length > 0) detailedStatus = "awaiting-observation";
   const probe = accountProbe ?? unavailableAccountProbe(false);
-  const nextAction = detailedStatus === "observed"
+  const nextAction = matchedAdvisory.status === "available"
+    ? "Review the matched advisory and its bounded evidence; no model switch is authorized or performed."
+    : matchedAdvisory.status === "qualified-shadow"
+      ? "The matched evaluation is qualified in shadow mode; changing project policy to advisory is a separate policy decision and still performs no model switch."
+      : detailedStatus === "observed"
     ? longitudinalCoverage.qualification.status === "qualified"
       ? "Review the shadow recommendation and its evidence gaps; routine observation needs no approval and no model switch is authorized."
       : "Accumulate varied, completed, revision-current real Work Items before comparing usage or recommending a model."
@@ -959,9 +1455,16 @@ export function buildUsagePreflightFromRecords(project, tasks, records, provider
     },
     policy,
     routing: {
-      recommendation_status: longitudinalCoverage.recommendation.status,
+      recommendation_status: matchedAdvisory.status === "available" ? "available" : longitudinalCoverage.recommendation.status,
+      recommendation_source: matchedAdvisory.status === "available"
+        ? "matched-evaluation"
+        : longitudinalCoverage.recommendation.status === "available"
+          ? "observational-shadow"
+          : null,
       recommendation: longitudinalCoverage.recommendation,
       recommendation_mode: usagePolicy.calibration.recommendation_mode,
+      shadow_recommendation: longitudinalCoverage.recommendation,
+      matched_advisory: matchedAdvisory,
       execution_status: "not-implemented",
       automatic_routing: false,
       model_switch_performed: false,
@@ -990,6 +1493,7 @@ export async function buildUsagePreflight(target, options = {}) {
     listWorkItemDocuments(target),
     readUsagePolicy(target)
   ]);
+  const matchedEvaluationSources = await readMatchedEvaluationSources(target, usagePolicyResult.policy);
   const config = await readControlPlaneConfig(target);
   const stateDirectory = resolveControlPlaneStateDirectory(target, options.stateDirectory ?? config.state_directory);
   const journalPath = path.join(stateDirectory, "journal/events.jsonl");
@@ -1029,7 +1533,8 @@ export async function buildUsagePreflight(target, options = {}) {
     {
       workItems,
       usagePolicy: usagePolicyResult.policy,
-      usagePolicySource: usagePolicyResult.source
+      usagePolicySource: usagePolicyResult.source,
+      matchedEvaluationSources
     }
   );
   report.detailed_thread_usage.history = usageHistory.history;
@@ -1043,6 +1548,7 @@ export async function buildUsageBaseline(target, options = {}) {
     listWorkItemDocuments(target),
     readUsagePolicy(target)
   ]);
+  const matchedEvaluationSources = await readMatchedEvaluationSources(target, usagePolicyResult.policy);
   const config = await readControlPlaneConfig(target);
   const stateDirectory = resolveControlPlaneStateDirectory(target, options.stateDirectory ?? config.state_directory);
   const journalPath = path.join(stateDirectory, "journal/events.jsonl");
@@ -1066,6 +1572,7 @@ export async function buildUsageBaseline(target, options = {}) {
     tasks: taskRegistry.tasks ?? [],
     usagePolicy: usagePolicyResult.policy,
     usagePolicySource: usagePolicyResult.source,
+    matchedEvaluationSources,
     longitudinalWorkItemsRequired: options.longitudinalWorkItemsRequired,
     history: usageHistory.history,
     activeJournal: usageHistory.activeJournal

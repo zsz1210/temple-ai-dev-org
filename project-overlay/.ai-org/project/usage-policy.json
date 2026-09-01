@@ -104,6 +104,11 @@
       "power": null,
       "pilot_variance": null
     },
+    "matched_evaluation": {
+      "sources": [],
+      "maximum_age_days": 90,
+      "supported_method": "paired-sign-test-v1"
+    },
     "required_evidence": [
       "matched-task-evaluation",
       "quality",

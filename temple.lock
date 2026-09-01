@@ -161,6 +161,7 @@
     "redacted_audit_export": true,
     "usage_qualification": true,
     "progressive_usage_calibration": true,
+    "matched_model_advisory": true,
     "exception_only_autonomy": true,
     "provider_attach_outcomes": true,
     "repository_federation": true,
@@ -284,6 +285,10 @@
       "sha256": "40400b30eb53914f9885ca59a6e5c976581c5c2a24d1782a3985d54c15c41563"
     },
     {
+      "path": ".ai-org/core/schemas/matched-model-evaluation.schema.json",
+      "sha256": "c8628071cdf854e727b486bb83d2fb76d4f66fbda25b422206b487781dea6a9b"
+    },
+    {
       "path": ".ai-org/core/schemas/parallel-plan.schema.json",
       "sha256": "f67ef14f4d6fce1470d299943ce7f2a70065a514e6836eb5d596cd8d87432927"
     },
@@ -317,7 +322,7 @@
     },
     {
       "path": ".ai-org/core/schemas/schema-catalog.json",
-      "sha256": "806bf5270f22ec68a2c34af45520698e22f3cba7de5aaf2ccbad2b73e9e093d9"
+      "sha256": "7e8a5372c4fca954d97d32587315f40b28af13fcb32b85da8d9c60fb903198ea"
     },
     {
       "path": ".ai-org/core/schemas/spec-index.schema.json",
@@ -333,11 +338,11 @@
     },
     {
       "path": ".ai-org/core/schemas/usage-baseline.schema.json",
-      "sha256": "7545f2f85e7b37cd3d988c1a98cfc85327c3c7d42296c7efb652c4020f1b5ac1"
+      "sha256": "435f8427660f462d0f6ef48570f398b60c074a15c2a23dbc82782aeab9486487"
     },
     {
       "path": ".ai-org/core/schemas/usage-policy.schema.json",
-      "sha256": "bc269c75eb43ea620ad5a6656bfe5350467a3d716935ae423b5497e187932717"
+      "sha256": "ff142b1be5f8355e58300bf31a42ecd497ed49021153415a6d079ab677ec27f6"
     },
     {
       "path": ".ai-org/core/schemas/validation-program-report.schema.json",

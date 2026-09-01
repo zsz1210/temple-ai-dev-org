@@ -3,6 +3,14 @@ import { atomicCreate, formatJson, pathExists, readJson, sha256 } from "./files.
 
 export const USAGE_POLICY_SCHEMA = "temple.usage-policy/v1";
 export const USAGE_POLICY_RELATIVE_PATH = ".ai-org/project/usage-policy.json";
+export const MATCHED_EVALUATION_METHOD = "paired-sign-test-v1";
+export const MATCHED_EVALUATION_ROOT = ".ai-org/evaluations/model/";
+
+const DEFAULT_MATCHED_EVALUATION_POLICY = Object.freeze({
+  sources: [],
+  maximum_age_days: 90,
+  supported_method: MATCHED_EVALUATION_METHOD
+});
 
 export const USAGE_APPROVAL_TRIGGERS = [
   "external-spend",
@@ -84,6 +92,7 @@ export function defaultUsagePolicy(options = {}) {
         power: null,
         pilot_variance: null
       },
+      matched_evaluation: { ...DEFAULT_MATCHED_EVALUATION_POLICY, sources: [] },
       required_evidence: [
         "matched-task-evaluation",
         "quality",
@@ -121,6 +130,22 @@ export function defaultUsagePolicy(options = {}) {
 
 function uniqueNonEmptyStrings(values) {
   return Array.isArray(values) && values.every((value) => typeof value === "string" && value.trim()) && new Set(values).size === values.length;
+}
+
+function safeMatchedEvaluationSource(value) {
+  if (typeof value !== "string" || !value.startsWith(MATCHED_EVALUATION_ROOT) || !value.endsWith(".json")) return false;
+  if (value.includes("\\") || value.includes("//") || value.includes("/./") || value.includes("/../")) return false;
+  return /^[A-Za-z0-9._/-]+$/.test(value) && path.posix.normalize(value) === value;
+}
+
+export function matchedEvaluationPolicy(policy) {
+  const configured = policy?.calibration?.matched_evaluation;
+  if (configured === undefined) return { ...DEFAULT_MATCHED_EVALUATION_POLICY, sources: [] };
+  return {
+    sources: [...configured.sources],
+    maximum_age_days: configured.maximum_age_days,
+    supported_method: configured.supported_method
+  };
 }
 
 export function validateUsagePolicy(document) {
@@ -173,6 +198,18 @@ export function validateUsagePolicy(document) {
   if (document?.calibration?.state === "calibrated" && statistical?.status !== "satisfied") {
     errors.push("calibrated state requires satisfied statistical qualification");
   }
+  const matched = document?.calibration?.matched_evaluation;
+  if (matched !== undefined) {
+    if (!uniqueNonEmptyStrings(matched?.sources) || !matched.sources.every(safeMatchedEvaluationSource)) {
+      errors.push(`calibration.matched_evaluation.sources must be unique JSON paths below ${MATCHED_EVALUATION_ROOT}`);
+    }
+    if (!Number.isInteger(matched?.maximum_age_days) || matched.maximum_age_days < 1 || matched.maximum_age_days > 3650) {
+      errors.push("calibration.matched_evaluation.maximum_age_days must be an integer from 1 to 3650");
+    }
+    if (matched?.supported_method !== MATCHED_EVALUATION_METHOD) {
+      errors.push(`calibration.matched_evaluation.supported_method must be ${MATCHED_EVALUATION_METHOD}`);
+    }
+  }
   if (!uniqueNonEmptyStrings(document?.calibration?.required_evidence)) errors.push("calibration.required_evidence is invalid");
   if (document?.cost?.accounting_unit !== "credits" || document?.cost?.token_limits_are_financial_limits !== false) errors.push("Token limits cannot be treated as financial limits");
   if (document?.cost?.status === "configured" && [document.cost.source, document.cost.source_version, document.cost.effective_at].some((value) => typeof value !== "string" || !value.trim())) {
@@ -209,6 +246,7 @@ export async function readUsagePolicy(target) {
 export function usagePolicyProjection(policy, source = "provided") {
   const mappedProfiles = policy.seed_policy.profiles.filter((entry) => entry.model !== null).length;
   const statisticalStatus = policy.calibration.statistical_qualification.status;
+  const matched = matchedEvaluationPolicy(policy);
   return {
     schema_version: policy.schema_version,
     source,
@@ -226,6 +264,11 @@ export function usagePolicyProjection(policy, source = "provided") {
       recommendation_mode: policy.calibration.recommendation_mode,
       observation_threshold_purpose: policy.calibration.observation_threshold.purpose,
       statistical_qualification_status: statisticalStatus,
+      matched_evaluation: {
+        configured_sources: matched.sources.length,
+        maximum_age_days: matched.maximum_age_days,
+        supported_method: matched.supported_method
+      },
       automatic_routing_eligible: policy.calibration.recommendation_mode === "automatic" && statisticalStatus === "satisfied"
     },
     cost: { ...policy.cost },

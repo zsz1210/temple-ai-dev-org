@@ -1,0 +1,216 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0083",
+  "title": "Add matched model evaluation and advisory recommendations",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-01T12:12:21.342Z",
+  "updated_at": "2026-09-01T12:18:23.120Z",
+  "scope": [
+    "Define a project-owned matched evaluation contract that compares model and reasoning profiles only within the same exact task shape and quality rubric.",
+    "Produce deterministic, explainable advisory recommendations from qualified matched evaluations while preserving requested and effective model evidence.",
+    "Expose confidence, evidence coverage, rejection reasons, staleness, and fallback behavior through usage report and preflight without executing a model switch.",
+    "Keep raw prompts and hidden reasoning out of evaluation records; keep observations project-local and leave automatic routing, cross-project learning, adaptive policy mutation, provider spend, and live generation out of scope."
+  ],
+  "acceptance_criteria": [
+    "A versioned schema validates matched evaluation records, quality measures, task-shape identity, candidate profiles, revisions, and provenance; missing, mixed, stale, or incomparable evidence fails closed.",
+    "A deterministic advisory engine recommends a profile only when the project policy's configured quality and statistical decision contract is satisfied; otherwise it reports exact blockers and keeps the Seed Policy.",
+    "The recommendation weighs quality before Token use and reports Tokens, latency, rework, and human intervention without claiming causal savings from unmatched observations.",
+    "Usage report, preflight, tests, and documentation prove that execution_status remains not-implemented, automatic_routing remains false, and no model switch or provider call occurs.",
+    "English, Japanese, and Traditional Chinese README claims remain structurally aligned and describe only the shipped observation and advisory boundary."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0083",
+    ".ai-org/decisions",
+    ".ai-org/project/usage-policy.json",
+    "project-overlay/.ai-org/project/usage-policy.json",
+    ".ai-org/core/schemas",
+    "project-overlay/.ai-org/core/schemas",
+    "src/usage-policy.mjs",
+    "src/usage-attribution.mjs",
+    "src/cli.mjs",
+    "src/install.mjs",
+    "src/upgrade.mjs",
+    "src/doctor.mjs",
+    "test/phase-4b.test.mjs",
+    "test/phase4-installation.test.mjs",
+    "docs/operations/token-efficiency-and-model-routing.md",
+    "docs/validation",
+    "README.md",
+    "README.ja.md",
+    "README.zh-TW.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {
+    "build": {
+      "disciplines": [
+        "general-development"
+      ],
+      "resources": []
+    },
+    "design": {
+      "disciplines": [
+        "architecture"
+      ],
+      "resources": []
+    },
+    "independent_qa": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "test": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "ed869f682059d942597735367416420f93ce4406",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": "agent-rikku",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0029: only usage evaluation schemas are in scope; control-plane-config remains untouched and work is sequential.",
+    "WI-0033: provider-trust control-plane schema is untouched; WI-0083 changes only usage evaluation contracts.",
+    "WI-0067: any new validation record is additive; the commerce rehearsal document and blocked scope remain untouched.",
+    "WI-0069: use its exact integrated policy foundation as predecessor; preserve its tested revision and release evidence, then make follow-up changes sequentially under WI-0083.",
+    "WI-0082: preserve its verified terminology and Core Skills scope; WI-0083 owns only the later Token-model maturity copy already present in the working tree."
+  ],
+  "claim": {
+    "id": "claim-20260901121823-0af25011",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "ed869f682059d942597735367416420f93ce4406",
+    "branch": "main",
+    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "claimed_at": "2026-09-01T12:18:23.120Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260901121252-3f4acf77",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "ed869f682059d942597735367416420f93ce4406",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-01T12:12:52.480Z",
+      "released_at": "2026-09-01T12:13:32.709Z",
+      "release_reason": [
+        "intake-complete-product-specification-next"
+      ]
+    },
+    {
+      "id": "claim-20260901121343-25b9abac",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "ed869f682059d942597735367416420f93ce4406",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-01T12:13:43.546Z",
+      "released_at": "2026-09-01T12:15:01.186Z",
+      "release_reason": [
+        "product-scope-and-acceptance-confirmed-design-next"
+      ]
+    },
+    {
+      "id": "claim-20260901121502-dff5b851",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "ed869f682059d942597735367416420f93ce4406",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-01T12:15:02.097Z",
+      "released_at": "2026-09-01T12:18:22.186Z",
+      "release_reason": [
+        "technical-design-and-risk-review-complete-build-authorized"
+      ]
+    },
+    {
+      "id": "claim-20260901121823-0af25011",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "ed869f682059d942597735367416420f93ce4406",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-01T12:18:23.120Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0083/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0083/product-direction.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0083.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0083/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0083/risk-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0083/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0083/work-order.md",
+    ".ai-org/decisions/DEC-0006-matched-model-advisory-before-automatic-routing.md",
+    ".ai-org/artifacts/WI-0083/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0083/product-direction.md",
+    ".ai-org/project/domain-glossary.md",
+    ".ai-org/work-items/WI-0083.json",
+    ".ai-org/artifacts/WI-0083/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0083/technical-design.md",
+    ".ai-org/artifacts/WI-0083/risk-review.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "ed869f682059d942597735367416420f93ce4406",
+      "artifact": ".ai-org/artifacts/WI-0083/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-01T12:13:32.384Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "ed869f682059d942597735367416420f93ce4406",
+      "artifact": ".ai-org/artifacts/WI-0083/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-01T12:15:00.895Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "ed869f682059d942597735367416420f93ce4406",
+      "artifact": ".ai-org/artifacts/WI-0083/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-01T12:18:21.860Z"
+    }
+  ]
+}

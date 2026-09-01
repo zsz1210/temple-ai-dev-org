@@ -29,6 +29,7 @@ const phase4Capabilities = [
   "redacted_audit_export",
   "usage_qualification",
   "progressive_usage_calibration",
+  "matched_model_advisory",
   "exception_only_autonomy",
   "provider_attach_outcomes",
   "repository_federation",
@@ -113,6 +114,7 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
   assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/validation-program.schema.json"));
   assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/validation-program-report.schema.json"));
   assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/usage-policy.schema.json"));
+  assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/matched-model-evaluation.schema.json"));
   assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/templates/validation-program.json"));
   assert.equal(lock.managed_files.some((entry) => entry.path === ".ai-org/project/validation-program.json"), false);
   assert.equal(lock.managed_files.some((entry) => entry.path === USAGE_POLICY_RELATIVE_PATH), false);
@@ -120,6 +122,11 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
   const usagePolicy = await readJson(path.join(target, USAGE_POLICY_RELATIVE_PATH));
   assert.deepEqual(usagePolicy, defaultUsagePolicy());
   assert.deepEqual(validateUsagePolicy(usagePolicy), { valid: true, errors: [] });
+  assert.deepEqual(usagePolicy.calibration.matched_evaluation, {
+    sources: [],
+    maximum_age_days: 90,
+    supported_method: "paired-sign-test-v1"
+  });
 
   const packageDocument = await readJson(path.join(root, "package.json"));
   const packageLock = await readJson(path.join(root, "package-lock.json"));
@@ -155,6 +162,16 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
       path: USAGE_POLICY_RELATIVE_PATH,
       schema: "usage-policy.schema.json",
       required: true,
+      ownership: "project"
+    }
+  );
+  assert.deepEqual(
+    catalog.documents.find((entry) => entry.id === "matched-model-evaluations"),
+    {
+      id: "matched-model-evaluations",
+      path: ".ai-org/evaluations/model/*.json",
+      schema: "matched-model-evaluation.schema.json",
+      required: false,
       ownership: "project"
     }
   );
@@ -292,6 +309,8 @@ test("upgrade preserves an existing federation registry byte for byte", async (t
   const usagePolicyPath = path.join(target, USAGE_POLICY_RELATIVE_PATH);
   const customUsagePolicy = defaultUsagePolicy();
   customUsagePolicy.objective = "quality-first";
+  delete customUsagePolicy.calibration.matched_evaluation;
+  assert.deepEqual(validateUsagePolicy(customUsagePolicy), { valid: true, errors: [] });
   const usagePolicyBytes = `${JSON.stringify(customUsagePolicy)}\n\n`;
   await fs.writeFile(usagePolicyPath, usagePolicyBytes);
 

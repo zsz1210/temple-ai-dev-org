@@ -162,6 +162,66 @@ Project-owned vocabulary for product decisions, implementation, tests, and hando
 - Supersedes: Source-less legacy reasoning metadata.
 - Last confirmed: 2026-08-31
 
+## Exact task shape
+
+- Status: confirmed
+- Bounded context: Temple usage calibration and model evaluation
+- Definition: The complete comparison identity required by project policy: Position, lifecycle stage, task kind, risk class, and Context Profile digest.
+- Examples: Two bounded Developer Build cases with the same task kind, standard risk class, and identical Context Profile digest.
+- Non-examples: `developer:build` alone; Agent display name; two Work Items that merely have similar titles.
+- Invariants: Fallback dimensions support descriptive reporting only; missing or different required dimensions cannot qualify matched comparison.
+- Owner or authoritative source: Usage Policy, DEC-0006, and WI-0083 product direction.
+- Related terms: Matched evaluation; Context Profile; shadow recommendation.
+- Last confirmed: 2026-09-01
+
+## Matched evaluation
+
+- Status: confirmed
+- Bounded context: Temple project-local model calibration
+- Definition: A project-owned evaluation set in which every candidate profile attempts the same case IDs under one quality rubric, exact task shape, source revision or content digest, and measurement contract.
+- Examples: Terra and Luna profiles evaluated against the same three repository-owned cases with the same pass threshold and revision.
+- Non-examples: Comparing unrelated completed Work Items; comparing only average Token totals; account-wide usage buckets.
+- Invariants: Quality is a gate before resource comparison; missing, duplicated, mixed-shape, stale, or revision-mismatched cases fail closed.
+- Owner or authoritative source: DEC-0006 and the matched-evaluation schema introduced by WI-0083.
+- Related terms: Exact task shape; quality gate; advisory recommendation.
+- Last confirmed: 2026-09-01
+
+## Shadow recommendation
+
+- Status: confirmed
+- Bounded context: Temple usage observation
+- Definition: A low-confidence, read-only candidate derived from naturally occurring accepted work for diagnosis and learning, without matched quality evidence.
+- Examples: A lower observed Token candidate displayed after the diagnostic coverage threshold.
+- Non-examples: A qualified preferred profile; permission to switch models; a savings claim.
+- Invariants: It retains `matched_evaluation: false`, has no routing authority, and cannot execute a model change.
+- Owner or authoritative source: Usage Policy and WI-0069.
+- Related terms: Advisory recommendation; automatic routing.
+- Last confirmed: 2026-09-01
+
+## Advisory recommendation
+
+- Status: confirmed
+- Bounded context: Temple matched model evaluation
+- Definition: A read-only, explainable profile recommendation supported by a valid matched evaluation and the project's configured decision contract.
+- Examples: Recommending an approved Luna profile after it and Terra pass the same quality gate and Luna wins the declared resource comparison.
+- Non-examples: Starting a task, changing a task model, rewriting policy, or granting release authority.
+- Invariants: It never bypasses quality, authority, budget, lifecycle, or Independent QA requirements; automatic routing remains a separate capability.
+- Owner or authoritative source: DEC-0006 and WI-0083.
+- Related terms: Matched evaluation; shadow recommendation; automatic routing.
+- Last confirmed: 2026-09-01
+
+## Automatic routing
+
+- Status: confirmed
+- Bounded context: Future Temple model execution
+- Definition: Applying a qualified project profile to a task without a new per-task model choice, inside a separately implemented and authorized executor.
+- Examples: A future allowlisted low-risk mechanical task receiving a calibrated profile with a tested fallback.
+- Non-examples: Displaying a shadow or advisory recommendation; routine read-only observation; a coordinator manually accepting a suggestion.
+- Invariants: A recommendation never proves the executor exists or grants execution authority; WI-0083 keeps routing execution not implemented.
+- Owner or authoritative source: Usage Policy autonomy boundary and DEC-0006.
+- Related terms: Advisory recommendation; Autonomy Envelope; model switch.
+- Last confirmed: 2026-09-01
+
 ## Unresolved terminology
 
 | Conflict | Affected contexts | Decision owner | Evidence needed | Revisit trigger |

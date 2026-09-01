@@ -362,6 +362,7 @@ export async function planUpgrade(target) {
     lock.capabilities?.redacted_audit_export !== true ||
     lock.capabilities?.usage_qualification !== true ||
     lock.capabilities?.progressive_usage_calibration !== true ||
+    lock.capabilities?.matched_model_advisory !== true ||
     lock.capabilities?.exception_only_autonomy !== true ||
     lock.capabilities?.provider_attach_outcomes !== true ||
     lock.capabilities?.repository_federation !== true ||
@@ -647,6 +648,7 @@ export async function executeUpgrade(plan) {
         redacted_audit_export: true,
         usage_qualification: true,
         progressive_usage_calibration: true,
+        matched_model_advisory: true,
         exception_only_autonomy: true,
         provider_attach_outcomes: true,
         repository_federation: true,
