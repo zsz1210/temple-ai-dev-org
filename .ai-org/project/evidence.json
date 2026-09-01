@@ -11834,6 +11834,126 @@
         "status": "planned",
         "procedure": ".ai-org/artifacts/WI-0084/release-manager-review.md"
       }
+    },
+    {
+      "id": "EVID-20260901T140158Z-36383729",
+      "work_item_id": "WI-0085",
+      "recorded_at": "2026-09-01T14:01:58.352Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Node 22 public-alpha quality verification",
+      "outcome": "pass",
+      "scope_revision": "31eb17071a304f16f2af740520e1821fd23589bd",
+      "observed_at": "2026-09-01T13:59:01.000Z",
+      "summary": "Fresh exact-candidate Node.js 22 verification passed 262 tests, schema validation, Doctor, package boundary, and SVG XML checks.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0085/quality-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0085/quality-observation.json",
+          "sha256": "7a9aecf5aa3a226643e5849093e5f9925014518e1cbd687c0e51675403c810de"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0085/quality-report.md",
+          "sha256": "36a8762251f4613f166e233f87653a803d03610edf9011043c819397fe7f70e3"
+        }
+      ],
+      "details": {
+        "command": [
+          "create a fresh detached worktree at revision 31eb17071a304f16f2af740520e1821fd23589bd",
+          "npx -y -p node@22 -c 'node --version; npm ci --ignore-scripts; npm run verify'",
+          "npx -y node@22 ./templew.mjs schema validate . --json",
+          "npx -y node@22 ./templew.mjs doctor . --json",
+          "xmllint --noout docs/assets/temple-delivery-path*.svg"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-01T13:57:46.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260901T140259Z-EF61F7ED",
+      "work_item_id": "WI-0085",
+      "recorded_at": "2026-09-01T14:02:59.126Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Node 24 independent public-alpha verification",
+      "outcome": "pass",
+      "scope_revision": "31eb17071a304f16f2af740520e1821fd23589bd",
+      "observed_at": "2026-09-01T14:00:26.000Z",
+      "summary": "A second fresh exact-candidate worktree passed 262 tests, schema validation, Doctor, audit, package manifest, and SVG XML checks under Node.js 24.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0085/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0085/independent-qa-observation.json",
+          "sha256": "7be3f32366d3669bac6e3225da5baad04a990ec29b0e729176f8cec26dc81ca0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0085/independent-qa-report.md",
+          "sha256": "5cb73545e5b6a4ef7f216903f1b1da40736135b62af1ea03eea75e8ec5ef3c1c"
+        }
+      ],
+      "details": {
+        "command": [
+          "create a second fresh detached worktree at revision 31eb17071a304f16f2af740520e1821fd23589bd",
+          "npx -y -p node@24 -c 'node --version; npm ci --ignore-scripts; npm run verify'",
+          "npx -y node@24 ./templew.mjs schema validate . --json",
+          "npx -y node@24 ./templew.mjs doctor . --json",
+          "npm audit --omit=dev --json",
+          "npm pack --dry-run --json --ignore-scripts",
+          "xmllint --noout docs/assets/temple-delivery-path*.svg"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-01T13:59:12.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260901T140345Z-F607D280",
+      "work_item_id": "WI-0085",
+      "recorded_at": "2026-09-01T14:03:45.865Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "31eb17071a304f16f2af740520e1821fd23589bd",
+      "observed_at": "2026-09-01T14:03:45.865Z",
+      "summary": "Before any public release, revert the candidate and closeout commits, rerun status, and keep visibility, tags, and npm unchanged.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": "docs/planning/release-readiness.md"
+      },
+      "artifacts": [
+        {
+          "path": "docs/planning/release-readiness.md",
+          "sha256": "b1e1ce92eb347cca4687a04807156de4ed7cff90f3e3035508d6ad218e8ff529"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": "docs/planning/release-readiness.md"
+      }
     }
   ]
 }

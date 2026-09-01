@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0085",
   "title": "Harden Temple for the first public alpha",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-01T13:39:43.334Z",
-  "updated_at": "2026-09-01T13:52:00.000Z",
+  "updated_at": "2026-09-01T14:03:58.329Z",
   "scope": [
     "Replace the unsupported Node 20 floor with a verified Node 22 and Node 24 LTS compatibility contract; keep Node 26 as a future compatibility lane until it reaches LTS.",
     "Reduce the npm artifact to an explicit runtime and public-documentation allowlist while keeping publication disabled.",
@@ -20,27 +20,27 @@
     "The retained MIT decision and public-alpha boundary are documented; repository verification passes before release-gate closeout, while visibility, npm publication, tag creation, and GitHub settings remain external follow-up gates."
   ],
   "affected_paths": [
-      "package.json",
-      "package-lock.json",
-      "temple.lock",
-      "src/bootstrap.mjs",
-      "README.md",
-      "README.ja.md",
-      "README.zh-TW.md",
-      "docs/assets/README.md",
-      "docs/assets/temple-delivery-path.en.mmd",
-      "docs/assets/temple-delivery-path.en.svg",
-      "docs/assets/temple-delivery-path.en-mobile.mmd",
-      "docs/assets/temple-delivery-path.en-mobile.svg",
-      "docs/assets/temple-delivery-path.ja.mmd",
-      "docs/assets/temple-delivery-path.ja.svg",
-      "docs/assets/temple-delivery-path.ja-mobile.mmd",
-      "docs/assets/temple-delivery-path.ja-mobile.svg",
-      "docs/assets/temple-delivery-path.zh-TW.mmd",
-      "docs/assets/temple-delivery-path.zh-TW.svg",
-      "docs/assets/temple-delivery-path.zh-TW-mobile.mmd",
-      "docs/assets/temple-delivery-path.zh-TW-mobile.svg",
-      ".github/workflows/ci.yml",
+    "package.json",
+    "package-lock.json",
+    "temple.lock",
+    "src/bootstrap.mjs",
+    "README.md",
+    "README.ja.md",
+    "README.zh-TW.md",
+    "docs/assets/README.md",
+    "docs/assets/temple-delivery-path.en.mmd",
+    "docs/assets/temple-delivery-path.en.svg",
+    "docs/assets/temple-delivery-path.en-mobile.mmd",
+    "docs/assets/temple-delivery-path.en-mobile.svg",
+    "docs/assets/temple-delivery-path.ja.mmd",
+    "docs/assets/temple-delivery-path.ja.svg",
+    "docs/assets/temple-delivery-path.ja-mobile.mmd",
+    "docs/assets/temple-delivery-path.ja-mobile.svg",
+    "docs/assets/temple-delivery-path.zh-TW.mmd",
+    "docs/assets/temple-delivery-path.zh-TW.svg",
+    "docs/assets/temple-delivery-path.zh-TW-mobile.mmd",
+    "docs/assets/temple-delivery-path.zh-TW-mobile.svg",
+    ".github/workflows/ci.yml",
     ".github/CODEOWNERS",
     ".github/PULL_REQUEST_TEMPLATE.md",
     ".github/ISSUE_TEMPLATE/bug_report.yml",
@@ -74,10 +74,10 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "642687a5bd2099aa0e4fb66663d671c12efd81c9",
+  "base_revision": "31eb17071a304f16f2af740520e1821fd23589bd",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
-  "planned_agent_id": "agent-rikku",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [
@@ -85,15 +85,16 @@
     "WI-0033 owns future provider-trust content in SECURITY.md; WI-0085 only adds public vulnerability-reporting and supported-version guidance without changing provider trust."
   ],
   "claim": {
-    "id": "claim-20260901134512-bf1f647d",
-    "status": "active",
+    "id": "claim-20260901140309-17ef2b9d",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "642687a5bd2099aa0e4fb66663d671c12efd81c9",
+    "agent_id": "agent-mog",
+    "base_revision": "31eb17071a304f16f2af740520e1821fd23589bd",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-09-01T13:45:12.966Z",
-    "released_at": null
+    "claimed_at": "2026-09-01T14:03:09.509Z",
+    "released_at": "2026-09-01T14:03:58.329Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -134,14 +135,51 @@
     },
     {
       "id": "claim-20260901134512-bf1f647d",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "642687a5bd2099aa0e4fb66663d671c12efd81c9",
       "branch": "main",
       "worktree": null,
       "claimed_at": "2026-09-01T13:45:12.966Z",
-      "released_at": null
+      "released_at": "2026-09-01T14:01:34.550Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901140135-58ea754f",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "31eb17071a304f16f2af740520e1821fd23589bd",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T14:01:35.237Z",
+      "released_at": "2026-09-01T14:02:29.343Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901140230-1532ffda",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "31eb17071a304f16f2af740520e1821fd23589bd",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T14:02:30.029Z",
+      "released_at": "2026-09-01T14:03:08.817Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901140309-17ef2b9d",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "31eb17071a304f16f2af740520e1821fd23589bd",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T14:03:09.509Z",
+      "released_at": "2026-09-01T14:03:58.329Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -159,6 +197,34 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0085/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0085/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0085/developer-report.md",
+      ".ai-org/artifacts/WI-0085/developer-observation.json"
+    ],
+    "test_evidence": [
+      "EVID-20260901T140158Z-36383729"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0085/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260901T140259Z-EF61F7ED"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0085/product-direction.md"
+    ],
+    "independent_qa_report": [
+      "EVID-20260901T140259Z-EF61F7ED"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0085/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0085/release-manager-review.md"
     ]
   },
   "evidence": [
@@ -171,10 +237,22 @@
     ".ai-org/artifacts/WI-0085/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0085/technical-design.md",
     ".ai-org/artifacts/WI-0085/risk-review.md",
-    "docs/adr/0039-public-alpha-distribution-and-node-lts.md"
+    "docs/adr/0039-public-alpha-distribution-and-node-lts.md",
+    ".ai-org/artifacts/WI-0085/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0085/developer-report.md",
+    ".ai-org/artifacts/WI-0085/developer-observation.json",
+    "EVID-20260901T140158Z-36383729",
+    ".ai-org/artifacts/WI-0085/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0085/quality-report.md",
+    ".ai-org/artifacts/WI-0085/evaluation-report.md",
+    ".ai-org/artifacts/WI-0085/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0085/independent-qa-report.md",
+    "EVID-20260901T140259Z-EF61F7ED",
+    ".ai-org/artifacts/WI-0085/release-record.md",
+    "EVID-20260901T140345Z-F607D280"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -196,6 +274,32 @@
       "input_revision": "642687a5bd2099aa0e4fb66663d671c12efd81c9",
       "artifact": ".ai-org/artifacts/WI-0085/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-01T13:45:06.347Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "31eb17071a304f16f2af740520e1821fd23589bd",
+      "artifact": ".ai-org/artifacts/WI-0085/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-01T14:01:34.186Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "31eb17071a304f16f2af740520e1821fd23589bd",
+      "artifact": ".ai-org/artifacts/WI-0085/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-01T14:02:29.006Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "31eb17071a304f16f2af740520e1821fd23589bd",
+      "artifact": ".ai-org/artifacts/WI-0085/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-01T14:03:08.453Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "31eb17071a304f16f2af740520e1821fd23589bd",
+  "tested_revision": "31eb17071a304f16f2af740520e1821fd23589bd",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0085/release-manager-review.md"
 }
