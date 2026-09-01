@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0090",
   "title": "Requalify Alpha.29 after final integrations",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-01T23:15:37.043Z",
-  "updated_at": "2026-09-01T23:34:48.790Z",
+  "updated_at": "2026-09-01T23:35:26.189Z",
   "scope": [
     "Integrate the completed WI-0088 real-browser regression gate and WI-0089 outcome-first task-title work into one new Alpha.29 release candidate.",
     "Reconcile changelog and release-readiness claims, verify the exact package and supported Node.js matrix, push the completed local history, and retain the existing Human and public-action blockers.",
@@ -52,14 +52,15 @@
   ],
   "claim": {
     "id": "claim-20260901233448-bf593ae0",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-mog",
     "base_revision": "5b01b4f4b0022d0334edf0ca2a7304e16f4d4e96",
     "branch": "main",
     "worktree": null,
     "claimed_at": "2026-09-01T23:34:48.790Z",
-    "released_at": null
+    "released_at": "2026-09-01T23:35:26.189Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -136,14 +137,15 @@
     },
     {
       "id": "claim-20260901233448-bf593ae0",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-mog",
       "base_revision": "5b01b4f4b0022d0334edf0ca2a7304e16f4d4e96",
       "branch": "main",
       "worktree": null,
       "claimed_at": "2026-09-01T23:34:48.790Z",
-      "released_at": null
+      "released_at": "2026-09-01T23:35:26.189Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -177,6 +179,18 @@
     ],
     "independent_qa_pass": [
       ".ai-org/artifacts/WI-0090/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0090/product-direction.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0090/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0090/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -197,10 +211,11 @@
     "https://github.com/zsz1210/temple-ai-dev-org/actions/runs/33570955370",
     ".ai-org/artifacts/WI-0090/handoff-006-independent_qa-to-release_manager.md",
     ".ai-org/artifacts/WI-0090/independent-qa-report.md",
-    ".ai-org/artifacts/WI-0090/independent-qa-test-observation.json"
+    ".ai-org/artifacts/WI-0090/independent-qa-test-observation.json",
+    ".ai-org/artifacts/WI-0090/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -245,5 +260,9 @@
       "created_at": "2026-09-01T23:34:48.132Z"
     }
   ],
-  "developer_candidate_revision": "5b01b4f4b0022d0334edf0ca2a7304e16f4d4e96"
+  "developer_candidate_revision": "5b01b4f4b0022d0334edf0ca2a7304e16f4d4e96",
+  "tested_revision": "5b01b4f4b0022d0334edf0ca2a7304e16f4d4e96",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }
