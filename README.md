@@ -23,6 +23,14 @@ AI can plan, write code, test, and review. Dependable software development also 
 
 Temple keeps that operating model in the project repository. It is not a reporting hierarchy or a fixed organization chart. It is a shared way for a project to decide, divide work, execute, verify, and learn—whether the project has one developer, several AI agents, or a larger team.
 
+### Use Temple with an existing project or a new one
+
+Temple is not a web, mobile, or backend application framework. It does not prescribe a programming language, development framework, cloud service, or project-management tool. You can add it to a project already in development or adopt it when starting a new one. Your project still decides its product architecture, application code, dependencies, data model, and deployment approach.
+
+Temple adds a traceable way to organize AI-assisted development. It defines what people and AI are responsible for, which decisions require human approval, how work is divided and handed off, what evidence must support completion, and how proven methods become reusable knowledge. It adds organizational and collaboration files to the repository; it does not require the product to be rewritten around a Temple-specific application architecture.
+
+> **In short: your project decides how the product is built; Temple defines how people and AI work together to deliver it.**
+
 > [!NOTE]
 > Temple is an Early Alpha. It is best suited to low-risk local projects and bounded pilots with human supervision. Broad multi-human and multi-machine qualification, production monitoring, and unattended external actions are not yet claimed.
 
