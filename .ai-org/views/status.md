@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
 - Work items: 89 total, 5 active
 - Codex tasks: 5 registered, 5 archive-ready
@@ -26,7 +26,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -135,7 +135,7 @@
 | WI-0086 | Prepare the first public Alpha release candidate | blocked | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `fe9f7d98` | 0 | 18 | 0 |
 | WI-0087 | Stabilize Linux temporary Git cleanup for Alpha.29 | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `680230f0` | 0 | 17 | 0 |
 | WI-0088 | Add real-browser Management Console regression coverage | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1a82106c` | 0 | 23 | 0 |
-| WI-0089 | Make Codex task titles outcome-first and refreshable | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260901154713-e9c7bcd5 | `—` | 0 | 9 | 0 |
+| WI-0089 | Make Codex task titles outcome-first and refreshable | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `86b0cdf4` | 0 | 13 | 0 |
 
 ## Codex task registry
 
@@ -256,14 +256,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-01T16:06:11.152Z | work_item_transitioned | WI-0089 | agent-rikku |
+| 2026-09-01T16:06:10.818Z | handoff_created | WI-0089 | agent-rikku |
+| 2026-09-01T16:06:10.531Z | evidence_recorded | WI-0089 | agent-rikku |
 | 2026-09-01T16:00:19.334Z | task_titles_refreshed | — | agent-mog |
 | 2026-09-01T15:56:16.548Z | task_titles_refreshed | — | agent-mog |
 | 2026-09-01T15:47:13.939Z | work_item_claimed | WI-0089 | human |
 | 2026-09-01T15:47:10.094Z | work_item_transitioned | WI-0089 | agent-tidus |
 | 2026-09-01T15:47:09.734Z | handoff_created | WI-0089 | agent-tidus |
-| 2026-09-01T15:47:09.374Z | work_item_claimed | WI-0089 | human |
-| 2026-09-01T15:45:56.649Z | work_item_transitioned | WI-0089 | agent-yuna |
-| 2026-09-01T15:45:56.270Z | handoff_created | WI-0089 | agent-yuna |
 
 ## Assignments
 
