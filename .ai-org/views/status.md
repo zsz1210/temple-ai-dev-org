@@ -136,7 +136,7 @@
 | WI-0087 | Stabilize Linux temporary Git cleanup for Alpha.29 | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `680230f0` | 0 | 17 | 0 |
 | WI-0088 | Add real-browser Management Console regression coverage | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1a82106c` | 0 | 23 | 0 |
 | WI-0089 | Make Codex task titles outcome-first and refreshable | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `86b0cdf4` | 0 | 23 | 0 |
-| WI-0090 | Requalify Alpha.29 after final integrations | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260901232401-74ad36cb | `5b01b4f4` | 0 | 11 | 0 |
+| WI-0090 | Requalify Alpha.29 after final integrations | eval | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260901232401-74ad36cb | `5b01b4f4` | 0 | 12 | 0 |
 
 ## Codex task registry
 
@@ -257,14 +257,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-01T23:25:15.350Z | work_item_transitioned | WI-0090 | agent-lulu |
+| 2026-09-01T23:25:15.070Z | evidence_recorded | WI-0090 | human |
 | 2026-09-01T23:24:01.279Z | work_item_claimed | WI-0090 | human |
 | 2026-09-01T23:24:00.956Z | work_item_transitioned | WI-0090 | agent-rikku |
 | 2026-09-01T23:24:00.606Z | handoff_created | WI-0090 | agent-rikku |
 | 2026-09-01T23:24:00.324Z | evidence_recorded | WI-0090 | human |
 | 2026-09-01T23:24:00.013Z | evidence_recorded | WI-0090 | human |
 | 2026-09-01T23:17:34.579Z | work_item_claimed | WI-0090 | human |
-| 2026-09-01T23:17:34.234Z | work_item_transitioned | WI-0090 | agent-tidus |
-| 2026-09-01T23:17:33.899Z | handoff_created | WI-0090 | agent-tidus |
 
 ## Assignments
 
