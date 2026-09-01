@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0089",
   "title": "Make Codex task titles outcome-first and refreshable",
-  "state": "independent_qa",
-  "owner_position": "independent_qa",
-  "assigned_agent_id": "agent-lulu",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-01T15:44:49.354Z",
-  "updated_at": "2026-09-01T16:10:10.591Z",
+  "updated_at": "2026-09-01T16:13:08.658Z",
   "scope": [
     "Generate ordinary task titles as Work Item ID, bounded short goal, Position, and Agent display name; define a separate project control-task convention.",
     "Add an explicit repository task-title refresh command and apply it to current registered tasks without changing thread identity, lifecycle authority, or archive state.",
@@ -154,6 +154,21 @@
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0089/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0089/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0089/product-direction.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0089/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0089/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -174,10 +189,15 @@
     ".ai-org/artifacts/WI-0089/handoff-005-quality_evaluator-to-independent_qa.md",
     ".ai-org/artifacts/WI-0089/quality-test-observation.json",
     ".ai-org/artifacts/WI-0089/evaluation-report.md",
-    "EVID-20260901T160940Z-601D56F4"
+    "EVID-20260901T160940Z-601D56F4",
+    ".ai-org/artifacts/WI-0089/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0089/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0089/independent-qa-test-observation.json",
+    "EVID-20260901T161246Z-94A055B5",
+    ".ai-org/artifacts/WI-0089/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "release_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -213,7 +233,18 @@
       "input_revision": "86b0cdf462f995efdaf93fa0e8eb173be000bc35",
       "artifact": ".ai-org/artifacts/WI-0089/handoff-005-quality_evaluator-to-independent_qa.md",
       "created_at": "2026-09-01T16:10:10.260Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "86b0cdf462f995efdaf93fa0e8eb173be000bc35",
+      "artifact": ".ai-org/artifacts/WI-0089/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-01T16:12:54.470Z"
     }
   ],
-  "developer_candidate_revision": "86b0cdf462f995efdaf93fa0e8eb173be000bc35"
+  "developer_candidate_revision": "86b0cdf462f995efdaf93fa0e8eb173be000bc35",
+  "tested_revision": "86b0cdf462f995efdaf93fa0e8eb173be000bc35",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

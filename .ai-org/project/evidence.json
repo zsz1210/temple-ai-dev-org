@@ -12539,6 +12539,90 @@
         "exit_code": 0,
         "started_at": "2026-09-01T16:07:30.000Z"
       }
+    },
+    {
+      "id": "EVID-20260901T161246Z-94A055B5",
+      "work_item_id": "WI-0089",
+      "recorded_at": "2026-09-01T16:12:46.406Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent positive and adversarial task-title verification",
+      "outcome": "pass",
+      "scope_revision": "86b0cdf462f995efdaf93fa0e8eb173be000bc35",
+      "observed_at": "2026-09-01T16:11:42.000Z",
+      "summary": "Independent QA reproduced the exact candidate in a second fresh Node.js 24 worktree and proved an injected 80-code-point budget defect fails the title contract.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0089/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0089/independent-qa-test-observation.json",
+          "sha256": "ab6473303ee01d5ee0b1bc1dd8091bd3d9d51f0dceb84b6f32efcbb8d1fb0e1b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0089/independent-qa-report.md",
+          "sha256": "32b32cb169d1ac680fa1b19a8287221cb18271665137e6c9332a04665aebe336"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0089/quality-report.md",
+          "sha256": "6cd1185dde103d0834f779c211309fa26f72cc834c2ce6d55e8292b9a553bcb5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0089/live-codex-title-observation.md",
+          "sha256": "e2fab9930107cd09103a916b89cd6d71ad3e5e0579948c8b04248a94bd2227ad"
+        }
+      ],
+      "details": {
+        "command": [
+          "create a second fresh detached worktree at 86b0cdf462f995efdaf93fa0e8eb173be000bc35",
+          "run npm ci --ignore-scripts under Node.js 24.20.0",
+          "run the 27 focused workflow and orchestration tests",
+          "inject a disposable TASK_TITLE_MAX_CODE_POINTS=80 defect",
+          "require the title-refresh contract test to fail with the expected bounded-title assertion",
+          "remove the complete disposable worktree"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-01T16:10:48.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260901T161246Z-29082C4E",
+      "work_item_id": "WI-0089",
+      "recorded_at": "2026-09-01T16:12:46.687Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "86b0cdf462f995efdaf93fa0e8eb173be000bc35",
+      "observed_at": "2026-09-01T16:12:46.687Z",
+      "summary": "Use a dedicated forward rollback Work Item, preserve lifecycle evidence, reverify repository and Codex readback, and keep app mutations separate.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0089/rollback-plan.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0089/rollback-plan.md",
+          "sha256": "f2e19b8062ee482d04872669b20052160c7ca16354f7f65f648b79819bc2d6bb"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0089/rollback-plan.md"
+      }
     }
   ]
 }

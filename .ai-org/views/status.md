@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 89 total, 5 active
+- Work items: 89 total, 4 active
 - Codex tasks: 5 registered, 5 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -135,7 +135,7 @@
 | WI-0086 | Prepare the first public Alpha release candidate | blocked | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `fe9f7d98` | 0 | 18 | 0 |
 | WI-0087 | Stabilize Linux temporary Git cleanup for Alpha.29 | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `680230f0` | 0 | 17 | 0 |
 | WI-0088 | Add real-browser Management Console regression coverage | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1a82106c` | 0 | 23 | 0 |
-| WI-0089 | Make Codex task titles outcome-first and refreshable | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `86b0cdf4` | 0 | 18 | 0 |
+| WI-0089 | Make Codex task titles outcome-first and refreshable | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `86b0cdf4` | 0 | 23 | 0 |
 
 ## Codex task registry
 
@@ -256,14 +256,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-01T16:13:08.658Z | work_item_closed | WI-0089 | agent-mog |
+| 2026-09-01T16:13:08.658Z | release_gate_completed | WI-0089 | agent-mog |
+| 2026-09-01T16:12:54.806Z | work_item_transitioned | WI-0089 | agent-lulu |
+| 2026-09-01T16:12:54.470Z | handoff_created | WI-0089 | agent-lulu |
+| 2026-09-01T16:12:46.687Z | evidence_recorded | WI-0089 | agent-lulu |
+| 2026-09-01T16:12:46.406Z | evidence_recorded | WI-0089 | agent-lulu |
 | 2026-09-01T16:10:10.591Z | work_item_transitioned | WI-0089 | agent-lulu |
 | 2026-09-01T16:10:10.260Z | handoff_created | WI-0089 | agent-lulu |
-| 2026-09-01T16:09:41.105Z | work_item_transitioned | WI-0089 | agent-lulu |
-| 2026-09-01T16:09:40.809Z | evidence_recorded | WI-0089 | agent-lulu |
-| 2026-09-01T16:06:11.152Z | work_item_transitioned | WI-0089 | agent-rikku |
-| 2026-09-01T16:06:10.818Z | handoff_created | WI-0089 | agent-rikku |
-| 2026-09-01T16:06:10.531Z | evidence_recorded | WI-0089 | agent-rikku |
-| 2026-09-01T16:00:19.334Z | task_titles_refreshed | — | agent-mog |
 
 ## Assignments
 
