@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0083",
   "title": "Add matched model evaluation and advisory recommendations",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-01T12:12:21.342Z",
-  "updated_at": "2026-09-01T12:41:00.342Z",
+  "updated_at": "2026-09-01T12:47:46.129Z",
   "scope": [
     "Define a project-owned matched evaluation contract that compares model and reasoning profiles only within the same exact task shape and quality rubric.",
     "Produce deterministic, explainable advisory recommendations from qualified matched evaluations while preserving requested and effective model evidence.",
@@ -80,7 +80,7 @@
       "resources": []
     }
   },
-  "base_revision": "ad10d528113963673724d9b02004b62e87aaafbe",
+  "base_revision": "a0be19c7d2082f149bd768e9b78e803f14695773",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -94,16 +94,16 @@
     "WI-0082: preserve its verified terminology and Core Skills scope; WI-0083 owns only the later Token-model maturity copy already present in the working tree."
   ],
   "claim": {
-    "id": "claim-20260901123755-0f64aae6",
+    "id": "claim-20260901124736-0a4cda69",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-lulu",
-    "base_revision": "ad10d528113963673724d9b02004b62e87aaafbe",
+    "agent_id": "agent-mog",
+    "base_revision": "a0be19c7d2082f149bd768e9b78e803f14695773",
     "branch": "main",
     "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
-    "claimed_at": "2026-09-01T12:37:55.889Z",
-    "released_at": "2026-09-01T12:41:00.342Z",
-    "release_reason": "position_transition"
+    "claimed_at": "2026-09-01T12:47:36.585Z",
+    "released_at": "2026-09-01T12:47:46.129Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -183,6 +183,18 @@
       "claimed_at": "2026-09-01T12:37:55.889Z",
       "released_at": "2026-09-01T12:41:00.342Z",
       "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901124736-0a4cda69",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "a0be19c7d2082f149bd768e9b78e803f14695773",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-01T12:47:36.585Z",
+      "released_at": "2026-09-01T12:47:46.129Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -216,6 +228,18 @@
     ],
     "independent_qa_pass": [
       ".ai-org/artifacts/WI-0083/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0083/product-direction.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0083/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0083/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0083/human-push-approval.md"
     ]
   },
   "evidence": [
@@ -239,10 +263,12 @@
     ".ai-org/artifacts/WI-0083/handoff-006-independent_qa-to-release_manager.md",
     ".ai-org/artifacts/WI-0083/independent-qa-report.md",
     ".ai-org/artifacts/WI-0083/independent-qa-observation.json",
-    "docs/validation/wi-0083-matched-model-advisory.md"
+    "docs/validation/wi-0083-matched-model-advisory.md",
+    ".ai-org/artifacts/WI-0083/release-record.md",
+    ".ai-org/artifacts/WI-0083/human-push-approval.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -287,5 +313,9 @@
       "created_at": "2026-09-01T12:40:51.492Z"
     }
   ],
-  "developer_candidate_revision": "ad10d528113963673724d9b02004b62e87aaafbe"
+  "developer_candidate_revision": "ad10d528113963673724d9b02004b62e87aaafbe",
+  "tested_revision": "a0be19c7d2082f149bd768e9b78e803f14695773",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0083/human-push-approval.md"
 }

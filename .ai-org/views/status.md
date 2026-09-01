@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 83 total, 12 active
+- Work items: 83 total, 11 active
 - Codex tasks: 5 registered, 4 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -129,7 +129,7 @@
 | WI-0080 | Redesign the human-facing README and overview diagram | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `de841e94` | 0 | 14 | 0 |
 | WI-0081 | Implement the approved Management Console with live project data | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | preview-first | 1 | 0 | 0 | — | `—` | 0 | 10 | 0 |
 | WI-0082 | Make Temple terms and Core Skills self-explanatory | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `8a7afd30` | 0 | 16 | 0 |
-| WI-0083 | Add matched model evaluation and advisory recommendations | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ad10d528` | 0 | 21 | 0 |
+| WI-0083 | Add matched model evaluation and advisory recommendations | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a0be19c7` | 0 | 23 | 0 |
 
 ## Codex task registry
 
@@ -248,14 +248,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-01T12:47:46.129Z | work_item_closed | WI-0083 | agent-mog |
+| 2026-09-01T12:47:46.129Z | release_gate_completed | WI-0083 | agent-mog |
+| 2026-09-01T12:47:36.585Z | work_item_claimed | WI-0083 | human |
 | 2026-09-01T12:41:00.342Z | work_item_transitioned | WI-0083 | agent-lulu |
 | 2026-09-01T12:40:51.492Z | handoff_created | WI-0083 | agent-lulu |
 | 2026-09-01T12:40:46.451Z | evidence_recorded | WI-0083 | human |
 | 2026-09-01T12:37:55.889Z | work_item_claimed | WI-0083 | human |
 | 2026-09-01T12:37:48.280Z | work_item_transitioned | WI-0083 | agent-lulu |
-| 2026-09-01T12:37:47.986Z | handoff_created | WI-0083 | agent-lulu |
-| 2026-09-01T12:37:42.964Z | work_item_transitioned | WI-0083 | agent-lulu |
-| 2026-09-01T12:37:42.697Z | evidence_recorded | WI-0083 | human |
 
 ## Assignments
 
