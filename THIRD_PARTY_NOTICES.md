@@ -1,5 +1,29 @@
 # Third-party notices
 
+## Runtime dependencies
+
+The npm lockfile currently resolves these runtime packages. They are installed as separate dependencies and are not copied into Temple's source files.
+
+| Package | Resolved version | License |
+| --- | --- | --- |
+| `ajv` | 8.20.0 | MIT |
+| `ajv-formats` | 3.0.1 | MIT |
+| `fast-deep-equal` | 3.1.3 | MIT |
+| `fast-uri` | 3.1.6 | BSD-3-Clause |
+| `json-schema-traverse` | 1.0.0 | MIT |
+| `require-from-string` | 2.0.2 | MIT |
+
+The dependency packages retain their own copyright and license files in an installed dependency tree. Review this inventory together with `package-lock.json` before each public release.
+
+## Mermaid README diagrams
+
+- Projects: <https://github.com/mermaid-js/mermaid> and <https://github.com/mermaid-js/mermaid-cli>
+- Authoring tool: `@mermaid-js/mermaid-cli`
+- Pinned authoring version: `11.10.1`
+- License: MIT
+
+Temple commits independently authored Mermaid source and the resulting static SVG documentation assets. Mermaid is used only during documentation authoring; it is not vendored, installed as a runtime dependency, or required to operate Temple.
+
 ## Archify
 
 - Project: <https://github.com/tt-a1i/archify>

@@ -1,0 +1,201 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0085",
+  "title": "Harden Temple for the first public alpha",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-01T13:39:43.334Z",
+  "updated_at": "2026-09-01T13:52:00.000Z",
+  "scope": [
+    "Replace the unsupported Node 20 floor with a verified Node 22 and Node 24 LTS compatibility contract; keep Node 26 as a future compatibility lane until it reaches LTS.",
+    "Reduce the npm artifact to an explicit runtime and public-documentation allowlist while keeping publication disabled.",
+    "Harden CI action provenance and add practical OSS contribution, security, ownership, and issue intake files without changing repository visibility or publishing a release."
+  ],
+  "acceptance_criteria": [
+    "package.json, bootstrap metadata, public setup guidance, and CI agree on Node 22 and Node 24 LTS support.",
+    "npm pack dry-run is enforced by an automated allowlist check, includes the CLI runtime and public documentation, and excludes repository self-host state, tests, examples, and generated evidence.",
+    "GitHub Actions are pinned to full commit SHAs, run the supported Node LTS matrix, and preserve least-privilege permissions and fail-closed verification behavior.",
+    "Public contributor, security, ownership, pull-request, and issue-intake guidance separates maintainership from release authority and warns against secrets or private project data.",
+    "The retained MIT decision and public-alpha boundary are documented; repository verification passes before release-gate closeout, while visibility, npm publication, tag creation, and GitHub settings remain external follow-up gates."
+  ],
+  "affected_paths": [
+      "package.json",
+      "package-lock.json",
+      "temple.lock",
+      "src/bootstrap.mjs",
+      "README.md",
+      "README.ja.md",
+      "README.zh-TW.md",
+      "docs/assets/README.md",
+      "docs/assets/temple-delivery-path.en.mmd",
+      "docs/assets/temple-delivery-path.en.svg",
+      "docs/assets/temple-delivery-path.en-mobile.mmd",
+      "docs/assets/temple-delivery-path.en-mobile.svg",
+      "docs/assets/temple-delivery-path.ja.mmd",
+      "docs/assets/temple-delivery-path.ja.svg",
+      "docs/assets/temple-delivery-path.ja-mobile.mmd",
+      "docs/assets/temple-delivery-path.ja-mobile.svg",
+      "docs/assets/temple-delivery-path.zh-TW.mmd",
+      "docs/assets/temple-delivery-path.zh-TW.svg",
+      "docs/assets/temple-delivery-path.zh-TW-mobile.mmd",
+      "docs/assets/temple-delivery-path.zh-TW-mobile.svg",
+      ".github/workflows/ci.yml",
+    ".github/CODEOWNERS",
+    ".github/PULL_REQUEST_TEMPLATE.md",
+    ".github/ISSUE_TEMPLATE/bug_report.yml",
+    ".github/ISSUE_TEMPLATE/feature_request.yml",
+    ".github/ISSUE_TEMPLATE/config.yml",
+    "scripts/check-package.mjs",
+    "test/ci-scope.test.mjs",
+    "test/release-package.test.mjs",
+    "docs/getting-started/testing.md",
+    "docs/planning/release-readiness.md",
+    "docs/adr/0039-public-alpha-distribution-and-node-lts.md",
+    "docs/adr/README.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "GOVERNANCE.md",
+    "THIRD_PARTY_NOTICES.md",
+    ".ai-org/decisions/DEC-0007-public-alpha-license-runtime-and-distribution.md",
+    ".ai-org/artifacts/WI-0085"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "642687a5bd2099aa0e4fb66663d671c12efd81c9",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": "agent-rikku",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0035 retains its historical CI cost and signal evidence; WI-0085 owns the Node LTS matrix, immutable action pins, and release packaging checks, and must preserve WI-0035's fail-closed scope behavior.",
+    "WI-0033 owns future provider-trust content in SECURITY.md; WI-0085 only adds public vulnerability-reporting and supported-version guidance without changing provider trust."
+  ],
+  "claim": {
+    "id": "claim-20260901134512-bf1f647d",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "642687a5bd2099aa0e4fb66663d671c12efd81c9",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-09-01T13:45:12.966Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260901134021-05878a79",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "642687a5bd2099aa0e4fb66663d671c12efd81c9",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T13:40:21.733Z",
+      "released_at": "2026-09-01T13:45:03.402Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901134504-5986efe8",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "642687a5bd2099aa0e4fb66663d671c12efd81c9",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T13:45:04.123Z",
+      "released_at": "2026-09-01T13:45:05.064Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901134505-e08114eb",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "642687a5bd2099aa0e4fb66663d671c12efd81c9",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T13:45:05.709Z",
+      "released_at": "2026-09-01T13:45:06.674Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901134512-bf1f647d",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "642687a5bd2099aa0e4fb66663d671c12efd81c9",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T13:45:12.966Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0085/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0085/product-direction.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0085.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0085/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0085/risk-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0085/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0085/work-order.md",
+    ".ai-org/artifacts/WI-0085/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0085/product-direction.md",
+    ".ai-org/decisions/DEC-0007-public-alpha-license-runtime-and-distribution.md",
+    ".ai-org/work-items/WI-0085.json",
+    ".ai-org/artifacts/WI-0085/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0085/technical-design.md",
+    ".ai-org/artifacts/WI-0085/risk-review.md",
+    "docs/adr/0039-public-alpha-distribution-and-node-lts.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "642687a5bd2099aa0e4fb66663d671c12efd81c9",
+      "artifact": ".ai-org/artifacts/WI-0085/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-01T13:45:03.019Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "642687a5bd2099aa0e4fb66663d671c12efd81c9",
+      "artifact": ".ai-org/artifacts/WI-0085/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-01T13:45:04.753Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "642687a5bd2099aa0e4fb66663d671c12efd81c9",
+      "artifact": ".ai-org/artifacts/WI-0085/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-01T13:45:06.347Z"
+    }
+  ]
+}

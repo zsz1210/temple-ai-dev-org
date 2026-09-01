@@ -38,5 +38,6 @@
 - [ADR-0036: Use a dedicated listener for the private LAN Dashboard](0036-dedicated-private-lan-dashboard-listener.md)
 - [ADR-0037: Automatically propose Skills, require human activation](0037-human-approved-skill-promotion.md)
 - [ADR-0038: Separate multi-human identity, eligibility, authority, and validation](0038-multi-human-team-governance.md)
+- [ADR-0039: Qualify public distribution against maintained Node.js LTS lines](0039-public-alpha-distribution-and-node-lts.md)
 
 An ADR is an Architecture Decision Record. It preserves the context, decision, rationale, and consequences of an important technical or organizational choice so that later Agents do not have to infer why it was made from chat memory.

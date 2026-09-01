@@ -1,0 +1,36 @@
+---
+config:
+  theme: base
+  fontFamily: "Noto Sans JP, Hiragino Sans, Inter, Arial, sans-serif"
+  block:
+    padding: 18
+  themeVariables:
+    background: "#0b0f14"
+    primaryTextColor: "#f8fafc"
+    lineColor: "#94a3b8"
+---
+block-beta
+  columns 8
+  H["人の判断"]:2 S1["1 · 目標を明確化"]:2 space:2 S2["2 · 範囲を承認"]:2
+  D["開発"]:2 S4["4 · 実装"]:2 space:2 S3["3 · 設計"]:2
+  A["品質保証"]:2 S5["5 · テスト・評価"]:2 S6["6 · 独立 QA"]:2 S7["7 · リリース判定"]:2
+  E["PROJECT REPOSITORY · 判断と検証結果を蓄積"]:8
+
+  S1 --> S2
+  S2 --> S3
+  S3 --> S4
+  S4 --> S5
+  S5 --> S6
+  S6 --> S7
+
+  classDef lane fill:#0b0f14,stroke:#0b0f14,color:#94a3b8,font-weight:700,font-size:14px;
+  classDef human fill:#172033,stroke:#60a5fa,color:#f8fafc,stroke-width:2px;
+  classDef delivery fill:#0f2f2d,stroke:#2dd4bf,color:#f8fafc,stroke-width:2px;
+  classDef assurance fill:#33280f,stroke:#fbbf24,color:#f8fafc,stroke-width:2px;
+  classDef evidence fill:#171c24,stroke:#64748b,color:#e2e8f0,stroke-width:2px;
+
+  class H,D,A lane
+  class S1,S2 human
+  class S3,S4 delivery
+  class S5,S6,S7 assurance
+  class E evidence

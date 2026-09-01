@@ -4,6 +4,7 @@ import { PACKAGE_NAME, REPOSITORY_ROOT, TEMPLATE_REPOSITORY, TEMPLATE_VERSION } 
 
 const execFileAsync = promisify(execFile);
 export const CLI_BOOTSTRAP_SCHEMA = "temple.cli-bootstrap/v1";
+export const SUPPORTED_NODE_RANGE = "^22.0.0 || ^24.0.0";
 
 async function gitSource() {
   try {
@@ -24,7 +25,7 @@ export async function buildCliBootstrapMetadata() {
   return {
     schema_version: CLI_BOOTSTRAP_SCHEMA,
     version: TEMPLATE_VERSION,
-    node: ">=20",
+    node: SUPPORTED_NODE_RANGE,
     launcher: "templew.mjs",
     package_spec: `${PACKAGE_NAME}@${TEMPLATE_VERSION}`,
     repository_spec:
@@ -44,7 +45,9 @@ export function validateCliBootstrapMetadata(document, templateVersion = TEMPLAT
   const errors = [];
   if (document.schema_version !== CLI_BOOTSTRAP_SCHEMA) errors.push(`schema_version must be ${CLI_BOOTSTRAP_SCHEMA}`);
   if (document.version !== templateVersion) errors.push("bootstrap version must match the installed template version");
-  if (document.node !== ">=20") errors.push("bootstrap node requirement must be >=20");
+  if (document.node !== SUPPORTED_NODE_RANGE) {
+    errors.push(`bootstrap node requirement must be ${SUPPORTED_NODE_RANGE}`);
+  }
   if (document.launcher !== "templew.mjs") errors.push("bootstrap launcher must be templew.mjs");
   if (document.package_spec !== `${PACKAGE_NAME}@${templateVersion}`) {
     errors.push("bootstrap package_spec must pin the installed package version");

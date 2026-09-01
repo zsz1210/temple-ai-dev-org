@@ -1,0 +1,45 @@
+{
+  "schema_version": "temple.init/v1",
+  "project": {
+    "id": "public-alpha-smoke",
+    "name": "Public Alpha Smoke"
+  },
+  "naming_mode": "manual",
+  "agents": [
+    {
+      "display_name": "Morgan Vale",
+      "positions": [
+        "engineering_manager",
+        "release_manager",
+        "observer"
+      ]
+    },
+    {
+      "display_name": "Avery Reed",
+      "positions": [
+        "product_manager",
+        "ux_designer",
+        "ui_designer"
+      ]
+    },
+    {
+      "display_name": "Jordan Pike",
+      "positions": [
+        "tech_lead"
+      ]
+    },
+    {
+      "display_name": "Casey North",
+      "positions": [
+        "developer"
+      ]
+    },
+    {
+      "display_name": "Riley Ash",
+      "positions": [
+        "quality_evaluator",
+        "independent_qa"
+      ]
+    }
+  ]
+}

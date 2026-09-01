@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.28`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 84 total, 4 active
+- Work items: 85 total, 5 active
 - Codex tasks: 5 registered, 5 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -26,7 +26,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -131,6 +131,7 @@
 | WI-0082 | Make Temple terms and Core Skills self-explanatory | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ed869f68` | 0 | 19 | 0 |
 | WI-0083 | Add matched model evaluation and advisory recommendations | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a0be19c7` | 0 | 23 | 0 |
 | WI-0084 | Reconcile release truth and refresh the public roadmap | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `dbfa2b7c` | 0 | 21 | 0 |
+| WI-0085 | Harden Temple for the first public alpha | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260901134512-bf1f647d | `—` | 0 | 10 | 0 |
 
 ## Codex task registry
 
@@ -250,14 +251,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-01T13:22:45.417Z | work_item_closed | WI-0084 | agent-mog |
-| 2026-09-01T13:22:45.417Z | release_gate_completed | WI-0084 | agent-mog |
-| 2026-09-01T13:22:39.862Z | evidence_recorded | WI-0084 | human |
-| 2026-09-01T13:22:34.735Z | work_item_transitioned | WI-0084 | agent-lulu |
-| 2026-09-01T13:22:30.258Z | handoff_created | WI-0084 | agent-lulu |
-| 2026-09-01T13:22:25.250Z | evidence_recorded | WI-0084 | human |
-| 2026-09-01T13:20:29.670Z | work_item_transitioned | WI-0084 | agent-lulu |
-| 2026-09-01T13:20:29.367Z | handoff_created | WI-0084 | agent-lulu |
+| 2026-09-01T13:45:12.966Z | work_item_claimed | WI-0085 | human |
+| 2026-09-01T13:45:12.608Z | work_item_coordination_configured | WI-0085 | agent-rikku |
+| 2026-09-01T13:45:07.020Z | work_item_coordination_configured | WI-0085 | agent-rikku |
+| 2026-09-01T13:45:06.674Z | work_item_transitioned | WI-0085 | agent-tidus |
+| 2026-09-01T13:45:06.347Z | handoff_created | WI-0085 | agent-tidus |
+| 2026-09-01T13:45:05.709Z | work_item_claimed | WI-0085 | human |
+| 2026-09-01T13:45:05.376Z | work_item_coordination_configured | WI-0085 | agent-tidus |
+| 2026-09-01T13:45:05.064Z | work_item_transitioned | WI-0085 | agent-yuna |
 
 ## Assignments
 

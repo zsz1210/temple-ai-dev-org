@@ -1,5 +1,17 @@
 # Security
 
+## Supported versions
+
+Temple is still preparing its first public Alpha. No public version is supported yet. After publication, security fixes will target the latest public Alpha only unless a release note states otherwise; older Alpha builds may be asked to upgrade before a fix is provided.
+
+## Report a vulnerability
+
+Do not disclose a suspected vulnerability, credential, private prompt, customer record, or repository evidence in a public issue. Before the repository becomes public, the maintainer must enable GitHub private vulnerability reporting and verify the **Security → Report a vulnerability** flow. Until that private route is available, public security reporting is not ready and publication remains blocked.
+
+This Alpha project does not promise a response-time SLA. A public release must name the supported version and private reporting route in its release notes.
+
+## Repository and project data
+
 - Do not commit API keys, GitHub tokens, private prompts, or customer data to this repository.
 - Initialization configuration should contain only Agent display names and Position assignments, never model credentials.
 - `temple init` does not overwrite managed files whose contents differ. It also leaves an existing `AGENTS.md` unchanged unless integration is explicitly requested.

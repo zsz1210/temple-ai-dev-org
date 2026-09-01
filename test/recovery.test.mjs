@@ -4,7 +4,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { CLI_BOOTSTRAP_SCHEMA, validateCliBootstrapMetadata } from "../src/bootstrap.mjs";
+import { CLI_BOOTSTRAP_SCHEMA, SUPPORTED_NODE_RANGE, validateCliBootstrapMetadata } from "../src/bootstrap.mjs";
 import { TEMPLATE_VERSION } from "../src/constants.mjs";
 import { runDoctor } from "../src/doctor.mjs";
 import { formatJson, sha256 } from "../src/files.mjs";
@@ -79,7 +79,7 @@ test("CLI bootstrap metadata validation is total and fail-closed", () => {
   const valid = {
     schema_version: CLI_BOOTSTRAP_SCHEMA,
     version: TEMPLATE_VERSION,
-    node: ">=20",
+    node: SUPPORTED_NODE_RANGE,
     launcher: "templew.mjs",
     package_spec: `@zsz1210/temple-ai-dev-org@${TEMPLATE_VERSION}`,
     repository_spec: null,

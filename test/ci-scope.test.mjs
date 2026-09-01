@@ -220,6 +220,14 @@ test("CI keeps one job, always reports both lanes, and aggregates failures", asy
   };
 
   assert.deepEqual(jobNames, ["verify"]);
+  assert.match(workflow, /matrix:\n\s+node-version:\n\s+- 22\n\s+- 24/);
+  assert.match(workflow, /node-version: \$\{\{ matrix\.node-version \}\}/);
+  const actionReferences = [...workflow.matchAll(/^\s+- uses: ([^\s#]+)/gm)].map((match) => match[1]);
+  assert.ok(actionReferences.length > 0);
+  for (const reference of actionReferences) {
+    assert.match(reference, /^[^@]+@[a-f0-9]{40}$/, reference);
+  }
+  assert.match(workflow, /^permissions:\n  contents: read$/m);
   for (const id of ["install", "governance", "schema", "doctor", "behavior_evidence", "behavior_full"]) {
     assert.match(step(id), /if:.*always\(\)/, id);
   }

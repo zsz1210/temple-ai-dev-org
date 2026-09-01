@@ -1,8 +1,30 @@
 # Contributing
 
-This repository is the central framework. Do not add Agent names, product specifications, work items, or verification evidence from any real project.
+Temple welcomes focused bug reports, documentation improvements, tests, and implementation proposals. The project is still in Alpha, so open an issue before starting a large feature or a change to architecture, lifecycle authority, file ownership, security, or external integrations.
 
-Change workflow:
+This repository is the central framework. Do not add Agent names, product specifications, work items, prompts, credentials, telemetry, or verification evidence from any real project.
+
+## Submit an issue
+
+- Use the bug form for reproducible defects and the feature form for a concrete user problem.
+- Search existing issues first and keep one problem per issue.
+- Use minimal synthetic examples. Never paste secrets or private project data.
+- Suspected vulnerabilities must follow [`SECURITY.md`](SECURITY.md), not the public issue tracker.
+
+## Submit a pull request
+
+1. Fork the repository and create a focused branch.
+2. Update the relevant specification or ADR before changing a durable contract.
+3. Keep framework files generic; place no project-specific Agent names or real-project state in `project-overlay/`.
+4. Add or update tests that prove the behavior and its safety boundary.
+5. Run `npm ci --ignore-scripts` and `npm run verify`.
+6. Explain the user problem, the chosen boundary, verification performed, and any remaining risk in the pull request.
+
+If AI assisted the contribution, the human contributor remains responsible for reviewing the result, respecting third-party licenses, removing private data, and confirming that the submitted code and prose may be distributed under this repository's license.
+
+By submitting a contribution, you agree that it may be distributed under the repository's MIT License. Acceptance, release timing, and maintainer authority follow [`GOVERNANCE.md`](GOVERNANCE.md).
+
+## Maintainer change workflow
 
 1. Update the relevant specification or ADR first.
 2. Update `project-overlay/`, the central documentation, or the CLI.
