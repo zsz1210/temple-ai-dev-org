@@ -12760,6 +12760,60 @@
         "exit_code": 0,
         "started_at": "2026-09-01T23:24:10.000Z"
       }
+    },
+    {
+      "id": "EVID-20260901T233447Z-B703E87D",
+      "work_item_id": "WI-0090",
+      "recorded_at": "2026-09-01T23:34:47.845Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0090 independent QA",
+      "outcome": "pass",
+      "scope_revision": "5b01b4f4b0022d0334edf0ca2a7304e16f4d4e96",
+      "observed_at": "2026-09-01T23:33:32.000Z",
+      "summary": "Fresh detached Node.js 24 full suite and installed-Chrome gate passed; hosted Node.js 22 and 24 jobs passed at the private integration head.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0090/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0090/independent-qa-test-observation.json",
+          "sha256": "0360181641634756a53d873b20d1c70a181dec4025d44b8b876c6ad3bd05fafa"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0090/independent-qa-report.md",
+          "sha256": "2931345defb6641f27ab24546291086f956ee681bcbe0e2af7ec2130d6b69f2d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0090/developer-verification.md",
+          "sha256": "a63a0b0ceb30eb99f729647071ed791d0b25233c809d3db130ba80dc509dc973"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0090/quality-report.md",
+          "sha256": "4e84ca77d1fa40777d5d154bed88c0aba82f584a2682740149a8718f91a76d04"
+        },
+        {
+          "path": "docs/validation/alpha-29-public-release-candidate.md",
+          "sha256": "32fa3805eb1d438607a79942d44d3feef236420e17ec80593d1281536b4546db"
+        }
+      ],
+      "details": {
+        "command": [
+          "Fresh detached worktree: Node.js 24.20.0 npm ci --ignore-scripts",
+          "Fresh detached worktree: Node.js 24.20.0 npm run verify",
+          "Fresh detached worktree: Node.js 24.20.0 npm run test:browser",
+          "Review GitHub Actions run 33570955370 and jobs 100064577716 / 100064577877"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-01T23:32:16.000Z"
+      }
     }
   ]
 }
