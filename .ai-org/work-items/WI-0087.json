@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0087",
   "title": "Stabilize Linux temporary Git cleanup for Alpha.29",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-01T14:45:35.413Z",
-  "updated_at": "2026-09-01T14:46:40.196Z",
+  "updated_at": "2026-09-01T14:59:56.612Z",
   "scope": [
     "Eliminate the hosted Linux ENOTEMPTY cleanup race in control-plane inbox fixtures without weakening behavioral assertions."
   ],
@@ -33,7 +33,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7",
+  "base_revision": "680230f021386f7d8ecd52addca9f81f68a2cb3a",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -41,15 +41,16 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260901144640-a3da67f6",
-    "status": "active",
+    "id": "claim-20260901145938-18255186",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7",
+    "agent_id": "agent-mog",
+    "base_revision": "680230f021386f7d8ecd52addca9f81f68a2cb3a",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-09-01T14:46:40.196Z",
-    "released_at": null
+    "claimed_at": "2026-09-01T14:59:38.323Z",
+    "released_at": "2026-09-01T14:59:56.612Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -90,14 +91,51 @@
     },
     {
       "id": "claim-20260901144640-a3da67f6",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7",
       "branch": "main",
       "worktree": null,
       "claimed_at": "2026-09-01T14:46:40.196Z",
-      "released_at": null
+      "released_at": "2026-09-01T14:51:23.906Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901145124-222a3ddf",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "680230f021386f7d8ecd52addca9f81f68a2cb3a",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T14:51:24.239Z",
+      "released_at": "2026-09-01T14:58:04.689Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901145805-79275937",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "680230f021386f7d8ecd52addca9f81f68a2cb3a",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T14:58:05.011Z",
+      "released_at": "2026-09-01T14:59:37.960Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901145938-18255186",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "680230f021386f7d8ecd52addca9f81f68a2cb3a",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T14:59:38.323Z",
+      "released_at": "2026-09-01T14:59:56.612Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -115,6 +153,34 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0087/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0087/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0087/developer-report.md",
+      ".ai-org/artifacts/WI-0087/developer-observation.json"
+    ],
+    "test_evidence": [
+      "EVID-20260901T145748Z-EFC723C5"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0087/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260901T145931Z-E8853FA0"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0087/product-direction.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0087/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0087/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0087/release-manager-review.md"
     ]
   },
   "evidence": [
@@ -125,10 +191,19 @@
     ".ai-org/work-items/WI-0087.json",
     ".ai-org/artifacts/WI-0087/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0087/technical-design.md",
-    ".ai-org/artifacts/WI-0087/risk-review.md"
+    ".ai-org/artifacts/WI-0087/risk-review.md",
+    ".ai-org/artifacts/WI-0087/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0087/developer-report.md",
+    ".ai-org/artifacts/WI-0087/developer-observation.json",
+    "EVID-20260901T145748Z-EFC723C5",
+    ".ai-org/artifacts/WI-0087/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0087/evaluation-report.md",
+    "EVID-20260901T145931Z-E8853FA0",
+    ".ai-org/artifacts/WI-0087/release-record.md",
+    ".ai-org/artifacts/WI-0087/independent-qa-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -150,6 +225,25 @@
       "input_revision": "fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7",
       "artifact": ".ai-org/artifacts/WI-0087/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-01T14:46:39.523Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "680230f021386f7d8ecd52addca9f81f68a2cb3a",
+      "artifact": ".ai-org/artifacts/WI-0087/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-01T14:51:23.557Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "680230f021386f7d8ecd52addca9f81f68a2cb3a",
+      "artifact": ".ai-org/artifacts/WI-0087/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-01T14:58:04.343Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "680230f021386f7d8ecd52addca9f81f68a2cb3a",
+  "tested_revision": "680230f021386f7d8ecd52addca9f81f68a2cb3a",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0087/release-manager-review.md"
 }

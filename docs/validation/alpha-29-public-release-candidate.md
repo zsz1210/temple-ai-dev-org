@@ -19,14 +19,17 @@ Pushed revision `d59ac2a9f0a56c41a7731fe8572c74be63a2e338` passed GitHub Actions
 
 These results justify constructing Alpha.29. They do not replace verification of the final Alpha.29 revision.
 
-## Required final-candidate evidence
+## Verified candidate evidence
 
-- Package, lockfile, changelog, roadmap, this record, and proposed tag identify `0.1.0-alpha.29`.
-- The exact committed candidate passes `npm run verify`, dependency audit, package-manifest inspection, and disposable tarball installation under Node.js 22 and 24.
-- Hosted Node.js 22 and 24 CI passes that exact commit.
-- Package contents exclude repository self-host state, tests, examples, screenshots, local telemetry, project evidence, and credentials.
-- The tracked repository and relevant history receive a final privacy and secret review.
-- The rollback procedure identifies the immutable candidate, withdrawal or superseding release behavior, and project-owned-state recovery boundary.
+- Package metadata, lockfile, changelog, roadmap, this record, and proposed tag identify `0.1.0-alpha.29`.
+- Candidate revision `fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7` passed clean local Node.js 22 and 24 verification, package inspection, exact-tarball consumer smoke, an Alpha.28 data-bearing upgrade rehearsal, dependency audit, schema validation, Doctor, SVG validation, and a high-confidence tracked-history credential-pattern review.
+- Its first hosted run exposed a Linux-only temporary Git cleanup race under Node.js 24. The release remained blocked; the failure was not waived.
+- Corrective revision `680230f021386f7d8ecd52addca9f81f68a2cb3a` added bounded retry behavior only to the test-owned temporary-tree cleanup. GitHub Actions run [`33522030500`](https://github.com/zsz1210/temple-ai-dev-org/actions/runs/33522030500) then passed the full Node.js 22 and 24 matrix.
+- Fresh-worktree Independent QA repeated the formerly failing Node.js 24 file ten times at the corrective revision without a failure.
+- The packed tarballs produced from the original and corrective candidate revisions are byte-identical, with SHA-256 `89e3b6900de079c54f730b455f138c029341696e2f342e3b83ca965c20270784`. The cleanup correction and repository evidence are excluded from the package boundary.
+- The allowlisted package contains 305 files and excludes repository self-host state, tests, examples, screenshots, local telemetry, project evidence, and credentials.
+
+The final documentation and evidence reconciliation commit must remain green before a tag is proposed for approval. Tag creation itself remains an unperformed external action.
 
 ## Human and external gates
 
