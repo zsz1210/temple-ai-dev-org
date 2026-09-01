@@ -1,8 +1,8 @@
 {
   "schema_version": "temple.capability-registry/v1",
-  "generated_at": "2026-09-01T14:26:35.736Z",
+  "generated_at": "2026-09-01T14:46:40.199Z",
   "project_id": "temple",
-  "source_template_version": "0.1.0-alpha.28",
+  "source_template_version": "0.1.0-alpha.29",
   "counts": {
     "total": 6,
     "available": 6,

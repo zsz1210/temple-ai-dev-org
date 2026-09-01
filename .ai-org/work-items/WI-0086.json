@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0086",
   "title": "Prepare the first public Alpha release candidate",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "blocked",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-01T14:24:44.818Z",
-  "updated_at": "2026-09-01T14:26:35.732Z",
+  "updated_at": "2026-09-01T14:45:22.713Z",
   "scope": [
     "Select and prepare one versioned GitHub Release candidate while npm distribution remains deferred.",
     "Reconcile the pushed Node.js 22 and 24 hosted-CI result, package boundary, security review, release notes, rollback plan, and public-readiness record at one exact candidate revision.",
@@ -68,10 +68,10 @@
       "resources": []
     }
   },
-  "base_revision": "d59ac2a9f0a56c41a7731fe8572c74be63a2e338",
+  "base_revision": "fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
-  "planned_agent_id": "agent-rikku",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [
@@ -79,15 +79,16 @@
     "WI-0067: WI-0086 may add only its own release-candidate entry to docs/validation/README.md; the blocked rehearsal evidence and result remain owned by WI-0067."
   ],
   "claim": {
-    "id": "claim-20260901142635-d495e7e1",
-    "status": "active",
+    "id": "claim-20260901144029-174a6ba6",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "d59ac2a9f0a56c41a7731fe8572c74be63a2e338",
+    "agent_id": "agent-lulu",
+    "base_revision": "fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-09-01T14:26:35.732Z",
-    "released_at": null
+    "claimed_at": "2026-09-01T14:40:29.304Z",
+    "released_at": "2026-09-01T14:45:22.713Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
@@ -128,14 +129,39 @@
     },
     {
       "id": "claim-20260901142635-d495e7e1",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "d59ac2a9f0a56c41a7731fe8572c74be63a2e338",
       "branch": "main",
       "worktree": null,
       "claimed_at": "2026-09-01T14:26:35.732Z",
-      "released_at": null
+      "released_at": "2026-09-01T14:39:57.651Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901143958-450b5013",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T14:39:58.296Z",
+      "released_at": "2026-09-01T14:40:28.647Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901144029-174a6ba6",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T14:40:29.304Z",
+      "released_at": "2026-09-01T14:45:22.713Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -153,6 +179,22 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0086/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0086/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0086/developer-report.md",
+      ".ai-org/artifacts/WI-0086/developer-observation.json"
+    ],
+    "test_evidence": [
+      "EVID-20260901T144027Z-A3917849"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0086/evaluation-report.md"
+    ],
+    "blocker_record": [
+      ".ai-org/artifacts/WI-0086/hosted-ci-failure.md"
     ]
   },
   "evidence": [
@@ -163,10 +205,18 @@
     ".ai-org/work-items/WI-0086.json",
     ".ai-org/artifacts/WI-0086/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0086/technical-design.md",
-    ".ai-org/artifacts/WI-0086/risk-review.md"
+    ".ai-org/artifacts/WI-0086/risk-review.md",
+    ".ai-org/artifacts/WI-0086/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0086/developer-report.md",
+    ".ai-org/artifacts/WI-0086/developer-observation.json",
+    "EVID-20260901T144027Z-A3917849",
+    ".ai-org/artifacts/WI-0086/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0086/quality-report.md",
+    ".ai-org/artifacts/WI-0086/evaluation-report.md",
+    ".ai-org/artifacts/WI-0086/hosted-ci-failure.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -188,6 +238,22 @@
       "input_revision": "d59ac2a9f0a56c41a7731fe8572c74be63a2e338",
       "artifact": ".ai-org/artifacts/WI-0086/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-01T14:26:34.745Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7",
+      "artifact": ".ai-org/artifacts/WI-0086/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-01T14:39:57.303Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7",
+      "artifact": ".ai-org/artifacts/WI-0086/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-01T14:40:28.322Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7",
+  "previous_state": "independent_qa"
 }

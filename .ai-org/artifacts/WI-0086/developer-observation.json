@@ -1,0 +1,20 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7",
+  "command": [
+    "create separate fresh detached worktrees at fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7",
+    "npx -y -p node@22 -c 'node --version; npm ci --ignore-scripts; npm run verify'",
+    "npx -y -p node@24 -c 'node --version; npm ci --ignore-scripts; npm run verify'",
+    "run schema validation, Doctor, dependency audit, package dry run, and SVG validation",
+    "install the exact packed tarball and run version, init, re-init, project launcher, and Doctor under Node.js 22 and 24",
+    "upgrade a data-bearing Alpha.28 project to the exact Alpha.29 tarball and compare project-owned Work Item, Lesson, and application-file digests",
+    "scan tracked history for high-confidence credential patterns outside named synthetic surfaces"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-01T14:34:32.000Z",
+  "completed_at": "2026-09-01T14:39:30.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0086/developer-report.md"
+  ]
+}

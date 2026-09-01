@@ -1,0 +1,155 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0087",
+  "title": "Stabilize Linux temporary Git cleanup for Alpha.29",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-01T14:45:35.413Z",
+  "updated_at": "2026-09-01T14:46:40.196Z",
+  "scope": [
+    "Eliminate the hosted Linux ENOTEMPTY cleanup race in control-plane inbox fixtures without weakening behavioral assertions."
+  ],
+  "acceptance_criteria": [
+    "Bounded recursive-removal retries are used only for temporary test trees.",
+    "The affected test file passes repeatedly under supported Node.js majors.",
+    "The full Node.js 22 and 24 hosted CI lanes pass on one exact replacement Alpha.29 candidate revision."
+  ],
+  "affected_paths": [
+    "test/control-plane-inbox.test.mjs",
+    ".ai-org/artifacts/WI-0087"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": "WI-0086",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260901144640-a3da67f6",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-09-01T14:46:40.196Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260901144541-5fc68faa",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T14:45:41.734Z",
+      "released_at": "2026-09-01T14:46:09.077Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901144609-8e9437df",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T14:46:09.408Z",
+      "released_at": "2026-09-01T14:46:21.197Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901144621-e3032504",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T14:46:21.517Z",
+      "released_at": "2026-09-01T14:46:39.863Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901144640-a3da67f6",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T14:46:40.196Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0087/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0087/product-direction.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0087.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0087/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0087/risk-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0087/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0087/work-order.md",
+    ".ai-org/artifacts/WI-0087/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0087/product-direction.md",
+    ".ai-org/work-items/WI-0087.json",
+    ".ai-org/artifacts/WI-0087/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0087/technical-design.md",
+    ".ai-org/artifacts/WI-0087/risk-review.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7",
+      "artifact": ".ai-org/artifacts/WI-0087/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-01T14:45:59.818Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7",
+      "artifact": ".ai-org/artifacts/WI-0087/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-01T14:46:20.855Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7",
+      "artifact": ".ai-org/artifacts/WI-0087/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-01T14:46:39.523Z"
+    }
+  ]
+}

@@ -1,11 +1,11 @@
 # Temple AI Development Organization Framework — AI development organization status
 
 - Project ID: `temple`
-- Organization system version: `0.1.0-alpha.28`
+- Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 86 total, 5 active
+- Work items: 87 total, 6 active
 - Codex tasks: 5 registered, 5 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -17,7 +17,7 @@
 - Skill promotion: 0 candidate(s), 0 approval pending, 0 authoring Work Item(s)
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 13
+- Attention signals: 14
 
 ## Collaboration
 
@@ -132,7 +132,8 @@
 | WI-0083 | Add matched model evaluation and advisory recommendations | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a0be19c7` | 0 | 23 | 0 |
 | WI-0084 | Reconcile release truth and refresh the public roadmap | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `dbfa2b7c` | 0 | 21 | 0 |
 | WI-0085 | Harden Temple for the first public alpha | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `31eb1707` | 0 | 22 | 0 |
-| WI-0086 | Prepare the first public Alpha release candidate | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260901142635-d495e7e1 | `—` | 0 | 8 | 0 |
+| WI-0086 | Prepare the first public Alpha release candidate | blocked | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `fe9f7d98` | 0 | 16 | 0 |
+| WI-0087 | Stabilize Linux temporary Git cleanup for Alpha.29 | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260901144640-a3da67f6 | `—` | 0 | 8 | 0 |
 
 ## Codex task registry
 
@@ -183,6 +184,7 @@
 
 - WI-0064 is blocked
 - WI-0067 is blocked
+- WI-0086 is blocked
 - task-0001 can be archived
 - task-0002 can be archived
 - task-0003 can be archived
@@ -252,14 +254,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-01T14:26:35.732Z | work_item_claimed | WI-0086 | human |
-| 2026-09-01T14:26:35.396Z | work_item_coordination_configured | WI-0086 | agent-rikku |
-| 2026-09-01T14:26:35.080Z | work_item_transitioned | WI-0086 | agent-tidus |
-| 2026-09-01T14:26:34.745Z | handoff_created | WI-0086 | agent-tidus |
-| 2026-09-01T14:26:34.443Z | work_item_claimed | WI-0086 | human |
-| 2026-09-01T14:26:34.114Z | work_item_coordination_configured | WI-0086 | agent-tidus |
-| 2026-09-01T14:26:33.803Z | work_item_transitioned | WI-0086 | agent-yuna |
-| 2026-09-01T14:26:33.486Z | handoff_created | WI-0086 | agent-yuna |
+| 2026-09-01T14:46:40.196Z | work_item_claimed | WI-0087 | human |
+| 2026-09-01T14:46:39.863Z | work_item_transitioned | WI-0087 | agent-tidus |
+| 2026-09-01T14:46:39.523Z | handoff_created | WI-0087 | agent-tidus |
+| 2026-09-01T14:46:21.517Z | work_item_claimed | WI-0087 | human |
+| 2026-09-01T14:46:21.197Z | work_item_transitioned | WI-0087 | agent-yuna |
+| 2026-09-01T14:46:20.855Z | handoff_created | WI-0087 | agent-yuna |
+| 2026-09-01T14:46:09.408Z | work_item_claimed | WI-0087 | human |
+| 2026-09-01T14:46:09.077Z | work_item_transitioned | WI-0087 | agent-mog |
 
 ## Assignments
 

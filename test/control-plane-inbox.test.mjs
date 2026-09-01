@@ -35,6 +35,15 @@ async function writeJson(targetPath, value) {
   await fs.writeFile(targetPath, `${JSON.stringify(value, null, 2)}\n`);
 }
 
+async function removeTemporaryTree(targetPath) {
+  await fs.rm(targetPath, {
+    recursive: true,
+    force: true,
+    maxRetries: 5,
+    retryDelay: 100
+  });
+}
+
 test("Temple Workspace command drafts survive unrelated refreshes and invalidate changed targets", () => {
   const firstTarget = {
     task_id: "task-0001",
@@ -88,7 +97,7 @@ async function fixture(context) {
   const target = path.join(temporaryRoot, "inbox-product");
   const configPath = path.join(temporaryRoot, "init.json");
   const stateDirectory = path.join(temporaryRoot, "state");
-  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  context.after(() => removeTemporaryTree(temporaryRoot));
   await writeJson(configPath, {
     schema_version: "temple.init/v1",
     project: { id: "inbox-product", name: "Inbox Product" },
