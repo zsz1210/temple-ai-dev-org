@@ -1,25 +1,28 @@
 # Release readiness
 
 - Audit date: 2026-09-02
-- Verified corrective candidate: `680230f021386f7d8ecd52addca9f81f68a2cb3a`
+- Requalification baseline: `fadd4a5e36f90ad1e683546b6e0f9e5374c72e33`
+- Exact requalified candidate: recorded through WI-0090 after exact-revision verification
 - Package metadata: `0.1.0-alpha.29` release candidate verified; public action not approved
 - Target: first public Alpha, not `1.0` or production qualification
 
 ## Conclusion
 
-Temple has a technically verified `0.1.0-alpha.29` candidate for its first public Alpha. The bounded local framework, package boundary, supported Node.js majors, clean consumer path, data-preserving upgrade, and hosted Linux matrix have passed. Publication remains a **NO-GO** until a private moderation route is approved, a genuinely independent new user completes the public path, the approved GitHub protections are configured, and the Human Principal separately authorizes the visibility, tag, and GitHub Release actions.
+Temple has a requalification baseline for its first public Alpha that includes the completed real-browser Management Console gate and outcome-first Codex task-title work. WI-0090 binds the final technical claim to one exact pushed revision, its clean consumer results, and its hosted Linux matrix. Publication remains a **NO-GO** until a private moderation route is approved, a genuinely independent new user completes the public path, the approved GitHub protections are configured, and the Human Principal separately authorizes the visibility, tag, and GitHub Release actions.
 
 ## Verified current facts
 
 - GitHub is private and npm publication remains disabled through `private: true`.
 - The scoped npm package does not exist in the public registry.
-- GitHub Actions run [`33522030500`](https://github.com/zsz1210/temple-ai-dev-org/actions/runs/33522030500) passed Node.js 22 and 24 at corrective candidate `680230f`; the earlier Node.js 24 cleanup failure remains preserved in WI-0086 and WI-0087 evidence.
+- GitHub Actions run [`33522030500`](https://github.com/zsz1210/temple-ai-dev-org/actions/runs/33522030500) passed Node.js 22 and 24 at the earlier corrective candidate `680230f`. It remains historical evidence rather than qualification for the later WI-0088 and WI-0089 integration baseline.
 - WI-0083 independently passed 260 tests at its exact candidate; WI-0081 and WI-0082 received fresh exact-candidate verification during the release-truth reconciliation.
 - `npm audit --omit=dev` reported zero known dependency vulnerabilities on the audit date.
-- The Alpha.29 package uses an explicit inclusion allowlist. Its dry run contains 305 files, approximately 0.63 MB packed and 2.54 MB unpacked, including the localized responsive README diagrams while excluding the repository's root `.ai-org`, tests, examples, screenshots, output, integrations, and development scripts. The original audit baseline produced 1,906 files and approximately 17.4 MB packed.
+- The Alpha.29 package uses an explicit inclusion allowlist. Its requalification dry run contains 307 files, approximately 0.64 MB packed and 2.56 MB unpacked, including the localized responsive README diagrams and public ADRs while excluding the repository's root `.ai-org`, tests, examples, screenshots, output, integrations, and development scripts. The original audit baseline produced 1,906 files and approximately 17.4 MB packed.
 - The WI-0085 workflow candidate retains minimal `contents: read` permission and pins `actions/checkout` and `actions/setup-node` v7 to reviewed full commit SHAs.
-- The package and installed bootstrap declare `^22.0.0 || ^24.0.0`. Local full suites pass all 262 tests under Node.js `v22.23.2` and `v24.20.0`, and hosted corrective candidate `680230f` passed both majors.
-- A real tarball installed into a temporary consumer directory and completed version, init, re-init, Doctor, and status smoke checks under both supported Node.js majors. Node.js `v26.8.1` also passes all 262 tests as a non-blocking forward-compatibility signal, but remains outside the support contract while it is Current rather than LTS.
+- The package and installed bootstrap declare `^22.0.0 || ^24.0.0`. The requalification suite contains 270 tests; WI-0090 repeats the full suite and exact-tarball consumer checks under both supported majors before binding the candidate.
+- The installed-Chrome regression gate checks four responsive viewports, semantic navigation, live-state labels, keyboard traversal, reduced motion, console failures, overflow, clipping, and collisions. It uses the pinned development-only `playwright-core` package, downloads no browser, and runs only in the Node.js 24 full CI lane.
+- Codex task-title suggestions now use `WI-#### · short goal · Position (Agent)` within a live-verified 58-code-point ceiling. Explicit refresh changes only the stored suggestion; titles remain navigation labels rather than lifecycle or authority state.
+- A real tarball must complete version, init, re-init, project launcher, Doctor, and status smoke checks under both supported Node.js majors. Node.js 26 remains a non-blocking forward-compatibility signal outside the support contract while it is Current rather than LTS.
 - `npm audit --omit=dev` reports zero known vulnerabilities for the current locked production graph, and the dependency-license inventory is recorded in `THIRD_PARTY_NOTICES.md`.
 - The Human Principal accepted retaining MIT for the first public Alpha. Apache-2.0 remains a revisit option if explicit patent terms become an evidenced requirement.
 - Contribution, governance, security, ownership, pull-request, and issue-intake files now define the repository-local boundary. GitHub private vulnerability reporting, repository protections, secret push protection, and a private conduct-reporting route remain external gates.
@@ -28,13 +31,14 @@ Temple has a technically verified `0.1.0-alpha.29` candidate for its first publi
 
 | Gate | Current status | Required evidence at the final candidate |
 | --- | --- | --- |
-| Canonical release truth | Candidate reconciled; public closeout blocked | Keep the verified candidate, proposed tag, release record, Dashboard, and remaining Human gates aligned |
-| Release identity | Verified | `0.1.0-alpha.29`, package metadata, changelog, roadmap, validation index, corrective candidate, and proposed `v0.1.0-alpha.29` tag align |
-| Package boundary | Passed | Explicit `files` allowlist and enforced dry-run manifest passed with 305 files |
+| Canonical release truth | Requalification in WI-0090; public closeout blocked | Keep the exact pushed candidate, proposed tag, release record, Dashboard, and remaining Human gates aligned |
+| Release identity | Verified at the integration baseline | `0.1.0-alpha.29`, package metadata, changelog, roadmap, validation index, WI-0090 candidate, and proposed `v0.1.0-alpha.29` tag align |
+| Package boundary | Passed at the integration baseline | Explicit `files` allowlist and enforced dry-run manifest passed with 307 files |
 | Clean installation | Passed | Exact tarball version, install, init, re-init, project launcher, and Doctor passed under Node.js 22 and 24 |
 | Data-bearing upgrade | Passed | Alpha.28 Work Item, Learning, and application data remained byte-identical through the Alpha.29 upgrade rehearsal |
-| Runtime support | Passed for declared scope | Node.js 22 and 24 passed locally and on hosted Linux; Windows remains unqualified |
-| Hosted CI | Passed | Corrective candidate `680230f` passed independently visible Node.js 22 and 24 jobs in run `33522030500` |
+| Runtime support | Requalification pending exact revision | Node.js 22 and 24 must pass locally and on hosted Linux; Windows remains unqualified |
+| Real-browser console gate | Passed at the feature revision; pending exact candidate | Installed Chrome passes four-view semantic and layout checks; Node.js 24 full CI lane owns the hosted gate |
+| Hosted CI | Pending for the requalified candidate | Earlier run `33522030500` is historical; the pushed WI-0090 candidate must pass independently visible Node.js 22 and 24 jobs |
 | GitHub Actions supply chain | Passed at candidate | Reviewed full-length SHA pins and least-privilege permissions remained green |
 | Dependency and provenance review | Passed locally | Lockfile audit reported zero known production vulnerabilities; notices and the allowlisted manifest were reviewed together |
 | Secret and privacy review | Local review passed; hosting controls pending | High-confidence tracked-history review found no non-synthetic match; hosting-side scanning and push protection remain to be configured |

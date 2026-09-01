@@ -9,7 +9,7 @@
 
 ## Purpose
 
-This record defines the evidence boundary for Temple's first public Alpha. It packages the human-facing documentation, deterministic matched-model advisory, Node.js LTS contract, scoped distribution artifact, CI supply-chain hardening, and OSS health material completed after Alpha.28 into one reviewable release candidate.
+This record defines the evidence boundary for Temple's first public Alpha. It packages the human-facing documentation, deterministic matched-model advisory, Node.js LTS contract, scoped distribution artifact, CI supply-chain hardening, real-browser Management Console gate, outcome-first Codex task navigation, and OSS health material completed after Alpha.28 into one reviewable release candidate.
 
 It does not claim production, enterprise, Windows, npm, autonomous external-operation, automatic model-routing, or measured cost-savings readiness.
 
@@ -19,15 +19,30 @@ Pushed revision `d59ac2a9f0a56c41a7731fe8572c74be63a2e338` passed GitHub Actions
 
 These results justify constructing Alpha.29. They do not replace verification of the final Alpha.29 revision.
 
-## Verified candidate evidence
+## Post-baseline integrations
 
-- Package metadata, lockfile, changelog, roadmap, this record, and proposed tag identify `0.1.0-alpha.29`.
+- WI-0088 added an installed-Chrome semantic and responsive regression gate for the Management Console. It covers navigation, live-state labeling, keyboard traversal, reduced motion, console failures, overflow, clipping, and collisions at four viewports. CI runs the gate only in the Node.js 24 full lane; `playwright-core` is pinned, development-only, downloads no browser, and is excluded from the package artifact.
+- WI-0089 changed generated Codex task-title suggestions to `WI-#### · short goal · Position (Agent)` within a 58-code-point whole-title ceiling and added an explicit idempotent registry refresh operation. Titles remain mutable navigation labels; stable Work Item and thread IDs remain canonical.
+- Integration baseline `fadd4a5e36f90ad1e683546b6e0f9e5374c72e33` contains both completed Work Items. WI-0090 owns the later exact-candidate verification and private push without clearing any Human or public-action gate.
+
+## Historical candidate evidence
+
 - Candidate revision `fe9f7d9846bf0741cb2bc34443c0db34ade7c5d7` passed clean local Node.js 22 and 24 verification, package inspection, exact-tarball consumer smoke, an Alpha.28 data-bearing upgrade rehearsal, dependency audit, schema validation, Doctor, SVG validation, and a high-confidence tracked-history credential-pattern review.
 - Its first hosted run exposed a Linux-only temporary Git cleanup race under Node.js 24. The release remained blocked; the failure was not waived.
 - Corrective revision `680230f021386f7d8ecd52addca9f81f68a2cb3a` added bounded retry behavior only to the test-owned temporary-tree cleanup. GitHub Actions run [`33522030500`](https://github.com/zsz1210/temple-ai-dev-org/actions/runs/33522030500) then passed the full Node.js 22 and 24 matrix.
 - Fresh-worktree Independent QA repeated the formerly failing Node.js 24 file ten times at the corrective revision without a failure.
 - The packed tarballs produced from the original and corrective candidate revisions are byte-identical, with SHA-256 `89e3b6900de079c54f730b455f138c029341696e2f342e3b83ca965c20270784`. The cleanup correction and repository evidence are excluded from the package boundary.
-- The allowlisted package contains 305 files and excludes repository self-host state, tests, examples, screenshots, local telemetry, project evidence, and credentials.
+- The earlier allowlisted package contained 305 files and excluded repository self-host state, tests, examples, screenshots, local telemetry, project evidence, and credentials.
+
+Those results explain the candidate history but do not qualify the post-baseline integrations.
+
+## Requalified candidate requirements
+
+- Package metadata, lockfile, changelog, roadmap, this record, and proposed tag identify `0.1.0-alpha.29`.
+- The current allowlisted package contains 307 files, is approximately 0.64 MB packed and 2.56 MB unpacked, and preserves the same exclusion boundary.
+- One exact WI-0090 technical candidate must pass all 270 repository tests under Node.js 22 and 24, the installed-Chrome browser gate, schema validation, Doctor, dependency audits, package review, and exact-tarball consumer smoke under both supported majors.
+- Private `origin/main` must contain that candidate and its hosted Node.js 22 and 24 jobs must pass, with the installed-Chrome gate executing in the Node.js 24 full lane.
+- Exact-revision Developer, Quality, Independent QA, and rollback evidence must be recorded without treating the evidence commit as public release approval.
 
 The final documentation and evidence reconciliation commit must remain green before a tag is proposed for approval. Tag creation itself remains an unperformed external action.
 
