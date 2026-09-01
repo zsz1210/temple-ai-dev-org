@@ -11211,6 +11211,79 @@
         "exit_code": 0,
         "started_at": "2026-09-01T06:26:16.000Z"
       }
+    },
+    {
+      "id": "EVID-20260901T123557Z-24A5A601",
+      "work_item_id": "WI-0083",
+      "recorded_at": "2026-09-01T12:35:57.214Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Matched model advisory implementation candidate",
+      "outcome": "verified",
+      "scope_revision": "ad10d528113963673724d9b02004b62e87aaafbe",
+      "observed_at": "2026-09-01T12:35:57.214Z",
+      "summary": "Exact committed candidate for the bounded quality-first matched-evaluation advisory; no automatic routing or provider execution.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "ad10d528113963673724d9b02004b62e87aaafbe"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "ad10d528113963673724d9b02004b62e87aaafbe",
+        "working_tree_dirty": true,
+        "dirty_path_count": 218,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260901T123557Z-6F1F0619",
+      "work_item_id": "WI-0083",
+      "recorded_at": "2026-09-01T12:35:57.515Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer exact-candidate verification",
+      "outcome": "pass",
+      "scope_revision": "ad10d528113963673724d9b02004b62e87aaafbe",
+      "observed_at": "2026-09-01T12:34:16.000Z",
+      "summary": "Focused and full repository verification, schema validation, Doctor, and no-source preflight passed at the exact candidate revision.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0083/developer-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0083/developer-observation.json",
+          "sha256": "d0204f239c615e30e27701e22180856edcb6dd1ea96bf7c7daeb71487d841b25"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0083/developer-report.md",
+          "sha256": "b74d43f01e446e63be019bdbfd66f86f1f9ba4688891ce03a47e149581e2d4c9"
+        }
+      ],
+      "details": {
+        "command": [
+          "create a fresh detached worktree at revision ad10d528113963673724d9b02004b62e87aaafbe",
+          "npm run verify",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "node ./templew.mjs usage preflight . --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-01T12:33:10.000Z"
+      }
     }
   ]
 }

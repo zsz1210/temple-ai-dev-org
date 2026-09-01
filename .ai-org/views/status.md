@@ -129,7 +129,7 @@
 | WI-0080 | Redesign the human-facing README and overview diagram | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `de841e94` | 0 | 14 | 0 |
 | WI-0081 | Implement the approved Management Console with live project data | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | preview-first | 1 | 0 | 0 | — | `—` | 0 | 10 | 0 |
 | WI-0082 | Make Temple terms and Core Skills self-explanatory | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `8a7afd30` | 0 | 16 | 0 |
-| WI-0083 | Add matched model evaluation and advisory recommendations | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260901121823-0af25011 | `—` | 0 | 10 | 0 |
+| WI-0083 | Add matched model evaluation and advisory recommendations | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260901123621-4087a812 | `ad10d528` | 0 | 13 | 0 |
 
 ## Codex task registry
 
@@ -248,14 +248,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-01T12:36:21.026Z | work_item_claimed | WI-0083 | human |
+| 2026-09-01T12:36:09.452Z | work_item_transitioned | WI-0083 | agent-rikku |
+| 2026-09-01T12:36:03.535Z | handoff_created | WI-0083 | agent-rikku |
+| 2026-09-01T12:35:57.515Z | evidence_recorded | WI-0083 | human |
+| 2026-09-01T12:35:57.214Z | evidence_recorded | WI-0083 | human |
 | 2026-09-01T12:18:23.120Z | work_item_claimed | WI-0083 | human |
 | 2026-09-01T12:18:22.796Z | work_item_coordination_configured | WI-0083 | agent-rikku |
 | 2026-09-01T12:18:22.492Z | work_item_transitioned | WI-0083 | agent-tidus |
-| 2026-09-01T12:18:22.186Z | work_item_claim_released | WI-0083 | human |
-| 2026-09-01T12:18:21.860Z | handoff_created | WI-0083 | agent-tidus |
-| 2026-09-01T12:15:02.097Z | work_item_claimed | WI-0083 | human |
-| 2026-09-01T12:15:01.790Z | work_item_coordination_configured | WI-0083 | agent-tidus |
-| 2026-09-01T12:15:01.481Z | work_item_transitioned | WI-0083 | agent-yuna |
 
 ## Assignments
 
