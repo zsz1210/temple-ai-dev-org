@@ -1,0 +1,227 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0080",
+  "title": "Redesign the human-facing README and overview diagram",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-01T03:18:22.852Z",
+  "updated_at": "2026-09-01T03:38:18.695Z",
+  "scope": [
+    "Rewrite the English, Japanese, and Traditional Chinese README entry points around Temple as an AI Development Organization Framework, using plain reader-facing language before Temple-specific terminology.",
+    "Replace the current README overview diagrams with compact localized diagrams that explain product direction, responsibility and authority, engineering methods, work coordination, verification and delivery, and learning and memory.",
+    "Keep detailed architecture, lifecycle history, and Archify engineering topology in focused documentation; do not modify or delete WI-0079 artifacts, install integrations, publish, or push."
+  ],
+  "acceptance_criteria": [
+    "All three READMEs share the same information hierarchy and truthful capability boundaries while reading naturally in their own language.",
+    "The first screen renders like a GitHub README rather than a landing page and explains Temple's organization framework without requiring prior knowledge of Temple terminology.",
+    "Each localized overview diagram remains readable at desktop and narrow widths, and the README links and commands pass repository verification.",
+    "The diff is limited to the three README files, their three localized overview SVG assets, and the Work Item's canonical evidence; WI-0079 remains intact and separate."
+  ],
+  "affected_paths": [
+    "README.md",
+    "README.ja.md",
+    "README.zh-TW.md",
+    "docs/assets/temple-overview.en.svg",
+    "docs/assets/temple-overview.ja.svg",
+    "docs/assets/temple-overview.zh-TW.svg"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "53d3ab69dcb228c3e7eb0466febff86c1b7a591d",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260901033416-31ab8394",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-lulu",
+    "base_revision": "53d3ab69dcb228c3e7eb0466febff86c1b7a591d",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-09-01T03:34:16.680Z",
+    "released_at": "2026-09-01T03:36:45.484Z",
+    "release_reason": "position_transition"
+  },
+  "claims": [
+    {
+      "id": "claim-20260901031834-91bda8e2",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "53d3ab69dcb228c3e7eb0466febff86c1b7a591d",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T03:18:34.780Z",
+      "released_at": "2026-09-01T03:18:55.959Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260901031900-0b78715e",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "53d3ab69dcb228c3e7eb0466febff86c1b7a591d",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T03:19:00.705Z",
+      "released_at": "2026-09-01T03:19:35.228Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260901031936-27ac8917",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "53d3ab69dcb228c3e7eb0466febff86c1b7a591d",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T03:19:36.114Z",
+      "released_at": "2026-09-01T03:20:06.384Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260901032007-6b9d4059",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "53d3ab69dcb228c3e7eb0466febff86c1b7a591d",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T03:20:07.376Z",
+      "released_at": "2026-09-01T03:34:10.340Z",
+      "release_reason": [
+        "Build complete; verified uncommitted candidate handed to quality evaluation."
+      ]
+    },
+    {
+      "id": "claim-20260901033416-31ab8394",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "53d3ab69dcb228c3e7eb0466febff86c1b7a591d",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T03:34:16.680Z",
+      "released_at": "2026-09-01T03:36:45.484Z",
+      "release_reason": "position_transition"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0080/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0080/product-direction.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0080/product-direction.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0080/documentation-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0080/documentation-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0080/handoff-004-developer-to-quality_evaluator.md",
+      ".ai-org/artifacts/WI-0080/developer-report.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0080/developer-report.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0080/quality-report.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0080/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0080/independent-qa-report.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0080/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0080/work-order.md",
+    ".ai-org/artifacts/WI-0080/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0080/product-direction.md",
+    ".ai-org/artifacts/WI-0080/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0080/documentation-design.md",
+    ".ai-org/artifacts/WI-0080/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0080/developer-report.md",
+    ".ai-org/artifacts/WI-0080/quality-report.md",
+    ".ai-org/artifacts/WI-0080/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0080/evaluation-report.md",
+    ".ai-org/artifacts/WI-0080/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0080/independent-qa-report.md"
+  ],
+  "unresolved": [],
+  "next_position": "engineering_manager",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "53d3ab69dcb228c3e7eb0466febff86c1b7a591d",
+      "artifact": ".ai-org/artifacts/WI-0080/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-01T03:18:55.666Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "53d3ab69dcb228c3e7eb0466febff86c1b7a591d",
+      "artifact": ".ai-org/artifacts/WI-0080/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-01T03:19:34.941Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "53d3ab69dcb228c3e7eb0466febff86c1b7a591d",
+      "artifact": ".ai-org/artifacts/WI-0080/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-01T03:20:06.090Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "53d3ab69dcb228c3e7eb0466febff86c1b7a591d",
+      "artifact": ".ai-org/artifacts/WI-0080/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-01T03:34:10.030Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "53d3ab69dcb228c3e7eb0466febff86c1b7a591d",
+      "artifact": ".ai-org/artifacts/WI-0080/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-01T03:36:45.191Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "53d3ab69dcb228c3e7eb0466febff86c1b7a591d",
+      "artifact": ".ai-org/artifacts/WI-0080/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-01T03:38:18.360Z"
+    }
+  ],
+  "developer_candidate_revision": "53d3ab69dcb228c3e7eb0466febff86c1b7a591d"
+}
