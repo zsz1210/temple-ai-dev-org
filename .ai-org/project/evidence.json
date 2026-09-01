@@ -12623,6 +12623,95 @@
         "status": "planned",
         "procedure": ".ai-org/artifacts/WI-0089/rollback-plan.md"
       }
+    },
+    {
+      "id": "EVID-20260901T232400Z-836C6722",
+      "work_item_id": "WI-0090",
+      "recorded_at": "2026-09-01T23:24:00.013Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0090 technical candidate",
+      "outcome": "verified",
+      "scope_revision": "5b01b4f4b0022d0334edf0ca2a7304e16f4d4e96",
+      "observed_at": "2026-09-01T23:24:00.013Z",
+      "summary": "Exact private Alpha.29 requalification candidate containing completed WI-0088 and WI-0089 integration plus reconciled release documents.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "5b01b4f4b0022d0334edf0ca2a7304e16f4d4e96"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "5b01b4f4b0022d0334edf0ca2a7304e16f4d4e96",
+        "working_tree_dirty": true,
+        "dirty_path_count": 302,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260901T232400Z-D5A8E3CF",
+      "work_item_id": "WI-0090",
+      "recorded_at": "2026-09-01T23:24:00.324Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0090 local candidate verification",
+      "outcome": "pass",
+      "scope_revision": "5b01b4f4b0022d0334edf0ca2a7304e16f4d4e96",
+      "observed_at": "2026-09-01T23:23:19.000Z",
+      "summary": "Node.js 22 and 24 full suites, installed Chrome, audits, package, schema, Doctor, and clean consumers passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0090/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0090/developer-test-observation.json",
+          "sha256": "01c3957f644a63c8320e449a72029a2fba26a8360cefe0ce32f959674040c17e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0090/developer-verification.md",
+          "sha256": "a63a0b0ceb30eb99f729647071ed791d0b25233c809d3db130ba80dc509dc973"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0090/technical-design.md",
+          "sha256": "8e19ae0104192b929b34c22344b973fa528f78c44d43661c761f28998bcee833"
+        },
+        {
+          "path": "docs/planning/release-readiness.md",
+          "sha256": "50787ef1173dc84f195dc4a3500afdc112f10afbe352d22f5707dd8b426a7819"
+        },
+        {
+          "path": "docs/validation/alpha-29-public-release-candidate.md",
+          "sha256": "14d2b60fc035261bf34c7cafb349c5466ef75a211c438af3cc39b007af7d66a9"
+        }
+      ],
+      "details": {
+        "command": [
+          "Node.js 22.23.2: npm run verify",
+          "Node.js 24.20.0: npm run verify",
+          "Node.js 24.20.0: npm run test:browser",
+          "npm audit --omit=dev --json",
+          "npm audit --json",
+          "npm pack --json --ignore-scripts",
+          "Exact-tarball consumer smoke under Node.js 22.23.2 and 24.20.0",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-01T23:18:55.000Z"
+      }
     }
   ]
 }
