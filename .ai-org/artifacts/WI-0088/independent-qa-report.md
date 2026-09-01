@@ -33,3 +33,4 @@ This negative control demonstrates that the gate detects an actual responsive-la
 ## Decision
 
 Pass. The implementation may advance to Release Gate for repository integration only. This does not authorize push, publication, tagging, package release, repository visibility changes, or a claim about hosted billing.
+

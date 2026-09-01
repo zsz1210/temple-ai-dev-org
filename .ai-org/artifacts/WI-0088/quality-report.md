@@ -33,3 +33,4 @@ The workflow contract retains one `verify` job matrix. Only the Node.js 24 full 
 ## Quality decision
 
 Pass. The candidate is ready for evaluation and Independent QA. This decision does not authorize a push, public release, package publication, or restoration of the stale Alpha.29 release candidate.
+

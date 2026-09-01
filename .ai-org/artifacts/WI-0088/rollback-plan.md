@@ -9,3 +9,4 @@ If the browser gate causes unacceptable CI instability or breaks supported devel
 5. Preserve this Work Item's evidence and record why the semantic browser gate was withdrawn.
 
 Do not delete failure evidence, force-push, or restore the stale Alpha.29 candidate. A later public candidate must always be cut from the then-current exact revision.
+
