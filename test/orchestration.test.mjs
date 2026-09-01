@@ -110,6 +110,10 @@ test("parallel plan creates deterministic dependency-safe, conflict-safe, capaci
   assert.equal(plan.execution_policy.task_creation_performed, false);
   assert.ok(plan.waves.every((wave) => wave.join_gate.integration_owner_agent_ids.length === 1));
   assert.ok(plan.waves.flatMap((wave) => wave.dispatch).every((entry) => entry.task_creation_performed === false));
+  assert.equal(
+    plan.waves[0].dispatch[0].suggested_task_title,
+    `${first} · Independe… · Engineering Manager (Fixture Rowan)`
+  );
 
   const taskRegistry = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/tasks.json"), "utf8"));
   assert.deepEqual(taskRegistry.tasks, []);

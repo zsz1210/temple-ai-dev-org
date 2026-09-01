@@ -18,8 +18,11 @@
   },
   "codex_tasks": {
     "canonical_registry": ".ai-org/project/tasks.json",
-    "suggested_title_format": "WI-#### · Position · Agent Name",
+    "suggested_title_format": "WI-#### · short goal · Position (Agent Name)",
+    "main_control_title_format": "Project · control scope · Primary Position (Agent Name)",
+    "suggested_title_max_code_points": 58,
     "thread_id_is_identifier": true,
+    "registry_refresh_renames_app_task": false,
     "automatic_archive": false
   },
   "external_trackers": {

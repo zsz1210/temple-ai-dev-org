@@ -41,7 +41,7 @@ The lean five-Identity organization is sufficient. Collaborative Principal and m
 4. Start a new Codex task in a clean checkout or new projectless workspace. Its initial prompt may identify only the repository URL or path and ask it to recover and continue from canonical state.
 5. Do not paste an old-chat summary, product explanation, current Work Item, intended next command, Agent name, or answer key into the cold task.
 6. Record every extra hint requested or supplied. A necessary product or organizational re-explanation is a recovery failure, not an invisible rescue.
-7. Register the real task or client-task ID with the Work Item. Use the suggested `Work Item ID · Position · Agent Name` title when the runtime permits naming.
+7. Register the real task or client-task ID with the Work Item. Use the suggested `Work Item ID · short goal · Position (Agent Name)` title when the runtime permits naming.
 8. Dispatch only the first wave of a valid, fresh plan and only when implementation is already authorized. Establish required claims before implementation.
 9. After every wave, the Integration Owner records exact revisions, verification results, and unresolved items. Rebuild the plan before dependent work.
 10. Independent QA reproduces the exact joined candidate in a clean checkout. No production release is performed.

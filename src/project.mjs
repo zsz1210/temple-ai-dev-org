@@ -73,9 +73,35 @@ export function positionName(context, positionId) {
   return context.positions.get(positionId)?.display_name ?? positionId;
 }
 
-export function suggestedTaskTitle(context, workItemId, positionId) {
-  const agent = assignedAgent(context, positionId);
-  return `${workItemId} · ${positionName(context, positionId)} · ${agent.display_name}`;
+export const TASK_GOAL_MAX_CODE_POINTS = 48;
+export const TASK_TITLE_MAX_CODE_POINTS = 58;
+
+export function shortTaskGoal(value, maximumCodePoints = TASK_GOAL_MAX_CODE_POINTS) {
+  if (!Number.isInteger(maximumCodePoints) || maximumCodePoints < 1) {
+    throw new Error("A Codex task goal limit must be a positive integer");
+  }
+  const normalized = String(value ?? "")
+    .replace(/\p{Cc}+/gu, " ")
+    .replace(/\s+/gu, " ")
+    .replaceAll("·", "-")
+    .trim();
+  if (!normalized) throw new Error("A Codex task title requires a non-empty Work Item goal");
+  const codePoints = Array.from(normalized);
+  if (codePoints.length <= maximumCodePoints) return normalized;
+  if (maximumCodePoints === 1) return "…";
+  return `${codePoints.slice(0, maximumCodePoints - 1).join("")}…`;
+}
+
+export function suggestedTaskTitle(context, workItemId, positionId, workItemTitle, agentDisplayName = null) {
+  const agentName = agentDisplayName ?? assignedAgent(context, positionId).display_name;
+  const prefix = `${workItemId} · `;
+  const suffix = ` · ${positionName(context, positionId)} (${agentName})`;
+  const availableGoalCodePoints = Math.max(
+    1,
+    TASK_TITLE_MAX_CODE_POINTS - Array.from(prefix).length - Array.from(suffix).length
+  );
+  const goal = shortTaskGoal(workItemTitle, Math.min(TASK_GOAL_MAX_CODE_POINTS, availableGoalCodePoints));
+  return `${prefix}${goal}${suffix}`;
 }
 
 export function nextPositionForState(context, stateId) {

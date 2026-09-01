@@ -27,6 +27,19 @@ flowchart LR
 
 An AI Agent does not need a separate tracker account for every Agent Identity. The human or approved service credential controls external access. Agent Identity remains a repository concept for responsibility and evidence attribution. Credentials never belong in `.ai-org/project/tracker.json`.
 
+## Human-readable Codex task names
+
+Codex titles help a person navigate; they are never an execution identifier or lifecycle record.
+
+| Task kind | Convention | Example |
+|---|---|---|
+| Bounded Work Item task | `WI-#### · short goal · Position (Agent)` | `WI-0089 · Improve task titles · Developer (Rikku)` |
+| Long-lived project control task | `Project · control scope · Primary Position (Agent)` | `Temple · Control and Roadmap · Engineering Manager (Mog)` |
+
+Lead with the outcome so the sidebar remains understandable even when one Agent Identity holds several Positions. Temple derives the ordinary short goal from the Work Item title, collapses whitespace, replaces embedded `·`, and shortens only the goal so the complete suggestion stays within 58 Unicode code points. This limit was verified against the Codex task list: a longer accepted title was read back with everything after the goal removed. The Work Item ID and registered thread ID remain canonical.
+
+`temple task refresh-titles .` reconciles stored suggestions and is deliberately idempotent. It never calls Codex, changes task status, advances a Work Item, or archives a conversation. Renaming the visible app task is a separate action; record or report it only after the app confirms success.
+
 ## Profiles and mapping granularity
 
 The project-owned `.ai-org/project/tracker.json` selects one profile:

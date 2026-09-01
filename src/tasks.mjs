@@ -175,9 +175,7 @@ export async function registerTask(target, options) {
     position_id: positionId,
     agent_id: agent.id,
     suggested_title:
-      agent.id === defaultAgent.id
-        ? suggestedTaskTitle(context, item.id, positionId)
-        : `${item.id} · ${positionName(context, positionId)} · ${agent.display_name}`,
+      suggestedTaskTitle(context, item.id, positionId, item.title, agent.display_name),
     status,
     thread_id: threadId || null,
     client_thread_id: clientThreadId || null,
@@ -287,6 +285,61 @@ export async function updateTask(target, options) {
     throw error;
   }
   return updated;
+}
+
+export async function refreshTaskTitles(target, options = {}) {
+  const context = await loadProjectContext(target);
+  const registry = await readTaskRegistry(target);
+  const manager = assignedAgent(context, "engineering_manager");
+  const actor = options.actor ?? manager.id;
+  if (![manager.id, "human"].includes(actor)) {
+    throw new Error(`Actor ${actor} cannot refresh task titles; expected ${manager.id} or human`);
+  }
+
+  const requestedTaskId = String(options.taskId ?? "").trim() || null;
+  const selected = requestedTaskId
+    ? (registry.tasks ?? []).filter((task) => task.id === requestedTaskId)
+    : registry.tasks ?? [];
+  if (requestedTaskId && selected.length === 0) throw new Error(`Task not found: ${requestedTaskId}`);
+
+  const replacements = new Map();
+  const updated = [];
+  for (const task of selected) {
+    const item = await readWorkItem(target, task.work_item_id);
+    const agent = context.agents.get(task.agent_id);
+    if (!agent) throw new Error(`Task ${task.id} references unknown Agent Identity ${task.agent_id}`);
+    const nextTitle = suggestedTaskTitle(context, item.id, task.position_id, item.title, agent.display_name);
+    if (nextTitle === task.suggested_title) continue;
+    replacements.set(task.id, { ...task, suggested_title: nextTitle });
+    updated.push({ task_id: task.id, before: task.suggested_title, after: nextTitle });
+  }
+
+  const result = {
+    updated_count: updated.length,
+    unchanged_count: selected.length - updated.length,
+    updated,
+    external_action_performed: false
+  };
+  if (updated.length === 0) return result;
+
+  const timestamp = new Date().toISOString();
+  const snapshots = await snapshotTaskMutationFiles(target);
+  try {
+    registry.tasks = (registry.tasks ?? []).map((task) => replacements.get(task.id) ?? task);
+    await writeTaskRegistry(target, registry);
+    await appendEvent(target, {
+      timestamp,
+      event_type: "task_titles_refreshed",
+      actor,
+      task_ids: updated.map((entry) => entry.task_id),
+      external_action_performed: false,
+      refs: [".ai-org/project/tasks.json"]
+    });
+  } catch (error) {
+    await restoreTaskMutationFiles(snapshots);
+    throw error;
+  }
+  return result;
 }
 
 export async function listTasks(target) {

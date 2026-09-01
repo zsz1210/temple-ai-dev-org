@@ -1,6 +1,6 @@
 import path from "node:path";
 import { atomicWrite, formatJson, pathExists, readJson, sha256, sha256File } from "./files.mjs";
-import { loadProjectContext, positionName } from "./project.mjs";
+import { loadProjectContext, positionName, suggestedTaskTitle } from "./project.mjs";
 import { activeExecutionRequirements, evaluateParallelReadiness, listWorkItemDocuments, readWorkItem } from "./work-items.mjs";
 import { readResourceRegistry } from "./resources.mjs";
 
@@ -169,7 +169,13 @@ function dispatchManifest(context, item, readiness, resourceRegistry) {
     position_id: item.owner_position,
     agent_id: readiness.agent_id,
     agent_name: agent?.display_name ?? readiness.agent_id,
-    suggested_task_title: `${item.id} · ${positionName(context, item.owner_position)} · ${agent?.display_name ?? readiness.agent_id}`,
+    suggested_task_title: suggestedTaskTitle(
+      context,
+      item.id,
+      item.owner_position,
+      item.title,
+      agent?.display_name ?? readiness.agent_id
+    ),
     base_revision: item.base_revision,
     affected_paths: item.affected_paths ?? [],
     dependencies: item.dependencies ?? [],

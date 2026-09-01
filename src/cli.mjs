@@ -70,7 +70,7 @@ import { evaluateRetrieval, readRetrievalConfig } from "./retrieval.mjs";
 import { evaluatePolicy } from "./policy-evaluation.mjs";
 import { buildUsageBaseline, buildUsagePreflight, evaluateMatchedModelFixture } from "./usage-attribution.mjs";
 import { installArchifyAdapter, inspectArchifyAdapter } from "./archify-adapter.mjs";
-import { listTasks, registerTask, updateTask } from "./tasks.mjs";
+import { listTasks, refreshTaskTitles, registerTask, updateTask } from "./tasks.mjs";
 import {
   configureTracker,
   inspectAndPlanTrackerItem,
@@ -204,6 +204,7 @@ Usage:
   temple close [target] --work-item WI-0001 --decision go|no-go --tested-revision ref --rollback text --approval record
   temple task register [target] --work-item WI-0001 --position developer --thread-id id [--worker-id worker-id] [--execution-origin codex-host-owned|temple-provider-owned] [--provider-id id] [--requested-model model] [--effective-model model] [--requested-reasoning-effort effort] [--observed-thread-reasoning-effort effort] [--effective-turn-reasoning-effort effort] [--reasoning-effort effort] [--reasoning-effort-source source] [--service-tier tier] [--launch-revision ref]
   temple task update [target] --task-id task-0001 --status completed [--effective-model model] [--requested-reasoning-effort effort] [--observed-thread-reasoning-effort effort] [--effective-turn-reasoning-effort effort] [--reasoning-effort effort] [--reasoning-effort-source source] [--service-tier tier]
+  temple task refresh-titles [target] [--task-id task-0001] [--json]
   temple task list [target] [--json]
   temple tracker show [target] [--json]
   temple tracker configure [target] --tracker-profile linked-tracker --provider-id github-main --provider-kind github --project owner/repository [--write-policy plan-only]
@@ -2081,6 +2082,22 @@ async function runTask(parsed) {
       return updated;
     });
     printResult(parsed, task, [`Updated ${task.id}: ${task.status}`, `Revision: ${task.current_revision ?? "not recorded"}`]);
+    return 0;
+  }
+  if (parsed.action === "refresh-titles") {
+    const result = await withProjectMutationLock(target, async () => {
+      const refreshed = await refreshTaskTitles(target, {
+        taskId: parsed.options["--task-id"],
+        actor: parsed.options["--actor"]
+      });
+      if (refreshed.updated_count > 0) await refreshViews(target);
+      return refreshed;
+    });
+    printResult(parsed, result, [
+      `Refreshed task title suggestions: ${result.updated_count}`,
+      `Already current: ${result.unchanged_count}`,
+      "Codex app tasks renamed: no"
+    ]);
     return 0;
   }
   if (parsed.action === "list") {

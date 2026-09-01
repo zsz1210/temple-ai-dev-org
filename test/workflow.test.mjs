@@ -6,6 +6,12 @@ import path from "node:path";
 import { spawn, spawnSync } from "node:child_process";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import {
+  shortTaskGoal,
+  suggestedTaskTitle,
+  TASK_GOAL_MAX_CODE_POINTS,
+  TASK_TITLE_MAX_CODE_POINTS
+} from "../src/project.mjs";
 import { executeUpgrade, planUpgrade } from "../src/upgrade.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -57,6 +63,28 @@ async function readJson(targetPath) {
   return JSON.parse(await fs.readFile(targetPath, "utf8"));
 }
 
+test("Codex task goals are normalized and bounded by Unicode code points", () => {
+  assert.equal(shortTaskGoal("  Ship\ncheckout · now  "), "Ship checkout - now");
+  const bounded = shortTaskGoal("界".repeat(60));
+  assert.equal(Array.from(bounded).length, TASK_GOAL_MAX_CODE_POINTS);
+  assert.equal(bounded, `${"界".repeat(TASK_GOAL_MAX_CODE_POINTS - 1)}…`);
+  assert.throws(() => shortTaskGoal("\n\t"), /non-empty Work Item goal/);
+
+  const context = {
+    positions: new Map([["engineering_manager", { display_name: "Engineering Manager" }]]),
+    assignments: new Map([["engineering_manager", "agent-mog"]]),
+    agents: new Map([["agent-mog", { display_name: "Mog" }]])
+  };
+  const title = suggestedTaskTitle(
+    context,
+    "WI-0086",
+    "engineering_manager",
+    "Prepare the first public Alpha release candidate"
+  );
+  assert.equal(Array.from(title).length, TASK_TITLE_MAX_CODE_POINTS);
+  assert.match(title, /^WI-0086 · .+… · Engineering Manager \(Mog\)$/);
+});
+
 test("work item lifecycle, handoff, task registry, close, and observer status work together", async (context) => {
   const { temporaryRoot, target, configPath } = await fixture();
   context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
@@ -75,7 +103,7 @@ test("work item lifecycle, handoff, task registry, close, and observer status wo
     "not-applicable"
   ]);
   assert.equal(created.status, 0, created.stderr || created.stdout);
-  assert.match(created.stdout, /WI-0001 · Engineering Manager · Fixture Rowan/);
+  assert.match(created.stdout, /WI-0001 · Prove the… · Engineering Manager \(Fixture Rowan\)/);
 
   const transitions = [
     ["spec", ["work_order=docs/work-order.md"]],
@@ -115,7 +143,7 @@ test("work item lifecycle, handoff, task registry, close, and observer status wo
     "design-revision"
   ]);
   assert.equal(registered.status, 0, registered.stderr || registered.stdout);
-  assert.match(registered.stdout, /WI-0001 · Developer · Fixture Devon/);
+  assert.match(registered.stdout, /WI-0001 · Prove the lifecycle · Developer \(Fixture Devon\)/);
 
   const handoff = run([
     "handoff",
@@ -230,6 +258,87 @@ test("work item lifecycle, handoff, task registry, close, and observer status wo
   const reinit = run(["init", target, "--config", configPath]);
   assert.equal(reinit.status, 0, reinit.stderr || reinit.stdout);
   assert.equal((await readJson(path.join(target, ".ai-org/project/tasks.json"))).tasks.length, 1);
+});
+
+test("task title refresh is explicit, idempotent, and preserves canonical task metadata", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+
+  const created = run([
+    "work-item",
+    "create",
+    target,
+    "--title",
+    "  Reconcile\nlegacy · task titles  ",
+    "--scope",
+    "Repository suggestion only",
+    "--acceptance",
+    "Task identity is preserved"
+  ]);
+  assert.equal(created.status, 0, created.stderr || created.stdout);
+
+  const registered = run([
+    "task",
+    "register",
+    target,
+    "--work-item",
+    "WI-0001",
+    "--position",
+    "developer",
+    "--thread-id",
+    "thread-legacy-title",
+    "--host-id",
+    "local",
+    "--requested-model",
+    "model-beta",
+    "--reasoning-effort",
+    "low",
+    "--revision",
+    "revision-123",
+    "--notes",
+    "preserve this note"
+  ]);
+  assert.equal(registered.status, 0, registered.stderr || registered.stdout);
+
+  const registryPath = path.join(target, ".ai-org/project/tasks.json");
+  const legacyRegistry = await readJson(registryPath);
+  legacyRegistry.tasks[0].suggested_title = "WI-0001 · Developer · Fixture Devon";
+  await fs.writeFile(registryPath, `${JSON.stringify(legacyRegistry, null, 2)}\n`);
+  const before = structuredClone(legacyRegistry.tasks[0]);
+
+  const refreshed = run(["task", "refresh-titles", target, "--task-id", "task-0001", "--json"]);
+  assert.equal(refreshed.status, 0, refreshed.stderr || refreshed.stdout);
+  const result = JSON.parse(refreshed.stdout);
+  assert.equal(result.updated_count, 1);
+  assert.equal(result.unchanged_count, 0);
+  assert.equal(result.external_action_performed, false);
+  assert.equal(
+    result.updated[0].after,
+    "WI-0001 · Reconcile legacy - … · Developer (Fixture Devon)"
+  );
+  assert.equal(Array.from(result.updated[0].after).length, TASK_TITLE_MAX_CODE_POINTS);
+
+  const after = (await readJson(registryPath)).tasks[0];
+  assert.deepEqual(
+    { ...after, suggested_title: before.suggested_title },
+    before,
+    "refresh must change only the repository-stored title suggestion"
+  );
+
+  const repeated = run(["task", "refresh-titles", target, "--task-id", "task-0001", "--json"]);
+  assert.equal(repeated.status, 0, repeated.stderr || repeated.stdout);
+  assert.deepEqual(JSON.parse(repeated.stdout), {
+    updated_count: 0,
+    unchanged_count: 1,
+    updated: [],
+    external_action_performed: false
+  });
+
+  const events = (await fs.readFile(path.join(target, ".ai-org/events/events.jsonl"), "utf8"))
+    .trim()
+    .split("\n")
+    .map((line) => JSON.parse(line));
+  assert.equal(events.filter((event) => event.event_type === "task_titles_refreshed").length, 1);
 });
 
 test("unresolved items can be listed, resolved, merged, and deduplicated safely", async (context) => {

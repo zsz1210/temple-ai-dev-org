@@ -9,7 +9,7 @@ Before acting:
 3. Preview the bounded route with `temple context resolve . --work-item <work-item-id> --position <position> --no-write --json`.
 4. Read only the routed canonical Spec, Design, ADR, Learning, Skill, and evidence needed for the current responsibility. Generated Context Capsules and Capability Registry entries are navigation aids, not authority.
 5. Stay inside that Position's ownership and approval limits.
-6. If the work runs in a separate Codex task, use the suggested `Work Item ID · Position · Agent Name` title and register the real task/thread ID in `.ai-org/project/tasks.json` through `temple task register`.
+6. If the work runs in a separate Codex task, use the suggested `Work Item ID · short goal · Position (Agent Name)` title and register the real task/thread ID in `.ai-org/project/tasks.json` through `temple task register`. Reserve `Project · control scope · Primary Position (Agent Name)` for the long-lived project control task.
 
 When the request is only to inspect, explain, diagnose, review, or report status, remain read-only. Repository mutation requires explicit authorization from the request or current work item.
 

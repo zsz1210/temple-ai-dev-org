@@ -22,7 +22,7 @@ This repository builds the Temple AI Development Organization Framework.
 - A Codex custom agent name in `.codex/agents` is a Position configuration, not the project's Agent display name.
 - Use durable work item IDs. Do not use chat titles as identifiers.
 - Use `$temple-work` and `node ./templew.mjs` for work items, runtime workers, shared resources, handoffs, state transitions, closeout, and Codex task registration instead of hand-editing canonical JSON when the CLI supports the operation. Do not substitute an unversioned global CLI when the repository launcher reports a bootstrap mismatch.
-- Use the suggested title `Work Item ID · Position · Agent Name` when creating a Codex task, then register its stable thread ID.
+- Use the suggested title `Work Item ID · short goal · Position (Agent Name)` when creating a bounded Codex task, then register its stable thread ID. Use `Project · control scope · Primary Position (Agent Name)` only for the long-lived project control task.
 - Before scoped work, preview `temple context resolve . --work-item WI-#### --position <position> --no-write --json`; open only the routed canonical sources needed for the current responsibility.
 - Use `temple capability find` when the relevant repository Skill is uncertain. A discovered Skill does not grant authority, approve dependencies, or change its lifecycle ownership.
 - Treat `.ai-org/project/context-map.json` as a project-owned routing index. Treat `.ai-org/views/capabilities.json`, `.ai-org/views/parallel-plan.json`, and `.ai-org/views/work-items/**` as rebuildable projections, never as stronger authority than their canonical sources.

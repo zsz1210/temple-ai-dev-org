@@ -320,7 +320,7 @@ For existing organizations, preserve trusted documents first and migrate only wh
 
 ```bash
 temple work-item create . \
-  --title "Verify the bounded user outcome" \
+  --title "Ship checkout" \
   --scope "One local flow" \
   --scope "No production release" \
   --acceptance "The result is visible at runtime" \
@@ -330,10 +330,21 @@ temple work-item create . \
 Temple allocates the next `WI-####`, resolves the current owner Position and Agent, appends an event, rebuilds status, and outputs a suggested Codex task title, for example:
 
 ```text
-WI-0002 · Engineering Manager · Clara
+WI-0002 · Ship checkout · Engineering Manager (Clara)
 ```
 
 The title is only a readable projection. The work item ID and subsequently registered thread ID are the actual identifiers.
+
+For ordinary bounded work, Temple uses `WI-#### · short goal · Position (Agent)`. The short goal comes from the Work Item title; Temple shortens only that segment so the complete suggestion stays within 58 Unicode code points and keeps the Position and Agent visible on the verified Codex navigation surface. A long-lived project control task is different: name it `Project · control scope · Primary Position (Agent)`, for example `Temple · Control and Roadmap · Engineering Manager (Mog)`. Do not register that control conversation against a fabricated Work Item.
+
+If an existing task registry still contains older suggestions, refresh them explicitly:
+
+```bash
+temple task refresh-titles .
+temple task list .
+```
+
+This changes only repository-stored suggestions. It preserves thread IDs, task status, model and revision evidence, claims, workers, and archive state, and it does not rename a task in the Codex app. Rename the visible task separately through the app, then verify the displayed result.
 
 In Collaborative mode the printed ID instead resembles `WI-20260829-A1B2C3D4E5`. Do not predict it; use the value returned by `work-item create`.
 

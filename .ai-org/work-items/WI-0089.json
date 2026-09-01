@@ -1,0 +1,179 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0089",
+  "title": "Make Codex task titles outcome-first and refreshable",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-01T15:44:49.354Z",
+  "updated_at": "2026-09-01T15:47:13.939Z",
+  "scope": [
+    "Generate ordinary task titles as Work Item ID, bounded short goal, Position, and Agent display name; define a separate project control-task convention.",
+    "Add an explicit repository task-title refresh command and apply it to current registered tasks without changing thread identity, lifecycle authority, or archive state.",
+    "Update the identity-free project overlay, self-host installation, operating documentation, ADR, and tests; rename only the currently accessible Codex tasks covered by the accepted convention."
+  ],
+  "acceptance_criteria": [
+    "New work-item, handoff, orchestration, and task-registration suggestions use WI-#### · short goal · Position (Agent), with deterministic whitespace, delimiter, and length handling.",
+    "The project-control convention is Project · control scope · Primary Position (Agent), while docs and policy make clear that titles are navigation labels and thread ID plus Work Item ID remain canonical.",
+    "An explicit refresh operation updates stored suggestions idempotently, preserves all task/thread/status/model fields, and performs no Codex app mutation by itself.",
+    "Current Temple registry suggestions and visible accessible task titles follow the accepted convention; tests, schema, Doctor, and Independent QA pass."
+  ],
+  "affected_paths": [
+    "src/project.mjs",
+    "src/tasks.mjs",
+    "src/orchestration.mjs",
+    "src/cli.mjs",
+    "test/workflow.test.mjs",
+    "test/runtime-coordination.test.mjs",
+    "project-overlay/AGENTS.md",
+    "project-overlay/TEMPLE.md",
+    "project-overlay/.ai-org/core/policies.json",
+    "AGENTS.md",
+    "TEMPLE.md",
+    ".ai-org/core/policies.json",
+    "temple.lock",
+    "docs/operations/task-and-tracker-coordination.md",
+    "docs/getting-started/usage.md",
+    "docs/adr/0006-lifecycle-cli-and-task-registry.md",
+    "docs/adr/0041-outcome-first-codex-task-titles.md",
+    "docs/adr/README.md",
+    ".ai-org/project/tasks.json",
+    ".ai-org/artifacts/WI-0089"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "0c12b2bd7783dc1f5bf39b800c4d0ebe9c920ba9",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0086 is blocked at human and public-release gates with no active claim. WI-0089 may update title-policy tests and the self-host lock; any future public candidate must be cut and revalidated from the later exact revision."
+  ],
+  "claim": {
+    "id": "claim-20260901154713-e9c7bcd5",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "0c12b2bd7783dc1f5bf39b800c4d0ebe9c920ba9",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-09-01T15:47:13.939Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260901154532-2706f131",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "0c12b2bd7783dc1f5bf39b800c4d0ebe9c920ba9",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T15:45:32.584Z",
+      "released_at": "2026-09-01T15:45:33.370Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901154555-da9a2679",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "0c12b2bd7783dc1f5bf39b800c4d0ebe9c920ba9",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T15:45:55.851Z",
+      "released_at": "2026-09-01T15:45:56.649Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901154709-d3f06382",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "0c12b2bd7783dc1f5bf39b800c4d0ebe9c920ba9",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T15:47:09.374Z",
+      "released_at": "2026-09-01T15:47:10.094Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901154713-e9c7bcd5",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "0c12b2bd7783dc1f5bf39b800c4d0ebe9c920ba9",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T15:47:13.939Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0089/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0089/product-direction.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0089.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0089/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0089/risk-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0089/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0089/work-order.md",
+    ".ai-org/work-items/WI-0089.json",
+    ".ai-org/artifacts/WI-0089/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0089/product-direction.md",
+    ".ai-org/artifacts/WI-0089/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0089/technical-design.md",
+    ".ai-org/artifacts/WI-0089/risk-review.md",
+    "docs/adr/0041-outcome-first-codex-task-titles.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "0c12b2bd7783dc1f5bf39b800c4d0ebe9c920ba9",
+      "artifact": ".ai-org/artifacts/WI-0089/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-01T15:45:32.974Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "0c12b2bd7783dc1f5bf39b800c4d0ebe9c920ba9",
+      "artifact": ".ai-org/artifacts/WI-0089/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-01T15:45:56.270Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "0c12b2bd7783dc1f5bf39b800c4d0ebe9c920ba9",
+      "artifact": ".ai-org/artifacts/WI-0089/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-01T15:47:09.734Z"
+    }
+  ]
+}

@@ -535,7 +535,7 @@ export async function createWorkItem(target, options) {
 
   return {
     item,
-    suggested_title: suggestedTaskTitle(context, workItemId, ownerPosition)
+    suggested_title: suggestedTaskTitle(context, workItemId, ownerPosition, title)
   };
 }
 
@@ -1049,7 +1049,7 @@ export async function transitionWorkItem(target, options) {
 
   return {
     item: updated,
-    suggested_title: suggestedTaskTitle(context, item.id, ownerPosition)
+    suggested_title: suggestedTaskTitle(context, item.id, ownerPosition, item.title)
   };
 }
 
@@ -1137,7 +1137,7 @@ export async function createHandoff(target, options) {
   return {
     item: updated,
     artifact: relativePath,
-    suggested_title: suggestedTaskTitle(context, item.id, toPosition)
+    suggested_title: suggestedTaskTitle(context, item.id, toPosition, item.title)
   };
 }
 
