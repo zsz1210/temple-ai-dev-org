@@ -11284,6 +11284,53 @@
         "exit_code": 0,
         "started_at": "2026-09-01T12:33:10.000Z"
       }
+    },
+    {
+      "id": "EVID-20260901T123742Z-F24C741F",
+      "work_item_id": "WI-0083",
+      "recorded_at": "2026-09-01T12:37:42.697Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality evaluation exact-candidate pass",
+      "outcome": "pass",
+      "scope_revision": "ad10d528113963673724d9b02004b62e87aaafbe",
+      "observed_at": "2026-09-01T12:36:54.000Z",
+      "summary": "Quality evaluation challenged comparability, quality-first gating, privacy, stale and unsafe evidence, installation compatibility, and authority denial at the exact candidate revision.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0083/quality-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0083/quality-observation.json",
+          "sha256": "f7e369294cfbb9b30bb4e0e7b939a652b60a8b816ce1f872f3d9292cd595b4d9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0083/quality-report.md",
+          "sha256": "5223bf30d24d7c0c6abe3005c6b1dc53af33a8af627f50dcc45a93ac268bbbc2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0083/evaluation-report.md",
+          "sha256": "24893c8b4c9a28d0e88cc269a371f2bfdc2da6b4d0b8b2215fc2ea8ab754fcc6"
+        }
+      ],
+      "details": {
+        "command": [
+          "create a fresh detached worktree at revision ad10d528113963673724d9b02004b62e87aaafbe",
+          "node --test test/phase-4b.test.mjs test/phase4-installation.test.mjs",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "node ./templew.mjs usage preflight . --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-01T12:36:38.000Z"
+      }
     }
   ]
 }

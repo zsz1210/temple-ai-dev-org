@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0083",
   "title": "Add matched model evaluation and advisory recommendations",
-  "state": "test",
-  "owner_position": "quality_evaluator",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-01T12:12:21.342Z",
-  "updated_at": "2026-09-01T12:36:21.026Z",
+  "updated_at": "2026-09-01T12:37:55.889Z",
   "scope": [
     "Define a project-owned matched evaluation contract that compares model and reasoning profiles only within the same exact task shape and quality rubric.",
     "Produce deterministic, explainable advisory recommendations from qualified matched evaluations while preserving requested and effective model evidence.",
@@ -94,14 +94,14 @@
     "WI-0082: preserve its verified terminology and Core Skills scope; WI-0083 owns only the later Token-model maturity copy already present in the working tree."
   ],
   "claim": {
-    "id": "claim-20260901123621-4087a812",
+    "id": "claim-20260901123755-0f64aae6",
     "status": "active",
     "principal_id": "human",
     "agent_id": "agent-lulu",
     "base_revision": "ad10d528113963673724d9b02004b62e87aaafbe",
     "branch": "main",
     "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
-    "claimed_at": "2026-09-01T12:36:21.026Z",
+    "claimed_at": "2026-09-01T12:37:55.889Z",
     "released_at": null
   },
   "claims": [
@@ -161,13 +161,25 @@
     },
     {
       "id": "claim-20260901123621-4087a812",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-lulu",
       "base_revision": "ad10d528113963673724d9b02004b62e87aaafbe",
       "branch": "main",
       "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
       "claimed_at": "2026-09-01T12:36:21.026Z",
+      "released_at": "2026-09-01T12:37:48.280Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901123755-0f64aae6",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "ad10d528113963673724d9b02004b62e87aaafbe",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-01T12:37:55.889Z",
       "released_at": null
     }
   ],
@@ -193,6 +205,12 @@
     "developer_evidence": [
       ".ai-org/artifacts/WI-0083/developer-report.md",
       ".ai-org/artifacts/WI-0083/developer-observation.json"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0083/quality-report.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0083/evaluation-report.md"
     ]
   },
   "evidence": [
@@ -208,10 +226,14 @@
     ".ai-org/artifacts/WI-0083/risk-review.md",
     ".ai-org/artifacts/WI-0083/handoff-004-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0083/developer-report.md",
-    ".ai-org/artifacts/WI-0083/developer-observation.json"
+    ".ai-org/artifacts/WI-0083/developer-observation.json",
+    ".ai-org/artifacts/WI-0083/quality-report.md",
+    ".ai-org/artifacts/WI-0083/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0083/evaluation-report.md",
+    ".ai-org/artifacts/WI-0083/quality-observation.json"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "release_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -240,6 +262,13 @@
       "input_revision": "ad10d528113963673724d9b02004b62e87aaafbe",
       "artifact": ".ai-org/artifacts/WI-0083/handoff-004-developer-to-quality_evaluator.md",
       "created_at": "2026-09-01T12:36:03.535Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "ad10d528113963673724d9b02004b62e87aaafbe",
+      "artifact": ".ai-org/artifacts/WI-0083/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-01T12:37:47.986Z"
     }
   ],
   "developer_candidate_revision": "ad10d528113963673724d9b02004b62e87aaafbe"
