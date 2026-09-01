@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0084",
   "title": "Reconcile release truth and refresh the public roadmap",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-01T12:57:32.379Z",
-  "updated_at": "2026-09-01T13:16:07.151Z",
+  "updated_at": "2026-09-01T13:22:45.417Z",
   "scope": [
     "Reconcile non-terminal Work Items against exact Git and evidence without hiding retained blocked or no-go validation.",
     "Rewrite the English, Japanese, and Traditional Chinese roadmaps around the current release-qualification stage, public-alpha exit gates, retained production evidence, and a focused test-readiness reference.",
@@ -89,6 +89,35 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0084/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0084/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0084/developer-report.md",
+      ".ai-org/artifacts/WI-0084/developer-observation.json"
+    ],
+    "test_evidence": [
+      "EVID-20260901T132021Z-DE29B98F",
+      "EVID-20260901T132028Z-6584B3EF"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0084/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260901T132225Z-4012CB9D"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0084/product-direction.md"
+    ],
+    "independent_qa_report": [
+      "EVID-20260901T132225Z-4012CB9D"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0084/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0084/release-manager-review.md"
     ]
   },
   "evidence": [
@@ -99,10 +128,23 @@
     ".ai-org/work-items/WI-0084.json",
     ".ai-org/artifacts/WI-0084/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0084/technical-design.md",
-    ".ai-org/artifacts/WI-0084/risk-review.md"
+    ".ai-org/artifacts/WI-0084/risk-review.md",
+    ".ai-org/artifacts/WI-0084/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0084/developer-report.md",
+    ".ai-org/artifacts/WI-0084/developer-observation.json",
+    "EVID-20260901T132021Z-DE29B98F",
+    ".ai-org/artifacts/WI-0084/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0084/quality-report.md",
+    ".ai-org/artifacts/WI-0084/evaluation-report.md",
+    ".ai-org/artifacts/WI-0084/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0084/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0084/independent-qa-observation.json",
+    "EVID-20260901T132225Z-4012CB9D",
+    ".ai-org/artifacts/WI-0084/release-record.md",
+    "EVID-20260901T132028Z-6584B3EF"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -124,6 +166,32 @@
       "input_revision": "6ad69d7c627036b0fef9529f9dc67ae794d32cb7",
       "artifact": ".ai-org/artifacts/WI-0084/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-01T13:16:06.858Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "dbfa2b7cee1ad5031f640eae9280af97a26f5fa4",
+      "artifact": ".ai-org/artifacts/WI-0084/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-01T13:20:21.459Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "dbfa2b7cee1ad5031f640eae9280af97a26f5fa4",
+      "artifact": ".ai-org/artifacts/WI-0084/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-01T13:20:29.367Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "dbfa2b7cee1ad5031f640eae9280af97a26f5fa4",
+      "artifact": ".ai-org/artifacts/WI-0084/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-01T13:22:30.258Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "dbfa2b7cee1ad5031f640eae9280af97a26f5fa4",
+  "tested_revision": "dbfa2b7cee1ad5031f640eae9280af97a26f5fa4",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0084/release-manager-review.md"
 }

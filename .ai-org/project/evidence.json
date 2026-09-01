@@ -11639,6 +11639,201 @@
         "status": "planned",
         "procedure": ".ai-org/artifacts/WI-0082/release-manager-review-exact.md"
       }
+    },
+    {
+      "id": "EVID-20260901T132014Z-8B806510",
+      "work_item_id": "WI-0084",
+      "recorded_at": "2026-09-01T13:20:14.032Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Public-Alpha roadmap and release-truth candidate",
+      "outcome": "verified",
+      "scope_revision": "dbfa2b7cee1ad5031f640eae9280af97a26f5fa4",
+      "observed_at": "2026-09-01T13:20:14.032Z",
+      "summary": "Exact documentation and canonical-state candidate; no license, publication, visibility, tag, or external setting changed.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "dbfa2b7cee1ad5031f640eae9280af97a26f5fa4"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "dbfa2b7cee1ad5031f640eae9280af97a26f5fa4",
+        "working_tree_dirty": true,
+        "dirty_path_count": 235,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260901T132021Z-DE29B98F",
+      "work_item_id": "WI-0084",
+      "recorded_at": "2026-09-01T13:20:21.177Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer full verification",
+      "outcome": "pass",
+      "scope_revision": "dbfa2b7cee1ad5031f640eae9280af97a26f5fa4",
+      "observed_at": "2026-09-01T13:17:24.000Z",
+      "summary": "All 260 tests, documentation checks, schemas, and Doctor passed; one retained stale-plan warning and zero failures.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0084/developer-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0084/developer-observation.json",
+          "sha256": "02a87a5988ab3694b4dc09a90d1664d3c2e3791f2e008f95282ede453199fb13"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0084/developer-report.md",
+          "sha256": "bda146bf5aa21c85376d87256c6e960aa92efa21b4b4f33ecd7e4c721dbf1b61"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-01T13:16:00.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260901T132028Z-6584B3EF",
+      "work_item_id": "WI-0084",
+      "recorded_at": "2026-09-01T13:20:28.792Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality exact-candidate verification",
+      "outcome": "pass",
+      "scope_revision": "dbfa2b7cee1ad5031f640eae9280af97a26f5fa4",
+      "observed_at": "2026-09-01T13:19:14.000Z",
+      "summary": "Fresh detached worktree passed installation, 260 tests, links, schemas, and Doctor at dbfa2b7.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0084/quality-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0084/quality-observation.json",
+          "sha256": "8de4654734b1e8054408ebd2bdb6c70b5e3b0d603954400ba0f325354dd119d9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0084/quality-report.md",
+          "sha256": "34d235d77d8f6440c3d29e16554f1e1b0114db82f0f79dab8e6ef7027f61926d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0084/evaluation-report.md",
+          "sha256": "ddcfbd33563c9ce3f873835e4c5c39729ca9007146a02e84a709390f4c59d090"
+        }
+      ],
+      "details": {
+        "command": [
+          "create a fresh detached worktree at revision dbfa2b7cee1ad5031f640eae9280af97a26f5fa4",
+          "npm ci --ignore-scripts",
+          "npm run verify",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-01T13:17:38.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260901T132225Z-4012CB9D",
+      "work_item_id": "WI-0084",
+      "recorded_at": "2026-09-01T13:22:25.250Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA exact-candidate reproduction",
+      "outcome": "pass",
+      "scope_revision": "dbfa2b7cee1ad5031f640eae9280af97a26f5fa4",
+      "observed_at": "2026-09-01T13:22:00.000Z",
+      "summary": "A second fresh detached worktree passed 260 tests, links, schemas, Doctor, language structure, and unchanged license/publication boundaries.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0084/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0084/independent-qa-observation.json",
+          "sha256": "aa048c4384ef191db9c285f2f346ef50765d69cd6c0d7cd8b6f10daf8d3546db"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0084/independent-qa-report.md",
+          "sha256": "cfbd9931d9a249ea39e851fc1a3c1c3ceaf072c9a578eac5e23ce97c5fe9acd3"
+        }
+      ],
+      "details": {
+        "command": [
+          "create a second fresh detached worktree at revision dbfa2b7cee1ad5031f640eae9280af97a26f5fa4",
+          "npm ci --ignore-scripts",
+          "npm run verify",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "inspect all level-two roadmap headings",
+          "verify no diff to LICENSE, package.json, CI workflow, or SECURITY.md from the audit baseline"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-01T13:20:34.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260901T132239Z-44583362",
+      "work_item_id": "WI-0084",
+      "recorded_at": "2026-09-01T13:22:39.862Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "dbfa2b7cee1ad5031f640eae9280af97a26f5fa4",
+      "observed_at": "2026-09-01T13:22:39.862Z",
+      "summary": "Revert the candidate, rebuild generated status, retain audit artifacts, and perform no external remediation because nothing was published.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0084/release-manager-review.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0084/release-manager-review.md",
+          "sha256": "dd195e4f944ed61bcc988c1543736db060650bfaaf0159b5f1bb44b9964cb2d9"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0084/release-manager-review.md"
+      }
     }
   ]
 }

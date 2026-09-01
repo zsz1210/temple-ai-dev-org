@@ -1,0 +1,16 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "dbfa2b7cee1ad5031f640eae9280af97a26f5fa4",
+  "command": [
+    "npm run verify",
+    "node ./templew.mjs schema validate . --json",
+    "node ./templew.mjs doctor . --json"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-01T13:16:00.000Z",
+  "completed_at": "2026-09-01T13:17:24.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0084/developer-report.md"
+  ]
+}

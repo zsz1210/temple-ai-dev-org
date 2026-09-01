@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 84 total, 5 active
+- Work items: 84 total, 4 active
 - Codex tasks: 5 registered, 5 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -130,7 +130,7 @@
 | WI-0081 | Implement the approved Management Console with live project data | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | preview-first | 1 | 0 | 0 | — | `80154a86` | 0 | 23 | 0 |
 | WI-0082 | Make Temple terms and Core Skills self-explanatory | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ed869f68` | 0 | 19 | 0 |
 | WI-0083 | Add matched model evaluation and advisory recommendations | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a0be19c7` | 0 | 23 | 0 |
-| WI-0084 | Reconcile release truth and refresh the public roadmap | build | Developer | Rikku | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 8 | 0 |
+| WI-0084 | Reconcile release truth and refresh the public roadmap | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `dbfa2b7c` | 0 | 21 | 0 |
 
 ## Codex task registry
 
@@ -250,14 +250,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-01T13:16:07.151Z | work_item_transitioned | WI-0084 | agent-tidus |
-| 2026-09-01T13:16:06.858Z | handoff_created | WI-0084 | agent-tidus |
-| 2026-09-01T13:16:06.560Z | work_item_transitioned | WI-0084 | agent-yuna |
-| 2026-09-01T13:16:06.255Z | handoff_created | WI-0084 | agent-yuna |
-| 2026-09-01T13:15:59.395Z | work_item_transitioned | WI-0084 | agent-mog |
-| 2026-09-01T13:15:59.066Z | handoff_created | WI-0084 | agent-mog |
-| 2026-09-01T13:07:27.184Z | work_item_transitioned | WI-0031 | agent-yuna |
-| 2026-09-01T13:07:18.560Z | work_item_closed | WI-0082 | agent-mog |
+| 2026-09-01T13:22:45.417Z | work_item_closed | WI-0084 | agent-mog |
+| 2026-09-01T13:22:45.417Z | release_gate_completed | WI-0084 | agent-mog |
+| 2026-09-01T13:22:39.862Z | evidence_recorded | WI-0084 | human |
+| 2026-09-01T13:22:34.735Z | work_item_transitioned | WI-0084 | agent-lulu |
+| 2026-09-01T13:22:30.258Z | handoff_created | WI-0084 | agent-lulu |
+| 2026-09-01T13:22:25.250Z | evidence_recorded | WI-0084 | human |
+| 2026-09-01T13:20:29.670Z | work_item_transitioned | WI-0084 | agent-lulu |
+| 2026-09-01T13:20:29.367Z | handoff_created | WI-0084 | agent-lulu |
 
 ## Assignments
 
