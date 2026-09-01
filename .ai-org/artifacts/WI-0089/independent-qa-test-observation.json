@@ -1,0 +1,21 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "86b0cdf462f995efdaf93fa0e8eb173be000bc35",
+  "command": [
+    "create a second fresh detached worktree at 86b0cdf462f995efdaf93fa0e8eb173be000bc35",
+    "run npm ci --ignore-scripts under Node.js 24.20.0",
+    "run the 27 focused workflow and orchestration tests",
+    "inject a disposable TASK_TITLE_MAX_CODE_POINTS=80 defect",
+    "require the title-refresh contract test to fail with the expected bounded-title assertion",
+    "remove the complete disposable worktree"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-01T16:10:48.000Z",
+  "completed_at": "2026-09-01T16:11:42.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0089/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0089/quality-report.md",
+    ".ai-org/artifacts/WI-0089/live-codex-title-observation.md"
+  ]
+}
