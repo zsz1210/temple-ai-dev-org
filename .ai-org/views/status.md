@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 87 total, 5 active
+- Work items: 87 total, 4 active
 - Codex tasks: 5 registered, 5 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -81,7 +81,7 @@
 | WI-0032 | Sandbox federation participant Git inspection | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `024af612` | 0 | 15 | 0 |
 | WI-0033 | Establish operator-owned provider trust | spec | Product Manager | Yuna | blocked | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 1 |
 | WI-0034 | Make Dashboard current-state interaction trustworthy | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `7a528964` | 0 | 12 | 0 |
-| WI-0035 | Reduce CI cost without hiding behavioral results | test | Quality & Evaluation Engineer | Lulu | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0b02e1c5` | 0 | 7 | 1 |
+| WI-0035 | Reduce CI cost without hiding behavioral results | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5db98cf2` | 0 | 15 | 1 |
 | WI-0036 | Add a private read-only Dashboard viewer | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `f68186ba` | 0 | 12 | 0 |
 | WI-0037 | Make private Dashboard shutdown cleanup signal-safe | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2b48a14a` | 0 | 11 | 0 |
 | WI-0038 | Reject invalid lifecycle gate evidence references | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `787c6faf` | 0 | 10 | 0 |
@@ -254,14 +254,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-01T15:11:13.588Z | work_item_transitioned | WI-0086 | agent-lulu |
-| 2026-09-01T15:11:08.984Z | evidence_recorded | WI-0086 | human |
-| 2026-09-01T15:10:14.774Z | work_item_claimed | WI-0086 | human |
-| 2026-09-01T15:10:14.442Z | work_item_coordination_configured | WI-0086 | agent-lulu |
-| 2026-09-01T15:10:14.097Z | work_item_claim_released | WI-0086 | human |
-| 2026-09-01T15:00:21.893Z | work_item_claimed | WI-0086 | human |
-| 2026-09-01T15:00:15.152Z | work_item_transitioned | WI-0086 | agent-mog |
-| 2026-09-01T15:00:05.396Z | work_item_coordination_configured | WI-0086 | agent-mog |
+| 2026-09-01T15:23:01.909Z | work_item_unresolved_updated | WI-0035 | agent-mog |
+| 2026-09-01T15:23:01.596Z | work_item_unresolved_updated | WI-0035 | agent-mog |
+| 2026-09-01T15:22:28.767Z | work_item_closed | WI-0035 | agent-mog |
+| 2026-09-01T15:22:28.767Z | release_gate_completed | WI-0035 | agent-mog |
+| 2026-09-01T15:22:21.630Z | evidence_recorded | WI-0035 | human |
+| 2026-09-01T15:22:02.047Z | work_item_claimed | WI-0035 | human |
+| 2026-09-01T15:22:01.705Z | work_item_coordination_configured | WI-0035 | agent-mog |
+| 2026-09-01T15:21:49.130Z | work_item_transitioned | WI-0035 | agent-lulu |
 
 ## Assignments
 

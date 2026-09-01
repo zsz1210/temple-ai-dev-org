@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0035",
   "title": "Reduce CI cost without hiding behavioral results",
-  "state": "test",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T13:55:48.150Z",
-  "updated_at": "2026-08-30T14:16:56.050Z",
+  "updated_at": "2026-09-01T15:23:01.909Z",
   "scope": [
     "Separate governance/document signal from behavioral test signal, add a strict evidence/state-only verification scope, and preserve fail-closed full verification for executable, schema, workflow, package, test, unknown, rename, deletion, or mode changes."
   ],
@@ -34,24 +34,24 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "68d4cf448df8f76ba08ce9b64ddf2c27967a39a0",
-  "parallel_mode": "parallel",
+  "base_revision": "5db98cf25ff62cd73356f114e6cb15dee9474818",
+  "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260830135829-b8338b73",
+    "id": "claim-20260901152202-83cb3d01",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "68d4cf448df8f76ba08ce9b64ddf2c27967a39a0",
-    "branch": "review/wi-0035-ci-signal",
-    "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0035-ci",
-    "claimed_at": "2026-08-30T13:58:29.374Z",
-    "released_at": "2026-08-30T14:16:56.050Z",
-    "release_reason": "position_transition"
+    "agent_id": "agent-mog",
+    "base_revision": "5db98cf25ff62cd73356f114e6cb15dee9474818",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-09-01T15:22:02.047Z",
+    "released_at": "2026-09-01T15:22:28.767Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -65,6 +65,42 @@
       "claimed_at": "2026-08-30T13:58:29.374Z",
       "released_at": "2026-08-30T14:16:56.050Z",
       "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901151611-c96f3888",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "5db98cf25ff62cd73356f114e6cb15dee9474818",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T15:16:11.852Z",
+      "released_at": "2026-09-01T15:18:22.007Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901151836-018528f6",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "5db98cf25ff62cd73356f114e6cb15dee9474818",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T15:18:36.028Z",
+      "released_at": "2026-09-01T15:21:49.130Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901152202-83cb3d01",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "5db98cf25ff62cd73356f114e6cb15dee9474818",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T15:22:02.047Z",
+      "released_at": "2026-09-01T15:22:28.767Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -91,6 +127,27 @@
       ".ai-org/artifacts/WI-0035/test-observation.json",
       "EVID-20260830T141637Z-1465AB57",
       "EVID-20260830T141637Z-FBBE2971"
+    ],
+    "test_evidence": [
+      "EVID-20260901T151713Z-240D8B93"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0035/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260901T152133Z-CDBFC439"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/work-orders/WI-0035.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0035/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0035/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0035/release-manager-review.md"
     ]
   },
   "evidence": [
@@ -100,12 +157,20 @@
     ".ai-org/artifacts/WI-0035/developer-evidence.md",
     ".ai-org/artifacts/WI-0035/test-observation.json",
     "EVID-20260830T141637Z-1465AB57",
-    "EVID-20260830T141637Z-FBBE2971"
+    "EVID-20260830T141637Z-FBBE2971",
+    "EVID-20260901T151713Z-240D8B93",
+    ".ai-org/artifacts/WI-0035/handoff-002-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0035/quality-report.md",
+    ".ai-org/artifacts/WI-0035/evaluation-report.md",
+    ".ai-org/artifacts/WI-0035/handoff-003-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0035/independent-qa-report.md",
+    "EVID-20260901T152133Z-CDBFC439",
+    ".ai-org/artifacts/WI-0035/release-record.md"
   ],
   "unresolved": [
-    "Hosted GitHub Actions execution, hosted timing, and billable-minute effects remain unverified; local timings are not billing evidence."
+    "Hosted execution and runner timing are verified. Actual account-level allowance consumption and charges remain unverified because the Actions timing API returned zero billable milliseconds while the current credential cannot read the billing ledger; do not infer zero cost."
   ],
-  "next_position": "quality_evaluator",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -113,7 +178,25 @@
       "input_revision": "0b02e1c5de3d10aedc0f0ec64cb96af4d9de1e72",
       "artifact": ".ai-org/artifacts/WI-0035/handoff-001-developer-to-quality_evaluator.md",
       "created_at": "2026-08-30T14:16:47.815Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "5db98cf25ff62cd73356f114e6cb15dee9474818",
+      "artifact": ".ai-org/artifacts/WI-0035/handoff-002-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-01T15:18:21.636Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "5db98cf25ff62cd73356f114e6cb15dee9474818",
+      "artifact": ".ai-org/artifacts/WI-0035/handoff-003-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-01T15:21:33.809Z"
     }
   ],
-  "developer_candidate_revision": "0b02e1c5de3d10aedc0f0ec64cb96af4d9de1e72"
+  "developer_candidate_revision": "0b02e1c5de3d10aedc0f0ec64cb96af4d9de1e72",
+  "tested_revision": "5db98cf25ff62cd73356f114e6cb15dee9474818",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0035/release-manager-review.md"
 }
