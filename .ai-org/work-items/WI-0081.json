@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0081",
   "title": "Implement the approved Management Console with live project data",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-01T05:12:07.880Z",
-  "updated_at": "2026-09-01T06:30:14.098Z",
+  "updated_at": "2026-09-01T13:05:18.630Z",
   "scope": [
     "Replace the current Temple Workspace presentation with the accepted WI-0077 whole-Console information architecture and visual language, driven exclusively by the existing real control-plane snapshot and SSE refresh path.",
     "Keep the home-LAN surface private, read-only, redacted, and GET-only; retain local Inbox and Agent Commands only on loopback.",
@@ -57,7 +57,7 @@
   "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
-  "planned_agent_id": "agent-rikku",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [
@@ -173,6 +173,38 @@
     ],
     "review_record": [
       ".ai-org/artifacts/WI-0077/preview-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0081/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0081/developer-evidence.md",
+      ".ai-org/artifacts/WI-0081/runtime-visual-review.md",
+      "80154a864a7336a8c730b5eeab31b0130bb0216e"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0081/quality-test-observation.json"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0081/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0081/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0081/owner-authorization.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0081/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0081/release-record.md"
+    ],
+    "runtime_visual_review": [
+      ".ai-org/artifacts/WI-0081/runtime-visual-review.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -185,10 +217,23 @@
     ".ai-org/artifacts/WI-0081/risk-review.md",
     ".ai-org/artifacts/WI-0081/ui-brief.md",
     ".ai-org/artifacts/WI-0077/management-console-preview.html",
-    ".ai-org/artifacts/WI-0077/preview-review.md"
+    ".ai-org/artifacts/WI-0077/preview-review.md",
+    ".ai-org/artifacts/WI-0081/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0081/developer-evidence.md",
+    ".ai-org/artifacts/WI-0081/runtime-visual-review.md",
+    "80154a864a7336a8c730b5eeab31b0130bb0216e",
+    ".ai-org/artifacts/WI-0081/quality-test-observation.json",
+    ".ai-org/artifacts/WI-0081/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0081/quality-test-report.md",
+    ".ai-org/artifacts/WI-0081/evaluation-report.md",
+    ".ai-org/artifacts/WI-0081/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0081/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0081/independent-qa-observation.json",
+    ".ai-org/artifacts/WI-0081/release-record.md",
+    ".ai-org/artifacts/WI-0081/release-manager-review.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -210,6 +255,32 @@
       "input_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
       "artifact": ".ai-org/artifacts/WI-0081/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-01T05:13:38.915Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "80154a864a7336a8c730b5eeab31b0130bb0216e",
+      "artifact": ".ai-org/artifacts/WI-0081/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-01T13:02:35.652Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "80154a864a7336a8c730b5eeab31b0130bb0216e",
+      "artifact": ".ai-org/artifacts/WI-0081/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-01T13:03:00.536Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "80154a864a7336a8c730b5eeab31b0130bb0216e",
+      "artifact": ".ai-org/artifacts/WI-0081/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-01T13:05:12.295Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "80154a864a7336a8c730b5eeab31b0130bb0216e",
+  "tested_revision": "80154a864a7336a8c730b5eeab31b0130bb0216e",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

@@ -1,103 +1,96 @@
-# Temple roadmap
+# Temple ロードマップ
 
 [English](roadmap.md) | **日本語** | [繁體中文](roadmap.zh-TW.md)
 
-Temple は、local で実証された AI Development Organization Framework から、複数の実プロジェクトで日常的に信頼して使える段階へ進んでいます。この roadmap は方向と exit evidence を示します。Version ごとの履歴は [Changelog（英語）](../../CHANGELOG.md)、詳細な証拠は [Validation records（英語）](../validation/README.md) に置きます。
+Temple は、ローカルで動く中核機能の実装と、範囲を限定した複数の検証を終えています。現在は、最初の公開 Alpha に向けたリリース適格性の確認段階です。正式な状態を整理し、安全な配布方法を決め、Temple を初めて使う人がクリーンな環境から導入できることを証明します。
+
+これは、最初のオープンソース公開に向けた最終段階です。ただし、Temple の開発が終わるわけでも、production-ready になったことを意味するわけでもありません。
+
+バージョンごとの変更は [Changelog（英語）](../../CHANGELOG.md)、検証結果と適用範囲は [Validation records（英語）](../validation/README.md) に記録します。現在のリリース条件は [Release readiness（英語）](release-readiness.md) にまとめています。
 
 ## 現在地
 
-- **現在の release line:** `0.1.0-alpha.28`
-- **現在の段階:** Phase 4 の local implementation と bounded exit rehearsal は完了。Enterprise と statistical qualification は retained validation
-- **現在適している用途:** 人間が監督する個人、小規模チーム、bounded multi-repository local workflow
-- **まだ主張しないもの:** production-grade の distributed coordination、regulated operation、無人の外部操作
+- **パッケージ上のバージョン：** 現在は `0.1.0-alpha.28` です。`main` には、その後に完成した Management Console、ドキュメント、モデル比較の提案機能も含まれていますが、次のリリースとしてはまだ整理されていません。
+- **開発段階：** ローカルで動く中核フレームワークは完成し、最初の公開 Alpha を出せる状態かどうかを確認しています。
+- **現時点で想定する用途：** 人が監督する Solo または小規模チームでの開発、ローカル環境での複数リポジトリ協調、リポジトリを正とした作業復旧、日常状態の読み取り専用ビューです。
+- **まだ公開していないもの：** GitHub リポジトリは private のままで、npm パッケージも `private: true` です。npm への公開実績もありません。
+- **まだ保証しないもの：** 本番運用を前提とした分散協調、規制対象環境、無人での外部操作、モデルの自動切り替え、コスト削減効果です。
 
-## 提供済みの基盤
+## 実装済みの主な機能
 
-最初の3 phase で framework の運用モデルを確立しました。
+Temple には、すでに次の仕組みがあります。
 
-- Framework を fork せず、新規または既存プロジェクトへ導入。
-- 10個の安定した Position と、project-specific な Agent Identity／Assignment を分離。
-- Product specification、decision、Work Item、handoff、learning、evidence を repository-owned state として保存。
-- `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle を可視化。
-- Human accountability の境界を持つ Solo、Collaborative、High-Assurance profile。
-- Repository 全体を読み込まず、semantic retrieval を標準化せずに bounded context と関連 Skill を routing。
-- Dependency-safe な parallel wave、affected path、claim、shared resource、runtime worker、integration join を調整。
-- Company tracker、Temple Work Item、Codex task を別 layer として保持し、明示的に reconciliation。
-- Exact-revision evidence、stale claim、approval、risk、recovery を static view と local live view で観測。
-- Project-owned Skill と optional Pack を ownership、provenance、migration、rollback 境界付きで拡張。
+- 変わりにくい Position と、プロジェクトごとの人、Agent Identity、Assignment を分けて管理する組織モデル
+- 人の承認権限を明示した Solo、Collaborative、High-Assurance の各モード
+- 仕様、意思決定、Work Item、引き継ぎ、証拠、学習、承認をリポジトリに残す仕組み
+- `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` を追跡できる開発フロー
+- affected path、claim、共有リソース、安全な並行実行、worker、統合責任の管理
+- RAG、ローカルモデル、常駐サービスを必須にしないコンテキスト解決と Skill 検索
+- ローカルでのバックアップ、復元、監査、作業復旧、複数リポジトリ協調、読み取り専用の集約境界
+- 人が状況を把握するための Management Console と、ローカル操作と private な読み取り専用表示の分離
+- Work Item ごとの Token 使用量、段階的な調整方針、自動切り替えを行わないモデル比較の提案
+- Lesson、Practice、Skill Proposal、プロジェクト Skill、任意導入の Pack を、審査なしに自動昇格させない学習フロー
 
-詳細な release 順序はここでは繰り返しません。[Changelog（英語）](../../CHANGELOG.md)、[ADR index（英語）](../adr/README.md)、[Validation index（英語）](../validation/README.md) を参照してください。
+## Now — 最初の公開 Alpha を出せる状態にする
 
-## Now — 理解しやすく、信頼できる Temple にする
+### 1. 正式な状態を一致させる
 
-直近の優先事項は、実証済みの local foundation を、開発者が履歴を読まずに導入・運用できる形にすることです。
+- Work Item の状態を、正確な Git revision と検証証拠に基づいて整理します。
+- 失敗した検証や保留中の実験は、Dashboard をきれいに見せるために消さず、正式な証拠として残します。
+- 正式データを修正してから、status や parallel plan などの再生成可能なビューを更新します。
 
-### Public usability と release integrity
+### 2. 配布方法を決める
 
-- Human-first の3言語 README と、分類された documentation map を維持。
-- Roadmap は方向に集中し、history は changelog と validation record に保存。
-- Change-aware CI：documentation change は repository check、behavioral change は complete suite を実行。
-- Lockfile-strict dependency と clean-source recovery による再現可能な install。
-- Public package 公開前に、対応 Node.js／OS matrix を定義。
-- Package contents、security reporting、contribution guide、public branch protection を review。
+- 次のバージョン名を決め、パッケージ、Changelog、検証索引、Git tag を同時に更新します。
+- 最初は固定した Git revision だけを公開するのか、npm も同時に公開するのか、段階的に進めるのかを決めます。
+- npm パッケージに含めるファイルを allowlist で限定します。現状の dry run には self-host の状態、検証証拠、スクリーンショット、任意 Adapter の例まで含まれており、そのまま公開できる内容ではありません。
+- 最終候補の revision で、クリーンインストール、固定 revision からの launcher 復旧、プロジェクト所有データを保持したアップグレード、再初期化、Doctor、ロールバックを確認します。
 
-### Durability と recovery
+### 3. 公開プロジェクトとしての信頼境界を整える
 
-- Alpha.24 は project-owned Temple state を対象に、local versioned backup manifest、完全な payload verification、stale-safe restore preview、recoverable な multi-file apply を提供します。
-- Generated view は rebuildable のまま維持し、framework-managed file、application source / data、external system、control-plane telemetry はこの backup 境界に含めません。
-- Alpha.27 は digest-bound retention preview／apply、redacted audit export、AiPet の disposable copy による exact rollback と interrupted-recovery evidence を追加しました。Physical power loss、filesystem corruption、remote transport、production recovery、追加 operating system は retained validation です。
+- 外部から contribution を受ける前にライセンス方針を決めます。Human Principal が判断するまでは `LICENSE` を MIT のまま維持します。
+- 信頼できないリポジトリで Provider を有効にするよう案内する前に、操作者が Provider の信頼元を管理できる設計を完成させます。
+- サポート対象バージョン、非公開の脆弱性報告窓口、第三者ライセンスの確認、公開リポジトリの保護ルールを整えます。
+- GitHub Actions で使う外部 Action は、変更されない完全な revision に固定し、権限は必要最小限に保ちます。
+- 広すぎる `node >=20` を、実際に試験した LTS の範囲へ変更します。Node.js 20 と 25 はすでに保守対象外のため、最初の公開版ではサポート中の LTS を基準にします。
 
-### 日常運用の signal
+### 4. 最終候補を同じ revision で検証する
 
-- Alpha.25 は Solo、Collaborative、High-Assurance fixture 向けの7 scenario adversarial policy scorecard を提供し、Alpha.26 は正直な live usage preflight を追加しました。Alpha.27 は qualification と attach-outcome contract を操作面へ接続しますが、観測を捏造しません。Self-host の結果は not-qualified、detailed live observation はゼロのため、Token、cost、quality、routing の改善は主張しません。
-- Provider usage を証明可能な Work Item、Position、observed stage、task、attempt、provider、model、outcome に attribution し、不明な data と monetary cost は unknown のまま保持。
-- Duplicate scope、lost context、stale evidence、rework、blocked time、verification quality の低ノイズな historical measure を定義。
-- Framework に spending authority や automatic model switching を与えず、usage と cost を可視化。
-- Human Inbox と Observer attention を、第二の tracker にせず actionable にする。
+自動テスト、配布内容、クリーンな利用者環境、安全性、互換性の確認項目は [Release readiness（英語）](release-readiness.md) にまとめています。公開可否の判断には、同じ最終候補 revision から得た証拠を使います。過去の revision で成功した試験は、参考となる履歴ではあっても、現在の候補を保証する証拠にはしません。
 
-## Next — より広い環境と反復結果を qualification する
+## Next — 実際の導入から学ぶ
 
-Alpha.27 で bounded local Phase 4 implementation は完了です。以下の retained test は、より広い環境と強い主張を qualification するためのもので、fixture や追加 feature では代替できません。
+最初の公開 Alpha の後は、次を進めます。
 
-- Longitudinal Token baseline や savings を主張する前に、正しく相関し、形状が異なる完了済み Work Item を少なくとも10件収集。
-- Physical または process-level failure、別の対応 operating system、明示承認された production-like environment で disaster recovery を反復。
-- Credential や business truth を中央集約せず、実際に別々に保守される repositories で project-owned federation と read-only portfolio を演習。
-- Real branch、pull request、protected rule、CI、conflict、integration ownership を使った大規模 multi-human／multi-machine test を実行。
-- Production-readiness を主張する前に、明示的に承認された live provider、soak、disconnect、crash-recovery validation を実行。
+- Temple の開発に参加していない人に、新規プロジェクトと既存プロジェクトへの導入を一度ずつ試してもらう
+- 代表的な企業または OSS での試用と、保留している複数人・複数マシンの協調検証を行う
+- 同種の作業で実モデルの比較結果を shadow mode に蓄積してから、日常的なモデル提案へつなげる
+- 別のサポート対象 OS と、処理中断を含む条件でアップグレードと復旧を再検証する
+- 実際に分離されたリポジトリで federation と読み取り専用 portfolio を検証する
+- 導入の難しさ、状態復旧、手戻り、ブロック時間、証拠の品質、人が理解できたかを測る。根拠のない削減率は示さない
 
-## Later — optional enterprise integration
+## Later — 本番運用・企業利用に必要な検証
 
-関連する retained qualification evidence の後にのみ検討します。
+次の項目は、それぞれに必要な実環境の証拠がそろってから進めます。
 
-- Jira、GitHub、Linear、Asana などへの承認済み write action。
-- 明示的な authorization、preview、rollback、audit evidence を持つ CI/CD と deployment action。
-- Organizational RBAC、remote worker、centralized audit export、cross-team portfolio。
-- Production observability、incident coordination、vulnerability handling、policy evidence、operational risk review を担う optional な SRE / Security responsibility。
-- Remediation や deployment action より先に導入する read-only production telemetry / alert-provider adapter。
-- Throttling、privacy、responsibility boundary を持つ Slack、email などの notification。
-- Deterministic routing では不十分な repository に対する semantic／local-model retrieval の評価。
+- Provider の長時間稼働、切断、クラッシュ復旧、限定的な負荷試験
+- 複数の Human Principal を分けた実際の High-Assurance 訓練と、担当者離脱時の復旧
+- preview、rollback、audit を備えた外部 tracker、CI/CD、deploy、notification への書き込み
+- 組織単位の RBAC、remote worker、集中監査出力、チーム横断の集約
+- deterministic routing だけでは不足することを確認した後の、任意導入による semantic retrieval
+- 十分な比較証拠と承認範囲がある場合に限ったモデル自動選択
 
-External system は project-local truth や Human Approval boundary を置き換えてはいけません。
+## 標準構成に含めないもの
 
-## 意図的に default にしないもの
+人気があるという理由だけで、あらゆる engineering Skill、Figma、ベクトルデータベース、ローカルモデル、常駐サービスを必須にはしません。外部 tracker をリリース権限として扱うことも、制限なく Agent task を増やすこともありません。任意機能を導入する場合も、権限、プライバシー、出所、ロールバック、テスト範囲を明記します。
 
-人気があるという理由だけで、次のものを core にしません。
+## 公開 Alpha の完了条件
 
-- すべての candidate engineering Skill の導入。
-- Figma など特定 design vendor の必須化。
-- 小規模 project への RAG、vector database、local model、daemon の必須化。
-- External tracker status を release authority として扱うこと。
-- Clean task boundary なしに無制限の Agent task や parallel work を作ること。
-- Validation question が解決した pilot app を、そのまま product として開発し続けること。
+次の条件をすべて満たした時点で、最初の公開 Alpha を出せる状態と判断します。
 
-## 成功指標
-
-次の状態が増えるほど Temple は改善しています。
-
-- 新しい Agent が元の chat なしで current project state を回復できる。
-- Work Item overlap と unsafe parallel plan が編集衝突前に検出される。
-- Completion claim が再現可能な exact-revision evidence を参照する。
-- Developer と Independent QA が実質的に分離される。
-- Project-owned files が init、upgrade、extension install、rollback、failure を越えて保持される。
-- Human がすべての Agent conversation を読まず、active work、decision、risk、approval を理解できる。
-- Framework が artifact 数ではなく rework と coordination cost を減らす。
+- リポジトリ、Dashboard、Changelog、パッケージ、Git tag、検証記録が、同じ候補 revision を示している
+- 初めて使う人が過去の会話に頼らず、クリーンな環境でインストール、初期化、診断、アップグレード、復旧を完了できる
+- 配布物に、審査済みのフレームワークファイルと必要なライセンス表示だけが含まれている
+- サポートを表明する Node.js と OS の組み合わせが、同じ候補 revision で合格している
+- 脆弱性報告、contribution、ライセンス、第三者由来の内容、リポジトリ保護ルールが明文化されている
+- 未完了の実環境テストが見える状態で残り、対外的な説明が取得済みの証拠を超えていない

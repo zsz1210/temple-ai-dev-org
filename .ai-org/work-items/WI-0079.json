@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0079",
   "title": "Create an Archify engineering architecture preview",
-  "state": "design",
-  "owner_position": "tech_lead",
-  "assigned_agent_id": "agent-tidus",
+  "state": "cancelled",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-01T00:12:48.093Z",
-  "updated_at": "2026-09-01T00:21:12.173Z",
+  "updated_at": "2026-09-01T12:59:59.882Z",
   "scope": [
     "Create one local engineer-facing Temple architecture preview from current repository authority without changing the existing README hero or public documentation.",
     "Use only the reviewed Archify v2.15.0 pin at commit e1ac748f19cf805e44bf74fb93c796662152e273 through Temple's isolated adapter boundary.",
@@ -119,15 +119,19 @@
     ],
     "acceptance_criteria": [
       ".ai-org/artifacts/WI-0079/product-direction.md"
+    ],
+    "cancellation_reason": [
+      "Bounded-design-preview-complete-desktop-artifact-retained-narrow-README-promotion-rejected"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0079/work-order.md",
     ".ai-org/artifacts/WI-0079/handoff-001-product_manager-to-tech_lead.md",
-    ".ai-org/artifacts/WI-0079/product-direction.md"
+    ".ai-org/artifacts/WI-0079/product-direction.md",
+    "Bounded-design-preview-complete-desktop-artifact-retained-narrow-README-promotion-rejected"
   ],
   "unresolved": [],
-  "next_position": "developer",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "product_manager",

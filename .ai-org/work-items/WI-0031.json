@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0031",
   "title": "Harden Temple before the next release",
-  "state": "spec",
-  "owner_position": "product_manager",
-  "assigned_agent_id": "agent-yuna",
+  "state": "cancelled",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-30T13:55:47.107Z",
-  "updated_at": "2026-08-30T13:56:48.241Z",
+  "updated_at": "2026-09-01T13:07:27.184Z",
   "scope": [
     "Coordinate the pre-release corrective program produced by the integrated Dashboard, federation, CI, and measurement review without closing or publishing any existing release gate."
   ],
@@ -42,11 +42,15 @@
   "gate_evidence": {
     "work_order": [
       ".ai-org/artifacts/work-orders/WI-0031.md"
+    ],
+    "cancellation_reason": [
+      "Superseded-by-current-release-qualification-and-roadmap-reconciliation-WI-0084"
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/work-orders/WI-0031.md"
+    ".ai-org/artifacts/work-orders/WI-0031.md",
+    "Superseded-by-current-release-qualification-and-roadmap-reconciliation-WI-0084"
   ],
   "unresolved": [],
-  "next_position": "tech_lead"
+  "next_position": null
 }

@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0077",
   "title": "Review the Management Console as a complete human operating experience",
-  "state": "design",
-  "owner_position": "tech_lead",
-  "assigned_agent_id": "agent-tidus",
+  "state": "cancelled",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-31T21:53:58.198Z",
-  "updated_at": "2026-09-01T04:55:48.437Z",
+  "updated_at": "2026-09-01T12:59:59.547Z",
   "scope": [
     "Audit the current Temple Management Console end to end using the repository's real mixed lifecycle, collaboration, model, usage, system, evidence, and history state.",
     "Research current human-facing operations-console and dashboard information-architecture practices, then distinguish applicable principles from product preference.",
@@ -163,6 +163,9 @@
     ],
     "acceptance_criteria": [
       ".ai-org/artifacts/WI-0077/product-direction.md"
+    ],
+    "cancellation_reason": [
+      "Design-package-accepted-and-production-follow-up-moved-to-WI-0081"
     ]
   },
   "evidence": [
@@ -178,10 +181,11 @@
     ".ai-org/artifacts/WI-0077/management-console-preview.html",
     ".ai-org/artifacts/WI-0077/preview-review.md",
     ".ai-org/artifacts/WI-0077/validation-plan.md",
-    ".ai-org/artifacts/WI-0077/implementation-slices.md"
+    ".ai-org/artifacts/WI-0077/implementation-slices.md",
+    "Design-package-accepted-and-production-follow-up-moved-to-WI-0081"
   ],
   "unresolved": [],
-  "next_position": "developer",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",

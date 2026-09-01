@@ -1,103 +1,94 @@
-# Temple roadmap
+# Temple 發展路線
 
 [English](roadmap.md) | [日本語](roadmap.ja.md) | **繁體中文**
 
-Temple 正在從已通過 local 驗證的 AI Development Organization Framework，走向能在多個真實專案裡被日常信任與使用的階段。這份 roadmap 只描述方向與 exit evidence；各版本歷史放在 [Changelog（英文）](../../CHANGELOG.md)，詳細證據放在 [Validation records（英文）](../validation/README.md)。
+Temple 在本機運作所需的核心架構已經完成，也經過數個有明確範圍的實際演練。現在進入首個公開 Alpha 版本的發布資格確認：整理正式狀態、決定安全的發佈方式，並證明第一次接觸 Temple 的使用者可以從乾淨環境完成導入。這確實是第一階段開源發布前的最後階段，但不是 Temple 開發工作的終點，也不代表已達到正式營運等級。
 
-## 目前位置
+各版本的變更請查看 [Changelog（英文）](../../CHANGELOG.md)，測試結果與適用範圍請查看 [驗證紀錄（英文）](../validation/README.md)。目前仍需通過的發布關卡集中整理在 [發布準備狀態（英文）](release-readiness.md)。
 
-- **目前 release line：** `0.1.0-alpha.28`
-- **目前階段：** Phase 4 的 local implementation 與 bounded exit rehearsal 已完成；enterprise 與 statistical qualification 保留為後續驗證
-- **現在適合：** 有人類監督的個人、小型團隊與 bounded multi-repository local workflow
-- **尚未宣稱：** production-grade distributed coordination、regulated operation 或無人監督的外部操作
+## 現在走到哪裡
 
-## 已交付的基礎
+- **套件標記：** 目前仍是 `0.1.0-alpha.28`；`main` 已經包含之後完成的 Management Console、文件與模型比較建議功能，尚未整理成下一個版本。
+- **開發階段：** 本機核心框架已完成，正在確認首個公開 Alpha 版本是否具備發布條件。
+- **現在適合：** 有人監督的 Solo 與小型團隊開發、本機多儲存庫協作、以儲存庫為準的復原流程，以及唯讀的日常狀態檢視。
+- **目前尚未公開：** GitHub 儲存庫仍是 private，npm 套件仍設為 `private: true`，也沒有發布過 npm 版本。
+- **目前不宣稱：** 可直接用於正式營運的分散式協作、受監管環境、無人監督的外部操作、自動切換模型，或已證明節省成本。
 
-前三個 phase 已建立 framework 的主要運作方式：
+## 已經完成的主要能力
 
-- 不需要 fork framework，即可導入全新或既有專案。
-- 將十個穩定 Position 與專案自己的 Agent Identity、Assignment 分開。
-- 把 product specification、decision、Work Item、handoff、learning 與 evidence 保存在 repository-owned state。
-- 提供可觀測的 `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle。
-- 提供 Solo、Collaborative 與 High-Assurance profile，並保留明確的人類問責邊界。
-- 不需讀取整個 repository，也不預設啟用 semantic retrieval，就能取得 bounded context 與可能適用的 Skill。
-- 協調 dependency-safe parallel wave、affected path、claim、shared resource、runtime worker 與 integration join。
-- 將公司 tracker、Temple Work Item 與 Codex task 維持為不同層，透過明確 reconciliation 連接。
-- 用 static 與 local live view 觀測 exact-revision evidence、stale claim、approval、risk 與 recovery。
-- 以清楚的 ownership、provenance、migration 與 rollback 邊界擴展 project-owned Skill 和 optional Pack。
+Temple 目前已具備：
 
-詳細 release 順序不再重複寫在這裡。請查看 [Changelog（英文）](../../CHANGELOG.md)、[ADR index（英文）](../adr/README.md) 與 [Validation index（英文）](../validation/README.md)。
+- 將穩定的 Position 與專案中的人員、Agent Identity、Assignment 分開管理；
+- 具有明確人類權限邊界的 Solo、Collaborative、High-Assurance 運作方式；
+- 由儲存庫保存規格、決策、Work Item、交接、證據、學習與核准紀錄；
+- 清楚可見的 `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` 交付流程；
+- affected path、claim、共用資源、安全的平行批次、worker 與整合責任；
+- 不強迫使用 RAG、本機模型或常駐服務的情境與 Skill 查找；
+- 本機備份、還原、稽核、復原、跨儲存庫協調與唯讀彙整邊界；
+- 面向人類使用的 Management Console，並將本機操作與私有唯讀檢視分開；
+- 專案內的 Token 歸因、逐步校準政策，以及不會自行切換模型的比較建議；
+- 受到規範的 Lesson、Practice、Skill Proposal、專案 Skill 與選用 Pack，不會自動升格。
 
-## Now — 讓 Temple 容易理解並值得依賴
+## 現在 — 完成首個公開 Alpha 版本的資格確認
 
-眼前優先工作，是讓開發者不需要先閱讀整個專案歷史，就能導入與操作已被驗證的 local foundation。
+### 1. 先讓正式狀態一致
 
-### Public usability 與 release integrity
+- 依照確切 Git revision 與驗證證據，整理已經過期的 Work Item 狀態。
+- 失敗或受阻的實驗要保留成正式證據，不能只為了讓 Dashboard 看起來乾淨就刪掉。
+- 先修正正式資料，再重建狀態頁與平行工作計畫等衍生檢視。
 
-- 維護以人為主的三語 README 與分類清楚的 documentation map。
-- Roadmap 專注未來方向，history 交給 changelog 與 validation record。
-- 使用 change-aware CI：documentation change 執行 repository check，behavioral change 執行 complete suite。
-- 使用 lockfile-strict dependency 與 clean-source recovery，確保安裝可重現。
-- Public package 發布前，先定義支援的 Node.js 與 operating-system matrix。
-- 檢查 package contents、security reporting、contribution guidance 與 public branch protection。
+### 2. 決定如何發布
 
-### Durability 與 recovery
+- 決定下一個版本名稱，並同時更新套件版本、Changelog、驗證索引與 Git tag。
+- 決定首個公開 Alpha 只提供不可變的 Git revision、同時發布 npm，或分階段處理。
+- 明確限制 npm 套件內容。現在的打包結果過於龐大，包含 self-host 狀態、測試證據、截圖與選用 Adapter 的範例，不能直接發布。
+- 在最終候選版本上重新證明乾淨安裝、指定 revision 的啟動器復原、升級時保留專案資料、重複初始化、Doctor 與回復流程。
 
-- Alpha.24 已提供 local versioned backup manifest、完整 payload verification、stale-safe restore preview，以及可恢復的 multi-file apply，範圍只涵蓋 project-owned Temple state。
-- Generated view 維持可重建；framework-managed file、application source 與 data、external system、control-plane telemetry 都不在這份 backup 邊界內。
-- Alpha.27 加入 digest-bound retention preview／apply、redacted audit export，以及使用 AiPet disposable copy 得到的 exact rollback 與 interrupted-recovery evidence。Physical power loss、filesystem corruption、remote transport、production recovery 與其他 operating system 仍是保留中的驗證。
+### 3. 補齊公開專案需要的信任邊界
 
-### 日常運作訊號
+- 接受外部貢獻前先確認授權方式；目前的建議另有紀錄，在 Human Principal 做出決定前，`LICENSE` 維持 MIT。
+- 在建議使用者對不受信任的儲存庫啟用 Provider 前，先完成由操作者掌握 Provider 信任來源的設計。
+- 補上支援版本、非公開漏洞通報方式、第三方授權檢查，以及公開儲存庫需要的保護規則。
+- 將 GitHub Actions 使用的外部 Action 固定到不可變的完整 revision，並維持最小權限。
+- 把目前過於寬鬆的 `node >=20` 改成實際測過的 LTS 支援範圍。Node.js 20 與 25 已停止維護，首個公開版本應以仍受支援的 LTS 為準。
 
-- Alpha.25 提供適用 Solo、Collaborative 與 High-Assurance fixture 的七項 adversarial policy scorecard；Alpha.26 加入誠實的 live usage preflight；Alpha.27 將 qualification 與 attach-outcome contract 接到可操作介面，但不製造觀測資料。目前 self-host 結果仍是 not-qualified、detailed live observation 為零，因此不宣稱 Token、cost、quality 或 routing 改善。
-- 將 provider usage 歸因到可證明的 Work Item、Position、observed stage、task、attempt、provider、model 與 outcome；無法取得的資料和 monetary cost 維持 unknown。
-- 定義低噪音的 duplicate scope、lost context、stale evidence、rework、blocked time 與 verification quality historical 指標。
-- 讓 usage 與 cost 可見，但不授予 framework spending authority 或 automatic model switching。
-- 讓 Human Inbox 與 Observer attention 可以被採取行動，但不把它們變成第二套 tracker。
+### 4. 驗證最終候選版本
 
-## Next — 驗證更廣泛的環境與重複成果
+自動測試、套件內容、乾淨使用者環境、安全檢查與相容性測試的完整清單，請查看 [發布準備狀態（英文）](release-readiness.md)。公開版本必須使用同一個確切候選 revision 的證據；舊版本曾經測試通過，只能算歷史紀錄。
 
-Alpha.27 已完成 bounded local Phase 4 implementation。以下保留測試用來驗證更廣泛的環境與更強的宣稱；fixture 或新增 feature 不能取代它們。
+## 下一步 — 從真實導入經驗學習
 
-- 在宣稱 longitudinal Token baseline 或 savings 前，蒐集至少十個可正確 correlation、形態多樣且已完成的 Work Item。
-- 使用 physical 或 process-level failure、另一個支援的 operating system，以及明確授權的 production-like environment 重複 disaster recovery。
-- 在真實且分開維護的 repositories 上演練 project-owned federation 與 read-only portfolio，同時不集中 credential 或 business truth。
-- 以真實 branch、pull request、protected rule、CI、conflict 與 integration ownership 執行保留中的大型 multi-human／multi-machine test。
-- 宣稱 production-readiness 前，先執行明確授權的 live provider、soak、disconnect 與 crash-recovery validation。
+首個公開 Alpha 發布後：
 
-## Later — 選用的 enterprise integration
+- 請沒有參與 Temple 開發的人，各完成一次全新專案與既有專案導入；
+- 執行一個具代表性的公司或 OSS 試用，以及保留中的真人、多機器協作測試；
+- 先在影子模式中累積同類任務的真實模型比較結果，再提供日常模型建議；
+- 在另一個支援中的作業系統與程序中斷情境下重做升級與復原；
+- 使用真正分開維護的儲存庫演練 federation 與唯讀 portfolio；
+- 衡量安裝阻力、狀態復原、重工、受阻時間、證據品質與人類理解程度，不捏造節省比例。
 
-只有在相關的保留驗證完成後才考慮：
+## 更後面 — 正式營運與企業級資格
 
-- 對 Jira、GitHub、Linear、Asana 或其他 tracker 的已核准 write action。
-- 具備明確 authorization、preview、rollback 與 audit evidence 的 CI/CD 和 deployment action。
-- Organizational RBAC、remote worker、centralized audit export 與 cross-team portfolio。
-- 負責 production observability、incident coordination、vulnerability handling、policy evidence 與 operational risk review 的 optional SRE / Security responsibility。
-- 在任何 remediation 或 deployment action 之前，先提供 read-only production telemetry 與 alert-provider adapter。
-- 具備 throttling、privacy 與 responsibility boundary 的 Slack、email 或其他 notification。
-- 在 deterministic routing 不再足夠的 repository 中，評估 semantic 或 local-model retrieval。
+只有取得相應的真實環境證據後，才進入：
 
-External system 不得取代 project-local truth 或 Human Approval boundary。
+- Provider 長時間運作、斷線、崩潰復原與有限度效能測試；
+- 由不同 Human Principal 執行的真實 High-Assurance 演練與人員流失復原；
+- 具備預覽、回復與稽核的外部 tracker、CI/CD、部署或通知寫入；
+- 組織層級 RBAC、遠端 worker、集中式稽核輸出與跨團隊彙整；
+- 在確定 deterministic routing 不足時，才採用選用的 semantic retrieval；
+- 只有在證據足夠且符合授權範圍時，才允許自動選擇模型。
 
-## 刻意不設為 default 的項目
+## 刻意不設為預設依賴
 
-Temple 不會只因為流行，就把這些能力放入 core：
+Temple 不會因為某項工具流行，就強制安裝所有工程 Skill、Figma、向量資料庫、本機模型、常駐服務，也不會把外部 tracker 當成發布權限或無限制建立 Agent task。選用能力仍必須清楚交代權限、隱私、來源、回復方式與測試邊界。
 
-- 安裝所有 candidate engineering Skill。
-- 強制使用 Figma 或其他 design vendor。
-- 強迫小型 project 使用 RAG、vector database、local model 或 daemon。
-- 把 external tracker status 當成 release authority。
-- 在 task boundary 不乾淨時，建立無限制的 Agent task 或 parallel work。
-- Pilot app 已回答驗證問題後，仍把它當正式產品繼續開發。
+## 首個公開 Alpha 的完成條件
 
-## 成功衡量方式
+當以下條件都成立，才適合發布：
 
-當以下情況持續增加，代表 Temple 正在進步：
-
-- 新 Agent 不需要原始 chat，就能恢復 current project state。
-- Work Item overlap 與 unsafe parallel plan 在編輯衝突前被發現。
-- Completion claim 指向可重現的 exact-revision evidence。
-- Developer 與 Independent QA 維持實質分離。
-- Project-owned files 能通過 init、upgrade、extension install、rollback 與 failure 而被保留。
-- 人類不必閱讀所有 Agent conversation，也能理解 active work、decision、risk 與 approval。
-- Framework 減少的是 rework 與 coordination cost，而不只是產生更多 artifact。
+- 儲存庫、Dashboard、Changelog、套件版本、Git tag 與驗證紀錄描述的是同一個候選版本；
+- 第一次使用的人不依賴原始對話，也能在乾淨環境完成安裝、初始化、檢查、升級與復原；
+- 發布套件只包含經過審查的框架檔案與必要授權聲明；
+- 所有宣稱支援的 Node.js 與作業系統組合，都在同一個候選 revision 通過；
+- 漏洞通報、貢獻方式、授權、第三方來源與儲存庫保護規則都已寫清楚；
+- 尚未完成的真實環境測試仍清楚可見，對外說明不超過已取得的證據。

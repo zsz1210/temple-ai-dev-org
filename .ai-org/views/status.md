@@ -5,8 +5,8 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 83 total, 11 active
-- Codex tasks: 5 registered, 4 archive-ready
+- Work items: 84 total, 5 active
+- Codex tasks: 5 registered, 5 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
@@ -17,7 +17,7 @@
 - Skill promotion: 0 candidate(s), 0 approval pending, 0 authoring Work Item(s)
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 12
+- Attention signals: 13
 
 ## Collaboration
 
@@ -75,9 +75,9 @@
 | WI-0026 | Ship Phase 4 project contracts and Alpha.27 metadata | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0d48f087` | 0 | 8 | 0 |
 | WI-0027 | Resolve terminal historical-evidence dashboard noise | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `591b4369` | 0 | 8 | 0 |
 | WI-0028 | Publish Alpha.27 private release checkpoint | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5e90ba28` | 0 | 8 | 0 |
-| WI-0029 | Prototype local Agent Command Gateway | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `38a185eb` | 1 | 8 | 1 |
+| WI-0029 | Prototype local Agent Command Gateway | cancelled | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `38a185eb` | 1 | 9 | 1 |
 | WI-0030 | Prevent complete command retention | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `ba066d73` | 0 | 13 | 2 |
-| WI-0031 | Harden Temple before the next release | spec | Product Manager | Yuna | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 0 |
+| WI-0031 | Harden Temple before the next release | cancelled | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 | WI-0032 | Sandbox federation participant Git inspection | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `024af612` | 0 | 15 | 0 |
 | WI-0033 | Establish operator-owned provider trust | spec | Product Manager | Yuna | blocked | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 1 |
 | WI-0034 | Make Dashboard current-state interaction trustworthy | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `7a528964` | 0 | 12 | 0 |
@@ -115,7 +115,7 @@
 | WI-0066 | Add bounded multi-repository experiment runner | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ab212c0f` | 0 | 19 | 0 |
 | WI-0067 | Run bounded four-repository commerce rehearsal | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0d656df5` | 0 | 18 | 3 |
 | WI-0068 | Fail closed on invalid experiment telemetry paths | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `123a9fda` | 0 | 18 | 0 |
-| WI-0069 | Establish progressive usage calibration and autonomy policy | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `aead7f54` | 0 | 12 | 0 |
+| WI-0069 | Establish progressive usage calibration and autonomy policy | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `aead7f54` | 0 | 13 | 0 |
 | WI-0070 | Stabilize provider-owned usage notification test timing | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a5f3860a` | 0 | 19 | 0 |
 | WI-0071 | Automate Skill candidate proposals with human activation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `406bc213` | 0 | 15 | 0 |
 | WI-0072 | Preserve evidence revisions across remote CI | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5913ea0c` | 0 | 19 | 0 |
@@ -123,13 +123,14 @@
 | WI-0074 | Remove hosted control-plane test races | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `66bc5dd8` | 0 | 16 | 0 |
 | WI-0075 | Separate validation wall-clock test boundaries | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `66bc5dd8` | 0 | 14 | 0 |
 | WI-0076 | Operationalize multi-human team governance | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `006ef112` | 0 | 20 | 0 |
-| WI-0077 | Review the Management Console as a complete human operating experience | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | preview-first | 1 | 0 | 0 | — | `—` | 0 | 13 | 0 |
+| WI-0077 | Review the Management Console as a complete human operating experience | cancelled | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | preview-first | 1 | 0 | 0 | — | `—` | 0 | 14 | 0 |
 | WI-0078 | Make the public README visual and human-first | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `8ae725d6` | 0 | 21 | 0 |
-| WI-0079 | Create an Archify engineering architecture preview | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 3 | 0 |
+| WI-0079 | Create an Archify engineering architecture preview | cancelled | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 4 | 0 |
 | WI-0080 | Redesign the human-facing README and overview diagram | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `de841e94` | 0 | 14 | 0 |
-| WI-0081 | Implement the approved Management Console with live project data | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | preview-first | 1 | 0 | 0 | — | `—` | 0 | 10 | 0 |
-| WI-0082 | Make Temple terms and Core Skills self-explanatory | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `8a7afd30` | 0 | 16 | 0 |
+| WI-0081 | Implement the approved Management Console with live project data | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | preview-first | 1 | 0 | 0 | — | `80154a86` | 0 | 23 | 0 |
+| WI-0082 | Make Temple terms and Core Skills self-explanatory | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ed869f68` | 0 | 19 | 0 |
 | WI-0083 | Add matched model evaluation and advisory recommendations | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a0be19c7` | 0 | 23 | 0 |
+| WI-0084 | Reconcile release truth and refresh the public roadmap | build | Developer | Rikku | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 8 | 0 |
 
 ## Codex task registry
 
@@ -138,7 +139,7 @@
 | task-0001 | WI-0008 | WI-0008 · Developer · Rikku | Developer / Rikku | — | — | completed | `0e9891cf` | ready |
 | task-0002 | WI-0014 | WI-0014 · Developer · Rikku | Developer / Rikku | — | — | completed | `a172ecec` | ready |
 | task-0003 | WI-0014 | WI-0014 · Independent QA · Lulu | Independent QA / Lulu | — | — | completed | `23768e74` | ready |
-| task-0004 | WI-0029 | WI-0029 · Developer · Rikku | Developer / Rikku | human | codex/wi-0029-agent-command-gateway | completed | `38a185eb` | — |
+| task-0004 | WI-0029 | WI-0029 · Developer · Rikku | Developer / Rikku | human | codex/wi-0029-agent-command-gateway | completed | `38a185eb` | ready |
 | task-0005 | WI-0056 | WI-0056 · Developer · Rikku | Developer / Rikku | human | main | completed | `247a7815` | ready |
 
 ## Runtime workers and shared resources
@@ -183,6 +184,7 @@
 - task-0001 can be archived
 - task-0002 can be archived
 - task-0003 can be archived
+- task-0004 can be archived
 - task-0005 can be archived
 - worker-20260830090102-322fa6b7 is failed
 - worker-20260830090103-b1811194 is failed
@@ -248,14 +250,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-01T12:47:46.129Z | work_item_closed | WI-0083 | agent-mog |
-| 2026-09-01T12:47:46.129Z | release_gate_completed | WI-0083 | agent-mog |
-| 2026-09-01T12:47:36.585Z | work_item_claimed | WI-0083 | human |
-| 2026-09-01T12:41:00.342Z | work_item_transitioned | WI-0083 | agent-lulu |
-| 2026-09-01T12:40:51.492Z | handoff_created | WI-0083 | agent-lulu |
-| 2026-09-01T12:40:46.451Z | evidence_recorded | WI-0083 | human |
-| 2026-09-01T12:37:55.889Z | work_item_claimed | WI-0083 | human |
-| 2026-09-01T12:37:48.280Z | work_item_transitioned | WI-0083 | agent-lulu |
+| 2026-09-01T13:16:07.151Z | work_item_transitioned | WI-0084 | agent-tidus |
+| 2026-09-01T13:16:06.858Z | handoff_created | WI-0084 | agent-tidus |
+| 2026-09-01T13:16:06.560Z | work_item_transitioned | WI-0084 | agent-yuna |
+| 2026-09-01T13:16:06.255Z | handoff_created | WI-0084 | agent-yuna |
+| 2026-09-01T13:15:59.395Z | work_item_transitioned | WI-0084 | agent-mog |
+| 2026-09-01T13:15:59.066Z | handoff_created | WI-0084 | agent-mog |
+| 2026-09-01T13:07:27.184Z | work_item_transitioned | WI-0031 | agent-yuna |
+| 2026-09-01T13:07:18.560Z | work_item_closed | WI-0082 | agent-mog |
 
 ## Assignments
 

@@ -2,103 +2,93 @@
 
 **English** | [日本語](roadmap.ja.md) | [繁體中文](roadmap.zh-TW.md)
 
-Temple is moving from a locally proven AI development organization framework toward reliable everyday use across several real projects. This roadmap shows direction and exit evidence. Version-by-version history lives in the [changelog](../../CHANGELOG.md), and detailed proof lives in [validation records](../validation/README.md).
+Temple's repository-local operating model is implemented and proven across bounded local pilots. The project is now in release qualification for its first public Alpha: reducing state drift, defining a safe distribution, and proving that a new user can adopt the framework from a clean source. This is the final stage of the initial open-source release, not the end of Temple's development and not a production-readiness claim.
+
+Version history belongs in the [changelog](../../CHANGELOG.md). Exact test results and retained limits belong in [validation records](../validation/README.md). The current release gates are tracked separately in [release readiness](release-readiness.md).
 
 ## Current position
 
-- **Current release line:** `0.1.0-alpha.28`
-- **Current stage:** Phase 4 local implementation and bounded exit rehearsals are complete; enterprise and statistical qualification remain retained validations
-- **Suitable today:** individual, small-team, and bounded multi-repository local workflows with human supervision
-- **Not yet claimed:** production-grade distributed coordination, regulated operation, or unattended external actions
+- **Package metadata:** `0.1.0-alpha.28`; `main` also contains later Management Console, documentation, and matched-model advisory work that has not yet received a new version.
+- **Development stage:** core local framework complete; first public-Alpha release qualification in progress.
+- **Suitable today:** supervised Solo and small-team work, local multi-repository coordination, repository-backed recovery, and read-only operational review.
+- **Distribution today:** the GitHub repository is private, the npm package is marked `private: true`, and no npm version has been published.
+- **Not yet claimed:** production-grade distributed coordination, regulated operation, unattended external action, automatic model routing, or measured cost savings.
 
-## Delivered foundation
+## Delivered operating system
 
-The first three phases established the framework's operating model:
+The local framework already provides:
 
-- Install into new or existing projects without forking the framework.
-- Separate ten stable Positions from project-specific Agent Identities and Assignments.
-- Preserve product specifications, decisions, Work Items, handoffs, learning, and evidence in repository-owned state.
-- Run a visible `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` lifecycle.
-- Support Solo, Collaborative, and High-Assurance profiles with explicit human-accountability boundaries.
-- Alpha.28 operationalizes multi-human governance with clone-local actor binding, qualified Position pools, scoped Human Authority Grants, configurable recovery, a non-hierarchical Team view, and a validation ladder that keeps real multi-human evidence open.
-- Route bounded context and likely Skills without loading the full repository or enabling semantic retrieval by default.
-- Coordinate dependency-safe parallel waves, affected paths, claims, shared resources, runtime workers, and integration joins.
-- Keep company trackers, Temple Work Items, and Codex tasks as separate layers with explicit reconciliation.
-- Observe exact-revision evidence, stale claims, approvals, risks, and recovery through static and local live views.
-- Extend the framework with project-owned Skills and optional Packs while preserving ownership, provenance, migration, and rollback boundaries.
+- stable Positions separated from project-specific people, Agent Identities, and Assignments;
+- Solo, Collaborative, and High-Assurance governance contracts with explicit human authority;
+- repository-owned specifications, decisions, Work Items, handoffs, evidence, learning, and approvals;
+- the visible `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` delivery path;
+- affected-path coordination, claims, resources, safe parallel waves, workers, and integration joins;
+- deterministic context and Skill discovery without requiring RAG, a local model, or a daemon;
+- local backup, restore, audit, recovery, federation, and read-only portfolio boundaries;
+- a human-facing Management Console that keeps local commands separate from private read-only access;
+- project-local Token attribution, calibration policy, and a deterministic matched-model advisory that cannot switch models by itself;
+- governed Lessons, Practices, Skill Proposals, project Skills, and optional Packs without automatic promotion.
 
-The detailed release sequence is intentionally not repeated here. See the [changelog](../../CHANGELOG.md), [ADR index](../adr/README.md), and [validation index](../validation/README.md).
+## Now — qualify the first public Alpha
 
-## Now — make Temple understandable and dependable
+### 1. Keep repository truth consistent
 
-The immediate priority is to turn the proven local foundation into something a developer can adopt and operate without reading the project's history.
+- Reconcile stale Work Item states with their exact Git and verification evidence.
+- Keep failed and blocked experiments as evidence instead of hiding them to make the Dashboard look complete.
+- Rebuild generated status and planning views only after canonical state is correct.
 
-### Public usability and release integrity
+### 2. Define the release and distribution
 
-- Maintain a human-first trilingual README and a categorized documentation map.
-- Keep the roadmap focused on direction while changelog and validation records retain history.
-- Use change-aware CI: documentation changes run repository checks; behavioral changes run the complete suite.
-- Make installation reproducible with lockfile-strict dependencies and clean-source recovery.
-- Define the supported Node.js and operating-system matrix before public package publication.
-- Review package contents, security reporting, contribution guidance, and public branch protection.
+- Choose the next release identity and update package metadata, changelog, validation index, and Git tag together.
+- Decide whether the first public Alpha is distributed by immutable Git revision, npm, or both.
+- Add an explicit package allowlist. The current dry run is too broad and includes self-host state, test evidence, screenshots, and optional-adapter examples.
+- Prove clean installation, exact-revision launcher recovery, upgrade preservation, re-initialization, Doctor, and rollback from the final candidate.
 
-### Durability and recovery
+### 3. Finish the public trust boundary
 
-- Alpha.24 ships a local versioned backup manifest, complete payload verification, stale-safe restore preview, and recoverable multi-file apply for project-owned Temple state.
-- Generated views remain rebuildable; framework-managed files, application source and data, external systems, and control-plane telemetry remain outside this backup boundary.
-- Alpha.27 adds digest-bound retention preview/apply, redacted audit export, and exact rollback plus interrupted-recovery evidence from disposable copies of AiPet. Physical power loss, filesystem corruption, remote transport, production recovery, and additional operating systems remain retained validations.
+- Confirm the project license before accepting public contributions; the current recommendation is recorded separately and `LICENSE` remains MIT until the Human Principal decides.
+- Finish the operator-owned Provider trust decision before recommending Provider execution from untrusted repositories.
+- Add supported-version and private vulnerability-reporting instructions, review third-party notices, and enable appropriate public repository protections.
+- Pin GitHub Actions dependencies to immutable revisions and keep workflow permissions minimal.
+- Replace the broad `node >=20` promise with a tested LTS support matrix. Node.js 20 and 25 are already end-of-life; the initial candidate should target supported LTS lines.
 
-### Everyday operating signals
+### 4. Prove the final candidate
 
-- Alpha.25 provides a seven-scenario adversarial policy scorecard across Solo, Collaborative, and High-Assurance fixtures; Alpha.26 adds truthful live-usage preflight; Alpha.27 exposes the qualification and attach-outcome contracts without manufacturing observations. The self-host result remains not-qualified with zero detailed live observations, so no Token, cost, quality, or routing improvement is claimed.
-- Attribute provider usage to every provable Work Item, Position, observed stage, task, attempt, provider, model, and outcome dimension while keeping missing data and monetary cost unknown.
-- Define useful, low-noise historical measures for duplicate scope, lost context, stale evidence, rework, blocked time, and verification quality.
-- Keep usage and cost visible without allowing the framework to authorize spending or switch models automatically.
-- Make Human Inbox and Observer attention actionable without turning them into a second tracker.
+The required automated, package, clean-consumer, security, and compatibility checks are listed in [release readiness](release-readiness.md). A public release requires evidence at the exact candidate revision; an older passing test run is history, not release proof.
 
-## Next — qualify broader environments and repeated outcomes
+## Next — learn from real adoption
 
-Alpha.27 closes the bounded local Phase 4 implementation. The following retained tests qualify broader environments and stronger claims; fixtures or extra features do not replace them.
+After the first public Alpha:
 
-- Collect at least ten correlated, varied, completed Work Items before qualifying a longitudinal Token baseline or making any savings claim.
-- Repeat disaster recovery with physical or process-level failure, another supported operating system, and an explicitly authorized production-like environment.
-- Exercise the project-owned federation and read-only portfolio across real separately maintained repositories without centralizing credentials or business truth.
-- Run the retained large multi-human, multi-machine collaboration test with real branches, pull requests, protected rules, CI, conflicts, and integration ownership.
-- Run explicitly authorized live provider, soak, disconnect, and crash-recovery validation before making production-readiness claims.
+- run one greenfield and one existing-project adoption with people who did not build Temple;
+- run a representative company or OSS pilot and the retained real multi-human, multi-machine collaboration plan;
+- collect real matched task results in shadow mode before enabling any model recommendation for everyday work;
+- repeat recovery and upgrade on another supported operating system and under process-level failure;
+- exercise federation and read-only portfolio views across separately maintained repositories;
+- measure setup friction, state recovery, rework, blocked time, evidence quality, and human comprehension without inventing a savings percentage.
 
-## Later — optional enterprise integrations
+## Later — production and enterprise qualification
 
-Only after the relevant retained qualification evidence:
+Only after the corresponding real-environment evidence:
 
-- Approved write actions for Jira, GitHub, Linear, Asana, or other trackers.
-- CI/CD and deployment actions with explicit authorization, preview, rollback, and audit evidence.
-- Organizational RBAC, remote workers, centralized audit export, and cross-team portfolios.
-- Optional SRE and Security responsibilities for production observability, incident coordination, vulnerability handling, policy evidence, and operational risk review.
-- Read-only production telemetry and alert-provider adapters before any authorized remediation or deployment action.
-- Slack, email, or other notifications with throttling, privacy, and responsibility boundaries.
-- Evaluated semantic or local-model retrieval for repositories where deterministic routing is no longer sufficient.
+- live Provider soak, disconnect, crash recovery, and bounded performance tests;
+- a real High-Assurance drill with distinct Human Principals and recovery loss scenarios;
+- approved external-tracker, CI/CD, deployment, or notification writes with preview, rollback, and audit;
+- organization-wide RBAC, remote workers, centralized audit export, and cross-team portfolios;
+- optional semantic retrieval where deterministic routing has demonstrated a real limit;
+- automatic model routing only inside an evidence-qualified autonomy envelope.
 
-External systems must not replace project-local truth or the Human Approval boundary.
+## Intentionally not a default dependency
 
-## Intentionally not default
+Temple will not require every engineering Skill, Figma, a vector database, a local model, a daemon, external tracker authority, or unlimited agent tasks merely because those options are popular. Optional capabilities must keep their authority, privacy, provenance, rollback, and test boundaries visible.
 
-Temple will not make these core merely because they are popular:
+## Public-Alpha exit criteria
 
-- Installing every candidate engineering Skill.
-- Requiring Figma or another design vendor.
-- Requiring RAG, a vector database, a local model, or a daemon for small projects.
-- Treating external tracker status as release authority.
-- Creating unlimited agent tasks or parallel work without clean task boundaries.
-- Turning a pilot application into a product after its validation question is answered.
+The first public Alpha is ready when:
 
-## Success measures
-
-Temple is improving when:
-
-- a new agent recovers the current project state without the originating chat;
-- overlapping Work Items and unsafe parallel plans are caught before edits collide;
-- completion claims point to reproducible exact-revision evidence;
-- Developer and Independent QA remain meaningfully separate;
-- project-owned files survive init, upgrade, extension installation, rollback, and failure;
-- a human can understand active work, decisions, risks, and approvals without reading every agent conversation;
-- the framework reduces rework and coordination cost instead of merely producing more artifacts.
+- the repository, Dashboard, changelog, package version, tag, and validation record describe the same candidate;
+- a clean consumer can install, initialize, inspect, upgrade, and recover without the originating chat;
+- the published artifact contains only the reviewed framework surface and required notices;
+- every promised Node.js and operating-system combination passes at the exact candidate;
+- security reporting, contribution, license, provenance, and repository-protection choices are explicit;
+- blocked real-world validations remain visible and the public claims stop at the evidence boundary.

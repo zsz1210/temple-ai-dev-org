@@ -11380,6 +11380,265 @@
         "exit_code": 0,
         "started_at": "2026-09-01T12:38:14.000Z"
       }
+    },
+    {
+      "id": "EVID-20260901T130235Z-0E055B1E",
+      "work_item_id": "WI-0081",
+      "recorded_at": "2026-09-01T13:02:35.271Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Management Console exact integrated candidate",
+      "outcome": "verified",
+      "scope_revision": "80154a864a7336a8c730b5eeab31b0130bb0216e",
+      "observed_at": "2026-09-01T13:02:35.271Z",
+      "summary": "Exact commit containing the approved live-data Management Console implementation and its focused regression tests.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "80154a864a7336a8c730b5eeab31b0130bb0216e"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "80154a864a7336a8c730b5eeab31b0130bb0216e",
+        "working_tree_dirty": true,
+        "dirty_path_count": 227,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260901T130259Z-84EE7FC7",
+      "work_item_id": "WI-0081",
+      "recorded_at": "2026-09-01T13:02:59.598Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Fresh exact-candidate Management Console quality verification",
+      "outcome": "pass",
+      "scope_revision": "80154a864a7336a8c730b5eeab31b0130bb0216e",
+      "observed_at": "2026-09-01T13:02:23.000Z",
+      "summary": "A clean detached worktree passed 23 focused tests, all 257 repository tests, schema validation, and Doctor at commit 80154a8.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0081/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0081/quality-test-observation.json",
+          "sha256": "08a654169c5f87a92422e5504d60d14644597f92932a83dc77f01f6fe487beb8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0081/quality-test-report.md",
+          "sha256": "17337069ff0e99c9b1f96c59838ff2a10f43c77c54a65be50f17b84baa7b47d2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0081/evaluation-report.md",
+          "sha256": "52daaa0d2f01c04107a695b87f57dbd857eec55edafdc55ce08d045bf15b095a"
+        }
+      ],
+      "details": {
+        "command": [
+          "create a fresh detached worktree at revision 80154a864a7336a8c730b5eeab31b0130bb0216e",
+          "npm ci --ignore-scripts",
+          "node --test test/control-plane-foundation.test.mjs test/control-plane-private-viewer.test.mjs test/control-plane-inbox.test.mjs",
+          "npm run verify",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-01T13:01:01.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260901T130511Z-96894B6C",
+      "work_item_id": "WI-0081",
+      "recorded_at": "2026-09-01T13:05:11.966Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Fresh independent exact-candidate Management Console verification",
+      "outcome": "pass",
+      "scope_revision": "80154a864a7336a8c730b5eeab31b0130bb0216e",
+      "observed_at": "2026-09-01T13:04:29.000Z",
+      "summary": "A second clean detached worktree passed 23 focused tests, all 257 repository tests, schema validation, and Doctor at commit 80154a8.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0081/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0081/independent-qa-observation.json",
+          "sha256": "f5b0906cda899c109da0443caa34beaa07d7792779b3f834830ae5c1ff329121"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0081/independent-qa-report.md",
+          "sha256": "cca297d0290341d9ea8a6e2bd2da5bd3b5c799cd482efaee287e557c4966eaa7"
+        }
+      ],
+      "details": {
+        "command": [
+          "create a second fresh detached worktree at revision 80154a864a7336a8c730b5eeab31b0130bb0216e",
+          "npm ci --ignore-scripts",
+          "node --test test/control-plane-foundation.test.mjs test/control-plane-private-viewer.test.mjs test/control-plane-inbox.test.mjs",
+          "npm run verify",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-01T13:03:07.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260901T130513Z-6B4C4412",
+      "work_item_id": "WI-0081",
+      "recorded_at": "2026-09-01T13:05:13.012Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "80154a864a7336a8c730b5eeab31b0130bb0216e",
+      "observed_at": "2026-09-01T13:05:13.012Z",
+      "summary": "Targeted Management Console rollback to the pre-implementation renderer",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0081/release-manager-review.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0081/release-manager-review.md",
+          "sha256": "9e8419c0e969523675264b9d708b6bf4f67c1499451f4ac93a3d76fb08509ab3"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0081/release-manager-review.md"
+      }
+    },
+    {
+      "id": "EVID-20260901T130708Z-31BC7315",
+      "work_item_id": "WI-0082",
+      "recorded_at": "2026-09-01T13:07:08.847Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Committed Temple terminology and localized README candidate",
+      "outcome": "verified",
+      "scope_revision": "ed869f682059d942597735367416420f93ce4406",
+      "observed_at": "2026-09-01T13:07:08.847Z",
+      "summary": "Exact commit containing the finalized WI-0082 documentation and corrected delivery-diagram geometry.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "ed869f682059d942597735367416420f93ce4406"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "ed869f682059d942597735367416420f93ce4406",
+        "working_tree_dirty": true,
+        "dirty_path_count": 242,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260901T130709Z-EAFA6BCB",
+      "work_item_id": "WI-0082",
+      "recorded_at": "2026-09-01T13:07:09.210Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Exact-revision documentation Independent QA",
+      "outcome": "pass",
+      "scope_revision": "ed869f682059d942597735367416420f93ce4406",
+      "observed_at": "2026-09-01T13:06:43.000Z",
+      "summary": "A fresh detached worktree passed all 257 tests, local link checks, three-SVG XML validation, and Doctor at commit ed869f6.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0082/exact-revision-independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0082/exact-revision-independent-qa-observation.json",
+          "sha256": "a65521fb2476993bcfe8794095f3ccb906f610326781cd3a8e04de48787db3e3"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0082/exact-revision-independent-qa-report.md",
+          "sha256": "653eadd310490fae106e561e8578aea7e43090e196d81dd35f5d10f5cb5d65ac"
+        }
+      ],
+      "details": {
+        "command": [
+          "create a fresh detached worktree at revision ed869f682059d942597735367416420f93ce4406",
+          "npm ci --ignore-scripts",
+          "npm run verify",
+          "xmllint --noout docs/assets/temple-delivery-path.en.svg docs/assets/temple-delivery-path.ja.svg docs/assets/temple-delivery-path.zh-TW.svg",
+          "node ./templew.mjs doctor . --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-01T13:05:27.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260901T130709Z-6822D00F",
+      "work_item_id": "WI-0082",
+      "recorded_at": "2026-09-01T13:07:09.534Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "ed869f682059d942597735367416420f93ce4406",
+      "observed_at": "2026-09-01T13:07:09.534Z",
+      "summary": "Restore and re-review the nine bounded WI-0082 public documentation paths",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0082/release-manager-review-exact.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0082/release-manager-review-exact.md",
+          "sha256": "11cdd717121a60a5e4cd99ae8ad10e2acb11d767e7b52dbda801c970a7e731b4"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0082/release-manager-review-exact.md"
+      }
     }
   ]
 }

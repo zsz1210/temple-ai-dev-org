@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0069",
   "title": "Establish progressive usage calibration and autonomy policy",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-31T13:20:59.516Z",
-  "updated_at": "2026-08-31T14:38:08.989Z",
+  "updated_at": "2026-09-01T13:00:06.538Z",
   "scope": [
     "Implement the data-driven Usage Protocol v2 foundation: project-local learning, a cold-start seed policy, progressive calibration states, evidence-gated routing modes, versioned cost provenance, and an exception-only autonomy envelope. No live model generation or external write is authorized."
   ],
@@ -218,6 +218,18 @@
     ],
     "independent_qa_pass": [
       "EVID-20260831T135351Z-264BC144"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0069/technical-design.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0069/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0069/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -232,10 +244,11 @@
     ".ai-org/artifacts/WI-0069/evaluation-report.md",
     ".ai-org/artifacts/WI-0069/handoff-003-independent_qa-to-release_manager.md",
     "EVID-20260831T135351Z-264BC144",
-    ".ai-org/artifacts/WI-0069/independent-qa-report.md"
+    ".ai-org/artifacts/WI-0069/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0069/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -259,5 +272,9 @@
       "created_at": "2026-08-31T13:54:38.575Z"
     }
   ],
-  "developer_candidate_revision": "aead7f548adde729e607d3db2806f62dd2251967"
+  "developer_candidate_revision": "aead7f548adde729e607d3db2806f62dd2251967",
+  "tested_revision": "aead7f548adde729e607d3db2806f62dd2251967",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

@@ -1,0 +1,129 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0084",
+  "title": "Reconcile release truth and refresh the public roadmap",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-01T12:57:32.379Z",
+  "updated_at": "2026-09-01T13:16:07.151Z",
+  "scope": [
+    "Reconcile non-terminal Work Items against exact Git and evidence without hiding retained blocked or no-go validation.",
+    "Rewrite the English, Japanese, and Traditional Chinese roadmaps around the current release-qualification stage, public-alpha exit gates, retained production evidence, and a focused test-readiness reference.",
+    "Compare MIT and Apache-2.0 for Temple and record a recommendation only; do not change the repository license, visibility, package publication state, or external systems."
+  ],
+  "acceptance_criteria": [
+    "Every non-terminal Work Item has an evidence-backed recommended disposition, and only items with sufficient exact-candidate evidence are advanced or closed.",
+    "The three roadmaps are structurally aligned, naturally written in each language, and distinguish implemented capability, public-alpha readiness, and broader production qualification.",
+    "A durable release-readiness test matrix distinguishes automated evidence, required public-alpha checks, and retained real-environment validation without overstating results.",
+    "The license analysis states the adoption, patent, notice, contribution, and migration trade-offs; changing LICENSE remains a separate Human Principal decision.",
+    "Repository documentation checks and the complete verification suite pass before closeout."
+  ],
+  "affected_paths": [
+    "docs/planning/roadmap.md",
+    "docs/planning/roadmap.ja.md",
+    "docs/planning/roadmap.zh-TW.md",
+    "docs/planning/release-readiness.md",
+    "docs/README.md",
+    ".ai-org/artifacts/WI-0084"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "6ad69d7c627036b0fef9529f9dc67ae794d32cb7",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260901125747-27a80751",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "6ad69d7c627036b0fef9529f9dc67ae794d32cb7",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-09-01T12:57:47.327Z",
+    "released_at": "2026-09-01T13:15:59.395Z",
+    "release_reason": "position_transition"
+  },
+  "claims": [
+    {
+      "id": "claim-20260901125747-27a80751",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "6ad69d7c627036b0fef9529f9dc67ae794d32cb7",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T12:57:47.327Z",
+      "released_at": "2026-09-01T13:15:59.395Z",
+      "release_reason": "position_transition"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0084/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0084/product-direction.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0084.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0084/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0084/risk-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0084/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0084/work-order.md",
+    ".ai-org/artifacts/WI-0084/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0084/product-direction.md",
+    ".ai-org/work-items/WI-0084.json",
+    ".ai-org/artifacts/WI-0084/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0084/technical-design.md",
+    ".ai-org/artifacts/WI-0084/risk-review.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "6ad69d7c627036b0fef9529f9dc67ae794d32cb7",
+      "artifact": ".ai-org/artifacts/WI-0084/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-01T13:15:59.066Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "6ad69d7c627036b0fef9529f9dc67ae794d32cb7",
+      "artifact": ".ai-org/artifacts/WI-0084/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-01T13:16:06.255Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "6ad69d7c627036b0fef9529f9dc67ae794d32cb7",
+      "artifact": ".ai-org/artifacts/WI-0084/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-01T13:16:06.858Z"
+    }
+  ]
+}
