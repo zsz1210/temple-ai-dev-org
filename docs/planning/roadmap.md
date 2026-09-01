@@ -8,7 +8,7 @@ Version history belongs in the [changelog](../../CHANGELOG.md). Exact test resul
 
 ## Current position
 
-- **Package metadata:** `0.1.0-alpha.28`; `main` also contains later Management Console, documentation, and matched-model advisory work that has not yet received a new version.
+- **Package metadata:** `0.1.0-alpha.29`; this is the proposed first public-Alpha release candidate, not yet a public release.
 - **Development stage:** core local framework complete; first public-Alpha release qualification in progress.
 - **Suitable today:** supervised Solo and small-team work, local multi-repository coordination, repository-backed recovery, and read-only operational review.
 - **Distribution today:** the GitHub repository is private, the npm package is marked `private: true`, and no npm version has been published.
@@ -39,18 +39,18 @@ The local framework already provides:
 
 ### 2. Define the release and distribution
 
-- Choose the next release identity and update package metadata, changelog, validation index, and Git tag together.
-- Decide whether the first public Alpha is distributed by immutable Git revision, npm, or both.
-- Add an explicit package allowlist. The current dry run is too broad and includes self-host state, test evidence, screenshots, and optional-adapter examples.
+- Finish aligning the selected `0.1.0-alpha.29` identity across package metadata, changelog, validation record, exact candidate revision, and proposed Git tag.
+- Use an immutable GitHub Release as the first distribution; keep npm deferred until separate adoption evidence and approval exist.
+- Keep the enforced package allowlist green. It includes the runtime and public documentation while excluding self-host state, test evidence, screenshots, and optional-adapter examples.
 - Prove clean installation, exact-revision launcher recovery, upgrade preservation, re-initialization, Doctor, and rollback from the final candidate.
 
 ### 3. Finish the public trust boundary
 
-- Confirm the project license before accepting public contributions; the current recommendation is recorded separately and `LICENSE` remains MIT until the Human Principal decides.
+- Keep the Human-approved MIT license aligned across package metadata, contribution terms, notices, and release notes.
 - Finish the operator-owned Provider trust decision before recommending Provider execution from untrusted repositories.
 - Add supported-version and private vulnerability-reporting instructions, review third-party notices, and enable appropriate public repository protections.
-- Pin GitHub Actions dependencies to immutable revisions and keep workflow permissions minimal.
-- Replace the broad `node >=20` promise with a tested LTS support matrix. Node.js 20 and 25 are already end-of-life; the initial candidate should target supported LTS lines.
+- Retain the reviewed immutable GitHub Actions revisions and minimal workflow permissions.
+- Retain the tested Node.js 22 and 24 LTS contract. Node.js 26 remains a forward-compatibility signal until it enters LTS and is intentionally added.
 
 ### 4. Prove the final candidate
 

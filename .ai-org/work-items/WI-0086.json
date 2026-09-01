@@ -1,0 +1,193 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0086",
+  "title": "Prepare the first public Alpha release candidate",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-01T14:24:44.818Z",
+  "updated_at": "2026-09-01T14:26:35.732Z",
+  "scope": [
+    "Select and prepare one versioned GitHub Release candidate while npm distribution remains deferred.",
+    "Reconcile the pushed Node.js 22 and 24 hosted-CI result, package boundary, security review, release notes, rollback plan, and public-readiness record at one exact candidate revision.",
+    "Stop before repository visibility, GitHub settings, tag, Release, announcement, or npm publication until their exact external actions are separately approved."
+  ],
+  "acceptance_criteria": [
+    "Package metadata, changelog, validation record, and proposed immutable tag identify the same next Alpha version.",
+    "The exact candidate passes repository verification, package-manifest review, clean tarball consumer smoke, Node.js 22 and 24 verification, and hosted CI.",
+    "An enforceable Code of Conduct has a Human-approved private moderation route; no personal or invented contact is published.",
+    "A genuinely independent new user follows only public instructions; maintainer-run smoke is recorded separately and cannot satisfy this gate.",
+    "All remaining GitHub settings and public-release actions are explicit, reversible where possible, and unperformed until separately approved."
+  ],
+  "affected_paths": [
+    "package.json",
+    "package-lock.json",
+    "src/constants.mjs",
+    "temple.lock",
+    "test/phase4-installation.test.mjs",
+    "test/cli.test.mjs",
+    "test/recovery.test.mjs",
+    "test/packs.test.mjs",
+    "test/evidence-observer.test.mjs",
+    "test/control-plane-foundation.test.mjs",
+    "test/workflow.test.mjs",
+    "test/phase2c-extension.test.mjs",
+    "test/runtime-coordination.test.mjs",
+    "CHANGELOG.md",
+    "CODE_OF_CONDUCT.md",
+    "SECURITY.md",
+    "README.md",
+    "README.ja.md",
+    "README.zh-TW.md",
+    "docs/planning/roadmap.md",
+    "docs/planning/roadmap.ja.md",
+    "docs/planning/roadmap.zh-TW.md",
+    "docs/planning/release-readiness.md",
+    "docs/validation/README.md",
+    "docs/validation/alpha-29-public-release-candidate.md",
+    ".ai-org/artifacts/WI-0086"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {
+    "release_gate": {
+      "disciplines": [
+        "release"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "d59ac2a9f0a56c41a7731fe8572c74be63a2e338",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": "agent-rikku",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0033: WI-0086 may reconcile only release-facing supported-version and reporting-route wording in SECURITY.md; provider trust design remains owned by WI-0033.",
+    "WI-0067: WI-0086 may add only its own release-candidate entry to docs/validation/README.md; the blocked rehearsal evidence and result remain owned by WI-0067."
+  ],
+  "claim": {
+    "id": "claim-20260901142635-d495e7e1",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "d59ac2a9f0a56c41a7731fe8572c74be63a2e338",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-09-01T14:26:35.732Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260901142517-2d617058",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "d59ac2a9f0a56c41a7731fe8572c74be63a2e338",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T14:25:17.444Z",
+      "released_at": "2026-09-01T14:26:32.477Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901142633-ed1ea2e5",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "d59ac2a9f0a56c41a7731fe8572c74be63a2e338",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T14:26:33.168Z",
+      "released_at": "2026-09-01T14:26:33.803Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901142634-a4c439c3",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "d59ac2a9f0a56c41a7731fe8572c74be63a2e338",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T14:26:34.443Z",
+      "released_at": "2026-09-01T14:26:35.080Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901142635-d495e7e1",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "d59ac2a9f0a56c41a7731fe8572c74be63a2e338",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-01T14:26:35.732Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0086/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0086/product-direction.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0086.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0086/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0086/risk-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0086/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0086/work-order.md",
+    ".ai-org/artifacts/WI-0086/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0086/product-direction.md",
+    ".ai-org/work-items/WI-0086.json",
+    ".ai-org/artifacts/WI-0086/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0086/technical-design.md",
+    ".ai-org/artifacts/WI-0086/risk-review.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "d59ac2a9f0a56c41a7731fe8572c74be63a2e338",
+      "artifact": ".ai-org/artifacts/WI-0086/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-01T14:26:32.134Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "d59ac2a9f0a56c41a7731fe8572c74be63a2e338",
+      "artifact": ".ai-org/artifacts/WI-0086/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-01T14:26:33.486Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "d59ac2a9f0a56c41a7731fe8572c74be63a2e338",
+      "artifact": ".ai-org/artifacts/WI-0086/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-01T14:26:34.745Z"
+    }
+  ]
+}

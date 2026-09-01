@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.0-alpha.29
+
+- Reworked the English, Japanese, and Traditional Chinese README files as human-facing entry points, added restrained engineering diagrams for desktop and narrow screens, explained Temple-specific Skills and terminology, and kept deeper architecture in focused documentation.
+- Added the deterministic matched-model advisory and its honest calibration boundary: it compares qualified evidence but cannot launch work, switch a model, spend Credits, or authorize a release.
+- Qualified Node.js 22 and 24 LTS, retained Node.js 26 as a non-blocking forward-compatibility signal, reduced the package to an enforced runtime and public-documentation allowlist, pinned GitHub Actions to immutable revisions, and added OSS contribution, governance, security, ownership, and intake files.
+- Prepared the first public-Alpha candidate as a GitHub Release-first distribution while retaining explicit gates for private moderation, independent new-user adoption, GitHub protections, repository visibility, the immutable tag, the Release itself, and any later npm publication.
+
 ## 0.1.0-alpha.28
 
 - Added collaboration v2 with immutable Human Principal lifecycle, duplicate-safe display names, append-preserving sponsorship, evidence-qualified Position memberships, scoped Human Authority Grants, temporary Bootstrap Owner retirement, configurable governance recovery, and explicit v1 migration.

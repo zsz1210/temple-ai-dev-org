@@ -23,7 +23,7 @@ import {
 } from "../src/usage-policy.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const releaseVersion = "0.1.0-alpha.28";
+const releaseVersion = "0.1.0-alpha.29";
 const phase4Capabilities = [
   "backup_retention",
   "redacted_audit_export",

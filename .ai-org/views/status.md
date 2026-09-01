@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.28`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 85 total, 4 active
+- Work items: 86 total, 5 active
 - Codex tasks: 5 registered, 5 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -26,7 +26,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -132,6 +132,7 @@
 | WI-0083 | Add matched model evaluation and advisory recommendations | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a0be19c7` | 0 | 23 | 0 |
 | WI-0084 | Reconcile release truth and refresh the public roadmap | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `dbfa2b7c` | 0 | 21 | 0 |
 | WI-0085 | Harden Temple for the first public alpha | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `31eb1707` | 0 | 22 | 0 |
+| WI-0086 | Prepare the first public Alpha release candidate | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260901142635-d495e7e1 | `—` | 0 | 8 | 0 |
 
 ## Codex task registry
 
@@ -199,7 +200,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 16
+- Team-visible Work Items: 17
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -251,14 +252,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-01T14:03:58.329Z | work_item_closed | WI-0085 | agent-mog |
-| 2026-09-01T14:03:58.329Z | release_gate_completed | WI-0085 | agent-mog |
-| 2026-09-01T14:03:45.865Z | evidence_recorded | WI-0085 | human |
-| 2026-09-01T14:03:09.509Z | work_item_claimed | WI-0085 | human |
-| 2026-09-01T14:03:09.166Z | work_item_coordination_configured | WI-0085 | agent-mog |
-| 2026-09-01T14:03:08.817Z | work_item_transitioned | WI-0085 | agent-lulu |
-| 2026-09-01T14:03:08.453Z | handoff_created | WI-0085 | agent-lulu |
-| 2026-09-01T14:02:59.126Z | evidence_recorded | WI-0085 | human |
+| 2026-09-01T14:26:35.732Z | work_item_claimed | WI-0086 | human |
+| 2026-09-01T14:26:35.396Z | work_item_coordination_configured | WI-0086 | agent-rikku |
+| 2026-09-01T14:26:35.080Z | work_item_transitioned | WI-0086 | agent-tidus |
+| 2026-09-01T14:26:34.745Z | handoff_created | WI-0086 | agent-tidus |
+| 2026-09-01T14:26:34.443Z | work_item_claimed | WI-0086 | human |
+| 2026-09-01T14:26:34.114Z | work_item_coordination_configured | WI-0086 | agent-tidus |
+| 2026-09-01T14:26:33.803Z | work_item_transitioned | WI-0086 | agent-yuna |
+| 2026-09-01T14:26:33.486Z | handoff_created | WI-0086 | agent-yuna |
 
 ## Assignments
 
