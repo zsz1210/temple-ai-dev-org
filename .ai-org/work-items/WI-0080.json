@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0080",
   "title": "Redesign the human-facing README and overview diagram",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-01T03:18:22.852Z",
-  "updated_at": "2026-09-01T03:38:18.695Z",
+  "updated_at": "2026-09-01T05:06:20.216Z",
   "scope": [
     "Rewrite the English, Japanese, and Traditional Chinese README entry points around Temple as an AI Development Organization Framework, using plain reader-facing language before Temple-specific terminology.",
     "Replace the current README overview diagrams with compact localized diagrams that explain product direction, responsibility and authority, engineering methods, work coordination, verification and delivery, and learning and memory.",
@@ -40,7 +40,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "53d3ab69dcb228c3e7eb0466febff86c1b7a591d",
+  "base_revision": "de841e94a1ec987230f767cfb5c8d5d90da7521f",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -48,16 +48,16 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260901033416-31ab8394",
+    "id": "claim-20260901050619-29db3cbe",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-lulu",
-    "base_revision": "53d3ab69dcb228c3e7eb0466febff86c1b7a591d",
+    "agent_id": "agent-mog",
+    "base_revision": "de841e94a1ec987230f767cfb5c8d5d90da7521f",
     "branch": "main",
-    "worktree": null,
-    "claimed_at": "2026-09-01T03:34:16.680Z",
-    "released_at": "2026-09-01T03:36:45.484Z",
-    "release_reason": "position_transition"
+    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "claimed_at": "2026-09-01T05:06:19.916Z",
+    "released_at": "2026-09-01T05:06:20.216Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -127,6 +127,18 @@
       "claimed_at": "2026-09-01T03:34:16.680Z",
       "released_at": "2026-09-01T03:36:45.484Z",
       "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260901050619-29db3cbe",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "de841e94a1ec987230f767cfb5c8d5d90da7521f",
+      "branch": "main",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-01T05:06:19.916Z",
+      "released_at": "2026-09-01T05:06:20.216Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -160,6 +172,18 @@
     ],
     "independent_qa_pass": [
       ".ai-org/artifacts/WI-0080/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0080/product-direction.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0080/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0080/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0080/human-review-selection.md"
     ]
   },
   "evidence": [
@@ -175,10 +199,11 @@
     ".ai-org/artifacts/WI-0080/handoff-005-quality_evaluator-to-independent_qa.md",
     ".ai-org/artifacts/WI-0080/evaluation-report.md",
     ".ai-org/artifacts/WI-0080/handoff-006-independent_qa-to-release_manager.md",
-    ".ai-org/artifacts/WI-0080/independent-qa-report.md"
+    ".ai-org/artifacts/WI-0080/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0080/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -223,5 +248,9 @@
       "created_at": "2026-09-01T03:38:18.360Z"
     }
   ],
-  "developer_candidate_revision": "53d3ab69dcb228c3e7eb0466febff86c1b7a591d"
+  "developer_candidate_revision": "53d3ab69dcb228c3e7eb0466febff86c1b7a591d",
+  "tested_revision": "de841e94a1ec987230f767cfb5c8d5d90da7521f",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0080/human-review-selection.md"
 }
