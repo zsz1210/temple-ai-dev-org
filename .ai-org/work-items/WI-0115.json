@@ -1,0 +1,170 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0115",
+  "title": "Validate clean agent-led greenfield onboarding",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-02T22:24:19.021Z",
+  "updated_at": "2026-09-02T22:26:25.628Z",
+  "scope": [
+    "Run a disposable clean-project adoption from the current main package using only installed agent entrypoints and public setup guidance.",
+    "Measure deterministic setup duration, files read, authority flags, required human interventions, and any Provider-observed usage without retaining prompts.",
+    "Stop after the bounded onboarding evidence; do not publish, deploy, or continue building the sample project."
+  ],
+  "acceptance_criteria": [
+    "A clean repository installs and initializes Temple, exposes the versioned bootstrap contract, and passes its project launcher and Doctor checks.",
+    "Codex and Claude entrypoints route a fresh agent to the bounded bootstrap sources without implying lifecycle, mutation, spend, or external-write authority.",
+    "The retained result distinguishes deterministic installation evidence from any model-backed comprehension evidence and reports missing usage as unknown rather than zero."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0115",
+    "scripts/validate-agent-led-onboarding.mjs",
+    "test/phase4-installation.test.mjs",
+    "docs/validation/greenfield-agent-led-onboarding.md",
+    "docs/validation/README.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "19a1c6e9ef0e94610dd7c641215e7d4ab0151a0e",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0067: historical blocked rehearsal remains immutable; WI-0115 writes only its new onboarding evidence and one additive validation-index entry",
+    "WI-0086: public release work remains blocked and untouched; WI-0115 does not modify release candidate behavior",
+    "WI-0107: historical stopped Wave 5A evidence remains immutable; WI-0115 uses a distinct artifact directory and validation document"
+  ],
+  "claim": {
+    "id": "claim-20260902222625-cf6f3198",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "19a1c6e9ef0e94610dd7c641215e7d4ab0151a0e",
+    "branch": "codex/wi-0115-0117-validation-program",
+    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "claimed_at": "2026-09-02T22:26:25.628Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260902222456-49ac63bf",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "19a1c6e9ef0e94610dd7c641215e7d4ab0151a0e",
+      "branch": "codex/wi-0115-0117-validation-program",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T22:24:56.933Z",
+      "released_at": "2026-09-02T22:26:09.110Z",
+      "release_reason": [
+        "handoff_to_product_manager"
+      ]
+    },
+    {
+      "id": "claim-20260902222609-1dcde225",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "19a1c6e9ef0e94610dd7c641215e7d4ab0151a0e",
+      "branch": "codex/wi-0115-0117-validation-program",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T22:26:09.605Z",
+      "released_at": "2026-09-02T22:26:24.154Z",
+      "release_reason": [
+        "handoff_to_tech_lead"
+      ]
+    },
+    {
+      "id": "claim-20260902222624-b4bd2d48",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "19a1c6e9ef0e94610dd7c641215e7d4ab0151a0e",
+      "branch": "codex/wi-0115-0117-validation-program",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T22:26:24.646Z",
+      "released_at": "2026-09-02T22:26:25.122Z",
+      "release_reason": [
+        "handoff_to_developer"
+      ]
+    },
+    {
+      "id": "claim-20260902222625-cf6f3198",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "19a1c6e9ef0e94610dd7c641215e7d4ab0151a0e",
+      "branch": "codex/wi-0115-0117-validation-program",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T22:26:25.628Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0115/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0115/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0115/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0115/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0115/risk-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0115/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0115/work-order.md",
+    ".ai-org/artifacts/WI-0115/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0115/approved-scope.md",
+    ".ai-org/artifacts/WI-0115/product-spec.md",
+    ".ai-org/artifacts/WI-0115/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0115/technical-design.md",
+    ".ai-org/artifacts/WI-0115/risk-review.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "19a1c6e9ef0e94610dd7c641215e7d4ab0151a0e",
+      "artifact": ".ai-org/artifacts/WI-0115/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-02T22:26:08.817Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "19a1c6e9ef0e94610dd7c641215e7d4ab0151a0e",
+      "artifact": ".ai-org/artifacts/WI-0115/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-02T22:26:23.866Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "19a1c6e9ef0e94610dd7c641215e7d4ab0151a0e",
+      "artifact": ".ai-org/artifacts/WI-0115/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-02T22:26:24.879Z"
+    }
+  ]
+}

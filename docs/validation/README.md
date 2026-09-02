@@ -31,6 +31,7 @@ Validation records preserve bounded evidence for framework capabilities. They id
 - [Closeout-0A release integrity — passed with retained limits](closeout-0a-release-integrity.md)
 - [Closeout-0B live integration and data-bearing upgrade — passed with retained limits](closeout-0b-live-and-upgrade.md)
 - [Greenfield cold-task recovery — passed with limits](greenfield-cold-task-recovery-result.md) ([test plan](greenfield-cold-task-recovery-test-plan.md))
+- [Greenfield agent-led onboarding — deterministic path passed with provider limits](greenfield-agent-led-onboarding.md)
 - [Wave 1 adoption evidence — local greenfield, cold-task, brownfield, and recovery baseline passed with limits](wave-1-adoption-evidence.md)
 - [Wave 2 coordination evidence — bounded live coordination passed; real multi-human and multi-machine use remains not run](wave-2-coordination-evidence.md)
 - [Wave 3 local multi-repository service evidence — passed with Independent QA and retained local-only limits](wave-3-local-microservice-evidence.md)
