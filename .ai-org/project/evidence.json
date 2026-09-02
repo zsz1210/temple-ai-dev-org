@@ -18003,6 +18003,36 @@
         "exit_code": 0,
         "started_at": "2026-09-02T22:51:00.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T232633Z-E84EC939",
+      "work_item_id": "WI-0117",
+      "recorded_at": "2026-09-02T23:26:33.941Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Wave 5B replacement evaluator terminal result",
+      "outcome": "verified",
+      "scope_revision": "b8f41dd0e1255526f63c0e541ea480ef3d35e059",
+      "observed_at": "2026-09-02T23:26:33.941Z",
+      "summary": "Records the owner-approved replacement, fail-closed score-scale rejection, contract repair, and no qualified comparison.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "b8f41dd0e1255526f63c0e541ea480ef3d35e059"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "b8f41dd0e1255526f63c0e541ea480ef3d35e059",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
     }
   ]
 }
