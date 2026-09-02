@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0096",
   "title": "Harden Phase 4B fixture cleanup on Linux",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-02T02:22:44.351Z",
-  "updated_at": "2026-09-02T02:23:23.413Z",
+  "updated_at": "2026-09-02T02:31:07.020Z",
   "scope": [
     "Add bounded retry handling to Phase 4B temporary-tree cleanup so transient Git object removal races do not fail otherwise passing hosted tests."
   ],
@@ -33,22 +33,22 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "439aa3e5896be3ac59fd5627c4a5452b50240c08",
+  "base_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
-  "planned_agent_id": "agent-rikku",
+  "planned_agent_id": "agent-mog",
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260902022323-05ce340a",
+    "id": "claim-20260902023107-40eca302",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "439aa3e5896be3ac59fd5627c4a5452b50240c08",
+    "agent_id": "agent-mog",
+    "base_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-09-02T02:23:23.413Z",
+    "claimed_at": "2026-09-02T02:31:07.020Z",
     "released_at": null
   },
   "claims": [
@@ -90,13 +90,49 @@
     },
     {
       "id": "claim-20260902022323-05ce340a",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "439aa3e5896be3ac59fd5627c4a5452b50240c08",
       "branch": "main",
       "worktree": null,
       "claimed_at": "2026-09-02T02:23:23.413Z",
+      "released_at": "2026-09-02T02:28:04.687Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902022805-bf306d38",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-02T02:28:05.377Z",
+      "released_at": "2026-09-02T02:28:51.939Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902022852-72026075",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-02T02:28:52.640Z",
+      "released_at": "2026-09-02T02:31:06.332Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902023107-40eca302",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-02T02:31:07.020Z",
       "released_at": null
     }
   ],
@@ -115,6 +151,22 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0096/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0096/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260902T022729Z-3FAEB149",
+      ".ai-org/artifacts/WI-0096/exact-candidate-verification.md"
+    ],
+    "test_evidence": [
+      "EVID-20260902T022840Z-6E3BE3A0"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0096/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260902T023057Z-E3F8B030"
     ]
   },
   "evidence": [
@@ -127,10 +179,20 @@
     ".ai-org/artifacts/WI-0096/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0096/technical-design.md",
     ".ai-org/artifacts/WI-0096/risk-review.md",
-    ".ai-org/artifacts/WI-0096/ui-design-brief.md"
+    ".ai-org/artifacts/WI-0096/ui-design-brief.md",
+    ".ai-org/artifacts/WI-0096/handoff-004-developer-to-quality_evaluator.md",
+    "EVID-20260902T022729Z-3FAEB149",
+    ".ai-org/artifacts/WI-0096/exact-candidate-verification.md",
+    "EVID-20260902T022840Z-6E3BE3A0",
+    ".ai-org/artifacts/WI-0096/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0096/quality-report.md",
+    ".ai-org/artifacts/WI-0096/evaluation-report.md",
+    ".ai-org/artifacts/WI-0096/handoff-006-independent_qa-to-release_manager.md",
+    "EVID-20260902T023057Z-E3F8B030",
+    ".ai-org/artifacts/WI-0096/independent-qa-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -152,6 +214,28 @@
       "input_revision": "439aa3e5896be3ac59fd5627c4a5452b50240c08",
       "artifact": ".ai-org/artifacts/WI-0096/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-02T02:23:22.423Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
+      "artifact": ".ai-org/artifacts/WI-0096/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-02T02:27:29.549Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
+      "artifact": ".ai-org/artifacts/WI-0096/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-02T02:28:51.606Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
+      "artifact": ".ai-org/artifacts/WI-0096/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-02T02:31:05.987Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97"
 }

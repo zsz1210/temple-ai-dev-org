@@ -142,7 +142,7 @@
 | WI-0093 | Redact Usage runtime paths from private viewers | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ad888037` | 0 | 22 | 0 |
 | WI-0094 | Bound managed Usage snapshot latency and payload | intake | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
 | WI-0095 | Correct managed Observer cross-platform CI contract | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `4388cc84` | 0 | 19 | 0 |
-| WI-0096 | Harden Phase 4B fixture cleanup on Linux | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902022323-05ce340a | `—` | 0 | 10 | 0 |
+| WI-0096 | Harden Phase 4B fixture cleanup on Linux | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902023107-40eca302 | `b8d5ef34` | 0 | 20 | 0 |
 
 ## Codex task registry
 
@@ -264,14 +264,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T02:23:23.413Z | work_item_claimed | WI-0096 | human |
-| 2026-09-02T02:23:23.069Z | work_item_coordination_configured | WI-0096 | agent-rikku |
-| 2026-09-02T02:23:22.753Z | work_item_transitioned | WI-0096 | agent-tidus |
-| 2026-09-02T02:23:22.423Z | handoff_created | WI-0096 | agent-tidus |
-| 2026-09-02T02:23:22.112Z | work_item_claimed | WI-0096 | human |
-| 2026-09-02T02:23:21.765Z | work_item_coordination_configured | WI-0096 | agent-tidus |
-| 2026-09-02T02:23:21.436Z | work_item_transitioned | WI-0096 | agent-yuna |
-| 2026-09-02T02:23:21.098Z | handoff_created | WI-0096 | agent-yuna |
+| 2026-09-02T02:31:07.020Z | work_item_claimed | WI-0096 | human |
+| 2026-09-02T02:31:06.663Z | work_item_coordination_configured | WI-0096 | agent-mog |
+| 2026-09-02T02:31:06.332Z | work_item_transitioned | WI-0096 | agent-lulu |
+| 2026-09-02T02:31:05.987Z | handoff_created | WI-0096 | agent-lulu |
+| 2026-09-02T02:30:57.209Z | evidence_recorded | WI-0096 | human |
+| 2026-09-02T02:28:52.640Z | work_item_claimed | WI-0096 | human |
+| 2026-09-02T02:28:52.277Z | work_item_coordination_configured | WI-0096 | agent-lulu |
+| 2026-09-02T02:28:51.939Z | work_item_transitioned | WI-0096 | agent-lulu |
 
 ## Assignments
 

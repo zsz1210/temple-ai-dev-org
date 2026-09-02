@@ -13556,6 +13556,144 @@
         "exit_code": 0,
         "started_at": "2026-09-02T02:12:03.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T022729Z-3FAEB149",
+      "work_item_id": "WI-0096",
+      "recorded_at": "2026-09-02T02:27:29.168Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0096 exact candidate verification",
+      "outcome": "pass",
+      "scope_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
+      "observed_at": "2026-09-02T02:26:55.000Z",
+      "summary": "Phase 4B 17/17, Node.js 22 and 24 each 276/276, browser, schema, and Doctor passed at b8d5ef34.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0096/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0096/developer-test-observation.json",
+          "sha256": "2d45b3a7e316062c967c43a9619e9c7a75db1ff96a77d25dd857acd3c53cc5b1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0096/exact-candidate-verification.md",
+          "sha256": "628bdebc25847c2fc02301532c4083f4a5a41f88675ce06e9ae710a1087c72c7"
+        },
+        {
+          "path": "test/phase-4b.test.mjs",
+          "sha256": "09a7e76309703dd557d3aadfec00d21c00a40e4fc68d71b781175670c36180c7"
+        }
+      ],
+      "details": {
+        "command": [
+          "Node 24.20.0: node --test test/phase-4b.test.mjs",
+          "Node 22.22.0: npm run verify",
+          "Node 24.20.0: npm run verify",
+          "Node 24.20.0: npm run test:browser",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T02:24:20.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T022840Z-6E3BE3A0",
+      "work_item_id": "WI-0096",
+      "recorded_at": "2026-09-02T02:28:40.466Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0096 quality cleanup rerun",
+      "outcome": "pass",
+      "scope_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
+      "observed_at": "2026-09-02T02:28:14.000Z",
+      "summary": "Quality independently reran the exact Phase 4B candidate: 17 passed, 0 failed; candidate test bytes unchanged.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0096/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0096/quality-test-observation.json",
+          "sha256": "ae856925cefb93d0cb70dc64250fae83ba8ed0c8231c011be41241924ff65595"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0096/quality-report.md",
+          "sha256": "c95c64823283da844c39a049e4e8e368f2d96d9a839dd985216552aa80e9e68a"
+        },
+        {
+          "path": "test/phase-4b.test.mjs",
+          "sha256": "09a7e76309703dd557d3aadfec00d21c00a40e4fc68d71b781175670c36180c7"
+        }
+      ],
+      "details": {
+        "command": [
+          "Node 24.20.0: node --test test/phase-4b.test.mjs",
+          "git diff --exit-code b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97 -- test/phase-4b.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T02:28:10.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T023057Z-E3F8B030",
+      "work_item_id": "WI-0096",
+      "recorded_at": "2026-09-02T02:30:57.209Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0096 fresh-worktree Independent QA",
+      "outcome": "pass",
+      "scope_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
+      "observed_at": "2026-09-02T02:30:30.000Z",
+      "summary": "Fresh detached exact candidate passed Node.js 24 full verification and the Management Console browser matrix.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0096/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0096/independent-qa-test-observation.json",
+          "sha256": "15c486f30107ebd08d895d9e8441e894e61d5835104947b69880b029a459a171"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0096/independent-qa-report.md",
+          "sha256": "540a4bfed73672f92aa00f1e96eeb0e33366a89937bc7c8af8de345a16f8203a"
+        },
+        {
+          "path": "test/phase-4b.test.mjs",
+          "sha256": "09a7e76309703dd557d3aadfec00d21c00a40e4fc68d71b781175670c36180c7"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached worktree: npm ci --ignore-scripts",
+          "Node 24.20.0: npm run verify",
+          "Node 24.20.0: npm run test:browser",
+          "git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T02:29:03.000Z"
+      }
     }
   ]
 }

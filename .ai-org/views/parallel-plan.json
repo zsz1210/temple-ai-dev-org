@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-02T02:23:51.401Z",
-  "source_fingerprint": "72e364d617d45cc9a74c66ada66eba57ca2e01d468f5fdbd19cc020cdb2e19a6",
+  "generated_at": "2026-09-02T02:31:07.414Z",
+  "source_fingerprint": "eb4b8a0fac293c01fe79c665d51145a0fc50be9f74f257e3d90d683c972db36c",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -30,15 +30,15 @@
       "work_item_id": "WI-0096",
       "title": "Harden Phase 4B fixture cleanup on Linux",
       "disposition": "active",
-      "position_id": "developer",
-      "agent_id": "agent-rikku",
+      "position_id": "release_manager",
+      "agent_id": "agent-mog",
       "integration_owner_agent_id": null,
       "reasons": [],
-      "claim_id": "claim-20260902022323-05ce340a",
+      "claim_id": "claim-20260902023107-40eca302",
       "principal_id": "human",
       "branch": "main",
       "worktree": null,
-      "base_revision": "439aa3e5896be3ac59fd5627c4a5452b50240c08"
+      "base_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97"
     }
   ],
   "sequential": [

@@ -1,0 +1,18 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
+  "command": [
+    "fresh detached worktree: npm ci --ignore-scripts",
+    "Node 24.20.0: npm run verify",
+    "Node 24.20.0: npm run test:browser",
+    "git status --short"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T02:29:03.000Z",
+  "completed_at": "2026-09-02T02:30:30.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0096/independent-qa-report.md",
+    "test/phase-4b.test.mjs"
+  ]
+}
