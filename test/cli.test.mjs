@@ -182,6 +182,23 @@ test("dry-run writes nothing", async (context) => {
   context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
   const result = run(["init", target, "--config", configPath, "--dry-run"]);
   assert.equal(result.status, 0, result.stderr);
+  assert.doesNotMatch(result.stdout, /TEMPLE_BOOTSTRAP_REQUIRED/);
+  const jsonResult = run(["init", target, "--config", configPath, "--dry-run", "--json"]);
+  assert.equal(jsonResult.status, 0, jsonResult.stderr || jsonResult.stdout);
+  assert.deepEqual(
+    {
+      schema_version: JSON.parse(jsonResult.stdout).schema_version,
+      status: JSON.parse(jsonResult.stdout).status,
+      files_written: JSON.parse(jsonResult.stdout).files_written,
+      bootstrap: JSON.parse(jsonResult.stdout).bootstrap
+    },
+    {
+      schema_version: "temple.init-result/v1",
+      status: "planned",
+      files_written: false,
+      bootstrap: null
+    }
+  );
   await assert.rejects(() => fs.access(path.join(target, "temple.lock")));
 });
 
@@ -299,6 +316,12 @@ test("init prints copyable direct commands that survive shell-sensitive paths", 
   const statusCommand = [process.execPath, projectLauncher, "status", target].map(shellQuote).join(" ");
   assert.match(initialized.stdout, new RegExp(`Doctor: ${doctorCommand.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
   assert.match(initialized.stdout, new RegExp(`Status: ${statusCommand.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
+  assert.match(initialized.stdout, /TEMPLE_BOOTSTRAP_REQUIRED/);
+  assert.match(initialized.stdout, /Recommended path: fresh-session/);
+  assert.match(initialized.stdout, /Supported continuation: explicit-read/);
+  assert.match(initialized.stdout, /Claude Code entrypoint: available \(installed\)/);
+  assert.match(initialized.stdout, /does not perform or verify that observation/);
+  assert.match(initialized.stdout, /does not prove instruction loading or comprehension/);
 
   const wrapperEnvironment = { ...process.env, TEMPLE_CLI_PATH: cli };
   const copiedDoctor = spawnSync("/bin/sh", ["-c", doctorCommand], {
@@ -312,6 +335,85 @@ test("init prints copyable direct commands that survive shell-sensitive paths", 
   });
   assert.equal(copiedStatus.status, 0, copiedStatus.stderr || copiedStatus.stdout);
   assert.equal(JSON.parse(copiedStatus.stdout).project.id, "sample-product");
+});
+
+test("init emits one machine-readable agent-led bootstrap contract without granting authority", async (context) => {
+  const { temporaryRoot, target, configPath } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+
+  const initialized = run(["init", target, "--config", configPath, "--json"]);
+  assert.equal(initialized.status, 0, initialized.stderr || initialized.stdout);
+  const result = JSON.parse(initialized.stdout);
+  assert.equal(result.schema_version, "temple.init-result/v1");
+  assert.equal(result.status, "initialized");
+  assert.equal(result.files_written, true);
+  assert.equal(result.plan.agents_integration, "installed");
+  assert.equal(result.plan.claude_integration, "installed");
+  assert.equal(result.bootstrap.schema_version, "temple.bootstrap-required/v1");
+  assert.equal(result.bootstrap.marker, "TEMPLE_BOOTSTRAP_REQUIRED");
+  assert.equal(result.bootstrap.status, "required");
+  assert.equal(result.bootstrap.claude_integration, "installed");
+  assert.equal(result.bootstrap.provider_entrypoint.provider, "claude-code");
+  assert.equal(result.bootstrap.provider_entrypoint.path, "CLAUDE.md");
+  assert.equal(result.bootstrap.provider_entrypoint.status, "available");
+  assert.equal(result.bootstrap.provider_entrypoint.integration, "installed");
+  assert.equal(result.bootstrap.provider_entrypoint.compatibility_verified, true);
+  assert.equal(result.bootstrap.provider_entrypoint.adapter_installed, true);
+  assert.equal(result.bootstrap.provider_entrypoint.adapter_created_by_init, true);
+  assert.equal(result.bootstrap.provider_entrypoint.session_loading_verified, false);
+  assert.equal(result.bootstrap.provider_entrypoint.comprehension_verified, false);
+  assert.equal(result.bootstrap.provider_entrypoint.pending_merge_source, null);
+  assert.deepEqual(
+    result.bootstrap.instruction_sources.map((source) => source.path),
+    ["AGENTS.md", "TEMPLE.md", ".agents/skills/temple-work/SKILL.md"]
+  );
+  assert.equal(result.bootstrap.recommended_path.id, "fresh-session");
+  assert.ok(result.bootstrap.recommended_path.actions.some((action) => /provider-owned context inspection/.test(action)));
+  assert.equal(result.bootstrap.continuation_path.id, "explicit-read");
+  assert.match(result.bootstrap.verification.status_command, /--no-write/);
+  assert.match(result.bootstrap.verification.status_command, /--json/);
+  assert.match(result.bootstrap.verification.context_command_template, /<WI-ID>/);
+  assert.match(result.bootstrap.verification.context_command_template, /<position>/);
+  assert.deepEqual(result.bootstrap.verification.required_report_fields, [
+    "position",
+    "agent_identity",
+    "work_item_id",
+    "next_canonical_action"
+  ]);
+  assert.deepEqual(result.bootstrap.authority, {
+    verifies_instruction_loading: false,
+    verifies_model_comprehension: false,
+    records_acknowledgement_as_evidence: false,
+    creates_work_item: false,
+    creates_claim: false,
+    transitions_lifecycle: false,
+    closes_work_item: false,
+    performs_external_action: false
+  });
+
+  const wrapperEnvironment = { ...process.env, TEMPLE_CLI_PATH: cli };
+  const readOnlyStatus = spawnSync("/bin/sh", ["-c", result.bootstrap.verification.status_command], {
+    encoding: "utf8",
+    env: wrapperEnvironment
+  });
+  assert.equal(readOnlyStatus.status, 0, readOnlyStatus.stderr || readOnlyStatus.stdout);
+  assert.equal(JSON.parse(readOnlyStatus.stdout).project.id, "sample-product");
+
+  assert.equal(await fs.readFile(path.join(target, "CLAUDE.md"), "utf8"), "@AGENTS.md\n");
+  const firstLock = JSON.parse(await fs.readFile(path.join(target, "temple.lock"), "utf8"));
+  assert.equal(firstLock.integrations.claude_md, "installed");
+  assert.equal(firstLock.managed_files.some((entry) => entry.path === "CLAUDE.md"), false);
+
+  const reinitialized = run(["init", target, "--config", configPath, "--json"]);
+  assert.equal(reinitialized.status, 0, reinitialized.stderr || reinitialized.stdout);
+  const repeated = JSON.parse(reinitialized.stdout);
+  assert.equal(repeated.plan.agents_integration, "present");
+  assert.equal(repeated.plan.claude_integration, "present");
+  assert.equal(repeated.bootstrap.provider_entrypoint.integration, "present");
+  assert.equal(repeated.bootstrap.provider_entrypoint.adapter_created_by_init, false);
+  assert.equal(repeated.bootstrap.status, "required");
+  assert.equal(repeated.bootstrap.authority.records_acknowledgement_as_evidence, false);
+  assert.equal(await fs.readFile(path.join(target, "CLAUDE.md"), "utf8"), "@AGENTS.md\n");
 });
 
 test("init, doctor, status, and idempotent re-init succeed", async (context) => {
@@ -789,6 +891,20 @@ test("executeInit never overwrites a project file created after planning", async
   await assert.rejects(() => fs.access(path.join(target, "temple.lock")));
 });
 
+test("executeInit preserves a CLAUDE.md created after planning and rolls back earlier writes", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  const plan = await planInit(target, configDocument());
+  const destinationPath = path.join(target, "CLAUDE.md");
+  await fs.mkdir(target, { recursive: true });
+  await fs.writeFile(destinationPath, "project-owned Claude race winner\n");
+
+  await assert.rejects(() => executeInit(plan), (error) => error.code === "EEXIST");
+  assert.equal(await fs.readFile(destinationPath, "utf8"), "project-owned Claude race winner\n");
+  await assert.rejects(() => fs.access(path.join(target, "AGENTS.md")));
+  await assert.rejects(() => fs.access(path.join(target, "temple.lock")));
+});
+
 test("executeInit rolls back earlier files when a later path appears after planning", async (context) => {
   const { temporaryRoot, target } = await fixture();
   context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
@@ -839,12 +955,102 @@ test("existing AGENTS.md is preserved until explicit integration", async (contex
   assert.equal(initialized.status, 0, initialized.stderr || initialized.stdout);
   assert.equal(await fs.readFile(path.join(target, "AGENTS.md"), "utf8"), original);
   assert.match(initialized.stdout, /pending_merge/);
+  assert.match(initialized.stdout, /\.ai-org\/project\/AGENTS\.temple\.md/);
+  assert.match(initialized.stdout, /fresh session alone cannot activate an unmerged root instruction contract/);
 
   const integrated = run(["init", target, "--config", configPath, "--integrate-agents"]);
   assert.equal(integrated.status, 0, integrated.stderr || integrated.stdout);
   const updated = await fs.readFile(path.join(target, "AGENTS.md"), "utf8");
   assert.ok(updated.startsWith(original.trimEnd()));
   assert.match(updated, /temple:instructions:start/);
+});
+
+test("existing compatible CLAUDE.md is preserved as a project-owned adapter", async (context) => {
+  const { temporaryRoot, target, configPath } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  const original = "# Project instructions\n\n@./AGENTS.md\n\nKeep this project-owned note.\n";
+  await fs.mkdir(target, { recursive: true });
+  await fs.writeFile(path.join(target, "CLAUDE.md"), original);
+
+  const initialized = run(["init", target, "--config", configPath, "--json"]);
+  assert.equal(initialized.status, 0, initialized.stderr || initialized.stdout);
+  const result = JSON.parse(initialized.stdout);
+  assert.equal(result.plan.claude_integration, "present");
+  assert.equal(result.bootstrap.provider_entrypoint.status, "available");
+  assert.equal(result.bootstrap.provider_entrypoint.compatibility_verified, true);
+  assert.equal(result.bootstrap.provider_entrypoint.adapter_created_by_init, false);
+  assert.equal(result.bootstrap.provider_entrypoint.session_loading_verified, false);
+  assert.equal(await fs.readFile(path.join(target, "CLAUDE.md"), "utf8"), original);
+  await assert.rejects(() => fs.access(path.join(target, ".ai-org/project/CLAUDE.temple.md")));
+
+  const lock = JSON.parse(await fs.readFile(path.join(target, "temple.lock"), "utf8"));
+  assert.equal(lock.integrations.claude_md, "present");
+  assert.equal(lock.managed_files.some((entry) => entry.path === "CLAUDE.md"), false);
+});
+
+test("existing incompatible CLAUDE.md is preserved with an explicit pending merge", async (context) => {
+  const { temporaryRoot, target, configPath } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  const original = "# Project-owned Claude instructions\n\nDo not overwrite this file.\n";
+  await fs.mkdir(target, { recursive: true });
+  await fs.writeFile(path.join(target, "CLAUDE.md"), original);
+
+  const initialized = run(["init", target, "--config", configPath, "--json"]);
+  assert.equal(initialized.status, 0, initialized.stderr || initialized.stdout);
+  const result = JSON.parse(initialized.stdout);
+  assert.equal(result.plan.claude_integration, "pending_merge");
+  assert.equal(result.bootstrap.provider_entrypoint.status, "pending_merge");
+  assert.equal(result.bootstrap.provider_entrypoint.compatibility_verified, false);
+  assert.equal(result.bootstrap.provider_entrypoint.adapter_installed, false);
+  assert.equal(result.bootstrap.provider_entrypoint.adapter_created_by_init, false);
+  assert.equal(result.bootstrap.provider_entrypoint.pending_merge_source, ".ai-org/project/CLAUDE.temple.md");
+  assert.equal(result.bootstrap.provider_entrypoint.session_loading_verified, false);
+  assert.equal(result.bootstrap.provider_entrypoint.comprehension_verified, false);
+  assert.ok(
+    result.bootstrap.recommended_path.actions.some((action) =>
+      /fresh session alone cannot activate an unmerged Claude Code entrypoint/.test(action)
+    )
+  );
+  assert.deepEqual(
+    result.bootstrap.instruction_sources.map((source) => source.path),
+    ["AGENTS.md", "TEMPLE.md", ".agents/skills/temple-work/SKILL.md"]
+  );
+  assert.equal(await fs.readFile(path.join(target, "CLAUDE.md"), "utf8"), original);
+  assert.equal(await fs.readFile(path.join(target, ".ai-org/project/CLAUDE.temple.md"), "utf8"), "@AGENTS.md\n");
+
+  const customSnippet = "# Project review pending\n@AGENTS.md\n";
+  await fs.writeFile(path.join(target, ".ai-org/project/CLAUDE.temple.md"), customSnippet);
+  const repeated = run(["init", target, "--config", configPath]);
+  assert.equal(repeated.status, 0, repeated.stderr || repeated.stdout);
+  assert.match(repeated.stdout, /Existing \.ai-org\/project\/CLAUDE\.temple\.md differs; it will not be overwritten/);
+  assert.match(repeated.stdout, /CLAUDE\.md integration: pending_merge/);
+  assert.equal(await fs.readFile(path.join(target, "CLAUDE.md"), "utf8"), original);
+  assert.equal(await fs.readFile(path.join(target, ".ai-org/project/CLAUDE.temple.md"), "utf8"), customSnippet);
+});
+
+test("dry-run and pre-write conflict do not create the Claude adapter", async (context) => {
+  const { temporaryRoot, target, configPath } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+
+  const dryRun = run(["init", target, "--config", configPath, "--dry-run", "--json"]);
+  assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
+  const planned = JSON.parse(dryRun.stdout);
+  assert.equal(planned.status, "planned");
+  assert.equal(planned.plan.claude_integration, "installed");
+  assert.equal(planned.bootstrap, null);
+  await assert.rejects(() => fs.access(path.join(target, "CLAUDE.md")));
+
+  const blockingPath = path.join(target, ".ai-org/core/policies.json");
+  await fs.mkdir(path.dirname(blockingPath), { recursive: true });
+  await fs.writeFile(blockingPath, "project-owned blocker\n");
+  const conflict = run(["init", target, "--config", configPath, "--json"]);
+  assert.equal(conflict.status, 1, conflict.stderr || conflict.stdout);
+  const stopped = JSON.parse(conflict.stdout);
+  assert.equal(stopped.status, "conflict");
+  assert.equal(stopped.plan.claude_integration, "installed");
+  assert.equal(stopped.bootstrap, null);
+  await assert.rejects(() => fs.access(path.join(target, "CLAUDE.md")));
+  await assert.rejects(() => fs.access(path.join(target, ".ai-org/project/CLAUDE.temple.md")));
 });
 
 test("managed conflicts stop without overwriting", async (context) => {
@@ -857,6 +1063,13 @@ test("managed conflicts stop without overwriting", async (context) => {
   const reinit = run(["init", target, "--config", configPath]);
   assert.equal(reinit.status, 1);
   assert.match(reinit.stdout, /managed file has different content/);
+  assert.doesNotMatch(reinit.stdout, /TEMPLE_BOOTSTRAP_REQUIRED/);
+
+  const jsonReinit = run(["init", target, "--config", configPath, "--json"]);
+  assert.equal(jsonReinit.status, 1, jsonReinit.stderr || jsonReinit.stdout);
+  const conflict = JSON.parse(jsonReinit.stdout);
+  assert.equal(conflict.status, "conflict");
+  assert.equal(conflict.bootstrap, null);
   assert.match(await fs.readFile(managedPath, "utf8"), /changed by project/);
 
   const doctor = run(["doctor", target]);

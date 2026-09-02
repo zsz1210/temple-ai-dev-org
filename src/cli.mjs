@@ -127,7 +127,7 @@ import {
 const HELP = `Temple ${TEMPLATE_VERSION}
 
 Usage:
-  temple init [target] [--config path] [--dry-run] [--integrate-agents] [--self-host]
+  temple init [target] [--config path] [--dry-run] [--integrate-agents] [--self-host] [--json]
   temple upgrade [target] [--dry-run]
   temple backup create [target] --output directory [--json]
   temple backup inspect [target] --backup directory [--json]
@@ -636,11 +636,228 @@ function shellQuote(value) {
   return `'${String(value).replaceAll("'", `'"'"'`)}'`;
 }
 
-function directCliCommand(command, target) {
-  const invocation = [process.execPath, path.join(path.resolve(target), "templew.mjs"), command, path.resolve(target)]
+function directCliCommand(command, target, trailingArguments = []) {
+  const commandArguments = Array.isArray(command) ? command : [command];
+  const invocation = [
+    process.execPath,
+    path.join(path.resolve(target), "templew.mjs"),
+    ...commandArguments,
+    path.resolve(target),
+    ...trailingArguments
+  ]
     .map(shellQuote)
     .join(" ");
   return process.platform === "win32" ? `& ${invocation}` : invocation;
+}
+
+function summarizeInitPlan(plan) {
+  const actionCounts = {};
+  for (const action of plan.actions) actionCounts[action.type] = (actionCounts[action.type] ?? 0) + 1;
+  return {
+    actions: Object.fromEntries(Object.entries(actionCounts).sort(([left], [right]) => left.localeCompare(right))),
+    warnings: plan.warnings,
+    conflicts: plan.conflicts,
+    agents_integration: plan.agentsIntegration,
+    claude_integration: plan.claudeIntegration,
+    repository_integration: plan.state.repositoryIntegration.status,
+    installation_mode: plan.selfHost ? "toolkit-self-host" : "project"
+  };
+}
+
+function initInstructionSources(agentsIntegration) {
+  const agentsSources =
+    agentsIntegration === "pending_merge"
+      ? [
+          {
+            path: "AGENTS.md",
+            role: "existing-project-instructions",
+            integration: "preserved"
+          },
+          {
+            path: ".ai-org/project/AGENTS.temple.md",
+            role: "temple-instructions-pending-approved-merge",
+            integration: "pending_merge"
+          }
+        ]
+      : [
+          {
+            path: "AGENTS.md",
+            role: "active-agent-instructions",
+            integration: agentsIntegration
+          }
+        ];
+  return [
+    ...agentsSources,
+    {
+      path: "TEMPLE.md",
+      role: "project-organization-operating-contract",
+      integration: "managed"
+    },
+    {
+      path: ".agents/skills/temple-work/SKILL.md",
+      role: "canonical-lifecycle-mutation-skill",
+      integration: "managed"
+    }
+  ];
+}
+
+function buildInitBootstrapRequirement(plan) {
+  const pendingAgentsMerge = plan.agentsIntegration === "pending_merge";
+  const pendingClaudeMerge = plan.claudeIntegration === "pending_merge";
+  const doctorCommand = directCliCommand("doctor", plan.target);
+  const statusCommand = directCliCommand("status", plan.target, ["--no-write", "--json"]);
+  const contextCommandTemplate = directCliCommand(["context", "resolve"], plan.target, [
+    "--work-item",
+    "<WI-ID>",
+    "--position",
+    "<position>",
+    "--no-write",
+    "--json"
+  ]);
+  const instructionSources = initInstructionSources(plan.agentsIntegration);
+  const freshSessionActions = [];
+  if (pendingAgentsMerge) {
+    freshSessionActions.push(
+      "Complete an approved merge of .ai-org/project/AGENTS.temple.md into AGENTS.md; a fresh session alone cannot activate an unmerged root instruction contract."
+    );
+  }
+  if (pendingClaudeMerge) {
+    freshSessionActions.push(
+      "Complete an approved merge of .ai-org/project/CLAUDE.temple.md into the existing project-owned CLAUDE.md; a fresh session alone cannot activate an unmerged Claude Code entrypoint."
+    );
+  }
+  freshSessionActions.push(
+    "For Claude Code, confirm through provider-owned context inspection that the fresh session loaded CLAUDE.md; for another Agent platform, confirm its supported entrypoint separately. This CLI does not perform or verify that observation.",
+    "End the current Agent session.",
+    "Start a fresh Agent session rooted at this initialized repository.",
+    "Require the new session to follow the installed repository instructions before Temple-governed work."
+  );
+  return {
+    schema_version: "temple.bootstrap-required/v1",
+    marker: "TEMPLE_BOOTSTRAP_REQUIRED",
+    status: "required",
+    reason: "current_session_may_not_have_loaded_installed_instructions",
+    temple_version: TEMPLATE_VERSION,
+    target: path.resolve(plan.target),
+    agents_integration: plan.agentsIntegration,
+    claude_integration: plan.claudeIntegration,
+    provider_entrypoint: {
+      provider: "claude-code",
+      path: "CLAUDE.md",
+      integration: plan.claudeIntegration,
+      status: pendingClaudeMerge ? "pending_merge" : "available",
+      compatibility_verified: !pendingClaudeMerge,
+      adapter_installed: !pendingClaudeMerge,
+      adapter_created_by_init: plan.claudeIntegration === "installed",
+      session_loading_verified: false,
+      comprehension_verified: false,
+      pending_merge_source: pendingClaudeMerge ? ".ai-org/project/CLAUDE.temple.md" : null,
+      limitation: pendingClaudeMerge
+        ? "The existing project-owned CLAUDE.md is preserved and does not yet import canonical AGENTS.md instructions."
+        : "The documented import form is available, but provider session loading remains unverified."
+    },
+    instruction_sources: instructionSources,
+    recommended_path: {
+      id: "fresh-session",
+      strength: "recommended",
+      reason: "Agent instruction loading is platform-owned and may occur only when a session starts.",
+      actions: freshSessionActions
+    },
+    continuation_path: {
+      id: "explicit-read",
+      strength: "supported",
+      steps: [
+        {
+          id: "read-instruction-sources",
+          instruction: "Read every instruction source named by this result before continuing.",
+          paths: instructionSources.map((source) => source.path)
+        },
+        {
+          id: "verify-installation",
+          instruction: "Run the repository-pinned Doctor command.",
+          command: doctorCommand
+        },
+        {
+          id: "inspect-canonical-status",
+          instruction: "Run read-only Status and use canonical Assignments to identify the intended Position and Agent Identity.",
+          command: statusCommand
+        },
+        {
+          id: "establish-work-item",
+          instruction: "Identify or create one durable Work Item through the normal lifecycle; this bootstrap result grants no mutation authority."
+        },
+        {
+          id: "resolve-work-item-context",
+          instruction: "Before scoped work, replace the placeholders and run the read-only Context command.",
+          command_template: contextCommandTemplate
+        },
+        {
+          id: "report-bootstrap-context",
+          instruction: "Report the Position, Agent Identity, Work Item ID, and next canonical action before governed mutation."
+        }
+      ]
+    },
+    verification: {
+      first_post_init_action: "doctor-and-status-read-only-confirmation",
+      doctor_command: doctorCommand,
+      status_command: statusCommand,
+      context_command_template: contextCommandTemplate,
+      required_report_fields: ["position", "agent_identity", "work_item_id", "next_canonical_action"]
+    },
+    authority: {
+      verifies_instruction_loading: false,
+      verifies_model_comprehension: false,
+      records_acknowledgement_as_evidence: false,
+      creates_work_item: false,
+      creates_claim: false,
+      transitions_lifecycle: false,
+      closes_work_item: false,
+      performs_external_action: false
+    }
+  };
+}
+
+function buildInitResult(plan, status, options = {}) {
+  return {
+    schema_version: "temple.init-result/v1",
+    status,
+    temple_version: TEMPLATE_VERSION,
+    target: path.resolve(plan.target),
+    files_written: options.filesWritten ?? false,
+    plan: summarizeInitPlan(plan),
+    doctor: options.doctor ?? null,
+    status_view: options.statusPath ?? null,
+    commands: options.commands ?? null,
+    bootstrap: options.bootstrap ?? null
+  };
+}
+
+function formatInitBootstrapRequirement(requirement) {
+  const lines = [
+    requirement.marker,
+    `Schema: ${requirement.schema_version}`,
+    "Current session warning: the Agent may not have loaded the instruction sources installed or reconciled by init.",
+    `Claude Code entrypoint: ${requirement.provider_entrypoint.status} (${requirement.claude_integration}).`,
+    `AGENTS.md integration: ${requirement.agents_integration}`,
+    `CLAUDE.md integration: ${requirement.claude_integration}`,
+    "Instruction sources:"
+  ];
+  for (const source of requirement.instruction_sources) {
+    lines.push(`  - ${source.path} (${source.role}; ${source.integration})`);
+  }
+  lines.push("Recommended path: fresh-session");
+  requirement.recommended_path.actions.forEach((action, index) => lines.push(`  ${index + 1}. ${action}`));
+  lines.push("Supported continuation: explicit-read");
+  requirement.continuation_path.steps.forEach((step, index) => {
+    lines.push(`  ${index + 1}. ${step.instruction}`);
+    if (step.command) lines.push(`     ${step.command}`);
+    if (step.command_template) lines.push(`     ${step.command_template}`);
+  });
+  lines.push(
+    `Required report: ${requirement.verification.required_report_fields.join(", ")}`,
+    "Authority boundary: this result does not prove instruction loading or comprehension and does not create evidence, authority, lifecycle progress, closeout, or an external action."
+  );
+  return lines.join("\n");
 }
 
 async function askWithDefault(interfaceInstance, prompt, defaultValue) {
@@ -727,18 +944,23 @@ function printResult(parsed, result, lines) {
 async function runInit(parsed) {
   const target = await assertSafeTarget(parsed.target);
   const config = await validateInitConfig(await loadConfig(parsed.options["--config"], target));
+  const json = parsed.flags.has("--json");
   const options = {
     integrateAgents: parsed.flags.has("--integrate-agents"),
     selfHost: parsed.flags.has("--self-host")
   };
   const plan = await planInit(target, config, options);
-  console.log(formatInitPlan(plan));
-  if (plan.conflicts.length > 0) return 1;
+  if (!json) console.log(formatInitPlan(plan));
+  if (plan.conflicts.length > 0) {
+    if (json) console.log(JSON.stringify(buildInitResult(plan, "conflict"), null, 2));
+    return 1;
+  }
   if (parsed.flags.has("--dry-run")) {
-    console.log("Dry run complete; no files were written.");
+    if (json) console.log(JSON.stringify(buildInitResult(plan, "planned"), null, 2));
+    else console.log("Dry run complete; no files were written.");
     return 0;
   }
-  const { doctor, statusPath } = await withProjectMutationLock(target, async () => {
+  const { doctor, statusPath, executedPlan } = await withProjectMutationLock(target, async () => {
     const lockedPlan = await planInit(target, config, options);
     if (lockedPlan.conflicts.length > 0) {
       throw new Error(`Initialization stopped before writing:\n- ${lockedPlan.conflicts.join("\n- ")}`);
@@ -746,14 +968,31 @@ async function runInit(parsed) {
     await executeInit(lockedPlan);
     const lockedDoctor = await runDoctor(target);
     const views = await refreshViews(target);
-    return { doctor: lockedDoctor, statusPath: views.statusPath };
+    return { doctor: lockedDoctor, statusPath: views.statusPath, executedPlan: lockedPlan };
   });
-  console.log(`Initialized Temple ${TEMPLATE_VERSION}.`);
-  console.log(formatDoctor(doctor));
-  console.log(`Status view: ${statusPath}`);
-  console.log(`Copyable project commands (${process.platform === "win32" ? "PowerShell" : "POSIX shell"}):`);
-  console.log(`  Doctor: ${directCliCommand("doctor", target)}`);
-  console.log(`  Status: ${directCliCommand("status", target)}`);
+  const commands = {
+    doctor: directCliCommand("doctor", target),
+    status: directCliCommand("status", target),
+    status_read_only: directCliCommand("status", target, ["--no-write", "--json"])
+  };
+  const bootstrap = doctor.healthy ? buildInitBootstrapRequirement(executedPlan) : null;
+  const result = buildInitResult(executedPlan, doctor.healthy ? "initialized" : "unhealthy", {
+    filesWritten: true,
+    doctor,
+    statusPath,
+    commands,
+    bootstrap
+  });
+  if (json) console.log(JSON.stringify(result, null, 2));
+  else {
+    console.log(`Initialized Temple ${TEMPLATE_VERSION}.`);
+    console.log(formatDoctor(doctor));
+    console.log(`Status view: ${statusPath}`);
+    console.log(`Copyable project commands (${process.platform === "win32" ? "PowerShell" : "POSIX shell"}):`);
+    console.log(`  Doctor: ${commands.doctor}`);
+    console.log(`  Status: ${commands.status}`);
+    if (bootstrap) console.log(formatInitBootstrapRequirement(bootstrap));
+  }
   return doctor.healthy ? 0 : 1;
 }
 

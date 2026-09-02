@@ -1,0 +1,33 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "555cd6fd86494fe05419b55316abde9bd82147d8",
+  "command": [
+    "fresh detached candidate: npm ci",
+    "fresh detached candidate: npm run verify",
+    "fresh detached candidate: node --check qa.mjs",
+    "fresh detached candidate: 10s-bounded traceability and behavior adversarial harness",
+    "fresh detached candidate: git status --short"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T17:12:57.000Z",
+  "completed_at": "2026-09-02T17:17:21.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0114/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0114/evaluation-report.md"
+  ],
+  "model_generation_performed": false,
+  "summary": {
+    "identity_separation_passed": true,
+    "base_revision_exists": true,
+    "base_revision_is_ancestor": true,
+    "canonical_revision_fields_verified": 9,
+    "handoff_artifacts_verified": 3,
+    "full_tests_passed": 296,
+    "adversarial_assertions_passed": 332,
+    "tests_failed": 0,
+    "npm_vulnerabilities": 0,
+    "candidate_clean": true,
+    "temporary_worktree_removed": true
+  }
+}

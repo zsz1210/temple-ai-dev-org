@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 113 total, 8 active
+- Work items: 114 total, 8 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -161,6 +161,7 @@
 | WI-0111 | Make command policy quote-aware | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2d523b5f` | 0 | 18 | 0 |
 | WI-0112 | Run quote-aware Wave 5A controlled comparison | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a836643a` | 0 | 20 | 1 |
 | WI-0113 | Make Wave 5A autonomous and observable | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6f8596bb` | 0 | 23 | 0 |
+| WI-0114 | Integrate the agent-led init and Claude entrypoint handshake | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `555cd6fd` | 0 | 21 | 0 |
 
 ## Codex task registry
 
@@ -235,7 +236,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 18
+- Team-visible Work Items: 19
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -298,14 +299,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T17:04:14.570Z | work_item_closed | WI-0113 | agent-mog |
-| 2026-09-02T17:04:14.570Z | release_gate_completed | WI-0113 | agent-mog |
-| 2026-09-02T17:03:45.660Z | work_item_transitioned | WI-0113 | agent-lulu |
-| 2026-09-02T17:03:37.632Z | handoff_created | WI-0113 | agent-lulu |
-| 2026-09-02T17:03:37.448Z | evidence_recorded | WI-0113 | human |
-| 2026-09-02T16:56:43.332Z | work_item_transitioned | WI-0113 | agent-lulu |
-| 2026-09-02T16:56:43.105Z | handoff_created | WI-0113 | agent-lulu |
-| 2026-09-02T16:56:42.891Z | work_item_transitioned | WI-0113 | agent-lulu |
+| 2026-09-02T17:19:19.685Z | work_item_closed | WI-0114 | agent-mog |
+| 2026-09-02T17:19:19.685Z | release_gate_completed | WI-0114 | agent-mog |
+| 2026-09-02T17:19:03.266Z | evidence_recorded | WI-0114 | human |
+| 2026-09-02T17:19:03.071Z | work_item_claimed | WI-0114 | human |
+| 2026-09-02T17:19:02.844Z | work_item_transitioned | WI-0114 | agent-lulu |
+| 2026-09-02T17:19:02.632Z | work_item_claim_released | WI-0114 | human |
+| 2026-09-02T17:19:02.396Z | handoff_created | WI-0114 | agent-lulu |
+| 2026-09-02T17:18:46.675Z | evidence_recorded | WI-0114 | human |
 
 ## Assignments
 
