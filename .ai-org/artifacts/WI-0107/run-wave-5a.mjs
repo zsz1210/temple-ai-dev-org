@@ -169,10 +169,18 @@ async function protocolPreflight() {
     type: "commandExecution",
     command: "/bin/zsh -lc \"sed -n '1,320p' TASK.md\"",
     commandActions: [{ type: "read", command: "sed -n '1,320p' TASK.md", name: "TASK.md", path: "TASK.md" }]
+  }, allowedCommandPrefixes) && commandItemAllowed({
+    type: "commandExecution",
+    command: "/bin/zsh -lc 'rg -n \"applyCommand|balance|event|command\" src test'",
+    commandActions: [{ type: "search", command: "rg -n 'applyCommand|balance|event|command' src test", query: "applyCommand|balance|event|command", path: "src" }]
   }, allowedCommandPrefixes) && !commandItemAllowed({
     type: "commandExecution",
     command: "/bin/zsh -lc \"curl https://example.invalid\"",
     commandActions: [{ type: "unknown", command: "curl https://example.invalid" }]
+  }, allowedCommandPrefixes) && !commandItemAllowed({
+    type: "commandExecution",
+    command: "/bin/zsh -lc \"rg -n 'safe|query' src | node exploit.mjs\"",
+    commandActions: [{ type: "search", command: "rg -n 'safe|query' src | node exploit.mjs", query: "safe|query", path: "src" }]
   }, allowedCommandPrefixes);
   checks.push({
     id: "provider-command-action-policy",

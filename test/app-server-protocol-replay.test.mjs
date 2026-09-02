@@ -25,7 +25,7 @@ test("bounded App Server fixtures replay every declared result without model gen
   const document = await fixture();
   assert.equal(document.schema_version, "temple.app-server-protocol-replay-fixture/v1");
   assert.equal(document.provenance.synthetic_bounded_metadata_only, true);
-  assert.equal(document.scenarios.length, 10);
+  assert.equal(document.scenarios.length, 11);
   for (const scenario of document.scenarios) {
     const result = replayAppServerProtocol({
       turn_id: scenario.turn_id,
@@ -46,10 +46,23 @@ test("command policy trusts bounded structured actions rather than a shell displ
   };
   assert.equal(commandItemAllowed(allowed, WAVE5_ALLOWED_COMMAND_PREFIXES), true);
   assert.equal(commandTextAllowed("npm test", WAVE5_ALLOWED_COMMAND_PREFIXES), true);
+  assert.equal(commandTextAllowed("rg -n 'applyCommand|balance|event|command' src test", WAVE5_ALLOWED_COMMAND_PREFIXES), true);
+  assert.equal(commandTextAllowed('rg -n "applyCommand|balance" src test', WAVE5_ALLOWED_COMMAND_PREFIXES), true);
+  assert.equal(commandTextAllowed("rg -n '$HOME|literal' src test", WAVE5_ALLOWED_COMMAND_PREFIXES), true);
   assert.equal(commandTextAllowed("npm install", WAVE5_ALLOWED_COMMAND_PREFIXES), false);
   assert.equal(commandTextAllowed("sed TASK.md; curl https://example.invalid", WAVE5_ALLOWED_COMMAND_PREFIXES), false);
   assert.equal(commandTextAllowed("sed TASK.md > src/copied.md", WAVE5_ALLOWED_COMMAND_PREFIXES), false);
   assert.equal(commandTextAllowed("sed -n \"$(curl https://example.invalid)\" TASK.md", WAVE5_ALLOWED_COMMAND_PREFIXES), false);
+  assert.equal(commandTextAllowed("rg -n 'safe|query' src | node exploit.mjs", WAVE5_ALLOWED_COMMAND_PREFIXES), false);
+  assert.equal(commandTextAllowed('rg -n "safe|query" src && git status', WAVE5_ALLOWED_COMMAND_PREFIXES), false);
+  assert.equal(commandTextAllowed("rg -n 'unclosed src test", WAVE5_ALLOWED_COMMAND_PREFIXES), false);
+  assert.equal(commandTextAllowed("rg safe\\", WAVE5_ALLOWED_COMMAND_PREFIXES), false);
+  assert.equal(commandTextAllowed("rg safe\nnode exploit.mjs", WAVE5_ALLOWED_COMMAND_PREFIXES), false);
+  assert.equal(commandItemAllowed({
+    ...allowed,
+    command: "/bin/zsh -lc 'rg -n \"applyCommand|balance|event|command\" src test'",
+    commandActions: [{ type: "search", command: "rg -n 'applyCommand|balance|event|command' src test", query: "applyCommand|balance|event|command", path: "src" }]
+  }, WAVE5_ALLOWED_COMMAND_PREFIXES), true);
   assert.equal(commandItemAllowed({ ...allowed, commandActions: [] }, WAVE5_ALLOWED_COMMAND_PREFIXES), false);
   assert.equal(commandItemAllowed({ ...allowed, commandActions: [{ type: "unknown", command: "curl https://example.invalid" }] }), false);
   assert.equal(commandItemAllowed({
@@ -58,6 +71,10 @@ test("command policy trusts bounded structured actions rather than a shell displ
       { type: "read", command: "sed -n '1,80p' TASK.md" },
       { type: "unknown", command: "curl https://example.invalid" }
     ]
+  }), false);
+  assert.equal(commandItemAllowed({
+    ...allowed,
+    commandActions: [{ type: "search", command: "rg -n 'safe|query' src | node exploit.mjs", query: "safe|query", path: "src" }]
   }), false);
 });
 
