@@ -13,7 +13,7 @@ The Wave 2 evidence matrix now reconciles Temple's live, automated, simulated, a
 
 ## Verification
 
-`npm run verify` passed 280 tests with zero failures or skips. Repository, Markdown-link, and package-boundary checks also passed. The retained machine-readable observation is `developer-test-observation.json`.
+`npm run verify` passed 280 tests with zero failures or skips. Repository, Markdown-link, and package-boundary checks also passed. The normalized exact-candidate observation is `developer-exact-test-observation.json`; the earlier `developer-test-observation.json` bytes remain retained for audit because the first evidence record was created before its observation format was corrected.
 
 ## Evidence decision
 

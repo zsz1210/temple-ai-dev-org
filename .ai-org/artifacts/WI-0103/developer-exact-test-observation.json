@@ -1,0 +1,24 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "0598100f175be746a7a92d4294bf77144e6c9310",
+  "command": [
+    "detached exact candidate: npm run verify"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T08:35:14.000Z",
+  "completed_at": "2026-09-02T08:36:23.000Z",
+  "artifact_refs": [],
+  "summary": {
+    "repository_checks": "pass",
+    "documentation_links": "pass",
+    "package_boundary": "pass",
+    "tests_passed": 280,
+    "tests_failed": 0,
+    "tests_skipped": 0,
+    "test_duration_ms": 57257.730458,
+    "new_coordination_fixture_run": false,
+    "real_collaborative_status_changed": false,
+    "external_action_performed": false
+  }
+}

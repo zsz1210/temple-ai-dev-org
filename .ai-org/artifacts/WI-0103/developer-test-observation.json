@@ -1,27 +1,26 @@
 {
   "schema_version": "temple.test-observation/v1",
-  "revision": "0598100f175be746a7a92d4294bf77144e6c9310",
+  "work_item_id": "WI-0103",
+  "stage": "developer",
   "command": [
-    "detached exact candidate: npm run verify"
+    "npm run verify"
   ],
-  "result": "pass",
-  "exit_code": 0,
-  "started_at": "2026-09-02T08:35:14.000Z",
-  "completed_at": "2026-09-02T08:36:23.000Z",
-  "artifact_refs": [
-    ".ai-org/artifacts/WI-0103/developer-report.md",
-    "docs/validation/wave-2-coordination-evidence.md"
+  "outcome": "pass",
+  "tests": {
+    "passed": 280,
+    "failed": 0,
+    "skipped": 0
+  },
+  "duration_ms": 59346.716667,
+  "checks": [
+    "repository",
+    "documentation-links",
+    "package-boundary",
+    "complete-node-test-suite"
   ],
-  "summary": {
-    "repository_checks": "pass",
-    "documentation_links": "pass",
-    "package_boundary": "pass",
-    "tests_passed": 280,
-    "tests_failed": 0,
-    "tests_skipped": 0,
-    "test_duration_ms": 57257.730458,
-    "new_coordination_fixture_run": false,
-    "real_collaborative_status_changed": false,
-    "external_action_performed": false
-  }
+  "external_actions": [],
+  "notes": [
+    "No additional runtime fixture was executed because retained evidence already covers the bounded local behaviors at an equal or stronger evidence class.",
+    "This observation does not validate real multi-human or multi-machine collaboration."
+  ]
 }

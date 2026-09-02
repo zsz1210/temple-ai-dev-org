@@ -15107,9 +15107,9 @@
       "recorded_at": "2026-09-02T08:37:25.647Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-02T08:49:55.000Z",
+      "invalidated_by": "human",
+      "invalidation_reason": "Superseded because the working-tree observation format was normalized after the recorded scope revision; retained with its historical candidate digest for audit.",
       "external_action_performed": false,
       "kind": "test",
       "title": "Developer exact-candidate verification",
@@ -15125,7 +15125,7 @@
       "artifacts": [
         {
           "path": ".ai-org/artifacts/WI-0103/developer-test-observation.json",
-          "sha256": "b6347e54e50c0b8c2122d3b27409fabd60f24123bda9342fca13e51cfe4fffc3"
+          "sha256": "30dd884ed9de944044bdb4ac8d9ca921627b6526468fd294d34890a2b60fcee7"
         },
         {
           "path": ".ai-org/artifacts/WI-0103/developer-report.md",
@@ -15186,6 +15186,90 @@
         ],
         "exit_code": 0,
         "started_at": "2026-09-02T08:37:59.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T084701Z-84540E76",
+      "work_item_id": "WI-0103",
+      "recorded_at": "2026-09-02T08:47:01.304Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA evidence classification review",
+      "outcome": "pass",
+      "scope_revision": "5d58b65caf1f4552459ab26e3271f5f5732639b4",
+      "observed_at": "2026-09-02T08:46:23.000Z",
+      "summary": "Separate Independent QA corrected one traceability overclaim and passed the final exact candidate checks.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0103/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0103/independent-qa-test-observation.json",
+          "sha256": "63625f8777bfd60c4a1c3de5a82b75ecfded1342dcd94644b3135b55d8a01318"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0103/independent-qa-report.md",
+          "sha256": "225a46ed2448f0248cd5ede91fd2fb71fa5e07de580598bc53905b388946b249"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0103/integration-review.md",
+          "sha256": "dc971885df196b9cf48038e6d90f017d0e544f8320414188dd7e79f35896250a"
+        },
+        {
+          "path": "docs/validation/wave-2-coordination-evidence.md",
+          "sha256": "6055c146944c348f84400f9308d01499b42ad35fc747918b6493dfd865fbe057"
+        }
+      ],
+      "details": {
+        "command": [
+          "Independent QA clean detached review of exact candidate",
+          "npm run check",
+          "prior focused run: node --test test/orchestration.test.mjs test/runtime-coordination.test.mjs test/collaboration-governance.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T08:46:22.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T085138Z-4EBB5DB1",
+      "work_item_id": "WI-0103",
+      "recorded_at": "2026-09-02T08:51:38.553Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Replacement Developer exact-candidate verification",
+      "outcome": "pass",
+      "scope_revision": "0598100f175be746a7a92d4294bf77144e6c9310",
+      "observed_at": "2026-09-02T08:36:23.000Z",
+      "summary": "Detached revision 0598100 passed 280 of 280 tests; replacement observation path preserves the normalized record without historical digest drift.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0103/developer-exact-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0103/developer-exact-test-observation.json",
+          "sha256": "7778167b81361eec0d3c6d791703a892a16cc11171f165949f4b6c55e065e52e"
+        }
+      ],
+      "details": {
+        "command": [
+          "detached exact candidate: npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T08:35:14.000Z"
       }
     }
   ]
