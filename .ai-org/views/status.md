@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 113 total, 8 active
+- Work items: 114 total, 9 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -161,6 +161,7 @@
 | WI-0111 | Make command policy quote-aware | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2d523b5f` | 0 | 18 | 0 |
 | WI-0112 | Run quote-aware Wave 5A controlled comparison | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a836643a` | 0 | 20 | 1 |
 | WI-0113 | Make Wave 5A autonomous and observable | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6f8596bb` | 0 | 23 | 0 |
+| WI-0114 | Integrate the agent-led init and Claude entrypoint handshake | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902170847-70e7c90a | `—` | 0 | 8 | 0 |
 
 ## Codex task registry
 
@@ -235,7 +236,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 18
+- Team-visible Work Items: 19
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -298,14 +299,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T17:04:14.570Z | work_item_closed | WI-0113 | agent-mog |
-| 2026-09-02T17:04:14.570Z | release_gate_completed | WI-0113 | agent-mog |
-| 2026-09-02T17:03:45.660Z | work_item_transitioned | WI-0113 | agent-lulu |
-| 2026-09-02T17:03:37.632Z | handoff_created | WI-0113 | agent-lulu |
-| 2026-09-02T17:03:37.448Z | evidence_recorded | WI-0113 | human |
-| 2026-09-02T16:56:43.332Z | work_item_transitioned | WI-0113 | agent-lulu |
-| 2026-09-02T16:56:43.105Z | handoff_created | WI-0113 | agent-lulu |
-| 2026-09-02T16:56:42.891Z | work_item_transitioned | WI-0113 | agent-lulu |
+| 2026-09-02T17:08:47.616Z | work_item_claimed | WI-0114 | human |
+| 2026-09-02T17:08:47.357Z | work_item_transitioned | WI-0114 | agent-tidus |
+| 2026-09-02T17:08:47.125Z | work_item_claim_released | WI-0114 | human |
+| 2026-09-02T17:08:46.896Z | handoff_created | WI-0114 | agent-tidus |
+| 2026-09-02T17:08:46.669Z | work_item_claimed | WI-0114 | human |
+| 2026-09-02T17:08:46.414Z | work_item_transitioned | WI-0114 | agent-yuna |
+| 2026-09-02T17:08:46.170Z | work_item_claim_released | WI-0114 | human |
+| 2026-09-02T17:08:45.933Z | handoff_created | WI-0114 | agent-yuna |
 
 ## Assignments
 
