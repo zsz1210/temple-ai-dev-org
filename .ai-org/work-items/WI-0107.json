@@ -1,0 +1,209 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0107",
+  "title": "Run Wave 5A matched process feasibility pilot",
+  "state": "blocked",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-02T12:10:29.557Z",
+  "updated_at": "2026-09-02T12:43:48.665Z",
+  "scope": [
+    "Prepare and, only after a verified zero-new-payment boundary, execute the approved four-turn Luna Max Temple-versus-minimal feasibility comparison from WI-0106; retain correlated usage, objective tests, blinded quality scores, stop behavior, and exact revisions without extending the result into a superiority or routing claim."
+  ],
+  "acceptance_criteria": [
+    "The run uses exactly the two pinned cases and two conditions from WI-0106, one sequential attempt per arm, zero retry and zero fallback.",
+    "Before the first generated turn, account controls or explicit human confirmation establish that automatic Credit reload is disabled and using included Pro allowance is acceptable; otherwise the run stops at preflight.",
+    "Every turn remains within the approved 80,000 per-turn and 320,000 aggregate Token controls, 10-minute per-turn and 60-minute program controls, and 128 MiB per-repository and 512 MiB aggregate disk controls; reactive Token interruption is reported honestly.",
+    "Objective tests run before a condition-blind evaluator freezes correctness, scope-safety, maintainability, evidence, and handoff scores; revision, condition, usage, and launch mapping remain sealed until then.",
+    "The outcome is feasibility evidence only and does not authorize Wave 5B, Wave 5C, automatic model routing, purchased Credits, deployment, release, or publication."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0107",
+    "docs/validation"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "b6847d537e6963c5cee40fdd8fedd4800e6c67fd",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0067: WI-0107 owns only its isolated Wave 5A execution artifacts and may add the final result to docs/validation after the run; WI-0067 remains blocked and unchanged.",
+    "WI-0086: WI-0107 may add only its own validation result under docs/validation; the blocked Alpha release candidate and release index remain owned by WI-0086."
+  ],
+  "claim": {
+    "id": "claim-20260902122000-c2c7d6fa",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "b6847d537e6963c5cee40fdd8fedd4800e6c67fd",
+    "branch": "codex/wi-0107-wave-5a-execution",
+    "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0107",
+    "claimed_at": "2026-09-02T12:20:00.379Z",
+    "released_at": "2026-09-02T12:42:07.099Z",
+    "release_reason": "position_transition"
+  },
+  "claims": [
+    {
+      "id": "claim-20260902121030-536ad4e3",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "b6847d537e6963c5cee40fdd8fedd4800e6c67fd",
+      "branch": "codex/wi-0107-wave-5a-execution",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0107",
+      "claimed_at": "2026-09-02T12:10:30.064Z",
+      "released_at": "2026-09-02T12:19:59.218Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902122000-c2c7d6fa",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "b6847d537e6963c5cee40fdd8fedd4800e6c67fd",
+      "branch": "codex/wi-0107-wave-5a-execution",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0107",
+      "claimed_at": "2026-09-02T12:20:00.379Z",
+      "released_at": "2026-09-02T12:42:07.099Z",
+      "release_reason": "position_transition"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0107/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0107/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0107/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0107/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0107/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0107/handoff-004-developer-to-quality_evaluator.md",
+      ".ai-org/artifacts/WI-0107/developer-report.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0107/developer-report.md",
+      ".ai-org/artifacts/WI-0107/developer-test-observation.json"
+    ],
+    "test_evidence": [
+      "EVID-20260902T124252Z-133FDF8A"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0107/quality-report.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0107/independent-qa-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260902T124314Z-BD1ABAB2"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0107/approved-scope.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0107/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0107/account-approval.json"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0107/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0107/work-order.md",
+    ".ai-org/artifacts/WI-0107/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0107/product-spec.md",
+    ".ai-org/artifacts/WI-0107/approved-scope.md",
+    ".ai-org/artifacts/WI-0107/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0107/technical-design.md",
+    ".ai-org/artifacts/WI-0107/risk-review.md",
+    ".ai-org/artifacts/WI-0107/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0107/developer-report.md",
+    ".ai-org/artifacts/WI-0107/developer-test-observation.json",
+    "EVID-20260902T124252Z-133FDF8A",
+    ".ai-org/artifacts/WI-0107/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0107/quality-report.md",
+    ".ai-org/artifacts/WI-0107/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0107/independent-qa-report.md",
+    "EVID-20260902T124314Z-BD1ABAB2",
+    ".ai-org/artifacts/WI-0107/release-record.md"
+  ],
+  "unresolved": [
+    "A new execution Work Item and explicit owner authority are required before any replacement four-turn run.",
+    "Wave 5A mechanism remains unqualified because no candidate completed.",
+    "Release gate must record NO-GO for experiment qualification.",
+    "The first candidate was rejected before generation by an unsupported structured-output keyword, so zero candidates completed and Wave 5A mechanism feasibility is not qualified."
+  ],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "b6847d537e6963c5cee40fdd8fedd4800e6c67fd",
+      "artifact": ".ai-org/artifacts/WI-0107/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-02T12:19:58.969Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "b6847d537e6963c5cee40fdd8fedd4800e6c67fd",
+      "artifact": ".ai-org/artifacts/WI-0107/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-02T12:19:59.440Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "b6847d537e6963c5cee40fdd8fedd4800e6c67fd",
+      "artifact": ".ai-org/artifacts/WI-0107/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-02T12:19:59.907Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "984cd027771c8f1fbfaee9fc8bc8e9facaf29c1f",
+      "artifact": ".ai-org/artifacts/WI-0107/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-02T12:42:06.862Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "984cd027771c8f1fbfaee9fc8bc8e9facaf29c1f",
+      "artifact": ".ai-org/artifacts/WI-0107/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-02T12:43:14.516Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "984cd027771c8f1fbfaee9fc8bc8e9facaf29c1f",
+      "artifact": ".ai-org/artifacts/WI-0107/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-02T12:43:35.052Z"
+    }
+  ],
+  "developer_candidate_revision": "984cd027771c8f1fbfaee9fc8bc8e9facaf29c1f",
+  "tested_revision": "984cd027771c8f1fbfaee9fc8bc8e9facaf29c1f",
+  "release_gate_result": "no-go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0107/account-approval.json",
+  "previous_state": "release_gate"
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "1211d700717417f5a585cd9f488ea09000ffd1d0",
+  "command": [
+    "second fresh detached candidate: corrected WI-0108 no-generation preflight",
+    "second fresh detached candidate: npm run verify",
+    "independently inspect retained state and event ledger",
+    "independently verify four clean candidate repositories and zero blind packages"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T13:21:20.000Z",
+  "completed_at": "2026-09-02T13:22:31.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0108/failed-run-observation.json",
+    ".ai-org/artifacts/WI-0108/quality-report.md",
+    ".ai-org/artifacts/WI-0108/independent-qa-report.md"
+  ],
+  "summary": {
+    "identity_separation_passed": true,
+    "tests_passed": 280,
+    "tests_failed": 0,
+    "zero_retry_boundary_passed": true,
+    "candidate_state_integrity_passed": true,
+    "failure_evidence_truthful": true,
+    "tokens_observed": 24456,
+    "command_action_regression_check_passed": true,
+    "experiment_completed": false,
+    "mechanism_qualified": false,
+    "new_execution_authority_required": true
+  }
+}

@@ -16030,6 +16030,614 @@
         "exit_code": 0,
         "started_at": "2026-09-02T11:48:15.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T124206Z-C996B905",
+      "work_item_id": "WI-0107",
+      "recorded_at": "2026-09-02T12:42:06.480Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Wave 5A fail-closed candidate",
+      "outcome": "verified",
+      "scope_revision": "984cd027771c8f1fbfaee9fc8bc8e9facaf29c1f",
+      "observed_at": "2026-09-02T12:42:06.480Z",
+      "summary": "Corrected runner, retained zero-retry failure evidence, and review artifacts.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "984cd027771c8f1fbfaee9fc8bc8e9facaf29c1f"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "984cd027771c8f1fbfaee9fc8bc8e9facaf29c1f",
+        "working_tree_dirty": true,
+        "dirty_path_count": 1,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T124251Z-7FE05C38",
+      "work_item_id": "WI-0107",
+      "recorded_at": "2026-09-02T12:42:51.980Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 5A developer verification",
+      "outcome": "pass",
+      "scope_revision": "531ed2888735753dab9575d47540dc7b0c83b0ef",
+      "observed_at": "2026-09-02T12:41:30.000Z",
+      "summary": "Repository and no-generation preflight verification after fail-closed correction.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0107/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0107/developer-test-observation.json",
+          "sha256": "5a903de3e5f520889af3ec378d3662ccfff8fe144562e7d7096af8bb42e14240"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0107/developer-report.md",
+          "sha256": "a3ce1f1c6b4ef66468a5286790cdf31203d9fbe911752f718d22efb01bdebc79"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0107/failed-run-observation.json",
+          "sha256": "e5bc5d44dd60074443a5340f1233518c0a42e8040fb9d508aa0750b7de2213d1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0107/preflight-observation.json",
+          "sha256": "5fb4be53321a0e3b6a47560cf6502cbbc6a8c59ffd767475d6c920a623075066"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --check both Wave 5A scripts",
+          "materialize and inspect four isolated candidates",
+          "run no-generation protocol preflight",
+          "run public tests in all four candidates",
+          "npm run verify",
+          "node ./templew.mjs doctor . --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T12:10:29.557Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T124252Z-133FDF8A",
+      "work_item_id": "WI-0107",
+      "recorded_at": "2026-09-02T12:42:52.173Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 5A quality verification",
+      "outcome": "pass",
+      "scope_revision": "531ed2888735753dab9575d47540dc7b0c83b0ef",
+      "observed_at": "2026-09-02T12:40:00.000Z",
+      "summary": "Fail-closed behavior, stopped-state integrity, and corrected preflight passed; experiment not qualified.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0107/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0107/quality-test-observation.json",
+          "sha256": "cae1a26fda745a4672820bc5fac47d38609d9268ce09cc5b60bba0815ccb3bcc"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0107/failed-run-observation.json",
+          "sha256": "e5bc5d44dd60074443a5340f1233518c0a42e8040fb9d508aa0750b7de2213d1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0107/preflight-observation.json",
+          "sha256": "5fb4be53321a0e3b6a47560cf6502cbbc6a8c59ffd767475d6c920a623075066"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0107/quality-report.md",
+          "sha256": "51db08910baf2bdbe387e1a07e48a4d676ae14b85130cdf917db9ed1916725e6"
+        }
+      ],
+      "details": {
+        "command": [
+          "inspect retained validation-program state and events",
+          "inspect all four candidate Git states",
+          "reproduce provider rejection category from the local Codex session without copying raw content into repository evidence",
+          "node .ai-org/artifacts/WI-0107/run-wave-5a.mjs --preflight-only",
+          "npm run verify",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T12:36:36.494Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T124314Z-BD1ABAB2",
+      "work_item_id": "WI-0107",
+      "recorded_at": "2026-09-02T12:43:14.968Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 5A independent QA",
+      "outcome": "pass",
+      "scope_revision": "531ed2888735753dab9575d47540dc7b0c83b0ef",
+      "observed_at": "2026-09-02T12:41:30.000Z",
+      "summary": "Independent review confirms truthful zero-retry failure evidence and no experiment qualification.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0107/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0107/independent-qa-observation.json",
+          "sha256": "f07721b8d005462ec2ba91b2493ab243c4df5aa3f2a277e9c9aaa4b8d438c641"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0107/failed-run-observation.json",
+          "sha256": "e5bc5d44dd60074443a5340f1233518c0a42e8040fb9d508aa0750b7de2213d1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0107/quality-report.md",
+          "sha256": "51db08910baf2bdbe387e1a07e48a4d676ae14b85130cdf917db9ed1916725e6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0107/independent-qa-report.md",
+          "sha256": "d14333f977c96b6a571bc7341375b8f7360a676332cf5af1e2841f00fdd3f36f"
+        }
+      ],
+      "details": {
+        "command": [
+          "independently inspect the retained stopped state and event ledger",
+          "verify the four candidate revisions and clean states",
+          "verify no blind package exists",
+          "verify the structured-output correction and preflight regression check",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T12:40:00.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T131901Z-19F70858",
+      "work_item_id": "WI-0108",
+      "recorded_at": "2026-09-02T13:19:01.544Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0108 fail-closed candidate",
+      "outcome": "verified",
+      "scope_revision": "1211d700717417f5a585cd9f488ea09000ffd1d0",
+      "observed_at": "2026-09-02T13:19:01.544Z",
+      "summary": "Exact runner correction and truthful stopped-run evidence after one authorized Luna Max attempt.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "1211d700717417f5a585cd9f488ea09000ffd1d0"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "1211d700717417f5a585cd9f488ea09000ffd1d0",
+        "working_tree_dirty": true,
+        "dirty_path_count": 1,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T131902Z-9BE08800",
+      "work_item_id": "WI-0108",
+      "recorded_at": "2026-09-02T13:19:02.241Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0108 developer verification",
+      "outcome": "pass",
+      "scope_revision": "cdf24c0c2b4a824eacbb241e6b0db46388a6109c",
+      "observed_at": "2026-09-02T13:17:26.000Z",
+      "summary": "One fail-closed Luna Max attempt observed 24,456 Tokens; zero candidate changes; corrected command-action policy and 280/280 repository tests passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0108/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0108/developer-test-observation.json",
+          "sha256": "784ac2b3dbbd77aca48597a7a9db226fc6686aa58ca01d02311387d775347178"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0108/developer-report.md",
+          "sha256": "397b3ef988f01a023f1ddaad820514897502f9b7c1fcde63749f15e465a1625d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0108/failed-run-observation.json",
+          "sha256": "55dd93ac34b817ffdf5ea0db416e292c494278b82647b3e648c17d1b79357ca8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0108/preflight-observation.json",
+          "sha256": "513c21f041f6a9d762f2bec8670c9f62c88de4e11881382fd190d063d0e214a5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0108/post-correction-preflight-observation.json",
+          "sha256": "c6f00522331dcf47a3525a06285eee00b11c72131cdce26117dc557945273894"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --check .ai-org/artifacts/WI-0107/run-wave-5a.mjs",
+          "run WI-0108 no-generation preflight against the new lab",
+          "run one authorized fail-closed Luna Max launch attempt",
+          "run corrected post-stop no-generation preflight",
+          "inspect all four candidate Git states and package directories",
+          "npm run verify",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T13:08:02.945Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T132027Z-B861ABDC",
+      "work_item_id": "WI-0108",
+      "recorded_at": "2026-09-02T13:20:27.245Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0108 quality evaluation",
+      "outcome": "pass",
+      "scope_revision": "cdf24c0c2b4a824eacbb241e6b0db46388a6109c",
+      "observed_at": "2026-09-02T13:19:44.000Z",
+      "summary": "Fail-closed integrity passed; experiment completion failed after one 24,456-Token attempt and zero candidate completions.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0108/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0108/quality-test-observation.json",
+          "sha256": "6f0ed5704f7542e1520ea09bf120dfd40164faca2a185bf0092d78ca7f070b66"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0108/failed-run-observation.json",
+          "sha256": "55dd93ac34b817ffdf5ea0db416e292c494278b82647b3e648c17d1b79357ca8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0108/post-correction-preflight-observation.json",
+          "sha256": "c6f00522331dcf47a3525a06285eee00b11c72131cdce26117dc557945273894"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0108/quality-report.md",
+          "sha256": "83ceb9bd337d47469f030846ae23f3d35184e5a9463fd86fcebe2c2fd817b804"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached candidate: node --check .ai-org/artifacts/WI-0107/run-wave-5a.mjs",
+          "fresh detached candidate: corrected no-generation preflight to a temporary output",
+          "fresh detached candidate: node --test test/validation-program.test.mjs",
+          "inspect retained coordinator state and event ledger",
+          "inspect all four candidate Git states and blind package directory"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T13:19:40.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T132309Z-D109269D",
+      "work_item_id": "WI-0108",
+      "recorded_at": "2026-09-02T13:23:09.732Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0108 Independent QA",
+      "outcome": "pass",
+      "scope_revision": "cdf24c0c2b4a824eacbb241e6b0db46388a6109c",
+      "observed_at": "2026-09-02T13:22:31.000Z",
+      "summary": "Independent exact-revision verification passed for fail-closed evidence and command-action correction; Wave 5A remains unqualified.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0108/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0108/independent-qa-observation.json",
+          "sha256": "429e219fa2af5f6f5ea365b0171473be8d7069a5323b2cfa5424d60c653f0e70"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0108/failed-run-observation.json",
+          "sha256": "55dd93ac34b817ffdf5ea0db416e292c494278b82647b3e648c17d1b79357ca8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0108/quality-report.md",
+          "sha256": "83ceb9bd337d47469f030846ae23f3d35184e5a9463fd86fcebe2c2fd817b804"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0108/independent-qa-report.md",
+          "sha256": "29d7c9b06e7731fdc20bc40ad5e786a5a4a4ee3a44b5762e6044f0897da8bd2b"
+        }
+      ],
+      "details": {
+        "command": [
+          "second fresh detached candidate: corrected WI-0108 no-generation preflight",
+          "second fresh detached candidate: npm run verify",
+          "independently inspect retained state and event ledger",
+          "independently verify four clean candidate repositories and zero blind packages"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T13:21:20.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T142419Z-D4E31532",
+      "work_item_id": "WI-0109",
+      "recorded_at": "2026-09-02T14:24:19.806Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "No-generation App Server replay candidate",
+      "outcome": "verified",
+      "scope_revision": "04ce81c0421526f6d10566dd41debbee660dd4cb",
+      "observed_at": "2026-09-02T14:24:19.806Z",
+      "summary": "Shared live/offline protocol interpretation, ten bounded scenarios, and 288 passing repository tests.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "04ce81c0421526f6d10566dd41debbee660dd4cb"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "04ce81c0421526f6d10566dd41debbee660dd4cb",
+        "working_tree_dirty": true,
+        "dirty_path_count": 1,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T142420Z-2FCD53A5",
+      "work_item_id": "WI-0109",
+      "recorded_at": "2026-09-02T14:24:20.504Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0109 developer verification",
+      "outcome": "pass",
+      "scope_revision": "b73dd37bfe33bbf8967a0fbc33ab355344aaa4dd",
+      "observed_at": "2026-09-02T14:23:23.000Z",
+      "summary": "Ten no-generation replay scenarios, 20 focused tests, installed-schema preflight, and 288 full tests passed with zero model turns.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0109/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0109/developer-test-observation.json",
+          "sha256": "5bf669b1ce45d9c4cbf88dd93b1cbda07da959443a4caa11f2e9c64cbd88bd16"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/developer-report.md",
+          "sha256": "6222cd24824907c552422bc43a99d0bdb91fe6020c46f69f7bf77c4699258294"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/fixtures/app-server-event-replay.json",
+          "sha256": "7e40884e7016e3f93cc9a75ccfc3b34bf00b8dbe758c1b596d2e605dd0330fa6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/technical-design.md",
+          "sha256": "a8ea489b183cddb04a2ca339fae7d3c6a8cebd7a5a21fb90b415174a8f2d2333"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --check src/app-server-protocol-replay.mjs",
+          "node --check .ai-org/artifacts/WI-0107/run-wave-5a.mjs",
+          "node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
+          "WI-0108 lab: corrected live-runner preflight-only with temporary output",
+          "npm run verify",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T14:14:43.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T142747Z-1424D1EE",
+      "work_item_id": "WI-0109",
+      "recorded_at": "2026-09-02T14:27:47.140Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0109 hardened developer verification",
+      "outcome": "pass",
+      "scope_revision": "ffa51c3db04d9c6473d9434095180a1def2ff0a8",
+      "observed_at": "2026-09-02T14:27:11.000Z",
+      "summary": "Post-review shell-control hardening, ten replay scenarios, 20 focused tests, installed-schema preflight, and 288 full tests passed with zero model turns.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0109/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0109/developer-test-observation.json",
+          "sha256": "26f813fec845bbe10f6dd090311b3de74dcdc05121cbfa8399e97d9416f2b478"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/developer-report.md",
+          "sha256": "938312469aabd66df1fb588f20fe1a272c21face7b29c5fdddbe40e93bec7c65"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/fixtures/app-server-event-replay.json",
+          "sha256": "7e40884e7016e3f93cc9a75ccfc3b34bf00b8dbe758c1b596d2e605dd0330fa6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/technical-design.md",
+          "sha256": "a8ea489b183cddb04a2ca339fae7d3c6a8cebd7a5a21fb90b415174a8f2d2333"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --check src/app-server-protocol-replay.mjs",
+          "node --check .ai-org/artifacts/WI-0107/run-wave-5a.mjs",
+          "node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
+          "WI-0108 lab: corrected live-runner preflight-only with temporary output",
+          "npm run verify",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T14:14:43.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T143121Z-77D72AF6",
+      "work_item_id": "WI-0109",
+      "recorded_at": "2026-09-02T14:31:21.155Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Offline App Server replay quality gate",
+      "outcome": "pass",
+      "scope_revision": "83a18f4b91d7c9dfb0b80866327c292b958bc1d9",
+      "observed_at": "2026-09-02T14:30:37.000Z",
+      "summary": "Exact candidate a21fbc4 passes 20 focused tests and retained no-generation preflight with zero model turns.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0109/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0109/quality-test-observation.json",
+          "sha256": "19e8a86229b9dae8d6d1d539a19cee215224fec2177824e49e5df7c63ae83f68"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/quality-report.md",
+          "sha256": "c55d5dbec84cdcc7b9b9a4eb08b8154c6cf4c1dc07d2f28aa664d7a855ee57f1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/fixtures/app-server-event-replay.json",
+          "sha256": "7e40884e7016e3f93cc9a75ccfc3b34bf00b8dbe758c1b596d2e605dd0330fa6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/technical-design.md",
+          "sha256": "a8ea489b183cddb04a2ca339fae7d3c6a8cebd7a5a21fb90b415174a8f2d2333"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached candidate: node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
+          "fresh detached candidate: retained WI-0108 lab live-runner preflight-only with temporary output",
+          "fresh detached candidate: inspect repository status and replay fixture privacy boundary"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T14:29:00.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T143511Z-FEB48E25",
+      "work_item_id": "WI-0109",
+      "recorded_at": "2026-09-02T14:35:11.076Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent offline App Server replay verification",
+      "outcome": "pass",
+      "scope_revision": "83a18f4b91d7c9dfb0b80866327c292b958bc1d9",
+      "observed_at": "2026-09-02T14:34:31.000Z",
+      "summary": "Independent QA reproduced 20 focused and 288 full tests plus the no-generation preflight at exact candidate a21fbc4.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0109/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0109/independent-qa-observation.json",
+          "sha256": "2ef4144eaf97f6efc6a0dc2ac23a9fb66b8030196a9227a6e850a8810cf1b9b0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/independent-qa-report.md",
+          "sha256": "c7e84ee91918c0e781685051cb6663c15af23374ac22fc55129bd0f0896ff741"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/quality-report.md",
+          "sha256": "c55d5dbec84cdcc7b9b9a4eb08b8154c6cf4c1dc07d2f28aa664d7a855ee57f1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/fixtures/app-server-event-replay.json",
+          "sha256": "7e40884e7016e3f93cc9a75ccfc3b34bf00b8dbe758c1b596d2e605dd0330fa6"
+        }
+      ],
+      "details": {
+        "command": [
+          "second fresh detached candidate: node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
+          "second fresh detached candidate: retained WI-0108 lab live-runner preflight-only with temporary output",
+          "second fresh detached candidate: node --check src/app-server-protocol-replay.mjs",
+          "second fresh detached candidate: node --check .ai-org/artifacts/WI-0107/run-wave-5a.mjs",
+          "second fresh detached candidate: npm run verify",
+          "second fresh detached candidate: inspect repository status"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T14:31:50.000Z"
+      }
     }
   ]
 }

@@ -1,0 +1,9 @@
+{
+  "schema_version": "temple.wave-5a-account-approval/v1",
+  "work_item_id": "WI-0108",
+  "approved_by": "repository-owner",
+  "approved_at": "2026-09-02T13:09:08Z",
+  "automatic_credit_reload_disabled": true,
+  "included_pro_allowance_accepted": true,
+  "scope": "Exactly four sequential gpt-5.6-luna Max Wave 5A candidate turns under the approved WI-0108 limits; no purchased Credits, retry, fallback, network access, deployment, release, publication, or further-rerun authority."
+}

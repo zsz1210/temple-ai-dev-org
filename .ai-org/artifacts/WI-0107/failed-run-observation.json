@@ -1,0 +1,41 @@
+{
+  "schema_version": "temple.wave-5a-failed-run-observation/v1",
+  "work_item_id": "WI-0107",
+  "program_id": "wave-5a-process-feasibility",
+  "started_at": "2026-09-02T12:36:36.494Z",
+  "stopped_at": "2026-09-02T12:36:40.532Z",
+  "status": "stopped",
+  "stop_code": "provider-invalid-output-schema",
+  "safe_reason": "The provider rejected uniqueItems in the requested structured-output schema before generation.",
+  "counters": {
+    "turns_started": 1,
+    "turns_completed": 0,
+    "launch_attempts": 1,
+    "aggregate_tokens_observed": 0,
+    "aggregate_disk_delta_bytes": 0
+  },
+  "turns": {
+    "turn-01": "provider-rejected-before-generation",
+    "turn-02": "not-started",
+    "turn-03": "not-started",
+    "turn-04": "not-started"
+  },
+  "candidate_product_changes": false,
+  "blind_packages_created": 0,
+  "automatic_retry": false,
+  "fallback_used": false,
+  "raw_prompt_retained_in_repository_evidence": false,
+  "raw_response_retained_in_repository_evidence": false,
+  "billing_claim": "Provider telemetry observed zero Tokens for this stopped attempt; this is not an account billing guarantee.",
+  "correction": {
+    "status": "implemented-not-rerun",
+    "change": "Remove uniqueItems from the output schema and fail preflight if that unsupported keyword returns.",
+    "new_execution_authority_required": true
+  },
+  "claims": {
+    "experiment_completed": false,
+    "mechanism_qualified": false,
+    "temple_superiority": false,
+    "automatic_routing_authorized": false
+  }
+}

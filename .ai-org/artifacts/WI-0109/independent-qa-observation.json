@@ -1,0 +1,35 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "a21fbc4f6ebe60043e3ed61690131b281ebc6bed",
+  "command": [
+    "second fresh detached candidate: node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
+    "second fresh detached candidate: retained WI-0108 lab live-runner preflight-only with temporary output",
+    "second fresh detached candidate: node --check src/app-server-protocol-replay.mjs",
+    "second fresh detached candidate: node --check .ai-org/artifacts/WI-0107/run-wave-5a.mjs",
+    "second fresh detached candidate: npm run verify",
+    "second fresh detached candidate: inspect repository status"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T14:31:50.000Z",
+  "completed_at": "2026-09-02T14:34:31.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0109/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0109/quality-report.md",
+    ".ai-org/artifacts/WI-0109/fixtures/app-server-event-replay.json"
+  ],
+  "model_generation_performed": false,
+  "summary": {
+    "identity_separation_passed": true,
+    "replay_scenarios": 10,
+    "focused_tests_passed": 20,
+    "full_tests_passed": 288,
+    "tests_failed": 0,
+    "preflight_passed": true,
+    "model_turns_started": 0,
+    "tokens_attributed_to_replay": 0,
+    "offline_gate_qualified": true,
+    "live_experiment_qualified": false,
+    "new_execution_authority_required": true
+  }
+}

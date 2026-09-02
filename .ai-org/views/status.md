@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 106 total, 4 active
+- Work items: 109 total, 6 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 15
+- Attention signals: 17
 
 ## Collaboration
 
@@ -154,6 +154,9 @@
 | WI-0104 | Validate a local multi-repository service rollout | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6385b89d` | 0 | 17 | 3 |
 | WI-0105 | Qualify Wave 4 operating boundaries | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `43100b5e` | 0 | 12 | 0 |
 | WI-0106 | Design Wave 5 controlled matched comparison | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2612207e` | 0 | 17 | 0 |
+| WI-0107 | Run Wave 5A matched process feasibility pilot | blocked | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `984cd027` | 0 | 18 | 4 |
+| WI-0108 | Rerun corrected Wave 5A four-turn pilot | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1211d700` | 0 | 20 | 1 |
+| WI-0109 | Add no-generation App Server protocol replay | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a21fbc4f` | 0 | 18 | 0 |
 
 ## Codex task registry
 
@@ -206,6 +209,8 @@
 - WI-0064 is blocked
 - WI-0067 is blocked
 - WI-0086 is blocked
+- WI-0107 is blocked
+- WI-0108 is blocked
 - task-0001 can be archived
 - task-0002 can be archived
 - task-0003 can be archived
@@ -224,7 +229,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 17
+- Team-visible Work Items: 18
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -287,14 +292,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T11:55:38.313Z | work_item_closed | WI-0106 | agent-mog |
-| 2026-09-02T11:55:38.313Z | release_gate_completed | WI-0106 | agent-mog |
-| 2026-09-02T11:55:08.334Z | work_item_claimed | WI-0106 | human |
-| 2026-09-02T11:54:54.962Z | work_item_transitioned | WI-0106 | agent-lulu |
-| 2026-09-02T11:54:54.687Z | handoff_created | WI-0106 | agent-lulu |
-| 2026-09-02T11:54:36.893Z | evidence_recorded | WI-0106 | human |
-| 2026-09-02T11:48:12.595Z | work_item_claimed | WI-0106 | human |
-| 2026-09-02T11:48:12.333Z | work_item_claim_released | WI-0106 | human |
+| 2026-09-02T14:35:40.308Z | work_item_closed | WI-0109 | agent-mog |
+| 2026-09-02T14:35:40.308Z | release_gate_completed | WI-0109 | agent-mog |
+| 2026-09-02T14:35:23.527Z | work_item_transitioned | WI-0109 | agent-lulu |
+| 2026-09-02T14:35:23.134Z | handoff_created | WI-0109 | agent-lulu |
+| 2026-09-02T14:35:11.076Z | evidence_recorded | WI-0109 | human |
+| 2026-09-02T14:31:42.692Z | work_item_transitioned | WI-0109 | agent-lulu |
+| 2026-09-02T14:31:42.459Z | handoff_created | WI-0109 | agent-lulu |
+| 2026-09-02T14:31:42.207Z | work_item_transitioned | WI-0109 | agent-lulu |
 
 ## Assignments
 
