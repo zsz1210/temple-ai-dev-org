@@ -84,6 +84,8 @@ node ./templew.mjs observe .
 
 You install Temple into each project; you do not fork the framework for every product.
 
+The root `.ai-org/` in this repository is Temple's own auditable self-hosting record. It remains visible so readers can inspect how the framework manages its own development. This self-host state is excluded from the release package and is not copied into another product project; each initialized project creates and owns its own state.
+
 ## One model, different scales
 
 - **Solo** — one person directs AI-assisted development. A small set of Agent Identities can cover several Positions, while Developer and Independent QA stay separate.
@@ -116,6 +118,7 @@ The framework reports retained gaps instead of treating a passing local test as 
 - [Temple terminology](docs/concepts/terminology.md) — Positions, Agent Identities, Work Items, Evidence, and profiles.
 - [Architecture](docs/concepts/architecture.md) — repository boundaries and canonical state.
 - [Documentation map](docs/README.md) — collaboration, UI modes, trackers, assurance, learning, validation, and decisions.
+- [Contributing](CONTRIBUTING.md), [Code of Conduct](CODE_OF_CONDUCT.md), and [Security](SECURITY.md) — contribution expectations and private reporting routes.
 
 ## Human authority remains explicit
 

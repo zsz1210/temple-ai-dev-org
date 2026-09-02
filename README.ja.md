@@ -84,6 +84,8 @@ node ./templew.mjs observe .
 
 Temple は各プロダクトのリポジトリへ導入します。プロダクトごとにフレームワークを fork する必要はありません。
 
+このリポジトリ直下の `.ai-org/` は、Temple が自らの開発を管理してきた記録です。判断、分担、検証を実際にどのように残しているか確認できるよう、公開リポジトリにも保持します。この self-host 記録はリリースパッケージには含まれず、別のプロダクトへコピーされることもありません。初期化した各プロジェクトは、それぞれ独自の状態を作成して管理します。
+
 ## 規模が変わっても、同じ仕組みを使う
 
 - **Solo** — 一人が AI 支援開発を主導します。少数の Agent Identity で複数の Position を担当できますが、Developer と Independent QA は分けます。
@@ -116,6 +118,7 @@ Temple は、有人監督のある低リスクなローカルプロジェクト�
 - [Temple terminology（英語）](docs/concepts/terminology.md) — Position、Agent Identity、Work Item、Evidence、運用プロファイル。
 - [Architecture（英語）](docs/concepts/architecture.md) — リポジトリ境界と正式な状態。
 - [Documentation map（英語）](docs/README.md) — コラボレーション、UI モード、トラッカー、品質保証、学習、検証、意思決定。
+- [Contributing（英語）](CONTRIBUTING.md)、[Code of Conduct（英語）](CODE_OF_CONDUCT.md)、[Security（英語）](SECURITY.md) — 参加方法と、行為上の問題や脆弱性を非公開で報告する窓口。
 
 ## 最終判断は人に残る
 

@@ -2,13 +2,17 @@
 
 ## Supported versions
 
-Temple is still preparing its first public Alpha. No public version is supported yet. After publication, security fixes will target the latest public Alpha only unless a release note states otherwise; older Alpha builds may be asked to upgrade before a fix is provided.
+Temple is still preparing its first public Alpha. No public version is supported yet. After publication, security fixes will target the latest GitHub pre-release only unless its release notes state otherwise; older Alpha builds may be asked to upgrade before a fix is provided.
 
 ## Report a vulnerability
 
-Do not disclose a suspected vulnerability, credential, private prompt, customer record, or repository evidence in a public issue. Before the repository becomes public, the maintainer must enable GitHub private vulnerability reporting and verify the **Security → Report a vulnerability** flow. Until that private route is available, public security reporting is not ready and publication remains blocked.
+Do not disclose a suspected vulnerability, credential, private prompt, customer record, or repository evidence in a public issue.
 
-This Alpha project does not promise a response-time SLA. A public release must name the supported version and private reporting route in its release notes.
+Once this repository is public, use GitHub's **Security → Report a vulnerability** flow as the primary private reporting channel. GitHub makes this repository-level flow available only after public visibility, so the maintainer must enable and verify it immediately after the controlled visibility change and before creating the first public tag or GitHub Release.
+
+During that transition, or if GitHub's private reporting flow is temporarily unavailable, email `zsz1210+oss.temple@gmail.com` with the subject prefix `[Temple][SECURITY]`. This Human-approved project alias is monitored by the maintainer. Do not reuse the conduct-reporting subject prefix for a vulnerability report.
+
+This Alpha project does not promise a response-time SLA. The first public release must name the supported version and confirm that GitHub private vulnerability reporting was enabled and tested.
 
 ## Repository and project data
 

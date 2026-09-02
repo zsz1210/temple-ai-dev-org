@@ -84,6 +84,8 @@ node ./templew.mjs observe .
 
 Temple 會安裝到每個產品專案裡；不必為每個產品各自 fork 一份框架。
 
+本版本庫根目錄的 `.ai-org/` 是 Temple 管理自身開發工作的紀錄。保留並公開這些內容，是為了讓人可以查核框架如何記錄決策、分工與驗證。這份 self-host 紀錄不會進入發行套件，也不會被帶進其他產品專案；每個完成初始化的專案都會建立並管理自己的狀態。
+
 ## 同一套模式，可以用在不同規模
 
 - **Solo** — 由一個人主導 AI 輔助開發。少數 Agent Identity 可以兼任多個 Position，但 Developer 與 Independent QA 必須分開。
@@ -116,6 +118,7 @@ Temple 會保留尚未解決的驗證缺口，不會把一次本機測試通過�
 - [Temple 術語表（英文）](docs/concepts/terminology.md) — Position、Agent Identity、Work Item、Evidence 與運作模式。
 - [系統架構（英文）](docs/concepts/architecture.md) — 版本庫界線與正式狀態。
 - [文件導覽（英文）](docs/README.md) — 多人協作、UI 模式、外部追蹤、品質保證、學習、驗證與決策。
+- [參與貢獻（英文）](CONTRIBUTING.md)、[行為準則（英文）](CODE_OF_CONDUCT.md)與[安全回報方式（英文）](SECURITY.md) — 說明如何參與，以及遇到行為事件或安全問題時該從哪個非公開管道聯絡。
 
 ## 最終決定仍由人類負責
 
