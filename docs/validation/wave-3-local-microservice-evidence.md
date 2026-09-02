@@ -1,7 +1,7 @@
 # Wave 3 local multi-repository service evidence
 
 - Work Item: `WI-0104`
-- Result: Developer rehearsal passed; Independent QA pending
+- Result: passed with Independent QA; retained local-only limits
 - Environment: one local Apple Silicon Mac, four disposable Git repositories, one isolated Colima profile
 - Product, production, enterprise, savings, and release claims: not established
 
@@ -82,4 +82,8 @@ This result supports only a single-human, single-machine, local four-repository 
 
 It does not show production networking, persistent databases, queues, load, authentication, encryption, fault tolerance, multi-machine Git conflict resolution, several human maintainers, hosted CI, cost savings, or Token savings. Model and Token fields are `not_applicable` because this was a deterministic no-generation validation.
 
-Independent QA must still reproduce the exact Temple candidate and verify the retained observation before `WI-0104` can close.
+## Independent QA
+
+Independent QA reviewed exact revision `6385b89d077e3507d7220d3ff935ffa26119369c` in a clean detached worktree. The full repository gate passed 280 of 280 tests, 59 separate retained-evidence assertions passed, and Doctor reported 36 passes, one non-blocking stale generated-plan warning, and zero failures.
+
+QA did not recreate the deleted Colima profile. The retained evidence was internally consistent and content-addressed; another download and run would create a different environmental sample without resolving an inconsistency. The stale plan must be rebuilt before future parallel dispatch but does not affect this sequential result.
