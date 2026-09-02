@@ -1,0 +1,27 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "3c94b998d01ff0a9daf03cb99998721f218ee846",
+  "command": [
+    "fresh detached candidate worktree: node --test test/optional-console-collector.test.mjs test/local-observer-service.test.mjs",
+    "fresh detached candidate worktree: npm run test:browser",
+    "fresh detached candidate worktree: git status --short"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T04:42:08.000Z",
+  "completed_at": "2026-09-02T04:42:44.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0100/quality-report.md",
+    ".ai-org/artifacts/WI-0101/quality-report.md"
+  ],
+  "summary": {
+    "focused_tests_passed": 12,
+    "focused_tests_failed": 0,
+    "browser_viewports_passed": 4,
+    "browser_primary_views_per_viewport": 6,
+    "reduced_motion": "pass",
+    "candidate_files_modified": false,
+    "dependency_link_untracked": true,
+    "environment_independence": "same-machine-local-detached-worktree"
+  }
+}

@@ -14031,6 +14031,313 @@
         "exit_code": 0,
         "started_at": "2026-09-02T03:49:59.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T044101Z-C40CC36D",
+      "work_item_id": "WI-0100",
+      "recorded_at": "2026-09-02T04:41:01.978Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Optional runtime split candidate",
+      "outcome": "verified",
+      "scope_revision": "3c94b998d01ff0a9daf03cb99998721f218ee846",
+      "observed_at": "2026-09-02T04:41:01.978Z",
+      "summary": "Exact candidate separating Temple Core, Management Console, and Usage Collector",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "3c94b998d01ff0a9daf03cb99998721f218ee846"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "3c94b998d01ff0a9daf03cb99998721f218ee846",
+        "working_tree_dirty": true,
+        "dirty_path_count": 7,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T044102Z-1B351D69",
+      "work_item_id": "WI-0100",
+      "recorded_at": "2026-09-02T04:41:02.213Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Optional runtime split verification",
+      "outcome": "pass",
+      "scope_revision": "3c94b998d01ff0a9daf03cb99998721f218ee846",
+      "observed_at": "2026-09-02T04:40:22.000Z",
+      "summary": "Node 24 full repository and browser verification passed",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0100/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0100/developer-test-observation.json",
+          "sha256": "c5192526c302931a65d274c3c6319048b85c5e7eef45e9d47e301d657f00d3d1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0100/developer-handoff.md",
+          "sha256": "71fd0e5f92c36587da573fd1da7ae745e0fe14cc676e468c6e6e44c988130377"
+        },
+        {
+          "path": "docs/adr/0044-optional-management-console-and-usage-collector.md",
+          "sha256": "1707d925305536bcfc57ac41da0a3ae97437f1729b224e63877a38c4004da4d1"
+        }
+      ],
+      "details": {
+        "command": [
+          "Node 24.20.0: npm run verify",
+          "Node 24.20.0: npm run test:browser"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T04:38:54.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T044102Z-5B098575",
+      "work_item_id": "WI-0101",
+      "recorded_at": "2026-09-02T04:41:02.637Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Read-only Console runtime visual review",
+      "outcome": "pass",
+      "scope_revision": "3c94b998d01ff0a9daf03cb99998721f218ee846",
+      "observed_at": "2026-09-02T04:36:30.000Z",
+      "summary": "Real Chrome desktop and mobile review passed without overflow or mutation surfaces",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0101/runtime-visual-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0101/runtime-visual-observation.json",
+          "sha256": "74f072c01d09c1b389ab082aa456056b51f3a9c71676eb8837af80b685f088fd"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0101/ui-design-brief.md",
+          "sha256": "d7e091322858f60da1f9bff4849bcc3fe8627986bdfb1249401dd418e6909d64"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0101/console-desktop.png",
+          "sha256": "be7777d6d953edaf4c85248741cd09a19309daf8f957439effee6eb21ffe58f0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0101/console-mobile.png",
+          "sha256": "18c86c26f157e20da96dd4fe9a0f30b95ee6b9a20ff575c7f0e570895e92afb0"
+        }
+      ],
+      "details": {
+        "environment": "Temple self-host worktree on the Mac Mini, Node.js 24.20.0, installed Chrome 152.0.7977.65, loopback Console-only process",
+        "scenario": "Start temple console start on an ephemeral loopback port, inspect the real project snapshot, verify the read-only DOM and browser console, and review desktop and mobile renders without starting usage collection",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260902T044319Z-307206FD",
+      "work_item_id": "WI-0100",
+      "recorded_at": "2026-09-02T04:43:19.465Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Optional runtime split Quality Evaluation",
+      "outcome": "pass",
+      "scope_revision": "3c94b998d01ff0a9daf03cb99998721f218ee846",
+      "observed_at": "2026-09-02T04:42:44.000Z",
+      "summary": "Fresh detached candidate passed focused and browser verification",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0100/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0100/quality-test-observation.json",
+          "sha256": "fdc70298d9c8ee035375c64b05fdd16871ebab095ef1bfdacdc5c75350fc7879"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0100/quality-report.md",
+          "sha256": "34f4fa9ba4055597c46ae873faf7c746749f53dc9c77787625dbd1a4371cdd13"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0101/quality-report.md",
+          "sha256": "1033d4d1a63a461a62bd1c181ace7158aaaca27cebaef9fef114efa587e122be"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached candidate worktree: node --test test/optional-console-collector.test.mjs test/local-observer-service.test.mjs",
+          "fresh detached candidate worktree: npm run test:browser",
+          "fresh detached candidate worktree: git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T04:42:08.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T044319Z-21ACDD9E",
+      "work_item_id": "WI-0101",
+      "recorded_at": "2026-09-02T04:43:19.662Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Read-only Console Quality Evaluation",
+      "outcome": "pass",
+      "scope_revision": "3c94b998d01ff0a9daf03cb99998721f218ee846",
+      "observed_at": "2026-09-02T04:42:44.000Z",
+      "summary": "Fresh detached candidate passed responsive visual and managed-service regression checks",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0101/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0101/quality-test-observation.json",
+          "sha256": "697b6df096157ce6ba521ca3c4c91f2ef1adff1d3355e4014b1eedfc0ddcead3"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0101/quality-report.md",
+          "sha256": "1033d4d1a63a461a62bd1c181ace7158aaaca27cebaef9fef114efa587e122be"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0101/runtime-visual-observation.json",
+          "sha256": "74f072c01d09c1b389ab082aa456056b51f3a9c71676eb8837af80b685f088fd"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached candidate worktree: node --test test/optional-console-collector.test.mjs test/local-observer-service.test.mjs",
+          "fresh detached candidate worktree: npm run test:browser",
+          "fresh detached candidate worktree: git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T04:42:08.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T044550Z-E44FDABA",
+      "work_item_id": "WI-0100",
+      "recorded_at": "2026-09-02T04:45:50.397Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Optional runtime split Independent QA",
+      "outcome": "pass",
+      "scope_revision": "3c94b998d01ff0a9daf03cb99998721f218ee846",
+      "observed_at": "2026-09-02T04:45:19.000Z",
+      "summary": "Second detached candidate passed full Node 24 and browser verification",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0100/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0100/independent-qa-test-observation.json",
+          "sha256": "cba177d900d7bfc5a44fc456855cde10c8f0cdf8146b2e1950da74282e319525"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0100/independent-qa-report.md",
+          "sha256": "15bf8b5d3c6c27a3d22d57189194628d924f1dad0ff1b15a663cd80e112a6fc0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0100/evaluation-report.md",
+          "sha256": "93ad5279e5ab6e0e0a3af0806d9745f44128c297d6bdadff40d99ba1f9348ef4"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0101/independent-qa-report.md",
+          "sha256": "3e73ade3d82757072a38798b73f1f3ae9009846864e22ce011f7d1c871e92d18"
+        }
+      ],
+      "details": {
+        "command": [
+          "second fresh detached candidate worktree: npm run verify",
+          "second fresh detached candidate worktree: npm run test:browser",
+          "second fresh detached candidate worktree: git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T04:43:42.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T044550Z-EC9B78F4",
+      "work_item_id": "WI-0101",
+      "recorded_at": "2026-09-02T04:45:50.598Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Read-only Console Independent QA",
+      "outcome": "pass",
+      "scope_revision": "3c94b998d01ff0a9daf03cb99998721f218ee846",
+      "observed_at": "2026-09-02T04:45:19.000Z",
+      "summary": "Second detached candidate passed full responsive and managed-service verification",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0101/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0101/independent-qa-test-observation.json",
+          "sha256": "779a82f62039c0e3734a8a62aac4ccaf5d7542229a640c6bbdc9e678a7e5c364"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0101/independent-qa-report.md",
+          "sha256": "3e73ade3d82757072a38798b73f1f3ae9009846864e22ce011f7d1c871e92d18"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0101/evaluation-report.md",
+          "sha256": "1f303087630d2b544caab0e61d90def4b3387552460395f9212b4beb9b699956"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0101/runtime-visual-observation.json",
+          "sha256": "74f072c01d09c1b389ab082aa456056b51f3a9c71676eb8837af80b685f088fd"
+        }
+      ],
+      "details": {
+        "command": [
+          "second fresh detached candidate worktree: npm run verify",
+          "second fresh detached candidate worktree: npm run test:browser",
+          "second fresh detached candidate worktree: git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T04:43:42.000Z"
+      }
     }
   ]
 }

@@ -1,0 +1,37 @@
+{
+  "schema_version": "temple.runtime-observation/v1",
+  "work_item_id": "WI-0101",
+  "revision": "3c94b998d01ff0a9daf03cb99998721f218ee846",
+  "environment": "Temple self-host worktree on the Mac Mini, Node.js 24.20.0, installed Chrome 152.0.7977.65, loopback Console-only process",
+  "scenario": "Start temple console start on an ephemeral loopback port, inspect the real project snapshot, verify the read-only DOM and browser console, and review desktop and mobile renders without starting usage collection",
+  "result": "pass",
+  "provenance": "live",
+  "observed_at": "2026-09-02T04:36:30.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0101/ui-design-brief.md",
+    ".ai-org/artifacts/WI-0101/console-desktop.png",
+    ".ai-org/artifacts/WI-0101/console-mobile.png"
+  ],
+  "console": {
+    "access_label": "Local · Read only",
+    "usage_collection_started": false,
+    "writer_lease_acquired": false,
+    "human_inbox_present": false,
+    "agent_commands_present": false,
+    "idle_process_rss_kib": 55008,
+    "sampled_idle_cpu_percent": 0.0
+  },
+  "visual_review": {
+    "desktop_viewport": "1200x768",
+    "desktop_screenshot_sha256": "be7777d6d953edaf4c85248741cd09a19309daf8f957439effee6eb21ffe58f0",
+    "mobile_viewport": "390x844",
+    "mobile_screenshot_sha256": "18c86c26f157e20da96dd4fe9a0f30b95ee6b9a20ff575c7f0e570895e92afb0",
+    "horizontal_overflow": false,
+    "console_errors": 0,
+    "console_warnings": 0
+  },
+  "measurement_limit": "One local point-in-time sample; not a universal performance claim",
+  "model_generation_requested": false,
+  "external_release_performed": false,
+  "publication_performed": false
+}
