@@ -1,0 +1,27 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "76bd063ce212fb696e8fccfef0857ce2c391f98d",
+  "command": [
+    "npm run check",
+    "119 retained-evidence, classification, privacy, tracker no-write, and revision-lineage assertions",
+    "git status --porcelain --untracked-files=all"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T10:18:36.000Z",
+  "completed_at": "2026-09-02T10:18:39.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0105/wave-4-operating-boundaries-observation.json",
+    "docs/validation/wave-4-operating-boundaries.md"
+  ],
+  "summary": {
+    "repository_checks": "pass",
+    "documentation_links": "pass",
+    "package_boundary": "pass",
+    "retained_evidence_assertions_passed": 119,
+    "matrix_rows": 15,
+    "not_run_rows": 5,
+    "candidate_clean_except_untracked_dependency_symlink": true,
+    "external_action_performed": false
+  }
+}
