@@ -1,0 +1,124 @@
+{
+  "schema_version": "temple.wave-5a-experiment-result/v1",
+  "work_item_id": "WI-0113",
+  "program_id": "wave-5a-process-feasibility",
+  "run_root": "/Users/zsz1210/Documents/ChatGPT/temple-wave-5a-lab-r8",
+  "status": "completed",
+  "turns_started": 4,
+  "turns_completed": 4,
+  "launch_attempts": 4,
+  "retry_count": 0,
+  "fallback_count": 0,
+  "aggregate": {
+    "input_tokens": 1648353,
+    "cached_input_tokens": 1508608,
+    "output_tokens": 13736,
+    "reasoning_output_tokens": 5804,
+    "gross_total_tokens": 1662089,
+    "operational_budget_tokens": 153481,
+    "operational_budget_basis": "input_tokens - cached_input_tokens + output_tokens",
+    "input_cache_ratio": 0.9152214362,
+    "elapsed_ms": 473047,
+    "disk_delta_bytes": 2699,
+    "rate_card_equivalent_credits": 1.865109
+  },
+  "candidates": [
+    {
+      "case_id": "idempotent-command",
+      "condition": "temple",
+      "package_id": "pkg-a8f8418fa85025ee",
+      "candidate_revision": "380533774f5ef7a8fdbe9ce04365d5224b71e715",
+      "quality_decision": "pass",
+      "quality_score": 1,
+      "public_tests": "pass",
+      "acceptance_tests": "pass",
+      "gross_total_tokens": 279546,
+      "operational_budget_tokens": 35578,
+      "latency_ms": 93809,
+      "rate_card_equivalent_credits": 0.372324
+    },
+    {
+      "case_id": "idempotent-command",
+      "condition": "minimal",
+      "package_id": "pkg-7bb7b3601bc292ce",
+      "candidate_revision": "c5448d51ab19f80f0270d6301c691a66f20263b7",
+      "quality_decision": "reject",
+      "quality_score": 0.5,
+      "public_tests": "pass",
+      "acceptance_tests": "fail",
+      "gross_total_tokens": 244116,
+      "operational_budget_tokens": 32916,
+      "latency_ms": 97510,
+      "rate_card_equivalent_credits": 0.345105
+    },
+    {
+      "case_id": "compatible-event-evolution",
+      "condition": "minimal",
+      "package_id": "pkg-b92fc9a2718746b5",
+      "candidate_revision": "46986248f543111e12bfa41fcc57bc33d91d0457",
+      "quality_decision": "pass",
+      "quality_score": 1,
+      "public_tests": "pass",
+      "acceptance_tests": "pass",
+      "gross_total_tokens": 222234,
+      "operational_budget_tokens": 31258,
+      "latency_ms": 81396,
+      "rate_card_equivalent_credits": 0.311103
+    },
+    {
+      "case_id": "compatible-event-evolution",
+      "condition": "temple",
+      "package_id": "pkg-62c2f96a857d5043",
+      "candidate_revision": "09dce85d5f661cae85b96e18608e74ce9272888b",
+      "quality_decision": "pass",
+      "quality_score": 1,
+      "public_tests": "pass",
+      "acceptance_tests": "pass",
+      "gross_total_tokens": 916193,
+      "operational_budget_tokens": 53729,
+      "latency_ms": 199726,
+      "rate_card_equivalent_credits": 0.836577
+    }
+  ],
+  "paired_interpretation": [
+    {
+      "case_id": "idempotent-command",
+      "qualified_for_resource_comparison": false,
+      "reason": "The minimal candidate failed a critical hidden acceptance requirement.",
+      "descriptive_only": {
+        "temple_budget_token_delta": 2662,
+        "temple_budget_token_delta_percent": 8.0873,
+        "temple_latency_delta_ms": -3701,
+        "temple_latency_delta_percent": -3.7955
+      }
+    },
+    {
+      "case_id": "compatible-event-evolution",
+      "qualified_for_resource_comparison": true,
+      "temple_budget_token_delta": 22471,
+      "temple_budget_token_delta_percent": 71.8888,
+      "temple_latency_delta_ms": 118330,
+      "temple_latency_delta_percent": 145.3757
+    }
+  ],
+  "interpretation": {
+    "live_execution_feasible": true,
+    "correlation_and_measurement_feasible": true,
+    "objective_quality_gate_feasible": true,
+    "independent_blind_evaluator_isolation_feasible": false,
+    "overall_mechanism_qualified": false,
+    "quality_gate_detected_public_test_blind_spot": true,
+    "causal_savings_claim": false,
+    "temple_superiority_claim": false,
+    "automatic_routing_authorized": false,
+    "statistical_qualification": false,
+    "note": "Only one pair passed objective quality in both conditions, and that pair used more operational-budget Tokens and time under Temple. The pilot validates execution, correlation, measurement, and hidden acceptance gating. Evaluator-context exposure means it does not validate independent blind scoring or an efficiency advantage."
+  },
+  "account_boundary": {
+    "automatic_credit_reload_disabled": true,
+    "purchased_credits_authorized": false,
+    "usage_reset_redeemed": false,
+    "rate_card_equivalent_is_billed_cost": false,
+    "billing_ledger_observed": false
+  }
+}

@@ -5,12 +5,15 @@ import test from "node:test";
 import {
   commandItemAllowed,
   commandTextAllowed,
+  isolateWave5CodexEnvironment,
   normalizeTokenUsage,
   parseStructuredCompletion,
   replayAppServerProtocol,
   terminalFailure,
   WAVE5_ALLOWED_COMMAND_PREFIXES,
-  WAVE5_COMPLETION_SCHEMA
+  WAVE5_COMPLETION_SCHEMA,
+  WAVE5_INHERITED_CODEX_ENVIRONMENT_KEYS,
+  wave5ThreadIsolation
 } from "../src/app-server-protocol-replay.mjs";
 
 const fixtureUrl = new URL("../.ai-org/artifacts/WI-0109/fixtures/app-server-event-replay.json", import.meta.url);
@@ -101,6 +104,24 @@ test("usage normalization preserves exact non-negative integers and rejects part
   assert.equal(normalizeTokenUsage({ tokenUsage: { total: { inputTokens: 1, cachedInputTokens: 0, outputTokens: 1, reasoningOutputTokens: -1, totalTokens: 2 } } }), null);
 });
 
+test("Wave 5 child threads exclude parent task identity and host capability context", () => {
+  const inherited = Object.fromEntries([
+    ...WAVE5_INHERITED_CODEX_ENVIRONMENT_KEYS.map((key) => [key, "parent-value"]),
+    ["PATH", "/usr/bin"]
+  ]);
+  const isolated = isolateWave5CodexEnvironment(inherited);
+  assert.equal(isolated.PATH, "/usr/bin");
+  for (const key of WAVE5_INHERITED_CODEX_ENVIRONMENT_KEYS) assert.equal(key in isolated, false, key);
+
+  const thread = wave5ThreadIsolation("/tmp/candidate");
+  assert.equal(thread.allowProviderModelFallback, false);
+  assert.equal(thread.ephemeral, true);
+  assert.match(thread.baseInstructions, /bounded coding worker/);
+  assert.equal("runtimeWorkspaceRoots" in thread, false);
+  assert.equal("selectedCapabilityRoots" in thread, false);
+  assert.equal("environments" in thread, false);
+});
+
 test("terminal classification distinguishes structured-output rejection from other incomplete turns", () => {
   assert.equal(terminalFailure({ id: "turn-1", status: "completed" }), null);
   assert.deepEqual(terminalFailure({ status: "failed", error: { code: "invalid_json_schema" } }), {
@@ -154,15 +175,20 @@ test("the live runner imports the replayed helpers and pins the fixture's instal
   const runner = await fs.readFile(runnerUrl, "utf8");
   for (const name of [
     "commandItemAllowed",
+    "inspectGitRepository",
+    "isolateWave5CodexEnvironment",
     "normalizeTokenUsage",
     "parseStructuredCompletion",
     "protocolViolationForMessage",
     "terminalFailure",
-    "WAVE5_COMPLETION_SCHEMA"
+    "WAVE5_COMPLETION_SCHEMA",
+    "wave5ThreadIsolation"
   ]) {
     assert.match(runner, new RegExp(`\\b${name}\\b`), name);
   }
   assert.ok(runner.includes(document.provenance.item_started_schema_sha256));
+  assert.match(runner, /exactly one allowlisted command per shell tool call/);
+  assert.match(runner, /Never combine commands/);
 });
 
 test("the replay implementation remains pure and fixtures retain no raw content fields", async () => {

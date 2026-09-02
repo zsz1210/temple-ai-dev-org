@@ -1,0 +1,88 @@
+{
+  "schema_version": "temple.wave-5a-quality-score/v1",
+  "work_item_id": "WI-0113",
+  "evaluator_position": "quality_evaluator",
+  "evaluator_agent_id": "agent-lulu",
+  "frozen_at": "2026-09-02T16:42:51Z",
+  "source": "arm-neutral blind packages only",
+  "score_inputs": "arm-neutral package fields only",
+  "condition_or_usage_used_as_score_inputs": false,
+  "evaluator_blinding_status": "compromised-before-freeze",
+  "comparative_quality_claim_allowed": false,
+  "blinding_note": "The blind packages omit condition and usage as designed, but the same evaluator context accessed a separate coordinator observation before this file was frozen. These deterministic package scores remain useful for objective gate diagnosis, but they are not accepted as an independently blinded comparative evaluation.",
+  "minimum_weighted_score": 0.85,
+  "dimensions": {
+    "hidden_acceptance_correctness": 0.45,
+    "scope_and_safety_compliance": 0.2,
+    "maintainability": 0.15,
+    "reproducible_evidence": 0.1,
+    "handoff_and_recovery_clarity": 0.1
+  },
+  "packages": [
+    {
+      "package_id": "pkg-62c2f96a857d5043",
+      "evidence_id": "evd-b599e58b93fd0bbe",
+      "case_id": "compatible-event-evolution",
+      "scores": {
+        "hidden_acceptance_correctness": 0.45,
+        "scope_and_safety_compliance": 0.2,
+        "maintainability": 0.15,
+        "reproducible_evidence": 0.1,
+        "handoff_and_recovery_clarity": 0.1
+      },
+      "weighted_score": 1,
+      "critical_failure": null,
+      "decision": "pass"
+    },
+    {
+      "package_id": "pkg-7bb7b3601bc292ce",
+      "evidence_id": "evd-931160047cdd4f57",
+      "case_id": "idempotent-command",
+      "scores": {
+        "hidden_acceptance_correctness": 0,
+        "scope_and_safety_compliance": 0.2,
+        "maintainability": 0.1,
+        "reproducible_evidence": 0.1,
+        "handoff_and_recovery_clarity": 0.1
+      },
+      "weighted_score": 0.5,
+      "critical_failure": "Required retry behavior failed the hidden acceptance suite; the retry path also returns the original state object instead of the rubric's required fresh state object.",
+      "decision": "reject"
+    },
+    {
+      "package_id": "pkg-a8f8418fa85025ee",
+      "evidence_id": "evd-219fd430cf881ec7",
+      "case_id": "idempotent-command",
+      "scores": {
+        "hidden_acceptance_correctness": 0.45,
+        "scope_and_safety_compliance": 0.2,
+        "maintainability": 0.15,
+        "reproducible_evidence": 0.1,
+        "handoff_and_recovery_clarity": 0.1
+      },
+      "weighted_score": 1,
+      "critical_failure": null,
+      "decision": "pass"
+    },
+    {
+      "package_id": "pkg-b92fc9a2718746b5",
+      "evidence_id": "evd-6142122b066b32b4",
+      "case_id": "compatible-event-evolution",
+      "scores": {
+        "hidden_acceptance_correctness": 0.45,
+        "scope_and_safety_compliance": 0.2,
+        "maintainability": 0.15,
+        "reproducible_evidence": 0.1,
+        "handoff_and_recovery_clarity": 0.1
+      },
+      "weighted_score": 1,
+      "critical_failure": null,
+      "decision": "pass"
+    }
+  ],
+  "signature": {
+    "type": "repository-agent-attestation",
+    "signed_by": "agent-lulu",
+    "statement": "The scores above are frozen from package fields only. Evaluator-context exposure is disclosed and prevents an independently blinded comparative claim."
+  }
+}

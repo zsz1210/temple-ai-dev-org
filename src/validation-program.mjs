@@ -494,6 +494,7 @@ function initialState(resolved, now) {
       turns_completed: 0,
       launch_attempts: 0,
       aggregate_tokens: 0,
+      aggregate_budget_tokens: 0,
       program_elapsed_ms: 0,
       aggregate_disk_delta_bytes: 0
     },
@@ -506,6 +507,8 @@ function initialState(resolved, now) {
       completed_at: null,
       duration_ms: null,
       total_tokens: 0,
+      budget_tokens: 0,
+      usage: null,
       before_revision: null,
       after_revision: null,
       changed_paths: [],
@@ -532,17 +535,17 @@ function hardProgramCheck(state, limits, elapsed) {
   state.counters.program_elapsed_ms = elapsed;
   if (state.counters.launch_attempts >= limits.max_launch_attempts) return ["max-launch-attempts", "maximum launch attempts reached"];
   if (state.counters.turns_started >= limits.max_turns) return ["max-turns", "maximum turns reached"];
-  if (state.counters.aggregate_tokens >= limits.aggregate_hard_tokens) return ["aggregate-token-hard-limit", "aggregate Token hard limit reached"];
+  if (state.counters.aggregate_budget_tokens >= limits.aggregate_hard_tokens) return ["aggregate-token-hard-limit", "aggregate non-cached Token budget hard limit reached"];
   if (elapsed >= limits.program_hard_ms) return ["program-time-hard-limit", "program wall-clock hard limit reached"];
   if (state.counters.aggregate_disk_delta_bytes >= limits.aggregate_hard_bytes) return ["aggregate-disk-hard-limit", "aggregate disk hard limit reached"];
   return null;
 }
 
 function updateWarnings(state, limits, turnState = null, projectId = null) {
-  if (state.counters.aggregate_tokens >= limits.aggregate_warning_tokens) warning(state, "aggregate-token-warning");
+  if (state.counters.aggregate_budget_tokens >= limits.aggregate_warning_tokens) warning(state, "aggregate-token-warning");
   if (state.counters.program_elapsed_ms >= limits.program_warning_ms) warning(state, "program-time-warning");
   if (state.counters.aggregate_disk_delta_bytes >= limits.aggregate_warning_bytes) warning(state, "aggregate-disk-warning");
-  if (turnState?.total_tokens >= limits.per_turn_warning_tokens) warning(state, "per-turn-token-warning", { turn_id: turnState.id });
+  if (turnState?.budget_tokens >= limits.per_turn_warning_tokens) warning(state, "per-turn-token-warning", { turn_id: turnState.id });
   if (turnState?.duration_ms >= limits.per_turn_warning_ms) warning(state, "per-turn-time-warning", { turn_id: turnState.id });
   if (turnState?.disk_delta_bytes >= limits.per_repository_warning_bytes) warning(state, "per-repository-disk-warning", { project_id: projectId });
 }
@@ -551,6 +554,34 @@ function integerTotalTokens(usage) {
   const value = usage?.total_tokens ?? usage?.total?.total_tokens ?? usage?.last?.total_tokens;
   if (!Number.isSafeInteger(value) || value < 0) throw new Error("usage total_tokens must be a non-negative safe integer");
   return value;
+}
+
+function usageField(usage, field) {
+  const value = usage?.[field] ?? usage?.total?.[field] ?? usage?.last?.[field];
+  return Number.isSafeInteger(value) && value >= 0 ? value : null;
+}
+
+export function normalizeValidationUsage(usage) {
+  const totalTokens = integerTotalTokens(usage);
+  const inputTokens = usageField(usage, "input_tokens");
+  const cachedInputTokens = usageField(usage, "cached_input_tokens");
+  const outputTokens = usageField(usage, "output_tokens");
+  const reasoningOutputTokens = usageField(usage, "reasoning_output_tokens");
+  const detailed = [inputTokens, cachedInputTokens, outputTokens, reasoningOutputTokens].every((value) => value !== null);
+  if (detailed && cachedInputTokens > inputTokens) throw new Error("usage cached_input_tokens must not exceed input_tokens");
+  return {
+    input_tokens: inputTokens,
+    cached_input_tokens: cachedInputTokens,
+    output_tokens: outputTokens,
+    reasoning_output_tokens: reasoningOutputTokens,
+    total_tokens: totalTokens,
+    budget_tokens: detailed ? inputTokens - cachedInputTokens + outputTokens : totalTokens,
+    budget_basis: detailed ? "noncached-input-plus-output" : "gross-total-fallback"
+  };
+}
+
+function candidateLocalStop(code) {
+  return ["per-turn-token-hard-limit", "per-turn-time-hard-limit"].includes(code);
 }
 
 async function timeoutRace(promise, delay, controller, code) {
@@ -610,6 +641,11 @@ export async function runValidationProgram(options) {
     throw new Error("validation state belongs to another program");
   }
   if (state.manifest_digest !== resolved.manifest_digest) throw new Error("validation manifest changed after the checkpoint was created");
+  state.counters.aggregate_budget_tokens ??= state.counters.aggregate_tokens ?? 0;
+  for (const turnState of Object.values(state.turns)) {
+    turnState.budget_tokens ??= turnState.total_tokens ?? 0;
+    turnState.usage ??= null;
+  }
   const startedAtMs = Date.parse(state.started_at);
   if (!Number.isFinite(startedAtMs)) throw new Error("validation state has an invalid started_at timestamp");
   if (state.status === "completed" || state.status === "stopped") return { state, statePath, eventsPath, resumed: true };
@@ -700,16 +736,24 @@ export async function runValidationProgram(options) {
     const outcomes = await Promise.all(prepared.map(async ({ turn, participant, before, turnState }) => {
       const controller = new AbortController();
       let lastTokens = turnState.total_tokens;
+      let lastBudgetTokens = turnState.budget_tokens;
       let tokenStopCode = null;
       const turnStartedMs = Date.parse(turnState.started_at);
       const onUsage = async (usage) => {
-        const totalTokens = integerTotalTokens(usage);
+        const snapshot = normalizeValidationUsage(usage);
+        const totalTokens = snapshot.total_tokens;
+        const budgetTokens = snapshot.budget_tokens;
         if (totalTokens < lastTokens) throw new Error("usage total_tokens decreased within one turn");
+        if (budgetTokens < lastBudgetTokens) throw new Error("usage budget_tokens decreased within one turn");
         state.counters.aggregate_tokens += totalTokens - lastTokens;
+        state.counters.aggregate_budget_tokens += budgetTokens - lastBudgetTokens;
         lastTokens = totalTokens;
+        lastBudgetTokens = budgetTokens;
         turnState.total_tokens = totalTokens;
-        if (totalTokens >= limits.per_turn_hard_tokens) tokenStopCode = "per-turn-token-hard-limit";
-        if (state.counters.aggregate_tokens >= limits.aggregate_hard_tokens) tokenStopCode = "aggregate-token-hard-limit";
+        turnState.budget_tokens = budgetTokens;
+        turnState.usage = snapshot;
+        if (budgetTokens >= limits.per_turn_hard_tokens) tokenStopCode = "per-turn-token-hard-limit";
+        if (state.counters.aggregate_budget_tokens >= limits.aggregate_hard_tokens) tokenStopCode = "aggregate-token-hard-limit";
         updateWarnings(state, limits, turnState, turn.project_id);
         state.updated_at = now().toISOString();
         await writeState(state);
@@ -721,12 +765,36 @@ export async function runValidationProgram(options) {
           turn_id: turn.id,
           project_id: turn.project_id,
           total_tokens: totalTokens,
+          input_tokens: snapshot.input_tokens,
+          cached_input_tokens: snapshot.cached_input_tokens,
+          output_tokens: snapshot.output_tokens,
+          reasoning_output_tokens: snapshot.reasoning_output_tokens,
+          budget_tokens: budgetTokens,
+          budget_basis: snapshot.budget_basis,
           aggregate_tokens: state.counters.aggregate_tokens,
+          aggregate_budget_tokens: state.counters.aggregate_budget_tokens,
           interrupt_requested: tokenStopCode !== null,
           stop_code: tokenStopCode
         });
         if (tokenStopCode && !controller.signal.aborted) controller.abort(new Error(tokenStopCode));
         return { interrupt: tokenStopCode !== null, reason: tokenStopCode };
+      };
+      const observeRepositoryAfterTurn = async () => {
+        const after = await inspectRepository(participant.root, { baseRevision: before.revision });
+        const currentBytes = await measureDisk(participant.root);
+        const baseline = state.repository_baselines[turn.project_id];
+        baseline.current_bytes = currentBytes;
+        baseline.disk_delta_bytes = Math.max(0, currentBytes - baseline.bytes);
+        state.counters.aggregate_disk_delta_bytes = Object.values(state.repository_baselines)
+          .reduce((sum, entry) => sum + (entry.disk_delta_bytes ?? 0), 0);
+        turnState.after_revision = after.revision;
+        turnState.changed_paths = after.changed_paths;
+        turnState.disk_delta_bytes = baseline.disk_delta_bytes;
+        return {
+          after,
+          baseline,
+          disallowed: after.changed_paths.filter((changedPath) => !changedPathAllowed(changedPath, turn.allowed_paths))
+        };
       };
       try {
         const programRemaining = Math.max(1, limits.program_hard_ms - Math.max(0, now().getTime() - startedAtMs));
@@ -745,18 +813,8 @@ export async function runValidationProgram(options) {
           programRemaining <= limits.per_turn_hard_ms ? "program-time-hard-limit" : "per-turn-time-hard-limit"
         );
         if (result?.usage) await onUsage(result.usage);
-        const after = await inspectRepository(participant.root, { baseRevision: before.revision });
-        const disallowed = after.changed_paths.filter((changedPath) => !changedPathAllowed(changedPath, turn.allowed_paths));
-        const currentBytes = await measureDisk(participant.root);
-        const baseline = state.repository_baselines[turn.project_id];
-        baseline.current_bytes = currentBytes;
-        baseline.disk_delta_bytes = Math.max(0, currentBytes - baseline.bytes);
-        state.counters.aggregate_disk_delta_bytes = Object.values(state.repository_baselines)
-          .reduce((sum, entry) => sum + (entry.disk_delta_bytes ?? 0), 0);
+        const { after, baseline, disallowed } = await observeRepositoryAfterTurn();
         turnState.duration_ms = Math.max(0, now().getTime() - turnStartedMs);
-        turnState.after_revision = after.revision;
-        turnState.changed_paths = after.changed_paths;
-        turnState.disk_delta_bytes = baseline.disk_delta_bytes;
         updateWarnings(state, limits, turnState, turn.project_id);
         if (tokenStopCode) throw Object.assign(new Error(tokenStopCode), { code: tokenStopCode });
         if (turnState.duration_ms >= limits.per_turn_hard_ms) throw Object.assign(new Error("per-turn-time-hard-limit"), { code: "per-turn-time-hard-limit" });
@@ -777,6 +835,8 @@ export async function runValidationProgram(options) {
           turn_id: turn.id,
           project_id: turn.project_id,
           total_tokens: turnState.total_tokens,
+          budget_tokens: turnState.budget_tokens,
+          usage: turnState.usage,
           duration_ms: turnState.duration_ms,
           disk_delta_bytes: turnState.disk_delta_bytes,
           before_revision: turnState.before_revision,
@@ -785,11 +845,15 @@ export async function runValidationProgram(options) {
         });
         return null;
       } catch (error) {
+        const { baseline, disallowed } = await observeRepositoryAfterTurn();
         turnState.status = "stopped";
         turnState.completed_at = now().toISOString();
         turnState.duration_ms = Math.max(0, now().getTime() - turnStartedMs);
         turnState.stop_code = error.code ?? tokenStopCode ?? "turn-launch-failed";
         turnState.result = "stopped";
+        if (disallowed.length > 0) turnState.stop_code = "path-allowlist-violation";
+        else if (baseline.disk_delta_bytes >= limits.per_repository_hard_bytes) turnState.stop_code = "per-repository-disk-hard-limit";
+        else if (state.counters.aggregate_disk_delta_bytes >= limits.aggregate_hard_bytes) turnState.stop_code = "aggregate-disk-hard-limit";
         state.updated_at = turnState.completed_at;
         await writeState(state);
         await appendEvent({
@@ -800,12 +864,20 @@ export async function runValidationProgram(options) {
           turn_id: turn.id,
           project_id: turn.project_id,
           stop_code: turnState.stop_code,
-          message: String(error.message ?? error).slice(0, 500)
+          message: String(error.message ?? error).slice(0, 500),
+          total_tokens: turnState.total_tokens,
+          budget_tokens: turnState.budget_tokens,
+          usage: turnState.usage,
+          disk_delta_bytes: turnState.disk_delta_bytes,
+          before_revision: turnState.before_revision,
+          after_revision: turnState.after_revision,
+          changed_paths: turnState.changed_paths
         });
         return { code: turnState.stop_code, message: String(error.message ?? error), turn_id: turn.id, wave_id: wave.id, project_id: turn.project_id };
       }
     }));
-    const failed = outcomes.find(Boolean);
+    const failed = outcomes.find((outcome) => outcome && !candidateLocalStop(outcome.code));
+    const isolated = outcomes.filter((outcome) => outcome && candidateLocalStop(outcome.code));
     state.counters.program_elapsed_ms = Math.max(0, now().getTime() - startedAtMs);
     state.updated_at = now().toISOString();
     if (failed) {
@@ -813,6 +885,15 @@ export async function runValidationProgram(options) {
       state.waves[wave.id].status = "stopped";
       await writeState(state);
       break;
+    }
+    for (const outcome of isolated) {
+      warning(state, "candidate-local-stop", { turn_id: outcome.turn_id, project_id: outcome.project_id });
+      await appendEvent({
+        at: state.updated_at,
+        type: "candidate-stop-isolated",
+        program_id: state.program_id,
+        ...outcome
+      });
     }
     state.waves[wave.id] = { status: "completed", completed_at: now().toISOString() };
     await writeState(state);

@@ -1,0 +1,33 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "25a9b2a6fa1bbdf0060ef6a72e9b253aafa9a080",
+  "command": [
+    "npm run check",
+    "node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
+    "validate experiment-result.json and quality-scores-frozen.json invariants",
+    "inspect four arm-neutral packages and disclose evaluator-context exposure"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T16:55:43.000Z",
+  "completed_at": "2026-09-02T16:55:46.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0113/quality-report.md",
+    ".ai-org/artifacts/WI-0113/quality-scores-frozen.json",
+    ".ai-org/artifacts/WI-0113/experiment-result.json",
+    ".ai-org/artifacts/WI-0113/developer-report.md"
+  ],
+  "summary": {
+    "repository_checks_passed": true,
+    "focused_tests_passed": 23,
+    "blind_packages_checked": 4,
+    "candidate_quality_passed": 3,
+    "candidate_quality_rejected": 1,
+    "implementation_acceptance_passed": true,
+    "experiment_qualified": false,
+    "independent_blind_evaluator_isolation_preserved": false,
+    "causal_claim_allowed": false,
+    "automatic_routing_allowed": false,
+    "external_write_performed": false
+  }
+}

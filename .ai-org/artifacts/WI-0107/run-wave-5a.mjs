@@ -10,17 +10,21 @@ import {
   createJsonRpcProcess
 } from "../../../src/codex-app-server-provider.mjs";
 import {
+  inspectGitRepository,
   runValidationProgram,
   validateValidationProgramManifest
 } from "../../../src/validation-program.mjs";
 import {
   commandItemAllowed,
+  isolateWave5CodexEnvironment,
   normalizeTokenUsage,
   parseStructuredCompletion,
   protocolViolationForMessage,
   terminalFailure,
   WAVE5_ALLOWED_COMMAND_PREFIXES,
-  WAVE5_COMPLETION_SCHEMA
+  WAVE5_COMPLETION_SCHEMA,
+  WAVE5_INHERITED_CODEX_ENVIRONMENT_KEYS,
+  wave5ThreadIsolation
 } from "../../../src/app-server-protocol-replay.mjs";
 
 const execFile = promisify(execFileCallback);
@@ -157,6 +161,27 @@ async function readApproval() {
 async function protocolPreflight() {
   const blockers = [];
   const checks = [];
+  const isolatedEnvironment = isolateWave5CodexEnvironment(Object.fromEntries([
+    ...WAVE5_INHERITED_CODEX_ENVIRONMENT_KEYS.map((key) => [key, "inherited"]),
+    ["PATH", "/usr/bin"]
+  ]));
+  const environmentIsolationPass = isolatedEnvironment.PATH === "/usr/bin" &&
+    WAVE5_INHERITED_CODEX_ENVIRONMENT_KEYS.every((key) => !(key in isolatedEnvironment));
+  checks.push({
+    id: "parent-codex-environment-isolated",
+    pass: environmentIsolationPass,
+    removed_keys: WAVE5_INHERITED_CODEX_ENVIRONMENT_KEYS
+  });
+  if (!environmentIsolationPass) blockers.push("parent-codex-environment-not-isolated");
+  const threadIsolation = wave5ThreadIsolation("/tmp/candidate");
+  const threadIsolationPass = threadIsolation.ephemeral === true &&
+    threadIsolation.allowProviderModelFallback === false &&
+    typeof threadIsolation.baseInstructions === "string" &&
+    !("runtimeWorkspaceRoots" in threadIsolation) &&
+    !("selectedCapabilityRoots" in threadIsolation) &&
+    !("environments" in threadIsolation);
+  checks.push({ id: "thread-context-isolated", pass: threadIsolationPass });
+  if (!threadIsolationPass) blockers.push("thread-context-not-isolated");
   const serializedOutputSchema = JSON.stringify(completionSchema);
   const outputSchemaPass = !serializedOutputSchema.includes('"uniqueItems"');
   checks.push({
@@ -348,8 +373,7 @@ async function runTests(root, caseId) {
 }
 
 async function changedPaths(root) {
-  const output = await git(root, ["status", "--porcelain=v1", "-z", "--untracked-files=all"]);
-  return output.split("\0").filter(Boolean).map((record) => record.slice(3)).filter(Boolean).sort();
+  return (await inspectGitRepository(root)).dirty_paths;
 }
 
 function allowedPath(candidate) {
@@ -427,6 +451,7 @@ async function launchTurn({ turn, participant, instruction_path: instructionPath
   const developerInstructions = [
     "This is one bounded controlled-comparison candidate. Do not create subagents or ask the user questions.",
     `Allowed command prefixes: ${toolPolicy.allowed_command_prefixes.map((entry) => entry.join(" ")).join(", ")}.`,
+    "Submit exactly one allowlisted command per shell tool call. Never combine commands or use control operators, pipes, redirects, command substitutions, or printf; use separate tool calls instead.",
     "Do not inspect any path outside the current candidate repository. Do not modify Temple lifecycle files; the coordinator owns them.",
     "Change only src/ and test/. Network access, dependency installation, retries, fallback models, external services, and external writes are prohibited.",
     "Use apply_patch for file changes. Complete one attempt only and return only the requested structured completion record."
@@ -453,6 +478,7 @@ async function launchTurn({ turn, participant, instruction_path: instructionPath
 
   connection = createJsonRpcProcess("codex", ["app-server", "--stdio"], {
     cwd: participant.root,
+    env: isolateWave5CodexEnvironment(process.env),
     onNotification(message) {
       const params = message.params ?? {};
       if (message.method === "thread/tokenUsage/updated" && (!turnId || params.turnId === turnId)) {
@@ -496,15 +522,21 @@ async function launchTurn({ turn, participant, instruction_path: instructionPath
       capabilities: { experimentalApi: false }
     });
     connection.notify("initialized", {});
-    const threadResponse = await connection.request("thread/start", {
-      model: turn.requested_model,
-      cwd: participant.root,
-      approvalPolicy: "never",
-      sandbox: "workspace-write",
-      serviceName: `temple-wave-5a-${turn.id}`,
-      developerInstructions,
-      ephemeral: false
-    });
+    let threadResponse;
+    try {
+      threadResponse = await connection.request("thread/start", {
+        model: turn.requested_model,
+        cwd: participant.root,
+        approvalPolicy: "never",
+        sandbox: "workspace-write",
+        serviceName: `temple-wave-5a-${turn.id}`,
+        developerInstructions,
+        ...wave5ThreadIsolation(participant.root)
+      });
+    } catch (error) {
+      const reason = error.providerReason ? `: ${error.providerReason}` : "";
+      throw Object.assign(new Error(`Provider rejected thread/start${reason}`), { code: "provider-thread-start-rejected" });
+    }
     threadId = threadResponse?.thread?.id;
     if (!threadId) throw Object.assign(new Error("thread/start did not return a thread ID"), { code: "thread-start-invalid" });
     if (threadResponse.model !== turn.requested_model) {

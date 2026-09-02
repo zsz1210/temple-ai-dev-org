@@ -17101,6 +17101,205 @@
         "exit_code": 0,
         "started_at": "2026-09-02T15:46:48.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T165344Z-011A4014",
+      "work_item_id": "WI-0113",
+      "recorded_at": "2026-09-02T16:53:44.114Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Wave 5A autonomous runner and completed result",
+      "outcome": "verified",
+      "scope_revision": "d5c00fd23ef48f5dc1327e6eb73a51ef8293f1fb",
+      "observed_at": "2026-09-02T16:53:44.114Z",
+      "summary": "Corrects token budgeting, isolation, filesystem observation, candidate-local stops, and retains the completed four-turn feasibility result.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "d5c00fd23ef48f5dc1327e6eb73a51ef8293f1fb"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "d5c00fd23ef48f5dc1327e6eb73a51ef8293f1fb",
+        "working_tree_dirty": true,
+        "dirty_path_count": 1,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T165344Z-3981C8B3",
+      "work_item_id": "WI-0113",
+      "recorded_at": "2026-09-02T16:53:44.322Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer verification and live Wave 5A run",
+      "outcome": "pass",
+      "scope_revision": "25a9b2a6fa1bbdf0060ef6a72e9b253aafa9a080",
+      "observed_at": "2026-09-02T16:53:03.000Z",
+      "summary": "291 repository tests passed; all four live turns completed; four blind packages and exact candidate revisions retained.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0113/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0113/developer-test-observation.json",
+          "sha256": "d66aecf66ae2ce9df1b569cc9bb26272e0411b5388fa16121446e014bf068632"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0113/developer-report.md",
+          "sha256": "595aa6116135e91c65b9e232ba680e4dff7c455f20b490c17520a643c038e7bf"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0113/experiment-result.json",
+          "sha256": "14c377df3fd1691e555c10701b243a0c17961b39e683122ff4415b653ef4b543"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0113/quality-scores-frozen.json",
+          "sha256": "cd5b5f67edb4309003866548f43d75d98a12612d6053d50a965fed1545b1911d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0113/preflight-observation.json",
+          "sha256": "d86d49c4f21143ab4c28efa41e0f9c16f481b97132225e0828a338d18e72ebcb"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0113/technical-design.md",
+          "sha256": "36312781c28b0f85c15d0001097c56a41287f83e7a46cde39324e6bf81cb5c54"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify",
+          "node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
+          "node .ai-org/artifacts/WI-0107/run-wave-5a.mjs --work-item-id WI-0113 --approval-path .ai-org/artifacts/WI-0113/account-approval.json --preflight-output .ai-org/artifacts/WI-0113/preflight-observation.json --lab-root /Users/zsz1210/Documents/ChatGPT/temple-wave-5a-lab-r8",
+          "re-run public and hidden acceptance suites against all four exact candidate revisions",
+          "assert every candidate repository is clean"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T16:32:23.423Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T165642Z-B124885A",
+      "work_item_id": "WI-0113",
+      "recorded_at": "2026-09-02T16:56:42.706Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality evaluation of Wave 5A execution and result",
+      "outcome": "pass",
+      "scope_revision": "1a9386a565d4b3d1e017c262b8ad635999ce1f16",
+      "observed_at": "2026-09-02T16:55:46.000Z",
+      "summary": "Implementation passes; experiment remains unqualified because one candidate failed and evaluator blinding was not isolated.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0113/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0113/quality-test-observation.json",
+          "sha256": "4ef01c452888615eca0a20b0d3c6dd04613b77bd21da37cabe2453e340293948"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0113/quality-report.md",
+          "sha256": "6f74685650d5419a2ecfffb477eea7ae713383c9fa5ad401cd8c2f38378c13e8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0113/quality-scores-frozen.json",
+          "sha256": "cd5b5f67edb4309003866548f43d75d98a12612d6053d50a965fed1545b1911d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0113/experiment-result.json",
+          "sha256": "14c377df3fd1691e555c10701b243a0c17961b39e683122ff4415b653ef4b543"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0113/developer-report.md",
+          "sha256": "595aa6116135e91c65b9e232ba680e4dff7c455f20b490c17520a643c038e7bf"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run check",
+          "node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
+          "validate experiment-result.json and quality-scores-frozen.json invariants",
+          "inspect four arm-neutral packages and disclose evaluator-context exposure"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T16:55:43.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T170337Z-F260B56D",
+      "work_item_id": "WI-0113",
+      "recorded_at": "2026-09-02T17:03:37.448Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA of WI-0113 autonomous runner",
+      "outcome": "pass",
+      "scope_revision": "6f8596bbc90b9f42644040584ec0f0d78daa4f4a",
+      "observed_at": "2026-09-02T17:02:48.000Z",
+      "summary": "Fresh detached revision passes 291 tests; Doctor has no failures; experiment limits and non-qualification are retained honestly.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0113/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0113/independent-qa-observation.json",
+          "sha256": "f1934dfdd9b91db63f5f87c92927157ba15204f2570d4e79f6c50e9cb4ed493e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0113/independent-qa-report.md",
+          "sha256": "b58dfd8473fea1b235d6e5b7aa8bc22f378c6884be3660cde33c1ec55e91ed37"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0113/quality-report.md",
+          "sha256": "6f74685650d5419a2ecfffb477eea7ae713383c9fa5ad401cd8c2f38378c13e8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0113/experiment-result.json",
+          "sha256": "14c377df3fd1691e555c10701b243a0c17961b39e683122ff4415b653ef4b543"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0113/evidence-correction.md",
+          "sha256": "8c9706154ff8db6924c430f30bf43bde207fa13048d2fc0c673e7d35503eba71"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached exact revision: npm run verify",
+          "fresh detached exact revision: node ./templew.mjs doctor . --json",
+          "independently re-run all four candidate public and hidden acceptance suites",
+          "assert all four exact candidate repositories are clean",
+          "recompute aggregate usage and paired descriptive deltas",
+          "inspect disclosure of evaluator-context exposure and prohibited claims"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T17:00:59.000Z"
+      }
     }
   ]
 }
