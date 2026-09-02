@@ -180,7 +180,7 @@
       ".ai-org/artifacts/WI-0104/evaluation-report.md"
     ],
     "independent_qa_pass": [
-      "EVID-20260902T093947Z-A40D1F9F"
+      "EVID-20260902T094219Z-035B0FB7"
     ]
   },
   "evidence": [
@@ -199,7 +199,7 @@
     ".ai-org/artifacts/WI-0104/handoff-003-independent_qa-to-release_manager.md",
     ".ai-org/artifacts/WI-0104/independent-qa-report.md",
     ".ai-org/artifacts/WI-0104/independent-qa-test-observation.json",
-    "EVID-20260902T093947Z-A40D1F9F"
+    "EVID-20260902T094219Z-035B0FB7"
   ],
   "unresolved": [
     "Independent QA has not yet reviewed the exact candidate.",
