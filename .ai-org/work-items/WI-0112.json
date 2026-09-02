@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0112",
   "title": "Run quote-aware Wave 5A controlled comparison",
-  "state": "independent_qa",
-  "owner_position": "independent_qa",
-  "assigned_agent_id": "agent-lulu",
+  "state": "blocked",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-02T15:36:32.112Z",
-  "updated_at": "2026-09-02T15:46:50.699Z",
+  "updated_at": "2026-09-02T15:49:22.874Z",
   "scope": [
     "Create a fresh isolated Wave 5A lab, pass the merged quote-aware offline replay and exact installed-schema preflight, then execute at most four sequential gpt-5.6-luna Max candidate turns under zero-retry fail-closed limits."
   ],
@@ -115,6 +115,21 @@
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0112/quality-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260902T154859Z-1B2746F8"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0112/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0112/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0112/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0112/account-approval.json"
     ]
   },
   "evidence": [
@@ -133,10 +148,16 @@
     ".ai-org/artifacts/WI-0112/failed-run-observation.json",
     "EVID-20260902T154525Z-CFAE8E8D",
     ".ai-org/artifacts/WI-0112/handoff-005-quality_evaluator-to-independent_qa.md",
-    ".ai-org/artifacts/WI-0112/quality-report.md"
+    ".ai-org/artifacts/WI-0112/quality-report.md",
+    ".ai-org/artifacts/WI-0112/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0112/independent-qa-report.md",
+    "EVID-20260902T154859Z-1B2746F8",
+    ".ai-org/artifacts/WI-0112/release-record.md"
   ],
-  "unresolved": [],
-  "next_position": "release_manager",
+  "unresolved": [
+    "The first Luna Max turn exceeded the reactive 80000-Token per-turn limit, completed no Provider turn, produced no exact candidate commit or blind package, and prevented the remaining three turns from starting."
+  ],
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -172,7 +193,19 @@
       "input_revision": "a836643ab9aae4b0690bedae2b2c15ef98b0695e",
       "artifact": ".ai-org/artifacts/WI-0112/handoff-005-quality_evaluator-to-independent_qa.md",
       "created_at": "2026-09-02T15:46:41.450Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "a836643ab9aae4b0690bedae2b2c15ef98b0695e",
+      "artifact": ".ai-org/artifacts/WI-0112/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-02T15:48:59.715Z"
     }
   ],
-  "developer_candidate_revision": "a836643ab9aae4b0690bedae2b2c15ef98b0695e"
+  "developer_candidate_revision": "a836643ab9aae4b0690bedae2b2c15ef98b0695e",
+  "tested_revision": "a836643ab9aae4b0690bedae2b2c15ef98b0695e",
+  "release_gate_result": "no-go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0112/account-approval.json",
+  "previous_state": "release_gate"
 }
