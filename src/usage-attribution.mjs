@@ -1220,7 +1220,8 @@ export function buildUsageBaselineFromRecords(project, records, options = {}) {
     options.tasks ?? [],
     options.workItems ?? [],
     usageRecords,
-    longitudinalCoverage
+    longitudinalCoverage,
+    options.observationContext
   );
   const matchedAvailable = matchedAdvisory.status === "available";
   const shadowAvailable = longitudinalCoverage.recommendation.status === "available";
@@ -1291,7 +1292,43 @@ export function buildUsageBaselineFromRecords(project, records, options = {}) {
   };
 }
 
-function buildUsageCaptureHealth(providers, tasks, workItems, usageRecords, longitudinalCoverage = null) {
+function buildCaptureGap(workItems, longitudinalCoverage, observationContext) {
+  const mode = observationContext?.mode ?? "off";
+  const startedAt = observationContext?.started_at ?? null;
+  const boundary = typeof startedAt === "string" ? Date.parse(startedAt) : Number.NaN;
+  if (mode === "off" || !Number.isFinite(boundary)) {
+    return {
+      status: "not-applicable",
+      completed_since_observation_started: 0,
+      captured_completed_since_observation_started: 0,
+      uncaptured_completed_since_observation_started: 0,
+      uncaptured_work_item_ids: [],
+      work_item_backfill_supported: false,
+      account_usage_allocation: "unallocated"
+    };
+  }
+  const completed = [...workItems]
+    .filter((item) => item?.state === "done" && typeof item.id === "string" && Number.isFinite(Date.parse(item.updated_at)))
+    .filter((item) => Date.parse(item.updated_at) >= boundary)
+    .map((item) => item.id)
+    .sort((left, right) => left.localeCompare(right));
+  const captured = new Set(
+    longitudinalCoverage?.detailed_token_observation_coverage?.correlated_completed_work_item_ids ?? []
+  );
+  const capturedAfterStart = completed.filter((id) => captured.has(id));
+  const uncaptured = completed.filter((id) => !captured.has(id));
+  return {
+    status: uncaptured.length > 0 ? "unobserved-completed-work" : "clear",
+    completed_since_observation_started: completed.length,
+    captured_completed_since_observation_started: capturedAfterStart.length,
+    uncaptured_completed_since_observation_started: uncaptured.length,
+    uncaptured_work_item_ids: uncaptured,
+    work_item_backfill_supported: false,
+    account_usage_allocation: "unallocated"
+  };
+}
+
+function buildUsageCaptureHealth(providers, tasks, workItems, usageRecords, longitudinalCoverage = null, observationContext = null) {
   const provider = providers.find((entry) => entry.kind === "codex-app-server" || entry.id === "codex-local") ?? null;
   const providerStatus = provider?.status ?? "unobserved";
   const tokenCapability = provider?.capabilities?.token_usage ?? "unknown";
@@ -1307,6 +1344,12 @@ function buildUsageCaptureHealth(providers, tasks, workItems, usageRecords, long
   const coverage = longitudinalCoverage ?? buildLongitudinalCoverage(workItems, tasks, usageRecords);
   const capturedCompleted = coverage.detailed_token_observation_coverage?.correlated_completed_work_items ?? 0;
   const completed = coverage.canonical_work_items?.completed ?? 0;
+  const normalizedObservationContext = {
+    mode: observationContext?.mode ?? "off",
+    started_at: observationContext?.started_at ?? null,
+    continuous_expected: Boolean(observationContext?.continuous_expected),
+    service_status: observationContext?.service_status ?? "not-installed"
+  };
 
   let status;
   let reason;
@@ -1347,7 +1390,12 @@ function buildUsageCaptureHealth(providers, tasks, workItems, usageRecords, long
     last_observed_at: lastObservedAt,
     captured_completed_work_items: capturedCompleted,
     completed_work_items: completed,
-    completed_work_item_coverage_ratio: completed > 0 ? capturedCompleted / completed : null
+    completed_work_item_coverage_ratio: completed > 0 ? capturedCompleted / completed : null,
+    observation_mode: normalizedObservationContext.mode,
+    observation_started_at: normalizedObservationContext.started_at,
+    continuous_observation_expected: normalizedObservationContext.continuous_expected,
+    service_status: normalizedObservationContext.service_status,
+    capture_gap: buildCaptureGap(workItems, coverage, normalizedObservationContext)
   };
 }
 
@@ -1443,7 +1491,14 @@ export function buildUsagePreflightFromRecords(project, tasks, records, provider
   const codexProvider = providers.find((provider) => provider.kind === "codex-app-server" || provider.id === "codex-local") ?? null;
   const tokenCapability = codexProvider?.capabilities?.token_usage ?? "unknown";
   const correlated = correlateRegisteredTaskUsage(topology.registered, usageRecords);
-  const captureHealth = buildUsageCaptureHealth(providers, tasks, options.workItems ?? [], usageRecords, longitudinalCoverage);
+  const captureHealth = buildUsageCaptureHealth(
+    providers,
+    tasks,
+    options.workItems ?? [],
+    usageRecords,
+    longitudinalCoverage,
+    options.observationContext
+  );
   const detailedStatus = captureHealth.status;
   const probe = accountProbe ?? unavailableAccountProbe(false);
   const nextAction = matchedAdvisory.status === "available"

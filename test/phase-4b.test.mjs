@@ -660,6 +660,98 @@ test("usage report exposes deterministic longitudinal task and token-field cover
   assert.deepEqual(reordered.source.longitudinal_coverage, partiallySupported.source.longitudinal_coverage);
 });
 
+test("observation mode reports post-start Work Item gaps without fabricating backfill", () => {
+  const project = { id: "policy-product", name: "Policy Product" };
+  const workItems = [
+    { id: "WI-0001", state: "done", updated_at: "2026-09-02T00:10:00.000Z" },
+    { id: "WI-0002", state: "done", updated_at: "2026-09-02T00:20:00.000Z" },
+    { id: "WI-0003", state: "done", updated_at: "2026-08-31T23:59:59.000Z" },
+    { id: "WI-0004", state: "build", updated_at: "2026-09-02T00:30:00.000Z" }
+  ];
+  const tasks = [{
+    id: "task-captured",
+    work_item_id: "WI-0001",
+    status: "completed",
+    thread_id: "thread-captured"
+  }];
+  const usage = {
+    specversion: "1.0",
+    id: "usage-captured",
+    source: "urn:temple:provider:codex-app-server:local",
+    type: "org.temple.codex.usage.updated.v1",
+    subject: "project/policy-product/work-item/WI-0001",
+    time: "2026-09-02T00:11:00.000Z",
+    data: {
+      project_id: "policy-product",
+      work_item_id: "WI-0001",
+      attribution: {
+        project_id: "policy-product",
+        work_item_id: "WI-0001",
+        task_id: "task-captured"
+      },
+      usage: {
+        last: {
+          input_tokens: 10,
+          cached_input_tokens: 2,
+          output_tokens: 3,
+          reasoning_output_tokens: 1,
+          total_tokens: 16
+        },
+        monetary_cost: null,
+        price_source: null
+      }
+    },
+    templecursor: 1,
+    templeobservedat: "2026-09-02T00:11:00.000Z"
+  };
+  const providers = [{
+    id: "codex-local",
+    kind: "codex-app-server",
+    status: "ready",
+    capabilities: { token_usage: "supported" }
+  }];
+  const managed = buildUsageBaselineFromRecords(project, [usage], {
+    workItems,
+    tasks,
+    providers,
+    observationContext: {
+      mode: "managed-local",
+      started_at: "2026-09-02T00:00:00.000Z",
+      continuous_expected: true,
+      service_status: "running"
+    }
+  });
+  const capture = managed.source.capture_health;
+  assert.equal(capture.observation_mode, "managed-local");
+  assert.equal(capture.service_status, "running");
+  assert.equal(capture.continuous_observation_expected, true);
+  assert.deepEqual(capture.capture_gap, {
+    status: "unobserved-completed-work",
+    completed_since_observation_started: 2,
+    captured_completed_since_observation_started: 1,
+    uncaptured_completed_since_observation_started: 1,
+    uncaptured_work_item_ids: ["WI-0002"],
+    work_item_backfill_supported: false,
+    account_usage_allocation: "unallocated"
+  });
+
+  const off = buildUsageBaselineFromRecords(project, [usage], {
+    workItems,
+    tasks,
+    providers: [],
+    observationContext: {
+      mode: "off",
+      started_at: null,
+      continuous_expected: false,
+      service_status: "not-installed"
+    }
+  });
+  assert.equal(off.source.capture_health.observation_mode, "off");
+  assert.equal(off.source.capture_health.status, "historical-only");
+  assert.equal(off.source.capture_health.capture_gap.status, "not-applicable");
+  assert.equal(off.totals.total_tokens, 16);
+});
+
 test("ten completed revision-current Work Items qualify one deterministic read-only recommendation", () => {
   const project = { id: "policy-product", name: "Policy Product" };
   const workItems = Array.from({ length: 10 }, (_, index) => ({

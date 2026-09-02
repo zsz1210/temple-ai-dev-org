@@ -1,0 +1,235 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0092",
+  "title": "Make Usage observation optional, managed, and gap-aware",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-02T00:31:26.149Z",
+  "updated_at": "2026-09-02T00:36:04.030Z",
+  "scope": [
+    "Define clone-local Off, On-demand, and Managed local Observer modes without making Codex observation a framework prerequisite.",
+    "Provide a fail-closed macOS managed-local service path that runs the read-only LAN console and Codex Observer without storing machine settings in Git.",
+    "Expose observation mode, retained-history limits, and post-start capture gaps without attributing account-wide activity to Work Items.",
+    "Preserve automatic registration for Temple Provider-owned tasks and document the existing explicit registration path for externally created Codex tasks."
+  ],
+  "acceptance_criteria": [
+    "An initialized project remains fully usable with observation Off and records missing usage as unknown rather than zero.",
+    "On-demand and Managed local modes are distinguishable in machine-readable status and the human Usage view; retained observations survive provider shutdown.",
+    "Managed local installation is clone-local, macOS-only, explicit, reversible, does not retain prompts or hidden reasoning, and does not expose mutation routes on the LAN viewer.",
+    "Work completed outside an active correlated observation window is reported as a coverage gap that cannot be reconstructed at Work Item level.",
+    "Focused service, attribution, CLI, responsive browser, and full verification pass at the exact candidate revision."
+  ],
+  "affected_paths": [
+    "src/local-observer-service.mjs",
+    "src/cli.mjs",
+    "src/control-plane-server.mjs",
+    "src/usage-attribution.mjs",
+    "src/control-plane-dashboard.mjs",
+    "test/local-observer-service.test.mjs",
+    "test/phase-4b.test.mjs",
+    "docs/operations/usage-observation.md",
+    "docs/operations/token-efficiency-and-model-routing.md",
+    "docs/getting-started/usage.md",
+    ".ai-org/artifacts/WI-0092"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "code-first",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {
+    "build": {
+      "disciplines": [
+        "general-development"
+      ],
+      "resources": []
+    },
+    "design": {
+      "disciplines": [
+        "architecture"
+      ],
+      "resources": []
+    },
+    "eval": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "independent_qa": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "intake": {
+      "disciplines": [
+        "architecture"
+      ],
+      "resources": []
+    },
+    "release_gate": {
+      "disciplines": [
+        "release"
+      ],
+      "resources": []
+    },
+    "spec": {
+      "disciplines": [
+        "product"
+      ],
+      "resources": []
+    },
+    "test": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "cefba7394a498f0a64af8b0a117bc9b4da1e1897",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0033 retains provider trust, credentials, and external authority; WI-0092 may add clone-local service lifecycle and observation-mode projection without changing trust semantics or credential storage.",
+    "WI-0086 retains release packaging and existing test/control-plane-foundation.test.mjs ownership; WI-0092 will not edit that test or public-release artifacts and integrates only after its isolated verification."
+  ],
+  "claim": {
+    "id": "claim-20260902003604-cdf3e4d0",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "cefba7394a498f0a64af8b0a117bc9b4da1e1897",
+    "branch": "codex/wi-0092-observer",
+    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0092-observer",
+    "claimed_at": "2026-09-02T00:36:04.030Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260902003140-33c10fbc",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "cefba7394a498f0a64af8b0a117bc9b4da1e1897",
+      "branch": "codex/wi-0092-observer",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0092-observer",
+      "claimed_at": "2026-09-02T00:31:40.958Z",
+      "released_at": "2026-09-02T00:32:13.629Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260902003230-b3cbf4cc",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "cefba7394a498f0a64af8b0a117bc9b4da1e1897",
+      "branch": "codex/wi-0092-observer",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0092-observer",
+      "claimed_at": "2026-09-02T00:32:30.371Z",
+      "released_at": "2026-09-02T00:33:22.031Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260902003322-37b7b8c0",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "cefba7394a498f0a64af8b0a117bc9b4da1e1897",
+      "branch": "codex/wi-0092-observer",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0092-observer",
+      "claimed_at": "2026-09-02T00:33:22.687Z",
+      "released_at": "2026-09-02T00:35:53.196Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260902003604-cdf3e4d0",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "cefba7394a498f0a64af8b0a117bc9b4da1e1897",
+      "branch": "codex/wi-0092-observer",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0092-observer",
+      "claimed_at": "2026-09-02T00:36:04.030Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0092/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0092/product-direction.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0092.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0092/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0092/risk-review.md"
+    ],
+    "ui_brief": [
+      ".ai-org/artifacts/WI-0092/ui-design-brief.md"
+    ],
+    "required_state_coverage": [
+      ".ai-org/artifacts/WI-0092/required-state-coverage.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0092/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0092/work-order.md",
+    ".ai-org/artifacts/WI-0092/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0092/product-direction.md",
+    ".ai-org/work-items/WI-0092.json",
+    ".ai-org/artifacts/WI-0092/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0092/technical-design.md",
+    ".ai-org/artifacts/WI-0092/risk-review.md",
+    ".ai-org/artifacts/WI-0092/ui-design-brief.md",
+    ".ai-org/artifacts/WI-0092/required-state-coverage.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "cefba7394a498f0a64af8b0a117bc9b4da1e1897",
+      "artifact": ".ai-org/artifacts/WI-0092/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-02T00:32:13.313Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "cefba7394a498f0a64af8b0a117bc9b4da1e1897",
+      "artifact": ".ai-org/artifacts/WI-0092/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-02T00:33:21.680Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "cefba7394a498f0a64af8b0a117bc9b4da1e1897",
+      "artifact": ".ai-org/artifacts/WI-0092/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-02T00:35:51.950Z"
+    }
+  ]
+}

@@ -46,6 +46,7 @@ import {
   normalizePrivateViewerHost,
   TAILSCALE_IDENTITY_HEADER
 } from "./private-network-viewer.mjs";
+import { inspectLocalObserverService, localObservationContext } from "./local-observer-service.mjs";
 
 export const CONTROL_PLANE_SNAPSHOT_SCHEMA = "temple.control-plane-snapshot/v1";
 
@@ -223,13 +224,25 @@ export async function buildControlPlaneSnapshot(target, journal, registry, optio
   const usageHistory = await readUsageTelemetryHistory(options.stateDirectory ?? null, retainedRecords, {
     projectId: observer.project.id
   });
+  let observationContext = options.observationContext ?? null;
+  if (!observationContext && options.stateDirectory) {
+    const status = await inspectLocalObserverService(target, { stateDirectory: options.stateDirectory });
+    observationContext = {
+      mode: status.observation_mode,
+      started_at: status.observation_started_at,
+      continuous_expected: status.continuous_observation_expected,
+      platform: process.platform,
+      service_status: status.service_status
+    };
+  }
   const usage = buildUsageBaselineFromRecords(observer.project, usageHistory.records, {
     stateDirectory: options.stateDirectory ?? null,
     workItems: observer.work.items,
     tasks: taskRegistry.tasks ?? [],
     providers: registry.list(),
     history: usageHistory.history,
-    activeJournal: usageHistory.activeJournal
+    activeJournal: usageHistory.activeJournal,
+    observationContext
   });
   const eventWindow = journal.readAfter(Math.max(0, journalSnapshot.last_cursor - (options.eventLimit ?? 100)));
   return {
@@ -278,6 +291,13 @@ async function closeHttpServer(server) {
 export async function startControlPlaneServer(target, options = {}) {
   const projectRoot = path.resolve(target);
   const config = await readControlPlaneConfig(projectRoot);
+  const configuredCodex = config.providers.find((provider) => provider.kind === "codex-app-server" && provider.enabled);
+  const codexRequested = Boolean(options.enableCodex || configuredCodex);
+  const effectiveObservationMode = options.observationMode ?? (codexRequested ? "on-demand" : "off");
+  if (effectiveObservationMode !== "off" && !codexRequested) {
+    throw new Error(`${effectiveObservationMode} observation requires an enabled Codex Provider`);
+  }
+  const codexEnabled = effectiveObservationMode !== "off" && codexRequested;
   const host = options.host ?? config.server.host;
   const port = options.port ?? config.server.port;
   const privateViewerHost = options.privateViewerHost
@@ -307,6 +327,7 @@ export async function startControlPlaneServer(target, options = {}) {
   let lanViewerUrl = null;
   let actualLanViewerPort = null;
   let serverOrigin = null;
+  let observationContext = null;
   const clients = new Set();
   const startedAt = new Date().toISOString();
 
@@ -315,13 +336,17 @@ export async function startControlPlaneServer(target, options = {}) {
       maxEvents: config.retention.max_events,
       privacy: config.privacy
     });
+    observationContext = await localObservationContext(projectRoot, stateDirectory, {
+      mode: effectiveObservationMode,
+      enableCodex: codexEnabled,
+      startedAt
+    });
     const registry = createProviderRegistry(baseProviderContracts(config));
     repositoryProvider = startRepositoryProvider(projectRoot, journal, registry, {
       intervalMs: options.repositoryIntervalMs
     });
     await repositoryProvider.start();
-    const configuredCodex = config.providers.find((provider) => provider.kind === "codex-app-server" && provider.enabled);
-    if (options.enableCodex || configuredCodex) {
+    if (codexEnabled) {
       codexProvider = await startCodexAppServerProvider(projectRoot, journal, registry, {
         ...(configuredCodex?.options ?? {}),
         providerId: configuredCodex?.id,
@@ -392,7 +417,8 @@ export async function startControlPlaneServer(target, options = {}) {
             stateDirectory,
             config,
             persistConditions: true,
-            codexProvider
+            codexProvider,
+            observationContext
           });
           jsonResponse(response, 200, access.kind === "private-viewer"
             ? privateViewerSnapshot(snapshot, access.identity, access.transport)
@@ -435,7 +461,8 @@ export async function startControlPlaneServer(target, options = {}) {
               stateDirectory,
               config,
               persistConditions: true,
-              codexProvider
+              codexProvider,
+              observationContext
             }))}\n\n`);
           }
           for (const record of replay.records) sendSseRecord(response, record);
