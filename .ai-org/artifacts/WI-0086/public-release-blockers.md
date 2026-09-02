@@ -1,12 +1,16 @@
 # WI-0086 Public Release Blockers
 
-- Exact local candidate: `dba1866ae0ebbcf7ada1474be38016970355b040`
+- Exact local candidate: `02cc9228a6b9d20e4875d3f7f7352aab0b7012dd`
 - Candidate version: `0.1.0-alpha.29`
 - Proposed tag: `v0.1.0-alpha.29`
 - Technical status: verified
 - Public decision: NO-GO
 
-The package checkpoint passed the complete local release requalification recorded in `final-local-requalification.md`. Hosted run `33576741884` correctly rejected an evidence-artifact digest mismatch even though both 270-test lanes and the Node.js 24 browser gate passed. The correction is recorded in `hosted-ci-evidence-digest-failure.md`. Corrected evidence/state run `33577330137` and full run `33577411806` passed at integration head `650f1aa2c13695be324f40f07bb0f44b66a6c9f3`.
+The current package checkpoint passed the complete local release requalification recorded in `post-observer-final-requalification.md`: 276 tests on Node.js 22 and 24, the Node.js 24 browser gate, 115 schema documents, Doctor with 36 pass and no warning or failure, both dependency audits, a 309-file exact tarball, and clean consumer smoke under both supported Node.js majors. A fresh hosted result for this exact package candidate is pending the private push.
+
+Historical hosted run `33576741884` correctly rejected an evidence-artifact digest mismatch even though both earlier 270-test lanes and the Node.js 24 browser gate passed. The correction is recorded in `hosted-ci-evidence-digest-failure.md`. Corrected evidence/state run `33577330137` and full run `33577411806` passed at the preceding integration head `650f1aa2c13695be324f40f07bb0f44b66a6c9f3`; they remain historical evidence, not qualification for `02cc922`.
+
+WI-0092 and corrective WI-0093 are closed. The managed-local Observer remains running by user request, its private viewer is read-only and path-redacted, and the measured snapshot latency and payload remain visible as non-blocking follow-up WI-0094.
 
 ## Completed Human evidence
 

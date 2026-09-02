@@ -13372,6 +13372,53 @@
         "scenario": "Plan, apply, activate, inspect status, restart from the corrected candidate, read loopback and private snapshots, scan the private response, and attempt a private mutation",
         "provenance": "live"
       }
+    },
+    {
+      "id": "EVID-20260902T015148Z-A1128FC5",
+      "work_item_id": "WI-0086",
+      "recorded_at": "2026-09-02T01:51:48.449Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Alpha.29 post-Observer exact-candidate requalification",
+      "outcome": "pass",
+      "scope_revision": "02cc9228a6b9d20e4875d3f7f7352aab0b7012dd",
+      "observed_at": "2026-09-02T01:51:12.000Z",
+      "summary": "At 02cc922, Node 22 and 24 passed 276 tests; Node 24 browser, schema, Doctor, audits, exact tarball, and both clean consumers passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0086/post-observer-final-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0086/post-observer-final-test-observation.json",
+          "sha256": "d012bd7c6ecc54a38a84c53e200c9589b98f8765946ffaeb47fb70600649139f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0086/post-observer-final-requalification.md",
+          "sha256": "8703559064abf14b9a250573f82f4fec9346902b0e24d5413efe6b596823baf0"
+        }
+      ],
+      "details": {
+        "command": [
+          "Node.js 22.22.0: npm run verify",
+          "Node.js 24.20.0: npm run verify",
+          "Node.js 24.20.0: npm run test:browser",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "npm audit --omit=dev --json",
+          "npm audit --json",
+          "npm pack --ignore-scripts --json",
+          "Exact-tarball consumer smoke under Node.js 22.22.0 and 24.20.0"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T01:44:00.000Z"
+      }
     }
   ]
 }

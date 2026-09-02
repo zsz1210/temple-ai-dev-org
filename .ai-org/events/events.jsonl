@@ -2465,3 +2465,4 @@
 {"timestamp":"2026-09-02T01:38:59.916Z","event_type":"work_item_created","actor":"agent-mog","work_item_id":"WI-0094","state":"intake","refs":[".ai-org/work-items/WI-0094.json"]}
 {"timestamp":"2026-09-02T01:39:00.254Z","event_type":"work_item_coordination_configured","actor":"agent-mog","work_item_id":"WI-0094","parallel_mode":"sequential","refs":[".ai-org/work-items/WI-0094.json"]}
 {"timestamp":"2026-09-02T01:43:31.791Z","event_type":"work_item_coordination_configured","actor":"agent-mog","work_item_id":"WI-0094","parallel_mode":"sequential","refs":[".ai-org/work-items/WI-0094.json"]}
+{"timestamp":"2026-09-02T01:51:48.449Z","event_type":"evidence_recorded","actor":"human","work_item_id":"WI-0086","evidence_id":"EVID-20260902T015148Z-A1128FC5","evidence_kind":"test","outcome":"pass","refs":[".ai-org/project/evidence.json",".ai-org/artifacts/WI-0086/post-observer-final-test-observation.json",".ai-org/artifacts/WI-0086/post-observer-final-requalification.md"]}

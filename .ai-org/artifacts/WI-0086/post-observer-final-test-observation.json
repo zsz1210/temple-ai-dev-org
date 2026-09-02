@@ -1,0 +1,22 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "02cc9228a6b9d20e4875d3f7f7352aab0b7012dd",
+  "command": [
+    "Node.js 22.22.0: npm run verify",
+    "Node.js 24.20.0: npm run verify",
+    "Node.js 24.20.0: npm run test:browser",
+    "node ./templew.mjs schema validate . --json",
+    "node ./templew.mjs doctor . --json",
+    "npm audit --omit=dev --json",
+    "npm audit --json",
+    "npm pack --ignore-scripts --json",
+    "Exact-tarball consumer smoke under Node.js 22.22.0 and 24.20.0"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T01:44:00.000Z",
+  "completed_at": "2026-09-02T01:51:12.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0086/post-observer-final-requalification.md"
+  ]
+}
