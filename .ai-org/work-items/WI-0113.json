@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0113",
   "title": "Make Wave 5A autonomous and observable",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-02T16:07:40.462Z",
-  "updated_at": "2026-09-02T16:15:13.900Z",
+  "updated_at": "2026-09-02T16:56:43.332Z",
   "scope": [
     "Diagnose the WI-0112 Token stop offline, preserve detailed usage telemetry, account for interrupted filesystem changes, and make recoverable candidate failures continue without repeated human approval while preserving fail-closed exceptions."
   ],
@@ -56,26 +56,28 @@
   ],
   "claim": {
     "id": "claim-20260902161513-2a13214c",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "base_revision": "da90970c4e09e3dcd6bfb4495b49edad46203e71",
     "branch": "codex/wi-0113-resilient-wave-5a",
     "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0113",
     "claimed_at": "2026-09-02T16:15:13.900Z",
-    "released_at": null
+    "released_at": "2026-09-02T16:54:11.161Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
       "id": "claim-20260902161513-2a13214c",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "da90970c4e09e3dcd6bfb4495b49edad46203e71",
       "branch": "codex/wi-0113-resilient-wave-5a",
       "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0113",
       "claimed_at": "2026-09-02T16:15:13.900Z",
-      "released_at": null
+      "released_at": "2026-09-02T16:54:11.161Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -93,6 +95,22 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0113/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0113/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260902T165344Z-011A4014",
+      "EVID-20260902T165344Z-3981C8B3",
+      ".ai-org/artifacts/WI-0113/experiment-result.json",
+      ".ai-org/artifacts/WI-0113/developer-report.md",
+      ".ai-org/artifacts/WI-0113/developer-test-observation.json"
+    ],
+    "test_evidence": [
+      "EVID-20260902T165344Z-3981C8B3"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0113/quality-report.md"
     ]
   },
   "evidence": [
@@ -104,10 +122,19 @@
     ".ai-org/artifacts/WI-0113/approved-scope.md",
     ".ai-org/artifacts/WI-0113/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0113/technical-design.md",
-    ".ai-org/artifacts/WI-0113/risk-review.md"
+    ".ai-org/artifacts/WI-0113/risk-review.md",
+    ".ai-org/artifacts/WI-0113/handoff-004-developer-to-quality_evaluator.md",
+    "EVID-20260902T165344Z-011A4014",
+    "EVID-20260902T165344Z-3981C8B3",
+    ".ai-org/artifacts/WI-0113/experiment-result.json",
+    ".ai-org/artifacts/WI-0113/developer-report.md",
+    ".ai-org/artifacts/WI-0113/developer-test-observation.json",
+    ".ai-org/artifacts/WI-0113/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0113/quality-report.md",
+    ".ai-org/artifacts/WI-0113/quality-scores-frozen.json"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "release_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -129,6 +156,21 @@
       "input_revision": "da90970c4e09e3dcd6bfb4495b49edad46203e71",
       "artifact": ".ai-org/artifacts/WI-0113/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-02T16:15:13.457Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "d5c00fd23ef48f5dc1327e6eb73a51ef8293f1fb",
+      "artifact": ".ai-org/artifacts/WI-0113/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-02T16:54:10.907Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "1a9386a565d4b3d1e017c262b8ad635999ce1f16",
+      "artifact": ".ai-org/artifacts/WI-0113/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-02T16:56:43.105Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "d5c00fd23ef48f5dc1327e6eb73a51ef8293f1fb"
 }
