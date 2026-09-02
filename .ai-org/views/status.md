@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 113 total, 9 active
+- Work items: 113 total, 8 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -160,7 +160,7 @@
 | WI-0110 | Run bounded Wave 5A controlled comparison | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `19b78371` | 0 | 20 | 1 |
 | WI-0111 | Make command policy quote-aware | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2d523b5f` | 0 | 18 | 0 |
 | WI-0112 | Run quote-aware Wave 5A controlled comparison | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a836643a` | 0 | 20 | 1 |
-| WI-0113 | Make Wave 5A autonomous and observable | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `d5c00fd2` | 0 | 22 | 0 |
+| WI-0113 | Make Wave 5A autonomous and observable | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6f8596bb` | 0 | 23 | 0 |
 
 ## Codex task registry
 
@@ -298,14 +298,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-02T17:04:14.570Z | work_item_closed | WI-0113 | agent-mog |
+| 2026-09-02T17:04:14.570Z | release_gate_completed | WI-0113 | agent-mog |
 | 2026-09-02T17:03:45.660Z | work_item_transitioned | WI-0113 | agent-lulu |
 | 2026-09-02T17:03:37.632Z | handoff_created | WI-0113 | agent-lulu |
 | 2026-09-02T17:03:37.448Z | evidence_recorded | WI-0113 | human |
 | 2026-09-02T16:56:43.332Z | work_item_transitioned | WI-0113 | agent-lulu |
 | 2026-09-02T16:56:43.105Z | handoff_created | WI-0113 | agent-lulu |
 | 2026-09-02T16:56:42.891Z | work_item_transitioned | WI-0113 | agent-lulu |
-| 2026-09-02T16:56:42.706Z | evidence_recorded | WI-0113 | human |
-| 2026-09-02T16:54:11.161Z | work_item_transitioned | WI-0113 | agent-rikku |
 
 ## Assignments
 
