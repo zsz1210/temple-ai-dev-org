@@ -1,0 +1,245 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0103",
+  "title": "Reconcile Wave 2 coordination evidence",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-02T08:27:43.599Z",
+  "updated_at": "2026-09-02T08:47:28.677Z",
+  "scope": [
+    "Classify existing live, automated, simulated, and not-run evidence for multi-Agent handoff, parallelism, conflict detection, integration, and recovery; add only a bounded deterministic check if a material gap is found."
+  ],
+  "acceptance_criteria": [
+    "A human-readable Wave 2 matrix cites exact retained evidence, distinguishes demonstration from simulation and unrun real collaboration, avoids redundant model or Docker work, and names the next evidence boundary."
+  ],
+  "affected_paths": [
+    "docs/validation/wave-2-coordination-evidence.md",
+    "docs/validation/README.md",
+    "docs/planning/temple-effectiveness-and-microservice-validation.md",
+    ".ai-org/artifacts/WI-0103"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {
+    "build": {
+      "disciplines": [
+        "general-development"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "5d58b65caf1f4552459ab26e3271f5f5732639b4",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0064",
+    "WI-0067",
+    "WI-0086"
+  ],
+  "claim": {
+    "id": "claim-20260902084717-43f6dd07",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "5d58b65caf1f4552459ab26e3271f5f5732639b4",
+    "branch": "codex/wi-0103-wave-2-evidence",
+    "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0103",
+    "claimed_at": "2026-09-02T08:47:17.844Z",
+    "released_at": "2026-09-02T08:47:28.677Z",
+    "release_reason": "work_item_closed"
+  },
+  "claims": [
+    {
+      "id": "claim-20260902082838-e239c2e9",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "f7a7cc422cd1094f4105f39778d912683bacb30f",
+      "branch": "codex/wi-0103-wave-2-evidence",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0103",
+      "claimed_at": "2026-09-02T08:28:38.492Z",
+      "released_at": "2026-09-02T08:29:00.455Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902082909-8be7b74d",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "f7a7cc422cd1094f4105f39778d912683bacb30f",
+      "branch": "codex/wi-0103-wave-2-evidence",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0103",
+      "claimed_at": "2026-09-02T08:29:09.666Z",
+      "released_at": "2026-09-02T08:29:32.397Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902082932-7d7f813b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "f7a7cc422cd1094f4105f39778d912683bacb30f",
+      "branch": "codex/wi-0103-wave-2-evidence",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0103",
+      "claimed_at": "2026-09-02T08:29:32.669Z",
+      "released_at": "2026-09-02T08:30:18.540Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902083018-e3e9f8d7",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "f7a7cc422cd1094f4105f39778d912683bacb30f",
+      "branch": "codex/wi-0103-wave-2-evidence",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0103",
+      "claimed_at": "2026-09-02T08:30:18.819Z",
+      "released_at": "2026-09-02T08:37:42.888Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902083743-727c6145",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "0598100f175be746a7a92d4294bf77144e6c9310",
+      "branch": "codex/wi-0103-wave-2-evidence",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0103",
+      "claimed_at": "2026-09-02T08:37:43.135Z",
+      "released_at": "2026-09-02T08:39:11.610Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902083911-2c0d38c8",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "0598100f175be746a7a92d4294bf77144e6c9310",
+      "branch": "codex/wi-0103-wave-2-evidence",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0103",
+      "claimed_at": "2026-09-02T08:39:11.854Z",
+      "released_at": "2026-09-02T08:47:17.591Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902084717-43f6dd07",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "5d58b65caf1f4552459ab26e3271f5f5732639b4",
+      "branch": "codex/wi-0103-wave-2-evidence",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0103",
+      "claimed_at": "2026-09-02T08:47:17.844Z",
+      "released_at": "2026-09-02T08:47:28.677Z",
+      "release_reason": "work_item_closed"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0103/approved-scope.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0103/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0103/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0103/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0103/technical-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0103/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260902T083426Z-D3342838",
+      "EVID-20260902T085138Z-4EBB5DB1",
+      ".ai-org/artifacts/WI-0103/developer-report.md"
+    ],
+    "test_evidence": [
+      "EVID-20260902T083854Z-5606B116"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0103/quality-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260902T084701Z-84540E76"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0103/product-spec.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0103/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0103/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0103/approved-scope.md",
+    ".ai-org/artifacts/WI-0103/product-spec.md",
+    ".ai-org/artifacts/WI-0103/technical-design.md",
+    ".ai-org/artifacts/WI-0103/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260902T083426Z-D3342838",
+    "EVID-20260902T083725Z-647FD8F2",
+    ".ai-org/artifacts/WI-0103/developer-report.md",
+    "EVID-20260902T083854Z-5606B116",
+    ".ai-org/artifacts/WI-0103/handoff-002-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0103/quality-report.md",
+    ".ai-org/artifacts/WI-0103/handoff-003-independent_qa-to-release_manager.md",
+    "EVID-20260902T084701Z-84540E76",
+    ".ai-org/artifacts/WI-0103/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0103/integration-review.md",
+    ".ai-org/artifacts/WI-0103/release-record.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "0598100f175be746a7a92d4294bf77144e6c9310",
+      "artifact": ".ai-org/artifacts/WI-0103/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-02T08:37:42.632Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "0598100f175be746a7a92d4294bf77144e6c9310",
+      "artifact": ".ai-org/artifacts/WI-0103/handoff-002-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-02T08:39:11.373Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "5d58b65caf1f4552459ab26e3271f5f5732639b4",
+      "artifact": ".ai-org/artifacts/WI-0103/handoff-003-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-02T08:47:17.342Z"
+    }
+  ],
+  "developer_candidate_revision": "0598100f175be746a7a92d4294bf77144e6c9310",
+  "tested_revision": "5d58b65caf1f4552459ab26e3271f5f5732639b4",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "0598100f175be746a7a92d4294bf77144e6c9310",
+  "command": [
+    "npm run check",
+    "node --test test/orchestration.test.mjs test/runtime-coordination.test.mjs test/collaboration-governance.test.mjs"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T08:37:59.000Z",
+  "completed_at": "2026-09-02T08:38:13.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0103/quality-report.md",
+    "docs/validation/wave-2-coordination-evidence.md"
+  ],
+  "summary": {
+    "repository_checks": "pass",
+    "documentation_links": "pass",
+    "package_boundary": "pass",
+    "focused_tests_passed": 27,
+    "focused_tests_failed": 0,
+    "focused_tests_skipped": 0,
+    "classification_review": "pass",
+    "claim_promotion_detected": false,
+    "real_collaborative_status_changed": false,
+    "external_action_performed": false
+  }
+}

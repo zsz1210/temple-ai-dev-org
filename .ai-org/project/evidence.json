@@ -15027,10 +15027,10 @@
           "path": ".ai-org/artifacts/WI-0102/brownfield-rehearsal-observation.json",
           "sha256": "f3d02613548bf97efe7d3c65bbed7e257696e1648861683b070f8d89168babe8"
         },
-    {
-      "path": "docs/validation/wave-1-adoption-evidence.md",
-      "sha256": "3a7e9164f07ec20780d9074df4e8c15c66a3b6f65893be770af33beba7b22cd6"
-    }
+        {
+          "path": "docs/validation/wave-1-adoption-evidence.md",
+          "sha256": "3a7e9164f07ec20780d9074df4e8c15c66a3b6f65893be770af33beba7b22cd6"
+        }
       ],
       "details": {
         "command": [
@@ -15039,6 +15039,237 @@
         ],
         "exit_code": 0,
         "started_at": "2026-09-02T08:07:28.558Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T083401Z-CC1C48B3",
+      "work_item_id": "WI-0103",
+      "recorded_at": "2026-09-02T08:34:01.635Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Wave 2 evidence candidate",
+      "outcome": "verified",
+      "scope_revision": "d0bb0eeb27492a213d5513836cb3454ed9562b3d",
+      "observed_at": "2026-09-02T08:34:01.635Z",
+      "summary": "Documentation-only candidate reconciles retained live, automated, simulated, and not-run coordination evidence.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "d0bb0eeb27492a213d5513836cb3454ed9562b3d"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "d0bb0eeb27492a213d5513836cb3454ed9562b3d",
+        "working_tree_dirty": true,
+        "dirty_path_count": 1,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T083426Z-D3342838",
+      "work_item_id": "WI-0103",
+      "recorded_at": "2026-09-02T08:34:26.399Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Wave 2 evidence candidate",
+      "outcome": "verified",
+      "scope_revision": "0598100f175be746a7a92d4294bf77144e6c9310",
+      "observed_at": "2026-09-02T08:34:26.399Z",
+      "summary": "Documentation-only candidate reconciles retained coordination evidence with normalized test observation.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "HEAD"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "HEAD",
+        "working_tree_dirty": true,
+        "dirty_path_count": 1,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T083725Z-647FD8F2",
+      "work_item_id": "WI-0103",
+      "recorded_at": "2026-09-02T08:37:25.647Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": "2026-09-02T08:49:55.000Z",
+      "invalidated_by": "human",
+      "invalidation_reason": "Superseded because the working-tree observation format was normalized after the recorded scope revision; retained with its historical candidate digest for audit.",
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer exact-candidate verification",
+      "outcome": "pass",
+      "scope_revision": "0598100f175be746a7a92d4294bf77144e6c9310",
+      "observed_at": "2026-09-02T08:36:23.000Z",
+      "summary": "Detached revision 0598100 passed 280 of 280 tests plus repository, documentation-link, and package checks.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0103/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0103/developer-test-observation.json",
+          "sha256": "30dd884ed9de944044bdb4ac8d9ca921627b6526468fd294d34890a2b60fcee7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0103/developer-report.md",
+          "sha256": "079ba27814732d029b289bdc69b53e12c9e792e676e1a209b4b435612aac4a64"
+        },
+        {
+          "path": "docs/validation/wave-2-coordination-evidence.md",
+          "sha256": "f365c62dff1abdc0f943697fb6bef6da27c9851f626f3e48c9c42a8ecabb4876"
+        }
+      ],
+      "details": {
+        "command": [
+          "detached exact candidate: npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T08:35:14.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T083854Z-5606B116",
+      "work_item_id": "WI-0103",
+      "recorded_at": "2026-09-02T08:38:54.989Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 2 focused quality evaluation",
+      "outcome": "pass",
+      "scope_revision": "0598100f175be746a7a92d4294bf77144e6c9310",
+      "observed_at": "2026-09-02T08:38:13.000Z",
+      "summary": "Repository checks and 27 focused coordination tests passed; evidence classifications remained bounded.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0103/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0103/quality-test-observation.json",
+          "sha256": "417f7adc05b97573a84caf5705ef6f5a0d5973704bb4dd2e21bcf4e224a54acf"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0103/quality-report.md",
+          "sha256": "e3984966107a435f3bcb4bbad1c31e2177b1a7b14f43a599db96a6dc4c8d0cff"
+        },
+        {
+          "path": "docs/validation/wave-2-coordination-evidence.md",
+          "sha256": "f365c62dff1abdc0f943697fb6bef6da27c9851f626f3e48c9c42a8ecabb4876"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run check",
+          "node --test test/orchestration.test.mjs test/runtime-coordination.test.mjs test/collaboration-governance.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T08:37:59.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T084701Z-84540E76",
+      "work_item_id": "WI-0103",
+      "recorded_at": "2026-09-02T08:47:01.304Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA evidence classification review",
+      "outcome": "pass",
+      "scope_revision": "5d58b65caf1f4552459ab26e3271f5f5732639b4",
+      "observed_at": "2026-09-02T08:46:23.000Z",
+      "summary": "Separate Independent QA corrected one traceability overclaim and passed the final exact candidate checks.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0103/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0103/independent-qa-test-observation.json",
+          "sha256": "63625f8777bfd60c4a1c3de5a82b75ecfded1342dcd94644b3135b55d8a01318"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0103/independent-qa-report.md",
+          "sha256": "225a46ed2448f0248cd5ede91fd2fb71fa5e07de580598bc53905b388946b249"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0103/integration-review.md",
+          "sha256": "dc971885df196b9cf48038e6d90f017d0e544f8320414188dd7e79f35896250a"
+        },
+        {
+          "path": "docs/validation/wave-2-coordination-evidence.md",
+          "sha256": "6055c146944c348f84400f9308d01499b42ad35fc747918b6493dfd865fbe057"
+        }
+      ],
+      "details": {
+        "command": [
+          "Independent QA clean detached review of exact candidate",
+          "npm run check",
+          "prior focused run: node --test test/orchestration.test.mjs test/runtime-coordination.test.mjs test/collaboration-governance.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T08:46:22.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T085138Z-4EBB5DB1",
+      "work_item_id": "WI-0103",
+      "recorded_at": "2026-09-02T08:51:38.553Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Replacement Developer exact-candidate verification",
+      "outcome": "pass",
+      "scope_revision": "0598100f175be746a7a92d4294bf77144e6c9310",
+      "observed_at": "2026-09-02T08:36:23.000Z",
+      "summary": "Detached revision 0598100 passed 280 of 280 tests; replacement observation path preserves the normalized record without historical digest drift.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0103/developer-exact-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0103/developer-exact-test-observation.json",
+          "sha256": "7778167b81361eec0d3c6d791703a892a16cc11171f165949f4b6c55e065e52e"
+        }
+      ],
+      "details": {
+        "command": [
+          "detached exact candidate: npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T08:35:14.000Z"
       }
     }
   ]

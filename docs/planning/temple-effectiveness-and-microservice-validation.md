@@ -1,6 +1,6 @@
 # Temple effectiveness and multi-repository validation plan
 
-- Status: Wave 1 local adoption baseline passed with limits; the first four-repository run remains stopped and no replacement model run is authorized
+- Status: Wave 1 adoption and Wave 2 bounded coordination baselines passed with limits; the first four-repository run remains stopped and no replacement model run is authorized
 - Scope: local-first synthetic validation
 - Public, production, GitHub, hosted CI, and paid actions: not authorized
 
@@ -144,6 +144,12 @@ The experiment stops when a ceiling is reached, correlation is lost, authority w
 The later [Wave 1 adoption evidence](../validation/wave-1-adoption-evidence.md) normalizes the retained FlowDeck, IdeaDock, AiPet, and self-host results and adds a no-generation brownfield rehearsal. That local baseline passed with limits: project-native documents and history were preserved, one exact-candidate lifecycle closed, and the optional Observer, Usage Collector, and Management Console were not required.
 
 This is complementary evidence, not a replacement for the stopped four-repository model experiment. Independent-human adoption, multi-machine collaboration, multi-repository delivery, and matched Temple-versus-baseline measurements remain separate later waves.
+
+## Cross-scenario coordination baseline
+
+The [Wave 2 coordination evidence](../validation/wave-2-coordination-evidence.md) reconciles the live IdeaDock parallel run with Alpha.16 planning tests, Alpha.17 recovery tests, Alpha.28's disposable two-clone simulation, and Temple's own repository-backed handoffs. It supports bounded single-human, single-machine coordination: isolated live workers, exact candidate joins, stale-plan handling, resource-aware serialization, and recoverable local preparation.
+
+No extra local fixture was added because it would repeat an existing evidence class. Real protected-PR collaboration remains `not_run` until different people use independently administered environments. Wave 3 may proceed to a bounded local multi-repository rehearsal, but this result does not resume `WI-0067`, increase a Token ceiling, install Docker, or authorize another model-backed task wave.
 
 ## Decision after this plan
 
