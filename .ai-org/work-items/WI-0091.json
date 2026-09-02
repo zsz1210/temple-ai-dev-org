@@ -6,7 +6,7 @@
   "owner_position": "independent_qa",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-01T23:44:10.574Z",
-  "updated_at": "2026-09-02T00:08:54.111Z",
+  "updated_at": "2026-09-02T00:09:11.190Z",
   "scope": [
     "Separate historical Token evidence from current capture health in Usage and preflight projections.",
     "Show capture state, last successful observation, completed Work Item coverage, and actionable recovery without implying that stale totals are live.",
@@ -91,7 +91,7 @@
       "resources": []
     }
   },
-  "base_revision": "8e07b69f61292b3997c6adf155d7f643d9f0d8bf",
+  "base_revision": "43444e1c8bdcd41e801b39a7a589e3f6909b0d39",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -102,16 +102,15 @@
     "WI-0086 remains blocked at the public-release boundary; WI-0091 is sequential on current main and may extend the current control-plane tests without changing or advancing WI-0086."
   ],
   "claim": {
-    "id": "claim-20260902000705-8076ca18",
-    "status": "released",
+    "id": "claim-20260902000911-9e6208a2",
+    "status": "active",
     "principal_id": "human",
     "agent_id": "agent-lulu",
-    "base_revision": "8e07b69f61292b3997c6adf155d7f643d9f0d8bf",
+    "base_revision": "43444e1c8bdcd41e801b39a7a589e3f6909b0d39",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-09-02T00:07:05.101Z",
-    "released_at": "2026-09-02T00:08:54.111Z",
-    "release_reason": "position_transition"
+    "claimed_at": "2026-09-02T00:09:11.190Z",
+    "released_at": null
   },
   "claims": [
     {
@@ -173,6 +172,17 @@
       "claimed_at": "2026-09-02T00:07:05.101Z",
       "released_at": "2026-09-02T00:08:54.111Z",
       "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902000911-9e6208a2",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "43444e1c8bdcd41e801b39a7a589e3f6909b0d39",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-02T00:09:11.190Z",
+      "released_at": null
     }
   ],
   "gate_evidence": {
