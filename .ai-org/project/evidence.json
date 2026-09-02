@@ -16652,7 +16652,7 @@
       "kind": "test",
       "title": "WI-0110 fail-closed execution integrity",
       "outcome": "pass",
-      "scope_revision": "19b78371b603d5ca25970c8c325bbce1bcfce158",
+      "scope_revision": "29f77ec68ca08b1f95c7b1d820b739bbee4a882a",
       "observed_at": "2026-09-02T14:55:30.000Z",
       "summary": "Offline gate and preflight passed; one Luna Max turn stopped without retry on a quote-insensitive command-policy false positive after 77,865 observed Tokens.",
       "adapter": {
@@ -16704,7 +16704,7 @@
       "kind": "test",
       "title": "WI-0110 quality evaluation",
       "outcome": "pass",
-      "scope_revision": "19b78371b603d5ca25970c8c325bbce1bcfce158",
+      "scope_revision": "29f77ec68ca08b1f95c7b1d820b739bbee4a882a",
       "observed_at": "2026-09-02T14:58:18.000Z",
       "summary": "Exact-revision review confirms fail-closed integrity and a quote-insensitive command-policy false positive; the experiment did not complete.",
       "adapter": {
@@ -16755,7 +16755,7 @@
       "kind": "test",
       "title": "WI-0110 independent fail-closed verification",
       "outcome": "pass",
-      "scope_revision": "19b78371b603d5ca25970c8c325bbce1bcfce158",
+      "scope_revision": "29f77ec68ca08b1f95c7b1d820b739bbee4a882a",
       "observed_at": "2026-09-02T14:59:40.000Z",
       "summary": "Independent QA reproduced the stopped state, exact quoted-search false positive, zero retry, four clean candidates, and no experiment result.",
       "adapter": {
