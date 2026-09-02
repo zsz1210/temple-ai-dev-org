@@ -151,7 +151,7 @@
 | WI-0101 | Present the optional Console as read-only and verify managed collection | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `3c94b998` | 0 | 14 | 0 |
 | WI-0102 | Validate brownfield adoption and normalize Wave 1 evidence | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0c7260dd` | 0 | 15 | 0 |
 | WI-0103 | Reconcile Wave 2 coordination evidence | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5d58b65c` | 0 | 15 | 0 |
-| WI-0104 | Validate a local multi-repository service rollout | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902090635-3b7c061f | `—` | 0 | 3 | 0 |
+| WI-0104 | Validate a local multi-repository service rollout | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902092727-59caacfa | `7d4c3dc9` | 0 | 8 | 1 |
 
 ## Codex task registry
 
@@ -285,14 +285,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-02T09:27:27.806Z | work_item_claimed | WI-0104 | human |
+| 2026-09-02T09:27:27.563Z | work_item_transitioned | WI-0104 | agent-rikku |
+| 2026-09-02T09:27:14.240Z | handoff_created | WI-0104 | agent-rikku |
+| 2026-09-02T09:27:01.307Z | evidence_recorded | WI-0104 | human |
+| 2026-09-02T09:27:01.075Z | evidence_recorded | WI-0104 | human |
 | 2026-09-02T09:06:35.536Z | work_item_claimed | WI-0104 | human |
 | 2026-09-02T09:06:35.259Z | work_item_transitioned | WI-0104 | agent-tidus |
 | 2026-09-02T08:58:45.627Z | work_item_claimed | WI-0104 | human |
-| 2026-09-02T08:58:45.355Z | work_item_transitioned | WI-0104 | agent-yuna |
-| 2026-09-02T08:58:06.280Z | work_item_claimed | WI-0104 | human |
-| 2026-09-02T08:58:05.992Z | work_item_transitioned | WI-0104 | agent-mog |
-| 2026-09-02T08:56:57.647Z | work_item_claimed | WI-0104 | human |
-| 2026-09-02T08:56:57.374Z | work_item_coordination_configured | WI-0104 | agent-mog |
 
 ## Assignments
 

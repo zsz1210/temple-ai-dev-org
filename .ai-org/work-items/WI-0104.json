@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0104",
   "title": "Validate a local multi-repository service rollout",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-02T08:56:26.986Z",
-  "updated_at": "2026-09-02T09:06:35.536Z",
+  "updated_at": "2026-09-02T09:27:27.806Z",
   "scope": [
     "Create and run a no-generation, disposable four-repository commerce rehearsal under a bounded local container runtime; verify baseline delivery, producer-first failure, rollback, consumer-first compatibility, malformed-event recovery, exact repository revisions, and cleanup."
   ],
@@ -41,7 +41,7 @@
       "resources": []
     }
   },
-  "base_revision": "52071f2b9ebfdf3ff2bbfee05191746085d36ba0",
+  "base_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -53,14 +53,14 @@
     "WI-0086"
   ],
   "claim": {
-    "id": "claim-20260902090635-3b7c061f",
+    "id": "claim-20260902092727-59caacfa",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "52071f2b9ebfdf3ff2bbfee05191746085d36ba0",
+    "agent_id": "agent-lulu",
+    "base_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
     "branch": "codex/wi-0104-local-microservices",
     "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
-    "claimed_at": "2026-09-02T09:06:35.536Z",
+    "claimed_at": "2026-09-02T09:27:27.806Z",
     "released_at": null
   },
   "claims": [
@@ -102,13 +102,25 @@
     },
     {
       "id": "claim-20260902090635-3b7c061f",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "52071f2b9ebfdf3ff2bbfee05191746085d36ba0",
       "branch": "codex/wi-0104-local-microservices",
       "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
       "claimed_at": "2026-09-02T09:06:35.536Z",
+      "released_at": "2026-09-02T09:27:27.563Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902092727-59caacfa",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
+      "branch": "codex/wi-0104-local-microservices",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
+      "claimed_at": "2026-09-02T09:27:27.806Z",
       "released_at": null
     }
   ],
@@ -127,13 +139,39 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0104/technical-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0104/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260902T092701Z-37D6A7B8",
+      "EVID-20260902T092701Z-3C3C2AED",
+      ".ai-org/artifacts/WI-0104/local-microservice-observation.json",
+      ".ai-org/artifacts/WI-0104/runtime-cleanup-observation.json"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0104/approved-scope.md",
     ".ai-org/artifacts/WI-0104/product-spec.md",
-    ".ai-org/artifacts/WI-0104/technical-design.md"
+    ".ai-org/artifacts/WI-0104/technical-design.md",
+    ".ai-org/artifacts/WI-0104/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260902T092701Z-37D6A7B8",
+    "EVID-20260902T092701Z-3C3C2AED",
+    ".ai-org/artifacts/WI-0104/local-microservice-observation.json",
+    ".ai-org/artifacts/WI-0104/runtime-cleanup-observation.json"
   ],
-  "unresolved": [],
-  "next_position": "quality_evaluator"
+  "unresolved": [
+    "Independent QA has not yet reviewed the exact candidate."
+  ],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
+      "artifact": ".ai-org/artifacts/WI-0104/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-02T09:27:14.240Z"
+    }
+  ],
+  "developer_candidate_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3"
 }
