@@ -17756,6 +17756,166 @@
         "exit_code": 0,
         "started_at": "2026-09-02T22:39:00.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T224510Z-7C3E90DF",
+      "work_item_id": "WI-0116",
+      "recorded_at": "2026-09-02T22:45:10.171Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0116 analysis candidate",
+      "outcome": "verified",
+      "scope_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+      "observed_at": "2026-09-02T22:45:10.171Z",
+      "summary": "Exact candidate with reproducible Wave 5A analysis and fail-closed Wave 5B evaluator protocol.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "2ec67d32fd83236028406d06c48a00276d7fa853"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T224550Z-07AE715E",
+      "work_item_id": "WI-0116",
+      "recorded_at": "2026-09-02T22:45:50.800Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0116 detached Quality verification",
+      "outcome": "pass",
+      "scope_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+      "observed_at": "2026-09-02T22:45:21.000Z",
+      "summary": "Exact detached candidate passed five focused tests and regenerated both machine-readable outputs.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0116/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0116/quality-test-observation.json",
+          "sha256": "f51a9f5c0f2623bc4c725c3ef4f97957e08d1192c8aab986651ddf2bd6816ce2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0116/quality-report.md",
+          "sha256": "dba6ea338facc60cdaf5d3b65776986eedbb92ccb64e0aa3d39237576bf38de9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0116/wave-5a-overhead-analysis.json",
+          "sha256": "0abd9235efda3d56f4d330980d276ed308c972bce30e0a52ce122cdff3c12f83"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0116/wave-5b-protocol-check.json",
+          "sha256": "83ed147ab51575f87d66d871e98834c8d58b1589b9cd94fe785e26c05f27806a"
+        }
+      ],
+      "details": {
+        "command": [
+          "exact detached candidate: node --test test/wave-5b-analysis.test.mjs",
+          "exact detached candidate: regenerate analysis and protocol outputs to exclusive temporary paths",
+          "exact detached candidate: assert coordinator overhead, qualified pair count, protocol result, and clean Git state"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T22:45:20.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T224736Z-115A46C8",
+      "work_item_id": "WI-0116",
+      "recorded_at": "2026-09-02T22:47:36.565Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0116 Independent QA",
+      "outcome": "pass",
+      "scope_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+      "observed_at": "2026-09-02T22:47:15.000Z",
+      "summary": "Exact detached candidate passed 302 of 302 tests; live Provider context remains unverified.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0116/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0116/independent-qa-observation.json",
+          "sha256": "83f41a07f042bb7affdbcdc3867fc40a1af365f8d46492fb6a49c677d58856a2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0116/independent-qa-report.md",
+          "sha256": "2da8fc1bc1de3ef02b63a7b50484a2bfd352bfdd7c3dceb92b52ff23eb01e027"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0116/wave-5a-overhead-analysis.json",
+          "sha256": "0abd9235efda3d56f4d330980d276ed308c972bce30e0a52ce122cdff3c12f83"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0116/wave-5b-protocol-check.json",
+          "sha256": "83ed147ab51575f87d66d871e98834c8d58b1589b9cd94fe785e26c05f27806a"
+        }
+      ],
+      "details": {
+        "command": [
+          "exact detached candidate: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund",
+          "exact detached candidate: npm run verify",
+          "exact detached candidate: git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T22:46:20.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T224747Z-A207B466",
+      "work_item_id": "WI-0116",
+      "recorded_at": "2026-09-02T22:47:47.268Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+      "observed_at": "2026-09-02T22:47:47.268Z",
+      "summary": "Offline additive analysis and protocol changes can be reverted without external cleanup.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0116/rollback-plan.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0116/rollback-plan.md",
+          "sha256": "0d823607f511a0061912a55271caeb9c852228a6b473b9016c16b36e12ebb951"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0116/rollback-plan.md"
+      }
     }
   ]
 }

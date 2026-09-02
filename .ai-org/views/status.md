@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 116 total, 9 active
+- Work items: 116 total, 8 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -163,7 +163,7 @@
 | WI-0113 | Make Wave 5A autonomous and observable | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6f8596bb` | 0 | 23 | 0 |
 | WI-0114 | Integrate the agent-led init and Claude entrypoint handshake | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `555cd6fd` | 0 | 21 | 0 |
 | WI-0115 | Validate clean agent-led greenfield onboarding | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `11012a38` | 0 | 19 | 0 |
-| WI-0116 | Analyze Wave 5A overhead and repair blind evaluation | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902224504-c8b7edf0 | `2ec67d32` | 0 | 10 | 0 |
+| WI-0116 | Analyze Wave 5A overhead and repair blind evaluation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2ec67d32` | 0 | 17 | 0 |
 
 ## Codex task registry
 
@@ -301,14 +301,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T22:45:04.001Z | work_item_claimed | WI-0116 | human |
-| 2026-09-02T22:45:03.764Z | work_item_transitioned | WI-0116 | agent-rikku |
-| 2026-09-02T22:45:03.549Z | work_item_claim_released | WI-0116 | human |
-| 2026-09-02T22:45:03.296Z | handoff_created | WI-0116 | agent-rikku |
-| 2026-09-02T22:45:03.116Z | evidence_recorded | WI-0116 | human |
-| 2026-09-02T22:38:50.305Z | work_item_claimed | WI-0116 | human |
-| 2026-09-02T22:38:50.076Z | work_item_transitioned | WI-0116 | agent-tidus |
-| 2026-09-02T22:38:49.864Z | work_item_claim_released | WI-0116 | human |
+| 2026-09-02T22:47:47.452Z | work_item_closed | WI-0116 | agent-mog |
+| 2026-09-02T22:47:47.452Z | release_gate_completed | WI-0116 | agent-mog |
+| 2026-09-02T22:47:47.268Z | evidence_recorded | WI-0116 | human |
+| 2026-09-02T22:47:47.065Z | work_item_claimed | WI-0116 | human |
+| 2026-09-02T22:47:46.830Z | work_item_transitioned | WI-0116 | agent-lulu |
+| 2026-09-02T22:47:37.004Z | work_item_claim_released | WI-0116 | human |
+| 2026-09-02T22:47:36.747Z | handoff_created | WI-0116 | agent-lulu |
+| 2026-09-02T22:47:36.565Z | evidence_recorded | WI-0116 | human |
 
 ## Assignments
 
