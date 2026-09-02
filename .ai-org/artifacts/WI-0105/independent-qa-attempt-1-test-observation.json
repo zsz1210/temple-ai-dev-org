@@ -1,0 +1,31 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "0a63edf3c06118c8c3cb55af3a2623191d5a1983",
+  "command": [
+    "fresh detached exact candidate: npm run verify",
+    "fresh detached exact candidate: 143 independent matrix, source, revision, privacy, and side-effect assertions",
+    "fresh detached exact candidate: git status --porcelain"
+  ],
+  "result": "fail",
+  "exit_code": 1,
+  "started_at": "2026-09-02T10:20:20.000Z",
+  "completed_at": "2026-09-02T10:25:57.000Z",
+  "artifact_refs": [
+    "docs/validation/wave-4-operating-boundaries.md"
+  ],
+  "summary": {
+    "repository_tests_passed": 280,
+    "repository_tests_failed": 0,
+    "repository_test_duration_seconds": 56.52,
+    "independent_assertions_passed": 139,
+    "independent_assertions_failed": 4,
+    "missing_assertions": [
+      "current_work_item_tracker_ref_count",
+      "tracker_field_ownership",
+      "ui_ref_requirements",
+      "complete_ui_prebuild_evidence"
+    ],
+    "candidate_clean_except_untracked_dependency_symlink": true,
+    "external_action_performed": false
+  }
+}

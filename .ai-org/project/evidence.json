@@ -15442,10 +15442,10 @@
           "path": ".ai-org/artifacts/WI-0104/runtime-cleanup-observation.json",
           "sha256": "5a9b333b7255b0851db2a489c38b71c34eed57122239de4ffb12e0e6bec1b9e8"
         },
-      {
-        "path": ".ai-org/artifacts/WI-0104/independent-qa-report.md",
-        "sha256": "02108d4a8048feb5edda99de67f44b473ead5d169d9edbd686d5a00e13074cdf"
-      }
+        {
+          "path": ".ai-org/artifacts/WI-0104/independent-qa-report.md",
+          "sha256": "02108d4a8048feb5edda99de67f44b473ead5d169d9edbd686d5a00e13074cdf"
+        }
       ],
       "details": {
         "command": [
@@ -15510,6 +15510,218 @@
         ],
         "exit_code": 0,
         "started_at": "2026-09-02T09:30:40.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T101653Z-A4BE304B",
+      "work_item_id": "WI-0105",
+      "recorded_at": "2026-09-02T10:16:53.136Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Wave 4 exact delivery candidate",
+      "outcome": "verified",
+      "scope_revision": "aedb344b5e531fc11092d352650d9c90f6763e54",
+      "observed_at": "2026-09-02T10:16:53.136Z",
+      "summary": "Exact candidate containing the local boundary matrix and Developer report",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "aedb344b5e531fc11092d352650d9c90f6763e54"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "aedb344b5e531fc11092d352650d9c90f6763e54",
+        "working_tree_dirty": true,
+        "dirty_path_count": 1,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T101653Z-C9EBA521",
+      "work_item_id": "WI-0105",
+      "recorded_at": "2026-09-02T10:16:53.355Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 4 Developer verification",
+      "outcome": "pass",
+      "scope_revision": "1f0b41ed67c59645a98abd2b729a78b0effec05a",
+      "observed_at": "2026-09-02T10:14:43.000Z",
+      "summary": "Full repository verification and retained boundary observation passed without external actions",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0105/developer-exact-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0105/developer-exact-test-observation.json",
+          "sha256": "abc7956726f372c2ac3983eb234a8238cc7c50b43c01cd76db58b439fe2af3b7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0105/wave-4-operating-boundaries-observation.json",
+          "sha256": "6540043a6fb2c849c918ecc7e1b24b1f1df966442224cf66ff75347aee927b3a"
+        },
+        {
+          "path": "docs/validation/wave-4-operating-boundaries.md",
+          "sha256": "e05ae4a574149946d50ba6bcf7d906e577fd72fab76a59d8be498dd9d9d03e13"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify",
+          "git diff --name-only c0a1234ff430d81ad6cc4c8aa32bc11cbb91214b 1f0b41ed67c59645a98abd2b729a78b0effec05a",
+          "inspect retained Wave 4 observation summary and privacy boundary"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T10:13:47.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T101925Z-C59C3F27",
+      "work_item_id": "WI-0105",
+      "recorded_at": "2026-09-02T10:19:25.738Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 4 Quality evaluation",
+      "outcome": "pass",
+      "scope_revision": "76bd063ce212fb696e8fccfef0857ce2c391f98d",
+      "observed_at": "2026-09-02T10:18:39.000Z",
+      "summary": "Quality verified 119 retained-evidence assertions at the exact candidate",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0105/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0105/quality-test-observation.json",
+          "sha256": "4f332fa9b4a17e475db555266961968eba859cfe1469a633a8f722b17b0f63db"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0105/wave-4-operating-boundaries-observation.json",
+          "sha256": "6540043a6fb2c849c918ecc7e1b24b1f1df966442224cf66ff75347aee927b3a"
+        },
+        {
+          "path": "docs/validation/wave-4-operating-boundaries.md",
+          "sha256": "e05ae4a574149946d50ba6bcf7d906e577fd72fab76a59d8be498dd9d9d03e13"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run check",
+          "119 retained-evidence, classification, privacy, tracker no-write, and revision-lineage assertions",
+          "git status --porcelain --untracked-files=all"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T10:18:36.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T103328Z-A8258E72",
+      "work_item_id": "WI-0105",
+      "recorded_at": "2026-09-02T10:33:28.826Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 4 Independent QA attempt 1",
+      "outcome": "fail",
+      "scope_revision": "0a63edf3c06118c8c3cb55af3a2623191d5a1983",
+      "observed_at": "2026-09-02T10:25:57.000Z",
+      "summary": "Independent QA passed 280 repository tests but found four missing evidence assertions; no-go pending correction",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0105/independent-qa-attempt-1-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0105/independent-qa-attempt-1-test-observation.json",
+          "sha256": "0c2d1dda35bbcea58fe2019eb59408bd944fa3098d3bc76af818f462346cdd74"
+        },
+        {
+          "path": "docs/validation/wave-4-operating-boundaries.md",
+          "sha256": "e05ae4a574149946d50ba6bcf7d906e577fd72fab76a59d8be498dd9d9d03e13"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached exact candidate: npm run verify",
+          "fresh detached exact candidate: 143 independent matrix, source, revision, privacy, and side-effect assertions",
+          "fresh detached exact candidate: git status --porcelain"
+        ],
+        "exit_code": 1,
+        "started_at": "2026-09-02T10:20:20.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T104404Z-3CCAB600",
+      "work_item_id": "WI-0105",
+      "recorded_at": "2026-09-02T10:44:04.781Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 4 Independent QA",
+      "outcome": "pass",
+      "scope_revision": "43100b5ef602c8f3eb3b5d564cb06e9146ee4004",
+      "observed_at": "2026-09-02T10:42:59.034Z",
+      "summary": "Exact candidate passed 280 repository tests, a fresh bounded check, 221 independent assertions, and Doctor with zero failures",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0105/independent-qa-exact-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0105/independent-qa-exact-test-observation.json",
+          "sha256": "8b0dcbf7a872de4287c7b7ee2535a3da1ed0fd2a365902aa39334c2ad5e19f8b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0105/wave-4-operating-boundaries-observation.json",
+          "sha256": "cfa4813ccabe70968aa30d1332e550a542dc87a352d5257ee972b0100aa08fd5"
+        },
+        {
+          "path": "docs/validation/wave-4-operating-boundaries.md",
+          "sha256": "e05ae4a574149946d50ba6bcf7d906e577fd72fab76a59d8be498dd9d9d03e13"
+        },
+        {
+          "path": "scripts/validate-wave-4-operating-boundaries.mjs",
+          "sha256": "a0f72737357875acbf8e6c73529cba9b6838627eb1d0eaaf0e231f88f8d99823"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached exact candidate: node --check scripts/validate-wave-4-operating-boundaries.mjs",
+          "fresh detached exact candidate: npm run check",
+          "fresh detached exact candidate: 221 independent boundary, matrix, source, privacy, and side-effect assertions",
+          "fresh detached exact candidate: node ./templew.mjs doctor . --json",
+          "fresh detached exact candidate: git status --porcelain"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T10:41:10.134Z"
       }
     }
   ]

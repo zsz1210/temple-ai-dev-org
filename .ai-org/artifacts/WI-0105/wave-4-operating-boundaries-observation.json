@@ -1,0 +1,787 @@
+{
+  "schema_version": "temple.wave-4-operating-boundaries-observation/v1",
+  "generator": {
+    "script": "scripts/validate-wave-4-operating-boundaries.mjs",
+    "temple_version": "0.1.0-alpha.29",
+    "node_version": "v24.20.0"
+  },
+  "status": "pass",
+  "started_at": "2026-09-02T10:33:45.228Z",
+  "finished_at": "2026-09-02T10:34:13.170Z",
+  "elapsed_ms": 27940.901,
+  "candidate": {
+    "revision": "8d81487deca47e6d7765ba0de641f4c86495f662",
+    "exact_revision_observed": true,
+    "clean_before_run": true,
+    "dirty_paths_before_run": []
+  },
+  "commands": [
+    {
+      "command": "git rev-parse HEAD",
+      "expected_exit_codes": [
+        0
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 10.095,
+      "stdout_summary": "8d81487deca47e6d7765ba0de641f4c86495f662",
+      "stderr_summary": ""
+    },
+    {
+      "command": "git status --porcelain --untracked-files=all",
+      "expected_exit_codes": [
+        0
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 16.398,
+      "stdout_summary": "M .ai-org/artifacts/WI-0105/wave-4-operating-boundaries-observation.json\n?? node_modules",
+      "stderr_summary": ""
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node --test test/collaboration-governance.test.mjs test/tracker.test.mjs test/workflow.test.mjs test/high-assurance.test.mjs test/evidence-observer.test.mjs test/audit-export.test.mjs test/recovery.test.mjs test/control-plane-private-viewer.test.mjs test/control-plane-inbox.test.mjs test/ci-scope.test.mjs test/release-package.test.mjs",
+      "expected_exit_codes": [
+        0
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 26910.922,
+      "stdout_summary": "✔ audit export is deterministic, bounded, filtered, and recursively redacted (196.25125ms)\n✔ audit export emits only bounded recovery metadata, never recovery payloads (83.965333ms)\n✔ audit export fails closed for linked sources and oversized canonical event lines (67.194334ms)\n✔ CI is one bounded Node.js 24 repository gate (11.543083ms)\n✔ complete and browser verification remain explicit local commands (3.24275ms)\n✔ v1 migration preserves defaults and makes unverified pooled membership provisional (2.571834ms)\n✔ Principal names may repeat while authority expansion and bootstrap retirement remain explicit (208.758875ms)\n✔ a migrated team explicitly establishes bootstrap authority without promoting a later newcomer (133.371208ms)\n✔ local actor binding stays under the Git common directory and Solo self-assertion cannot pass Collaborative verification (275.4425ms)\n✔ simulated validation cannot satisfy the Real Collaborative gate (220.711416ms)\n✔ two disposable clones expose a competing canonical write instead of silently losing it (997.810458ms)\n✔ Temple Workspace command drafts survive unrelated refreshes and invalidate changed targets (2.631875ms)\n✔ Human Inbox keeps runtime permission and business-fact authority separate and idempotent (2561.281125ms)\n✔ Agent command gateway is opt-in, idempotent, privacy-bounded, and preserves truthful delivery states (1698.005542ms)\n✔ Agent command durable state keeps only non-content metadata across adversarial instruction lengths (1615.93675ms)\n✔ governance approval enforces current state, exact revision, active principals, and High-Assurance independence (2306.30025ms)\n✔ loopback command gateway rejects cross-origin, unauthenticated, and arbitrary mutations (1254.669958ms)\n✔ private viewer host and pinned Tailscale adapter fail closed (3.173125ms)\n✔ home-LAN viewer accepts only exact RFC1918 IPv4 addresses (6.64575ms)\n✔ home-LAN CLI requires an explicit private host before accepting a port (1899.114208ms)\n✔ dedicated home-LAN listener is redacted and read-only regardless of request headers (1449.34375ms)\n✔ private Temple Workspace is redacted, refresh-only, and cannot reach Inbox or mutations (1456.367959ms)\n✔ Dashboard Now preserves read-only Skill Proposal evidence and authority attention (3.47525ms)\n✔ init owns an empty evidence registry and exact Git evidence resolves to a commit (2622.71825ms)\n✔ Doctor requires non\n<output truncated>",
+      "stderr_summary": ""
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node <repository>/bin/temple.mjs init <temporary>/tracker-fixture --config <temporary>/init.json",
+      "expected_exit_codes": [
+        0
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 402.695,
+      "stdout_summary": "Temple init plan for <temporary>/tracker-fixture\n- copy: 99\n- copy-agents: 1\n- write: 6\n- write-empty: 1\n- write-lock: 1\nAGENTS.md integration: installed\nRepository integration: unconfirmed\nInstallation mode: project\nInitialized Temple 0.1.0-alpha.29.\nAI development organization doctor — <temporary>/tracker-fixture\n[PASS] temple_lock: Organization system 0.1.0-alpha.29 lock is valid\n[PASS] cli_bootstrap: Repository launcher pins Temple 0.1.0-alpha.29\n[PASS] installation_mode: Project installation boundary is valid\n[PASS] runtime_json_schema: 19 JSON document(s) match 29 cataloged Draft 2020-12 schema(s)\n[PASS] managed_files: 83 managed files match checksums\n[PASS] optional_packs: 0 optional packs are valid\n[PASS] position_catalog: All 10 required Positions are present\n[PASS] specification_index: 0 specifications are indexed (0 approved, profile=hybrid)\n[PASS] tracker_configuration: repository-only profile has 0 provider(s); granularity=team-visible\n[PASS] project_model: Project model is valid: Wave 4 Tracker Fixture\n[PASS] agent_identities: 5 unique Agent Identities are valid\n[PASS] position_assignments: All 10 Positions have one active assignment\n[PASS] independent_qa_separation: Developer and Independent QA use different Agent Identities\n[PASS] release_separation: Developer and Release Manager are separated\n[PASS] collaboration_model: solo profile has 0 Human Principals and 10 Position memberships\n[WARN] repository_integration: Project repository integration is unconfirmed; inspect existing policy and ask only when the missing choice affects work\n[PASS] context_map: 0 active context routes are valid\n[PASS] retrieval_provider: Default repository-deterministic Retrieval Provider contract is valid; semantic retrieval is disabled\n[PASS] retrieval_configuration: Selected repository-deterministic; local hybrid=available_not_configured; no model, embeddings, vector database, daemon, or remote search installed\n[PASS] archify_adapter: optional adapter is not installed\n[PASS] shared_resources: 0 shared resource(s), 0 active reservation(s)\n[PASS] work_items: 0 canonical work items are valid\n[PASS] evidence_registry: 0 normalized evidence record(s) and artifact digest(s) are valid\n[PASS] tracker_mappings: Work Item tracker mappings are valid\n[PASS] tracker_reconciliation_evidence: Tracker reconciliation evidence is present and consistent\n[PASS] parallel_plan: No gener\n<output truncated>",
+      "stderr_summary": ""
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node <repository>/bin/temple.mjs work-item create <temporary>/tracker-fixture --title \"Qualify a synthetic company outcome\" --scope \"Synthetic team-visible outcome\" --acceptance \"Temple remains lifecycle authority\" --ui-mode not-applicable",
+      "expected_exit_codes": [
+        0
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 88.88,
+      "stdout_summary": "Created WI-0001: Qualify a synthetic company outcome\nState: intake (engineering_manager)\nSuggested Codex title: WI-0001 · Qualify a… · Engineering Manager (Fixture Rowan)",
+      "stderr_summary": ""
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node <repository>/bin/temple.mjs work-item create <temporary>/tracker-fixture --title \"Synthetic internal implementation\" --parent WI-0001 --ui-mode not-applicable",
+      "expected_exit_codes": [
+        0
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 92.384,
+      "stdout_summary": "Created WI-0002: Synthetic internal implementation\nState: intake (engineering_manager)\nSuggested Codex title: WI-0002 · Synthetic… · Engineering Manager (Fixture Rowan)",
+      "stderr_summary": ""
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node <repository>/bin/temple.mjs tracker configure <temporary>/tracker-fixture --tracker-profile linked-tracker --provider-id github-main --provider-kind github --project example/product --write-policy plan-only",
+      "expected_exit_codes": [
+        0
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 86.818,
+      "stdout_summary": "Tracker profile: linked-tracker\nSync granularity: team-visible\nDefault provider: github-main",
+      "stderr_summary": ""
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node <repository>/bin/temple.mjs tracker link <temporary>/tracker-fixture --work-item WI-0001 --provider-id github-main --item-id 381 --url https://github.com/example/product/issues/381",
+      "expected_exit_codes": [
+        0
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 87.821,
+      "stdout_summary": "Linked WI-0001 to github-main:381\nExternal write: not performed",
+      "stderr_summary": ""
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node <repository>/bin/temple.mjs tracker link <temporary>/tracker-fixture --work-item WI-0002 --provider-id github-main --item-id 382 --url https://github.com/example/product/issues/382",
+      "expected_exit_codes": [
+        1
+      ],
+      "exit_code": 1,
+      "elapsed_ms": 73.601,
+      "stdout_summary": "",
+      "stderr_summary": "Temple error: WI-0002 is internal; set tracker visibility to team-visible before linking"
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node <repository>/bin/temple.mjs tracker inspect <temporary>/tracker-fixture --work-item WI-0001 --observation <temporary>/observation.json --no-write --json",
+      "expected_exit_codes": [
+        0
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 75.847,
+      "stdout_summary": "{\n  \"schema_version\": \"temple.tracker-observation/v1\",\n  \"provider_id\": \"github-main\",\n  \"provider_kind\": \"github\",\n  \"item_id\": \"381\",\n  \"url\": \"https://github.com/example/product/issues/381\",\n  \"observed_at\": \"2026-09-02T00:00:00.000Z\",\n  \"external_updated_at\": \"2026-09-01T23:59:00.000Z\",\n  \"revision\": \"fixture:381:done\",\n  \"title\": \"Qualify a synthetic company outcome\",\n  \"status\": \"done\",\n  \"fields\": {\n    \"priority\": \"high\",\n    \"iteration\": \"Fixture Sprint\",\n    \"estimate\": \"5\",\n    \"due_date\": null,\n    \"business_assignee\": \"fixture-user\",\n    \"labels\": [\n      \"team-visible\"\n    ]\n  },\n  \"source\": {\n    \"kind\": \"file\",\n    \"adapter\": \"wave-4-fixture\"\n  }\n}",
+      "stderr_summary": ""
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node <repository>/bin/temple.mjs tracker plan <temporary>/tracker-fixture --work-item WI-0001 --observation <temporary>/observation.json --no-write --json",
+      "expected_exit_codes": [
+        0
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 73.649,
+      "stdout_summary": "{\n  \"schema_version\": \"temple.tracker-plan/v1\",\n  \"generated_at\": \"2026-09-02T10:34:13.160Z\",\n  \"work_item_id\": \"WI-0001\",\n  \"provider_id\": \"github-main\",\n  \"provider_kind\": \"github\",\n  \"item_id\": \"381\",\n  \"observation_revision\": \"fixture:381:done\",\n  \"write_policy\": \"plan-only\",\n  \"actions\": [\n    {\n      \"id\": \"external-completion-cannot-advance-temple\",\n      \"field\": \"lifecycle_state\",\n      \"owner\": \"temple\",\n      \"direction\": \"inbound-blocked\",\n      \"severity\": \"conflict\",\n      \"temple_value\": \"open\",\n      \"external_value\": \"done\",\n      \"automatic\": false,\n      \"reason\": \"External completion cannot bypass Temple lifecycle evidence and release gates\"\n    }\n  ],\n  \"conflict_count\": 1,\n  \"review_count\": 1,\n  \"external_write_performed\": false\n}",
+      "stderr_summary": ""
+    }
+  ],
+  "focused_tests": {
+    "files": [
+      "test/collaboration-governance.test.mjs",
+      "test/tracker.test.mjs",
+      "test/workflow.test.mjs",
+      "test/high-assurance.test.mjs",
+      "test/evidence-observer.test.mjs",
+      "test/audit-export.test.mjs",
+      "test/recovery.test.mjs",
+      "test/control-plane-private-viewer.test.mjs",
+      "test/control-plane-inbox.test.mjs",
+      "test/ci-scope.test.mjs",
+      "test/release-package.test.mjs"
+    ],
+    "tests": 83,
+    "pass": 83,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "canonical_snapshot": {
+    "collaboration": {
+      "profile": "solo",
+      "principals": 0,
+      "sponsorships": 0,
+      "active_memberships": 10,
+      "recovery_status": "not_configured",
+      "validation": {
+        "automated": {
+          "status": "passed",
+          "tested_revision": "006ef1123d7d00560f56e0d03477737ea0ab9d10"
+        },
+        "simulated_collaborative": {
+          "status": "passed",
+          "tested_revision": "006ef1123d7d00560f56e0d03477737ea0ab9d10"
+        },
+        "real_collaborative": {
+          "status": "not_run",
+          "tested_revision": null
+        },
+        "representative_pilot": {
+          "status": "not_run",
+          "tested_revision": null
+        },
+        "high_assurance_drill": {
+          "status": "not_run",
+          "tested_revision": null
+        }
+      }
+    },
+    "tracker": {
+      "profile": "repository-only",
+      "providers": 0,
+      "mappings": 0,
+      "default_provider_id": null,
+      "sync_granularity": "team-visible",
+      "field_ownership": {
+        "temple": [
+          "lifecycle_state",
+          "specification_refs",
+          "interface_contracts",
+          "gate_evidence",
+          "claim",
+          "tested_revision",
+          "release_decision"
+        ],
+        "external": [
+          "priority",
+          "iteration",
+          "estimate",
+          "due_date",
+          "business_assignee",
+          "labels"
+        ],
+        "negotiated": [
+          "title",
+          "parent",
+          "dependencies"
+        ]
+      }
+    },
+    "ui_delivery": {
+      "modes": [
+        {
+          "id": "not-applicable",
+          "purpose": "Record explicitly that the work item has no user-facing interface and therefore needs no UI artifact.",
+          "preimplementation_visual_artifact_required": false,
+          "prebuild_evidence": [],
+          "minimum_evidence": []
+        },
+        {
+          "id": "code-first",
+          "purpose": "Move quickly on low-risk or exploratory UI through an executable implementation.",
+          "preimplementation_visual_artifact_required": false,
+          "prebuild_evidence": [
+            "ui_brief",
+            "required_state_coverage"
+          ],
+          "minimum_evidence": [
+            "ui_brief",
+            "runtime_visual_review",
+            "required_state_coverage"
+          ]
+        },
+        {
+          "id": "preview-first",
+          "purpose": "Confirm important layout, states, and interaction direction before full implementation.",
+          "preimplementation_visual_artifact_required": true,
+          "prebuild_evidence": [
+            "ui_brief",
+            "preview_artifact",
+            "review_record"
+          ],
+          "minimum_evidence": [
+            "ui_brief",
+            "preview_artifact",
+            "review_record",
+            "runtime_visual_review"
+          ]
+        },
+        {
+          "id": "design-led",
+          "purpose": "Use an approved design source for brand-sensitive, high-rework-cost, or multi-party delivery.",
+          "preimplementation_visual_artifact_required": true,
+          "prebuild_evidence": [
+            "ui_brief",
+            "versioned_design_source",
+            "approval_record",
+            "implementation_mapping"
+          ],
+          "minimum_evidence": [
+            "ui_brief",
+            "versioned_design_source",
+            "approval_record",
+            "implementation_mapping",
+            "runtime_visual_review"
+          ]
+        }
+      ],
+      "mode_requirements": [
+        {
+          "id": "not-applicable",
+          "ui_ref_required": false,
+          "ui_refs_forbidden": true
+        },
+        {
+          "id": "code-first",
+          "ui_ref_required": false,
+          "ui_refs_forbidden": false
+        },
+        {
+          "id": "preview-first",
+          "ui_ref_required": true,
+          "ui_refs_forbidden": false
+        },
+        {
+          "id": "design-led",
+          "ui_ref_required": true,
+          "ui_refs_forbidden": false
+        }
+      ],
+      "required_tool": null,
+      "allowed_examples": [
+        "Figma",
+        "SwiftUI Preview",
+        "Storybook",
+        "HTML prototype",
+        "annotated screenshots",
+        "Markdown UI specification"
+      ]
+    },
+    "organization": {
+      "position_ids": [
+        "engineering_manager",
+        "product_manager",
+        "ux_designer",
+        "ui_designer",
+        "tech_lead",
+        "developer",
+        "quality_evaluator",
+        "independent_qa",
+        "release_manager",
+        "observer"
+      ],
+      "observer_cannot_approve": [
+        "product_decision",
+        "technical_decision",
+        "qa_result",
+        "release"
+      ],
+      "sre_position_present": false,
+      "security_position_present": false,
+      "developer_agent_id": "agent-rikku",
+      "independent_qa_agent_id": "agent-lulu",
+      "release_manager_agent_id": "agent-mog"
+    },
+    "control_plane": {
+      "host": "127.0.0.1",
+      "capture_raw_payloads": false,
+      "redact_keys": [
+        "api-key",
+        "apikey",
+        "authorization",
+        "cookie",
+        "password",
+        "secret",
+        "token"
+      ],
+      "providers": [
+        "repository"
+      ],
+      "token_budget": null,
+      "agent_commands_enabled": false
+    },
+    "high_assurance": {
+      "schema_version": "temple.high-assurance/v1",
+      "profile": "high-assurance",
+      "human_accountability": {
+        "minimum_active_principals": 2,
+        "all_active_agents_require_sponsors": true,
+        "developer_independent_qa_separation": true,
+        "developer_release_manager_separation": true
+      },
+      "risk_tiers": {
+        "low": {
+          "artifact_depth": "lean",
+          "allowed_ui_modes": [
+            "not-applicable",
+            "code-first",
+            "preview-first",
+            "design-led"
+          ],
+          "minimum_approvals": 1,
+          "rollback_status": "planned"
+        },
+        "standard": {
+          "artifact_depth": "standard",
+          "allowed_ui_modes": [
+            "not-applicable",
+            "code-first",
+            "preview-first",
+            "design-led"
+          ],
+          "minimum_approvals": 1,
+          "rollback_status": "planned"
+        },
+        "high": {
+          "artifact_depth": "controlled",
+          "allowed_ui_modes": [
+            "not-applicable",
+            "preview-first",
+            "design-led"
+          ],
+          "minimum_approvals": 1,
+          "rollback_status": "planned"
+        },
+        "critical": {
+          "artifact_depth": "controlled",
+          "allowed_ui_modes": [
+            "not-applicable",
+            "design-led"
+          ],
+          "minimum_approvals": 2,
+          "rollback_status": "verified"
+        }
+      },
+      "transition_requirements": {
+        "design->build": {
+          "requirement": "assurance_risk_review",
+          "evidence_kind": "risk",
+          "accepted_outcomes": [
+            "accepted",
+            "mitigated"
+          ]
+        },
+        "build->test": {
+          "requirement": "exact_candidate_revision",
+          "evidence_kind": "git-revision",
+          "accepted_outcomes": [
+            "verified"
+          ]
+        },
+        "test->eval": {
+          "requirement": "normalized_test_evidence",
+          "evidence_kind": "test",
+          "accepted_outcomes": [
+            "pass"
+          ]
+        },
+        "independent_qa->release_gate": {
+          "requirement": "normalized_independent_qa_evidence",
+          "evidence_kinds": [
+            "test",
+            "runtime"
+          ],
+          "accepted_outcomes": [
+            "pass"
+          ],
+          "required_position": "independent_qa"
+        }
+      },
+      "external_action_performed": false
+    }
+  },
+  "tracker_rehearsal": {
+    "classification": "simulated",
+    "synthetic_provider": true,
+    "synthetic_identities": true,
+    "parent_visibility": "team-visible",
+    "child_visibility": "internal",
+    "internal_child_link_rejected": true,
+    "inspect_no_write": true,
+    "plan_no_write": true,
+    "lifecycle_state_after_external_done": "intake",
+    "conflict_count": 1,
+    "external_write_performed": false,
+    "source_digests_unchanged": true,
+    "generated_tracker_view_created": false,
+    "external_contact_performed": false
+  },
+  "matrix": [
+    {
+      "id": "collaboration-current-profile",
+      "boundary": "collaborative-governance",
+      "claim": "Current project governance is inspectable",
+      "status": "pass",
+      "evidence_class": "verified-local",
+      "current_revision_applicability": "exact",
+      "verified_facts": [
+        "profile=solo",
+        "principals=0",
+        "sponsorships=0",
+        "active_memberships=10",
+        "recovery=not_configured"
+      ],
+      "evidence_refs": [
+        ".ai-org/project/collaboration.json",
+        ".ai-org/project/assignments.json"
+      ],
+      "limitations": "Solo configuration does not exercise sponsorship or recovery with real Human Principals."
+    },
+    {
+      "id": "collaboration-local-enforcement",
+      "boundary": "collaborative-governance",
+      "claim": "Membership, identity, claims, authority, and recovery rules fail closed in local fixtures",
+      "status": "pass",
+      "evidence_class": "simulated",
+      "current_revision_applicability": "exact",
+      "verified_facts": [
+        "focused executable tests passed",
+        "Developer and Independent QA identities are distinct"
+      ],
+      "evidence_refs": [
+        "test/collaboration-governance.test.mjs",
+        "test/workflow.test.mjs"
+      ],
+      "limitations": "Actors, approvals, clones, and environments in the executable tests are synthetic."
+    },
+    {
+      "id": "collaboration-real-operation",
+      "boundary": "collaborative-governance",
+      "claim": "Different humans collaborate from independently administered environments",
+      "status": "gap",
+      "evidence_class": "not-run",
+      "current_revision_applicability": "exact",
+      "verified_facts": [
+        "real_collaborative=not_run",
+        "representative_pilot=not_run"
+      ],
+      "evidence_refs": [
+        "docs/validation/collaborative-large-scale-test-plan.md"
+      ],
+      "limitations": "Requires real participants, machines, branches, pull requests, CI, review, integration, and exact-revision QA."
+    },
+    {
+      "id": "tracker-current-profile",
+      "boundary": "tracker-coordination",
+      "claim": "The current project is repository-only and has no external mapping",
+      "status": "pass",
+      "evidence_class": "verified-local",
+      "current_revision_applicability": "exact",
+      "verified_facts": [
+        "profile=repository-only",
+        "providers=0",
+        "mappings=0",
+        "field_ownership_asserted=true",
+        "external_write_performed=false"
+      ],
+      "evidence_refs": [
+        ".ai-org/project/tracker.json",
+        "docs/operations/task-and-tracker-coordination.md"
+      ],
+      "limitations": "This proves the local source-of-truth boundary, not external interoperability."
+    },
+    {
+      "id": "tracker-local-rehearsal",
+      "boundary": "tracker-coordination",
+      "claim": "Team-visible parent and internal child coordination remains read-only and lifecycle-safe",
+      "status": "pass",
+      "evidence_class": "simulated",
+      "current_revision_applicability": "exact",
+      "verified_facts": [
+        "internal child link rejected",
+        "inspect --no-write created no view",
+        "plan --no-write created no view",
+        "external completion left lifecycle at intake"
+      ],
+      "evidence_refs": [
+        "test/tracker.test.mjs",
+        "test/workflow.test.mjs",
+        "scripts/validate-wave-4-operating-boundaries.mjs"
+      ],
+      "limitations": "The provider observation and all identities are local fixtures; no GitHub or Jira request occurred."
+    },
+    {
+      "id": "tracker-real-provider",
+      "boundary": "tracker-coordination",
+      "claim": "A company Jira or GitHub Issues workflow operates with real permissions and concurrent users",
+      "status": "gap",
+      "evidence_class": "not-run",
+      "current_revision_applicability": "exact",
+      "verified_facts": [
+        "external_contact_performed=false",
+        "external_write_performed=false"
+      ],
+      "evidence_refs": [
+        "docs/adr/0020-external-tracker-coordination.md"
+      ],
+      "limitations": "Authentication, rate limits, company fields, permission boundaries, and concurrent edits were not exercised."
+    },
+    {
+      "id": "ui-code-and-preview",
+      "boundary": "ui-delivery",
+      "claim": "Code-first and preview-first require named prebuild and runtime evidence",
+      "status": "pass",
+      "evidence_class": "verified-local",
+      "current_revision_applicability": "exact",
+      "verified_facts": [
+        "four delivery modes and exact evidence arrays asserted",
+        "runtime_visual_review required for every interface mode",
+        "preview-first and design-led require ui_refs",
+        "not-applicable forbids ui_refs"
+      ],
+      "evidence_refs": [
+        ".ai-org/core/ui-design.json",
+        "test/workflow.test.mjs"
+      ],
+      "limitations": "Current exact tests enforce the contract; retained browser reviews are historical evidence on their recorded revisions."
+    },
+    {
+      "id": "ui-design-led",
+      "boundary": "ui-delivery",
+      "claim": "Design-led delivery is defined",
+      "status": "gap",
+      "evidence_class": "documented-policy",
+      "current_revision_applicability": "exact",
+      "verified_facts": [
+        "prebuild=ui_brief,versioned_design_source,approval_record,implementation_mapping",
+        "closeout=ui_brief,versioned_design_source,approval_record,implementation_mapping,runtime_visual_review"
+      ],
+      "evidence_refs": [
+        ".ai-org/core/ui-design.json",
+        "docs/concepts/ui-design.md"
+      ],
+      "limitations": "No direct lifecycle fixture, completed design-led Work Item, or implementation-mapping rehearsal qualifies this mode."
+    },
+    {
+      "id": "ui-vendor-neutrality",
+      "boundary": "ui-delivery",
+      "claim": "No design vendor is required by the framework",
+      "status": "pass",
+      "evidence_class": "verified-local",
+      "current_revision_applicability": "exact",
+      "verified_facts": [
+        "required_tool=null",
+        "allowed_examples=6"
+      ],
+      "evidence_refs": [
+        ".ai-org/core/ui-design.json",
+        "scripts/check-repo.mjs"
+      ],
+      "limitations": "Vendor neutrality does not prove a real Figma or multi-party design handoff."
+    },
+    {
+      "id": "ui-real-figma-and-team",
+      "boundary": "ui-delivery",
+      "claim": "Figma synchronization and a real designer-to-developer delivery operate end to end",
+      "status": "gap",
+      "evidence_class": "not-run",
+      "current_revision_applicability": "exact",
+      "verified_facts": [
+        "figma_contact_performed=false",
+        "multi_party_design_trial=false"
+      ],
+      "evidence_refs": [
+        "docs/concepts/ui-design.md"
+      ],
+      "limitations": "Connector authentication, design revision drift, mapping, review, and team handoff were not exercised."
+    },
+    {
+      "id": "sre-security-local-safeguards",
+      "boundary": "sre-security",
+      "claim": "Local observability, audit, recovery, privacy, command, evidence, and release safeguards fail closed",
+      "status": "pass",
+      "evidence_class": "simulated",
+      "current_revision_applicability": "exact",
+      "verified_facts": [
+        "focused executable tests passed",
+        "Control Plane is loopback",
+        "raw payload capture is disabled",
+        "Agent Commands are disabled by current configuration"
+      ],
+      "evidence_refs": [
+        "test/evidence-observer.test.mjs",
+        "test/audit-export.test.mjs",
+        "test/recovery.test.mjs",
+        "test/control-plane-private-viewer.test.mjs",
+        "test/control-plane-inbox.test.mjs"
+      ],
+      "limitations": "The tests use temporary repositories, synthetic providers, and synthetic failure conditions."
+    },
+    {
+      "id": "sre-security-position-coverage",
+      "boundary": "sre-security",
+      "claim": "The organization has explicit SRE and Security Positions",
+      "status": "gap",
+      "evidence_class": "verified-local",
+      "current_revision_applicability": "exact",
+      "verified_facts": [
+        "observer_position=true",
+        "sre_position=false",
+        "security_position=false"
+      ],
+      "evidence_refs": [
+        ".ai-org/core/positions.json"
+      ],
+      "limitations": "Security duties are distributed across existing roles; Observer is not a production SRE or approval role."
+    },
+    {
+      "id": "sre-security-real-operation",
+      "boundary": "sre-security",
+      "claim": "Production SRE, incident response, vulnerability management, disaster recovery, and security assessment are qualified",
+      "status": "gap",
+      "evidence_class": "not-run",
+      "current_revision_applicability": "exact",
+      "verified_facts": [
+        "production_action_performed=false",
+        "security_certification=false"
+      ],
+      "evidence_refs": [
+        "SECURITY.md",
+        "docs/operations/control-plane.md"
+      ],
+      "limitations": "No on-call, SLO/error budget, incident drill, real outage, machine-loss recovery, threat model, SAST/DAST, penetration test, or certification was run."
+    },
+    {
+      "id": "high-assurance-contract",
+      "boundary": "high-assurance",
+      "claim": "High-Assurance encodes human accountability, separation, exact evidence, risk-scaled approvals, and rollback",
+      "status": "pass",
+      "evidence_class": "simulated",
+      "current_revision_applicability": "exact",
+      "verified_facts": [
+        "minimum_active_principals=2",
+        "critical_minimum_approvals=2",
+        "critical_rollback_status=verified",
+        "Developer separation rules enabled"
+      ],
+      "evidence_refs": [
+        ".ai-org/core/high-assurance.json",
+        "test/high-assurance.test.mjs"
+      ],
+      "limitations": "Executable actors and approvals are synthetic; critical full closeout does not yet have a dedicated end-to-end fixture."
+    },
+    {
+      "id": "high-assurance-real-drill",
+      "boundary": "high-assurance",
+      "claim": "A real High-Assurance project has completed its named drill",
+      "status": "gap",
+      "evidence_class": "not-run",
+      "current_revision_applicability": "exact",
+      "verified_facts": [
+        "high_assurance_drill=not_run"
+      ],
+      "evidence_refs": [
+        ".ai-org/project/collaboration.json",
+        ".ai-org/core/high-assurance.json"
+      ],
+      "limitations": "Requires distinct active humans, real sponsorship, independently controlled approval evidence, verified rollback, and exact-revision QA."
+    }
+  ],
+  "summary": {
+    "rows": 15,
+    "by_boundary": {
+      "collaborative-governance": {
+        "rows": 3,
+        "pass": 2,
+        "gap": 1,
+        "not-applicable": 0
+      },
+      "tracker-coordination": {
+        "rows": 3,
+        "pass": 2,
+        "gap": 1,
+        "not-applicable": 0
+      },
+      "ui-delivery": {
+        "rows": 4,
+        "pass": 2,
+        "gap": 2,
+        "not-applicable": 0
+      },
+      "sre-security": {
+        "rows": 3,
+        "pass": 1,
+        "gap": 2,
+        "not-applicable": 0
+      },
+      "high-assurance": {
+        "rows": 2,
+        "pass": 1,
+        "gap": 1,
+        "not-applicable": 0
+      }
+    },
+    "by_evidence_class": {
+      "verified-local": 5,
+      "simulated": 4,
+      "not-run": 5,
+      "documented-policy": 1
+    }
+  },
+  "external_actions": {
+    "network_contact_performed": false,
+    "external_write_performed": false,
+    "production_action_performed": false,
+    "service_started": false,
+    "model_generation_performed": false,
+    "console_or_observer_started": false,
+    "container_runtime_started": false
+  },
+  "usage": {
+    "model": "not_applicable",
+    "reasoning_effort": "not_applicable",
+    "input_tokens": "not_applicable",
+    "cached_input_tokens": "not_applicable",
+    "output_tokens": "not_applicable",
+    "credits": "not_applicable",
+    "reason": "This deterministic validation uses repository files and local executables only."
+  },
+  "limitations": [
+    "Local executable tests and temporary fixtures are not real multi-human or independently administered environments.",
+    "No external tracker, Figma, production system, second machine, model, usage collector, Console, Observer daemon, or container runtime was contacted or started.",
+    "Historical retained evidence remains applicable only to its own recorded revision.",
+    "No enterprise-readiness, security-certification, production-SRE, financial-saving, or Token-saving conclusion is supported."
+  ]
+}
