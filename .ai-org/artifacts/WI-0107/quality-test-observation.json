@@ -1,6 +1,6 @@
 {
   "schema_version": "temple.test-observation/v1",
-  "revision": "working-tree-post-correction",
+  "revision": "984cd027771c8f1fbfaee9fc8bc8e9facaf29c1f",
   "command": [
     "inspect retained validation-program state and events",
     "inspect all four candidate Git states",
@@ -32,4 +32,3 @@
     "mechanism_qualified": false
   }
 }
-
