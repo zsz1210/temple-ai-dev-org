@@ -28,7 +28,7 @@
     "temple": "./bin/temple.mjs"
   },
   "engines": {
-    "node": "^22.0.0 || ^24.0.0"
+    "node": ">=24.0.0"
   },
   "scripts": {
     "check": "node scripts/check-repo.mjs && node scripts/check-doc-links.mjs && node scripts/check-package.mjs",

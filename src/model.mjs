@@ -1,6 +1,7 @@
 import path from "node:path";
 import { PROJECT_OVERLAY_ROOT, REQUIRED_POSITIONS } from "./constants.mjs";
 import { readJson } from "./files.mjs";
+import { normalizeRepositoryIntegration } from "./repository-integration.mjs";
 
 const ENGLISH_NAME = /^[A-Za-z][A-Za-z .'-]*$/;
 const AGENT_ID = /^agent-[a-z0-9][a-z0-9-]*$/;
@@ -133,6 +134,13 @@ export async function validateInitConfig(rawConfig) {
     errors.push("Developer and Independent QA must be different Agent Identities");
   }
 
+  let repositoryIntegration;
+  try {
+    repositoryIntegration = normalizeRepositoryIntegration(rawConfig.repository_integration);
+  } catch (error) {
+    errors.push(error.message.replace(/^Invalid repository integration config:\n- /, "repository_integration "));
+  }
+
   if (errors.length > 0) {
     throw new Error(`Invalid init config:\n- ${errors.join("\n- ")}`);
   }
@@ -141,7 +149,8 @@ export async function validateInitConfig(rawConfig) {
     schema_version: "temple.init/v1",
     project: { id: project.id, name: project.name.trim() },
     naming_mode: rawConfig.naming_mode,
-    agents
+    agents,
+    repository_integration: repositoryIntegration
   };
 }
 
@@ -182,7 +191,8 @@ export function buildProjectState(config, initializedAt = new Date().toISOString
     tasks: {
       schema_version: "temple.tasks/v1",
       tasks: []
-    }
+    },
+    repositoryIntegration: config.repository_integration
   };
 }
 

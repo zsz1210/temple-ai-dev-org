@@ -52,7 +52,7 @@ The local framework already provides:
 - Finish the operator-owned Provider trust decision before recommending Provider execution from untrusted repositories.
 - Add supported-version and private vulnerability-reporting instructions, review third-party notices, and enable appropriate public repository protections.
 - Retain the reviewed immutable GitHub Actions revisions and minimal workflow permissions.
-- Retain the tested Node.js 22 and 24 LTS contract. Node.js 26 remains a forward-compatibility signal until it enters LTS and is intentionally added.
+- Require Node.js 24 or later. Keep Node.js 24 as the remote baseline, run complete and browser verification locally, and limit ordinary GitHub Actions to one bounded Node.js 24 repository gate.
 
 ### 4. Prove the final candidate
 

@@ -20,9 +20,11 @@ Clone the central framework once and install its exact lockfile dependencies wit
 
 For the first run, open Codex in the central framework repository and provide the absolute path to the target repository:
 
-> Use temple-init with `/absolute/path/to/target`. Suggest English names for the five Assignment slots, wait for my confirmation, and then initialize the project.
+> Use temple-init with `/absolute/path/to/target`. Inspect its existing branch, review, and integration policy first; ask only about missing choices that affect execution. Then suggest English names for the five Assignment slots, show me the Position mapping and integration summary, wait for my confirmation, and initialize the project.
 
-The AI must display Position mappings and proposed names first. It may create the configuration and run `init` only after confirmation. After installation, the target repository receives `$temple-init`, `$temple-work`, `$decision-interview`, `$domain-modeling`, `$project-documentation`, and `$skill-authoring`. The central repository itself contains no default names.
+The AI first inspects repository-local evidence such as `CONTRIBUTING.md`, governance or delivery documentation, CI configuration, and Git state. If those sources already define the workflow, the AI summarizes and cites them instead of asking the user to restate the rules. If an execution-relevant choice remains unclear, it asks only for that missing choice. The pre-write proposal combines the workflow summary, Position mappings, and names; the AI may create the configuration and run `init` only after confirmation.
+
+After installation, the target repository receives `$temple-init`, `$temple-work`, `$decision-interview`, `$domain-modeling`, `$project-documentation`, and `$skill-authoring`. The central repository itself contains no default names or required Git workflow. The target's existing GitHub, GitLab, or company policy remains authoritative, and Temple does not contact the provider or change its settings during initialization.
 
 ### Manual configuration
 
@@ -39,9 +41,24 @@ Create a JSON file that does not need to be committed to Git:
     { "display_name": "Name Three", "positions": ["tech_lead"] },
     { "display_name": "Name Four", "positions": ["developer"] },
     { "display_name": "Name Five", "positions": ["quality_evaluator", "independent_qa"] }
-  ]
+  ],
+  "repository_integration": {
+    "schema_version": "temple.repository-integration/v1",
+    "status": "confirmed",
+    "authority": "project",
+    "source": "repository-policy",
+    "policy_refs": ["CONTRIBUTING.md"],
+    "summary": "Use short-lived branches and review changes before integrating them.",
+    "integration_target": "main",
+    "change_isolation": "required",
+    "review_gate": "required",
+    "recorded_at": "2026-09-02T00:00:00.000Z",
+    "recorded_by": "human"
+  }
 }
 ```
+
+The example describes one project; it is not Temple's default workflow. `policy_refs` points to the authoritative repository documents, while `summary` gives Agents a short routing hint. Omit `repository_integration` when using the CLI without assisted discovery: initialization then writes an `unconfirmed` record, `doctor` reports a warning rather than inventing a workflow, and an Agent asks only when the missing decision affects later work. Use `deferred` only when the user intentionally postpones the choice and the summary states when it must be revisited.
 
 Preview and apply:
 

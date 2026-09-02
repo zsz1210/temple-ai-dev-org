@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { validateInitConfig } from "../src/model.mjs";
+import { defaultRepositoryIntegration } from "../src/repository-integration.mjs";
 
 function validConfig() {
   return {
@@ -22,6 +23,70 @@ test("valid config produces stable project Agent IDs", async () => {
   const second = await validateInitConfig(validConfig());
   assert.deepEqual(first, second);
   assert.equal(first.agents[0].id, "agent-test-rowan");
+  assert.deepEqual(first.repository_integration, defaultRepositoryIntegration());
+});
+
+test("confirmed repository integration is normalized and retained", async () => {
+  const config = validConfig();
+  config.repository_integration = {
+    schema_version: "temple.repository-integration/v1",
+    status: "confirmed",
+    authority: "project",
+    source: "repository-policy",
+    policy_refs: ["CONTRIBUTING.md"],
+    summary: "  Use short-lived branches and review before integration.  ",
+    integration_target: "  main  ",
+    change_isolation: "required",
+    review_gate: "required",
+    recorded_at: "2026-09-02T00:00:00.000Z",
+    recorded_by: "  human  "
+  };
+
+  const validated = await validateInitConfig(config);
+  assert.equal(validated.repository_integration.summary, "Use short-lived branches and review before integration.");
+  assert.equal(validated.repository_integration.integration_target, "main");
+  assert.equal(validated.repository_integration.recorded_by, "human");
+});
+
+test("confirmed repository integration cannot leave execution gates unknown", async () => {
+  const config = validConfig();
+  config.repository_integration = {
+    schema_version: "temple.repository-integration/v1",
+    status: "confirmed",
+    authority: "project",
+    source: "human-confirmed",
+    policy_refs: [],
+    summary: "The user confirmed the repository workflow.",
+    integration_target: "main",
+    change_isolation: "unknown",
+    review_gate: "unknown",
+    recorded_at: "2026-09-02T00:00:00.000Z",
+    recorded_by: "human"
+  };
+
+  await assert.rejects(
+    () => validateInitConfig(config),
+    /confirmed state must decide change_isolation.*confirmed state must decide review_gate/s
+  );
+});
+
+test("repository integration policy references remain unique after normalization", async () => {
+  const config = validConfig();
+  config.repository_integration = {
+    schema_version: "temple.repository-integration/v1",
+    status: "deferred",
+    authority: "project",
+    source: "repository-policy",
+    policy_refs: ["CONTRIBUTING.md", " CONTRIBUTING.md "],
+    summary: "Choose the integration target before the first implementation change.",
+    integration_target: null,
+    change_isolation: "unknown",
+    review_gate: "unknown",
+    recorded_at: "2026-09-02T00:00:00.000Z",
+    recorded_by: "human"
+  };
+
+  await assert.rejects(() => validateInitConfig(config), /policy_refs must contain unique non-empty strings/);
 });
 
 test("Agent A style labels are rejected", async () => {

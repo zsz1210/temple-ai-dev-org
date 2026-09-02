@@ -9,7 +9,7 @@
 <p align="center">
   <a href="https://github.com/zsz1210/temple-ai-dev-org/actions/workflows/ci.yml"><img alt="CI の状態" src="https://github.com/zsz1210/temple-ai-dev-org/actions/workflows/ci.yml/badge.svg"></a>
   &nbsp;·&nbsp; Early Alpha
-  &nbsp;·&nbsp; Node.js 22 / 24 LTS
+  &nbsp;·&nbsp; Node.js 24 以降
   &nbsp;·&nbsp; <a href="LICENSE">MIT</a>
 </p>
 
@@ -54,7 +54,7 @@ Work Item は、次の段階に必要な根拠がそろったときだけ先へ�
 
 ## 一つのプロジェクトから始める
 
-必要なものは Git、Node.js 22 または 24 LTS、Codex、導入先のプロジェクトディレクトリです。
+必要なものは Git、Node.js 24 以降、Codex、導入先のプロジェクトディレクトリです。CI では Node.js 24 を基準環境として検証します。
 
 現在の Temple はソースからインストールします。
 
@@ -68,7 +68,9 @@ npm link
 
 Codex で Temple を開き、次のように依頼します。
 
-> [`$temple-init`](docs/getting-started/core-skills.md#temple-init) を使って `/absolute/path/to/my-project` を初期化してください。Agent Identity の英語名を提案し、ファイルを書き込む前に私の確認を待ってください。
+> [`$temple-init`](docs/getting-started/core-skills.md#temple-init) を使って `/absolute/path/to/my-project` を初期化してください。既存のブランチ運用、レビュー、統合ルールを先に確認し、不足している情報のうち実行方法に影響する点だけを質問してください。その後、Agent Identity の英語名と統合方法の要約を提示し、私の確認を待ってからファイルを書き込んでください。
+
+既存の GitHub、GitLab、または社内の開発フローが引き続き正式なルールです。Temple が記録するのは AI の作業に必要な運用の要約だけであり、GitHub Flow を強制したり、ホスティングサービスの設定を変更したりはしません。
 
 初期化したプロジェクトでは、まず一つの成果に範囲を絞ります。
 

@@ -9,7 +9,7 @@
 <p align="center">
   <a href="https://github.com/zsz1210/temple-ai-dev-org/actions/workflows/ci.yml"><img alt="CI 狀態" src="https://github.com/zsz1210/temple-ai-dev-org/actions/workflows/ci.yml/badge.svg"></a>
   &nbsp;·&nbsp; Early Alpha
-  &nbsp;·&nbsp; Node.js 22 / 24 LTS
+  &nbsp;·&nbsp; Node.js 24 以上
   &nbsp;·&nbsp; <a href="LICENSE">MIT</a>
 </p>
 
@@ -54,7 +54,7 @@ Work Item 只有在下一階段需要的依據都準備好之後，才會繼續�
 
 ## 從一個專案開始
 
-開始前請準備 Git、Node.js 22 或 24 LTS、Codex，以及要導入 Temple 的專案目錄。
+開始前請準備 Git、Node.js 24 以上版本、Codex，以及要導入 Temple 的專案目錄。目前 CI 以 Node.js 24 為基準。
 
 目前 Temple 從原始碼安裝：
 
@@ -68,7 +68,9 @@ npm link
 
 在 Codex 裡開啟 Temple，然後提出：
 
-> 使用 [`$temple-init`](docs/getting-started/core-skills.md#temple-init) 初始化 `/absolute/path/to/my-project`。請先提議 Agent Identity 的英文名字，等我確認後再寫入檔案。
+> 使用 [`$temple-init`](docs/getting-started/core-skills.md#temple-init) 初始化 `/absolute/path/to/my-project`。請先檢查專案現有的分支、審查與整合規範；若資料不足，只詢問會影響執行的部分。接著提議 Agent Identity 的英文名字與整合方式摘要，等我確認後再寫入檔案。
+
+專案原本採用的 GitHub、GitLab 或公司開發流程仍然具有最終效力。Temple 只記錄 AI 執行工作時需要的流程摘要，不會強制改用 GitHub Flow，也不會變更代管平台的設定。
 
 完成初始化後，先從一個範圍明確的成果開始：
 

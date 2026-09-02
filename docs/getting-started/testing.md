@@ -1,6 +1,6 @@
 # Testing strategy
 
-Temple separates governance checks from behavioral regression tests. The goal is to preserve the safety guarantees of a repository-writing framework without spending several minutes on unchanged behavior after every documentation or lifecycle-evidence update.
+Temple separates the bounded remote repository gate from complete local verification. The goal is to preserve the safety guarantees of a repository-writing framework without spending several hosted runner-minutes after every push.
 
 `npm run check` validates repository structure, documentation language boundaries, and local Markdown link targets. These checks are intentionally fast and run for every change.
 
@@ -35,29 +35,29 @@ This command starts the repository-local Control Plane on loopback and opens fou
 
 ## Continuous integration
 
-CI uses one job definition expanded across the supported Node.js LTS matrix. Within each matrix run, scope selection, repository checks, schema validation, Doctor, and the selected behavioral lane remain separately named steps. The summary reports both governance and behavior outcomes, and an always-run final step fails the job if any required result failed. A governance failure therefore does not hide the behavioral result.
+GitHub Actions is intentionally a short remote consistency check, not Temple's complete test environment. Every pull request and push to `main` runs one Node.js 24 job with a five-minute ceiling. The job uses a clean checkout and performs:
 
-- Every change runs `npm run check` in clean Node.js 22 and 24 LTS environments.
-- A change containing only root reader documents, Markdown below `docs/`, or images below `docs/assets/` records a documentation-only behavioral result after repository checks; schema, Doctor, and behavioral tests are not required for this scope.
-- A strict evidence/state-only change additionally runs organization schema validation, Doctor, `npm run test:fast`, focused Evidence Observer tests, and the focused init/Doctor/status contract test instead of every integration test.
-- Any source, test, schema, project overlay, package, integration, workflow, mixed-scope, or unknown-path change runs the complete behavioral suite.
-- The Node.js 24 full lane additionally launches the real-browser Management Console gate in the same job. Node.js 22 retains the non-browser compatibility suite; no separate hosted job or browser download is added.
-- Manual workflow runs, including release-candidate verification, always execute the complete suite.
-- If the changed-path comparison is unavailable, empty, malformed, or fails, CI chooses the complete suite.
+- lockfile-strict dependency installation without lifecycle scripts;
+- repository, documentation-link, and package-boundary checks;
+- organization schema validation;
+- Temple Doctor;
+- `npm run test:fast`.
 
-The evidence/state allowlist contains only lifecycle records and non-executable evidence:
+The workflow reports every required result and fails if any required step fails. It uses immutable Action revisions, read-only repository permission, and cancels an older in-progress run when the same pull request receives a newer commit.
 
-- Work Item JSON, event history, Evidence, task, resource, and runtime-worker registries.
-- Generated status, capability, parallel-plan, tracker, and Work Item projections.
-- Markdown, JSON, logs, PDFs, and images below a Work Item, `observations`, or `work-orders` artifact directory.
+GitHub Actions does not run `npm run test:full` or `npm run test:browser`. This keeps hosted use bounded and predictable, but it also means a green CI badge is only the remote repository gate. It does not prove the complete integration suite, browser behavior, Independent QA, or release readiness.
 
-Changes to identity, assignment, collaboration, policy, learning, retrieval, tracker configuration, templates, or other `.ai-org` paths are not evidence/state-only. Mixing general documentation with evidence/state paths also selects full verification; the narrow lanes are allowlists, not file-extension shortcuts.
+Complete evidence stays local and revision-specific:
 
-The classifier reads Git raw diff metadata rather than names alone. Renames and copies retain both endpoints, while deletion, type, mode, executable, symlink, conflict, and unknown statuses always select full verification. A JSON example under `docs/`, a documentation generator, or an executable artifact is behavioral because it may participate in validation or distribution.
+- run `npm run verify` before proposing a behavioral candidate;
+- run `npm run test:browser` for Management Console or other user-interface changes;
+- record the exact tested revision and preserve the normal evaluation, Independent QA, and Release Gate separation.
 
 ## Release and live validation
 
-The normal CI suite uses deterministic fixtures and temporary local repositories. Release candidates should also review the allowlisted package manifest, verify clean-source recovery, and pin every result to the exact candidate revision. Node.js 26 remains outside the support contract while it is a Current release; it may be exercised as a non-blocking forward-compatibility check and reconsidered after it reaches LTS.
+Temple requires Node.js 24 or later. Node.js 24 is the remote baseline and must pass exact-candidate local verification. A newer local Node.js version may provide an additional compatibility signal, but passing on that machine does not by itself qualify a separate runtime line.
+
+Release candidates should also review the allowlisted package manifest, verify clean-source recovery, and pin every result to the exact candidate revision.
 
 Live provider checks, multi-machine collaboration, external tracker writes, long-duration soak tests, and destructive recovery exercises are separate authorized validation activities. They are not silently triggered by a pull request and must retain their own bounded evidence records under [`docs/validation/`](../validation/README.md).
 

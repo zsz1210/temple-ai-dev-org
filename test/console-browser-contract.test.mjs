@@ -78,20 +78,12 @@ test("Playwright Core is exact, development-only, licensed, and absent from pack
   assert.match(notices, /does not download, vendor, redistribute, or include a browser binary/);
 });
 
-test("CI runs the browser gate only inside the existing Node 24 full lane and aggregates it", async () => {
+test("the browser gate remains local and is excluded from bounded hosted CI", async () => {
   const workflow = await fs.readFile(path.join(root, ".github/workflows/ci.yml"), "utf8");
-  const jobs = workflow.slice(workflow.indexOf("\njobs:\n"));
-  const jobNames = [...jobs.matchAll(/^  ([a-zA-Z0-9_-]+):\s*$/gm)].map((match) => match[1]);
-  const browserStepStart = workflow.indexOf("      - id: browser_console\n");
-  const browserStepEnd = workflow.indexOf("\n      - ", browserStepStart + 1);
-  const browserStep = workflow.slice(browserStepStart, browserStepEnd);
+  const packageDocument = JSON.parse(await fs.readFile(path.join(root, "package.json"), "utf8"));
+  const decision = await fs.readFile(path.join(root, "docs/adr/0043-node-24-local-first-ci.md"), "utf8");
 
-  assert.deepEqual(jobNames, ["verify"]);
-  assert.ok(browserStepStart >= 0);
-  assert.match(browserStep, /scope\.outputs\.scope == 'full'/);
-  assert.match(browserStep, /scope\.outcome != 'success'/);
-  assert.match(browserStep, /matrix\.node-version == 24/);
-  assert.match(browserStep, /run: npm run test:browser/);
-  assert.match(workflow, /BROWSER_CONSOLE_OUTCOME: \$\{\{ steps\.browser_console\.outcome \}\}/);
-  assert.match(workflow, /if \[ "\$NODE_VERSION" = "24" \]; then\n\s+require_success "Management Console browser gate" "\$BROWSER_CONSOLE_OUTCOME"/);
+  assert.equal(packageDocument.scripts["test:browser"], "node scripts/verify-console-browser.mjs");
+  assert.doesNotMatch(workflow, /test:browser|browser_console|BROWSER_CONSOLE_OUTCOME/);
+  assert.match(decision, /user-interface candidate must also pass `npm run test:browser`/);
 });

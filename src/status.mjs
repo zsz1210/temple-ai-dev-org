@@ -39,6 +39,12 @@ import { RUNTIME_WORKER_REGISTRY_RELATIVE_PATH, emptyRuntimeWorkerRegistry } fro
 import { activeExecutionRequirements } from "./work-items.mjs";
 import { readRetrievalConfig, RETRIEVAL_EVALUATION_VIEW } from "./retrieval.mjs";
 import { inspectArchifyAdapter } from "./archify-adapter.mjs";
+import {
+  defaultRepositoryIntegration,
+  readRepositoryIntegration,
+  REPOSITORY_INTEGRATION_RELATIVE_PATH,
+  validateRepositoryIntegration
+} from "./repository-integration.mjs";
 
 function markdown(value) {
   return String(value ?? "").replace(/\|/g, "\\|").replace(/\r?\n/g, " ");
@@ -60,6 +66,7 @@ export async function buildStatus(target, options = {}) {
   const trackerConfigInstalled = await pathExists(path.join(target, TRACKER_CONFIG_RELATIVE_PATH));
   const trackerViewInstalled = await pathExists(path.join(target, TRACKER_VIEW_RELATIVE_PATH));
   const retrievalEvaluationInstalled = await pathExists(path.join(target, RETRIEVAL_EVALUATION_VIEW));
+  const repositoryIntegrationInstalled = await pathExists(path.join(target, REPOSITORY_INTEGRATION_RELATIVE_PATH));
   const [
     lock,
     project,
@@ -80,7 +87,8 @@ export async function buildStatus(target, options = {}) {
     workerRegistry,
     retrievalConfig,
     retrievalEvaluation,
-    archifyAdapter
+    archifyAdapter,
+    repositoryIntegration
   ] =
     await Promise.all([
       readJson(path.join(target, "temple.lock")),
@@ -120,12 +128,14 @@ export async function buildStatus(target, options = {}) {
       retrievalEvaluationInstalled
         ? readJson(path.join(target, RETRIEVAL_EVALUATION_VIEW))
         : Promise.resolve({ fixture: null, large_repository_validation: "not_run" }),
-      inspectArchifyAdapter(target)
+      inspectArchifyAdapter(target),
+      repositoryIntegrationInstalled ? readRepositoryIntegration(target) : defaultRepositoryIntegration()
     ]);
 
   const agents = new Map(agentsDocument.agents.map((agent) => [agent.id, agent]));
   const positions = new Map(positionsDocument.positions.map((position) => [position.id, position]));
   const specIndexValidation = validateSpecIndex(specIndex, new Set(positions.keys()));
+  const repositoryIntegrationValidation = validateRepositoryIntegration(repositoryIntegration);
   const specSourceValidation = specIndexValidation.valid
     ? await validateRepositorySpecSources(target, specIndex)
     : { valid: false, errors: [] };
@@ -336,6 +346,11 @@ export async function buildStatus(target, options = {}) {
     ...(archifyAdapter.status === "invalid"
       ? [{ type: "invalid_archify_adapter", message: archifyAdapter.reason }]
       : []),
+    ...(!repositoryIntegrationValidation.valid
+      ? [{ type: "invalid_repository_integration", message: repositoryIntegrationValidation.errors.join("; ") }]
+      : repositoryIntegration.status === "unconfirmed"
+        ? [{ type: "repository_integration_unconfirmed", message: "Repository integration policy has not been confirmed" }]
+        : []),
     ...(!trackerConfigInstalled
       ? [{ type: "tracker_config_missing", message: "Tracker configuration is missing; run temple upgrade" }]
       : []),
@@ -434,6 +449,11 @@ export async function buildStatus(target, options = {}) {
       reconciliation_actions: trackerEntries.reduce((count, entry) => count + entry.plan.review_count, 0),
       external_write_performed: false
     },
+    repository_integration: {
+      installed: repositoryIntegrationInstalled,
+      valid: repositoryIntegrationValidation.valid,
+      ...repositoryIntegration
+    },
     context_routing: {
       routes: contextMap.routes?.length ?? 0,
       active_routes: (contextMap.routes ?? []).filter((route) => route.status === "active").length,
@@ -489,6 +509,7 @@ export function renderStatusMarkdown(status) {
     `- Skill promotion: ${status.learning.skill_candidates} candidate(s), ${status.learning.skill_proposals_pending} approval pending, ${status.learning.skill_authoring_created} authoring Work Item(s)`,
     `- Specifications: ${status.specifications.total_entries} indexed, ${status.specifications.approved_entries} approved (${status.specifications.adoption_profile})`,
     `- Tracker: \`${status.tracker.profile}\` (${status.tracker.active_providers} active provider(s), ${status.tracker.linked_work_items} linked Work Item(s))`,
+    `- Repository integration: \`${status.repository_integration.status}\` (${markdown(status.repository_integration.summary ?? "no confirmed policy summary")})`,
     `- Attention signals: ${status.attention.length}`,
     "",
     "## Collaboration",
@@ -586,6 +607,17 @@ export function renderStatusMarkdown(status) {
     `- External write performed by status: no`,
     `- Configuration: \`${TRACKER_CONFIG_RELATIVE_PATH}\``,
     `- Generated observations: \`${TRACKER_VIEW_RELATIVE_PATH}\``,
+    "",
+    "## Repository integration",
+    "",
+    `- Status: \`${status.repository_integration.status}\``,
+    `- Authority: \`${status.repository_integration.authority}\``,
+    `- Source: \`${status.repository_integration.source}\``,
+    `- Integration target: ${markdown(status.repository_integration.integration_target ?? "not confirmed")}`,
+    `- Change isolation: \`${status.repository_integration.change_isolation}\``,
+    `- Review gate: \`${status.repository_integration.review_gate}\``,
+    `- Policy references: ${status.repository_integration.policy_refs.map((entry) => `\`${markdown(entry)}\``).join(", ") || "none"}`,
+    `- Temple mutates repository-hosting settings: no`,
     "",
     "## Product specifications",
     "",

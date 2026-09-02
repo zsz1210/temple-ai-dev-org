@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=true
-- Work items: 96 total, 5 active
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Parallel plan: 0 wave(s), fresh=false
+- Work items: 99 total, 8 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -17,7 +17,8 @@
 - Skill promotion: 0 candidate(s), 0 approval pending, 0 authoring Work Item(s)
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 14
+- Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
+- Attention signals: 15
 
 ## Collaboration
 
@@ -26,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -36,7 +37,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: yes
+- Fresh: no
 - Safe waves: 0
 - Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 4 / 1
@@ -143,6 +144,9 @@
 | WI-0094 | Bound managed Usage snapshot latency and payload | intake | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
 | WI-0095 | Correct managed Observer cross-platform CI contract | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `4388cc84` | 0 | 24 | 0 |
 | WI-0096 | Harden Phase 4B fixture cleanup on Linux | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b8d5ef34` | 0 | 24 | 0 |
+| WI-0097 | Add adaptive first-run repository workflow onboarding | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 0 |
+| WI-0098 | Implement adaptive repository integration onboarding | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f9323f58` | 0 | 11 | 1 |
+| WI-0099 | Adopt Node.js 24 minimum and local-first bounded CI | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902043412-df84c1ba | `36703f37` | 0 | 11 | 3 |
 
 ## Codex task registry
 
@@ -205,6 +209,7 @@
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
+- Generated parallel plan is stale; rebuild it before dispatch
 - Parallel plan has 1 blocked Work Item(s)
 
 ## External tracker coordination
@@ -219,6 +224,17 @@
 - External write performed by status: no
 - Configuration: `.ai-org/project/tracker.json`
 - Generated observations: `.ai-org/views/tracker.json`
+
+## Repository integration
+
+- Status: `confirmed`
+- Authority: `project`
+- Source: `repository-policy`
+- Integration target: main
+- Change isolation: `required`
+- Review gate: `required`
+- Policy references: `CONTRIBUTING.md`, `GOVERNANCE.md`
+- Temple mutates repository-hosting settings: no
 
 ## Product specifications
 
@@ -264,14 +280,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T02:46:59.379Z | work_item_claim_released | WI-0086 | human |
-| 2026-09-02T02:46:50.259Z | evidence_recorded | WI-0086 | human |
-| 2026-09-02T02:45:37.954Z | work_item_claimed | WI-0086 | human |
-| 2026-09-02T02:41:30.856Z | work_item_closed | WI-0095 | agent-mog |
-| 2026-09-02T02:41:30.856Z | release_gate_completed | WI-0095 | agent-mog |
-| 2026-09-02T02:41:30.546Z | work_item_claimed | WI-0095 | human |
-| 2026-09-02T02:41:22.018Z | work_item_closed | WI-0096 | agent-mog |
-| 2026-09-02T02:41:22.018Z | release_gate_completed | WI-0096 | agent-mog |
+| 2026-09-02T04:34:32.002Z | handoff_created | WI-0099 | agent-mog |
+| 2026-09-02T04:34:17.541Z | evidence_recorded | WI-0099 | agent-lulu |
+| 2026-09-02T04:34:12.200Z | work_item_claimed | WI-0099 | human |
+| 2026-09-02T04:34:11.398Z | work_item_coordination_configured | WI-0099 | agent-mog |
+| 2026-09-02T04:34:10.665Z | work_item_claim_released | WI-0099 | human |
+| 2026-09-02T04:27:27.976Z | work_item_unresolved_updated | WI-0099 | agent-mog |
+| 2026-09-02T04:27:27.757Z | work_item_claimed | WI-0099 | human |
+| 2026-09-02T04:27:21.460Z | work_item_transitioned | WI-0099 | agent-lulu |
 
 ## Assignments
 

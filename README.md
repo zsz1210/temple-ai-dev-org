@@ -9,7 +9,7 @@
 <p align="center">
   <a href="https://github.com/zsz1210/temple-ai-dev-org/actions/workflows/ci.yml"><img alt="CI status" src="https://github.com/zsz1210/temple-ai-dev-org/actions/workflows/ci.yml/badge.svg"></a>
   &nbsp;·&nbsp; Early Alpha
-  &nbsp;·&nbsp; Node.js 22 / 24 LTS
+  &nbsp;·&nbsp; Node.js 24+
   &nbsp;·&nbsp; <a href="LICENSE">MIT</a>
 </p>
 
@@ -54,7 +54,7 @@ A Work Item advances only when the next stage has the evidence it requires. Repo
 
 ## Start with one project
 
-Requirements: Git, Node.js 22 or 24 LTS, Codex, and a project directory.
+Requirements: Git, Node.js 24 or later, Codex, and a project directory. Node.js 24 is the CI baseline.
 
 Temple is currently installed from source:
 
@@ -68,7 +68,9 @@ npm link
 
 Open Temple in Codex, then ask:
 
-> Use [`$temple-init`](docs/getting-started/core-skills.md#temple-init) to initialize `/absolute/path/to/my-project`. Propose English names for the Agent Identities and wait for my confirmation before writing files.
+> Use [`$temple-init`](docs/getting-started/core-skills.md#temple-init) to initialize `/absolute/path/to/my-project`. Inspect the repository's existing branch, review, and integration policy first; ask only about missing choices that affect execution. Then propose English names for the Agent Identities and a short integration summary, and wait for my confirmation before writing files.
+
+The project's existing GitHub, GitLab, or company workflow remains authoritative. Temple records only the confirmed routing summary its Agents need; it does not impose GitHub Flow or change repository-hosting settings.
 
 Inside the initialized project, begin with one bounded outcome:
 

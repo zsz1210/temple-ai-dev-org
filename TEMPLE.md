@@ -4,7 +4,7 @@ This repository's AI development organization separates responsibility from iden
 
 Before acting:
 
-1. Read `.ai-org/project/project.json`, `agents.json`, `assignments.json`, `collaboration.json`, `spec-index.json`, `tracker.json`, `retrieval.json`, `usage-policy.json`, `evidence.json`, and `control-plane.json` as relevant to the work.
+1. Read `.ai-org/project/project.json`, `agents.json`, `assignments.json`, `collaboration.json`, `repository-integration.json`, `spec-index.json`, `tracker.json`, `retrieval.json`, `usage-policy.json`, `evidence.json`, and `control-plane.json` as relevant to the work.
 2. Identify the Position you are acting as and the durable work item ID.
 3. Preview the bounded route with `temple context resolve . --work-item <work-item-id> --position <position> --no-write --json`.
 4. Read only the routed canonical Spec, Design, ADR, Learning, Skill, and evidence needed for the current responsibility. Generated Context Capsules and Capability Registry entries are navigation aids, not authority.
@@ -50,6 +50,12 @@ Use `contract_refs` for governed API or technical-design specification IDs and r
 Keep `.ai-org/project/context-map.json` concise and project-owned. It points to canonical files; it does not copy them. Use `temple capability find` when a reusable method may apply, but selecting a Skill never expands the request's authorization. Record planned write scope through work-item `affected_paths`. When context resolution reports overlap with another non-terminal item, coordinate the work before changing shared paths.
 
 In Collaborative or High-Assurance mode, a Human Principal sponsors an Agent Identity, and Position Membership plus Disciplines determine eligibility. Before parallel execution, record scope, acceptance, dependencies, base revision, affected paths, contract status, integration owner, stage-specific Disciplines, shared runtime or verification resources, and overlap resolutions that name the conflicting Work Item IDs. Use `parallel check` for one item and `parallel plan` for a decomposed group. A plan places safe work into deterministic waves but creates no task or claim. Before creating each first-wave runtime, `parallel prepare` atomically records the eligible claim, resource reservations, and runtime-worker reservation. Attach internal subagents with `worker attach`; register only separate user-owned tasks with the reserved worker ID. A terminal worker releases resources but does not forge a handoff, claim release, lifecycle transition, or independent verification. When implementation is authorized and concurrent workers exist, dispatch the prepared first wave up to runtime capacity. Otherwise preserve the same wave boundary and work sequentially. The named Integration Owner joins revisions, verification, and unresolved items before dependent work or lifecycle advancement, then the group must be replanned. The local mutation lock does not coordinate separate machines; use claims, branches, pull requests, protected rules, CI, and explicit Git conflict resolution.
+
+## Repository integration boundary
+
+Treat `.ai-org/project/repository-integration.json` as a project-owned routing record, not as a replacement for the team's authoritative repository, review, or release policy. Follow its referenced project policy and confirmed integration target. The framework does not require GitHub Flow and does not configure branch protection, pull requests, merge requests, merge queues, or repository permissions.
+
+When the record is `unconfirmed`, inspect existing repository policy first and ask only when a missing choice materially affects the requested work. When it is `deferred`, respect the recorded decision trigger instead of repeating the question on every task. Never infer authorization to merge, deploy, publish, or change hosting settings from the record.
 
 ## High-Assurance risk contract
 

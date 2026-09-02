@@ -1,0 +1,23 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "36703f375a807303a68fde9487af11ac0364f578",
+  "command": [
+    "fresh detached worktree: npm ci --ignore-scripts",
+    "npm run check",
+    "temple schema validate and doctor",
+    "node --test test/ci-scope.test.mjs test/console-browser-contract.test.mjs test/release-package.test.mjs",
+    "negative search for hosted matrix, Node.js 22, full suite, browser suite, and removed classifier"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T04:23:31.000Z",
+  "completed_at": "2026-09-02T04:23:56.000Z",
+  "artifact_refs": [
+    ".github/workflows/ci.yml",
+    "package.json",
+    "docs/adr/0043-node-24-local-first-ci.md",
+    "docs/getting-started/testing.md",
+    "test/ci-scope.test.mjs",
+    "test/console-browser-contract.test.mjs"
+  ]
+}

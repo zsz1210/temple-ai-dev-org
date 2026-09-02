@@ -31,15 +31,15 @@ If two descriptions seem relevant, choose the method that owns the immediate pro
 
 **Use it when:** a repository is adopting Temple for the first time.
 
-**It does:** inspect the target, propose the standard responsibility coverage, wait for confirmed Agent Identity names and Assignments, preview the installation, initialize through the Temple CLI, and verify the result.
+**It does:** inspect the target and its existing repository policy, ask only about integration choices that remain consequentially unclear, propose the standard responsibility coverage, wait for one combined confirmation of the workflow summary and Agent Identity mappings, preview the installation, initialize through the Temple CLI, and verify the result.
 
-**It does not:** perform ordinary feature work, guess project-specific names, overwrite existing organization state, or treat a global unversioned CLI as the project runtime.
+**It does not:** perform ordinary feature work, impose GitHub Flow, configure a repository host, guess project-specific names or permissions, overwrite existing organization state, or treat a global unversioned CLI as the project runtime.
 
 **Example request:**
 
-> Use `$temple-init` to initialize `/absolute/path/to/project`. Suggest Agent Identity names, show me the Position mapping, and wait for my confirmation before writing.
+> Use `$temple-init` to initialize `/absolute/path/to/project`. Inspect its existing branch, review, and integration policy first; ask only about missing choices that affect execution. Then suggest Agent Identity names, show me the Position mapping and integration summary, and wait for my confirmation before writing.
 
-**Expected result:** the target has a visible, project-owned organization layer; `doctor` and `status` pass, or the exact unresolved prerequisite is reported.
+**Expected result:** the target has a visible, project-owned organization layer and repository-integration routing record; `doctor` and `status` pass, or the exact unresolved prerequisite is reported. The referenced project policy remains authoritative.
 
 <a id="decision-interview"></a>
 

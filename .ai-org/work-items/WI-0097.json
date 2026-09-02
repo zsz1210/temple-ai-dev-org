@@ -1,0 +1,68 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0097",
+  "title": "Add adaptive first-run repository workflow onboarding",
+  "state": "design",
+  "owner_position": "tech_lead",
+  "assigned_agent_id": "agent-tidus",
+  "created_at": "2026-09-02T03:16:40.365Z",
+  "updated_at": "2026-09-02T03:20:03.966Z",
+  "scope": [
+    "Inspect existing repository delivery rules during AI-assisted initialization, ask only for missing consequential integration decisions, and preserve a project-owned workflow reference without imposing GitHub Flow."
+  ],
+  "acceptance_criteria": [
+    "AI-assisted first initialization distinguishes detected project policy from missing policy and waits for confirmation before writing.",
+    "Initialized projects retain their own repository integration choice and do not acquire a GitHub-only workflow requirement.",
+    "Initialization, upgrade preservation, Doctor, documentation, and clean-consumer verification pass."
+  ],
+  "affected_paths": [
+    ".agents/skills/temple-init/SKILL.md",
+    "project-overlay/.agents/skills/temple-init/SKILL.md",
+    "project-overlay/.ai-org/project",
+    "src",
+    "test",
+    "docs/getting-started",
+    "README.md",
+    "README.ja.md",
+    "README.zh-TW.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": null,
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0097/approved-scope.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0097/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0097/approved-scope.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0097/approved-scope.md"
+  ],
+  "unresolved": [],
+  "next_position": "developer"
+}

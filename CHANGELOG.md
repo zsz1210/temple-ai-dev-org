@@ -2,12 +2,13 @@
 
 ## 0.1.0-alpha.29
 
-- Added an installed-Chrome Management Console regression gate covering semantic navigation, live-state labels, keyboard traversal, reduced motion, console failures, horizontal overflow, clipping, and collisions across four viewports. CI runs it only in the Node.js 24 full lane, and the pinned development dependency does not download or package a browser.
+- Added adaptive first-run repository integration onboarding: AI-assisted initialization inspects existing policy, asks only about consequential gaps, records a project-owned vendor-neutral routing summary, and never imposes GitHub Flow or mutates hosting settings.
+- Added an installed-Chrome Management Console regression gate covering semantic navigation, live-state labels, keyboard traversal, reduced motion, console failures, horizontal overflow, clipping, and collisions across four viewports. It runs as local release evidence, and the pinned development dependency does not download or package a browser.
 - Changed Codex task-title suggestions to put a bounded short outcome before Position and Agent Identity, added an explicit idempotent registry refresh command, and kept Work Item and thread IDs—not mutable titles—as canonical identity.
 - Reworked the English, Japanese, and Traditional Chinese README files as human-facing entry points, added restrained engineering diagrams for desktop and narrow screens, explained Temple-specific Skills and terminology, and kept deeper architecture in focused documentation.
 - Added the deterministic matched-model advisory and its honest calibration boundary: it compares qualified evidence but cannot launch work, switch a model, spend Credits, or authorize a release.
 - Added explicit Off, on-demand, and managed-local Usage observation modes. The opt-in macOS service is clone-local, reversible, preserves post-start coverage gaps, exposes only read-only private viewers, and removes local runtime paths from those private responses while retaining loopback diagnostics.
-- Qualified Node.js 22 and 24 LTS, retained Node.js 26 as a non-blocking forward-compatibility signal, reduced the package to an enforced runtime and public-documentation allowlist, pinned GitHub Actions to immutable revisions, and added OSS contribution, governance, security, ownership, and intake files.
+- Raised the minimum runtime to Node.js 24, moved complete and browser verification to exact-revision local evidence, and reduced ordinary GitHub Actions to one five-minute Node.js 24 repository gate. The package keeps an enforced runtime and public-documentation allowlist, immutable Action revisions, and the OSS contribution, governance, security, ownership, and intake files.
 - Prepared the first public-Alpha candidate as a GitHub Release-first distribution while retaining explicit gates for private moderation, independent new-user adoption, GitHub protections, repository visibility, the immutable tag, the Release itself, and any later npm publication.
 
 ## 0.1.0-alpha.28

@@ -21,6 +21,11 @@ import {
   USAGE_POLICY_RELATIVE_PATH,
   validateUsagePolicy
 } from "../src/usage-policy.mjs";
+import {
+  defaultRepositoryIntegration,
+  REPOSITORY_INTEGRATION_RELATIVE_PATH,
+  validateRepositoryIntegration
+} from "../src/repository-integration.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const releaseVersion = "0.1.0-alpha.29";
@@ -33,7 +38,8 @@ const phase4Capabilities = [
   "exception_only_autonomy",
   "provider_attach_outcomes",
   "repository_federation",
-  "read_only_portfolio"
+  "read_only_portfolio",
+  "repository_integration_contract"
 ];
 
 function configDocument(projectId) {
@@ -114,10 +120,18 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
   assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/validation-program.schema.json"));
   assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/validation-program-report.schema.json"));
   assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/usage-policy.schema.json"));
+  assert.ok(
+    lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/repository-integration.schema.json")
+  );
   assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/matched-model-evaluation.schema.json"));
   assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/templates/validation-program.json"));
   assert.equal(lock.managed_files.some((entry) => entry.path === ".ai-org/project/validation-program.json"), false);
   assert.equal(lock.managed_files.some((entry) => entry.path === USAGE_POLICY_RELATIVE_PATH), false);
+  assert.equal(lock.managed_files.some((entry) => entry.path === REPOSITORY_INTEGRATION_RELATIVE_PATH), false);
+
+  const repositoryIntegration = await readJson(path.join(target, REPOSITORY_INTEGRATION_RELATIVE_PATH));
+  assert.deepEqual(repositoryIntegration, defaultRepositoryIntegration());
+  assert.deepEqual(validateRepositoryIntegration(repositoryIntegration), { valid: true, errors: [] });
 
   const usagePolicy = await readJson(path.join(target, USAGE_POLICY_RELATIVE_PATH));
   assert.deepEqual(usagePolicy, defaultUsagePolicy());
@@ -161,6 +175,16 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
       id: "usage-policy",
       path: USAGE_POLICY_RELATIVE_PATH,
       schema: "usage-policy.schema.json",
+      required: true,
+      ownership: "project"
+    }
+  );
+  assert.deepEqual(
+    catalog.documents.find((entry) => entry.id === "repository-integration"),
+    {
+      id: "repository-integration",
+      path: REPOSITORY_INTEGRATION_RELATIVE_PATH,
+      schema: "repository-integration.schema.json",
       required: true,
       ownership: "project"
     }

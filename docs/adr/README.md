@@ -41,5 +41,7 @@
 - [ADR-0039: Qualify public distribution against maintained Node.js LTS lines](0039-public-alpha-distribution-and-node-lts.md)
 - [ADR-0040: Gate the Management Console with installed Chrome and semantic browser contracts](0040-real-browser-console-regression.md)
 - [ADR-0041: Put the outcome before responsibility in Codex task titles](0041-outcome-first-codex-task-titles.md)
+- [ADR-0042: Adapt first-run guidance to the project's repository workflow](0042-adaptive-repository-integration-onboarding.md)
+- [ADR-0043: Require Node.js 24 and keep hosted CI bounded](0043-node-24-local-first-ci.md)
 
 An ADR is an Architecture Decision Record. It preserves the context, decision, rationale, and consequences of an important technical or organizational choice so that later Agents do not have to infer why it was made from chat memory.
