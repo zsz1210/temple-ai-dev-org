@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0114",
   "title": "Integrate the agent-led init and Claude entrypoint handshake",
-  "state": "test",
-  "owner_position": "quality_evaluator",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-02T17:07:59.838Z",
-  "updated_at": "2026-09-02T17:10:43.287Z",
+  "updated_at": "2026-09-02T17:11:54.500Z",
   "scope": [
     "Integrate the qualified agent-led post-init bootstrap contract and Claude entrypoint compatibility behavior onto current main without importing superseded Work Item state."
   ],
@@ -48,14 +48,14 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260902171043-21c44d44",
+    "id": "claim-20260902171154-c7c06a6d",
     "status": "active",
     "principal_id": "human",
     "agent_id": "agent-lulu",
     "base_revision": "555cd6fd86494fe05419b55316abde9bd82147d8",
     "branch": "codex/wi-0114-agent-init-handshake-clean",
     "worktree": "/Users/zsz1210/.codex/worktrees/daaa/temple-ai-dev-org",
-    "claimed_at": "2026-09-02T17:10:43.287Z",
+    "claimed_at": "2026-09-02T17:11:54.500Z",
     "released_at": null
   },
   "claims": [
@@ -117,13 +117,27 @@
     },
     {
       "id": "claim-20260902171043-21c44d44",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-lulu",
       "base_revision": "555cd6fd86494fe05419b55316abde9bd82147d8",
       "branch": "codex/wi-0114-agent-init-handshake-clean",
       "worktree": "/Users/zsz1210/.codex/worktrees/daaa/temple-ai-dev-org",
       "claimed_at": "2026-09-02T17:10:43.287Z",
+      "released_at": "2026-09-02T17:11:54.061Z",
+      "release_reason": [
+        "Quality evaluation handed to Independent QA"
+      ]
+    },
+    {
+      "id": "claim-20260902171154-c7c06a6d",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "555cd6fd86494fe05419b55316abde9bd82147d8",
+      "branch": "codex/wi-0114-agent-init-handshake-clean",
+      "worktree": "/Users/zsz1210/.codex/worktrees/daaa/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T17:11:54.500Z",
       "released_at": null
     }
   ],
@@ -150,6 +164,12 @@
       "EVID-20260902T171029Z-AFB2ECB2",
       "EVID-20260902T171029Z-6C1A7858",
       ".ai-org/artifacts/WI-0114/developer-report.md"
+    ],
+    "test_evidence": [
+      "EVID-20260902T171141Z-E7EA2601"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0114/evaluation-report.md"
     ]
   },
   "evidence": [
@@ -164,10 +184,13 @@
     ".ai-org/artifacts/WI-0114/handoff-004-developer-to-quality_evaluator.md",
     "EVID-20260902T171029Z-AFB2ECB2",
     "EVID-20260902T171029Z-6C1A7858",
-    ".ai-org/artifacts/WI-0114/developer-report.md"
+    ".ai-org/artifacts/WI-0114/developer-report.md",
+    "EVID-20260902T171141Z-E7EA2601",
+    ".ai-org/artifacts/WI-0114/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0114/evaluation-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "release_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -196,6 +219,13 @@
       "input_revision": "555cd6fd86494fe05419b55316abde9bd82147d8",
       "artifact": ".ai-org/artifacts/WI-0114/handoff-004-developer-to-quality_evaluator.md",
       "created_at": "2026-09-02T17:10:42.607Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "555cd6fd86494fe05419b55316abde9bd82147d8",
+      "artifact": ".ai-org/artifacts/WI-0114/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-02T17:11:53.852Z"
     }
   ],
   "developer_candidate_revision": "555cd6fd86494fe05419b55316abde9bd82147d8"

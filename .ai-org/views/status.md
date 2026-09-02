@@ -161,7 +161,7 @@
 | WI-0111 | Make command policy quote-aware | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2d523b5f` | 0 | 18 | 0 |
 | WI-0112 | Run quote-aware Wave 5A controlled comparison | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a836643a` | 0 | 20 | 1 |
 | WI-0113 | Make Wave 5A autonomous and observable | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6f8596bb` | 0 | 23 | 0 |
-| WI-0114 | Integrate the agent-led init and Claude entrypoint handshake | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902171043-21c44d44 | `555cd6fd` | 0 | 12 | 0 |
+| WI-0114 | Integrate the agent-led init and Claude entrypoint handshake | independent_qa | Independent QA | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902171154-c7c06a6d | `555cd6fd` | 0 | 15 | 0 |
 
 ## Codex task registry
 
@@ -299,14 +299,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-02T17:11:54.500Z | work_item_claimed | WI-0114 | human |
+| 2026-09-02T17:11:54.275Z | work_item_transitioned | WI-0114 | agent-lulu |
+| 2026-09-02T17:11:54.061Z | work_item_claim_released | WI-0114 | human |
+| 2026-09-02T17:11:53.852Z | handoff_created | WI-0114 | agent-lulu |
+| 2026-09-02T17:11:53.614Z | work_item_transitioned | WI-0114 | agent-lulu |
+| 2026-09-02T17:11:41.370Z | evidence_recorded | WI-0114 | human |
 | 2026-09-02T17:10:43.287Z | work_item_claimed | WI-0114 | human |
 | 2026-09-02T17:10:43.061Z | work_item_transitioned | WI-0114 | agent-rikku |
-| 2026-09-02T17:10:42.842Z | work_item_claim_released | WI-0114 | human |
-| 2026-09-02T17:10:42.607Z | handoff_created | WI-0114 | agent-rikku |
-| 2026-09-02T17:10:29.847Z | evidence_recorded | WI-0114 | human |
-| 2026-09-02T17:10:29.638Z | evidence_recorded | WI-0114 | human |
-| 2026-09-02T17:08:47.616Z | work_item_claimed | WI-0114 | human |
-| 2026-09-02T17:08:47.357Z | work_item_transitioned | WI-0114 | agent-tidus |
 
 ## Assignments
 
