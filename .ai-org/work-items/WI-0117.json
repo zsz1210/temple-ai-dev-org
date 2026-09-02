@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0117",
   "title": "Run qualified Wave 5B lean workflow comparison",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "blocked",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-02T22:49:04.886Z",
-  "updated_at": "2026-09-02T23:30:50.907Z",
+  "updated_at": "2026-09-02T23:31:25.469Z",
   "scope": [
     "Prepare and, after the named usage approval, run two pinned engineering cases once under Temple lean and once under a minimal responsible workflow using the same GPT-5.6 Luna Medium profile.",
     "Run one separate fresh-context blind evaluator after four arm-neutral packages exist, freeze signed scores before unsealing the coordinator mapping, and retain exact usage, latency, quality, intervention, and revision evidence.",
@@ -59,14 +59,15 @@
   ],
   "claim": {
     "id": "claim-20260902233050-b1982c3c",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-mog",
     "base_revision": "b8f41dd0e1255526f63c0e541ea480ef3d35e059",
     "branch": "codex/wi-0115-0117-validation-program",
     "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
     "claimed_at": "2026-09-02T23:30:50.907Z",
-    "released_at": null
+    "released_at": "2026-09-02T23:31:25.469Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -163,14 +164,15 @@
     },
     {
       "id": "claim-20260902233050-b1982c3c",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-mog",
       "base_revision": "b8f41dd0e1255526f63c0e541ea480ef3d35e059",
       "branch": "codex/wi-0115-0117-validation-program",
       "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
       "claimed_at": "2026-09-02T23:30:50.907Z",
-      "released_at": null
+      "released_at": "2026-09-02T23:31:25.469Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -210,6 +212,18 @@
     ],
     "independent_qa_pass": [
       "EVID-20260902T233028Z-E50253DF"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0117/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0117/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0117/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0117/evaluator-replacement-approval.json"
     ]
   },
   "evidence": [
@@ -232,10 +246,13 @@
     ".ai-org/artifacts/WI-0117/handoff-006-independent_qa-to-release_manager.md",
     ".ai-org/artifacts/WI-0117/independent-qa-report.md",
     ".ai-org/artifacts/WI-0117/independent-qa-observation.json",
-    "EVID-20260902T233028Z-E50253DF"
+    "EVID-20260902T233028Z-E50253DF",
+    ".ai-org/artifacts/WI-0117/release-record.md"
   ],
-  "unresolved": [],
-  "next_position": "engineering_manager",
+  "unresolved": [
+    "No valid independent quality score was frozen before mapping unseal, so the matched-quality comparison remains inconclusive."
+  ],
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -280,5 +297,10 @@
       "created_at": "2026-09-02T23:30:28.860Z"
     }
   ],
-  "developer_candidate_revision": "b8f41dd0e1255526f63c0e541ea480ef3d35e059"
+  "developer_candidate_revision": "b8f41dd0e1255526f63c0e541ea480ef3d35e059",
+  "tested_revision": "b8f41dd0e1255526f63c0e541ea480ef3d35e059",
+  "release_gate_result": "no-go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0117/evaluator-replacement-approval.json",
+  "previous_state": "release_gate"
 }

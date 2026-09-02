@@ -18189,6 +18189,38 @@
         "exit_code": 0,
         "started_at": "2026-09-02T23:28:35.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T233110Z-6D571AAB",
+      "work_item_id": "WI-0117",
+      "recorded_at": "2026-09-02T23:31:10.228Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "b8f41dd0e1255526f63c0e541ea480ef3d35e059",
+      "observed_at": "2026-09-02T23:31:10.228Z",
+      "summary": "No external runtime changed; revert the isolated candidate if the runner repair must be removed.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0117/rollback-plan.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0117/rollback-plan.md",
+          "sha256": "59c5f132a11eb5d24f924d057e872cdebca0da34c72c4a3561f0f8beae6939e1"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0117/rollback-plan.md"
+      }
     }
   ]
 }

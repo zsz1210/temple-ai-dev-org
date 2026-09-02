@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
 - Work items: 117 total, 9 active
 - Codex tasks: 6 registered, 6 archive-ready
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 19
+- Attention signals: 20
 
 ## Collaboration
 
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -164,7 +164,7 @@
 | WI-0114 | Integrate the agent-led init and Claude entrypoint handshake | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `555cd6fd` | 0 | 21 | 0 |
 | WI-0115 | Validate clean agent-led greenfield onboarding | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `11012a38` | 0 | 19 | 0 |
 | WI-0116 | Analyze Wave 5A overhead and repair blind evaluation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2ec67d32` | 0 | 17 | 0 |
-| WI-0117 | Run qualified Wave 5B lean workflow comparison | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902233050-b1982c3c | `b8f41dd0` | 0 | 20 | 0 |
+| WI-0117 | Run qualified Wave 5B lean workflow comparison | blocked | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b8f41dd0` | 0 | 21 | 1 |
 
 ## Codex task registry
 
@@ -221,6 +221,7 @@
 - WI-0108 is blocked
 - WI-0110 is blocked
 - WI-0112 is blocked
+- WI-0117 is blocked
 - task-0001 can be archived
 - task-0002 can be archived
 - task-0003 can be archived
@@ -302,14 +303,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-02T23:31:25.469Z | release_gate_completed | WI-0117 | agent-mog |
+| 2026-09-02T23:31:10.228Z | evidence_recorded | WI-0117 | human |
 | 2026-09-02T23:30:50.907Z | work_item_claimed | WI-0117 | human |
 | 2026-09-02T23:30:39.164Z | work_item_transitioned | WI-0117 | agent-lulu |
 | 2026-09-02T23:30:28.860Z | handoff_created | WI-0117 | agent-lulu |
 | 2026-09-02T23:30:28.673Z | evidence_recorded | WI-0117 | human |
 | 2026-09-02T23:28:20.989Z | work_item_claimed | WI-0117 | human |
 | 2026-09-02T23:28:07.421Z | work_item_transitioned | WI-0117 | agent-lulu |
-| 2026-09-02T23:28:02.376Z | handoff_created | WI-0117 | agent-lulu |
-| 2026-09-02T23:27:54.871Z | work_item_transitioned | WI-0117 | agent-lulu |
 
 ## Assignments
 
