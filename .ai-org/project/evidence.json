@@ -16074,7 +16074,7 @@
       "kind": "test",
       "title": "Wave 5A developer verification",
       "outcome": "pass",
-      "scope_revision": "984cd027771c8f1fbfaee9fc8bc8e9facaf29c1f",
+      "scope_revision": "531ed2888735753dab9575d47540dc7b0c83b0ef",
       "observed_at": "2026-09-02T12:41:30.000Z",
       "summary": "Repository and no-generation preflight verification after fail-closed correction.",
       "adapter": {
@@ -16126,7 +16126,7 @@
       "kind": "test",
       "title": "Wave 5A quality verification",
       "outcome": "pass",
-      "scope_revision": "984cd027771c8f1fbfaee9fc8bc8e9facaf29c1f",
+      "scope_revision": "531ed2888735753dab9575d47540dc7b0c83b0ef",
       "observed_at": "2026-09-02T12:40:00.000Z",
       "summary": "Fail-closed behavior, stopped-state integrity, and corrected preflight passed; experiment not qualified.",
       "adapter": {
@@ -16178,7 +16178,7 @@
       "kind": "test",
       "title": "Wave 5A independent QA",
       "outcome": "pass",
-      "scope_revision": "984cd027771c8f1fbfaee9fc8bc8e9facaf29c1f",
+      "scope_revision": "531ed2888735753dab9575d47540dc7b0c83b0ef",
       "observed_at": "2026-09-02T12:41:30.000Z",
       "summary": "Independent review confirms truthful zero-retry failure evidence and no experiment qualification.",
       "adapter": {
