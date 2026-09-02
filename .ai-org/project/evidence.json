@@ -13039,6 +13039,65 @@
         "exit_code": 0,
         "started_at": "2026-09-02T00:09:20.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T004526Z-57715AA3",
+      "work_item_id": "WI-0086",
+      "recorded_at": "2026-09-02T00:45:26.679Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Final local Alpha.29 requalification",
+      "outcome": "pass",
+      "scope_revision": "dba1866ae0ebbcf7ada1474be38016970355b040",
+      "observed_at": "2026-09-02T00:44:48.000Z",
+      "summary": "Exact local candidate passed Node.js 22 and 24 verification, browser checks, audits, schema, Doctor, package review, and clean consumer smoke.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0086/final-local-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0086/final-local-test-observation.json",
+          "sha256": "d153cd32e5b5234353ce2a069a9dfb8903a2204859078b2ccf3dc90bf457b6cc"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0086/final-local-requalification.md",
+          "sha256": "8b891860662a97621ea505e354f035dbf76c9318ac1f15824c5b10cbf9dc14f8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0086/public-release-blockers.md",
+          "sha256": "ff7ca858e02e72e20f494074a1373178ed88f038bddccb61b644785f11afb715"
+        },
+        {
+          "path": "docs/planning/release-readiness.md",
+          "sha256": "55a026febddf5c4789c266f0c3ec9a40891715dadd2c5757c86eaa2e03a4b41f"
+        },
+        {
+          "path": "docs/validation/alpha-29-public-release-candidate.md",
+          "sha256": "ec6393fbfb47a58444dda3562c6ef9fdd284ceaccc9557fe255478124405f1fe"
+        }
+      ],
+      "details": {
+        "command": [
+          "Node.js 22.23.2: npm run verify",
+          "Node.js 24.20.0: npm run verify",
+          "Node.js 24.20.0: npm run test:browser",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "npm audit --omit=dev --json",
+          "npm audit --json",
+          "npm pack --json --ignore-scripts",
+          "Exact-tarball consumer smoke under Node.js 22.23.2 and 24.20.0"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T00:41:15.000Z"
+      }
     }
   ]
 }

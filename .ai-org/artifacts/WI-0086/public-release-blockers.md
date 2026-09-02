@@ -1,10 +1,12 @@
 # WI-0086 Public Release Blockers
 
-- Latest local checkpoint: `cbd8f2aadd1f5bfe9ef4b961ec24b6fbc3eb5b57`
+- Exact local candidate: `dba1866ae0ebbcf7ada1474be38016970355b040`
 - Candidate version: `0.1.0-alpha.29`
 - Proposed tag: `v0.1.0-alpha.29`
 - Technical status: verified
 - Public decision: NO-GO
+
+The exact candidate passed the complete local release requalification recorded in `final-local-requalification.md`. Hosted CI for the new private push remains required.
 
 ## Completed Human evidence
 
