@@ -22,6 +22,7 @@ test("CI is one bounded Node.js 24 repository gate", async () => {
   assert.match(workflow, /name: Verify \(Node\.js 24\)/);
   assert.match(workflow, /timeout-minutes: 5/);
   assert.match(workflow, /node-version: 24/);
+  assert.match(workflow, /fetch-depth: 0/);
   assert.doesNotMatch(workflow, /matrix:/);
   assert.doesNotMatch(workflow, /Node\.js 22|node-version:\s*22/);
   assert.doesNotMatch(workflow, /npm run test:full/);

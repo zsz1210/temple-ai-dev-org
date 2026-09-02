@@ -24,6 +24,8 @@ Use one GitHub Actions job on Node.js 24 with a five-minute timeout and cancel s
 4. Temple Doctor;
 5. the bounded fast contract suite.
 
+The checkout retains complete Git history because Doctor verifies revision-bound historical evidence. This repository's packed history is small, and shallow checkout would make valid older evidence appear unavailable.
+
 Do not run `npm run test:full` or `npm run test:browser` in ordinary GitHub Actions. Remove the Node.js matrix and change-scope selector from the hosted workflow so its cost and maximum behavior are easy to understand.
 
 Keep complete verification local. The implementation candidate must pass `npm run verify`. A user-interface candidate must also pass `npm run test:browser` with installed Chrome and preserve the required visual review evidence. Pull-request review checks the exact local revision and evidence; the bounded hosted job is a remote consistency guard, not a replacement for local full testing, Independent QA, or the Release Gate.
