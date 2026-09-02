@@ -1,0 +1,52 @@
+{
+  "schema_version": "temple.wave-5a-developer-test-observation/v1",
+  "work_item_id": "WI-0107",
+  "tested_revision": "working-tree-pre-generation",
+  "model_generation_performed": false,
+  "checks": [
+    {
+      "command": "node --check .ai-org/artifacts/WI-0107/setup-wave-5a.mjs",
+      "status": "pass"
+    },
+    {
+      "command": "node --check .ai-org/artifacts/WI-0107/run-wave-5a.mjs",
+      "status": "pass"
+    },
+    {
+      "command": "node .ai-org/artifacts/WI-0107/setup-wave-5a.mjs",
+      "status": "pass",
+      "result": "four fresh isolated candidate repositories"
+    },
+    {
+      "command": "node .ai-org/artifacts/WI-0107/run-wave-5a.mjs --preflight-only",
+      "status": "pass-with-expected-gate",
+      "result": "all technical checks pass; owner-confirmation-required remains"
+    },
+    {
+      "command": "npm test in each of four candidate repositories",
+      "status": "pass"
+    },
+    {
+      "command": "npm run verify",
+      "status": "pass",
+      "tests": 280
+    },
+    {
+      "command": "node ./templew.mjs doctor . --json",
+      "status": "pass-with-warning",
+      "summary": {
+        "pass": 36,
+        "warn": 1,
+        "fail": 0
+      },
+      "warning": "pre-existing generated parallel plan is stale; WI-0107 is sequential and has not dispatched a parallel worker"
+    }
+  ],
+  "remaining_gate": "Explicit owner confirmation that automatic Credit reload is disabled and included Pro allowance may be consumed.",
+  "claims": {
+    "generation_ready": false,
+    "billing_guarantee_available": false,
+    "experiment_completed": false,
+    "temple_superiority": false
+  }
+}
