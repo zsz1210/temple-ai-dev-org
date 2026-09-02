@@ -13826,6 +13826,171 @@
         "exit_code": 0,
         "started_at": "2026-09-02T02:42:30.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T033441Z-CE311609",
+      "work_item_id": "WI-0098",
+      "recorded_at": "2026-09-02T03:34:41.496Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Adaptive onboarding candidate",
+      "outcome": "verified",
+      "scope_revision": "f9323f582ffde3188f1d7dd917dac91d9091262e",
+      "observed_at": "2026-09-02T03:34:41.496Z",
+      "summary": "Candidate implements the project-owned integration contract, adaptive initialization guidance, upgrade preservation, Doctor/status observability, documentation, and tests.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "f9323f582ffde3188f1d7dd917dac91d9091262e"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "f9323f582ffde3188f1d7dd917dac91d9091262e",
+        "working_tree_dirty": true,
+        "dirty_path_count": 311,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T033536Z-2C3E0BDE",
+      "work_item_id": "WI-0098",
+      "recorded_at": "2026-09-02T03:35:36.728Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Adaptive onboarding full verification",
+      "outcome": "pass",
+      "scope_revision": "f9323f582ffde3188f1d7dd917dac91d9091262e",
+      "observed_at": "2026-09-02T03:34:24.000Z",
+      "summary": "Local full verification passed 281 tests plus repository, documentation-link, and package-boundary checks at the exact candidate revision.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0098/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0098/developer-test-observation.json",
+          "sha256": "1fb60fce1c310f8f237cd77041b3de28fc7b8e5a9f555bd1337bbb02da546847"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0098/developer-handoff.md",
+          "sha256": "dc831a53aaf50862b30d01ff991f8e703bd1f6ac2ef54920ac5e6dc2fb7bebab"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0098/technical-design.md",
+          "sha256": "cb0a1090e69afb23470f15cb2ee030d586f6fac211289c62ebdb37d1112f9fdb"
+        }
+      ],
+      "details": {
+        "command": [
+          "Node 25.6.1: npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T03:33:20.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T033730Z-1E398911",
+      "work_item_id": "WI-0098",
+      "recorded_at": "2026-09-02T03:37:30.944Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Adaptive onboarding focused Quality Evaluation",
+      "outcome": "pass",
+      "scope_revision": "f9323f582ffde3188f1d7dd917dac91d9091262e",
+      "observed_at": "2026-09-02T03:36:55.000Z",
+      "summary": "A detached exact-candidate worktree passed all 38 focused model, CLI, installation, and Skill-policy tests.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0098/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0098/quality-test-observation.json",
+          "sha256": "2cebcb795b462b8b73f86f3ed6e824316751fa431b7d32ea2b2d23698149fdd0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0098/quality-report.md",
+          "sha256": "2766e384100b280b7c394510a3aef9b855150350f20f7e914418708ca10a88ec"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0098/developer-test-observation.json",
+          "sha256": "1fb60fce1c310f8f237cd77041b3de28fc7b8e5a9f555bd1337bbb02da546847"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached candidate worktree: node --test test/model.test.mjs test/cli.test.mjs test/phase4-installation.test.mjs test/skill-policy.test.mjs",
+          "fresh detached candidate worktree: git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T03:36:30.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T033930Z-8C6B9CD2",
+      "work_item_id": "WI-0098",
+      "recorded_at": "2026-09-02T03:39:30.386Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Adaptive onboarding Independent QA",
+      "outcome": "pass",
+      "scope_revision": "f9323f582ffde3188f1d7dd917dac91d9091262e",
+      "observed_at": "2026-09-02T03:38:55.000Z",
+      "summary": "A second detached exact-candidate worktree passed repository, documentation, package, and all 281 test checks.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0098/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0098/independent-qa-test-observation.json",
+          "sha256": "9daf1291a96f8e1316696b3c2bcd5f68ce0788c4bdc3c63833d6aa8abcb96fd5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0098/independent-qa-report.md",
+          "sha256": "b3b6f663693572de466bb4182356fb002c842fb801d4b371bbfacb7936455075"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0098/quality-report.md",
+          "sha256": "2766e384100b280b7c394510a3aef9b855150350f20f7e914418708ca10a88ec"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0098/evaluation-report.md",
+          "sha256": "9888d6eaa7d3b0a21d3e3ea54ffe2f25e55c3fa998c15a45aae0220c1ad25e9a"
+        }
+      ],
+      "details": {
+        "command": [
+          "second fresh detached candidate worktree: npm run verify",
+          "second fresh detached candidate worktree: git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T03:37:42.000Z"
+      }
     }
   ]
 }

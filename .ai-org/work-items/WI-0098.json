@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0098",
   "title": "Implement adaptive repository integration onboarding",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-02T03:19:20.276Z",
-  "updated_at": "2026-09-02T03:32:30.000Z",
+  "updated_at": "2026-09-02T03:40:03.230Z",
   "scope": [
     "Add a project-owned repository integration contract, seed it during init and upgrade, surface unconfirmed state, and teach AI-assisted initialization to inspect and confirm existing delivery policy without imposing a vendor workflow."
   ],
@@ -66,7 +66,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "21ccae4",
+  "base_revision": "f9323f582ffde3188f1d7dd917dac91d9091262e",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-tidus",
   "planned_agent_id": null,
@@ -76,27 +76,43 @@
     "WI-0086: WI-0098 owns only adaptive onboarding and repository-integration wording/tests; WI-0086 retains public release approval and must requalify the resulting candidate."
   ],
   "claim": {
-    "id": "claim-20260902032005-c72c9bb8",
-    "status": "active",
+    "id": "claim-20260902033622-a24c5d49",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "21ccae4",
+    "agent_id": "agent-lulu",
+    "base_revision": "f9323f582ffde3188f1d7dd917dac91d9091262e",
     "branch": "codex/wi-0097-adaptive-onboarding",
     "worktree": null,
-    "claimed_at": "2026-09-02T03:20:05.238Z",
-    "released_at": null
+    "claimed_at": "2026-09-02T03:36:22.782Z",
+    "released_at": "2026-09-02T03:37:50.842Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
       "id": "claim-20260902032005-c72c9bb8",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "21ccae4",
       "branch": "codex/wi-0097-adaptive-onboarding",
       "worktree": null,
       "claimed_at": "2026-09-02T03:20:05.238Z",
-      "released_at": null
+      "released_at": "2026-09-02T03:35:56.227Z",
+      "release_reason": [
+        "Developer candidate handed to Quality Evaluation at f9323f582ffde3188f1d7dd917dac91d9091262e."
+      ]
+    },
+    {
+      "id": "claim-20260902033622-a24c5d49",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "f9323f582ffde3188f1d7dd917dac91d9091262e",
+      "branch": "codex/wi-0097-adaptive-onboarding",
+      "worktree": null,
+      "claimed_at": "2026-09-02T03:36:22.782Z",
+      "released_at": "2026-09-02T03:37:50.842Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -114,12 +130,58 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0098/technical-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0098/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260902T033441Z-CE311609",
+      "EVID-20260902T033536Z-2C3E0BDE",
+      ".ai-org/artifacts/WI-0098/developer-handoff.md"
+    ],
+    "test_evidence": [
+      "EVID-20260902T033730Z-1E398911"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0098/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260902T033930Z-8C6B9CD2"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0097/approved-scope.md",
-    ".ai-org/artifacts/WI-0098/technical-design.md"
+    ".ai-org/artifacts/WI-0098/technical-design.md",
+    ".ai-org/artifacts/WI-0098/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260902T033441Z-CE311609",
+    "EVID-20260902T033536Z-2C3E0BDE",
+    ".ai-org/artifacts/WI-0098/developer-handoff.md",
+    "EVID-20260902T033730Z-1E398911",
+    ".ai-org/artifacts/WI-0098/evaluation-report.md",
+    ".ai-org/artifacts/WI-0098/handoff-002-independent_qa-to-release_manager.md",
+    "EVID-20260902T033930Z-8C6B9CD2",
+    ".ai-org/artifacts/WI-0098/independent-qa-report.md"
   ],
-  "unresolved": [],
-  "next_position": "quality_evaluator"
+  "unresolved": [
+    "Push the feature branch and require hosted Node.js 22/24 CI before integration.",
+    "Complete pull-request review under CONTRIBUTING.md and GOVERNANCE.md before merging to main."
+  ],
+  "next_position": "engineering_manager",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "f9323f582ffde3188f1d7dd917dac91d9091262e",
+      "artifact": ".ai-org/artifacts/WI-0098/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-02T03:35:50.983Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "f9323f582ffde3188f1d7dd917dac91d9091262e",
+      "artifact": ".ai-org/artifacts/WI-0098/handoff-002-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-02T03:39:38.541Z"
+    }
+  ],
+  "developer_candidate_revision": "f9323f582ffde3188f1d7dd917dac91d9091262e"
 }

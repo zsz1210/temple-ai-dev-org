@@ -1,0 +1,27 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "f9323f582ffde3188f1d7dd917dac91d9091262e",
+  "command": [
+    "second fresh detached candidate worktree: npm run verify",
+    "second fresh detached candidate worktree: git status --short"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T03:37:42.000Z",
+  "completed_at": "2026-09-02T03:38:55.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0098/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0098/quality-report.md",
+    ".ai-org/artifacts/WI-0098/evaluation-report.md"
+  ],
+  "summary": {
+    "repository_checks": "pass",
+    "documentation_links": "pass",
+    "package_boundary": "pass",
+    "tests_passed": 281,
+    "tests_failed": 0,
+    "candidate_files_modified": false,
+    "dependency_link_untracked": true,
+    "environment_independence": "same-machine-local-detached-worktree"
+  }
+}
