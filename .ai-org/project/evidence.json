@@ -17916,6 +17916,93 @@
         "status": "planned",
         "procedure": ".ai-org/artifacts/WI-0116/rollback-plan.md"
       }
+    },
+    {
+      "id": "EVID-20260902T225706Z-49B1E99A",
+      "work_item_id": "WI-0117",
+      "recorded_at": "2026-09-02T22:57:06.016Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0117 Wave 5B prepared candidate",
+      "outcome": "verified",
+      "scope_revision": "20eae0ad1680d8ee263f5c26ff73d50072d36ec7",
+      "observed_at": "2026-09-02T22:57:06.016Z",
+      "summary": "Exact offline preparation candidate with a clean Luna Medium lab and fresh-context evaluator runner.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "20eae0ad1680d8ee263f5c26ff73d50072d36ec7"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "20eae0ad1680d8ee263f5c26ff73d50072d36ec7",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T225706Z-1ECBB7C3",
+      "work_item_id": "WI-0117",
+      "recorded_at": "2026-09-02T22:57:06.220Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0117 offline preparation verification",
+      "outcome": "pass",
+      "scope_revision": "20eae0ad1680d8ee263f5c26ff73d50072d36ec7",
+      "observed_at": "2026-09-02T22:56:30.000Z",
+      "summary": "Nine focused and 306 full tests passed; all no-generation preflight checks pass except the required owner approval.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0117/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0117/developer-test-observation.json",
+          "sha256": "97502e6fb34874d83ffc54ce534a912a4266054e0d83545d97ffaa5d980bf1ca"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/developer-report.md",
+          "sha256": "eb7d9b6ef1c38292369b229bdfe1930553996b99d7dfe36d57873e02ccc30dda"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/candidate-preflight.json",
+          "sha256": "094112c5b890d432d7c9495e62edfea0af1c3950f98029a180b15f27789a929f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/evaluator-preflight.json",
+          "sha256": "cd038a492e5f971e152f1feb116f9fb8db7b64c24ad70586b0cfc1c2e6e8d302"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/offline-preparation-report.md",
+          "sha256": "2b9fd6c44786ad0fad4838003c9ccda2712d1a2358ab782d45b48744023c534e"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --check scripts/run-wave-5b-evaluator.mjs",
+          "node --test test/wave-5b-analysis.test.mjs test/wave-5b-live-protocol.test.mjs",
+          "create exclusive Wave 5B lab with pinned protocol",
+          "candidate runner --preflight-only against installed Codex App Server",
+          "blind evaluator --preflight-only",
+          "temple usage preflight --probe-codex-account",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T22:51:00.000Z"
+      }
     }
   ]
 }
