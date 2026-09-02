@@ -451,6 +451,7 @@ async function launchTurn({ turn, participant, instruction_path: instructionPath
   const developerInstructions = [
     "This is one bounded controlled-comparison candidate. Do not create subagents or ask the user questions.",
     `Allowed command prefixes: ${toolPolicy.allowed_command_prefixes.map((entry) => entry.join(" ")).join(", ")}.`,
+    "Submit exactly one allowlisted command per shell tool call. Never combine commands or use control operators, pipes, redirects, command substitutions, or printf; use separate tool calls instead.",
     "Do not inspect any path outside the current candidate repository. Do not modify Temple lifecycle files; the coordinator owns them.",
     "Change only src/ and test/. Network access, dependency installation, retries, fallback models, external services, and external writes are prohibited.",
     "Use apply_patch for file changes. Complete one attempt only and return only the requested structured completion record."

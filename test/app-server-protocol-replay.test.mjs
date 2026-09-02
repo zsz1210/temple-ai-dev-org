@@ -186,6 +186,8 @@ test("the live runner imports the replayed helpers and pins the fixture's instal
     assert.match(runner, new RegExp(`\\b${name}\\b`), name);
   }
   assert.ok(runner.includes(document.provenance.item_started_schema_sha256));
+  assert.match(runner, /exactly one allowlisted command per shell tool call/);
+  assert.match(runner, /Never combine commands/);
 });
 
 test("the replay implementation remains pure and fixtures retain no raw content fields", async () => {

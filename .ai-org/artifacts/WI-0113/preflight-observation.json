@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.wave-5a-preflight/v1",
   "work_item_id": "WI-0113",
-  "generated_at": "2026-09-02T16:26:26.011Z",
+  "generated_at": "2026-09-02T16:28:15.102Z",
   "pass": true,
   "generation_ready": true,
   "blockers": [],
@@ -75,15 +75,15 @@
       "id": "candidate-01-idempotent-command-temple",
       "pass": true,
       "clean": true,
-      "expected_revision": "846bc587513ce6a47ff8b1f859be06901a1ef562",
-      "observed_revision": "846bc587513ce6a47ff8b1f859be06901a1ef562"
+      "expected_revision": "7ebb8ece62bf3da9ab2e24e18d5d376b5ac55945",
+      "observed_revision": "7ebb8ece62bf3da9ab2e24e18d5d376b5ac55945"
     },
     {
       "id": "candidate-02-idempotent-command-minimal",
       "pass": true,
       "clean": true,
-      "expected_revision": "83d75a00da028bf021eed4b3852ca70c68e1f3b3",
-      "observed_revision": "83d75a00da028bf021eed4b3852ca70c68e1f3b3"
+      "expected_revision": "68f9f02b8b3eb68ea01e7c7a736f381d3bf3818b",
+      "observed_revision": "68f9f02b8b3eb68ea01e7c7a736f381d3bf3818b"
     },
     {
       "id": "minimal-boundary-02-idempotent-command-minimal",
@@ -93,8 +93,8 @@
       "id": "candidate-03-compatible-event-evolution-minimal",
       "pass": true,
       "clean": true,
-      "expected_revision": "5b7e59b78d53682cbbb98d6fb3b193239cc43fe2",
-      "observed_revision": "5b7e59b78d53682cbbb98d6fb3b193239cc43fe2"
+      "expected_revision": "05cccc59dc1eeb806fe52bda6cd16d87d316aed4",
+      "observed_revision": "05cccc59dc1eeb806fe52bda6cd16d87d316aed4"
     },
     {
       "id": "minimal-boundary-03-compatible-event-evolution-minimal",
@@ -104,8 +104,8 @@
       "id": "candidate-04-compatible-event-evolution-temple",
       "pass": true,
       "clean": true,
-      "expected_revision": "ecc9477a462c91117b118e22832a05b41ed3e5ec",
-      "observed_revision": "ecc9477a462c91117b118e22832a05b41ed3e5ec"
+      "expected_revision": "c7db80e04705c0dc8a22229928846bd997b97469",
+      "observed_revision": "c7db80e04705c0dc8a22229928846bd997b97469"
     },
     {
       "id": "app-server-schema-ThreadStartParams.json",
