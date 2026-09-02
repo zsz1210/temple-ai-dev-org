@@ -1,0 +1,247 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0100",
+  "title": "Separate optional Management Console from Usage collection",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-02T04:21:27.536Z",
+  "updated_at": "2026-09-02T04:46:55.177Z",
+  "scope": [
+    "Introduce an explicitly started, read-only Management Console that reads canonical state and retained telemetry without a writer lease, Codex attachment, or background repository polling.",
+    "Introduce a separate on-demand Usage Collector that owns telemetry writes and Codex observation without serving the Management Console; keep managed-local collection experimental and non-default.",
+    "Preserve Temple Core delivery, existing telemetry, private-viewer safety, and unknown usage semantics when neither optional process is running."
+  ],
+  "acceptance_criteria": [
+    "Temple initialization, lifecycle commands, and delivery remain complete with no Console or Collector process installed or running.",
+    "The optional Console can run concurrently with a telemetry writer, starts no Codex Provider or repository polling loop, exposes read-only routes only, and refreshes from bounded file-change invalidation.",
+    "The on-demand Usage Collector starts no HTTP listener, preserves local telemetry on shutdown, reports truthful on-demand status, and is the process used by the experimental managed-local service.",
+    "Focused runtime tests, full verification, live local measurement, documentation checks, and Independent QA pass at an exact revision."
+  ],
+  "affected_paths": [
+    "src/management-console-server.mjs",
+    "src/usage-collector.mjs",
+    "src/control-plane-server.mjs",
+    "src/cli.mjs",
+    "src/local-observer-service.mjs",
+    "test/optional-console-collector.test.mjs",
+    "test/cli.test.mjs",
+    "docs/adr/0044-optional-management-console-and-usage-collector.md",
+    "docs/adr/README.md",
+    "docs/operations/management-console.md",
+    "docs/operations/usage-observation.md",
+    "docs/operations/control-plane.md",
+    "docs/README.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "3c94b998d01ff0a9daf03cb99998721f218ee846",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-tidus",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0033 remains an earlier control-plane specification item with no claim; WI-0100 owns only the optional Console and Collector process separation and preserves its unrelated scope.",
+    "WI-0086 remains the blocked public-release umbrella; WI-0100 performs no publication, visibility, tag, release, or hosting-setting action.",
+    "WI-0094 retains later snapshot performance optimization; WI-0100 establishes the process boundary first and does not claim that optimization complete.",
+    "WI-0097 owns adaptive repository onboarding; WI-0100 starts from its candidate and does not change repository-integration behavior.",
+    "WI-0098 remains the reviewed adaptive-onboarding implementation; WI-0100 preserves its CLI and ADR-index content while adding a separate command surface.",
+    "WI-0099 owns Node.js 24 and bounded-CI policy; WI-0100 starts from candidate 36703f3, preserves its changes, and limits shared docs/adr/README.md edits to adding ADR-0044 after ADR-0043."
+  ],
+  "claim": {
+    "id": "claim-20260902044643-d2d33d99",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "3c94b998d01ff0a9daf03cb99998721f218ee846",
+    "branch": "codex/wi-0100-optional-console-collector",
+    "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0100",
+    "claimed_at": "2026-09-02T04:46:43.339Z",
+    "released_at": "2026-09-02T04:46:55.177Z",
+    "release_reason": "work_item_closed"
+  },
+  "claims": [
+    {
+      "id": "claim-20260902042216-dd9a6835",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "36703f3efdb8c92d1d9a2c78185534118c16b42d",
+      "branch": "codex/wi-0100-optional-console-collector",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0100",
+      "claimed_at": "2026-09-02T04:22:16.165Z",
+      "released_at": "2026-09-02T04:22:16.374Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902042223-316893f4",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "36703f3efdb8c92d1d9a2c78185534118c16b42d",
+      "branch": "codex/wi-0100-optional-console-collector",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0100",
+      "claimed_at": "2026-09-02T04:22:23.221Z",
+      "released_at": "2026-09-02T04:22:23.433Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902042302-d97d81db",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "36703f3efdb8c92d1d9a2c78185534118c16b42d",
+      "branch": "codex/wi-0100-optional-console-collector",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0100",
+      "claimed_at": "2026-09-02T04:23:02.026Z",
+      "released_at": "2026-09-02T04:23:02.235Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902042302-234baccb",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "36703f3efdb8c92d1d9a2c78185534118c16b42d",
+      "branch": "codex/wi-0100-optional-console-collector",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0100",
+      "claimed_at": "2026-09-02T04:23:02.462Z",
+      "released_at": "2026-09-02T04:41:32.425Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902044202-08e7a6c7",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "3c94b998d01ff0a9daf03cb99998721f218ee846",
+      "branch": "codex/wi-0100-optional-console-collector",
+      "worktree": "/tmp/temple-wi0100-quality.k6a6eF/candidate",
+      "claimed_at": "2026-09-02T04:42:02.180Z",
+      "released_at": "2026-09-02T04:43:27.915Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902044341-4607d5e3",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "3c94b998d01ff0a9daf03cb99998721f218ee846",
+      "branch": "codex/wi-0100-optional-console-collector",
+      "worktree": "/tmp/temple-wi0100-independent.8QmhMm/candidate",
+      "claimed_at": "2026-09-02T04:43:41.954Z",
+      "released_at": "2026-09-02T04:45:59.784Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902044643-d2d33d99",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "3c94b998d01ff0a9daf03cb99998721f218ee846",
+      "branch": "codex/wi-0100-optional-console-collector",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0100",
+      "claimed_at": "2026-09-02T04:46:43.339Z",
+      "released_at": "2026-09-02T04:46:55.177Z",
+      "release_reason": "work_item_closed"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0100.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0100.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0100.json"
+    ],
+    "technical_design": [
+      "docs/adr/0044-optional-management-console-and-usage-collector.md"
+    ],
+    "risk_review": [
+      "docs/adr/0044-optional-management-console-and-usage-collector.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0100/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260902T044101Z-C40CC36D",
+      "EVID-20260902T044102Z-1B351D69",
+      ".ai-org/artifacts/WI-0100/developer-handoff.md"
+    ],
+    "test_evidence": [
+      "EVID-20260902T044319Z-307206FD"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0100/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260902T044550Z-E44FDABA"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/work-orders/WI-0100.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0100/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0100/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0100.md",
+    ".ai-org/work-items/WI-0100.json",
+    "docs/adr/0044-optional-management-console-and-usage-collector.md",
+    ".ai-org/artifacts/WI-0100/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260902T044101Z-C40CC36D",
+    "EVID-20260902T044102Z-1B351D69",
+    ".ai-org/artifacts/WI-0100/developer-handoff.md",
+    "EVID-20260902T044319Z-307206FD",
+    ".ai-org/artifacts/WI-0100/evaluation-report.md",
+    ".ai-org/artifacts/WI-0100/handoff-002-independent_qa-to-release_manager.md",
+    "EVID-20260902T044550Z-E44FDABA",
+    ".ai-org/artifacts/WI-0100/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0100/release-record.md",
+    ".ai-org/artifacts/WI-0100/integration-review.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "3c94b998d01ff0a9daf03cb99998721f218ee846",
+      "artifact": ".ai-org/artifacts/WI-0100/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-02T04:41:14.269Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "3c94b998d01ff0a9daf03cb99998721f218ee846",
+      "artifact": ".ai-org/artifacts/WI-0100/handoff-002-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-02T04:45:59.277Z"
+    }
+  ],
+  "developer_candidate_revision": "3c94b998d01ff0a9daf03cb99998721f218ee846",
+  "tested_revision": "3c94b998d01ff0a9daf03cb99998721f218ee846",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
+}

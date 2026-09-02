@@ -1,6 +1,15 @@
-# Local control plane and Temple Workspace
+# Legacy combined control plane and Temple Workspace
 
-The Phase 3 control plane combines canonical repository state with generated local telemetry without giving telemetry authority over lifecycle gates.
+The Phase 3 Control Plane combines canonical repository state, generated local telemetry, provider processes, a browser interface, and optional local command routes without giving telemetry authority over lifecycle gates. It remains available for compatibility and advanced operator workflows.
+
+For ordinary use, keep the optional processes separate:
+
+- start no process when Temple Core and CLI output are sufficient;
+- use [`temple console start`](management-console.md) for a read-only human overview;
+- use [`temple usage collect`](usage-observation.md) for explicit on-demand Token observation;
+- run both separately when a human view and live collection are useful at the same time.
+
+Starting the optional Console does not start this combined Control Plane.
 
 ## State boundary
 
@@ -25,7 +34,7 @@ The local journal records normalized metadata and bounded summaries. It excludes
 
 An explicit `state_directory` or `--state-dir` may move generated telemetry outside the Git common directory. The CLI rejects a version-controlled worktree destination and broad targets such as the filesystem root, home directory, project root, or Git common directory itself.
 
-## Commands
+## Combined compatibility commands
 
 Inspect the current local snapshot without changing canonical state:
 
@@ -33,11 +42,13 @@ Inspect the current local snapshot without changing canonical state:
 node ./templew.mjs control-plane snapshot . --json
 ```
 
-Start the local server:
+Start the legacy combined local server:
 
 ```bash
 node ./templew.mjs control-plane start .
 ```
+
+This command acquires the telemetry writer lease and starts the repository provider. Do not use it merely to obtain a read-only browser view; use `node ./templew.mjs console start .` instead.
 
 Expose a separate redacted read-only Temple Workspace on one exact trusted home-LAN address:
 

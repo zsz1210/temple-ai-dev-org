@@ -51,6 +51,8 @@ import {
   rebuildControlPlane,
   startControlPlaneServer
 } from "./control-plane-server.mjs";
+import { startManagementConsoleServer } from "./management-console-server.mjs";
+import { startUsageCollector } from "./usage-collector.mjs";
 import { DEFAULT_LAN_VIEWER_PORT, prepareTailscalePrivateViewer } from "./private-network-viewer.mjs";
 import {
   applyLocalObserverService,
@@ -149,9 +151,10 @@ Usage:
   temple control-plane capture-github [target] --provider-id id --work-item WI-ID --revision commit [--state-dir path] [--actor id] [--title text] [--summary text] [--json]
   temple control-plane start [target] [--host 127.0.0.1] [--port number] [--state-dir path] [--fixture path] [--codex] [--observation-mode off|on-demand|managed-local] [--codex-command absolute-path] [--tailscale-viewer] [--lan-viewer-host private-ip] [--lan-viewer-port number]
   temple control-plane observer-status [target] [--state-dir path] [--json]
-  temple control-plane observer-plan [target] [--state-dir path] [--port number] [--lan-viewer-host private-ip] [--lan-viewer-port number] [--codex-command absolute-path] [--json]
-  temple control-plane observer-apply [target] --expected-plan sha256 [--activate] [--confirm-replace] [observer-plan options] [--json]
+  temple control-plane observer-plan [target] [--state-dir path] [--codex-command absolute-path] [--json]
+  temple control-plane observer-apply [target] --expected-plan sha256 [--activate] [--confirm-replace] [--state-dir path] [--codex-command absolute-path] [--json]
   temple control-plane observer-remove [target] --expected-plan sha256 --confirm-delete [--state-dir path] [--json]
+  temple console start [target] [--host 127.0.0.1] [--port number] [--state-dir path] [--tailscale-viewer] [--lan-viewer-host private-ip] [--lan-viewer-port number]
   temple collaboration show [target] [--json]
   temple collaboration migrate [target] [--dry-run] [--json]
   temple collaboration show-identity [target] [--json]
@@ -207,6 +210,7 @@ Usage:
   temple usage report [target] [--state-dir path] [--no-write] [--json]
   temple usage preflight [target] [--state-dir path] [--probe-codex-account] [--json]
   temple usage evaluate [target] --fixture .ai-org/evaluations/model/name.json [--no-write] [--json]
+  temple usage collect [target] [--state-dir path] [--codex-command absolute-path] [--observation-mode on-demand|managed-local]
   temple adapter archify-status [target] [--json]
   temple adapter archify-install [target] --source local-git-checkout [--json]
   temple handoff [target] --work-item WI-0001 --to position --input-revision ref --completed text --evidence ref
@@ -246,6 +250,7 @@ Core commands:
   status      Rebuild the observable project status from canonical files.
   observe     Build a read-only lifecycle, evidence, approval, and recovery projection.
   control-plane Run the local replay-safe telemetry journal, provider surface, snapshot API, and SSE stream.
+  console     Optionally serve the read-only human Management Console without starting collection.
   collaboration Configure Human Principals, Agent sponsorship, Position membership, and the operating profile.
   work-item   Create and configure work items, revisioned contracts, UI mode, claims, and unresolved items.
   parallel    Check one item or build deterministic safe dispatch waves for a group.
@@ -257,7 +262,7 @@ Core commands:
   learning    Capture, revalidate, retrieve, and evaluate project-owned engineering learning.
   retrieval   Inspect the deterministic default and unconfigured local-hybrid boundary.
   evaluation  Score versioned adversarial policy observations without changing lifecycle authority.
-  usage       Build a numeric usage-driver baseline without prompts, prices, or automatic model routing.
+  usage       Collect optional provider telemetry or build a numeric usage-driver baseline without prompts, prices, or automatic model routing.
   adapter     Inspect or install an opt-in, pinned, isolated local adapter.
   handoff     Create an evidence-bearing Position handoff artifact.
   transition  Enforce the workflow edge and its named gate requirements.
@@ -494,7 +499,7 @@ const REPEATABLE_FLAGS = new Set([
   "--participant-principal",
   "--environment"
 ]);
-const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence", "schema", "migration", "learning", "retrieval", "evaluation", "usage", "adapter", "control-plane", "backup", "restore", "audit", "federation", "portfolio", "experiment"]);
+const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence", "schema", "migration", "learning", "retrieval", "evaluation", "usage", "adapter", "control-plane", "console", "backup", "restore", "audit", "federation", "portfolio", "experiment"]);
 
 function parseCommand(argv) {
   if (argv.length === 0 || argv[0] === "--help" || argv[0] === "-h") {
@@ -1082,9 +1087,6 @@ async function runControlPlane(parsed) {
   };
   const observerOptions = {
     stateDirectory: parsed.options["--state-dir"],
-    port: parsed.options["--port"] === undefined ? undefined : controlPlanePort(parsed),
-    lanViewerHost: parsed.options["--lan-viewer-host"],
-    lanViewerPort: parsed.options["--lan-viewer-port"] === undefined ? undefined : controlPlaneLanPort(parsed),
     codexCommand: parsed.options["--codex-command"]
   };
   if (parsed.action === "observer-status") {
@@ -1102,13 +1104,12 @@ async function runControlPlane(parsed) {
   if (parsed.action === "observer-plan") {
     const plan = await planLocalObserverService(target, observerOptions);
     printResult(parsed, plan, plan.supported ? [
-      `Managed local Observer plan: ${plan.plan_digest}`,
-      `Loopback Console: http://127.0.0.1:${plan.service.loopback_port}`,
-      `Home LAN read-only Console: ${plan.service.lan_viewer_host ? `http://${plan.service.lan_viewer_host}:${plan.service.lan_viewer_port}` : "not configured"}`,
+      `Experimental managed Usage Collector plan: ${plan.plan_digest}`,
+      "Management Console: not started or exposed",
       `Codex executable: ${plan.service.codex_command}`,
       "No files written and no service started."
     ] : [
-      `Managed local Observer is unsupported on ${plan.platform}.`,
+      `Managed local Usage Collector is unsupported on ${plan.platform}.`,
       "No files written and no service started."
     ]);
     return plan.supported ? 0 : 1;
@@ -1122,7 +1123,7 @@ async function runControlPlane(parsed) {
       confirmReplace: parsed.flags.has("--confirm-replace")
     });
     printResult(parsed, result, [
-      `Managed local Observer: ${result.service_status}`,
+      `Experimental managed Usage Collector: ${result.service_status}`,
       `Plan: ${result.plan_digest}`,
       `Definition: ${result.plist_path}`,
       `Retained usage state: ${result.state_directory}`,
@@ -1139,7 +1140,7 @@ async function runControlPlane(parsed) {
       confirmDelete: parsed.flags.has("--confirm-delete")
     });
     printResult(parsed, result, [
-      "Managed local Observer removed.",
+      "Managed local Usage Collector removed.",
       `Retained telemetry: ${result.retained_telemetry ? "yes" : "no"}`,
       `Service stop performed: ${result.external_action_performed ? "yes" : "no"}`,
       "Canonical state changed: no"
@@ -1254,6 +1255,42 @@ async function runControlPlane(parsed) {
     return 0;
   }
   throw new Error("control-plane action must be snapshot, ingest, rebuild, capture-github, start, observer-status, observer-plan, observer-apply, or observer-remove");
+}
+
+async function runConsole(parsed) {
+  if (parsed.action !== "start") throw new Error(`Unknown console action: ${parsed.action}`);
+  const target = await assertSafeTarget(parsed.target);
+  const tailscaleViewer = parsed.flags.has("--tailscale-viewer")
+    ? await prepareTailscalePrivateViewer()
+    : null;
+  const server = await startManagementConsoleServer(target, {
+    stateDirectory: parsed.options["--state-dir"],
+    host: parsed.options["--host"],
+    port: controlPlanePort(parsed),
+    privateViewerHost: tailscaleViewer?.host,
+    lanViewerHost: parsed.options["--lan-viewer-host"],
+    lanViewerPort: controlPlaneLanPort(parsed)
+  });
+  const shutdown = createShutdownSignalLatch();
+  let privateShare = null;
+  try {
+    if (tailscaleViewer) privateShare = await tailscaleViewer.enable(server.port);
+    console.log(`Management Console: ${server.url}`);
+    if (server.lanViewerUrl) console.log(`Home LAN read-only Console: ${server.lanViewerUrl}`);
+    if (privateShare) console.log(`Private read-only Console: ${privateShare.url}`);
+    console.log("Usage collection: not started");
+    console.log("Writer lease: not acquired");
+    console.log("Press Ctrl-C to stop.");
+    await shutdown.wait;
+  } finally {
+    try {
+      if (privateShare) await privateShare.close();
+    } finally {
+      await server.close();
+      shutdown.dispose();
+    }
+  }
+  return 0;
 }
 
 export function createShutdownSignalLatch(signalSource = process) {
@@ -1514,6 +1551,30 @@ async function runEvaluation(parsed) {
 
 async function runUsage(parsed) {
   const target = await assertSafeTarget(parsed.target);
+  if (parsed.action === "collect") {
+    const mode = parsed.options["--observation-mode"] ?? "on-demand";
+    if (!["on-demand", "managed-local"].includes(mode)) {
+      throw new Error("usage collect --observation-mode must be on-demand or managed-local");
+    }
+    const collector = await startUsageCollector(target, {
+      stateDirectory: parsed.options["--state-dir"],
+      codexCommand: parsed.options["--codex-command"],
+      observationMode: mode
+    });
+    const shutdown = createShutdownSignalLatch();
+    try {
+      console.log(`Usage Collector: ${collector.mode}`);
+      console.log(`Provider: ${collector.provider_id}`);
+      console.log(`Retained state: ${collector.state_directory}`);
+      console.log("HTTP listener: not started");
+      console.log("Press Ctrl-C to stop.");
+      await shutdown.wait;
+    } finally {
+      await collector.close();
+      shutdown.dispose();
+    }
+    return 0;
+  }
   if (parsed.action === "evaluate") {
     if (!parsed.options["--fixture"]) throw new Error("usage evaluate requires --fixture");
     const report = await evaluateMatchedModelFixture(target, parsed.options["--fixture"]);
@@ -2499,6 +2560,7 @@ export async function main(argv) {
   if (parsed.command === "status") return runStatusCommand(parsed);
   if (parsed.command === "observe") return runObserveCommand(parsed);
   if (parsed.command === "control-plane") return runControlPlane(parsed);
+  if (parsed.command === "console") return runConsole(parsed);
   if (parsed.command === "collaboration") return runCollaboration(parsed);
   if (parsed.command === "work-item" && parsed.action === "create") return runWorkItemCreate(parsed);
   if (parsed.command === "work-item" && parsed.action === "configure") return runWorkItemConfigure(parsed);

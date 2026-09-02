@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 99 total, 8 active
+- Work items: 101 total, 8 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -147,6 +147,8 @@
 | WI-0097 | Add adaptive first-run repository workflow onboarding | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 0 |
 | WI-0098 | Implement adaptive repository integration onboarding | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f9323f58` | 0 | 11 | 1 |
 | WI-0099 | Adopt Node.js 24 minimum and local-first bounded CI | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902043412-df84c1ba | `36703f37` | 0 | 11 | 3 |
+| WI-0100 | Separate optional Management Console from Usage collection | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3c94b998` | 0 | 14 | 0 |
+| WI-0101 | Present the optional Console as read-only and verify managed collection | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `3c94b998` | 0 | 14 | 0 |
 
 ## Codex task registry
 
@@ -280,14 +282,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T04:34:32.002Z | handoff_created | WI-0099 | agent-mog |
-| 2026-09-02T04:34:17.541Z | evidence_recorded | WI-0099 | agent-lulu |
-| 2026-09-02T04:34:12.200Z | work_item_claimed | WI-0099 | human |
-| 2026-09-02T04:34:11.398Z | work_item_coordination_configured | WI-0099 | agent-mog |
-| 2026-09-02T04:34:10.665Z | work_item_claim_released | WI-0099 | human |
-| 2026-09-02T04:27:27.976Z | work_item_unresolved_updated | WI-0099 | agent-mog |
-| 2026-09-02T04:27:27.757Z | work_item_claimed | WI-0099 | human |
-| 2026-09-02T04:27:21.460Z | work_item_transitioned | WI-0099 | agent-lulu |
+| 2026-09-02T04:46:55.416Z | work_item_closed | WI-0101 | agent-mog |
+| 2026-09-02T04:46:55.416Z | release_gate_completed | WI-0101 | agent-mog |
+| 2026-09-02T04:46:55.177Z | work_item_closed | WI-0100 | agent-mog |
+| 2026-09-02T04:46:55.177Z | release_gate_completed | WI-0100 | agent-mog |
+| 2026-09-02T04:46:43.574Z | work_item_claimed | WI-0101 | human |
+| 2026-09-02T04:46:43.339Z | work_item_claimed | WI-0100 | human |
+| 2026-09-02T04:46:00.023Z | work_item_transitioned | WI-0101 | agent-lulu |
+| 2026-09-02T04:45:59.784Z | work_item_transitioned | WI-0100 | agent-lulu |
 
 ## Assignments
 

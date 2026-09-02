@@ -85,7 +85,7 @@ function numericCursor(value) {
   return cursor;
 }
 
-function baseProviderContracts(config) {
+export function controlPlaneProviderContracts(config) {
   const contracts = [repositoryProviderContract()];
   const codexProviders = config.providers.filter((provider) => provider.kind === "codex-app-server");
   if (codexProviders.length === 0) {
@@ -342,7 +342,7 @@ export async function startControlPlaneServer(target, options = {}) {
       enableCodex: codexEnabled,
       startedAt
     });
-    const registry = createProviderRegistry(baseProviderContracts(config));
+    const registry = createProviderRegistry(controlPlaneProviderContracts(config));
     repositoryProvider = startRepositoryProvider(projectRoot, journal, registry, {
       intervalMs: options.repositoryIntervalMs
     });
@@ -615,7 +615,7 @@ export async function inspectControlPlane(target, options = {}) {
     privacy: config.privacy,
     readOnly: true
   });
-  const registry = createProviderRegistry(baseProviderContracts(config));
+  const registry = createProviderRegistry(controlPlaneProviderContracts(config));
   const providerPath = path.join(stateDirectory, "providers.json");
   if (await pathExists(providerPath)) {
     const persisted = await readJson(providerPath);
@@ -649,7 +649,7 @@ export async function ingestControlPlaneFixture(target, fixturePath, options = {
       maxEvents: config.retention.max_events,
       privacy: config.privacy
     });
-    const registry = createProviderRegistry(baseProviderContracts(config));
+    const registry = createProviderRegistry(controlPlaneProviderContracts(config));
     const providerPath = path.join(stateDirectory, "providers.json");
     if (await pathExists(providerPath)) {
       const persisted = await readJson(providerPath);
@@ -689,7 +689,7 @@ export async function rebuildControlPlane(target, options = {}) {
       maxEvents: config.retention.max_events,
       privacy: config.privacy
     });
-    const registry = createProviderRegistry(baseProviderContracts(config));
+    const registry = createProviderRegistry(controlPlaneProviderContracts(config));
     const repository = await ingestRepositoryEvents(projectRoot, journal, registry);
     await persistProviderRegistry(stateDirectory, registry);
     const snapshot = await buildControlPlaneSnapshot(projectRoot, journal, registry, {
