@@ -6,7 +6,7 @@
   "owner_position": "release_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-02T03:19:20.276Z",
-  "updated_at": "2026-09-02T03:40:03.230Z",
+  "updated_at": "2026-09-02T03:58:51.859Z",
   "scope": [
     "Add a project-owned repository integration contract, seed it during init and upgrade, surface unconfirmed state, and teach AI-assisted initialization to inspect and confirm existing delivery policy without imposing a vendor workflow."
   ],
@@ -163,7 +163,6 @@
     ".ai-org/artifacts/WI-0098/independent-qa-report.md"
   ],
   "unresolved": [
-    "Push the feature branch and require hosted Node.js 22/24 CI before integration.",
     "Complete pull-request review under CONTRIBUTING.md and GOVERNANCE.md before merging to main."
   ],
   "next_position": "engineering_manager",

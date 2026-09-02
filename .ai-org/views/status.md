@@ -145,7 +145,7 @@
 | WI-0095 | Correct managed Observer cross-platform CI contract | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `4388cc84` | 0 | 24 | 0 |
 | WI-0096 | Harden Phase 4B fixture cleanup on Linux | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b8d5ef34` | 0 | 24 | 0 |
 | WI-0097 | Add adaptive first-run repository workflow onboarding | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 0 |
-| WI-0098 | Implement adaptive repository integration onboarding | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f9323f58` | 0 | 11 | 2 |
+| WI-0098 | Implement adaptive repository integration onboarding | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f9323f58` | 0 | 11 | 1 |
 
 ## Codex task registry
 
@@ -279,14 +279,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-02T03:58:51.859Z | work_item_unresolved_updated | WI-0098 | agent-mog |
+| 2026-09-02T03:58:47.179Z | evidence_recorded | WI-0098 | human |
 | 2026-09-02T03:40:03.230Z | work_item_unresolved_updated | WI-0098 | agent-mog |
 | 2026-09-02T03:39:51.160Z | work_item_transitioned | WI-0098 | agent-lulu |
 | 2026-09-02T03:39:38.541Z | handoff_created | WI-0098 | agent-lulu |
 | 2026-09-02T03:39:30.386Z | evidence_recorded | WI-0098 | human |
 | 2026-09-02T03:37:50.842Z | work_item_transitioned | WI-0098 | agent-lulu |
 | 2026-09-02T03:37:35.999Z | work_item_transitioned | WI-0098 | agent-lulu |
-| 2026-09-02T03:37:30.944Z | evidence_recorded | WI-0098 | human |
-| 2026-09-02T03:36:22.782Z | work_item_claimed | WI-0098 | human |
 
 ## Assignments
 

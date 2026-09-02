@@ -2,7 +2,7 @@
 
 ## Decision
 
-The local candidate `f9323f582ffde3188f1d7dd917dac91d9091262e` is ready to push as branch `codex/wi-0097-adaptive-onboarding` and open for review. It is not yet ready to merge into `main`.
+The implementation candidate `f9323f582ffde3188f1d7dd917dac91d9091262e` and evidence head `24b7a8b5fcb4d77fdce20150d9bce038e1436774` have been pushed as branch `codex/wi-0097-adaptive-onboarding` and opened as GitHub PR #2. Hosted CI passed. The PR is not yet ready to merge into `main` until review is complete.
 
 ## Completed gates
 
@@ -11,12 +11,13 @@ The local candidate `f9323f582ffde3188f1d7dd917dac91d9091262e` is ready to push 
 - Independent QA: 281/281 tests and all repository/package checks passed in a second detached exact-candidate worktree.
 - Developer and Independent QA use different Agent Identities.
 - Doctor reports the self-host repository integration record as confirmed.
+- GitHub CI run `33588524002` passed on PR head `24b7a8b5fcb4d77fdce20150d9bce038e1436774`:
+  - Node.js 22 full verification passed;
+  - Node.js 24 full verification and the Chrome Management Console gate passed.
 
 ## Remaining integration gates
 
-- Push the feature branch.
-- Run and pass hosted Node.js 22 and 24 CI for the branch or pull request.
 - Complete pull-request review under `CONTRIBUTING.md` and `GOVERNANCE.md`.
 - Integrate only after those results remain bound to the intended candidate.
 
-No push, pull request, merge, release, deployment, publication, or repository-hosting setting change was performed during this Work Item.
+A feature-branch push and pull-request creation were performed with the user's authorization. No merge, release, deployment, package publication, or repository-hosting setting change was performed.
