@@ -2,7 +2,9 @@
   "schema_version": "temple.test-observation/v1",
   "work_item_id": "WI-0103",
   "stage": "developer",
-  "command": "npm run verify",
+  "command": [
+    "npm run verify"
+  ],
   "outcome": "pass",
   "tests": {
     "passed": 280,
