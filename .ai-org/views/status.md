@@ -153,7 +153,7 @@
 | WI-0103 | Reconcile Wave 2 coordination evidence | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5d58b65c` | 0 | 15 | 0 |
 | WI-0104 | Validate a local multi-repository service rollout | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6385b89d` | 0 | 17 | 3 |
 | WI-0105 | Qualify Wave 4 operating boundaries | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `43100b5e` | 0 | 12 | 0 |
-| WI-0106 | Design Wave 5 controlled matched comparison | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902113348-a6a81880 | `d3ea908d` | 0 | 13 | 0 |
+| WI-0106 | Design Wave 5 controlled matched comparison | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902114812-d9304602 | `d3ea908d` | 0 | 13 | 0 |
 
 ## Codex task registry
 
@@ -287,14 +287,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-02T11:48:12.595Z | work_item_claimed | WI-0106 | human |
+| 2026-09-02T11:48:12.333Z | work_item_claim_released | WI-0106 | human |
+| 2026-09-02T11:46:40.408Z | evidence_recorded | WI-0106 | human |
 | 2026-09-02T11:33:48.289Z | work_item_claimed | WI-0106 | human |
 | 2026-09-02T11:33:33.893Z | work_item_transitioned | WI-0106 | agent-lulu |
 | 2026-09-02T11:33:33.664Z | handoff_created | WI-0106 | agent-lulu |
 | 2026-09-02T11:33:14.275Z | work_item_transitioned | WI-0106 | agent-lulu |
 | 2026-09-02T11:33:03.164Z | evidence_recorded | WI-0106 | human |
-| 2026-09-02T11:30:04.494Z | evidence_recorded | WI-0106 | human |
-| 2026-09-02T11:06:23.583Z | work_item_claimed | WI-0106 | human |
-| 2026-09-02T11:06:23.344Z | work_item_transitioned | WI-0106 | agent-rikku |
 
 ## Assignments
 
