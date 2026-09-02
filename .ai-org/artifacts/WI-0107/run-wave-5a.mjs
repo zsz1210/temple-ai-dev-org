@@ -15,12 +15,15 @@ import {
 } from "../../../src/validation-program.mjs";
 import {
   commandItemAllowed,
+  isolateWave5CodexEnvironment,
   normalizeTokenUsage,
   parseStructuredCompletion,
   protocolViolationForMessage,
   terminalFailure,
   WAVE5_ALLOWED_COMMAND_PREFIXES,
-  WAVE5_COMPLETION_SCHEMA
+  WAVE5_COMPLETION_SCHEMA,
+  WAVE5_INHERITED_CODEX_ENVIRONMENT_KEYS,
+  wave5ThreadIsolation
 } from "../../../src/app-server-protocol-replay.mjs";
 
 const execFile = promisify(execFileCallback);
@@ -157,6 +160,26 @@ async function readApproval() {
 async function protocolPreflight() {
   const blockers = [];
   const checks = [];
+  const isolatedEnvironment = isolateWave5CodexEnvironment(Object.fromEntries([
+    ...WAVE5_INHERITED_CODEX_ENVIRONMENT_KEYS.map((key) => [key, "inherited"]),
+    ["PATH", "/usr/bin"]
+  ]));
+  const environmentIsolationPass = isolatedEnvironment.PATH === "/usr/bin" &&
+    WAVE5_INHERITED_CODEX_ENVIRONMENT_KEYS.every((key) => !(key in isolatedEnvironment));
+  checks.push({
+    id: "parent-codex-environment-isolated",
+    pass: environmentIsolationPass,
+    removed_keys: WAVE5_INHERITED_CODEX_ENVIRONMENT_KEYS
+  });
+  if (!environmentIsolationPass) blockers.push("parent-codex-environment-not-isolated");
+  const threadIsolation = wave5ThreadIsolation("/tmp/candidate");
+  const threadIsolationPass = threadIsolation.ephemeral === true &&
+    threadIsolation.allowProviderModelFallback === false &&
+    threadIsolation.selectedCapabilityRoots.length === 0 &&
+    threadIsolation.environments.length === 0 &&
+    threadIsolation.runtimeWorkspaceRoots.length === 1;
+  checks.push({ id: "thread-context-isolated", pass: threadIsolationPass });
+  if (!threadIsolationPass) blockers.push("thread-context-not-isolated");
   const serializedOutputSchema = JSON.stringify(completionSchema);
   const outputSchemaPass = !serializedOutputSchema.includes('"uniqueItems"');
   checks.push({
@@ -453,6 +476,7 @@ async function launchTurn({ turn, participant, instruction_path: instructionPath
 
   connection = createJsonRpcProcess("codex", ["app-server", "--stdio"], {
     cwd: participant.root,
+    env: isolateWave5CodexEnvironment(process.env),
     onNotification(message) {
       const params = message.params ?? {};
       if (message.method === "thread/tokenUsage/updated" && (!turnId || params.turnId === turnId)) {
@@ -503,7 +527,7 @@ async function launchTurn({ turn, participant, instruction_path: instructionPath
       sandbox: "workspace-write",
       serviceName: `temple-wave-5a-${turn.id}`,
       developerInstructions,
-      ephemeral: false
+      ...wave5ThreadIsolation(participant.root)
     });
     threadId = threadResponse?.thread?.id;
     if (!threadId) throw Object.assign(new Error("thread/start did not return a thread ID"), { code: "thread-start-invalid" });

@@ -20,6 +20,30 @@ export const WAVE5_ALLOWED_COMMAND_PREFIXES = Object.freeze([
   Object.freeze(["git", "diff"])
 ]);
 
+export const WAVE5_INHERITED_CODEX_ENVIRONMENT_KEYS = Object.freeze([
+  "CODEX_APP_TOOLS_PIPE_PATH",
+  "CODEX_INTERNAL_ORIGINATOR_OVERRIDE",
+  "CODEX_SESSION_ID",
+  "CODEX_THREAD_ID"
+]);
+
+export function isolateWave5CodexEnvironment(source = {}) {
+  const environment = { ...source };
+  for (const key of WAVE5_INHERITED_CODEX_ENVIRONMENT_KEYS) delete environment[key];
+  return environment;
+}
+
+export function wave5ThreadIsolation(root) {
+  return {
+    runtimeWorkspaceRoots: [root],
+    baseInstructions: "You are a bounded coding worker. Follow the developer instructions and user task, use only available local tools, and return the requested structured completion record.",
+    selectedCapabilityRoots: [],
+    environments: [],
+    allowProviderModelFallback: false,
+    ephemeral: true
+  };
+}
+
 const runtimePermissionMethods = new Set([
   "item/commandExecution/requestApproval",
   "item/fileChange/requestApproval",

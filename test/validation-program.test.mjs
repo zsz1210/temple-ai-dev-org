@@ -6,6 +6,7 @@ import { spawnSync } from "node:child_process";
 import test from "node:test";
 import {
   buildCrossRepositoryUsageReportFromBaselines,
+  normalizeValidationUsage,
   resolveValidationProgram,
   runValidationProgram,
   validateValidationProgramManifest,
@@ -289,18 +290,115 @@ async function stoppedRun(testContext, limitOverrides, behavior, after = {}) {
   });
 }
 
-test("runner interrupts at the per-turn Token hard limit with no retry", async (testContext) => {
+test("runner isolates a per-turn non-cached Token limit and records interrupted filesystem state", async (testContext) => {
   let launches = 0;
   const result = await stoppedRun(testContext, { per_turn_warning_tokens: 4, per_turn_hard_tokens: 5 }, async ({ onUsage }) => {
     launches += 1;
-    const decision = await onUsage({ total_tokens: 5 });
+    const decision = await onUsage({
+      input_tokens: 10,
+      cached_input_tokens: 6,
+      output_tokens: 1,
+      reasoning_output_tokens: 1,
+      total_tokens: 11
+    });
     assert.equal(decision.interrupt, true);
-    return { status: "completed" };
-  });
-  assert.equal(result.state.status, "stopped");
-  assert.equal(result.state.stop.code, "per-turn-token-hard-limit");
+    throw Object.assign(new Error("per-turn-token-hard-limit"), { code: "per-turn-token-hard-limit" });
+  }, { changed_paths: ["src/change.mjs"], disk_delta: 6 });
+  assert.equal(result.state.status, "completed");
+  assert.equal(result.state.stop, null);
+  assert.equal(result.state.turns["turn-1"].stop_code, "per-turn-token-hard-limit");
+  assert.equal(result.state.turns["turn-1"].budget_tokens, 5);
+  assert.equal(result.state.turns["turn-1"].total_tokens, 11);
+  assert.deepEqual(result.state.turns["turn-1"].changed_paths, ["src/change.mjs"]);
+  assert.equal(result.state.turns["turn-1"].disk_delta_bytes, 6);
+  assert.equal(result.state.counters.aggregate_budget_tokens, 5);
+  assert.equal(result.state.counters.aggregate_tokens, 11);
   assert.equal(result.state.counters.launch_attempts, 1);
   assert.equal(launches, 1);
+  const events = (await fs.readFile(result.eventsPath, "utf8")).trim().split("\n").map((line) => JSON.parse(line));
+  const usageEvent = events.find((event) => event.type === "turn-usage");
+  assert.equal(usageEvent.input_tokens, 10);
+  assert.equal(usageEvent.cached_input_tokens, 6);
+  assert.equal(usageEvent.output_tokens, 1);
+  assert.equal(usageEvent.reasoning_output_tokens, 1);
+  assert.equal(usageEvent.budget_tokens, 5);
+  const stoppedEvent = events.find((event) => event.type === "turn-stopped");
+  assert.deepEqual(stoppedEvent.changed_paths, ["src/change.mjs"]);
+  assert.equal(stoppedEvent.disk_delta_bytes, 6);
+});
+
+test("detailed Token accounting uses non-cached input plus output as the operational budget", () => {
+  assert.deepEqual(normalizeValidationUsage({
+    input_tokens: 104426,
+    cached_input_tokens: 75008,
+    output_tokens: 2220,
+    reasoning_output_tokens: 1017,
+    total_tokens: 106646
+  }), {
+    input_tokens: 104426,
+    cached_input_tokens: 75008,
+    output_tokens: 2220,
+    reasoning_output_tokens: 1017,
+    total_tokens: 106646,
+    budget_tokens: 31638,
+    budget_basis: "noncached-input-plus-output"
+  });
+  assert.equal(normalizeValidationUsage({ total_tokens: 25 }).budget_tokens, 25);
+  assert.throws(() => normalizeValidationUsage({
+    input_tokens: 5,
+    cached_input_tokens: 6,
+    output_tokens: 1,
+    reasoning_output_tokens: 0,
+    total_tokens: 6
+  }), /must not exceed/);
+});
+
+test("a candidate-local Token stop does not prevent a later independent wave", async (testContext) => {
+  const document = manifestFixture({
+    participants: [
+      { id: "coordinator", path: ".", expected_project_id: "coordinator", allowed_paths: ["src", "test"] },
+      { id: "other", path: "../other", expected_project_id: "other", allowed_paths: ["src", "test"] }
+    ],
+    limits: limits({ per_turn_warning_tokens: 4, per_turn_hard_tokens: 5 }),
+    waves: [
+      { id: "wave-1", order: 1, turns: [turn("turn-1")] },
+      { id: "wave-2", order: 2, turns: [turn("turn-2", "other")] }
+    ]
+  });
+  const fixture = await runtimeFixture(testContext, document);
+  const launches = [];
+  const result = await runValidationProgram({
+    ...fixture,
+    inspectRepository: stagedInspector({
+      coordinator: [
+        { revision: "a".repeat(40) },
+        { revision: "a".repeat(40) },
+        { revision: "a".repeat(40), changed_paths: [] }
+      ],
+      other: [
+        { revision: "b".repeat(40) },
+        { revision: "b".repeat(40) },
+        { revision: "c".repeat(40), changed_paths: ["src/two.mjs"] }
+      ]
+    }),
+    measureDisk: async () => 100,
+    launchTurn: async ({ turn: selected, onUsage }) => {
+      launches.push(selected.id);
+      if (selected.id === "turn-1") {
+        await onUsage({ total_tokens: 5 });
+        throw Object.assign(new Error("per-turn-token-hard-limit"), { code: "per-turn-token-hard-limit" });
+      }
+      await onUsage({ total_tokens: 2 });
+      return { status: "completed" };
+    }
+  });
+  assert.deepEqual(launches, ["turn-1", "turn-2"]);
+  assert.equal(result.state.status, "completed");
+  assert.equal(result.state.turns["turn-1"].status, "stopped");
+  assert.equal(result.state.turns["turn-2"].status, "completed");
+  assert.equal(result.state.counters.turns_completed, 1);
+  assert.equal(result.state.counters.launch_attempts, 2);
+  assert.ok(result.state.warnings.some((entry) => entry.code === "candidate-local-stop"));
 });
 
 test("runner interrupts at the aggregate Token hard limit", async (testContext) => {
@@ -317,7 +415,7 @@ test("runner interrupts at the aggregate Token hard limit", async (testContext) 
   assert.equal(result.state.counters.aggregate_tokens, 10);
 });
 
-test("runner interrupts a turn at its wall-clock hard limit", async (testContext) => {
+test("runner isolates a turn at its wall-clock hard limit", async (testContext) => {
   const result = await stoppedRun(testContext, {
     per_turn_warning_ms: 5,
     per_turn_hard_ms: 20,
@@ -326,8 +424,9 @@ test("runner interrupts a turn at its wall-clock hard limit", async (testContext
   }, async ({ signal }) => new Promise((resolve, reject) => {
     signal.addEventListener("abort", () => reject(Object.assign(new Error("interrupted"), { code: signal.reason?.code ?? signal.reason?.message })), { once: true });
   }));
-  assert.equal(result.state.status, "stopped");
-  assert.equal(result.state.stop.code, "per-turn-time-hard-limit");
+  assert.equal(result.state.status, "completed");
+  assert.equal(result.state.stop, null);
+  assert.equal(result.state.turns["turn-1"].stop_code, "per-turn-time-hard-limit");
   assert.equal(result.state.counters.launch_attempts, 1);
 });
 

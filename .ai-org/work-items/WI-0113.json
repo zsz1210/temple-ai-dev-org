@@ -1,0 +1,134 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0113",
+  "title": "Make Wave 5A autonomous and observable",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-02T16:07:40.462Z",
+  "updated_at": "2026-09-02T16:15:13.900Z",
+  "scope": [
+    "Diagnose the WI-0112 Token stop offline, preserve detailed usage telemetry, account for interrupted filesystem changes, and make recoverable candidate failures continue without repeated human approval while preserving fail-closed exceptions."
+  ],
+  "acceptance_criteria": [
+    "Every usage update durably records input, cached-input, output, reasoning-output, and total Tokens when supplied by the Provider.",
+    "Interrupted turns measure and retain Git-visible changed paths and disk growth instead of reporting a misleading zero.",
+    "A recoverable candidate stop is isolated and later candidates continue automatically; protocol drift, unapproved spend, external writes, policy changes, and unsafe scope violations still stop the program.",
+    "A fresh four-candidate Luna Max comparison completes or returns a single self-contained terminal report without requiring per-turn human intervention.",
+    "No usage reset is redeemed, no automatic Credit reload is enabled, and no deployment, release, publication, dependency installation, or network access occurs."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0107/run-wave-5a.mjs",
+    "src/validation-program.mjs",
+    "src/app-server-protocol-replay.mjs",
+    "test/app-server-protocol-replay.test.mjs",
+    "test/validation-program.test.mjs",
+    "docs/validation/wave-5-controlled-comparison-plan.md",
+    ".ai-org/artifacts/WI-0113"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [
+    "general-development"
+  ],
+  "stage_requirements": {},
+  "base_revision": "da90970c4e09e3dcd6bfb4495b49edad46203e71",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0107 is terminal blocked; WI-0113 supersedes its runner implementation without resuming its consumed attempt.",
+    "WI-0108 is terminal blocked; WI-0113 incorporates its command-policy correction and owns subsequent changes.",
+    "WI-0110 is terminal blocked; WI-0113 preserves its evidence and updates only the shared forward plan.",
+    "WI-0112 is terminal blocked and merged; WI-0113 starts from its exact merge commit and owns the next bounded experiment."
+  ],
+  "claim": {
+    "id": "claim-20260902161513-2a13214c",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "da90970c4e09e3dcd6bfb4495b49edad46203e71",
+    "branch": "codex/wi-0113-resilient-wave-5a",
+    "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0113",
+    "claimed_at": "2026-09-02T16:15:13.900Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260902161513-2a13214c",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "da90970c4e09e3dcd6bfb4495b49edad46203e71",
+      "branch": "codex/wi-0113-resilient-wave-5a",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0113",
+      "claimed_at": "2026-09-02T16:15:13.900Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0113/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0113/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0113/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0113/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0113/risk-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0113/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0113/work-order.md",
+    ".ai-org/artifacts/WI-0113/account-approval.json",
+    ".ai-org/artifacts/WI-0113/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0113/product-spec.md",
+    ".ai-org/artifacts/WI-0113/approved-scope.md",
+    ".ai-org/artifacts/WI-0113/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0113/technical-design.md",
+    ".ai-org/artifacts/WI-0113/risk-review.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "da90970c4e09e3dcd6bfb4495b49edad46203e71",
+      "artifact": ".ai-org/artifacts/WI-0113/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-02T16:15:12.201Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "da90970c4e09e3dcd6bfb4495b49edad46203e71",
+      "artifact": ".ai-org/artifacts/WI-0113/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-02T16:15:12.837Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "da90970c4e09e3dcd6bfb4495b49edad46203e71",
+      "artifact": ".ai-org/artifacts/WI-0113/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-02T16:15:13.457Z"
+    }
+  ]
+}

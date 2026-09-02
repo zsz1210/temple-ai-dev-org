@@ -1,0 +1,13 @@
+{
+  "schema_version": "temple.wave-5a-account-approval/v1",
+  "work_item_id": "WI-0113",
+  "approved_by": "repository-owner",
+  "approved_at": "2026-09-03T01:05:00+09:00",
+  "automatic_credit_reload_disabled": true,
+  "included_pro_allowance_accepted": true,
+  "purchased_credits_authorized": false,
+  "usage_reset_available_reported": true,
+  "usage_reset_redemption_authorized": false,
+  "autonomy_mode": "exceptions-only",
+  "note": "The owner requested autonomous completion and results-only reporting. Important authority, spend, reset, external-write, deployment, release, publication, and policy boundaries still require explicit approval."
+}
