@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0111",
   "title": "Make command policy quote-aware",
-  "state": "test",
-  "owner_position": "quality_evaluator",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-02T15:07:08.484Z",
-  "updated_at": "2026-09-02T15:15:45.233Z",
+  "updated_at": "2026-09-02T15:17:08.818Z",
   "scope": [
     "Replace blanket shell-metacharacter rejection with a deterministic quote-aware scanner that accepts literal operator characters inside safe quoted arguments while rejecting executable shell control outside quotes, without evaluating or normalizing the command."
   ],
@@ -124,6 +124,12 @@
     "developer_evidence": [
       ".ai-org/artifacts/WI-0111/developer-report.md",
       ".ai-org/artifacts/WI-0111/developer-test-observation.json"
+    ],
+    "test_evidence": [
+      "EVID-20260902T151654Z-AA9A55C1"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0111/quality-report.md"
     ]
   },
   "evidence": [
@@ -137,10 +143,13 @@
     ".ai-org/artifacts/WI-0111/risk-review.md",
     ".ai-org/artifacts/WI-0111/handoff-004-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0111/developer-report.md",
-    ".ai-org/artifacts/WI-0111/developer-test-observation.json"
+    ".ai-org/artifacts/WI-0111/developer-test-observation.json",
+    "EVID-20260902T151654Z-AA9A55C1",
+    ".ai-org/artifacts/WI-0111/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0111/quality-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "release_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -169,6 +178,13 @@
       "input_revision": "2d523b5f71f8b794b8539b1e44d7db7d28dc9977",
       "artifact": ".ai-org/artifacts/WI-0111/handoff-004-developer-to-quality_evaluator.md",
       "created_at": "2026-09-02T15:15:44.969Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "2d523b5f71f8b794b8539b1e44d7db7d28dc9977",
+      "artifact": ".ai-org/artifacts/WI-0111/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-02T15:17:08.556Z"
     }
   ],
   "developer_candidate_revision": "2d523b5f71f8b794b8539b1e44d7db7d28dc9977"
