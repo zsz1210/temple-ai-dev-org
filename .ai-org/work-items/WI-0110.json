@@ -1,0 +1,196 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0110",
+  "title": "Run bounded Wave 5A controlled comparison",
+  "state": "blocked",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-02T14:49:27.916Z",
+  "updated_at": "2026-09-02T15:00:46.902Z",
+  "scope": [
+    "Create a fresh isolated Wave 5A lab, pass the offline replay and exact installed-schema preflight, then execute at most four sequential gpt-5.6-luna Max candidate turns using included Pro allowance under zero-retry fail-closed limits."
+  ],
+  "acceptance_criteria": [
+    "The offline replay gate and no-generation preflight pass before launch.",
+    "Exactly four or fewer sequential candidate turns are attempted; any invalid, interrupted, rerouted, uncorrelated, over-limit, permission-requesting, or out-of-scope turn stops the program without retry.",
+    "Every completed candidate has exact Token telemetry, timing, revision, changed paths, tests, and a blind package; incomplete evidence remains unknown rather than zero.",
+    "No purchased Credits, automatic reload, fallback model, network access, dependency installation, deployment, release, publication, or automatic-routing authority is used."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0110",
+    "docs/validation/wave-5-controlled-comparison-plan.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [
+    "WI-0109"
+  ],
+  "required_disciplines": [
+    "general-development"
+  ],
+  "stage_requirements": {},
+  "base_revision": "8a9b1058db5444e5ac060f83eee7baf6e8e5d395",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260902145158-f21269d6",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "8a9b1058db5444e5ac060f83eee7baf6e8e5d395",
+    "branch": "codex/wi-0110-wave-5a-controlled-rerun",
+    "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0110",
+    "claimed_at": "2026-09-02T14:51:58.265Z",
+    "released_at": "2026-09-02T14:57:24.012Z",
+    "release_reason": "position_transition"
+  },
+  "claims": [
+    {
+      "id": "claim-20260902145158-f21269d6",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "8a9b1058db5444e5ac060f83eee7baf6e8e5d395",
+      "branch": "codex/wi-0110-wave-5a-controlled-rerun",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0110",
+      "claimed_at": "2026-09-02T14:51:58.265Z",
+      "released_at": "2026-09-02T14:57:24.012Z",
+      "release_reason": "position_transition"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0110/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0110/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0110/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0110/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0110/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0110/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0110/developer-report.md",
+      ".ai-org/artifacts/WI-0110/developer-test-observation.json",
+      ".ai-org/artifacts/WI-0110/failed-run-observation.json"
+    ],
+    "test_evidence": [
+      "EVID-20260902T145855Z-486AA050"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0110/quality-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260902T150028Z-A0FAF4B3"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0110/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0110/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0110/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0110/account-approval.json"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0110/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0110/work-order.md",
+    ".ai-org/artifacts/WI-0110/account-approval.json",
+    ".ai-org/artifacts/WI-0110/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0110/product-spec.md",
+    ".ai-org/artifacts/WI-0110/approved-scope.md",
+    ".ai-org/artifacts/WI-0110/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0110/technical-design.md",
+    ".ai-org/artifacts/WI-0110/risk-review.md",
+    ".ai-org/artifacts/WI-0110/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0110/developer-report.md",
+    ".ai-org/artifacts/WI-0110/developer-test-observation.json",
+    ".ai-org/artifacts/WI-0110/failed-run-observation.json",
+    "EVID-20260902T145855Z-486AA050",
+    ".ai-org/artifacts/WI-0110/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0110/quality-report.md",
+    ".ai-org/artifacts/WI-0110/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0110/independent-qa-report.md",
+    "EVID-20260902T150028Z-A0FAF4B3",
+    ".ai-org/artifacts/WI-0110/release-record.md"
+  ],
+  "unresolved": [
+    "The first turn stopped on a quote-insensitive command-policy false positive after 77,865 observed Tokens; zero candidates completed, so Wave 5A remains unqualified."
+  ],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "8a9b1058db5444e5ac060f83eee7baf6e8e5d395",
+      "artifact": ".ai-org/artifacts/WI-0110/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-02T14:51:56.924Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "8a9b1058db5444e5ac060f83eee7baf6e8e5d395",
+      "artifact": ".ai-org/artifacts/WI-0110/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-02T14:51:57.377Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "8a9b1058db5444e5ac060f83eee7baf6e8e5d395",
+      "artifact": ".ai-org/artifacts/WI-0110/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-02T14:51:57.810Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "19b78371b603d5ca25970c8c325bbce1bcfce158",
+      "artifact": ".ai-org/artifacts/WI-0110/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-02T14:57:23.750Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "19b78371b603d5ca25970c8c325bbce1bcfce158",
+      "artifact": ".ai-org/artifacts/WI-0110/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-02T14:59:07.992Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "19b78371b603d5ca25970c8c325bbce1bcfce158",
+      "artifact": ".ai-org/artifacts/WI-0110/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-02T15:00:46.392Z"
+    }
+  ],
+  "developer_candidate_revision": "19b78371b603d5ca25970c8c325bbce1bcfce158",
+  "tested_revision": "19b78371b603d5ca25970c8c325bbce1bcfce158",
+  "release_gate_result": "no-go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0110/account-approval.json",
+  "previous_state": "release_gate"
+}
