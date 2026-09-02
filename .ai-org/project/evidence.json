@@ -17244,6 +17244,62 @@
         "exit_code": 0,
         "started_at": "2026-09-02T16:55:43.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T170337Z-F260B56D",
+      "work_item_id": "WI-0113",
+      "recorded_at": "2026-09-02T17:03:37.448Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA of WI-0113 autonomous runner",
+      "outcome": "pass",
+      "scope_revision": "6f8596bbc90b9f42644040584ec0f0d78daa4f4a",
+      "observed_at": "2026-09-02T17:02:48.000Z",
+      "summary": "Fresh detached revision passes 291 tests; Doctor has no failures; experiment limits and non-qualification are retained honestly.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0113/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0113/independent-qa-observation.json",
+          "sha256": "f1934dfdd9b91db63f5f87c92927157ba15204f2570d4e79f6c50e9cb4ed493e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0113/independent-qa-report.md",
+          "sha256": "b58dfd8473fea1b235d6e5b7aa8bc22f378c6884be3660cde33c1ec55e91ed37"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0113/quality-report.md",
+          "sha256": "6f74685650d5419a2ecfffb477eea7ae713383c9fa5ad401cd8c2f38378c13e8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0113/experiment-result.json",
+          "sha256": "14c377df3fd1691e555c10701b243a0c17961b39e683122ff4415b653ef4b543"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0113/evidence-correction.md",
+          "sha256": "8c9706154ff8db6924c430f30bf43bde207fa13048d2fc0c673e7d35503eba71"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached exact revision: npm run verify",
+          "fresh detached exact revision: node ./templew.mjs doctor . --json",
+          "independently re-run all four candidate public and hidden acceptance suites",
+          "assert all four exact candidate repositories are clean",
+          "recompute aggregate usage and paired descriptive deltas",
+          "inspect disclosure of evaluator-context exposure and prohibited claims"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T17:00:59.000Z"
+      }
     }
   ]
 }
