@@ -6,7 +6,8 @@ import { promisify } from "node:util";
 const execFile = promisify(execFileCallback);
 const frameworkRoot = path.resolve(import.meta.dirname, "../../..");
 const fixtureRoot = path.join(frameworkRoot, ".ai-org/artifacts/WI-0106/fixtures");
-const protocol = JSON.parse(await fs.readFile(path.join(fixtureRoot, "feasibility-protocol.json"), "utf8"));
+const protocolPath = path.resolve(argument("--protocol-path") ?? path.join(fixtureRoot, "feasibility-protocol.json"));
+const protocol = JSON.parse(await fs.readFile(protocolPath, "utf8"));
 const defaultLabRoot = "/Users/zsz1210/Documents/ChatGPT/temple-wave-5a-lab";
 const labRoot = path.resolve(argument("--lab-root") ?? defaultLabRoot);
 const coordinatorRoot = path.join(labRoot, "coordinator");
@@ -133,7 +134,7 @@ function manifest(participants) {
   }));
   return {
     schema_version: "temple.validation-program/v1",
-    id: "wave-5a-process-feasibility",
+    id: protocol.protocol_id,
     coordinator_project_id: "temple-ai-development-organization-framework",
     authority: {
       network_access: false,
@@ -145,7 +146,7 @@ function manifest(participants) {
       publication: false,
       fallback_allowed: false
     },
-    limits: {
+    limits: protocol.limits ?? {
       max_turns: 4,
       max_launch_attempts: 4,
       max_retries: 0,

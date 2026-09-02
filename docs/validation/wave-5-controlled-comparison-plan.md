@@ -85,3 +85,11 @@ The proposed hard envelope is four sequential Luna Max turns, 80,000 total Token
 `WI-0116` completed the first reproducible offline overhead analysis and added a fail-closed Wave 5B evaluator protocol. It found 606 ms (0.13%) of coordinator overhead beyond the four candidate durations; the measured difference is dominated by candidate execution, not runner bookkeeping. The retained aggregate cannot causally separate instruction volume, Max reasoning, completion behavior, or observation cadence.
 
 Wave 5B must use a fresh evaluator Provider context with an arm-neutral hashed input manifest, freeze and sign scores before the coordinator mapping is unsealed, and reject the comparison if that boundary is absent. See the [Wave 5A overhead analysis](wave-5a-overhead-analysis.md). Any model-backed run still requires a new Work Item, fresh lab, reviewed limits, and explicit authority at the external-spend boundary; stopped historical labs cannot be resumed.
+
+## Wave 5B prepared execution
+
+`WI-0117` freezes a fresh two-case, four-candidate comparison using GPT-5.6 Luna Medium in both conditions, followed by one separate Luna Medium blind-evaluator turn. This follows the current model guidance to use a balanced effort for bounded work and to compare quality and efficiency rather than defaulting every task to Max.
+
+The clean lab passed fixture, Git, command-policy, installed-model, CLI-version, and exact App Server schema checks. All four repositories are clean. The only candidate-generation blocker is the named owner approval. The evaluator preflight passes without generation and correctly reports that its four blind packages do not exist yet.
+
+The proposed envelope is four sequential candidate turns with 60,000 operational Tokens per turn and 240,000 aggregate, plus one evaluator turn capped at 20,000 operational Tokens. The combined reactive ceiling is 260,000 operational Tokens and 55 minutes, with zero retry, zero fallback, no network, no purchased Credits, no reset redemption, and no automatic Credit reload. These are safety stops, not a billing guarantee.

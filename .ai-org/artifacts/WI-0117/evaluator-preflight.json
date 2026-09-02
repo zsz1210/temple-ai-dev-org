@@ -1,0 +1,9 @@
+{
+  "schema_version": "temple.wave-5b-evaluator-preflight/v1",
+  "pass_without_generation": true,
+  "owner_approval_present": false,
+  "blind_packages_ready": false,
+  "blind_package_count": 0,
+  "fixture_root": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org/.ai-org/artifacts/WI-0106/fixtures",
+  "model_generation_performed": false
+}
