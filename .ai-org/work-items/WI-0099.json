@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0099",
   "title": "Adopt Node.js 24 minimum and local-first bounded CI",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-02T04:09:04.557Z",
-  "updated_at": "2026-09-02T04:34:32.002Z",
+  "updated_at": "2026-09-02T05:03:39.536Z",
   "scope": [
     "Retire Node.js 22 from the active public compatibility contract, require Node.js 24 or later, and replace the hosted full-suite matrix with one bounded Node.js 24 repository gate while retaining full and browser verification locally."
   ],
@@ -63,14 +63,15 @@
   ],
   "claim": {
     "id": "claim-20260902043412-df84c1ba",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-mog",
     "base_revision": "c3246b6496430d24c18b82ed7c880d9741544f23",
     "branch": "codex/wi-0097-adaptive-onboarding",
     "worktree": null,
     "claimed_at": "2026-09-02T04:34:12.200Z",
-    "released_at": null
+    "released_at": "2026-09-02T05:03:39.536Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -161,14 +162,15 @@
     },
     {
       "id": "claim-20260902043412-df84c1ba",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-mog",
       "base_revision": "c3246b6496430d24c18b82ed7c880d9741544f23",
       "branch": "codex/wi-0097-adaptive-onboarding",
       "worktree": null,
       "claimed_at": "2026-09-02T04:34:12.200Z",
-      "released_at": null
+      "released_at": "2026-09-02T05:03:39.536Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -194,13 +196,26 @@
       "EVID-20260902T042236Z-0FBBDB3F"
     ],
     "test_evidence": [
-      "EVID-20260902T042418Z-F7A4E280"
+      "EVID-20260902T042418Z-F7A4E280",
+      "EVID-20260902T043417Z-1255E841"
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0099/quality-report.md"
     ],
     "independent_qa_pass": [
       "EVID-20260902T042715Z-45648E8D"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/work-orders/WI-0099.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0099/checkout-correction-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0099/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0098/joint-pr-review.md"
     ]
   },
   "evidence": [
@@ -214,14 +229,13 @@
     ".ai-org/artifacts/WI-0099/handoff-003-independent_qa-to-release_manager.md",
     "EVID-20260902T042715Z-45648E8D",
     ".ai-org/artifacts/WI-0099/handoff-004-release_manager-to-engineering_manager.md",
-    "EVID-20260902T043417Z-1255E841"
+    "EVID-20260902T043417Z-1255E841",
+    ".ai-org/artifacts/WI-0099/release-record.md",
+    ".ai-org/artifacts/WI-0098/joint-pr-review.md",
+    ".ai-org/artifacts/WI-0099/checkout-correction-report.md"
   ],
-  "unresolved": [
-    "Confirm that the first pushed bounded Node.js 24 GitHub Actions run completes within its five-minute ceiling.",
-    "Complete joint pull-request review for WI-0098 and WI-0099 before merging to main.",
-    "Confirm the corrected bounded GitHub Actions result and complete joint pull-request review before merge"
-  ],
-  "next_position": "engineering_manager",
+  "unresolved": [],
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -245,5 +259,9 @@
       "created_at": "2026-09-02T04:34:32.002Z"
     }
   ],
-  "developer_candidate_revision": "36703f375a807303a68fde9487af11ac0364f578"
+  "developer_candidate_revision": "36703f375a807303a68fde9487af11ac0364f578",
+  "tested_revision": "1df63f06fe822a9e6dd9b2c665f742fd27aeac67",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0098/joint-pr-review.md"
 }
