@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0115",
   "title": "Validate clean agent-led greenfield onboarding",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-02T22:24:19.021Z",
-  "updated_at": "2026-09-02T22:36:34.462Z",
+  "updated_at": "2026-09-02T22:36:59.256Z",
   "scope": [
     "Run a disposable clean-project adoption from the current main package using only installed agent entrypoints and public setup guidance.",
     "Measure deterministic setup duration, files read, authority flags, required human interventions, and any Provider-observed usage without retaining prompts.",
@@ -51,14 +51,15 @@
   ],
   "claim": {
     "id": "claim-20260902223634-7b9404c9",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-mog",
     "base_revision": "11012a38523676f1187fbea8b4a388ba4d81bb18",
     "branch": "codex/wi-0115-0117-validation-program",
     "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
     "claimed_at": "2026-09-02T22:36:34.462Z",
-    "released_at": null
+    "released_at": "2026-09-02T22:36:59.256Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -147,14 +148,15 @@
     },
     {
       "id": "claim-20260902223634-7b9404c9",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-mog",
       "base_revision": "11012a38523676f1187fbea8b4a388ba4d81bb18",
       "branch": "codex/wi-0115-0117-validation-program",
       "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
       "claimed_at": "2026-09-02T22:36:34.462Z",
-      "released_at": null
+      "released_at": "2026-09-02T22:36:59.256Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -189,6 +191,18 @@
     ],
     "independent_qa_pass": [
       "EVID-20260902T223618Z-131FB97E"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0115/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0115/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0115/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -209,10 +223,11 @@
     ".ai-org/artifacts/WI-0115/evaluation-report.md",
     ".ai-org/artifacts/WI-0115/handoff-006-independent_qa-to-release_manager.md",
     "EVID-20260902T223618Z-131FB97E",
-    ".ai-org/artifacts/WI-0115/independent-qa-report.md"
+    ".ai-org/artifacts/WI-0115/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0115/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -257,5 +272,9 @@
       "created_at": "2026-09-02T22:36:33.744Z"
     }
   ],
-  "developer_candidate_revision": "11012a38523676f1187fbea8b4a388ba4d81bb18"
+  "developer_candidate_revision": "11012a38523676f1187fbea8b4a388ba4d81bb18",
+  "tested_revision": "11012a38523676f1187fbea8b4a388ba4d81bb18",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }
