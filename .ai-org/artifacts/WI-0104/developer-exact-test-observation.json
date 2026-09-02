@@ -1,0 +1,30 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
+  "command": [
+    "node --check scripts/validate-local-microservice-rehearsal.mjs",
+    "npm run verify"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T09:24:52.000Z",
+  "completed_at": "2026-09-02T09:25:54.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0104/local-microservice-observation.json",
+    ".ai-org/artifacts/WI-0104/runtime-cleanup-observation.json",
+    "docs/validation/wave-3-local-microservice-evidence.md"
+  ],
+  "summary": {
+    "repository_checks": "pass",
+    "documentation_links": "pass",
+    "package_boundary": "pass",
+    "tests_passed": 280,
+    "tests_failed": 0,
+    "tests_skipped": 0,
+    "test_duration_ms": 57238.467334,
+    "runtime_scenarios_passed": 6,
+    "runtime_scenarios_failed": 0,
+    "runtime_repeated": false,
+    "external_action_performed": false
+  }
+}
