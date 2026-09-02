@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0104",
   "title": "Validate a local multi-repository service rollout",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-02T08:56:26.986Z",
-  "updated_at": "2026-09-02T09:40:00.433Z",
+  "updated_at": "2026-09-02T09:46:11.489Z",
   "scope": [
     "Create and run a no-generation, disposable four-repository commerce rehearsal under a bounded local container runtime; verify baseline delivery, producer-first failure, rollback, consumer-first compatibility, malformed-event recovery, exact repository revisions, and cleanup."
   ],
@@ -54,14 +54,15 @@
   ],
   "claim": {
     "id": "claim-20260902094000-ae35128f",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-mog",
     "base_revision": "6385b89d077e3507d7220d3ff935ffa26119369c",
     "branch": "codex/wi-0104-local-microservices",
     "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
     "claimed_at": "2026-09-02T09:40:00.433Z",
-    "released_at": null
+    "released_at": "2026-09-02T09:46:11.489Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -138,14 +139,15 @@
     },
     {
       "id": "claim-20260902094000-ae35128f",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-mog",
       "base_revision": "6385b89d077e3507d7220d3ff935ffa26119369c",
       "branch": "codex/wi-0104-local-microservices",
       "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
       "claimed_at": "2026-09-02T09:40:00.433Z",
-      "released_at": null
+      "released_at": "2026-09-02T09:46:11.489Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -181,6 +183,21 @@
     ],
     "independent_qa_pass": [
       "EVID-20260902T094219Z-035B0FB7"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0104/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      "EVID-20260902T094219Z-035B0FB7"
+    ],
+    "release_record": [
+      ".ai-org/artifacts/WI-0104/release-record.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0104/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -199,14 +216,15 @@
     ".ai-org/artifacts/WI-0104/handoff-003-independent_qa-to-release_manager.md",
     ".ai-org/artifacts/WI-0104/independent-qa-report.md",
     ".ai-org/artifacts/WI-0104/independent-qa-test-observation.json",
-    "EVID-20260902T094219Z-035B0FB7"
+    "EVID-20260902T094219Z-035B0FB7",
+    ".ai-org/artifacts/WI-0104/release-record.md"
   ],
   "unresolved": [
     "Independent QA has not yet reviewed the exact candidate.",
     "Independent QA must decide whether retained evidence is sufficient without redownloading the deleted local runtime.",
     "One stale generated parallel-plan warning must be rebuilt before future parallel dispatch; no release or deployment is authorized."
   ],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -230,5 +248,9 @@
       "created_at": "2026-09-02T09:39:48.259Z"
     }
   ],
-  "developer_candidate_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3"
+  "developer_candidate_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
+  "tested_revision": "6385b89d077e3507d7220d3ff935ffa26119369c",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }
