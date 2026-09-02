@@ -15027,10 +15027,10 @@
           "path": ".ai-org/artifacts/WI-0102/brownfield-rehearsal-observation.json",
           "sha256": "f3d02613548bf97efe7d3c65bbed7e257696e1648861683b070f8d89168babe8"
         },
-        {
-          "path": "docs/validation/wave-1-adoption-evidence.md",
-          "sha256": "0dcf48a3b7a1d1b61254cfe9af7fdf491398d9b305a6ee0c66692751dd79390c"
-        }
+    {
+      "path": "docs/validation/wave-1-adoption-evidence.md",
+      "sha256": "3a7e9164f07ec20780d9074df4e8c15c66a3b6f65893be770af33beba7b22cd6"
+    }
       ],
       "details": {
         "command": [

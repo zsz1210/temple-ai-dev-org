@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0102",
   "title": "Validate brownfield adoption and normalize Wave 1 evidence",
-  "state": "independent_qa",
-  "owner_position": "independent_qa",
-  "assigned_agent_id": "agent-lulu",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-02T07:42:44.798Z",
-  "updated_at": "2026-09-02T08:04:47.832Z",
+  "updated_at": "2026-09-02T08:17:59.030Z",
   "scope": [
     "Normalize retained greenfield, cold-task, recovery, and adaptive-onboarding evidence into one limitation-aware Wave 1 matrix.",
     "Run a deterministic isolated brownfield rehearsal that preserves project-native documentation and repository workflow while completing one bounded lifecycle."
@@ -50,15 +50,16 @@
     "WI-0086 retains public-Alpha release authority; WI-0102 is private, local-only validation and does not change release readiness, publication, repository visibility, or release evidence."
   ],
   "claim": {
-    "id": "claim-20260902080447-86372110",
-    "status": "active",
+    "id": "claim-20260902081744-b9a7f71d",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-lulu",
+    "agent_id": "agent-mog",
     "base_revision": "0c7260dd68756fb6754a1529bef60a4c42d5dcde",
     "branch": "codex/wi-0102-brownfield-validation",
     "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0102",
-    "claimed_at": "2026-09-02T08:04:47.832Z",
-    "released_at": null
+    "claimed_at": "2026-09-02T08:17:44.843Z",
+    "released_at": "2026-09-02T08:17:59.030Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -123,14 +124,27 @@
     },
     {
       "id": "claim-20260902080447-86372110",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-lulu",
       "base_revision": "0c7260dd68756fb6754a1529bef60a4c42d5dcde",
       "branch": "codex/wi-0102-brownfield-validation",
       "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0102",
       "claimed_at": "2026-09-02T08:04:47.832Z",
-      "released_at": null
+      "released_at": "2026-09-02T08:17:44.603Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902081744-b9a7f71d",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "0c7260dd68756fb6754a1529bef60a4c42d5dcde",
+      "branch": "codex/wi-0102-brownfield-validation",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0102",
+      "claimed_at": "2026-09-02T08:17:44.843Z",
+      "released_at": "2026-09-02T08:17:59.030Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -162,6 +176,21 @@
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0102/quality-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260902T081641Z-6B0A4D36"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0102/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0102/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0102/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -174,10 +203,15 @@
     ".ai-org/artifacts/WI-0102/developer-report.md",
     "EVID-20260902T080416Z-4740FB03",
     ".ai-org/artifacts/WI-0102/handoff-002-quality_evaluator-to-independent_qa.md",
-    ".ai-org/artifacts/WI-0102/quality-report.md"
+    ".ai-org/artifacts/WI-0102/quality-report.md",
+    ".ai-org/artifacts/WI-0102/handoff-003-independent_qa-to-release_manager.md",
+    "EVID-20260902T081641Z-6B0A4D36",
+    ".ai-org/artifacts/WI-0102/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0102/integration-review.md",
+    ".ai-org/artifacts/WI-0102/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "release_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -192,7 +226,18 @@
       "input_revision": "0c7260dd68756fb6754a1529bef60a4c42d5dcde",
       "artifact": ".ai-org/artifacts/WI-0102/handoff-002-quality_evaluator-to-independent_qa.md",
       "created_at": "2026-09-02T08:04:47.315Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "0c7260dd68756fb6754a1529bef60a4c42d5dcde",
+      "artifact": ".ai-org/artifacts/WI-0102/handoff-003-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-02T08:17:44.358Z"
     }
   ],
-  "developer_candidate_revision": "0c7260dd68756fb6754a1529bef60a4c42d5dcde"
+  "developer_candidate_revision": "0c7260dd68756fb6754a1529bef60a4c42d5dcde",
+  "tested_revision": "0c7260dd68756fb6754a1529bef60a4c42d5dcde",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

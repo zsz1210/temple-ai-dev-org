@@ -19,3 +19,7 @@ WI-0064 retains Provider reasoning-attribution work, WI-0067 retains the stopped
 ## Integration decision
 
 The exact candidate plus post-candidate evidence is internally consistent and safe to close as a bounded local validation result. This decision does not authorize a public release or the next resource-bearing experiment.
+
+## Evidence revision reconciliation
+
+Independent QA proposed a post-candidate wording correction to the AiPet row. The initial evidence registration therefore captured the corrected working-tree digest while retaining the earlier exact candidate as its scope revision. Doctor correctly rejected that mixed revision. The registry was reconciled to the document digest stored in candidate `0c7260dd68756fb6754a1529bef60a4c42d5dcde`; the narrower wording remains a post-candidate documentation correction and receives the final branch documentation-link check. No test outcome or implementation revision was changed.
