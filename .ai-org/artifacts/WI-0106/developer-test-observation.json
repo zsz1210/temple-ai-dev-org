@@ -1,39 +1,31 @@
 {
   "schema_version": "temple.test-observation/v1",
-  "work_item_id": "WI-0106",
-  "tested_revision": "d3ea908d6157da31b659eb53dc5d16014a354fe2",
-  "recorded_at": "2026-09-02T11:03:30.000Z",
-  "environment": {
-    "node": "v24.20.0",
-    "platform": "darwin-arm64"
-  },
-  "commands": [
-    {
-      "command": "npm run check",
-      "status": "passed",
-      "summary": "Repository checks passed for 100 overlay files and 10 Positions; documentation links passed; package boundary contained 322 files."
-    },
-    {
-      "command": "node ./templew.mjs schema validate . --json",
-      "status": "passed",
-      "summary": "128 cataloged documents matched 29 schemas with zero errors."
-    },
-    {
-      "command": "resource-preflight arithmetic assertions",
-      "status": "passed",
-      "summary": "Seven of seven assertions passed, including uncached input, observed-mix Credits, projected Credits, worst-case output Credits, no-generation, and approval boundaries."
-    },
-    {
-      "command": "git diff --check",
-      "status": "passed",
-      "summary": "No whitespace errors."
-    }
+  "revision": "d3ea908d6157da31b659eb53dc5d16014a354fe2",
+  "command": [
+    "npm run check",
+    "node ./templew.mjs schema validate . --json",
+    "resource-preflight arithmetic and authority assertions",
+    "git diff --check"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T11:02:59.000Z",
+  "completed_at": "2026-09-02T11:03:02.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0106/resource-preflight.json",
+    ".ai-org/artifacts/WI-0106/technical-design.md",
+    "docs/validation/wave-5-controlled-comparison-plan.md"
   ],
   "summary": {
-    "checks": 4,
-    "passed": 4,
-    "failed": 0
-  },
-  "model_generation_performed": false,
-  "external_write_performed": false
+    "repository_checks": "pass",
+    "documentation_links": "pass",
+    "package_boundary": "pass",
+    "cataloged_documents_checked": 128,
+    "schemas_checked": 29,
+    "schema_errors": 0,
+    "arithmetic_assertions_passed": 7,
+    "arithmetic_assertions_failed": 0,
+    "model_generation_performed": false,
+    "external_write_performed": false
+  }
 }

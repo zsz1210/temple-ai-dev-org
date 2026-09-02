@@ -15723,6 +15723,36 @@
         "exit_code": 0,
         "started_at": "2026-09-02T10:41:10.134Z"
       }
+    },
+    {
+      "id": "EVID-20260902T110454Z-F67AD7F6",
+      "work_item_id": "WI-0106",
+      "recorded_at": "2026-09-02T11:04:54.964Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Wave 5 comparison design candidate",
+      "outcome": "verified",
+      "scope_revision": "d3ea908d6157da31b659eb53dc5d16014a354fe2",
+      "observed_at": "2026-09-02T11:04:54.964Z",
+      "summary": "Exact candidate containing the staged comparison protocol, public plan, and numerical resource preflight.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "d3ea908d6157da31b659eb53dc5d16014a354fe2"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "d3ea908d6157da31b659eb53dc5d16014a354fe2",
+        "working_tree_dirty": true,
+        "dirty_path_count": 1,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
     }
   ]
 }
