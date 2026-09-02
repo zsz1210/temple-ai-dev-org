@@ -14863,6 +14863,86 @@
         "exit_code": 0,
         "started_at": "2026-09-02T07:16:00.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T080125Z-772EA6B2",
+      "work_item_id": "WI-0102",
+      "recorded_at": "2026-09-02T08:01:25.103Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0102 implementation candidate",
+      "outcome": "verified",
+      "scope_revision": "0c7260dd68756fb6754a1529bef60a4c42d5dcde",
+      "observed_at": "2026-09-02T08:01:25.103Z",
+      "summary": "Standalone brownfield rehearsal and Wave 1 evidence matrix candidate",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "0c7260dd68756fb6754a1529bef60a4c42d5dcde"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "0c7260dd68756fb6754a1529bef60a4c42d5dcde",
+        "working_tree_dirty": true,
+        "dirty_path_count": 1,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T080125Z-D678B74E",
+      "work_item_id": "WI-0102",
+      "recorded_at": "2026-09-02T08:01:25.373Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0102 developer verification",
+      "outcome": "pass",
+      "scope_revision": "0c7260dd68756fb6754a1529bef60a4c42d5dcde",
+      "observed_at": "2026-09-02T07:59:00.000Z",
+      "summary": "Two brownfield rehearsals and full 280-test verification passed",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0102/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0102/developer-test-observation.json",
+          "sha256": "5c5ca4a428fc1c15043b985f001d4d26f985d42ea92155f2dae6d711fe30d7b0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0102/brownfield-rehearsal-observation.json",
+          "sha256": "f3d02613548bf97efe7d3c65bbed7e257696e1648861683b070f8d89168babe8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0102/developer-report.md",
+          "sha256": "1d9e6978c99642f7cd13c51af5d0c5350132c3aea878adf2cf231e5792baebd2"
+        },
+        {
+          "path": "docs/validation/wave-1-adoption-evidence.md",
+          "sha256": "3a7e9164f07ec20780d9074df4e8c15c66a3b6f65893be770af33beba7b22cd6"
+        }
+      ],
+      "details": {
+        "command": [
+          "node scripts/validate-brownfield-adoption.mjs --output .ai-org/artifacts/WI-0102/brownfield-rehearsal-observation.json",
+          "node scripts/validate-brownfield-adoption.mjs",
+          "npm run verify",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T07:55:14.025Z"
+      }
     }
   ]
 }
