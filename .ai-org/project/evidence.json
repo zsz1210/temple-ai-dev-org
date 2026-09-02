@@ -14210,6 +14210,56 @@
         "exit_code": 0,
         "started_at": "2026-09-02T04:24:40.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T043417Z-1255E841",
+      "work_item_id": "WI-0099",
+      "recorded_at": "2026-09-02T04:34:17.541Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent checkout correction verification",
+      "outcome": "pass",
+      "scope_revision": "c3246b6496430d24c18b82ed7c880d9741544f23",
+      "observed_at": "2026-09-02T04:33:45.000Z",
+      "summary": "The exact fetch-depth correction candidate passed 272 complete tests and the full local browser gate under Node.js 24.20.0.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0099/checkout-correction-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0099/checkout-correction-observation.json",
+          "sha256": "367b22a89097192aa2e2c9c3027a549dcc8bd328120c6888321784925ea62dd9"
+        },
+        {
+          "path": ".github/workflows/ci.yml",
+          "sha256": "89b69fa1565d4aace0026b25f768522a4df18abdf3e1dfe747fa96c769387999"
+        },
+        {
+          "path": "docs/adr/0043-node-24-local-first-ci.md",
+          "sha256": "ca0659b118f3048e0d9b3dfae1223b95461e343d17170377e9abcaea14b4c3cd"
+        },
+        {
+          "path": "test/ci-scope.test.mjs",
+          "sha256": "ba9c89e684ca8018ab8df9dc7f9663bcab4e99499b3e4525965b851f5038d2d7"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached worktree: npm ci --ignore-scripts",
+          "Node.js 24.20.0: npm run verify",
+          "Node.js 24.20.0: npm run test:browser",
+          "git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T04:32:05.000Z"
+      }
     }
   ]
 }
