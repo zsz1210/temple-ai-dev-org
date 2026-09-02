@@ -29,6 +29,10 @@ import { buildProjectState } from "./model.mjs";
 import { buildCollaborationState } from "./collaboration.mjs";
 import { buildCliBootstrapMetadata } from "./bootstrap.mjs";
 import { baselineMigrationState } from "./migrations.mjs";
+import {
+  REPOSITORY_INTEGRATION_RELATIVE_PATH,
+  validateRepositoryIntegration
+} from "./repository-integration.mjs";
 
 function isManaged(relativePath) {
   return MANAGED_EXACT_PATHS.has(relativePath) || MANAGED_SOURCE_PREFIXES.some((prefix) => relativePath.startsWith(prefix));
@@ -151,6 +155,19 @@ export async function planInit(target, config, { integrateAgents = false, selfHo
     path: ".ai-org/project/collaboration.json"
   });
 
+  const repositoryIntegrationPath = path.join(target, REPOSITORY_INTEGRATION_RELATIVE_PATH);
+  if (!(await pathExists(repositoryIntegrationPath))) {
+    actions.push({ type: "write", ownership: "project-owned", path: REPOSITORY_INTEGRATION_RELATIVE_PATH });
+  } else {
+    const repositoryIntegration = await readJson(repositoryIntegrationPath);
+    const validation = validateRepositoryIntegration(repositoryIntegration);
+    if (!validation.valid) {
+      conflicts.push(`project repository integration is invalid: ${validation.errors.join("; ")}`);
+    } else {
+      actions.push({ type: "skip-existing", ownership: "project-owned", path: REPOSITORY_INTEGRATION_RELATIVE_PATH });
+    }
+  }
+
   const tasksPath = path.join(target, ".ai-org/project/tasks.json");
   if (!(await pathExists(tasksPath))) {
     actions.push({ type: "write", ownership: "project-owned", path: ".ai-org/project/tasks.json" });
@@ -237,7 +254,8 @@ export async function executeInit(plan) {
           ".ai-org/project/agents.json": plan.state.agents,
           ".ai-org/project/assignments.json": plan.state.assignments,
           ".ai-org/project/collaboration.json": plan.state.collaboration,
-          ".ai-org/project/tasks.json": plan.state.tasks
+          ".ai-org/project/tasks.json": plan.state.tasks,
+          [REPOSITORY_INTEGRATION_RELATIVE_PATH]: plan.state.repositoryIntegration
         };
         content = formatJson(stateByPath[action.path]);
       } else if (action.type === "write-empty") {
@@ -337,6 +355,7 @@ export async function executeInit(plan) {
         progressive_context_routing: true,
         capability_registry: true,
         retrieval_provider_contract: true,
+        repository_integration_contract: true,
         collaboration_profiles: true,
         human_principals: true,
         position_memberships: true,
@@ -439,6 +458,7 @@ export function formatInitPlan(plan) {
     lines.push("Warnings:", ...plan.warnings.map((warning) => `- ${warning}`));
   }
   lines.push(`AGENTS.md integration: ${plan.agentsIntegration}`);
+  lines.push(`Repository integration: ${plan.state.repositoryIntegration.status}`);
   lines.push(`Installation mode: ${plan.selfHost ? "toolkit-self-host" : "project"}`);
   return lines.join("\n");
 }

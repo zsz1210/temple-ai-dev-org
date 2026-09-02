@@ -45,6 +45,7 @@ import {
 } from "./control-plane-config.mjs";
 import { ensureFederationRegistry, FEDERATION_REGISTRY_RELATIVE_PATH } from "./federation.mjs";
 import { ensureUsagePolicy, USAGE_POLICY_RELATIVE_PATH } from "./usage-policy.mjs";
+import { ensureRepositoryIntegration } from "./repository-integration.mjs";
 
 function isManaged(relativePath) {
   return MANAGED_EXACT_PATHS.has(relativePath) || MANAGED_SOURCE_PREFIXES.some((prefix) => relativePath.startsWith(prefix));
@@ -498,6 +499,10 @@ export async function executeUpgrade(plan) {
     if (usagePolicy.created) {
       changes.push({ path: usagePolicy.path, before: null, afterHash: usagePolicy.afterHash });
     }
+    const repositoryIntegration = await ensureRepositoryIntegration(plan.target);
+    if (repositoryIntegration.created) {
+      changes.push({ path: repositoryIntegration.path, before: null, afterHash: repositoryIntegration.afterHash });
+    }
     if (plan.assignmentMigration) {
       const assignmentsPath = path.join(plan.target, plan.assignmentMigration.path);
       const before = await fs.readFile(assignmentsPath);
@@ -593,6 +598,7 @@ export async function executeUpgrade(plan) {
         progressive_context_routing: true,
         capability_registry: true,
         retrieval_provider_contract: true,
+        repository_integration_contract: true,
         collaboration_profiles: true,
         human_principals: true,
         position_memberships: true,

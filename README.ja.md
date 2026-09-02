@@ -68,7 +68,9 @@ npm link
 
 Codex で Temple を開き、次のように依頼します。
 
-> [`$temple-init`](docs/getting-started/core-skills.md#temple-init) を使って `/absolute/path/to/my-project` を初期化してください。Agent Identity の英語名を提案し、ファイルを書き込む前に私の確認を待ってください。
+> [`$temple-init`](docs/getting-started/core-skills.md#temple-init) を使って `/absolute/path/to/my-project` を初期化してください。既存のブランチ運用、レビュー、統合ルールを先に確認し、不足している情報のうち実行方法に影響する点だけを質問してください。その後、Agent Identity の英語名と統合方法の要約を提示し、私の確認を待ってからファイルを書き込んでください。
+
+既存の GitHub、GitLab、または社内の開発フローが引き続き正式なルールです。Temple が記録するのは AI の作業に必要な運用の要約だけであり、GitHub Flow を強制したり、ホスティングサービスの設定を変更したりはしません。
 
 初期化したプロジェクトでは、まず一つの成果に範囲を絞ります。
 

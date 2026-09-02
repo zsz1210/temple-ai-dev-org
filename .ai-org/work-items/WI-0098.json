@@ -1,0 +1,125 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0098",
+  "title": "Implement adaptive repository integration onboarding",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-02T03:19:20.276Z",
+  "updated_at": "2026-09-02T03:32:30.000Z",
+  "scope": [
+    "Add a project-owned repository integration contract, seed it during init and upgrade, surface unconfirmed state, and teach AI-assisted initialization to inspect and confirm existing delivery policy without imposing a vendor workflow."
+  ],
+  "acceptance_criteria": [
+    "A confirmed init config creates a valid project-owned integration record; an omitted choice creates an explicit unconfirmed record rather than guessing.",
+    "Upgrade creates only a missing unconfirmed record and preserves any existing project-owned record byte-for-byte.",
+    "Distributed Agent instructions inspect the record and ask only when consequential policy remains unconfirmed.",
+    "README and detailed usage guidance accurately distinguish Temple's own GitHub Flow from adopter-owned workflows."
+  ],
+  "affected_paths": [
+    "project-overlay/TEMPLE.md",
+    "project-overlay/AGENTS.md",
+    "project-overlay/.agents/skills/temple-init/SKILL.md",
+    "project-overlay/.ai-org/core/schemas/init.schema.json",
+    "project-overlay/.ai-org/core/schemas/repository-integration.schema.json",
+    "project-overlay/.ai-org/core/schemas/schema-catalog.json",
+    ".agents/skills/temple-init/SKILL.md",
+    ".ai-org/core/schemas/init.schema.json",
+    ".ai-org/core/schemas/repository-integration.schema.json",
+    ".ai-org/core/schemas/schema-catalog.json",
+    "TEMPLE.md",
+    "temple.lock",
+    "src/repository-integration.mjs",
+    "src/model.mjs",
+    "src/install.mjs",
+    "src/upgrade.mjs",
+    "src/doctor.mjs",
+    "src/status.mjs",
+    "test/model.test.mjs",
+    "test/cli.test.mjs",
+    "test/phase4-installation.test.mjs",
+    "docs/adr/0042-adaptive-repository-integration-onboarding.md",
+    "docs/adr/README.md",
+    "docs/getting-started/core-skills.md",
+    "docs/getting-started/usage.md",
+    "docs/operations/collaboration.md",
+    "README.md",
+    "README.ja.md",
+    "README.zh-TW.md",
+    "CHANGELOG.md",
+    "AGENTS.md",
+    ".ai-org/project/repository-integration.json",
+    ".ai-org/artifacts/WI-0097",
+    ".ai-org/artifacts/WI-0098"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": "WI-0097",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "21ccae4",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-tidus",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "stable",
+  "overlap_resolution": [
+    "WI-0086: WI-0098 owns only adaptive onboarding and repository-integration wording/tests; WI-0086 retains public release approval and must requalify the resulting candidate."
+  ],
+  "claim": {
+    "id": "claim-20260902032005-c72c9bb8",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "21ccae4",
+    "branch": "codex/wi-0097-adaptive-onboarding",
+    "worktree": null,
+    "claimed_at": "2026-09-02T03:20:05.238Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260902032005-c72c9bb8",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "21ccae4",
+      "branch": "codex/wi-0097-adaptive-onboarding",
+      "worktree": null,
+      "claimed_at": "2026-09-02T03:20:05.238Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0097/approved-scope.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0097/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0097/approved-scope.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0098/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0098/technical-design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0097/approved-scope.md",
+    ".ai-org/artifacts/WI-0098/technical-design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": "temple.repository-integration/v1",
+  "status": "confirmed",
+  "authority": "project",
+  "source": "repository-policy",
+  "policy_refs": [
+    "CONTRIBUTING.md",
+    "GOVERNANCE.md"
+  ],
+  "summary": "Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.",
+  "integration_target": "main",
+  "change_isolation": "required",
+  "review_gate": "required",
+  "recorded_at": "2026-09-02T03:27:20.000Z",
+  "recorded_by": "human"
+}

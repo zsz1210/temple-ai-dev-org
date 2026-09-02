@@ -10,6 +10,10 @@ import { formatJson, sha256 } from "../src/files.mjs";
 import { executeInit, planInit } from "../src/install.mjs";
 import { ensureTaskRegistry } from "../src/project.mjs";
 import { createShutdownSignalLatch } from "../src/cli.mjs";
+import {
+  defaultRepositoryIntegration,
+  REPOSITORY_INTEGRATION_RELATIVE_PATH
+} from "../src/repository-integration.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const cli = path.join(root, "bin/temple.mjs");
@@ -181,6 +185,36 @@ test("dry-run writes nothing", async (context) => {
   await assert.rejects(() => fs.access(path.join(target, "temple.lock")));
 });
 
+test("init writes a confirmed project-owned repository integration record", async (context) => {
+  const { temporaryRoot, target, configPath } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  const config = configDocument();
+  config.repository_integration = {
+    schema_version: "temple.repository-integration/v1",
+    status: "confirmed",
+    authority: "project",
+    source: "repository-policy",
+    policy_refs: ["CONTRIBUTING.md"],
+    summary: "Use isolated changes and review before integration.",
+    integration_target: "main",
+    change_isolation: "required",
+    review_gate: "required",
+    recorded_at: "2026-09-02T00:00:00.000Z",
+    recorded_by: "human"
+  };
+  await fs.writeFile(configPath, `${JSON.stringify(config, null, 2)}\n`);
+
+  const initialized = run(["init", target, "--config", configPath]);
+  assert.equal(initialized.status, 0, initialized.stderr || initialized.stdout);
+  assert.match(initialized.stdout, /Repository integration: confirmed/);
+  assert.deepEqual(
+    JSON.parse(await fs.readFile(path.join(target, REPOSITORY_INTEGRATION_RELATIVE_PATH), "utf8")),
+    config.repository_integration
+  );
+  const doctor = JSON.parse(run(["doctor", target, "--json"]).stdout);
+  assert.equal(doctor.checks.find((check) => check.id === "repository_integration").status, "pass");
+});
+
 test("toolkit self-host init requires explicit scope and adopts only the identical bootstrap Skill", async (context) => {
   const fixture = await selfHostFixture();
   context.after(() => fs.rm(fixture.temporaryRoot, { recursive: true, force: true }));
@@ -321,6 +355,7 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
   assert.equal(lock.capabilities.usage_baseline_report, true);
   assert.equal(lock.capabilities.usage_telemetry_preflight, true);
   assert.equal(lock.capabilities.codex_account_usage_probe, true);
+  assert.equal(lock.capabilities.repository_integration_contract, true);
   assert.ok(
     lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/parallel-plan.schema.json")
   );
@@ -328,6 +363,10 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
   assert.ok(!lock.managed_files.some((entry) => entry.path === ".ai-org/learning/index.json"));
   assert.ok(!lock.managed_files.some((entry) => entry.path === ".ai-org/project/spec-index.json"));
   assert.ok(!lock.managed_files.some((entry) => entry.path === ".ai-org/project/tracker.json"));
+  assert.ok(!lock.managed_files.some((entry) => entry.path === REPOSITORY_INTEGRATION_RELATIVE_PATH));
+  assert.ok(
+    lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/repository-integration.schema.json")
+  );
 
   const agents = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/agents.json"), "utf8"));
   assert.equal(agents.agents.length, 5);
@@ -340,18 +379,28 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
   const specIndex = JSON.parse(await fs.readFile(specIndexPath, "utf8"));
   assert.equal(specIndex.adoption_profile, "hybrid");
   assert.deepEqual(specIndex.entries, []);
+  const repositoryIntegrationPath = path.join(target, REPOSITORY_INTEGRATION_RELATIVE_PATH);
+  assert.deepEqual(
+    JSON.parse(await fs.readFile(repositoryIntegrationPath, "utf8")),
+    defaultRepositoryIntegration()
+  );
 
   const doctor = run(["doctor", target, "--json"]);
   assert.equal(doctor.status, 0, doctor.stderr || doctor.stdout);
-  assert.equal(JSON.parse(doctor.stdout).summary.fail, 0);
+  const doctorResult = JSON.parse(doctor.stdout);
+  assert.equal(doctorResult.summary.fail, 0);
+  assert.equal(doctorResult.checks.find((check) => check.id === "repository_integration").status, "warn");
 
   const status = run(["status", target, "--json"]);
   assert.equal(status.status, 0, status.stderr);
-  assert.equal(JSON.parse(status.stdout).assignments.length, 10);
-  assert.equal(JSON.parse(status.stdout).schema_version, "temple.status/v9");
-  assert.equal(JSON.parse(status.stdout).learning.total, 0);
-  assert.equal(JSON.parse(status.stdout).specifications.total_entries, 0);
-  assert.equal(JSON.parse(status.stdout).tracker.profile, "repository-only");
+  const statusResult = JSON.parse(status.stdout);
+  assert.equal(statusResult.assignments.length, 10);
+  assert.equal(statusResult.schema_version, "temple.status/v9");
+  assert.equal(statusResult.learning.total, 0);
+  assert.equal(statusResult.specifications.total_entries, 0);
+  assert.equal(statusResult.tracker.profile, "repository-only");
+  assert.equal(statusResult.repository_integration.status, "unconfirmed");
+  assert.ok(statusResult.attention.some((entry) => entry.type === "repository_integration_unconfirmed"));
   const trackerConfig = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/tracker.json"), "utf8"));
   assert.equal(trackerConfig.profile, "repository-only");
   assert.deepEqual(trackerConfig.providers, []);
@@ -360,13 +409,29 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
   assert.match(statusView, /Independent QA/);
   assert.doesNotMatch(statusView, /Temple status/);
   assert.match(statusView, /Engineering learning: 0 Lessons, 0 Practices/);
+  assert.match(statusView, /Repository integration: `unconfirmed`/);
 
   specIndex.adoption_profile = "temple-native";
   await fs.writeFile(specIndexPath, `${JSON.stringify(specIndex, null, 2)}\n`);
+  const confirmedIntegration = `{
+    "schema_version": "temple.repository-integration/v1",
+    "status": "confirmed",
+    "authority": "project",
+    "source": "human-confirmed",
+    "policy_refs": [],
+    "summary": "Review before integration.",
+    "integration_target": "main",
+    "change_isolation": "required",
+    "review_gate": "required",
+    "recorded_at": "2026-09-02T00:00:00.000Z",
+    "recorded_by": "human"
+  }\n`;
+  await fs.writeFile(repositoryIntegrationPath, confirmedIntegration);
   const secondInit = run(["init", target, "--config", configPath]);
   assert.equal(secondInit.status, 0, secondInit.stderr || secondInit.stdout);
   assert.match(secondInit.stdout, /skip-identical/);
   assert.deepEqual(JSON.parse(await fs.readFile(specIndexPath, "utf8")), specIndex);
+  assert.equal(await fs.readFile(repositoryIntegrationPath, "utf8"), confirmedIntegration);
 });
 
 test("engineering learning is indexed, observable, project-owned, and consistency-checked", async (context) => {
@@ -465,10 +530,12 @@ test("upgrade adds a missing project-owned learning index without managing it", 
   const indexPath = path.join(target, ".ai-org/learning/index.json");
   const specIndexPath = path.join(target, ".ai-org/project/spec-index.json");
   const trackerConfigPath = path.join(target, ".ai-org/project/tracker.json");
+  const repositoryIntegrationPath = path.join(target, REPOSITORY_INTEGRATION_RELATIVE_PATH);
   const lockPath = path.join(target, "temple.lock");
   await fs.rm(indexPath);
   await fs.rm(specIndexPath);
   await fs.rm(trackerConfigPath);
+  await fs.rm(repositoryIntegrationPath);
   const lock = JSON.parse(await fs.readFile(lockPath, "utf8"));
   lock.template.version = "0.1.0-alpha.10";
   delete lock.capabilities.engineering_learning;
@@ -492,6 +559,10 @@ test("upgrade adds a missing project-owned learning index without managing it", 
     entries: []
   });
   assert.equal(JSON.parse(await fs.readFile(trackerConfigPath, "utf8")).profile, "repository-only");
+  assert.deepEqual(
+    JSON.parse(await fs.readFile(repositoryIntegrationPath, "utf8")),
+    defaultRepositoryIntegration()
+  );
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
   assert.equal(upgradedLock.template.version, "0.1.0-alpha.29");
   assert.equal(upgradedLock.capabilities.engineering_learning, true);
@@ -501,9 +572,11 @@ test("upgrade adds a missing project-owned learning index without managing it", 
   assert.equal(upgradedLock.capabilities.usage_baseline_report, true);
   assert.equal(upgradedLock.capabilities.usage_telemetry_preflight, true);
   assert.equal(upgradedLock.capabilities.codex_account_usage_probe, true);
+  assert.equal(upgradedLock.capabilities.repository_integration_contract, true);
   assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/learning/index.json"));
   assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/project/spec-index.json"));
   assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/project/tracker.json"));
+  assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === REPOSITORY_INTEGRATION_RELATIVE_PATH));
 });
 
 test("upgrade preserves an existing project-owned specification index byte-for-byte", async (context) => {
@@ -564,6 +637,39 @@ test("upgrade preserves an existing project-owned tracker configuration byte-for
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
   assert.equal(upgradedLock.capabilities.tracker_contract, true);
   assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/project/tracker.json"));
+});
+
+test("upgrade preserves an existing project-owned repository integration record byte-for-byte", async (context) => {
+  const { temporaryRoot, target, configPath } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  assert.equal(run(["init", target, "--config", configPath]).status, 0);
+  const integrationPath = path.join(target, REPOSITORY_INTEGRATION_RELATIVE_PATH);
+  const customIntegration = `{
+    "schema_version": "temple.repository-integration/v1",
+    "status": "confirmed",
+    "authority": "project",
+    "source": "repository-policy",
+    "policy_refs": ["CONTRIBUTING.md"],
+    "summary": "Use the project's reviewed integration process.",
+    "integration_target": "trunk",
+    "change_isolation": "project-defined",
+    "review_gate": "project-defined",
+    "recorded_at": "2026-09-02T00:00:00.000Z",
+    "recorded_by": "human"
+  }\n\n`;
+  await fs.writeFile(integrationPath, customIntegration);
+  const lockPath = path.join(target, "temple.lock");
+  const lock = JSON.parse(await fs.readFile(lockPath, "utf8"));
+  lock.template.version = "0.1.0-alpha.28";
+  delete lock.capabilities.repository_integration_contract;
+  await fs.writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
+
+  const upgraded = run(["upgrade", target]);
+  assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
+  assert.equal(await fs.readFile(integrationPath, "utf8"), customIntegration);
+  const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
+  assert.equal(upgradedLock.capabilities.repository_integration_contract, true);
+  assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === REPOSITORY_INTEGRATION_RELATIVE_PATH));
 });
 
 test("upgrade assigns the new UI Designer Position to the existing UX Designer Identity", async (context) => {

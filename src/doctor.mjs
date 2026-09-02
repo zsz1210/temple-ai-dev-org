@@ -68,6 +68,10 @@ import {
   validateTrackerView
 } from "./tracker.mjs";
 import { REASONING_EFFORT_SOURCES, TASK_EXECUTION_ORIGINS } from "./tasks.mjs";
+import {
+  REPOSITORY_INTEGRATION_RELATIVE_PATH,
+  validateRepositoryIntegration
+} from "./repository-integration.mjs";
 
 function summarize(checks) {
   return checks.reduce(
@@ -275,11 +279,12 @@ export async function runDoctor(target) {
     });
   }
 
-  const [project, agents, assignments, collaboration] = await Promise.all([
+  const [project, agents, assignments, collaboration, repositoryIntegration] = await Promise.all([
     safeJson(path.join(target, ".ai-org/project/project.json"), checks, "project_json"),
     safeJson(path.join(target, ".ai-org/project/agents.json"), checks, "agents_json"),
     safeJson(path.join(target, ".ai-org/project/assignments.json"), checks, "assignments_json"),
-    safeJson(path.join(target, COLLABORATION_RELATIVE_PATH), checks, "collaboration_json")
+    safeJson(path.join(target, COLLABORATION_RELATIVE_PATH), checks, "collaboration_json"),
+    safeJson(path.join(target, REPOSITORY_INTEGRATION_RELATIVE_PATH), checks, "repository_integration_json")
   ]);
   if (project && agents && assignments) {
     checks.push(...validateProjectState(project, agents, assignments, positionIds));
@@ -296,6 +301,18 @@ export async function runDoctor(target) {
     if (validation.warnings.length > 0) {
       checks.push({ id: "collaboration_validation", status: "warn", message: validation.warnings.join("; ") });
     }
+  }
+  if (repositoryIntegration) {
+    const validation = validateRepositoryIntegration(repositoryIntegration);
+    checks.push({
+      id: "repository_integration",
+      status: validation.valid ? (repositoryIntegration.status === "confirmed" ? "pass" : "warn") : "fail",
+      message: validation.valid
+        ? repositoryIntegration.status === "confirmed"
+          ? `Project repository integration is confirmed (${repositoryIntegration.source})`
+          : `Project repository integration is ${repositoryIntegration.status}; inspect existing policy and ask only when the missing choice affects work`
+        : validation.errors.join("; ")
+    });
   }
 
   const contextMap = await safeJson(

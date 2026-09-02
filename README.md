@@ -68,7 +68,9 @@ npm link
 
 Open Temple in Codex, then ask:
 
-> Use [`$temple-init`](docs/getting-started/core-skills.md#temple-init) to initialize `/absolute/path/to/my-project`. Propose English names for the Agent Identities and wait for my confirmation before writing files.
+> Use [`$temple-init`](docs/getting-started/core-skills.md#temple-init) to initialize `/absolute/path/to/my-project`. Inspect the repository's existing branch, review, and integration policy first; ask only about missing choices that affect execution. Then propose English names for the Agent Identities and a short integration summary, and wait for my confirmation before writing files.
+
+The project's existing GitHub, GitLab, or company workflow remains authoritative. Temple records only the confirmed routing summary its Agents need; it does not impose GitHub Flow or change repository-hosting settings.
 
 Inside the initialized project, begin with one bounded outcome:
 

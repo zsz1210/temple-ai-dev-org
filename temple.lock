@@ -11,12 +11,12 @@
       "launcher": "templew.mjs",
       "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.29",
       "repository_spec": null,
-      "source_revision": "8057d42684f95bd3d459b42e16ecace9ccbe7af7",
+      "source_revision": "21ccae486758c11e56096db8dc3c006fbcffae6c",
       "source_clean": false,
       "invocation": "node ./templew.mjs <command> ."
     },
     "installed_at": "2026-08-30T02:28:18.355Z",
-    "upgraded_at": "2026-09-01T15:59:57.315Z",
+    "upgraded_at": "2026-09-02T03:30:00.234Z",
     "upgraded_from": "0.1.0-alpha.29"
   },
   "installation": {
@@ -168,7 +168,8 @@
     "read_only_portfolio": true,
     "checksum_upgrade": true,
     "optional_packs": true,
-    "toolkit_self_hosting": true
+    "toolkit_self_hosting": true,
+    "repository_integration_contract": true
   },
   "optional_packs": [],
   "managed_files": [
@@ -194,7 +195,7 @@
     },
     {
       "path": ".agents/skills/temple-init/SKILL.md",
-      "sha256": "3c8b19a39955889c74aa910bc5edfa3187d63a1459520e548a75001c801024e1"
+      "sha256": "fbe1a3b2c6944687a82732da8256973e410c5b46f5422e802235a6ae4d289f5a"
     },
     {
       "path": ".agents/skills/temple-work/SKILL.md",
@@ -278,7 +279,7 @@
     },
     {
       "path": ".ai-org/core/schemas/init.schema.json",
-      "sha256": "528890c0022e9de36c75a97d2a0efa27d26579984614f5c97dc3f839b5eb0853"
+      "sha256": "71fc7bf42ef91defed6e0bafedff3d18b70fa57b9784e484f22d2268b67fb9f0"
     },
     {
       "path": ".ai-org/core/schemas/learning-index.schema.json",
@@ -305,6 +306,10 @@
       "sha256": "9e7bf7d28da4bcf73a548e7f603081df3c3ac04406e9f0307162fd64016a7579"
     },
     {
+      "path": ".ai-org/core/schemas/repository-integration.schema.json",
+      "sha256": "887487099e2f626ddab0ab6c808cb8d8b773c57ad85ea9a12dff0a524d1e994b"
+    },
+    {
       "path": ".ai-org/core/schemas/resource-registry.schema.json",
       "sha256": "c0668ee960d2ea43a12d1e8ce9acebafffc22904e2bbdc13716097c71fb7ffe6"
     },
@@ -322,7 +327,7 @@
     },
     {
       "path": ".ai-org/core/schemas/schema-catalog.json",
-      "sha256": "7e8a5372c4fca954d97d32587315f40b28af13fcb32b85da8d9c60fb903198ea"
+      "sha256": "8da4b4ac71ba13d936330b86c04c1e5c41377903dfdb8addd95f162530afc6a1"
     },
     {
       "path": ".ai-org/core/schemas/spec-index.schema.json",
@@ -494,7 +499,7 @@
     },
     {
       "path": "TEMPLE.md",
-      "sha256": "005e2258ca9fc6ab3b14f9cd1c93c4039933f3f6d98f5eb133d779d9163dc5c9"
+      "sha256": "ffc2447ec5f8f120f72c17e5eb98f3bfd4087f7aab6883e33cee03699042825a"
     },
     {
       "path": "templew.mjs",

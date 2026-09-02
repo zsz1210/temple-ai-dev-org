@@ -6,7 +6,7 @@
   "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-01T14:24:44.818Z",
-  "updated_at": "2026-09-02T02:46:59.379Z",
+  "updated_at": "2026-09-02T03:19:20.954Z",
   "scope": [
     "Select and prepare one versioned GitHub Release candidate while npm distribution remains deferred.",
     "Reconcile the pushed Node.js 22 and 24 hosted-CI result, package boundary, security review, release notes, rollback plan, and public-readiness record at one exact candidate revision.",
@@ -79,7 +79,8 @@
   "contract_status": "not_required",
   "overlap_resolution": [
     "WI-0033: WI-0086 may reconcile only release-facing supported-version and reporting-route wording in SECURITY.md; provider trust design remains owned by WI-0033.",
-    "WI-0067: WI-0086 may add only its own release-candidate entry to docs/validation/README.md; the blocked rehearsal evidence and result remain owned by WI-0067."
+    "WI-0067: WI-0086 may add only its own release-candidate entry to docs/validation/README.md; the blocked rehearsal evidence and result remain owned by WI-0067.",
+    "WI-0098: WI-0098 may update first-run onboarding, repository-integration contracts, and related README/CLI tests; WI-0086 remains blocked and must requalify the later exact candidate."
   ],
   "claim": {
     "id": "claim-20260902024537-43f8ed82",
