@@ -17622,6 +17622,84 @@
         "exit_code": 0,
         "started_at": "2026-09-02T22:31:22.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T223618Z-131FB97E",
+      "work_item_id": "WI-0115",
+      "recorded_at": "2026-09-02T22:36:18.176Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0115 Independent QA",
+      "outcome": "pass",
+      "scope_revision": "11012a38523676f1187fbea8b4a388ba4d81bb18",
+      "observed_at": "2026-09-02T22:35:49.000Z",
+      "summary": "Exact detached candidate passed 297 of 297 repository tests and a separate clean-consumer onboarding run; provider comprehension remains not run.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0115/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0115/independent-qa-observation.json",
+          "sha256": "ec2162b08318f09fc66b0091ea3a175bc84262ee26cf471add70f9d4b498c739"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0115/independent-qa-report.md",
+          "sha256": "182fe73599aac7a9d1ef237baf6e5a389b7f6e1b7b317f28cb9cc67f1d96eb07"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0115/onboarding-observation.json",
+          "sha256": "4d538c7bce0eabe26023e190a872e8282cdcda30dd3c942ec00a6fdc55efb2d7"
+        }
+      ],
+      "details": {
+        "command": [
+          "exact detached candidate: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund",
+          "exact detached candidate: npm run verify",
+          "exact detached candidate: node scripts/validate-agent-led-onboarding.mjs --output /tmp/temple-wi0115-iqa-observation.json",
+          "exact detached candidate: git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T22:34:30.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T223652Z-24F5FBE6",
+      "work_item_id": "WI-0115",
+      "recorded_at": "2026-09-02T22:36:52.754Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "11012a38523676f1187fbea8b4a388ba4d81bb18",
+      "observed_at": "2026-09-02T22:36:52.754Z",
+      "summary": "Additive repository validation can be reverted without external cleanup.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0115/rollback-plan.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0115/rollback-plan.md",
+          "sha256": "87516af2296316c27aef3ff87d14bf2124cfd04dc505af447dd8a836a48ca961"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0115/rollback-plan.md"
+      }
     }
   ]
 }

@@ -162,7 +162,7 @@
 | WI-0112 | Run quote-aware Wave 5A controlled comparison | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a836643a` | 0 | 20 | 1 |
 | WI-0113 | Make Wave 5A autonomous and observable | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6f8596bb` | 0 | 23 | 0 |
 | WI-0114 | Integrate the agent-led init and Claude entrypoint handshake | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `555cd6fd` | 0 | 21 | 0 |
-| WI-0115 | Validate clean agent-led greenfield onboarding | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902223228-a7f34a3b | `11012a38` | 0 | 15 | 0 |
+| WI-0115 | Validate clean agent-led greenfield onboarding | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902223634-7b9404c9 | `11012a38` | 0 | 18 | 0 |
 
 ## Codex task registry
 
@@ -300,14 +300,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-02T22:36:34.462Z | work_item_claimed | WI-0115 | human |
+| 2026-09-02T22:36:34.231Z | work_item_transitioned | WI-0115 | agent-lulu |
+| 2026-09-02T22:36:34.008Z | work_item_claim_released | WI-0115 | human |
+| 2026-09-02T22:36:33.744Z | handoff_created | WI-0115 | agent-lulu |
+| 2026-09-02T22:36:18.176Z | evidence_recorded | WI-0115 | human |
 | 2026-09-02T22:32:28.251Z | work_item_claimed | WI-0115 | human |
 | 2026-09-02T22:32:27.979Z | work_item_transitioned | WI-0115 | agent-lulu |
 | 2026-09-02T22:32:27.723Z | work_item_claim_released | WI-0115 | human |
-| 2026-09-02T22:32:27.452Z | handoff_created | WI-0115 | agent-lulu |
-| 2026-09-02T22:32:07.902Z | work_item_transitioned | WI-0115 | agent-lulu |
-| 2026-09-02T22:32:02.307Z | evidence_recorded | WI-0115 | human |
-| 2026-09-02T22:30:28.328Z | work_item_claimed | WI-0115 | human |
-| 2026-09-02T22:30:28.072Z | work_item_transitioned | WI-0115 | agent-rikku |
 
 ## Assignments
 
