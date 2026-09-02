@@ -1,0 +1,20 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "ad88803703fb8dc311229b3f10d7aed751837f2b",
+  "command": [
+    "fresh detached worktree: npm ci --ignore-scripts",
+    "Node 24.20.0: npm run verify",
+    "Node 24.20.0: npm run test:browser",
+    "git status --short"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T01:34:00.000Z",
+  "completed_at": "2026-09-02T01:35:34.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0093/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0093/live-runtime-observation.json",
+    "src/control-plane-server.mjs",
+    "test/control-plane-private-viewer.test.mjs"
+  ]
+}

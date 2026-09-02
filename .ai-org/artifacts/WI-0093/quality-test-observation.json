@@ -1,0 +1,16 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "ad88803703fb8dc311229b3f10d7aed751837f2b",
+  "command": [
+    "Node 24.20.0: node --test test/control-plane-private-viewer.test.mjs"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T01:33:03.000Z",
+  "completed_at": "2026-09-02T01:33:06.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0093/quality-report.md",
+    "src/control-plane-server.mjs",
+    "test/control-plane-private-viewer.test.mjs"
+  ]
+}

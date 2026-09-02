@@ -9,7 +9,7 @@
 
 ## Purpose
 
-This record defines the evidence boundary for Temple's first public Alpha. It packages the human-facing documentation, deterministic matched-model advisory, Node.js LTS contract, scoped distribution artifact, CI supply-chain hardening, real-browser Management Console gate, outcome-first Codex task navigation, truthful Usage capture health, and OSS health material completed after Alpha.28 into one reviewable release candidate.
+This record defines the evidence boundary for Temple's first public Alpha. It packages the human-facing documentation, deterministic matched-model advisory, Node.js LTS contract, scoped distribution artifact, CI supply-chain hardening, real-browser Management Console gate, outcome-first Codex task navigation, truthful optional Usage observation, and OSS health material completed after Alpha.28 into one reviewable release candidate.
 
 It does not claim production, enterprise, Windows, npm, autonomous external-operation, automatic model-routing, or measured cost-savings readiness.
 
@@ -24,6 +24,7 @@ These results justify constructing Alpha.29. They do not replace verification of
 - WI-0088 added an installed-Chrome semantic and responsive regression gate for the Management Console. It covers navigation, live-state labeling, keyboard traversal, reduced motion, console failures, overflow, clipping, and collisions at four viewports. CI runs the gate only in the Node.js 24 full lane; `playwright-core` is pinned, development-only, downloads no browser, and is excluded from the package artifact.
 - WI-0089 changed generated Codex task-title suggestions to `WI-#### · short goal · Position (Agent)` within a 58-code-point whole-title ceiling and added an explicit idempotent registry refresh operation. Titles remain mutable navigation labels; stable Work Item and thread IDs remain canonical.
 - WI-0091 made the Usage view distinguish live capture, historical observations, excluded work, and last-captured time. Its exact implementation candidate passed the complete suite and responsive browser gate through distinct Quality and Independent QA review, and its bounded live proof retained usage metadata without retaining prompt content.
+- WI-0092 made observation explicitly optional through Off, on-demand, and managed-local modes. Its real macOS LaunchAgent rehearsal preserved post-start coverage gaps and read-only private access. That rehearsal found a clone-local Usage path in the first private response; corrective WI-0093 removed the path at the shared private-viewer boundary and independently verified LAN redaction, HTTP 405 mutation refusal, and loopback diagnostics before either Work Item closed.
 - The public documentation reconciliation added an enforceable Code of Conduct, a Human-approved and tested private reporting route, clearer security-channel sequencing, and an explicit explanation that the repository's root `.ai-org` is intentional public self-host evidence but is excluded from the installable package.
 - Integration baseline `fadd4a5e36f90ad1e683546b6e0f9e5374c72e33` contains both completed Work Items. WI-0090 owns the later exact-candidate verification and private push without clearing any Human or public-action gate.
 
@@ -41,8 +42,8 @@ Those results explain the candidate history but do not qualify the post-baseline
 ## Requalified candidate requirements
 
 - Package metadata, lockfile, changelog, roadmap, this record, and proposed tag identify `0.1.0-alpha.29`.
-- The current allowlisted package contains 307 files, is approximately 0.64 MB packed and 2.56 MB unpacked, and preserves the same exclusion boundary.
-- One exact WI-0090 technical candidate must pass all 270 repository tests under Node.js 22 and 24, the installed-Chrome browser gate, schema validation, Doctor, dependency audits, package review, and exact-tarball consumer smoke under both supported majors.
+- The current allowlisted package contains 309 files, is approximately 0.65 MB packed and 2.61 MB unpacked, and preserves the same exclusion boundary.
+- One exact WI-0090 technical candidate must pass all 276 repository tests under Node.js 22 and 24, the installed-Chrome browser gate, schema validation, Doctor, dependency audits, package review, and exact-tarball consumer smoke under both supported majors.
 - Private `origin/main` must contain that candidate and its hosted Node.js 22 and 24 jobs must pass, with the installed-Chrome gate executing in the Node.js 24 full lane.
 - Exact-revision Developer, Quality, Independent QA, and rollback evidence must be recorded without treating the evidence commit as public release approval.
 
@@ -65,6 +66,14 @@ The final documentation and evidence reconciliation commit must remain green bef
 - The allowlisted package contains 307 files, 641,344 bytes packed and 2,574,860 bytes unpacked. Its exact tarball SHA-256 is `491a5b94783ee6fe56fc5cfc632aa930b4c6502a80466941ccd9bf24c6e9a2d5`.
 - Real-tarball consumers under both supported Node.js majors passed version, install, init, idempotent re-init, project launcher, status, and Doctor; each reported 36 pass, 0 warning, and 0 failure.
 - A later repository-only evidence commit initially failed hosted Doctor because one mutable blocker file was incorrectly bound to this earlier exact revision. The failed run was retained rather than waived. After the evidence boundary was corrected, both the evidence/state matrix and a manually requested full matrix passed on Node.js 22 and 24; the Node.js 24 browser gate also passed. Final exact candidate and hosted-run identifiers are maintained in repository-owned WI-0086 evidence so adding CI bookkeeping does not mutate this reviewed package record.
+
+## Managed-observer correction checkpoint
+
+- The corrected runtime candidate passed 276 tests under Node.js `v22.22.0` and `v24.20.0`. Installed Chrome `152.0.7977.65` passed four viewports, six primary views, and reduced-motion checks; a fresh detached Node.js 24 worktree independently repeated the complete suite and browser gate.
+- The allowlisted package now contains 309 files, 652,589 bytes packed and 2,615,994 bytes unpacked. Root self-host state, test evidence, screenshots, output, and local service configuration remain excluded.
+- The installed managed-local Observer returned to `running` after restart. The private LAN response omitted reviewed local paths, POST returned HTTP 405, and loopback retained local diagnostics.
+- One snapshot measured about 1.864 MB and 38.293503 seconds. WI-0094 retains that performance limitation as follow-up; it does not block the bounded local Alpha and it does block any low-latency claim.
+- Final exact candidate and hosted-run identifiers remain repository-owned WI-0086 evidence so this packaged record does not become self-referential.
 
 ## Human and external gates
 

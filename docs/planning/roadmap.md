@@ -13,7 +13,7 @@ Version history belongs in the [changelog](../../CHANGELOG.md). Exact test resul
 - **Suitable today:** supervised Solo and small-team work, local multi-repository coordination, repository-backed recovery, and read-only operational review.
 - **Distribution today:** the GitHub repository is private, the npm package is marked `private: true`, and no npm version has been published.
 - **Not yet claimed:** production-grade distributed coordination, regulated operation, unattended external action, automatic model routing, or measured cost savings.
-- **Retained open work:** operator-owned Provider trust for untrusted repositories (`WI-0033`), strict Provider-observed model and reasoning attribution (`WI-0064`), and the bounded four-repository effectiveness rehearsal (`WI-0067`) remain open or blocked. They do not block a narrowly labeled local Public Alpha, but they do block untrusted-repository Provider guidance, effectiveness or savings claims, and stronger enterprise-readiness claims.
+- **Retained open work:** operator-owned Provider trust for untrusted repositories (`WI-0033`), strict Provider-observed model and reasoning attribution (`WI-0064`), and the bounded four-repository effectiveness rehearsal (`WI-0067`) remain open or blocked. Managed Usage snapshot latency and payload (`WI-0094`) is a separate non-blocking Alpha performance follow-up. These items block the corresponding trust, effectiveness, savings, enterprise-readiness, or low-latency claims—not a narrowly labeled local Public Alpha.
 
 ## Delivered operating system
 
@@ -27,6 +27,7 @@ The local framework already provides:
 - deterministic context and Skill discovery without requiring RAG, a local model, or a daemon;
 - local backup, restore, audit, recovery, federation, and read-only portfolio boundaries;
 - a human-facing Management Console that keeps local commands separate from private read-only access;
+- optional Off, on-demand, and managed-local Usage observation with clone-local service controls and explicit capture gaps;
 - project-local Token attribution, calibration policy, and a deterministic matched-model advisory that cannot switch models by itself;
 - governed Lessons, Practices, Skill Proposals, project Skills, and optional Packs without automatic promotion.
 

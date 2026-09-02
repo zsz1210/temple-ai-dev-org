@@ -1,0 +1,26 @@
+{
+  "schema_version": "temple.runtime-observation/v1",
+  "work_item_id": "WI-0093",
+  "revision": "ad88803703fb8dc311229b3f10d7aed751837f2b",
+  "environment": "Managed-local macOS LaunchAgent with loopback 127.0.0.1:8766 and private home-LAN viewer 192.168.79.5:41741",
+  "scenario": "Restart the installed Observer from the exact candidate; compare home-LAN and loopback Usage snapshots; scan the private response for local-path markers; attempt a private-viewer POST",
+  "result": "pass",
+  "provenance": "live",
+  "observed_at": "2026-09-02T01:31:30.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0093/developer-verification.md"
+  ],
+  "observations": {
+    "service_status": "running",
+    "home_lan_state_directory_present": false,
+    "home_lan_local_path_marker_present": false,
+    "home_lan_post_status": 405,
+    "loopback_state_directory_retained": true,
+    "total_tokens": 47726,
+    "detailed_usage_observations": 2,
+    "captured_completed_work_items": 2,
+    "completed_work_items": 82,
+    "snapshot_latency": "tens-of-seconds; performance follow-up remains"
+  },
+  "external_action_performed": false
+}

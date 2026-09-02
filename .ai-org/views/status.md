@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 3 active claims)
-- Parallel plan: 0 wave(s), fresh=false
-- Work items: 93 total, 6 active
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Parallel plan: 0 wave(s), fresh=true
+- Work items: 94 total, 5 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -17,7 +17,7 @@
 - Skill promotion: 0 candidate(s), 0 approval pending, 0 authoring Work Item(s)
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
-- Attention signals: 15
+- Attention signals: 14
 
 ## Collaboration
 
@@ -26,7 +26,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 3
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -36,10 +36,10 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: no
+- Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 6 / 2
+- Active / sequential / blocked: 1 / 3 / 1
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -138,8 +138,9 @@
 | WI-0089 | Make Codex task titles outcome-first and refreshable | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `86b0cdf4` | 0 | 23 | 0 |
 | WI-0090 | Requalify Alpha.29 after final integrations | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5b01b4f4` | 0 | 19 | 0 |
 | WI-0091 | Make Usage capture health truthful and verifiable | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `43444e1c` | 1 | 27 | 0 |
-| WI-0092 | Make Usage observation optional, managed, and gap-aware | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260902005556-065fd815 | `5e748645` | 0 | 15 | 0 |
-| WI-0093 | Redact Usage runtime paths from private viewers | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902012347-cac3f138 | `—` | 0 | 9 | 0 |
+| WI-0092 | Make Usage observation optional, managed, and gap-aware | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `ad888037` | 0 | 23 | 0 |
+| WI-0093 | Redact Usage runtime paths from private viewers | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ad888037` | 0 | 22 | 0 |
+| WI-0094 | Bound managed Usage snapshot latency and payload | intake | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
 
 ## Codex task registry
 
@@ -202,8 +203,7 @@
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
-- Generated parallel plan is stale; rebuild it before dispatch
-- Parallel plan has 2 blocked Work Item(s)
+- Parallel plan has 1 blocked Work Item(s)
 
 ## External tracker coordination
 
@@ -262,14 +262,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T01:23:47.268Z | work_item_claimed | WI-0093 | human |
-| 2026-09-02T01:23:46.920Z | work_item_coordination_configured | WI-0093 | agent-rikku |
-| 2026-09-02T01:23:46.594Z | work_item_transitioned | WI-0093 | agent-tidus |
-| 2026-09-02T01:23:46.242Z | handoff_created | WI-0093 | agent-tidus |
-| 2026-09-02T01:23:27.049Z | work_item_claimed | WI-0093 | human |
-| 2026-09-02T01:23:26.695Z | work_item_coordination_configured | WI-0093 | agent-tidus |
-| 2026-09-02T01:23:26.372Z | work_item_transitioned | WI-0093 | agent-yuna |
-| 2026-09-02T01:23:26.021Z | handoff_created | WI-0093 | agent-yuna |
+| 2026-09-02T01:43:31.791Z | work_item_coordination_configured | WI-0094 | agent-mog |
+| 2026-09-02T01:39:00.254Z | work_item_coordination_configured | WI-0094 | agent-mog |
+| 2026-09-02T01:38:59.916Z | work_item_created | WI-0094 | agent-mog |
+| 2026-09-02T01:38:42.922Z | work_item_closed | WI-0092 | agent-mog |
+| 2026-09-02T01:38:42.922Z | release_gate_completed | WI-0092 | agent-mog |
+| 2026-09-02T01:38:01.445Z | work_item_claimed | WI-0092 | human |
+| 2026-09-02T01:37:47.203Z | work_item_transitioned | WI-0092 | agent-lulu |
+| 2026-09-02T01:37:46.839Z | handoff_created | WI-0092 | agent-lulu |
 
 ## Assignments
 
