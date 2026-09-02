@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 96 total, 7 active
+- Work items: 96 total, 5 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -26,7 +26,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -39,7 +39,7 @@
 - Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 1 / 5 / 1
+- Active / sequential / blocked: 0 / 4 / 1
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -141,8 +141,8 @@
 | WI-0092 | Make Usage observation optional, managed, and gap-aware | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `ad888037` | 0 | 23 | 0 |
 | WI-0093 | Redact Usage runtime paths from private viewers | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ad888037` | 0 | 22 | 0 |
 | WI-0094 | Bound managed Usage snapshot latency and payload | intake | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
-| WI-0095 | Correct managed Observer cross-platform CI contract | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `4388cc84` | 0 | 19 | 0 |
-| WI-0096 | Harden Phase 4B fixture cleanup on Linux | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902023107-40eca302 | `b8d5ef34` | 0 | 20 | 0 |
+| WI-0095 | Correct managed Observer cross-platform CI contract | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `4388cc84` | 0 | 24 | 0 |
+| WI-0096 | Harden Phase 4B fixture cleanup on Linux | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b8d5ef34` | 0 | 24 | 0 |
 
 ## Codex task registry
 
@@ -264,14 +264,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T02:31:07.020Z | work_item_claimed | WI-0096 | human |
-| 2026-09-02T02:31:06.663Z | work_item_coordination_configured | WI-0096 | agent-mog |
-| 2026-09-02T02:31:06.332Z | work_item_transitioned | WI-0096 | agent-lulu |
-| 2026-09-02T02:31:05.987Z | handoff_created | WI-0096 | agent-lulu |
-| 2026-09-02T02:30:57.209Z | evidence_recorded | WI-0096 | human |
-| 2026-09-02T02:28:52.640Z | work_item_claimed | WI-0096 | human |
-| 2026-09-02T02:28:52.277Z | work_item_coordination_configured | WI-0096 | agent-lulu |
-| 2026-09-02T02:28:51.939Z | work_item_transitioned | WI-0096 | agent-lulu |
+| 2026-09-02T02:46:59.379Z | work_item_claim_released | WI-0086 | human |
+| 2026-09-02T02:46:50.259Z | evidence_recorded | WI-0086 | human |
+| 2026-09-02T02:45:37.954Z | work_item_claimed | WI-0086 | human |
+| 2026-09-02T02:41:30.856Z | work_item_closed | WI-0095 | agent-mog |
+| 2026-09-02T02:41:30.856Z | release_gate_completed | WI-0095 | agent-mog |
+| 2026-09-02T02:41:30.546Z | work_item_claimed | WI-0095 | human |
+| 2026-09-02T02:41:22.018Z | work_item_closed | WI-0096 | agent-mog |
+| 2026-09-02T02:41:22.018Z | release_gate_completed | WI-0096 | agent-mog |
 
 ## Assignments
 

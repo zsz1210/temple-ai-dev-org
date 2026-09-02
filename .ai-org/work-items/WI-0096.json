@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0096",
   "title": "Harden Phase 4B fixture cleanup on Linux",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-02T02:22:44.351Z",
-  "updated_at": "2026-09-02T02:31:07.020Z",
+  "updated_at": "2026-09-02T02:41:22.018Z",
   "scope": [
     "Add bounded retry handling to Phase 4B temporary-tree cleanup so transient Git object removal races do not fail otherwise passing hosted tests."
   ],
@@ -36,20 +36,21 @@
   "base_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
-  "planned_agent_id": "agent-mog",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
     "id": "claim-20260902023107-40eca302",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-mog",
     "base_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
     "branch": "main",
     "worktree": null,
     "claimed_at": "2026-09-02T02:31:07.020Z",
-    "released_at": null
+    "released_at": "2026-09-02T02:41:22.018Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -126,14 +127,15 @@
     },
     {
       "id": "claim-20260902023107-40eca302",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-mog",
       "base_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
       "branch": "main",
       "worktree": null,
       "claimed_at": "2026-09-02T02:31:07.020Z",
-      "released_at": null
+      "released_at": "2026-09-02T02:41:22.018Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -160,13 +162,26 @@
       ".ai-org/artifacts/WI-0096/exact-candidate-verification.md"
     ],
     "test_evidence": [
-      "EVID-20260902T022840Z-6E3BE3A0"
+      "EVID-20260902T022840Z-6E3BE3A0",
+      "EVID-20260902T024057Z-970CD4AB"
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0096/evaluation-report.md"
     ],
     "independent_qa_pass": [
       "EVID-20260902T023057Z-E3F8B030"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0096/product-direction.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0096/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0096/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -189,10 +204,14 @@
     ".ai-org/artifacts/WI-0096/evaluation-report.md",
     ".ai-org/artifacts/WI-0096/handoff-006-independent_qa-to-release_manager.md",
     "EVID-20260902T023057Z-E3F8B030",
-    ".ai-org/artifacts/WI-0096/independent-qa-report.md"
+    ".ai-org/artifacts/WI-0096/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0096/release-record.md",
+    ".ai-org/artifacts/WI-0096/hosted-ci-success.json",
+    ".ai-org/artifacts/WI-0096/release-manager-review.md",
+    "EVID-20260902T024057Z-970CD4AB"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -237,5 +256,9 @@
       "created_at": "2026-09-02T02:31:05.987Z"
     }
   ],
-  "developer_candidate_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97"
+  "developer_candidate_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
+  "tested_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-02T02:31:07.414Z",
-  "source_fingerprint": "eb4b8a0fac293c01fe79c665d51145a0fc50be9f74f257e3d90d683c972db36c",
+  "generated_at": "2026-09-02T02:48:38.536Z",
+  "source_fingerprint": "cf36c7171769b739dc823a778e376e8e41b3b0839baa65ba8c60fb18072dcf02",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -10,37 +10,20 @@
       "WI-0064",
       "WI-0067",
       "WI-0086",
-      "WI-0094",
-      "WI-0095",
-      "WI-0096"
+      "WI-0094"
     ]
   },
   "max_workers": 3,
   "summary": {
-    "selected": 7,
+    "selected": 5,
     "dispatchable": 0,
-    "active": 1,
-    "sequential": 5,
+    "active": 0,
+    "sequential": 4,
     "blocked": 1,
     "waves": 0
   },
   "waves": [],
-  "active": [
-    {
-      "work_item_id": "WI-0096",
-      "title": "Harden Phase 4B fixture cleanup on Linux",
-      "disposition": "active",
-      "position_id": "release_manager",
-      "agent_id": "agent-mog",
-      "integration_owner_agent_id": null,
-      "reasons": [],
-      "claim_id": "claim-20260902023107-40eca302",
-      "principal_id": "human",
-      "branch": "main",
-      "worktree": null,
-      "base_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97"
-    }
-  ],
+  "active": [],
   "sequential": [
     {
       "work_item_id": "WI-0064",
@@ -80,17 +63,6 @@
       "title": "Bound managed Usage snapshot latency and payload",
       "disposition": "sequential",
       "position_id": "engineering_manager",
-      "agent_id": "agent-mog",
-      "integration_owner_agent_id": null,
-      "reasons": [
-        "requested_mode_sequential"
-      ]
-    },
-    {
-      "work_item_id": "WI-0095",
-      "title": "Correct managed Observer cross-platform CI contract",
-      "disposition": "sequential",
-      "position_id": "release_manager",
       "agent_id": "agent-mog",
       "integration_owner_agent_id": null,
       "reasons": [
@@ -156,18 +128,6 @@
         {
           "left_path": "docs/validation/README.md",
           "right_path": "docs/validation/README.md"
-        }
-      ],
-      "resolution": "separate-waves"
-    },
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0094",
-      "right_work_item_id": "WI-0096",
-      "paths": [
-        {
-          "left_path": "test/phase-4b.test.mjs",
-          "right_path": "test/phase-4b.test.mjs"
         }
       ],
       "resolution": "separate-waves"

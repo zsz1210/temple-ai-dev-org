@@ -1,0 +1,16 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
+  "command": [
+    "GitHub Actions CI run 33583589078: Verify (Node.js 24)",
+    "GitHub Actions CI run 33583589078: Verify (Node.js 22)"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T02:32:30.000Z",
+  "completed_at": "2026-09-02T02:39:24.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0096/exact-candidate-verification.md",
+    ".ai-org/artifacts/WI-0096/hosted-ci-cleanup-failure.md"
+  ]
+}

@@ -6,7 +6,7 @@
   "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-01T14:24:44.818Z",
-  "updated_at": "2026-09-02T02:06:15.555Z",
+  "updated_at": "2026-09-02T02:46:59.379Z",
   "scope": [
     "Select and prepare one versioned GitHub Release candidate while npm distribution remains deferred.",
     "Reconcile the pushed Node.js 22 and 24 hosted-CI result, package boundary, security review, release notes, rollback plan, and public-readiness record at one exact candidate revision.",
@@ -71,7 +71,7 @@
       "resources": []
     }
   },
-  "base_revision": "cefba7394a498f0a64af8b0a117bc9b4da1e1897",
+  "base_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -82,17 +82,17 @@
     "WI-0067: WI-0086 may add only its own release-candidate entry to docs/validation/README.md; the blocked rehearsal evidence and result remain owned by WI-0067."
   ],
   "claim": {
-    "id": "claim-20260902001951-674f89d0",
+    "id": "claim-20260902024537-43f8ed82",
     "status": "released",
     "principal_id": "human",
     "agent_id": "agent-mog",
-    "base_revision": "cefba7394a498f0a64af8b0a117bc9b4da1e1897",
+    "base_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-09-02T00:19:51.832Z",
-    "released_at": "2026-09-02T02:06:15.555Z",
+    "claimed_at": "2026-09-02T02:45:37.954Z",
+    "released_at": "2026-09-02T02:46:59.379Z",
     "release_reason": [
-      "Waiting for genuinely independent public-instructions evidence and separate repository-visibility, tag, and GitHub Release approvals while corrective WI-0095 owns main."
+      "Technical package and hosted qualification passed at EVID-20260902T024650Z-AC1B1DBF. Public closeout remains blocked only by a genuinely independent public-instructions test and separate visibility, GitHub-settings, tag, and GitHub Release approvals."
     ]
   },
   "claims": [
@@ -206,6 +206,20 @@
       "released_at": "2026-09-02T02:06:15.555Z",
       "release_reason": [
         "Waiting for genuinely independent public-instructions evidence and separate repository-visibility, tag, and GitHub Release approvals while corrective WI-0095 owns main."
+      ]
+    },
+    {
+      "id": "claim-20260902024537-43f8ed82",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-02T02:45:37.954Z",
+      "released_at": "2026-09-02T02:46:59.379Z",
+      "release_reason": [
+        "Technical package and hosted qualification passed at EVID-20260902T024650Z-AC1B1DBF. Public closeout remains blocked only by a genuinely independent public-instructions test and separate visibility, GitHub-settings, tag, and GitHub Release approvals."
       ]
     }
   ],

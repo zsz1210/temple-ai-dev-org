@@ -13694,6 +13694,138 @@
         "exit_code": 0,
         "started_at": "2026-09-02T02:29:03.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T024057Z-970CD4AB",
+      "work_item_id": "WI-0096",
+      "recorded_at": "2026-09-02T02:40:57.393Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Hosted Linux CI passes Phase 4B cleanup correction",
+      "outcome": "pass",
+      "scope_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
+      "observed_at": "2026-09-02T02:39:24.000Z",
+      "summary": "GitHub Actions run 33583589078 passed Node.js 22 and 24, including the formerly failing hosted cleanup scenario.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0096/hosted-ci-success.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0096/hosted-ci-success.json",
+          "sha256": "a21083042d4fb70b5e0f088735fcb28432f08b1b1f988b692d428ebd94ddb027"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0096/exact-candidate-verification.md",
+          "sha256": "628bdebc25847c2fc02301532c4083f4a5a41f88675ce06e9ae710a1087c72c7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0096/hosted-ci-cleanup-failure.md",
+          "sha256": "24623047d05a8ef43147115b63cc164441fbc8b23abcc93b9bcfe5bbb935197a"
+        }
+      ],
+      "details": {
+        "command": [
+          "GitHub Actions CI run 33583589078: Verify (Node.js 24)",
+          "GitHub Actions CI run 33583589078: Verify (Node.js 22)"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T02:32:30.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T024106Z-569ED979",
+      "work_item_id": "WI-0095",
+      "recorded_at": "2026-09-02T02:41:06.657Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Hosted Linux CI passes managed Observer platform contract",
+      "outcome": "pass",
+      "scope_revision": "4388cc84d969dc66574745829cb071115872e37d",
+      "observed_at": "2026-09-02T02:39:24.000Z",
+      "summary": "GitHub Actions run 33583589078 passed Node.js 22 and 24, including the managed Observer non-macOS contract.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0095/hosted-ci-success.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0095/hosted-ci-success.json",
+          "sha256": "566fa65d863dfb77416b0e0cd7a54f2f96fb700f766e5fb2c92e9579c440d8ed"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0095/exact-candidate-verification.md",
+          "sha256": "081a5e539343e97a41710402a7b0127336e9671ff4e18c87ea81b52649b53545"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0095/hosted-ci-platform-contract-failure.md",
+          "sha256": "2b383cfa9bfc6084ef0f396f08c60020956da238b6acb70ffd58375e8a03129a"
+        }
+      ],
+      "details": {
+        "command": [
+          "GitHub Actions CI run 33583589078: Verify (Node.js 24)",
+          "GitHub Actions CI run 33583589078: Verify (Node.js 22)"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T02:32:30.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T024650Z-AC1B1DBF",
+      "work_item_id": "WI-0086",
+      "recorded_at": "2026-09-02T02:46:50.259Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Final Alpha.29 package and hosted qualification",
+      "outcome": "pass",
+      "scope_revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
+      "observed_at": "2026-09-02T02:46:11.000Z",
+      "summary": "The b8d5ef3 package is byte-identical to the reviewed 309-file checkpoint, clean consumers pass on Node.js 22 and 24, and hosted run 33583589078 passes both supported lanes.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0086/final-package-consumer-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0086/final-package-consumer-observation.json",
+          "sha256": "255f072debedb50138e6471c29ce70b1df0c84d3af1d5ca18fa465f7358adc6c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0086/final-package-and-hosted-reconciliation.md",
+          "sha256": "4ee5429f952f7935b91fe1928897a84caadb7351c5333750d55381929818ee0c"
+        }
+      ],
+      "details": {
+        "command": [
+          "Detached worktree at b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97: npm pack --json",
+          "SHA-256 review of the exact tarball",
+          "Node.js 22.23.2 clean exact-tarball consumer smoke",
+          "Node.js 24.20.0 clean exact-tarball consumer smoke",
+          "GitHub Actions CI run 33583589078: Verify (Node.js 22)",
+          "GitHub Actions CI run 33583589078: Verify (Node.js 24)"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T02:42:30.000Z"
+      }
     }
   ]
 }

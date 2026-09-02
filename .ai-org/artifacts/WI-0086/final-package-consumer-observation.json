@@ -1,0 +1,19 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97",
+  "command": [
+    "Detached worktree at b8d5ef34a9ef18cb1a9e1f597b520d5311c08e97: npm pack --json",
+    "SHA-256 review of the exact tarball",
+    "Node.js 22.23.2 clean exact-tarball consumer smoke",
+    "Node.js 24.20.0 clean exact-tarball consumer smoke",
+    "GitHub Actions CI run 33583589078: Verify (Node.js 22)",
+    "GitHub Actions CI run 33583589078: Verify (Node.js 24)"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T02:42:30.000Z",
+  "completed_at": "2026-09-02T02:46:11.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0086/final-package-and-hosted-reconciliation.md"
+  ]
+}
