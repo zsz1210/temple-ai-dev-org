@@ -1,0 +1,38 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "43100b5ef602c8f3eb3b5d564cb06e9146ee4004",
+  "command": [
+    "fresh detached exact candidate: node --check scripts/validate-wave-4-operating-boundaries.mjs",
+    "fresh detached exact candidate: npm run check",
+    "fresh detached exact candidate: 221 independent boundary, matrix, source, privacy, and side-effect assertions",
+    "fresh detached exact candidate: node ./templew.mjs doctor . --json",
+    "fresh detached exact candidate: git status --porcelain"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T10:41:10.134Z",
+  "completed_at": "2026-09-02T10:42:59.034Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0105/wave-4-operating-boundaries-observation.json",
+    "docs/validation/wave-4-operating-boundaries.md",
+    "scripts/validate-wave-4-operating-boundaries.mjs"
+  ],
+  "summary": {
+    "syntax_check": "pass",
+    "repository_checks": "pass",
+    "documentation_links": "pass",
+    "package_boundary": "pass",
+    "independent_assertions_passed": 221,
+    "independent_assertions_failed": 0,
+    "doctor_passed": 36,
+    "doctor_warned": 1,
+    "doctor_failed": 0,
+    "doctor_warning": "known stale generated parallel plan",
+    "full_repository_tests_passed_in_preceding_exact_candidate_run": 280,
+    "full_repository_tests_failed_in_preceding_exact_candidate_run": 0,
+    "full_repository_test_duration_seconds": 56.25,
+    "candidate_clean_except_untracked_dependency_symlink": true,
+    "external_action_performed": false,
+    "temporary_worktree_removed": true
+  }
+}

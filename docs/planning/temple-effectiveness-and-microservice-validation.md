@@ -1,6 +1,6 @@
 # Temple effectiveness and multi-repository validation plan
 
-- Status: Waves 1–3 passed with retained limits; Wave 4 local operating-boundary qualification is in progress
+- Status: Waves 1–4 passed with retained limits; Wave 4 independently verified one deterministic local operating-boundary matrix
 - Scope: local-first synthetic validation
 - Public, production, GitHub, hosted CI, and paid actions: not authorized
 

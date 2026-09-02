@@ -15672,6 +15672,57 @@
         "exit_code": 1,
         "started_at": "2026-09-02T10:20:20.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T104404Z-3CCAB600",
+      "work_item_id": "WI-0105",
+      "recorded_at": "2026-09-02T10:44:04.781Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 4 Independent QA",
+      "outcome": "pass",
+      "scope_revision": "43100b5ef602c8f3eb3b5d564cb06e9146ee4004",
+      "observed_at": "2026-09-02T10:42:59.034Z",
+      "summary": "Exact candidate passed 280 repository tests, a fresh bounded check, 221 independent assertions, and Doctor with zero failures",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0105/independent-qa-exact-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0105/independent-qa-exact-test-observation.json",
+          "sha256": "8b0dcbf7a872de4287c7b7ee2535a3da1ed0fd2a365902aa39334c2ad5e19f8b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0105/wave-4-operating-boundaries-observation.json",
+          "sha256": "cfa4813ccabe70968aa30d1332e550a542dc87a352d5257ee972b0100aa08fd5"
+        },
+        {
+          "path": "docs/validation/wave-4-operating-boundaries.md",
+          "sha256": "e05ae4a574149946d50ba6bcf7d906e577fd72fab76a59d8be498dd9d9d03e13"
+        },
+        {
+          "path": "scripts/validate-wave-4-operating-boundaries.mjs",
+          "sha256": "a0f72737357875acbf8e6c73529cba9b6838627eb1d0eaaf0e231f88f8d99823"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached exact candidate: node --check scripts/validate-wave-4-operating-boundaries.mjs",
+          "fresh detached exact candidate: npm run check",
+          "fresh detached exact candidate: 221 independent boundary, matrix, source, privacy, and side-effect assertions",
+          "fresh detached exact candidate: node ./templew.mjs doctor . --json",
+          "fresh detached exact candidate: git status --porcelain"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T10:41:10.134Z"
+      }
     }
   ]
 }
