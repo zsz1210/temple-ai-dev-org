@@ -138,7 +138,7 @@
 | WI-0089 | Make Codex task titles outcome-first and refreshable | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `86b0cdf4` | 0 | 23 | 0 |
 | WI-0090 | Requalify Alpha.29 after final integrations | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5b01b4f4` | 0 | 19 | 0 |
 | WI-0091 | Make Usage capture health truthful and verifiable | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `43444e1c` | 1 | 27 | 0 |
-| WI-0092 | Make Usage observation optional, managed, and gap-aware | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260902003604-cdf3e4d0 | `—` | 0 | 10 | 0 |
+| WI-0092 | Make Usage observation optional, managed, and gap-aware | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260902005556-065fd815 | `5e748645` | 0 | 15 | 0 |
 
 ## Codex task registry
 
@@ -261,14 +261,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T00:36:04.030Z | work_item_claimed | WI-0092 | human |
-| 2026-09-02T00:36:03.178Z | work_item_transitioned | WI-0092 | agent-tidus |
-| 2026-09-02T00:35:53.196Z | work_item_claim_released | WI-0092 | human |
-| 2026-09-02T00:35:51.950Z | handoff_created | WI-0092 | agent-tidus |
-| 2026-09-02T00:33:22.687Z | work_item_claimed | WI-0092 | human |
-| 2026-09-02T00:33:22.350Z | work_item_transitioned | WI-0092 | agent-yuna |
-| 2026-09-02T00:33:22.031Z | work_item_claim_released | WI-0092 | human |
-| 2026-09-02T00:33:21.680Z | handoff_created | WI-0092 | agent-yuna |
+| 2026-09-02T00:55:56.588Z | work_item_claimed | WI-0092 | human |
+| 2026-09-02T00:55:56.241Z | work_item_transitioned | WI-0092 | agent-lulu |
+| 2026-09-02T00:55:55.914Z | work_item_claim_released | WI-0092 | human |
+| 2026-09-02T00:55:55.581Z | handoff_created | WI-0092 | agent-lulu |
+| 2026-09-02T00:55:55.235Z | work_item_transitioned | WI-0092 | agent-lulu |
+| 2026-09-02T00:52:18.498Z | work_item_claimed | WI-0092 | human |
+| 2026-09-02T00:52:12.272Z | work_item_transitioned | WI-0092 | agent-rikku |
+| 2026-09-02T00:52:11.945Z | work_item_claim_released | WI-0092 | human |
 
 ## Assignments
 

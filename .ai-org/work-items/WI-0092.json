@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0092",
   "title": "Make Usage observation optional, managed, and gap-aware",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-02T00:31:26.149Z",
-  "updated_at": "2026-09-02T00:36:04.030Z",
+  "updated_at": "2026-09-02T00:55:56.588Z",
   "scope": [
     "Define clone-local Off, On-demand, and Managed local Observer modes without making Codex observation a framework prerequisite.",
     "Provide a fail-closed macOS managed-local service path that runs the read-only LAN console and Codex Observer without storing machine settings in Git.",
@@ -96,7 +96,7 @@
       "resources": []
     }
   },
-  "base_revision": "cefba7394a498f0a64af8b0a117bc9b4da1e1897",
+  "base_revision": "5e74864527cb2422aac67804efda3583194e6a58",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -107,14 +107,14 @@
     "WI-0086 retains release packaging and existing test/control-plane-foundation.test.mjs ownership; WI-0092 will not edit that test or public-release artifacts and integrates only after its isolated verification."
   ],
   "claim": {
-    "id": "claim-20260902003604-cdf3e4d0",
+    "id": "claim-20260902005556-065fd815",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "cefba7394a498f0a64af8b0a117bc9b4da1e1897",
+    "agent_id": "agent-lulu",
+    "base_revision": "5e74864527cb2422aac67804efda3583194e6a58",
     "branch": "codex/wi-0092-observer",
     "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0092-observer",
-    "claimed_at": "2026-09-02T00:36:04.030Z",
+    "claimed_at": "2026-09-02T00:55:56.588Z",
     "released_at": null
   },
   "claims": [
@@ -162,13 +162,41 @@
     },
     {
       "id": "claim-20260902003604-cdf3e4d0",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "cefba7394a498f0a64af8b0a117bc9b4da1e1897",
       "branch": "codex/wi-0092-observer",
       "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0092-observer",
       "claimed_at": "2026-09-02T00:36:04.030Z",
+      "released_at": "2026-09-02T00:52:11.945Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260902005218-9b3e4e09",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "5e74864527cb2422aac67804efda3583194e6a58",
+      "branch": "codex/wi-0092-observer",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0092-observer",
+      "claimed_at": "2026-09-02T00:52:18.498Z",
+      "released_at": "2026-09-02T00:55:55.914Z",
+      "release_reason": [
+        "position_transition"
+      ]
+    },
+    {
+      "id": "claim-20260902005556-065fd815",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "5e74864527cb2422aac67804efda3583194e6a58",
+      "branch": "codex/wi-0092-observer",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0092-observer",
+      "claimed_at": "2026-09-02T00:55:56.588Z",
       "released_at": null
     }
   ],
@@ -193,6 +221,18 @@
     ],
     "required_state_coverage": [
       ".ai-org/artifacts/WI-0092/required-state-coverage.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0092/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0092/developer-verification.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0092/test-report.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0092/evaluation-report.md"
     ]
   },
   "evidence": [
@@ -205,10 +245,15 @@
     ".ai-org/artifacts/WI-0092/technical-design.md",
     ".ai-org/artifacts/WI-0092/risk-review.md",
     ".ai-org/artifacts/WI-0092/ui-design-brief.md",
-    ".ai-org/artifacts/WI-0092/required-state-coverage.md"
+    ".ai-org/artifacts/WI-0092/required-state-coverage.md",
+    ".ai-org/artifacts/WI-0092/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0092/developer-verification.md",
+    ".ai-org/artifacts/WI-0092/test-report.md",
+    ".ai-org/artifacts/WI-0092/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0092/evaluation-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "release_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -230,6 +275,21 @@
       "input_revision": "cefba7394a498f0a64af8b0a117bc9b4da1e1897",
       "artifact": ".ai-org/artifacts/WI-0092/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-02T00:35:51.950Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "5e74864527cb2422aac67804efda3583194e6a58",
+      "artifact": ".ai-org/artifacts/WI-0092/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-02T00:52:11.597Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "5e74864527cb2422aac67804efda3583194e6a58",
+      "artifact": ".ai-org/artifacts/WI-0092/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-02T00:55:55.581Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "5e74864527cb2422aac67804efda3583194e6a58"
 }
