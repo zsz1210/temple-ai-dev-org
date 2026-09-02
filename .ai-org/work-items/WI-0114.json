@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0114",
   "title": "Integrate the agent-led init and Claude entrypoint handshake",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-02T17:07:59.838Z",
-  "updated_at": "2026-09-02T17:08:47.616Z",
+  "updated_at": "2026-09-02T17:10:43.287Z",
   "scope": [
     "Integrate the qualified agent-led post-init bootstrap contract and Claude entrypoint compatibility behavior onto current main without importing superseded Work Item state."
   ],
@@ -40,7 +40,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "e2c8f9dab03f723161fd7ae15422ae4b4e8d967a",
+  "base_revision": "555cd6fd86494fe05419b55316abde9bd82147d8",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -48,14 +48,14 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260902170847-70e7c90a",
+    "id": "claim-20260902171043-21c44d44",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "e2c8f9dab03f723161fd7ae15422ae4b4e8d967a",
+    "agent_id": "agent-lulu",
+    "base_revision": "555cd6fd86494fe05419b55316abde9bd82147d8",
     "branch": "codex/wi-0114-agent-init-handshake-clean",
     "worktree": "/Users/zsz1210/.codex/worktrees/daaa/temple-ai-dev-org",
-    "claimed_at": "2026-09-02T17:08:47.616Z",
+    "claimed_at": "2026-09-02T17:10:43.287Z",
     "released_at": null
   },
   "claims": [
@@ -103,13 +103,27 @@
     },
     {
       "id": "claim-20260902170847-70e7c90a",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "e2c8f9dab03f723161fd7ae15422ae4b4e8d967a",
       "branch": "codex/wi-0114-agent-init-handshake-clean",
       "worktree": "/Users/zsz1210/.codex/worktrees/daaa/temple-ai-dev-org",
       "claimed_at": "2026-09-02T17:08:47.616Z",
+      "released_at": "2026-09-02T17:10:42.842Z",
+      "release_reason": [
+        "Developer candidate handed to Quality Evaluator"
+      ]
+    },
+    {
+      "id": "claim-20260902171043-21c44d44",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "555cd6fd86494fe05419b55316abde9bd82147d8",
+      "branch": "codex/wi-0114-agent-init-handshake-clean",
+      "worktree": "/Users/zsz1210/.codex/worktrees/daaa/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T17:10:43.287Z",
       "released_at": null
     }
   ],
@@ -128,6 +142,14 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0114/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0114/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260902T171029Z-AFB2ECB2",
+      "EVID-20260902T171029Z-6C1A7858",
+      ".ai-org/artifacts/WI-0114/developer-report.md"
     ]
   },
   "evidence": [
@@ -138,7 +160,11 @@
     ".ai-org/artifacts/WI-0114/product-spec.md",
     ".ai-org/artifacts/WI-0114/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0114/technical-design.md",
-    ".ai-org/artifacts/WI-0114/risk-review.md"
+    ".ai-org/artifacts/WI-0114/risk-review.md",
+    ".ai-org/artifacts/WI-0114/handoff-004-developer-to-quality_evaluator.md",
+    "EVID-20260902T171029Z-AFB2ECB2",
+    "EVID-20260902T171029Z-6C1A7858",
+    ".ai-org/artifacts/WI-0114/developer-report.md"
   ],
   "unresolved": [],
   "next_position": "quality_evaluator",
@@ -163,6 +189,14 @@
       "input_revision": "e2c8f9dab03f723161fd7ae15422ae4b4e8d967a",
       "artifact": ".ai-org/artifacts/WI-0114/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-02T17:08:46.896Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "555cd6fd86494fe05419b55316abde9bd82147d8",
+      "artifact": ".ai-org/artifacts/WI-0114/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-02T17:10:42.607Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "555cd6fd86494fe05419b55316abde9bd82147d8"
 }
