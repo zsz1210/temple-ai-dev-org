@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 111 total, 7 active
+- Work items: 112 total, 8 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -159,6 +159,7 @@
 | WI-0109 | Add no-generation App Server protocol replay | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a21fbc4f` | 0 | 18 | 0 |
 | WI-0110 | Run bounded Wave 5A controlled comparison | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `19b78371` | 0 | 20 | 1 |
 | WI-0111 | Make command policy quote-aware | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2d523b5f` | 0 | 18 | 0 |
+| WI-0112 | Run quote-aware Wave 5A controlled comparison | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902153809-14a84afd | `—` | 0 | 9 | 0 |
 
 ## Codex task registry
 
@@ -295,14 +296,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T15:19:53.584Z | work_item_closed | WI-0111 | agent-mog |
-| 2026-09-02T15:19:53.584Z | release_gate_completed | WI-0111 | agent-mog |
-| 2026-09-02T15:19:42.413Z | work_item_transitioned | WI-0111 | agent-lulu |
-| 2026-09-02T15:19:42.135Z | handoff_created | WI-0111 | agent-lulu |
-| 2026-09-02T15:19:30.487Z | evidence_recorded | WI-0111 | human |
-| 2026-09-02T15:17:08.818Z | work_item_transitioned | WI-0111 | agent-lulu |
-| 2026-09-02T15:17:08.556Z | handoff_created | WI-0111 | agent-lulu |
-| 2026-09-02T15:17:08.294Z | work_item_transitioned | WI-0111 | agent-lulu |
+| 2026-09-02T15:38:09.046Z | work_item_claimed | WI-0112 | human |
+| 2026-09-02T15:38:08.814Z | work_item_transitioned | WI-0112 | agent-tidus |
+| 2026-09-02T15:38:08.585Z | handoff_created | WI-0112 | agent-tidus |
+| 2026-09-02T15:38:08.341Z | work_item_transitioned | WI-0112 | agent-yuna |
+| 2026-09-02T15:38:08.123Z | handoff_created | WI-0112 | agent-yuna |
+| 2026-09-02T15:38:07.904Z | work_item_transitioned | WI-0112 | agent-mog |
+| 2026-09-02T15:38:07.654Z | handoff_created | WI-0112 | agent-mog |
+| 2026-09-02T15:36:41.775Z | work_item_coordination_configured | WI-0112 | agent-mog |
 
 ## Assignments
 
