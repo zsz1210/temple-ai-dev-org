@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0106",
   "title": "Design Wave 5 controlled matched comparison",
-  "state": "independent_qa",
-  "owner_position": "independent_qa",
-  "assigned_agent_id": "agent-lulu",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-02T10:54:22.427Z",
-  "updated_at": "2026-09-02T11:48:12.595Z",
+  "updated_at": "2026-09-02T11:55:38.313Z",
   "scope": [
     "Define a reproducible Temple-versus-minimal and model-profile matched evaluation protocol, including representative cases, quality rubric, measurement fields, resource ceilings, telemetry prerequisites, stop rules, and an explicit approval boundary before any model generation."
   ],
@@ -48,15 +48,16 @@
     "WI-0086"
   ],
   "claim": {
-    "id": "claim-20260902114812-d9304602",
-    "status": "active",
+    "id": "claim-20260902115508-b647b0b2",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-lulu",
+    "agent_id": "agent-mog",
     "base_revision": "2612207e1099de2f02a133d3c8336ec2c12c2b39",
     "branch": "codex/wi-0106-wave-5-controlled-comparison",
     "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0106",
-    "claimed_at": "2026-09-02T11:48:12.595Z",
-    "released_at": null
+    "claimed_at": "2026-09-02T11:55:08.334Z",
+    "released_at": "2026-09-02T11:55:38.313Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -135,14 +136,27 @@
     },
     {
       "id": "claim-20260902114812-d9304602",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-lulu",
       "base_revision": "2612207e1099de2f02a133d3c8336ec2c12c2b39",
       "branch": "codex/wi-0106-wave-5-controlled-comparison",
       "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0106",
       "claimed_at": "2026-09-02T11:48:12.595Z",
-      "released_at": null
+      "released_at": "2026-09-02T11:54:54.962Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902115508-b647b0b2",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "2612207e1099de2f02a133d3c8336ec2c12c2b39",
+      "branch": "codex/wi-0106-wave-5-controlled-comparison",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0106",
+      "claimed_at": "2026-09-02T11:55:08.334Z",
+      "released_at": "2026-09-02T11:55:38.313Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -173,6 +187,21 @@
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0106/quality-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260902T115436Z-851D76B3"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0106/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      "EVID-20260902T115436Z-851D76B3"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0106/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -188,10 +217,14 @@
     "EVID-20260902T110605Z-ED60CF41",
     "EVID-20260902T113303Z-9A8048CC",
     ".ai-org/artifacts/WI-0106/handoff-005-quality_evaluator-to-independent_qa.md",
-    ".ai-org/artifacts/WI-0106/quality-report.md"
+    ".ai-org/artifacts/WI-0106/quality-report.md",
+    ".ai-org/artifacts/WI-0106/handoff-006-independent_qa-to-release_manager.md",
+    "EVID-20260902T115436Z-851D76B3",
+    ".ai-org/artifacts/WI-0106/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0106/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "release_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -227,7 +260,18 @@
       "input_revision": "c27f193d03f36ecc50c6e4d4dba3f55e6928b0f9",
       "artifact": ".ai-org/artifacts/WI-0106/handoff-005-quality_evaluator-to-independent_qa.md",
       "created_at": "2026-09-02T11:33:33.664Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "2612207e1099de2f02a133d3c8336ec2c12c2b39",
+      "artifact": ".ai-org/artifacts/WI-0106/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-02T11:54:54.687Z"
     }
   ],
-  "developer_candidate_revision": "d3ea908d6157da31b659eb53dc5d16014a354fe2"
+  "developer_candidate_revision": "d3ea908d6157da31b659eb53dc5d16014a354fe2",
+  "tested_revision": "2612207e1099de2f02a133d3c8336ec2c12c2b39",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }
