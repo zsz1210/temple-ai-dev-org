@@ -1,0 +1,41 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "c27f193d03f36ecc50c6e4d4dba3f55e6928b0f9",
+  "command": [
+    "npm run check in a detached exact-candidate worktree",
+    "node ./templew.mjs schema validate . --json in a detached exact-candidate worktree",
+    "run both public starter suites",
+    "prove both hidden suites fail on the defective starter for an intended assertion",
+    "prove both hidden suites pass with only the pinned reference source",
+    "recompute 19 manifest digest and deterministic-order checks",
+    "recompute 12 resource arithmetic and authority checks",
+    "git diff --check and clean exact-candidate assertion"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T11:31:00.000Z",
+  "completed_at": "2026-09-02T11:32:11.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0106/quality-report.md",
+    ".ai-org/artifacts/WI-0106/quality-attempt-1-report.md",
+    ".ai-org/artifacts/WI-0106/fixtures/feasibility-protocol.json",
+    ".ai-org/artifacts/WI-0106/resource-preflight.json",
+    ".ai-org/artifacts/WI-0106/technical-design.md"
+  ],
+  "summary": {
+    "repository_checks_passed": true,
+    "schemas_valid": true,
+    "documents_checked": 128,
+    "schemas_checked": 29,
+    "public_tests_passed": 4,
+    "hidden_reference_tests_passed": 7,
+    "defective_starters_rejected": 2,
+    "manifest_checks_passed": 19,
+    "resource_checks_passed": 12,
+    "first_no_go_retained": true,
+    "blocking_findings_remaining": 0,
+    "wave_5c_blocked": true,
+    "model_generation_performed": false,
+    "external_write_performed": false
+  }
+}

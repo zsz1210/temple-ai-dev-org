@@ -15803,6 +15803,56 @@
         "exit_code": 0,
         "started_at": "2026-09-02T11:02:59.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T113004Z-15216395",
+      "work_item_id": "WI-0106",
+      "recorded_at": "2026-09-02T11:30:04.494Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 5 quality attempt 1 no-go",
+      "outcome": "fail",
+      "scope_revision": "d3ea908d6157da31b659eb53dc5d16014a354fe2",
+      "observed_at": "2026-09-02T11:15:00.000Z",
+      "summary": "Retained first quality review: five reproducibility and evidence blockers; candidate d3ea908 must not advance.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0106/quality-attempt-1-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0106/quality-attempt-1-observation.json",
+          "sha256": "eeeaa65b8bf5e09e0f9a9eb9554bba762c8a2620abc3c7c5c880b419dde5a88a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/quality-attempt-1-report.md",
+          "sha256": "7414168bc41e6c2b3cca47d0e35b31d7e9c5d96bc980ed501793c4691bf244a9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/resource-preflight.json",
+          "sha256": "f0ed7f16398cde3bbc45fcd73d34f3cbc6a97741577125e518b1874ec5b8cfa5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/technical-design.md",
+          "sha256": "3ccd6ed5490b26db37761199f9c3d70fc85bc740d97002fcb4ab696d2fe5d613"
+        }
+      ],
+      "details": {
+        "command": [
+          "resolve WI-0106 Quality Evaluator context without writing",
+          "inspect WI-0106 protocol, usage policy, WI-0067 telemetry, matched-evaluation schema, and evaluator",
+          "independently reproduce resource-preflight arithmetic",
+          "compare exact candidate with current working changes"
+        ],
+        "exit_code": 1,
+        "started_at": "2026-09-02T11:06:40.000Z"
+      }
     }
   ]
 }
