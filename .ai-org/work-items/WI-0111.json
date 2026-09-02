@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0111",
   "title": "Make command policy quote-aware",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-02T15:07:08.484Z",
-  "updated_at": "2026-09-02T15:08:06.322Z",
+  "updated_at": "2026-09-02T15:15:45.233Z",
   "scope": [
     "Replace blanket shell-metacharacter rejection with a deterministic quote-aware scanner that accepts literal operator characters inside safe quoted arguments while rejecting executable shell control outside quotes, without evaluating or normalizing the command."
   ],
@@ -66,14 +66,15 @@
   "overlap_resolution": [],
   "claim": {
     "id": "claim-20260902150806-f874f5d4",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "base_revision": "30d90808b0a136ddd12ec28dbf621b8210d756b5",
     "branch": "codex/wi-0111-quote-aware-command-policy",
     "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0111",
     "claimed_at": "2026-09-02T15:08:06.322Z",
-    "released_at": null
+    "released_at": "2026-09-02T15:15:45.233Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
@@ -90,14 +91,15 @@
     },
     {
       "id": "claim-20260902150806-f874f5d4",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "30d90808b0a136ddd12ec28dbf621b8210d756b5",
       "branch": "codex/wi-0111-quote-aware-command-policy",
       "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0111",
       "claimed_at": "2026-09-02T15:08:06.322Z",
-      "released_at": null
+      "released_at": "2026-09-02T15:15:45.233Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -115,6 +117,13 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0111/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0111/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0111/developer-report.md",
+      ".ai-org/artifacts/WI-0111/developer-test-observation.json"
     ]
   },
   "evidence": [
@@ -125,7 +134,10 @@
     ".ai-org/artifacts/WI-0111/approved-scope.md",
     ".ai-org/artifacts/WI-0111/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0111/technical-design.md",
-    ".ai-org/artifacts/WI-0111/risk-review.md"
+    ".ai-org/artifacts/WI-0111/risk-review.md",
+    ".ai-org/artifacts/WI-0111/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0111/developer-report.md",
+    ".ai-org/artifacts/WI-0111/developer-test-observation.json"
   ],
   "unresolved": [],
   "next_position": "quality_evaluator",
@@ -150,6 +162,14 @@
       "input_revision": "30d90808b0a136ddd12ec28dbf621b8210d756b5",
       "artifact": ".ai-org/artifacts/WI-0111/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-02T15:08:05.833Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "2d523b5f71f8b794b8539b1e44d7db7d28dc9977",
+      "artifact": ".ai-org/artifacts/WI-0111/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-02T15:15:44.969Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "2d523b5f71f8b794b8539b1e44d7db7d28dc9977"
 }

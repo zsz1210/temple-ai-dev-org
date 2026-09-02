@@ -16792,6 +16792,59 @@
         "exit_code": 0,
         "started_at": "2026-09-02T14:58:55.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T151544Z-0CD06D8D",
+      "work_item_id": "WI-0111",
+      "recorded_at": "2026-09-02T15:15:44.763Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quote-aware command policy developer verification",
+      "outcome": "pass",
+      "scope_revision": "2d523b5f71f8b794b8539b1e44d7db7d28dc9977",
+      "observed_at": "2026-09-02T15:14:51.000Z",
+      "summary": "Exact candidate passes 20 focused tests, 288 full tests, and no-generation preflight.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0111/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0111/developer-test-observation.json",
+          "sha256": "e315c1dafd4fe6242d4f82313d78f3922d3da6fb89ad8be14c7c2ae637287804"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0111/developer-report.md",
+          "sha256": "dc5f3bd60e8cb2b75235cdab8bbb7f930cf2fbb17a95af13a336668a4bd2c8a1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/fixtures/app-server-event-replay.json",
+          "sha256": "57cee35a7ff7003cc8aeb34c41dcd978986a291b15712a25364893c9eff3b667"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0111/technical-design.md",
+          "sha256": "fbeb93c94f4ae03719f556ef77201248d29dd112d753cea08c306a0f3ef35258"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --check src/app-server-protocol-replay.mjs",
+          "node --check test/app-server-protocol-replay.test.mjs",
+          "node --check .ai-org/artifacts/WI-0107/run-wave-5a.mjs",
+          "node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
+          "WI-0110 lab: quote-aware live-runner preflight-only with temporary output",
+          "npm run verify",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T15:12:18.000Z"
+      }
     }
   ]
 }
