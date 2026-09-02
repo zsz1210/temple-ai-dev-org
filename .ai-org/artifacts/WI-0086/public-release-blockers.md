@@ -6,7 +6,7 @@
 - Technical status: verified
 - Public decision: NO-GO
 
-The exact candidate passed the complete local release requalification recorded in `final-local-requalification.md`. Hosted CI for the new private push remains required.
+The exact candidate passed the complete local release requalification recorded in `final-local-requalification.md`. Hosted run `33576741884` correctly rejected an evidence-artifact digest mismatch even though both 270-test lanes and the Node.js 24 browser gate passed. The correction is recorded in `hosted-ci-evidence-digest-failure.md`; a fresh hosted run remains required.
 
 ## Completed Human evidence
 
