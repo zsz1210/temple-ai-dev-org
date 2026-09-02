@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0104",
   "title": "Validate a local multi-repository service rollout",
-  "state": "eval",
-  "owner_position": "quality_evaluator",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-02T08:56:26.986Z",
-  "updated_at": "2026-09-02T09:29:21.014Z",
+  "updated_at": "2026-09-02T09:30:00.806Z",
   "scope": [
     "Create and run a no-generation, disposable four-repository commerce rehearsal under a bounded local container runtime; verify baseline delivery, producer-first failure, rollback, consumer-first compatibility, malformed-event recovery, exact repository revisions, and cleanup."
   ],
@@ -53,14 +53,14 @@
     "WI-0086"
   ],
   "claim": {
-    "id": "claim-20260902092727-59caacfa",
+    "id": "claim-20260902093000-3fe2e3bd",
     "status": "active",
     "principal_id": "human",
     "agent_id": "agent-lulu",
     "base_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
     "branch": "codex/wi-0104-local-microservices",
     "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
-    "claimed_at": "2026-09-02T09:27:27.806Z",
+    "claimed_at": "2026-09-02T09:30:00.806Z",
     "released_at": null
   },
   "claims": [
@@ -114,13 +114,25 @@
     },
     {
       "id": "claim-20260902092727-59caacfa",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-lulu",
       "base_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
       "branch": "codex/wi-0104-local-microservices",
       "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
       "claimed_at": "2026-09-02T09:27:27.806Z",
+      "released_at": "2026-09-02T09:30:00.567Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902093000-3fe2e3bd",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
+      "branch": "codex/wi-0104-local-microservices",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
+      "claimed_at": "2026-09-02T09:30:00.806Z",
       "released_at": null
     }
   ],
@@ -151,6 +163,9 @@
     ],
     "test_evidence": [
       "EVID-20260902T092909Z-9A156C3B"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0104/evaluation-report.md"
     ]
   },
   "evidence": [
@@ -162,12 +177,16 @@
     "EVID-20260902T092701Z-3C3C2AED",
     ".ai-org/artifacts/WI-0104/local-microservice-observation.json",
     ".ai-org/artifacts/WI-0104/runtime-cleanup-observation.json",
-    "EVID-20260902T092909Z-9A156C3B"
+    "EVID-20260902T092909Z-9A156C3B",
+    ".ai-org/artifacts/WI-0104/handoff-002-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0104/evaluation-report.md",
+    "docs/validation/wave-3-local-microservice-evidence.md"
   ],
   "unresolved": [
-    "Independent QA has not yet reviewed the exact candidate."
+    "Independent QA has not yet reviewed the exact candidate.",
+    "Independent QA must decide whether retained evidence is sufficient without redownloading the deleted local runtime."
   ],
-  "next_position": "independent_qa",
+  "next_position": "release_manager",
   "handoffs": [
     {
       "from_position": "developer",
@@ -175,6 +194,13 @@
       "input_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
       "artifact": ".ai-org/artifacts/WI-0104/handoff-001-developer-to-quality_evaluator.md",
       "created_at": "2026-09-02T09:27:14.240Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
+      "artifact": ".ai-org/artifacts/WI-0104/handoff-002-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-02T09:30:00.335Z"
     }
   ],
   "developer_candidate_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3"

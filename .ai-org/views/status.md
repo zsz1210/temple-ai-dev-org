@@ -151,7 +151,7 @@
 | WI-0101 | Present the optional Console as read-only and verify managed collection | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `3c94b998` | 0 | 14 | 0 |
 | WI-0102 | Validate brownfield adoption and normalize Wave 1 evidence | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0c7260dd` | 0 | 15 | 0 |
 | WI-0103 | Reconcile Wave 2 coordination evidence | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5d58b65c` | 0 | 15 | 0 |
-| WI-0104 | Validate a local multi-repository service rollout | eval | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902092727-59caacfa | `7d4c3dc9` | 0 | 9 | 1 |
+| WI-0104 | Validate a local multi-repository service rollout | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902093000-3fe2e3bd | `7d4c3dc9` | 0 | 12 | 2 |
 
 ## Codex task registry
 
@@ -285,14 +285,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-02T09:30:00.806Z | work_item_claimed | WI-0104 | human |
+| 2026-09-02T09:30:00.567Z | work_item_transitioned | WI-0104 | agent-lulu |
+| 2026-09-02T09:30:00.335Z | handoff_created | WI-0104 | agent-lulu |
 | 2026-09-02T09:29:21.014Z | work_item_transitioned | WI-0104 | agent-lulu |
 | 2026-09-02T09:29:09.304Z | evidence_recorded | WI-0104 | human |
 | 2026-09-02T09:27:27.806Z | work_item_claimed | WI-0104 | human |
 | 2026-09-02T09:27:27.563Z | work_item_transitioned | WI-0104 | agent-rikku |
 | 2026-09-02T09:27:14.240Z | handoff_created | WI-0104 | agent-rikku |
-| 2026-09-02T09:27:01.307Z | evidence_recorded | WI-0104 | human |
-| 2026-09-02T09:27:01.075Z | evidence_recorded | WI-0104 | human |
-| 2026-09-02T09:06:35.536Z | work_item_claimed | WI-0104 | human |
 
 ## Assignments
 
