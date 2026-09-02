@@ -1,0 +1,34 @@
+{
+  "schema_version": "temple.wave-5b-evaluator-recovery/v1",
+  "work_item_id": "WI-0117",
+  "attempt": 2,
+  "status": "stopped-before-score-freeze",
+  "authorization_ref": ".ai-org/artifacts/WI-0117/evaluator-replacement-approval.json",
+  "generated_result_ref": ".ai-org/artifacts/WI-0117/evaluator-result-attempt-2.json",
+  "observed_at": "2026-09-02T23:19:38Z",
+  "provider_context": {
+    "thread_id": "01a0646b-aa50-76f3-a3ff-f9aac1f08a60",
+    "turn_id": "01a0646b-aaba-76b1-99f5-8a20eed53e6c",
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "medium",
+    "source": "local Codex App Server diagnostic log"
+  },
+  "failure": {
+    "code": "invalid-weighted-score-scale",
+    "message": "The evaluator completed structured output, but the runner rejected at least one weighted_score outside the protocol's normalized 0..1 interval.",
+    "root_cause": "The output JSON Schema declared weighted_score as an unconstrained number and the prompt did not state the normalized interval, while the post-response validator required 0..1."
+  },
+  "retention": {
+    "scores_recoverable": false,
+    "exact_usage_recoverable": false,
+    "mapping_unsealed": false,
+    "raw_prompt_retained": false,
+    "hidden_reasoning_retained": false
+  },
+  "policy": {
+    "automatic_retry_performed": false,
+    "fallback_performed": false,
+    "additional_generation_performed": false
+  },
+  "conclusion": "Candidate acceptance evidence remains valid, but the matched-quality resource comparison remains unqualified."
+}

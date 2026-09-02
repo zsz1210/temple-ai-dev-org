@@ -5,7 +5,7 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import test from "node:test";
 
-import { evaluatorStoppedResult, sanitizeBlindPackage, validateFrozenScores } from "../scripts/run-wave-5b-evaluator.mjs";
+import { approvedEvaluatorEnvelope, evaluatorStoppedResult, sanitizeBlindPackage, scoreSchema, validateFrozenScores } from "../scripts/run-wave-5b-evaluator.mjs";
 
 const blind = {
   package_id: "pkg-001",
@@ -64,6 +64,12 @@ test("frozen scores require one bounded score for every exact package identity",
   assert.equal(result.packages[0].decision, "pass");
 });
 
+test("the Provider output schema declares the same normalized score interval as post-validation", () => {
+  const property = scoreSchema.properties.packages.items.properties.weighted_score;
+  assert.equal(property.minimum, 0);
+  assert.equal(property.maximum, 1);
+});
+
 test("frozen scores reject missing, duplicate, unknown, or unbounded package results", () => {
   const packages = [sanitizeBlindPackage(blind)];
   assert.throws(() => validateFrozenScores({ packages: [], summary: "" }, packages), /count/);
@@ -77,7 +83,9 @@ test("evaluator stop evidence retains exact observed usage without freezing or u
     evaluator_details: {
       threadId: "thread-1",
       turnId: "turn-1",
-      usage: { input_tokens: 25000, cached_input_tokens: 1000, output_tokens: 1000, reasoning_output_tokens: 500, total_tokens: 26000 }
+      usage: { input_tokens: 25000, cached_input_tokens: 1000, output_tokens: 1000, reasoning_output_tokens: 500, total_tokens: 26000 },
+      model: { requested_model: "gpt-5.6-luna", acknowledged_model: "gpt-5.6-luna" },
+      invalidScoreObservation: { returned_score_count: 4, minimum_returned_score: 95, maximum_returned_score: 100 }
     }
   });
   const result = evaluatorStoppedResult({ workItemId: "WI-0117", error });
@@ -86,4 +94,36 @@ test("evaluator stop evidence retains exact observed usage without freezing or u
   assert.equal(result.scores_frozen, false);
   assert.equal(result.mapping_unsealed, false);
   assert.equal(result.automatic_retry, false);
+  assert.equal(result.evaluator.model.acknowledged_model, "gpt-5.6-luna");
+  assert.equal(result.invalid_score_observation.maximum_returned_score, 100);
+});
+
+test("replacement evaluator approval is exact, bounded, and cannot authorize an automatic retry", () => {
+  const approval = {
+    schema_version: "temple.wave-5b-evaluator-replacement-approval/v1",
+    work_item_id: "WI-0117",
+    approved_by: "repository-owner",
+    approved_at: "2026-09-02T23:17:00Z",
+    replacement_for: "evaluator-stopped-attempt-1",
+    automatic_credit_reload_disabled: true,
+    included_pro_allowance_accepted: true,
+    purchased_credits_authorized: false,
+    usage_reset_authorized: false,
+    approved_evaluator_turns: 1,
+    approved_additional_operational_tokens: 40000,
+    approved_model: "gpt-5.6-luna",
+    approved_reasoning_effort: "medium",
+    approved_wall_clock_ms: 600000,
+    max_retries: 0,
+    fallback_allowed: false,
+    tool_use_allowed: false,
+    network_access: false
+  };
+  const accepted = approvedEvaluatorEnvelope(approval, "WI-0117");
+  assert.equal(accepted.accepted, true);
+  assert.equal(accepted.replacement, true);
+  assert.equal(accepted.evaluatorHardTokens, 40000);
+  assert.equal(accepted.evaluatorHardMs, 600000);
+  assert.equal(approvedEvaluatorEnvelope({ ...approval, max_retries: 1 }, "WI-0117").accepted, false);
+  assert.equal(approvedEvaluatorEnvelope({ ...approval, approved_additional_operational_tokens: 40001 }, "WI-0117").accepted, false);
 });

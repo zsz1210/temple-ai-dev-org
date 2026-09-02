@@ -13,7 +13,7 @@ import { manifestDigest, validateWave5BProtocol } from "./validate-wave-5b-proto
 const sha256 = (value) => crypto.createHash("sha256").update(value).digest("hex");
 const forbiddenKeys = /condition|usage|token|latency|candidate_revision|repository_path|sealed_mapping|arm_mapping/i;
 
-const scoreSchema = {
+export const scoreSchema = {
   type: "object",
   additionalProperties: false,
   required: ["packages", "summary"],
@@ -27,7 +27,7 @@ const scoreSchema = {
         properties: {
           package_id: { type: "string" },
           case_id: { type: "string" },
-          weighted_score: { type: "number" },
+          weighted_score: { type: "number", minimum: 0, maximum: 1 },
           decision: { type: "string", enum: ["pass", "reject"] },
           critical_failure: { type: ["string", "null"] },
           rationale: { type: "string" }
@@ -82,8 +82,10 @@ export function evaluatorStoppedResult({ workItemId, error }) {
       thread_id: details.threadId ?? null,
       turn_id: details.turnId ?? null,
       usage,
-      operational_budget_tokens: usage ? usage.input_tokens - usage.cached_input_tokens + usage.output_tokens : null
+      operational_budget_tokens: usage ? usage.input_tokens - usage.cached_input_tokens + usage.output_tokens : null,
+      model: details.model ?? null
     },
+    invalid_score_observation: details.invalidScoreObservation ?? null,
     scores_frozen: false,
     mapping_unsealed: false,
     raw_prompt_retained: false,
@@ -112,16 +114,33 @@ async function regularJsonFiles(root) {
   return (await fs.readdir(root)).filter((entry) => entry.endsWith(".json")).sort();
 }
 
+export function approvedEvaluatorEnvelope(approval, workItemId) {
+  const common = approval?.work_item_id === workItemId && approval?.approved_by === "repository-owner" &&
+    approval?.automatic_credit_reload_disabled === true && approval?.included_pro_allowance_accepted === true &&
+    approval?.purchased_credits_authorized === false && approval?.usage_reset_authorized === false &&
+    approval?.approved_evaluator_turns === 1 && approval?.approved_model === "gpt-5.6-luna" &&
+    approval?.approved_reasoning_effort === "medium" && approval?.max_retries === 0 &&
+    approval?.fallback_allowed === false && approval?.network_access === false &&
+    typeof approval?.approved_at === "string";
+  const initial = common && approval.schema_version === "temple.wave-5b-account-approval/v1" &&
+    approval.approved_candidate_turns === 4 && approval.approved_combined_operational_tokens === 260000 &&
+    approval.approved_evaluator_operational_tokens === 20000;
+  const replacement = common && approval.schema_version === "temple.wave-5b-evaluator-replacement-approval/v1" &&
+    approval.replacement_for === "evaluator-stopped-attempt-1" && approval.approved_additional_operational_tokens === 40000 &&
+    approval.approved_wall_clock_ms === 600000 && approval.tool_use_allowed === false;
+  return {
+    accepted: initial || replacement,
+    evaluatorHardTokens: initial ? 20000 : replacement ? 40000 : null,
+    evaluatorHardMs: initial ? null : replacement ? 600000 : null,
+    replacement
+  };
+}
+
 async function readApproval(file, workItemId) {
   try {
     const approval = JSON.parse(await fs.readFile(file, "utf8"));
-    const accepted = approval.schema_version === "temple.wave-5b-account-approval/v1" &&
-      approval.work_item_id === workItemId && approval.approved_by === "repository-owner" &&
-      approval.automatic_credit_reload_disabled === true && approval.included_pro_allowance_accepted === true &&
-      approval.purchased_credits_authorized === false && approval.usage_reset_authorized === false &&
-      approval.approved_candidate_turns === 4 && approval.approved_evaluator_turns === 1 &&
-      approval.approved_combined_operational_tokens === 260000 && typeof approval.approved_at === "string";
-    return { accepted, approval: accepted ? approval : null };
+    const envelope = approvedEvaluatorEnvelope(approval, workItemId);
+    return { ...envelope, approval: envelope.accepted ? approval : null };
   } catch (error) {
     if (error.code === "ENOENT") return { accepted: false, approval: null };
     throw error;
@@ -169,6 +188,7 @@ async function launchEvaluator({ evaluatorRoot, files, packages, protocol }) {
     "Score each arm-neutral package against the matching frozen rubric.",
     "Use only the JSON inputs below. Do not use tools, infer condition labels, or compare resource use.",
     "A failed hidden acceptance test is a critical failure. Return one score per package.",
+    "weighted_score is a normalized number from 0 through 1 inclusive; 0.85 is the minimum passing quality score.",
     JSON.stringify({ inputs: inputFiles })
   ].join("\n\n");
   let connection;
@@ -177,6 +197,8 @@ async function launchEvaluator({ evaluatorRoot, files, packages, protocol }) {
   let completionText = null;
   let terminal = null;
   let usage = null;
+  let acknowledgedModel = null;
+  let observedThreadReasoningEffort = null;
   let violation = null;
   let resolveTerminal;
   const terminalPromise = new Promise((resolve) => { resolveTerminal = resolve; });
@@ -231,6 +253,8 @@ async function launchEvaluator({ evaluatorRoot, files, packages, protocol }) {
       ephemeral: true
     });
     threadId = thread?.thread?.id;
+    acknowledgedModel = thread?.model ?? null;
+    observedThreadReasoningEffort = thread?.reasoningEffort ?? null;
     if (!threadId || thread.model !== protocol.blind_evaluation.model) throw new Error("evaluator thread did not acknowledge the pinned model");
     const turn = await connection.request("turn/start", {
       threadId,
@@ -249,13 +273,48 @@ async function launchEvaluator({ evaluatorRoot, files, packages, protocol }) {
     await terminalPromise;
     if (violation) {
       const error = Object.assign(new Error(violation), { code: violation });
-      error.evaluator_details = { threadId, turnId, usage };
+      error.evaluator_details = { threadId, turnId, usage, acknowledgedModel, observedThreadReasoningEffort };
       throw error;
     }
     const failure = terminalFailure(terminal);
     if (failure) throw new Error(`${failure.code}: ${failure.message}`);
     if (!usage) throw new Error("evaluator detailed Token usage is missing");
-    return { threadId, turnId, usage, scores: validateFrozenScores(JSON.parse(completionText), packages) };
+    const model = {
+      requested_model: protocol.blind_evaluation.model,
+      acknowledged_model: acknowledgedModel,
+      requested_reasoning_effort: protocol.blind_evaluation.reasoning_effort,
+      observed_thread_reasoning_effort: observedThreadReasoningEffort,
+      effective_turn_reasoning_effort: null,
+      rerouted: false
+    };
+    let parsedScores;
+    try {
+      parsedScores = JSON.parse(completionText);
+      validateFrozenScores(parsedScores, packages);
+    } catch (error) {
+      const observedScores = Array.isArray(parsedScores?.packages)
+        ? parsedScores.packages.map((entry) => entry?.weighted_score).filter(Number.isFinite)
+        : [];
+      error.evaluator_details = {
+        threadId,
+        turnId,
+        usage,
+        model,
+        invalidScoreObservation: {
+          returned_score_count: observedScores.length,
+          minimum_returned_score: observedScores.length ? Math.min(...observedScores) : null,
+          maximum_returned_score: observedScores.length ? Math.max(...observedScores) : null
+        }
+      };
+      throw error;
+    }
+    return {
+      threadId,
+      turnId,
+      usage,
+      model,
+      scores: parsedScores
+    };
   } finally {
     clearTimeout(timer);
     await connection?.close().catch(() => {});
@@ -270,6 +329,9 @@ export async function preflightWave5BEvaluator({ labRoot, fixtureRoot, protocol,
     schema_version: "temple.wave-5b-evaluator-preflight/v1",
     pass_without_generation: protocol?.schema_version === "temple.wave-5b-protocol/v1" && protocol?.model?.requested_model === "gpt-5.6-luna" && protocol?.model?.requested_reasoning_effort === "medium",
     owner_approval_present: approval.accepted,
+    approval_kind: approval.replacement ? "replacement" : approval.accepted ? "initial" : null,
+    approved_evaluator_hard_tokens: approval.evaluatorHardTokens,
+    approved_evaluator_hard_ms: approval.evaluatorHardMs ?? protocol?.evaluator_limits?.evaluator_hard_ms ?? null,
     blind_packages_ready: packageCount === 4,
     blind_package_count: packageCount,
     fixture_root: fixtureRoot,
@@ -288,7 +350,10 @@ async function main(argv) {
   const protocol = JSON.parse(await fs.readFile(protocolPath, "utf8"));
   const fixtureRoot = path.resolve(repositoryRoot, protocol.fixture_root);
   const approval = await readApproval(approvalPath, workItemId);
-  const preflight = await preflightWave5BEvaluator({ labRoot, fixtureRoot, protocol, approval });
+  const runtimeProtocol = structuredClone(protocol);
+  if (approval.evaluatorHardTokens !== null) runtimeProtocol.evaluator_limits.evaluator_hard_tokens = approval.evaluatorHardTokens;
+  if (approval.evaluatorHardMs !== null) runtimeProtocol.evaluator_limits.evaluator_hard_ms = approval.evaluatorHardMs;
+  const preflight = await preflightWave5BEvaluator({ labRoot, fixtureRoot, protocol: runtimeProtocol, approval });
   await writeExclusive(preflightPath, `${JSON.stringify(preflight, null, 2)}\n`);
   if (argv.includes("--preflight-only")) {
     process.stdout.write(`${JSON.stringify(preflight, null, 2)}\n`);
@@ -303,7 +368,7 @@ async function main(argv) {
     const inputDigest = manifestDigest(prepared.files);
     let result;
     try {
-      result = await launchEvaluator({ ...prepared, protocol });
+      result = await launchEvaluator({ ...prepared, protocol: runtimeProtocol });
     } catch (error) {
       await writeExclusive(resultPath, `${JSON.stringify(evaluatorStoppedResult({ workItemId, error }), null, 2)}\n`);
       throw error;
@@ -355,7 +420,7 @@ async function main(argv) {
       schema_version: "temple.wave-5b-evaluator-result/v1",
       work_item_id: workItemId,
       status: "completed",
-      evaluator: { thread_id: result.threadId, turn_id: result.turnId, usage: result.usage },
+      evaluator: { thread_id: result.threadId, turn_id: result.turnId, usage: result.usage, model: result.model },
       protocol: protocolCheck,
       scores: frozenDocument,
       joined: result.scores.packages.map((score) => ({ ...score, mapping: mappings.find((entry) => entry.package_id === score.package_id) ?? null })),
