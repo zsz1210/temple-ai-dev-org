@@ -6,7 +6,7 @@
   "owner_position": "independent_qa",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-02T10:54:22.427Z",
-  "updated_at": "2026-09-02T11:33:33.893Z",
+  "updated_at": "2026-09-02T11:33:48.289Z",
   "scope": [
     "Define a reproducible Temple-versus-minimal and model-profile matched evaluation protocol, including representative cases, quality rubric, measurement fields, resource ceilings, telemetry prerequisites, stop rules, and an explicit approval boundary before any model generation."
   ],
@@ -36,7 +36,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "d3ea908d6157da31b659eb53dc5d16014a354fe2",
+  "base_revision": "c27f193d03f36ecc50c6e4d4dba3f55e6928b0f9",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -48,16 +48,15 @@
     "WI-0086"
   ],
   "claim": {
-    "id": "claim-20260902110623-d4558ffb",
-    "status": "released",
+    "id": "claim-20260902113348-a6a81880",
+    "status": "active",
     "principal_id": "human",
     "agent_id": "agent-lulu",
-    "base_revision": "d3ea908d6157da31b659eb53dc5d16014a354fe2",
+    "base_revision": "c27f193d03f36ecc50c6e4d4dba3f55e6928b0f9",
     "branch": "codex/wi-0106-wave-5-controlled-comparison",
     "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0106",
-    "claimed_at": "2026-09-02T11:06:23.583Z",
-    "released_at": "2026-09-02T11:33:33.893Z",
-    "release_reason": "position_transition"
+    "claimed_at": "2026-09-02T11:33:48.289Z",
+    "released_at": null
   },
   "claims": [
     {
@@ -119,6 +118,17 @@
       "claimed_at": "2026-09-02T11:06:23.583Z",
       "released_at": "2026-09-02T11:33:33.893Z",
       "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902113348-a6a81880",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "c27f193d03f36ecc50c6e4d4dba3f55e6928b0f9",
+      "branch": "codex/wi-0106-wave-5-controlled-comparison",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0106",
+      "claimed_at": "2026-09-02T11:33:48.289Z",
+      "released_at": null
     }
   ],
   "gate_evidence": {
