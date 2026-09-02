@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 99 total, 5 active
+- Work items: 101 total, 5 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -147,6 +147,8 @@
 | WI-0097 | Add adaptive first-run repository workflow onboarding | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1df63f06` | 0 | 12 | 0 |
 | WI-0098 | Implement adaptive repository integration onboarding | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1df63f06` | 0 | 13 | 0 |
 | WI-0099 | Adopt Node.js 24 minimum and local-first bounded CI | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1df63f06` | 0 | 14 | 0 |
+| WI-0100 | Separate optional Management Console from Usage collection | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3c94b998` | 0 | 14 | 0 |
+| WI-0101 | Present the optional Console as read-only and verify managed collection | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `3c94b998` | 0 | 14 | 0 |
 
 ## Codex task registry
 

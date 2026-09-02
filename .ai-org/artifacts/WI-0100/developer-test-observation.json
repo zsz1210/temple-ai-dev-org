@@ -1,0 +1,28 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "3c94b998d01ff0a9daf03cb99998721f218ee846",
+  "command": [
+    "Node 24.20.0: npm run verify",
+    "Node 24.20.0: npm run test:browser"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T04:38:54.000Z",
+  "completed_at": "2026-09-02T04:40:22.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0100/developer-handoff.md",
+    "docs/adr/0044-optional-management-console-and-usage-collector.md"
+  ],
+  "summary": {
+    "repository_checks": "pass",
+    "documentation_links": "pass",
+    "package_boundary": "pass",
+    "tests_passed": 279,
+    "tests_failed": 0,
+    "tests_cancelled": 0,
+    "tests_skipped": 0,
+    "tests_todo": 0,
+    "browser_viewports_passed": 4,
+    "browser_primary_views_per_viewport": 6
+  }
+}

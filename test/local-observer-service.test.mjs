@@ -67,14 +67,11 @@ function planOptions(fixtureState, overrides = {}) {
     nodeExecutable: "/opt/temple test/node",
     codexCommand: "/opt/temple test/codex",
     skipExecutableCheck: true,
-    port: 8766,
-    lanViewerHost: "192.168.79.5",
-    lanViewerPort: 41741,
     ...overrides
   };
 }
 
-test("managed Observer plans are deterministic, clone-local, and shell-free", async (context) => {
+test("managed Usage Collector plans are deterministic, clone-local, Console-free, and shell-free", async (context) => {
   const state = await fixture(context);
   const options = planOptions(state);
   const first = await planLocalObserverService(state.target, options);
@@ -83,8 +80,15 @@ test("managed Observer plans are deterministic, clone-local, and shell-free", as
   assert.equal(first.status, "ready");
   assert.equal(first.service.program, "/opt/temple test/node");
   assert.deepEqual(first.service.arguments.slice(0, 2), ["/opt/temple test/node", path.join(state.target, "templew.mjs")]);
+  assert.deepEqual(first.service.arguments.slice(2, 5), ["usage", "collect", state.target]);
   assert.ok(first.service.arguments.includes("managed-local"));
-  assert.ok(first.service.arguments.includes("192.168.79.5"));
+  assert.equal(first.service.console_started, false);
+  assert.equal(first.service.http_listener_started, false);
+  assert.equal(first.service.arguments.includes("control-plane"), false);
+  assert.equal(first.service.arguments.includes("--host"), false);
+  assert.equal(first.service.arguments.includes("--port"), false);
+  assert.equal(first.service.arguments.includes("--lan-viewer-host"), false);
+  assert.match(first.service.label, /^dev\.temple\.usage-collector\./);
   assert.doesNotMatch(first.plist, /<key>Program<\/key>|sh -c|bash -c/);
   assert.match(first.plist, /<key>ProgramArguments<\/key>/);
   assert.equal(git(state.target, ["status", "--porcelain"]).stdout, "");
@@ -141,7 +145,7 @@ test("apply, replacement, status, and removal require exact explicit authority",
   ]);
   assert.doesNotMatch(JSON.stringify(projection), /\/opt\/temple test|LaunchAgents|observer-service\.json/);
 
-  const changed = planOptions(state, { port: 8767 });
+  const changed = planOptions(state, { codexCommand: "/opt/temple test/codex-v2" });
   const changedPlan = await planLocalObserverService(state.target, changed);
   await assert.rejects(
     () => applyLocalObserverService(state.target, { ...changed, expectedPlan: changedPlan.plan_digest }),
@@ -203,7 +207,7 @@ test("an active managed service cannot be replaced without explicit activation a
     uid: 501,
     runLaunchctl
   });
-  const changed = planOptions(state, { port: 8767 });
+  const changed = planOptions(state, { codexCommand: "/opt/temple test/codex-v2" });
   const changedPlan = await planLocalObserverService(state.target, changed);
   await assert.rejects(
     () => applyLocalObserverService(state.target, {
@@ -213,7 +217,7 @@ test("an active managed service cannot be replaced without explicit activation a
       uid: 501,
       runLaunchctl
     }),
-    /active Observer requires --activate/
+    /active Usage Collector requires --activate/
   );
   await removeLocalObserverService(state.target, {
     stateDirectory: state.stateDirectory,
@@ -226,14 +230,11 @@ test("an active managed service cannot be replaced without explicit activation a
   assert.ok(calls.some((args) => args[0] === "bootout"));
 });
 
-test("the CLI rejects unsupported hosts or completes the exact macOS service lifecycle", async (context) => {
+test("the CLI completes the exact collector-only macOS service lifecycle", async (context) => {
   const state = await fixture(context);
   const common = [
     state.target,
     "--state-dir", state.stateDirectory,
-    "--port", "8766",
-    "--lan-viewer-host", "192.168.79.5",
-    "--lan-viewer-port", "41741",
     "--codex-command", process.execPath,
     "--json"
   ];
