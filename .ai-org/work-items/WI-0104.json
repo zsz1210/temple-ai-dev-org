@@ -1,0 +1,139 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0104",
+  "title": "Validate a local multi-repository service rollout",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-02T08:56:26.986Z",
+  "updated_at": "2026-09-02T09:06:35.536Z",
+  "scope": [
+    "Create and run a no-generation, disposable four-repository commerce rehearsal under a bounded local container runtime; verify baseline delivery, producer-first failure, rollback, consumer-first compatibility, malformed-event recovery, exact repository revisions, and cleanup."
+  ],
+  "acceptance_criteria": [
+    "The retained result identifies exact revisions, commands, timings, disk delta, scenario outcomes, Developer and Independent QA separation, and cleanup; it makes no savings, enterprise, production, or release claim and does not resume WI-0067."
+  ],
+  "affected_paths": [
+    "scripts/validate-local-microservice-rehearsal.mjs",
+    "docs/validation/wave-3-local-microservice-evidence.md",
+    "docs/validation/README.md",
+    "docs/planning/temple-effectiveness-and-microservice-validation.md",
+    ".ai-org/artifacts/WI-0104"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {
+    "build": {
+      "disciplines": [
+        "general-development"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "52071f2b9ebfdf3ff2bbfee05191746085d36ba0",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0064",
+    "WI-0067",
+    "WI-0086"
+  ],
+  "claim": {
+    "id": "claim-20260902090635-3b7c061f",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "52071f2b9ebfdf3ff2bbfee05191746085d36ba0",
+    "branch": "codex/wi-0104-local-microservices",
+    "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
+    "claimed_at": "2026-09-02T09:06:35.536Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260902085657-53314f6c",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "52071f2b9ebfdf3ff2bbfee05191746085d36ba0",
+      "branch": "codex/wi-0104-local-microservices",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
+      "claimed_at": "2026-09-02T08:56:57.647Z",
+      "released_at": "2026-09-02T08:58:05.992Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902085806-5029a23b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "52071f2b9ebfdf3ff2bbfee05191746085d36ba0",
+      "branch": "codex/wi-0104-local-microservices",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
+      "claimed_at": "2026-09-02T08:58:06.280Z",
+      "released_at": "2026-09-02T08:58:45.355Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902085845-f0722ebc",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "52071f2b9ebfdf3ff2bbfee05191746085d36ba0",
+      "branch": "codex/wi-0104-local-microservices",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
+      "claimed_at": "2026-09-02T08:58:45.627Z",
+      "released_at": "2026-09-02T09:06:35.259Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902090635-3b7c061f",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "52071f2b9ebfdf3ff2bbfee05191746085d36ba0",
+      "branch": "codex/wi-0104-local-microservices",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
+      "claimed_at": "2026-09-02T09:06:35.536Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0104/approved-scope.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0104/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0104/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0104/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0104/technical-design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0104/approved-scope.md",
+    ".ai-org/artifacts/WI-0104/product-spec.md",
+    ".ai-org/artifacts/WI-0104/technical-design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

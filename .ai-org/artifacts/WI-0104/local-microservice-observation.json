@@ -1,0 +1,1290 @@
+{
+  "schema_version": "temple.local-microservice-observation/v1",
+  "status": "passed",
+  "stop_reason": null,
+  "started_at": "2026-09-02T09:16:44.668Z",
+  "finished_at": "2026-09-02T09:18:19.674Z",
+  "generation_performed": false,
+  "model": "not_applicable",
+  "tokens": "not_applicable",
+  "scope": {
+    "repositories": 4,
+    "host": "single_local_mac",
+    "production_claim": false,
+    "enterprise_claim": false,
+    "release_claim": false,
+    "resumed_work_item": false
+  },
+  "runtime": {
+    "node": "v24.20.0",
+    "colima": "colima version 0.10.3",
+    "docker_cli": "Docker version 29.7.2, build a7dcaa6fdb",
+    "compose": "Docker Compose version 5.5.0",
+    "context": "colima-temple-wave3",
+    "server": {
+      "Platform": {
+        "Name": "Docker Engine - Community"
+      },
+      "Version": "29.5.2",
+      "ApiVersion": "1.54",
+      "MinAPIVersion": "1.40",
+      "Os": "linux",
+      "Arch": "arm64",
+      "Components": [
+        {
+          "Name": "Engine",
+          "Version": "29.5.2",
+          "Details": {
+            "ApiVersion": "1.54",
+            "Arch": "arm64",
+            "BuildTime": "Wed May 20 14:39:25 2026",
+            "Experimental": "false",
+            "GitCommit": "568f755",
+            "GoVersion": "go1.26.3",
+            "KernelVersion": "6.8.0-117-generic",
+            "MinAPIVersion": "1.40",
+            "Module": "github.com/moby/moby/v2",
+            "ModuleVersion": "v2.0.0+unknown",
+            "Os": "linux"
+          }
+        },
+        {
+          "Name": "containerd",
+          "Version": "v2.2.4",
+          "Details": {
+            "GitCommit": "193637f7ee8ae5f5aa5248f49e7baa3e6164966e"
+          }
+        },
+        {
+          "Name": "runc",
+          "Version": "1.3.5",
+          "Details": {
+            "GitCommit": "v1.3.5-0-g488fc13e"
+          }
+        },
+        {
+          "Name": "docker-init",
+          "Version": "0.19.0",
+          "Details": {
+            "GitCommit": "de40ad0"
+          }
+        }
+      ],
+      "GitCommit": "568f755",
+      "GoVersion": "go1.26.3",
+      "KernelVersion": "6.8.0-117-generic",
+      "BuildTime": "2026-05-20T14:39:25.000000000+00:00"
+    }
+  },
+  "timings_ms": {
+    "preflight_ms": 363.159,
+    "image_pull_ms": 6871.958,
+    "fixture_ms": 3541.625,
+    "compose_build_start_ms": 6921.805,
+    "scenarios_ms": 65776.201,
+    "cold_inspection_ms": 567.755,
+    "total_ms": 95005.197
+  },
+  "disk": {
+    "free_bytes_before": 39148654592,
+    "free_bytes_peak_observation": 38843695104,
+    "free_bytes_after": 38854230016,
+    "growth_bytes_peak": 304959488
+  },
+  "images": {
+    "base_digest": "node@sha256:e67514e5d0f6c46656005e1b693b2ec9d52e80b641307de684d4a015ba7a4eaf",
+    "base_size_bytes": 58947744,
+    "services": [
+      {
+        "ID": "sha256:f8727c55fb491313fbf310a809171180f24282413c5fa49c4ede57a991e6d6be",
+        "ContainerName": "temple-wi0104-notifications-1",
+        "Repository": "temple-wave3-notifications",
+        "Tag": "local",
+        "Platform": "linux/arm64",
+        "Size": 58945563,
+        "Created": "2026-09-02T18:16:56.576686742+09:00",
+        "LastTagTime": "2026-09-02T09:16:56.605454289Z"
+      },
+      {
+        "ID": "sha256:954657d390314e0e2aeb30a3f7dd55aec3b2e5f9c07205f77a5b565acb7de980",
+        "ContainerName": "temple-wi0104-orders-1",
+        "Repository": "temple-wave3-orders",
+        "Tag": "local",
+        "Platform": "linux/arm64",
+        "Size": 58945709,
+        "Created": "2026-09-02T18:17:35.795318978+09:00",
+        "LastTagTime": "2026-09-02T09:17:35.818613371Z"
+      },
+      {
+        "ID": "sha256:209d3188ec79bd1182d41771fc3ef4d8197cd62dc2910b266707d8c93d9be5fe",
+        "ContainerName": "temple-wi0104-catalog-1",
+        "Repository": "temple-wave3-catalog",
+        "Tag": "local",
+        "Platform": "linux/arm64",
+        "Size": 58945349,
+        "Created": "2026-09-02T18:17:03.215670773+09:00",
+        "LastTagTime": "2026-09-02T09:17:51.953351317Z"
+      }
+    ]
+  },
+  "repositories": {
+    "repositories": {
+      "coordinator": {
+        "project_id": "commerce-coordinator",
+        "revision": "f4f86d3c91bec492131e1ce6b943ecd7465589a8",
+        "clean": true
+      },
+      "catalog": {
+        "project_id": "commerce-catalog",
+        "revision": "97f82c97a38caf9a4d0bf03a00a9798738bea369",
+        "clean": true
+      },
+      "orders": {
+        "project_id": "commerce-orders",
+        "revision": "4a19005e48eea6bfa8fccfc7f4093b910aec4f49",
+        "clean": true
+      },
+      "notifications": {
+        "project_id": "commerce-notifications",
+        "revision": "6af72278b4fd493965ffa77bbf015c96700f5869",
+        "clean": true
+      }
+    },
+    "version_revisions": {
+      "catalog_v1": "f97d6507fcfb2fc206f3b54712b8155627dc1269",
+      "catalog_v2": "97f82c97a38caf9a4d0bf03a00a9798738bea369",
+      "orders_v1": "d7759a9acc33feed28afccaf4d8a5e7b356af4e3",
+      "orders_compatible": "4a19005e48eea6bfa8fccfc7f4093b910aec4f49",
+      "notifications": "6af72278b4fd493965ffa77bbf015c96700f5869",
+      "coordinator_foundation": "37a36a3bf30a8de98efbee351e4cf5eeb81cd19c"
+    },
+    "native_tests": {
+      "catalog_v1": {
+        "revision": "f97d6507fcfb2fc206f3b54712b8155627dc1269",
+        "passed": 1,
+        "output_sha256": "ff1e125a14f274a550e46bf8a7bac60b8e551fede97132d6e4fee7b5d5bb734f"
+      },
+      "catalog_v2": {
+        "revision": "97f82c97a38caf9a4d0bf03a00a9798738bea369",
+        "passed": 1,
+        "output_sha256": "d0e78bafac50059940892f4620e57361e5f06598212ffdd928e8d81fcfbf853d"
+      },
+      "orders_v1": {
+        "revision": "d7759a9acc33feed28afccaf4d8a5e7b356af4e3",
+        "passed": 1,
+        "output_sha256": "1b16ed5de08ea05ab991441bc9380a1b1e0f3d60a90705e20ce61bfeff5c1b78"
+      },
+      "orders_compatible": {
+        "revision": "4a19005e48eea6bfa8fccfc7f4093b910aec4f49",
+        "passed": 1,
+        "output_sha256": "6cfdfe117f15a205da4b36f6d29e8d6f1618465c146ce2bbf67c53d0c19edc3b"
+      },
+      "notifications": {
+        "revision": "6af72278b4fd493965ffa77bbf015c96700f5869",
+        "passed": 1,
+        "output_sha256": "aadd668b128aa2a7c0761268d5a33d4979deb5a08186b6f282e607b45fd9ad40"
+      },
+      "coordinator": {
+        "revision": "37a36a3bf30a8de98efbee351e4cf5eeb81cd19c",
+        "passed": 1,
+        "output_sha256": "f026d1427fcc86b26b20fac64055dd16b1911d8c1ddf338a2228d9832bc41f77"
+      }
+    },
+    "cold_inspection": {
+      "valid": true,
+      "journal_sha256": "c029028331298eb8db50aad1598ea20f66da793a1caa6d0fdca20ee638ae36b9",
+      "repositories": {
+        "commerce-coordinator": {
+          "revision": "f4f86d3c91bec492131e1ce6b943ecd7465589a8",
+          "clean": true
+        },
+        "commerce-catalog": {
+          "revision": "97f82c97a38caf9a4d0bf03a00a9798738bea369",
+          "clean": true
+        },
+        "commerce-orders": {
+          "revision": "4a19005e48eea6bfa8fccfc7f4093b910aec4f49",
+          "clean": true
+        },
+        "commerce-notifications": {
+          "revision": "6af72278b4fd493965ffa77bbf015c96700f5869",
+          "clean": true
+        }
+      },
+      "portfolio_summary": {
+        "participants": 3,
+        "current": 3,
+        "unknown": 0,
+        "work_items_projected": 3,
+        "overall_completion": null
+      }
+    }
+  },
+  "federation": {
+    "registry_valid": true,
+    "baseline_summary": {
+      "participants": 3,
+      "current": 3,
+      "unknown": 0,
+      "work_items_projected": 3,
+      "overall_completion": null
+    },
+    "final_summary": {
+      "participants": 3,
+      "current": 3,
+      "unknown": 0,
+      "work_items_projected": 3,
+      "overall_completion": null
+    },
+    "authority": {
+      "mode": "read-only-projection",
+      "lifecycle_owner": "participant-repositories",
+      "coordination_owner": "coordinator-repository",
+      "lifecycle_mutations_performed": false,
+      "external_actions_performed": false
+    },
+    "rollout_order": [
+      "consumer-first",
+      "producer-second"
+    ]
+  },
+  "scenarios": [
+    {
+      "name": "baseline_v1",
+      "status": "passed",
+      "observation": {
+        "checkout": {
+          "status": 200,
+          "body": {
+            "order": {
+              "id": "order-baseline",
+              "sku": "SKU-1",
+              "quantity": 1
+            },
+            "event": {
+              "type": "OrderPlaced",
+              "version": "v1",
+              "id": "event-baseline",
+              "order_id": "order-baseline"
+            }
+          }
+        },
+        "notification": {
+          "status": 200,
+          "body": {
+            "accepted": true,
+            "duplicate": false,
+            "count": 1
+          }
+        },
+        "deliveries": {
+          "status": 200,
+          "body": {
+            "count": 1,
+            "deliveries": [
+              {
+                "event_id": "event-baseline",
+                "order_id": "order-baseline",
+                "status": "retained"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "producer_first_failure",
+      "status": "passed",
+      "observation": {
+        "checkout": {
+          "status": 409,
+          "body": {
+            "error": "unsupported_catalog_contract",
+            "received": "v2"
+          }
+        },
+        "notification": null,
+        "deliveries": {
+          "status": 200,
+          "body": {
+            "count": 1,
+            "deliveries": [
+              {
+                "event_id": "event-baseline",
+                "order_id": "order-baseline",
+                "status": "retained"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "producer_rollback",
+      "status": "passed",
+      "observation": {
+        "checkout": {
+          "status": 200,
+          "body": {
+            "order": {
+              "id": "order-rollback",
+              "sku": "SKU-1",
+              "quantity": 1
+            },
+            "event": {
+              "type": "OrderPlaced",
+              "version": "v1",
+              "id": "event-rollback",
+              "order_id": "order-rollback"
+            }
+          }
+        },
+        "notification": {
+          "status": 200,
+          "body": {
+            "accepted": true,
+            "duplicate": false,
+            "count": 2
+          }
+        },
+        "deliveries": {
+          "status": 200,
+          "body": {
+            "count": 2,
+            "deliveries": [
+              {
+                "event_id": "event-baseline",
+                "order_id": "order-baseline",
+                "status": "retained"
+              },
+              {
+                "event_id": "event-rollback",
+                "order_id": "order-rollback",
+                "status": "retained"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "consumer_first_with_v1",
+      "status": "passed",
+      "observation": {
+        "checkout": {
+          "status": 200,
+          "body": {
+            "order": {
+              "id": "order-consumer-first",
+              "sku": "SKU-1",
+              "quantity": 1
+            },
+            "event": {
+              "type": "OrderPlaced",
+              "version": "v1",
+              "id": "event-consumer-first",
+              "order_id": "order-consumer-first"
+            }
+          }
+        },
+        "notification": {
+          "status": 200,
+          "body": {
+            "accepted": true,
+            "duplicate": false,
+            "count": 3
+          }
+        },
+        "deliveries": {
+          "status": 200,
+          "body": {
+            "count": 3,
+            "deliveries": [
+              {
+                "event_id": "event-baseline",
+                "order_id": "order-baseline",
+                "status": "retained"
+              },
+              {
+                "event_id": "event-rollback",
+                "order_id": "order-rollback",
+                "status": "retained"
+              },
+              {
+                "event_id": "event-consumer-first",
+                "order_id": "order-consumer-first",
+                "status": "retained"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "producer_switch_after_consumer",
+      "status": "passed",
+      "observation": {
+        "checkout": {
+          "status": 200,
+          "body": {
+            "order": {
+              "id": "order-producer-second",
+              "sku": "SKU-1",
+              "quantity": 1
+            },
+            "event": {
+              "type": "OrderPlaced",
+              "version": "v1",
+              "id": "event-producer-second",
+              "order_id": "order-producer-second"
+            }
+          }
+        },
+        "notification": {
+          "status": 200,
+          "body": {
+            "accepted": true,
+            "duplicate": false,
+            "count": 4
+          }
+        },
+        "deliveries": {
+          "status": 200,
+          "body": {
+            "count": 4,
+            "deliveries": [
+              {
+                "event_id": "event-baseline",
+                "order_id": "order-baseline",
+                "status": "retained"
+              },
+              {
+                "event_id": "event-rollback",
+                "order_id": "order-rollback",
+                "status": "retained"
+              },
+              {
+                "event_id": "event-consumer-first",
+                "order_id": "order-consumer-first",
+                "status": "retained"
+              },
+              {
+                "event_id": "event-producer-second",
+                "order_id": "order-producer-second",
+                "status": "retained"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "malformed_event_recovery",
+      "status": "passed",
+      "observation": {
+        "before": {
+          "status": 200,
+          "body": {
+            "count": 4,
+            "deliveries": [
+              {
+                "event_id": "event-baseline",
+                "order_id": "order-baseline",
+                "status": "retained"
+              },
+              {
+                "event_id": "event-rollback",
+                "order_id": "order-rollback",
+                "status": "retained"
+              },
+              {
+                "event_id": "event-consumer-first",
+                "order_id": "order-consumer-first",
+                "status": "retained"
+              },
+              {
+                "event_id": "event-producer-second",
+                "order_id": "order-producer-second",
+                "status": "retained"
+              }
+            ]
+          }
+        },
+        "rejected": {
+          "status": 422,
+          "body": {
+            "error": "unsupported_or_malformed_event"
+          }
+        },
+        "after_rejection": {
+          "status": 200,
+          "body": {
+            "count": 4,
+            "deliveries": [
+              {
+                "event_id": "event-baseline",
+                "order_id": "order-baseline",
+                "status": "retained"
+              },
+              {
+                "event_id": "event-rollback",
+                "order_id": "order-rollback",
+                "status": "retained"
+              },
+              {
+                "event_id": "event-consumer-first",
+                "order_id": "order-consumer-first",
+                "status": "retained"
+              },
+              {
+                "event_id": "event-producer-second",
+                "order_id": "order-producer-second",
+                "status": "retained"
+              }
+            ]
+          }
+        },
+        "recovery": {
+          "status": 200,
+          "body": {
+            "accepted": true,
+            "duplicate": false,
+            "count": 5
+          }
+        },
+        "after_recovery": {
+          "status": 200,
+          "body": {
+            "count": 5,
+            "deliveries": [
+              {
+                "event_id": "event-baseline",
+                "order_id": "order-baseline",
+                "status": "retained"
+              },
+              {
+                "event_id": "event-rollback",
+                "order_id": "order-rollback",
+                "status": "retained"
+              },
+              {
+                "event_id": "event-consumer-first",
+                "order_id": "order-consumer-first",
+                "status": "retained"
+              },
+              {
+                "event_id": "event-producer-second",
+                "order_id": "order-producer-second",
+                "status": "retained"
+              },
+              {
+                "event_id": "event-recovery",
+                "order_id": "order-recovery",
+                "status": "retained"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "commands": [
+    {
+      "command": "colima version",
+      "cwd": null,
+      "started_at": "2026-09-02T09:16:44.669Z",
+      "elapsed_ms": 220.07,
+      "exit_code": 0
+    },
+    {
+      "command": "docker --version",
+      "cwd": null,
+      "started_at": "2026-09-02T09:16:44.889Z",
+      "elapsed_ms": 47.435,
+      "exit_code": 0
+    },
+    {
+      "command": "docker-compose version",
+      "cwd": null,
+      "started_at": "2026-09-02T09:16:44.937Z",
+      "elapsed_ms": 70.067,
+      "exit_code": 0
+    },
+    {
+      "command": "docker --context colima-temple-wave3 context inspect",
+      "cwd": null,
+      "started_at": "2026-09-02T09:16:45.007Z",
+      "elapsed_ms": 9.945,
+      "exit_code": 0
+    },
+    {
+      "command": "docker --context colima-temple-wave3 version --format {{json .Server}}",
+      "cwd": null,
+      "started_at": "2026-09-02T09:16:45.017Z",
+      "elapsed_ms": 15.338,
+      "exit_code": 0
+    },
+    {
+      "command": "docker --context colima-temple-wave3 pull node:24-alpine",
+      "cwd": null,
+      "started_at": "2026-09-02T09:16:45.033Z",
+      "elapsed_ms": 6828.227,
+      "exit_code": 0
+    },
+    {
+      "command": "docker --context colima-temple-wave3 image inspect node:24-alpine --format {{json .RepoDigests}}",
+      "cwd": null,
+      "started_at": "2026-09-02T09:16:51.861Z",
+      "elapsed_ms": 25.888,
+      "exit_code": 0
+    },
+    {
+      "command": "docker --context colima-temple-wave3 image inspect node@sha256:e67514e5d0f6c46656005e1b693b2ec9d52e80b641307de684d4a015ba7a4eaf --format {{.Size}}",
+      "cwd": null,
+      "started_at": "2026-09-02T09:16:51.887Z",
+      "elapsed_ms": 17.633,
+      "exit_code": 0
+    },
+    {
+      "command": "git init -b main",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:16:51.907Z",
+      "elapsed_ms": 15.641,
+      "exit_code": 0
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node <repository-root>/bin/temple.mjs init <experiment-root>/commerce-catalog --config <experiment-root>/commerce-catalog-init.json",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:16:51.923Z",
+      "elapsed_ms": 471.516,
+      "exit_code": 0
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node <repository-root>/bin/temple.mjs work-item create <experiment-root>/commerce-catalog --title Validate Commerce Catalog contract --scope Supply one deterministic local validation fixture --acceptance Native tests pass and the exact repository revision is retained --affected-path server.mjs --spec-mode gate-evidence --ui-mode not-applicable --tracker-visibility internal",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:16:52.395Z",
+      "elapsed_ms": 83.779,
+      "exit_code": 0
+    },
+    {
+      "command": "git add .",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:16:52.478Z",
+      "elapsed_ms": 56.504,
+      "exit_code": 0
+    },
+    {
+      "command": "git commit -m Create Catalog availability v1",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:16:52.535Z",
+      "elapsed_ms": 34.141,
+      "exit_code": 0
+    },
+    {
+      "command": "git rev-parse HEAD",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:16:52.569Z",
+      "elapsed_ms": 8.007,
+      "exit_code": 0
+    },
+    {
+      "command": "git add .",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:16:52.577Z",
+      "elapsed_ms": 14.871,
+      "exit_code": 0
+    },
+    {
+      "command": "git commit -m Publish Catalog availability v2",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:16:52.592Z",
+      "elapsed_ms": 18.414,
+      "exit_code": 0
+    },
+    {
+      "command": "git rev-parse HEAD",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:16:52.611Z",
+      "elapsed_ms": 7.144,
+      "exit_code": 0
+    },
+    {
+      "command": "git checkout --detach f97d6507fcfb2fc206f3b54712b8155627dc1269",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:16:52.618Z",
+      "elapsed_ms": 12.715,
+      "exit_code": 0
+    },
+    {
+      "command": "git init -b main",
+      "cwd": "commerce-orders",
+      "started_at": "2026-09-02T09:16:52.631Z",
+      "elapsed_ms": 11.331,
+      "exit_code": 0
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node <repository-root>/bin/temple.mjs init <experiment-root>/commerce-orders --config <experiment-root>/commerce-orders-init.json",
+      "cwd": "commerce-orders",
+      "started_at": "2026-09-02T09:16:52.643Z",
+      "elapsed_ms": 385.976,
+      "exit_code": 0
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node <repository-root>/bin/temple.mjs work-item create <experiment-root>/commerce-orders --title Validate Commerce Orders contract --scope Supply one deterministic local validation fixture --acceptance Native tests pass and the exact repository revision is retained --affected-path server.mjs --spec-mode gate-evidence --ui-mode not-applicable --tracker-visibility internal",
+      "cwd": "commerce-orders",
+      "started_at": "2026-09-02T09:16:53.029Z",
+      "elapsed_ms": 83.892,
+      "exit_code": 0
+    },
+    {
+      "command": "git add .",
+      "cwd": "commerce-orders",
+      "started_at": "2026-09-02T09:16:53.113Z",
+      "elapsed_ms": 58.103,
+      "exit_code": 0
+    },
+    {
+      "command": "git commit -m Create v1-only Orders consumer",
+      "cwd": "commerce-orders",
+      "started_at": "2026-09-02T09:16:53.171Z",
+      "elapsed_ms": 27.825,
+      "exit_code": 0
+    },
+    {
+      "command": "git rev-parse HEAD",
+      "cwd": "commerce-orders",
+      "started_at": "2026-09-02T09:16:53.199Z",
+      "elapsed_ms": 7.815,
+      "exit_code": 0
+    },
+    {
+      "command": "git add .",
+      "cwd": "commerce-orders",
+      "started_at": "2026-09-02T09:16:53.207Z",
+      "elapsed_ms": 9.961,
+      "exit_code": 0
+    },
+    {
+      "command": "git commit -m Accept Catalog v1 and v2",
+      "cwd": "commerce-orders",
+      "started_at": "2026-09-02T09:16:53.217Z",
+      "elapsed_ms": 16.39,
+      "exit_code": 0
+    },
+    {
+      "command": "git rev-parse HEAD",
+      "cwd": "commerce-orders",
+      "started_at": "2026-09-02T09:16:53.233Z",
+      "elapsed_ms": 7.882,
+      "exit_code": 0
+    },
+    {
+      "command": "git checkout --detach d7759a9acc33feed28afccaf4d8a5e7b356af4e3",
+      "cwd": "commerce-orders",
+      "started_at": "2026-09-02T09:16:53.241Z",
+      "elapsed_ms": 9.424,
+      "exit_code": 0
+    },
+    {
+      "command": "git init -b main",
+      "cwd": "commerce-notifications",
+      "started_at": "2026-09-02T09:16:53.252Z",
+      "elapsed_ms": 11.935,
+      "exit_code": 0
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node <repository-root>/bin/temple.mjs init <experiment-root>/commerce-notifications --config <experiment-root>/commerce-notifications-init.json",
+      "cwd": "commerce-notifications",
+      "started_at": "2026-09-02T09:16:53.264Z",
+      "elapsed_ms": 385.442,
+      "exit_code": 0
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node <repository-root>/bin/temple.mjs work-item create <experiment-root>/commerce-notifications --title Validate Commerce Notifications contract --scope Supply one deterministic local validation fixture --acceptance Native tests pass and the exact repository revision is retained --affected-path server.mjs --spec-mode gate-evidence --ui-mode not-applicable --tracker-visibility internal",
+      "cwd": "commerce-notifications",
+      "started_at": "2026-09-02T09:16:53.649Z",
+      "elapsed_ms": 83.253,
+      "exit_code": 0
+    },
+    {
+      "command": "git add .",
+      "cwd": "commerce-notifications",
+      "started_at": "2026-09-02T09:16:53.732Z",
+      "elapsed_ms": 59.516,
+      "exit_code": 0
+    },
+    {
+      "command": "git commit -m Create idempotent OrderPlaced consumer",
+      "cwd": "commerce-notifications",
+      "started_at": "2026-09-02T09:16:53.792Z",
+      "elapsed_ms": 30.427,
+      "exit_code": 0
+    },
+    {
+      "command": "git rev-parse HEAD",
+      "cwd": "commerce-notifications",
+      "started_at": "2026-09-02T09:16:53.822Z",
+      "elapsed_ms": 7.738,
+      "exit_code": 0
+    },
+    {
+      "command": "git init -b main",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:16:53.831Z",
+      "elapsed_ms": 11.326,
+      "exit_code": 0
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node <repository-root>/bin/temple.mjs init <experiment-root>/commerce-coordinator --config <experiment-root>/commerce-coordinator-init.json",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:16:53.842Z",
+      "elapsed_ms": 386.891,
+      "exit_code": 0
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node <repository-root>/bin/temple.mjs work-item create <experiment-root>/commerce-coordinator --title Validate Commerce Coordinator contract --scope Supply one deterministic local validation fixture --acceptance Native tests pass and the exact repository revision is retained --affected-path .ai-org/project/federation.json --spec-mode gate-evidence --ui-mode not-applicable --tracker-visibility internal",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:16:54.229Z",
+      "elapsed_ms": 84.752,
+      "exit_code": 0
+    },
+    {
+      "command": "git add .",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:16:54.314Z",
+      "elapsed_ms": 58.517,
+      "exit_code": 0
+    },
+    {
+      "command": "git commit -m Create local rollout coordinator",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:16:54.372Z",
+      "elapsed_ms": 29.698,
+      "exit_code": 0
+    },
+    {
+      "command": "git rev-parse HEAD",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:16:54.402Z",
+      "elapsed_ms": 8.307,
+      "exit_code": 0
+    },
+    {
+      "command": "git checkout --detach f97d6507fcfb2fc206f3b54712b8155627dc1269",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:16:54.410Z",
+      "elapsed_ms": 12.974,
+      "exit_code": 0
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node --test",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:16:54.423Z",
+      "elapsed_ms": 68.172,
+      "exit_code": 0
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:16:54.492Z",
+      "elapsed_ms": 9.743,
+      "exit_code": 0
+    },
+    {
+      "command": "git checkout --detach 97f82c97a38caf9a4d0bf03a00a9798738bea369",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:16:54.502Z",
+      "elapsed_ms": 11.108,
+      "exit_code": 0
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node --test",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:16:54.513Z",
+      "elapsed_ms": 67.353,
+      "exit_code": 0
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:16:54.580Z",
+      "elapsed_ms": 10.631,
+      "exit_code": 0
+    },
+    {
+      "command": "git checkout --detach d7759a9acc33feed28afccaf4d8a5e7b356af4e3",
+      "cwd": "commerce-orders",
+      "started_at": "2026-09-02T09:16:54.591Z",
+      "elapsed_ms": 9.397,
+      "exit_code": 0
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node --test",
+      "cwd": "commerce-orders",
+      "started_at": "2026-09-02T09:16:54.600Z",
+      "elapsed_ms": 69.908,
+      "exit_code": 0
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "commerce-orders",
+      "started_at": "2026-09-02T09:16:54.670Z",
+      "elapsed_ms": 9.738,
+      "exit_code": 0
+    },
+    {
+      "command": "git checkout --detach 4a19005e48eea6bfa8fccfc7f4093b910aec4f49",
+      "cwd": "commerce-orders",
+      "started_at": "2026-09-02T09:16:54.680Z",
+      "elapsed_ms": 11.115,
+      "exit_code": 0
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node --test",
+      "cwd": "commerce-orders",
+      "started_at": "2026-09-02T09:16:54.691Z",
+      "elapsed_ms": 70.734,
+      "exit_code": 0
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "commerce-orders",
+      "started_at": "2026-09-02T09:16:54.762Z",
+      "elapsed_ms": 10.115,
+      "exit_code": 0
+    },
+    {
+      "command": "git checkout --detach 6af72278b4fd493965ffa77bbf015c96700f5869",
+      "cwd": "commerce-notifications",
+      "started_at": "2026-09-02T09:16:54.772Z",
+      "elapsed_ms": 12.548,
+      "exit_code": 0
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node --test",
+      "cwd": "commerce-notifications",
+      "started_at": "2026-09-02T09:16:54.785Z",
+      "elapsed_ms": 68.714,
+      "exit_code": 0
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "commerce-notifications",
+      "started_at": "2026-09-02T09:16:54.853Z",
+      "elapsed_ms": 10.331,
+      "exit_code": 0
+    },
+    {
+      "command": "git checkout --detach 37a36a3bf30a8de98efbee351e4cf5eeb81cd19c",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:16:54.864Z",
+      "elapsed_ms": 10.736,
+      "exit_code": 0
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node --test",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:16:54.875Z",
+      "elapsed_ms": 69.722,
+      "exit_code": 0
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:16:54.944Z",
+      "elapsed_ms": 10.187,
+      "exit_code": 0
+    },
+    {
+      "command": "git checkout --detach f97d6507fcfb2fc206f3b54712b8155627dc1269",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:16:54.955Z",
+      "elapsed_ms": 11.043,
+      "exit_code": 0
+    },
+    {
+      "command": "git checkout --detach d7759a9acc33feed28afccaf4d8a5e7b356af4e3",
+      "cwd": "commerce-orders",
+      "started_at": "2026-09-02T09:16:54.966Z",
+      "elapsed_ms": 10.821,
+      "exit_code": 0
+    },
+    {
+      "command": "git add .ai-org/project/federation.json compose.json",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:16:54.978Z",
+      "elapsed_ms": 9.394,
+      "exit_code": 0
+    },
+    {
+      "command": "git commit -m Plan consumer-first availability rollout",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:16:54.987Z",
+      "elapsed_ms": 16.373,
+      "exit_code": 0
+    },
+    {
+      "command": "docker-compose -f <experiment-root>/commerce-coordinator/compose.json -p temple-wi0104 config --quiet",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:16:55.446Z",
+      "elapsed_ms": 40.49,
+      "exit_code": 0
+    },
+    {
+      "command": "docker-compose -f <experiment-root>/commerce-coordinator/compose.json -p temple-wi0104 up -d --build --wait",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:16:55.487Z",
+      "elapsed_ms": 6881.15,
+      "exit_code": 0
+    },
+    {
+      "command": "docker --context colima-temple-wave3 run --rm --network temple-wi0104_mesh --read-only --tmpfs /tmp:rw,noexec,nosuid,size=16777216 --cap-drop ALL --security-opt no-new-privileges:true node@sha256:e67514e5d0f6c46656005e1b693b2ec9d52e80b641307de684d4a015ba7a4eaf node -e \nconst input = JSON.parse(Buffer.from(process.argv[1], 'base64url').toString('utf8'));\nasync function request(url, options = {}) {\n  const response = await fetch(url, { ...options, headers: { 'content-type': 'application/json', ...(options.headers || {}) } });\n  const body = await response.json();\n  return { status: response.status, body };\n}\nlet result;\nif (input.action === 'checkout') {\n  const checkout = await request('http://orders:3002/checkout', { method: 'POST', body: JSON.stringify({ sku: 'SKU-1', quantity: 1, request_id: input.request_id }) });\n  let notification = null;\n  if (checkout.status === 200 && input.deliver !== false) notification = await request('http://notifications:3003/events', { method: 'POST', body: JSON.stringify(checkout.body.event) });\n  const deliveries = await request('http://notifications:3003/deliveries');\n  result = { checkout, notification, deliveries };\n} else if (input.action === 'malformed') {\n  const before = await request('http://notifications:3003/deliveries');\n  const rejected = await request('http://notifications:3003/events', { method: 'POST', body: JSON.stringify({ type: 'WrongEvent' }) });\n  const after_rejection = await request('http://notifications:3003/deliveries');\n  const recovery = await request('http://notifications:3003/events', { method: 'POST', body: JSON.stringify({ type: 'OrderPlaced', version: 'v1', id: 'event-recovery', order_id: 'order-recovery' }) });\n  const after_recovery = await request('http://notifications:3003/deliveries');\n  result = { before, rejected, after_rejection, recovery, after_recovery };\n} else throw new Error('unknown scenario action');\nconsole.log(JSON.stringify(result));\n eyJhY3Rpb24iOiJjaGVja291dCIsInJlcXVlc3RfaWQiOiJiYXNlbGluZSJ9",
+      "cwd": null,
+      "started_at": "2026-09-02T09:17:02.368Z",
+      "elapsed_ms": 266.579,
+      "exit_code": 0
+    },
+    {
+      "command": "git checkout --detach 97f82c97a38caf9a4d0bf03a00a9798738bea369",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:17:02.635Z",
+      "elapsed_ms": 12.036,
+      "exit_code": 0
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:17:02.647Z",
+      "elapsed_ms": 11.323,
+      "exit_code": 0
+    },
+    {
+      "command": "docker-compose -f <experiment-root>/commerce-coordinator/compose.json -p temple-wi0104 up -d --build --no-deps --wait catalog",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:17:02.658Z",
+      "elapsed_ms": 16251.883,
+      "exit_code": 0
+    },
+    {
+      "command": "docker --context colima-temple-wave3 run --rm --network temple-wi0104_mesh --read-only --tmpfs /tmp:rw,noexec,nosuid,size=16777216 --cap-drop ALL --security-opt no-new-privileges:true node@sha256:e67514e5d0f6c46656005e1b693b2ec9d52e80b641307de684d4a015ba7a4eaf node -e \nconst input = JSON.parse(Buffer.from(process.argv[1], 'base64url').toString('utf8'));\nasync function request(url, options = {}) {\n  const response = await fetch(url, { ...options, headers: { 'content-type': 'application/json', ...(options.headers || {}) } });\n  const body = await response.json();\n  return { status: response.status, body };\n}\nlet result;\nif (input.action === 'checkout') {\n  const checkout = await request('http://orders:3002/checkout', { method: 'POST', body: JSON.stringify({ sku: 'SKU-1', quantity: 1, request_id: input.request_id }) });\n  let notification = null;\n  if (checkout.status === 200 && input.deliver !== false) notification = await request('http://notifications:3003/events', { method: 'POST', body: JSON.stringify(checkout.body.event) });\n  const deliveries = await request('http://notifications:3003/deliveries');\n  result = { checkout, notification, deliveries };\n} else if (input.action === 'malformed') {\n  const before = await request('http://notifications:3003/deliveries');\n  const rejected = await request('http://notifications:3003/events', { method: 'POST', body: JSON.stringify({ type: 'WrongEvent' }) });\n  const after_rejection = await request('http://notifications:3003/deliveries');\n  const recovery = await request('http://notifications:3003/events', { method: 'POST', body: JSON.stringify({ type: 'OrderPlaced', version: 'v1', id: 'event-recovery', order_id: 'order-recovery' }) });\n  const after_recovery = await request('http://notifications:3003/deliveries');\n  result = { before, rejected, after_rejection, recovery, after_recovery };\n} else throw new Error('unknown scenario action');\nconsole.log(JSON.stringify(result));\n eyJhY3Rpb24iOiJjaGVja291dCIsInJlcXVlc3RfaWQiOiJwcm9kdWNlci1maXJzdCJ9",
+      "cwd": null,
+      "started_at": "2026-09-02T09:17:18.911Z",
+      "elapsed_ms": 256.34,
+      "exit_code": 0
+    },
+    {
+      "command": "git checkout --detach f97d6507fcfb2fc206f3b54712b8155627dc1269",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:17:19.167Z",
+      "elapsed_ms": 14.627,
+      "exit_code": 0
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:17:19.182Z",
+      "elapsed_ms": 11.053,
+      "exit_code": 0
+    },
+    {
+      "command": "docker-compose -f <experiment-root>/commerce-coordinator/compose.json -p temple-wi0104 up -d --build --no-deps --wait catalog",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:17:19.193Z",
+      "elapsed_ms": 15783.056,
+      "exit_code": 0
+    },
+    {
+      "command": "docker --context colima-temple-wave3 run --rm --network temple-wi0104_mesh --read-only --tmpfs /tmp:rw,noexec,nosuid,size=16777216 --cap-drop ALL --security-opt no-new-privileges:true node@sha256:e67514e5d0f6c46656005e1b693b2ec9d52e80b641307de684d4a015ba7a4eaf node -e \nconst input = JSON.parse(Buffer.from(process.argv[1], 'base64url').toString('utf8'));\nasync function request(url, options = {}) {\n  const response = await fetch(url, { ...options, headers: { 'content-type': 'application/json', ...(options.headers || {}) } });\n  const body = await response.json();\n  return { status: response.status, body };\n}\nlet result;\nif (input.action === 'checkout') {\n  const checkout = await request('http://orders:3002/checkout', { method: 'POST', body: JSON.stringify({ sku: 'SKU-1', quantity: 1, request_id: input.request_id }) });\n  let notification = null;\n  if (checkout.status === 200 && input.deliver !== false) notification = await request('http://notifications:3003/events', { method: 'POST', body: JSON.stringify(checkout.body.event) });\n  const deliveries = await request('http://notifications:3003/deliveries');\n  result = { checkout, notification, deliveries };\n} else if (input.action === 'malformed') {\n  const before = await request('http://notifications:3003/deliveries');\n  const rejected = await request('http://notifications:3003/events', { method: 'POST', body: JSON.stringify({ type: 'WrongEvent' }) });\n  const after_rejection = await request('http://notifications:3003/deliveries');\n  const recovery = await request('http://notifications:3003/events', { method: 'POST', body: JSON.stringify({ type: 'OrderPlaced', version: 'v1', id: 'event-recovery', order_id: 'order-recovery' }) });\n  const after_recovery = await request('http://notifications:3003/deliveries');\n  result = { before, rejected, after_rejection, recovery, after_recovery };\n} else throw new Error('unknown scenario action');\nconsole.log(JSON.stringify(result));\n eyJhY3Rpb24iOiJjaGVja291dCIsInJlcXVlc3RfaWQiOiJyb2xsYmFjayJ9",
+      "cwd": null,
+      "started_at": "2026-09-02T09:17:34.976Z",
+      "elapsed_ms": 245.565,
+      "exit_code": 0
+    },
+    {
+      "command": "git checkout --detach 4a19005e48eea6bfa8fccfc7f4093b910aec4f49",
+      "cwd": "commerce-orders",
+      "started_at": "2026-09-02T09:17:35.222Z",
+      "elapsed_ms": 18.839,
+      "exit_code": 0
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "commerce-orders",
+      "started_at": "2026-09-02T09:17:35.240Z",
+      "elapsed_ms": 10.675,
+      "exit_code": 0
+    },
+    {
+      "command": "docker-compose -f <experiment-root>/commerce-coordinator/compose.json -p temple-wi0104 up -d --build --no-deps --wait orders",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:17:35.251Z",
+      "elapsed_ms": 16273.34,
+      "exit_code": 0
+    },
+    {
+      "command": "docker --context colima-temple-wave3 run --rm --network temple-wi0104_mesh --read-only --tmpfs /tmp:rw,noexec,nosuid,size=16777216 --cap-drop ALL --security-opt no-new-privileges:true node@sha256:e67514e5d0f6c46656005e1b693b2ec9d52e80b641307de684d4a015ba7a4eaf node -e \nconst input = JSON.parse(Buffer.from(process.argv[1], 'base64url').toString('utf8'));\nasync function request(url, options = {}) {\n  const response = await fetch(url, { ...options, headers: { 'content-type': 'application/json', ...(options.headers || {}) } });\n  const body = await response.json();\n  return { status: response.status, body };\n}\nlet result;\nif (input.action === 'checkout') {\n  const checkout = await request('http://orders:3002/checkout', { method: 'POST', body: JSON.stringify({ sku: 'SKU-1', quantity: 1, request_id: input.request_id }) });\n  let notification = null;\n  if (checkout.status === 200 && input.deliver !== false) notification = await request('http://notifications:3003/events', { method: 'POST', body: JSON.stringify(checkout.body.event) });\n  const deliveries = await request('http://notifications:3003/deliveries');\n  result = { checkout, notification, deliveries };\n} else if (input.action === 'malformed') {\n  const before = await request('http://notifications:3003/deliveries');\n  const rejected = await request('http://notifications:3003/events', { method: 'POST', body: JSON.stringify({ type: 'WrongEvent' }) });\n  const after_rejection = await request('http://notifications:3003/deliveries');\n  const recovery = await request('http://notifications:3003/events', { method: 'POST', body: JSON.stringify({ type: 'OrderPlaced', version: 'v1', id: 'event-recovery', order_id: 'order-recovery' }) });\n  const after_recovery = await request('http://notifications:3003/deliveries');\n  result = { before, rejected, after_rejection, recovery, after_recovery };\n} else throw new Error('unknown scenario action');\nconsole.log(JSON.stringify(result));\n eyJhY3Rpb24iOiJjaGVja291dCIsInJlcXVlc3RfaWQiOiJjb25zdW1lci1maXJzdCJ9",
+      "cwd": null,
+      "started_at": "2026-09-02T09:17:51.525Z",
+      "elapsed_ms": 274.078,
+      "exit_code": 0
+    },
+    {
+      "command": "git checkout --detach 97f82c97a38caf9a4d0bf03a00a9798738bea369",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:17:51.799Z",
+      "elapsed_ms": 16.972,
+      "exit_code": 0
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:17:51.816Z",
+      "elapsed_ms": 10.628,
+      "exit_code": 0
+    },
+    {
+      "command": "docker-compose -f <experiment-root>/commerce-coordinator/compose.json -p temple-wi0104 up -d --build --no-deps --wait catalog",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:17:51.827Z",
+      "elapsed_ms": 15774.259,
+      "exit_code": 0
+    },
+    {
+      "command": "docker --context colima-temple-wave3 run --rm --network temple-wi0104_mesh --read-only --tmpfs /tmp:rw,noexec,nosuid,size=16777216 --cap-drop ALL --security-opt no-new-privileges:true node@sha256:e67514e5d0f6c46656005e1b693b2ec9d52e80b641307de684d4a015ba7a4eaf node -e \nconst input = JSON.parse(Buffer.from(process.argv[1], 'base64url').toString('utf8'));\nasync function request(url, options = {}) {\n  const response = await fetch(url, { ...options, headers: { 'content-type': 'application/json', ...(options.headers || {}) } });\n  const body = await response.json();\n  return { status: response.status, body };\n}\nlet result;\nif (input.action === 'checkout') {\n  const checkout = await request('http://orders:3002/checkout', { method: 'POST', body: JSON.stringify({ sku: 'SKU-1', quantity: 1, request_id: input.request_id }) });\n  let notification = null;\n  if (checkout.status === 200 && input.deliver !== false) notification = await request('http://notifications:3003/events', { method: 'POST', body: JSON.stringify(checkout.body.event) });\n  const deliveries = await request('http://notifications:3003/deliveries');\n  result = { checkout, notification, deliveries };\n} else if (input.action === 'malformed') {\n  const before = await request('http://notifications:3003/deliveries');\n  const rejected = await request('http://notifications:3003/events', { method: 'POST', body: JSON.stringify({ type: 'WrongEvent' }) });\n  const after_rejection = await request('http://notifications:3003/deliveries');\n  const recovery = await request('http://notifications:3003/events', { method: 'POST', body: JSON.stringify({ type: 'OrderPlaced', version: 'v1', id: 'event-recovery', order_id: 'order-recovery' }) });\n  const after_recovery = await request('http://notifications:3003/deliveries');\n  result = { before, rejected, after_rejection, recovery, after_recovery };\n} else throw new Error('unknown scenario action');\nconsole.log(JSON.stringify(result));\n eyJhY3Rpb24iOiJjaGVja291dCIsInJlcXVlc3RfaWQiOiJwcm9kdWNlci1zZWNvbmQifQ",
+      "cwd": null,
+      "started_at": "2026-09-02T09:18:07.601Z",
+      "elapsed_ms": 347.781,
+      "exit_code": 0
+    },
+    {
+      "command": "docker --context colima-temple-wave3 run --rm --network temple-wi0104_mesh --read-only --tmpfs /tmp:rw,noexec,nosuid,size=16777216 --cap-drop ALL --security-opt no-new-privileges:true node@sha256:e67514e5d0f6c46656005e1b693b2ec9d52e80b641307de684d4a015ba7a4eaf node -e \nconst input = JSON.parse(Buffer.from(process.argv[1], 'base64url').toString('utf8'));\nasync function request(url, options = {}) {\n  const response = await fetch(url, { ...options, headers: { 'content-type': 'application/json', ...(options.headers || {}) } });\n  const body = await response.json();\n  return { status: response.status, body };\n}\nlet result;\nif (input.action === 'checkout') {\n  const checkout = await request('http://orders:3002/checkout', { method: 'POST', body: JSON.stringify({ sku: 'SKU-1', quantity: 1, request_id: input.request_id }) });\n  let notification = null;\n  if (checkout.status === 200 && input.deliver !== false) notification = await request('http://notifications:3003/events', { method: 'POST', body: JSON.stringify(checkout.body.event) });\n  const deliveries = await request('http://notifications:3003/deliveries');\n  result = { checkout, notification, deliveries };\n} else if (input.action === 'malformed') {\n  const before = await request('http://notifications:3003/deliveries');\n  const rejected = await request('http://notifications:3003/events', { method: 'POST', body: JSON.stringify({ type: 'WrongEvent' }) });\n  const after_rejection = await request('http://notifications:3003/deliveries');\n  const recovery = await request('http://notifications:3003/events', { method: 'POST', body: JSON.stringify({ type: 'OrderPlaced', version: 'v1', id: 'event-recovery', order_id: 'order-recovery' }) });\n  const after_recovery = await request('http://notifications:3003/deliveries');\n  result = { before, rejected, after_rejection, recovery, after_recovery };\n} else throw new Error('unknown scenario action');\nconsole.log(JSON.stringify(result));\n eyJhY3Rpb24iOiJtYWxmb3JtZWQifQ",
+      "cwd": null,
+      "started_at": "2026-09-02T09:18:07.949Z",
+      "elapsed_ms": 195.41,
+      "exit_code": 0
+    },
+    {
+      "command": "git add .",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:18:08.146Z",
+      "elapsed_ms": 15.031,
+      "exit_code": 0
+    },
+    {
+      "command": "git commit -m Record completed local rollout rehearsal",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:18:08.161Z",
+      "elapsed_ms": 21.623,
+      "exit_code": 0
+    },
+    {
+      "command": "git rev-parse HEAD",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:18:08.183Z",
+      "elapsed_ms": 8.086,
+      "exit_code": 0
+    },
+    {
+      "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node <repository-root>/scripts/validate-local-microservice-rehearsal.mjs --inspect <experiment-root>",
+      "cwd": "temple-wi-0104",
+      "started_at": "2026-09-02T09:18:08.636Z",
+      "elapsed_ms": 567.689,
+      "exit_code": 0
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:18:09.203Z",
+      "elapsed_ms": 9.925,
+      "exit_code": 0
+    },
+    {
+      "command": "git rev-parse HEAD",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:18:09.213Z",
+      "elapsed_ms": 7.349,
+      "exit_code": 0
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "commerce-catalog",
+      "started_at": "2026-09-02T09:18:09.221Z",
+      "elapsed_ms": 8.965,
+      "exit_code": 0
+    },
+    {
+      "command": "git rev-parse HEAD",
+      "cwd": "commerce-orders",
+      "started_at": "2026-09-02T09:18:09.230Z",
+      "elapsed_ms": 7.351,
+      "exit_code": 0
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "commerce-orders",
+      "started_at": "2026-09-02T09:18:09.237Z",
+      "elapsed_ms": 8.725,
+      "exit_code": 0
+    },
+    {
+      "command": "git rev-parse HEAD",
+      "cwd": "commerce-notifications",
+      "started_at": "2026-09-02T09:18:09.246Z",
+      "elapsed_ms": 7.187,
+      "exit_code": 0
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "commerce-notifications",
+      "started_at": "2026-09-02T09:18:09.253Z",
+      "elapsed_ms": 8.658,
+      "exit_code": 0
+    },
+    {
+      "command": "docker-compose -f <experiment-root>/commerce-coordinator/compose.json -p temple-wi0104 images --format json",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:18:09.262Z",
+      "elapsed_ms": 49.107,
+      "exit_code": 0
+    },
+    {
+      "command": "docker-compose -f <experiment-root>/commerce-coordinator/compose.json -p temple-wi0104 down --volumes --remove-orphans --rmi local",
+      "cwd": "commerce-coordinator",
+      "started_at": "2026-09-02T09:18:09.311Z",
+      "elapsed_ms": 10210.126,
+      "exit_code": 0
+    },
+    {
+      "command": "docker --context colima-temple-wave3 ps -a --filter label=com.docker.compose.project=temple-wi0104 --format {{.ID}}",
+      "cwd": null,
+      "started_at": "2026-09-02T09:18:19.521Z",
+      "elapsed_ms": 59.179,
+      "exit_code": 0
+    },
+    {
+      "command": "docker --context colima-temple-wave3 network ls --filter label=com.docker.compose.project=temple-wi0104 --format {{.ID}}",
+      "cwd": null,
+      "started_at": "2026-09-02T09:18:19.581Z",
+      "elapsed_ms": 11.266,
+      "exit_code": 0
+    },
+    {
+      "command": "docker --context colima-temple-wave3 volume ls --filter label=com.docker.compose.project=temple-wi0104 --format {{.Name}}",
+      "cwd": null,
+      "started_at": "2026-09-02T09:18:19.592Z",
+      "elapsed_ms": 10.581,
+      "exit_code": 0
+    }
+  ],
+  "failure": null,
+  "cleanup": {
+    "attempted": true,
+    "succeeded": true,
+    "residual_resources": {
+      "containers": [],
+      "networks": [],
+      "volumes": []
+    },
+    "fixture_removed": true
+  }
+}
