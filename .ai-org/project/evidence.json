@@ -14943,6 +14943,55 @@
         "exit_code": 0,
         "started_at": "2026-09-02T07:55:14.025Z"
       }
+    },
+    {
+      "id": "EVID-20260902T080416Z-4740FB03",
+      "work_item_id": "WI-0102",
+      "recorded_at": "2026-09-02T08:04:16.084Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0102 Quality Evaluation",
+      "outcome": "pass",
+      "scope_revision": "0c7260dd68756fb6754a1529bef60a4c42d5dcde",
+      "observed_at": "2026-09-02T08:03:13.500Z",
+      "summary": "Detached exact-candidate rehearsal and documentation checks passed",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0102/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0102/quality-test-observation.json",
+          "sha256": "2b38e2481ef7e10b40897a0bce6ca44339eb7d9cca3d229f2c981dc7f2d193d0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0102/quality-report.md",
+          "sha256": "79578b824e622a0bebeff758d11c1f0d7098db44ed29fed153b2de5d9b478e87"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0102/brownfield-rehearsal-observation.json",
+          "sha256": "f3d02613548bf97efe7d3c65bbed7e257696e1648861683b070f8d89168babe8"
+        },
+        {
+          "path": "docs/validation/wave-1-adoption-evidence.md",
+          "sha256": "3a7e9164f07ec20780d9074df4e8c15c66a3b6f65893be770af33beba7b22cd6"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached candidate worktree: node scripts/validate-brownfield-adoption.mjs",
+          "fresh detached candidate worktree: node scripts/check-doc-links.mjs",
+          "fresh detached candidate worktree: git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T08:03:10.608Z"
+      }
     }
   ]
 }

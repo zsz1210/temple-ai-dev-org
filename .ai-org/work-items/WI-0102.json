@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0102",
   "title": "Validate brownfield adoption and normalize Wave 1 evidence",
-  "state": "test",
-  "owner_position": "quality_evaluator",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-02T07:42:44.798Z",
-  "updated_at": "2026-09-02T08:02:05.760Z",
+  "updated_at": "2026-09-02T08:04:47.832Z",
   "scope": [
     "Normalize retained greenfield, cold-task, recovery, and adaptive-onboarding evidence into one limitation-aware Wave 1 matrix.",
     "Run a deterministic isolated brownfield rehearsal that preserves project-native documentation and repository workflow while completing one bounded lifecycle."
@@ -50,14 +50,14 @@
     "WI-0086 retains public-Alpha release authority; WI-0102 is private, local-only validation and does not change release readiness, publication, repository visibility, or release evidence."
   ],
   "claim": {
-    "id": "claim-20260902080205-7a19f949",
+    "id": "claim-20260902080447-86372110",
     "status": "active",
     "principal_id": "human",
     "agent_id": "agent-lulu",
     "base_revision": "0c7260dd68756fb6754a1529bef60a4c42d5dcde",
     "branch": "codex/wi-0102-brownfield-validation",
     "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0102",
-    "claimed_at": "2026-09-02T08:02:05.760Z",
+    "claimed_at": "2026-09-02T08:04:47.832Z",
     "released_at": null
   },
   "claims": [
@@ -111,13 +111,25 @@
     },
     {
       "id": "claim-20260902080205-7a19f949",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-lulu",
       "base_revision": "0c7260dd68756fb6754a1529bef60a4c42d5dcde",
       "branch": "codex/wi-0102-brownfield-validation",
       "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0102",
       "claimed_at": "2026-09-02T08:02:05.760Z",
+      "released_at": "2026-09-02T08:04:47.558Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902080447-86372110",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "0c7260dd68756fb6754a1529bef60a4c42d5dcde",
+      "branch": "codex/wi-0102-brownfield-validation",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0102",
+      "claimed_at": "2026-09-02T08:04:47.832Z",
       "released_at": null
     }
   ],
@@ -144,6 +156,12 @@
       "EVID-20260902T080125Z-772EA6B2",
       "EVID-20260902T080125Z-D678B74E",
       ".ai-org/artifacts/WI-0102/developer-report.md"
+    ],
+    "test_evidence": [
+      "EVID-20260902T080416Z-4740FB03"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0102/quality-report.md"
     ]
   },
   "evidence": [
@@ -153,10 +171,13 @@
     ".ai-org/artifacts/WI-0102/handoff-001-developer-to-quality_evaluator.md",
     "EVID-20260902T080125Z-772EA6B2",
     "EVID-20260902T080125Z-D678B74E",
-    ".ai-org/artifacts/WI-0102/developer-report.md"
+    ".ai-org/artifacts/WI-0102/developer-report.md",
+    "EVID-20260902T080416Z-4740FB03",
+    ".ai-org/artifacts/WI-0102/handoff-002-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0102/quality-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "release_manager",
   "handoffs": [
     {
       "from_position": "developer",
@@ -164,6 +185,13 @@
       "input_revision": "0c7260dd68756fb6754a1529bef60a4c42d5dcde",
       "artifact": ".ai-org/artifacts/WI-0102/handoff-001-developer-to-quality_evaluator.md",
       "created_at": "2026-09-02T08:02:05.230Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "0c7260dd68756fb6754a1529bef60a4c42d5dcde",
+      "artifact": ".ai-org/artifacts/WI-0102/handoff-002-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-02T08:04:47.315Z"
     }
   ],
   "developer_candidate_revision": "0c7260dd68756fb6754a1529bef60a4c42d5dcde"

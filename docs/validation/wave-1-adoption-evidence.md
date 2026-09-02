@@ -18,7 +18,7 @@ The result is a baseline for choosing later experiments. It is not a claim that 
 | --- | --- | --- | --- |
 | New idea to first bounded lifecycle | Demonstrated | [FlowDeck greenfield pilot](../pilots/flowdeck-greenfield-retrospective.md) | One private iOS sample, one human, no physical-device release |
 | New task continues without the originating chat | Demonstrated | [IdeaDock cold-task recovery](greenfield-cold-task-recovery-result.md) | One human and one Mac; internal workers were not separate user-owned tasks |
-| Existing data-bearing project restores and upgrades | Demonstrated | [AiPet recovery rehearsal](alpha-24-aipet-recovery.md) | Isolated checkout; no real machine loss or downgrade rollback |
+| Temple-owned organization state in an existing data-bearing project restores and upgrades | Demonstrated | [AiPet recovery rehearsal](alpha-24-aipet-recovery.md) | Application data was outside the backup; isolated checkout, no real machine loss or downgrade rollback |
 | Existing repository workflow survives init and upgrade | Verified implementation | WI-0097/WI-0098 plus the rehearsal below | Local execution; no independently governed hosting workflow |
 | Existing project keeps native documents | Verified implementation | [Enterprise adoption contract](../getting-started/enterprise-document-adoption.md) plus the rehearsal below | Repository files only; no external document system |
 | Temple develops Temple with its own organization | Demonstrated with limits | [Alpha.23 self-host dogfood](alpha-23-temple-self-host-dogfood.md) | Maintainer dogfood is not independent adoption |
@@ -61,7 +61,7 @@ It is deliberately not part of every `npm run verify`. Recreating a nested Git r
 - A confirmed repository workflow can point to the project's policy instead of silently choosing a Temple-specific Git process.
 - One bounded product change can remain separate from initialization and organizational evidence.
 - Developer and Independent QA identities can reproduce the same exact candidate without requiring the optional Observer, Usage Collector, Management Console, a model, or network access.
-- The retained pilots now cover greenfield setup, cold-task continuation, local brownfield mechanics, and data-bearing recovery without rerunning those expensive scenarios solely for another count.
+- The retained pilots now cover greenfield setup, cold-task continuation, local brownfield mechanics, and Temple-state recovery in a data-bearing project without rerunning those expensive scenarios solely for another count.
 
 ## What remains unknown
 

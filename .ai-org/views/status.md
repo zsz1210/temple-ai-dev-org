@@ -149,7 +149,7 @@
 | WI-0099 | Adopt Node.js 24 minimum and local-first bounded CI | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1df63f06` | 0 | 14 | 0 |
 | WI-0100 | Separate optional Management Console from Usage collection | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3c94b998` | 0 | 14 | 0 |
 | WI-0101 | Present the optional Console as read-only and verify managed collection | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `3c94b998` | 0 | 14 | 0 |
-| WI-0102 | Validate brownfield adoption and normalize Wave 1 evidence | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902080205-7a19f949 | `0c7260dd` | 0 | 7 | 0 |
+| WI-0102 | Validate brownfield adoption and normalize Wave 1 evidence | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902080447-86372110 | `0c7260dd` | 0 | 10 | 0 |
 
 ## Codex task registry
 
@@ -283,14 +283,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-02T08:04:47.832Z | work_item_claimed | WI-0102 | human |
+| 2026-09-02T08:04:47.558Z | work_item_transitioned | WI-0102 | agent-lulu |
+| 2026-09-02T08:04:47.315Z | handoff_created | WI-0102 | agent-lulu |
+| 2026-09-02T08:04:47.048Z | work_item_transitioned | WI-0102 | agent-lulu |
+| 2026-09-02T08:04:16.084Z | evidence_recorded | WI-0102 | human |
 | 2026-09-02T08:02:05.760Z | work_item_claimed | WI-0102 | human |
 | 2026-09-02T08:02:05.503Z | work_item_transitioned | WI-0102 | agent-rikku |
 | 2026-09-02T08:02:05.230Z | handoff_created | WI-0102 | agent-rikku |
-| 2026-09-02T08:01:25.373Z | evidence_recorded | WI-0102 | human |
-| 2026-09-02T08:01:25.103Z | evidence_recorded | WI-0102 | human |
-| 2026-09-02T07:49:20.964Z | work_item_claimed | WI-0102 | human |
-| 2026-09-02T07:49:20.701Z | work_item_transitioned | WI-0102 | agent-tidus |
-| 2026-09-02T07:46:02.311Z | work_item_claimed | WI-0102 | human |
 
 ## Assignments
 

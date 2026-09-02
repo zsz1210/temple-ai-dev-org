@@ -1,0 +1,32 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "0c7260dd68756fb6754a1529bef60a4c42d5dcde",
+  "command": [
+    "fresh detached candidate worktree: node scripts/validate-brownfield-adoption.mjs",
+    "fresh detached candidate worktree: git status --short"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T08:07:28.558Z",
+  "completed_at": "2026-09-02T08:07:31.522Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0102/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0102/brownfield-rehearsal-observation.json",
+    "docs/validation/wave-1-adoption-evidence.md"
+  ],
+  "summary": {
+    "brownfield_rehearsal_result": "pass",
+    "brownfield_rehearsal_wall_seconds": 2.893,
+    "fixture_doctor_pass": 37,
+    "fixture_doctor_warn": 0,
+    "fixture_doctor_fail": 0,
+    "application_tests_before": 1,
+    "developer_tests": 2,
+    "independent_qa_tests": 2,
+    "document_digests_recomputed": true,
+    "candidate_files_modified": false,
+    "temporary_worktree_removed": true,
+    "model_generation_requested": false,
+    "external_action_performed": false
+  }
+}
