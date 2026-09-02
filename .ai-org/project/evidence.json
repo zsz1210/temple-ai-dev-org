@@ -12936,6 +12936,56 @@
         "scenario": "Render the real Usage capture-health states responsively, then execute one Provider-owned Luna Max read-only and network-disabled turn to verify that a correlated detailed Token observation changes the project totals",
         "provenance": "live"
       }
+    },
+    {
+      "id": "EVID-20260902T000835Z-66664E23",
+      "work_item_id": "WI-0091",
+      "recorded_at": "2026-09-02T00:08:35.478Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality evaluation",
+      "outcome": "pass",
+      "scope_revision": "8e07b69f61292b3997c6adf155d7f643d9f0d8bf",
+      "observed_at": "2026-09-02T00:07:49.000Z",
+      "summary": "Capture-state semantics and responsive browser behavior passed independent Quality Evaluator checks.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0091/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0091/quality-test-observation.json",
+          "sha256": "547ad520fe1495f3521ae0368935e9a886b1e5c13d7ae7522f4a5305ec673c58"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0091/quality-report.md",
+          "sha256": "997949f9574fc327acdb1cafa820ed582f2d890a7aa3e5747481290dfac556b2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0091/runtime-observation.json",
+          "sha256": "e1ece8230538db1b82549c4f2799262b1ac2f713cec5e74ca43553e4ab743a8f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0091/live-proof-result.md",
+          "sha256": "4d5d4aac5f473dcb514a44f5f99f8a78b47e08c1531692e05d13b13e2fc666cd"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/phase-4b.test.mjs test/control-plane-foundation.test.mjs",
+          "npm run test:browser",
+          "node ./templew.mjs usage report . --no-write --json",
+          "node ./templew.mjs usage preflight . --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T00:07:05.000Z"
+      }
     }
   ]
 }

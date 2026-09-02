@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
 - Work items: 91 total, 5 active
 - Codex tasks: 6 registered, 5 archive-ready
@@ -26,7 +26,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -137,7 +137,7 @@
 | WI-0088 | Add real-browser Management Console regression coverage | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1a82106c` | 0 | 23 | 0 |
 | WI-0089 | Make Codex task titles outcome-first and refreshable | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `86b0cdf4` | 0 | 23 | 0 |
 | WI-0090 | Requalify Alpha.29 after final integrations | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5b01b4f4` | 0 | 19 | 0 |
-| WI-0091 | Make Usage capture health truthful and verifiable | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260902000705-8076ca18 | `8e07b69f` | 1 | 15 | 0 |
+| WI-0091 | Make Usage capture health truthful and verifiable | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `8e07b69f` | 1 | 20 | 0 |
 
 ## Codex task registry
 
@@ -259,14 +259,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-02T00:08:54.111Z | work_item_transitioned | WI-0091 | agent-lulu |
+| 2026-09-02T00:08:53.725Z | handoff_created | WI-0091 | agent-lulu |
+| 2026-09-02T00:08:53.379Z | work_item_transitioned | WI-0091 | agent-lulu |
+| 2026-09-02T00:08:35.478Z | evidence_recorded | WI-0091 | human |
 | 2026-09-02T00:07:05.101Z | work_item_claimed | WI-0091 | human |
 | 2026-09-02T00:06:48.021Z | work_item_transitioned | WI-0091 | agent-rikku |
 | 2026-09-02T00:06:47.673Z | handoff_created | WI-0091 | agent-rikku |
 | 2026-09-02T00:06:20.688Z | evidence_recorded | WI-0091 | human |
-| 2026-09-02T00:06:20.409Z | evidence_recorded | WI-0091 | human |
-| 2026-09-02T00:03:47.801Z | task_status_changed | WI-0091 | agent-rikku |
-| 2026-09-02T00:03:40.657Z | task_registered | WI-0091 | agent-rikku |
-| 2026-09-01T23:48:30.340Z | work_item_claimed | WI-0091 | human |
 
 ## Assignments
 
