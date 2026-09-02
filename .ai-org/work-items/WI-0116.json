@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0116",
   "title": "Analyze Wave 5A overhead and repair blind evaluation",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-02T22:37:43.924Z",
-  "updated_at": "2026-09-02T22:38:50.305Z",
+  "updated_at": "2026-09-02T22:45:04.001Z",
   "scope": [
     "Derive an offline, reproducible breakdown of retained Wave 5A Token, latency, cache, quality, and intervention observations without inferring unmeasured billing or causality.",
     "Define and implement a Wave 5B evaluator access protocol that freezes arm-neutral scores before the coordinator mapping is joined and fails closed when separation evidence is absent.",
@@ -40,7 +40,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "ee0984ffa497a697bb6b23c0666415c421d5ded4",
+  "base_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -56,14 +56,14 @@
     "WI-0115: completed onboarding validation remains immutable; shared validation index update is additive"
   ],
   "claim": {
-    "id": "claim-20260902223850-49867997",
+    "id": "claim-20260902224504-c8b7edf0",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "ee0984ffa497a697bb6b23c0666415c421d5ded4",
+    "agent_id": "agent-lulu",
+    "base_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
     "branch": "codex/wi-0115-0117-validation-program",
     "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
-    "claimed_at": "2026-09-02T22:38:50.305Z",
+    "claimed_at": "2026-09-02T22:45:04.001Z",
     "released_at": null
   },
   "claims": [
@@ -111,13 +111,27 @@
     },
     {
       "id": "claim-20260902223850-49867997",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "ee0984ffa497a697bb6b23c0666415c421d5ded4",
       "branch": "codex/wi-0115-0117-validation-program",
       "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
       "claimed_at": "2026-09-02T22:38:50.305Z",
+      "released_at": "2026-09-02T22:45:03.549Z",
+      "release_reason": [
+        "handoff_to_quality_evaluator"
+      ]
+    },
+    {
+      "id": "claim-20260902224504-c8b7edf0",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+      "branch": "codex/wi-0115-0117-validation-program",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T22:45:04.001Z",
       "released_at": null
     }
   ],
@@ -136,6 +150,12 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0116/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0116/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0116/developer-report.md"
     ]
   },
   "evidence": [
@@ -146,7 +166,9 @@
     ".ai-org/artifacts/WI-0116/product-spec.md",
     ".ai-org/artifacts/WI-0116/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0116/technical-design.md",
-    ".ai-org/artifacts/WI-0116/risk-review.md"
+    ".ai-org/artifacts/WI-0116/risk-review.md",
+    ".ai-org/artifacts/WI-0116/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0116/developer-report.md"
   ],
   "unresolved": [],
   "next_position": "quality_evaluator",
@@ -171,6 +193,14 @@
       "input_revision": "ee0984ffa497a697bb6b23c0666415c421d5ded4",
       "artifact": ".ai-org/artifacts/WI-0116/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-02T22:38:49.642Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+      "artifact": ".ai-org/artifacts/WI-0116/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-02T22:45:03.296Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "2ec67d32fd83236028406d06c48a00276d7fa853"
 }

@@ -163,7 +163,7 @@
 | WI-0113 | Make Wave 5A autonomous and observable | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6f8596bb` | 0 | 23 | 0 |
 | WI-0114 | Integrate the agent-led init and Claude entrypoint handshake | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `555cd6fd` | 0 | 21 | 0 |
 | WI-0115 | Validate clean agent-led greenfield onboarding | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `11012a38` | 0 | 19 | 0 |
-| WI-0116 | Analyze Wave 5A overhead and repair blind evaluation | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902223850-49867997 | `—` | 0 | 8 | 0 |
+| WI-0116 | Analyze Wave 5A overhead and repair blind evaluation | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902224504-c8b7edf0 | `2ec67d32` | 0 | 10 | 0 |
 
 ## Codex task registry
 
@@ -301,14 +301,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-02T22:45:04.001Z | work_item_claimed | WI-0116 | human |
+| 2026-09-02T22:45:03.764Z | work_item_transitioned | WI-0116 | agent-rikku |
+| 2026-09-02T22:45:03.549Z | work_item_claim_released | WI-0116 | human |
+| 2026-09-02T22:45:03.296Z | handoff_created | WI-0116 | agent-rikku |
+| 2026-09-02T22:45:03.116Z | evidence_recorded | WI-0116 | human |
 | 2026-09-02T22:38:50.305Z | work_item_claimed | WI-0116 | human |
 | 2026-09-02T22:38:50.076Z | work_item_transitioned | WI-0116 | agent-tidus |
 | 2026-09-02T22:38:49.864Z | work_item_claim_released | WI-0116 | human |
-| 2026-09-02T22:38:49.642Z | handoff_created | WI-0116 | agent-tidus |
-| 2026-09-02T22:38:49.439Z | work_item_claimed | WI-0116 | human |
-| 2026-09-02T22:38:49.211Z | work_item_transitioned | WI-0116 | agent-yuna |
-| 2026-09-02T22:38:48.997Z | work_item_claim_released | WI-0116 | human |
-| 2026-09-02T22:38:48.787Z | handoff_created | WI-0116 | agent-yuna |
 
 ## Assignments
 

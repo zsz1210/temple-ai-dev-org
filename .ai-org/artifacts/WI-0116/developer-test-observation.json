@@ -1,0 +1,32 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+  "command": [
+    "node --check scripts/analyze-wave-5a-overhead.mjs",
+    "node --check scripts/validate-wave-5b-protocol.mjs",
+    "node --test test/wave-5b-analysis.test.mjs",
+    "node scripts/analyze-wave-5a-overhead.mjs --input .ai-org/artifacts/WI-0113/experiment-result.json --output .ai-org/artifacts/WI-0116/wave-5a-overhead-analysis.json",
+    "node scripts/validate-wave-5b-protocol.mjs --input .ai-org/artifacts/WI-0116/wave-5b-protocol-fixture.json --output .ai-org/artifacts/WI-0116/wave-5b-protocol-check.json",
+    "npm run verify"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T22:39:00.000Z",
+  "completed_at": "2026-09-02T22:42:00.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0116/developer-report.md",
+    ".ai-org/artifacts/WI-0116/wave-5a-overhead-analysis.json",
+    ".ai-org/artifacts/WI-0116/wave-5b-protocol-check.json",
+    "docs/validation/wave-5a-overhead-analysis.md"
+  ],
+  "model_generation_performed": false,
+  "summary": {
+    "focused_tests_passed": 5,
+    "focused_tests_failed": 0,
+    "repository_tests_passed": 302,
+    "repository_tests_failed": 0,
+    "recomputed_operational_budget_tokens": 153481,
+    "coordinator_overhead_ms": 606,
+    "protocol_fixture_status": "qualified"
+  }
+}

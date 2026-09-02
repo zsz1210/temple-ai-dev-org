@@ -17700,6 +17700,62 @@
         "status": "planned",
         "procedure": ".ai-org/artifacts/WI-0115/rollback-plan.md"
       }
+    },
+    {
+      "id": "EVID-20260902T224503Z-840AC16F",
+      "work_item_id": "WI-0116",
+      "recorded_at": "2026-09-02T22:45:03.116Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0116 Developer verification",
+      "outcome": "pass",
+      "scope_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+      "observed_at": "2026-09-02T22:42:00.000Z",
+      "summary": "Five focused tests and 302 of 302 full repository tests passed without model generation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0116/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0116/developer-test-observation.json",
+          "sha256": "27a455120817ed82e024acf2c1b9072cf00a999f6f18facc750e14f21d4ac332"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0116/developer-report.md",
+          "sha256": "a049ecd1ce2d356906aa9ac4037f1b111c4c26c9deddda23374234c0a5c7ee71"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0116/wave-5a-overhead-analysis.json",
+          "sha256": "0abd9235efda3d56f4d330980d276ed308c972bce30e0a52ce122cdff3c12f83"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0116/wave-5b-protocol-check.json",
+          "sha256": "83ed147ab51575f87d66d871e98834c8d58b1589b9cd94fe785e26c05f27806a"
+        },
+        {
+          "path": "docs/validation/wave-5a-overhead-analysis.md",
+          "sha256": "55ed5f3cb7b109df74e4b2fc4d9b48c29f23c819305cd162ff391c01a195020b"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --check scripts/analyze-wave-5a-overhead.mjs",
+          "node --check scripts/validate-wave-5b-protocol.mjs",
+          "node --test test/wave-5b-analysis.test.mjs",
+          "node scripts/analyze-wave-5a-overhead.mjs --input .ai-org/artifacts/WI-0113/experiment-result.json --output .ai-org/artifacts/WI-0116/wave-5a-overhead-analysis.json",
+          "node scripts/validate-wave-5b-protocol.mjs --input .ai-org/artifacts/WI-0116/wave-5b-protocol-fixture.json --output .ai-org/artifacts/WI-0116/wave-5b-protocol-check.json",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T22:39:00.000Z"
+      }
     }
   ]
 }
