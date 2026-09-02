@@ -12783,18 +12783,18 @@
         "source_ref": ".ai-org/artifacts/WI-0090/independent-qa-test-observation.json"
       },
       "artifacts": [
-      {
-        "path": ".ai-org/artifacts/WI-0090/independent-qa-test-observation.json",
-        "sha256": "f7f0883aadab091e6fa20dfaf7caf6a64748cbd569b0a3af3eefbbb1eda17a4e"
+        {
+          "path": ".ai-org/artifacts/WI-0090/independent-qa-test-observation.json",
+          "sha256": "f7f0883aadab091e6fa20dfaf7caf6a64748cbd569b0a3af3eefbbb1eda17a4e"
         },
         {
           "path": ".ai-org/artifacts/WI-0090/independent-qa-report.md",
           "sha256": "2931345defb6641f27ab24546291086f956ee681bcbe0e2af7ec2130d6b69f2d"
         },
-      {
-        "path": ".ai-org/artifacts/WI-0090/developer-verification.md",
-        "sha256": "a63a0b0ceb30eb99f729647071ed791d0b25233c809d3db130ba80dc509dc973"
-      }
+        {
+          "path": ".ai-org/artifacts/WI-0090/developer-verification.md",
+          "sha256": "a63a0b0ceb30eb99f729647071ed791d0b25233c809d3db130ba80dc509dc973"
+        }
       ],
       "details": {
         "command": [
@@ -12837,6 +12837,104 @@
       "details": {
         "status": "planned",
         "procedure": ".ai-org/artifacts/WI-0090/rollback-plan.md"
+      }
+    },
+    {
+      "id": "EVID-20260902T000620Z-A6DFF971",
+      "work_item_id": "WI-0091",
+      "recorded_at": "2026-09-02T00:06:20.409Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer verification",
+      "outcome": "pass",
+      "scope_revision": "c60a2d275f454f567c3a1dbf7e3a75753d4b794f",
+      "observed_at": "2026-09-02T00:03:47.804Z",
+      "summary": "Focused tests, full verification, responsive browser gate, and bounded live capture proof passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0091/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0091/developer-test-observation.json",
+          "sha256": "af80c4d1a9d6634485e6d856fca703c5dff69849a108311954d8764a073f9f00"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0091/developer-evidence.md",
+          "sha256": "6c58bb588cded9be632de16b3444eee34e184a25b6d5bc51bfb91832e9affafb"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0091/live-proof-result.md",
+          "sha256": "4d5d4aac5f473dcb514a44f5f99f8a78b47e08c1531692e05d13b13e2fc666cd"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0091/runtime-visual-review.md",
+          "sha256": "608c3d6944784486b71be4756e919e52aeaaca68ae88008e05daa394cebd7afe"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/phase-4b.test.mjs test/control-plane-foundation.test.mjs",
+          "npm run test:browser",
+          "npm run verify",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "git diff --check",
+          "TEMPLE_WI0091_LAUNCH_REVISION=c60a2d275f454f567c3a1dbf7e3a75753d4b794f node .ai-org/artifacts/WI-0091/one-shot-runner.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-01T23:55:49.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T000620Z-58C1260F",
+      "work_item_id": "WI-0091",
+      "recorded_at": "2026-09-02T00:06:20.688Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Usage capture runtime proof",
+      "outcome": "pass",
+      "scope_revision": "c60a2d275f454f567c3a1dbf7e3a75753d4b794f",
+      "observed_at": "2026-09-02T00:03:47.804Z",
+      "summary": "Real Usage data advanced by one correlated Luna observation and rendered truthfully after the Provider stopped.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0091/runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0091/runtime-observation.json",
+          "sha256": "e1ece8230538db1b82549c4f2799262b1ac2f713cec5e74ca43553e4ab743a8f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0091/runtime-visual-review.md",
+          "sha256": "608c3d6944784486b71be4756e919e52aeaaca68ae88008e05daa394cebd7afe"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0091/live-proof-result.md",
+          "sha256": "4d5d4aac5f473dcb514a44f5f99f8a78b47e08c1531692e05d13b13e2fc666cd"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0091/developer-evidence.md",
+          "sha256": "6c58bb588cded9be632de16b3444eee34e184a25b6d5bc51bfb91832e9affafb"
+        }
+      ],
+      "details": {
+        "environment": "Temple self-host repository on the Mac Mini, installed Google Chrome, loopback Control Plane, and real local Codex App Server",
+        "scenario": "Render the real Usage capture-health states responsively, then execute one Provider-owned Luna Max read-only and network-disabled turn to verify that a correlated detailed Token observation changes the project totals",
+        "provenance": "live"
       }
     }
   ]

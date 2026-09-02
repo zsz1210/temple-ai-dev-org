@@ -1,0 +1,30 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "8e07b69f61292b3997c6adf155d7f643d9f0d8bf",
+  "command": [
+    "node --test test/phase-4b.test.mjs test/control-plane-foundation.test.mjs",
+    "npm run test:browser",
+    "node ./templew.mjs usage report . --no-write --json",
+    "node ./templew.mjs usage preflight . --json"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T00:07:05.000Z",
+  "completed_at": "2026-09-02T00:07:49.000Z",
+  "summary": {
+    "focused_tests_passed": 28,
+    "focused_tests_failed": 0,
+    "browser_viewports_passed": 4,
+    "browser_view_traversals_passed": 24,
+    "reduced_motion_passed": true,
+    "usage_observations": 2,
+    "usage_total_tokens": 47726,
+    "latest_capture_state": "historical-only",
+    "latest_capture_work_item": "WI-0091"
+  },
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0091/quality-report.md",
+    ".ai-org/artifacts/WI-0091/runtime-observation.json",
+    ".ai-org/artifacts/WI-0091/live-proof-result.md"
+  ]
+}

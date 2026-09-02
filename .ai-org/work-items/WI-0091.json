@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0091",
   "title": "Make Usage capture health truthful and verifiable",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-01T23:44:10.574Z",
-  "updated_at": "2026-09-01T23:48:30.340Z",
+  "updated_at": "2026-09-02T00:07:05.101Z",
   "scope": [
     "Separate historical Token evidence from current capture health in Usage and preflight projections.",
     "Show capture state, last successful observation, completed Work Item coverage, and actionable recovery without implying that stale totals are live.",
@@ -91,7 +91,7 @@
       "resources": []
     }
   },
-  "base_revision": "cfa928bf618c19b883ce29924ef3fb09aaf3a8f6",
+  "base_revision": "8e07b69f61292b3997c6adf155d7f643d9f0d8bf",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -102,14 +102,14 @@
     "WI-0086 remains blocked at the public-release boundary; WI-0091 is sequential on current main and may extend the current control-plane tests without changing or advancing WI-0086."
   ],
   "claim": {
-    "id": "claim-20260901234830-64de63f5",
+    "id": "claim-20260902000705-8076ca18",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "cfa928bf618c19b883ce29924ef3fb09aaf3a8f6",
+    "agent_id": "agent-lulu",
+    "base_revision": "8e07b69f61292b3997c6adf155d7f643d9f0d8bf",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-09-01T23:48:30.340Z",
+    "claimed_at": "2026-09-02T00:07:05.101Z",
     "released_at": null
   },
   "claims": [
@@ -151,13 +151,25 @@
     },
     {
       "id": "claim-20260901234830-64de63f5",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "cfa928bf618c19b883ce29924ef3fb09aaf3a8f6",
       "branch": "main",
       "worktree": null,
       "claimed_at": "2026-09-01T23:48:30.340Z",
+      "released_at": "2026-09-02T00:06:48.021Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902000705-8076ca18",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "8e07b69f61292b3997c6adf155d7f643d9f0d8bf",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-02T00:07:05.101Z",
       "released_at": null
     }
   ],
@@ -182,6 +194,15 @@
     ],
     "required_state_coverage": [
       ".ai-org/artifacts/WI-0091/required-state-coverage.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0091/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0091/developer-evidence.md",
+      ".ai-org/artifacts/WI-0091/developer-test-observation.json",
+      ".ai-org/artifacts/WI-0091/runtime-observation.json",
+      ".ai-org/artifacts/WI-0091/live-proof-result.md"
     ]
   },
   "evidence": [
@@ -194,7 +215,12 @@
     ".ai-org/work-items/WI-0091.json",
     ".ai-org/artifacts/WI-0091/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0091/technical-design.md",
-    ".ai-org/artifacts/WI-0091/risk-review.md"
+    ".ai-org/artifacts/WI-0091/risk-review.md",
+    ".ai-org/artifacts/WI-0091/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0091/developer-evidence.md",
+    ".ai-org/artifacts/WI-0091/developer-test-observation.json",
+    ".ai-org/artifacts/WI-0091/runtime-observation.json",
+    ".ai-org/artifacts/WI-0091/live-proof-result.md"
   ],
   "unresolved": [],
   "next_position": "quality_evaluator",
@@ -219,6 +245,14 @@
       "input_revision": "cfa928bf618c19b883ce29924ef3fb09aaf3a8f6",
       "artifact": ".ai-org/artifacts/WI-0091/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-01T23:48:29.651Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "8e07b69f61292b3997c6adf155d7f643d9f0d8bf",
+      "artifact": ".ai-org/artifacts/WI-0091/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-02T00:06:47.673Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "8e07b69f61292b3997c6adf155d7f643d9f0d8bf"
 }

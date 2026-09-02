@@ -6,7 +6,7 @@
 - Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
 - Work items: 91 total, 5 active
-- Codex tasks: 5 registered, 5 archive-ready
+- Codex tasks: 6 registered, 5 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
@@ -137,7 +137,7 @@
 | WI-0088 | Add real-browser Management Console regression coverage | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1a82106c` | 0 | 23 | 0 |
 | WI-0089 | Make Codex task titles outcome-first and refreshable | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `86b0cdf4` | 0 | 23 | 0 |
 | WI-0090 | Requalify Alpha.29 after final integrations | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5b01b4f4` | 0 | 19 | 0 |
-| WI-0091 | Make Usage capture health truthful and verifiable | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260901234830-64de63f5 | `—` | 0 | 10 | 0 |
+| WI-0091 | Make Usage capture health truthful and verifiable | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260902000705-8076ca18 | `8e07b69f` | 1 | 15 | 0 |
 
 ## Codex task registry
 
@@ -148,6 +148,7 @@
 | task-0003 | WI-0014 | WI-0014 · Establish the first cor… · Independent QA (Lulu) | Independent QA / Lulu | — | — | completed | `23768e74` | ready |
 | task-0004 | WI-0029 | WI-0029 · Prototype local Agent Comma… · Developer (Rikku) | Developer / Rikku | human | codex/wi-0029-agent-command-gateway | completed | `38a185eb` | ready |
 | task-0005 | WI-0056 | WI-0056 · Run the corrected provider-… · Developer (Rikku) | Developer / Rikku | human | main | completed | `247a7815` | ready |
+| task-0006 | WI-0091 | WI-0091 · Make Usage capture health t… · Developer (Rikku) | Developer / Rikku | human | main | completed | `c60a2d27` | — |
 
 ## Runtime workers and shared resources
 
@@ -258,14 +259,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-02T00:07:05.101Z | work_item_claimed | WI-0091 | human |
+| 2026-09-02T00:06:48.021Z | work_item_transitioned | WI-0091 | agent-rikku |
+| 2026-09-02T00:06:47.673Z | handoff_created | WI-0091 | agent-rikku |
+| 2026-09-02T00:06:20.688Z | evidence_recorded | WI-0091 | human |
+| 2026-09-02T00:06:20.409Z | evidence_recorded | WI-0091 | human |
+| 2026-09-02T00:03:47.801Z | task_status_changed | WI-0091 | agent-rikku |
+| 2026-09-02T00:03:40.657Z | task_registered | WI-0091 | agent-rikku |
 | 2026-09-01T23:48:30.340Z | work_item_claimed | WI-0091 | human |
-| 2026-09-01T23:48:30.001Z | work_item_transitioned | WI-0091 | agent-tidus |
-| 2026-09-01T23:48:29.651Z | handoff_created | WI-0091 | agent-tidus |
-| 2026-09-01T23:47:35.905Z | work_item_claimed | WI-0091 | human |
-| 2026-09-01T23:47:35.584Z | work_item_transitioned | WI-0091 | agent-yuna |
-| 2026-09-01T23:47:35.239Z | handoff_created | WI-0091 | agent-yuna |
-| 2026-09-01T23:46:47.043Z | work_item_claimed | WI-0091 | human |
-| 2026-09-01T23:46:46.713Z | work_item_transitioned | WI-0091 | agent-mog |
 
 ## Assignments
 
