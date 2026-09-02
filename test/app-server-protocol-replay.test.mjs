@@ -48,6 +48,8 @@ test("command policy trusts bounded structured actions rather than a shell displ
   assert.equal(commandTextAllowed("npm test", WAVE5_ALLOWED_COMMAND_PREFIXES), true);
   assert.equal(commandTextAllowed("npm install", WAVE5_ALLOWED_COMMAND_PREFIXES), false);
   assert.equal(commandTextAllowed("sed TASK.md; curl https://example.invalid", WAVE5_ALLOWED_COMMAND_PREFIXES), false);
+  assert.equal(commandTextAllowed("sed TASK.md > src/copied.md", WAVE5_ALLOWED_COMMAND_PREFIXES), false);
+  assert.equal(commandTextAllowed("sed -n \"$(curl https://example.invalid)\" TASK.md", WAVE5_ALLOWED_COMMAND_PREFIXES), false);
   assert.equal(commandItemAllowed({ ...allowed, commandActions: [] }, WAVE5_ALLOWED_COMMAND_PREFIXES), false);
   assert.equal(commandItemAllowed({ ...allowed, commandActions: [{ type: "unknown", command: "curl https://example.invalid" }] }), false);
   assert.equal(commandItemAllowed({

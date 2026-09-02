@@ -47,7 +47,7 @@ function bounded(value, limit = 120) {
 }
 
 export function commandTextAllowed(value, allowedPrefixes = WAVE5_ALLOWED_COMMAND_PREFIXES) {
-  if (typeof value !== "string" || value.length === 0 || /[\n\r;&|`]/.test(value)) return false;
+  if (typeof value !== "string" || value.length === 0 || /[\n\r;&|`<>$]/.test(value)) return false;
   const trimmed = value.trim();
   return allowedPrefixes
     .map(prefixText)
