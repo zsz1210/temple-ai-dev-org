@@ -16403,6 +16403,241 @@
         "exit_code": 0,
         "started_at": "2026-09-02T13:21:20.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T142419Z-D4E31532",
+      "work_item_id": "WI-0109",
+      "recorded_at": "2026-09-02T14:24:19.806Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "No-generation App Server replay candidate",
+      "outcome": "verified",
+      "scope_revision": "04ce81c0421526f6d10566dd41debbee660dd4cb",
+      "observed_at": "2026-09-02T14:24:19.806Z",
+      "summary": "Shared live/offline protocol interpretation, ten bounded scenarios, and 288 passing repository tests.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "04ce81c0421526f6d10566dd41debbee660dd4cb"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "04ce81c0421526f6d10566dd41debbee660dd4cb",
+        "working_tree_dirty": true,
+        "dirty_path_count": 1,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T142420Z-2FCD53A5",
+      "work_item_id": "WI-0109",
+      "recorded_at": "2026-09-02T14:24:20.504Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0109 developer verification",
+      "outcome": "pass",
+      "scope_revision": "04ce81c0421526f6d10566dd41debbee660dd4cb",
+      "observed_at": "2026-09-02T14:23:23.000Z",
+      "summary": "Ten no-generation replay scenarios, 20 focused tests, installed-schema preflight, and 288 full tests passed with zero model turns.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0109/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0109/developer-test-observation.json",
+          "sha256": "5bf669b1ce45d9c4cbf88dd93b1cbda07da959443a4caa11f2e9c64cbd88bd16"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/developer-report.md",
+          "sha256": "6222cd24824907c552422bc43a99d0bdb91fe6020c46f69f7bf77c4699258294"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/fixtures/app-server-event-replay.json",
+          "sha256": "7e40884e7016e3f93cc9a75ccfc3b34bf00b8dbe758c1b596d2e605dd0330fa6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/technical-design.md",
+          "sha256": "a8ea489b183cddb04a2ca339fae7d3c6a8cebd7a5a21fb90b415174a8f2d2333"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --check src/app-server-protocol-replay.mjs",
+          "node --check .ai-org/artifacts/WI-0107/run-wave-5a.mjs",
+          "node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
+          "WI-0108 lab: corrected live-runner preflight-only with temporary output",
+          "npm run verify",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T14:14:43.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T142747Z-1424D1EE",
+      "work_item_id": "WI-0109",
+      "recorded_at": "2026-09-02T14:27:47.140Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0109 hardened developer verification",
+      "outcome": "pass",
+      "scope_revision": "a21fbc4f6ebe60043e3ed61690131b281ebc6bed",
+      "observed_at": "2026-09-02T14:27:11.000Z",
+      "summary": "Post-review shell-control hardening, ten replay scenarios, 20 focused tests, installed-schema preflight, and 288 full tests passed with zero model turns.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0109/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0109/developer-test-observation.json",
+          "sha256": "26f813fec845bbe10f6dd090311b3de74dcdc05121cbfa8399e97d9416f2b478"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/developer-report.md",
+          "sha256": "938312469aabd66df1fb588f20fe1a272c21face7b29c5fdddbe40e93bec7c65"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/fixtures/app-server-event-replay.json",
+          "sha256": "7e40884e7016e3f93cc9a75ccfc3b34bf00b8dbe758c1b596d2e605dd0330fa6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/technical-design.md",
+          "sha256": "a8ea489b183cddb04a2ca339fae7d3c6a8cebd7a5a21fb90b415174a8f2d2333"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --check src/app-server-protocol-replay.mjs",
+          "node --check .ai-org/artifacts/WI-0107/run-wave-5a.mjs",
+          "node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
+          "WI-0108 lab: corrected live-runner preflight-only with temporary output",
+          "npm run verify",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T14:14:43.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T143121Z-77D72AF6",
+      "work_item_id": "WI-0109",
+      "recorded_at": "2026-09-02T14:31:21.155Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Offline App Server replay quality gate",
+      "outcome": "pass",
+      "scope_revision": "a21fbc4f6ebe60043e3ed61690131b281ebc6bed",
+      "observed_at": "2026-09-02T14:30:37.000Z",
+      "summary": "Exact candidate a21fbc4 passes 20 focused tests and retained no-generation preflight with zero model turns.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0109/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0109/quality-test-observation.json",
+          "sha256": "19e8a86229b9dae8d6d1d539a19cee215224fec2177824e49e5df7c63ae83f68"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/quality-report.md",
+          "sha256": "c55d5dbec84cdcc7b9b9a4eb08b8154c6cf4c1dc07d2f28aa664d7a855ee57f1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/fixtures/app-server-event-replay.json",
+          "sha256": "7e40884e7016e3f93cc9a75ccfc3b34bf00b8dbe758c1b596d2e605dd0330fa6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/technical-design.md",
+          "sha256": "a8ea489b183cddb04a2ca339fae7d3c6a8cebd7a5a21fb90b415174a8f2d2333"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached candidate: node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
+          "fresh detached candidate: retained WI-0108 lab live-runner preflight-only with temporary output",
+          "fresh detached candidate: inspect repository status and replay fixture privacy boundary"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T14:29:00.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T143511Z-FEB48E25",
+      "work_item_id": "WI-0109",
+      "recorded_at": "2026-09-02T14:35:11.076Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent offline App Server replay verification",
+      "outcome": "pass",
+      "scope_revision": "a21fbc4f6ebe60043e3ed61690131b281ebc6bed",
+      "observed_at": "2026-09-02T14:34:31.000Z",
+      "summary": "Independent QA reproduced 20 focused and 288 full tests plus the no-generation preflight at exact candidate a21fbc4.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0109/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0109/independent-qa-observation.json",
+          "sha256": "2ef4144eaf97f6efc6a0dc2ac23a9fb66b8030196a9227a6e850a8810cf1b9b0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/independent-qa-report.md",
+          "sha256": "c7e84ee91918c0e781685051cb6663c15af23374ac22fc55129bd0f0896ff741"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/quality-report.md",
+          "sha256": "c55d5dbec84cdcc7b9b9a4eb08b8154c6cf4c1dc07d2f28aa664d7a855ee57f1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/fixtures/app-server-event-replay.json",
+          "sha256": "7e40884e7016e3f93cc9a75ccfc3b34bf00b8dbe758c1b596d2e605dd0330fa6"
+        }
+      ],
+      "details": {
+        "command": [
+          "second fresh detached candidate: node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
+          "second fresh detached candidate: retained WI-0108 lab live-runner preflight-only with temporary output",
+          "second fresh detached candidate: node --check src/app-server-protocol-replay.mjs",
+          "second fresh detached candidate: node --check .ai-org/artifacts/WI-0107/run-wave-5a.mjs",
+          "second fresh detached candidate: npm run verify",
+          "second fresh detached candidate: inspect repository status"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T14:31:50.000Z"
+      }
     }
   ]
 }
