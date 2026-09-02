@@ -5,7 +5,6 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { readControlPlaneConfig } from "./control-plane-config.mjs";
 import { atomicWrite, formatJson, pathExists, readJson, sha256 } from "./files.mjs";
-import { normalizePrivateLanViewerHost, DEFAULT_LAN_VIEWER_PORT } from "./private-network-viewer.mjs";
 import { readDaemonMetadata, resolveControlPlaneStateDirectory } from "./telemetry.mjs";
 
 const execFileAsync = promisify(execFile);
@@ -22,12 +21,6 @@ function stableValue(value) {
 
 function planDigest(value) {
   return `sha256:${sha256(JSON.stringify(stableValue(value)))}`;
-}
-
-function validPort(value, label) {
-  const port = Number(value);
-  if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error(`${label} must be 1 to 65535`);
-  return port;
 }
 
 function xmlEscape(value) {
@@ -69,7 +62,7 @@ ${argumentsXml}
 async function executablePath(command, options = {}) {
   const candidate = String(command ?? "").trim();
   if (candidate) {
-    if (!path.isAbsolute(candidate)) throw new Error("Managed local Observer requires an absolute Codex executable path");
+    if (!path.isAbsolute(candidate)) throw new Error("Managed local Usage Collector requires an absolute Codex executable path");
     if (!options.skipExecutableCheck) await fs.access(candidate, fs.constants.X_OK);
     return path.resolve(candidate);
   }
@@ -152,46 +145,31 @@ export async function planLocalObserverService(target, options = {}) {
   const nodeExecutable = path.resolve(options.nodeExecutable ?? process.execPath);
   const codexCommand = await executablePath(options.codexCommand, options);
   const launcher = path.join(projectRoot, "templew.mjs");
-  if (!(await pathExists(launcher))) throw new Error(`Managed local Observer requires the repository launcher: ${launcher}`);
-  const loopbackPort = validPort(options.port ?? config.server.port, "Observer loopback port");
-  const lanViewerHost = options.lanViewerHost ? normalizePrivateLanViewerHost(options.lanViewerHost) : null;
-  const lanViewerPort = lanViewerHost
-    ? validPort(options.lanViewerPort ?? DEFAULT_LAN_VIEWER_PORT, "Observer LAN viewer port")
-    : null;
-  const label = `dev.temple.observer.${sha256(projectRoot).slice(0, 12)}`;
+  if (!(await pathExists(launcher))) throw new Error(`Managed local Usage Collector requires the repository launcher: ${launcher}`);
+  const label = `dev.temple.usage-collector.${sha256(projectRoot).slice(0, 12)}`;
   const plistPath = path.join(userHome, "Library", "LaunchAgents", `${label}.plist`);
   const logsDirectory = path.join(stateDirectory, "logs");
   const argumentsVector = [
     nodeExecutable,
     launcher,
-    "control-plane",
-    "start",
+    "usage",
+    "collect",
     projectRoot,
-    "--codex",
     "--observation-mode",
     "managed-local",
     "--codex-command",
-    codexCommand,
-    "--host",
-    "127.0.0.1",
-    "--port",
-    String(loopbackPort)
+    codexCommand
   ];
-  if (lanViewerHost) {
-    argumentsVector.push("--lan-viewer-host", lanViewerHost, "--lan-viewer-port", String(lanViewerPort));
-  }
   const service = {
     label,
     plist_path: plistPath,
     manifest_path: path.join(stateDirectory, "observer-service.json"),
-    stdout_path: path.join(logsDirectory, "observer.stdout.log"),
-    stderr_path: path.join(logsDirectory, "observer.stderr.log"),
+    stdout_path: path.join(logsDirectory, "usage-collector.stdout.log"),
+    stderr_path: path.join(logsDirectory, "usage-collector.stderr.log"),
     program: nodeExecutable,
     arguments: argumentsVector,
-    loopback_host: "127.0.0.1",
-    loopback_port: loopbackPort,
-    lan_viewer_host: lanViewerHost,
-    lan_viewer_port: lanViewerPort,
+    console_started: false,
+    http_listener_started: false,
     codex_command: codexCommand
   };
   const behavior = {
@@ -252,14 +230,14 @@ async function restoreFile(targetPath, prior) {
 export async function applyLocalObserverService(target, options = {}) {
   if (!options.expectedPlan) throw new Error("observer-apply requires an expected plan digest");
   const plan = await planLocalObserverService(target, options);
-  if (!plan.supported) throw new Error(`Managed local Observer is unsupported on ${plan.platform}`);
+  if (!plan.supported) throw new Error(`Managed local Usage Collector is unsupported on ${plan.platform}`);
   if (plan.plan_digest !== options.expectedPlan) throw new Error("Observer plan changed; review a fresh observer-plan result before applying");
   const existing = await readLocalObserverManifest(plan.state_directory);
   if (existing && existing.plan_digest !== plan.plan_digest && !options.confirmReplace) {
-    throw new Error("A different Observer plan is installed; pass --confirm-replace after reviewing the fresh plan");
+    throw new Error("A different Usage Collector plan is installed; pass --confirm-replace after reviewing the fresh plan");
   }
   if (existing?.activated && existing.plan_digest !== plan.plan_digest && !options.activate) {
-    throw new Error("Replacing an active Observer requires --activate so the exact replacement lifecycle is explicit");
+    throw new Error("Replacing an active Usage Collector requires --activate so the exact replacement lifecycle is explicit");
   }
   if (existing?.plan_digest === plan.plan_digest && !options.activate) {
     return {
@@ -322,7 +300,7 @@ export async function applyLocalObserverService(target, options = {}) {
       await runLaunchctl(["bootstrap", domain, existing.service.plist_path]).catch(() => {});
       await runLaunchctl(["kickstart", "-k", `${domain}/${existing.service.label}`]).catch(() => {});
     }
-    throw new Error(`Observer installation was rolled back: ${error.message}`);
+    throw new Error(`Usage Collector installation was rolled back: ${error.message}`);
   }
   return {
     schema_version: LOCAL_OBSERVER_STATUS_SCHEMA,
@@ -346,8 +324,8 @@ export async function removeLocalObserverService(target, options = {}) {
   const config = await readControlPlaneConfig(projectRoot);
   const stateDirectory = resolveControlPlaneStateDirectory(projectRoot, options.stateDirectory ?? config.state_directory);
   const manifest = await readLocalObserverManifest(stateDirectory);
-  if (!manifest) throw new Error("No managed local Observer is installed for this clone");
-  if (manifest.plan_digest !== options.expectedPlan) throw new Error("Installed Observer digest does not match --expected-plan");
+  if (!manifest) throw new Error("No managed local Usage Collector is installed for this clone");
+  if (manifest.plan_digest !== options.expectedPlan) throw new Error("Installed Usage Collector digest does not match --expected-plan");
   const runLaunchctl = options.runLaunchctl ?? defaultLaunchctl;
   if (manifest.activated) {
     const domain = `gui/${options.uid ?? process.getuid?.()}`;

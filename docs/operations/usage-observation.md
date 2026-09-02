@@ -1,20 +1,20 @@
 # Usage observation
 
-Temple can organize and deliver work without observing Token usage. Usage observation is an optional, clone-local operating mode for people who want per-Work-Item analysis in the Management Console.
+Temple can organize and deliver work without observing Token usage. Usage observation is an optional, clone-local operating mode for people who want per-Work-Item analysis. The [Management Console](management-console.md) is a separate optional process: collection does not require a browser, and viewing does not start collection.
 
 ## Choose a mode
 
 | Mode | What runs | When to use it | New detailed Token data |
 | --- | --- | --- | --- |
 | Off | No Codex Provider | The framework is being evaluated, the machine should run no background service, or task-level analytics are unnecessary | Not collected; missing values remain unknown |
-| On demand | A foreground Control Plane with the Codex Provider | Short analysis sessions, development, and troubleshooting | Collected only while the process is running and an eligible registered task emits usage |
-| Managed local | An explicitly installed macOS LaunchAgent for this clone | A regular workstation where continuous local capture is worth the operational cost | Expected while the service is healthy and tasks are registered |
+| On demand | A foreground Usage Collector with the Codex Provider and no HTTP listener | Bounded analysis sessions, development, and troubleshooting | Collected only while the process is running and an eligible registered task emits usage |
+| Managed local | An explicitly installed macOS LaunchAgent running only the Usage Collector | An advanced experiment after the team has shown that continuous local capture changes a useful decision | Expected while the service is healthy and tasks are registered |
 
 The selected mode is local operator state. It is not committed to Git, installed by `temple init`, or imposed on other contributors.
 
 ## What is retained
 
-Detailed provider observations are stored below the clone's Git common directory by default. Stopping the Control Plane or Codex Provider does not delete earlier observations. Removing a managed service also leaves telemetry intact.
+Detailed provider observations are stored below the clone's Git common directory by default. Stopping the Collector or Codex Provider does not delete earlier observations. Removing a managed service also leaves telemetry intact.
 
 Temple retains numeric usage and proven attribution fields. It does not retain raw prompts, responses, hidden reasoning, credentials, or raw provider payloads for this feature.
 
@@ -32,47 +32,37 @@ The official Codex App Server provides active-thread `thread/tokenUsage/updated`
 From an initialized project repository:
 
 ```bash
-node ./templew.mjs control-plane start . \
-  --codex \
-  --observation-mode on-demand
+node ./templew.mjs usage collect .
 ```
 
-Add the private home-LAN viewer only with one exact RFC1918 address:
+This process opens no HTTP listener. If a person also wants the Console, start it separately:
 
 ```bash
-node ./templew.mjs control-plane start . \
-  --codex \
-  --observation-mode on-demand \
+node ./templew.mjs console start . \
   --lan-viewer-host 192.168.1.25 \
   --lan-viewer-port 41741
 ```
 
-The full Console stays on loopback. The LAN listener is GET-only and omits the Human Inbox, Agent Commands, session secrets, raw events, service paths, and local executable details.
+The Console remains read-only on loopback and LAN. It does not acquire the Collector's writer lease, so both processes may run concurrently.
 
 ## Install managed local observation on macOS
 
-Managed local observation is macOS-only in the current implementation. Preview the exact plan first:
+Managed local observation is macOS-only and experimental in the current implementation. It is never installed by `temple init`. Preview the exact Collector-only plan first:
 
 ```bash
 node ./templew.mjs control-plane observer-plan . \
-  --port 8766 \
-  --lan-viewer-host 192.168.1.25 \
-  --lan-viewer-port 41741 \
   --json
 ```
 
-Review the absolute project, Node, Codex, listener, plist, log, and state paths. Copy the returned `plan_digest`, then install and start that exact plan:
+Review the absolute project, Node, Codex, plist, log, and state paths. The plan must say that the Console and HTTP listener are not started. Copy the returned `plan_digest`, then install and start that exact plan:
 
 ```bash
 node ./templew.mjs control-plane observer-apply . \
-  --port 8766 \
-  --lan-viewer-host 192.168.1.25 \
-  --lan-viewer-port 41741 \
   --expected-plan sha256:REVIEWED_DIGEST \
   --activate
 ```
 
-`observer-apply` without `--activate` installs the definition but does not call `launchctl`. Replacing a different installed plan additionally requires `--confirm-replace`. The LaunchAgent executes Node and the repository launcher directly with an argument array; it does not invoke a shell or store credentials.
+`observer-apply` without `--activate` installs the definition but does not call `launchctl`. Replacing a different installed plan additionally requires `--confirm-replace`. The LaunchAgent executes `temple usage collect --observation-mode managed-local` through Node and the repository launcher with an argument array; it does not invoke a shell, store credentials, or expose the Console.
 
 Inspect current clone-local state:
 
@@ -116,4 +106,4 @@ A post-start gap may mean the task was not registered, the Provider was unavaila
 
 ## Multi-machine limit
 
-Each developer's observer sees only tasks available to that local Codex Provider and keeps telemetry in that clone's Git common directory. One managed service is not an organization-wide collector. Cross-machine export, merging, and centralized aggregation remain future work.
+Each developer's Collector sees only tasks available to that local Codex Provider and keeps telemetry in that clone's Git common directory. One managed service is not an organization-wide collector. Cross-machine export, merging, and centralized aggregation remain future work.

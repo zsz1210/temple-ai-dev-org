@@ -1,0 +1,138 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0101",
+  "title": "Present the optional Console as read-only and verify managed collection",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-02T04:27:17.142Z",
+  "updated_at": "2026-09-02T04:28:15.348Z",
+  "scope": [
+    "Add a local read-only Management Console presentation mode that hides mutation tools and labels loopback access accurately without changing the approved visual hierarchy.",
+    "Update managed-local service regression coverage so its LaunchAgent contract starts Usage collection only and exposes no HTTP or Console listener."
+  ],
+  "acceptance_criteria": [
+    "The local optional Console renders Local · Read only, hides Human Inbox and Agent Commands, and retains the approved responsive Management Console layout.",
+    "Private LAN and Tailscale viewers retain their existing private read-only labeling and redaction boundary.",
+    "Managed-local service tests prove the argument vector starts usage collect, contains no control-plane start or network viewer flags, and preserves removal safety."
+  ],
+  "affected_paths": [
+    "src/control-plane-dashboard.mjs",
+    "test/local-observer-service.test.mjs",
+    ".ai-org/artifacts/WI-0101"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "code-first",
+  "parent_work_item_id": "WI-0100",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "36703f3efdb8c92d1d9a2c78185534118c16b42d",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-tidus",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0100 owns the server and Collector split; WI-0101 owns only truthful read-only presentation and the managed-service regression contract and is integrated by the same Tech Lead."
+  ],
+  "claim": {
+    "id": "claim-20260902042815-d4b2496d",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "36703f3efdb8c92d1d9a2c78185534118c16b42d",
+    "branch": "codex/wi-0100-optional-console-collector",
+    "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0100",
+    "claimed_at": "2026-09-02T04:28:15.348Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260902042801-5a83bf31",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "36703f3efdb8c92d1d9a2c78185534118c16b42d",
+      "branch": "codex/wi-0100-optional-console-collector",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0100",
+      "claimed_at": "2026-09-02T04:28:01.404Z",
+      "released_at": "2026-09-02T04:28:02.184Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902042803-f5d08a5a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "36703f3efdb8c92d1d9a2c78185534118c16b42d",
+      "branch": "codex/wi-0100-optional-console-collector",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0100",
+      "claimed_at": "2026-09-02T04:28:03.148Z",
+      "released_at": "2026-09-02T04:28:03.787Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902042813-607104a5",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "36703f3efdb8c92d1d9a2c78185534118c16b42d",
+      "branch": "codex/wi-0100-optional-console-collector",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0100",
+      "claimed_at": "2026-09-02T04:28:13.876Z",
+      "released_at": "2026-09-02T04:28:14.509Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902042815-d4b2496d",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "36703f3efdb8c92d1d9a2c78185534118c16b42d",
+      "branch": "codex/wi-0100-optional-console-collector",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0100",
+      "claimed_at": "2026-09-02T04:28:15.348Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0101.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0101.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0101.json"
+    ],
+    "technical_design": [
+      "docs/adr/0044-optional-management-console-and-usage-collector.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0101/ui-design-brief.md"
+    ],
+    "ui_brief": [
+      ".ai-org/artifacts/WI-0101/ui-design-brief.md"
+    ],
+    "required_state_coverage": [
+      ".ai-org/artifacts/WI-0101/ui-design-brief.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0101.md",
+    ".ai-org/work-items/WI-0101.json",
+    "docs/adr/0044-optional-management-console-and-usage-collector.md",
+    ".ai-org/artifacts/WI-0101/ui-design-brief.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

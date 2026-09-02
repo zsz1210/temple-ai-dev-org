@@ -12,7 +12,7 @@ The root README explains what Temple is and why it exists. This index routes imp
 | Coordinate people and AI agents | [Collaborative development](operations/collaboration.md) | [Parallel orchestration](operations/parallel-orchestration.md), [Runtime coordination](operations/runtime-coordination.md) |
 | Define product, UX, UI, or API behavior | [Product specifications](concepts/product-specifications.md) | [UI design modes](concepts/ui-design.md), [UI interaction contracts](concepts/ui-interaction-contracts.md) |
 | Add engineering methods or project Skills | [Capability catalog](extensions/capability-catalog.md) | [Skill authoring](extensions/skill-authoring.md), [Engineering Learning Loop](extensions/engineering-learning.md) |
-| Inspect evidence, risk, or live project state | [Evidence and Observer](operations/evidence-and-observer.md) | [Local control plane](operations/control-plane.md), [High-Assurance](operations/high-assurance.md) |
+| Inspect evidence, risk, or live project state | [Evidence and Observer](operations/evidence-and-observer.md) | [Optional Management Console](operations/management-console.md), [High-Assurance](operations/high-assurance.md) |
 | Back up or recover Temple project state | [Backup and recovery](operations/backup-and-recovery.md) | [Architecture](concepts/architecture.md), [ADR-0031](adr/0031-durable-recovery-before-persistence-growth.md) |
 | Coordinate several authoritative repositories | [Multi-repository federation](operations/multi-repository-federation.md) | [ADR-0033](adr/0033-federate-project-authority-with-read-only-portfolios.md), [Phase 4 design](planning/phase-4.md) |
 | Run a bounded multi-repository experiment | [Validation programs](operations/validation-programs.md) | [Effectiveness and microservice validation](planning/temple-effectiveness-and-microservice-validation.md), [Token Efficiency](operations/token-efficiency-and-model-routing.md) |
@@ -47,7 +47,9 @@ The root README explains what Temple is and why it exists. This index routes imp
 - [Task and tracker coordination](operations/task-and-tracker-coordination.md) — company tracker, Temple Work Item, and Codex task boundaries.
 - [Evidence and Observer](operations/evidence-and-observer.md) — normalized evidence, exact revisions, stale signals, and closeout.
 - [High-Assurance profile](operations/high-assurance.md) — risk-scaled evidence, separation of duties, rollback, and human approvals.
-- [Local control plane](operations/control-plane.md) — replay-safe events, providers, live projections, and the Human Inbox.
+- [Optional Management Console](operations/management-console.md) — an explicitly started read-only human view that does not start Usage collection.
+- [Usage observation](operations/usage-observation.md) — off, on-demand Collector, and experimental managed-local modes.
+- [Legacy combined control plane](operations/control-plane.md) — replay-safe events, providers, live projections, and the Human Inbox compatibility path.
 - [Backup and recovery](operations/backup-and-recovery.md) — project-owned-state manifests, integrity checks, restore preview, and interrupted-write rollback.
 - [Adversarial policy evaluation](operations/policy-evaluation.md) — versioned failure scenarios, profile fixtures, fail-closed scorecards, and authority boundaries.
 - [Token Efficiency and Model Routing](operations/token-efficiency-and-model-routing.md) — provider-reported usage, project-local calibration, Credits provenance, exception-only autonomy, and the boundary before automatic routing.
