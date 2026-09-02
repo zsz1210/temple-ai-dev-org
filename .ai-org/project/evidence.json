@@ -15442,10 +15442,10 @@
           "path": ".ai-org/artifacts/WI-0104/runtime-cleanup-observation.json",
           "sha256": "5a9b333b7255b0851db2a489c38b71c34eed57122239de4ffb12e0e6bec1b9e8"
         },
-      {
-        "path": ".ai-org/artifacts/WI-0104/independent-qa-report.md",
-        "sha256": "02108d4a8048feb5edda99de67f44b473ead5d169d9edbd686d5a00e13074cdf"
-      }
+        {
+          "path": ".ai-org/artifacts/WI-0104/independent-qa-report.md",
+          "sha256": "02108d4a8048feb5edda99de67f44b473ead5d169d9edbd686d5a00e13074cdf"
+        }
       ],
       "details": {
         "command": [
@@ -15510,6 +15510,81 @@
         ],
         "exit_code": 0,
         "started_at": "2026-09-02T09:30:40.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T101653Z-A4BE304B",
+      "work_item_id": "WI-0105",
+      "recorded_at": "2026-09-02T10:16:53.136Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Wave 4 exact delivery candidate",
+      "outcome": "verified",
+      "scope_revision": "aedb344b5e531fc11092d352650d9c90f6763e54",
+      "observed_at": "2026-09-02T10:16:53.136Z",
+      "summary": "Exact candidate containing the local boundary matrix and Developer report",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "aedb344b5e531fc11092d352650d9c90f6763e54"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "aedb344b5e531fc11092d352650d9c90f6763e54",
+        "working_tree_dirty": true,
+        "dirty_path_count": 1,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T101653Z-C9EBA521",
+      "work_item_id": "WI-0105",
+      "recorded_at": "2026-09-02T10:16:53.355Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 4 Developer verification",
+      "outcome": "pass",
+      "scope_revision": "1f0b41ed67c59645a98abd2b729a78b0effec05a",
+      "observed_at": "2026-09-02T10:14:43.000Z",
+      "summary": "Full repository verification and retained boundary observation passed without external actions",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0105/developer-exact-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0105/developer-exact-test-observation.json",
+          "sha256": "abc7956726f372c2ac3983eb234a8238cc7c50b43c01cd76db58b439fe2af3b7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0105/wave-4-operating-boundaries-observation.json",
+          "sha256": "6540043a6fb2c849c918ecc7e1b24b1f1df966442224cf66ff75347aee927b3a"
+        },
+        {
+          "path": "docs/validation/wave-4-operating-boundaries.md",
+          "sha256": "e05ae4a574149946d50ba6bcf7d906e577fd72fab76a59d8be498dd9d9d03e13"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify",
+          "git diff --name-only c0a1234ff430d81ad6cc4c8aa32bc11cbb91214b 1f0b41ed67c59645a98abd2b729a78b0effec05a",
+          "inspect retained Wave 4 observation summary and privacy boundary"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T10:13:47.000Z"
       }
     }
   ]

@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0105",
   "title": "Qualify Wave 4 operating boundaries",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-02T09:50:47.025Z",
-  "updated_at": "2026-09-02T10:03:03.111Z",
+  "updated_at": "2026-09-02T10:17:36.510Z",
   "scope": [
     "Run and reconcile a deterministic local evidence matrix for Collaborative governance, tracker coordination, UI delivery modes, SRE and Security coverage, and High-Assurance gates without external writes or production claims."
   ],
@@ -41,7 +41,7 @@
       "resources": []
     }
   },
-  "base_revision": "3b2e23ab0bc10a353d95b095e1f3eda5060c12b0",
+  "base_revision": "aedb344b5e531fc11092d352650d9c90f6763e54",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -53,14 +53,14 @@
     "WI-0086"
   ],
   "claim": {
-    "id": "claim-20260902100303-3cbfae9b",
+    "id": "claim-20260902101736-b27b25da",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "3b2e23ab0bc10a353d95b095e1f3eda5060c12b0",
+    "agent_id": "agent-lulu",
+    "base_revision": "aedb344b5e531fc11092d352650d9c90f6763e54",
     "branch": "codex/wi-0105-wave-4-boundaries",
     "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0105",
-    "claimed_at": "2026-09-02T10:03:03.111Z",
+    "claimed_at": "2026-09-02T10:17:36.510Z",
     "released_at": null
   },
   "claims": [
@@ -102,13 +102,25 @@
     },
     {
       "id": "claim-20260902100303-3cbfae9b",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "3b2e23ab0bc10a353d95b095e1f3eda5060c12b0",
       "branch": "codex/wi-0105-wave-4-boundaries",
       "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0105",
       "claimed_at": "2026-09-02T10:03:03.111Z",
+      "released_at": "2026-09-02T10:17:36.249Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902101736-b27b25da",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "aedb344b5e531fc11092d352650d9c90f6763e54",
+      "branch": "codex/wi-0105-wave-4-boundaries",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0105",
+      "claimed_at": "2026-09-02T10:17:36.510Z",
       "released_at": null
     }
   ],
@@ -127,13 +139,33 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0105/technical-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0105/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260902T101653Z-A4BE304B",
+      "EVID-20260902T101653Z-C9EBA521"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0105/approved-scope.md",
     ".ai-org/artifacts/WI-0105/product-spec.md",
-    ".ai-org/artifacts/WI-0105/technical-design.md"
+    ".ai-org/artifacts/WI-0105/technical-design.md",
+    ".ai-org/artifacts/WI-0105/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260902T101653Z-A4BE304B",
+    "EVID-20260902T101653Z-C9EBA521"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "aedb344b5e531fc11092d352650d9c90f6763e54",
+      "artifact": ".ai-org/artifacts/WI-0105/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-02T10:17:22.848Z"
+    }
+  ],
+  "developer_candidate_revision": "aedb344b5e531fc11092d352650d9c90f6763e54"
 }

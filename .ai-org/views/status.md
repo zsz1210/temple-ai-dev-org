@@ -152,7 +152,7 @@
 | WI-0102 | Validate brownfield adoption and normalize Wave 1 evidence | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0c7260dd` | 0 | 15 | 0 |
 | WI-0103 | Reconcile Wave 2 coordination evidence | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5d58b65c` | 0 | 15 | 0 |
 | WI-0104 | Validate a local multi-repository service rollout | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6385b89d` | 0 | 17 | 3 |
-| WI-0105 | Qualify Wave 4 operating boundaries | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902100303-3cbfae9b | `—` | 0 | 3 | 0 |
+| WI-0105 | Qualify Wave 4 operating boundaries | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902101736-b27b25da | `aedb344b` | 0 | 6 | 0 |
 
 ## Codex task registry
 
@@ -286,14 +286,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-02T10:17:36.510Z | work_item_claimed | WI-0105 | human |
+| 2026-09-02T10:17:36.249Z | work_item_transitioned | WI-0105 | agent-rikku |
+| 2026-09-02T10:17:22.848Z | handoff_created | WI-0105 | agent-rikku |
+| 2026-09-02T10:16:53.355Z | evidence_recorded | WI-0105 | human |
+| 2026-09-02T10:16:53.136Z | evidence_recorded | WI-0105 | human |
 | 2026-09-02T10:03:03.111Z | work_item_claimed | WI-0105 | human |
 | 2026-09-02T10:03:02.846Z | work_item_transitioned | WI-0105 | agent-tidus |
 | 2026-09-02T10:02:00.120Z | work_item_claimed | WI-0105 | human |
-| 2026-09-02T10:01:59.868Z | work_item_transitioned | WI-0105 | agent-yuna |
-| 2026-09-02T09:52:24.745Z | work_item_claimed | WI-0105 | human |
-| 2026-09-02T09:52:24.430Z | work_item_transitioned | WI-0105 | agent-mog |
-| 2026-09-02T09:51:34.948Z | work_item_claimed | WI-0105 | human |
-| 2026-09-02T09:51:34.670Z | work_item_coordination_configured | WI-0105 | agent-mog |
 
 ## Assignments
 
