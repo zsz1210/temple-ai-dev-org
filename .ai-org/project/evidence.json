@@ -16447,7 +16447,7 @@
       "kind": "test",
       "title": "WI-0109 developer verification",
       "outcome": "pass",
-      "scope_revision": "04ce81c0421526f6d10566dd41debbee660dd4cb",
+      "scope_revision": "b73dd37bfe33bbf8967a0fbc33ab355344aaa4dd",
       "observed_at": "2026-09-02T14:23:23.000Z",
       "summary": "Ten no-generation replay scenarios, 20 focused tests, installed-schema preflight, and 288 full tests passed with zero model turns.",
       "adapter": {
@@ -16499,7 +16499,7 @@
       "kind": "test",
       "title": "WI-0109 hardened developer verification",
       "outcome": "pass",
-      "scope_revision": "a21fbc4f6ebe60043e3ed61690131b281ebc6bed",
+      "scope_revision": "ffa51c3db04d9c6473d9434095180a1def2ff0a8",
       "observed_at": "2026-09-02T14:27:11.000Z",
       "summary": "Post-review shell-control hardening, ten replay scenarios, 20 focused tests, installed-schema preflight, and 288 full tests passed with zero model turns.",
       "adapter": {
@@ -16551,7 +16551,7 @@
       "kind": "test",
       "title": "Offline App Server replay quality gate",
       "outcome": "pass",
-      "scope_revision": "a21fbc4f6ebe60043e3ed61690131b281ebc6bed",
+      "scope_revision": "83a18f4b91d7c9dfb0b80866327c292b958bc1d9",
       "observed_at": "2026-09-02T14:30:37.000Z",
       "summary": "Exact candidate a21fbc4 passes 20 focused tests and retained no-generation preflight with zero model turns.",
       "adapter": {
@@ -16600,7 +16600,7 @@
       "kind": "test",
       "title": "Independent offline App Server replay verification",
       "outcome": "pass",
-      "scope_revision": "a21fbc4f6ebe60043e3ed61690131b281ebc6bed",
+      "scope_revision": "83a18f4b91d7c9dfb0b80866327c292b958bc1d9",
       "observed_at": "2026-09-02T14:34:31.000Z",
       "summary": "Independent QA reproduced 20 focused and 288 full tests plus the no-generation preflight at exact candidate a21fbc4.",
       "adapter": {
