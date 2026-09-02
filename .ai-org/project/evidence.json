@@ -16806,7 +16806,7 @@
       "kind": "test",
       "title": "Quote-aware command policy developer verification",
       "outcome": "pass",
-      "scope_revision": "2d523b5f71f8b794b8539b1e44d7db7d28dc9977",
+      "scope_revision": "f5b4dc155db34eab7026ae48b95a87926cd4dc72",
       "observed_at": "2026-09-02T15:14:51.000Z",
       "summary": "Exact candidate passes 20 focused tests, 288 full tests, and no-generation preflight.",
       "adapter": {
@@ -16859,7 +16859,7 @@
       "kind": "test",
       "title": "Quote-aware command policy quality evaluation",
       "outcome": "pass",
-      "scope_revision": "2d523b5f71f8b794b8539b1e44d7db7d28dc9977",
+      "scope_revision": "799d10d6c2abbdcc3e872cd0d302b0866c4701e1",
       "observed_at": "2026-09-02T15:16:08.000Z",
       "summary": "Fresh detached candidate passes 20 focused tests and exact-schema no-generation preflight.",
       "adapter": {
@@ -16893,6 +16893,58 @@
         ],
         "exit_code": 0,
         "started_at": "2026-09-02T15:16:05.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T151930Z-EC1F68AA",
+      "work_item_id": "WI-0111",
+      "recorded_at": "2026-09-02T15:19:30.487Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quote-aware command policy independent QA",
+      "outcome": "pass",
+      "scope_revision": "8ef67485c8f44b94296739c5add08bd5bde18a93",
+      "observed_at": "2026-09-02T15:18:48.000Z",
+      "summary": "Second fresh detached candidate passes 20 focused and 288 full tests with no model generation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0111/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0111/independent-qa-observation.json",
+          "sha256": "6e1a217dd8dc8b9714472d8df40665f6a254c58616a01fdb019b2e785fde50ae"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0111/independent-qa-report.md",
+          "sha256": "806eb908b0e6640c259270a1c81dd9b705042d1711e7a0ca497e55ae38ffc92e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0111/quality-report.md",
+          "sha256": "1a4fd4e1ad74a5217aa4ff19cad3497b22993da738540161d0846870e6503afb"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0109/fixtures/app-server-event-replay.json",
+          "sha256": "57cee35a7ff7003cc8aeb34c41dcd978986a291b15712a25364893c9eff3b667"
+        }
+      ],
+      "details": {
+        "command": [
+          "second fresh detached candidate: node --check src/app-server-protocol-replay.mjs",
+          "second fresh detached candidate: node --check .ai-org/artifacts/WI-0107/run-wave-5a.mjs",
+          "second fresh detached candidate: node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
+          "second fresh detached candidate: retained WI-0110 lab quote-aware live-runner preflight-only with temporary output",
+          "second fresh detached candidate: npm run verify",
+          "second fresh detached candidate: inspect repository status"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T15:17:32.000Z"
       }
     }
   ]
