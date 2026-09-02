@@ -1,6 +1,6 @@
 # Temple effectiveness and multi-repository validation plan
 
-- Status: Waves 1–3 passed with retained limits; Wave 3 is independently verified for one deterministic local four-repository rehearsal
+- Status: Waves 1–3 passed with retained limits; Wave 4 local operating-boundary qualification is in progress
 - Scope: local-first synthetic validation
 - Public, production, GitHub, hosted CI, and paid actions: not authorized
 
@@ -156,6 +156,12 @@ No extra local fixture was added because it would repeat an existing evidence cl
 The later [Wave 3 local multi-repository evidence](../validation/wave-3-local-microservice-evidence.md) uses a separate no-generation Work Item rather than resuming `WI-0067`. Four disposable Git repositories exercised Catalog v1/v2, Orders v1-only/compatible, an idempotent `OrderPlaced` consumer, exact federation references, a producer-first failure, rollback, consumer-first recovery, malformed-event recovery, and cold aggregate reconstruction.
 
 The Developer run passed its six scenarios in 95.005 seconds. Peak measured host growth during the run was 304,959,488 bytes. The dedicated container profile and its one downloaded VM-image cache were removed afterward, reclaiming 1,812,885,504 host bytes; no broad prune ran. Independent QA then passed the exact candidate with 280 repository tests and 59 separate evidence assertions. This remains a single-human, single-machine local result; it does not qualify the collaborative, production, savings, or Token claims reserved for later waves.
+
+## Organization-scale operating boundaries
+
+The later [Wave 4 operating-boundary evidence](../validation/wave-4-operating-boundaries.md) tests the framework rules that would matter before a larger organization trial: Collaborative governance, tracker coordination, all four UI delivery modes, current SRE and Security safeguards, and High-Assurance gates.
+
+The result is intentionally a mixed matrix rather than a single pass badge. Exact local configuration and executable behavior, synthetic fixtures, documented policy, and not-run real environments remain separate evidence classes. A passing local test cannot qualify several real people, Jira or Figma, production on-call, incident response, vulnerability management, security certification, or a real High-Assurance drill. Wave 4 starts no external service or optional Temple runtime and changes none of those retained validation states.
 
 ## Decision after this plan
 
