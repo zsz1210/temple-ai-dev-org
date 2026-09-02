@@ -383,7 +383,9 @@ test("usage preflight distinguishes live task telemetry from account-wide unallo
     providers,
     accountProbe
   );
-  assert.equal(awaiting.detailed_thread_usage.status, "awaiting-observation");
+  assert.equal(awaiting.detailed_thread_usage.status, "capturing");
+  assert.equal(awaiting.detailed_thread_usage.evidence_status, "none");
+  assert.equal(awaiting.capture_health.live_resumable_tasks, 3);
   assert.equal(awaiting.baseline_qualification.status, "not-qualified");
   assert.equal(awaiting.baseline_qualification.account_usage_can_qualify, false);
   assert.equal(awaiting.routing.automatic_routing, false);
@@ -397,7 +399,8 @@ test("usage preflight distinguishes live task telemetry from account-wide unallo
     [{ ...providers[0], status: "disabled" }],
     null
   );
-  assert.equal(terminalOnly.detailed_thread_usage.status, "no-live-registered-task");
+  assert.equal(terminalOnly.detailed_thread_usage.status, "not-capturing");
+  assert.equal(terminalOnly.capture_health.reason, "provider-disabled");
   assert.equal(terminalOnly.task_topology.terminal, 2);
   assert.equal(terminalOnly.task_topology.terminal_tasks_are_live_resumable, false);
 
@@ -427,7 +430,9 @@ test("usage preflight distinguishes live task telemetry from account-wide unallo
     providers,
     accountProbe
   );
-  assert.equal(observed.detailed_thread_usage.status, "observed");
+  assert.equal(observed.detailed_thread_usage.status, "capturing");
+  assert.equal(observed.detailed_thread_usage.evidence_status, "observed");
+  assert.equal(observed.capture_health.last_observed_at, "2026-08-30T00:00:00.000Z");
   assert.equal(observed.detailed_thread_usage.correlated_observations, 1);
   assert.equal(observed.baseline_qualification.status, "not-qualified");
   assert.equal(observed.baseline_qualification.savings_claim_allowed, false);
@@ -492,7 +497,8 @@ test("usage preflight leaves Independent QA Work Item mismatches and unregistere
     { workItems }
   );
 
-  assert.equal(preflight.detailed_thread_usage.status, "observed");
+  assert.equal(preflight.detailed_thread_usage.status, "ready-no-live-task");
+  assert.equal(preflight.detailed_thread_usage.evidence_status, "observed");
   assert.equal(preflight.detailed_thread_usage.observations, 2);
   assert.equal(preflight.detailed_thread_usage.correlated_observations, 0);
   assert.equal(preflight.detailed_thread_usage.uncorrelated_observations, 2);
@@ -511,6 +517,8 @@ test("usage preflight leaves Independent QA Work Item mismatches and unregistere
 
   const baseline = buildUsageBaselineFromRecords(project, [mismatched, unregistered], { workItems, tasks });
   const coverage = baseline.source.longitudinal_coverage;
+  assert.equal(baseline.source.capture_health.status, "historical-only");
+  assert.equal(baseline.source.capture_health.captured_completed_work_items, 0);
   assert.equal(coverage.detailed_token_observation_coverage.correlated_observations, 0);
   assert.equal(coverage.detailed_token_observation_coverage.uncorrelated_observations, 2);
   assert.equal(coverage.qualification.status, "not-qualified");
@@ -769,6 +777,8 @@ test("ten completed revision-current Work Items qualify one deterministic read-o
   assert.equal(report.routing.routine_human_approval_required, false);
   assert.equal(report.routing.automatic_routing, false);
   assert.equal(report.routing.budget_can_skip_gates, false);
+  assert.equal(report.source.capture_health.status, "historical-only");
+  assert.equal(report.source.capture_health.last_observed_at, "2026-08-30T00:00:09.000Z");
 
   for (const collaborationProfile of ["solo", "collaborative", "high-assurance"]) {
     const adversarial = buildUsageBaselineFromRecords(project, records, {
@@ -1015,6 +1025,7 @@ test("usage baseline sums provider deltas, preserves unknowns, and never invents
 
   const noObservations = buildUsageBaselineFromRecords({ id: "policy-product", name: "Policy Product" }, []);
   assert.equal(noObservations.baseline_status, "insufficient-data");
+  assert.equal(noObservations.source.capture_health.status, "not-capturing");
   assert.equal(noObservations.totals.total_tokens, null);
   assert.equal(noObservations.totals.input_tokens, null);
   assert.equal(noObservations.totals.cached_input_ratio, null);
@@ -1046,7 +1057,8 @@ test("usage baseline sums provider deltas, preserves unknowns, and never invents
   const preflight = run(["usage", "preflight", target, "--state-dir", stateDirectory, "--json"]);
   assert.equal(preflight.status, 0, preflight.stderr || preflight.stdout);
   const preflightReport = JSON.parse(preflight.stdout);
-  assert.equal(preflightReport.detailed_thread_usage.status, "observed");
+  assert.equal(preflightReport.detailed_thread_usage.status, "historical-only");
+  assert.equal(preflightReport.detailed_thread_usage.evidence_status, "observed");
   assert.equal(preflightReport.provider.status, "unobserved");
   assert.equal(preflightReport.account_usage.availability, "not-probed");
   assert.equal(preflightReport.baseline_qualification.status, "not-qualified");

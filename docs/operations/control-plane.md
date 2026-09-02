@@ -62,6 +62,16 @@ Opt in to the pinned Codex App Server observer for registered task thread IDs:
 node ./templew.mjs control-plane start . --codex
 ```
 
+To observe Codex while also serving the home-LAN read-only viewer, enable both explicitly:
+
+```bash
+node ./templew.mjs control-plane start . \
+  --codex \
+  --lan-viewer-host 192.168.79.5
+```
+
+`--lan-viewer-host` alone serves repository and retained telemetry, but it does not start Codex observation. This separation prevents a network-viewing choice from silently enabling a Provider process.
+
 The HTTP server and repository snapshot become available before optional Codex history synchronization begins. During that background synchronization, provider-dependent state remains capability-labelled as `registered-only`, `history-only`, or `unknown`; Temple Workspace does not wait for an entire conversation history before serving health and snapshot routes.
 
 ### Read Temple Workspace by question
@@ -71,7 +81,7 @@ The complete human-facing browser surface is **Temple Workspace**. It uses famil
 - **Overview** answers what needs attention and shows only four flow metrics: active work, blocked work, live tasks, and human decisions.
 - **Team** separates **Responsibilities**, **People & Agents**, and **Authority**. Responsibilities groups Positions into Product & Experience, Engineering Delivery, and Assurance & Release, showing the default Assignment and eligible-pool size without creating a reporting hierarchy. People & Agents keeps accountable Human Principals distinct from Agent Identities. Authority shows the operating profile, temporary Bootstrap Owner state, recovery readiness, Human Authority Grant count, validation ladder, and separation safeguards. `Configured` never means online.
 - **Work** answers who is working on what. Its responsibility map follows `Teammate → Role → Work Item → Codex task → observed model`; only assigned, blocked, or running work appears in that map. **Open work** uses native, keyboard-operable disclosure rows: selecting a row reveals ownership, progress, task, and technical details. Work waiting for a release decision and planned work are kept in separate collapsed groups.
-- **Usage** answers where observed Tokens and models are going. It shows an explicit evidence-not-ready state instead of treating missing provider observations as zero.
+- **Usage** answers whether new project Token data can be captured and where the observed Tokens and models went. Its capture-health panel distinguishes active capture, a ready Provider with no live task, retained historical-only data, and capture being unavailable. It shows the last successful capture time and completed-Work-Item coverage; missing provider observations remain unknown instead of becoming zero.
 - **Health** answers whether providers and control-plane conditions are healthy.
 - **Activity** keeps terminal Work Items and the bounded occurrence timeline out of the operational starting view.
 

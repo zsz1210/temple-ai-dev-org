@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 90 total, 4 active
+- Work items: 91 total, 5 active
 - Codex tasks: 5 registered, 5 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -26,7 +26,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -137,6 +137,7 @@
 | WI-0088 | Add real-browser Management Console regression coverage | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1a82106c` | 0 | 23 | 0 |
 | WI-0089 | Make Codex task titles outcome-first and refreshable | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `86b0cdf4` | 0 | 23 | 0 |
 | WI-0090 | Requalify Alpha.29 after final integrations | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5b01b4f4` | 0 | 19 | 0 |
+| WI-0091 | Make Usage capture health truthful and verifiable | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260901234830-64de63f5 | `—` | 0 | 10 | 0 |
 
 ## Codex task registry
 
@@ -257,14 +258,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-01T23:35:45.707Z | work_item_coordination_configured | WI-0086 | agent-mog |
-| 2026-09-01T23:35:40.265Z | work_item_coordination_configured | WI-0086 | agent-mog |
-| 2026-09-01T23:35:26.189Z | work_item_closed | WI-0090 | agent-mog |
-| 2026-09-01T23:35:26.189Z | release_gate_completed | WI-0090 | agent-mog |
-| 2026-09-01T23:35:21.499Z | evidence_recorded | WI-0090 | human |
-| 2026-09-01T23:34:48.790Z | work_item_claimed | WI-0090 | human |
-| 2026-09-01T23:34:48.462Z | work_item_transitioned | WI-0090 | agent-lulu |
-| 2026-09-01T23:34:48.132Z | handoff_created | WI-0090 | agent-lulu |
+| 2026-09-01T23:48:30.340Z | work_item_claimed | WI-0091 | human |
+| 2026-09-01T23:48:30.001Z | work_item_transitioned | WI-0091 | agent-tidus |
+| 2026-09-01T23:48:29.651Z | handoff_created | WI-0091 | agent-tidus |
+| 2026-09-01T23:47:35.905Z | work_item_claimed | WI-0091 | human |
+| 2026-09-01T23:47:35.584Z | work_item_transitioned | WI-0091 | agent-yuna |
+| 2026-09-01T23:47:35.239Z | handoff_created | WI-0091 | agent-yuna |
+| 2026-09-01T23:46:47.043Z | work_item_claimed | WI-0091 | human |
+| 2026-09-01T23:46:46.713Z | work_item_transitioned | WI-0091 | agent-mog |
 
 ## Assignments
 

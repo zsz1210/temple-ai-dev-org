@@ -433,6 +433,8 @@ test("HTTP snapshot and SSE replay expose local events while arbitrary mutation 
   assert.equal(initial.usage.schema_version, "temple.usage-baseline/v1");
   assert.equal(initial.usage.baseline_status, "insufficient-data");
   assert.equal(initial.usage.totals.total_tokens, null);
+  assert.equal(initial.usage.source.capture_health.status, "not-capturing");
+  assert.equal(initial.usage.source.capture_health.observations, 0);
   assert.equal(initial.usage.source.longitudinal_coverage.qualification.status, "not-qualified");
   assert.equal(initial.usage.canonical_state_changed, false);
   const cursor = initial.journal.last_cursor;
@@ -476,6 +478,8 @@ test("HTTP snapshot and SSE replay expose local events while arbitrary mutation 
   const observedUsage = (await (await fetch(`${controlPlane.url}/api/v1/snapshot`)).json()).usage;
   assert.equal(observedUsage.baseline_status, "observed");
   assert.equal(observedUsage.totals.total_tokens, 175);
+  assert.equal(observedUsage.source.capture_health.status, "historical-only");
+  assert.equal(observedUsage.source.capture_health.last_observed_at, observedUsage.driver_groups[0].last_observed_at);
   assert.equal(observedUsage.driver_groups[0].dimensions.model, "fixture-model");
   assert.equal(observedUsage.source.longitudinal_coverage.detailed_token_observation_coverage.uncorrelated_observations, 1);
   assert.doesNotMatch(JSON.stringify(observedUsage), /must-not-enter-the-usage-projection/);
@@ -643,7 +647,13 @@ test("Codex history bounds are validated and Temple Workspace exposes terminal w
   assert.match(html, /Technical details/);
   assert.match(html, /Effective workspace configuration/);
   assert.match(html, /data-system-mode="configuration"/);
-  assert.match(html, /This is recorded evidence, not a live or account-wide meter/);
+  assert.match(html, /This measures captured project work, not your whole account/);
+  assert.match(html, /The capture status below explains whether new work can be observed now/);
+  assert.match(html, /Historical data only/);
+  assert.match(html, /Ready for the next registered task/);
+  assert.match(html, /Token capture is off/);
+  assert.match(html, /Completed work/);
+  assert.match(html, /Eligible live tasks/);
   assert.doesNotMatch(html, /Scenario: worker running|WI-0077 design preview/);
   assert.match(html, /Last updated /);
   assert.match(html, /Updates delayed/);

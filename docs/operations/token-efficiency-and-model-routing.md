@@ -149,12 +149,14 @@ The command is read-only. It separates two sources that must not be merged:
 | `thread/tokenUsage/updated` | Usage for an observed provider thread, with Work Item and task attribution when the registered thread matches | Account billing totals or a project it did not observe |
 | `account/usage/read` | Whether Codex-backed account activity fields and daily buckets are available | Which project, Work Item, Position, Agent, task, model, outcome, price, or cost produced that activity |
 
-The detailed source reports one of four states:
+Capture health reports one of four current states. It is intentionally separate from whether historical evidence exists:
 
-- `observed`: at least one detailed usage event exists;
-- `awaiting-observation`: an active, waiting, or attention task is registered and detailed Token notifications are supported, but no usage event has arrived; inspect Provider health and `degraded_reason` before interpreting it;
-- `no-live-registered-task`: only terminal, setup, or history-only tasks exist;
-- `provider-unavailable`: a live-resumable task exists but the required Provider capability is unavailable.
+- `capturing`: the Codex Provider is ready, detailed Token notifications are supported, and at least one eligible active registered task can be observed;
+- `ready-no-live-task`: the Provider is ready, but no eligible active registered task is attached, so there is nothing current to observe;
+- `historical-only`: one or more detailed observations are retained, but the current Provider path is not ready. Totals stop at `last_observed_at` and must not imply that later work was measured;
+- `not-capturing`: no detailed observation exists and the current Provider path cannot collect one. Missing usage stays unknown, not zero.
+
+The report also exposes `evidence_status` as `observed` or `none`, the last successful capture time, eligible live-task count, and completed-Work-Item coverage. A ready Provider does not prove that a notification has arrived, while an old observation does not prove that capture is still running.
 
 Completed tasks and tasks attached to `done` or `cancelled` Work Items remain eligible for bounded history reconciliation, but Temple never resumes them as live subscriptions. Archived tasks remain detached from Provider reconciliation. Registering a Codex task does not itself create or take ownership of a live task.
 

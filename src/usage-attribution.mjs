@@ -1215,6 +1215,13 @@ export function buildUsageBaselineFromRecords(project, records, options = {}) {
     projectId: project.id,
     matchedAdvisory
   });
+  const captureHealth = buildUsageCaptureHealth(
+    options.providers ?? [],
+    options.tasks ?? [],
+    options.workItems ?? [],
+    usageRecords,
+    longitudinalCoverage
+  );
   const matchedAvailable = matchedAdvisory.status === "available";
   const shadowAvailable = longitudinalCoverage.recommendation.status === "available";
   return {
@@ -1229,6 +1236,7 @@ export function buildUsageBaselineFromRecords(project, records, options = {}) {
       last_cursor: options.activeJournal?.last_cursor ?? records.at(-1)?.templecursor ?? 0,
       observations: usageRecords.length,
       aggregation_basis: "provider-last-usage-delta",
+      capture_health: captureHealth,
       history: options.history ?? {
         schema_version: "temple.usage-history/v1",
         status: "active-only",
@@ -1280,6 +1288,66 @@ export function buildUsageBaselineFromRecords(project, records, options = {}) {
     },
     canonical_state_changed: false,
     external_action_performed: false
+  };
+}
+
+function buildUsageCaptureHealth(providers, tasks, workItems, usageRecords, longitudinalCoverage = null) {
+  const provider = providers.find((entry) => entry.kind === "codex-app-server" || entry.id === "codex-local") ?? null;
+  const providerStatus = provider?.status ?? "unobserved";
+  const tokenCapability = provider?.capabilities?.token_usage ?? "unknown";
+  const topology = classifyCodexTasks(tasks, { workItems });
+  const providerReady = providerStatus === "ready" && tokenCapability === "supported";
+  const liveTasks = topology.live_resumable.length;
+  const observations = usageRecords.length;
+  const observedTimes = usageRecords
+    .map((record) => record.templeobservedat ?? record.time ?? null)
+    .filter((value) => typeof value === "string" && value.length > 0)
+    .sort();
+  const lastObservedAt = observedTimes.at(-1) ?? null;
+  const coverage = longitudinalCoverage ?? buildLongitudinalCoverage(workItems, tasks, usageRecords);
+  const capturedCompleted = coverage.detailed_token_observation_coverage?.correlated_completed_work_items ?? 0;
+  const completed = coverage.canonical_work_items?.completed ?? 0;
+
+  let status;
+  let reason;
+  if (providerReady && liveTasks > 0) {
+    status = "capturing";
+    reason = "provider-ready-with-live-task";
+  } else if (providerReady) {
+    status = "ready-no-live-task";
+    reason = "no-live-registered-task";
+  } else if (observations > 0) {
+    status = "historical-only";
+    reason = !provider
+      ? "provider-unobserved"
+      : tokenCapability !== "supported"
+        ? "token-usage-capability-unavailable"
+        : `provider-${providerStatus}`;
+  } else {
+    status = "not-capturing";
+    reason = !provider
+      ? "provider-unobserved"
+      : tokenCapability !== "supported"
+        ? "token-usage-capability-unavailable"
+        : liveTasks > 0
+          ? "live-task-without-ready-provider"
+          : `provider-${providerStatus}`;
+  }
+
+  return {
+    schema_version: "temple.usage-capture-health/v1",
+    status,
+    provider_id: provider?.id ?? "codex-local",
+    provider_status: providerStatus,
+    token_usage_capability: tokenCapability,
+    provider_detail: provider?.degraded_reason ?? null,
+    reason,
+    live_resumable_tasks: liveTasks,
+    observations,
+    last_observed_at: lastObservedAt,
+    captured_completed_work_items: capturedCompleted,
+    completed_work_items: completed,
+    completed_work_item_coverage_ratio: completed > 0 ? capturedCompleted / completed : null
   };
 }
 
@@ -1374,27 +1442,25 @@ export function buildUsagePreflightFromRecords(project, tasks, records, provider
   });
   const codexProvider = providers.find((provider) => provider.kind === "codex-app-server" || provider.id === "codex-local") ?? null;
   const tokenCapability = codexProvider?.capabilities?.token_usage ?? "unknown";
-  const providerOperational = codexProvider && !["offline", "disabled"].includes(codexProvider.status);
   const correlated = correlateRegisteredTaskUsage(topology.registered, usageRecords);
-  let detailedStatus = "no-live-registered-task";
-  if (usageRecords.length > 0) detailedStatus = "observed";
-  else if (topology.live_resumable.length === 0) detailedStatus = "no-live-registered-task";
-  else if (!providerOperational || tokenCapability !== "supported") detailedStatus = "provider-unavailable";
-  else if (topology.live_resumable.length > 0) detailedStatus = "awaiting-observation";
+  const captureHealth = buildUsageCaptureHealth(providers, tasks, options.workItems ?? [], usageRecords, longitudinalCoverage);
+  const detailedStatus = captureHealth.status;
   const probe = accountProbe ?? unavailableAccountProbe(false);
   const nextAction = matchedAdvisory.status === "available"
     ? "Review the matched advisory and its bounded evidence; no model switch is authorized or performed."
     : matchedAdvisory.status === "qualified-shadow"
       ? "The matched evaluation is qualified in shadow mode; changing project policy to advisory is a separate policy decision and still performs no model switch."
-      : detailedStatus === "observed"
+      : usageRecords.length > 0 && ["capturing", "ready-no-live-task"].includes(detailedStatus)
     ? longitudinalCoverage.qualification.status === "qualified"
       ? "Review the shadow recommendation and its evidence gaps; routine observation needs no approval and no model switch is authorized."
       : "Accumulate varied, completed, revision-current real Work Items before comparing usage or recommending a model."
-    : detailedStatus === "awaiting-observation"
+    : detailedStatus === "capturing"
       ? "Run a real turn on the provider-owned active task and check for a detailed usage notification."
-      : detailedStatus === "no-live-registered-task"
+      : detailedStatus === "ready-no-live-task"
         ? "Use a provider-owned active task or a future Codex host event bridge; registration alone does not create a live subscription."
-        : "Restore the configured Codex Provider before attempting a detailed usage baseline.";
+        : detailedStatus === "historical-only"
+          ? "Enable the Codex Provider before the next registered task starts; retained totals cannot represent work that was not observed."
+          : "Restore the configured Codex Provider before attempting a detailed usage baseline.";
   return {
     schema_version: "temple.usage-preflight/v1",
     generated_at: new Date().toISOString(),
@@ -1431,6 +1497,7 @@ export function buildUsagePreflightFromRecords(project, tasks, records, provider
     },
     detailed_thread_usage: {
       status: detailedStatus,
+      evidence_status: usageRecords.length > 0 ? "observed" : "none",
       scope: "registered-provider-active-thread",
       allocation: "work-item-capable",
       observations: usageRecords.length,
@@ -1438,6 +1505,7 @@ export function buildUsagePreflightFromRecords(project, tasks, records, provider
       uncorrelated_observations: usageRecords.length - correlated.length,
       aggregation_basis: "provider-last-usage-delta"
     },
+    capture_health: captureHealth,
     account_usage: probe,
     baseline_qualification: {
       status: longitudinalCoverage.qualification.status,
@@ -1552,6 +1620,7 @@ export async function buildUsageBaseline(target, options = {}) {
   const config = await readControlPlaneConfig(target);
   const stateDirectory = resolveControlPlaneStateDirectory(target, options.stateDirectory ?? config.state_directory);
   const journalPath = path.join(stateDirectory, "journal/events.jsonl");
+  const providerPath = path.join(stateDirectory, "providers.json");
   let activeRecords = [];
   if (await pathExists(journalPath)) {
     const journal = await openTelemetryJournal(stateDirectory, {
@@ -1565,11 +1634,15 @@ export async function buildUsageBaseline(target, options = {}) {
       await journal.close();
     }
   }
+  const providers = await pathExists(providerPath)
+    ? (await readJson(providerPath)).providers ?? []
+    : [];
   const usageHistory = await readUsageTelemetryHistory(stateDirectory, activeRecords, { projectId: project.id });
   const report = buildUsageBaselineFromRecords(project, usageHistory.records, {
     stateDirectory,
     workItems,
     tasks: taskRegistry.tasks ?? [],
+    providers,
     usagePolicy: usagePolicyResult.policy,
     usagePolicySource: usagePolicyResult.source,
     matchedEvaluationSources,

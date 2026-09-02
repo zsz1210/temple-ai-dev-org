@@ -227,6 +227,7 @@ export async function buildControlPlaneSnapshot(target, journal, registry, optio
     stateDirectory: options.stateDirectory ?? null,
     workItems: observer.work.items,
     tasks: taskRegistry.tasks ?? [],
+    providers: registry.list(),
     history: usageHistory.history,
     activeJournal: usageHistory.activeJournal
   });
