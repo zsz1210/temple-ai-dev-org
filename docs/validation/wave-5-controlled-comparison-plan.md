@@ -1,6 +1,6 @@
 # Wave 5 controlled comparison plan
 
-- Status: **fourth live attempt stopped at its Token limit / mechanism not yet qualified**
+- Status: **Wave 5A completed; mechanism evidence retained; efficiency and independent blind-comparison claims remain unqualified**
 - Work Item: `WI-0106`
 - Evidence class: current official documentation, retained local telemetry, deterministic study design
 - Model generation in this Work Item: **none**
@@ -82,4 +82,6 @@ The proposed hard envelope is four sequential Luna Max turns, 80,000 total Token
 
 ## Next decision
 
-Do not raise the Token ceiling or start a fifth live attempt from this result alone. First analyze why the bounded task consumed more than 100,000 reported Tokens under Luna Max, determine whether task context, reasoning effort, completion protocol, or observation cadence is the controllable driver, and correct interrupted-turn disk accounting. Any later model-backed experiment requires another Work Item, fresh lab, reviewed limits, and explicit execution authority; `WI-0112` cannot be resumed.
+`WI-0116` completed the first reproducible offline overhead analysis and added a fail-closed Wave 5B evaluator protocol. It found 606 ms (0.13%) of coordinator overhead beyond the four candidate durations; the measured difference is dominated by candidate execution, not runner bookkeeping. The retained aggregate cannot causally separate instruction volume, Max reasoning, completion behavior, or observation cadence.
+
+Wave 5B must use a fresh evaluator Provider context with an arm-neutral hashed input manifest, freeze and sign scores before the coordinator mapping is unsealed, and reject the comparison if that boundary is absent. See the [Wave 5A overhead analysis](wave-5a-overhead-analysis.md). Any model-backed run still requires a new Work Item, fresh lab, reviewed limits, and explicit authority at the external-spend boundary; stopped historical labs cannot be resumed.

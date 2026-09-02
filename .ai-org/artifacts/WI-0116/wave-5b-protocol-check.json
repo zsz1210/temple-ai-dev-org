@@ -1,0 +1,10 @@
+{
+  "schema_version": "temple.wave-5b-protocol-check/v1",
+  "status": "qualified",
+  "failures": [],
+  "input_manifest_digest": "9af3abfae2246e4e026932129560d72bfbf08886ab6ff1e0abbf14febc8ff2ac",
+  "score_frozen_before_mapping_unseal": true,
+  "separation_class": "fresh-provider-context-with-arm-neutral-manifest",
+  "os_security_sandbox_claimed": false,
+  "model_generation_performed": false
+}

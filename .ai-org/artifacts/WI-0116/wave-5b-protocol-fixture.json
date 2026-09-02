@@ -1,0 +1,42 @@
+{
+  "schema_version": "temple.wave-5b-evaluator-protocol/v1",
+  "evaluator_context": {
+    "context_id": "fixture-fresh-evaluator-context",
+    "fresh": true,
+    "coordinator_inputs_available": false,
+    "arm_mapping_available": false,
+    "provider_context_evidence_ref": "fixture/task-registry/fresh-evaluator-context"
+  },
+  "input_manifest": {
+    "files": [
+      {
+        "path": "blind/package-001.json",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "kind": "arm-neutral-package"
+      },
+      {
+        "path": "rubric/wave-5b-v1.json",
+        "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "kind": "frozen-rubric"
+      }
+    ],
+    "digest": "9af3abfae2246e4e026932129560d72bfbf08886ab6ff1e0abbf14febc8ff2ac"
+  },
+  "evaluator_visible_metadata": {
+    "study_id": "wave-5b-protocol-fixture",
+    "package_count": 1,
+    "rubric_version": "wave-5b-v1"
+  },
+  "score_freeze": {
+    "frozen_at": "2026-09-03T00:00:00.000Z",
+    "artifact_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "evaluator_context_id": "fixture-fresh-evaluator-context",
+    "input_manifest_digest": "9af3abfae2246e4e026932129560d72bfbf08886ab6ff1e0abbf14febc8ff2ac",
+    "signed_by": "fixture-independent-evaluator"
+  },
+  "mapping_unseal": {
+    "unsealed_at": "2026-09-03T00:01:00.000Z",
+    "score_artifact_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "joined_by": "fixture-coordinator"
+  }
+}

@@ -36,6 +36,7 @@ Validation records preserve bounded evidence for framework capabilities. They id
 - [Wave 2 coordination evidence — bounded live coordination passed; real multi-human and multi-machine use remains not run](wave-2-coordination-evidence.md)
 - [Wave 3 local multi-repository service evidence — passed with Independent QA and retained local-only limits](wave-3-local-microservice-evidence.md)
 - [Wave 4 organization-scale operating boundaries — local matrix passed; real enterprise operations remain not run](wave-4-operating-boundaries.md)
-- [Wave 5 controlled comparison — designed; model-backed feasibility run awaits explicit resource approval](wave-5-controlled-comparison-plan.md)
+- [Wave 5 controlled comparison — first four-turn mechanism run completed; efficiency and blind-comparison claims remain unqualified](wave-5-controlled-comparison-plan.md)
+- [Wave 5A overhead analysis — reproducible offline findings and Wave 5B evaluator boundary](wave-5a-overhead-analysis.md)
 - [Bounded four-repository commerce rehearsal — stopped safely at the Token ceiling](bounded-four-repository-commerce-rehearsal.md)
 - [Collaborative large-scale real-environment test plan — planned / not run](collaborative-large-scale-test-plan.md)
