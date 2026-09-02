@@ -159,7 +159,7 @@
 | WI-0109 | Add no-generation App Server protocol replay | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a21fbc4f` | 0 | 18 | 0 |
 | WI-0110 | Run bounded Wave 5A controlled comparison | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `19b78371` | 0 | 20 | 1 |
 | WI-0111 | Make command policy quote-aware | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2d523b5f` | 0 | 18 | 0 |
-| WI-0112 | Run quote-aware Wave 5A controlled comparison | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a836643a` | 0 | 13 | 0 |
+| WI-0112 | Run quote-aware Wave 5A controlled comparison | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a836643a` | 0 | 16 | 0 |
 
 ## Codex task registry
 
@@ -296,14 +296,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-02T15:46:50.699Z | work_item_transitioned | WI-0112 | agent-lulu |
+| 2026-09-02T15:46:41.450Z | handoff_created | WI-0112 | agent-lulu |
+| 2026-09-02T15:46:41.197Z | work_item_transitioned | WI-0112 | agent-lulu |
+| 2026-09-02T15:46:41.004Z | evidence_recorded | WI-0112 | human |
 | 2026-09-02T15:45:25.638Z | work_item_transitioned | WI-0112 | agent-rikku |
 | 2026-09-02T15:45:25.365Z | handoff_created | WI-0112 | agent-rikku |
 | 2026-09-02T15:45:25.167Z | evidence_recorded | WI-0112 | human |
 | 2026-09-02T15:38:09.046Z | work_item_claimed | WI-0112 | human |
-| 2026-09-02T15:38:08.814Z | work_item_transitioned | WI-0112 | agent-tidus |
-| 2026-09-02T15:38:08.585Z | handoff_created | WI-0112 | agent-tidus |
-| 2026-09-02T15:38:08.341Z | work_item_transitioned | WI-0112 | agent-yuna |
-| 2026-09-02T15:38:08.123Z | handoff_created | WI-0112 | agent-yuna |
 
 ## Assignments
 

@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0112",
   "title": "Run quote-aware Wave 5A controlled comparison",
-  "state": "test",
-  "owner_position": "quality_evaluator",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-02T15:36:32.112Z",
-  "updated_at": "2026-09-02T15:45:25.638Z",
+  "updated_at": "2026-09-02T15:46:50.699Z",
   "scope": [
     "Create a fresh isolated Wave 5A lab, pass the merged quote-aware offline replay and exact installed-schema preflight, then execute at most four sequential gpt-5.6-luna Max candidate turns under zero-retry fail-closed limits."
   ],
@@ -109,6 +109,12 @@
       ".ai-org/artifacts/WI-0112/developer-report.md",
       ".ai-org/artifacts/WI-0112/developer-test-observation.json",
       ".ai-org/artifacts/WI-0112/failed-run-observation.json"
+    ],
+    "test_evidence": [
+      "EVID-20260902T154525Z-CFAE8E8D"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0112/quality-report.md"
     ]
   },
   "evidence": [
@@ -124,10 +130,13 @@
     ".ai-org/artifacts/WI-0112/handoff-004-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0112/developer-report.md",
     ".ai-org/artifacts/WI-0112/developer-test-observation.json",
-    ".ai-org/artifacts/WI-0112/failed-run-observation.json"
+    ".ai-org/artifacts/WI-0112/failed-run-observation.json",
+    "EVID-20260902T154525Z-CFAE8E8D",
+    ".ai-org/artifacts/WI-0112/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0112/quality-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "release_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -156,6 +165,13 @@
       "input_revision": "a836643ab9aae4b0690bedae2b2c15ef98b0695e",
       "artifact": ".ai-org/artifacts/WI-0112/handoff-004-developer-to-quality_evaluator.md",
       "created_at": "2026-09-02T15:45:25.365Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "a836643ab9aae4b0690bedae2b2c15ef98b0695e",
+      "artifact": ".ai-org/artifacts/WI-0112/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-02T15:46:41.450Z"
     }
   ],
   "developer_candidate_revision": "a836643ab9aae4b0690bedae2b2c15ef98b0695e"

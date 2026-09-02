@@ -17000,6 +17000,56 @@
         "exit_code": 0,
         "started_at": "2026-09-02T15:38:43.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T154641Z-1C1645A8",
+      "work_item_id": "WI-0112",
+      "recorded_at": "2026-09-02T15:46:41.004Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 5A fourth-run quality evaluation",
+      "outcome": "pass",
+      "scope_revision": "a836643ab9aae4b0690bedae2b2c15ef98b0695e",
+      "observed_at": "2026-09-02T15:45:55.000Z",
+      "summary": "Fresh detached launch revision and retained r4 state confirm safe Token-limit stop, zero retry, and no completed comparison candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0112/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0112/quality-test-observation.json",
+          "sha256": "29840aed4f7fe08546fe143e68bb1b055dc494929603a408f9b7c2efcfcd90ef"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0112/quality-report.md",
+          "sha256": "54bd5c4ae61bb1805be27fee593b2c1f7427ca318e9ed1524a898139604f935d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0112/failed-run-observation.json",
+          "sha256": "fce3e7d957945aa4f0416e27bfbb73859234a6b6c8fa4d2d98f7353c2cbb189b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0112/preflight-observation.json",
+          "sha256": "af19581c185f736aaba6d0f4cad872cd5fd4c720472b2cdb898a89a85552421d"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached exact launch revision: node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
+          "inspect retained r4 coordinator run result and event state",
+          "inspect all four candidate Git states and blind package count",
+          "verify interrupted candidate diff has no whitespace errors"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T15:45:52.000Z"
+      }
     }
   ]
 }
