@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0115",
   "title": "Validate clean agent-led greenfield onboarding",
-  "state": "test",
-  "owner_position": "quality_evaluator",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-02T22:24:19.021Z",
-  "updated_at": "2026-09-02T22:30:28.328Z",
+  "updated_at": "2026-09-02T22:32:28.251Z",
   "scope": [
     "Run a disposable clean-project adoption from the current main package using only installed agent entrypoints and public setup guidance.",
     "Measure deterministic setup duration, files read, authority flags, required human interventions, and any Provider-observed usage without retaining prompts.",
@@ -50,14 +50,14 @@
     "WI-0107: historical stopped Wave 5A evidence remains immutable; WI-0115 uses a distinct artifact directory and validation document"
   ],
   "claim": {
-    "id": "claim-20260902223028-0dc0e92f",
+    "id": "claim-20260902223228-a7f34a3b",
     "status": "active",
     "principal_id": "human",
     "agent_id": "agent-lulu",
     "base_revision": "11012a38523676f1187fbea8b4a388ba4d81bb18",
     "branch": "codex/wi-0115-0117-validation-program",
     "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
-    "claimed_at": "2026-09-02T22:30:28.328Z",
+    "claimed_at": "2026-09-02T22:32:28.251Z",
     "released_at": null
   },
   "claims": [
@@ -119,13 +119,27 @@
     },
     {
       "id": "claim-20260902223028-0dc0e92f",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-lulu",
       "base_revision": "11012a38523676f1187fbea8b4a388ba4d81bb18",
       "branch": "codex/wi-0115-0117-validation-program",
       "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
       "claimed_at": "2026-09-02T22:30:28.328Z",
+      "released_at": "2026-09-02T22:32:27.723Z",
+      "release_reason": [
+        "handoff_to_independent_qa"
+      ]
+    },
+    {
+      "id": "claim-20260902223228-a7f34a3b",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "11012a38523676f1187fbea8b4a388ba4d81bb18",
+      "branch": "codex/wi-0115-0117-validation-program",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T22:32:28.251Z",
       "released_at": null
     }
   ],
@@ -152,6 +166,12 @@
       "EVID-20260902T223014Z-DC6D1CDD",
       "EVID-20260902T223015Z-B9486904",
       ".ai-org/artifacts/WI-0115/developer-report.md"
+    ],
+    "test_evidence": [
+      "EVID-20260902T223202Z-7B362D3A"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0115/evaluation-report.md"
     ]
   },
   "evidence": [
@@ -166,10 +186,13 @@
     ".ai-org/artifacts/WI-0115/handoff-004-developer-to-quality_evaluator.md",
     "EVID-20260902T223014Z-DC6D1CDD",
     "EVID-20260902T223015Z-B9486904",
-    ".ai-org/artifacts/WI-0115/developer-report.md"
+    ".ai-org/artifacts/WI-0115/developer-report.md",
+    "EVID-20260902T223202Z-7B362D3A",
+    ".ai-org/artifacts/WI-0115/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0115/evaluation-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "release_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -198,6 +221,13 @@
       "input_revision": "11012a38523676f1187fbea8b4a388ba4d81bb18",
       "artifact": ".ai-org/artifacts/WI-0115/handoff-004-developer-to-quality_evaluator.md",
       "created_at": "2026-09-02T22:30:27.439Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "11012a38523676f1187fbea8b4a388ba4d81bb18",
+      "artifact": ".ai-org/artifacts/WI-0115/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-02T22:32:27.452Z"
     }
   ],
   "developer_candidate_revision": "11012a38523676f1187fbea8b4a388ba4d81bb18"
