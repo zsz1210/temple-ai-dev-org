@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
 - Work items: 106 total, 5 active
 - Codex tasks: 6 registered, 6 archive-ready
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -153,7 +153,7 @@
 | WI-0103 | Reconcile Wave 2 coordination evidence | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5d58b65c` | 0 | 15 | 0 |
 | WI-0104 | Validate a local multi-repository service rollout | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6385b89d` | 0 | 17 | 3 |
 | WI-0105 | Qualify Wave 4 operating boundaries | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `43100b5e` | 0 | 12 | 0 |
-| WI-0106 | Design Wave 5 controlled matched comparison | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902110623-d4558ffb | `d3ea908d` | 0 | 10 | 0 |
+| WI-0106 | Design Wave 5 controlled matched comparison | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `d3ea908d` | 0 | 13 | 0 |
 
 ## Codex task registry
 
@@ -287,14 +287,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-02T11:33:33.893Z | work_item_transitioned | WI-0106 | agent-lulu |
+| 2026-09-02T11:33:33.664Z | handoff_created | WI-0106 | agent-lulu |
+| 2026-09-02T11:33:14.275Z | work_item_transitioned | WI-0106 | agent-lulu |
+| 2026-09-02T11:33:03.164Z | evidence_recorded | WI-0106 | human |
+| 2026-09-02T11:30:04.494Z | evidence_recorded | WI-0106 | human |
 | 2026-09-02T11:06:23.583Z | work_item_claimed | WI-0106 | human |
 | 2026-09-02T11:06:23.344Z | work_item_transitioned | WI-0106 | agent-rikku |
 | 2026-09-02T11:06:23.073Z | handoff_created | WI-0106 | agent-rikku |
-| 2026-09-02T11:06:05.667Z | evidence_recorded | WI-0106 | human |
-| 2026-09-02T11:04:54.964Z | evidence_recorded | WI-0106 | human |
-| 2026-09-02T11:02:32.802Z | work_item_claimed | WI-0106 | human |
-| 2026-09-02T11:02:32.572Z | work_item_transitioned | WI-0106 | agent-tidus |
-| 2026-09-02T11:02:32.343Z | handoff_created | WI-0106 | agent-tidus |
 
 ## Assignments
 

@@ -15853,6 +15853,68 @@
         "exit_code": 1,
         "started_at": "2026-09-02T11:06:40.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T113303Z-9A8048CC",
+      "work_item_id": "WI-0106",
+      "recorded_at": "2026-09-02T11:33:03.164Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 5 corrected design quality verification",
+      "outcome": "pass",
+      "scope_revision": "c27f193d03f36ecc50c6e4d4dba3f55e6928b0f9",
+      "observed_at": "2026-09-02T11:32:11.000Z",
+      "summary": "Exact candidate c27f193 passed fixture, manifest, resource, repository, schema, and clean-worktree checks; no model generation or external write.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0106/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0106/quality-test-observation.json",
+          "sha256": "7da82707c6e2d4462ccb336d09686c03287836d417e878fd55ec211a3232f8bc"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/quality-report.md",
+          "sha256": "fbb1b77c3d1ba6130540b39fe43aabface89b01060b4f16084ad4c5479f79a93"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/quality-attempt-1-report.md",
+          "sha256": "7414168bc41e6c2b3cca47d0e35b31d7e9c5d96bc980ed501793c4691bf244a9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/fixtures/feasibility-protocol.json",
+          "sha256": "e32c8b9d1f19150a5b3ebbe8d6df5d5ca69b4734ba17c45fbac92c48e0f5744c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/resource-preflight.json",
+          "sha256": "f0ed7f16398cde3bbc45fcd73d34f3cbc6a97741577125e518b1874ec5b8cfa5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/technical-design.md",
+          "sha256": "3ccd6ed5490b26db37761199f9c3d70fc85bc740d97002fcb4ab696d2fe5d613"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run check in a detached exact-candidate worktree",
+          "node ./templew.mjs schema validate . --json in a detached exact-candidate worktree",
+          "run both public starter suites",
+          "prove both hidden suites fail on the defective starter for an intended assertion",
+          "prove both hidden suites pass with only the pinned reference source",
+          "recompute 19 manifest digest and deterministic-order checks",
+          "recompute 12 resource arithmetic and authority checks",
+          "git diff --check and clean exact-candidate assertion"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T11:31:00.000Z"
+      }
     }
   ]
 }
