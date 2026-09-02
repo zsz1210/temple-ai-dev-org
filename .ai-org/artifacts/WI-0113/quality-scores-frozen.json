@@ -5,7 +5,11 @@
   "evaluator_agent_id": "agent-lulu",
   "frozen_at": "2026-09-02T16:42:51Z",
   "source": "arm-neutral blind packages only",
-  "condition_or_usage_used_for_scoring": false,
+  "score_inputs": "arm-neutral package fields only",
+  "condition_or_usage_used_as_score_inputs": false,
+  "evaluator_blinding_status": "compromised-before-freeze",
+  "comparative_quality_claim_allowed": false,
+  "blinding_note": "The blind packages omit condition and usage as designed, but the same evaluator context accessed a separate coordinator observation before this file was frozen. These deterministic package scores remain useful for objective gate diagnosis, but they are not accepted as an independently blinded comparative evaluation.",
   "minimum_weighted_score": 0.85,
   "dimensions": {
     "hidden_acceptance_correctness": 0.45,
@@ -79,6 +83,6 @@
   "signature": {
     "type": "repository-agent-attestation",
     "signed_by": "agent-lulu",
-    "statement": "The scores above are frozen before condition and usage are used for comparative interpretation."
+    "statement": "The scores above are frozen from package fields only. Evaluator-context exposure is disclosed and prevents an independently blinded comparative claim."
   }
 }

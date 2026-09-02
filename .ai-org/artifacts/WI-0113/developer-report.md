@@ -23,9 +23,11 @@ The final implementation isolates inherited parent-task environment variables, u
 - No retry, fallback, reset redemption, purchased-Credit authorization, network access, dependency installation, or external candidate write occurred.
 - The public rate-card formula retained by the approved protocol produces 1.865109 equivalent Credits. This is not an observed bill or proof of personal Pro accounting.
 
-Three candidates passed both public and hidden tests. The minimal idempotent-command candidate passed its public tests but failed hidden acceptance because it returned the same state object for a retry. The blind quality gate rejected it.
+Three candidates passed both public and hidden tests. The minimal idempotent-command candidate passed its public tests but failed hidden acceptance because it returned the same state object for a retry. The objective quality gate rejected it.
 
-Only the compatible-event-evolution pair qualified for resource comparison. On that single pair, Temple used 22,471 more operational-budget Tokens (+71.89%) and 118,330 ms more time (+145.38%). The pilot therefore supports no Token-saving, speed, superiority, or automatic-routing claim. It does show that the four-turn execution, correlation, detailed usage capture, exact revisions, blind packages, and hidden quality gate work end to end.
+Only the compatible-event-evolution pair qualified for descriptive resource comparison. On that single pair, Temple used 22,471 more operational-budget Tokens (+71.89%) and 118,330 ms more time (+145.38%). The pilot therefore supports no Token-saving, speed, superiority, or automatic-routing claim. It does show that the four-turn execution, correlation, detailed usage capture, exact revisions, blind-package export, and hidden quality gate work end to end.
+
+The packages themselves withheld condition, usage, and resolvable revisions as designed. However, the coordinator's separate local observation remained readable to the same evaluator context and was accessed before the score artifact was frozen. The package scores use only package fields, but this run cannot prove independent evaluator blinding. A future qualifying study must enforce evaluator access separation rather than relying on convention.
 
 ## Privacy and retained evidence
 

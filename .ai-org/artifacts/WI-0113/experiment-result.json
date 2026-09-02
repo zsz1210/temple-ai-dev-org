@@ -102,13 +102,17 @@
     }
   ],
   "interpretation": {
-    "mechanism_feasible": true,
+    "live_execution_feasible": true,
+    "correlation_and_measurement_feasible": true,
+    "objective_quality_gate_feasible": true,
+    "independent_blind_evaluator_isolation_feasible": false,
+    "overall_mechanism_qualified": false,
     "quality_gate_detected_public_test_blind_spot": true,
     "causal_savings_claim": false,
     "temple_superiority_claim": false,
     "automatic_routing_authorized": false,
     "statistical_qualification": false,
-    "note": "Only one pair passed quality in both conditions, and that pair used more operational-budget Tokens and time under Temple. The pilot validates the measurement mechanism, not an efficiency advantage."
+    "note": "Only one pair passed objective quality in both conditions, and that pair used more operational-budget Tokens and time under Temple. The pilot validates execution, correlation, measurement, and hidden acceptance gating. Evaluator-context exposure means it does not validate independent blind scoring or an efficiency advantage."
   },
   "account_boundary": {
     "automatic_credit_reload_disabled": true,
