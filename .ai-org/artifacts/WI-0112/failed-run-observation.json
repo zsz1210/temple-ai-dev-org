@@ -1,0 +1,57 @@
+{
+  "schema_version": "temple.wave-5a-failed-run-observation/v1",
+  "work_item_id": "WI-0112",
+  "program_id": "wave-5a-process-feasibility",
+  "started_at": "2026-09-02T15:38:56.143Z",
+  "stopped_at": "2026-09-02T15:39:53.948Z",
+  "status": "stopped",
+  "stop_code": "per-turn-token-hard-limit",
+  "safe_reason": "The first Luna Max turn reported 106646 total Tokens at the first usage update above the reactive 80000-Token hard limit. Temple requested interruption, stopped the program, and did not launch the remaining turns.",
+  "counters": {
+    "turns_started": 1,
+    "turns_completed": 0,
+    "launch_attempts": 1,
+    "aggregate_tokens_observed": 106646,
+    "program_elapsed_ms": 57923,
+    "aggregate_disk_delta_bytes_reported": 0
+  },
+  "usage_progression_total_tokens": [24595, 51306, 78339, 106646],
+  "turns": {
+    "turn-01": "stopped-by-per-turn-token-hard-limit",
+    "turn-02": "not-started",
+    "turn-03": "not-started",
+    "turn-04": "not-started"
+  },
+  "candidate_state": {
+    "dirty_repositories": 1,
+    "clean_repositories": 3,
+    "modified_paths": [
+      "src/command-store.mjs",
+      "test/public.test.mjs"
+    ],
+    "modified_paths_within_allowlist": true,
+    "public_tests_after_stop": {"passed": 3, "failed": 0},
+    "held_out_tests_after_stop": {"passed": 3, "failed": 0},
+    "accepted_as_completed_candidate": false,
+    "reason_not_accepted": "The Provider turn did not complete and no structured completion, committed candidate revision, or blind package exists."
+  },
+  "measurement_gap": "The stopped-run aggregate disk counter remained zero even though Git detected two modified allowlisted files. Disk counters from an interrupted turn must not be interpreted as proof that no files changed.",
+  "blind_packages_created": 0,
+  "automatic_retry": false,
+  "fallback_used": false,
+  "usage_reset_redeemed": false,
+  "raw_prompt_retained_in_repository_evidence": false,
+  "raw_response_retained_in_repository_evidence": false,
+  "billing_claim": "Provider telemetry observed 106646 Tokens for the stopped first turn; this is not an account billing statement or Credit conversion.",
+  "correction": {
+    "status": "analysis-required-before-another-run",
+    "change": "Do not raise the ceiling or rerun from this result alone. First determine whether task context, Max reasoning, completion protocol, or the reactive observation interval caused the mismatch, and correct the interrupted-turn disk accounting gap.",
+    "new_execution_authority_required": true
+  },
+  "claims": {
+    "experiment_completed": false,
+    "mechanism_qualified": false,
+    "temple_superiority": false,
+    "automatic_routing_authorized": false
+  }
+}
