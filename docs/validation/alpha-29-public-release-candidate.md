@@ -70,7 +70,7 @@ The final documentation and evidence reconciliation commit must remain green bef
 ## Managed-observer correction checkpoint
 
 - The corrected runtime candidate passed 276 tests under Node.js `v22.22.0` and `v24.20.0`. Installed Chrome `152.0.7977.65` passed four viewports, six primary views, and reduced-motion checks; a fresh detached Node.js 24 worktree independently repeated the complete suite and browser gate.
-- The allowlisted package now contains 309 files, 652,589 bytes packed and 2,615,994 bytes unpacked. Root self-host state, test evidence, screenshots, output, and local service configuration remain excluded.
+- The allowlisted package now contains 309 files, approximately 0.65 MB packed and 2.62 MB unpacked. Root self-host state, test evidence, screenshots, output, and local service configuration remain excluded. Exact final bytes stay in repository-owned WI-0086 evidence because npm's generated package metadata changes with the candidate commit.
 - The installed managed-local Observer returned to `running` after restart. The private LAN response omitted reviewed local paths, POST returned HTTP 405, and loopback retained local diagnostics.
 - One snapshot measured about 1.864 MB and 38.293503 seconds. WI-0094 retains that performance limitation as follow-up; it does not block the bounded local Alpha and it does block any low-latency claim.
 - Final exact candidate and hosted-run identifiers remain repository-owned WI-0086 evidence so this packaged record does not become self-referential.
