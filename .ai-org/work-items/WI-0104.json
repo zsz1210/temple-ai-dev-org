@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0104",
   "title": "Validate a local multi-repository service rollout",
-  "state": "test",
+  "state": "eval",
   "owner_position": "quality_evaluator",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-02T08:56:26.986Z",
-  "updated_at": "2026-09-02T09:27:27.806Z",
+  "updated_at": "2026-09-02T09:29:21.014Z",
   "scope": [
     "Create and run a no-generation, disposable four-repository commerce rehearsal under a bounded local container runtime; verify baseline delivery, producer-first failure, rollback, consumer-first compatibility, malformed-event recovery, exact repository revisions, and cleanup."
   ],
@@ -148,6 +148,9 @@
       "EVID-20260902T092701Z-3C3C2AED",
       ".ai-org/artifacts/WI-0104/local-microservice-observation.json",
       ".ai-org/artifacts/WI-0104/runtime-cleanup-observation.json"
+    ],
+    "test_evidence": [
+      "EVID-20260902T092909Z-9A156C3B"
     ]
   },
   "evidence": [
@@ -158,12 +161,13 @@
     "EVID-20260902T092701Z-37D6A7B8",
     "EVID-20260902T092701Z-3C3C2AED",
     ".ai-org/artifacts/WI-0104/local-microservice-observation.json",
-    ".ai-org/artifacts/WI-0104/runtime-cleanup-observation.json"
+    ".ai-org/artifacts/WI-0104/runtime-cleanup-observation.json",
+    "EVID-20260902T092909Z-9A156C3B"
   ],
   "unresolved": [
     "Independent QA has not yet reviewed the exact candidate."
   ],
-  "next_position": "quality_evaluator",
+  "next_position": "independent_qa",
   "handoffs": [
     {
       "from_position": "developer",
