@@ -1,15 +1,19 @@
 # WI-0086 Public Release Blockers
 
-- Candidate revision: `420049e3831c2be5b6eabf7b51eff05413745a2a`
+- Latest local checkpoint: `cbd8f2aadd1f5bfe9ef4b961ec24b6fbc3eb5b57`
 - Candidate version: `0.1.0-alpha.29`
 - Proposed tag: `v0.1.0-alpha.29`
 - Technical status: verified
 - Public decision: NO-GO
 
+## Completed Human evidence
+
+- **Private conduct-reporting route** — the Human Principal approved and successfully tested `zsz1210+oss.temple@gmail.com`. `CODE_OF_CONDUCT.md` names the route and `SECURITY.md` uses it as the transition and fallback security route.
+
 ## Human evidence still required
 
-1. **Private conduct-reporting route** — the Human Principal must approve an address or private form that will actually be monitored. Temple will not invent or publish a personal contact. After approval, add an enforceable Code of Conduct that names that route.
-2. **Genuinely independent public-instructions test** — a person without Temple development history must follow only the public instructions and retain their result. Maintainer automation and another maintainer-controlled agent do not satisfy this gate.
+1. **Genuinely independent public-instructions test** — a person without Temple development history must follow only the public instructions and retain their result. Maintainer automation and another maintainer-controlled agent do not satisfy this gate.
+2. **Separate public-action approval** — repository visibility, tag creation, and the GitHub Release remain distinct approvals.
 
 ## External configuration still required
 
@@ -19,7 +23,7 @@ The repository is currently private. The current GitHub plan returns `403` for r
 - review and force-push/deletion policy appropriate to the Solo-maintainer Alpha;
 - private vulnerability reporting;
 - secret scanning and push protection, where GitHub makes them available;
-- the approved private moderation route.
+- continued operation of the approved private moderation route.
 
 ## Separately approved public actions
 
