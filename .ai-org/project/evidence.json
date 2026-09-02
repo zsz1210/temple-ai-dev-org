@@ -18033,6 +18033,64 @@
         "dirty_scope": "clean",
         "affected_paths_dirty": []
       }
+    },
+    {
+      "id": "EVID-20260902T232650Z-1772D48F",
+      "work_item_id": "WI-0117",
+      "recorded_at": "2026-09-02T23:26:50.773Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer verification after Wave 5B terminal stop",
+      "outcome": "pass",
+      "scope_revision": "b8f41dd0e1255526f63c0e541ea480ef3d35e059",
+      "observed_at": "2026-09-02T23:25:31.000Z",
+      "summary": "Focused and complete verification pass; one transient Console timeout passed on focused and subsequent full reruns.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0117/developer-live-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0117/developer-live-test-observation.json",
+          "sha256": "a65a3690bf476fcbc0af87bfebff205e3ddc5bbba12153005b2bbfabbcacb7f6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/developer-report.md",
+          "sha256": "1b74251382987702ec31773c4287510e1ee171331e009667679e7e53ab6c7358"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/evaluator-replacement-preflight.json",
+          "sha256": "73e8708ecb9e23202a57c4ddadba0d7d284d0901e29f70d837023b6c650e67fb"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/evaluator-result-attempt-2.json",
+          "sha256": "1d889e2429028e0a8ac7aa50a194d7689bda381bf9e256cfe8c9596f34c3cb1c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/evaluator-stopped-attempt-2-recovery.json",
+          "sha256": "b56b082e70a7b7057924789b84531efddcf2f86114209f39364484e2eec7e18e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/live-execution-status.md",
+          "sha256": "d8fed9a3d4c6dfa80805ceebff92a0fbf924f3ef29956c0b9a30ed4de7e43202"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/wave-5b-live-protocol.test.mjs",
+          "npm run verify",
+          "node --test --test-name-pattern='optional Console emits a bounded refresh signal' test/optional-console-collector.test.mjs",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T23:20:00.000Z"
+      }
     }
   ]
 }
