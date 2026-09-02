@@ -6,11 +6,11 @@
     "node_version": "v24.20.0"
   },
   "status": "pass",
-  "started_at": "2026-09-02T10:12:58.792Z",
-  "finished_at": "2026-09-02T10:13:26.525Z",
-  "elapsed_ms": 27732.051,
+  "started_at": "2026-09-02T10:33:45.228Z",
+  "finished_at": "2026-09-02T10:34:13.170Z",
+  "elapsed_ms": 27940.901,
   "candidate": {
-    "revision": "c0a1234ff430d81ad6cc4c8aa32bc11cbb91214b",
+    "revision": "8d81487deca47e6d7765ba0de641f4c86495f662",
     "exact_revision_observed": true,
     "clean_before_run": true,
     "dirty_paths_before_run": []
@@ -22,8 +22,8 @@
         0
       ],
       "exit_code": 0,
-      "elapsed_ms": 10.59,
-      "stdout_summary": "c0a1234ff430d81ad6cc4c8aa32bc11cbb91214b",
+      "elapsed_ms": 10.095,
+      "stdout_summary": "8d81487deca47e6d7765ba0de641f4c86495f662",
       "stderr_summary": ""
     },
     {
@@ -32,8 +32,8 @@
         0
       ],
       "exit_code": 0,
-      "elapsed_ms": 17.573,
-      "stdout_summary": "?? .ai-org/artifacts/WI-0105/wave-4-operating-boundaries-observation.json\n?? node_modules",
+      "elapsed_ms": 16.398,
+      "stdout_summary": "M .ai-org/artifacts/WI-0105/wave-4-operating-boundaries-observation.json\n?? node_modules",
       "stderr_summary": ""
     },
     {
@@ -42,8 +42,8 @@
         0
       ],
       "exit_code": 0,
-      "elapsed_ms": 26735.82,
-      "stdout_summary": "✔ audit export is deterministic, bounded, filtered, and recursively redacted (186.567041ms)\n✔ audit export emits only bounded recovery metadata, never recovery payloads (92.026ms)\n✔ audit export fails closed for linked sources and oversized canonical event lines (68.146375ms)\n✔ CI is one bounded Node.js 24 repository gate (9.263458ms)\n✔ complete and browser verification remain explicit local commands (7.23375ms)\n✔ v1 migration preserves defaults and makes unverified pooled membership provisional (0.583958ms)\n✔ Principal names may repeat while authority expansion and bootstrap retirement remain explicit (211.486125ms)\n✔ a migrated team explicitly establishes bootstrap authority without promoting a later newcomer (124.146083ms)\n✔ local actor binding stays under the Git common directory and Solo self-assertion cannot pass Collaborative verification (225.684458ms)\n✔ simulated validation cannot satisfy the Real Collaborative gate (269.38ms)\n✔ two disposable clones expose a competing canonical write instead of silently losing it (1195.005542ms)\n✔ Temple Workspace command drafts survive unrelated refreshes and invalidate changed targets (2.777417ms)\n✔ Human Inbox keeps runtime permission and business-fact authority separate and idempotent (2743.532417ms)\n✔ Agent command gateway is opt-in, idempotent, privacy-bounded, and preserves truthful delivery states (1661.716167ms)\n✔ Agent command durable state keeps only non-content metadata across adversarial instruction lengths (1486.076208ms)\n✔ governance approval enforces current state, exact revision, active principals, and High-Assurance independence (2200.082666ms)\n✔ loopback command gateway rejects cross-origin, unauthenticated, and arbitrary mutations (1275.229458ms)\n✔ private viewer host and pinned Tailscale adapter fail closed (3.599208ms)\n✔ home-LAN viewer accepts only exact RFC1918 IPv4 addresses (28.34825ms)\n✔ home-LAN CLI requires an explicit private host before accepting a port (2009.677667ms)\n✔ dedicated home-LAN listener is redacted and read-only regardless of request headers (1397.664208ms)\n✔ private Temple Workspace is redacted, refresh-only, and cannot reach Inbox or mutations (1481.704542ms)\n✔ Dashboard Now preserves read-only Skill Proposal evidence and authority attention (3.887375ms)\n✔ init owns an empty evidence registry and exact Git evidence resolves to a commit (2655.407084ms)\n✔ Doctor requires n\n<output truncated>",
+      "elapsed_ms": 26910.922,
+      "stdout_summary": "✔ audit export is deterministic, bounded, filtered, and recursively redacted (196.25125ms)\n✔ audit export emits only bounded recovery metadata, never recovery payloads (83.965333ms)\n✔ audit export fails closed for linked sources and oversized canonical event lines (67.194334ms)\n✔ CI is one bounded Node.js 24 repository gate (11.543083ms)\n✔ complete and browser verification remain explicit local commands (3.24275ms)\n✔ v1 migration preserves defaults and makes unverified pooled membership provisional (2.571834ms)\n✔ Principal names may repeat while authority expansion and bootstrap retirement remain explicit (208.758875ms)\n✔ a migrated team explicitly establishes bootstrap authority without promoting a later newcomer (133.371208ms)\n✔ local actor binding stays under the Git common directory and Solo self-assertion cannot pass Collaborative verification (275.4425ms)\n✔ simulated validation cannot satisfy the Real Collaborative gate (220.711416ms)\n✔ two disposable clones expose a competing canonical write instead of silently losing it (997.810458ms)\n✔ Temple Workspace command drafts survive unrelated refreshes and invalidate changed targets (2.631875ms)\n✔ Human Inbox keeps runtime permission and business-fact authority separate and idempotent (2561.281125ms)\n✔ Agent command gateway is opt-in, idempotent, privacy-bounded, and preserves truthful delivery states (1698.005542ms)\n✔ Agent command durable state keeps only non-content metadata across adversarial instruction lengths (1615.93675ms)\n✔ governance approval enforces current state, exact revision, active principals, and High-Assurance independence (2306.30025ms)\n✔ loopback command gateway rejects cross-origin, unauthenticated, and arbitrary mutations (1254.669958ms)\n✔ private viewer host and pinned Tailscale adapter fail closed (3.173125ms)\n✔ home-LAN viewer accepts only exact RFC1918 IPv4 addresses (6.64575ms)\n✔ home-LAN CLI requires an explicit private host before accepting a port (1899.114208ms)\n✔ dedicated home-LAN listener is redacted and read-only regardless of request headers (1449.34375ms)\n✔ private Temple Workspace is redacted, refresh-only, and cannot reach Inbox or mutations (1456.367959ms)\n✔ Dashboard Now preserves read-only Skill Proposal evidence and authority attention (3.47525ms)\n✔ init owns an empty evidence registry and exact Git evidence resolves to a commit (2622.71825ms)\n✔ Doctor requires non\n<output truncated>",
       "stderr_summary": ""
     },
     {
@@ -52,7 +52,7 @@
         0
       ],
       "exit_code": 0,
-      "elapsed_ms": 400.453,
+      "elapsed_ms": 402.695,
       "stdout_summary": "Temple init plan for <temporary>/tracker-fixture\n- copy: 99\n- copy-agents: 1\n- write: 6\n- write-empty: 1\n- write-lock: 1\nAGENTS.md integration: installed\nRepository integration: unconfirmed\nInstallation mode: project\nInitialized Temple 0.1.0-alpha.29.\nAI development organization doctor — <temporary>/tracker-fixture\n[PASS] temple_lock: Organization system 0.1.0-alpha.29 lock is valid\n[PASS] cli_bootstrap: Repository launcher pins Temple 0.1.0-alpha.29\n[PASS] installation_mode: Project installation boundary is valid\n[PASS] runtime_json_schema: 19 JSON document(s) match 29 cataloged Draft 2020-12 schema(s)\n[PASS] managed_files: 83 managed files match checksums\n[PASS] optional_packs: 0 optional packs are valid\n[PASS] position_catalog: All 10 required Positions are present\n[PASS] specification_index: 0 specifications are indexed (0 approved, profile=hybrid)\n[PASS] tracker_configuration: repository-only profile has 0 provider(s); granularity=team-visible\n[PASS] project_model: Project model is valid: Wave 4 Tracker Fixture\n[PASS] agent_identities: 5 unique Agent Identities are valid\n[PASS] position_assignments: All 10 Positions have one active assignment\n[PASS] independent_qa_separation: Developer and Independent QA use different Agent Identities\n[PASS] release_separation: Developer and Release Manager are separated\n[PASS] collaboration_model: solo profile has 0 Human Principals and 10 Position memberships\n[WARN] repository_integration: Project repository integration is unconfirmed; inspect existing policy and ask only when the missing choice affects work\n[PASS] context_map: 0 active context routes are valid\n[PASS] retrieval_provider: Default repository-deterministic Retrieval Provider contract is valid; semantic retrieval is disabled\n[PASS] retrieval_configuration: Selected repository-deterministic; local hybrid=available_not_configured; no model, embeddings, vector database, daemon, or remote search installed\n[PASS] archify_adapter: optional adapter is not installed\n[PASS] shared_resources: 0 shared resource(s), 0 active reservation(s)\n[PASS] work_items: 0 canonical work items are valid\n[PASS] evidence_registry: 0 normalized evidence record(s) and artifact digest(s) are valid\n[PASS] tracker_mappings: Work Item tracker mappings are valid\n[PASS] tracker_reconciliation_evidence: Tracker reconciliation evidence is present and consistent\n[PASS] parallel_plan: No gener\n<output truncated>",
       "stderr_summary": ""
     },
@@ -62,7 +62,7 @@
         0
       ],
       "exit_code": 0,
-      "elapsed_ms": 84.669,
+      "elapsed_ms": 88.88,
       "stdout_summary": "Created WI-0001: Qualify a synthetic company outcome\nState: intake (engineering_manager)\nSuggested Codex title: WI-0001 · Qualify a… · Engineering Manager (Fixture Rowan)",
       "stderr_summary": ""
     },
@@ -72,7 +72,7 @@
         0
       ],
       "exit_code": 0,
-      "elapsed_ms": 84.555,
+      "elapsed_ms": 92.384,
       "stdout_summary": "Created WI-0002: Synthetic internal implementation\nState: intake (engineering_manager)\nSuggested Codex title: WI-0002 · Synthetic… · Engineering Manager (Fixture Rowan)",
       "stderr_summary": ""
     },
@@ -82,7 +82,7 @@
         0
       ],
       "exit_code": 0,
-      "elapsed_ms": 83.968,
+      "elapsed_ms": 86.818,
       "stdout_summary": "Tracker profile: linked-tracker\nSync granularity: team-visible\nDefault provider: github-main",
       "stderr_summary": ""
     },
@@ -92,7 +92,7 @@
         0
       ],
       "exit_code": 0,
-      "elapsed_ms": 86.309,
+      "elapsed_ms": 87.821,
       "stdout_summary": "Linked WI-0001 to github-main:381\nExternal write: not performed",
       "stderr_summary": ""
     },
@@ -102,7 +102,7 @@
         1
       ],
       "exit_code": 1,
-      "elapsed_ms": 72.232,
+      "elapsed_ms": 73.601,
       "stdout_summary": "",
       "stderr_summary": "Temple error: WI-0002 is internal; set tracker visibility to team-visible before linking"
     },
@@ -112,7 +112,7 @@
         0
       ],
       "exit_code": 0,
-      "elapsed_ms": 72.544,
+      "elapsed_ms": 75.847,
       "stdout_summary": "{\n  \"schema_version\": \"temple.tracker-observation/v1\",\n  \"provider_id\": \"github-main\",\n  \"provider_kind\": \"github\",\n  \"item_id\": \"381\",\n  \"url\": \"https://github.com/example/product/issues/381\",\n  \"observed_at\": \"2026-09-02T00:00:00.000Z\",\n  \"external_updated_at\": \"2026-09-01T23:59:00.000Z\",\n  \"revision\": \"fixture:381:done\",\n  \"title\": \"Qualify a synthetic company outcome\",\n  \"status\": \"done\",\n  \"fields\": {\n    \"priority\": \"high\",\n    \"iteration\": \"Fixture Sprint\",\n    \"estimate\": \"5\",\n    \"due_date\": null,\n    \"business_assignee\": \"fixture-user\",\n    \"labels\": [\n      \"team-visible\"\n    ]\n  },\n  \"source\": {\n    \"kind\": \"file\",\n    \"adapter\": \"wave-4-fixture\"\n  }\n}",
       "stderr_summary": ""
     },
@@ -122,8 +122,8 @@
         0
       ],
       "exit_code": 0,
-      "elapsed_ms": 71.462,
-      "stdout_summary": "{\n  \"schema_version\": \"temple.tracker-plan/v1\",\n  \"generated_at\": \"2026-09-02T10:13:26.516Z\",\n  \"work_item_id\": \"WI-0001\",\n  \"provider_id\": \"github-main\",\n  \"provider_kind\": \"github\",\n  \"item_id\": \"381\",\n  \"observation_revision\": \"fixture:381:done\",\n  \"write_policy\": \"plan-only\",\n  \"actions\": [\n    {\n      \"id\": \"external-completion-cannot-advance-temple\",\n      \"field\": \"lifecycle_state\",\n      \"owner\": \"temple\",\n      \"direction\": \"inbound-blocked\",\n      \"severity\": \"conflict\",\n      \"temple_value\": \"open\",\n      \"external_value\": \"done\",\n      \"automatic\": false,\n      \"reason\": \"External completion cannot bypass Temple lifecycle evidence and release gates\"\n    }\n  ],\n  \"conflict_count\": 1,\n  \"review_count\": 1,\n  \"external_write_performed\": false\n}",
+      "elapsed_ms": 73.649,
+      "stdout_summary": "{\n  \"schema_version\": \"temple.tracker-plan/v1\",\n  \"generated_at\": \"2026-09-02T10:34:13.160Z\",\n  \"work_item_id\": \"WI-0001\",\n  \"provider_id\": \"github-main\",\n  \"provider_kind\": \"github\",\n  \"item_id\": \"381\",\n  \"observation_revision\": \"fixture:381:done\",\n  \"write_policy\": \"plan-only\",\n  \"actions\": [\n    {\n      \"id\": \"external-completion-cannot-advance-temple\",\n      \"field\": \"lifecycle_state\",\n      \"owner\": \"temple\",\n      \"direction\": \"inbound-blocked\",\n      \"severity\": \"conflict\",\n      \"temple_value\": \"open\",\n      \"external_value\": \"done\",\n      \"automatic\": false,\n      \"reason\": \"External completion cannot bypass Temple lifecycle evidence and release gates\"\n    }\n  ],\n  \"conflict_count\": 1,\n  \"review_count\": 1,\n  \"external_write_performed\": false\n}",
       "stderr_summary": ""
     }
   ],
@@ -181,6 +181,7 @@
     "tracker": {
       "profile": "repository-only",
       "providers": 0,
+      "mappings": 0,
       "default_provider_id": null,
       "sync_granularity": "team-visible",
       "field_ownership": {
@@ -264,6 +265,28 @@
             "implementation_mapping",
             "runtime_visual_review"
           ]
+        }
+      ],
+      "mode_requirements": [
+        {
+          "id": "not-applicable",
+          "ui_ref_required": false,
+          "ui_refs_forbidden": true
+        },
+        {
+          "id": "code-first",
+          "ui_ref_required": false,
+          "ui_refs_forbidden": false
+        },
+        {
+          "id": "preview-first",
+          "ui_ref_required": true,
+          "ui_refs_forbidden": false
+        },
+        {
+          "id": "design-led",
+          "ui_ref_required": true,
+          "ui_refs_forbidden": false
         }
       ],
       "required_tool": null,
@@ -489,6 +512,8 @@
       "verified_facts": [
         "profile=repository-only",
         "providers=0",
+        "mappings=0",
+        "field_ownership_asserted=true",
         "external_write_performed=false"
       ],
       "evidence_refs": [
@@ -541,9 +566,10 @@
       "evidence_class": "verified-local",
       "current_revision_applicability": "exact",
       "verified_facts": [
-        "four delivery modes present",
+        "four delivery modes and exact evidence arrays asserted",
         "runtime_visual_review required for every interface mode",
-        "preview-first requires a visual artifact"
+        "preview-first and design-led require ui_refs",
+        "not-applicable forbids ui_refs"
       ],
       "evidence_refs": [
         ".ai-org/core/ui-design.json",
