@@ -17,8 +17,9 @@ import {
 const execFile = promisify(execFileCallback);
 const frameworkRoot = path.resolve(import.meta.dirname, "../../..");
 const fixtureRoot = path.join(frameworkRoot, ".ai-org/artifacts/WI-0106/fixtures");
-const approvalPath = path.join(import.meta.dirname, "account-approval.json");
-const preflightOutputPath = path.join(import.meta.dirname, "preflight-observation.json");
+const expectedWorkItemId = argument("--work-item-id") ?? "WI-0107";
+const approvalPath = path.resolve(argument("--approval-path") ?? path.join(import.meta.dirname, "account-approval.json"));
+const preflightOutputPath = path.resolve(argument("--preflight-output") ?? path.join(import.meta.dirname, "preflight-observation.json"));
 const protocol = JSON.parse(await fs.readFile(path.join(fixtureRoot, "feasibility-protocol.json"), "utf8"));
 const defaultLabRoot = "/Users/zsz1210/Documents/ChatGPT/temple-wave-5a-lab";
 const labRoot = path.resolve(argument("--lab-root") ?? defaultLabRoot);
@@ -141,6 +142,7 @@ async function readApproval() {
   try {
     const approval = JSON.parse(await fs.readFile(approvalPath, "utf8"));
     const accepted = approval?.schema_version === "temple.wave-5a-account-approval/v1" &&
+      approval?.work_item_id === expectedWorkItemId &&
       approval?.approved_by === "repository-owner" &&
       approval?.automatic_credit_reload_disabled === true &&
       approval?.included_pro_allowance_accepted === true &&
@@ -249,6 +251,7 @@ async function protocolPreflight() {
   if (!approval.accepted) blockers.push("owner-confirmation-required");
   return {
     schema_version: "temple.wave-5a-preflight/v1",
+    work_item_id: expectedWorkItemId,
     generated_at: new Date().toISOString(),
     pass: blockers.length === 0,
     generation_ready: blockers.length === 0,
@@ -631,6 +634,7 @@ const resolved = await resolvedProgram();
 const result = await runValidationProgram({ resolved, launchTurn });
 const output = {
   schema_version: "temple.wave-5a-run-result/v1",
+  work_item_id: expectedWorkItemId,
   generated_at: new Date().toISOString(),
   preflight_digest: sha256(JSON.stringify(stableValue(preflight))),
   manifest_digest: resolved.manifest_digest,

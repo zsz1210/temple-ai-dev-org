@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 107 total, 5 active
+- Work items: 108 total, 6 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -155,6 +155,7 @@
 | WI-0105 | Qualify Wave 4 operating boundaries | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `43100b5e` | 0 | 12 | 0 |
 | WI-0106 | Design Wave 5 controlled matched comparison | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2612207e` | 0 | 17 | 0 |
 | WI-0107 | Run Wave 5A matched process feasibility pilot | blocked | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `984cd027` | 0 | 18 | 4 |
+| WI-0108 | Rerun corrected Wave 5A four-turn pilot | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902131127-e475ca6c | `—` | 0 | 9 | 0 |
 
 ## Codex task registry
 
@@ -289,14 +290,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T12:43:48.665Z | release_gate_completed | WI-0107 | agent-mog |
-| 2026-09-02T12:43:35.304Z | work_item_transitioned | WI-0107 | agent-lulu |
-| 2026-09-02T12:43:35.052Z | handoff_created | WI-0107 | agent-lulu |
-| 2026-09-02T12:43:14.968Z | evidence_recorded | WI-0107 | human |
-| 2026-09-02T12:43:14.743Z | work_item_transitioned | WI-0107 | agent-lulu |
-| 2026-09-02T12:43:14.516Z | handoff_created | WI-0107 | agent-lulu |
-| 2026-09-02T12:43:14.260Z | work_item_transitioned | WI-0107 | agent-lulu |
-| 2026-09-02T12:42:52.173Z | evidence_recorded | WI-0107 | human |
+| 2026-09-02T13:11:27.727Z | work_item_claimed | WI-0108 | human |
+| 2026-09-02T13:11:27.499Z | work_item_transitioned | WI-0108 | agent-tidus |
+| 2026-09-02T13:11:27.276Z | handoff_created | WI-0108 | agent-tidus |
+| 2026-09-02T13:11:27.060Z | work_item_transitioned | WI-0108 | agent-yuna |
+| 2026-09-02T13:11:26.846Z | handoff_created | WI-0108 | agent-yuna |
+| 2026-09-02T13:11:26.633Z | work_item_transitioned | WI-0108 | agent-mog |
+| 2026-09-02T13:11:26.398Z | handoff_created | WI-0108 | agent-mog |
+| 2026-09-02T13:11:02.463Z | work_item_coordination_configured | WI-0108 | agent-mog |
 
 ## Assignments
 
