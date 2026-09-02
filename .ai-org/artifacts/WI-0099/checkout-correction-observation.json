@@ -1,0 +1,30 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "c3246b6496430d24c18b82ed7c880d9741544f23",
+  "command": [
+    "fresh detached worktree: npm ci --ignore-scripts",
+    "Node.js 24.20.0: npm run verify",
+    "Node.js 24.20.0: npm run test:browser",
+    "git status --short"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T04:32:05.000Z",
+  "completed_at": "2026-09-02T04:33:45.000Z",
+  "artifact_refs": [
+    ".github/workflows/ci.yml",
+    "docs/adr/0043-node-24-local-first-ci.md",
+    "test/ci-scope.test.mjs"
+  ],
+  "summary": {
+    "node": "24.20.0",
+    "full_tests": 272,
+    "full_failures": 0,
+    "browser": "Chrome 152.0.7977.65",
+    "browser_viewports": 4,
+    "browser_primary_views": 6,
+    "reduced_motion": "pass",
+    "worktree_clean_after_test": true,
+    "external_action_performed": false
+  }
+}

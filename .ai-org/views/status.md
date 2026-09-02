@@ -146,7 +146,7 @@
 | WI-0096 | Harden Phase 4B fixture cleanup on Linux | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b8d5ef34` | 0 | 24 | 0 |
 | WI-0097 | Add adaptive first-run repository workflow onboarding | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 0 |
 | WI-0098 | Implement adaptive repository integration onboarding | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f9323f58` | 0 | 11 | 1 |
-| WI-0099 | Adopt Node.js 24 minimum and local-first bounded CI | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902041042-45bb6eaa | `—` | 0 | 3 | 0 |
+| WI-0099 | Adopt Node.js 24 minimum and local-first bounded CI | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902043412-df84c1ba | `36703f37` | 0 | 11 | 3 |
 | WI-0100 | Separate optional Management Console from Usage collection | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3c94b998` | 0 | 14 | 0 |
 | WI-0101 | Present the optional Console as read-only and verify managed collection | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `3c94b998` | 0 | 14 | 0 |
 

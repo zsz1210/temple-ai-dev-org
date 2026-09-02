@@ -14033,6 +14033,235 @@
       }
     },
     {
+      "id": "EVID-20260902T042236Z-0FBBDB3F",
+      "work_item_id": "WI-0099",
+      "recorded_at": "2026-09-02T04:22:36.750Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Node.js 24 local-first CI candidate verification",
+      "outcome": "pass",
+      "scope_revision": "36703f375a807303a68fde9487af11ac0364f578",
+      "observed_at": "2026-09-02T04:21:43.000Z",
+      "summary": "Exact candidate 36703f375a807303a68fde9487af11ac0364f578 passed 272 complete tests, installed-Chrome verification, and the bounded 25-contract hosted-command simulation under Node.js 24.20.0.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0099/local-verification-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0099/local-verification-observation.json",
+          "sha256": "773578a177c790ff18fb07078870dfd4372eb5bd8f6579672dd26435504d7a51"
+        },
+        {
+          "path": ".github/workflows/ci.yml",
+          "sha256": "944c838eddb7c3389aee6a5be083df9c973a0a7ea329d3f78c25648671c99c38"
+        },
+        {
+          "path": "package.json",
+          "sha256": "fa8d3679f2e3b18f6d93c78cc9242c5fbb1146d4708b9d6b3fa8f7a48dcd6d30"
+        },
+        {
+          "path": "src/bootstrap.mjs",
+          "sha256": "6493933892e5a38737f0317eb16abdcf4d97565b1519795840ca01720c0281e8"
+        },
+        {
+          "path": "test/ci-scope.test.mjs",
+          "sha256": "24f56617001e3532732b22b38d370cc5b3f5c62a14d3412cefa4ac725a2b12be"
+        },
+        {
+          "path": "test/console-browser-contract.test.mjs",
+          "sha256": "a4550c980164e4dc716088f8d96760800074d0b628bc8d8539ee0f373ae74126"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached worktree: npm ci --ignore-scripts",
+          "Node.js 24.20.0: npm run verify",
+          "Node.js 24.20.0: npm run test:browser",
+          "Node.js 24.20.0: bounded hosted-command simulation"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T04:19:25.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T042418Z-F7A4E280",
+      "work_item_id": "WI-0099",
+      "recorded_at": "2026-09-02T04:24:18.783Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Bounded CI policy quality evaluation",
+      "outcome": "pass",
+      "scope_revision": "36703f375a807303a68fde9487af11ac0364f578",
+      "observed_at": "2026-09-02T04:23:56.000Z",
+      "summary": "Quality Evaluation passed the exact Node.js 24 candidate and confirmed the ordinary hosted workflow is single-job, five-minute, fail-closed, and free of Node.js 22, matrix, full-suite, browser-suite, and scope-classifier execution.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0099/quality-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0099/quality-observation.json",
+          "sha256": "9c10c68d60c50d137c2f3b7acf85b3982da04a9b3e882957d3aba4186fa7bdeb"
+        },
+        {
+          "path": ".github/workflows/ci.yml",
+          "sha256": "944c838eddb7c3389aee6a5be083df9c973a0a7ea329d3f78c25648671c99c38"
+        },
+        {
+          "path": "package.json",
+          "sha256": "fa8d3679f2e3b18f6d93c78cc9242c5fbb1146d4708b9d6b3fa8f7a48dcd6d30"
+        },
+        {
+          "path": "docs/adr/0043-node-24-local-first-ci.md",
+          "sha256": "bdc43f63defa75234171b750c4b71befc824a526a4c5aca01e71fc48c528f9a5"
+        },
+        {
+          "path": "docs/getting-started/testing.md",
+          "sha256": "8da5d8524a76692857ba9d42ad715ed231e88147590949dd59b033560e548bb5"
+        },
+        {
+          "path": "test/ci-scope.test.mjs",
+          "sha256": "24f56617001e3532732b22b38d370cc5b3f5c62a14d3412cefa4ac725a2b12be"
+        },
+        {
+          "path": "test/console-browser-contract.test.mjs",
+          "sha256": "a4550c980164e4dc716088f8d96760800074d0b628bc8d8539ee0f373ae74126"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached worktree: npm ci --ignore-scripts",
+          "npm run check",
+          "temple schema validate and doctor",
+          "node --test test/ci-scope.test.mjs test/console-browser-contract.test.mjs test/release-package.test.mjs",
+          "negative search for hosted matrix, Node.js 22, full suite, browser suite, and removed classifier"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T04:23:31.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T042715Z-45648E8D",
+      "work_item_id": "WI-0099",
+      "recorded_at": "2026-09-02T04:27:15.327Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent Node.js 24 local-first CI verification",
+      "outcome": "pass",
+      "scope_revision": "36703f375a807303a68fde9487af11ac0364f578",
+      "observed_at": "2026-09-02T04:26:45.000Z",
+      "summary": "Independent QA passed the exact candidate with the complete local suite and browser gate under Node.js 24.20.0.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0099/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0099/independent-qa-observation.json",
+          "sha256": "c70f2df094b0ae89f71d519d35a394c0a4f31d17c8699426996fa6d0321b3c7c"
+        },
+        {
+          "path": ".github/workflows/ci.yml",
+          "sha256": "944c838eddb7c3389aee6a5be083df9c973a0a7ea329d3f78c25648671c99c38"
+        },
+        {
+          "path": "package.json",
+          "sha256": "fa8d3679f2e3b18f6d93c78cc9242c5fbb1146d4708b9d6b3fa8f7a48dcd6d30"
+        },
+        {
+          "path": "docs/adr/0043-node-24-local-first-ci.md",
+          "sha256": "bdc43f63defa75234171b750c4b71befc824a526a4c5aca01e71fc48c528f9a5"
+        },
+        {
+          "path": "test/ci-scope.test.mjs",
+          "sha256": "24f56617001e3532732b22b38d370cc5b3f5c62a14d3412cefa4ac725a2b12be"
+        },
+        {
+          "path": "test/console-browser-contract.test.mjs",
+          "sha256": "a4550c980164e4dc716088f8d96760800074d0b628bc8d8539ee0f373ae74126"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached worktree: npm ci --ignore-scripts",
+          "Node.js 24.20.0: npm run verify",
+          "Node.js 24.20.0: npm run test:browser",
+          "git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T04:24:40.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T043417Z-1255E841",
+      "work_item_id": "WI-0099",
+      "recorded_at": "2026-09-02T04:34:17.541Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent checkout correction verification",
+      "outcome": "pass",
+      "scope_revision": "c3246b6496430d24c18b82ed7c880d9741544f23",
+      "observed_at": "2026-09-02T04:33:45.000Z",
+      "summary": "The exact fetch-depth correction candidate passed 272 complete tests and the full local browser gate under Node.js 24.20.0.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0099/checkout-correction-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0099/checkout-correction-observation.json",
+          "sha256": "367b22a89097192aa2e2c9c3027a549dcc8bd328120c6888321784925ea62dd9"
+        },
+        {
+          "path": ".github/workflows/ci.yml",
+          "sha256": "89b69fa1565d4aace0026b25f768522a4df18abdf3e1dfe747fa96c769387999"
+        },
+        {
+          "path": "docs/adr/0043-node-24-local-first-ci.md",
+          "sha256": "ca0659b118f3048e0d9b3dfae1223b95461e343d17170377e9abcaea14b4c3cd"
+        },
+        {
+          "path": "test/ci-scope.test.mjs",
+          "sha256": "ba9c89e684ca8018ab8df9dc7f9663bcab4e99499b3e4525965b851f5038d2d7"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached worktree: npm ci --ignore-scripts",
+          "Node.js 24.20.0: npm run verify",
+          "Node.js 24.20.0: npm run test:browser",
+          "git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T04:32:05.000Z"
+      }
+    },
+    {
       "id": "EVID-20260902T044101Z-C40CC36D",
       "work_item_id": "WI-0100",
       "recorded_at": "2026-09-02T04:41:01.978Z",
