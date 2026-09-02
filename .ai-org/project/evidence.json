@@ -15836,11 +15836,11 @@
         },
         {
           "path": ".ai-org/artifacts/WI-0106/resource-preflight.json",
-          "sha256": "f0ed7f16398cde3bbc45fcd73d34f3cbc6a97741577125e518b1874ec5b8cfa5"
+          "sha256": "1a1e2747ddebea4f1ba42c22fcf7b336dd93fac4d7f9819a6ff66791f03cc058"
         },
         {
           "path": ".ai-org/artifacts/WI-0106/technical-design.md",
-          "sha256": "3ccd6ed5490b26db37761199f9c3d70fc85bc740d97002fcb4ab696d2fe5d613"
+          "sha256": "9a9e2f2abc6260b397c4f04d38e8573dbfce927566e4604837824971b60008ac"
         }
       ],
       "details": {
