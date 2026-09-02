@@ -1,0 +1,37 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "6f8596bbc90b9f42644040584ec0f0d78daa4f4a",
+  "command": [
+    "fresh detached exact revision: npm run verify",
+    "fresh detached exact revision: node ./templew.mjs doctor . --json",
+    "independently re-run all four candidate public and hidden acceptance suites",
+    "assert all four exact candidate repositories are clean",
+    "recompute aggregate usage and paired descriptive deltas",
+    "inspect disclosure of evaluator-context exposure and prohibited claims"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T17:00:59.000Z",
+  "completed_at": "2026-09-02T17:02:48.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0113/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0113/quality-report.md",
+    ".ai-org/artifacts/WI-0113/experiment-result.json",
+    ".ai-org/artifacts/WI-0113/evidence-correction.md"
+  ],
+  "summary": {
+    "repository_tests_passed": 291,
+    "doctor_passed": 36,
+    "doctor_warned": 1,
+    "doctor_failed": 0,
+    "candidate_repositories_clean": 4,
+    "public_suites_passed": 4,
+    "hidden_suites_passed": 3,
+    "hidden_suites_failed": 1,
+    "implementation_acceptance_passed": true,
+    "comparative_experiment_qualified": false,
+    "blind_evaluator_isolation_preserved": false,
+    "usage_reset_redeemed": false,
+    "external_write_performed": false
+  }
+}
