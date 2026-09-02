@@ -14992,6 +14992,54 @@
         "exit_code": 0,
         "started_at": "2026-09-02T08:03:10.608Z"
       }
+    },
+    {
+      "id": "EVID-20260902T081641Z-6B0A4D36",
+      "work_item_id": "WI-0102",
+      "recorded_at": "2026-09-02T08:16:41.470Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0102 Independent QA",
+      "outcome": "pass",
+      "scope_revision": "0c7260dd68756fb6754a1529bef60a4c42d5dcde",
+      "observed_at": "2026-09-02T08:07:31.522Z",
+      "summary": "Independent exact-candidate brownfield rehearsal and full 280-test gate passed",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0102/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0102/independent-qa-test-observation.json",
+          "sha256": "16050e744846fa96e2bec07de73537a9bd35ea6de1fdbdf5337507e1a73342bd"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0102/independent-qa-report.md",
+          "sha256": "2f3713dc8f5ecb96904615b1cf6c5eeba02a44125313e70661bbc1fea199ab0b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0102/brownfield-rehearsal-observation.json",
+          "sha256": "f3d02613548bf97efe7d3c65bbed7e257696e1648861683b070f8d89168babe8"
+        },
+        {
+          "path": "docs/validation/wave-1-adoption-evidence.md",
+          "sha256": "0dcf48a3b7a1d1b61254cfe9af7fdf491398d9b305a6ee0c66692751dd79390c"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached candidate worktree: node scripts/validate-brownfield-adoption.mjs",
+          "fresh detached candidate worktree: git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T08:07:28.558Z"
+      }
     }
   ]
 }
