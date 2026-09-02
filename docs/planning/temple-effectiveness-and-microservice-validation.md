@@ -1,6 +1,6 @@
 # Temple effectiveness and multi-repository validation plan
 
-- Status: Wave 1 adoption and Wave 2 bounded coordination baselines passed with limits; the first four-repository run remains stopped and no replacement model run is authorized
+- Status: Waves 1–3 passed with retained limits; Wave 3 is independently verified for one deterministic local four-repository rehearsal
 - Scope: local-first synthetic validation
 - Public, production, GitHub, hosted CI, and paid actions: not authorized
 
@@ -151,6 +151,12 @@ The [Wave 2 coordination evidence](../validation/wave-2-coordination-evidence.md
 
 No extra local fixture was added because it would repeat an existing evidence class. Real protected-PR collaboration remains `not_run` until different people use independently administered environments. Wave 3 may proceed to a bounded local multi-repository rehearsal, but this result does not resume `WI-0067`, increase a Token ceiling, install Docker, or authorize another model-backed task wave.
 
+## Local multi-repository service baseline
+
+The later [Wave 3 local multi-repository evidence](../validation/wave-3-local-microservice-evidence.md) uses a separate no-generation Work Item rather than resuming `WI-0067`. Four disposable Git repositories exercised Catalog v1/v2, Orders v1-only/compatible, an idempotent `OrderPlaced` consumer, exact federation references, a producer-first failure, rollback, consumer-first recovery, malformed-event recovery, and cold aggregate reconstruction.
+
+The Developer run passed its six scenarios in 95.005 seconds. Peak measured host growth during the run was 304,959,488 bytes. The dedicated container profile and its one downloaded VM-image cache were removed afterward, reclaiming 1,812,885,504 host bytes; no broad prune ran. Independent QA then passed the exact candidate with 280 repository tests and 59 separate evidence assertions. This remains a single-human, single-machine local result; it does not qualify the collaborative, production, savings, or Token claims reserved for later waves.
+
 ## Decision after this plan
 
 The planning review records that decision as `WI-0061`. The repository owner approved the exact local path, GPT-5.6 profile, Token, time, disk, retry, correlation, and stop boundaries in [the bounded instrumentation pilot proposal](../../.ai-org/artifacts/WI-0061/pilot-proposal.md) on 2026-08-31. Approval does not itself mean that the pilot has run; execution remains a separate, bounded Work Item.
@@ -161,6 +167,8 @@ WI-0063 corrected Provider model acknowledgement. WI-0064 then performed the sep
 
 WI-0066 adds the reusable control boundary needed before the larger rehearsal: a versioned manifest, semantic safety checks, durable wave and attempt checkpoints, cumulative Token interruption, wall-clock and disk ceilings, path allowlists, zero retry, and a cross-repository report that cannot grant lifecycle or marketing authority. Its framework verification does not itself start a model turn.
 
-WI-0067 executed the retained four-repository commerce rehearsal under that envelope. The no-generation protocol and Luna Max preflight passed, then both Wave 1 turns reached the 60,000-Token per-turn ceiling. The first actionable Provider events reported 74,266 and 74,382 Tokens, Temple interrupted both turns, the program stopped after two launch attempts, zero retries occurred, and the remaining eight turns were not launched. No product file changed.
+WI-0067 executed the retained model-backed four-repository commerce rehearsal under that envelope. The no-generation protocol and Luna Max preflight passed, then both Wave 1 turns reached the 60,000-Token per-turn ceiling. The first actionable Provider events reported 74,266 and 74,382 Tokens, Temple interrupted both turns, the program stopped after two launch attempts, zero retries occurred, and the remaining eight turns were not launched. No product file changed.
 
-The run is therefore a useful stopped-boundary observation, not a successful local rehearsal or longitudinal baseline. It also exposed a pre-run validation gap: the live adapter's worktree-local telemetry path was readable by the runner but rejected by the formal report builder, which requires the Git common directory. Raw telemetry was preserved and local usage projections were rebuilt, but the stopped manifest was not resumed or rewritten. A replacement experiment must first correct that configuration boundary and obtain a new explicit resource approval; no higher ceiling or retry is implied by this result.
+The run is therefore a useful stopped-boundary observation, not a successful model-backed or longitudinal baseline. It also exposed a pre-run validation gap: the live adapter's worktree-local telemetry path was readable by the runner but rejected by the formal report builder, which requires the Git common directory. Raw telemetry was preserved and local usage projections were rebuilt, but the stopped manifest was not resumed or rewritten.
+
+WI-0104 later supplied an explicitly approved deterministic local replacement for the service and federation questions only. It did not resume the stopped manifest, launch a model turn, increase a Token ceiling, or satisfy the longitudinal usage question. Any future model-backed replacement still needs its own corrected configuration and resource approval.

@@ -15271,6 +15271,246 @@
         "exit_code": 0,
         "started_at": "2026-09-02T08:35:14.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T092701Z-37D6A7B8",
+      "work_item_id": "WI-0104",
+      "recorded_at": "2026-09-02T09:27:01.075Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Wave 3 implementation candidate",
+      "outcome": "verified",
+      "scope_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
+      "observed_at": "2026-09-02T09:27:01.075Z",
+      "summary": "Exact candidate contains the bounded runner, retained service evidence, cleanup record, and limitation-aware documentation.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
+        "working_tree_dirty": true,
+        "dirty_path_count": 1,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T092701Z-3C3C2AED",
+      "work_item_id": "WI-0104",
+      "recorded_at": "2026-09-02T09:27:01.307Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0104 Developer exact-candidate verification",
+      "outcome": "pass",
+      "scope_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
+      "observed_at": "2026-09-02T09:25:54.000Z",
+      "summary": "Exact candidate passed runner syntax, 280 repository tests, and the retained six-scenario local rehearsal.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0104/developer-exact-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0104/developer-exact-test-observation.json",
+          "sha256": "d84e0fb54db2c77b3ce77415322cd71d12a76a5557c43cac4f9fb3d17245cd07"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0104/local-microservice-observation.json",
+          "sha256": "f0ffcfcd827052ae24ba41e4213843126b6f1100b7cd40f81174b27d8baacf66"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0104/runtime-cleanup-observation.json",
+          "sha256": "5a9b333b7255b0851db2a489c38b71c34eed57122239de4ffb12e0e6bec1b9e8"
+        },
+        {
+          "path": "docs/validation/wave-3-local-microservice-evidence.md",
+          "sha256": "42ad31aa0a4f6a54cc6f91c7bd837b78b6d2e6bab6e0c04f018d5a9abf6de6ba"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --check scripts/validate-local-microservice-rehearsal.mjs",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T09:24:52.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T092909Z-9A156C3B",
+      "work_item_id": "WI-0104",
+      "recorded_at": "2026-09-02T09:29:09.304Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0104 retained-evidence quality evaluation",
+      "outcome": "pass",
+      "scope_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
+      "observed_at": "2026-09-02T09:28:29.000Z",
+      "summary": "Fresh detached candidate passed repository checks and 18 assertions over runtime, federation, cleanup, privacy, and failure transparency.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0104/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0104/quality-test-observation.json",
+          "sha256": "af04a1cd5dc117f86e4699b02750007ab009642f3130ea987ce7741b660b6cdb"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0104/local-microservice-observation.json",
+          "sha256": "f0ffcfcd827052ae24ba41e4213843126b6f1100b7cd40f81174b27d8baacf66"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0104/local-microservice-attempt-1-preflight-failure.json",
+          "sha256": "d8f52a4cd7c94d732c55fca9a58114bed4c5772bd58f319ac1318c97fa010b80"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0104/runtime-cleanup-observation.json",
+          "sha256": "5a9b333b7255b0851db2a489c38b71c34eed57122239de4ffb12e0e6bec1b9e8"
+        },
+        {
+          "path": "docs/validation/wave-3-local-microservice-evidence.md",
+          "sha256": "42ad31aa0a4f6a54cc6f91c7bd837b78b6d2e6bab6e0c04f018d5a9abf6de6ba"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached exact candidate: node --check scripts/validate-local-microservice-rehearsal.mjs",
+          "fresh detached exact candidate: npm run check",
+          "fresh detached exact candidate: 18 retained-evidence assertions",
+          "fresh detached exact candidate: git status --porcelain"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T09:28:20.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T093947Z-A40D1F9F",
+      "work_item_id": "WI-0104",
+      "recorded_at": "2026-09-02T09:39:47.983Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": "2026-09-02T09:43:00.000Z",
+      "invalidated_by": "human",
+      "invalidation_reason": "Superseded because the first normalized QA observation content-addressed report and documentation files created after the tested revision; the replacement retains only immutable artifacts present at that revision.",
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0104 Independent QA",
+      "outcome": "pass",
+      "scope_revision": "6385b89d077e3507d7220d3ff935ffa26119369c",
+      "observed_at": "2026-09-02T09:37:33.000Z",
+      "summary": "Separate Independent QA passed 280 repository tests, 59 evidence assertions, and Doctor with zero failures on exact revision 6385b89d.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0104/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0104/independent-qa-test-observation.json",
+          "sha256": "80e811eb2a58ff8faa7afd0859601196354901c9fa732bffb6235cf33b0cadfa"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0104/local-microservice-observation.json",
+          "sha256": "f0ffcfcd827052ae24ba41e4213843126b6f1100b7cd40f81174b27d8baacf66"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0104/local-microservice-attempt-1-preflight-failure.json",
+          "sha256": "d8f52a4cd7c94d732c55fca9a58114bed4c5772bd58f319ac1318c97fa010b80"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0104/runtime-cleanup-observation.json",
+          "sha256": "5a9b333b7255b0851db2a489c38b71c34eed57122239de4ffb12e0e6bec1b9e8"
+        },
+      {
+        "path": ".ai-org/artifacts/WI-0104/independent-qa-report.md",
+        "sha256": "02108d4a8048feb5edda99de67f44b473ead5d169d9edbd686d5a00e13074cdf"
+      }
+      ],
+      "details": {
+        "command": [
+          "clean detached exact candidate: node --check scripts/validate-local-microservice-rehearsal.mjs",
+          "clean detached exact candidate: npm run verify",
+          "clean detached exact candidate: independent 59-assertion retained-evidence audit",
+          "clean detached exact candidate: node ./templew.mjs doctor . --json",
+          "harmless fractional-timeout side-effect probe",
+          "clean detached exact candidate: git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T09:30:40.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T094219Z-035B0FB7",
+      "work_item_id": "WI-0104",
+      "recorded_at": "2026-09-02T09:42:19.904Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Replacement WI-0104 Independent QA",
+      "outcome": "pass",
+      "scope_revision": "6385b89d077e3507d7220d3ff935ffa26119369c",
+      "observed_at": "2026-09-02T09:37:33.000Z",
+      "summary": "Exact revision 6385b89d passed 280 tests and 59 evidence assertions; only immutable artifacts present at that revision are content-addressed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0104/independent-qa-exact-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0104/independent-qa-exact-test-observation.json",
+          "sha256": "737ea4d34a8992de479de48d2f34b5bc1d1f444bb1f60c35028cf9995384f2ff"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0104/local-microservice-observation.json",
+          "sha256": "f0ffcfcd827052ae24ba41e4213843126b6f1100b7cd40f81174b27d8baacf66"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0104/local-microservice-attempt-1-preflight-failure.json",
+          "sha256": "d8f52a4cd7c94d732c55fca9a58114bed4c5772bd58f319ac1318c97fa010b80"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0104/runtime-cleanup-observation.json",
+          "sha256": "5a9b333b7255b0851db2a489c38b71c34eed57122239de4ffb12e0e6bec1b9e8"
+        }
+      ],
+      "details": {
+        "command": [
+          "clean detached exact candidate: node --check scripts/validate-local-microservice-rehearsal.mjs",
+          "clean detached exact candidate: npm run verify",
+          "clean detached exact candidate: independent 59-assertion retained-evidence audit",
+          "clean detached exact candidate: node ./templew.mjs doctor . --json",
+          "harmless fractional-timeout side-effect probe",
+          "clean detached exact candidate: git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T09:30:40.000Z"
+      }
     }
   ]
 }

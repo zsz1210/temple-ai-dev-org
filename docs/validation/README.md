@@ -33,5 +33,6 @@ Validation records preserve bounded evidence for framework capabilities. They id
 - [Greenfield cold-task recovery — passed with limits](greenfield-cold-task-recovery-result.md) ([test plan](greenfield-cold-task-recovery-test-plan.md))
 - [Wave 1 adoption evidence — local greenfield, cold-task, brownfield, and recovery baseline passed with limits](wave-1-adoption-evidence.md)
 - [Wave 2 coordination evidence — bounded live coordination passed; real multi-human and multi-machine use remains not run](wave-2-coordination-evidence.md)
+- [Wave 3 local multi-repository service evidence — passed with Independent QA and retained local-only limits](wave-3-local-microservice-evidence.md)
 - [Bounded four-repository commerce rehearsal — stopped safely at the Token ceiling](bounded-four-repository-commerce-rehearsal.md)
 - [Collaborative large-scale real-environment test plan — planned / not run](collaborative-large-scale-test-plan.md)

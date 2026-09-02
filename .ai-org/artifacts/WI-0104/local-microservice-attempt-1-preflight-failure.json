@@ -1,0 +1,45 @@
+{
+  "schema_version": "temple.local-microservice-observation/v1",
+  "status": "failed",
+  "stop_reason": null,
+  "started_at": "2026-09-02T09:16:03.821Z",
+  "finished_at": "2026-09-02T09:16:03.823Z",
+  "generation_performed": false,
+  "model": "not_applicable",
+  "tokens": "not_applicable",
+  "scope": {
+    "repositories": 4,
+    "host": "single_local_mac",
+    "production_claim": false,
+    "enterprise_claim": false,
+    "release_claim": false,
+    "resumed_work_item": false
+  },
+  "runtime": null,
+  "timings_ms": {
+    "total_ms": 2.032
+  },
+  "disk": {
+    "free_bytes_before": 39149793280,
+    "free_bytes_peak_observation": 39149793280,
+    "free_bytes_after": 39149793280,
+    "growth_bytes_peak": 0
+  },
+  "images": null,
+  "repositories": null,
+  "federation": null,
+  "scenarios": [],
+  "commands": [],
+  "failure": {
+    "message": "The value of \"timeout\" is out of range. It must be an unsigned integer. Received 599998.384",
+    "command": null,
+    "stdout": null,
+    "stderr": null
+  },
+  "cleanup": {
+    "attempted": true,
+    "succeeded": false,
+    "residual_resources": null,
+    "fixture_removed": false
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "temple.local-runtime-cleanup-observation/v1",
+  "profile": "temple-wave3",
+  "docker_context": "colima-temple-wave3",
+  "performed_at": "2026-09-02T09:19:20.000Z",
+  "actions": [
+    "colima stop temple-wave3",
+    "colima delete temple-wave3 --force --data",
+    "delete the one resolved Colima VM image cache file downloaded for this rehearsal"
+  ],
+  "verification": {
+    "colima_instances": 0,
+    "profile_runtime_path_present": false,
+    "profile_vm_path_present": false,
+    "profile_data_disk_path_present": false,
+    "docker_context_present": false,
+    "colima_cache_bytes_remaining": 0
+  },
+  "host_free_bytes_before_cleanup": 38853951488,
+  "host_free_bytes_after_cleanup": 40666836992,
+  "host_bytes_reclaimed": 1812885504,
+  "broad_prune_performed": false,
+  "unrelated_runtime_data_removed": false,
+  "recoverability": "The deleted cache can be downloaded again by a future Colima start. The dedicated profile contained only this disposable rehearsal."
+}
