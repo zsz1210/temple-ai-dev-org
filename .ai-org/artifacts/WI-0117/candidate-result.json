@@ -1,0 +1,95 @@
+{
+  "schema_version": "temple.wave-5b-candidate-result/v1",
+  "work_item_id": "WI-0117",
+  "program_id": "wave-5b-lean-process-comparison",
+  "status": "candidates_completed_evaluator_pending",
+  "turns_started": 4,
+  "turns_completed": 4,
+  "launch_attempts": 4,
+  "retry_count": 0,
+  "fallback_count": 0,
+  "aggregate": {
+    "gross_total_tokens": 872562,
+    "operational_budget_tokens": 122226,
+    "candidate_latency_ms": 213097,
+    "program_elapsed_ms": 213699,
+    "coordinator_overhead_ms": 602,
+    "disk_delta_bytes": 3128
+  },
+  "candidates": [
+    {
+      "case_id": "idempotent-command",
+      "condition": "temple",
+      "package_id": "pkg-1af66fb9d6c6b6ea",
+      "candidate_revision": "f7e7d1baf7d361eebf97c2b7398023a9bb40f4bd",
+      "public_tests": "pass",
+      "acceptance_tests": "pass",
+      "gross_total_tokens": 249446,
+      "operational_budget_tokens": 31846,
+      "latency_ms": 49097
+    },
+    {
+      "case_id": "idempotent-command",
+      "condition": "minimal",
+      "package_id": "pkg-2580d1bbd9f56ce9",
+      "candidate_revision": "2ca75d1c9006aab88e819069876a61d6ebdce39f",
+      "public_tests": "pass",
+      "acceptance_tests": "pass",
+      "gross_total_tokens": 195791,
+      "operational_budget_tokens": 28111,
+      "latency_ms": 51582
+    },
+    {
+      "case_id": "compatible-event-evolution",
+      "condition": "minimal",
+      "package_id": "pkg-6039fa6aa3e18cb5",
+      "candidate_revision": "f048a967574f016d34099b91853be8793dc1b7bf",
+      "public_tests": "pass",
+      "acceptance_tests": "pass",
+      "gross_total_tokens": 198381,
+      "operational_budget_tokens": 29677,
+      "latency_ms": 56377
+    },
+    {
+      "case_id": "compatible-event-evolution",
+      "condition": "temple",
+      "package_id": "pkg-0682c8b1769043b4",
+      "candidate_revision": "db813d45afb8bf525a0dc1ee465a867841a7de41",
+      "public_tests": "pass",
+      "acceptance_tests": "pass",
+      "gross_total_tokens": 228944,
+      "operational_budget_tokens": 32592,
+      "latency_ms": 56041
+    }
+  ],
+  "provisional_pairs": [
+    {
+      "case_id": "idempotent-command",
+      "both_hidden_acceptance_pass": true,
+      "independent_evaluator_pending": true,
+      "temple_operational_token_delta": 3735,
+      "temple_operational_token_delta_percent": 13.2866,
+      "temple_latency_delta_ms": -2485,
+      "temple_latency_delta_percent": -4.8176
+    },
+    {
+      "case_id": "compatible-event-evolution",
+      "both_hidden_acceptance_pass": true,
+      "independent_evaluator_pending": true,
+      "temple_operational_token_delta": 2915,
+      "temple_operational_token_delta_percent": 9.8224,
+      "temple_latency_delta_ms": -336,
+      "temple_latency_delta_percent": -0.596
+    }
+  ],
+  "interpretation": {
+    "candidate_execution_completed": true,
+    "all_hidden_acceptance_passed": true,
+    "blind_comparison_qualified": false,
+    "reason": "The first fresh-context evaluator stopped before score freeze at its approved Token ceiling.",
+    "causal_savings_claim": false,
+    "temple_superiority_claim": false,
+    "statistical_qualification": false,
+    "automatic_routing_authorized": false
+  }
+}

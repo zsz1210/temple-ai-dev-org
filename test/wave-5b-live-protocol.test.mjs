@@ -5,7 +5,7 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import test from "node:test";
 
-import { sanitizeBlindPackage, validateFrozenScores } from "../scripts/run-wave-5b-evaluator.mjs";
+import { evaluatorStoppedResult, sanitizeBlindPackage, validateFrozenScores } from "../scripts/run-wave-5b-evaluator.mjs";
 
 const blind = {
   package_id: "pkg-001",
@@ -69,4 +69,21 @@ test("frozen scores reject missing, duplicate, unknown, or unbounded package res
   assert.throws(() => validateFrozenScores({ packages: [], summary: "" }, packages), /count/);
   assert.throws(() => validateFrozenScores({ packages: [{ package_id: "other", case_id: "case-a", weighted_score: 1, decision: "pass" }] }, packages), /identity/);
   assert.throws(() => validateFrozenScores({ packages: [{ package_id: "pkg-001", case_id: "case-a", weighted_score: 2, decision: "pass" }] }, packages), /outside/);
+});
+
+test("evaluator stop evidence retains exact observed usage without freezing or unsealing", () => {
+  const error = Object.assign(new Error("evaluator-operational-token-limit"), {
+    code: "evaluator-operational-token-limit",
+    evaluator_details: {
+      threadId: "thread-1",
+      turnId: "turn-1",
+      usage: { input_tokens: 25000, cached_input_tokens: 1000, output_tokens: 1000, reasoning_output_tokens: 500, total_tokens: 26000 }
+    }
+  });
+  const result = evaluatorStoppedResult({ workItemId: "WI-0117", error });
+  assert.equal(result.status, "stopped");
+  assert.equal(result.evaluator.operational_budget_tokens, 25000);
+  assert.equal(result.scores_frozen, false);
+  assert.equal(result.mapping_unsealed, false);
+  assert.equal(result.automatic_retry, false);
 });

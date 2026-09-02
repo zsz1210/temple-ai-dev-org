@@ -67,6 +67,32 @@ export function validateFrozenScores(scores, packages) {
   return scores;
 }
 
+export function evaluatorStoppedResult({ workItemId, error }) {
+  const details = error?.evaluator_details ?? {};
+  const usage = details.usage ?? null;
+  return {
+    schema_version: "temple.wave-5b-evaluator-result/v1",
+    work_item_id: workItemId,
+    status: "stopped",
+    stop: {
+      code: error?.code ?? "evaluator-failed",
+      message: String(error?.message ?? "evaluator failed").slice(0, 240)
+    },
+    evaluator: {
+      thread_id: details.threadId ?? null,
+      turn_id: details.turnId ?? null,
+      usage,
+      operational_budget_tokens: usage ? usage.input_tokens - usage.cached_input_tokens + usage.output_tokens : null
+    },
+    scores_frozen: false,
+    mapping_unsealed: false,
+    raw_prompt_retained: false,
+    hidden_reasoning_retained: false,
+    automatic_retry: false,
+    fallback_used: false
+  };
+}
+
 function argument(argv, name) {
   const index = argv.indexOf(name);
   if (index < 0) return null;
@@ -221,7 +247,11 @@ async function launchEvaluator({ evaluatorRoot, files, packages, protocol }) {
     turnId = turn?.turn?.id;
     if (!turnId) throw new Error("evaluator turn did not start");
     await terminalPromise;
-    if (violation) throw new Error(violation);
+    if (violation) {
+      const error = Object.assign(new Error(violation), { code: violation });
+      error.evaluator_details = { threadId, turnId, usage };
+      throw error;
+    }
     const failure = terminalFailure(terminal);
     if (failure) throw new Error(`${failure.code}: ${failure.message}`);
     if (!usage) throw new Error("evaluator detailed Token usage is missing");
@@ -271,7 +301,13 @@ async function main(argv) {
   const prepared = await prepareEvaluatorInputs(labRoot, fixtureRoot);
   try {
     const inputDigest = manifestDigest(prepared.files);
-    const result = await launchEvaluator({ ...prepared, protocol });
+    let result;
+    try {
+      result = await launchEvaluator({ ...prepared, protocol });
+    } catch (error) {
+      await writeExclusive(resultPath, `${JSON.stringify(evaluatorStoppedResult({ workItemId, error }), null, 2)}\n`);
+      throw error;
+    }
     const frozenAt = new Date().toISOString();
     const frozenDocument = {
       schema_version: "temple.wave-5b-quality-score/v1",
