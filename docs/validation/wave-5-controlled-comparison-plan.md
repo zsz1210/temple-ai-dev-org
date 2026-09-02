@@ -1,6 +1,6 @@
 # Wave 5 controlled comparison plan
 
-- Status: **designed / model execution not approved**
+- Status: **execution attempted twice / mechanism not yet qualified**
 - Work Item: `WI-0106`
 - Evidence class: current official documentation, retained local telemetry, deterministic study design
 - Model generation in this Work Item: **none**
@@ -36,7 +36,17 @@ Wave 5A passes as an experiment mechanism only if:
 
 A mechanism pass does **not** mean Temple won. With two cases, outcome differences are descriptive and cannot support a causal savings or superiority claim.
 
-## Why the run is not automatic
+## Execution history
+
+The repository owner approved the no-new-payment boundary after confirming that automatic Credit reload was disabled.
+
+- `WI-0107` launched one candidate, but the Provider rejected an unsupported `uniqueItems` structured-output keyword before generation. Provider telemetry observed zero Tokens. The remaining candidates were not launched, and the runner added an exact preflight regression check.
+- `WI-0108` used a new lab and passed the corrected no-generation preflight. Its first Luna Max turn reported 24,456 Tokens, then the runner stopped it because the command allowlist evaluated the App Server's shell-formatted display command instead of the structured `commandActions`. No candidate product file changed, no blind package was created, the other three turns were not launched, and no retry or fallback occurred.
+- After the `WI-0108` stop, the runner was corrected to validate every parsed action, pinned the exact `ItemStartedNotification` schema, and passed a no-generation positive-and-negative command-policy check. The stopped program was not rerun.
+
+Neither attempt completed a candidate, so the mechanism remains unqualified and there is no Temple-versus-minimal result. The observed Token count is Provider telemetry, not an account billing statement or Credit conversion.
+
+## Why execution requires explicit authority
 
 The retained account probe confirmed that account usage is readable but unallocated. It cannot reserve a per-experiment budget. OpenAI documents that Pro included usage is consumed first and purchased Credits may be used after the included limit; automatic reload can also purchase Credits when enabled. A strict no-new-payment run therefore needs the owner to confirm the account setting before launch.
 
@@ -51,4 +61,4 @@ The proposed hard envelope is four sequential Luna Max turns, 80,000 total Token
 
 ## Next decision
 
-Approve or revise the Wave 5A cases, four-turn Luna Max envelope, and no-new-payment account condition. Only then may a separate execution Work Item build the fixtures and launch the model-backed pilot.
+Before another model-backed attempt, review whether the two observed integration failures justify a separate dry-run protocol that exercises output-schema and command-policy handling against recorded App Server notifications without generation. Any further Luna turn requires a new Work Item, a new lab, and explicit execution authority; neither `WI-0107` nor `WI-0108` permits a retry.

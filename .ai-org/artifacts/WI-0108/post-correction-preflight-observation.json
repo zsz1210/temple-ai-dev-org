@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.wave-5a-preflight/v1",
   "work_item_id": "WI-0108",
-  "generated_at": "2026-09-02T13:12:33.836Z",
+  "generated_at": "2026-09-02T13:15:00.195Z",
   "pass": true,
   "generation_ready": true,
   "blockers": [],
@@ -10,6 +10,11 @@
       "id": "provider-output-schema-subset",
       "pass": true,
       "rule": "The installed Responses structured-output subset rejects uniqueItems."
+    },
+    {
+      "id": "provider-command-action-policy",
+      "pass": true,
+      "rule": "Validate App Server commandActions rather than its shell-formatted display command."
     },
     {
       "id": "codex-cli-version",
@@ -113,6 +118,12 @@
       "observed": "7a817a98d78ac8e982c82c24bf8f7a2d2e61cca9fb91e5386e31cae0888e38e2"
     },
     {
+      "id": "app-server-schema-ItemStartedNotification.json",
+      "pass": true,
+      "expected": "e30713dca6e8f6842a0c5350003ea433b6cbb4894209b4f871894450caa67b6f",
+      "observed": "e30713dca6e8f6842a0c5350003ea433b6cbb4894209b4f871894450caa67b6f"
+    },
+    {
       "id": "app-server-schema-TurnCompletedNotification.json",
       "pass": true,
       "expected": "b85470d9eadbcad52700bd1d5aae187a9cd995e50b7099ed05469b6d41d6b997",
@@ -160,6 +171,7 @@
     "TurnStartParams.json": "a3835e8c1e942e4b358e1a670939b89918b16c4d13105a579899892b7ade6dea",
     "ThreadStartResponse.json": "c8fb6bcd1e4fb5ead6b487f0f35a90d8f13c9272edd4285914012dda403a77d2",
     "TurnStartResponse.json": "7a817a98d78ac8e982c82c24bf8f7a2d2e61cca9fb91e5386e31cae0888e38e2",
+    "ItemStartedNotification.json": "e30713dca6e8f6842a0c5350003ea433b6cbb4894209b4f871894450caa67b6f",
     "TurnCompletedNotification.json": "b85470d9eadbcad52700bd1d5aae187a9cd995e50b7099ed05469b6d41d6b997",
     "ItemCompletedNotification.json": "9958dce3bcab754e88323d233dff5f4c2ee04ce35f068a18d8f83f93528acf8b",
     "ThreadTokenUsageUpdatedNotification.json": "aba4f6c7e4a19b2b842c08ee793b57000c07dafd57b922ad0d8e7c76609108c2",

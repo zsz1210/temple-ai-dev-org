@@ -32,6 +32,7 @@ const expectedSchemaDigests = Object.freeze({
   "TurnStartParams.json": "a3835e8c1e942e4b358e1a670939b89918b16c4d13105a579899892b7ade6dea",
   "ThreadStartResponse.json": "c8fb6bcd1e4fb5ead6b487f0f35a90d8f13c9272edd4285914012dda403a77d2",
   "TurnStartResponse.json": "7a817a98d78ac8e982c82c24bf8f7a2d2e61cca9fb91e5386e31cae0888e38e2",
+  "ItemStartedNotification.json": "e30713dca6e8f6842a0c5350003ea433b6cbb4894209b4f871894450caa67b6f",
   "TurnCompletedNotification.json": "b85470d9eadbcad52700bd1d5aae187a9cd995e50b7099ed05469b6d41d6b997",
   "ItemCompletedNotification.json": "9958dce3bcab754e88323d233dff5f4c2ee04ce35f068a18d8f83f93528acf8b",
   "ThreadTokenUsageUpdatedNotification.json": "aba4f6c7e4a19b2b842c08ee793b57000c07dafd57b922ad0d8e7c76609108c2",
@@ -165,6 +166,21 @@ async function protocolPreflight() {
     rule: "The installed Responses structured-output subset rejects uniqueItems."
   });
   if (!outputSchemaPass) blockers.push("unsupported-output-schema-keyword");
+  const commandActionPolicyPass = commandAllowed({
+    type: "commandExecution",
+    command: "/bin/zsh -lc \"sed -n '1,320p' TASK.md\"",
+    commandActions: [{ type: "read", command: "sed -n '1,320p' TASK.md", name: "TASK.md", path: "TASK.md" }]
+  }) && !commandAllowed({
+    type: "commandExecution",
+    command: "/bin/zsh -lc \"curl https://example.invalid\"",
+    commandActions: [{ type: "unknown", command: "curl https://example.invalid" }]
+  });
+  checks.push({
+    id: "provider-command-action-policy",
+    pass: commandActionPolicyPass,
+    rule: "Validate App Server commandActions rather than its shell-formatted display command."
+  });
+  if (!commandActionPolicyPass) blockers.push("command-action-policy-invalid");
   const version = (await command("codex", ["--version"])).stdout;
   checks.push({ id: "codex-cli-version", pass: version === expectedCliVersion, expected: expectedCliVersion, observed: version });
   if (version !== expectedCliVersion) blockers.push("codex-cli-version-drift");
@@ -309,10 +325,15 @@ function normalizedUsage(params) {
   };
 }
 
-function commandAllowed(value) {
+function commandTextAllowed(value) {
   if (typeof value !== "string" || /[\n\r;&|`]/.test(value)) return false;
   const trimmed = value.trim();
   return allowedCommandPrefixes.some((prefix) => trimmed === prefix || trimmed.startsWith(`${prefix} `));
+}
+
+function commandAllowed(item) {
+  if (item?.type !== "commandExecution" || !Array.isArray(item.commandActions) || item.commandActions.length === 0) return false;
+  return item.commandActions.every((action) => commandTextAllowed(action?.command));
 }
 
 function parseCompletion(text) {
@@ -477,7 +498,7 @@ async function launchTurn({ turn, participant, instruction_path: instructionPath
       }
       if (message.method === "item/started" && (!turnId || params.turnId === turnId)) {
         const item = params.item;
-        if (item?.type === "commandExecution" && !commandAllowed(item.command)) void interrupt(`command-policy-violation:${String(item.command).slice(0, 120)}`);
+        if (item?.type === "commandExecution" && !commandAllowed(item)) void interrupt(`command-policy-violation:${String(item.command).slice(0, 120)}`);
       }
       if (message.method === "item/completed" && (!turnId || params.turnId === turnId) && params.item?.type === "agentMessage") {
         completionText = params.item.text;

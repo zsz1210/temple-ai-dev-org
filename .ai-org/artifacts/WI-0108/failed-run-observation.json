@@ -1,0 +1,42 @@
+{
+  "schema_version": "temple.wave-5a-failed-run-observation/v1",
+  "work_item_id": "WI-0108",
+  "program_id": "wave-5a-process-feasibility",
+  "started_at": "2026-09-02T13:12:33.838Z",
+  "stopped_at": "2026-09-02T13:12:50.659Z",
+  "status": "stopped",
+  "stop_code": "command-policy-violation",
+  "safe_reason": "The runner evaluated the App Server shell-formatted display command instead of its parsed commandActions and rejected the allowed sed read before product work began.",
+  "counters": {
+    "turns_started": 1,
+    "turns_completed": 0,
+    "launch_attempts": 1,
+    "aggregate_tokens_observed": 24456,
+    "program_elapsed_ms": 16821,
+    "aggregate_disk_delta_bytes": 0
+  },
+  "turns": {
+    "turn-01": "stopped-by-command-policy",
+    "turn-02": "not-started",
+    "turn-03": "not-started",
+    "turn-04": "not-started"
+  },
+  "candidate_product_changes": false,
+  "blind_packages_created": 0,
+  "automatic_retry": false,
+  "fallback_used": false,
+  "raw_prompt_retained_in_repository_evidence": false,
+  "raw_response_retained_in_repository_evidence": false,
+  "billing_claim": "Provider telemetry observed 24,456 Tokens for the stopped first turn; this is not an account billing statement or Credit conversion.",
+  "correction": {
+    "status": "implemented-not-rerun",
+    "change": "Validate every parsed commandActions command against the allowlist, pin ItemStartedNotification schema, and preflight one allowed wrapper plus one forbidden command.",
+    "new_execution_authority_required": true
+  },
+  "claims": {
+    "experiment_completed": false,
+    "mechanism_qualified": false,
+    "temple_superiority": false,
+    "automatic_routing_authorized": false
+  }
+}
