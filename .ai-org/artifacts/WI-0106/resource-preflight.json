@@ -1,0 +1,57 @@
+{
+  "schema_version": "temple.wave-5-resource-preflight/v1",
+  "generated_at": "2026-09-02T10:56:24.788Z",
+  "work_item_id": "WI-0106",
+  "generation_performed": false,
+  "external_read_performed": true,
+  "external_write_performed": false,
+  "local_account_probe": {
+    "availability": "available",
+    "allocation": "unallocated",
+    "latency_ms": 837,
+    "raw_values_retained": false,
+    "model_generation_requested": false
+  },
+  "capture": {
+    "provider_status": "disabled",
+    "observation_mode": "off",
+    "historical_detailed_observations": 2,
+    "completed_work_items": 96,
+    "captured_completed_work_items": 2,
+    "coverage_ratio": 0.020833333333333332,
+    "backfill_supported": false
+  },
+  "empirical_source": {
+    "work_item_id": "WI-0067",
+    "attempted_turns": 2,
+    "completed_turns": 0,
+    "elapsed_ms": 29201,
+    "input_tokens": 145745,
+    "cached_input_tokens": 114176,
+    "output_tokens": 2903,
+    "reasoning_output_tokens": 1784,
+    "total_tokens": 148648,
+    "average_total_tokens_per_attempt": 74324,
+    "reactive_hard_limit_tokens": 60000,
+    "maximum_observed_overshoot_tokens": 14382
+  },
+  "rate_source": {
+    "title": "ChatGPT Rate Card",
+    "url": "https://help.openai.com/en/articles/11481834",
+    "observed_on": "2026-09-02",
+    "model": "gpt-5.6-luna",
+    "credits_per_million_uncached_input_tokens": 5,
+    "credits_per_million_cached_input_tokens": 0.5,
+    "credits_per_million_output_tokens": 30,
+    "applies_as_billing_guarantee": false
+  },
+  "calculation": {
+    "uncached_input_tokens": 31569,
+    "observed_mix_rate_card_credits": 0.302023,
+    "proposed_aggregate_hard_limit_tokens": 320000,
+    "projected_credits_at_observed_mix": 0.6501759862224853,
+    "all_output_mathematical_upper_bound_credits": 9.6
+  },
+  "approval_required": true,
+  "automatic_routing_enabled": false
+}

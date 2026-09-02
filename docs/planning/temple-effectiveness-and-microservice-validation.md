@@ -1,6 +1,6 @@
 # Temple effectiveness and multi-repository validation plan
 
-- Status: Waves 1–4 passed with retained limits; Wave 4 independently verified one deterministic local operating-boundary matrix
+- Status: Waves 1–4 passed with retained limits; Wave 5 controlled comparison designed and awaiting model-resource approval
 - Scope: local-first synthetic validation
 - Public, production, GitHub, hosted CI, and paid actions: not authorized
 
@@ -162,6 +162,12 @@ The Developer run passed its six scenarios in 95.005 seconds. Peak measured host
 The later [Wave 4 operating-boundary evidence](../validation/wave-4-operating-boundaries.md) tests the framework rules that would matter before a larger organization trial: Collaborative governance, tracker coordination, all four UI delivery modes, current SRE and Security safeguards, and High-Assurance gates.
 
 The result is intentionally a mixed matrix rather than a single pass badge. Exact local configuration and executable behavior, synthetic fixtures, documented policy, and not-run real environments remain separate evidence classes. A passing local test cannot qualify several real people, Jira or Figma, production on-call, incident response, vulnerability management, security certification, or a real High-Assurance drill. Wave 4 starts no external service or optional Temple runtime and changes none of those retained validation states.
+
+## Controlled effectiveness comparison
+
+The [Wave 5 controlled comparison plan](../validation/wave-5-controlled-comparison-plan.md) separates Temple-versus-minimal process effects from Luna-versus-Terra model effects. Its first slice is deliberately only a two-case, four-turn feasibility pilot with the same Luna Max profile in both process conditions. It preserves a credible minimal baseline, condition-blinded grading, exact Provider usage, zero retry, and explicit Token, time, and disk stops.
+
+This planning Work Item performs no model generation. Retained `WI-0067` data and current official rate information support the proposed envelope, but they cannot guarantee personal-plan billing. A separate execution Work Item requires approval of the four turns and confirmation that automatic Credit reload cannot create an unplanned payment.
 
 ## Decision after this plan
 
