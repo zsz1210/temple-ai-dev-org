@@ -12986,6 +12986,59 @@
         "exit_code": 0,
         "started_at": "2026-09-02T00:07:05.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T001219Z-2EFEE26C",
+      "work_item_id": "WI-0091",
+      "recorded_at": "2026-09-02T00:12:19.540Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA",
+      "outcome": "pass",
+      "scope_revision": "43444e1c8bdcd41e801b39a7a589e3f6909b0d39",
+      "observed_at": "2026-09-02T00:11:40.000Z",
+      "summary": "Fresh Node 24 worktree passed full verification, responsive Chrome matrix, schema validation, and Doctor.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0091/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0091/independent-qa-test-observation.json",
+          "sha256": "91f25c2383f605c1b774f109020a3255b031e7aeaf6a48619003d854af132ea7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0091/independent-qa-report.md",
+          "sha256": "a089385814ac4f8dcd1bfa0522dc1480bba47ea94a84a5572165dcbad4b2c633"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0091/quality-report.md",
+          "sha256": "997949f9574fc327acdb1cafa820ed582f2d890a7aa3e5747481290dfac556b2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0091/runtime-observation.json",
+          "sha256": "e1ece8230538db1b82549c4f2799262b1ac2f713cec5e74ca43553e4ab743a8f"
+        }
+      ],
+      "details": {
+        "command": [
+          "create a fresh detached worktree at 43444e1c8bdcd41e801b39a7a589e3f6909b0d39",
+          "npx --yes --package=node@24 -c 'node --version && npm ci --ignore-scripts'",
+          "npx --yes --package=node@24 -c 'npm run verify'",
+          "npx --yes --package=node@24 -c 'npm run test:browser'",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T00:09:20.000Z"
+      }
     }
   ]
 }
