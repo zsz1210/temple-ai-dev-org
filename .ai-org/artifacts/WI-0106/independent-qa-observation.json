@@ -1,0 +1,42 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "2612207e1099de2f02a133d3c8336ec2c12c2b39",
+  "command": [
+    "npm run verify in a fresh detached exact-candidate worktree",
+    "node ./templew.mjs schema validate . --json",
+    "run 40 focused correction, manifest, resource, policy, and identity assertions",
+    "compare 20 protocol input files with source revision 87d7e68",
+    "reproduce public, defective-starter hidden, and reference hidden fixture behavior",
+    "verify prior Quality and Independent QA NO-GO records remain retained",
+    "remove the temporary detached worktree"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T11:48:15.000Z",
+  "completed_at": "2026-09-02T11:53:50.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0106/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0106/independent-qa-attempt-1-report.md",
+    ".ai-org/artifacts/WI-0106/quality-attempt-1-report.md",
+    ".ai-org/artifacts/WI-0106/fixtures/feasibility-protocol.json",
+    ".ai-org/artifacts/WI-0106/resource-preflight.json"
+  ],
+  "summary": {
+    "tests_passed": 280,
+    "tests_failed": 0,
+    "documents_checked": 128,
+    "schemas_checked": 29,
+    "focused_assertions_passed": 40,
+    "pinned_source_checks_passed": 20,
+    "fixture_public_tests_passed": 4,
+    "fixture_reference_tests_passed": 7,
+    "defective_starters_rejected": 2,
+    "blocking_findings_remaining": 0,
+    "identity_separation_passed": true,
+    "prior_no_go_records_retained": true,
+    "wave_5c_blocked": true,
+    "personal_pro_rate_applicability": "unknown",
+    "model_generation_performed": false,
+    "external_write_performed": false
+  }
+}
