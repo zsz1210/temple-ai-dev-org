@@ -15271,6 +15271,84 @@
         "exit_code": 0,
         "started_at": "2026-09-02T08:35:14.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T092701Z-37D6A7B8",
+      "work_item_id": "WI-0104",
+      "recorded_at": "2026-09-02T09:27:01.075Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Wave 3 implementation candidate",
+      "outcome": "verified",
+      "scope_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
+      "observed_at": "2026-09-02T09:27:01.075Z",
+      "summary": "Exact candidate contains the bounded runner, retained service evidence, cleanup record, and limitation-aware documentation.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
+        "working_tree_dirty": true,
+        "dirty_path_count": 1,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T092701Z-3C3C2AED",
+      "work_item_id": "WI-0104",
+      "recorded_at": "2026-09-02T09:27:01.307Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0104 Developer exact-candidate verification",
+      "outcome": "pass",
+      "scope_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
+      "observed_at": "2026-09-02T09:25:54.000Z",
+      "summary": "Exact candidate passed runner syntax, 280 repository tests, and the retained six-scenario local rehearsal.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0104/developer-exact-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0104/developer-exact-test-observation.json",
+          "sha256": "d84e0fb54db2c77b3ce77415322cd71d12a76a5557c43cac4f9fb3d17245cd07"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0104/local-microservice-observation.json",
+          "sha256": "f0ffcfcd827052ae24ba41e4213843126b6f1100b7cd40f81174b27d8baacf66"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0104/runtime-cleanup-observation.json",
+          "sha256": "5a9b333b7255b0851db2a489c38b71c34eed57122239de4ffb12e0e6bec1b9e8"
+        },
+        {
+          "path": "docs/validation/wave-3-local-microservice-evidence.md",
+          "sha256": "42ad31aa0a4f6a54cc6f91c7bd837b78b6d2e6bab6e0c04f018d5a9abf6de6ba"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --check scripts/validate-local-microservice-rehearsal.mjs",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T09:24:52.000Z"
+      }
     }
   ]
 }
