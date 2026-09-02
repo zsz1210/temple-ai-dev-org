@@ -1,0 +1,221 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0111",
+  "title": "Make command policy quote-aware",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-02T15:07:08.484Z",
+  "updated_at": "2026-09-02T15:19:53.584Z",
+  "scope": [
+    "Replace blanket shell-metacharacter rejection with a deterministic quote-aware scanner that accepts literal operator characters inside safe quoted arguments while rejecting executable shell control outside quotes, without evaluating or normalizing the command."
+  ],
+  "acceptance_criteria": [
+    "The exact persisted WI-0110 rg search action with a single-quoted alternation passes.",
+    "Unquoted or post-quote pipelines, command separators, redirects, command substitutions, multiline commands, unclosed quotes, and malformed actions fail closed.",
+    "The live runner preflight exercises representative quoted-safe and top-level-unsafe actions through the shared helper.",
+    "Focused tests, full repository verification, Doctor, and exact-revision Independent QA pass without model generation."
+  ],
+  "affected_paths": [
+    "src/app-server-protocol-replay.mjs",
+    "test/app-server-protocol-replay.test.mjs",
+    ".ai-org/artifacts/WI-0109/fixtures/app-server-event-replay.json",
+    ".ai-org/artifacts/WI-0107/run-wave-5a.mjs",
+    "docs/validation/wave-5-controlled-comparison-plan.md",
+    ".ai-org/artifacts/WI-0111"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {
+    "build": {
+      "disciplines": [
+        "general-development"
+      ],
+      "resources": []
+    },
+    "independent_qa": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "test": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "30d90808b0a136ddd12ec28dbf621b8210d756b5",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260902150806-f874f5d4",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "30d90808b0a136ddd12ec28dbf621b8210d756b5",
+    "branch": "codex/wi-0111-quote-aware-command-policy",
+    "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0111",
+    "claimed_at": "2026-09-02T15:08:06.322Z",
+    "released_at": "2026-09-02T15:15:45.233Z",
+    "release_reason": "position_transition"
+  },
+  "claims": [
+    {
+      "id": "claim-20260902150804-e35e0d31",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "30d90808b0a136ddd12ec28dbf621b8210d756b5",
+      "branch": "codex/wi-0111-quote-aware-command-policy",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0111",
+      "claimed_at": "2026-09-02T15:08:04.600Z",
+      "released_at": "2026-09-02T15:08:05.078Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902150806-f874f5d4",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "30d90808b0a136ddd12ec28dbf621b8210d756b5",
+      "branch": "codex/wi-0111-quote-aware-command-policy",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0111",
+      "claimed_at": "2026-09-02T15:08:06.322Z",
+      "released_at": "2026-09-02T15:15:45.233Z",
+      "release_reason": "position_transition"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0111/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0111/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0111/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0111/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0111/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0111/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0111/developer-report.md",
+      ".ai-org/artifacts/WI-0111/developer-test-observation.json"
+    ],
+    "test_evidence": [
+      "EVID-20260902T151654Z-AA9A55C1"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0111/quality-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260902T151930Z-EC1F68AA"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0111/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0111/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0111/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0111/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0111/work-order.md",
+    ".ai-org/artifacts/WI-0111/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0111/product-spec.md",
+    ".ai-org/artifacts/WI-0111/approved-scope.md",
+    ".ai-org/artifacts/WI-0111/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0111/technical-design.md",
+    ".ai-org/artifacts/WI-0111/risk-review.md",
+    ".ai-org/artifacts/WI-0111/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0111/developer-report.md",
+    ".ai-org/artifacts/WI-0111/developer-test-observation.json",
+    "EVID-20260902T151654Z-AA9A55C1",
+    ".ai-org/artifacts/WI-0111/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0111/quality-report.md",
+    ".ai-org/artifacts/WI-0111/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0111/independent-qa-report.md",
+    "EVID-20260902T151930Z-EC1F68AA",
+    ".ai-org/artifacts/WI-0111/release-record.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "30d90808b0a136ddd12ec28dbf621b8210d756b5",
+      "artifact": ".ai-org/artifacts/WI-0111/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-02T15:08:04.840Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "30d90808b0a136ddd12ec28dbf621b8210d756b5",
+      "artifact": ".ai-org/artifacts/WI-0111/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-02T15:08:05.319Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "30d90808b0a136ddd12ec28dbf621b8210d756b5",
+      "artifact": ".ai-org/artifacts/WI-0111/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-02T15:08:05.833Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "2d523b5f71f8b794b8539b1e44d7db7d28dc9977",
+      "artifact": ".ai-org/artifacts/WI-0111/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-02T15:15:44.969Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "2d523b5f71f8b794b8539b1e44d7db7d28dc9977",
+      "artifact": ".ai-org/artifacts/WI-0111/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-02T15:17:08.556Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "2d523b5f71f8b794b8539b1e44d7db7d28dc9977",
+      "artifact": ".ai-org/artifacts/WI-0111/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-02T15:19:42.135Z"
+    }
+  ],
+  "developer_candidate_revision": "2d523b5f71f8b794b8539b1e44d7db7d28dc9977",
+  "tested_revision": "2d523b5f71f8b794b8539b1e44d7db7d28dc9977",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
+}

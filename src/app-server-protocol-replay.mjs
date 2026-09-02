@@ -46,8 +46,35 @@ function bounded(value, limit = 120) {
   return String(value ?? "").slice(0, limit);
 }
 
+function containsExecutableShellControl(value) {
+  let quote = null;
+  let escaped = false;
+  for (const character of value) {
+    if (character.charCodeAt(0) < 0x20) return true;
+    if (escaped) {
+      escaped = false;
+      continue;
+    }
+    if (quote === "single") {
+      if (character === "'") quote = null;
+      continue;
+    }
+    if (quote === "double") {
+      if (character === '"') quote = null;
+      else if (character === "\\") escaped = true;
+      else if (character === "$" || character === "`") return true;
+      continue;
+    }
+    if (character === "'") quote = "single";
+    else if (character === '"') quote = "double";
+    else if (character === "\\") escaped = true;
+    else if (";&|<>$`".includes(character)) return true;
+  }
+  return quote !== null || escaped;
+}
+
 export function commandTextAllowed(value, allowedPrefixes = WAVE5_ALLOWED_COMMAND_PREFIXES) {
-  if (typeof value !== "string" || value.length === 0 || /[\n\r;&|`<>$]/.test(value)) return false;
+  if (typeof value !== "string" || value.length === 0 || containsExecutableShellControl(value)) return false;
   const trimmed = value.trim();
   return allowedPrefixes
     .map(prefixText)
