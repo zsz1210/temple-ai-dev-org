@@ -16259,7 +16259,7 @@
       "kind": "test",
       "title": "WI-0108 developer verification",
       "outcome": "pass",
-      "scope_revision": "1211d700717417f5a585cd9f488ea09000ffd1d0",
+      "scope_revision": "cdf24c0c2b4a824eacbb241e6b0db46388a6109c",
       "observed_at": "2026-09-02T13:17:26.000Z",
       "summary": "One fail-closed Luna Max attempt observed 24,456 Tokens; zero candidate changes; corrected command-action policy and 280/280 repository tests passed.",
       "adapter": {
@@ -16316,7 +16316,7 @@
       "kind": "test",
       "title": "WI-0108 quality evaluation",
       "outcome": "pass",
-      "scope_revision": "1211d700717417f5a585cd9f488ea09000ffd1d0",
+      "scope_revision": "cdf24c0c2b4a824eacbb241e6b0db46388a6109c",
       "observed_at": "2026-09-02T13:19:44.000Z",
       "summary": "Fail-closed integrity passed; experiment completion failed after one 24,456-Token attempt and zero candidate completions.",
       "adapter": {
@@ -16367,7 +16367,7 @@
       "kind": "test",
       "title": "WI-0108 Independent QA",
       "outcome": "pass",
-      "scope_revision": "1211d700717417f5a585cd9f488ea09000ffd1d0",
+      "scope_revision": "cdf24c0c2b4a824eacbb241e6b0db46388a6109c",
       "observed_at": "2026-09-02T13:22:31.000Z",
       "summary": "Independent exact-revision verification passed for fail-closed evidence and command-action correction; Wave 5A remains unqualified.",
       "adapter": {
