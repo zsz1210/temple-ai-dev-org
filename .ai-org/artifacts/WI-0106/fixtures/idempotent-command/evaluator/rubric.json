@@ -1,0 +1,14 @@
+{
+  "case_id": "idempotent-command",
+  "maintainability_anchors": [
+    "Uses processedCommandIds as the existing source of truth instead of adding hidden global state.",
+    "Keeps validation centralized and the exported function signature unchanged.",
+    "Makes the retry path explicit and returns a fresh state object."
+  ],
+  "critical_failures": [
+    "A repeated command changes the balance.",
+    "A repeated command emits an event.",
+    "The input state is mutated.",
+    "A dependency is added or a file outside src/ and test/ is changed."
+  ]
+}

@@ -15723,6 +15723,313 @@
         "exit_code": 0,
         "started_at": "2026-09-02T10:41:10.134Z"
       }
+    },
+    {
+      "id": "EVID-20260902T110454Z-F67AD7F6",
+      "work_item_id": "WI-0106",
+      "recorded_at": "2026-09-02T11:04:54.964Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Wave 5 comparison design candidate",
+      "outcome": "verified",
+      "scope_revision": "d3ea908d6157da31b659eb53dc5d16014a354fe2",
+      "observed_at": "2026-09-02T11:04:54.964Z",
+      "summary": "Exact candidate containing the staged comparison protocol, public plan, and numerical resource preflight.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "d3ea908d6157da31b659eb53dc5d16014a354fe2"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "d3ea908d6157da31b659eb53dc5d16014a354fe2",
+        "working_tree_dirty": true,
+        "dirty_path_count": 1,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T110605Z-ED60CF41",
+      "work_item_id": "WI-0106",
+      "recorded_at": "2026-09-02T11:06:05.667Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 5 design verification",
+      "outcome": "pass",
+      "scope_revision": "d3ea908d6157da31b659eb53dc5d16014a354fe2",
+      "observed_at": "2026-09-02T11:03:02.000Z",
+      "summary": "Repository, link, package, schema, arithmetic, authority, and whitespace checks passed without model generation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0106/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0106/developer-test-observation.json",
+          "sha256": "1ac5182e6ffefb6ab5c125597695817ec4dfdac6c64624b2d2801f1bd570b7ac"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/resource-preflight.json",
+          "sha256": "1a1e2747ddebea4f1ba42c22fcf7b336dd93fac4d7f9819a6ff66791f03cc058"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/technical-design.md",
+          "sha256": "9a9e2f2abc6260b397c4f04d38e8573dbfce927566e4604837824971b60008ac"
+        },
+        {
+          "path": "docs/validation/wave-5-controlled-comparison-plan.md",
+          "sha256": "132156fda6580d0124137dc458468ecfe4fabfff0b35ef88bf196fd25ac30024"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run check",
+          "node ./templew.mjs schema validate . --json",
+          "resource-preflight arithmetic and authority assertions",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T11:02:59.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T113004Z-15216395",
+      "work_item_id": "WI-0106",
+      "recorded_at": "2026-09-02T11:30:04.494Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 5 quality attempt 1 no-go",
+      "outcome": "fail",
+      "scope_revision": "d3ea908d6157da31b659eb53dc5d16014a354fe2",
+      "observed_at": "2026-09-02T11:15:00.000Z",
+      "summary": "Retained first quality review: five reproducibility and evidence blockers; candidate d3ea908 must not advance.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0106/quality-attempt-1-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0106/quality-attempt-1-observation.json",
+          "sha256": "eeeaa65b8bf5e09e0f9a9eb9554bba762c8a2620abc3c7c5c880b419dde5a88a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/quality-attempt-1-report.md",
+          "sha256": "7414168bc41e6c2b3cca47d0e35b31d7e9c5d96bc980ed501793c4691bf244a9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/resource-preflight.json",
+          "sha256": "1a1e2747ddebea4f1ba42c22fcf7b336dd93fac4d7f9819a6ff66791f03cc058"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/technical-design.md",
+          "sha256": "9a9e2f2abc6260b397c4f04d38e8573dbfce927566e4604837824971b60008ac"
+        }
+      ],
+      "details": {
+        "command": [
+          "resolve WI-0106 Quality Evaluator context without writing",
+          "inspect WI-0106 protocol, usage policy, WI-0067 telemetry, matched-evaluation schema, and evaluator",
+          "independently reproduce resource-preflight arithmetic",
+          "compare exact candidate with current working changes"
+        ],
+        "exit_code": 1,
+        "started_at": "2026-09-02T11:06:40.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T113303Z-9A8048CC",
+      "work_item_id": "WI-0106",
+      "recorded_at": "2026-09-02T11:33:03.164Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 5 corrected design quality verification",
+      "outcome": "pass",
+      "scope_revision": "c27f193d03f36ecc50c6e4d4dba3f55e6928b0f9",
+      "observed_at": "2026-09-02T11:32:11.000Z",
+      "summary": "Exact candidate c27f193 passed fixture, manifest, resource, repository, schema, and clean-worktree checks; no model generation or external write.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0106/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0106/quality-test-observation.json",
+          "sha256": "7da82707c6e2d4462ccb336d09686c03287836d417e878fd55ec211a3232f8bc"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/quality-report.md",
+          "sha256": "fbb1b77c3d1ba6130540b39fe43aabface89b01060b4f16084ad4c5479f79a93"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/quality-attempt-1-report.md",
+          "sha256": "7414168bc41e6c2b3cca47d0e35b31d7e9c5d96bc980ed501793c4691bf244a9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/fixtures/feasibility-protocol.json",
+          "sha256": "e32c8b9d1f19150a5b3ebbe8d6df5d5ca69b4734ba17c45fbac92c48e0f5744c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/resource-preflight.json",
+          "sha256": "f0ed7f16398cde3bbc45fcd73d34f3cbc6a97741577125e518b1874ec5b8cfa5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/technical-design.md",
+          "sha256": "3ccd6ed5490b26db37761199f9c3d70fc85bc740d97002fcb4ab696d2fe5d613"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run check in a detached exact-candidate worktree",
+          "node ./templew.mjs schema validate . --json in a detached exact-candidate worktree",
+          "run both public starter suites",
+          "prove both hidden suites fail on the defective starter for an intended assertion",
+          "prove both hidden suites pass with only the pinned reference source",
+          "recompute 19 manifest digest and deterministic-order checks",
+          "recompute 12 resource arithmetic and authority checks",
+          "git diff --check and clean exact-candidate assertion"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T11:31:00.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T114640Z-1B5F95B9",
+      "work_item_id": "WI-0106",
+      "recorded_at": "2026-09-02T11:46:40.408Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 5 independent QA attempt 1 no-go",
+      "outcome": "fail",
+      "scope_revision": "c27f193d03f36ecc50c6e4d4dba3f55e6928b0f9",
+      "observed_at": "2026-09-02T11:43:30.000Z",
+      "summary": "Exact candidate c27f193 passed core checks but exposed a resolvable candidate revision in the blind package and cited one mismatched retained duration.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0106/independent-qa-attempt-1-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0106/independent-qa-attempt-1-observation.json",
+          "sha256": "7286c519d69d7930f6d6c0b08d8afb33f747cb2ac3ee8e8f5f0f9cde5445c7ae"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/independent-qa-attempt-1-report.md",
+          "sha256": "8a78238d540cfb2820655acdda8e5833dc4866555776dee5eedfea3227399828"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/quality-report.md",
+          "sha256": "fbb1b77c3d1ba6130540b39fe43aabface89b01060b4f16084ad4c5479f79a93"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0105/developer-exact-test-observation.json",
+          "sha256": "abc7956726f372c2ac3983eb234a8238cc7c50b43c01cd76db58b439fe2af3b7"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify in a fresh detached exact-candidate worktree",
+          "node ./templew.mjs schema validate . --json",
+          "reproduce public, defective-starter hidden, and reference hidden fixture behavior",
+          "recompute manifest digests and deterministic condition order",
+          "compare protocol input files with fixture source revision 69fb40f",
+          "recompute resource arithmetic and inspect retained source observations",
+          "audit arm-neutral schema and procedure for condition leakage",
+          "audit Wave 5C, personal Pro rate, first NO-GO, and Agent identity boundaries"
+        ],
+        "exit_code": 1,
+        "started_at": "2026-09-02T11:34:20.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T115436Z-851D76B3",
+      "work_item_id": "WI-0106",
+      "recorded_at": "2026-09-02T11:54:36.893Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 5 corrected design independent QA",
+      "outcome": "pass",
+      "scope_revision": "2612207e1099de2f02a133d3c8336ec2c12c2b39",
+      "observed_at": "2026-09-02T11:53:50.000Z",
+      "summary": "Exact candidate 2612207 passed 280 tests, 128/29 schema validation, 40 focused assertions, and 20 pinned-source checks; no generation or external write.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0106/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0106/independent-qa-observation.json",
+          "sha256": "d3e86fcbfdfe3c01bbf21f7254c8481f28305bc539ad4575e7db26826f9f0f00"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/independent-qa-report.md",
+          "sha256": "484fb5353b2fe054ad62ca060f392eaf3322cdeaf5ef4f9395d5528012fc04c4"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/independent-qa-attempt-1-report.md",
+          "sha256": "8a78238d540cfb2820655acdda8e5833dc4866555776dee5eedfea3227399828"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/quality-attempt-1-report.md",
+          "sha256": "7414168bc41e6c2b3cca47d0e35b31d7e9c5d96bc980ed501793c4691bf244a9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/fixtures/feasibility-protocol.json",
+          "sha256": "211ab8d7aeb9dff86dc99ae68183a825676eda64aeb004a30c352199e9f8fa2f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/resource-preflight.json",
+          "sha256": "120db8c4fa4c6843789de3293909ef0de5e45b95810f60d7fb5a074633c97447"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify in a fresh detached exact-candidate worktree",
+          "node ./templew.mjs schema validate . --json",
+          "run 40 focused correction, manifest, resource, policy, and identity assertions",
+          "compare 20 protocol input files with source revision 87d7e68",
+          "reproduce public, defective-starter hidden, and reference hidden fixture behavior",
+          "verify prior Quality and Independent QA NO-GO records remain retained",
+          "remove the temporary detached worktree"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T11:48:15.000Z"
+      }
     }
   ]
 }

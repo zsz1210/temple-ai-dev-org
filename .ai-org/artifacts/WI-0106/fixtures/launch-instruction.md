@@ -1,0 +1,1 @@
+Work only inside the current candidate repository. Read `AGENTS.md` and `TASK.md`, complete the bounded product task, run the required checks, and return the five-field completion record requested by `TASK.md`. Do not inspect the coordinator or evaluator directories.
