@@ -15403,6 +15403,66 @@
         "exit_code": 0,
         "started_at": "2026-09-02T09:28:20.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T093947Z-A40D1F9F",
+      "work_item_id": "WI-0104",
+      "recorded_at": "2026-09-02T09:39:47.983Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0104 Independent QA",
+      "outcome": "pass",
+      "scope_revision": "6385b89d077e3507d7220d3ff935ffa26119369c",
+      "observed_at": "2026-09-02T09:37:33.000Z",
+      "summary": "Separate Independent QA passed 280 repository tests, 59 evidence assertions, and Doctor with zero failures on exact revision 6385b89d.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0104/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0104/independent-qa-test-observation.json",
+          "sha256": "80e811eb2a58ff8faa7afd0859601196354901c9fa732bffb6235cf33b0cadfa"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0104/local-microservice-observation.json",
+          "sha256": "f0ffcfcd827052ae24ba41e4213843126b6f1100b7cd40f81174b27d8baacf66"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0104/local-microservice-attempt-1-preflight-failure.json",
+          "sha256": "d8f52a4cd7c94d732c55fca9a58114bed4c5772bd58f319ac1318c97fa010b80"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0104/runtime-cleanup-observation.json",
+          "sha256": "5a9b333b7255b0851db2a489c38b71c34eed57122239de4ffb12e0e6bec1b9e8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0104/independent-qa-report.md",
+          "sha256": "02108d4a8048feb5edda99de67f44b473ead5d169d9edbd686d5a00e13074cdf"
+        },
+        {
+          "path": "docs/validation/wave-3-local-microservice-evidence.md",
+          "sha256": "bf5c40a77ee825d234623f7042294778dfa5179515150808c9a4a6999a5ad869"
+        }
+      ],
+      "details": {
+        "command": [
+          "clean detached exact candidate: node --check scripts/validate-local-microservice-rehearsal.mjs",
+          "clean detached exact candidate: npm run verify",
+          "clean detached exact candidate: independent 59-assertion retained-evidence audit",
+          "clean detached exact candidate: node ./templew.mjs doctor . --json",
+          "harmless fractional-timeout side-effect probe",
+          "clean detached exact candidate: git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T09:30:40.000Z"
+      }
     }
   ]
 }
