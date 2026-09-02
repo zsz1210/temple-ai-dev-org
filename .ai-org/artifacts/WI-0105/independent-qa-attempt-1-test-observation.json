@@ -11,7 +11,6 @@
   "started_at": "2026-09-02T10:20:20.000Z",
   "completed_at": "2026-09-02T10:25:57.000Z",
   "artifact_refs": [
-    ".ai-org/artifacts/WI-0105/wave-4-operating-boundaries-observation.json",
     "docs/validation/wave-4-operating-boundaries.md"
   ],
   "summary": {
