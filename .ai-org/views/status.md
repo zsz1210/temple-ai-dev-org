@@ -150,7 +150,7 @@
 | WI-0100 | Separate optional Management Console from Usage collection | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3c94b998` | 0 | 14 | 0 |
 | WI-0101 | Present the optional Console as read-only and verify managed collection | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `3c94b998` | 0 | 14 | 0 |
 | WI-0102 | Validate brownfield adoption and normalize Wave 1 evidence | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0c7260dd` | 0 | 15 | 0 |
-| WI-0103 | Reconcile Wave 2 coordination evidence | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902083018-e3e9f8d7 | `—` | 0 | 3 | 0 |
+| WI-0103 | Reconcile Wave 2 coordination evidence | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902083911-2c0d38c8 | `0598100f` | 0 | 10 | 0 |
 
 ## Codex task registry
 
@@ -284,14 +284,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T08:30:18.819Z | work_item_claimed | WI-0103 | human |
-| 2026-09-02T08:30:18.540Z | work_item_transitioned | WI-0103 | agent-tidus |
-| 2026-09-02T08:29:32.669Z | work_item_claimed | WI-0103 | human |
-| 2026-09-02T08:29:32.397Z | work_item_transitioned | WI-0103 | agent-yuna |
-| 2026-09-02T08:29:09.666Z | work_item_claimed | WI-0103 | human |
-| 2026-09-02T08:29:00.455Z | work_item_transitioned | WI-0103 | agent-mog |
-| 2026-09-02T08:28:38.492Z | work_item_claimed | WI-0103 | human |
-| 2026-09-02T08:28:38.225Z | work_item_coordination_configured | WI-0103 | agent-mog |
+| 2026-09-02T08:39:11.854Z | work_item_claimed | WI-0103 | human |
+| 2026-09-02T08:39:11.610Z | work_item_transitioned | WI-0103 | agent-lulu |
+| 2026-09-02T08:39:11.373Z | handoff_created | WI-0103 | agent-lulu |
+| 2026-09-02T08:39:11.121Z | work_item_transitioned | WI-0103 | agent-lulu |
+| 2026-09-02T08:38:54.989Z | evidence_recorded | WI-0103 | human |
+| 2026-09-02T08:37:43.135Z | work_item_claimed | WI-0103 | human |
+| 2026-09-02T08:37:42.888Z | work_item_transitioned | WI-0103 | agent-rikku |
+| 2026-09-02T08:37:42.632Z | handoff_created | WI-0103 | agent-rikku |
 
 ## Assignments
 
