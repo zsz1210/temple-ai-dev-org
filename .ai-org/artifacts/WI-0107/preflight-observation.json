@@ -1,11 +1,9 @@
 {
   "schema_version": "temple.wave-5a-preflight/v1",
-  "generated_at": "2026-09-02T12:29:18.657Z",
-  "pass": false,
-  "generation_ready": false,
-  "blockers": [
-    "owner-confirmation-required"
-  ],
+  "generated_at": "2026-09-02T12:36:14.608Z",
+  "pass": true,
+  "generation_ready": true,
+  "blockers": [],
   "checks": [
     {
       "id": "codex-cli-version",
@@ -146,8 +144,8 @@
     },
     {
       "id": "no-new-payment-owner-confirmation",
-      "pass": false,
-      "source": null
+      "pass": true,
+      "source": ".ai-org/artifacts/WI-0107/account-approval.json"
     }
   ],
   "cli_version": "codex-cli 0.151.0-alpha.7.2",
