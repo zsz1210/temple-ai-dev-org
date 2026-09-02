@@ -10,6 +10,7 @@ import {
   createJsonRpcProcess
 } from "../../../src/codex-app-server-provider.mjs";
 import {
+  inspectGitRepository,
   runValidationProgram,
   validateValidationProgramManifest
 } from "../../../src/validation-program.mjs";
@@ -372,8 +373,7 @@ async function runTests(root, caseId) {
 }
 
 async function changedPaths(root) {
-  const output = await git(root, ["status", "--porcelain=v1", "-z", "--untracked-files=all"]);
-  return output.split("\0").filter(Boolean).map((record) => record.slice(3)).filter(Boolean).sort();
+  return (await inspectGitRepository(root)).dirty_paths;
 }
 
 function allowedPath(candidate) {

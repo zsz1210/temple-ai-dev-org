@@ -175,6 +175,7 @@ test("the live runner imports the replayed helpers and pins the fixture's instal
   const runner = await fs.readFile(runnerUrl, "utf8");
   for (const name of [
     "commandItemAllowed",
+    "inspectGitRepository",
     "isolateWave5CodexEnvironment",
     "normalizeTokenUsage",
     "parseStructuredCompletion",
