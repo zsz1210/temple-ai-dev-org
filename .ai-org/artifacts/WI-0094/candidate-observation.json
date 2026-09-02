@@ -1,0 +1,49 @@
+{
+  "schema_version": "temple.performance-observation/v1",
+  "work_item_id": "WI-0094",
+  "revision": "pending-candidate-commit",
+  "observed_at": "2026-09-02T07:09:00.000Z",
+  "environment": {
+    "runtime": "Node.js 25.6.1",
+    "repository_work_items": 101,
+    "usage_observations": 2,
+    "archive_bytes_scanned": 6145329
+  },
+  "console_uncached": {
+    "payload_bytes_http": 336650,
+    "cold_ms": 986.920,
+    "warm_repetitions": 10,
+    "warm_min_ms": 880.926,
+    "warm_median_ms": 901.396,
+    "warm_p95_ms": 1194.372,
+    "warm_max_ms": 1194.372
+  },
+  "console_cached": {
+    "payload_bytes_http": 336650,
+    "cold_ms": 895.392,
+    "warm_repetitions": 9,
+    "warm_min_ms": 1.998,
+    "warm_median_ms": 2.898,
+    "warm_p95_ms": 3.507,
+    "warm_max_ms": 3.507
+  },
+  "usage_report": {
+    "payload_bytes_compact": 13291,
+    "cold_ms": 44.909,
+    "warm_repetitions": 20,
+    "warm_median_ms": 24.243,
+    "warm_p95_ms": 26.899,
+    "warm_max_ms": 27.795
+  },
+  "comparison": {
+    "console_payload_reduction_percent": 83.7988,
+    "target_payload_bytes_max": 524288,
+    "target_uncached_p95_ms_max": 1500,
+    "target_cached_p95_ms_max": 25,
+    "target_usage_p95_ms_max": 60,
+    "all_targets_pass": true
+  },
+  "canonical_state_changed_by_measurement": false,
+  "external_action_performed": false
+}
+

@@ -57,13 +57,59 @@ async function closeServer(server) {
   });
 }
 
-export function managementConsoleSnapshot(snapshot) {
-  const { daemon: _daemon, inbox: _inbox, recent_events: _recentEvents, ...rest } = structuredClone(snapshot);
-  if (rest.usage?.source) delete rest.usage.source.state_directory;
+function managementConsoleObserver(observer) {
+  if (!observer) return observer;
   return {
+    schema_version: observer.schema_version,
+    generated_at: observer.generated_at,
+    project: observer.project,
+    organization: observer.organization,
+    canonical_state_changed: observer.canonical_state_changed,
+    external_action_performed: observer.external_action_performed
+  };
+}
+
+function managementConsoleTask(task) {
+  const { items: _items, ...summary } = task;
+  return summary;
+}
+
+function managementConsoleLiveObserver(liveObserver) {
+  if (!liveObserver) return liveObserver;
+  const tasks = liveObserver.tasks
+    ? (({ items: _items, ...summary }) => summary)(liveObserver.tasks)
+    : liveObserver.tasks;
+  const work = liveObserver.work
+    ? {
+        ...liveObserver.work,
+        items: (liveObserver.work.items ?? []).map((item) => ({
+          ...item,
+          tasks: (item.tasks ?? []).map(managementConsoleTask)
+        }))
+      }
+    : liveObserver.work;
+  return { ...liveObserver, tasks, work };
+}
+
+export function managementConsoleSnapshot(snapshot) {
+  const {
+    daemon: _daemon,
+    inbox: _inbox,
+    recent_events: _recentEvents,
+    observer,
+    live_observer: liveObserver,
+    ...rest
+  } = snapshot;
+  const safe = structuredClone({
     ...rest,
+    observer: managementConsoleObserver(observer),
+    live_observer: managementConsoleLiveObserver(liveObserver)
+  });
+  if (safe.usage?.source) delete safe.usage.source.state_directory;
+  return {
+    ...safe,
     authority: {
-      ...rest.authority,
+      ...safe.authority,
       viewer: "local-read-only",
       mutations_available: false,
       raw_events_available: false

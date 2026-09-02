@@ -1,0 +1,51 @@
+{
+  "schema_version": "temple.performance-observation/v1",
+  "work_item_id": "WI-0094",
+  "revision": "d29fa5a",
+  "observed_at": "2026-09-02T07:00:05.577Z",
+  "environment": {
+    "runtime": "Node.js 25.6.1",
+    "repository_work_items": 101,
+    "repository_evidence_records": 345,
+    "usage_observations": 2,
+    "archive_bytes_scanned": 6145329
+  },
+  "usage_report": {
+    "payload_bytes_compact": 13291,
+    "cold_ms": 79.454,
+    "warm_repetitions": 20,
+    "warm_min_ms": 23.069,
+    "warm_median_ms": 27.188,
+    "warm_p95_ms": 43.592,
+    "warm_max_ms": 47.971
+  },
+  "console_uncached": {
+    "payload_bytes_http": 2077930,
+    "cold_ms": 1010.913,
+    "warm_repetitions": 10,
+    "warm_min_ms": 872.822,
+    "warm_median_ms": 889.559,
+    "warm_p95_ms": 1073.562,
+    "warm_max_ms": 1073.562
+  },
+  "console_cached": {
+    "repetitions": 9,
+    "min_ms": 9.384,
+    "max_ms": 10.946
+  },
+  "console_idle_process": {
+    "resident_memory_kib": 35488,
+    "sampled_cpu_percent": 0.0
+  },
+  "diagnosis": {
+    "usage_projection_bytes_compact": 13219,
+    "observer_projection_bytes_compact": 571558,
+    "live_observer_projection_bytes_compact": 666133,
+    "dominant_unused_observer_evidence_bytes_compact": 492996,
+    "dominant_unused_provider_task_items_bytes_compact": 267163,
+    "conclusion": "The representative response is dominated by duplicate evidence and retained Provider task history that the human Console does not render, not by Usage aggregation."
+  },
+  "canonical_state_changed_by_measurement": false,
+  "external_action_performed": false
+}
+
