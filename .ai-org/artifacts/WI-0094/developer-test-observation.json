@@ -1,0 +1,30 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "d2e2e8ed9ec8fd9476a529cfc1f37790220341d7",
+  "command": [
+    "node --test test/optional-console-collector.test.mjs test/phase-4b.test.mjs",
+    "exact clean candidate revision: npm run verify",
+    "exact candidate revision: live optional Console cached and uncached performance measurement"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T07:08:00.000Z",
+  "completed_at": "2026-09-02T07:13:00.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0094/candidate-observation.json",
+    ".ai-org/artifacts/WI-0094/developer-handoff.md",
+    ".ai-org/artifacts/WI-0094/technical-design.md"
+  ],
+  "summary": {
+    "focused_tests_passed": 25,
+    "focused_tests_failed": 0,
+    "full_tests_passed": 280,
+    "full_tests_failed": 0,
+    "full_test_duration_ms": 59961.476958,
+    "console_payload_bytes": 336650,
+    "console_payload_reduction_percent": 83.7988,
+    "console_cached_p95_ms": 3.502,
+    "console_uncached_p95_ms": 907.557,
+    "performance_targets": "pass"
+  }
+}
