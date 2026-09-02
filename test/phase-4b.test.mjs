@@ -41,12 +41,21 @@ async function writeJson(targetPath, value) {
   await fs.writeFile(targetPath, `${JSON.stringify(value, null, 2)}\n`);
 }
 
+async function removeTemporaryTree(targetPath) {
+  await fs.rm(targetPath, {
+    recursive: true,
+    force: true,
+    maxRetries: 5,
+    retryDelay: 100
+  });
+}
+
 async function fixture(context) {
   const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-phase-4b-test-"));
   const target = path.join(temporaryRoot, "policy-product");
   const configPath = path.join(temporaryRoot, "init.json");
   const stateDirectory = path.join(temporaryRoot, "telemetry");
-  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  context.after(() => removeTemporaryTree(temporaryRoot));
   await writeJson(configPath, {
     schema_version: "temple.init/v1",
     project: { id: "policy-product", name: "Policy Product" },
@@ -1159,7 +1168,7 @@ test("usage baseline sums provider deltas, preserves unknowns, and never invents
 
 test("usage history restores strict archive projections, ignores archive cursor order, and deduplicates Provider identities", async (context) => {
   const stateDirectory = await fs.mkdtemp(path.join(os.tmpdir(), "temple-usage-history-test-"));
-  context.after(() => fs.rm(stateDirectory, { recursive: true, force: true }));
+  context.after(() => removeTemporaryTree(stateDirectory));
   const archiveDirectory = path.join(stateDirectory, "archive");
   await fs.mkdir(archiveDirectory, { recursive: true });
   const makeUsage = (id, cursor, total, observedAt, extraData = {}) => ({
@@ -1231,7 +1240,7 @@ test("usage history restores strict archive projections, ignores archive cursor 
 
 test("usage history quarantines identity conflicts and isolates unsafe, malformed, and oversized archives", async (context) => {
   const stateDirectory = await fs.mkdtemp(path.join(os.tmpdir(), "temple-usage-history-failure-test-"));
-  context.after(() => fs.rm(stateDirectory, { recursive: true, force: true }));
+  context.after(() => removeTemporaryTree(stateDirectory));
   const archiveDirectory = path.join(stateDirectory, "archive");
   await fs.mkdir(archiveDirectory, { recursive: true });
   const makeUsage = (id, cursor, total) => ({

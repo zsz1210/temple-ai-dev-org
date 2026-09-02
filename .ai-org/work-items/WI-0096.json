@@ -1,0 +1,157 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0096",
+  "title": "Harden Phase 4B fixture cleanup on Linux",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-02T02:22:44.351Z",
+  "updated_at": "2026-09-02T02:23:23.413Z",
+  "scope": [
+    "Add bounded retry handling to Phase 4B temporary-tree cleanup so transient Git object removal races do not fail otherwise passing hosted tests."
+  ],
+  "acceptance_criteria": [
+    "All Phase 4B temporary directory cleanup uses bounded retries without changing any policy, usage, or evaluation assertion.",
+    "Focused Phase 4B tests and complete Node.js 22 and 24 verification pass.",
+    "Fresh hosted CI passes both Node.js lanes and the Node.js 24 browser gate."
+  ],
+  "affected_paths": [
+    "test/phase-4b.test.mjs",
+    ".ai-org/artifacts/WI-0096"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": "WI-0086",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "439aa3e5896be3ac59fd5627c4a5452b50240c08",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": "agent-rikku",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260902022323-05ce340a",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "439aa3e5896be3ac59fd5627c4a5452b50240c08",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-09-02T02:23:23.413Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260902022319-e7d20351",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "439aa3e5896be3ac59fd5627c4a5452b50240c08",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-02T02:23:19.474Z",
+      "released_at": "2026-09-02T02:23:20.122Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902022320-8f8f347f",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "439aa3e5896be3ac59fd5627c4a5452b50240c08",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-02T02:23:20.790Z",
+      "released_at": "2026-09-02T02:23:21.436Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902022322-b89159f5",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "439aa3e5896be3ac59fd5627c4a5452b50240c08",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-02T02:23:22.112Z",
+      "released_at": "2026-09-02T02:23:22.753Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902022323-05ce340a",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "439aa3e5896be3ac59fd5627c4a5452b50240c08",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-02T02:23:23.413Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0096/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0096/product-direction.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0096.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0096/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0096/risk-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0096/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0096/work-order.md",
+    ".ai-org/artifacts/WI-0096/hosted-ci-cleanup-failure.md",
+    ".ai-org/artifacts/WI-0096/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0096/product-direction.md",
+    ".ai-org/work-items/WI-0096.json",
+    ".ai-org/artifacts/WI-0096/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0096/technical-design.md",
+    ".ai-org/artifacts/WI-0096/risk-review.md",
+    ".ai-org/artifacts/WI-0096/ui-design-brief.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "439aa3e5896be3ac59fd5627c4a5452b50240c08",
+      "artifact": ".ai-org/artifacts/WI-0096/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-02T02:23:19.808Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "439aa3e5896be3ac59fd5627c4a5452b50240c08",
+      "artifact": ".ai-org/artifacts/WI-0096/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-02T02:23:21.098Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "439aa3e5896be3ac59fd5627c4a5452b50240c08",
+      "artifact": ".ai-org/artifacts/WI-0096/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-02T02:23:22.423Z"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-02T02:14:16.100Z",
-  "source_fingerprint": "41eb56e1074baca20398534a2638d05218de322ecafbc182fa9457aa104efa9d",
+  "generated_at": "2026-09-02T02:23:51.401Z",
+  "source_fingerprint": "72e364d617d45cc9a74c66ada66eba57ca2e01d468f5fdbd19cc020cdb2e19a6",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -11,33 +11,34 @@
       "WI-0067",
       "WI-0086",
       "WI-0094",
-      "WI-0095"
+      "WI-0095",
+      "WI-0096"
     ]
   },
   "max_workers": 3,
   "summary": {
-    "selected": 6,
+    "selected": 7,
     "dispatchable": 0,
     "active": 1,
-    "sequential": 4,
+    "sequential": 5,
     "blocked": 1,
     "waves": 0
   },
   "waves": [],
   "active": [
     {
-      "work_item_id": "WI-0095",
-      "title": "Correct managed Observer cross-platform CI contract",
+      "work_item_id": "WI-0096",
+      "title": "Harden Phase 4B fixture cleanup on Linux",
       "disposition": "active",
-      "position_id": "release_manager",
-      "agent_id": "agent-mog",
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
       "integration_owner_agent_id": null,
       "reasons": [],
-      "claim_id": "claim-20260902021415-8614f134",
+      "claim_id": "claim-20260902022323-05ce340a",
       "principal_id": "human",
       "branch": "main",
       "worktree": null,
-      "base_revision": "4388cc84d969dc66574745829cb071115872e37d"
+      "base_revision": "439aa3e5896be3ac59fd5627c4a5452b50240c08"
     }
   ],
   "sequential": [
@@ -79,6 +80,17 @@
       "title": "Bound managed Usage snapshot latency and payload",
       "disposition": "sequential",
       "position_id": "engineering_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "requested_mode_sequential"
+      ]
+    },
+    {
+      "work_item_id": "WI-0095",
+      "title": "Correct managed Observer cross-platform CI contract",
+      "disposition": "sequential",
+      "position_id": "release_manager",
       "agent_id": "agent-mog",
       "integration_owner_agent_id": null,
       "reasons": [
@@ -144,6 +156,18 @@
         {
           "left_path": "docs/validation/README.md",
           "right_path": "docs/validation/README.md"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0094",
+      "right_work_item_id": "WI-0096",
+      "paths": [
+        {
+          "left_path": "test/phase-4b.test.mjs",
+          "right_path": "test/phase-4b.test.mjs"
         }
       ],
       "resolution": "separate-waves"

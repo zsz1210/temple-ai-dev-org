@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 95 total, 6 active
+- Work items: 96 total, 7 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -39,7 +39,7 @@
 - Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 1 / 4 / 1
+- Active / sequential / blocked: 1 / 5 / 1
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -141,7 +141,8 @@
 | WI-0092 | Make Usage observation optional, managed, and gap-aware | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `ad888037` | 0 | 23 | 0 |
 | WI-0093 | Redact Usage runtime paths from private viewers | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ad888037` | 0 | 22 | 0 |
 | WI-0094 | Bound managed Usage snapshot latency and payload | intake | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
-| WI-0095 | Correct managed Observer cross-platform CI contract | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902021415-8614f134 | `4388cc84` | 0 | 19 | 0 |
+| WI-0095 | Correct managed Observer cross-platform CI contract | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `4388cc84` | 0 | 19 | 0 |
+| WI-0096 | Harden Phase 4B fixture cleanup on Linux | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902022323-05ce340a | `—` | 0 | 10 | 0 |
 
 ## Codex task registry
 
@@ -263,14 +264,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T02:14:15.724Z | work_item_claimed | WI-0095 | human |
-| 2026-09-02T02:14:15.366Z | work_item_coordination_configured | WI-0095 | agent-mog |
-| 2026-09-02T02:14:15.038Z | work_item_transitioned | WI-0095 | agent-lulu |
-| 2026-09-02T02:14:14.695Z | handoff_created | WI-0095 | agent-lulu |
-| 2026-09-02T02:14:05.808Z | evidence_recorded | WI-0095 | human |
-| 2026-09-02T02:11:52.932Z | work_item_claimed | WI-0095 | human |
-| 2026-09-02T02:11:52.584Z | work_item_coordination_configured | WI-0095 | agent-lulu |
-| 2026-09-02T02:11:52.258Z | work_item_transitioned | WI-0095 | agent-lulu |
+| 2026-09-02T02:23:23.413Z | work_item_claimed | WI-0096 | human |
+| 2026-09-02T02:23:23.069Z | work_item_coordination_configured | WI-0096 | agent-rikku |
+| 2026-09-02T02:23:22.753Z | work_item_transitioned | WI-0096 | agent-tidus |
+| 2026-09-02T02:23:22.423Z | handoff_created | WI-0096 | agent-tidus |
+| 2026-09-02T02:23:22.112Z | work_item_claimed | WI-0096 | human |
+| 2026-09-02T02:23:21.765Z | work_item_coordination_configured | WI-0096 | agent-tidus |
+| 2026-09-02T02:23:21.436Z | work_item_transitioned | WI-0096 | agent-yuna |
+| 2026-09-02T02:23:21.098Z | handoff_created | WI-0096 | agent-yuna |
 
 ## Assignments
 
