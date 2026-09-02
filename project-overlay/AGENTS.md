@@ -2,6 +2,7 @@
 # Project AI development organization instructions
 
 - Read `TEMPLE.md`, `.ai-org/project/assignments.json`, `.ai-org/project/collaboration.json`, `.ai-org/project/repository-integration.json`, `.ai-org/project/spec-index.json`, `.ai-org/project/tracker.json`, and the relevant retrieval and evidence registries before taking a Position.
+- If this Agent session ran `temple init` after it started, resolve the emitted `TEMPLE_BOOTSTRAP_REQUIRED` result before organization-governed mutation. Prefer a fresh session after confirming the Agent provider loads a named instruction source; when continuity is required, explicitly read every named source, run the read-only Doctor, Status, and Work Item Context checks, and report Position, Agent Identity, Work Item ID, and next canonical action. The result is not evidence of instruction loading, comprehension, authority, or lifecycle progress.
 - A Codex custom agent name in `.codex/agents` is a Position configuration, not the project's Agent display name.
 - Use durable work item IDs. Do not use chat titles as identifiers.
 - Use `$temple-work` and `node ./templew.mjs` for work items, runtime workers, shared resources, handoffs, state transitions, closeout, and Codex task registration instead of hand-editing canonical JSON when the CLI supports the operation. Do not substitute an unversioned global CLI when the repository launcher reports a bootstrap mismatch.

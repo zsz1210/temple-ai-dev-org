@@ -67,7 +67,22 @@ temple init . --config /path/to/config.json --dry-run
 temple init . --config /path/to/config.json
 ```
 
-After a successful init, the CLI prints directly copyable `doctor` and `status` commands through the target repository's `templew.mjs` launcher. The launcher reads `temple.cli-bootstrap/v1` from `temple.lock`, pins the installed framework version, and rejects a development override with a different version. An ordinary project recovers the CLI from the exact Git revision recorded by a clean framework source or from the version-pinned package source. It does not depend on a Temple source checkout beside the project.
+After a successful init, the CLI prints directly copyable `doctor` and `status` commands through the target repository's `templew.mjs` launcher. It also emits the versioned `TEMPLE_BOOTSTRAP_REQUIRED` result described below. Pass `--json` when another program needs one parseable `temple.init-result/v1` document instead of the human plan and report. The launcher reads `temple.cli-bootstrap/v1` from `temple.lock`, pins the installed framework version, and rejects a development override with a different version. An ordinary project recovers the CLI from the exact Git revision recorded by a clean framework source or from the version-pinned package source. It does not depend on a Temple source checkout beside the project.
+
+### When an Agent runs init inside an existing session
+
+Creating repository instructions does not prove that the Agent's current session loaded them. The successful init result therefore reports `temple.bootstrap-required/v1` and offers two paths:
+
+1. **Fresh session — recommended.** Resolve any reported `AGENTS.md` or provider-entrypoint merge first, end the current session, start a fresh session rooted at the initialized repository, and use the provider's own context inspection to confirm what it loaded.
+2. **Explicit read — supported.** Read every source named by the result, run the copyable Doctor command and read-only Status command, identify or create one durable Work Item through the normal lifecycle, run the provided Context command template with that Work Item and Position, then report the Position, Agent Identity, Work Item ID, and next canonical action before mutation.
+
+Provider entrypoints and session continuity are separate concerns. The CLI installs `AGENTS.md` as the canonical root Agent instruction and, for [Claude Code's documented project memory entrypoint](https://code.claude.com/docs/en/memory#agentsmd), creates a project-owned `CLAUDE.md` containing only `@AGENTS.md` when that path is absent. The import avoids copying the organization rules and works without symlinks. The bootstrap result reports the documented adapter contract as available, but keeps `session_loading_verified` and `comprehension_verified` false. A fresh session still needs provider-owned confirmation; another Agent platform still needs its own supported entrypoint.
+
+If the target already had an unrelated `AGENTS.md` and init reports `pending_merge`, `.ai-org/project/AGENTS.temple.md` contains the preserved Temple block. A fresh session alone cannot activate that unmerged block. Review and integrate it before relying on session-start loading.
+
+Root `CLAUDE.md` is also project-owned. If it already contains a standalone `@AGENTS.md` or `@./AGENTS.md` import, init preserves it byte-for-byte and reports `present`. If it does not, init preserves the file and writes the proposed one-line import to `.ai-org/project/CLAUDE.temple.md`; `claude_integration` remains `pending_merge` until a human-approved integration is complete. A fresh session alone cannot repair that pending provider entrypoint. The CLI never appends to or overwrites an existing `CLAUDE.md`, and neither Claude file becomes a framework-managed lock entry.
+
+Dry-run, planning conflicts, failed initialization, and an unhealthy post-init Doctor do not emit a completed bootstrap requirement. An idempotent successful re-init reissues the requirement because it cannot observe session state. In every case, the result is guidance only: it neither proves comprehension nor creates a Work Item, claim, Evidence entry, transition, closeout, approval, or external action.
 
 Use `node ./templew.mjs observe .` when you need the local read-only overview. Use `--no-write --json` when another Agent needs only an ephemeral projection. Evidence capture and Observer usage are documented in [Evidence and Observer](../operations/evidence-and-observer.md).
 
@@ -77,7 +92,7 @@ Token observation is separate and optional. Temple remains fully usable with obs
 
 Run durable project commands from the project root as `node ./templew.mjs <command> .`. Some older examples below retain the shorter `temple` spelling for readability and for contributors who used `npm link`; substitute the repository launcher when copying them into an initialized project. The launcher does not bundle Node.js, Git credentials, or network access. See [Runtime coordination and recovery](../operations/runtime-coordination.md).
 
-If the target already has `AGENTS.md`, Temple leaves it unchanged by default and doctor reports a pending-integration warning. Add `--integrate-agents` only after confirming that Temple may append its managed block.
+If the target already has `AGENTS.md`, Temple leaves it unchanged by default and Doctor reports a pending-integration warning. Add `--integrate-agents` only after confirming that Temple may append its managed block.
 
 ### Maintainer-only toolkit self-hosting
 

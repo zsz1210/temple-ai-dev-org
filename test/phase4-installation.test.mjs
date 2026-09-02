@@ -106,6 +106,15 @@ test("federation registry creation is exclusive and preserves existing project b
 
 test("fresh init seeds project-owned federation state, schemas, capabilities, and Alpha.28 metadata", async (testContext) => {
   const target = await temporaryProject(testContext, "fresh-phase4");
+  const installedAgents = await fs.readFile(path.join(target, "AGENTS.md"), "utf8");
+  const installedClaude = await fs.readFile(path.join(target, "CLAUDE.md"), "utf8");
+  const installedTemple = await fs.readFile(path.join(target, "TEMPLE.md"), "utf8");
+  assert.equal(installedClaude, "@AGENTS.md\n");
+  assert.match(installedAgents, /TEMPLE_BOOTSTRAP_REQUIRED/);
+  assert.match(installedAgents, /result is not evidence of instruction loading, comprehension, authority, or lifecycle progress/);
+  assert.match(installedTemple, /## Agent-led initialization continuity/);
+  assert.match(installedTemple, /does not detect the executing provider or claim `AGENTS\.md` is universal/);
+  assert.match(installedTemple, /project-owned `CLAUDE\.md` containing only `@AGENTS\.md`/);
   const registryPath = path.join(target, FEDERATION_REGISTRY_RELATIVE_PATH);
   const registry = await readJson(registryPath);
   assert.deepEqual(registry, emptyFederationRegistry());
@@ -113,6 +122,8 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
 
   const lock = await readJson(path.join(target, "temple.lock"));
   assert.equal(lock.template.version, releaseVersion);
+  assert.equal(lock.integrations.claude_md, "installed");
+  assert.equal(lock.managed_files.some((entry) => entry.path === "CLAUDE.md"), false);
   for (const capability of phase4Capabilities) assert.equal(lock.capabilities[capability], true, capability);
   assert.equal(lock.managed_files.some((entry) => entry.path === FEDERATION_REGISTRY_RELATIVE_PATH), false);
   assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/federation.schema.json"));

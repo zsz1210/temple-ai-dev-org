@@ -55,6 +55,12 @@ async function sameDirectory(left, right) {
   return resolvedLeft === resolvedRight;
 }
 
+function hasClaudeAgentsImport(content) {
+  return String(content)
+    .split(/\r?\n/)
+    .some((line) => ["@AGENTS.md", "@./AGENTS.md"].includes(line.trim()));
+}
+
 export async function planInit(target, config, { integrateAgents = false, selfHost = false } = {}) {
   const templateFiles = await walkFiles(PROJECT_OVERLAY_ROOT);
   const actions = [];
@@ -89,7 +95,7 @@ export async function planInit(target, config, { integrateAgents = false, selfHo
   const existingManagedPaths = new Set((existingLock?.managed_files ?? []).map((entry) => entry.path));
 
   for (const relativePath of templateFiles) {
-    if (relativePath === "AGENTS.md") {
+    if (["AGENTS.md", "CLAUDE.md"].includes(relativePath)) {
       continue;
     }
     const sourcePath = path.join(PROJECT_OVERLAY_ROOT, relativePath);
@@ -214,6 +220,38 @@ export async function planInit(target, config, { integrateAgents = false, selfHo
     }
   }
 
+  const sourceClaudePath = path.join(PROJECT_OVERLAY_ROOT, "CLAUDE.md");
+  const targetClaudePath = path.join(target, "CLAUDE.md");
+  let claudeIntegration = "installed";
+  if (!(await pathExists(targetClaudePath))) {
+    actions.push({ type: "copy-claude", ownership: "project-owned", path: "CLAUDE.md" });
+  } else {
+    const existingClaude = await fs.readFile(targetClaudePath, "utf8");
+    if (hasClaudeAgentsImport(existingClaude)) {
+      claudeIntegration = "present";
+      actions.push({ type: "skip-integrated", ownership: "project-owned", path: "CLAUDE.md" });
+    } else {
+      claudeIntegration = "pending_merge";
+      const snippetPath = path.join(target, ".ai-org/project/CLAUDE.temple.md");
+      if (!(await pathExists(snippetPath))) {
+        actions.push({
+          type: "copy-claude-snippet",
+          ownership: "project-owned",
+          path: ".ai-org/project/CLAUDE.temple.md"
+        });
+      } else if (await compareFile(sourceClaudePath, snippetPath)) {
+        actions.push({
+          type: "skip-identical",
+          ownership: "project-owned",
+          path: ".ai-org/project/CLAUDE.temple.md"
+        });
+      } else {
+        warnings.push("Existing .ai-org/project/CLAUDE.temple.md differs; it will not be overwritten");
+      }
+      warnings.push("Existing CLAUDE.md was preserved; the @AGENTS.md import still needs an approved merge");
+    }
+  }
+
   if (existingLock?.project_id && existingLock.project_id !== config.project.id) {
     conflicts.push(`temple.lock belongs to project ${existingLock.project_id}, not ${config.project.id}`);
   }
@@ -229,6 +267,7 @@ export async function planInit(target, config, { integrateAgents = false, selfHo
     conflicts,
     warnings,
     agentsIntegration,
+    claudeIntegration,
     existingLock,
     selfHost
   };
@@ -262,6 +301,8 @@ export async function executeInit(plan) {
         content = "";
       } else if (action.type === "copy-agents" || action.type === "copy-agents-snippet") {
         content = await fs.readFile(path.join(PROJECT_OVERLAY_ROOT, "AGENTS.md"));
+      } else if (action.type === "copy-claude" || action.type === "copy-claude-snippet") {
+        content = await fs.readFile(path.join(PROJECT_OVERLAY_ROOT, "CLAUDE.md"));
       } else if (action.type === "append-agents") {
         before = await fs.readFile(destinationPath);
         const templeBlock = (await fs.readFile(path.join(PROJECT_OVERLAY_ROOT, "AGENTS.md"), "utf8")).trim();
@@ -327,6 +368,7 @@ export async function executeInit(plan) {
       },
       integrations: {
         agents_md: plan.agentsIntegration,
+        claude_md: plan.claudeIntegration,
         archify: {
           status: "available_not_enabled",
           pinned_tag: "v2.15.0",
@@ -458,6 +500,7 @@ export function formatInitPlan(plan) {
     lines.push("Warnings:", ...plan.warnings.map((warning) => `- ${warning}`));
   }
   lines.push(`AGENTS.md integration: ${plan.agentsIntegration}`);
+  lines.push(`Claude Code entrypoint integration: ${plan.claudeIntegration}`);
   lines.push(`Repository integration: ${plan.state.repositoryIntegration.status}`);
   lines.push(`Installation mode: ${plan.selfHost ? "toolkit-self-host" : "project"}`);
   return lines.join("\n");
