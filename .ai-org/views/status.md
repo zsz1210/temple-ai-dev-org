@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
 - Work items: 108 total, 6 active
 - Codex tasks: 6 registered, 6 archive-ready
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 16
+- Attention signals: 17
 
 ## Collaboration
 
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -155,7 +155,7 @@
 | WI-0105 | Qualify Wave 4 operating boundaries | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `43100b5e` | 0 | 12 | 0 |
 | WI-0106 | Design Wave 5 controlled matched comparison | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2612207e` | 0 | 17 | 0 |
 | WI-0107 | Run Wave 5A matched process feasibility pilot | blocked | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `984cd027` | 0 | 18 | 4 |
-| WI-0108 | Rerun corrected Wave 5A four-turn pilot | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902131127-e475ca6c | `—` | 0 | 9 | 0 |
+| WI-0108 | Rerun corrected Wave 5A four-turn pilot | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1211d700` | 0 | 20 | 1 |
 
 ## Codex task registry
 
@@ -209,6 +209,7 @@
 - WI-0067 is blocked
 - WI-0086 is blocked
 - WI-0107 is blocked
+- WI-0108 is blocked
 - task-0001 can be archived
 - task-0002 can be archived
 - task-0003 can be archived
@@ -290,14 +291,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T13:11:27.727Z | work_item_claimed | WI-0108 | human |
-| 2026-09-02T13:11:27.499Z | work_item_transitioned | WI-0108 | agent-tidus |
-| 2026-09-02T13:11:27.276Z | handoff_created | WI-0108 | agent-tidus |
-| 2026-09-02T13:11:27.060Z | work_item_transitioned | WI-0108 | agent-yuna |
-| 2026-09-02T13:11:26.846Z | handoff_created | WI-0108 | agent-yuna |
-| 2026-09-02T13:11:26.633Z | work_item_transitioned | WI-0108 | agent-mog |
-| 2026-09-02T13:11:26.398Z | handoff_created | WI-0108 | agent-mog |
-| 2026-09-02T13:11:02.463Z | work_item_coordination_configured | WI-0108 | agent-mog |
+| 2026-09-02T13:23:47.975Z | release_gate_completed | WI-0108 | agent-mog |
+| 2026-09-02T13:23:25.844Z | work_item_transitioned | WI-0108 | agent-lulu |
+| 2026-09-02T13:23:25.586Z | handoff_created | WI-0108 | agent-lulu |
+| 2026-09-02T13:23:09.732Z | evidence_recorded | WI-0108 | human |
+| 2026-09-02T13:20:39.015Z | work_item_transitioned | WI-0108 | agent-lulu |
+| 2026-09-02T13:20:38.791Z | handoff_created | WI-0108 | agent-lulu |
+| 2026-09-02T13:20:38.539Z | work_item_transitioned | WI-0108 | agent-lulu |
+| 2026-09-02T13:20:27.245Z | evidence_recorded | WI-0108 | human |
 
 ## Assignments
 

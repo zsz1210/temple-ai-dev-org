@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0108",
   "title": "Rerun corrected Wave 5A four-turn pilot",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "blocked",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-02T13:08:02.945Z",
-  "updated_at": "2026-09-02T13:11:27.727Z",
+  "updated_at": "2026-09-02T13:23:47.975Z",
   "scope": [
     "Execute one fresh four-turn Luna Max Wave 5A process-feasibility run using the corrected structured-output schema, a new isolated lab, the pinned WI-0106 fixtures, and the owner's explicit no-auto-reload approval."
   ],
@@ -44,14 +44,15 @@
   ],
   "claim": {
     "id": "claim-20260902131127-e475ca6c",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "base_revision": "a07fe41decd06c8b503f83f32e3fcaf8075113b8",
     "branch": "codex/wi-0108-wave-5a-rerun",
     "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0108",
     "claimed_at": "2026-09-02T13:11:27.727Z",
-    "released_at": null
+    "released_at": "2026-09-02T13:19:02.020Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
@@ -68,14 +69,15 @@
     },
     {
       "id": "claim-20260902131127-e475ca6c",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "a07fe41decd06c8b503f83f32e3fcaf8075113b8",
       "branch": "codex/wi-0108-wave-5a-rerun",
       "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0108",
       "claimed_at": "2026-09-02T13:11:27.727Z",
-      "released_at": null
+      "released_at": "2026-09-02T13:19:02.020Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -93,6 +95,36 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0108/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0108/handoff-004-developer-to-quality_evaluator.md",
+      ".ai-org/artifacts/WI-0108/developer-report.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0108/developer-report.md",
+      ".ai-org/artifacts/WI-0108/developer-test-observation.json",
+      ".ai-org/artifacts/WI-0108/failed-run-observation.json"
+    ],
+    "test_evidence": [
+      "EVID-20260902T132027Z-B861ABDC"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0108/quality-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260902T132309Z-D109269D"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0108/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0108/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0108/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0108/account-approval.json"
     ]
   },
   "evidence": [
@@ -104,10 +136,23 @@
     ".ai-org/artifacts/WI-0108/approved-scope.md",
     ".ai-org/artifacts/WI-0108/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0108/technical-design.md",
-    ".ai-org/artifacts/WI-0108/risk-review.md"
+    ".ai-org/artifacts/WI-0108/risk-review.md",
+    ".ai-org/artifacts/WI-0108/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0108/developer-report.md",
+    ".ai-org/artifacts/WI-0108/developer-test-observation.json",
+    ".ai-org/artifacts/WI-0108/failed-run-observation.json",
+    "EVID-20260902T132027Z-B861ABDC",
+    ".ai-org/artifacts/WI-0108/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0108/quality-report.md",
+    ".ai-org/artifacts/WI-0108/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0108/independent-qa-report.md",
+    "EVID-20260902T132309Z-D109269D",
+    ".ai-org/artifacts/WI-0108/release-record.md"
   ],
-  "unresolved": [],
-  "next_position": "quality_evaluator",
+  "unresolved": [
+    "The first candidate stopped on a command-policy integration defect after 24,456 observed Tokens; zero candidates completed, so the four-turn mechanism and Temple-versus-minimal comparison are not qualified."
+  ],
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -129,6 +174,33 @@
       "input_revision": "a07fe41decd06c8b503f83f32e3fcaf8075113b8",
       "artifact": ".ai-org/artifacts/WI-0108/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-02T13:11:27.276Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "1211d700717417f5a585cd9f488ea09000ffd1d0",
+      "artifact": ".ai-org/artifacts/WI-0108/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-02T13:19:01.770Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "1211d700717417f5a585cd9f488ea09000ffd1d0",
+      "artifact": ".ai-org/artifacts/WI-0108/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-02T13:20:38.791Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "1211d700717417f5a585cd9f488ea09000ffd1d0",
+      "artifact": ".ai-org/artifacts/WI-0108/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-02T13:23:25.586Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "1211d700717417f5a585cd9f488ea09000ffd1d0",
+  "tested_revision": "1211d700717417f5a585cd9f488ea09000ffd1d0",
+  "release_gate_result": "no-go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0108/account-approval.json",
+  "previous_state": "release_gate"
 }

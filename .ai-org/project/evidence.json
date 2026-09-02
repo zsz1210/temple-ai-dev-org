@@ -16215,6 +16215,194 @@
         "exit_code": 0,
         "started_at": "2026-09-02T12:40:00.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T131901Z-19F70858",
+      "work_item_id": "WI-0108",
+      "recorded_at": "2026-09-02T13:19:01.544Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0108 fail-closed candidate",
+      "outcome": "verified",
+      "scope_revision": "1211d700717417f5a585cd9f488ea09000ffd1d0",
+      "observed_at": "2026-09-02T13:19:01.544Z",
+      "summary": "Exact runner correction and truthful stopped-run evidence after one authorized Luna Max attempt.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "1211d700717417f5a585cd9f488ea09000ffd1d0"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "1211d700717417f5a585cd9f488ea09000ffd1d0",
+        "working_tree_dirty": true,
+        "dirty_path_count": 1,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T131902Z-9BE08800",
+      "work_item_id": "WI-0108",
+      "recorded_at": "2026-09-02T13:19:02.241Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0108 developer verification",
+      "outcome": "pass",
+      "scope_revision": "1211d700717417f5a585cd9f488ea09000ffd1d0",
+      "observed_at": "2026-09-02T13:17:26.000Z",
+      "summary": "One fail-closed Luna Max attempt observed 24,456 Tokens; zero candidate changes; corrected command-action policy and 280/280 repository tests passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0108/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0108/developer-test-observation.json",
+          "sha256": "784ac2b3dbbd77aca48597a7a9db226fc6686aa58ca01d02311387d775347178"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0108/developer-report.md",
+          "sha256": "397b3ef988f01a023f1ddaad820514897502f9b7c1fcde63749f15e465a1625d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0108/failed-run-observation.json",
+          "sha256": "55dd93ac34b817ffdf5ea0db416e292c494278b82647b3e648c17d1b79357ca8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0108/preflight-observation.json",
+          "sha256": "513c21f041f6a9d762f2bec8670c9f62c88de4e11881382fd190d063d0e214a5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0108/post-correction-preflight-observation.json",
+          "sha256": "c6f00522331dcf47a3525a06285eee00b11c72131cdce26117dc557945273894"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --check .ai-org/artifacts/WI-0107/run-wave-5a.mjs",
+          "run WI-0108 no-generation preflight against the new lab",
+          "run one authorized fail-closed Luna Max launch attempt",
+          "run corrected post-stop no-generation preflight",
+          "inspect all four candidate Git states and package directories",
+          "npm run verify",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T13:08:02.945Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T132027Z-B861ABDC",
+      "work_item_id": "WI-0108",
+      "recorded_at": "2026-09-02T13:20:27.245Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0108 quality evaluation",
+      "outcome": "pass",
+      "scope_revision": "1211d700717417f5a585cd9f488ea09000ffd1d0",
+      "observed_at": "2026-09-02T13:19:44.000Z",
+      "summary": "Fail-closed integrity passed; experiment completion failed after one 24,456-Token attempt and zero candidate completions.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0108/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0108/quality-test-observation.json",
+          "sha256": "6f0ed5704f7542e1520ea09bf120dfd40164faca2a185bf0092d78ca7f070b66"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0108/failed-run-observation.json",
+          "sha256": "55dd93ac34b817ffdf5ea0db416e292c494278b82647b3e648c17d1b79357ca8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0108/post-correction-preflight-observation.json",
+          "sha256": "c6f00522331dcf47a3525a06285eee00b11c72131cdce26117dc557945273894"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0108/quality-report.md",
+          "sha256": "83ceb9bd337d47469f030846ae23f3d35184e5a9463fd86fcebe2c2fd817b804"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached candidate: node --check .ai-org/artifacts/WI-0107/run-wave-5a.mjs",
+          "fresh detached candidate: corrected no-generation preflight to a temporary output",
+          "fresh detached candidate: node --test test/validation-program.test.mjs",
+          "inspect retained coordinator state and event ledger",
+          "inspect all four candidate Git states and blind package directory"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T13:19:40.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T132309Z-D109269D",
+      "work_item_id": "WI-0108",
+      "recorded_at": "2026-09-02T13:23:09.732Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0108 Independent QA",
+      "outcome": "pass",
+      "scope_revision": "1211d700717417f5a585cd9f488ea09000ffd1d0",
+      "observed_at": "2026-09-02T13:22:31.000Z",
+      "summary": "Independent exact-revision verification passed for fail-closed evidence and command-action correction; Wave 5A remains unqualified.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0108/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0108/independent-qa-observation.json",
+          "sha256": "429e219fa2af5f6f5ea365b0171473be8d7069a5323b2cfa5424d60c653f0e70"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0108/failed-run-observation.json",
+          "sha256": "55dd93ac34b817ffdf5ea0db416e292c494278b82647b3e648c17d1b79357ca8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0108/quality-report.md",
+          "sha256": "83ceb9bd337d47469f030846ae23f3d35184e5a9463fd86fcebe2c2fd817b804"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0108/independent-qa-report.md",
+          "sha256": "29d7c9b06e7731fdc20bc40ad5e786a5a4a4ee3a44b5762e6044f0897da8bd2b"
+        }
+      ],
+      "details": {
+        "command": [
+          "second fresh detached candidate: corrected WI-0108 no-generation preflight",
+          "second fresh detached candidate: npm run verify",
+          "independently inspect retained state and event ledger",
+          "independently verify four clean candidate repositories and zero blind packages"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T13:21:20.000Z"
+      }
     }
   ]
 }

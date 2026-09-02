@@ -1,0 +1,35 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "1211d700717417f5a585cd9f488ea09000ffd1d0",
+  "command": [
+    "fresh detached candidate: node --check .ai-org/artifacts/WI-0107/run-wave-5a.mjs",
+    "fresh detached candidate: corrected no-generation preflight to a temporary output",
+    "fresh detached candidate: node --test test/validation-program.test.mjs",
+    "inspect retained coordinator state and event ledger",
+    "inspect all four candidate Git states and blind package directory"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T13:19:40.000Z",
+  "completed_at": "2026-09-02T13:19:44.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0108/failed-run-observation.json",
+    ".ai-org/artifacts/WI-0108/post-correction-preflight-observation.json",
+    ".ai-org/artifacts/WI-0108/quality-report.md"
+  ],
+  "summary": {
+    "focused_tests_passed": 12,
+    "focused_tests_failed": 0,
+    "launch_attempts": 1,
+    "candidate_turns_completed": 0,
+    "tokens_observed": 24456,
+    "candidate_repositories_clean": 4,
+    "blind_packages_created": 0,
+    "automatic_retries": 0,
+    "fallbacks": 0,
+    "command_action_regression_check_passed": true,
+    "execution_integrity_passed": true,
+    "experiment_completed": false,
+    "mechanism_qualified": false
+  }
+}
