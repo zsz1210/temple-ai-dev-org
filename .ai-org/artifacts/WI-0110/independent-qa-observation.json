@@ -1,0 +1,36 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "19b78371b603d5ca25970c8c325bbce1bcfce158",
+  "command": [
+    "second fresh detached candidate: node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
+    "second fresh detached candidate: WI-0110 no-generation preflight to temporary output",
+    "independently inspect retained coordinator state and event ledger",
+    "independently inspect exact persisted structured search action",
+    "independently verify four clean candidate repositories and zero blind packages"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T14:58:55.000Z",
+  "completed_at": "2026-09-02T14:59:40.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0110/failed-run-observation.json",
+    ".ai-org/artifacts/WI-0110/quality-report.md",
+    ".ai-org/artifacts/WI-0110/independent-qa-report.md"
+  ],
+  "summary": {
+    "identity_separation_passed": true,
+    "focused_tests_passed": 20,
+    "focused_tests_failed": 0,
+    "preflight_passed": true,
+    "launch_attempts": 1,
+    "turns_completed": 0,
+    "tokens_observed": 77865,
+    "candidate_repositories_clean": 4,
+    "blind_packages_created": 0,
+    "zero_retry_boundary_passed": true,
+    "failure_evidence_truthful": true,
+    "experiment_completed": false,
+    "mechanism_qualified": false,
+    "new_execution_authority_required": true
+  }
+}

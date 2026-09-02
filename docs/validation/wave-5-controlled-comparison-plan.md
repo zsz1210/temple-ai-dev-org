@@ -1,6 +1,6 @@
 # Wave 5 controlled comparison plan
 
-- Status: **execution attempted twice / offline protocol replay implemented / live mechanism not yet qualified**
+- Status: **execution attempted three times / latest run stopped safely / live mechanism not yet qualified**
 - Work Item: `WI-0106`
 - Evidence class: current official documentation, retained local telemetry, deterministic study design
 - Model generation in this Work Item: **none**
@@ -43,8 +43,9 @@ The repository owner approved the no-new-payment boundary after confirming that 
 - `WI-0107` launched one candidate, but the Provider rejected an unsupported `uniqueItems` structured-output keyword before generation. Provider telemetry observed zero Tokens. The remaining candidates were not launched, and the runner added an exact preflight regression check.
 - `WI-0108` used a new lab and passed the corrected no-generation preflight. Its first Luna Max turn reported 24,456 Tokens, then the runner stopped it because the command allowlist evaluated the App Server's shell-formatted display command instead of the structured `commandActions`. No candidate product file changed, no blind package was created, the other three turns were not launched, and no retry or fallback occurred.
 - After the `WI-0108` stop, the runner was corrected to validate every parsed action, pinned the exact `ItemStartedNotification` schema, and passed a no-generation positive-and-negative command-policy check. The stopped program was not rerun.
+- `WI-0110` passed the merged offline replay gate and a fresh exact-schema preflight, then started one Luna Max turn in a third exclusive lab. Provider telemetry reported 77,865 Tokens before the runner rejected an allowlisted `rg` search because its quoted regular-expression argument contained a literal `|`. All four candidate repositories remained clean, no blind package was created, the remaining three turns did not start, and no retry or fallback occurred.
 
-Neither attempt completed a candidate, so the mechanism remains unqualified and there is no Temple-versus-minimal result. The observed Token count is Provider telemetry, not an account billing statement or Credit conversion.
+None of the three attempts completed a candidate, so the mechanism remains unqualified and there is no Temple-versus-minimal result. The observed Token counts are Provider telemetry, not account billing statements or Credit conversions.
 
 ## Offline protocol gate
 
@@ -73,4 +74,4 @@ The proposed hard envelope is four sequential Luna Max turns, 80,000 total Token
 
 ## Next decision
 
-The no-generation replay gate must pass together with the exact installed-schema preflight before another model-backed attempt is considered. Any further Luna turn still requires a new Work Item, a new lab, and explicit execution authority; neither `WI-0107`, `WI-0108`, nor the offline-only `WI-0109` permits a retry.
+The command policy needs a deterministic quote-aware scanner plus replay fixtures that distinguish quoted argument characters from top-level shell operators. The corrected offline gate and exact installed-schema preflight must pass before another model-backed attempt is considered. Any further Luna turn requires a new Work Item, a new lab, and explicit execution authority; `WI-0110` cannot be resumed.

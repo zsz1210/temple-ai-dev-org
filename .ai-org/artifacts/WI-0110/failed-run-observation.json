@@ -1,0 +1,51 @@
+{
+  "schema_version": "temple.wave-5a-failed-run-observation/v1",
+  "work_item_id": "WI-0110",
+  "program_id": "wave-5a-process-feasibility",
+  "started_at": "2026-09-02T14:52:53.823Z",
+  "stopped_at": "2026-09-02T14:53:26.224Z",
+  "status": "stopped",
+  "stop_code": "command-policy-violation",
+  "safe_reason": "The command-action validator rejected a literal pipe character inside the quoted rg search expression even though the structured action began with the allowlisted rg command and contained no shell pipeline.",
+  "counters": {
+    "turns_started": 1,
+    "turns_completed": 0,
+    "launch_attempts": 1,
+    "aggregate_tokens_observed": 77865,
+    "program_elapsed_ms": 32401,
+    "aggregate_disk_delta_bytes": 0
+  },
+  "turns": {
+    "turn-01": "stopped-by-command-policy",
+    "turn-02": "not-started",
+    "turn-03": "not-started",
+    "turn-04": "not-started"
+  },
+  "wire_observation": {
+    "item_type": "commandExecution",
+    "action_type": "search",
+    "action_command_prefix": "rg",
+    "quoted_search_alternation_present": true,
+    "top_level_shell_pipeline_present": false,
+    "schema_shape_valid": true
+  },
+  "candidate_product_changes": false,
+  "candidate_repositories_clean": 4,
+  "blind_packages_created": 0,
+  "automatic_retry": false,
+  "fallback_used": false,
+  "raw_prompt_retained_in_repository_evidence": false,
+  "raw_response_retained_in_repository_evidence": false,
+  "billing_claim": "Provider telemetry observed 77,865 Tokens for the stopped first turn; this is not an account billing statement or Credit conversion.",
+  "correction": {
+    "status": "required-not-implemented",
+    "change": "Replace the blanket shell-metacharacter rejection with a deterministic quote-aware scanner that rejects operators only outside quoted arguments, then add exact positive and negative replay fixtures before considering another live call.",
+    "new_execution_authority_required": true
+  },
+  "claims": {
+    "experiment_completed": false,
+    "mechanism_qualified": false,
+    "temple_superiority": false,
+    "automatic_routing_authorized": false
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "19b78371b603d5ca25970c8c325bbce1bcfce158",
+  "command": [
+    "node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
+    "exclusive setup of temple-wave-5a-lab-r3",
+    "WI-0110 exact installed-schema preflight-only",
+    "one authorized WI-0110 Wave 5A runner invocation",
+    "read-only App Server thread history inspection for commandExecution commandActions",
+    "inspect all four candidate Git states and blind package directory"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T14:51:58.000Z",
+  "completed_at": "2026-09-02T14:55:30.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0110/preflight-observation.json",
+    ".ai-org/artifacts/WI-0110/failed-run-observation.json",
+    ".ai-org/artifacts/WI-0110/developer-report.md"
+  ],
+  "summary": {
+    "offline_replay_tests_passed": 20,
+    "preflight_passed": true,
+    "launch_attempts": 1,
+    "turns_completed": 0,
+    "tokens_observed": 77865,
+    "candidate_repositories_clean": 4,
+    "candidate_product_changes": false,
+    "blind_packages_created": 0,
+    "automatic_retries": 0,
+    "fallbacks": 0,
+    "failure_evidence_truthful": true,
+    "experiment_completed": false,
+    "mechanism_qualified": false
+  }
+}
