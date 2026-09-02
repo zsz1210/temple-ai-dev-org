@@ -52,6 +52,12 @@ import {
   startControlPlaneServer
 } from "./control-plane-server.mjs";
 import { DEFAULT_LAN_VIEWER_PORT, prepareTailscalePrivateViewer } from "./private-network-viewer.mjs";
+import {
+  applyLocalObserverService,
+  inspectLocalObserverService,
+  planLocalObserverService,
+  removeLocalObserverService
+} from "./local-observer-service.mjs";
 import { readControlPlaneConfig } from "./control-plane-config.mjs";
 import { captureGitHubEvidence } from "./github-control-plane-provider.mjs";
 import { resolveControlPlaneStateDirectory } from "./telemetry.mjs";
@@ -141,7 +147,11 @@ Usage:
   temple control-plane ingest [target] --fixture path [--state-dir path] [--json]
   temple control-plane rebuild [target] [--state-dir path] [--json]
   temple control-plane capture-github [target] --provider-id id --work-item WI-ID --revision commit [--state-dir path] [--actor id] [--title text] [--summary text] [--json]
-  temple control-plane start [target] [--host 127.0.0.1] [--port number] [--state-dir path] [--fixture path] [--codex] [--tailscale-viewer] [--lan-viewer-host private-ip] [--lan-viewer-port number]
+  temple control-plane start [target] [--host 127.0.0.1] [--port number] [--state-dir path] [--fixture path] [--codex] [--observation-mode off|on-demand|managed-local] [--codex-command absolute-path] [--tailscale-viewer] [--lan-viewer-host private-ip] [--lan-viewer-port number]
+  temple control-plane observer-status [target] [--state-dir path] [--json]
+  temple control-plane observer-plan [target] [--state-dir path] [--port number] [--lan-viewer-host private-ip] [--lan-viewer-port number] [--codex-command absolute-path] [--json]
+  temple control-plane observer-apply [target] --expected-plan sha256 [--activate] [--confirm-replace] [observer-plan options] [--json]
+  temple control-plane observer-remove [target] --expected-plan sha256 --confirm-delete [--state-dir path] [--json]
   temple collaboration show [target] [--json]
   temple collaboration migrate [target] [--dry-run] [--json]
   temple collaboration show-identity [target] [--json]
@@ -288,7 +298,9 @@ const BOOLEAN_FLAGS = new Set([
   "--tailscale-viewer",
   "--probe-codex-account",
   "--allow-replace",
-  "--confirm-delete"
+  "--confirm-delete",
+  "--activate",
+  "--confirm-replace"
 ]);
 const VALUE_FLAGS = new Set([
   "--config",
@@ -427,6 +439,8 @@ const VALUE_FLAGS = new Set([
   "--lan-viewer-host",
   "--lan-viewer-port",
   "--repository-interval",
+  "--observation-mode",
+  "--codex-command",
   "--output",
   "--backup",
   "--expected-plan",
@@ -1066,6 +1080,72 @@ async function runControlPlane(parsed) {
     stateDirectory: parsed.options["--state-dir"],
     fixturePath: parsed.options["--fixture"]
   };
+  const observerOptions = {
+    stateDirectory: parsed.options["--state-dir"],
+    port: parsed.options["--port"] === undefined ? undefined : controlPlanePort(parsed),
+    lanViewerHost: parsed.options["--lan-viewer-host"],
+    lanViewerPort: parsed.options["--lan-viewer-port"] === undefined ? undefined : controlPlaneLanPort(parsed),
+    codexCommand: parsed.options["--codex-command"]
+  };
+  if (parsed.action === "observer-status") {
+    const status = await inspectLocalObserverService(target, options);
+    printResult(parsed, status, [
+      `Observation mode: ${status.observation_mode}`,
+      `Managed service: ${status.service_status}`,
+      `Running: ${status.running ? "yes" : "no"}`,
+      `Retained usage state: ${status.state_directory}`,
+      "Canonical state changed: no",
+      "External action: not performed"
+    ]);
+    return 0;
+  }
+  if (parsed.action === "observer-plan") {
+    const plan = await planLocalObserverService(target, observerOptions);
+    printResult(parsed, plan, plan.supported ? [
+      `Managed local Observer plan: ${plan.plan_digest}`,
+      `Loopback Console: http://127.0.0.1:${plan.service.loopback_port}`,
+      `Home LAN read-only Console: ${plan.service.lan_viewer_host ? `http://${plan.service.lan_viewer_host}:${plan.service.lan_viewer_port}` : "not configured"}`,
+      `Codex executable: ${plan.service.codex_command}`,
+      "No files written and no service started."
+    ] : [
+      `Managed local Observer is unsupported on ${plan.platform}.`,
+      "No files written and no service started."
+    ]);
+    return plan.supported ? 0 : 1;
+  }
+  if (parsed.action === "observer-apply") {
+    if (!parsed.options["--expected-plan"]) throw new Error("control-plane observer-apply requires --expected-plan");
+    const result = await applyLocalObserverService(target, {
+      ...observerOptions,
+      expectedPlan: parsed.options["--expected-plan"],
+      activate: parsed.flags.has("--activate"),
+      confirmReplace: parsed.flags.has("--confirm-replace")
+    });
+    printResult(parsed, result, [
+      `Managed local Observer: ${result.service_status}`,
+      `Plan: ${result.plan_digest}`,
+      `Definition: ${result.plist_path}`,
+      `Retained usage state: ${result.state_directory}`,
+      `Service activation performed: ${result.external_action_performed ? "yes" : "no"}`,
+      "Canonical state changed: no"
+    ]);
+    return 0;
+  }
+  if (parsed.action === "observer-remove") {
+    if (!parsed.options["--expected-plan"]) throw new Error("control-plane observer-remove requires --expected-plan");
+    const result = await removeLocalObserverService(target, {
+      stateDirectory: parsed.options["--state-dir"],
+      expectedPlan: parsed.options["--expected-plan"],
+      confirmDelete: parsed.flags.has("--confirm-delete")
+    });
+    printResult(parsed, result, [
+      "Managed local Observer removed.",
+      `Retained telemetry: ${result.retained_telemetry ? "yes" : "no"}`,
+      `Service stop performed: ${result.external_action_performed ? "yes" : "no"}`,
+      "Canonical state changed: no"
+    ]);
+    return 0;
+  }
   if (parsed.action === "snapshot") {
     const result = await inspectControlPlane(target, options);
     printResult(parsed, result.snapshot, [
@@ -1125,6 +1205,16 @@ async function runControlPlane(parsed) {
     return 0;
   }
   if (parsed.action === "start") {
+    const requestedObservationMode = parsed.options["--observation-mode"];
+    if (requestedObservationMode && !["off", "on-demand", "managed-local"].includes(requestedObservationMode)) {
+      throw new Error("--observation-mode must be off, on-demand, or managed-local");
+    }
+    if (requestedObservationMode && requestedObservationMode !== "off" && !parsed.flags.has("--codex")) {
+      throw new Error(`${requestedObservationMode} observation requires --codex`);
+    }
+    if (requestedObservationMode === "off" && parsed.flags.has("--codex")) {
+      throw new Error("--observation-mode off cannot be combined with --codex");
+    }
     const tailscaleViewer = parsed.flags.has("--tailscale-viewer")
       ? await prepareTailscalePrivateViewer()
       : null;
@@ -1134,6 +1224,8 @@ async function runControlPlane(parsed) {
       port: controlPlanePort(parsed),
       repositoryIntervalMs: controlPlaneInterval(parsed),
       enableCodex: parsed.flags.has("--codex"),
+      observationMode: requestedObservationMode ?? (parsed.flags.has("--codex") ? "on-demand" : undefined),
+      codexCommand: parsed.options["--codex-command"],
       privateViewerHost: tailscaleViewer?.host,
       lanViewerHost: parsed.options["--lan-viewer-host"],
       lanViewerPort: controlPlaneLanPort(parsed)
@@ -1161,7 +1253,7 @@ async function runControlPlane(parsed) {
     }
     return 0;
   }
-  throw new Error("control-plane action must be snapshot, ingest, rebuild, capture-github, or start");
+  throw new Error("control-plane action must be snapshot, ingest, rebuild, capture-github, start, observer-status, observer-plan, observer-apply, or observer-remove");
 }
 
 export function createShutdownSignalLatch(signalSource = process) {

@@ -54,6 +54,8 @@ After a successful init, the CLI prints directly copyable `doctor` and `status` 
 
 Use `node ./templew.mjs observe .` when you need the local read-only overview. Use `--no-write --json` when another Agent needs only an ephemeral projection. Evidence capture and Observer usage are documented in [Evidence and Observer](../operations/evidence-and-observer.md).
 
+Token observation is separate and optional. Temple remains fully usable with observation Off; missing usage is reported as unknown, never zero. Use a foreground Codex Provider for a bounded session or explicitly install the clone-local macOS service when continuous per-Work-Item analysis is valuable. Earlier observations remain local after the Provider stops, while work completed outside active correlated observation cannot be backfilled from account totals. See [Usage observation](../operations/usage-observation.md) before enabling it.
+
 ### Command notation after init
 
 Run durable project commands from the project root as `node ./templew.mjs <command> .`. Some older examples below retain the shorter `temple` spelling for readability and for contributors who used `npm link`; substitute the repository launcher when copying them into an initialized project. The launcher does not bundle Node.js, Git credentials, or network access. See [Runtime coordination and recovery](../operations/runtime-coordination.md).

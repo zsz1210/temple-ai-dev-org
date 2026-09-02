@@ -36,6 +36,16 @@ It deliberately keeps raw prompts, hidden reasoning, command output, secrets, an
 
 Every initialized project now owns `.ai-org/project/usage-policy.json`. The file defines its optimization objective, data boundary, seed profiles, calibration state, cost provenance, and autonomy envelope. Temple upgrades create it only when absent and never overwrite project choices.
 
+### Optional observation modes
+
+Per-Work-Item Token analysis is an optional local capability, not a prerequisite for using the framework:
+
+- **Off** runs no Codex Provider and records missing usage as unknown.
+- **On demand** observes eligible registered tasks only while a foreground Control Plane is running.
+- **Managed local** is an explicitly installed, reversible, clone-local macOS service for operators who want continuous observation on one workstation.
+
+The Usage view shows the selected mode, service state, retained history, and any completed Work Items after the observation boundary that lack detailed correlation. This gap is evidence of missing attribution, not proof that one particular process failed. Account-wide usage is never allocated back to a Work Item. See [Usage observation](usage-observation.md) for setup, removal, privacy, and multi-machine limits.
+
 Alpha.25 adds a usage-attribution envelope and a read-only baseline report. Every observation carries the dimensions the provider and repository can prove, plus a `missing_dimensions` list and `partial` quality when model, version, service tier, Context Capsule digest, capability digest, or another field is unavailable. Reconciled history labels lifecycle stage as the current canonical stage at reconciliation rather than inventing a historical stage.
 
 Alpha.26 keeps App Server and Desktop/session ownership separate. `thread/read` and `thread/resume` are attempted as independent operations: failure to read history does not prove that live resume is unavailable, and failure to resume does not erase history already read. Each registered task receives a bounded attach outcome with separate `history_read`, `live_resume`, and `attach_outcome` fields. The Provider registry exposes zero-filled outcome counts and a bounded 100-task summary for control-plane observation. Known unsupported, invalid, or missing-session failures use bounded reason codes; their failed operation is suppressed for that task on later provider reconnects instead of creating retry churn. A provider process still retries transient transport failures after a real reconnect.
