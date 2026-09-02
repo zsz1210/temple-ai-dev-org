@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0104",
   "title": "Validate a local multi-repository service rollout",
-  "state": "independent_qa",
-  "owner_position": "independent_qa",
-  "assigned_agent_id": "agent-lulu",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-02T08:56:26.986Z",
-  "updated_at": "2026-09-02T09:30:00.806Z",
+  "updated_at": "2026-09-02T09:40:00.433Z",
   "scope": [
     "Create and run a no-generation, disposable four-repository commerce rehearsal under a bounded local container runtime; verify baseline delivery, producer-first failure, rollback, consumer-first compatibility, malformed-event recovery, exact repository revisions, and cleanup."
   ],
@@ -41,7 +41,7 @@
       "resources": []
     }
   },
-  "base_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
+  "base_revision": "6385b89d077e3507d7220d3ff935ffa26119369c",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -53,14 +53,14 @@
     "WI-0086"
   ],
   "claim": {
-    "id": "claim-20260902093000-3fe2e3bd",
+    "id": "claim-20260902094000-ae35128f",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-lulu",
-    "base_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
+    "agent_id": "agent-mog",
+    "base_revision": "6385b89d077e3507d7220d3ff935ffa26119369c",
     "branch": "codex/wi-0104-local-microservices",
     "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
-    "claimed_at": "2026-09-02T09:30:00.806Z",
+    "claimed_at": "2026-09-02T09:40:00.433Z",
     "released_at": null
   },
   "claims": [
@@ -126,13 +126,25 @@
     },
     {
       "id": "claim-20260902093000-3fe2e3bd",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-lulu",
       "base_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
       "branch": "codex/wi-0104-local-microservices",
       "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
       "claimed_at": "2026-09-02T09:30:00.806Z",
+      "released_at": "2026-09-02T09:40:00.145Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902094000-ae35128f",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "6385b89d077e3507d7220d3ff935ffa26119369c",
+      "branch": "codex/wi-0104-local-microservices",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
+      "claimed_at": "2026-09-02T09:40:00.433Z",
       "released_at": null
     }
   ],
@@ -166,6 +178,9 @@
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0104/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260902T093947Z-A40D1F9F"
     ]
   },
   "evidence": [
@@ -180,13 +195,18 @@
     "EVID-20260902T092909Z-9A156C3B",
     ".ai-org/artifacts/WI-0104/handoff-002-quality_evaluator-to-independent_qa.md",
     ".ai-org/artifacts/WI-0104/evaluation-report.md",
-    "docs/validation/wave-3-local-microservice-evidence.md"
+    "docs/validation/wave-3-local-microservice-evidence.md",
+    ".ai-org/artifacts/WI-0104/handoff-003-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0104/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0104/independent-qa-test-observation.json",
+    "EVID-20260902T093947Z-A40D1F9F"
   ],
   "unresolved": [
     "Independent QA has not yet reviewed the exact candidate.",
-    "Independent QA must decide whether retained evidence is sufficient without redownloading the deleted local runtime."
+    "Independent QA must decide whether retained evidence is sufficient without redownloading the deleted local runtime.",
+    "One stale generated parallel-plan warning must be rebuilt before future parallel dispatch; no release or deployment is authorized."
   ],
-  "next_position": "release_manager",
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "developer",
@@ -201,6 +221,13 @@
       "input_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
       "artifact": ".ai-org/artifacts/WI-0104/handoff-002-quality_evaluator-to-independent_qa.md",
       "created_at": "2026-09-02T09:30:00.335Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "6385b89d077e3507d7220d3ff935ffa26119369c",
+      "artifact": ".ai-org/artifacts/WI-0104/handoff-003-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-02T09:39:48.259Z"
     }
   ],
   "developer_candidate_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3"
