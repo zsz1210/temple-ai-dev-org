@@ -43,6 +43,7 @@
     "credits_per_million_uncached_input_tokens": 5,
     "credits_per_million_cached_input_tokens": 0.5,
     "credits_per_million_output_tokens": 30,
+    "personal_pro_applicability": "unknown",
     "applies_as_billing_guarantee": false
   },
   "calculation": {

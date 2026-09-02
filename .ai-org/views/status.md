@@ -153,7 +153,7 @@
 | WI-0103 | Reconcile Wave 2 coordination evidence | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5d58b65c` | 0 | 15 | 0 |
 | WI-0104 | Validate a local multi-repository service rollout | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6385b89d` | 0 | 17 | 3 |
 | WI-0105 | Qualify Wave 4 operating boundaries | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `43100b5e` | 0 | 12 | 0 |
-| WI-0106 | Design Wave 5 controlled matched comparison | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902110232-1741177b | `—` | 0 | 7 | 0 |
+| WI-0106 | Design Wave 5 controlled matched comparison | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902110623-d4558ffb | `d3ea908d` | 0 | 10 | 0 |
 
 ## Codex task registry
 
@@ -287,14 +287,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-02T11:06:23.583Z | work_item_claimed | WI-0106 | human |
+| 2026-09-02T11:06:23.344Z | work_item_transitioned | WI-0106 | agent-rikku |
+| 2026-09-02T11:06:23.073Z | handoff_created | WI-0106 | agent-rikku |
+| 2026-09-02T11:06:05.667Z | evidence_recorded | WI-0106 | human |
+| 2026-09-02T11:04:54.964Z | evidence_recorded | WI-0106 | human |
 | 2026-09-02T11:02:32.802Z | work_item_claimed | WI-0106 | human |
 | 2026-09-02T11:02:32.572Z | work_item_transitioned | WI-0106 | agent-tidus |
 | 2026-09-02T11:02:32.343Z | handoff_created | WI-0106 | agent-tidus |
-| 2026-09-02T11:02:18.299Z | work_item_claimed | WI-0106 | human |
-| 2026-09-02T11:02:18.055Z | work_item_transitioned | WI-0106 | agent-yuna |
-| 2026-09-02T11:02:17.829Z | handoff_created | WI-0106 | agent-yuna |
-| 2026-09-02T11:02:03.965Z | work_item_claimed | WI-0106 | human |
-| 2026-09-02T11:02:03.708Z | work_item_coordination_configured | WI-0106 | agent-yuna |
 
 ## Assignments
 

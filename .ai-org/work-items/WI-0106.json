@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0106",
   "title": "Design Wave 5 controlled matched comparison",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-02T10:54:22.427Z",
-  "updated_at": "2026-09-02T11:02:32.802Z",
+  "updated_at": "2026-09-02T11:06:23.583Z",
   "scope": [
     "Define a reproducible Temple-versus-minimal and model-profile matched evaluation protocol, including representative cases, quality rubric, measurement fields, resource ceilings, telemetry prerequisites, stop rules, and an explicit approval boundary before any model generation."
   ],
@@ -36,7 +36,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "c3a342502857791d24b2e1c2c299d03c56142ae9",
+  "base_revision": "d3ea908d6157da31b659eb53dc5d16014a354fe2",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -48,14 +48,14 @@
     "WI-0086"
   ],
   "claim": {
-    "id": "claim-20260902110232-1741177b",
+    "id": "claim-20260902110623-d4558ffb",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "c3a342502857791d24b2e1c2c299d03c56142ae9",
+    "agent_id": "agent-lulu",
+    "base_revision": "d3ea908d6157da31b659eb53dc5d16014a354fe2",
     "branch": "codex/wi-0106-wave-5-controlled-comparison",
     "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0106",
-    "claimed_at": "2026-09-02T11:02:32.802Z",
+    "claimed_at": "2026-09-02T11:06:23.583Z",
     "released_at": null
   },
   "claims": [
@@ -97,13 +97,25 @@
     },
     {
       "id": "claim-20260902110232-1741177b",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "c3a342502857791d24b2e1c2c299d03c56142ae9",
       "branch": "codex/wi-0106-wave-5-controlled-comparison",
       "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0106",
       "claimed_at": "2026-09-02T11:02:32.802Z",
+      "released_at": "2026-09-02T11:06:23.344Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902110623-d4558ffb",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "d3ea908d6157da31b659eb53dc5d16014a354fe2",
+      "branch": "codex/wi-0106-wave-5-controlled-comparison",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0106",
+      "claimed_at": "2026-09-02T11:06:23.583Z",
       "released_at": null
     }
   ],
@@ -122,6 +134,13 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0106/technical-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0106/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260902T110454Z-F67AD7F6",
+      "EVID-20260902T110605Z-ED60CF41"
     ]
   },
   "evidence": [
@@ -131,7 +150,10 @@
     ".ai-org/artifacts/WI-0106/product-spec.md",
     ".ai-org/artifacts/WI-0106/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0106/technical-design.md",
-    ".ai-org/artifacts/WI-0106/resource-preflight.json"
+    ".ai-org/artifacts/WI-0106/resource-preflight.json",
+    ".ai-org/artifacts/WI-0106/handoff-004-developer-to-quality_evaluator.md",
+    "EVID-20260902T110454Z-F67AD7F6",
+    "EVID-20260902T110605Z-ED60CF41"
   ],
   "unresolved": [],
   "next_position": "quality_evaluator",
@@ -156,6 +178,14 @@
       "input_revision": "c3a342502857791d24b2e1c2c299d03c56142ae9",
       "artifact": ".ai-org/artifacts/WI-0106/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-02T11:02:32.343Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "d3ea908d6157da31b659eb53dc5d16014a354fe2",
+      "artifact": ".ai-org/artifacts/WI-0106/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-02T11:06:23.073Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "d3ea908d6157da31b659eb53dc5d16014a354fe2"
 }

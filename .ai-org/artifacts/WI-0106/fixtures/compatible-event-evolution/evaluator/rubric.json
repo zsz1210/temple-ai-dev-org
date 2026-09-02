@@ -1,0 +1,14 @@
+{
+  "case_id": "compatible-event-evolution",
+  "maintainability_anchors": [
+    "Keeps the normalized decoded shape stable across event versions.",
+    "Makes version branching explicit in the codec instead of spreading it across callers.",
+    "Preserves version 1 as the default encoding contract."
+  ],
+  "critical_failures": [
+    "Version 1 decoding or default encoding changes.",
+    "Version 2 fails to round trip through the public codec.",
+    "Unknown versions are accepted.",
+    "A dependency is added or a file outside src/ and test/ is changed."
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "network_access": false,
+  "subagents": false,
+  "external_connectors": false,
+  "allowed_tool_names": [
+    "exec_command",
+    "apply_patch"
+  ],
+  "allowed_command_prefixes": [
+    ["rg"],
+    ["sed"],
+    ["node"],
+    ["npm", "test"],
+    ["git", "status"],
+    ["git", "diff"]
+  ],
+  "allowed_capabilities": [
+    "read files inside the candidate repository",
+    "search files inside the candidate repository",
+    "apply a patch inside src/ and test/",
+    "run node and npm test commands inside the candidate repository",
+    "inspect git status and git diff inside the candidate repository"
+  ],
+  "prohibited_capabilities": [
+    "read the coordinator evaluator directory",
+    "write outside src/ and test/",
+    "install dependencies",
+    "contact a network service",
+    "create another agent or task",
+    "retry or fall back to another model"
+  ]
+}

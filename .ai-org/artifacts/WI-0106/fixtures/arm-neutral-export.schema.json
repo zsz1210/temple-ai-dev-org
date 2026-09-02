@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["package_id", "case_id", "candidate_revision", "product_patch", "tests", "completion", "usage"],
+  "properties": {
+    "package_id": { "type": "string", "pattern": "^pkg-[a-f0-9]{16}$" },
+    "case_id": { "enum": ["idempotent-command", "compatible-event-evolution"] },
+    "candidate_revision": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+    "product_patch": { "type": "string" },
+    "tests": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["public", "acceptance"],
+      "properties": {
+        "public": { "enum": ["pass", "fail"] },
+        "acceptance": { "enum": ["pass", "fail"] }
+      }
+    },
+    "completion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["changed_paths", "test_command", "test_result", "assumptions", "remaining_risks"],
+      "properties": {
+        "changed_paths": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "test_command": { "type": "string" },
+        "test_result": { "type": "string" },
+        "assumptions": { "type": "array", "items": { "type": "string" } },
+        "remaining_risks": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "usage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["input_tokens", "cached_input_tokens", "output_tokens", "reasoning_output_tokens", "total_tokens", "latency_ms"],
+      "properties": {
+        "input_tokens": { "type": ["integer", "null"], "minimum": 0 },
+        "cached_input_tokens": { "type": ["integer", "null"], "minimum": 0 },
+        "output_tokens": { "type": ["integer", "null"], "minimum": 0 },
+        "reasoning_output_tokens": { "type": ["integer", "null"], "minimum": 0 },
+        "total_tokens": { "type": ["integer", "null"], "minimum": 0 },
+        "latency_ms": { "type": ["integer", "null"], "minimum": 0 }
+      }
+    }
+  }
+}

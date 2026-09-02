@@ -1,0 +1,8 @@
+{
+  "name": "wave5-compatible-event-evolution",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}

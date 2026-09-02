@@ -15753,6 +15753,56 @@
         "dirty_scope": "outside-affected-scope",
         "affected_paths_dirty": []
       }
+    },
+    {
+      "id": "EVID-20260902T110605Z-ED60CF41",
+      "work_item_id": "WI-0106",
+      "recorded_at": "2026-09-02T11:06:05.667Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 5 design verification",
+      "outcome": "pass",
+      "scope_revision": "d3ea908d6157da31b659eb53dc5d16014a354fe2",
+      "observed_at": "2026-09-02T11:03:02.000Z",
+      "summary": "Repository, link, package, schema, arithmetic, authority, and whitespace checks passed without model generation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0106/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0106/developer-test-observation.json",
+          "sha256": "1ac5182e6ffefb6ab5c125597695817ec4dfdac6c64624b2d2801f1bd570b7ac"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/resource-preflight.json",
+          "sha256": "1a1e2747ddebea4f1ba42c22fcf7b336dd93fac4d7f9819a6ff66791f03cc058"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/technical-design.md",
+          "sha256": "9a9e2f2abc6260b397c4f04d38e8573dbfce927566e4604837824971b60008ac"
+        },
+        {
+          "path": "docs/validation/wave-5-controlled-comparison-plan.md",
+          "sha256": "132156fda6580d0124137dc458468ecfe4fabfff0b35ef88bf196fd25ac30024"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run check",
+          "node ./templew.mjs schema validate . --json",
+          "resource-preflight arithmetic and authority assertions",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T11:02:59.000Z"
+      }
     }
   ]
 }

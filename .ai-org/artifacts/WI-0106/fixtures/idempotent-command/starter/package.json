@@ -1,0 +1,8 @@
+{
+  "name": "wave5-idempotent-command",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}

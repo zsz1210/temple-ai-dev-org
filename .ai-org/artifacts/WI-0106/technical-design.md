@@ -57,7 +57,7 @@ The Provider-owned launch registers the task before generation and writes usage 
 
 The retained `WI-0067` run is the only directly comparable live Luna Max envelope measurement: two interrupted turns reported 148,648 total Tokens in 29.201 seconds, including 145,745 input Tokens, 114,176 cached-input Tokens, and 2,903 output Tokens. The average was 74,324 Tokens per attempted turn. Its 60,000-Token reactive limit overshot by 14,266 and 14,382 Tokens before interruption, so a Token threshold is not a billing guarantee.
 
-Using the official 2026-09-02 rate card (`5` Credits per million uncached input Tokens, `0.5` per million cached-input Tokens, and `30` per million output Tokens), that observed two-turn mix equals approximately `0.302023` rate-card Credits:
+Using the public 2026-09-02 Codex token rate card (`5` Credits per million uncached input Tokens, `0.5` per million cached-input Tokens, and `30` per million output Tokens), that observed two-turn mix equals approximately `0.302023` rate-card Credits. The linked page labels these rates for Business and Enterprise/Edu flexible pricing while the personal Credits article routes readers to that rate card; exact applicability to this personal Pro account is therefore unverified:
 
 ```text
 uncached input = 145,745 - 114,176 = 31,569

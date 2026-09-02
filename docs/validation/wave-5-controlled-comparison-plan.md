@@ -38,7 +38,7 @@ A mechanism pass does **not** mean Temple won. With two cases, outcome differenc
 
 The retained account probe confirmed that account usage is readable but unallocated. It cannot reserve a per-experiment budget. OpenAI documents that Pro included usage is consumed first and purchased Credits may be used after the included limit; automatic reload can also purchase Credits when enabled. A strict no-new-payment run therefore needs the owner to confirm the account setting before launch.
 
-The proposed hard envelope is four sequential Luna Max turns, 80,000 total Tokens per turn, 320,000 aggregate Tokens, zero retries, 10 minutes per turn, 60 minutes overall, 128 MiB growth per repository, and 512 MiB aggregate growth. Token interruption is reactive and may overshoot; it is not a billing guarantee.
+The proposed hard envelope is four sequential Luna Max turns, 80,000 total Tokens per turn, 320,000 aggregate Tokens, zero retries, 10 minutes per turn, 60 minutes overall, 128 MiB growth per repository, and 512 MiB aggregate growth. Token interruption is reactive and may overshoot; it is not a billing guarantee. The public token-rate conversion is retained only as planning evidence because exact applicability to this personal Pro account was not confirmed.
 
 ## Evidence basis
 
