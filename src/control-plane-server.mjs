@@ -129,6 +129,7 @@ export function classifyControlPlaneRequest(headers, port, privateViewerHost = n
 export function privateViewerSnapshot(snapshot, identity, transport = "tailscale-serve") {
   const { daemon: _daemon, inbox: _inbox, recent_events: _recentEvents, ...rest } = snapshot;
   const safe = structuredClone(rest);
+  if (safe.usage?.source) delete safe.usage.source.state_directory;
   const organization = safe.observer?.organization;
   if (organization) {
     delete organization.principals;

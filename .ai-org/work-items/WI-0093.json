@@ -1,0 +1,157 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0093",
+  "title": "Redact Usage runtime paths from private viewers",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-02T01:22:09.876Z",
+  "updated_at": "2026-09-02T01:23:47.268Z",
+  "scope": [
+    "Remove clone-local Usage state-directory metadata from Tailscale and home-LAN private snapshots while preserving loopback diagnostics and existing read-only behavior."
+  ],
+  "acceptance_criteria": [
+    "Private-viewer Usage snapshots omit the clone-local state_directory field while loopback snapshots retain it for local diagnostics.",
+    "Home-LAN and Tailscale regression coverage fails if Usage runtime paths reappear and existing private-viewer redaction and mutation boundaries remain green.",
+    "Focused tests, repository verification, live LAN inspection, and Independent QA pass at an exact revision."
+  ],
+  "affected_paths": [
+    "src/control-plane-server.mjs",
+    "test/control-plane-private-viewer.test.mjs",
+    ".ai-org/artifacts/WI-0093"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": "WI-0092",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "27b6d666917161c2226321ae5b79a943a6db71c9",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": "agent-rikku",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260902012347-cac3f138",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "27b6d666917161c2226321ae5b79a943a6db71c9",
+    "branch": "main",
+    "worktree": null,
+    "claimed_at": "2026-09-02T01:23:47.268Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260902012221-3e47209d",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "27b6d666917161c2226321ae5b79a943a6db71c9",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-02T01:22:21.219Z",
+      "released_at": "2026-09-02T01:23:10.144Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902012310-76833cb1",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "27b6d666917161c2226321ae5b79a943a6db71c9",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-02T01:23:10.590Z",
+      "released_at": "2026-09-02T01:23:26.372Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902012327-871912a4",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "27b6d666917161c2226321ae5b79a943a6db71c9",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-02T01:23:27.049Z",
+      "released_at": "2026-09-02T01:23:46.594Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902012347-cac3f138",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "27b6d666917161c2226321ae5b79a943a6db71c9",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-02T01:23:47.268Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0093/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0093/product-direction.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0093.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0093/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0093/risk-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0093/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0093/work-order.md",
+    ".ai-org/artifacts/WI-0093/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0093/product-direction.md",
+    ".ai-org/work-items/WI-0093.json",
+    ".ai-org/artifacts/WI-0093/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0093/technical-design.md",
+    ".ai-org/artifacts/WI-0093/risk-review.md",
+    ".ai-org/artifacts/WI-0093/ui-design-brief.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "27b6d666917161c2226321ae5b79a943a6db71c9",
+      "artifact": ".ai-org/artifacts/WI-0093/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-02T01:22:40.436Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "27b6d666917161c2226321ae5b79a943a6db71c9",
+      "artifact": ".ai-org/artifacts/WI-0093/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-02T01:23:26.021Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "27b6d666917161c2226321ae5b79a943a6db71c9",
+      "artifact": ".ai-org/artifacts/WI-0093/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-02T01:23:46.242Z"
+    }
+  ]
+}

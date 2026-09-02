@@ -311,6 +311,8 @@ test("dedicated home-LAN listener is redacted and read-only regardless of reques
   assert.equal(Object.hasOwn(snapshot, "daemon"), false);
   assert.equal(Object.hasOwn(snapshot, "inbox"), false);
   assert.equal(Object.hasOwn(snapshot, "recent_events"), false);
+  assert.equal(Object.hasOwn(snapshot.usage.source, "state_directory"), false);
+  assert.equal(snapshotResponse.body.includes(stateDirectory), false);
 
   const inbox = await lanRequest(controlPlane, "/api/v1/inbox");
   assert.equal(inbox.status, 403);
@@ -323,11 +325,13 @@ test("dedicated home-LAN listener is redacted and read-only regardless of reques
 
   const localSnapshot = await (await fetch(`${controlPlane.url}/api/v1/snapshot`)).json();
   assert.ok(localSnapshot.inbox);
+  assert.equal(localSnapshot.usage.source.state_directory, stateDirectory);
   assert.equal(Object.hasOwn(localSnapshot, "private_viewer"), false);
 
   const tailscaleSnapshot = JSON.parse((await privateRequest(controlPlane, "/api/v1/snapshot")).body);
   assert.equal(tailscaleSnapshot.private_viewer.transport, "tailscale-serve");
   assert.equal(tailscaleSnapshot.private_viewer.identity_present, true);
+  assert.equal(Object.hasOwn(tailscaleSnapshot.usage.source, "state_directory"), false);
 
   await controlPlane.close();
   await assert.rejects(lanRequest(controlPlane, "/healthz"), /ECONNREFUSED|socket hang up/);
@@ -389,6 +393,8 @@ test("private Temple Workspace is redacted, refresh-only, and cannot reach Inbox
   assert.equal(snapshot.usage.schema_version, "temple.usage-baseline/v1");
   assert.equal(snapshot.usage.privacy.raw_prompts_retained, false);
   assert.equal(snapshot.usage.routing.automatic_routing, false);
+  assert.equal(Object.hasOwn(snapshot.usage.source, "state_directory"), false);
+  assert.equal(snapshotResponse.body.includes(stateDirectory), false);
   assert.doesNotMatch(snapshotResponse.body, new RegExp(controlPlane.sessionSecret));
 
   const inbox = await privateRequest(controlPlane, "/api/v1/inbox");
@@ -418,6 +424,7 @@ test("private Temple Workspace is redacted, refresh-only, and cannot reach Inbox
   const localSnapshot = await (await fetch(`${controlPlane.url}/api/v1/snapshot`)).json();
   assert.ok(localSnapshot.inbox);
   assert.ok(localSnapshot.recent_events.some((entry) => entry.id === "private-refresh-fixture"));
+  assert.equal(localSnapshot.usage.source.state_directory, stateDirectory);
 
   await controlPlane.close();
 });

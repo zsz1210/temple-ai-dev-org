@@ -64,7 +64,7 @@ The final documentation and evidence reconciliation commit must remain green bef
 - Runtime schema validation passed 112 documents against 28 schemas. Doctor reported 35 pass, one stale generated-plan warning, and zero failures. Production-only and complete dependency audits both reported zero known vulnerabilities.
 - The allowlisted package contains 307 files, 641,344 bytes packed and 2,574,860 bytes unpacked. Its exact tarball SHA-256 is `491a5b94783ee6fe56fc5cfc632aa930b4c6502a80466941ccd9bf24c6e9a2d5`.
 - Real-tarball consumers under both supported Node.js majors passed version, install, init, idempotent re-init, project launcher, status, and Doctor; each reported 36 pass, 0 warning, and 0 failure.
-- This checkpoint still requires a repository-only final evidence record and a fresh hosted CI run after the private push. It is not public-release approval.
+- A later repository-only evidence commit initially failed hosted Doctor because one mutable blocker file was incorrectly bound to this earlier exact revision. The failed run was retained rather than waived. After the evidence boundary was corrected, both the evidence/state matrix and a manually requested full matrix passed on Node.js 22 and 24; the Node.js 24 browser gate also passed. Final exact candidate and hosted-run identifiers are maintained in repository-owned WI-0086 evidence so adding CI bookkeeping does not mutate this reviewed package record.
 
 ## Human and external gates
 

@@ -1,15 +1,15 @@
 # Release readiness
 
 - Audit date: 2026-09-02
-- Last hosted integration head: `d55314f1dbb7ca0e26f1960bb0f7a10d72b14509`
-- Latest local requalification checkpoint: `cbd8f2aadd1f5bfe9ef4b961ec24b6fbc3eb5b57`
-- Final exact candidate: recorded after this documentation reconciliation in repository-owned WI-0086 evidence
+- Latest package checkpoint in this record: `dba1866ae0ebbcf7ada1474be38016970355b040`
+- Latest hosted integration in this record: `650f1aa2c13695be324f40f07bb0f44b66a6c9f3`
+- Final exact candidate and hosted result: maintained in repository-owned WI-0086 evidence so recording a CI run does not mutate the reviewed package
 - Package metadata: `0.1.0-alpha.29` release candidate verified; public action not approved
 - Target: first public Alpha, not `1.0` or production qualification
 
 ## Conclusion
 
-Temple has a locally requalified private `0.1.0-alpha.29` candidate for its first public Alpha. It includes the real-browser Management Console gate, outcome-first Codex task titles, truthful Usage capture health, localized public documentation, and the OSS conduct and security boundary. The Human Principal approved and tested the private moderation route. Publication remains a **NO-GO** until the reconciled candidate passes hosted CI, a genuinely independent new user completes the public path, the approved GitHub protections are configured, and the Human Principal separately authorizes repository visibility, the tag, and the GitHub Release.
+Temple has a locally and hosted-verified private `0.1.0-alpha.29` candidate for its first public Alpha. It includes the real-browser Management Console gate, outcome-first Codex task titles, truthful Usage capture health, localized public documentation, and the OSS conduct and security boundary. The Human Principal approved and tested the private moderation route. Publication remains a **NO-GO** until a genuinely independent new user completes the public path, the approved GitHub protections are configured, and the Human Principal separately authorizes repository visibility, the tag, and the GitHub Release.
 
 ## Verified current facts
 
@@ -18,6 +18,8 @@ Temple has a locally requalified private `0.1.0-alpha.29` candidate for its firs
 - GitHub Actions run [`33522030500`](https://github.com/zsz1210/temple-ai-dev-org/actions/runs/33522030500) passed Node.js 22 and 24 at the earlier corrective candidate `680230f`. It remains historical evidence rather than qualification for the later WI-0088 and WI-0089 integration baseline.
 - GitHub Actions run [`33570955370`](https://github.com/zsz1210/temple-ai-dev-org/actions/runs/33570955370) passed the private integration head `d55314f`: Node.js 22 and 24 each passed the complete 270-test suite, and the installed-Chrome Management Console gate passed in the Node.js 24 full lane while remaining skipped under Node.js 22.
 - That hosted run predates WI-0091 and the public conduct/documentation reconciliation. It is retained as historical evidence; the new private push requires a fresh hosted result.
+- The later private push exposed one exact-candidate evidence digest mismatch in run [`33576741884`](https://github.com/zsz1210/temple-ai-dev-org/actions/runs/33576741884). Both 270-test lanes and the Node.js 24 browser gate passed, but Doctor correctly failed the inconsistent evidence, so the run was not waived.
+- Corrected evidence/state run [`33577330137`](https://github.com/zsz1210/temple-ai-dev-org/actions/runs/33577330137) passed both supported Node.js lanes. Full workflow-dispatch run [`33577411806`](https://github.com/zsz1210/temple-ai-dev-org/actions/runs/33577411806) then passed Doctor, all 270 tests on Node.js 22 and 24, and the Node.js 24 browser gate at integration head `650f1aa`.
 - WI-0091 made Usage capture health truthful and verifiable. Its exact implementation candidate `43444e1` passed 270 tests and the browser gate through distinct Quality and Independent QA review; the bounded live proof recorded Provider usage without retaining prompt content.
 - WI-0083 independently passed 260 tests at its exact candidate; WI-0081 and WI-0082 received fresh exact-candidate verification during the release-truth reconciliation.
 - `npm audit --omit=dev` reported zero known dependency vulnerabilities on the audit date.
@@ -36,14 +38,14 @@ Temple has a locally requalified private `0.1.0-alpha.29` candidate for its firs
 
 | Gate | Current status | Required evidence at the final candidate |
 | --- | --- | --- |
-| Canonical release truth | Latest local checkpoint passed; final repository-only evidence and hosted result pending | Keep the exact candidate, verified integration head, proposed tag, release record, Dashboard, and remaining Human gates aligned |
+| Canonical release truth | Technical package and hosted integration are reconciled; public closeout remains blocked | Keep the final exact candidate, verified integration head, proposed tag, release record, Dashboard, and remaining Human gates aligned through repository-owned WI-0086 evidence |
 | Release identity | Verified | `0.1.0-alpha.29`, package metadata, changelog, roadmap, validation index, WI-0090 candidate, and proposed `v0.1.0-alpha.29` tag align |
 | Package boundary | Passed | Explicit `files` allowlist and enforced dry-run manifest passed with 307 files |
 | Clean installation | Passed | Exact tarball version, install, init, re-init, project launcher, and Doctor passed under Node.js 22 and 24 |
 | Data-bearing upgrade | Passed | Alpha.28 Work Item, Learning, and application data remained byte-identical through the Alpha.29 upgrade rehearsal |
 | Runtime support | Passed for declared scope | Node.js 22 and 24 passed locally, in clean consumers, and on hosted Linux; Windows remains unqualified |
 | Real-browser console gate | Passed | Installed Chrome passed four-view semantic and layout checks locally, in fresh QA, and in the Node.js 24 full CI lane |
-| Hosted CI | Historical candidate passed; latest candidate pending private push | Push the reconciled private candidate and require fresh Node.js 22 and Node.js 24 success, including the Node.js 24 browser gate |
+| Hosted CI | Passed for the reconciled private integration | Node.js 22 and 24 passed run `33577411806`, including the Node.js 24 browser gate; retain the final exact binding in WI-0086 evidence |
 | GitHub Actions supply chain | Passed at candidate | Reviewed full-length SHA pins and least-privilege permissions remained green |
 | Dependency and provenance review | Passed locally | Lockfile audit reported zero known production vulnerabilities; notices and the allowlisted manifest were reviewed together |
 | Secret and privacy review | Local review passed; hosting controls pending | High-confidence tracked-history review found no non-synthetic match; hosting-side scanning and push protection remain to be configured |
@@ -69,11 +71,10 @@ These remain required before stronger production or enterprise claims, but they 
 
 ## Recommended release sequence
 
-1. Push the reconciled candidate privately and require a fresh full GitHub Actions result.
-2. Have a genuinely independent new user follow only the public instructions and retain their result separately from maintainer smoke evidence.
-3. Separately authorize repository visibility. Immediately after the repository becomes public, configure and verify branch or ruleset protection, required CI, private vulnerability reporting, secret scanning, and push protection.
-4. Review the final diff, independent-user result, and exact GitHub Actions result, then separately authorize immutable `v0.1.0-alpha.29` tag creation and the GitHub Release.
-5. Keep npm deferred until a later distribution decision explicitly removes `private: true` and repeats the publication-specific review.
+1. Have a genuinely independent new user follow only the public instructions and retain their result separately from maintainer smoke evidence.
+2. Separately authorize repository visibility. Immediately after the repository becomes public, configure and verify branch or ruleset protection, required CI, private vulnerability reporting, secret scanning, and push protection.
+3. Review the final diff, independent-user result, and exact GitHub Actions result, then separately authorize immutable `v0.1.0-alpha.29` tag creation and the GitHub Release.
+4. Keep npm deferred until a later distribution decision explicitly removes `private: true` and repeats the publication-specific review.
 
 ## Source references
 

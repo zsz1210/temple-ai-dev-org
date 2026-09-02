@@ -6,7 +6,7 @@
 - Technical status: verified
 - Public decision: NO-GO
 
-The exact candidate passed the complete local release requalification recorded in `final-local-requalification.md`. Hosted run `33576741884` correctly rejected an evidence-artifact digest mismatch even though both 270-test lanes and the Node.js 24 browser gate passed. The correction is recorded in `hosted-ci-evidence-digest-failure.md`; a fresh hosted run remains required.
+The package checkpoint passed the complete local release requalification recorded in `final-local-requalification.md`. Hosted run `33576741884` correctly rejected an evidence-artifact digest mismatch even though both 270-test lanes and the Node.js 24 browser gate passed. The correction is recorded in `hosted-ci-evidence-digest-failure.md`. Corrected evidence/state run `33577330137` and full run `33577411806` passed at integration head `650f1aa2c13695be324f40f07bb0f44b66a6c9f3`.
 
 ## Completed Human evidence
 
