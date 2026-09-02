@@ -6,7 +6,7 @@
   "owner_position": "independent_qa",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-02T22:49:04.886Z",
-  "updated_at": "2026-09-02T23:28:07.421Z",
+  "updated_at": "2026-09-02T23:28:20.989Z",
   "scope": [
     "Prepare and, after the named usage approval, run two pinned engineering cases once under Temple lean and once under a minimal responsible workflow using the same GPT-5.6 Luna Medium profile.",
     "Run one separate fresh-context blind evaluator after four arm-neutral packages exist, freeze signed scores before unsealing the coordinator mapping, and retain exact usage, latency, quality, intervention, and revision evidence.",
@@ -42,7 +42,7 @@
   ],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "68d2f9b8162af52b46183487789034db7c958086",
+  "base_revision": "b8f41dd0e1255526f63c0e541ea480ef3d35e059",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -58,16 +58,15 @@
     "WI-0086: blocked release work remains untouched; shared index update is additive"
   ],
   "claim": {
-    "id": "claim-20260902232703-74d6ebf3",
-    "status": "released",
+    "id": "claim-20260902232820-fed7d26c",
+    "status": "active",
     "principal_id": "human",
     "agent_id": "agent-lulu",
-    "base_revision": "68d2f9b8162af52b46183487789034db7c958086",
+    "base_revision": "b8f41dd0e1255526f63c0e541ea480ef3d35e059",
     "branch": "codex/wi-0115-0117-validation-program",
     "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
-    "claimed_at": "2026-09-02T23:27:03.500Z",
-    "released_at": "2026-09-02T23:28:07.421Z",
-    "release_reason": "position_transition"
+    "claimed_at": "2026-09-02T23:28:20.989Z",
+    "released_at": null
   },
   "claims": [
     {
@@ -149,6 +148,17 @@
       "claimed_at": "2026-09-02T23:27:03.500Z",
       "released_at": "2026-09-02T23:28:07.421Z",
       "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902232820-fed7d26c",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "b8f41dd0e1255526f63c0e541ea480ef3d35e059",
+      "branch": "codex/wi-0115-0117-validation-program",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T23:28:20.989Z",
+      "released_at": null
     }
   ],
   "gate_evidence": {
