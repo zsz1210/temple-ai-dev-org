@@ -35,6 +35,18 @@
     "reactive_hard_limit_tokens": 60000,
     "maximum_observed_overshoot_tokens": 14382
   },
+  "additional_empirical_sources": [
+    {
+      "work_item_id": "WI-0105",
+      "measurement": "full_repository_verification_duration_ms",
+      "value": 55297.014709
+    },
+    {
+      "work_item_id": "WI-0104",
+      "measurement": "peak_host_disk_growth_bytes",
+      "value": 304959488
+    }
+  ],
   "rate_source": {
     "title": "ChatGPT Rate Card",
     "url": "https://help.openai.com/en/articles/11481834",
@@ -52,6 +64,58 @@
     "proposed_aggregate_hard_limit_tokens": 320000,
     "projected_credits_at_observed_mix": 0.6501759862224853,
     "all_output_mathematical_upper_bound_credits": 9.6
+  },
+  "proposed_controls": {
+    "model_turns": {
+      "warning": 2,
+      "hard": 4,
+      "derivation": "two pinned cases multiplied by two process conditions"
+    },
+    "attempts": {
+      "warning": 2,
+      "hard": 4,
+      "derivation": "one attempt for each declared turn with zero retry"
+    },
+    "concurrent_turns": {
+      "warning": 1,
+      "hard": 1,
+      "derivation": "serialize the four observations to avoid shared host and account interference"
+    },
+    "per_turn_total_tokens": {
+      "warning": 50000,
+      "hard": 80000,
+      "derivation": "warning remains below the failed 60000 reactive threshold; hard is the next 10000-token boundary above the observed 74324 average"
+    },
+    "aggregate_total_tokens": {
+      "warning": 200000,
+      "hard": 320000,
+      "derivation": "four declared turns multiplied by the per-turn warning and hard controls"
+    },
+    "per_turn_wall_time_ms": {
+      "warning": 300000,
+      "hard": 600000,
+      "derivation": "warning is greater than five full 55297ms repository verification runs and twenty observed 14600.5ms attempted-turn averages; hard is twice the warning"
+    },
+    "program_wall_time_ms": {
+      "warning": 1800000,
+      "hard": 3600000,
+      "derivation": "hard permits four serialized per-turn hard stops plus twenty minutes for setup and evaluation; warning is half the hard stop"
+    },
+    "per_repository_disk_growth_bytes": {
+      "warning": 67108864,
+      "hard": 134217728,
+      "derivation": "one quarter of the aggregate controls for four isolated candidate repositories"
+    },
+    "aggregate_disk_growth_bytes": {
+      "warning": 268435456,
+      "hard": 536870912,
+      "derivation": "hard is the next binary power-of-two boundary above the observed 304959488-byte Wave 3 peak; warning is half the hard stop"
+    },
+    "retry_count": {
+      "warning": 0,
+      "hard": 0,
+      "derivation": "the prior stopped run established zero retry as the accepted runaway-use boundary"
+    }
   },
   "approval_required": true,
   "automatic_routing_enabled": false

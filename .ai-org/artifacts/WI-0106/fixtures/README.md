@@ -13,3 +13,9 @@ The grader receives an arm-neutral package matching `arm-neutral-export.schema.j
 5. withholds the map from the evaluator and reveals it only after signed scores are recorded.
 
 Objective acceptance tests run before blind scoring. A critical failure rejects the package. Usage values are shown only after the quality score is frozen, preventing lower Token totals from influencing subjective grading.
+
+## Reproducing bundle digests
+
+`feasibility-protocol.json` defines the case-bundle digest as `sha256-path-null-content-null-v1`. Starting at this `fixtures/` directory, enumerate every regular file below one case-ID directory, sort by ascending bytewise UTF-8 POSIX path relative to `fixtures/`, and feed each record to one SHA-256 stream as: UTF-8 relative path, one NUL byte, raw file bytes, one NUL byte. This covers the starter, hidden acceptance tests, rubric, and reference implementation without relying on archive metadata, locale collation, or filesystem traversal order.
+
+The objective fixture check uses a temporary directory with `candidate/` and `evaluator/` as siblings. Public tests must pass on the starter, hidden tests must fail on the starter for the intended defect, and those same hidden tests must pass after only the pinned reference `src/` is substituted. The temporary directory is not a measured candidate and is removed after the check.

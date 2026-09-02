@@ -13,12 +13,12 @@ Run two synthetic cases under two conditions, for four sequential model turns to
 
 Both conditions use `gpt-5.6-luna` with `max` reasoning, the same Codex version, local sandbox, approval policy, tool allowlist, network prohibition, one-turn limit, and zero retry or fallback. The condition order is derived from the SHA-256 case ID so it is fixed before launch. A single concurrent turn avoids host-load and shared-account interference.
 
-The two cases are:
+The two cases are pinned at fixture revision `69fb40f23cca2a61890a9660a92503dbc2f89d66` and indexed by `fixtures/feasibility-protocol.json`:
 
 1. `idempotent-command`: repair a duplicate-command defect in a small Node.js state machine without changing its public contract;
 2. `compatible-event-evolution`: add backward-compatible producer/consumer event handling while preserving the older fixture.
 
-Each pair starts from byte-identical product sources and tests. Condition-specific organizational files are applied only after the pair base digest is recorded.
+Each pair starts from byte-identical product sources and tests. The protocol pins the task, hidden-test, rubric, initialization, minimal-instruction, tool-policy, launch-instruction, and complete case-bundle digests. Condition-specific organizational files are applied only after the pair base digest is recorded. Reference implementations prove that the hidden tests are satisfiable but are never copied into a candidate repository.
 
 ### Wave 5B — process qualification
 
@@ -26,11 +26,11 @@ Wave 5A must first prove complete correlation, usable measurements, stable gradi
 
 ### Wave 5C — matched model-profile evaluation
 
-This is a separate Temple-only study using the existing `temple.matched-model-evaluation/v1` contract. The initial candidate pair is the project Seed Policy's `standard` profile (`gpt-5.6-terra`, `medium`) and `lightweight-quality` profile (`gpt-5.6-luna`, `max`) for one exact task shape. It begins only after Wave 5A establishes reliable capture and after a separate budget approval. Critical planning with Sol XHigh is not mixed into this implementation-shaped dataset.
+This is a separate Temple-only study intended to use `temple.matched-model-evaluation/v1`. The initial candidate pair would be the project Seed Policy's `standard` profile (`gpt-5.6-terra`, `medium`) and `lightweight-quality` profile (`gpt-5.6-luna`, `max`) for one exact task shape. It is currently **blocked**: the schema and evaluator require a non-empty `effective_reasoning_effort` matching the Seed profile, while the installed App Server evidence exposes requested effort and thread-observed effort but no direct effective-turn acknowledgement. Wave 5C cannot run or qualify until Provider evidence supplies that field or a separately approved contract revision represents unavailable evidence without treating it as known. Critical planning with Sol XHigh is not mixed into this implementation-shaped dataset.
 
 ## Quality rubric
 
-An evaluator receives condition-blinded candidate packages labeled only by case and arm code. Each package contains the candidate revision, diff, test outputs, and bounded handoff; it contains no raw prompt, response, hidden reasoning, credential, or raw Provider payload.
+An evaluator receives condition-blinded candidate packages labeled only by case and a salted package ID. The exporter includes only the normalized patch below `src/` and `test/`, objective test statuses, and a five-field completion record. It strips organization files, paths, Work Item and task IDs, Agent and Position names, branches, instruction filenames, timestamps, and condition labels. Usage is held as `null` until the quality score is frozen; the salted condition map is revealed only afterward. Each package contains no raw prompt, response, hidden reasoning, credential, or raw Provider payload.
 
 | Dimension | Weight | Failure rule |
 |---|---:|---|
@@ -76,13 +76,13 @@ This is a planning conversion, not proof of the user's billed amount. Personal P
 | Concurrent turns | 1 | 1 | Avoid host and account interference |
 | Per-turn total Tokens | 50,000 | 80,000 | Below and just above the observed 74,324-turn level |
 | Aggregate total Tokens | 200,000 | 320,000 | Four times the per-turn controls |
-| Per-turn wall time | 5 minutes | 10 minutes | Safety limit, not a duration forecast |
-| Program wall time | 30 minutes | 60 minutes | Allows fixture and evaluator overhead without concurrency |
-| Per-repository disk growth | 64 MiB | 128 MiB | Product fixtures contain no dependency or container install |
-| Aggregate disk growth | 256 MiB | 512 MiB | Above the 304,959,488-byte Wave 3 container peak without authorizing Docker |
+| Per-turn wall time | 5 minutes | 10 minutes | Warning exceeds five 55.297-second repository verifications and twenty 14.601-second attempted-turn averages; hard is twice the warning |
+| Program wall time | 30 minutes | 60 minutes | Four serialized 10-minute hard stops plus 20 minutes setup/evaluation; warning is half |
+| Per-repository disk growth | 64 MiB | 128 MiB | One quarter of the aggregate controls for four isolated candidates |
+| Aggregate disk growth | 256 MiB | 512 MiB | Hard is the next binary power-of-two above the 304,959,488-byte Wave 3 peak; warning is half |
 | Retry / fallback | 0 | 0 | Preserve independent attempts and prevent runaway use |
 
-At the retained `WI-0067` Token mix, 320,000 Luna Tokens would be about `0.6503` rate-card Credits. The mathematical worst case if all 320,000 Tokens were charged at Luna's output rate is `9.6` Credits. Neither figure guarantees the actual plan charge or prevents a reactive overshoot.
+At the retained `WI-0067` Token mix, 320,000 Luna Tokens would be about `0.6502` rate-card Credits. The mathematical worst case if all 320,000 Tokens were charged at Luna's output rate is `9.6` Credits. Neither figure guarantees the actual plan charge or prevents a reactive overshoot.
 
 ## Required approval before Wave 5A
 
