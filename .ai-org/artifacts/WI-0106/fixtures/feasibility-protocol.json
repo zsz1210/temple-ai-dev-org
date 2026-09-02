@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.wave-5-feasibility-protocol/v1",
   "protocol_id": "wave-5a-process-feasibility",
-  "fixture_source_revision": "69fb40f23cca2a61890a9660a92503dbc2f89d66",
+  "fixture_source_revision": "87d7e68aaed0af6559697a690cf623ac158ab283",
   "temple_framework_revision": "c3a342502857791d24b2e1c2c299d03c56142ae9",
   "launch_instruction": {
     "path": "launch-instruction.md",
@@ -68,13 +68,26 @@
   ],
   "blind_evaluation": {
     "export_schema_path": "arm-neutral-export.schema.json",
-    "export_schema_sha256": "681d7da630d7273e33e060744557e9bdd0b704978ee8ac5a81a9fc227886e71a",
+    "export_schema_sha256": "1777a68287e7e2030ea60d977fda99e8a054d7f00a3d2106d715df130e156701",
     "product_paths": ["src", "test"],
     "withhold_usage_until_quality_frozen": true,
     "withhold_condition_map_until_quality_frozen": true,
+    "sealed_coordinator_mapping": {
+      "key": "package_id plus evidence_id",
+      "retained_fields": [
+        "condition_id",
+        "candidate_revision",
+        "candidate_repository_path",
+        "usage",
+        "launch_observation_id"
+      ],
+      "evaluator_access_before_quality_freeze": false,
+      "reveal_after_signed_quality_score": true
+    },
     "remove_fields": [
       "absolute paths",
       "organization files",
+      "candidate revisions",
       "Work Item and task identifiers",
       "Agent and Position names",
       "branch names",

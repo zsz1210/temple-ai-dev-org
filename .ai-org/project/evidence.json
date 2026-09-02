@@ -15915,6 +15915,60 @@
         "exit_code": 0,
         "started_at": "2026-09-02T11:31:00.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T114640Z-1B5F95B9",
+      "work_item_id": "WI-0106",
+      "recorded_at": "2026-09-02T11:46:40.408Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 5 independent QA attempt 1 no-go",
+      "outcome": "fail",
+      "scope_revision": "c27f193d03f36ecc50c6e4d4dba3f55e6928b0f9",
+      "observed_at": "2026-09-02T11:43:30.000Z",
+      "summary": "Exact candidate c27f193 passed core checks but exposed a resolvable candidate revision in the blind package and cited one mismatched retained duration.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0106/independent-qa-attempt-1-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0106/independent-qa-attempt-1-observation.json",
+          "sha256": "7286c519d69d7930f6d6c0b08d8afb33f747cb2ac3ee8e8f5f0f9cde5445c7ae"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/independent-qa-attempt-1-report.md",
+          "sha256": "8a78238d540cfb2820655acdda8e5833dc4866555776dee5eedfea3227399828"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0106/quality-report.md",
+          "sha256": "fbb1b77c3d1ba6130540b39fe43aabface89b01060b4f16084ad4c5479f79a93"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0105/developer-exact-test-observation.json",
+          "sha256": "abc7956726f372c2ac3983eb234a8238cc7c50b43c01cd76db58b439fe2af3b7"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify in a fresh detached exact-candidate worktree",
+          "node ./templew.mjs schema validate . --json",
+          "reproduce public, defective-starter hidden, and reference hidden fixture behavior",
+          "recompute manifest digests and deterministic condition order",
+          "compare protocol input files with fixture source revision 69fb40f",
+          "recompute resource arithmetic and inspect retained source observations",
+          "audit arm-neutral schema and procedure for condition leakage",
+          "audit Wave 5C, personal Pro rate, first NO-GO, and Agent identity boundaries"
+        ],
+        "exit_code": 1,
+        "started_at": "2026-09-02T11:34:20.000Z"
+      }
     }
   ]
 }

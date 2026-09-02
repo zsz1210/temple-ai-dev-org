@@ -9,10 +9,11 @@ The grader receives an arm-neutral package matching `arm-neutral-export.schema.j
 1. includes only the patch below `src/` and `test/`;
 2. removes repository paths, Work Item IDs, task IDs, Agent and Position names, branch names, instruction filenames, timestamps, and condition labels;
 3. converts either native handoff into the same five-field `completion` object;
-4. assigns `package_id` from a salted SHA-256 mapping retained separately until scores are final;
-5. withholds the map from the evaluator and reveals it only after signed scores are recorded.
+4. assigns unlinkable `package_id` and `evidence_id` values from a salted SHA-256 mapping;
+5. keeps the condition, candidate revision, candidate repository path, launch observation, and usage in a sealed coordinator mapping;
+6. withholds that mapping from the evaluator and reveals it only after signed scores are recorded.
 
-Objective acceptance tests run before blind scoring. A critical failure rejects the package. Usage values are shown only after the quality score is frozen, preventing lower Token totals from influencing subjective grading.
+Objective acceptance tests run before blind scoring. A critical failure rejects the package. The blind evaluator receives neither a resolvable Git revision nor usage values before the quality score is frozen, preventing repository metadata, workflow identity, or lower Token totals from influencing subjective grading.
 
 ## Reproducing bundle digests
 

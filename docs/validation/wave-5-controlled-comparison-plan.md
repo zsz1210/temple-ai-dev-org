@@ -20,7 +20,7 @@ The results cannot be pooled. Sol XHigh planning, multi-agent parallelism, and e
 
 Wave 5A is a four-turn feasibility pilot: two pinned synthetic Node.js engineering cases, each run once with Temple and once with a minimal workflow. All turns use GPT-5.6 Luna with Max reasoning, sequentially, with identical product sources, acceptance tests, tools, local sandbox, network prohibition, and zero retry. The fixture revision and every task, test, rubric, instruction, and case-bundle digest are recorded in the repository.
 
-The treatment difference is recorded explicitly. Both arms retain product requirements, tests, safety boundaries, exact revisions, and independent evaluation. The minimal arm is credible engineering practice, not a deliberately poor control. A salted arm-neutral export removes organizational identifiers and withholds usage until quality scoring is frozen.
+The treatment difference is recorded explicitly. Both arms retain product requirements, tests, safety boundaries, exact revisions, and independent evaluation. The minimal arm is credible engineering practice, not a deliberately poor control. A salted arm-neutral export removes organizational identifiers and resolvable candidate revisions; the coordinator seals the revision, condition, repository path, launch observation, and usage mapping until a signed quality score is frozen.
 
 The later Luna-versus-Terra study remains blocked. The current matched-evaluation contract requires direct effective-turn reasoning evidence, and the installed Provider does not report it. Wave 5A does not weaken or work around that gate.
 

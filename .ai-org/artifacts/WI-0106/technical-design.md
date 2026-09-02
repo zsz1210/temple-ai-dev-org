@@ -13,7 +13,7 @@ Run two synthetic cases under two conditions, for four sequential model turns to
 
 Both conditions use `gpt-5.6-luna` with `max` reasoning, the same Codex version, local sandbox, approval policy, tool allowlist, network prohibition, one-turn limit, and zero retry or fallback. The condition order is derived from the SHA-256 case ID so it is fixed before launch. A single concurrent turn avoids host-load and shared-account interference.
 
-The two cases are pinned at fixture revision `69fb40f23cca2a61890a9660a92503dbc2f89d66` and indexed by `fixtures/feasibility-protocol.json`:
+The two cases are pinned at fixture revision `87d7e68aaed0af6559697a690cf623ac158ab283` and indexed by `fixtures/feasibility-protocol.json`:
 
 1. `idempotent-command`: repair a duplicate-command defect in a small Node.js state machine without changing its public contract;
 2. `compatible-event-evolution`: add backward-compatible producer/consumer event handling while preserving the older fixture.
@@ -30,7 +30,7 @@ This is a separate Temple-only study intended to use `temple.matched-model-evalu
 
 ## Quality rubric
 
-An evaluator receives condition-blinded candidate packages labeled only by case and a salted package ID. The exporter includes only the normalized patch below `src/` and `test/`, objective test statuses, and a five-field completion record. It strips organization files, paths, Work Item and task IDs, Agent and Position names, branches, instruction filenames, timestamps, and condition labels. Usage is held as `null` until the quality score is frozen; the salted condition map is revealed only afterward. Each package contains no raw prompt, response, hidden reasoning, credential, or raw Provider payload.
+An evaluator receives condition-blinded candidate packages labeled only by case plus unlinkable salted package and evidence IDs. The exporter includes only the normalized patch below `src/` and `test/`, objective test statuses, and a five-field completion record. It strips organization files, paths, candidate revisions, Work Item and task IDs, Agent and Position names, branches, instruction filenames, timestamps, and condition labels. The coordinator seals the revision, repository path, condition, usage, and launch-observation mapping outside evaluator access. Usage remains `null` and the mapping remains sealed until a signed quality score is frozen. Each package contains no raw prompt, response, hidden reasoning, credential, or raw Provider payload.
 
 | Dimension | Weight | Failure rule |
 |---|---:|---|
@@ -76,7 +76,7 @@ This is a planning conversion, not proof of the user's billed amount. Personal P
 | Concurrent turns | 1 | 1 | Avoid host and account interference |
 | Per-turn total Tokens | 50,000 | 80,000 | Below and just above the observed 74,324-turn level |
 | Aggregate total Tokens | 200,000 | 320,000 | Four times the per-turn controls |
-| Per-turn wall time | 5 minutes | 10 minutes | Warning exceeds five 55.297-second repository verifications and twenty 14.601-second attempted-turn averages; hard is twice the warning |
+| Per-turn wall time | 5 minutes | 10 minutes | Warning exceeds five 55.324-second repository verifications and twenty 14.601-second attempted-turn averages; hard is twice the warning |
 | Program wall time | 30 minutes | 60 minutes | Four serialized 10-minute hard stops plus 20 minutes setup/evaluation; warning is half |
 | Per-repository disk growth | 64 MiB | 128 MiB | One quarter of the aggregate controls for four isolated candidates |
 | Aggregate disk growth | 256 MiB | 512 MiB | Hard is the next binary power-of-two above the 304,959,488-byte Wave 3 peak; warning is half |
