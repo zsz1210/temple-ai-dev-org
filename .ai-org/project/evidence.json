@@ -17145,7 +17145,7 @@
       "kind": "test",
       "title": "Developer verification and live Wave 5A run",
       "outcome": "pass",
-      "scope_revision": "d5c00fd23ef48f5dc1327e6eb73a51ef8293f1fb",
+      "scope_revision": "25a9b2a6fa1bbdf0060ef6a72e9b253aafa9a080",
       "observed_at": "2026-09-02T16:53:03.000Z",
       "summary": "291 repository tests passed; all four live turns completed; four blind packages and exact candidate revisions retained.",
       "adapter": {
@@ -17160,15 +17160,15 @@
         },
         {
           "path": ".ai-org/artifacts/WI-0113/developer-report.md",
-          "sha256": "70560fc828f72b0be9532bd3de45684ffd1bd6be635c85574b5a5337a5e12b60"
+          "sha256": "595aa6116135e91c65b9e232ba680e4dff7c455f20b490c17520a643c038e7bf"
         },
         {
           "path": ".ai-org/artifacts/WI-0113/experiment-result.json",
-          "sha256": "f85c8c349a7cb28735ba30320479a8793b4040035a720c6ad2a2a49870d96e84"
+          "sha256": "14c377df3fd1691e555c10701b243a0c17961b39e683122ff4415b653ef4b543"
         },
         {
           "path": ".ai-org/artifacts/WI-0113/quality-scores-frozen.json",
-          "sha256": "30e2c2401e3224c5cfc7887c33622caa88fe728e7109fad704271f478361aba3"
+          "sha256": "cd5b5f67edb4309003866548f43d75d98a12612d6053d50a965fed1545b1911d"
         },
         {
           "path": ".ai-org/artifacts/WI-0113/preflight-observation.json",
@@ -17204,7 +17204,7 @@
       "kind": "test",
       "title": "Quality evaluation of Wave 5A execution and result",
       "outcome": "pass",
-      "scope_revision": "25a9b2a6fa1bbdf0060ef6a72e9b253aafa9a080",
+      "scope_revision": "1a9386a565d4b3d1e017c262b8ad635999ce1f16",
       "observed_at": "2026-09-02T16:55:46.000Z",
       "summary": "Implementation passes; experiment remains unqualified because one candidate failed and evaluator blinding was not isolated.",
       "adapter": {
