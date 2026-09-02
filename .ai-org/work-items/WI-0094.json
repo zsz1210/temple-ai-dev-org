@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0094",
   "title": "Bound managed Usage snapshot latency and payload",
-  "state": "intake",
+  "state": "done",
   "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-02T01:38:59.916Z",
-  "updated_at": "2026-09-02T01:43:31.791Z",
+  "updated_at": "2026-09-02T07:31:55.126Z",
   "scope": [
     "Benchmark and reduce managed-local Usage snapshot latency and response size without weakening retained-history truth, privacy, or unknown-state semantics."
   ],
@@ -35,17 +35,204 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "ad88803703fb8dc311229b3f10d7aed751837f2b",
+  "base_revision": "d2e2e8ed9ec8fd9476a529cfc1f37790220341d7",
   "parallel_mode": "sequential",
-  "integration_owner_agent_id": null,
-  "planned_agent_id": "agent-mog",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
-  "overlap_resolution": [],
-  "claim": null,
-  "claims": [],
-  "gate_evidence": {},
-  "evidence": [],
+  "overlap_resolution": [
+    "WI-0033: WI-0094 is sequential and will avoid src/control-plane-server.mjs unless revalidated; any shared-path edit requires explicit re-coordination."
+  ],
+  "claim": {
+    "id": "claim-20260902073140-df0aaaa3",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "d2e2e8ed9ec8fd9476a529cfc1f37790220341d7",
+    "branch": "codex/wi-0094-usage-performance",
+    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "claimed_at": "2026-09-02T07:31:40.174Z",
+    "released_at": "2026-09-02T07:31:55.126Z",
+    "release_reason": "work_item_closed"
+  },
+  "claims": [
+    {
+      "id": "claim-20260902065619-0ebc9413",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "d29fa5a",
+      "branch": "codex/wi-0094-usage-performance",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T06:56:19.390Z",
+      "released_at": "2026-09-02T07:06:42.026Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902070642-26c394f0",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "d29fa5a",
+      "branch": "codex/wi-0094-usage-performance",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T07:06:42.279Z",
+      "released_at": "2026-09-02T07:06:42.491Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902070642-f8e249c1",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "d29fa5a",
+      "branch": "codex/wi-0094-usage-performance",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T07:06:42.736Z",
+      "released_at": "2026-09-02T07:06:42.956Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902070643-75cc06d0",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "d29fa5a",
+      "branch": "codex/wi-0094-usage-performance",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T07:06:43.196Z",
+      "released_at": "2026-09-02T07:15:53.698Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902071553-6a1e6ef4",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "d2e2e8ed9ec8fd9476a529cfc1f37790220341d7",
+      "branch": "codex/wi-0094-usage-performance",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T07:15:53.977Z",
+      "released_at": "2026-09-02T07:31:12.047Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902073112-e21eac14",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "d2e2e8ed9ec8fd9476a529cfc1f37790220341d7",
+      "branch": "codex/wi-0094-usage-performance",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T07:31:12.297Z",
+      "released_at": "2026-09-02T07:31:39.935Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902073140-df0aaaa3",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "d2e2e8ed9ec8fd9476a529cfc1f37790220341d7",
+      "branch": "codex/wi-0094-usage-performance",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T07:31:40.174Z",
+      "released_at": "2026-09-02T07:31:55.126Z",
+      "release_reason": "work_item_closed"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/work-orders/WI-0094.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/work-orders/WI-0094.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0094.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0094/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0094/technical-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0094/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260902T071531Z-69AAA54D",
+      "EVID-20260902T071531Z-F0D4BFE4",
+      ".ai-org/artifacts/WI-0094/developer-handoff.md"
+    ],
+    "test_evidence": [
+      "EVID-20260902T073051Z-02DBFC72"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0094/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260902T073051Z-02DBFC72"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/work-orders/WI-0094.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0094/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0094/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/work-orders/WI-0094.md",
+    ".ai-org/work-items/WI-0094.json",
+    ".ai-org/artifacts/WI-0094/technical-design.md",
+    ".ai-org/artifacts/WI-0094/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260902T071531Z-69AAA54D",
+    "EVID-20260902T071531Z-F0D4BFE4",
+    ".ai-org/artifacts/WI-0094/developer-handoff.md",
+    "EVID-20260902T073051Z-02DBFC72",
+    ".ai-org/artifacts/WI-0094/handoff-002-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0094/quality-report.md",
+    ".ai-org/artifacts/WI-0094/evaluation-report.md",
+    ".ai-org/artifacts/WI-0094/handoff-003-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0094/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0094/release-record.md",
+    "not-required"
+  ],
   "unresolved": [],
-  "next_position": "product_manager"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "d2e2e8ed9ec8fd9476a529cfc1f37790220341d7",
+      "artifact": ".ai-org/artifacts/WI-0094/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-02T07:15:53.434Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "d2e2e8ed9ec8fd9476a529cfc1f37790220341d7",
+      "artifact": ".ai-org/artifacts/WI-0094/handoff-002-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-02T07:31:11.820Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "d2e2e8ed9ec8fd9476a529cfc1f37790220341d7",
+      "artifact": ".ai-org/artifacts/WI-0094/handoff-003-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-02T07:31:39.706Z"
+    }
+  ],
+  "developer_candidate_revision": "d2e2e8ed9ec8fd9476a529cfc1f37790220341d7",
+  "tested_revision": "d2e2e8ed9ec8fd9476a529cfc1f37790220341d7",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

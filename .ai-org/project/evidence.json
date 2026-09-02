@@ -14732,6 +14732,137 @@
         "exit_code": 0,
         "started_at": "2026-09-02T03:37:42.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T071531Z-69AAA54D",
+      "work_item_id": "WI-0094",
+      "recorded_at": "2026-09-02T07:15:31.024Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Compact Management Console projection",
+      "outcome": "verified",
+      "scope_revision": "d2e2e8ed9ec8fd9476a529cfc1f37790220341d7",
+      "observed_at": "2026-09-02T07:15:31.024Z",
+      "summary": "Candidate preserves human-facing summaries while removing unused duplicate evidence and Provider task histories.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "d2e2e8ed9ec8fd9476a529cfc1f37790220341d7"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "d2e2e8ed9ec8fd9476a529cfc1f37790220341d7",
+        "working_tree_dirty": true,
+        "dirty_path_count": 311,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T071531Z-F0D4BFE4",
+      "work_item_id": "WI-0094",
+      "recorded_at": "2026-09-02T07:15:31.255Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer verification",
+      "outcome": "pass",
+      "scope_revision": "d2e2e8ed9ec8fd9476a529cfc1f37790220341d7",
+      "observed_at": "2026-09-02T07:13:00.000Z",
+      "summary": "Focused 25/25, full 280/280, and all bounded performance targets passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0094/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0094/developer-test-observation.json",
+          "sha256": "7e4bc55256a54b76b98040298948fe8ab2a3865e6ee2a62559f62a564873e7d0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0094/candidate-observation.json",
+          "sha256": "0b79f810119b9a6df78d098a421473455aba6510cba48631f9957104fe33e4f6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0094/developer-handoff.md",
+          "sha256": "701f264f2e18a5ed97d6b6b9f75ef9835fad807038c818fe4f227becb0b30d65"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0094/technical-design.md",
+          "sha256": "272d5de615d86f39c43f588245a48ad88677be065d26ebcaa131abb887b06d25"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/optional-console-collector.test.mjs test/phase-4b.test.mjs",
+          "exact clean candidate revision: npm run verify",
+          "exact candidate revision: live optional Console cached and uncached performance measurement"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T07:08:00.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T073051Z-02DBFC72",
+      "work_item_id": "WI-0094",
+      "recorded_at": "2026-09-02T07:30:51.364Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent exact-revision Console performance QA",
+      "outcome": "pass",
+      "scope_revision": "d2e2e8ed9ec8fd9476a529cfc1f37790220341d7",
+      "observed_at": "2026-09-02T07:28:50.000Z",
+      "summary": "Lulu independently passed 25 focused tests, 280 full tests, responsive browser coverage, payload, cache, invalidation, and Usage truth checks.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0094/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0094/independent-qa-observation.json",
+          "sha256": "1679992f90e17a13e9459ae5f198c94a2821be63df725d03f48bc6d17710abc8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0094/quality-report.md",
+          "sha256": "d6ee9a6cb13b7f1eff2be6b03514b9a8506a7ee21cb22407d0da53721e3cfc1c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0094/evaluation-report.md",
+          "sha256": "dd4b5ef607111f41c64faa8aa32fa28bbe714d357c91527196157ca40b368df8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0094/independent-qa-report.md",
+          "sha256": "745fcb18f80bd24717ab9ce8415c3e217e074e5525bdfac9e2e7ede6f8f3162b"
+        }
+      ],
+      "details": {
+        "command": [
+          "clean detached worktree: npm ci && node --test test/optional-console-collector.test.mjs test/phase-4b.test.mjs",
+          "clean detached worktree: npm run verify",
+          "clean detached worktree: npm run test:browser",
+          "clean detached worktree: independent live Console cache, payload, invalidation, privacy, and Usage measurement harness",
+          "clean detached worktree: node ./templew.mjs doctor . --no-write --json",
+          "clean detached worktree: git status --short --branch and clean diff checks"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T07:16:00.000Z"
+      }
     }
   ]
 }

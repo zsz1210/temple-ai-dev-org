@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 101 total, 5 active
+- Work items: 101 total, 4 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -141,7 +141,7 @@
 | WI-0091 | Make Usage capture health truthful and verifiable | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `43444e1c` | 1 | 27 | 0 |
 | WI-0092 | Make Usage observation optional, managed, and gap-aware | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `ad888037` | 0 | 23 | 0 |
 | WI-0093 | Redact Usage runtime paths from private viewers | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ad888037` | 0 | 22 | 0 |
-| WI-0094 | Bound managed Usage snapshot latency and payload | intake | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
+| WI-0094 | Bound managed Usage snapshot latency and payload | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `d2e2e8ed` | 0 | 15 | 0 |
 | WI-0095 | Correct managed Observer cross-platform CI contract | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `4388cc84` | 0 | 24 | 0 |
 | WI-0096 | Harden Phase 4B fixture cleanup on Linux | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b8d5ef34` | 0 | 24 | 0 |
 | WI-0097 | Add adaptive first-run repository workflow onboarding | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1df63f06` | 0 | 12 | 0 |
@@ -282,14 +282,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T05:06:30.873Z | work_item_closed | WI-0097 | agent-mog |
-| 2026-09-02T05:06:30.873Z | release_gate_completed | WI-0097 | agent-mog |
-| 2026-09-02T05:06:30.656Z | work_item_claimed | WI-0097 | human-principal |
-| 2026-09-02T05:06:30.416Z | work_item_transitioned | WI-0097 | agent-lulu |
-| 2026-09-02T05:06:22.317Z | evidence_recorded | WI-0097 | human |
-| 2026-09-02T05:06:22.100Z | work_item_claimed | WI-0097 | human-principal |
-| 2026-09-02T05:06:21.856Z | work_item_transitioned | WI-0097 | agent-lulu |
-| 2026-09-02T05:06:15.345Z | work_item_transitioned | WI-0097 | agent-lulu |
+| 2026-09-02T07:31:55.126Z | work_item_closed | WI-0094 | agent-mog |
+| 2026-09-02T07:31:55.126Z | release_gate_completed | WI-0094 | agent-mog |
+| 2026-09-02T07:31:40.174Z | work_item_claimed | WI-0094 | human |
+| 2026-09-02T07:31:39.935Z | work_item_transitioned | WI-0094 | agent-lulu |
+| 2026-09-02T07:31:39.706Z | handoff_created | WI-0094 | agent-lulu |
+| 2026-09-02T07:31:12.297Z | work_item_claimed | WI-0094 | human |
+| 2026-09-02T07:31:12.047Z | work_item_transitioned | WI-0094 | agent-lulu |
+| 2026-09-02T07:31:11.820Z | handoff_created | WI-0094 | agent-lulu |
 
 ## Assignments
 

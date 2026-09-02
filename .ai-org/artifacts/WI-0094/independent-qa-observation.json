@@ -1,0 +1,38 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "d2e2e8ed9ec8fd9476a529cfc1f37790220341d7",
+  "command": [
+    "clean detached worktree: npm ci && node --test test/optional-console-collector.test.mjs test/phase-4b.test.mjs",
+    "clean detached worktree: npm run verify",
+    "clean detached worktree: npm run test:browser",
+    "clean detached worktree: independent live Console cache, payload, invalidation, privacy, and Usage measurement harness",
+    "clean detached worktree: node ./templew.mjs doctor . --no-write --json",
+    "clean detached worktree: git status --short --branch and clean diff checks"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T07:16:00.000Z",
+  "completed_at": "2026-09-02T07:28:50.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0094/quality-report.md",
+    ".ai-org/artifacts/WI-0094/evaluation-report.md",
+    ".ai-org/artifacts/WI-0094/independent-qa-report.md"
+  ],
+  "summary": {
+    "focused_tests_passed": 25,
+    "full_tests_passed": 280,
+    "browser_viewports_passed": 4,
+    "browser_primary_views_per_viewport": 6,
+    "console_payload_bytes": 336650,
+    "console_uncached_p95_ms": 985.410,
+    "console_cached_p95_ms": 3.892,
+    "console_invalidated_rebuild_ms": 911.811,
+    "usage_p95_ms": 26.345,
+    "usage_payload_bytes": 13305,
+    "usage_observations_before": 2,
+    "usage_observations_after": 3,
+    "doctor_failures": 0,
+    "candidate_worktree_clean": true
+  }
+}
+

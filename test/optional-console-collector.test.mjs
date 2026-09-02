@@ -249,6 +249,67 @@ test("the Console snapshot removes local mutation and telemetry path details", (
   assert.equal(Object.hasOwn(safe.usage.source, "state_directory"), false);
 });
 
+test("the Console snapshot omits duplicate evidence and Provider task history", () => {
+  const retainedProviderHistory = "provider-history".repeat(65536);
+  const snapshot = {
+    authority: { canonical: ".ai-org/" },
+    observer: {
+      schema_version: "temple.observer/v1",
+      project: { id: "compact-product", name: "Compact Product" },
+      organization: { profile: "solo", agents: [] },
+      evidence: { total: 1, items: [{ body: retainedProviderHistory }] },
+      work: { total: 1, items: [{ id: "WI-0001" }] },
+      timeline: [{ name: "duplicate-canonical-event" }]
+    },
+    live_observer: {
+      work: {
+        total: 1,
+        categories: { active: 1 },
+        items: [{
+          id: "WI-0001",
+          title: "Compact the viewer projection",
+          state: "build",
+          owner_position: "developer",
+          tasks: [{
+            id: "task-0001",
+            position_id: "developer",
+            registered_status: "active",
+            items: [{ body: retainedProviderHistory }],
+            usage: { total: { total_tokens: 42 } }
+          }]
+        }]
+      },
+      tasks: {
+        total: 1,
+        live: 1,
+        history_only: 0,
+        registered_only: 0,
+        items: [{ id: "task-0001", items: [{ body: retainedProviderHistory }] }]
+      },
+      timeline: [{ name: "current-event" }],
+      attention: []
+    },
+    usage: {
+      source: { state_directory: "/private/runtime", observations: 1 },
+      totals: { total_tokens: 42 },
+      driver_groups: []
+    },
+    conditions: { summary: { firing: 0 }, conditions: [] },
+    providers: { providers: [] },
+    journal: { retained_events: 1 }
+  };
+  const safe = managementConsoleSnapshot(snapshot);
+
+  assert.deepEqual(safe.observer.organization, snapshot.observer.organization);
+  assert.equal(Object.hasOwn(safe.observer, "evidence"), false);
+  assert.equal(Object.hasOwn(safe.observer, "work"), false);
+  assert.equal(Object.hasOwn(safe.live_observer.tasks, "items"), false);
+  assert.equal(Object.hasOwn(safe.live_observer.work.items[0].tasks[0], "items"), false);
+  assert.equal(safe.live_observer.work.items[0].tasks[0].usage.total.total_tokens, 42);
+  assert.equal(safe.usage.totals.total_tokens, 42);
+  assert.ok(JSON.stringify(safe).length < JSON.stringify(snapshot).length / 10);
+});
+
 test("CLI help presents Console and collection as separate optional commands", () => {
   const help = run(["--help"]);
   assert.equal(help.status, 0, help.stderr || help.stdout);
