@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 94 total, 5 active
+- Work items: 95 total, 6 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -39,7 +39,7 @@
 - Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 1 / 3 / 1
+- Active / sequential / blocked: 1 / 4 / 1
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -132,7 +132,7 @@
 | WI-0083 | Add matched model evaluation and advisory recommendations | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a0be19c7` | 0 | 23 | 0 |
 | WI-0084 | Reconcile release truth and refresh the public roadmap | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `dbfa2b7c` | 0 | 21 | 0 |
 | WI-0085 | Harden Temple for the first public alpha | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `31eb1707` | 0 | 22 | 0 |
-| WI-0086 | Prepare the first public Alpha release candidate | blocked | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902001951-674f89d0 | `fe9f7d98` | 0 | 18 | 0 |
+| WI-0086 | Prepare the first public Alpha release candidate | blocked | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `fe9f7d98` | 0 | 18 | 0 |
 | WI-0087 | Stabilize Linux temporary Git cleanup for Alpha.29 | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `680230f0` | 0 | 17 | 0 |
 | WI-0088 | Add real-browser Management Console regression coverage | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1a82106c` | 0 | 23 | 0 |
 | WI-0089 | Make Codex task titles outcome-first and refreshable | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `86b0cdf4` | 0 | 23 | 0 |
@@ -141,6 +141,7 @@
 | WI-0092 | Make Usage observation optional, managed, and gap-aware | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `ad888037` | 0 | 23 | 0 |
 | WI-0093 | Redact Usage runtime paths from private viewers | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ad888037` | 0 | 22 | 0 |
 | WI-0094 | Bound managed Usage snapshot latency and payload | intake | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
+| WI-0095 | Correct managed Observer cross-platform CI contract | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902020359-74404617 | `—` | 0 | 9 | 0 |
 
 ## Codex task registry
 
@@ -262,14 +263,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T01:43:31.791Z | work_item_coordination_configured | WI-0094 | agent-mog |
-| 2026-09-02T01:39:00.254Z | work_item_coordination_configured | WI-0094 | agent-mog |
-| 2026-09-02T01:38:59.916Z | work_item_created | WI-0094 | agent-mog |
-| 2026-09-02T01:38:42.922Z | work_item_closed | WI-0092 | agent-mog |
-| 2026-09-02T01:38:42.922Z | release_gate_completed | WI-0092 | agent-mog |
-| 2026-09-02T01:38:01.445Z | work_item_claimed | WI-0092 | human |
-| 2026-09-02T01:37:47.203Z | work_item_transitioned | WI-0092 | agent-lulu |
-| 2026-09-02T01:37:46.839Z | handoff_created | WI-0092 | agent-lulu |
+| 2026-09-02T02:06:15.555Z | work_item_claim_released | WI-0086 | human |
+| 2026-09-02T02:03:59.487Z | work_item_claimed | WI-0095 | human |
+| 2026-09-02T02:03:59.143Z | work_item_coordination_configured | WI-0095 | agent-rikku |
+| 2026-09-02T02:03:58.826Z | work_item_transitioned | WI-0095 | agent-tidus |
+| 2026-09-02T02:03:58.496Z | handoff_created | WI-0095 | agent-tidus |
+| 2026-09-02T02:03:37.962Z | work_item_claimed | WI-0095 | human |
+| 2026-09-02T02:03:37.618Z | work_item_coordination_configured | WI-0095 | agent-tidus |
+| 2026-09-02T02:03:37.291Z | work_item_transitioned | WI-0095 | agent-yuna |
 
 ## Assignments
 

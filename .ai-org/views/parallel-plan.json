@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-02T01:43:59.506Z",
-  "source_fingerprint": "3d33803475644aab19fbb9d439e69ab2b65248db74889890a007b43366c45253",
+  "generated_at": "2026-09-02T02:06:15.992Z",
+  "source_fingerprint": "27d37e40e8c7577ccedeb05521b23bd9cb2f99d2afd72dee2efcc5824b48bedd",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -10,33 +10,34 @@
       "WI-0064",
       "WI-0067",
       "WI-0086",
-      "WI-0094"
+      "WI-0094",
+      "WI-0095"
     ]
   },
   "max_workers": 3,
   "summary": {
-    "selected": 5,
+    "selected": 6,
     "dispatchable": 0,
     "active": 1,
-    "sequential": 3,
+    "sequential": 4,
     "blocked": 1,
     "waves": 0
   },
   "waves": [],
   "active": [
     {
-      "work_item_id": "WI-0086",
-      "title": "Prepare the first public Alpha release candidate",
+      "work_item_id": "WI-0095",
+      "title": "Correct managed Observer cross-platform CI contract",
       "disposition": "active",
-      "position_id": "engineering_manager",
-      "agent_id": "agent-mog",
-      "integration_owner_agent_id": "agent-mog",
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
+      "integration_owner_agent_id": null,
       "reasons": [],
-      "claim_id": "claim-20260902001951-674f89d0",
+      "claim_id": "claim-20260902020359-74404617",
       "principal_id": "human",
       "branch": "main",
       "worktree": null,
-      "base_revision": "cefba7394a498f0a64af8b0a117bc9b4da1e1897"
+      "base_revision": "eade0aea9c9cb2e25bf260909fb8419546f8399a"
     }
   ],
   "sequential": [
@@ -58,6 +59,17 @@
       "position_id": "engineering_manager",
       "agent_id": "agent-mog",
       "integration_owner_agent_id": null,
+      "reasons": [
+        "requested_mode_sequential"
+      ]
+    },
+    {
+      "work_item_id": "WI-0086",
+      "title": "Prepare the first public Alpha release candidate",
+      "disposition": "sequential",
+      "position_id": "engineering_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": "agent-mog",
       "reasons": [
         "requested_mode_sequential"
       ]

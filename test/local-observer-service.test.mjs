@@ -226,7 +226,7 @@ test("an active managed service cannot be replaced without explicit activation a
   assert.ok(calls.some((args) => args[0] === "bootout"));
 });
 
-test("the CLI previews, installs without activation, reports, and removes the exact plan", async (context) => {
+test("the CLI rejects unsupported hosts or completes the exact macOS service lifecycle", async (context) => {
   const state = await fixture(context);
   const common = [
     state.target,
@@ -238,6 +238,17 @@ test("the CLI previews, installs without activation, reports, and removes the ex
     "--json"
   ];
   const preview = run(["control-plane", "observer-plan", ...common]);
+  if (process.platform !== "darwin") {
+    assert.equal(preview.status, 1, preview.stderr || preview.stdout);
+    const unsupported = JSON.parse(preview.stdout);
+    assert.equal(unsupported.status, "unsupported-platform");
+    assert.equal(unsupported.supported, false);
+    assert.equal(unsupported.platform, process.platform);
+    assert.equal(unsupported.observation_mode, "managed-local");
+    await assert.rejects(() => fs.access(path.join(state.stateDirectory, "observer-service.json")));
+    await assert.rejects(() => fs.access(path.join(state.userHome, "Library", "LaunchAgents")));
+    return;
+  }
   assert.equal(preview.status, 0, preview.stderr || preview.stdout);
   const plan = JSON.parse(preview.stdout);
   const applied = run(["control-plane", "observer-apply", ...common, "--expected-plan", plan.plan_digest]);
