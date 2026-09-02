@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-02T02:06:15.992Z",
-  "source_fingerprint": "27d37e40e8c7577ccedeb05521b23bd9cb2f99d2afd72dee2efcc5824b48bedd",
+  "generated_at": "2026-09-02T02:14:16.100Z",
+  "source_fingerprint": "41eb56e1074baca20398534a2638d05218de322ecafbc182fa9457aa104efa9d",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -29,15 +29,15 @@
       "work_item_id": "WI-0095",
       "title": "Correct managed Observer cross-platform CI contract",
       "disposition": "active",
-      "position_id": "developer",
-      "agent_id": "agent-rikku",
+      "position_id": "release_manager",
+      "agent_id": "agent-mog",
       "integration_owner_agent_id": null,
       "reasons": [],
-      "claim_id": "claim-20260902020359-74404617",
+      "claim_id": "claim-20260902021415-8614f134",
       "principal_id": "human",
       "branch": "main",
       "worktree": null,
-      "base_revision": "eade0aea9c9cb2e25bf260909fb8419546f8399a"
+      "base_revision": "4388cc84d969dc66574745829cb071115872e37d"
     }
   ],
   "sequential": [

@@ -141,7 +141,7 @@
 | WI-0092 | Make Usage observation optional, managed, and gap-aware | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `ad888037` | 0 | 23 | 0 |
 | WI-0093 | Redact Usage runtime paths from private viewers | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ad888037` | 0 | 22 | 0 |
 | WI-0094 | Bound managed Usage snapshot latency and payload | intake | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
-| WI-0095 | Correct managed Observer cross-platform CI contract | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902020359-74404617 | `—` | 0 | 9 | 0 |
+| WI-0095 | Correct managed Observer cross-platform CI contract | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902021415-8614f134 | `4388cc84` | 0 | 19 | 0 |
 
 ## Codex task registry
 
@@ -263,14 +263,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T02:06:15.555Z | work_item_claim_released | WI-0086 | human |
-| 2026-09-02T02:03:59.487Z | work_item_claimed | WI-0095 | human |
-| 2026-09-02T02:03:59.143Z | work_item_coordination_configured | WI-0095 | agent-rikku |
-| 2026-09-02T02:03:58.826Z | work_item_transitioned | WI-0095 | agent-tidus |
-| 2026-09-02T02:03:58.496Z | handoff_created | WI-0095 | agent-tidus |
-| 2026-09-02T02:03:37.962Z | work_item_claimed | WI-0095 | human |
-| 2026-09-02T02:03:37.618Z | work_item_coordination_configured | WI-0095 | agent-tidus |
-| 2026-09-02T02:03:37.291Z | work_item_transitioned | WI-0095 | agent-yuna |
+| 2026-09-02T02:14:15.724Z | work_item_claimed | WI-0095 | human |
+| 2026-09-02T02:14:15.366Z | work_item_coordination_configured | WI-0095 | agent-mog |
+| 2026-09-02T02:14:15.038Z | work_item_transitioned | WI-0095 | agent-lulu |
+| 2026-09-02T02:14:14.695Z | handoff_created | WI-0095 | agent-lulu |
+| 2026-09-02T02:14:05.808Z | evidence_recorded | WI-0095 | human |
+| 2026-09-02T02:11:52.932Z | work_item_claimed | WI-0095 | human |
+| 2026-09-02T02:11:52.584Z | work_item_coordination_configured | WI-0095 | agent-lulu |
+| 2026-09-02T02:11:52.258Z | work_item_transitioned | WI-0095 | agent-lulu |
 
 ## Assignments
 

@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0095",
   "title": "Correct managed Observer cross-platform CI contract",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-02T02:02:30.549Z",
-  "updated_at": "2026-09-02T02:03:59.487Z",
+  "updated_at": "2026-09-02T02:14:15.724Z",
   "scope": [
     "Correct the managed-local Observer CLI integration test so macOS verifies the service lifecycle while unsupported hosts verify explicit rejection and no service-state writes."
   ],
@@ -33,22 +33,22 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "eade0aea9c9cb2e25bf260909fb8419546f8399a",
+  "base_revision": "4388cc84d969dc66574745829cb071115872e37d",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
-  "planned_agent_id": "agent-rikku",
+  "planned_agent_id": "agent-mog",
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260902020359-74404617",
+    "id": "claim-20260902021415-8614f134",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "eade0aea9c9cb2e25bf260909fb8419546f8399a",
+    "agent_id": "agent-mog",
+    "base_revision": "4388cc84d969dc66574745829cb071115872e37d",
     "branch": "main",
     "worktree": null,
-    "claimed_at": "2026-09-02T02:03:59.487Z",
+    "claimed_at": "2026-09-02T02:14:15.724Z",
     "released_at": null
   },
   "claims": [
@@ -78,13 +78,49 @@
     },
     {
       "id": "claim-20260902020359-74404617",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "eade0aea9c9cb2e25bf260909fb8419546f8399a",
       "branch": "main",
       "worktree": null,
       "claimed_at": "2026-09-02T02:03:59.487Z",
+      "released_at": "2026-09-02T02:11:07.155Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902021107-06e58327",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "4388cc84d969dc66574745829cb071115872e37d",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-02T02:11:07.839Z",
+      "released_at": "2026-09-02T02:11:52.258Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902021152-a38477cd",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "4388cc84d969dc66574745829cb071115872e37d",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-02T02:11:52.932Z",
+      "released_at": "2026-09-02T02:14:15.038Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902021415-8614f134",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "4388cc84d969dc66574745829cb071115872e37d",
+      "branch": "main",
+      "worktree": null,
+      "claimed_at": "2026-09-02T02:14:15.724Z",
       "released_at": null
     }
   ],
@@ -103,6 +139,22 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0095/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0095/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260902T021054Z-C8E4BF78",
+      ".ai-org/artifacts/WI-0095/exact-candidate-verification.md"
+    ],
+    "test_evidence": [
+      "EVID-20260902T021139Z-E7AFD6E3"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0095/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260902T021405Z-7DBC0E9E"
     ]
   },
   "evidence": [
@@ -114,10 +166,20 @@
     ".ai-org/artifacts/WI-0095/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0095/technical-design.md",
     ".ai-org/artifacts/WI-0095/risk-review.md",
-    ".ai-org/artifacts/WI-0095/ui-design-brief.md"
+    ".ai-org/artifacts/WI-0095/ui-design-brief.md",
+    ".ai-org/artifacts/WI-0095/handoff-004-developer-to-quality_evaluator.md",
+    "EVID-20260902T021054Z-C8E4BF78",
+    ".ai-org/artifacts/WI-0095/exact-candidate-verification.md",
+    "EVID-20260902T021139Z-E7AFD6E3",
+    ".ai-org/artifacts/WI-0095/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0095/quality-report.md",
+    ".ai-org/artifacts/WI-0095/evaluation-report.md",
+    ".ai-org/artifacts/WI-0095/handoff-006-independent_qa-to-release_manager.md",
+    "EVID-20260902T021405Z-7DBC0E9E",
+    ".ai-org/artifacts/WI-0095/independent-qa-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -139,6 +201,28 @@
       "input_revision": "eade0aea9c9cb2e25bf260909fb8419546f8399a",
       "artifact": ".ai-org/artifacts/WI-0095/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-02T02:03:58.496Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "4388cc84d969dc66574745829cb071115872e37d",
+      "artifact": ".ai-org/artifacts/WI-0095/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-02T02:11:06.830Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "4388cc84d969dc66574745829cb071115872e37d",
+      "artifact": ".ai-org/artifacts/WI-0095/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-02T02:11:51.922Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "4388cc84d969dc66574745829cb071115872e37d",
+      "artifact": ".ai-org/artifacts/WI-0095/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-02T02:14:14.695Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "4388cc84d969dc66574745829cb071115872e37d"
 }
