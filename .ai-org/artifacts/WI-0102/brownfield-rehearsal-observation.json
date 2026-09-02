@@ -1,0 +1,95 @@
+{
+  "schema_version": "temple.brownfield-adoption-observation/v1",
+  "work_item_id": "WI-0102",
+  "result": "pass",
+  "started_at": "2026-09-02T07:55:14.025Z",
+  "completed_at": "2026-09-02T07:55:16.456Z",
+  "environment": {
+    "platform": "darwin",
+    "architecture": "arm64",
+    "node": "v24.20.0",
+    "git": "git version 2.50.1 (Apple Git-155)"
+  },
+  "fixture": {
+    "project_id": "ledger-lantern",
+    "kind": "isolated-local-existing-repository",
+    "initial_revision": "0b5db9278e97b8517af60272bd871be9a7bd3688",
+    "adoption_revision": "030be5e343a1a1c22da2e910f48f86023fec00e0",
+    "plan_revision": "b66a80b39f09fef6d8b452fd45d91407510ef537",
+    "candidate_revision": "29573bf8b5c7e72258626b993c2631c623ebaa27",
+    "final_revision": "e234c7ad006a8cef3e299d08899b3637d25c87e7",
+    "initial_commit_count": 2,
+    "final_commit_count": 6,
+    "original_history_preserved": true
+  },
+  "timing_ms": {
+    "setup": 163.745,
+    "temple_initialization": 518.668,
+    "bounded_delivery": 704.161,
+    "independent_qa": 138.586,
+    "total": 2438.036
+  },
+  "preservation": {
+    "project_native_documents": {
+      "README.md": "bea65417f16d69afb8e9165c11a740cf3d15a146f7a2c485ca090d3540d1f497",
+      "docs/requirements.md": "13c3c812efbc4a8f0b2c75cdc416b16f98315da6d054c8223dc2d1df1cd2e0fb",
+      "CONTRIBUTING.md": "078b37c6a7d1a338ad115f0974e9a24da60766f2f872c9dfb4342f223bd56f3a"
+    },
+    "unchanged_after_initialization": true,
+    "unchanged_after_closeout": true,
+    "repository_policy_status": "confirmed",
+    "repository_policy_refs": [
+      "CONTRIBUTING.md"
+    ]
+  },
+  "mutation_scope": {
+    "initialization_paths": [
+      ".agents/",
+      ".ai-org/",
+      ".codex/",
+      "AGENTS.md",
+      "TEMPLE.md",
+      "temple.lock",
+      "templew.mjs"
+    ],
+    "bounded_product_change_paths": [
+      "src/pricing.mjs",
+      "test/pricing.test.mjs"
+    ]
+  },
+  "verification": {
+    "application_tests_before": 1,
+    "developer_tests": 2,
+    "independent_qa_tests": 2,
+    "developer_agent_id": "agent-fixture-devon",
+    "independent_qa_agent_id": "agent-fixture-hollis",
+    "exact_candidate_reproduced": true,
+    "doctor": {
+      "pass": 37,
+      "warn": 0,
+      "fail": 0
+    },
+    "lifecycle_state": "done",
+    "external_release_status": "not_performed"
+  },
+  "usage": {
+    "token_measurement": "not_applicable_no_model_invoked",
+    "model_generation_requested": false,
+    "observer_required": false,
+    "usage_collector_required": false
+  },
+  "external_actions": {
+    "network_write": false,
+    "docker_installed_or_started": false,
+    "deployment": false,
+    "publication": false,
+    "release": false
+  },
+  "limitations": [
+    "Synthetic existing repository rather than an independently maintained product",
+    "One human operator and one local machine",
+    "Agent identity separation is organizational, not independent-human separation",
+    "No external document system, hosted pull request, CI, deployment, or production runtime",
+    "No model was invoked, so this run measures framework mechanics rather than AI Token cost"
+  ]
+}

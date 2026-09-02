@@ -1,6 +1,6 @@
 # Temple effectiveness and multi-repository validation plan
 
-- Status: first four-repository run stopped safely at the per-turn Token ceiling; replacement experiment not authorized
+- Status: Wave 1 local adoption baseline passed with limits; the first four-repository run remains stopped and no replacement model run is authorized
 - Scope: local-first synthetic validation
 - Public, production, GitHub, hosted CI, and paid actions: not authorized
 
@@ -138,6 +138,12 @@ This plan creates nothing outside the current repository. A later execution requ
 - any public, production, deployment, or release action.
 
 The experiment stops when a ceiling is reached, correlation is lost, authority would be crossed, QA independence fails, or the owner withholds the next gate. Stopping with an honest limitation is a valid outcome.
+
+## Cross-scenario adoption baseline
+
+The later [Wave 1 adoption evidence](../validation/wave-1-adoption-evidence.md) normalizes the retained FlowDeck, IdeaDock, AiPet, and self-host results and adds a no-generation brownfield rehearsal. That local baseline passed with limits: project-native documents and history were preserved, one exact-candidate lifecycle closed, and the optional Observer, Usage Collector, and Management Console were not required.
+
+This is complementary evidence, not a replacement for the stopped four-repository model experiment. Independent-human adoption, multi-machine collaboration, multi-repository delivery, and matched Temple-versus-baseline measurements remain separate later waves.
 
 ## Decision after this plan
 
