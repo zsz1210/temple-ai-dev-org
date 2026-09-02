@@ -105,6 +105,12 @@ async function readJson(relativePath) {
   return JSON.parse(await fs.readFile(path.join(repositoryRoot, relativePath), "utf8"));
 }
 
+async function readWorkItems() {
+  const directory = path.join(repositoryRoot, ".ai-org/work-items");
+  const names = (await fs.readdir(directory)).filter((entry) => /^WI-\d+\.json$/.test(entry)).sort();
+  return Promise.all(names.map(async (name) => JSON.parse(await fs.readFile(path.join(directory, name), "utf8"))));
+}
+
 async function writeJson(filePath, value) {
   await fs.mkdir(path.dirname(filePath), { recursive: true });
   const temporaryOutput = `${filePath}.tmp-${process.pid}`;
@@ -285,14 +291,15 @@ async function main() {
     .map((entry) => entry.slice(3).trim())
     .filter((entry) => entry && entry !== "node_modules" && entry !== outputRelativePath);
 
-  const [positions, assignments, collaboration, tracker, controlPlane, uiDesign, highAssurance] = await Promise.all([
+  const [positions, assignments, collaboration, tracker, controlPlane, uiDesign, highAssurance, workItems] = await Promise.all([
     readJson(".ai-org/core/positions.json"),
     readJson(".ai-org/project/assignments.json"),
     readJson(".ai-org/project/collaboration.json"),
     readJson(".ai-org/project/tracker.json"),
     readJson(".ai-org/project/control-plane.json"),
     readJson(".ai-org/core/ui-design.json"),
-    readJson(".ai-org/core/high-assurance.json")
+    readJson(".ai-org/core/high-assurance.json"),
+    readWorkItems()
   ]);
 
   const positionIds = positions.positions.map((entry) => entry.id);
@@ -313,6 +320,11 @@ async function main() {
   assert.equal(tracker.profile, "repository-only");
   assert.equal(tracker.providers.length, 0);
   assert.equal(tracker.default_provider_id, null);
+  const trackerMappingCount = workItems.reduce((sum, item) => sum + (item.tracker_refs?.length ?? 0), 0);
+  assert.equal(trackerMappingCount, 0);
+  assertArrayEqual(tracker.field_ownership.temple, ["lifecycle_state", "specification_refs", "interface_contracts", "gate_evidence", "claim", "tested_revision", "release_decision"], "Temple tracker field ownership drifted");
+  assertArrayEqual(tracker.field_ownership.external, ["priority", "iteration", "estimate", "due_date", "business_assignee", "labels"], "External tracker field ownership drifted");
+  assertArrayEqual(tracker.field_ownership.negotiated, ["title", "parent", "dependencies"], "Negotiated tracker field ownership drifted");
   assert.equal(controlPlane.server.host, "127.0.0.1");
   assert.equal(controlPlane.privacy.capture_raw_payloads, false);
   for (const key of ["authorization", "cookie", "password", "secret", "token"]) {
@@ -324,6 +336,14 @@ async function main() {
   const uiModes = Object.fromEntries(uiDesign.delivery_modes.map((entry) => [entry.id, entry]));
   assertArrayEqual(Object.keys(uiModes), ["not-applicable", "code-first", "preview-first", "design-led"], "UI modes drifted");
   assert.equal(uiDesign.tool_policy.required_tool, null);
+  assertArrayEqual(uiModes["not-applicable"].prebuild_evidence, [], "not-applicable prebuild evidence drifted");
+  assertArrayEqual(uiModes["not-applicable"].minimum_evidence, [], "not-applicable closeout evidence drifted");
+  assertArrayEqual(uiModes["code-first"].prebuild_evidence, ["ui_brief", "required_state_coverage"], "code-first prebuild evidence drifted");
+  assertArrayEqual(uiModes["code-first"].minimum_evidence, ["ui_brief", "runtime_visual_review", "required_state_coverage"], "code-first closeout evidence drifted");
+  assertArrayEqual(uiModes["preview-first"].prebuild_evidence, ["ui_brief", "preview_artifact", "review_record"], "preview-first prebuild evidence drifted");
+  assertArrayEqual(uiModes["preview-first"].minimum_evidence, ["ui_brief", "preview_artifact", "review_record", "runtime_visual_review"], "preview-first closeout evidence drifted");
+  assertArrayEqual(uiModes["design-led"].prebuild_evidence, ["ui_brief", "versioned_design_source", "approval_record", "implementation_mapping"], "design-led prebuild evidence drifted");
+  assertArrayEqual(uiModes["design-led"].minimum_evidence, ["ui_brief", "versioned_design_source", "approval_record", "implementation_mapping", "runtime_visual_review"], "design-led closeout evidence drifted");
   assert.equal(uiModes["preview-first"].preimplementation_visual_artifact_required, true);
   assert.equal(uiModes["design-led"].preimplementation_visual_artifact_required, true);
   for (const mode of ["code-first", "preview-first", "design-led"]) {
@@ -381,7 +401,7 @@ async function main() {
       claim: "The current project is repository-only and has no external mapping",
       status: "pass",
       evidenceClass: "verified-local",
-      facts: [`profile=${tracker.profile}`, `providers=${tracker.providers.length}`, "external_write_performed=false"],
+      facts: [`profile=${tracker.profile}`, `providers=${tracker.providers.length}`, `mappings=${trackerMappingCount}`, "field_ownership_asserted=true", "external_write_performed=false"],
       refs: [".ai-org/project/tracker.json", "docs/operations/task-and-tracker-coordination.md"],
       limitations: "This proves the local source-of-truth boundary, not external interoperability."
     }),
@@ -411,7 +431,7 @@ async function main() {
       claim: "Code-first and preview-first require named prebuild and runtime evidence",
       status: "pass",
       evidenceClass: "verified-local",
-      facts: ["four delivery modes present", "runtime_visual_review required for every interface mode", "preview-first requires a visual artifact"],
+      facts: ["four delivery modes and exact evidence arrays asserted", "runtime_visual_review required for every interface mode", "preview-first and design-led require ui_refs", "not-applicable forbids ui_refs"],
       refs: [".ai-org/core/ui-design.json", "test/workflow.test.mjs"],
       limitations: "Current exact tests enforce the contract; retained browser reviews are historical evidence on their recorded revisions."
     }),
@@ -536,12 +556,18 @@ async function main() {
       tracker: {
         profile: tracker.profile,
         providers: tracker.providers.length,
+        mappings: trackerMappingCount,
         default_provider_id: tracker.default_provider_id,
         sync_granularity: tracker.sync_granularity,
         field_ownership: tracker.field_ownership
       },
       ui_delivery: {
         modes: uiDesign.delivery_modes,
+        mode_requirements: uiDesign.delivery_modes.map((mode) => ({
+          id: mode.id,
+          ui_ref_required: mode.preimplementation_visual_artifact_required,
+          ui_refs_forbidden: mode.id === "not-applicable"
+        })),
         required_tool: uiDesign.tool_policy.required_tool,
         allowed_examples: uiDesign.tool_policy.allowed_examples
       },
