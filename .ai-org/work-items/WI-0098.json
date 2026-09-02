@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0098",
   "title": "Implement adaptive repository integration onboarding",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-02T03:19:20.276Z",
-  "updated_at": "2026-09-02T03:58:51.859Z",
+  "updated_at": "2026-09-02T05:03:31.653Z",
   "scope": [
     "Add a project-owned repository integration contract, seed it during init and upgrade, surface unconfirmed state, and teach AI-assisted initialization to inspect and confirm existing delivery policy without imposing a vendor workflow."
   ],
@@ -66,7 +66,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "f9323f582ffde3188f1d7dd917dac91d9091262e",
+  "base_revision": "1df63f06fe822a9e6dd9b2c665f742fd27aeac67",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-tidus",
   "planned_agent_id": null,
@@ -76,16 +76,16 @@
     "WI-0086: WI-0098 owns only adaptive onboarding and repository-integration wording/tests; WI-0086 retains public release approval and must requalify the resulting candidate."
   ],
   "claim": {
-    "id": "claim-20260902033622-a24c5d49",
+    "id": "claim-20260902050323-9b4850c4",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-lulu",
-    "base_revision": "f9323f582ffde3188f1d7dd917dac91d9091262e",
+    "agent_id": "agent-mog",
+    "base_revision": "1df63f06fe822a9e6dd9b2c665f742fd27aeac67",
     "branch": "codex/wi-0097-adaptive-onboarding",
     "worktree": null,
-    "claimed_at": "2026-09-02T03:36:22.782Z",
-    "released_at": "2026-09-02T03:37:50.842Z",
-    "release_reason": "position_transition"
+    "claimed_at": "2026-09-02T05:03:23.622Z",
+    "released_at": "2026-09-02T05:03:31.653Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -113,6 +113,18 @@
       "claimed_at": "2026-09-02T03:36:22.782Z",
       "released_at": "2026-09-02T03:37:50.842Z",
       "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902050323-9b4850c4",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "1df63f06fe822a9e6dd9b2c665f742fd27aeac67",
+      "branch": "codex/wi-0097-adaptive-onboarding",
+      "worktree": null,
+      "claimed_at": "2026-09-02T05:03:23.622Z",
+      "released_at": "2026-09-02T05:03:31.653Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -147,6 +159,18 @@
     ],
     "independent_qa_pass": [
       "EVID-20260902T033930Z-8C6B9CD2"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0097/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0098/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0098/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0098/joint-pr-review.md"
     ]
   },
   "evidence": [
@@ -160,12 +184,12 @@
     ".ai-org/artifacts/WI-0098/evaluation-report.md",
     ".ai-org/artifacts/WI-0098/handoff-002-independent_qa-to-release_manager.md",
     "EVID-20260902T033930Z-8C6B9CD2",
-    ".ai-org/artifacts/WI-0098/independent-qa-report.md"
+    ".ai-org/artifacts/WI-0098/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0098/release-record.md",
+    ".ai-org/artifacts/WI-0098/joint-pr-review.md"
   ],
-  "unresolved": [
-    "Complete pull-request review under CONTRIBUTING.md and GOVERNANCE.md before merging to main."
-  ],
-  "next_position": "engineering_manager",
+  "unresolved": [],
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -182,5 +206,9 @@
       "created_at": "2026-09-02T03:39:38.541Z"
     }
   ],
-  "developer_candidate_revision": "f9323f582ffde3188f1d7dd917dac91d9091262e"
+  "developer_candidate_revision": "f9323f582ffde3188f1d7dd917dac91d9091262e",
+  "tested_revision": "1df63f06fe822a9e6dd9b2c665f742fd27aeac67",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0098/joint-pr-review.md"
 }
