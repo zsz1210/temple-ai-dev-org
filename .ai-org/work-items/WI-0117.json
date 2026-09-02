@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0117",
   "title": "Run qualified Wave 5B lean workflow comparison",
-  "state": "test",
+  "state": "eval",
   "owner_position": "quality_evaluator",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-02T22:49:04.886Z",
-  "updated_at": "2026-09-02T23:27:03.500Z",
+  "updated_at": "2026-09-02T23:27:54.871Z",
   "scope": [
     "Prepare and, after the named usage approval, run two pinned engineering cases once under Temple lean and once under a minimal responsible workflow using the same GPT-5.6 Luna Medium profile.",
     "Run one separate fresh-context blind evaluator after four arm-neutral packages exist, freeze signed scores before unsealing the coordinator mapping, and retain exact usage, latency, quality, intervention, and revision evidence.",
@@ -177,6 +177,9 @@
     ],
     "developer_tests": [
       ".ai-org/artifacts/WI-0117/developer-live-test-observation.json"
+    ],
+    "test_evidence": [
+      "EVID-20260902T232749Z-39AAA91E"
     ]
   },
   "evidence": [
@@ -191,10 +194,11 @@
     ".ai-org/artifacts/WI-0117/handoff-004-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0117/developer-report.md",
     ".ai-org/artifacts/WI-0117/developer-live-test-observation.json",
-    "git:b8f41dd0e1255526f63c0e541ea480ef3d35e059"
+    "git:b8f41dd0e1255526f63c0e541ea480ef3d35e059",
+    "EVID-20260902T232749Z-39AAA91E"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "independent_qa",
   "handoffs": [
     {
       "from_position": "engineering_manager",

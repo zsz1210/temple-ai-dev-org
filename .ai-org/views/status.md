@@ -164,7 +164,7 @@
 | WI-0114 | Integrate the agent-led init and Claude entrypoint handshake | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `555cd6fd` | 0 | 21 | 0 |
 | WI-0115 | Validate clean agent-led greenfield onboarding | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `11012a38` | 0 | 19 | 0 |
 | WI-0116 | Analyze Wave 5A overhead and repair blind evaluation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2ec67d32` | 0 | 17 | 0 |
-| WI-0117 | Run qualified Wave 5B lean workflow comparison | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902232703-74d6ebf3 | `b8f41dd0` | 0 | 12 | 0 |
+| WI-0117 | Run qualified Wave 5B lean workflow comparison | eval | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902232703-74d6ebf3 | `b8f41dd0` | 0 | 13 | 0 |
 
 ## Codex task registry
 
@@ -302,14 +302,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-02T23:27:54.871Z | work_item_transitioned | WI-0117 | agent-lulu |
+| 2026-09-02T23:27:49.688Z | evidence_recorded | WI-0117 | human |
 | 2026-09-02T23:27:03.500Z | work_item_claimed | WI-0117 | human |
 | 2026-09-02T23:27:03.255Z | work_item_claim_released | WI-0117 | human |
 | 2026-09-02T23:26:51.149Z | work_item_claimed | WI-0117 | human |
 | 2026-09-02T23:26:50.773Z | evidence_recorded | WI-0117 | human |
 | 2026-09-02T23:26:34.624Z | work_item_transitioned | WI-0117 | agent-rikku |
 | 2026-09-02T23:26:34.338Z | handoff_created | WI-0117 | agent-rikku |
-| 2026-09-02T23:26:33.941Z | evidence_recorded | WI-0117 | human |
-| 2026-09-02T22:57:06.220Z | evidence_recorded | WI-0117 | human |
 
 ## Assignments
 
