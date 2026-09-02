@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0114",
   "title": "Integrate the agent-led init and Claude entrypoint handshake",
-  "state": "independent_qa",
-  "owner_position": "independent_qa",
-  "assigned_agent_id": "agent-lulu",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-02T17:07:59.838Z",
-  "updated_at": "2026-09-02T17:11:54.500Z",
+  "updated_at": "2026-09-02T17:19:19.685Z",
   "scope": [
     "Integrate the qualified agent-led post-init bootstrap contract and Claude entrypoint compatibility behavior onto current main without importing superseded Work Item state."
   ],
@@ -48,15 +48,16 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260902171154-c7c06a6d",
-    "status": "active",
+    "id": "claim-20260902171903-fc7c429f",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-lulu",
+    "agent_id": "agent-mog",
     "base_revision": "555cd6fd86494fe05419b55316abde9bd82147d8",
     "branch": "codex/wi-0114-agent-init-handshake-clean",
     "worktree": "/Users/zsz1210/.codex/worktrees/daaa/temple-ai-dev-org",
-    "claimed_at": "2026-09-02T17:11:54.500Z",
-    "released_at": null
+    "claimed_at": "2026-09-02T17:19:03.071Z",
+    "released_at": "2026-09-02T17:19:19.685Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -131,14 +132,29 @@
     },
     {
       "id": "claim-20260902171154-c7c06a6d",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-lulu",
       "base_revision": "555cd6fd86494fe05419b55316abde9bd82147d8",
       "branch": "codex/wi-0114-agent-init-handshake-clean",
       "worktree": "/Users/zsz1210/.codex/worktrees/daaa/temple-ai-dev-org",
       "claimed_at": "2026-09-02T17:11:54.500Z",
-      "released_at": null
+      "released_at": "2026-09-02T17:19:02.632Z",
+      "release_reason": [
+        "Independent QA GO handed to Release Manager"
+      ]
+    },
+    {
+      "id": "claim-20260902171903-fc7c429f",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "555cd6fd86494fe05419b55316abde9bd82147d8",
+      "branch": "codex/wi-0114-agent-init-handshake-clean",
+      "worktree": "/Users/zsz1210/.codex/worktrees/daaa/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T17:19:03.071Z",
+      "released_at": "2026-09-02T17:19:19.685Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -170,6 +186,21 @@
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0114/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260902T171846Z-3ACB85D1"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0114/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0114/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0114/release-record.md"
+    ],
+    "required_human_approval": [
+      "user-authorized-pr-and-main-merge-2026-09-03"
     ]
   },
   "evidence": [
@@ -187,10 +218,16 @@
     ".ai-org/artifacts/WI-0114/developer-report.md",
     "EVID-20260902T171141Z-E7EA2601",
     ".ai-org/artifacts/WI-0114/handoff-005-quality_evaluator-to-independent_qa.md",
-    ".ai-org/artifacts/WI-0114/evaluation-report.md"
+    ".ai-org/artifacts/WI-0114/evaluation-report.md",
+    ".ai-org/artifacts/WI-0114/handoff-006-independent_qa-to-release_manager.md",
+    "EVID-20260902T171846Z-3ACB85D1",
+    ".ai-org/artifacts/WI-0114/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0114/release-gate-review.md",
+    ".ai-org/artifacts/WI-0114/rollback-plan.md",
+    ".ai-org/artifacts/WI-0114/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "release_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -226,7 +263,18 @@
       "input_revision": "555cd6fd86494fe05419b55316abde9bd82147d8",
       "artifact": ".ai-org/artifacts/WI-0114/handoff-005-quality_evaluator-to-independent_qa.md",
       "created_at": "2026-09-02T17:11:53.852Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "555cd6fd86494fe05419b55316abde9bd82147d8",
+      "artifact": ".ai-org/artifacts/WI-0114/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-02T17:19:02.396Z"
     }
   ],
-  "developer_candidate_revision": "555cd6fd86494fe05419b55316abde9bd82147d8"
+  "developer_candidate_revision": "555cd6fd86494fe05419b55316abde9bd82147d8",
+  "tested_revision": "555cd6fd86494fe05419b55316abde9bd82147d8",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "user-authorized-pr-and-main-merge-2026-09-03"
 }

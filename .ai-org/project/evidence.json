@@ -17418,6 +17418,85 @@
         "exit_code": 0,
         "started_at": "2026-09-02T17:10:50.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T171846Z-3ACB85D1",
+      "work_item_id": "WI-0114",
+      "recorded_at": "2026-09-02T17:18:46.675Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0114 Independent QA",
+      "outcome": "pass",
+      "scope_revision": "555cd6fd86494fe05419b55316abde9bd82147d8",
+      "observed_at": "2026-09-02T17:17:21.000Z",
+      "summary": "Fresh detached Independent QA passed 296 full tests and 332 adversarial assertions on the exact candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0114/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0114/independent-qa-observation.json",
+          "sha256": "e741e9c9c6a1503fea7bd501b23a09ab6dbd29f14c4d8e4f00b4e8ab7d9235bc"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0114/independent-qa-report.md",
+          "sha256": "7e6cd4e79570fce156f117d98c19eecbad474618767e20d8483e6c50dbb432aa"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0114/evaluation-report.md",
+          "sha256": "9807f1e06bb4be40cab7173f69bb757ecd2220c2fc6c36de306d3c87a08caecc"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached candidate: npm ci",
+          "fresh detached candidate: npm run verify",
+          "fresh detached candidate: node --check qa.mjs",
+          "fresh detached candidate: 10s-bounded traceability and behavior adversarial harness",
+          "fresh detached candidate: git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T17:12:57.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T171903Z-5FB16184",
+      "work_item_id": "WI-0114",
+      "recorded_at": "2026-09-02T17:19:03.266Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "555cd6fd86494fe05419b55316abde9bd82147d8",
+      "observed_at": "2026-09-02T17:19:03.266Z",
+      "summary": "Revert the WI-0114 merge through a reviewed PR and rerun full verification.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0114/rollback-plan.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0114/rollback-plan.md",
+          "sha256": "acb277cb868a679bba516ef5763a9e297eac71a2199f9ee7df8551698f9ad217"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0114/rollback-plan.md"
+      }
     }
   ]
 }
