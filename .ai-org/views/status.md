@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 101 total, 4 active
+- Work items: 102 total, 5 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -149,6 +149,7 @@
 | WI-0099 | Adopt Node.js 24 minimum and local-first bounded CI | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1df63f06` | 0 | 14 | 0 |
 | WI-0100 | Separate optional Management Console from Usage collection | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3c94b998` | 0 | 14 | 0 |
 | WI-0101 | Present the optional Console as read-only and verify managed collection | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `3c94b998` | 0 | 14 | 0 |
+| WI-0102 | Validate brownfield adoption and normalize Wave 1 evidence | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902074920-8c0fa481 | `—` | 0 | 3 | 0 |
 
 ## Codex task registry
 
@@ -282,14 +283,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T07:31:55.126Z | work_item_closed | WI-0094 | agent-mog |
-| 2026-09-02T07:31:55.126Z | release_gate_completed | WI-0094 | agent-mog |
-| 2026-09-02T07:31:40.174Z | work_item_claimed | WI-0094 | human |
-| 2026-09-02T07:31:39.935Z | work_item_transitioned | WI-0094 | agent-lulu |
-| 2026-09-02T07:31:39.706Z | handoff_created | WI-0094 | agent-lulu |
-| 2026-09-02T07:31:12.297Z | work_item_claimed | WI-0094 | human |
-| 2026-09-02T07:31:12.047Z | work_item_transitioned | WI-0094 | agent-lulu |
-| 2026-09-02T07:31:11.820Z | handoff_created | WI-0094 | agent-lulu |
+| 2026-09-02T07:49:20.964Z | work_item_claimed | WI-0102 | human |
+| 2026-09-02T07:49:20.701Z | work_item_transitioned | WI-0102 | agent-tidus |
+| 2026-09-02T07:46:02.311Z | work_item_claimed | WI-0102 | human |
+| 2026-09-02T07:46:02.053Z | work_item_transitioned | WI-0102 | agent-yuna |
+| 2026-09-02T07:45:06.807Z | work_item_claimed | WI-0102 | human |
+| 2026-09-02T07:44:29.071Z | work_item_transitioned | WI-0102 | agent-mog |
+| 2026-09-02T07:44:28.858Z | work_item_claimed | WI-0102 | human |
+| 2026-09-02T07:43:31.650Z | work_item_coordination_configured | WI-0102 | agent-mog |
 
 ## Assignments
 

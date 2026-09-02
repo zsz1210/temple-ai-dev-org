@@ -1,0 +1,136 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0102",
+  "title": "Validate brownfield adoption and normalize Wave 1 evidence",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-02T07:42:44.798Z",
+  "updated_at": "2026-09-02T07:49:20.964Z",
+  "scope": [
+    "Normalize retained greenfield, cold-task, recovery, and adaptive-onboarding evidence into one limitation-aware Wave 1 matrix.",
+    "Run a deterministic isolated brownfield rehearsal that preserves project-native documentation and repository workflow while completing one bounded lifecycle."
+  ],
+  "acceptance_criteria": [
+    "The matrix distinguishes directly reusable evidence, partial evidence, and genuinely unverified scenarios without converting one pilot into a broader claim.",
+    "The isolated brownfield fixture preserves pre-existing README, requirements, contribution policy, Git history, and source outside the authorized sample change.",
+    "The initialized fixture records its existing repository integration policy, completes one bounded Work Item through exact-revision QA and closeout, and reports elapsed time, mutation scope, tests, and retained limitations.",
+    "No model generation, original-project mutation, external write, Docker installation, publication, deployment, or release occurs."
+  ],
+  "affected_paths": [
+    "docs/validation/wave-1-adoption-evidence.md",
+    "docs/validation/README.md",
+    "docs/planning/temple-effectiveness-and-microservice-validation.md",
+    "scripts/validate-brownfield-adoption.mjs",
+    ".ai-org/artifacts/WI-0102"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "2d2ec7911118473b9f0aae79c638dd1b1629c894",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-tidus",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0064 retains the blocked Provider reasoning-attribution revalidation; WI-0102 changes no Provider contract or attribution behavior and only reports that evidence as retained context.",
+    "WI-0067 retains the stopped four-repository manifest and its raw evidence; WI-0102 does not resume or rewrite that run and only adds a separate Wave 1 adoption record and validation-index entry.",
+    "WI-0086 retains public-Alpha release authority; WI-0102 is private, local-only validation and does not change release readiness, publication, repository visibility, or release evidence."
+  ],
+  "claim": {
+    "id": "claim-20260902074920-8c0fa481",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "2d2ec7911118473b9f0aae79c638dd1b1629c894",
+    "branch": "codex/wi-0102-brownfield-validation",
+    "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0102",
+    "claimed_at": "2026-09-02T07:49:20.964Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260902074428-1ae1da4f",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "2d2ec7911118473b9f0aae79c638dd1b1629c894",
+      "branch": "codex/wi-0102-brownfield-validation",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0102",
+      "claimed_at": "2026-09-02T07:44:28.858Z",
+      "released_at": "2026-09-02T07:44:29.071Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902074506-d9f3d231",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "2d2ec7911118473b9f0aae79c638dd1b1629c894",
+      "branch": "codex/wi-0102-brownfield-validation",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0102",
+      "claimed_at": "2026-09-02T07:45:06.807Z",
+      "released_at": "2026-09-02T07:46:02.053Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902074602-bdbc7d72",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "2d2ec7911118473b9f0aae79c638dd1b1629c894",
+      "branch": "codex/wi-0102-brownfield-validation",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0102",
+      "claimed_at": "2026-09-02T07:46:02.311Z",
+      "released_at": "2026-09-02T07:49:20.701Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902074920-8c0fa481",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "2d2ec7911118473b9f0aae79c638dd1b1629c894",
+      "branch": "codex/wi-0102-brownfield-validation",
+      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0102",
+      "claimed_at": "2026-09-02T07:49:20.964Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0102/approved-scope.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0102/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0102/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0102/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0102/technical-design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0102/approved-scope.md",
+    ".ai-org/artifacts/WI-0102/product-spec.md",
+    ".ai-org/artifacts/WI-0102/technical-design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
