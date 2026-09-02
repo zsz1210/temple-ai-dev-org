@@ -13,6 +13,15 @@ import {
   runValidationProgram,
   validateValidationProgramManifest
 } from "../../../src/validation-program.mjs";
+import {
+  commandItemAllowed,
+  normalizeTokenUsage,
+  parseStructuredCompletion,
+  protocolViolationForMessage,
+  terminalFailure,
+  WAVE5_ALLOWED_COMMAND_PREFIXES,
+  WAVE5_COMPLETION_SCHEMA
+} from "../../../src/app-server-protocol-replay.mjs";
 
 const execFile = promisify(execFileCallback);
 const frameworkRoot = path.resolve(import.meta.dirname, "../../..");
@@ -21,6 +30,8 @@ const expectedWorkItemId = argument("--work-item-id") ?? "WI-0107";
 const approvalPath = path.resolve(argument("--approval-path") ?? path.join(import.meta.dirname, "account-approval.json"));
 const preflightOutputPath = path.resolve(argument("--preflight-output") ?? path.join(import.meta.dirname, "preflight-observation.json"));
 const protocol = JSON.parse(await fs.readFile(path.join(fixtureRoot, "feasibility-protocol.json"), "utf8"));
+const toolPolicy = JSON.parse(await fs.readFile(path.join(fixtureRoot, "tool-policy.json"), "utf8"));
+const allowedCommandPrefixes = toolPolicy.allowed_command_prefixes;
 const defaultLabRoot = "/Users/zsz1210/Documents/ChatGPT/temple-wave-5a-lab";
 const labRoot = path.resolve(argument("--lab-root") ?? defaultLabRoot);
 const coordinatorRoot = path.join(labRoot, "coordinator");
@@ -39,19 +50,7 @@ const expectedSchemaDigests = Object.freeze({
   "ModelReroutedNotification.json": "37cd3c1b3a3560b85b01d4061a07d830fc9ed93b80e4663f975f9197cdb501ef",
   "TurnInterruptParams.json": "6dff382dae73d1dbc58406ed045605f647e7a49660e2540fbd2c6c24d60c5f2b"
 });
-const completionSchema = Object.freeze({
-  type: "object",
-  additionalProperties: false,
-  required: ["changed_paths", "test_command", "test_result", "assumptions", "remaining_risks"],
-  properties: {
-    changed_paths: { type: "array", items: { type: "string" } },
-    test_command: { type: "string" },
-    test_result: { type: "string" },
-    assumptions: { type: "array", items: { type: "string" } },
-    remaining_risks: { type: "array", items: { type: "string" } }
-  }
-});
-const allowedCommandPrefixes = ["rg", "sed", "node", "npm test", "git status", "git diff"];
+const completionSchema = WAVE5_COMPLETION_SCHEMA;
 
 function argument(name) {
   const index = process.argv.indexOf(name);
@@ -166,15 +165,15 @@ async function protocolPreflight() {
     rule: "The installed Responses structured-output subset rejects uniqueItems."
   });
   if (!outputSchemaPass) blockers.push("unsupported-output-schema-keyword");
-  const commandActionPolicyPass = commandAllowed({
+  const commandActionPolicyPass = JSON.stringify(allowedCommandPrefixes) === JSON.stringify(WAVE5_ALLOWED_COMMAND_PREFIXES) && commandItemAllowed({
     type: "commandExecution",
     command: "/bin/zsh -lc \"sed -n '1,320p' TASK.md\"",
     commandActions: [{ type: "read", command: "sed -n '1,320p' TASK.md", name: "TASK.md", path: "TASK.md" }]
-  }) && !commandAllowed({
+  }, allowedCommandPrefixes) && !commandItemAllowed({
     type: "commandExecution",
     command: "/bin/zsh -lc \"curl https://example.invalid\"",
     commandActions: [{ type: "unknown", command: "curl https://example.invalid" }]
-  });
+  }, allowedCommandPrefixes);
   checks.push({
     id: "provider-command-action-policy",
     pass: commandActionPolicyPass,
@@ -313,42 +312,6 @@ async function resolvedProgram() {
   };
 }
 
-function normalizedUsage(params) {
-  const total = params?.tokenUsage?.total;
-  if (!total) return null;
-  return {
-    input_tokens: total.inputTokens,
-    cached_input_tokens: total.cachedInputTokens,
-    output_tokens: total.outputTokens,
-    reasoning_output_tokens: total.reasoningOutputTokens,
-    total_tokens: total.totalTokens
-  };
-}
-
-function commandTextAllowed(value) {
-  if (typeof value !== "string" || /[\n\r;&|`]/.test(value)) return false;
-  const trimmed = value.trim();
-  return allowedCommandPrefixes.some((prefix) => trimmed === prefix || trimmed.startsWith(`${prefix} `));
-}
-
-function commandAllowed(item) {
-  if (item?.type !== "commandExecution" || !Array.isArray(item.commandActions) || item.commandActions.length === 0) return false;
-  return item.commandActions.every((action) => commandTextAllowed(action?.command));
-}
-
-function parseCompletion(text) {
-  if (typeof text !== "string") throw new Error("structured completion message missing");
-  const trimmed = text.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
-  const value = JSON.parse(trimmed);
-  for (const key of completionSchema.required) {
-    if (!Object.hasOwn(value, key)) throw new Error(`completion is missing ${key}`);
-  }
-  if (!Array.isArray(value.changed_paths) || !Array.isArray(value.assumptions) || !Array.isArray(value.remaining_risks)) {
-    throw new Error("completion arrays are invalid");
-  }
-  return value;
-}
-
 async function runTests(root, caseId) {
   const publicResult = await command("npm", ["test"], { cwd: root, timeout: 300000, env: { ...process.env, CI: "1" } });
   const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), `temple-wave5-${caseId}-`));
@@ -453,7 +416,6 @@ async function exportCandidate({ participant, turn, usage, completion, tests, st
 async function launchTurn({ turn, participant, instruction_path: instructionPath, signal, onUsage }) {
   const launchRevision = await git(participant.root, ["rev-parse", "HEAD"]);
   const instruction = await fs.readFile(instructionPath, "utf8");
-  const toolPolicy = JSON.parse(await fs.readFile(path.join(fixtureRoot, "tool-policy.json"), "utf8"));
   const developerInstructions = [
     "This is one bounded controlled-comparison candidate. Do not create subagents or ask the user questions.",
     `Allowed command prefixes: ${toolPolicy.allowed_command_prefixes.map((entry) => entry.join(" ")).join(", ")}.`,
@@ -486,20 +448,17 @@ async function launchTurn({ turn, participant, instruction_path: instructionPath
     onNotification(message) {
       const params = message.params ?? {};
       if (message.method === "thread/tokenUsage/updated" && (!turnId || params.turnId === turnId)) {
-        const usage = normalizedUsage(params);
+        const usage = normalizeTokenUsage(params);
         if (usage) {
           latestUsage = usage;
           usageQueue = usageQueue.then(() => onUsage(usage));
         }
       }
-      if (message.method === "model/rerouted" && (!turnId || params.turnId === turnId)) {
+      const protocolViolation = protocolViolationForMessage(message, { turnId, allowedCommandPrefixes });
+      if (protocolViolation?.code === "model-rerouted") {
         reroute = { from: params.fromModel ?? params.from_model ?? null, to: params.toModel ?? params.to_model ?? null };
-        void interrupt("model-rerouted");
       }
-      if (message.method === "item/started" && (!turnId || params.turnId === turnId)) {
-        const item = params.item;
-        if (item?.type === "commandExecution" && !commandAllowed(item)) void interrupt(`command-policy-violation:${String(item.command).slice(0, 120)}`);
-      }
+      if (protocolViolation) void interrupt(`${protocolViolation.code}:${protocolViolation.message}`);
       if (message.method === "item/completed" && (!turnId || params.turnId === turnId) && params.item?.type === "agentMessage") {
         completionText = params.item.text;
       }
@@ -516,7 +475,8 @@ async function launchTurn({ turn, participant, instruction_path: instructionPath
           // The turn is interrupted below; no alternate permission is granted.
         }
       }
-      void interrupt(`runtime-request:${message.method}`);
+      const protocolViolation = protocolViolationForMessage(message, { turnId, direction: "request", allowedCommandPrefixes });
+      if (protocolViolation) void interrupt(`${protocolViolation.code}:${protocolViolation.message}`);
     }
   });
 
@@ -560,18 +520,12 @@ async function launchTurn({ turn, participant, instruction_path: instructionPath
     await usageQueue;
     await new Promise((resolve) => setTimeout(resolve, 500));
     if (violation) throw Object.assign(new Error(violation), { code: violation.split(":")[0] });
-    if (!terminal || terminal.status !== "completed") {
-      const failureText = JSON.stringify(terminal?.error ?? {});
-      const invalidSchema = failureText.includes("invalid_json_schema");
-      throw Object.assign(
-        new Error(invalidSchema ? "provider rejected the structured-output schema before generation" : `turn terminal status ${terminal?.status ?? "missing"}`),
-        { code: invalidSchema ? "provider-invalid-output-schema" : "turn-not-completed" }
-      );
-    }
+    const terminalProblem = terminalFailure(terminal);
+    if (terminalProblem) throw Object.assign(new Error(terminalProblem.message), { code: terminalProblem.code });
     if (!latestUsage || !Number.isSafeInteger(latestUsage.total_tokens)) throw Object.assign(new Error("detailed Token usage is missing"), { code: "usage-missing" });
     if (reroute) throw Object.assign(new Error("model rerouted"), { code: "model-rerouted" });
 
-    const completion = parseCompletion(completionText);
+    const completion = parseStructuredCompletion(completionText);
     const changed = await changedPaths(participant.root);
     const disallowed = changed.filter((candidate) => !allowedPath(candidate));
     if (disallowed.length > 0) throw Object.assign(new Error(`out-of-scope changes: ${disallowed.join(", ")}`), { code: "path-allowlist-violation" });

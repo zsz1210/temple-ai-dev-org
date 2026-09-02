@@ -1,6 +1,6 @@
 # Wave 5 controlled comparison plan
 
-- Status: **execution attempted twice / mechanism not yet qualified**
+- Status: **execution attempted twice / offline protocol replay implemented / live mechanism not yet qualified**
 - Work Item: `WI-0106`
 - Evidence class: current official documentation, retained local telemetry, deterministic study design
 - Model generation in this Work Item: **none**
@@ -46,6 +46,18 @@ The repository owner approved the no-new-payment boundary after confirming that 
 
 Neither attempt completed a candidate, so the mechanism remains unqualified and there is no Temple-versus-minimal result. The observed Token count is Provider telemetry, not an account billing statement or Credit conversion.
 
+## Offline protocol gate
+
+`WI-0109` adds a deterministic no-generation replay gate before any further model-backed attempt. The live runner and replay tests now share the same pure interpretation helpers for structured command actions, detailed usage, terminal outcomes, Provider schema rejection, model reroutes, runtime permission requests, turn correlation, and structured completion validation.
+
+The bounded fixture covers ten positive and negative event sequences, including the shell-formatted `sed` command shape observed during `WI-0108`. It also proves that a mixed action list fails when even one action is forbidden. Run the focused gate locally:
+
+```bash
+node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs
+```
+
+This gate catches known interpretation and state-machine regressions without starting a Codex turn. It does not prove live transport availability, future Provider compatibility, account billing, or experiment success. The exact installed-schema preflight and explicit execution authority remain required.
+
 ## Why execution requires explicit authority
 
 The retained account probe confirmed that account usage is readable but unallocated. It cannot reserve a per-experiment budget. OpenAI documents that Pro included usage is consumed first and purchased Credits may be used after the included limit; automatic reload can also purchase Credits when enabled. A strict no-new-payment run therefore needs the owner to confirm the account setting before launch.
@@ -61,4 +73,4 @@ The proposed hard envelope is four sequential Luna Max turns, 80,000 total Token
 
 ## Next decision
 
-Before another model-backed attempt, review whether the two observed integration failures justify a separate dry-run protocol that exercises output-schema and command-policy handling against recorded App Server notifications without generation. Any further Luna turn requires a new Work Item, a new lab, and explicit execution authority; neither `WI-0107` nor `WI-0108` permits a retry.
+The no-generation replay gate must pass together with the exact installed-schema preflight before another model-backed attempt is considered. Any further Luna turn still requires a new Work Item, a new lab, and explicit execution authority; neither `WI-0107`, `WI-0108`, nor the offline-only `WI-0109` permits a retry.
