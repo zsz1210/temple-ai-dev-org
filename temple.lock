@@ -7,7 +7,7 @@
     "bootstrap": {
       "schema_version": "temple.cli-bootstrap/v1",
       "version": "0.1.0-alpha.29",
-      "node": "^22.0.0 || ^24.0.0",
+      "node": ">=24.0.0",
       "launcher": "templew.mjs",
       "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.29",
       "repository_spec": null,

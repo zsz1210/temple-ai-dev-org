@@ -9,7 +9,7 @@
 <p align="center">
   <a href="https://github.com/zsz1210/temple-ai-dev-org/actions/workflows/ci.yml"><img alt="CI status" src="https://github.com/zsz1210/temple-ai-dev-org/actions/workflows/ci.yml/badge.svg"></a>
   &nbsp;·&nbsp; Early Alpha
-  &nbsp;·&nbsp; Node.js 22 / 24 LTS
+  &nbsp;·&nbsp; Node.js 24+
   &nbsp;·&nbsp; <a href="LICENSE">MIT</a>
 </p>
 
@@ -54,7 +54,7 @@ A Work Item advances only when the next stage has the evidence it requires. Repo
 
 ## Start with one project
 
-Requirements: Git, Node.js 22 or 24 LTS, Codex, and a project directory.
+Requirements: Git, Node.js 24 or later, Codex, and a project directory. Node.js 24 is the CI baseline.
 
 Temple is currently installed from source:
 

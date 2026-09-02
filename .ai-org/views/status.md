@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 98 total, 7 active
+- Work items: 99 total, 8 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -146,6 +146,7 @@
 | WI-0096 | Harden Phase 4B fixture cleanup on Linux | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b8d5ef34` | 0 | 24 | 0 |
 | WI-0097 | Add adaptive first-run repository workflow onboarding | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 0 |
 | WI-0098 | Implement adaptive repository integration onboarding | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f9323f58` | 0 | 11 | 1 |
+| WI-0099 | Adopt Node.js 24 minimum and local-first bounded CI | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902041042-45bb6eaa | `—` | 0 | 3 | 0 |
 
 ## Codex task registry
 
@@ -279,14 +280,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T03:58:51.859Z | work_item_unresolved_updated | WI-0098 | agent-mog |
-| 2026-09-02T03:58:47.179Z | evidence_recorded | WI-0098 | human |
-| 2026-09-02T03:40:03.230Z | work_item_unresolved_updated | WI-0098 | agent-mog |
-| 2026-09-02T03:39:51.160Z | work_item_transitioned | WI-0098 | agent-lulu |
-| 2026-09-02T03:39:38.541Z | handoff_created | WI-0098 | agent-lulu |
-| 2026-09-02T03:39:30.386Z | evidence_recorded | WI-0098 | human |
-| 2026-09-02T03:37:50.842Z | work_item_transitioned | WI-0098 | agent-lulu |
-| 2026-09-02T03:37:35.999Z | work_item_transitioned | WI-0098 | agent-lulu |
+| 2026-09-02T04:10:42.684Z | work_item_claimed | WI-0099 | human |
+| 2026-09-02T04:10:37.874Z | work_item_transitioned | WI-0099 | agent-tidus |
+| 2026-09-02T04:10:16.000Z | work_item_claimed | WI-0099 | human |
+| 2026-09-02T04:10:03.337Z | work_item_transitioned | WI-0099 | agent-yuna |
+| 2026-09-02T04:09:56.374Z | work_item_claimed | WI-0099 | human |
+| 2026-09-02T04:09:48.318Z | work_item_transitioned | WI-0099 | agent-mog |
+| 2026-09-02T04:09:22.428Z | work_item_claimed | WI-0099 | human |
+| 2026-09-02T04:09:17.240Z | work_item_coordination_configured | WI-0099 | agent-mog |
 
 ## Assignments
 

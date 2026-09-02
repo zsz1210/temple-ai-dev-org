@@ -9,7 +9,7 @@
 <p align="center">
   <a href="https://github.com/zsz1210/temple-ai-dev-org/actions/workflows/ci.yml"><img alt="CI の状態" src="https://github.com/zsz1210/temple-ai-dev-org/actions/workflows/ci.yml/badge.svg"></a>
   &nbsp;·&nbsp; Early Alpha
-  &nbsp;·&nbsp; Node.js 22 / 24 LTS
+  &nbsp;·&nbsp; Node.js 24 以降
   &nbsp;·&nbsp; <a href="LICENSE">MIT</a>
 </p>
 
@@ -54,7 +54,7 @@ Work Item は、次の段階に必要な根拠がそろったときだけ先へ�
 
 ## 一つのプロジェクトから始める
 
-必要なものは Git、Node.js 22 または 24 LTS、Codex、導入先のプロジェクトディレクトリです。
+必要なものは Git、Node.js 24 以降、Codex、導入先のプロジェクトディレクトリです。CI では Node.js 24 を基準環境として検証します。
 
 現在の Temple はソースからインストールします。
 

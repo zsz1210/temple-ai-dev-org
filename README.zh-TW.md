@@ -9,7 +9,7 @@
 <p align="center">
   <a href="https://github.com/zsz1210/temple-ai-dev-org/actions/workflows/ci.yml"><img alt="CI 狀態" src="https://github.com/zsz1210/temple-ai-dev-org/actions/workflows/ci.yml/badge.svg"></a>
   &nbsp;·&nbsp; Early Alpha
-  &nbsp;·&nbsp; Node.js 22 / 24 LTS
+  &nbsp;·&nbsp; Node.js 24 以上
   &nbsp;·&nbsp; <a href="LICENSE">MIT</a>
 </p>
 
@@ -54,7 +54,7 @@ Work Item 只有在下一階段需要的依據都準備好之後，才會繼續�
 
 ## 從一個專案開始
 
-開始前請準備 Git、Node.js 22 或 24 LTS、Codex，以及要導入 Temple 的專案目錄。
+開始前請準備 Git、Node.js 24 以上版本、Codex，以及要導入 Temple 的專案目錄。目前 CI 以 Node.js 24 為基準。
 
 目前 Temple 從原始碼安裝：
 

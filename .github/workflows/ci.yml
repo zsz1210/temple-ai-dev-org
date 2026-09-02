@@ -16,29 +16,14 @@ permissions:
 
 jobs:
   verify:
-    name: Verify (Node.js ${{ matrix.node-version }})
+    name: Verify (Node.js 24)
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-    strategy:
-      fail-fast: false
-      matrix:
-        node-version:
-          - 22
-          - 24
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          fetch-depth: 0
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
-          node-version: ${{ matrix.node-version }}
-      - id: scope
-        name: Select verification scope
-        env:
-          CI_EVENT_NAME: ${{ github.event_name }}
-          CI_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
-          CI_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-        run: node scripts/ci-scope.mjs
+          node-version: 24
       - id: install
         name: Install pinned dependencies
         if: ${{ always() }}
@@ -49,80 +34,45 @@ jobs:
         run: npm run check
       - id: schema
         name: Governance — schema validation
-        if: ${{ always() && steps.install.outcome == 'success' && steps.scope.outputs.scope != 'documentation-only' }}
+        if: ${{ always() && steps.install.outcome == 'success' }}
         run: node ./templew.mjs schema validate . --json
       - id: doctor
         name: Governance — Doctor
-        if: ${{ always() && steps.install.outcome == 'success' && steps.scope.outputs.scope != 'documentation-only' }}
+        if: ${{ always() && steps.install.outcome == 'success' }}
         run: node ./templew.mjs doctor . --json
-      - id: behavior_evidence
-        name: Behavior — evidence/state contracts
-        if: ${{ always() && steps.install.outcome == 'success' && steps.scope.outputs.scope == 'evidence-state-only' }}
-        run: |
-          result=0
-          npm run test:fast || result=$?
-          node --test test/evidence-observer.test.mjs || result=$?
-          node --test --test-name-pattern="init, doctor, status, and idempotent re-init succeed" test/cli.test.mjs || result=$?
-          exit "$result"
-      - id: behavior_full
-        name: Behavior — full test suite
-        if: ${{ always() && steps.install.outcome == 'success' && (steps.scope.outputs.scope == 'full' || steps.scope.outcome != 'success') }}
-        run: npm run test:full
-      - id: browser_console
-        name: Browser — Management Console
-        if: ${{ always() && steps.install.outcome == 'success' && (steps.scope.outputs.scope == 'full' || steps.scope.outcome != 'success') && matrix.node-version == 24 }}
-        run: npm run test:browser
-      - id: behavior_documentation
-        name: Behavior — documentation-only result
-        if: ${{ always() && steps.scope.outputs.scope == 'documentation-only' }}
-        run: echo "Behavioral tests are not required for the strict documentation-only scope."
-      - name: Report verification lanes
+      - id: behavior
+        name: Behavior — bounded contract suite
+        if: ${{ always() && steps.install.outcome == 'success' }}
+        run: npm run test:fast
+      - name: Report verification results
         if: ${{ always() }}
         env:
-          SCOPE: ${{ steps.scope.outputs.scope || 'full' }}
-          SCOPE_REASON: ${{ steps.scope.outputs.reason || 'scope selection failed; full verification required' }}
-          SCOPE_OUTCOME: ${{ steps.scope.outcome }}
           INSTALL_OUTCOME: ${{ steps.install.outcome }}
           GOVERNANCE_OUTCOME: ${{ steps.governance.outcome }}
           SCHEMA_OUTCOME: ${{ steps.schema.outcome }}
           DOCTOR_OUTCOME: ${{ steps.doctor.outcome }}
-          EVIDENCE_BEHAVIOR_OUTCOME: ${{ steps.behavior_evidence.outcome }}
-          FULL_BEHAVIOR_OUTCOME: ${{ steps.behavior_full.outcome }}
-          BROWSER_CONSOLE_OUTCOME: ${{ steps.browser_console.outcome }}
-          DOCUMENTATION_BEHAVIOR_OUTCOME: ${{ steps.behavior_documentation.outcome }}
+          BEHAVIOR_OUTCOME: ${{ steps.behavior.outcome }}
         run: |
-          case "$SCOPE" in
-            documentation-only) behavior_outcome="$DOCUMENTATION_BEHAVIOR_OUTCOME" ;;
-            evidence-state-only) behavior_outcome="$EVIDENCE_BEHAVIOR_OUTCOME" ;;
-            *) behavior_outcome="$FULL_BEHAVIOR_OUTCOME" ;;
-          esac
           {
-            echo "### CI verification"
+            echo "### Bounded CI verification"
             echo
-            echo "- Scope: \`$SCOPE\`"
-            echo "- Scope reason: $SCOPE_REASON"
-            echo "- Scope selection: \`$SCOPE_OUTCOME\`"
+            echo "- Runtime: \`Node.js 24\`"
             echo "- Dependency install: \`$INSTALL_OUTCOME\`"
-            echo "- Governance / repository checks: \`$GOVERNANCE_OUTCOME\`"
-            echo "- Governance / schema: \`$SCHEMA_OUTCOME\`"
-            echo "- Governance / Doctor: \`$DOCTOR_OUTCOME\`"
-            echo "- Behavioral lane: \`$behavior_outcome\`"
-            echo "- Management Console browser: \`$BROWSER_CONSOLE_OUTCOME\`"
+            echo "- Repository checks: \`$GOVERNANCE_OUTCOME\`"
+            echo "- Schema validation: \`$SCHEMA_OUTCOME\`"
+            echo "- Doctor: \`$DOCTOR_OUTCOME\`"
+            echo "- Fast contracts: \`$BEHAVIOR_OUTCOME\`"
+            echo
+            echo "Full and browser verification remain local release evidence."
           } >> "$GITHUB_STEP_SUMMARY"
       - name: Enforce aggregated verification result
         if: ${{ always() }}
         env:
-          SCOPE: ${{ steps.scope.outputs.scope || 'full' }}
-          SCOPE_OUTCOME: ${{ steps.scope.outcome }}
           INSTALL_OUTCOME: ${{ steps.install.outcome }}
           GOVERNANCE_OUTCOME: ${{ steps.governance.outcome }}
           SCHEMA_OUTCOME: ${{ steps.schema.outcome }}
           DOCTOR_OUTCOME: ${{ steps.doctor.outcome }}
-          EVIDENCE_BEHAVIOR_OUTCOME: ${{ steps.behavior_evidence.outcome }}
-          FULL_BEHAVIOR_OUTCOME: ${{ steps.behavior_full.outcome }}
-          BROWSER_CONSOLE_OUTCOME: ${{ steps.browser_console.outcome }}
-          DOCUMENTATION_BEHAVIOR_OUTCOME: ${{ steps.behavior_documentation.outcome }}
-          NODE_VERSION: ${{ matrix.node-version }}
+          BEHAVIOR_OUTCOME: ${{ steps.behavior.outcome }}
         run: |
           failed=0
           require_success() {
@@ -131,24 +81,9 @@ jobs:
               failed=1
             fi
           }
-          require_success "Scope selection" "$SCOPE_OUTCOME"
           require_success "Dependency install" "$INSTALL_OUTCOME"
           require_success "Governance repository checks" "$GOVERNANCE_OUTCOME"
-          case "$SCOPE" in
-            documentation-only) require_success "Documentation-only behavioral result" "$DOCUMENTATION_BEHAVIOR_OUTCOME" ;;
-            evidence-state-only)
-              require_success "Governance schema validation" "$SCHEMA_OUTCOME"
-              require_success "Governance Doctor" "$DOCTOR_OUTCOME"
-              require_success "Evidence/state behavioral lane" "$EVIDENCE_BEHAVIOR_OUTCOME"
-              ;;
-            full)
-              require_success "Governance schema validation" "$SCHEMA_OUTCOME"
-              require_success "Governance Doctor" "$DOCTOR_OUTCOME"
-              require_success "Full behavioral lane" "$FULL_BEHAVIOR_OUTCOME"
-              if [ "$NODE_VERSION" = "24" ]; then
-                require_success "Management Console browser gate" "$BROWSER_CONSOLE_OUTCOME"
-              fi
-              ;;
-            *) echo "Unknown verification scope: $SCOPE"; failed=1 ;;
-          esac
+          require_success "Governance schema validation" "$SCHEMA_OUTCOME"
+          require_success "Governance Doctor" "$DOCTOR_OUTCOME"
+          require_success "Bounded contract suite" "$BEHAVIOR_OUTCOME"
           exit "$failed"
