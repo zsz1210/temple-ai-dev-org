@@ -42,7 +42,7 @@ const completionSchema = Object.freeze({
   additionalProperties: false,
   required: ["changed_paths", "test_command", "test_result", "assumptions", "remaining_risks"],
   properties: {
-    changed_paths: { type: "array", items: { type: "string" }, uniqueItems: true },
+    changed_paths: { type: "array", items: { type: "string" } },
     test_command: { type: "string" },
     test_result: { type: "string" },
     assumptions: { type: "array", items: { type: "string" } },
@@ -155,6 +155,14 @@ async function readApproval() {
 async function protocolPreflight() {
   const blockers = [];
   const checks = [];
+  const serializedOutputSchema = JSON.stringify(completionSchema);
+  const outputSchemaPass = !serializedOutputSchema.includes('"uniqueItems"');
+  checks.push({
+    id: "provider-output-schema-subset",
+    pass: outputSchemaPass,
+    rule: "The installed Responses structured-output subset rejects uniqueItems."
+  });
+  if (!outputSchemaPass) blockers.push("unsupported-output-schema-keyword");
   const version = (await command("codex", ["--version"])).stdout;
   checks.push({ id: "codex-cli-version", pass: version === expectedCliVersion, expected: expectedCliVersion, observed: version });
   if (version !== expectedCliVersion) blockers.push("codex-cli-version-drift");
@@ -528,7 +536,14 @@ async function launchTurn({ turn, participant, instruction_path: instructionPath
     await usageQueue;
     await new Promise((resolve) => setTimeout(resolve, 500));
     if (violation) throw Object.assign(new Error(violation), { code: violation.split(":")[0] });
-    if (!terminal || terminal.status !== "completed") throw Object.assign(new Error(`turn terminal status ${terminal?.status ?? "missing"}`), { code: "turn-not-completed" });
+    if (!terminal || terminal.status !== "completed") {
+      const failureText = JSON.stringify(terminal?.error ?? {});
+      const invalidSchema = failureText.includes("invalid_json_schema");
+      throw Object.assign(
+        new Error(invalidSchema ? "provider rejected the structured-output schema before generation" : `turn terminal status ${terminal?.status ?? "missing"}`),
+        { code: invalidSchema ? "provider-invalid-output-schema" : "turn-not-completed" }
+      );
+    }
     if (!latestUsage || !Number.isSafeInteger(latestUsage.total_tokens)) throw Object.assign(new Error("detailed Token usage is missing"), { code: "usage-missing" });
     if (reroute) throw Object.assign(new Error("model rerouted"), { code: "model-rerouted" });
 

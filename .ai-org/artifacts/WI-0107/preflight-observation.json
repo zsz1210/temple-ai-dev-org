@@ -1,10 +1,15 @@
 {
   "schema_version": "temple.wave-5a-preflight/v1",
-  "generated_at": "2026-09-02T12:36:14.608Z",
+  "generated_at": "2026-09-02T12:38:33.669Z",
   "pass": true,
   "generation_ready": true,
   "blockers": [],
   "checks": [
+    {
+      "id": "provider-output-schema-subset",
+      "pass": true,
+      "rule": "The installed Responses structured-output subset rejects uniqueItems."
+    },
     {
       "id": "codex-cli-version",
       "pass": true,

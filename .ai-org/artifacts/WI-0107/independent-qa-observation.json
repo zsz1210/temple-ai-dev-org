@@ -1,0 +1,31 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "working-tree-post-correction",
+  "command": [
+    "independently inspect the retained stopped state and event ledger",
+    "verify the four candidate revisions and clean states",
+    "verify no blind package exists",
+    "verify the structured-output correction and preflight regression check",
+    "npm run verify"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T12:40:00.000Z",
+  "completed_at": "2026-09-02T12:41:30.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0107/failed-run-observation.json",
+    ".ai-org/artifacts/WI-0107/quality-report.md",
+    ".ai-org/artifacts/WI-0107/independent-qa-report.md"
+  ],
+  "summary": {
+    "identity_separation_passed": true,
+    "tests_passed": 280,
+    "tests_failed": 0,
+    "zero_retry_boundary_passed": true,
+    "candidate_state_integrity_passed": true,
+    "failure_evidence_truthful": true,
+    "mechanism_qualified": false,
+    "new_execution_authority_required": true
+  }
+}
+

@@ -19,8 +19,13 @@
     },
     {
       "command": "node .ai-org/artifacts/WI-0107/run-wave-5a.mjs --preflight-only",
-      "status": "pass-with-expected-gate",
-      "result": "all technical checks pass; owner-confirmation-required remains"
+      "status": "pass",
+      "result": "all technical and owner-approval checks pass after output-schema correction"
+    },
+    {
+      "command": "node .ai-org/artifacts/WI-0107/run-wave-5a.mjs",
+      "status": "expected-fail-closed",
+      "result": "the first launch was rejected before generation because uniqueItems is unsupported; zero observed Tokens, zero product changes, zero retries, and three candidates not started"
     },
     {
       "command": "npm test in each of four candidate repositories",
@@ -42,9 +47,9 @@
       "warning": "pre-existing generated parallel plan is stale; WI-0107 is sequential and has not dispatched a parallel worker"
     }
   ],
-  "remaining_gate": "Explicit owner confirmation that automatic Credit reload is disabled and included Pro allowance may be consumed.",
+  "remaining_gate": "A new execution Work Item and explicit rerun authority are required; WI-0107 consumed its single allowed first-candidate attempt and stopped.",
   "claims": {
-    "generation_ready": false,
+    "corrected_runner_preflight_ready": true,
     "billing_guarantee_available": false,
     "experiment_completed": false,
     "temple_superiority": false

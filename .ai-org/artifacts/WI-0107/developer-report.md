@@ -18,9 +18,10 @@
 - Repository verification passes all 280 tests.
 - Temple Doctor reports 36 pass, one pre-existing stale parallel-plan warning, and zero failures.
 
-## Current stop
+## First execution result
 
-No candidate turn has started. The only preflight blocker is `owner-confirmation-required`: the provider exposes account usage but not the automatic Credit reload setting. The owner must explicitly confirm that automatic reload is disabled and that included Pro allowance may be used.
+The owner supplied the required account confirmation and the second preflight passed. The first candidate launch then stopped before generation because the provider rejected `uniqueItems` in the structured-output JSON Schema. No Token event or candidate product change was observed; the remaining three candidates were not launched and no retry occurred.
+
+The runner now removes the unsupported keyword and checks for its return during preflight. This correction is implemented but has not been rerun because the approved protocol permits exactly one attempt and requires the whole program to stop after the first invalid attempt. A new execution authorization is required for another four-turn run.
 
 The Token interrupt remains reactive and cannot guarantee zero overshoot or prove billed cost.
-
