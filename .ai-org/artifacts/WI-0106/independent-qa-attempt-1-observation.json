@@ -1,0 +1,38 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "c27f193d03f36ecc50c6e4d4dba3f55e6928b0f9",
+  "command": [
+    "npm run verify in a fresh detached exact-candidate worktree",
+    "node ./templew.mjs schema validate . --json",
+    "reproduce public, defective-starter hidden, and reference hidden fixture behavior",
+    "recompute manifest digests and deterministic condition order",
+    "compare protocol input files with fixture source revision 69fb40f",
+    "recompute resource arithmetic and inspect retained source observations",
+    "audit arm-neutral schema and procedure for condition leakage",
+    "audit Wave 5C, personal Pro rate, first NO-GO, and Agent identity boundaries"
+  ],
+  "result": "fail",
+  "exit_code": 1,
+  "started_at": "2026-09-02T11:34:20.000Z",
+  "completed_at": "2026-09-02T11:43:30.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0106/independent-qa-attempt-1-report.md",
+    ".ai-org/artifacts/WI-0106/quality-report.md",
+    ".ai-org/artifacts/WI-0105/developer-exact-test-observation.json"
+  ],
+  "summary": {
+    "tests_passed": 280,
+    "tests_failed": 0,
+    "documents_checked": 128,
+    "schemas_checked": 29,
+    "manifest_checks_passed": 18,
+    "pinned_source_checks_passed": 20,
+    "fixture_reference_tests_passed": 7,
+    "blocking_findings": 2,
+    "identity_separation_passed": true,
+    "blind_revision_leak_detected": true,
+    "retained_duration_source_mismatch_detected": true,
+    "model_generation_performed": false,
+    "external_write_performed": false
+  }
+}

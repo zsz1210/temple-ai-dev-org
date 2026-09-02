@@ -39,7 +39,7 @@
     {
       "work_item_id": "WI-0105",
       "measurement": "full_repository_verification_duration_ms",
-      "value": 55297.014709
+      "value": 55324.376083
     },
     {
       "work_item_id": "WI-0104",
@@ -94,7 +94,7 @@
     "per_turn_wall_time_ms": {
       "warning": 300000,
       "hard": 600000,
-      "derivation": "warning is greater than five full 55297ms repository verification runs and twenty observed 14600.5ms attempted-turn averages; hard is twice the warning"
+      "derivation": "warning is greater than five full 55324.376083ms repository verification runs and twenty observed 14600.5ms attempted-turn averages; hard is twice the warning"
     },
     "program_wall_time_ms": {
       "warning": 1800000,

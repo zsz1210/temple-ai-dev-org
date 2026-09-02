@@ -2,11 +2,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "additionalProperties": false,
-  "required": ["package_id", "case_id", "candidate_revision", "product_patch", "tests", "completion", "usage"],
+  "required": ["package_id", "case_id", "evidence_id", "product_patch", "tests", "completion", "usage"],
   "properties": {
     "package_id": { "type": "string", "pattern": "^pkg-[a-f0-9]{16}$" },
     "case_id": { "enum": ["idempotent-command", "compatible-event-evolution"] },
-    "candidate_revision": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+    "evidence_id": { "type": "string", "pattern": "^evd-[a-f0-9]{16}$" },
     "product_patch": { "type": "string" },
     "tests": {
       "type": "object",
