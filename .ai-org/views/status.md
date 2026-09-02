@@ -146,7 +146,7 @@
 | WI-0096 | Harden Phase 4B fixture cleanup on Linux | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b8d5ef34` | 0 | 24 | 0 |
 | WI-0097 | Add adaptive first-run repository workflow onboarding | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 0 |
 | WI-0098 | Implement adaptive repository integration onboarding | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f9323f58` | 0 | 11 | 1 |
-| WI-0099 | Adopt Node.js 24 minimum and local-first bounded CI | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902041042-45bb6eaa | `—` | 0 | 3 | 0 |
+| WI-0099 | Adopt Node.js 24 minimum and local-first bounded CI | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260902042727-7c51fe0d | `36703f37` | 0 | 9 | 2 |
 
 ## Codex task registry
 
@@ -280,14 +280,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T04:10:42.684Z | work_item_claimed | WI-0099 | human |
-| 2026-09-02T04:10:37.874Z | work_item_transitioned | WI-0099 | agent-tidus |
-| 2026-09-02T04:10:16.000Z | work_item_claimed | WI-0099 | human |
-| 2026-09-02T04:10:03.337Z | work_item_transitioned | WI-0099 | agent-yuna |
-| 2026-09-02T04:09:56.374Z | work_item_claimed | WI-0099 | human |
-| 2026-09-02T04:09:48.318Z | work_item_transitioned | WI-0099 | agent-mog |
-| 2026-09-02T04:09:22.428Z | work_item_claimed | WI-0099 | human |
-| 2026-09-02T04:09:17.240Z | work_item_coordination_configured | WI-0099 | agent-mog |
+| 2026-09-02T04:27:27.976Z | work_item_unresolved_updated | WI-0099 | agent-mog |
+| 2026-09-02T04:27:27.757Z | work_item_claimed | WI-0099 | human |
+| 2026-09-02T04:27:21.460Z | work_item_transitioned | WI-0099 | agent-lulu |
+| 2026-09-02T04:27:21.195Z | handoff_created | WI-0099 | agent-lulu |
+| 2026-09-02T04:27:15.327Z | evidence_recorded | WI-0099 | agent-lulu |
+| 2026-09-02T04:24:34.747Z | work_item_claimed | WI-0099 | human |
+| 2026-09-02T04:24:29.033Z | work_item_transitioned | WI-0099 | agent-lulu |
+| 2026-09-02T04:24:23.550Z | work_item_transitioned | WI-0099 | agent-lulu |
 
 ## Assignments
 

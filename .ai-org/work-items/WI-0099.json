@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0099",
   "title": "Adopt Node.js 24 minimum and local-first bounded CI",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-02T04:09:04.557Z",
-  "updated_at": "2026-09-02T04:10:42.684Z",
+  "updated_at": "2026-09-02T04:27:27.976Z",
   "scope": [
     "Retire Node.js 22 from the active public compatibility contract, require Node.js 24 or later, and replace the hosted full-suite matrix with one bounded Node.js 24 repository gate while retaining full and browser verification locally."
   ],
@@ -50,7 +50,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "5d960b0c8889128aee7c5147553f48a2825df398",
+  "base_revision": "36703f375a807303a68fde9487af11ac0364f578",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -62,14 +62,14 @@
     "WI-0098 shares README, lock, and changelog paths; WI-0099 uses the same branch and Integration Owner, preserves WI-0098 onboarding content, and requires joint review before integration."
   ],
   "claim": {
-    "id": "claim-20260902041042-45bb6eaa",
+    "id": "claim-20260902042727-7c51fe0d",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "5d960b0c8889128aee7c5147553f48a2825df398",
+    "agent_id": "agent-mog",
+    "base_revision": "36703f375a807303a68fde9487af11ac0364f578",
     "branch": "codex/wi-0097-adaptive-onboarding",
     "worktree": null,
-    "claimed_at": "2026-09-02T04:10:42.684Z",
+    "claimed_at": "2026-09-02T04:27:27.757Z",
     "released_at": null
   },
   "claims": [
@@ -111,13 +111,49 @@
     },
     {
       "id": "claim-20260902041042-45bb6eaa",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "5d960b0c8889128aee7c5147553f48a2825df398",
       "branch": "codex/wi-0097-adaptive-onboarding",
       "worktree": null,
       "claimed_at": "2026-09-02T04:10:42.684Z",
+      "released_at": "2026-09-02T04:23:12.417Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902042317-d84d7c53",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "36703f375a807303a68fde9487af11ac0364f578",
+      "branch": "codex/wi-0097-adaptive-onboarding",
+      "worktree": null,
+      "claimed_at": "2026-09-02T04:23:17.728Z",
+      "released_at": "2026-09-02T04:24:29.033Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902042434-b50971bf",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "36703f375a807303a68fde9487af11ac0364f578",
+      "branch": "codex/wi-0097-adaptive-onboarding",
+      "worktree": null,
+      "claimed_at": "2026-09-02T04:24:34.747Z",
+      "released_at": "2026-09-02T04:27:21.460Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260902042727-7c51fe0d",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "36703f375a807303a68fde9487af11ac0364f578",
+      "branch": "codex/wi-0097-adaptive-onboarding",
+      "worktree": null,
+      "claimed_at": "2026-09-02T04:27:27.757Z",
       "released_at": null
     }
   ],
@@ -136,13 +172,54 @@
     ],
     "risk_review": [
       "docs/adr/0043-node-24-local-first-ci.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0099/handoff-002-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260902T042236Z-0FBBDB3F"
+    ],
+    "test_evidence": [
+      "EVID-20260902T042418Z-F7A4E280"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0099/quality-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260902T042715Z-45648E8D"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/work-orders/WI-0099.md",
     ".ai-org/work-items/WI-0099.json",
-    "docs/adr/0043-node-24-local-first-ci.md"
+    "docs/adr/0043-node-24-local-first-ci.md",
+    ".ai-org/artifacts/WI-0099/handoff-002-developer-to-quality_evaluator.md",
+    "EVID-20260902T042236Z-0FBBDB3F",
+    "EVID-20260902T042418Z-F7A4E280",
+    ".ai-org/artifacts/WI-0099/quality-report.md",
+    ".ai-org/artifacts/WI-0099/handoff-003-independent_qa-to-release_manager.md",
+    "EVID-20260902T042715Z-45648E8D"
   ],
-  "unresolved": [],
-  "next_position": "quality_evaluator"
+  "unresolved": [
+    "Confirm that the first pushed bounded Node.js 24 GitHub Actions run completes within its five-minute ceiling.",
+    "Complete joint pull-request review for WI-0098 and WI-0099 before merging to main."
+  ],
+  "next_position": "engineering_manager",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "36703f375a807303a68fde9487af11ac0364f578",
+      "artifact": ".ai-org/artifacts/WI-0099/handoff-002-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-02T04:22:55.640Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "36703f375a807303a68fde9487af11ac0364f578",
+      "artifact": ".ai-org/artifacts/WI-0099/handoff-003-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-02T04:27:21.195Z"
+    }
+  ],
+  "developer_candidate_revision": "36703f375a807303a68fde9487af11ac0364f578"
 }
