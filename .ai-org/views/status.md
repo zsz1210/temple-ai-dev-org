@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 111 total, 7 active
+- Work items: 112 total, 8 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 18
+- Attention signals: 19
 
 ## Collaboration
 
@@ -159,6 +159,7 @@
 | WI-0109 | Add no-generation App Server protocol replay | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a21fbc4f` | 0 | 18 | 0 |
 | WI-0110 | Run bounded Wave 5A controlled comparison | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `19b78371` | 0 | 20 | 1 |
 | WI-0111 | Make command policy quote-aware | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2d523b5f` | 0 | 18 | 0 |
+| WI-0112 | Run quote-aware Wave 5A controlled comparison | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a836643a` | 0 | 20 | 1 |
 
 ## Codex task registry
 
@@ -214,6 +215,7 @@
 - WI-0107 is blocked
 - WI-0108 is blocked
 - WI-0110 is blocked
+- WI-0112 is blocked
 - task-0001 can be archived
 - task-0002 can be archived
 - task-0003 can be archived
@@ -295,14 +297,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T15:19:53.584Z | work_item_closed | WI-0111 | agent-mog |
-| 2026-09-02T15:19:53.584Z | release_gate_completed | WI-0111 | agent-mog |
-| 2026-09-02T15:19:42.413Z | work_item_transitioned | WI-0111 | agent-lulu |
-| 2026-09-02T15:19:42.135Z | handoff_created | WI-0111 | agent-lulu |
-| 2026-09-02T15:19:30.487Z | evidence_recorded | WI-0111 | human |
-| 2026-09-02T15:17:08.818Z | work_item_transitioned | WI-0111 | agent-lulu |
-| 2026-09-02T15:17:08.556Z | handoff_created | WI-0111 | agent-lulu |
-| 2026-09-02T15:17:08.294Z | work_item_transitioned | WI-0111 | agent-lulu |
+| 2026-09-02T15:49:22.874Z | release_gate_completed | WI-0112 | agent-mog |
+| 2026-09-02T15:49:12.286Z | work_item_transitioned | WI-0112 | agent-lulu |
+| 2026-09-02T15:48:59.715Z | handoff_created | WI-0112 | agent-lulu |
+| 2026-09-02T15:48:59.527Z | evidence_recorded | WI-0112 | human |
+| 2026-09-02T15:46:50.699Z | work_item_transitioned | WI-0112 | agent-lulu |
+| 2026-09-02T15:46:41.450Z | handoff_created | WI-0112 | agent-lulu |
+| 2026-09-02T15:46:41.197Z | work_item_transitioned | WI-0112 | agent-lulu |
+| 2026-09-02T15:46:41.004Z | evidence_recorded | WI-0112 | human |
 
 ## Assignments
 

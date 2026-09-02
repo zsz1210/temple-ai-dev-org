@@ -16946,6 +16946,161 @@
         "exit_code": 0,
         "started_at": "2026-09-02T15:17:32.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T154525Z-CFAE8E8D",
+      "work_item_id": "WI-0112",
+      "recorded_at": "2026-09-02T15:45:25.167Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 5A fourth bounded execution observation",
+      "outcome": "pass",
+      "scope_revision": "896840569829410a392cd66d806191617b481984",
+      "observed_at": "2026-09-02T15:44:47.000Z",
+      "summary": "Replay, preflight, and full verification passed; live run stopped safely at 106646 observed Tokens with zero retry and no completed candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0112/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0112/developer-test-observation.json",
+          "sha256": "4a4897f2a9024ed6c462e944fe36aafd484cac81584bf98ac370c75d19f4165f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0112/preflight-observation.json",
+          "sha256": "af19581c185f736aaba6d0f4cad872cd5fd4c720472b2cdb898a89a85552421d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0112/failed-run-observation.json",
+          "sha256": "fce3e7d957945aa4f0416e27bfbb73859234a6b6c8fa4d2d98f7353c2cbb189b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0112/developer-report.md",
+          "sha256": "df6e719e896a4bf7cc5661965b541db178514eab7ed7e814be188d36936e449a"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
+          "exclusive setup of temple-wave-5a-lab-r4",
+          "WI-0112 exact installed-schema preflight-only",
+          "one authorized WI-0112 Wave 5A runner invocation",
+          "inspect coordinator state, bounded event ledger, four candidate Git states, and blind package directories",
+          "interrupted first candidate: npm test",
+          "interrupted first candidate: coordinator-held acceptance tests",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T15:38:43.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T154641Z-1C1645A8",
+      "work_item_id": "WI-0112",
+      "recorded_at": "2026-09-02T15:46:41.004Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 5A fourth-run quality evaluation",
+      "outcome": "pass",
+      "scope_revision": "18f1670f3d6b670b6943670d1d04b5ea041801b8",
+      "observed_at": "2026-09-02T15:45:55.000Z",
+      "summary": "Fresh detached launch revision and retained r4 state confirm safe Token-limit stop, zero retry, and no completed comparison candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0112/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0112/quality-test-observation.json",
+          "sha256": "29840aed4f7fe08546fe143e68bb1b055dc494929603a408f9b7c2efcfcd90ef"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0112/quality-report.md",
+          "sha256": "54bd5c4ae61bb1805be27fee593b2c1f7427ca318e9ed1524a898139604f935d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0112/failed-run-observation.json",
+          "sha256": "fce3e7d957945aa4f0416e27bfbb73859234a6b6c8fa4d2d98f7353c2cbb189b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0112/preflight-observation.json",
+          "sha256": "af19581c185f736aaba6d0f4cad872cd5fd4c720472b2cdb898a89a85552421d"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached exact launch revision: node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
+          "inspect retained r4 coordinator run result and event state",
+          "inspect all four candidate Git states and blind package count",
+          "verify interrupted candidate diff has no whitespace errors"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T15:45:52.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T154859Z-1B2746F8",
+      "work_item_id": "WI-0112",
+      "recorded_at": "2026-09-02T15:48:59.527Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 5A fourth-run independent QA",
+      "outcome": "pass",
+      "scope_revision": "f605721a11f6b703173c302818d37a583f4d99d8",
+      "observed_at": "2026-09-02T15:48:13.000Z",
+      "summary": "Second fresh detached launch revision confirms bounded-stop integrity and no-go experiment outcome.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0112/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0112/independent-qa-observation.json",
+          "sha256": "b793323809e1f7ea84aa50c44cc4128c549ecac232d0287d7a88f775d25434b6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0112/independent-qa-report.md",
+          "sha256": "883d25fc7c742085fae703774ddf5837528e87364ff649f64e800066d6d07d6f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0112/quality-report.md",
+          "sha256": "54bd5c4ae61bb1805be27fee593b2c1f7427ca318e9ed1524a898139604f935d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0112/failed-run-observation.json",
+          "sha256": "fce3e7d957945aa4f0416e27bfbb73859234a6b6c8fa4d2d98f7353c2cbb189b"
+        }
+      ],
+      "details": {
+        "command": [
+          "second fresh detached launch revision: node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
+          "second fresh detached launch revision: npm run verify",
+          "inspect retained r4 coordinator run result and event state",
+          "inspect candidate Git states and blind package count",
+          "independently confirm interrupted-state public and held-out results from retained Developer evidence"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T15:46:48.000Z"
+      }
     }
   ]
 }

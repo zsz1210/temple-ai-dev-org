@@ -1,6 +1,6 @@
 # Wave 5 controlled comparison plan
 
-- Status: **quote-aware offline correction implemented / live mechanism not yet qualified**
+- Status: **fourth live attempt stopped at its Token limit / mechanism not yet qualified**
 - Work Item: `WI-0106`
 - Evidence class: current official documentation, retained local telemetry, deterministic study design
 - Model generation in this Work Item: **none**
@@ -45,14 +45,15 @@ The repository owner approved the no-new-payment boundary after confirming that 
 - After the `WI-0108` stop, the runner was corrected to validate every parsed action, pinned the exact `ItemStartedNotification` schema, and passed a no-generation positive-and-negative command-policy check. The stopped program was not rerun.
 - `WI-0110` passed the merged offline replay gate and a fresh exact-schema preflight, then started one Luna Max turn in a third exclusive lab. Provider telemetry reported 77,865 Tokens before the runner rejected an allowlisted `rg` search because its quoted regular-expression argument contained a literal `|`. All four candidate repositories remained clean, no blind package was created, the remaining three turns did not start, and no retry or fallback occurred.
 - `WI-0111` replaces the blanket metacharacter check with a conservative quote-aware scanner. The exact rejected `rg -n 'applyCommand|balance|event|command' src test` structured search action now passes, while top-level pipes, command chains, redirects, substitutions, control characters, dangling escapes, and unclosed quotes still fail closed. Eleven synthetic replay scenarios, adversarial unit cases, and the retained exact-schema preflight pass without starting a model turn.
+- `WI-0112` used a fourth exclusive lab after the quote-aware correction merged. Replay and exact-schema preflight passed, then the first Luna Max Temple turn reported 24,595, 51,306, 78,339, and 106,646 total Tokens. The first update above the reactive 80,000-Token hard limit triggered interruption. The turn left two allowlisted files modified and those changes pass three public plus three held-out tests, but the Provider turn never completed, no exact candidate commit or blind package exists, and the remaining three turns did not start. The run also exposed that the interrupted-turn disk counter remained zero despite Git-visible changes.
 
-None of the three attempts completed a candidate, so the mechanism remains unqualified and there is no Temple-versus-minimal result. The observed Token counts are Provider telemetry, not account billing statements or Credit conversions.
+None of the four attempts produced an accepted completed candidate, so the mechanism remains unqualified and there is no Temple-versus-minimal result. The observed Token counts are Provider telemetry, not account billing statements or Credit conversions.
 
 ## Offline protocol gate
 
 `WI-0109` adds a deterministic no-generation replay gate before any further model-backed attempt. The live runner and replay tests now share the same pure interpretation helpers for structured command actions, detailed usage, terminal outcomes, Provider schema rejection, model reroutes, runtime permission requests, turn correlation, and structured completion validation.
 
-The bounded fixture covers ten positive and negative event sequences, including the shell-formatted `sed` command shape observed during `WI-0108`. It also proves that a mixed action list fails when even one action is forbidden. Run the focused gate locally:
+The bounded fixture covers eleven positive and negative event sequences, including the shell-formatted `sed` command shape observed during `WI-0108` and the quoted `rg` alternation observed during `WI-0110`. It also proves that a mixed action list fails when even one action is forbidden. Run the focused gate locally:
 
 ```bash
 node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs
@@ -75,4 +76,4 @@ The proposed hard envelope is four sequential Luna Max turns, 80,000 total Token
 
 ## Next decision
 
-The quote-aware offline correction must receive exact-revision Quality Evaluation and Independent QA before it can be merged. Even after that correction is merged, any further Luna turn requires a new Work Item, a new lab, and explicit execution authority; `WI-0110` cannot be resumed and `WI-0111` authorizes no model generation.
+Do not raise the Token ceiling or start a fifth live attempt from this result alone. First analyze why the bounded task consumed more than 100,000 reported Tokens under Luna Max, determine whether task context, reasoning effort, completion protocol, or observation cadence is the controllable driver, and correct interrupted-turn disk accounting. Any later model-backed experiment requires another Work Item, fresh lab, reviewed limits, and explicit execution authority; `WI-0112` cannot be resumed.
