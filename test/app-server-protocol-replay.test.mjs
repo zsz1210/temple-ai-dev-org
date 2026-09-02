@@ -114,12 +114,12 @@ test("Wave 5 child threads exclude parent task identity and host capability cont
   for (const key of WAVE5_INHERITED_CODEX_ENVIRONMENT_KEYS) assert.equal(key in isolated, false, key);
 
   const thread = wave5ThreadIsolation("/tmp/candidate");
-  assert.deepEqual(thread.runtimeWorkspaceRoots, ["/tmp/candidate"]);
-  assert.deepEqual(thread.selectedCapabilityRoots, []);
-  assert.deepEqual(thread.environments, []);
   assert.equal(thread.allowProviderModelFallback, false);
   assert.equal(thread.ephemeral, true);
   assert.match(thread.baseInstructions, /bounded coding worker/);
+  assert.equal("runtimeWorkspaceRoots" in thread, false);
+  assert.equal("selectedCapabilityRoots" in thread, false);
+  assert.equal("environments" in thread, false);
 });
 
 test("terminal classification distinguishes structured-output rejection from other incomplete turns", () => {

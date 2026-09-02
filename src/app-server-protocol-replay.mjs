@@ -35,10 +35,7 @@ export function isolateWave5CodexEnvironment(source = {}) {
 
 export function wave5ThreadIsolation(root) {
   return {
-    runtimeWorkspaceRoots: [root],
     baseInstructions: "You are a bounded coding worker. Follow the developer instructions and user task, use only available local tools, and return the requested structured completion record.",
-    selectedCapabilityRoots: [],
-    environments: [],
     allowProviderModelFallback: false,
     ephemeral: true
   };

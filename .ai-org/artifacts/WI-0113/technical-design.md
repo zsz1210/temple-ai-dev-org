@@ -17,7 +17,7 @@ The gross total is cumulative throughput across tool cycles. Cached input and re
 
 ## Launch isolation
 
-Start the child App Server with a copied environment that removes parent task identity, task-specific app-tool routing, and host-origin overrides. Set an explicit compact base instruction, empty selected capability roots, empty environments, and ephemeral history. Pin these request fields through the installed-schema preflight. Candidate filesystem and command policies remain unchanged.
+Start the child App Server with a copied environment that removes parent task identity, task-specific app-tool routing, and host-origin overrides. Set an explicit compact base instruction, disable model fallback, and use ephemeral history. The installed stable capability rejects `runtimeWorkspaceRoots`, `selectedCapabilityRoots`, and `environments` unless the client opts into the experimental API, so the stable runner deliberately omits those fields and relies on the existing `cwd`, thread sandbox, and turn sandbox policy. Pin this request shape through the installed-schema preflight. Candidate filesystem and command policies remain unchanged.
 
 ## Usage model
 

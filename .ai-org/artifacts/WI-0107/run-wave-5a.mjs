@@ -175,9 +175,10 @@ async function protocolPreflight() {
   const threadIsolation = wave5ThreadIsolation("/tmp/candidate");
   const threadIsolationPass = threadIsolation.ephemeral === true &&
     threadIsolation.allowProviderModelFallback === false &&
-    threadIsolation.selectedCapabilityRoots.length === 0 &&
-    threadIsolation.environments.length === 0 &&
-    threadIsolation.runtimeWorkspaceRoots.length === 1;
+    typeof threadIsolation.baseInstructions === "string" &&
+    !("runtimeWorkspaceRoots" in threadIsolation) &&
+    !("selectedCapabilityRoots" in threadIsolation) &&
+    !("environments" in threadIsolation);
   checks.push({ id: "thread-context-isolated", pass: threadIsolationPass });
   if (!threadIsolationPass) blockers.push("thread-context-not-isolated");
   const serializedOutputSchema = JSON.stringify(completionSchema);
@@ -520,15 +521,21 @@ async function launchTurn({ turn, participant, instruction_path: instructionPath
       capabilities: { experimentalApi: false }
     });
     connection.notify("initialized", {});
-    const threadResponse = await connection.request("thread/start", {
-      model: turn.requested_model,
-      cwd: participant.root,
-      approvalPolicy: "never",
-      sandbox: "workspace-write",
-      serviceName: `temple-wave-5a-${turn.id}`,
-      developerInstructions,
-      ...wave5ThreadIsolation(participant.root)
-    });
+    let threadResponse;
+    try {
+      threadResponse = await connection.request("thread/start", {
+        model: turn.requested_model,
+        cwd: participant.root,
+        approvalPolicy: "never",
+        sandbox: "workspace-write",
+        serviceName: `temple-wave-5a-${turn.id}`,
+        developerInstructions,
+        ...wave5ThreadIsolation(participant.root)
+      });
+    } catch (error) {
+      const reason = error.providerReason ? `: ${error.providerReason}` : "";
+      throw Object.assign(new Error(`Provider rejected thread/start${reason}`), { code: "provider-thread-start-rejected" });
+    }
     threadId = threadResponse?.thread?.id;
     if (!threadId) throw Object.assign(new Error("thread/start did not return a thread ID"), { code: "thread-start-invalid" });
     if (threadResponse.model !== turn.requested_model) {
