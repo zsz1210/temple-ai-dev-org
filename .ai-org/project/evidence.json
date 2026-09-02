@@ -16946,6 +16946,60 @@
         "exit_code": 0,
         "started_at": "2026-09-02T15:17:32.000Z"
       }
+    },
+    {
+      "id": "EVID-20260902T154525Z-CFAE8E8D",
+      "work_item_id": "WI-0112",
+      "recorded_at": "2026-09-02T15:45:25.167Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 5A fourth bounded execution observation",
+      "outcome": "pass",
+      "scope_revision": "a836643ab9aae4b0690bedae2b2c15ef98b0695e",
+      "observed_at": "2026-09-02T15:44:47.000Z",
+      "summary": "Replay, preflight, and full verification passed; live run stopped safely at 106646 observed Tokens with zero retry and no completed candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0112/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0112/developer-test-observation.json",
+          "sha256": "4a4897f2a9024ed6c462e944fe36aafd484cac81584bf98ac370c75d19f4165f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0112/preflight-observation.json",
+          "sha256": "af19581c185f736aaba6d0f4cad872cd5fd4c720472b2cdb898a89a85552421d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0112/failed-run-observation.json",
+          "sha256": "fce3e7d957945aa4f0416e27bfbb73859234a6b6c8fa4d2d98f7353c2cbb189b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0112/developer-report.md",
+          "sha256": "df6e719e896a4bf7cc5661965b541db178514eab7ed7e814be188d36936e449a"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
+          "exclusive setup of temple-wave-5a-lab-r4",
+          "WI-0112 exact installed-schema preflight-only",
+          "one authorized WI-0112 Wave 5A runner invocation",
+          "inspect coordinator state, bounded event ledger, four candidate Git states, and blind package directories",
+          "interrupted first candidate: npm test",
+          "interrupted first candidate: coordinator-held acceptance tests",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T15:38:43.000Z"
+      }
     }
   ]
 }
