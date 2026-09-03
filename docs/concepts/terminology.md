@@ -46,6 +46,50 @@ An eligibility record used when several people or Agents can cover the same Posi
 
 A bounded specialization used for routing work inside a Position, such as frontend or backend development. A Discipline narrows expertise; it never expands the Position's authority.
 
+## Execution adaptation
+
+<a id="task-shape"></a>
+
+### Task Shape
+
+The structured characteristics of one execution step: Position, lifecycle stage, task kind, risk class, and Context Profile digest. It supports policy matching and fair comparison; it is not inferred from an Agent name or free-form title.
+
+<a id="capability-route"></a>
+
+### Capability Route
+
+The required and optional capability IDs and modalities for one execution step. It states what the work needs. It does not install a Skill, authorize a service, expand Position authority, or prove that a Provider supports the capability.
+
+<a id="execution-profile"></a>
+
+### Execution Profile
+
+A project-owned candidate configuration that declares model and reasoning classes, optional Provider/model mapping, capabilities, policy boundaries, risk support, and resource estimates. It is not a Position or a universal claim that one model is best.
+
+<a id="execution-step"></a>
+
+### Execution Step
+
+One independently routable unit inside a Work Item. Several steps may resolve to different profiles while remaining part of the same Work Item lifecycle and authority boundary.
+
+<a id="execution-route"></a>
+
+### Execution Route
+
+The deterministic result of filtering profiles against one step and applying the project's explicit preference policy. It explains the selected requested settings or why resolution failed. It is not a task launch, Provider acknowledgement, or effective-model observation.
+
+<a id="resource-observation"></a>
+
+### Resource Observation
+
+A typed measurement such as Tokens, latency, Credits, GPU time, media quantity, or human editing time, together with its source and evidence quality. Unavailable data remains `null`; it is never interpreted as zero.
+
+<a id="model-calibration"></a>
+
+### Model Calibration
+
+Project-local matched quality and resource evidence used to evaluate or revise execution-profile preference. Calibration can support a shadow or advisory result, but it does not execute a route or grant authority.
+
 ## Work and verification
 
 <a id="work-item"></a>

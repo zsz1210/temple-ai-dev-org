@@ -45,6 +45,7 @@ import {
 } from "./control-plane-config.mjs";
 import { ensureFederationRegistry, FEDERATION_REGISTRY_RELATIVE_PATH } from "./federation.mjs";
 import { ensureUsagePolicy, USAGE_POLICY_RELATIVE_PATH } from "./usage-policy.mjs";
+import { ensureExecutionPolicy, EXECUTION_POLICY_RELATIVE_PATH } from "./execution-routing.mjs";
 import { ensureRepositoryIntegration } from "./repository-integration.mjs";
 
 function isManaged(relativePath) {
@@ -240,6 +241,11 @@ export async function planUpgrade(target) {
   actions.push({
     type: hasUsagePolicy ? "skip-usage-policy" : "create-usage-policy",
     path: USAGE_POLICY_RELATIVE_PATH
+  });
+  const hasExecutionPolicy = await pathExists(path.join(target, EXECUTION_POLICY_RELATIVE_PATH));
+  actions.push({
+    type: hasExecutionPolicy ? "skip-execution-policy" : "create-execution-policy",
+    path: EXECUTION_POLICY_RELATIVE_PATH
   });
   const assignmentMigration = await planUiAssignmentMigration(target, conflicts);
   actions.push({
@@ -499,6 +505,10 @@ export async function executeUpgrade(plan) {
     if (usagePolicy.created) {
       changes.push({ path: usagePolicy.path, before: null, afterHash: usagePolicy.afterHash });
     }
+    const executionPolicy = await ensureExecutionPolicy(plan.target);
+    if (executionPolicy.created) {
+      changes.push({ path: executionPolicy.path, before: null, afterHash: executionPolicy.afterHash });
+    }
     const repositoryIntegration = await ensureRepositoryIntegration(plan.target);
     if (repositoryIntegration.created) {
       changes.push({ path: repositoryIntegration.path, before: null, afterHash: repositoryIntegration.afterHash });
@@ -655,6 +665,9 @@ export async function executeUpgrade(plan) {
         usage_qualification: true,
         progressive_usage_calibration: true,
         matched_model_advisory: true,
+        adaptive_execution_routing: true,
+        typed_resource_observations: true,
+        non_executing_route_resolution: true,
         exception_only_autonomy: true,
         provider_attach_outcomes: true,
         repository_federation: true,

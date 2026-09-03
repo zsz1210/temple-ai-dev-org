@@ -4,18 +4,19 @@ Temple is a repository-native, extensible framework for turning product intent i
 
 It does not try to make every AI conversation remember everything. It gives every Position a shared operating model and a recoverable source of truth, so work can continue across tasks, Agents, and time without reconstructing the development organization.
 
-## The six framework layers
+## The seven framework layers
 
 | Layer | Question it answers | Primary mechanisms |
 |---|---|---|
 | Product intent and domain | What problem, language, boundary, and outcome are real? | Decision interview, domain modeling, revisioned specification authority, glossary, ADRs |
 | Organization and authority | Who is responsible, and who may approve what? | Positions, Agent Identities, Assignments, human approval boundaries |
 | Engineering methods and capabilities | How should this kind of work be performed? | Core Skills, official packs, project and third-party extensions |
+| Execution adaptation | What capabilities does this step need, which profiles remain eligible, and what resources were observed? | Task Shape, Capability Route, Execution Profiles, deterministic route resolution, resource observations, model calibration |
 | Work orchestration | What is happening now, what can safely run together, what is visible to the company, and what comes next? | External tracker mappings, Work Items, lifecycle transitions, safe dispatch waves, claim-before-worker preparation, runtime and task registries, shared-resource reservations, handoffs |
 | Verification and delivery | What evidence supports completion? | Tests, evaluation, Independent QA, exact revision, release gate |
 | Durable state and observability | Can another task recover, learn from, and inspect the truth? | Project files, Context Map, Capability Registry, Context Capsules, Learning Loop, event log, status projections, local live control plane, checksums, bounded adapters |
 
-No single layer is the framework by itself. Roles without engineering methods only divide labor. Skills without authority and durable state become disconnected prompts. Workflow without evidence produces ceremonial completion. Temple connects these parts while keeping product truth in the repository.
+No single layer is the framework by itself. Roles without engineering methods only divide labor. Skills without authority and durable state become disconnected prompts. Model choices bound directly to roles ignore the actual step. Workflow without evidence produces ceremonial completion. Temple connects these parts while keeping product truth in the repository.
 
 ## Scaling principle
 
@@ -25,7 +26,7 @@ The responsibilities remain stable as a project grows; staffing, method depth, a
 - A future larger-product profile can separate more Positions into dedicated Identities, install focused capability packs, require deeper design and evaluation, and integrate additional evidence sources.
 - A future high-risk profile can add specialized Skills, stricter approval policy, security review, release evidence, and external adapters without replacing the core lifecycle.
 
-The current alpha proves a lean configuration, core Skills, one optional Pack-v2 Build Quality pack, project-local state, bounded pilots, deterministic Progressive Context Routing and evaluation, locally tested group dispatch planning, selectable Collaborative and High-Assurance contracts, version-pinned project CLI recovery, atomic first-wave preparation, stage-specific execution requirements, declared shared-resource coordination, normalized evidence and Observer projections, read-only external-tracker coordination with explicit repository reconciliation, and a local replay-safe control plane with capability-labelled providers, stateful conditions, authority-separated Human Inbox actions, and exact-SHA read-only GitHub PR evidence. It also proves bounded local, read-only federation and portfolio projections while every participant repository retains lifecycle authority.
+The current alpha proves a lean configuration, core Skills, one optional Pack-v2 Build Quality pack, project-local state, bounded pilots, deterministic Progressive Context Routing and evaluation, per-step non-executing Adaptive Execution Routing, locally tested group dispatch planning, selectable Collaborative and High-Assurance contracts, version-pinned project CLI recovery, atomic first-wave preparation, stage-specific execution requirements, declared shared-resource coordination, normalized evidence and Observer projections, read-only external-tracker coordination with explicit repository reconciliation, and a local replay-safe control plane with capability-labelled providers, stateful conditions, authority-separated Human Inbox actions, and exact-SHA read-only GitHub PR evidence. It also proves bounded local, read-only federation and portfolio projections while every participant repository retains lifecycle authority.
 
 Custom Positions and workflows, custom-pack publishing, configured semantic Retrieval Providers, external tracker or GitHub writes, remote control, operational coordination across remote repositories and machines, real regulated audit acceptance, and large multi-human or multi-machine collaboration evidence remain planned or explicitly unverified rather than claimed as shipped.
 

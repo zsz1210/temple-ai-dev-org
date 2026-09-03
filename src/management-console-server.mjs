@@ -64,6 +64,7 @@ function managementConsoleObserver(observer) {
     generated_at: observer.generated_at,
     project: observer.project,
     organization: observer.organization,
+    execution_routing: observer.execution_routing,
     canonical_state_changed: observer.canonical_state_changed,
     external_action_performed: observer.external_action_performed
   };

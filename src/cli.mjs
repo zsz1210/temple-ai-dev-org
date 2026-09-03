@@ -77,6 +77,7 @@ import {
 import { evaluateRetrieval, readRetrievalConfig } from "./retrieval.mjs";
 import { evaluatePolicy } from "./policy-evaluation.mjs";
 import { buildUsageBaseline, buildUsagePreflight, evaluateMatchedModelFixture } from "./usage-attribution.mjs";
+import { resolveExecutionRequestFile } from "./execution-routing.mjs";
 import { installArchifyAdapter, inspectArchifyAdapter } from "./archify-adapter.mjs";
 import { listTasks, refreshTaskTitles, registerTask, updateTask } from "./tasks.mjs";
 import {
@@ -213,6 +214,7 @@ Usage:
   temple usage preflight [target] [--state-dir path] [--probe-codex-account] [--json]
   temple usage evaluate [target] --fixture .ai-org/evaluations/model/name.json [--no-write] [--json]
   temple usage collect [target] [--state-dir path] [--codex-command absolute-path] [--observation-mode on-demand|managed-local]
+  temple execution resolve [target] --request path [--json]
   temple adapter archify-status [target] [--json]
   temple adapter archify-install [target] --source local-git-checkout [--json]
   temple handoff [target] --work-item WI-0001 --to position --input-revision ref --completed text --evidence ref
@@ -265,6 +267,7 @@ Core commands:
   retrieval   Inspect the deterministic default and unconfigured local-hybrid boundary.
   evaluation  Score versioned adversarial policy observations without changing lifecycle authority.
   usage       Collect optional provider telemetry or build a numeric usage-driver baseline without prompts, prices, or automatic model routing.
+  execution   Resolve explainable per-step execution routes without contacting a Provider or changing project state.
   adapter     Inspect or install an opt-in, pinned, isolated local adapter.
   handoff     Create an evidence-bearing Position handoff artifact.
   transition  Enforce the workflow edge and its named gate requirements.
@@ -339,6 +342,7 @@ const VALUE_FLAGS = new Set([
   "--notes",
   "--pack",
   "--query",
+  "--request",
   "--limit",
   "--max-workers",
   "--scope",
@@ -507,7 +511,7 @@ const REPEATABLE_FLAGS = new Set([
   "--participant-principal",
   "--environment"
 ]);
-const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence", "schema", "migration", "learning", "retrieval", "evaluation", "usage", "adapter", "control-plane", "console", "backup", "restore", "audit", "federation", "portfolio", "experiment"]);
+const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence", "schema", "migration", "learning", "retrieval", "evaluation", "usage", "execution", "adapter", "control-plane", "console", "backup", "restore", "audit", "federation", "portfolio", "experiment"]);
 
 function parseCommand(argv) {
   if (argv.length === 0 || argv[0] === "--help" || argv[0] === "-h") {
@@ -1877,6 +1881,25 @@ async function runUsage(parsed) {
   return 0;
 }
 
+async function runExecution(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (parsed.action !== "resolve") throw new Error(`Unknown execution action: ${parsed.action}`);
+  if (!parsed.options["--request"]) throw new Error("execution resolve requires --request");
+  const route = await resolveExecutionRequestFile(target, parsed.options["--request"]);
+  if (parsed.flags.has("--json")) console.log(JSON.stringify(route, null, 2));
+  else {
+    console.log(`Execution route: ${route.summary.resolved}/${route.summary.steps} steps resolved`);
+    for (const step of route.steps) {
+      console.log(`${step.step_id}: ${step.selected?.profile_id ?? "unresolved"} (${step.selection.mode}, ${step.selection.rule_id ?? "no matching rule"})`);
+      if (step.selection.unresolved_reason) console.log(`  Reason: ${step.selection.unresolved_reason}`);
+    }
+    console.log("Automatic execution: disabled");
+    console.log("Provider contact: not performed");
+    console.log("Canonical state changed: no");
+  }
+  return route.summary.unresolved > 0 ? 2 : 0;
+}
+
 async function runAdapter(parsed) {
   const target = await assertSafeTarget(parsed.target);
   if (parsed.action === "archify-status") {
@@ -2860,6 +2883,7 @@ export async function main(argv) {
   if (parsed.command === "retrieval") return runRetrieval(parsed);
   if (parsed.command === "evaluation") return runEvaluation(parsed);
   if (parsed.command === "usage") return runUsage(parsed);
+  if (parsed.command === "execution") return runExecution(parsed);
   if (parsed.command === "adapter") return runAdapter(parsed);
   if (parsed.command === "handoff") return runHandoff(parsed);
   if (parsed.command === "transition") return runTransition(parsed);

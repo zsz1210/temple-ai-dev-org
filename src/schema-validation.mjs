@@ -5,6 +5,11 @@ import addFormats from "ajv-formats";
 import { pathExists, readJson } from "./files.mjs";
 import { validateValidationProgramManifest } from "./validation-program.mjs";
 import { validateUsagePolicy } from "./usage-policy.mjs";
+import {
+  readExecutionPolicy,
+  validateExecutionPolicy,
+  validateExecutionRequest
+} from "./execution-routing.mjs";
 import { validateLearningRepository } from "./learning.mjs";
 
 export const SCHEMA_VALIDATION_SCHEMA = "temple.schema-validation/v1";
@@ -42,6 +47,7 @@ export async function validateProjectSchemas(target) {
   }
   const errors = [];
   const checked = [];
+  let executionPolicy = null;
   for (const entry of catalog.documents) {
     const schemaPath = `.ai-org/core/schemas/${entry.schema}`;
     const schema = await readJson(path.join(target, schemaPath));
@@ -63,13 +69,16 @@ export async function validateProjectSchemas(target) {
       try {
         const document = await readJson(path.join(target, documentPath));
         const jsonSchemaValid = validate(document);
-        const semantic = jsonSchemaValid
-          ? entry.id === "validation-program"
-            ? validateValidationProgramManifest(document)
-            : entry.id === "usage-policy"
-              ? validateUsagePolicy(document)
-              : { valid: true, errors: [] }
-          : { valid: true, errors: [] };
+        let semantic = { valid: true, errors: [] };
+        if (jsonSchemaValid) {
+          if (entry.id === "validation-program") semantic = validateValidationProgramManifest(document);
+          else if (entry.id === "usage-policy") semantic = validateUsagePolicy(document);
+          else if (entry.id === "execution-policy") semantic = validateExecutionPolicy(document);
+          else if (entry.id === "execution-requests") {
+            executionPolicy ??= (await readExecutionPolicy(target)).policy;
+            semantic = validateExecutionRequest(document, executionPolicy);
+          }
+        }
         const valid = jsonSchemaValid && semantic.valid;
         checked.push({ document: documentPath, schema: schemaPath, valid });
         if (!jsonSchemaValid) errors.push(...normalizeAjvErrors(documentPath, schemaPath, validate.errors));

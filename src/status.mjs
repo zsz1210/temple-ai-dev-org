@@ -46,6 +46,7 @@ import {
   validateRepositoryIntegration
 } from "./repository-integration.mjs";
 import { lifecycleProjection } from "./workflow.mjs";
+import { executionPolicyProjection, readExecutionPolicy } from "./execution-routing.mjs";
 
 function markdown(value) {
   return String(value ?? "").replace(/\|/g, "\\|").replace(/\r?\n/g, " ");
@@ -89,7 +90,8 @@ export async function buildStatus(target, options = {}) {
     retrievalConfig,
     retrievalEvaluation,
     archifyAdapter,
-    repositoryIntegration
+    repositoryIntegration,
+    executionPolicyState
   ] =
     await Promise.all([
       readJson(path.join(target, "temple.lock")),
@@ -130,7 +132,8 @@ export async function buildStatus(target, options = {}) {
         ? readJson(path.join(target, RETRIEVAL_EVALUATION_VIEW))
         : Promise.resolve({ fixture: null, large_repository_validation: "not_run" }),
       inspectArchifyAdapter(target),
-      repositoryIntegrationInstalled ? readRepositoryIntegration(target) : defaultRepositoryIntegration()
+      repositoryIntegrationInstalled ? readRepositoryIntegration(target) : defaultRepositoryIntegration(),
+      readExecutionPolicy(target)
     ]);
 
   const agents = new Map(agentsDocument.agents.map((agent) => [agent.id, agent]));
@@ -468,6 +471,7 @@ export async function buildStatus(target, options = {}) {
       evaluation_fixture: retrievalEvaluation.fixture,
       large_repository_validation: retrievalEvaluation.large_repository_validation
     },
+    execution_routing: executionPolicyProjection(executionPolicyState.policy, executionPolicyState.source),
     capabilities: capabilityRegistry.counts,
     collaboration: {
       profile: collaborationState.profile,
@@ -648,6 +652,16 @@ export function renderStatusMarkdown(status) {
     `- Semantic retrieval: ${status.context_routing.semantic ? "enabled" : "disabled"}`,
     `- Local hybrid boundary: \`${status.context_routing.local_hybrid.status}\` (runtime installed: no)`,
     `- Large-repository retrieval validation: \`${status.context_routing.large_repository_validation}\``,
+    "",
+    "## Adaptive execution routing",
+    "",
+    `- Selection mode: \`${status.execution_routing.selection_mode}\``,
+    `- Profiles: ${status.execution_routing.profiles} (${status.execution_routing.mapped_profiles} concretely mapped)`,
+    `- Capabilities: ${status.execution_routing.capabilities}`,
+    `- Resource measures: ${status.execution_routing.resource_measures}`,
+    `- Fallback profile: \`${status.execution_routing.fallback_profile_id}\``,
+    `- Automatic execution: ${status.execution_routing.automatic_execution ? "enabled" : "disabled"}`,
+    `- Provider contact performed by resolution: ${status.execution_routing.provider_contact ? "yes" : "no"}`,
     "",
     "## Engineering learning",
     "",

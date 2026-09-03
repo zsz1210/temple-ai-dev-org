@@ -428,6 +428,11 @@ test("repository observer projects canonical organization independently of live 
   assert.equal(organization.schema_version, "temple.organization-view/v1");
   assert.equal(organization.profile, "solo");
   assert.equal(organization.coordination_backend, "repository");
+  assert.equal(observer.execution_routing.selection_mode, "advisory");
+  assert.equal(observer.execution_routing.profiles, 4);
+  assert.equal(observer.execution_routing.mapped_profiles, 0);
+  assert.equal(observer.execution_routing.automatic_execution, false);
+  assert.equal(observer.execution_routing.provider_contact, false);
   assert.deepEqual(organization.counts, {
     accountable_people: 1,
     active_agents: 5,
