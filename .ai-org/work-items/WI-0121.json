@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0121",
   "title": "Close remaining Execution Route validation bypasses",
-  "state": "blocked",
+  "state": "done",
   "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-03T03:30:04.190Z",
-  "updated_at": "2026-09-03T03:47:41.525Z",
+  "updated_at": "2026-09-03T04:29:48.309Z",
   "scope": [
     "Reject the nine Route validation bypasses retained by WI-0120 Independent QA attempt 1."
   ],
@@ -55,7 +55,7 @@
   ],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "a8eea7c3122dfac1ce7cf700a083030bb79bf01d",
+  "base_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -66,16 +66,16 @@
     "WI-0086 retains public-release qualification. WI-0121 changes only local validation code, managed schema, tests, and self-host digest metadata."
   ],
   "claim": {
-    "id": "claim-20260903033945-3957c4c8",
+    "id": "claim-20260903042947-dca1bd4b",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-lulu",
-    "base_revision": "a8eea7c3122dfac1ce7cf700a083030bb79bf01d",
+    "agent_id": "agent-mog",
+    "base_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
     "branch": "codex/wi-0120-harden-execution-route-schema",
     "worktree": null,
-    "claimed_at": "2026-09-03T03:39:45.987Z",
-    "released_at": "2026-09-03T03:47:41.525Z",
-    "release_reason": "position_transition"
+    "claimed_at": "2026-09-03T04:29:47.891Z",
+    "released_at": "2026-09-03T04:29:48.309Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -149,6 +149,30 @@
       "claimed_at": "2026-09-03T03:39:45.987Z",
       "released_at": "2026-09-03T03:47:41.525Z",
       "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903042946-db68dae3",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "branch": "codex/wi-0120-harden-execution-route-schema",
+      "worktree": null,
+      "claimed_at": "2026-09-03T04:29:46.972Z",
+      "released_at": "2026-09-03T04:29:47.629Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903042947-dca1bd4b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "branch": "codex/wi-0120-harden-execution-route-schema",
+      "worktree": null,
+      "claimed_at": "2026-09-03T04:29:47.891Z",
+      "released_at": "2026-09-03T04:29:48.309Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -189,6 +213,24 @@
     ],
     "blocker_record": [
       ".ai-org/artifacts/WI-0121/independent-qa-attempt-1.md"
+    ],
+    "resolution_evidence": [
+      ".ai-org/artifacts/WI-0122/release-record.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0121/independent-qa-final.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0121/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0121/independent-qa-final.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0121/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -208,7 +250,12 @@
     ".ai-org/artifacts/WI-0121/quality-test-observation.json",
     ".ai-org/artifacts/WI-0121/handoff-005-quality_evaluator-to-independent_qa.md",
     ".ai-org/artifacts/WI-0121/quality-report.md",
-    ".ai-org/artifacts/WI-0121/independent-qa-attempt-1.md"
+    ".ai-org/artifacts/WI-0121/independent-qa-attempt-1.md",
+    ".ai-org/artifacts/WI-0122/release-record.md",
+    ".ai-org/artifacts/WI-0121/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0121/independent-qa-final.md",
+    ".ai-org/artifacts/WI-0124/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0121/release-record.md"
   ],
   "unresolved": [],
   "next_position": null,
@@ -247,8 +294,20 @@
       "input_revision": "a8eea7c3122dfac1ce7cf700a083030bb79bf01d",
       "artifact": ".ai-org/artifacts/WI-0121/handoff-005-quality_evaluator-to-independent_qa.md",
       "created_at": "2026-09-03T03:39:45.481Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "artifact": ".ai-org/artifacts/WI-0121/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-03T04:29:47.395Z"
     }
   ],
   "developer_candidate_revision": "a8eea7c3122dfac1ce7cf700a083030bb79bf01d",
-  "previous_state": "independent_qa"
+  "tested_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

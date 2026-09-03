@@ -19319,6 +19319,378 @@
         "status": "planned",
         "procedure": ".ai-org/artifacts/WI-0124/rollback-plan.md"
       }
+    },
+    {
+      "id": "EVID-20260903T042910Z-A43A1662",
+      "work_item_id": "WI-0123",
+      "recorded_at": "2026-09-03T04:29:10.507Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Cumulative independent execution-route QA",
+      "outcome": "pass",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:26:39Z",
+      "summary": "WI-0124 Independent QA covers and passes the full WI-0120 through WI-0124 repair matrix at candidate 0e32149.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0124/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0124/independent-qa-test-observation.json",
+          "sha256": "02f127179c1a10d19ef428002f6137f032b9c160bc96c930c04649e521c3b8a5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/independent-qa-report.md",
+          "sha256": "0b54d15ed4705051a78bcbc3d5b6306e453439c292b5c84aee99fdcb47675e9e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/quality-report.md",
+          "sha256": "46387f0d65780c7fc5de64a5f09924bb2b859d28dc092f410f5e27cdf5d7a7a7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/independent-qa-attempt-1.md",
+          "sha256": "3ff3291bf8181a65ba8c33003af6664f431fe33fae4f8b3c7c96bc5f090d02f7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/independent-qa-attempt-1.md",
+          "sha256": "4fecdc66b8088f4c80e4f29829c16c337e2baf049f73f35a04bcbf002e04bed2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0122/independent-qa-attempt-1.md",
+          "sha256": "c0386644a84403ec2e3453be3026a54e8b4bb990dc7b3da24f9086d016801bf1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0123/independent-qa-attempt-1.md",
+          "sha256": "ca8125f7cb6f8f3d5319b1b076a577ba2ef419813be4795babd086ea22e7ea9c"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T04:25:27Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T042911Z-28CA8B90",
+      "work_item_id": "WI-0123",
+      "recorded_at": "2026-09-03T04:29:11.473Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:29:11.473Z",
+      "summary": "Revert the cumulative runtime/schema/test/lock repair unit and rerun repository gates.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0123/rollback-plan.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0123/rollback-plan.md",
+          "sha256": "eb4e08244dd1abd452c43b2798251955d86f02d2bbcbba97b433eb3c87263d14"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0123/rollback-plan.md"
+      }
+    },
+    {
+      "id": "EVID-20260903T042925Z-B40EC803",
+      "work_item_id": "WI-0122",
+      "recorded_at": "2026-09-03T04:29:25.561Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Cumulative independent execution-route QA",
+      "outcome": "pass",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:26:39Z",
+      "summary": "WI-0124 Independent QA covers and passes the full WI-0120 through WI-0124 repair matrix at candidate 0e32149.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0124/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0124/independent-qa-test-observation.json",
+          "sha256": "02f127179c1a10d19ef428002f6137f032b9c160bc96c930c04649e521c3b8a5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/independent-qa-report.md",
+          "sha256": "0b54d15ed4705051a78bcbc3d5b6306e453439c292b5c84aee99fdcb47675e9e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/quality-report.md",
+          "sha256": "46387f0d65780c7fc5de64a5f09924bb2b859d28dc092f410f5e27cdf5d7a7a7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/independent-qa-attempt-1.md",
+          "sha256": "3ff3291bf8181a65ba8c33003af6664f431fe33fae4f8b3c7c96bc5f090d02f7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/independent-qa-attempt-1.md",
+          "sha256": "4fecdc66b8088f4c80e4f29829c16c337e2baf049f73f35a04bcbf002e04bed2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0122/independent-qa-attempt-1.md",
+          "sha256": "c0386644a84403ec2e3453be3026a54e8b4bb990dc7b3da24f9086d016801bf1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0123/independent-qa-attempt-1.md",
+          "sha256": "ca8125f7cb6f8f3d5319b1b076a577ba2ef419813be4795babd086ea22e7ea9c"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T04:25:27Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T042926Z-72A3B94D",
+      "work_item_id": "WI-0122",
+      "recorded_at": "2026-09-03T04:29:26.504Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:29:26.504Z",
+      "summary": "Revert the cumulative runtime/schema/test/lock repair unit and rerun repository gates.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0122/rollback-plan.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0122/rollback-plan.md",
+          "sha256": "75ecd3078cb46b62ee6925dec85ea3c1fc21bca3f09d20ad2a0ee33d6b3d2562"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0122/rollback-plan.md"
+      }
+    },
+    {
+      "id": "EVID-20260903T042947Z-6F2F74C7",
+      "work_item_id": "WI-0121",
+      "recorded_at": "2026-09-03T04:29:47.197Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Cumulative independent execution-route QA",
+      "outcome": "pass",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:26:39Z",
+      "summary": "WI-0124 Independent QA covers and passes the full WI-0120 through WI-0124 repair matrix at candidate 0e32149.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0124/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0124/independent-qa-test-observation.json",
+          "sha256": "02f127179c1a10d19ef428002f6137f032b9c160bc96c930c04649e521c3b8a5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/independent-qa-report.md",
+          "sha256": "0b54d15ed4705051a78bcbc3d5b6306e453439c292b5c84aee99fdcb47675e9e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/quality-report.md",
+          "sha256": "46387f0d65780c7fc5de64a5f09924bb2b859d28dc092f410f5e27cdf5d7a7a7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/independent-qa-attempt-1.md",
+          "sha256": "3ff3291bf8181a65ba8c33003af6664f431fe33fae4f8b3c7c96bc5f090d02f7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/independent-qa-attempt-1.md",
+          "sha256": "4fecdc66b8088f4c80e4f29829c16c337e2baf049f73f35a04bcbf002e04bed2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0122/independent-qa-attempt-1.md",
+          "sha256": "c0386644a84403ec2e3453be3026a54e8b4bb990dc7b3da24f9086d016801bf1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0123/independent-qa-attempt-1.md",
+          "sha256": "ca8125f7cb6f8f3d5319b1b076a577ba2ef419813be4795babd086ea22e7ea9c"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T04:25:27Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T042948Z-A37E094C",
+      "work_item_id": "WI-0121",
+      "recorded_at": "2026-09-03T04:29:48.116Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:29:48.116Z",
+      "summary": "Revert the cumulative runtime/schema/test/lock repair unit and rerun repository gates.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0121/rollback-plan.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0121/rollback-plan.md",
+          "sha256": "b0cc0e1a498bb1fc6134c17bd451fc7cef4712b4d25c2720e4d48791702e6ac5"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0121/rollback-plan.md"
+      }
+    },
+    {
+      "id": "EVID-20260903T042949Z-E43D0157",
+      "work_item_id": "WI-0120",
+      "recorded_at": "2026-09-03T04:29:49.033Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Cumulative independent execution-route QA",
+      "outcome": "pass",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:26:39Z",
+      "summary": "WI-0124 Independent QA covers and passes the full WI-0120 through WI-0124 repair matrix at candidate 0e32149.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0124/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0124/independent-qa-test-observation.json",
+          "sha256": "02f127179c1a10d19ef428002f6137f032b9c160bc96c930c04649e521c3b8a5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/independent-qa-report.md",
+          "sha256": "0b54d15ed4705051a78bcbc3d5b6306e453439c292b5c84aee99fdcb47675e9e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/quality-report.md",
+          "sha256": "46387f0d65780c7fc5de64a5f09924bb2b859d28dc092f410f5e27cdf5d7a7a7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/independent-qa-attempt-1.md",
+          "sha256": "3ff3291bf8181a65ba8c33003af6664f431fe33fae4f8b3c7c96bc5f090d02f7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/independent-qa-attempt-1.md",
+          "sha256": "4fecdc66b8088f4c80e4f29829c16c337e2baf049f73f35a04bcbf002e04bed2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0122/independent-qa-attempt-1.md",
+          "sha256": "c0386644a84403ec2e3453be3026a54e8b4bb990dc7b3da24f9086d016801bf1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0123/independent-qa-attempt-1.md",
+          "sha256": "ca8125f7cb6f8f3d5319b1b076a577ba2ef419813be4795babd086ea22e7ea9c"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T04:25:27Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T042949Z-3D76A52F",
+      "work_item_id": "WI-0120",
+      "recorded_at": "2026-09-03T04:29:49.960Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:29:49.960Z",
+      "summary": "Revert the cumulative runtime/schema/test/lock repair unit and rerun repository gates.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0120/rollback-plan.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0120/rollback-plan.md",
+          "sha256": "80d9b31a1e9b5e8a9e1f9f78d6a8436079f4715d6a31294719dbcaaacf78d2bb"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0120/rollback-plan.md"
+      }
     }
   ]
 }

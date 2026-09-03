@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 124 total, 6 active
+- Work items: 124 total, 2 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 17
+- Attention signals: 13
 
 ## Collaboration
 
@@ -167,10 +167,10 @@
 | WI-0117 | Run qualified Wave 5B lean workflow comparison | concluded | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b8f41dd0` | 0 | 21 | 1 |
 | WI-0118 | Turn validation evidence into adaptive Lean Mode | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `b3b5c13d` | 0 | 21 | 0 |
 | WI-0119 | Establish adaptive execution routing foundation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `cfa12af5` | 0 | 23 | 0 |
-| WI-0120 | Harden the Execution Route validation boundary | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `486c64df` | 0 | 18 | 0 |
-| WI-0121 | Close remaining Execution Route validation bypasses | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a8eea7c3` | 0 | 17 | 0 |
-| WI-0122 | Reconcile pinned Route reason precedence | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3c35ddf8` | 0 | 17 | 0 |
-| WI-0123 | Close Execution resolver input domain | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `4263bc7d` | 0 | 17 | 0 |
+| WI-0120 | Harden the Execution Route validation boundary | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0e32149b` | 0 | 23 | 0 |
+| WI-0121 | Close remaining Execution Route validation bypasses | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0e32149b` | 0 | 22 | 0 |
+| WI-0122 | Reconcile pinned Route reason precedence | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0e32149b` | 0 | 22 | 0 |
+| WI-0123 | Close Execution resolver input domain | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0e32149b` | 0 | 22 | 0 |
 | WI-0124 | Seal Execution Request projection boundaries | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0e32149b` | 0 | 20 | 0 |
 
 ## Codex task registry
@@ -222,10 +222,6 @@
 ## Attention
 
 - WI-0086 is blocked
-- WI-0120 is blocked
-- WI-0121 is blocked
-- WI-0122 is blocked
-- WI-0123 is blocked
 - task-0001 can be archived
 - task-0002 can be archived
 - task-0003 can be archived
@@ -317,14 +313,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-03T04:28:11.621Z | work_item_closed | WI-0124 | agent-mog |
-| 2026-09-03T04:28:11.621Z | release_gate_completed | WI-0124 | agent-mog |
-| 2026-09-03T04:28:02.747Z | evidence_recorded | WI-0124 | human |
-| 2026-09-03T04:27:46.546Z | work_item_claimed | WI-0124 | human |
-| 2026-09-03T04:27:46.280Z | work_item_transitioned | WI-0124 | agent-lulu |
-| 2026-09-03T04:27:46.011Z | handoff_created | WI-0124 | agent-lulu |
-| 2026-09-03T04:27:45.807Z | evidence_recorded | WI-0124 | human |
-| 2026-09-03T04:19:59.800Z | work_item_claimed | WI-0124 | human |
+| 2026-09-03T04:29:50.159Z | work_item_closed | WI-0120 | agent-mog |
+| 2026-09-03T04:29:50.159Z | release_gate_completed | WI-0120 | agent-mog |
+| 2026-09-03T04:29:49.960Z | evidence_recorded | WI-0120 | human |
+| 2026-09-03T04:29:49.727Z | work_item_claimed | WI-0120 | human |
+| 2026-09-03T04:29:49.470Z | work_item_transitioned | WI-0120 | agent-lulu |
+| 2026-09-03T04:29:49.229Z | handoff_created | WI-0120 | agent-lulu |
+| 2026-09-03T04:29:49.033Z | evidence_recorded | WI-0120 | human |
+| 2026-09-03T04:29:48.806Z | work_item_claimed | WI-0120 | human |
 
 ## Assignments
 
