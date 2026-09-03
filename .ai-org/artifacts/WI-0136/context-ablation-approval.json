@@ -2,8 +2,8 @@
   "schema_version": "temple.context-model-diagnostic-account-approval/v10",
   "work_item_id": "WI-0136",
   "protocol_sha256": "f1a3da3550d5751581a049e0e17085948517eea5caa8b40c63e744c495fef33f",
-  "approved": false,
-  "authorization_source": null,
+  "approved": true,
+  "authorization_source": "user-message:approval-to-displayed-WI-0136-v10-envelope",
   "approved_candidate_turns": 2,
   "approved_models": [
     "gpt-5.6-terra"
@@ -24,5 +24,5 @@
   "usage_reset_authorized": false,
   "retry_count": 0,
   "fallback_count": 0,
-  "approved_at": null
+  "approved_at": "2026-09-03T14:35:12Z"
 }
