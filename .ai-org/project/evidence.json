@@ -20631,6 +20631,157 @@
         "exit_code": 0,
         "started_at": "2026-09-03T09:46:15.000Z"
       }
+    },
+    {
+      "id": "EVID-20260903T101325Z-572AEB94",
+      "work_item_id": "WI-0134",
+      "recorded_at": "2026-09-03T10:13:25.570Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0134 full repository verification",
+      "outcome": "pass",
+      "scope_revision": "ad1f06a5205820ff2075487bf5cab7f55082191d",
+      "observed_at": "2026-09-03T10:12:04.000Z",
+      "summary": "All 358 tests passed for the governed evidence invalidation candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0134/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0134/developer-test-observation.json",
+          "sha256": "55d9686bf20ce9caabce732b78ee54c7241b086666198dbeb497f03e3b4bfef2"
+        },
+        {
+          "path": "src/evidence.mjs",
+          "sha256": "cb00fab113837a2df390189634e7406ae4f8e3749479124a449f1c6b5e634592"
+        },
+        {
+          "path": "src/cli.mjs",
+          "sha256": "f4a37ac04668046d0d5a7412bf82cb79393b05649ca2985b890aecd94f5a7e8d"
+        },
+        {
+          "path": "test/evidence-observer.test.mjs",
+          "sha256": "fb4ea68508fa3d993150b7f75fcc6f1133fb38b4036a068dd7db75e2f267be43"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0134/developer-report.md",
+          "sha256": "976e5f02e6371e93cc1a0f2287bdecdf404eb0523df458cea366facba7f64d51"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T10:11:02.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T101404Z-26B0E4DF",
+      "work_item_id": "WI-0134",
+      "recorded_at": "2026-09-03T10:14:04.045Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0134 focused quality regression",
+      "outcome": "pass",
+      "scope_revision": "ad1f06a5205820ff2075487bf5cab7f55082191d",
+      "observed_at": "2026-09-03T10:13:47.000Z",
+      "summary": "All 14 evidence and Observer tests passed for the exact candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0134/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0134/quality-test-observation.json",
+          "sha256": "c786d645ee3b1901b5c6f44a4eca63339d8f5149252f3b59fad357186458cfea"
+        },
+        {
+          "path": "src/evidence.mjs",
+          "sha256": "cb00fab113837a2df390189634e7406ae4f8e3749479124a449f1c6b5e634592"
+        },
+        {
+          "path": "src/cli.mjs",
+          "sha256": "f4a37ac04668046d0d5a7412bf82cb79393b05649ca2985b890aecd94f5a7e8d"
+        },
+        {
+          "path": "test/evidence-observer.test.mjs",
+          "sha256": "fb4ea68508fa3d993150b7f75fcc6f1133fb38b4036a068dd7db75e2f267be43"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/evidence-observer.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T10:13:31.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T101534Z-9F296821",
+      "work_item_id": "WI-0134",
+      "recorded_at": "2026-09-03T10:15:34.111Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0134 independent full verification",
+      "outcome": "pass",
+      "scope_revision": "ad1f06a5205820ff2075487bf5cab7f55082191d",
+      "observed_at": "2026-09-03T10:15:48.000Z",
+      "summary": "Independent QA reproduced all 358 tests and the evidence-integrity boundary.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0134/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0134/independent-qa-test-observation.json",
+          "sha256": "d798c5a01c496fae49be79fcc69a2e8abc86457893e9717c1a3af76e2c248b9b"
+        },
+        {
+          "path": "src/evidence.mjs",
+          "sha256": "cb00fab113837a2df390189634e7406ae4f8e3749479124a449f1c6b5e634592"
+        },
+        {
+          "path": "src/cli.mjs",
+          "sha256": "f4a37ac04668046d0d5a7412bf82cb79393b05649ca2985b890aecd94f5a7e8d"
+        },
+        {
+          "path": "test/evidence-observer.test.mjs",
+          "sha256": "fb4ea68508fa3d993150b7f75fcc6f1133fb38b4036a068dd7db75e2f267be43"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T10:14:46.000Z"
+      }
     }
   ]
 }

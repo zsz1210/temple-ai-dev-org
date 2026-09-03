@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
-- Parallel plan: 0 wave(s), fresh=false
-- Work items: 134 total, 3 active
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Parallel plan: 0 wave(s), fresh=true
+- Work items: 134 total, 2 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 13
+- Attention signals: 12
 
 ## Collaboration
 
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -37,10 +37,10 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: no
+- Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 4 / 1
+- Active / sequential / blocked: 0 / 1 / 1
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -181,7 +181,7 @@
 | WI-0131 | Correct the Lean routing effectiveness experiment | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c040c0be` | 0 | 16 | 0 |
 | WI-0132 | Run corrected Lean routing effectiveness comparison | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `fd4bbe88` | 0 | 21 | 0 |
 | WI-0133 | Reduce Lean context overhead and harden effectiveness measurement | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1df92590` | 0 | 20 | 0 |
-| WI-0134 | Repair invalid historical evidence records | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903100914-99f084b5 | `—` | 0 | 7 | 0 |
+| WI-0134 | Repair invalid historical evidence records | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ad1f06a5` | 0 | 18 | 0 |
 
 ## Codex task registry
 
@@ -242,7 +242,6 @@
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
-- Generated parallel plan is stale; rebuild it before dispatch
 - Parallel plan has 1 blocked Work Item(s)
 
 ## External tracker coordination
@@ -323,14 +322,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-03T10:11:15.670Z | evidence_invalidated | WI-0131 | human |
-| 2026-09-03T10:11:15.387Z | evidence_invalidated | WI-0130 | human |
-| 2026-09-03T10:09:14.192Z | work_item_claimed | WI-0134 | principal-zsz1210 |
-| 2026-09-03T10:09:13.939Z | work_item_transitioned | WI-0134 | agent-tidus |
-| 2026-09-03T10:09:13.715Z | handoff_created | WI-0134 | agent-tidus |
-| 2026-09-03T10:09:13.493Z | work_item_transitioned | WI-0134 | agent-yuna |
-| 2026-09-03T10:09:13.254Z | handoff_created | WI-0134 | agent-yuna |
-| 2026-09-03T10:09:13.030Z | work_item_transitioned | WI-0134 | agent-mog |
+| 2026-09-03T10:15:44.387Z | work_item_closed | WI-0134 | agent-mog |
+| 2026-09-03T10:15:44.387Z | release_gate_completed | WI-0134 | agent-mog |
+| 2026-09-03T10:15:44.122Z | work_item_transitioned | WI-0134 | agent-lulu |
+| 2026-09-03T10:15:43.831Z | handoff_created | WI-0134 | agent-lulu |
+| 2026-09-03T10:15:34.111Z | evidence_recorded | WI-0134 | agent-lulu |
+| 2026-09-03T10:14:11.718Z | work_item_transitioned | WI-0134 | agent-lulu |
+| 2026-09-03T10:14:11.486Z | handoff_created | WI-0134 | agent-lulu |
+| 2026-09-03T10:14:11.103Z | work_item_transitioned | WI-0134 | agent-lulu |
 
 ## Assignments
 
