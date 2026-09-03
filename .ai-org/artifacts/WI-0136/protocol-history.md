@@ -170,3 +170,26 @@ V10 preserves the v9 route, effort request, context treatments, condition ceilin
 The exact-approved attempt ran from `2026-09-03T14:35:32.396Z` to `2026-09-03T14:42:08.099Z`. Both Terra medium candidates completed without censoring, retry, or fallback. Routed context recovered all four exact service revisions and every other objective recovery field at 57,296 Operational Tokens. Full-load context used 70,743 Operational Tokens and returned every other required field, but truncated the Notifications revision from 40 to 39 hexadecimal characters, so it recovered 3 of 4 exact revisions and failed the objective recovery gate.
 
 In this one matched pair, routed context used 13,447 fewer Operational Tokens (19.01%), finished 55.245 seconds sooner (24.52%), issued 8 fewer commands, and surfaced 96,062 fewer tool-output bytes. Because objective quality was not equal and there is only one observation per condition, these are descriptive results, not a population estimate or an automatic model-routing rule. The successful routed recovery qualifies Context Capsule-first retrieval for the replacement main Temple-versus-minimal comparison. Full evidence and interpretation are in `context-recovery-qualification-v10-report.md`.
+
+## Representative comparison v3
+
+- Protocol SHA-256: `e38b4052462db8206a868cfc24a7a90ed6fe896fe09e8d78de4adbeb7de128ea`
+- Exact approval: recorded at `2026-09-03T15:22:53Z`
+- Candidate Operational-Token hard stop: 525,000
+- Evaluator Operational-Token hard stop: 100,000
+- Combined Operational-Token hard stop: 625,000
+- Wall-clock hard stop: 45 minutes
+- Retry and fallback: disabled
+- Status: stopped during the first arm's Build wave; no comparison result
+
+V3 stopped after observing 144,372 Operational Tokens. The model changed the allowed `src/order-event.mjs`, but the harness trimmed the leading space from `git status --porcelain=v1` and then removed a fixed three-character prefix, misreading the path as `rc/order-event.mjs`. No arm completed and the evaluator did not start. This is harness evidence, not evidence against either experimental arm.
+
+## Representative comparison v4
+
+- Protocol SHA-256: `1aa274148ad8616fa8d14bd067eb43b004504ec74786c0afcbbb7b0c631c1b7d`
+- Models, efforts, candidate count, safety limits, retry policy, fallback policy, and network boundary: unchanged from v3
+- Harness repair: accept exact Git porcelain records both before and after the shared command helper trims leading whitespace
+- Stopped evidence: retain completed arms and normalized active Design, Build, and Integration observations
+- Status: generation disabled until separate exact account approval
+
+V4 uses fresh matched repositories and a new runner digest. The v3 approval cannot authorize it, and the stopped v3 lab cannot be resumed or retried.

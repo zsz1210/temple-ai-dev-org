@@ -1,6 +1,6 @@
 # Representative multi-Agent microservice comparison
 
-- Status: WI-0136 routed-context qualification passed; replacement main protocol v3 is frozen and generation-disabled pending exact approval
+- Status: WI-0136 routed-context qualification passed; main protocol v3 stopped on a harness path-parser defect, and corrected v4 is frozen and generation-disabled pending exact approval
 - Purpose: measure where Temple changes delivery outcomes, not accumulate another pass count
 - Comparison: Temple versus a minimal responsible workflow under matched inputs and model routes
 
@@ -135,7 +135,7 @@ node scripts/run-representative-microservice-comparison.mjs ablation-report
 
 The exact-approved v10 qualification is complete. Both Terra medium conditions completed once with zero retry and zero fallback. Routed context recovered all four exact service revisions and used 57,296 Operational Tokens; full-load context recovered three exact revisions and used 70,743 after truncating one 40-character revision to 39 characters. In this single matched pair, routed context also finished 55.245 seconds sooner and exposed 96,062 fewer tool-output bytes. These descriptive observations qualify Context Capsule-first retrieval for the replacement main comparison, but they do not establish a population effect, a model-routing rule, or Temple effectiveness. See the [v10 qualification report](../../.ai-org/artifacts/WI-0136/context-recovery-qualification-v10-report.md) and its preserved raw evidence.
 
-After the ablation, the main live execution shape remains ten candidate turns and one blind evaluator turn: one Sol xhigh design turn, three concurrent Terra medium implementation slices, and one fresh Terra medium cold-integration turn per arm, followed by one Sol xhigh evaluator. Replacement protocol v3 is frozen under digest `e38b4052462db8206a868cfc24a7a90ed6fe896fe09e8d78de4adbeb7de128ea`; its 525,000 candidate, 100,000 evaluator, 625,000 combined Operational-Token, and 45-minute limits remain safety stops rather than forecasts. Generation stays disabled until matching exact approval.
+After the ablation, the main live execution shape remains ten candidate turns and one blind evaluator turn: one Sol xhigh design turn, three concurrent Terra medium implementation slices, and one fresh Terra medium cold-integration turn per arm, followed by one Sol xhigh evaluator. V3 stopped after 144,372 Operational Tokens when leading whitespace trimmed from Git porcelain output caused the allowed path `src/order-event.mjs` to be misread as `rc/order-event.mjs`; it provides no arm comparison. Corrected protocol v4 is frozen under digest `1aa274148ad8616fa8d14bd067eb43b004504ec74786c0afcbbb7b0c631c1b7d`. Its 525,000 candidate, 100,000 evaluator, 625,000 combined Operational-Token, and 45-minute limits remain safety stops rather than forecasts. V4 also retains completed and active stage observations on a future stop. Generation stays disabled until matching exact approval. See the [v3 stop report](../../.ai-org/artifacts/WI-0136/representative-main-v3-stop-report.md).
 
 After that replacement main protocol receives its own exact approval, the bounded commands are:
 

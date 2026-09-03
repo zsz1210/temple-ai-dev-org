@@ -1,0 +1,13 @@
+{
+  "schema_version": "temple.representative-microservice-stopped-run/v1",
+  "work_item_id": "WI-0136",
+  "protocol_sha256": "e38b4052462db8206a868cfc24a7a90ed6fe896fe09e8d78de4adbeb7de128ea",
+  "started_at": "2026-09-03T15:23:31.226Z",
+  "stopped_at": "2026-09-03T15:27:43.018Z",
+  "completed_arm_count": 0,
+  "candidate_operational_tokens": 144372,
+  "reason": "minimal-responsible-orders-catalog: out-of-scope writes in orders: rc/order-event.mjs",
+  "retry_count": 0,
+  "fallback_count": 0,
+  "model_generation_performed": true
+}

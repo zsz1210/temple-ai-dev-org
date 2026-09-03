@@ -12,6 +12,8 @@ import {
   diagnosticStoppedRun,
   integrationOutputSchema,
   protocolDigest,
+  representativeStoppedRun,
+  statusPaths,
   successfulContextActionLabels,
   templeRoutedContextInstruction,
   validateAblationApproval,
@@ -44,8 +46,11 @@ test("the representative microservice protocol is frozen but generation-disabled
   assert.equal(protocol.execution.fallback_count, 0);
   assert.equal(protocol.execution.candidate_turns, 10);
   assert.equal(protocol.execution.evaluator_turns, 1);
+  assert.equal(protocol.protocol_revision, 4);
   assert.equal(protocol.execution.combined_operational_token_limit, 625000);
   assert.deepEqual(protocol.context_policy.temple_md_fallback_when_missing, ["authority", "current-state", "safe-next-action"]);
+  assert.equal(protocol.predecessor.disposition, "stopped-harness-path-parsing-failure");
+  assert.equal(protocol.stopped_evidence_policy, "completed-and-active-stage-observations");
 });
 
 test("protocol validation rejects product drift, reroute, retry, and digest rewriting", async () => {
@@ -185,6 +190,32 @@ test("comparison command policy permits only fixture-scoped git -C reads", () =>
   }
   assert.equal(commandTextAllowed("git -C ../outside rev-parse HEAD", comparisonAllowedCommandPrefixes), false);
   assert.equal(commandTextAllowed("git -C gateway config core.sshCommand exploit", comparisonAllowedCommandPrefixes), false);
+});
+
+test("Git porcelain paths survive leading-whitespace trimming", () => {
+  assert.deepEqual(statusPaths("M src/order-event.mjs\n M src/consumer.mjs\n?? src/new.mjs"), [
+    "src/consumer.mjs",
+    "src/new.mjs",
+    "src/order-event.mjs"
+  ]);
+  assert.throws(() => statusPaths("not-porcelain"), /malformed Git porcelain record/);
+});
+
+test("a stopped main run retains completed and active stage evidence", () => {
+  const stopped = representativeStoppedRun({
+    protocol: { work_item_id: "WI-0136", protocol_sha256: "frozen" },
+    startedAt: "start",
+    stoppedAt: "stop",
+    completed: [{ arm_id: "minimal-responsible" }],
+    activeArm: { arm_id: "temple", design: { id: "temple-design" }, builds: [{ id: "temple-gateway" }, { id: "temple-orders-catalog" }], portfolio_revision: null, integration: null },
+    candidateOperationalTokens: 123,
+    reason: "bounded stop"
+  });
+  assert.equal(stopped.schema_version, "temple.representative-microservice-stopped-run/v2");
+  assert.equal(stopped.completed_arm_count, 1);
+  assert.equal(stopped.active_arm.design.id, "temple-design");
+  assert.deepEqual(stopped.active_arm.builds.map((entry) => entry.id), ["temple-gateway", "temple-orders-catalog"]);
+  assert.equal(stopped.candidate_operational_tokens, 123);
 });
 
 test("integration completion schema and recovery evaluator require the same exact slice IDs", () => {

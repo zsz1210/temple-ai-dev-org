@@ -1,11 +1,12 @@
 {
   "schema_version": "temple.representative-microservice-comparison/v3",
+  "protocol_revision": 4,
   "work_item_id": "WI-0136",
   "status": "generation-disabled",
-  "protocol_sha256": "e38b4052462db8206a868cfc24a7a90ed6fe896fe09e8d78de4adbeb7de128ea",
+  "protocol_sha256": "1aa274148ad8616fa8d14bd067eb43b004504ec74786c0afcbbb7b0c631c1b7d",
   "fixture": {
     "fixture_sha256": "b10ff626ef465686909aaab6d858b087f0c2aaad7a8c484f9955ed0a8465822c",
-    "runner_sha256": "eea2afdd2f51f4a4a57e2d6391312cb5d7c0c1415466e7259abcb5b6fec884b9",
+    "runner_sha256": "516d68c6346935d10c7c6b33bde6567ca591379b623b4d7c708c9bfba141710e",
     "analyzer_sha256": "5e614a7879a8fbdb7655d6780dcf0c7e693e7326259fa166d7fe3231f1151c5c",
     "task_sha256": "5dfd10dce99196f282f0560a25aaffd359b7af2119a62d943e465f19ae46369c",
     "public_tests_sha256": "8809e165ee024f5606a48c38bb0f6065e3b943fcd00d05fda5fdd6099e0f41f9",
@@ -13,7 +14,7 @@
     "tool_policy_sha256": "18f5bef25f7b8a4efc220252818e642b75f5c342dd8d316e79a1254652801913",
     "rubric_sha256": "364d20a3102ddd78131fd2566b8579957b14df2d6638efd3ef1e97e94faeaf3f"
   },
-  "lab_manifest_sha256": "62725be772c1b131b38bd651318f07ebf5fd235e739a931b711faebf04385d4e",
+  "lab_manifest_sha256": "8104adc4f9b77bda9f6bd5226c658b11d5cabe9dea456aa85bc9620bc20bdf33",
   "arms": [
     {
       "id": "minimal-responsible",
@@ -29,7 +30,7 @@
         "catalog": "490bb75496c715770d2585a18c7a6ddd8c8b67c9",
         "orders": "21b595ddeaf29c43c77ee6b980c8820c499bef67",
         "notifications": "01c716dc842e22b8b241eeb19707d69bf57f9598",
-        "coordinator": "751401bee54d332368dae03d7f53c6b9cbc3d1e2"
+        "coordinator": "d13171c828dfc99c85173561aa3bcaeafad5705b"
       }
     },
     {
@@ -42,11 +43,11 @@
         "coordinator": "e3ce9dcde7e25d57df6a310bb850a4977921114f"
       },
       "organization_revisions": {
-        "gateway": "a07b509af536758343466cf34a674d21a8323b9e",
-        "catalog": "07344742517cac6cd9a4130ad771a08b4c1fe3fe",
-        "orders": "3d2b80d301e6e0f8e07c7a83d352e9f27778c581",
-        "notifications": "360fc67e9ef8dd12479fc4ad9f946c2ba01f1fba",
-        "coordinator": "8392008e7a5c218041b978987a9da9bf3c1e4eda"
+        "gateway": "c6742a6e0c4a7d8bb803abc9875e8b9519abee49",
+        "catalog": "f1a4642817521dd19bd16a036b5f1ff175fe904a",
+        "orders": "86db1d3f8b372612b443312ea6c92de0d2a9978a",
+        "notifications": "6d7e8ee8e9987aa3bdaa9482e793d5812720c027",
+        "coordinator": "2670ff8300d7fb4f158458374ef543dcac94ee5b"
       }
     }
   ],
@@ -100,6 +101,13 @@
     ],
     "new_unknown_recovery_start": "temple-md-first"
   },
+  "predecessor": {
+    "protocol_sha256": "e38b4052462db8206a868cfc24a7a90ed6fe896fe09e8d78de4adbeb7de128ea",
+    "disposition": "stopped-harness-path-parsing-failure",
+    "stopped_run": ".ai-org/artifacts/WI-0136/representative-main-v3-stopped-run.json",
+    "stop_report": ".ai-org/artifacts/WI-0136/representative-main-v3-stop-report.md"
+  },
+  "stopped_evidence_policy": "completed-and-active-stage-observations",
   "stop_rules": {
     "protocol_mismatch": true,
     "model_reroute": true,

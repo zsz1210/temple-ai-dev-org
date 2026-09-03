@@ -579,6 +579,7 @@ async function sourceDigests() {
 function buildProtocol(manifest) {
   const protocol = {
     schema_version: "temple.representative-microservice-comparison/v3",
+    protocol_revision: 4,
     work_item_id: "WI-0136",
     status: "generation-disabled",
     protocol_sha256: null,
@@ -620,6 +621,13 @@ function buildProtocol(manifest) {
       temple_md_fallback_when_missing: ["authority", "current-state", "safe-next-action"],
       new_unknown_recovery_start: "temple-md-first"
     },
+    predecessor: {
+      protocol_sha256: "e38b4052462db8206a868cfc24a7a90ed6fe896fe09e8d78de4adbeb7de128ea",
+      disposition: "stopped-harness-path-parsing-failure",
+      stopped_run: ".ai-org/artifacts/WI-0136/representative-main-v3-stopped-run.json",
+      stop_report: ".ai-org/artifacts/WI-0136/representative-main-v3-stop-report.md"
+    },
+    stopped_evidence_policy: "completed-and-active-stage-observations",
     stop_rules: {
       protocol_mismatch: true,
       model_reroute: true,
@@ -647,6 +655,7 @@ function buildProtocol(manifest) {
 export function validateRepresentativeProtocol(protocol) {
   const errors = [];
   if (protocol?.schema_version !== "temple.representative-microservice-comparison/v3") errors.push("unsupported schema");
+  if (protocol?.protocol_revision !== 4) errors.push("unexpected protocol revision");
   if (protocol?.work_item_id !== "WI-0136") errors.push("unexpected work item");
   if (protocol?.status !== "generation-disabled") errors.push("protocol status must remain generation-disabled before exact approval");
   if (protocol?.protocol_sha256 !== protocolDigest(protocol)) errors.push("protocol digest mismatch");
@@ -676,6 +685,11 @@ export function validateRepresentativeProtocol(protocol) {
       JSON.stringify(contextPolicy.temple_md_fallback_when_missing) !== JSON.stringify(["authority", "current-state", "safe-next-action"]) ||
       contextPolicy.new_unknown_recovery_start !== "temple-md-first") {
     errors.push("context policy mismatch");
+  }
+  if (protocol?.predecessor?.protocol_sha256 !== "e38b4052462db8206a868cfc24a7a90ed6fe896fe09e8d78de4adbeb7de128ea" ||
+      protocol?.predecessor?.disposition !== "stopped-harness-path-parsing-failure" ||
+      protocol?.stopped_evidence_policy !== "completed-and-active-stage-observations") {
+    errors.push("successor provenance mismatch");
   }
   if (!/^[a-f0-9]{64}$/.test(protocol?.fixture?.fixture_sha256 ?? "")) errors.push("fixture digest missing");
   const numericLimitFields = [
@@ -1551,8 +1565,12 @@ async function launchModelTurn({
   }
 }
 
-function statusPaths(output) {
-  return output.split("\n").filter(Boolean).map((entry) => entry.slice(3)).toSorted();
+export function statusPaths(output) {
+  return output.split("\n").filter(Boolean).map((entry) => {
+    if (entry.length >= 4 && entry[2] === " ") return entry.slice(3);
+    if (/^[ MADRCU?!] /.test(entry)) return entry.slice(2);
+    throw new Error(`malformed Git porcelain record: ${entry}`);
+  }).toSorted();
 }
 
 async function changedPaths(root) {
@@ -2905,15 +2923,44 @@ async function buildArmPackage({ armId, armRoot, design, builds, integration }) 
   };
 }
 
-async function runArm({ armId, labRoot, protocol, budget, deadline }) {
+async function runArm({ armId, labRoot, protocol, budget, deadline, progress }) {
   const armRoot = path.join(labRoot, "arms", armId);
   const design = await runDesignTurn({ armId, armRoot, protocol, budget, deadline });
-  const builds = await Promise.all(buildSlices().map((slice) => runBuildSlice({ armId, armRoot, slice, protocol, budget, deadline })));
+  progress.design = design;
+  const builds = await Promise.all(buildSlices().map(async (slice) => {
+    const build = await runBuildSlice({ armId, armRoot, slice, protocol, budget, deadline });
+    progress.builds.push(build);
+    return build;
+  }));
+  progress.builds.sort((left, right) => left.id.localeCompare(right.id));
   const serviceRevisions = Object.fromEntries(await Promise.all(services.map(async (repositoryId) => [repositoryId, await git(path.join(armRoot, repositoryId), ["rev-parse", "HEAD"])])));
   const portfolioRevision = await installArmPortfolio(armRoot, armId, serviceRevisions);
+  progress.portfolio_revision = portfolioRevision;
   const integration = await runIntegrationTurn({ armId, armRoot, protocol, budget, deadline });
+  progress.integration = integration;
   const packages = await buildArmPackage({ armId, armRoot, design, builds, integration });
   return { arm_id: armId, design, builds, portfolio_revision: portfolioRevision, integration, ...packages };
+}
+
+export function representativeStoppedRun({ protocol, startedAt, stoppedAt, completed, activeArm, candidateOperationalTokens, reason }) {
+  return {
+    schema_version: "temple.representative-microservice-stopped-run/v2",
+    work_item_id: protocol.work_item_id,
+    protocol_sha256: protocol.protocol_sha256,
+    started_at: startedAt,
+    stopped_at: stoppedAt,
+    completed_arm_count: completed.length,
+    completed_arms: completed,
+    active_arm: activeArm ? {
+      ...activeArm,
+      builds: activeArm.builds.toSorted((left, right) => left.id.localeCompare(right.id))
+    } : null,
+    candidate_operational_tokens: candidateOperationalTokens,
+    reason,
+    retry_count: 0,
+    fallback_count: 0,
+    model_generation_performed: true
+  };
 }
 
 async function runProgram(labRoot, protocolPath, approvalPath) {
@@ -2927,8 +2974,13 @@ async function runProgram(labRoot, protocolPath, approvalPath) {
   const startedAt = new Date().toISOString();
   const deadline = Date.now() + protocol.execution.program_wall_clock_limit_ms;
   const completed = [];
+  let activeArm = null;
   try {
-    for (const armId of protocol.execution.arm_order) completed.push(await runArm({ armId, labRoot, protocol, budget, deadline }));
+    for (const armId of protocol.execution.arm_order) {
+      activeArm = { arm_id: armId, design: null, builds: [], portfolio_revision: null, integration: null };
+      completed.push(await runArm({ armId, labRoot, protocol, budget, deadline, progress: activeArm }));
+      activeArm = null;
+    }
     const output = {
       schema_version: "temple.representative-microservice-candidate-run/v1",
       work_item_id: protocol.work_item_id,
@@ -2946,19 +2998,15 @@ async function runProgram(labRoot, protocolPath, approvalPath) {
     await writeJson(resultPath, output, { exclusive: true });
     return output;
   } catch (error) {
-    const stopped = {
-      schema_version: "temple.representative-microservice-stopped-run/v1",
-      work_item_id: protocol.work_item_id,
-      protocol_sha256: protocol.protocol_sha256,
-      started_at: startedAt,
-      stopped_at: new Date().toISOString(),
-      completed_arm_count: completed.length,
-      candidate_operational_tokens: budget.total(),
-      reason: String(error.message ?? error),
-      retry_count: 0,
-      fallback_count: 0,
-      model_generation_performed: true
-    };
+    const stopped = representativeStoppedRun({
+      protocol,
+      startedAt,
+      stoppedAt: new Date().toISOString(),
+      completed,
+      activeArm,
+      candidateOperationalTokens: budget.total(),
+      reason: String(error.message ?? error)
+    });
     await writeJson(path.join(labRoot, "stopped-run.json"), stopped, { exclusive: true });
     throw error;
   }
