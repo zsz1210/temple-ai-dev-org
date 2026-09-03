@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 118 total, 3 active
+- Work items: 118 total, 2 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -165,7 +165,7 @@
 | WI-0115 | Validate clean agent-led greenfield onboarding | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `11012a38` | 0 | 19 | 0 |
 | WI-0116 | Analyze Wave 5A overhead and repair blind evaluation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2ec67d32` | 0 | 17 | 0 |
 | WI-0117 | Run qualified Wave 5B lean workflow comparison | concluded | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b8f41dd0` | 0 | 21 | 1 |
-| WI-0118 | Turn validation evidence into adaptive Lean Mode | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260903005107-cbe1c156 | `40986cdf` | 0 | 14 | 0 |
+| WI-0118 | Turn validation evidence into adaptive Lean Mode | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `b3b5c13d` | 0 | 21 | 0 |
 
 ## Codex task registry
 
@@ -297,14 +297,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-03T00:51:07.295Z | work_item_claimed | WI-0118 | human |
-| 2026-09-03T00:51:01.302Z | work_item_transitioned | WI-0118 | agent-rikku |
-| 2026-09-03T00:50:55.848Z | handoff_created | WI-0118 | agent-rikku |
-| 2026-09-03T00:35:34.146Z | work_item_coordination_configured | WI-0118 | agent-rikku |
-| 2026-09-03T00:35:23.856Z | work_item_coordination_configured | WI-0086 | agent-mog |
-| 2026-09-03T00:35:23.751Z | work_item_coordination_configured | WI-0033 | agent-yuna |
-| 2026-09-03T00:34:59.119Z | work_item_coordination_configured | WI-0118 | agent-rikku |
-| 2026-09-03T00:34:58.863Z | legacy_work_item_outcome_migrated | WI-0112 | human |
+| 2026-09-03T00:54:54.646Z | work_item_closed | WI-0118 | agent-mog |
+| 2026-09-03T00:54:54.646Z | release_gate_completed | WI-0118 | agent-mog |
+| 2026-09-03T00:54:42.453Z | work_item_claimed | WI-0118 | human |
+| 2026-09-03T00:54:27.176Z | work_item_transitioned | WI-0118 | agent-lulu |
+| 2026-09-03T00:54:26.835Z | handoff_created | WI-0118 | agent-lulu |
+| 2026-09-03T00:53:10.497Z | work_item_claimed | WI-0118 | human |
+| 2026-09-03T00:53:05.279Z | work_item_transitioned | WI-0118 | agent-lulu |
+| 2026-09-03T00:53:05.059Z | handoff_created | WI-0118 | agent-lulu |
 
 ## Assignments
 
