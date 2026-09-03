@@ -1,0 +1,81 @@
+{
+  "schema_version": "temple.core-path-audit-observation/v1",
+  "work_item_id": "WI-0127",
+  "baseline_revision": "5a790acf8a39a47b8ddd8ed8b5247b4f10beea16",
+  "observed_at": "2026-09-03T05:32:11.615Z",
+  "result": "mechanics_pass_human_path_unqualified",
+  "deterministic_rehearsals": {
+    "clean_onboarding": {
+      "status": "passed_with_provider_limits",
+      "elapsed_ms": 2674,
+      "doctor": {
+        "pass": 36,
+        "warn": 1,
+        "fail": 0
+      },
+      "human_interventions": 0,
+      "provider_session_started": false
+    },
+    "brownfield_lifecycle": {
+      "status": "passed",
+      "elapsed_ms": 2633.857,
+      "doctor": {
+        "pass": 37,
+        "warn": 0,
+        "fail": 0
+      },
+      "application_tests_before": 1,
+      "developer_tests": 2,
+      "independent_qa_tests": 2,
+      "original_commits_preserved": 2,
+      "original_documents_preserved": true,
+      "external_release_status": "not_performed"
+    }
+  },
+  "journey_measurements": {
+    "root_readme_lines": 131,
+    "usage_guide_lines": 707,
+    "workflow_profile_guide_lines": 97,
+    "agent_contract_lines": 89,
+    "temple_work_skill_lines": 40,
+    "non_contiguous_usage_sections_needed": [
+      1,
+      2,
+      6,
+      8,
+      11,
+      12,
+      13,
+      14,
+      17
+    ],
+    "brownfield_fixture_temple_cli_invocations": 14,
+    "brownfield_fixture_manually_authored_evidence_documents": 7,
+    "brownfield_fixture_generated_lifecycle_artifacts": 2,
+    "brownfield_fixture_temple_era_git_commits": 4
+  },
+  "findings": {
+    "p0": 0,
+    "p1": 4,
+    "p2": 3,
+    "p3": 1
+  },
+  "observed_contradictions": [
+    {
+      "document": "docs/getting-started/usage.md",
+      "claim": "A no-go close returns the Work Item to blocked.",
+      "runtime": "src/work-items.mjs closes the attempt as concluded with no-go or inconclusive outcome."
+    }
+  ],
+  "unqualified_claims": [
+    "fresh Agent comprehension",
+    "human setup time",
+    "Token savings",
+    "cost savings",
+    "delivery improvement",
+    "enterprise readiness"
+  ],
+  "optional_services_started": [],
+  "provider_generation_performed": false,
+  "external_action_performed": false
+}

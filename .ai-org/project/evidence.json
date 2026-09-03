@@ -19849,6 +19849,36 @@
         "dirty_scope": "outside-affected-scope",
         "affected_paths_dirty": []
       }
+    },
+    {
+      "id": "EVID-20260903T053713Z-98578ABF",
+      "work_item_id": "WI-0127",
+      "recorded_at": "2026-09-03T05:37:13.726Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Console-free core path audit candidate",
+      "outcome": "verified",
+      "scope_revision": "2edf130bb658bd7aa2fcde1785b4abfa52fc140a",
+      "observed_at": "2026-09-03T05:37:13.726Z",
+      "summary": "Measured deterministic mechanics and human-journey gaps without optional services or Provider generation.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "2edf130bb658bd7aa2fcde1785b4abfa52fc140a"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "2edf130bb658bd7aa2fcde1785b4abfa52fc140a",
+        "working_tree_dirty": true,
+        "dirty_path_count": 11,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
     }
   ]
 }

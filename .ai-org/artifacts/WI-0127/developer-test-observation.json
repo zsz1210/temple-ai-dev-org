@@ -1,0 +1,34 @@
+{
+  "schema_version": "temple.local-test-observation/v1",
+  "work_item_id": "WI-0127",
+  "position": "developer",
+  "agent_id": "agent-rikku",
+  "observed_at": "2026-09-03T05:35:10Z",
+  "commands": [
+    {
+      "command": "node scripts/validate-agent-led-onboarding.mjs",
+      "status": "passed_with_provider_limits",
+      "elapsed_ms": 2674
+    },
+    {
+      "command": "node scripts/validate-brownfield-adoption.mjs",
+      "status": "passed",
+      "elapsed_ms": 2633.857
+    },
+    {
+      "command": "npm run check",
+      "status": "passed",
+      "summary": "Repository, documentation links, and package boundary passed."
+    },
+    {
+      "command": "jq empty .ai-org/artifacts/WI-0127/core-path-observation.json",
+      "status": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "status": "passed"
+    }
+  ],
+  "provider_generation_performed": false,
+  "external_action_performed": false
+}
