@@ -1,0 +1,26 @@
+{
+  "schema_version": "temple.effectiveness-pilot-approval/v2",
+  "work_item_id": "WI-0132",
+  "protocol_sha256": "84d30df16d72bfbae6ac1d111729ddab9e90d761c46a8694250955985028bc45",
+  "approved_by": "repository-owner",
+  "approved_at": "2026-09-03T08:37:39Z",
+  "included_pro_allowance_accepted": true,
+  "automatic_credit_reload_disabled": true,
+  "purchased_credits_authorized": false,
+  "usage_reset_authorized": false,
+  "approved_models": [
+    "gpt-5.6-terra",
+    "gpt-5.6-luna",
+    "gpt-5.6-sol"
+  ],
+  "approved_candidate_turns": 8,
+  "approved_evaluator_turns": 1,
+  "approved_per_candidate_operational_tokens": 100000,
+  "approved_candidate_operational_tokens": 520000,
+  "approved_evaluator_operational_tokens": 60000,
+  "approved_combined_operational_tokens": 580000,
+  "approved_program_wall_clock_ms": 4500000,
+  "max_retries": 0,
+  "fallback_allowed": false,
+  "network_access": false
+}
