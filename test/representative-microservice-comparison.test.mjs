@@ -12,7 +12,9 @@ import {
   diagnosticStoppedRun,
   integrationOutputSchema,
   protocolDigest,
+  representativeCommandItemAllowed,
   representativeStoppedRun,
+  settleFailClosedParallel,
   statusPaths,
   stoppedStageObservation,
   successfulContextActionLabels,
@@ -47,13 +49,15 @@ test("the representative microservice protocol is frozen but generation-disabled
   assert.equal(protocol.execution.fallback_count, 0);
   assert.equal(protocol.execution.candidate_turns, 10);
   assert.equal(protocol.execution.evaluator_turns, 1);
-  assert.equal(protocol.protocol_revision, 5);
+  assert.equal(protocol.protocol_revision, 6);
   assert.equal(protocol.execution.design_operational_token_limit, 150000);
   assert.equal(protocol.execution.candidate_aggregate_operational_token_limit, 650000);
   assert.equal(protocol.execution.combined_operational_token_limit, 750000);
   assert.deepEqual(protocol.context_policy.temple_md_fallback_when_missing, ["authority", "current-state", "safe-next-action"]);
-  assert.equal(protocol.predecessor.disposition, "stopped-temple-design-operational-token-limit");
-  assert.equal(protocol.stopped_evidence_policy, "completed-and-active-stage-observations-v2");
+  assert.equal(protocol.predecessor.disposition, "stopped-command-policy-working-directory-mismatch");
+  assert.equal(protocol.stopped_evidence_policy, "completed-active-and-settled-sibling-observations-v3");
+  assert.equal(protocol.runner_safety.relative_git_target_policy, "provider-cwd-to-exact-fixture-repository-root");
+  assert.equal(protocol.runner_safety.parallel_failure_policy, "interrupt-and-await-all-siblings-before-stop-record");
 });
 
 test("protocol validation rejects product drift, reroute, retry, and digest rewriting", async () => {
@@ -193,6 +197,59 @@ test("comparison command policy permits only fixture-scoped git -C reads", () =>
   }
   assert.equal(commandTextAllowed("git -C ../outside rev-parse HEAD", comparisonAllowedCommandPrefixes), false);
   assert.equal(commandTextAllowed("git -C gateway config core.sshCommand exploit", comparisonAllowedCommandPrefixes), false);
+});
+
+test("representative command policy resolves relative Git targets from Provider-reported cwd", () => {
+  const armRoot = "/tmp/temple-arm";
+  const item = (cwd, command) => ({
+    type: "commandExecution",
+    cwd,
+    commandActions: [{ type: "read", command }]
+  });
+  assert.equal(
+    representativeCommandItemAllowed(item(`${armRoot}/catalog/src`, "git -C ../../orders status --short"), armRoot),
+    true
+  );
+  assert.equal(
+    representativeCommandItemAllowed(item(`${armRoot}/catalog/src`, "git -C ../../../outside status --short"), armRoot),
+    false
+  );
+  assert.equal(
+    representativeCommandItemAllowed(item("/tmp/outside", "git -C ../temple-arm/orders status --short"), armRoot),
+    false
+  );
+  assert.equal(
+    representativeCommandItemAllowed(item("/tmp/outside", "rg OrderPlaced"), armRoot),
+    false
+  );
+  assert.equal(
+    representativeCommandItemAllowed(item(`${armRoot}/catalog/src`, "git -C orders status --short"), armRoot),
+    false
+  );
+  assert.equal(
+    representativeCommandItemAllowed(item(`${armRoot}/catalog/src`, "git -C ../../orders config core.sshCommand exploit"), armRoot),
+    false
+  );
+});
+
+test("parallel fail-closed settlement aborts and awaits siblings before reporting the primary error", async () => {
+  const events = [];
+  const primary = new Error("primary failure");
+  await assert.rejects(
+    settleFailClosedParallel([
+      async () => { throw primary; },
+      async (signal) => {
+        await new Promise((resolve) => {
+          if (signal.aborted) resolve();
+          else signal.addEventListener("abort", resolve, { once: true });
+        });
+        events.push("sibling-cleaned");
+        throw new Error("cancelled sibling");
+      }
+    ]),
+    (error) => error === primary
+  );
+  assert.deepEqual(events, ["sibling-cleaned"]);
 });
 
 test("Git porcelain paths survive leading-whitespace trimming", () => {

@@ -215,3 +215,16 @@ The exact-approved current digest completed the entire Minimal Responsible arm a
 - Status: generation disabled until exact approval
 
 V5 uses fresh matched repositories and preserves the task, arm order, model routes, context treatment, network boundary, and objective tests. The Design ceiling is a bounded increase from the 101,815 censored v4 observation, not a completion forecast. The candidate ceiling is derived from 234,099 completed Minimal Responsible Tokens plus 101,815 observed Temple Design Tokens plus 287,000 in already-declared remaining Build and Integration ceilings, then rounded from 623,914 to 650,000. The runner now attaches partial stage telemetry before propagating a fail-closed error.
+
+The exact-approved v5 attempt ran from `2026-09-03T16:11:17.073Z` to `2026-09-03T16:15:08.209Z` and stopped with zero retry and zero fallback. Minimal Responsible Design completed at 47,032 Operational Tokens. The orders-catalog Build retained 33,432 Tokens before the literal command-prefix policy rejected `git -C ../../orders status --short`, issued from a nested Provider-reported working directory. The run retained 125,681 candidate Operational Tokens in total. No arm completed; Temple and the blind evaluator did not start. Two sibling Build App Server processes were found briefly alive after the stop record and were terminated. V5 is stopped evidence and cannot be resumed or re-approved.
+
+## Representative comparison v6
+
+- Predecessor: representative v5 protocol `4b6c78cfa4b367787eb79a1d555dcfa387d2048d656741f7611f64c48b5f64f6`
+- Resource envelope, task, models, efforts, context treatment, objective tests, retry policy, fallback policy, and network boundary: unchanged from v5
+- Relative Git policy: resolve from Provider-reported cwd and require an exact fixture repository root
+- Parallel stop policy: interrupt and await all sibling Build turns before recording the stopped run
+- Protocol SHA-256: `35deeb5fb60f8f48e818ad6abad7d576d7de976d95159d7a1fbe8ef00baa67c7`
+- Status: frozen and generation-disabled pending separate exact approval
+
+V6 is a successor experiment, not a retry. It does not globally allow relative traversal and does not reuse the v5 lab or approval. The command-policy repair is limited to read-only `status`, `diff`, `rev-parse`, `log`, and `ls-tree` operations whose normalized target is exactly one of the five generated fixture repositories. The parallel repair ensures that the final stop record cannot be written while sibling model turns remain active.

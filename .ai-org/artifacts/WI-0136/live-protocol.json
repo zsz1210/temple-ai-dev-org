@@ -1,12 +1,12 @@
 {
   "schema_version": "temple.representative-microservice-comparison/v3",
-  "protocol_revision": 5,
+  "protocol_revision": 6,
   "work_item_id": "WI-0136",
   "status": "generation-disabled",
-  "protocol_sha256": "4b6c78cfa4b367787eb79a1d555dcfa387d2048d656741f7611f64c48b5f64f6",
+  "protocol_sha256": "35deeb5fb60f8f48e818ad6abad7d576d7de976d95159d7a1fbe8ef00baa67c7",
   "fixture": {
     "fixture_sha256": "b10ff626ef465686909aaab6d858b087f0c2aaad7a8c484f9955ed0a8465822c",
-    "runner_sha256": "c41375edd83c821fef8eac63b6b4960442c001a2dcb460e493a4d053e66b071b",
+    "runner_sha256": "37dfd18a5a1c11ba9929ad54dc972325dd809e3ec3a7168b777bd13b7021e7c1",
     "analyzer_sha256": "5e614a7879a8fbdb7655d6780dcf0c7e693e7326259fa166d7fe3231f1151c5c",
     "task_sha256": "5dfd10dce99196f282f0560a25aaffd359b7af2119a62d943e465f19ae46369c",
     "public_tests_sha256": "8809e165ee024f5606a48c38bb0f6065e3b943fcd00d05fda5fdd6099e0f41f9",
@@ -14,7 +14,7 @@
     "tool_policy_sha256": "18f5bef25f7b8a4efc220252818e642b75f5c342dd8d316e79a1254652801913",
     "rubric_sha256": "364d20a3102ddd78131fd2566b8579957b14df2d6638efd3ef1e97e94faeaf3f"
   },
-  "lab_manifest_sha256": "3e0cdcbd1df801db075db856bc1075007cc339918ee4c45d38969267158e558d",
+  "lab_manifest_sha256": "529fd3c61892a02dc38a148e61747cb31ef7f9850286c8d87789a19d88c67693",
   "arms": [
     {
       "id": "minimal-responsible",
@@ -30,7 +30,7 @@
         "catalog": "490bb75496c715770d2585a18c7a6ddd8c8b67c9",
         "orders": "21b595ddeaf29c43c77ee6b980c8820c499bef67",
         "notifications": "01c716dc842e22b8b241eeb19707d69bf57f9598",
-        "coordinator": "e026aa0c15a9be0525283278b27c389a555c7ede"
+        "coordinator": "a2452ec47d41e1fc307c65955b36d4896f6ec628"
       }
     },
     {
@@ -43,11 +43,11 @@
         "coordinator": "e3ce9dcde7e25d57df6a310bb850a4977921114f"
       },
       "organization_revisions": {
-        "gateway": "872a4f749fdaaf95288ff20441534f19f59ebf0c",
-        "catalog": "c0b220b81d7cd5a5f7974e1ffda7ced150ffe47b",
-        "orders": "78bb21e4726628d4137b00405fb93d31aab90deb",
-        "notifications": "712ca47bfad1b0f30000b0ad0eb217b34ed76339",
-        "coordinator": "ab59f5e520aa33e754eb465251b2432c5f0c1194"
+        "gateway": "87d65ee249741e4697ecd529fb8d474d890270d2",
+        "catalog": "9b8ba7c8906ef3777d0392bfe3e42a836e133404",
+        "orders": "e76e0817f7f8b31b83d243df6c168149a5a6b705",
+        "notifications": "25aee4089e0a98af0a60e788924875ff4cb9b752",
+        "coordinator": "c0170a3f4802da4c62fd90100d90b2c5c8c0b196"
       }
     }
   ],
@@ -102,12 +102,16 @@
     "new_unknown_recovery_start": "temple-md-first"
   },
   "predecessor": {
-    "protocol_sha256": "b01f96b48bb585e4b24390fa0b0c322d2abfc03d8f99650fa9b07a3da4932c71",
-    "disposition": "stopped-temple-design-operational-token-limit",
-    "stopped_run": ".ai-org/artifacts/WI-0136/representative-main-v4-stopped-run.json",
-    "stop_report": ".ai-org/artifacts/WI-0136/representative-main-v4-stop-report.md"
+    "protocol_sha256": "4b6c78cfa4b367787eb79a1d555dcfa387d2048d656741f7611f64c48b5f64f6",
+    "disposition": "stopped-command-policy-working-directory-mismatch",
+    "stopped_run": ".ai-org/artifacts/WI-0136/representative-main-v5-stopped-run.json",
+    "stop_report": ".ai-org/artifacts/WI-0136/representative-main-v5-stop-report.md"
   },
-  "stopped_evidence_policy": "completed-and-active-stage-observations-v2",
+  "stopped_evidence_policy": "completed-active-and-settled-sibling-observations-v3",
+  "runner_safety": {
+    "relative_git_target_policy": "provider-cwd-to-exact-fixture-repository-root",
+    "parallel_failure_policy": "interrupt-and-await-all-siblings-before-stop-record"
+  },
   "stop_rules": {
     "protocol_mismatch": true,
     "model_reroute": true,

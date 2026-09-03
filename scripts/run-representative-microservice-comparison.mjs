@@ -65,6 +65,76 @@ export const comparisonAllowedCommandPrefixes = Object.freeze([
   Object.freeze(["git", "ls-tree"]),
   ...repositoryScopedGitReadPrefixes
 ]);
+
+function pathIsWithin(root, candidate) {
+  const relative = path.relative(root, candidate);
+  return relative === "" || (!relative.startsWith(`..${path.sep}`) && relative !== ".." && !path.isAbsolute(relative));
+}
+
+function fixtureScopedRelativeGitReadAllowed(commandValue, cwd, armRoot) {
+  if (!commandTextAllowed(commandValue, [["git"]])) return false;
+  const match = commandValue.trim().match(/^git\s+-C\s+(\S+)\s+(status|diff|rev-parse|log|ls-tree)(?:\s|$)/);
+  if (!match) return false;
+  const resolvedCwd = path.resolve(cwd);
+  const resolvedArmRoot = path.resolve(armRoot);
+  if (!pathIsWithin(resolvedArmRoot, resolvedCwd)) return false;
+  const resolvedTarget = path.resolve(resolvedCwd, match[1]);
+  return repositories.some((repositoryId) => resolvedTarget === path.join(resolvedArmRoot, repositoryId));
+}
+
+export function representativeCommandItemAllowed(item, armRoot) {
+  if (
+    item?.type !== "commandExecution" ||
+    typeof item.cwd !== "string" ||
+    !Array.isArray(item.commandActions) ||
+    item.commandActions.length === 0 ||
+    item.commandActions.length > 32
+  ) return false;
+  const resolvedCwd = path.resolve(item.cwd);
+  const resolvedArmRoot = path.resolve(armRoot);
+  if (!pathIsWithin(resolvedArmRoot, resolvedCwd)) return false;
+  return item.commandActions.every((action) => {
+    if (action === null || typeof action !== "object" || typeof action.command !== "string") return false;
+    if (/^git\s+-C(?:\s|$)/.test(action.command.trim())) {
+      return fixtureScopedRelativeGitReadAllowed(action.command, item.cwd, armRoot);
+    }
+    return commandTextAllowed(action.command, comparisonAllowedCommandPrefixes);
+  });
+}
+
+function representativeProtocolViolationForMessage(message, { turnId, armRoot }) {
+  const params = message?.params ?? {};
+  const observedTurnId = params.turnId ?? params.turn?.id ?? null;
+  if (observedTurnId !== null && turnId !== null && observedTurnId !== turnId) return null;
+  if (message?.method === "item/started" && params.item?.type === "commandExecution") {
+    return representativeCommandItemAllowed(params.item, armRoot)
+      ? null
+      : {
+          code: "command-policy-violation",
+          message: `command policy rejected: ${String(params.item.command ?? "").slice(0, 120)}`
+        };
+  }
+  return protocolViolationForMessage(message, {
+    turnId,
+    allowedCommandPrefixes: comparisonAllowedCommandPrefixes
+  });
+}
+
+export async function settleFailClosedParallel(taskFactories) {
+  const controller = new AbortController();
+  let primaryError = null;
+  const outcomes = await Promise.allSettled(taskFactories.map(async (task) => {
+    try {
+      return await task(controller.signal);
+    } catch (error) {
+      primaryError ??= error;
+      controller.abort();
+      throw error;
+    }
+  }));
+  if (primaryError) throw primaryError;
+  return outcomes.map((outcome) => outcome.value);
+}
 const fixedGitEnvironment = Object.freeze({
   GIT_AUTHOR_NAME: "Temple Representative Fixture",
   GIT_AUTHOR_EMAIL: "wi-0136@temple.invalid",
@@ -579,7 +649,7 @@ async function sourceDigests() {
 function buildProtocol(manifest) {
   const protocol = {
     schema_version: "temple.representative-microservice-comparison/v3",
-    protocol_revision: 5,
+    protocol_revision: 6,
     work_item_id: "WI-0136",
     status: "generation-disabled",
     protocol_sha256: null,
@@ -622,12 +692,16 @@ function buildProtocol(manifest) {
       new_unknown_recovery_start: "temple-md-first"
     },
     predecessor: {
-      protocol_sha256: "b01f96b48bb585e4b24390fa0b0c322d2abfc03d8f99650fa9b07a3da4932c71",
-      disposition: "stopped-temple-design-operational-token-limit",
-      stopped_run: ".ai-org/artifacts/WI-0136/representative-main-v4-stopped-run.json",
-      stop_report: ".ai-org/artifacts/WI-0136/representative-main-v4-stop-report.md"
+      protocol_sha256: "4b6c78cfa4b367787eb79a1d555dcfa387d2048d656741f7611f64c48b5f64f6",
+      disposition: "stopped-command-policy-working-directory-mismatch",
+      stopped_run: ".ai-org/artifacts/WI-0136/representative-main-v5-stopped-run.json",
+      stop_report: ".ai-org/artifacts/WI-0136/representative-main-v5-stop-report.md"
     },
-    stopped_evidence_policy: "completed-and-active-stage-observations-v2",
+    stopped_evidence_policy: "completed-active-and-settled-sibling-observations-v3",
+    runner_safety: {
+      relative_git_target_policy: "provider-cwd-to-exact-fixture-repository-root",
+      parallel_failure_policy: "interrupt-and-await-all-siblings-before-stop-record"
+    },
     stop_rules: {
       protocol_mismatch: true,
       model_reroute: true,
@@ -655,7 +729,7 @@ function buildProtocol(manifest) {
 export function validateRepresentativeProtocol(protocol) {
   const errors = [];
   if (protocol?.schema_version !== "temple.representative-microservice-comparison/v3") errors.push("unsupported schema");
-  if (protocol?.protocol_revision !== 5) errors.push("unexpected protocol revision");
+  if (protocol?.protocol_revision !== 6) errors.push("unexpected protocol revision");
   if (protocol?.work_item_id !== "WI-0136") errors.push("unexpected work item");
   if (protocol?.status !== "generation-disabled") errors.push("protocol status must remain generation-disabled before exact approval");
   if (protocol?.protocol_sha256 !== protocolDigest(protocol)) errors.push("protocol digest mismatch");
@@ -686,9 +760,11 @@ export function validateRepresentativeProtocol(protocol) {
       contextPolicy.new_unknown_recovery_start !== "temple-md-first") {
     errors.push("context policy mismatch");
   }
-  if (protocol?.predecessor?.protocol_sha256 !== "b01f96b48bb585e4b24390fa0b0c322d2abfc03d8f99650fa9b07a3da4932c71" ||
-      protocol?.predecessor?.disposition !== "stopped-temple-design-operational-token-limit" ||
-      protocol?.stopped_evidence_policy !== "completed-and-active-stage-observations-v2") {
+  if (protocol?.predecessor?.protocol_sha256 !== "4b6c78cfa4b367787eb79a1d555dcfa387d2048d656741f7611f64c48b5f64f6" ||
+      protocol?.predecessor?.disposition !== "stopped-command-policy-working-directory-mismatch" ||
+      protocol?.stopped_evidence_policy !== "completed-active-and-settled-sibling-observations-v3" ||
+      protocol?.runner_safety?.relative_git_target_policy !== "provider-cwd-to-exact-fixture-repository-root" ||
+      protocol?.runner_safety?.parallel_failure_policy !== "interrupt-and-await-all-siblings-before-stop-record") {
     errors.push("successor provenance mismatch");
   }
   if (!/^[a-f0-9]{64}$/.test(protocol?.fixture?.fixture_sha256 ?? "")) errors.push("fixture digest missing");
@@ -1376,7 +1452,8 @@ async function launchModelTurn({
   sandbox = "workspace-write",
   allowTools = true,
   retainStopOutcome = false,
-  operationalTokenLimit = null
+  operationalTokenLimit = null,
+  abortSignal = null
 }) {
   let connection;
   let threadId = null;
@@ -1401,6 +1478,8 @@ async function launchModelTurn({
   const commandActionsByItem = new Map();
   let resolveTerminal;
   const terminalPromise = new Promise((resolve) => { resolveTerminal = resolve; });
+  let resolveAbort;
+  const abortPromise = new Promise((resolve) => { resolveAbort = resolve; });
   const startedAt = new Date().toISOString();
   const startedMs = Date.now();
   let turnRequestedMs = null;
@@ -1411,6 +1490,13 @@ async function launchModelTurn({
     if (violation === null) violation = reason;
     if (connection && threadId && turnId) await connection.request("turn/interrupt", { threadId, turnId }, 15000).catch(() => {});
   }
+
+  const abortListener = () => {
+    void interrupt("parallel-wave-cancelled");
+    resolveAbort();
+  };
+  if (abortSignal?.aborted) throw new Error(`${id}:parallel-wave-cancelled`);
+  abortSignal?.addEventListener("abort", abortListener, { once: true });
 
   connection = createJsonRpcProcess("codex", ["app-server", "--stdio"], {
     cwd,
@@ -1434,9 +1520,9 @@ async function launchModelTurn({
           else if (stageTokens > (operationalTokenLimit ?? stageLimit(protocol, stage))) void interrupt(`${stage}-operational-token-limit`);
         }
       }
-      const policyViolation = protocolViolationForMessage(message, {
+      const policyViolation = representativeProtocolViolationForMessage(message, {
         turnId,
-        allowedCommandPrefixes: comparisonAllowedCommandPrefixes
+        armRoot: cwd
       });
       if (policyViolation) void interrupt(`${policyViolation.code}:${policyViolation.message}`);
       if (message.method === "item/started" && (!allowTools || ["mcpToolCall", "webSearch"].includes(params.item?.type))) {
@@ -1519,7 +1605,8 @@ async function launchModelTurn({
     });
     turnId = turn?.turn?.id;
     if (!turnId) throw new Error(`${id}: turn did not start`);
-    await terminalPromise;
+    if (abortSignal?.aborted) await interrupt("parallel-wave-cancelled");
+    await Promise.race([terminalPromise, abortPromise]);
     await new Promise((resolve) => setTimeout(resolve, 500));
     const candidateLimitObserved = violation === `${stage}-operational-token-limit`;
     const failure = terminalFailure(terminal);
@@ -1577,6 +1664,7 @@ async function launchModelTurn({
     };
   } finally {
     clearTimeout(timer);
+    abortSignal?.removeEventListener("abort", abortListener);
     await connection?.close().catch(() => {});
   }
 }
@@ -1737,7 +1825,7 @@ async function runDesignTurn({ armId, armRoot, protocol, budget, deadline }) {
   return { ...turn, ...result };
 }
 
-async function runBuildSlice({ armId, armRoot, slice, protocol, budget, deadline }) {
+async function runBuildSlice({ armId, armRoot, slice, protocol, budget, deadline, abortSignal }) {
   const coordinatorRoot = path.join(armRoot, "coordinator");
   if (armId === "temple") {
     for (const repositoryId of slice.repositories) await claimTempleRepository(path.join(armRoot, repositoryId), "agent-fixture-rikku");
@@ -1752,7 +1840,7 @@ async function runBuildSlice({ armId, armRoot, slice, protocol, budget, deadline
   ].join("\n\n");
   const turn = await launchModelTurn({
     id: `${armId}-${slice.id}`, cwd: armRoot, stage: "build", route: protocol.model_route.build,
-    instruction, outputSchema: buildOutputSchema, protocol, budget, deadline
+    instruction, outputSchema: buildOutputSchema, protocol, budget, deadline, abortSignal
   });
   const repositoriesResult = {};
   for (const repositoryId of slice.repositories) {
@@ -2949,9 +3037,9 @@ async function runArm({ armId, labRoot, protocol, budget, deadline, progress }) 
     if (error.stage_observation) progress.design = error.stage_observation;
     throw error;
   }
-  const builds = await Promise.all(buildSlices().map(async (slice) => {
+  const builds = await settleFailClosedParallel(buildSlices().map((slice) => async (abortSignal) => {
     try {
-      const build = await runBuildSlice({ armId, armRoot, slice, protocol, budget, deadline });
+      const build = await runBuildSlice({ armId, armRoot, slice, protocol, budget, deadline, abortSignal });
       progress.builds.push(build);
       return build;
     } catch (error) {

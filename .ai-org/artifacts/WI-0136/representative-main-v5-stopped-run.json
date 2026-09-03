@@ -1,0 +1,221 @@
+{
+  "schema_version": "temple.representative-microservice-stopped-run/v2",
+  "work_item_id": "WI-0136",
+  "protocol_sha256": "4b6c78cfa4b367787eb79a1d555dcfa387d2048d656741f7611f64c48b5f64f6",
+  "started_at": "2026-09-03T16:11:17.073Z",
+  "stopped_at": "2026-09-03T16:15:08.209Z",
+  "completed_arm_count": 0,
+  "completed_arms": [],
+  "active_arm": {
+    "arm_id": "minimal-responsible",
+    "design": {
+      "id": "minimal-responsible-design",
+      "stage": "design",
+      "started_at": "2026-09-03T16:11:17.073Z",
+      "completed_at": "2026-09-03T16:14:37.430Z",
+      "elapsed_ms": 200356,
+      "session_setup_ms": 184,
+      "turn_elapsed_ms": 200172,
+      "time_to_first_activity_ms": 3303,
+      "time_to_first_command_ms": 9959,
+      "effective_output_tokens_per_second": 31.088,
+      "thread_id": "01a06809-f0f7-7e22-affa-d3ebefb4c4d0",
+      "turn_id": "01a06809-f18a-7973-84f2-cb73ebe76626",
+      "requested_model": "gpt-5.6-sol",
+      "acknowledged_model": "gpt-5.6-sol",
+      "requested_reasoning_effort": "xhigh",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 543849,
+        "cached_input_tokens": 503040,
+        "output_tokens": 6223,
+        "reasoning_output_tokens": 3705,
+        "total_tokens": 550072
+      },
+      "operational_tokens": 47032,
+      "prompt_metrics": {
+        "components": {
+          "base_instructions": {
+            "bytes": 168,
+            "characters": 168,
+            "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+          },
+          "developer_instructions": {
+            "bytes": 1175,
+            "characters": 1175,
+            "sha256": "2d6ffef8823ca937641e7fcc76edce08f14e4f3b4a11fbf05edbd9f41bf1fed3"
+          },
+          "user_input": {
+            "bytes": 1873,
+            "characters": 1873,
+            "sha256": "ed05308117a50aa6409f528383c2de85033224a76d801b15294a33d44d9202d9"
+          },
+          "output_schema": {
+            "bytes": 606,
+            "characters": 606,
+            "sha256": "dd96eba2c74430a2bb90418d024e9dfb21cc36d0e6ad62ad23fdc65a14e19d37"
+          }
+        },
+        "explicit_bytes": 3822,
+        "raw_prompt_retained": false
+      },
+      "tool_activity": {
+        "command_items": 31,
+        "command_actions": 31,
+        "action_types": {
+          "read": 12,
+          "listFiles": 2,
+          "unknown": 17
+        },
+        "temple_md_attempts": 0,
+        "context_resolve_attempts": 0,
+        "temple_md_reads": 0,
+        "context_resolve_calls": 0,
+        "context_sequence": [],
+        "reported_output_bytes": 42511
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "contract_version": "OrderPlaced/v2",
+        "rollout_order": [
+          "notifications",
+          "orders-catalog",
+          "gateway"
+        ],
+        "slices": [
+          {
+            "id": "orders-catalog",
+            "repositories": [
+              "catalog",
+              "orders"
+            ],
+            "responsibility": "At catalog revision 490bb75496c715770d2585a18c7a6ddd8c8b67c9, update only the recorded owned implementation so known SKUs expose inventoryRevision while preserving existing availability fields; deploy Catalog first. At orders revision 21b595ddeaf29c43c77ee6b980c8820c499bef67, publish the exact v2 envelope from the supplied occurredAt, locale, inventoryRevision, request ID, SKU, and quantity, with no retained v1 flat order fields. Verify both repository tests and record each accepted revision, results, and issues in its ordinary handoff record."
+          },
+          {
+            "id": "notifications",
+            "repositories": [
+              "notifications"
+            ],
+            "responsibility": "Prepare the consumer before v2 publication. At revision 01c716dc842e22b8b241eeb19707d69bf57f9598, update only the recorded owned implementation to validate and accept both the retained v1 flat shape and required v2 nested shape, reject unsupported versions and malformed required fields without creating deliveries, normalize the order ID by version, and deduplicate valid deliveries by event ID. Verify the repository test and record the accepted revision, results, and issues in its ordinary handoff record."
+          },
+          {
+            "id": "gateway",
+            "repositories": [
+              "gateway"
+            ],
+            "responsibility": "After producer publication, at revision b650f0713776851c609659d5f6872d60e67742fe update only the recorded owned implementation so the response retains orderId and status unchanged and adds eventVersion from event.version. Verify the repository test and record the accepted revision, results, and issues in its ordinary handoff record."
+          }
+        ],
+        "risks": [
+          "Baseline verification is red at the inspected clean revisions: Catalog, Orders, Notifications, and Gateway each report 0 passing and 1 failing test; the Coordinator public integration test also reports 0 passing and 1 failing test, first observing v1 instead of v2.",
+          "The public Notifications test covers only v2 acceptance and duplicate delivery; retained-v1 acceptance and malformed or unsupported rejection remain unverified by public tests and must still be implemented.",
+          "The orders-catalog slice spans two independently versioned repositories, so Catalog must be fully available before Orders publishes v2; Orders publication must also wait until the Notifications consumer rollout is complete.",
+          "The local repositories contain no production transport or checkout orchestrator. Cross-service propagation is represented only by the Coordinator public integration test, so real deployment and persistence behavior remain outside this bounded change.",
+          "Map-backed notification idempotency is limited to the supplied delivery store; durable or cross-process deduplication is not represented locally."
+        ],
+        "assumptions": [
+          "The authoritative retained v1 shape is the current flat Orders event: type, version, id, orderId, sku, and quantity.",
+          "Malformed means a missing or incorrectly typed required field for the selected version; quantity must be a positive integer, identifiers and locale/inventoryRevision must be non-empty strings, occurredAt must be a valid timestamp, and v2 order must be an object with id, sku, and quantity.",
+          "Adding inventoryRevision to a known-SKU Catalog response and eventVersion to the Gateway response are additive compatibility changes.",
+          "The Coordinator public integration test is the bounded end-to-end acceptance path and requires no writable Coordinator slice: it passes Catalog's inventoryRevision into Orders and then passes the resulting event to Notifications and Gateway.",
+          "No files were modified; implementation-time commits and HANDOFF records remain duties of the subsequent slice owners."
+        ]
+      },
+      "design_revision": "d3522adb172e75b87cff06668147ff42ae53941e"
+    },
+    "builds": [
+      {
+        "id": "minimal-responsible-orders-catalog",
+        "stage": "build",
+        "started_at": "2026-09-03T16:14:37.531Z",
+        "completed_at": "2026-09-03T16:15:08.201Z",
+        "elapsed_ms": 30670,
+        "session_setup_ms": 191,
+        "turn_elapsed_ms": 30479,
+        "time_to_first_activity_ms": 3293,
+        "time_to_first_command_ms": 9332,
+        "effective_output_tokens_per_second": 22.114,
+        "thread_id": "01a0680d-0004-7b23-80d5-15cae71c677f",
+        "turn_id": "01a0680d-009d-7ad0-b4cc-590ad32111f8",
+        "requested_model": "gpt-5.6-terra",
+        "acknowledged_model": "gpt-5.6-terra",
+        "requested_reasoning_effort": "medium",
+        "observed_thread_reasoning_effort": "high",
+        "effective_turn_reasoning_effort": null,
+        "usage": {
+          "input_tokens": 138230,
+          "cached_input_tokens": 105472,
+          "output_tokens": 674,
+          "reasoning_output_tokens": 218,
+          "total_tokens": 138904
+        },
+        "operational_tokens": 33432,
+        "prompt_metrics": {
+          "components": {
+            "base_instructions": {
+              "bytes": 168,
+              "characters": 168,
+              "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+            },
+            "developer_instructions": {
+              "bytes": 1175,
+              "characters": 1175,
+              "sha256": "2d6ffef8823ca937641e7fcc76edce08f14e4f3b4a11fbf05edbd9f41bf1fed3"
+            },
+            "user_input": {
+              "bytes": 655,
+              "characters": 655,
+              "sha256": "164e62afcd111c37d237c0a81688991029bc91d06a8b893c4e42f7ef612f44de"
+            },
+            "output_schema": {
+              "bytes": 350,
+              "characters": 350,
+              "sha256": "c29cae9d81c3749e9869f21c25e39961641415e0e8bac39b09d166c7e4afae91"
+            }
+          },
+          "explicit_bytes": 2348,
+          "raw_prompt_retained": false
+        },
+        "tool_activity": {
+          "command_items": 5,
+          "command_actions": 5,
+          "action_types": {
+            "read": 3,
+            "search": 1,
+            "unknown": 1
+          },
+          "temple_md_attempts": 0,
+          "context_resolve_attempts": 0,
+          "temple_md_reads": 0,
+          "context_resolve_calls": 0,
+          "context_sequence": [],
+          "reported_output_bytes": 35853
+        },
+        "retry_count": 0,
+        "fallback_count": 0,
+        "raw_prompt_retained": false,
+        "raw_response_retained": false,
+        "hidden_reasoning_retained": false,
+        "status": "stopped",
+        "stop_scope": "run",
+        "stop_reason": "command-policy-violation:command policy rejected: /bin/zsh -lc 'git -C ../../orders status --short'",
+        "completion": null
+      }
+    ],
+    "portfolio_revision": null,
+    "integration": null
+  },
+  "candidate_operational_tokens": 125681,
+  "reason": "minimal-responsible-orders-catalog:command-policy-violation:command policy rejected: /bin/zsh -lc 'git -C ../../orders status --short'",
+  "retry_count": 0,
+  "fallback_count": 0,
+  "model_generation_performed": true
+}

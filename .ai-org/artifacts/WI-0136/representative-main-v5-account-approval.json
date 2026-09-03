@@ -1,9 +1,9 @@
 {
   "schema_version": "temple.representative-microservice-account-approval/v1",
   "work_item_id": "WI-0136",
-  "protocol_sha256": "35deeb5fb60f8f48e818ad6abad7d576d7de976d95159d7a1fbe8ef00baa67c7",
-  "approved": false,
-  "authorization_source": null,
+  "protocol_sha256": "4b6c78cfa4b367787eb79a1d555dcfa387d2048d656741f7611f64c48b5f64f6",
+  "approved": true,
+  "authorization_source": "User approved the immediately preceding frozen WI-0136 v5 envelope in the controlling Codex task on 2026-09-04 Asia/Tokyo.",
   "approved_candidate_turns": 10,
   "approved_evaluator_turns": 1,
   "approved_models": [
@@ -24,5 +24,5 @@
   "usage_reset_authorized": false,
   "retry_count": 0,
   "fallback_count": 0,
-  "approved_at": null
+  "approved_at": "2026-09-03T16:10:14Z"
 }
