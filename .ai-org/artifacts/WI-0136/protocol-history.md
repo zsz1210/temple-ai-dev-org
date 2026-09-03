@@ -159,6 +159,14 @@ V10 retains v9 treatment delivery and adds fixture-scoped variants of the alread
 - Operational-Token hard stops: 80,000 routed; 120,000 full-load; 200,000 combined
 - Wall-clock hard stop: 20 minutes
 - Retry and fallback: disabled
-- Status: generation disabled pending exact v10 approval
+- Exact approval: recorded at `2026-09-03T14:35:12Z`
+- Live attempt: completed both conditions once
+- Operational Tokens observed: 128,039
+- Retry and fallback observed: 0
+- Status: qualification complete; routed context selected for the main comparison
 
 V10 preserves the v9 route, effort request, context treatments, condition ceilings, aggregate ceiling, and no-retry/no-fallback account boundary. Its new digest reflects the bounded command-policy expansion and fresh matched-fixture revisions. It is a new experiment, not a retry or continuation of v9.
+
+The exact-approved attempt ran from `2026-09-03T14:35:32.396Z` to `2026-09-03T14:42:08.099Z`. Both Terra medium candidates completed without censoring, retry, or fallback. Routed context recovered all four exact service revisions and every other objective recovery field at 57,296 Operational Tokens. Full-load context used 70,743 Operational Tokens and returned every other required field, but truncated the Notifications revision from 40 to 39 hexadecimal characters, so it recovered 3 of 4 exact revisions and failed the objective recovery gate.
+
+In this one matched pair, routed context used 13,447 fewer Operational Tokens (19.01%), finished 55.245 seconds sooner (24.52%), issued 8 fewer commands, and surfaced 96,062 fewer tool-output bytes. Because objective quality was not equal and there is only one observation per condition, these are descriptive results, not a population estimate or an automatic model-routing rule. The successful routed recovery qualifies Context Capsule-first retrieval for the replacement main Temple-versus-minimal comparison. Full evidence and interpretation are in `context-recovery-qualification-v10-report.md`.

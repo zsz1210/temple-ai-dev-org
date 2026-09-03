@@ -1,0 +1,273 @@
+{
+  "schema_version": "temple.context-model-diagnostic-run/v10",
+  "work_item_id": "WI-0136",
+  "protocol_sha256": "f1a3da3550d5751581a049e0e17085948517eea5caa8b40c63e744c495fef33f",
+  "started_at": "2026-09-03T14:35:32.396Z",
+  "completed_at": "2026-09-03T14:42:08.099Z",
+  "status": "completed",
+  "observed_condition_count": 2,
+  "completed_condition_count": 2,
+  "censored_condition_count": 0,
+  "conditions": [
+    {
+      "condition": "terra-routed",
+      "context_strategy": "routed",
+      "context_strategy_observed": true,
+      "id": "context-terra-routed",
+      "stage": "integration",
+      "started_at": "2026-09-03T14:35:32.396Z",
+      "completed_at": "2026-09-03T14:38:22.587Z",
+      "elapsed_ms": 170191,
+      "session_setup_ms": 148,
+      "turn_elapsed_ms": 170043,
+      "time_to_first_activity_ms": 2728,
+      "time_to_first_command_ms": 6918,
+      "effective_output_tokens_per_second": 27.387,
+      "thread_id": "01a067b2-48c6-7f90-b29b-6ff433aaed77",
+      "turn_id": "01a067b2-4940-7972-aa1f-296625bb177f",
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 1020063,
+        "cached_input_tokens": 967424,
+        "output_tokens": 4657,
+        "reasoning_output_tokens": 969,
+        "total_tokens": 1024720
+      },
+      "operational_tokens": 57296,
+      "prompt_metrics": {
+        "components": {
+          "base_instructions": {
+            "bytes": 168,
+            "characters": 168,
+            "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+          },
+          "developer_instructions": {
+            "bytes": 1175,
+            "characters": 1175,
+            "sha256": "2d6ffef8823ca937641e7fcc76edce08f14e4f3b4a11fbf05edbd9f41bf1fed3"
+          },
+          "user_input": {
+            "bytes": 1209,
+            "characters": 1209,
+            "sha256": "3fa18c09356a87646820513aaf7b0c75b1a82b0b2d1d5bf3b3fc9c47c1a4d69b"
+          },
+          "output_schema": {
+            "bytes": 684,
+            "characters": 684,
+            "sha256": "677d13bd2fdf4025cd2071f30e3a0745f23b15e2e0be3884086004dff33152f1"
+          }
+        },
+        "explicit_bytes": 3236,
+        "raw_prompt_retained": false
+      },
+      "tool_activity": {
+        "command_items": 32,
+        "command_actions": 32,
+        "action_types": {
+          "unknown": 18,
+          "read": 14
+        },
+        "temple_md_attempts": 0,
+        "context_resolve_attempts": 1,
+        "temple_md_reads": 0,
+        "context_resolve_calls": 1,
+        "context_sequence": [
+          "context-resolve"
+        ],
+        "reported_output_bytes": 51116
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "recovered_revisions": [
+          {
+            "repository": "gateway",
+            "revision": "c26b0a42c03ff16990928ecf0c9bdf1dd384e0d9"
+          },
+          {
+            "repository": "catalog",
+            "revision": "bfc2408febe905a31e37bca4f77a6e0746b9d0bd"
+          },
+          {
+            "repository": "orders",
+            "revision": "f356286163c2405072b375e5e014a455362e7efe"
+          },
+          {
+            "repository": "notifications",
+            "revision": "d5aca6c21f8aa11c0f82d96e376453dd21ba7b2d"
+          }
+        ],
+        "governing_contract": "TASK.md: OrderPlaced/v2 rolling-compatible checkout; coordinator design-record.json fixes rollout order notifications → orders-catalog → gateway.",
+        "completed_slices": [
+          "orders-catalog",
+          "notifications",
+          "gateway"
+        ],
+        "unresolved": [
+          "No slice handoff records unresolved work. WI-0001 remains in build, and coordinator integration-report.json has not yet been recorded."
+        ],
+        "safe_next_action": "Run the coordinator public integration test against these exact clean service revisions; if it passes, record only the bounded coordinator integration evidence and handoff.",
+        "summary": "All four service repositories are clean. Each retained slice handoff records completion and directs the work to Quality & Evaluation; the current service HEAD is the subsequent handoff-record commit."
+      },
+      "expected_revisions": {
+        "gateway": "c26b0a42c03ff16990928ecf0c9bdf1dd384e0d9",
+        "catalog": "bfc2408febe905a31e37bca4f77a6e0746b9d0bd",
+        "orders": "f356286163c2405072b375e5e014a455362e7efe",
+        "notifications": "d5aca6c21f8aa11c0f82d96e376453dd21ba7b2d"
+      },
+      "recovery": {
+        "exact_revision_count": 4,
+        "exact_revision_total": 4,
+        "governing_contract_named": true,
+        "completed_slice_count": 3,
+        "completed_slice_total": 3,
+        "unresolved_reported": true,
+        "safe_next_action_bounded": true,
+        "pass": true
+      }
+    },
+    {
+      "condition": "terra-full-load",
+      "context_strategy": "full-load",
+      "context_strategy_observed": true,
+      "id": "context-terra-full-load",
+      "stage": "integration",
+      "started_at": "2026-09-03T14:38:22.608Z",
+      "completed_at": "2026-09-03T14:42:08.083Z",
+      "elapsed_ms": 225475,
+      "session_setup_ms": 187,
+      "turn_elapsed_ms": 225288,
+      "time_to_first_activity_ms": 3328,
+      "time_to_first_command_ms": 7638,
+      "effective_output_tokens_per_second": 29.238,
+      "thread_id": "01a067b4-e1d3-7370-a63c-b212795a8977",
+      "turn_id": "01a067b4-e24b-7792-8122-01f91e8c55ae",
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 1709468,
+        "cached_input_tokens": 1645312,
+        "output_tokens": 6587,
+        "reasoning_output_tokens": 2022,
+        "total_tokens": 1716055
+      },
+      "operational_tokens": 70743,
+      "prompt_metrics": {
+        "components": {
+          "base_instructions": {
+            "bytes": 168,
+            "characters": 168,
+            "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+          },
+          "developer_instructions": {
+            "bytes": 1175,
+            "characters": 1175,
+            "sha256": "2d6ffef8823ca937641e7fcc76edce08f14e4f3b4a11fbf05edbd9f41bf1fed3"
+          },
+          "user_input": {
+            "bytes": 1081,
+            "characters": 1081,
+            "sha256": "fe586daa94f650973f985e8c8a9cdb0138deaca553f26f38a199472e07481642"
+          },
+          "output_schema": {
+            "bytes": 684,
+            "characters": 684,
+            "sha256": "677d13bd2fdf4025cd2071f30e3a0745f23b15e2e0be3884086004dff33152f1"
+          }
+        },
+        "explicit_bytes": 3108,
+        "raw_prompt_retained": false
+      },
+      "tool_activity": {
+        "command_items": 40,
+        "command_actions": 40,
+        "action_types": {
+          "unknown": 34,
+          "listFiles": 6
+        },
+        "temple_md_attempts": 1,
+        "context_resolve_attempts": 1,
+        "temple_md_reads": 1,
+        "context_resolve_calls": 1,
+        "context_sequence": [
+          "temple-md",
+          "context-resolve"
+        ],
+        "reported_output_bytes": 147178
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "recovered_revisions": [
+          {
+            "repository": "gateway",
+            "revision": "c26b0a42c03ff16990928ecf0c9bdf1dd384e0d9"
+          },
+          {
+            "repository": "catalog",
+            "revision": "bfc2408febe905a31e37bca4f77a6e0746b9d0bd"
+          },
+          {
+            "repository": "orders",
+            "revision": "f356286163c2405072b375e5e014a455362e7efe"
+          },
+          {
+            "repository": "notifications",
+            "revision": "d5aca6c21f8aa11c0f82d96e376453dd21ba7b2"
+          }
+        ],
+        "governing_contract": "OrderPlaced/v2 rolling compatibility: Catalog supplies inventoryRevision; Orders emits the exact v2 nested event; Notifications retains v1 and accepts v2 idempotently; Gateway preserves orderId/status and adds eventVersion.",
+        "completed_slices": [
+          "orders-catalog",
+          "notifications",
+          "gateway"
+        ],
+        "unresolved": [
+          "No unresolved item is recorded in the retained developer handoffs.",
+          "All four service work items remain in test, assigned to quality_evaluator; QA evidence and a subsequent integration handoff are not present."
+        ],
+        "safe_next_action": "Have Quality & Evaluation independently validate retained v1 compatibility, malformed/unsupported-event rejection, v2 idempotency, and the end-to-end checkout at the recovered revisions; then record repository-backed QA evidence before lifecycle advancement.",
+        "summary": "All retained developer slice handoffs are present and their repositories are clean. The coordinator public integration test passes at the recovered heads; WI-0001 remains in build at the coordinator while service slices await Quality & Evaluation."
+      },
+      "expected_revisions": {
+        "gateway": "c26b0a42c03ff16990928ecf0c9bdf1dd384e0d9",
+        "catalog": "bfc2408febe905a31e37bca4f77a6e0746b9d0bd",
+        "orders": "f356286163c2405072b375e5e014a455362e7efe",
+        "notifications": "d5aca6c21f8aa11c0f82d96e376453dd21ba7b2d"
+      },
+      "recovery": {
+        "exact_revision_count": 3,
+        "exact_revision_total": 4,
+        "governing_contract_named": true,
+        "completed_slice_count": 3,
+        "completed_slice_total": 3,
+        "unresolved_reported": true,
+        "safe_next_action_bounded": true,
+        "pass": false
+      }
+    }
+  ],
+  "candidate_operational_tokens": 128039,
+  "retry_count": 0,
+  "fallback_count": 0,
+  "model_generation_performed": true
+}

@@ -2576,9 +2576,16 @@ async function runAblation(labRoot, protocolPath, approvalPath) {
   if (!approvalPath) throw new Error("--approval is required for live ablation generation");
   const resultPath = path.join(labRoot, "ablation-run.json");
   if (await exists(resultPath) || await exists(path.join(labRoot, "ablation-stopped-run.json"))) throw new Error("live ablation attempt already exists; retries and resumes are prohibited");
+  const protocol = await readJson(protocolPath);
+  const preservedRunPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-run.json");
+  if (await exists(preservedRunPath)) {
+    const preservedRun = await readJson(preservedRunPath);
+    if (preservedRun.protocol_sha256 === protocol.protocol_sha256) {
+      throw new Error("the exact-approved ablation attempt has already been consumed and preserved");
+    }
+  }
   const gate = await preflightAblation(labRoot, protocolPath, approvalPath);
   if (!gate.generation_ready) throw new Error(`ablation generation blocked: ${gate.blockers.join(", ")}`);
-  const protocol = await readJson(protocolPath);
   const manifest = await readJson(path.join(labRoot, "ablation-manifest.json"));
   const budget = createBudget(protocol);
   const startedAt = new Date().toISOString();
@@ -2764,9 +2771,50 @@ async function reportAblation(labRoot, protocolPath) {
   const protocol = await readJson(protocolPath);
   const completedPath = path.join(labRoot, "ablation-run.json");
   const stoppedPath = path.join(labRoot, "ablation-stopped-run.json");
-  const run = await readJson(await exists(completedPath) ? completedPath : stoppedPath);
-  const analysis = analyzeContextAblation({ protocol, run });
-  await writeJson(path.join(labRoot, "ablation-analysis.json"), analysis);
+  const completed = await exists(completedPath);
+  const runPath = completed ? completedPath : stoppedPath;
+  const run = await readJson(runPath);
+  const generatedAt = run.completed_at ?? run.stopped_at;
+  if (!generatedAt) throw new Error("ablation run completion time is required for deterministic analysis");
+  const analysisPath = path.join(labRoot, "ablation-analysis.json");
+  const analysis = analyzeContextAblation({ protocol, run, generatedAt });
+  await writeJson(analysisPath, analysis);
+
+  const artifactRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136");
+  await preserveExactArtifact(
+    protocolPath,
+    path.join(artifactRoot, "context-recovery-qualification-v10-protocol.json"),
+    "temple.context-model-diagnostic/v10"
+  );
+  await preserveExactArtifact(
+    defaultAblationApprovalPath,
+    path.join(artifactRoot, "context-recovery-qualification-v10-approval.json"),
+    "temple.context-model-diagnostic-account-approval/v10"
+  );
+  await preserveExactArtifact(
+    defaultAblationApprovalTemplatePath,
+    path.join(artifactRoot, "context-recovery-qualification-v10-approval-template.json"),
+    "temple.context-model-diagnostic-account-approval/v10"
+  );
+  await preserveExactArtifact(
+    path.join(labRoot, "ablation-preflight.json"),
+    path.join(artifactRoot, "context-recovery-qualification-v10-preflight.json"),
+    "temple.context-model-diagnostic-preflight/v10"
+  );
+  await preserveExactArtifact(
+    runPath,
+    path.join(artifactRoot, completed
+      ? "context-recovery-qualification-v10-run.json"
+      : "context-recovery-qualification-v10-stopped-run.json"),
+    completed
+      ? "temple.context-model-diagnostic-run/v10"
+      : "temple.context-model-diagnostic-stopped-run/v10"
+  );
+  await preserveExactArtifact(
+    analysisPath,
+    path.join(artifactRoot, "context-recovery-qualification-v10-analysis.json"),
+    "temple.context-model-diagnostic-analysis/v10"
+  );
   return analysis;
 }
 

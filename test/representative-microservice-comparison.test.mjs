@@ -240,8 +240,11 @@ test("the frozen context ablation requires matched repositories and exact approv
   assert.equal(protocol.execution.combined_operational_token_limit, 200000);
   assert.equal(protocol.execution.candidate_limit_disposition, "record-censored-and-continue-independent-conditions");
   assert.equal(currentApproval.schema_version, "temple.context-model-diagnostic-account-approval/v10");
-  assert.equal(currentApproval.approved, false);
-  assert.deepEqual(currentApproval, template);
+  if (currentApproval.approved) {
+    assert.deepEqual(validateAblationApproval(currentApproval, protocol), { accepted: true, errors: [] });
+  } else {
+    assert.deepEqual(currentApproval, template);
+  }
   assert.deepEqual(protocol.conditions.map((entry) => [entry.id, entry.model_route.model, entry.model_route.reasoning_effort]), [
     ["terra-routed", "gpt-5.6-terra", "medium"],
     ["terra-full-load", "gpt-5.6-terra", "medium"]

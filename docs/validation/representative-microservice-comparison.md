@@ -133,6 +133,8 @@ node scripts/run-representative-microservice-comparison.mjs ablation-run --appro
 node scripts/run-representative-microservice-comparison.mjs ablation-report
 ```
 
+The exact-approved v10 qualification is complete. Both Terra medium conditions completed once with zero retry and zero fallback. Routed context recovered all four exact service revisions and used 57,296 Operational Tokens; full-load context recovered three exact revisions and used 70,743 after truncating one 40-character revision to 39 characters. In this single matched pair, routed context also finished 55.245 seconds sooner and exposed 96,062 fewer tool-output bytes. These descriptive observations qualify Context Capsule-first retrieval for the replacement main comparison, but they do not establish a population effect, a model-routing rule, or Temple effectiveness. See the [v10 qualification report](../../.ai-org/artifacts/WI-0136/context-recovery-qualification-v10-report.md) and its preserved raw evidence.
+
 After the ablation, the main live execution shape remains ten candidate turns and one blind evaluator turn: one Sol xhigh design turn, three concurrent Terra medium implementation slices, and one fresh Terra medium cold-integration turn per arm, followed by one Sol xhigh evaluator. Its replacement safety envelope and protocol digest must be regenerated after the routed prompt is frozen. Earlier limits remain historical preparation evidence, not current approval authority.
 
 After that replacement main protocol receives its own exact approval, the bounded commands are:
