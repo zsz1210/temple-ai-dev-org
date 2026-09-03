@@ -1,6 +1,6 @@
 # Temple effectiveness and adaptive-routing experiment
 
-- Status: design only; no live Provider run is authorized
+- Status: first bounded live pilot completed under WI-0130; see [the result and retained limitations](temple-effectiveness-pilot-result.md)
 - Purpose: determine whether Temple and its Adaptive Execution Route create enough measurable value to justify their overhead
 - Prior evidence: Wave 5A and 5B are protocol and mechanism evidence, not a qualified product-effect result
 
@@ -39,7 +39,7 @@ Within each matched comparison, keep these inputs identical unless the named int
 
 - product outcome, starting revisions, task digest, specifications, public tests, and held-out tests;
 - available tools, repository access, network policy, retry policy, stopping limits, and human authority envelope;
-- evaluator rubric, score range `0..1`, output schema, and blind-package fields;
+- evaluator rubric, pre-registered score range, output schema, and blind-package fields; WI-0130 used integer `0..100` to keep Provider output and post-validation identical;
 - Provider protocol version, usage fields, correlation IDs, and effective-model evidence; and
 - order randomization or counterbalancing so one arm does not always benefit from learning first.
 
@@ -71,7 +71,7 @@ A pair is excluded from effect analysis when any of these conditions occurs:
 - effective model or reasoning evidence is missing for a model-dependent comparison;
 - a public or held-out acceptance gate required for the comparison fails;
 - the evaluator sees the arm mapping before its score is frozen;
-- the evaluator output violates the pre-registered schema or `0..1` range;
+- the evaluator output violates the pre-registered schema or score range;
 - usage correlation, exact candidate revision, or intervention recording is incomplete; or
 - an unplanned retry, fallback, or cross-arm information leak occurs.
 
@@ -105,4 +105,4 @@ Retain an excluded run once as protocol evidence. Repair the harness under a new
 
 OpenAI's current model guidance recommends comparing representative tasks on success, required evidence, total Tokens, latency, and cost, and changing one instruction, tool, or configuration group at a time. This protocol applies that principle to Temple instead of assuming the largest model, highest reasoning effort, or most elaborate process is best. See [OpenAI model guidance](https://developers.openai.com/api/docs/guides/latest-model).
 
-This document does not authorize Provider generation, Credits use, automatic routing, deployment, publication, or release.
+The one WI-0130 authorization has been consumed and cannot authorize another run. This document does not authorize further Provider generation, Credits use, automatic routing, deployment, publication, or release.

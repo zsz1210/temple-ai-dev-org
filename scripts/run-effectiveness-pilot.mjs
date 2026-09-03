@@ -6,6 +6,7 @@ import path from "node:path";
 import { execFile as execFileCallback } from "node:child_process";
 import { promisify } from "node:util";
 import os from "node:os";
+import { pathToFileURL } from "node:url";
 
 import { buildCodexRuntimeRequestResponse, createJsonRpcProcess } from "../src/codex-app-server-provider.mjs";
 import { isolateWave5CodexEnvironment, normalizeTokenUsage, terminalFailure } from "../src/app-server-protocol-replay.mjs";
@@ -96,6 +97,10 @@ function normalizedWorkItem(workItem) {
       .map(([key, child]) => [key, visit(child)]));
   }
   return visit(workItem);
+}
+
+export function matchesPilotTempleProfile(workItem) {
+  return workItem?.workflow_profile === "lean" && workItem?.scope_class === "bounded" && workItem?.risk_tier === "low";
 }
 
 async function templeTreatmentDigest(root) {
@@ -236,6 +241,15 @@ async function candidateChecks(labRoot) {
     const clean = (await git(candidate.root, ["status", "--porcelain=v1"])) === "";
     const revision = await git(candidate.root, ["rev-parse", "HEAD"]);
     checks.push({ id: `clean:${candidate.id}`, pass: clean && revision === candidate.revision, expected_revision: candidate.revision, observed_revision: revision });
+    if (candidate.condition_id === "temple-fixed" || candidate.condition_id === "temple-adaptive") {
+      const workItem = await readJson(path.join(candidate.root, ".ai-org/work-items/WI-0001.json"));
+      checks.push({
+        id: `lean-profile:${candidate.condition_id}:${candidate.case_id}`,
+        pass: matchesPilotTempleProfile(workItem),
+        expected: { workflow_profile: "lean", scope_class: "bounded", risk_tier: "low" },
+        observed: { workflow_profile: workItem.workflow_profile ?? null, scope_class: workItem.scope_class ?? null, risk_tier: workItem.risk_tier ?? null }
+      });
+    }
   }
   for (const caseDefinition of protocol.cases) {
     const sameCase = mapping.candidates.filter((entry) => entry.case_id === caseDefinition.id);
@@ -661,7 +675,10 @@ async function main() {
   process.stdout.write(`${JSON.stringify(output, null, 2)}\n`);
 }
 
-main().catch((error) => {
-  process.stderr.write(`${error.stack ?? error.message}\n`);
-  process.exitCode = 1;
-});
+const direct = process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href;
+if (direct) {
+  main().catch((error) => {
+    process.stderr.write(`${error.stack ?? error.message}\n`);
+    process.exitCode = 1;
+  });
+}

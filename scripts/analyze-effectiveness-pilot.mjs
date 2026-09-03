@@ -41,7 +41,9 @@ function pairFor(caseId, byKey, baselineId, nextId, thresholds) {
   const baseline = byKey.get(`${caseId}\0${baselineId}`);
   const next = byKey.get(`${caseId}\0${nextId}`);
   if (!baseline || !next) throw new Error(`${caseId} is missing ${baselineId} or ${nextId}`);
-  const objectivePass = [baseline, next].every((entry) => entry.public_tests === "pass" && entry.acceptance_tests === "pass");
+  const baselineObjectivePass = baseline.public_tests === "pass" && baseline.acceptance_tests === "pass";
+  const nextObjectivePass = next.public_tests === "pass" && next.acceptance_tests === "pass";
+  const objectivePass = baselineObjectivePass && nextObjectivePass;
   const blindAvailable = [baseline, next].every((entry) => Number.isInteger(entry.blind_score) && ["pass", "reject"].includes(entry.blind_decision));
   const blindPass = blindAvailable && [baseline, next].every((entry) => entry.blind_decision === "pass" && entry.blind_score >= 85);
   const qualified = objectivePass && blindPass;
@@ -52,6 +54,15 @@ function pairFor(caseId, byKey, baselineId, nextId, thresholds) {
     case_id: caseId,
     baseline_condition: baselineId,
     next_condition: nextId,
+    baseline_objective_pass: baselineObjectivePass,
+    next_objective_pass: nextObjectivePass,
+    objective_direction: baselineObjectivePass && nextObjectivePass
+      ? "both-pass"
+      : baselineObjectivePass
+        ? "baseline-only-pass"
+        : nextObjectivePass
+          ? "next-only-pass"
+          : "both-fail",
     objective_pass: objectivePass,
     blind_available: blindAvailable,
     qualified,
@@ -70,28 +81,39 @@ function pairFor(caseId, byKey, baselineId, nextId, thresholds) {
 
 function processDecision(pairs, thresholds) {
   if (pairs.some((entry) => !entry.blind_available)) return { decision: "inconclusive", action: "repair blind evaluation before changing the framework" };
-  if (pairs.some((entry) => !entry.objective_pass)) return { decision: "redesign", action: "inspect the failing arm and do not claim a process benefit" };
+  if (pairs.some((entry) => entry.objective_direction === "baseline-only-pass")) return { decision: "redesign", action: "inspect the Temple-only correctness loss before another comparison" };
+  if (pairs.some((entry) => entry.objective_direction === "next-only-pass")) return { decision: "retain-with-measurement", action: "retain the process provisionally and expand the correctness result to more cases" };
   const qualified = pairs.filter((entry) => entry.qualified);
-  if (qualified.length !== pairs.length) return { decision: "redesign", action: "review quality rejection before retaining process overhead" };
+  if (qualified.length === 0) return { decision: "inconclusive", action: "repair task guidance or cases before comparing process resources" };
   const tokenMedian = median(qualified.map((entry) => entry.operational_token_delta_percent));
   const latencyMedian = median(qualified.map((entry) => entry.latency_delta_percent));
   const qualityMedian = median(qualified.map((entry) => entry.quality_delta_points));
   const nonInferior = qualified.every((entry) => entry.quality_non_inferior);
   if (!nonInferior) return { decision: "redesign", action: "simplify or correct the Lean Core Path before another comparison" };
   if (qualityMedian > thresholds.quality_non_inferiority_points) return { decision: "retain", action: "retain the process and expand to a broader task family" };
-  if (tokenMedian > thresholds.meaningful_operational_token_reduction_percent && latencyMedian > thresholds.meaningful_latency_reduction_percent) {
-    return { decision: "simplify", action: "remove non-contributing Temple context and rerun the same cases" };
+  if (tokenMedian > thresholds.meaningful_operational_token_reduction_percent && qualityMedian <= thresholds.quality_non_inferiority_points) {
+    return { decision: "simplify-and-rerun", action: "reduce non-contributing Temple context and rerun the same frozen cases" };
   }
+  if (qualified.length !== pairs.length) return { decision: "inconclusive", action: "keep the process provisional; the quality-excluded case prevents a complete process comparison" };
   return { decision: "retain-with-measurement", action: "keep the process provisional and expand the diagnostic sample" };
 }
 
 function routeDecision(pairs, thresholds) {
   if (pairs.some((entry) => !entry.blind_available)) return { decision: "inconclusive", action: "repair blind evaluation; keep routing advisory" };
-  if (pairs.some((entry) => !entry.objective_pass) || pairs.some((entry) => !entry.quality_non_inferior)) {
+  if (pairs.some((entry) => entry.objective_direction === "baseline-only-pass") || pairs.some((entry) => entry.quality_non_inferior === false)) {
     return { decision: "redesign", action: "keep routing advisory and revise the bounded-quality rule" };
   }
+  const correctnessWins = pairs.filter((entry) => entry.objective_direction === "next-only-pass").length;
   const qualified = pairs.filter((entry) => entry.qualified);
-  if (qualified.length !== pairs.length) return { decision: "redesign", action: "review quality rejection; do not automate the route" };
+  if (correctnessWins > 0) {
+    const resourceRegressions = qualified.some((entry) =>
+      entry.operational_token_delta_percent >= thresholds.meaningful_operational_token_reduction_percent ||
+      entry.latency_delta_percent >= thresholds.meaningful_latency_reduction_percent);
+    return resourceRegressions
+      ? { decision: "redesign", action: "preserve Luna Max as an advisory escalation, but split the broad bounded-quality rule so easy bounded work stays on Terra" }
+      : { decision: "retain-advisory", action: "retain the route as advisory and test the correctness win on more cases" };
+  }
+  if (qualified.length !== pairs.length) return { decision: "inconclusive", action: "keep routing advisory; too few pairs qualify for a route decision" };
   const tokenMedian = median(qualified.map((entry) => entry.operational_token_delta_percent));
   const latencyMedian = median(qualified.map((entry) => entry.latency_delta_percent));
   const improvesTokens = tokenMedian <= -thresholds.meaningful_operational_token_reduction_percent;
@@ -121,16 +143,25 @@ export function analyzeEffectivenessPilot(source, protocol) {
   const processPairs = caseIds.map((caseId) => pairFor(caseId, byKey, "conventional-fixed", "temple-fixed", thresholds));
   const routePairs = caseIds.map((caseId) => pairFor(caseId, byKey, "temple-fixed", "temple-adaptive", thresholds));
   const aggregate = {
-    gross_tokens: source.candidates.reduce((total, entry) => total + entry.gross_tokens, 0),
-    operational_tokens: source.candidates.reduce((total, entry) => total + entry.operational_tokens, 0),
-    latency_ms: source.candidates.reduce((total, entry) => total + entry.latency_ms, 0),
+    candidate_gross_tokens: source.candidates.reduce((total, entry) => total + entry.gross_tokens, 0),
+    candidate_operational_tokens: source.candidates.reduce((total, entry) => total + entry.operational_tokens, 0),
+    candidate_latency_ms: source.candidates.reduce((total, entry) => total + entry.latency_ms, 0),
+    evaluator_gross_tokens: source.evaluator?.usage?.total_tokens ?? null,
+    evaluator_operational_tokens: source.evaluator?.usage
+      ? source.evaluator.usage.input_tokens - source.evaluator.usage.cached_input_tokens + source.evaluator.usage.output_tokens
+      : null,
     retry_count: source.candidates.reduce((total, entry) => total + entry.retry_count, 0),
     fallback_count: source.candidates.reduce((total, entry) => total + entry.fallback_count, 0),
     intervention_count: source.candidates.reduce((total, entry) => total + entry.intervention_count, 0),
     path_violation_count: source.candidates.reduce((total, entry) => total + entry.path_violation_count, 0)
   };
+  aggregate.combined_gross_tokens = aggregate.evaluator_gross_tokens === null ? null : aggregate.candidate_gross_tokens + aggregate.evaluator_gross_tokens;
+  aggregate.combined_operational_tokens = aggregate.evaluator_operational_tokens === null ? null : aggregate.candidate_operational_tokens + aggregate.evaluator_operational_tokens;
   const summarize = (pairs) => ({
     qualified_pairs: pairs.filter((entry) => entry.qualified).length,
+    next_only_correctness_wins: pairs.filter((entry) => entry.objective_direction === "next-only-pass").length,
+    baseline_only_correctness_wins: pairs.filter((entry) => entry.objective_direction === "baseline-only-pass").length,
+    both_failed_pairs: pairs.filter((entry) => entry.objective_direction === "both-fail").length,
     median_quality_delta_points: median(pairs.filter((entry) => entry.quality_delta_points !== null).map((entry) => entry.quality_delta_points)),
     median_operational_token_delta_percent: median(pairs.filter((entry) => entry.qualified).map((entry) => entry.operational_token_delta_percent)),
     median_latency_delta_percent: median(pairs.filter((entry) => entry.qualified).map((entry) => entry.latency_delta_percent))
@@ -139,7 +170,11 @@ export function analyzeEffectivenessPilot(source, protocol) {
     schema_version: "temple.effectiveness-pilot-analysis/v1",
     work_item_id: "WI-0130",
     validity: {
-      status: [...processPairs, ...routePairs].every((entry) => entry.qualified) ? "diagnostic-complete" : "diagnostic-incomplete",
+      status: source.candidates.every((entry) => Number.isInteger(entry.blind_score))
+        ? [...processPairs, ...routePairs].every((entry) => entry.qualified)
+          ? "diagnostic-complete"
+          : "diagnostic-complete-with-quality-exclusions"
+        : "diagnostic-incomplete",
       case_count: caseIds.length,
       candidate_count: source.candidates.length,
       statistical_qualification: false,

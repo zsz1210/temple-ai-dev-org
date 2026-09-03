@@ -1,0 +1,105 @@
+{
+  "schema_version": "temple.effectiveness-pilot-live-observation/v1",
+  "work_item_id": "WI-0130",
+  "observed_at": "2026-09-03T07:00:43Z",
+  "lab_root": "/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-pilot-wi0130",
+  "source_digests": {
+    "effectiveness_evidence_sha256": "d06e92781b7f2dc4543e43d411eb81f738f671adfb4978022be9d6d39206926d",
+    "effectiveness_analysis_sha256": "421855b4aeff407ed3f450a90f63d48613a85950db4709f13f00f1cfd20b377c",
+    "frozen_scores_sha256": "67650a866f8d05b563a2cf7a0c3e232e8196e2eccd452dad2a84d2f980fe8078"
+  },
+  "execution": {
+    "candidate_turns_started": 6,
+    "candidate_turns_completed": 6,
+    "evaluator_turns_started": 1,
+    "evaluator_turns_completed": 1,
+    "retry_count": 0,
+    "fallback_count": 0,
+    "intervention_count_between_candidates": 0,
+    "path_violation_count": 0,
+    "candidate_operational_tokens": 211526,
+    "evaluator_operational_tokens": 25122,
+    "combined_operational_tokens": 236648,
+    "approved_combined_operational_tokens": 520000,
+    "candidate_gross_tokens": 2187334,
+    "evaluator_gross_tokens": 25122,
+    "combined_gross_tokens": 2212456,
+    "candidate_latency_ms": 460916
+  },
+  "conditions": [
+    {
+      "condition_id": "conventional-fixed",
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "candidate_count": 2,
+      "objective_pass_count": 1,
+      "blind_pass_count": 1,
+      "mean_blind_score": 78.5,
+      "operational_tokens": 51448,
+      "latency_ms": 90098
+    },
+    {
+      "condition_id": "temple-fixed",
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "candidate_count": 2,
+      "objective_pass_count": 1,
+      "blind_pass_count": 1,
+      "mean_blind_score": 79.5,
+      "operational_tokens": 57903,
+      "latency_ms": 85521
+    },
+    {
+      "condition_id": "temple-adaptive",
+      "requested_model": "gpt-5.6-luna",
+      "acknowledged_model": "gpt-5.6-luna",
+      "requested_reasoning_effort": "max",
+      "candidate_count": 2,
+      "objective_pass_count": 2,
+      "blind_pass_count": 2,
+      "mean_blind_score": 99.5,
+      "operational_tokens": 102175,
+      "latency_ms": 285297
+    }
+  ],
+  "case_results": [
+    {
+      "case_id": "idempotent-command",
+      "conventional_fixed": { "objective": "fail", "blind_score": 58, "operational_tokens": 29516, "latency_ms": 47912 },
+      "temple_fixed": { "objective": "fail", "blind_score": 60, "operational_tokens": 32109, "latency_ms": 44990 },
+      "temple_adaptive": { "objective": "pass", "blind_score": 100, "operational_tokens": 37154, "latency_ms": 85135 }
+    },
+    {
+      "case_id": "compatible-event-evolution",
+      "conventional_fixed": { "objective": "pass", "blind_score": 99, "operational_tokens": 21932, "latency_ms": 42186 },
+      "temple_fixed": { "objective": "pass", "blind_score": 99, "operational_tokens": 25794, "latency_ms": 40531 },
+      "temple_adaptive": { "objective": "pass", "blind_score": 99, "operational_tokens": 65021, "latency_ms": 200162 }
+    }
+  ],
+  "evaluator": {
+    "requested_model": "gpt-5.6-sol",
+    "acknowledged_model": "gpt-5.6-sol",
+    "requested_reasoning_effort": "xhigh",
+    "observed_thread_reasoning_effort": "high",
+    "effective_turn_reasoning_effort": null,
+    "scores_frozen_before_mapping_unseal": true,
+    "score_count": 6,
+    "score_range_valid": true
+  },
+  "protocol_audit": {
+    "status": "completed_with_deviation",
+    "matched_product_inputs": true,
+    "matched_fixed_model": true,
+    "matched_temple_process_between_fixed_and_adaptive": true,
+    "observed_temple_workflow_profile": "standard",
+    "registered_temple_workflow_profile": "lean",
+    "lean_core_path_claim_valid": false,
+    "standard_temple_process_diagnostic_valid": true,
+    "requested_reasoning_effort_retained": true,
+    "effective_turn_reasoning_effort_observed": false,
+    "automatic_routing_qualified": false,
+    "statistical_qualification": false
+  }
+}
