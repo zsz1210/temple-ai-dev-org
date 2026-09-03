@@ -21140,6 +21140,71 @@
         "exit_code": 0,
         "started_at": "2026-09-03T11:23:37.000Z"
       }
+    },
+    {
+      "id": "EVID-20260903T120944Z-E169F1B4",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T12:09:44.571Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0136 context-routing ablation preflight",
+      "outcome": "pass",
+      "scope_revision": "e665db9d13b7e11599205227034e4d7f35804d67",
+      "observed_at": "2026-09-03T12:08:37.000Z",
+      "summary": "The matched two-condition fixture, prompt and runner digests, refusal boundary, and all 367 repository tests pass without model generation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0136/context-ablation-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0136/context-ablation-test-observation.json",
+          "sha256": "756424524962468a6331fe2a548764010ee3604ebcea0d717b64706796da7840"
+        },
+        {
+          "path": "scripts/run-representative-microservice-comparison.mjs",
+          "sha256": "6f3785426bceeb4c21c4a9dafdf8f9ac2f1d7b1131aa13da46b09d8cde040ca7"
+        },
+        {
+          "path": "test/representative-microservice-comparison.test.mjs",
+          "sha256": "093838a803332092a121fffb2a03bc6b9d6d65d668ac72c194de48342e16c4ca"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/context-ablation-protocol.json",
+          "sha256": "ca8f2646d607aaa0e84c4eb7fb5c444d95e6df68ec7daf6d2a006264f1761a85"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/context-ablation-approval.template.json",
+          "sha256": "10a3240f5dfe0e3a61568463f01d80e600f07333e368b5aa20fe4602066fcb1a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/context-ablation-preflight-report.md",
+          "sha256": "21ffc5c9d8c9ee7f6463bdf1d289b126691ee76d9031d6207b3bfd6043d6eb49"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/protocol-history.md",
+          "sha256": "09f9d892affe8132a3bb88c6a457adec0862b648467c71103329bc328ce6349b"
+        },
+        {
+          "path": "docs/validation/representative-microservice-comparison.md",
+          "sha256": "2057374daebb8fa851418ec0ae99dd29f6310c7e08eb603de87d8ba5854fcf7a"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T12:07:30.000Z"
+      }
     }
   ]
 }
