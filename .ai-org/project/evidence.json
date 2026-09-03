@@ -19085,6 +19085,89 @@
         "status": "open",
         "mitigation": "Use the managed date-time subset, complete Request nested allowlists, explicit Route projection, and fresh Independent QA."
       }
+    },
+    {
+      "id": "EVID-20260903T041815Z-CC875307",
+      "work_item_id": "WI-0124",
+      "recorded_at": "2026-09-03T04:18:15.809Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Execution Request projection seal candidate",
+      "outcome": "verified",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:18:15.809Z",
+      "summary": "Exact candidate revision for complete Request allowlists and explicit Route projection.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "0e32149b98e5984b45dac15ec33e8fa99d98e63c"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260903T041816Z-5B5A2C1D",
+      "work_item_id": "WI-0124",
+      "recorded_at": "2026-09-03T04:18:16.047Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer full verification",
+      "outcome": "pass",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:17:52.784Z",
+      "summary": "All repository checks and 331 tests passed on the exact candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0124/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0124/developer-test-observation.json",
+          "sha256": "8acbc81cd215f6df8a97b5f949193875367f5223577e614e148c3d2514c716b8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/developer-report.md",
+          "sha256": "c082a162dc4ed1d40a0a791d147af956689b63bfce387efef017c3e6d9172771"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0123/independent-qa-attempt-1.md",
+          "sha256": "ca8125f7cb6f8f3d5319b1b076a577ba2ef419813be4795babd086ea22e7ea9c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/product-spec.md",
+          "sha256": "949bd272a4b3d040d0978a320facba81c4f0883e9a00155ae2ade39d56e178dd"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/technical-design.md",
+          "sha256": "5e24613f07c33324ffd4415c4fb02988c395527dbe217631a50904e4379f576e"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T04:16:45.003Z"
+      }
     }
   ]
 }
