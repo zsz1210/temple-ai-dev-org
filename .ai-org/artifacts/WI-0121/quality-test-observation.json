@@ -1,0 +1,21 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "a8eea7c3122dfac1ce7cf700a083030bb79bf01d",
+  "command": [
+    "node",
+    "--test",
+    "test/execution-routing.test.mjs",
+    "test/phase4-installation.test.mjs"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-03T03:38:55.362Z",
+  "completed_at": "2026-09-03T03:38:59.815Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0121/quality-report.md",
+    ".ai-org/artifacts/WI-0121/developer-report.md",
+    ".ai-org/artifacts/WI-0120/independent-qa-attempt-1.md",
+    ".ai-org/artifacts/WI-0121/product-spec.md",
+    ".ai-org/artifacts/WI-0121/technical-design.md"
+  ]
+}

@@ -24,6 +24,7 @@ import {
 import {
   defaultExecutionPolicy,
   EXECUTION_POLICY_RELATIVE_PATH,
+  resolveExecutionRequest,
   validateExecutionPolicy
 } from "../src/execution-routing.mjs";
 import {
@@ -332,6 +333,13 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
   };
   await fs.mkdir(path.join(target, path.dirname(executionRequestPath)), { recursive: true });
   await fs.writeFile(path.join(target, executionRequestPath), `${JSON.stringify(executionRequest, null, 2)}\n`);
+  const executionRoutePath = ".ai-org/views/execution-routes/request.json";
+  const executionRoute = resolveExecutionRequest(executionPolicy, executionRequest, {
+    generatedAt: "2026-09-03T00:00:00.000Z",
+    policySource: "project"
+  });
+  await fs.mkdir(path.join(target, path.dirname(executionRoutePath)), { recursive: true });
+  await fs.writeFile(path.join(target, executionRoutePath), `${JSON.stringify(executionRoute, null, 2)}\n`);
   const validSchemas = await validateProjectSchemas(target);
   assert.equal(validSchemas.valid, true, JSON.stringify(validSchemas.errors, null, 2));
   assert.ok(validSchemas.checked.some((entry) => entry.document === FEDERATION_REGISTRY_RELATIVE_PATH && entry.valid));
@@ -339,6 +347,21 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
   assert.ok(validSchemas.checked.some((entry) => entry.document === ".ai-org/project/validation-program.json" && entry.valid));
   assert.ok(validSchemas.checked.some((entry) => entry.document === USAGE_POLICY_RELATIVE_PATH && entry.valid));
   assert.ok(validSchemas.checked.some((entry) => entry.document === executionRequestPath && entry.valid));
+  assert.ok(validSchemas.checked.some((entry) => entry.document === executionRoutePath && entry.valid));
+
+  executionRoute.summary.resolved = 0;
+  executionRoute.summary.unresolved = 1;
+  await fs.writeFile(path.join(target, executionRoutePath), `${JSON.stringify(executionRoute, null, 2)}\n`);
+  const rejectedExecutionRoute = await validateProjectSchemas(target);
+  assert.equal(rejectedExecutionRoute.valid, false);
+  assert.ok(
+    rejectedExecutionRoute.errors.some(
+      (entry) => entry.document === executionRoutePath && entry.keyword === "semantic"
+    )
+  );
+  executionRoute.summary.resolved = 1;
+  executionRoute.summary.unresolved = 0;
+  await fs.writeFile(path.join(target, executionRoutePath), `${JSON.stringify(executionRoute, null, 2)}\n`);
 
   executionRequest.steps[0].constraints.resource_limits[0].measure_id = "missing.measure";
   await fs.writeFile(path.join(target, executionRequestPath), `${JSON.stringify(executionRequest, null, 2)}\n`);

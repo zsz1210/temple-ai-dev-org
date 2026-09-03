@@ -1,0 +1,314 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0122",
+  "title": "Reconcile pinned Route reason precedence",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-03T03:47:54.392Z",
+  "updated_at": "2026-09-03T04:29:26.703Z",
+  "scope": [
+    "Define and enforce one resolver-compatible precedence for pinned unknown capabilities, reject blank resource sources, and reject impossible resolved non-pinned selection provenance."
+  ],
+  "acceptance_criteria": [
+    "Actual pinned resolver outputs with unknown required capabilities pass both managed schema and semantic validation while remaining unresolved, non-fallback, and pinned-specific.",
+    "Whitespace-only resource observation sources and resolved non-pinned routes with neither rule nor fallback fail closed.",
+    "All prior counterexamples, positive route variants, focused tests, and full repository verification pass before separate Independent QA."
+  ],
+  "affected_paths": [
+    "src/execution-routing.mjs",
+    "project-overlay/.ai-org/core/schemas/execution-route.schema.json",
+    ".ai-org/core/schemas/execution-route.schema.json",
+    "test/execution-routing.test.mjs",
+    "temple.lock",
+    ".ai-org/artifacts/WI-0122"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [
+      "schema-or-data-migration"
+    ],
+    "rationale": "This is a bounded child repair of a versioned validation contract after an Independent QA compatibility failure.",
+    "evidence_refs": [
+      ".ai-org/artifacts/WI-0121/independent-qa-attempt-1.md"
+    ],
+    "evaluated_at": "2026-09-03T03:47:54.392Z",
+    "escalated": false
+  },
+  "parent_work_item_id": "WI-0121",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [
+    "WI-0119"
+  ],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0120 remains blocked and performs no concurrent writes; WI-0122 owns the final resolver-schema-validator compatibility repair.",
+    "WI-0121 remains blocked and delegates its remaining Independent QA findings to child WI-0122; the parent performs no concurrent writes.",
+    "WI-0086 retains public-release qualification; WI-0122 changes only the local validation contract, regression tests, and self-host digest metadata."
+  ],
+  "claim": {
+    "id": "claim-20260903042926-5e4c277c",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+    "branch": "codex/wi-0120-harden-execution-route-schema",
+    "worktree": null,
+    "claimed_at": "2026-09-03T04:29:26.275Z",
+    "released_at": "2026-09-03T04:29:26.703Z",
+    "release_reason": "work_item_closed"
+  },
+  "claims": [
+    {
+      "id": "claim-20260903034754-75ff21d0",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "8c637aa",
+      "branch": "codex/wi-0120-harden-execution-route-schema",
+      "worktree": null,
+      "claimed_at": "2026-09-03T03:47:54.928Z",
+      "released_at": "2026-09-03T03:48:55.167Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903034855-d5258e93",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "8c637aa",
+      "branch": "codex/wi-0120-harden-execution-route-schema",
+      "worktree": null,
+      "claimed_at": "2026-09-03T03:48:55.417Z",
+      "released_at": "2026-09-03T03:48:55.911Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903034856-6e62233a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "8c637aa",
+      "branch": "codex/wi-0120-harden-execution-route-schema",
+      "worktree": null,
+      "claimed_at": "2026-09-03T03:48:56.162Z",
+      "released_at": "2026-09-03T03:48:56.625Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903034856-b0275c0b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "8c637aa",
+      "branch": "codex/wi-0120-harden-execution-route-schema",
+      "worktree": null,
+      "claimed_at": "2026-09-03T03:48:56.893Z",
+      "released_at": "2026-09-03T03:53:21.364Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903035321-291771f8",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
+      "branch": "codex/wi-0120-harden-execution-route-schema",
+      "worktree": null,
+      "claimed_at": "2026-09-03T03:53:21.631Z",
+      "released_at": "2026-09-03T03:53:54.727Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903035354-4da9b74f",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
+      "branch": "codex/wi-0120-harden-execution-route-schema",
+      "worktree": null,
+      "claimed_at": "2026-09-03T03:53:54.992Z",
+      "released_at": "2026-09-03T04:00:42.349Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903042925-d0683523",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "branch": "codex/wi-0120-harden-execution-route-schema",
+      "worktree": null,
+      "claimed_at": "2026-09-03T04:29:25.332Z",
+      "released_at": "2026-09-03T04:29:26.015Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903042926-5e4c277c",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "branch": "codex/wi-0120-harden-execution-route-schema",
+      "worktree": null,
+      "claimed_at": "2026-09-03T04:29:26.275Z",
+      "released_at": "2026-09-03T04:29:26.703Z",
+      "release_reason": "work_item_closed"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0122/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0122/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0122/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0122/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0122/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0122/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0122/developer-report.md",
+      ".ai-org/artifacts/WI-0122/developer-test-observation.json",
+      ".ai-org/artifacts/WI-0121/independent-qa-attempt-1.md"
+    ],
+    "implementation_revision": [
+      "3c35ddf8c9603ca997d572a240cbcc1dce2c0541"
+    ],
+    "developer_test": [
+      ".ai-org/artifacts/WI-0122/developer-test-observation.json"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0122/quality-test-observation.json"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0122/quality-report.md"
+    ],
+    "blocker_record": [
+      ".ai-org/artifacts/WI-0122/independent-qa-attempt-1.md"
+    ],
+    "resolution_evidence": [
+      ".ai-org/artifacts/WI-0123/release-record.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0122/independent-qa-final.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0122/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0122/independent-qa-final.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0122/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0122/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0122/work-order.md",
+    ".ai-org/artifacts/WI-0121/independent-qa-attempt-1.md",
+    ".ai-org/artifacts/WI-0122/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0122/approved-scope.md",
+    ".ai-org/artifacts/WI-0122/product-spec.md",
+    ".ai-org/artifacts/WI-0122/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0122/technical-design.md",
+    ".ai-org/artifacts/WI-0122/risk-review.md",
+    ".ai-org/artifacts/WI-0122/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0122/developer-report.md",
+    ".ai-org/artifacts/WI-0122/developer-test-observation.json",
+    "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
+    ".ai-org/artifacts/WI-0122/quality-test-observation.json",
+    ".ai-org/artifacts/WI-0122/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0122/quality-report.md",
+    ".ai-org/artifacts/WI-0122/independent-qa-attempt-1.md",
+    ".ai-org/artifacts/WI-0123/release-record.md",
+    ".ai-org/artifacts/WI-0122/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0122/independent-qa-final.md",
+    ".ai-org/artifacts/WI-0124/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0122/release-record.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "8c637aa",
+      "artifact": ".ai-org/artifacts/WI-0122/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-03T03:48:54.903Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "8c637aa",
+      "artifact": ".ai-org/artifacts/WI-0122/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-03T03:48:55.669Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "8c637aa",
+      "artifact": ".ai-org/artifacts/WI-0122/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-03T03:48:56.386Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
+      "artifact": ".ai-org/artifacts/WI-0122/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-03T03:53:21.089Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
+      "artifact": ".ai-org/artifacts/WI-0122/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-03T03:53:54.475Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "artifact": ".ai-org/artifacts/WI-0122/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-03T04:29:25.767Z"
+    }
+  ],
+  "developer_candidate_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
+  "tested_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
+}

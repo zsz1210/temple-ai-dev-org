@@ -2,6 +2,8 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "temple.execution-request/v1",
   "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+    "ids": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" } },
     "strings": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
     "resourceLimit": {
       "type": "object",
@@ -59,8 +61,8 @@
             "additionalProperties": false,
             "required": ["required", "optional"],
             "properties": {
-              "required": { "allOf": [{ "$ref": "#/$defs/strings" }, { "minItems": 1 }] },
-              "optional": { "$ref": "#/$defs/strings" }
+              "required": { "allOf": [{ "$ref": "#/$defs/ids" }, { "minItems": 1 }] },
+              "optional": { "$ref": "#/$defs/ids" }
             }
           },
           "constraints": {

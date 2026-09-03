@@ -5,6 +5,8 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import Ajv2020 from "ajv/dist/2020.js";
+import addFormats from "ajv-formats";
 
 import {
   defaultExecutionPolicy,
@@ -13,7 +15,8 @@ import {
   resolveExecutionRequest,
   resolveExecutionRequestFile,
   validateExecutionPolicy,
-  validateExecutionRequest
+  validateExecutionRequest,
+  validateExecutionRoute
 } from "../src/execution-routing.mjs";
 
 const mappedPolicy = () => defaultExecutionPolicy({
@@ -72,6 +75,252 @@ test("provider-neutral and mapped execution policies remain valid and explain th
   const automatic = structuredClone(neutral);
   automatic.authority.automatic_execution = true;
   assert.match(validateExecutionPolicy(automatic).errors.join("\n"), /read-only and non-executing/);
+});
+
+test("Execution Request capability identifiers close the resolver input domain", async () => {
+  const schema = JSON.parse(await fs.readFile(new URL("../.ai-org/core/schemas/execution-request.schema.json", import.meta.url), "utf8"));
+  const ajv = new Ajv2020({ allErrors: true, strict: false, validateFormats: true });
+  addFormats(ajv);
+  const validate = ajv.compile(schema);
+  for (const field of ["required", "optional"]) {
+    const invalidRequest = request([step(`invalid-${field}`)]);
+    invalidRequest.steps[0].capability_route[field] = ["INVALID/CAPABILITY"];
+    assert.equal(validate(invalidRequest), false, `${field} schema boundary`);
+    assert.equal(validateExecutionRequest(invalidRequest, mappedPolicy()).valid, false, `${field} semantic boundary`);
+    assert.throws(
+      () => resolveExecutionRequest(mappedPolicy(), invalidRequest),
+      /Invalid execution request/,
+      `${field} resolver boundary`
+    );
+  }
+});
+
+test("Execution Request semantic validation mirrors every managed unknown-property boundary", () => {
+  const mutations = [
+    ["request", (value) => { value.extra = true; }],
+    ["step", (value) => { value.steps[0].extra = true; }],
+    ["Task Shape", (value) => { value.steps[0].task_shape.extra = true; }],
+    ["capability route", (value) => { value.steps[0].capability_route.extra = true; }],
+    ["constraints", (value) => { value.steps[0].constraints.extra = true; }],
+    ["selection", (value) => { value.steps[0].selection.extra = true; }],
+    ["resource limit", (value) => {
+      value.steps[0].constraints.resource_limits = [
+        { measure_id: "tokens.total", maximum: 1000, unknown_handling: "reject", extra: true }
+      ];
+    }],
+    ["resource observation", (value) => {
+      value.steps[0].resource_observations = [
+        { measure_id: "credits", status: "unavailable", value: null, source: "provider", quality: "declared", extra: true }
+      ];
+    }],
+    ["missing selection", (value) => { delete value.steps[0].selection; }]
+  ];
+  for (const [label, mutate] of mutations) {
+    const invalidRequest = request([step(`unknown-property-${label.toLowerCase().replaceAll(" ", "-")}`)]);
+    mutate(invalidRequest);
+    const result = validateExecutionRequest(invalidRequest, mappedPolicy());
+    assert.equal(result.valid, false, label);
+    assert.throws(() => resolveExecutionRequest(mappedPolicy(), invalidRequest), /Invalid execution request/, label);
+  }
+});
+
+test("Execution resolver metadata options cannot produce schema-invalid Route metadata", () => {
+  const validRequest = request([step("resolver-options")]);
+  for (const policySource of ["external", "", null, 42]) {
+    assert.throws(
+      () => resolveExecutionRequest(mappedPolicy(), validRequest, { policySource }),
+      /Invalid execution route policy source/
+    );
+  }
+  for (const generatedAt of [
+    "not-a-date",
+    "2026-09-03",
+    "2026-09-03T00:00:00Z",
+    "+010000-01-01T00:00:00.000Z",
+    "-000001-01-01T00:00:00.000Z",
+    "+275760-09-13T00:00:00.000Z",
+    null,
+    42
+  ]) {
+    assert.throws(
+      () => resolveExecutionRequest(mappedPolicy(), validRequest, { generatedAt }),
+      /Invalid execution route generatedAt/
+    );
+  }
+});
+
+test("the managed Execution Route schema rejects the post-close Independent QA counterexample", async () => {
+  const schema = JSON.parse(await fs.readFile(new URL("../.ai-org/core/schemas/execution-route.schema.json", import.meta.url), "utf8"));
+  const ajv = new Ajv2020({ allErrors: true, strict: false, validateFormats: true });
+  addFormats(ajv);
+  const validate = ajv.compile(schema);
+  const validRoute = resolveExecutionRequest(mappedPolicy(), request([step("route-contract", {
+    resource_observations: [
+      { measure_id: "credits", status: "unavailable", value: null, source: "provider-boundary", quality: "declared" }
+    ]
+  })]), { generatedAt: "2026-09-03T00:00:00.000Z" });
+  assert.equal(validate(validRoute), true, JSON.stringify(validate.errors, null, 2));
+  assert.deepEqual(validateExecutionRoute(validRoute), { valid: true, errors: [] });
+
+  const neutralRoute = resolveExecutionRequest(defaultExecutionPolicy(), request([step("neutral-route", {
+    allowed_provider_ids: []
+  })]), { generatedAt: "2026-09-03T00:00:00.000Z" });
+  const pinnedUnresolved = resolveExecutionRequest(mappedPolicy(), request([step("pinned-unresolved", {
+    risk_class: "high",
+    selection: { mode: "pinned", pinned_profile_id: "standard" }
+  })]), { generatedAt: "2026-09-03T00:00:00.000Z" });
+  const pinnedUnknownExisting = resolveExecutionRequest(mappedPolicy(), request([step("pinned-unknown-existing", {
+    required: ["text.reasoning", "capability.not-registered"],
+    selection: { mode: "pinned", pinned_profile_id: "standard" }
+  })]), { generatedAt: "2026-09-03T00:00:00.000Z" });
+  const pinnedUnknownMissing = resolveExecutionRequest(mappedPolicy(), request([step("pinned-unknown-missing", {
+    required: ["text.reasoning", "capability.not-registered"],
+    selection: { mode: "pinned", pinned_profile_id: "profile.not-registered" }
+  })]), { generatedAt: "2026-09-03T00:00:00.000Z" });
+  const shadowRoute = resolveExecutionRequest(mappedPolicy(), request([step("shadow-route", {
+    selection: { mode: "shadow" }
+  })]), { generatedAt: "2026-09-03T00:00:00.000Z" });
+  const mediaFixture = JSON.parse(await fs.readFile(new URL("fixtures/execution-routing/content-production.json", import.meta.url), "utf8"));
+  const mediaPolicy = defaultExecutionPolicy();
+  mediaPolicy.capabilities.push(...mediaFixture.capabilities);
+  mediaPolicy.profiles.push(mediaFixture.profile);
+  mediaPolicy.rules.unshift(mediaFixture.rule);
+  const mediaRoute = resolveExecutionRequest(mediaPolicy, mediaFixture.request, {
+    generatedAt: "2026-09-03T00:00:00.000Z"
+  });
+  for (const [label, route] of [
+    ["Provider-neutral", neutralRoute],
+    ["pinned unresolved", pinnedUnresolved],
+    ["pinned unknown capability with existing profile", pinnedUnknownExisting],
+    ["pinned unknown capability with missing profile", pinnedUnknownMissing],
+    ["shadow", shadowRoute],
+    ["media extension", mediaRoute]
+  ]) {
+    assert.equal(validate(route), true, `${label}: ${JSON.stringify(validate.errors, null, 2)}`);
+    assert.deepEqual(validateExecutionRoute(route), { valid: true, errors: [] }, label);
+  }
+
+  const counterexamples = [
+    ["numeric step identifier", (route) => { route.steps[0].step_id = 42; }],
+    ["string task shape", (route) => { route.steps[0].task_shape = "build anything"; }],
+    ["invented executed status", (route) => { route.steps[0].selection.status = "executed"; }],
+    ["automatic selection authority", (route) => { route.steps[0].selection.authority = "automatic"; }],
+    ["claimed effective model", (route) => {
+      route.steps[0].selected.effective.status = "observed";
+      route.steps[0].selected.effective.provider_id = "provider";
+      route.steps[0].selected.effective.model = "claimed-model";
+    }],
+    ["partial requested mapping", (route) => { route.steps[0].selected.requested.model = null; }],
+    ["blank Work Item", (route) => { route.request.work_item_id = "   "; }],
+    ["blank Task Shape", (route) => { route.steps[0].task_shape.task_kind = "  "; }],
+    ["blank requested Provider", (route) => { route.steps[0].selected.requested.provider_id = "  "; }],
+    ["blank capability", (route) => { route.steps[0].capability_route.required[0] = "  "; }],
+    ["blank resource observation source", (route) => { route.steps[0].resource_observations[0].source = "  "; }],
+    ["resolved non-pinned route without rule or fallback provenance", (route) => {
+      route.steps[0].selection.rule_id = null;
+      route.steps[0].selection.fallback_applied = false;
+    }],
+    ["pinned route marked as fallback", (route) => {
+      route.steps[0].selection.mode = "pinned";
+      route.steps[0].selection.authority = "human-or-coordinator-pinned";
+      route.steps[0].selection.fallback_applied = true;
+    }],
+    ["advisory route with pinned-only unresolved reason", (route) => {
+      route.steps[0].selection.status = "unresolved";
+      route.steps[0].selection.unresolved_reason = "pinned-profile-not-found";
+      route.steps[0].selection.fallback_applied = false;
+      route.steps[0].selected = null;
+      route.summary.resolved = 0;
+      route.summary.unresolved = 1;
+    }],
+    ["resolved route with unknown required capability", (route) => {
+      route.steps[0].capability_route.unknown_required = [route.steps[0].capability_route.required[0]];
+    }],
+    ["unavailable resource represented as zero", (route) => { route.steps[0].resource_observations[0].value = 0; }],
+    ["unexpected Provider launch command", (route) => { route.steps[0].command = { launch_provider: true }; }]
+  ];
+  for (const [label, mutate] of counterexamples) {
+    const route = structuredClone(validRoute);
+    mutate(route);
+    assert.equal(validate(route), false, label);
+  }
+});
+
+test("Execution Route semantic validation rejects structurally valid cross-field contradictions", () => {
+  const validRoute = resolveExecutionRequest(mappedPolicy(), request([step("semantic-route")]), {
+    generatedAt: "2026-09-03T00:00:00.000Z"
+  });
+  const mutations = [
+    ["summary", (route) => { route.summary.resolved = 0; route.summary.unresolved = 1; }],
+    ["mode authority", (route) => { route.steps[0].selection.authority = "none"; }],
+    ["selected eligibility", (route) => { route.steps[0].eligibility.eligible_profile_ids = []; }],
+    ["unknown capability subset", (route) => { route.steps[0].capability_route.unknown_optional = ["not-declared"]; }],
+    ["resolved unknown required capability", (route) => {
+      route.steps[0].capability_route.unknown_required = [route.steps[0].capability_route.required[0]];
+    }],
+    ["required and optional capability overlap", (route) => {
+      route.steps[0].capability_route.optional = [route.steps[0].capability_route.required[0]];
+    }],
+    ["partial requested mapping", (route) => { route.steps[0].selected.requested.model = null; }],
+    ["blank Work Item", (route) => { route.request.work_item_id = "   "; }],
+    ["blank Task Shape", (route) => { route.steps[0].task_shape.task_kind = "  "; }],
+    ["blank capability", (route) => { route.steps[0].capability_route.required[0] = "  "; }],
+    ["blank rejected reason", (route) => { route.steps[0].eligibility.rejected[0].reasons[0] = "  "; }],
+    ["blank resource observation source", (route) => {
+      route.steps[0].resource_observations = [
+        { measure_id: "credits", status: "unavailable", value: null, source: "  ", quality: "declared" }
+      ];
+    }],
+    ["resolved non-pinned route without rule or fallback provenance", (route) => {
+      route.steps[0].selection.rule_id = null;
+      route.steps[0].selection.fallback_applied = false;
+    }],
+    ["pinned fallback", (route) => {
+      route.steps[0].selection.mode = "pinned";
+      route.steps[0].selection.authority = "human-or-coordinator-pinned";
+      route.steps[0].selection.fallback_applied = true;
+    }],
+    ["non-pinned use of pinned reason", (route) => {
+      route.steps[0].selection.status = "unresolved";
+      route.steps[0].selection.unresolved_reason = "pinned-profile-not-found";
+      route.steps[0].selection.fallback_applied = false;
+      route.steps[0].selected = null;
+      route.summary.resolved = 0;
+      route.summary.unresolved = 1;
+    }],
+    ["eligible and rejected overlap", (route) => {
+      route.steps[0].eligibility.rejected.push({ profile_id: route.steps[0].selected.profile_id, reasons: ["invented"] });
+    }],
+    ["duplicate resource identity", (route) => {
+      route.steps[0].resource_limits = [
+        { measure_id: "tokens.total", maximum: 1000, unknown_handling: "allow" },
+        { measure_id: "tokens.total", maximum: 2000, unknown_handling: "allow" }
+      ];
+    }]
+  ];
+  for (const [label, mutate] of mutations) {
+    const route = structuredClone(validRoute);
+    mutate(route);
+    const result = validateExecutionRoute(route);
+    assert.equal(result.valid, false, label);
+    assert.ok(result.errors.length > 0, label);
+  }
+});
+
+test("Execution Route semantic validation is total for malformed resource collections", () => {
+  const validRoute = resolveExecutionRequest(mappedPolicy(), request([step("malformed-collections")]), {
+    generatedAt: "2026-09-03T00:00:00.000Z"
+  });
+  for (const field of ["resource_limits", "resource_observations"]) {
+    for (const malformed of ["not-an-array", { value: true }, 42]) {
+      const route = structuredClone(validRoute);
+      route.steps[0][field] = malformed;
+      let result;
+      assert.doesNotThrow(() => { result = validateExecutionRoute(route); }, `${field}: ${typeof malformed}`);
+      assert.equal(result.valid, false, `${field}: ${typeof malformed}`);
+      assert.match(result.errors.join("\n"), new RegExp(`${field} must be an array`));
+    }
+  }
 });
 
 test("one request resolves independent steps by task shape instead of Position or Agent identity", () => {

@@ -13,7 +13,9 @@ const SELECTION_MODES = ["pinned", "shadow", "advisory"];
 const RISK_CLASSES = ["low", "standard", "high", "critical"];
 const MEASURE_QUALITIES = ["declared", "observed", "qualified"];
 const OBSERVATION_STATUSES = ["observed", "unavailable"];
+const POLICY_SOURCES = ["project", "framework-default", "provided"];
 const IDENTIFIER = /^[a-z0-9][a-z0-9._-]*$/;
+const CANONICAL_UTC_TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
 
 const DEFAULT_CAPABILITIES = [
   {
@@ -275,6 +277,12 @@ export function validateExecutionPolicy(document) {
   return { valid: errors.length === 0, errors };
 }
 
+function rejectUnknownProperties(value, allowedKeys, label, errors) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return;
+  const unexpected = Object.keys(value).filter((key) => !allowedKeys.includes(key));
+  if (unexpected.length > 0) errors.push(`${label} has unknown properties: ${unexpected.join(", ")}`);
+}
+
 function validateResourceEntries(entries, measureIds, label, { observation = false } = {}) {
   const errors = [];
   if (entries === undefined) return errors;
@@ -282,6 +290,18 @@ function validateResourceEntries(entries, measureIds, label, { observation = fal
   const seen = new Set();
   for (const [index, entry] of entries.entries()) {
     const location = `${label}[${index}]`;
+    if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
+      errors.push(`${location} must be an object`);
+      continue;
+    }
+    rejectUnknownProperties(
+      entry,
+      observation
+        ? ["measure_id", "status", "value", "source", "quality"]
+        : ["measure_id", "maximum", "unknown_handling"],
+      location,
+      errors
+    );
     if (!measureIds.has(entry?.measure_id) || seen.has(entry?.measure_id)) errors.push(`${location}.measure_id is unknown or duplicated`);
     seen.add(entry?.measure_id);
     if (observation) {
@@ -300,6 +320,7 @@ function validateResourceEntries(entries, measureIds, label, { observation = fal
 
 export function validateExecutionRequest(document, policy) {
   const errors = [];
+  rejectUnknownProperties(document, ["schema_version", "work_item_id", "steps"], "request", errors);
   if (document?.schema_version !== EXECUTION_REQUEST_SCHEMA) errors.push(`schema_version must be ${EXECUTION_REQUEST_SCHEMA}`);
   if (typeof document?.work_item_id !== "string" || !document.work_item_id.trim()) errors.push("work_item_id is required");
   if (!Array.isArray(document?.steps) || document.steps.length === 0) return { valid: false, errors: [...errors, "steps must be non-empty"] };
@@ -307,30 +328,239 @@ export function validateExecutionRequest(document, policy) {
   const stepIds = new Set();
   for (const [index, step] of document.steps.entries()) {
     const label = `steps[${index}]`;
+    rejectUnknownProperties(
+      step,
+      ["step_id", "responsibility", "task_shape", "capability_route", "constraints", "selection", "resource_observations"],
+      label,
+      errors
+    );
     if (!validIdentifier(step?.step_id) || stepIds.has(step.step_id)) errors.push(`${label}.step_id is invalid or duplicated`);
     stepIds.add(step?.step_id);
     if (!(step?.responsibility === null || step?.responsibility === undefined || validIdentifier(step.responsibility))) errors.push(`${label}.responsibility is invalid`);
     const shape = step?.task_shape;
+    rejectUnknownProperties(shape, ["position_id", "lifecycle_stage", "task_kind", "risk_class", "context_profile_digest"], `${label}.task_shape`, errors);
     for (const field of ["position_id", "lifecycle_stage", "task_kind", "context_profile_digest"]) {
       if (typeof shape?.[field] !== "string" || !shape[field].trim()) errors.push(`${label}.task_shape.${field} is required`);
     }
     if (!RISK_CLASSES.includes(shape?.risk_class)) errors.push(`${label}.task_shape.risk_class is invalid`);
     const required = step?.capability_route?.required;
     const optional = step?.capability_route?.optional;
-    if (!uniqueNonEmptyStrings(required)) errors.push(`${label}.capability_route.required is invalid`);
-    if (!Array.isArray(optional) || optional.some((value) => typeof value !== "string" || !value.trim()) || new Set(optional).size !== optional.length) errors.push(`${label}.capability_route.optional is invalid`);
+    rejectUnknownProperties(step?.capability_route, ["required", "optional"], `${label}.capability_route`, errors);
+    if (!uniqueNonEmptyStrings(required) || required.some((value) => !validIdentifier(value))) {
+      errors.push(`${label}.capability_route.required is invalid`);
+    }
+    if (
+      !Array.isArray(optional) ||
+      optional.some((value) => !validIdentifier(value)) ||
+      new Set(optional).size !== optional.length
+    ) {
+      errors.push(`${label}.capability_route.optional is invalid`);
+    }
     if (Array.isArray(required) && Array.isArray(optional) && optional.some((id) => required.includes(id))) errors.push(`${label}.capability_route required and optional capabilities overlap`);
+    rejectUnknownProperties(
+      step?.constraints,
+      ["required_modalities", "allowed_provider_ids", "data_class", "execution_boundary", "resource_limits"],
+      `${label}.constraints`,
+      errors
+    );
     if (!uniqueNonEmptyStrings(step?.constraints?.required_modalities)) errors.push(`${label}.constraints.required_modalities is invalid`);
     if (!Array.isArray(step?.constraints?.allowed_provider_ids) || new Set(step.constraints.allowed_provider_ids).size !== step.constraints.allowed_provider_ids.length || step.constraints.allowed_provider_ids.some((value) => typeof value !== "string" || !value.trim())) errors.push(`${label}.constraints.allowed_provider_ids is invalid`);
     if (typeof step?.constraints?.data_class !== "string" || !step.constraints.data_class.trim()) errors.push(`${label}.constraints.data_class is required`);
     if (typeof step?.constraints?.execution_boundary !== "string" || !step.constraints.execution_boundary.trim()) errors.push(`${label}.constraints.execution_boundary is required`);
     errors.push(...validateResourceEntries(step?.constraints?.resource_limits, measureIds, `${label}.constraints.resource_limits`));
     errors.push(...validateResourceEntries(step?.resource_observations, measureIds, `${label}.resource_observations`, { observation: true }));
+    rejectUnknownProperties(step?.selection, ["mode", "pinned_profile_id"], `${label}.selection`, errors);
+    if (!step?.selection || typeof step.selection !== "object" || Array.isArray(step.selection)) {
+      errors.push(`${label}.selection is required`);
+    }
     const mode = step?.selection?.mode ?? policy?.authority?.default_selection_mode;
     if (!SELECTION_MODES.includes(mode)) errors.push(`${label}.selection.mode is invalid`);
     if (mode === "pinned" && !validIdentifier(step?.selection?.pinned_profile_id)) errors.push(`${label}.selection.pinned_profile_id is required for pinned mode`);
     if (mode !== "pinned" && step?.selection?.pinned_profile_id != null) errors.push(`${label}.selection.pinned_profile_id is allowed only for pinned mode`);
   }
+  return { valid: errors.length === 0, errors };
+}
+
+function duplicateStrings(values) {
+  if (!Array.isArray(values)) return [];
+  const seen = new Set();
+  const duplicated = new Set();
+  for (const value of values) {
+    if (seen.has(value)) duplicated.add(value);
+    seen.add(value);
+  }
+  return [...duplicated];
+}
+
+function duplicateEntryIds(entries, field) {
+  return duplicateStrings(Array.isArray(entries) ? entries.map((entry) => entry?.[field]) : []);
+}
+
+function nonBlankString(value) {
+  return typeof value === "string" && value.trim().length > 0;
+}
+
+function validateRouteStrings(values, label, errors, { identifiers = false } = {}) {
+  if (!Array.isArray(values)) return;
+  for (const value of values) {
+    if (!nonBlankString(value)) errors.push(`${label} contains a blank value`);
+    else if (identifiers && !validIdentifier(value)) errors.push(`${label} contains an invalid identifier: ${value}`);
+  }
+}
+
+export function validateExecutionRoute(document) {
+  const errors = [];
+  if (document?.schema_version !== EXECUTION_ROUTE_SCHEMA) {
+    errors.push(`schema_version must be ${EXECUTION_ROUTE_SCHEMA}`);
+  }
+  if (
+    document?.authority?.automatic_execution !== false ||
+    document?.authority?.provider_contact !== false ||
+    document?.authority?.mutation_performed !== false
+  ) {
+    errors.push("route authority must remain read-only and non-executing");
+  }
+  if (!nonBlankString(document?.request?.work_item_id)) errors.push("request.work_item_id must be non-blank");
+  if (!Array.isArray(document?.steps) || document.steps.length === 0) {
+    return { valid: false, errors: [...errors, "steps must be non-empty"] };
+  }
+
+  const duplicateStepIds = duplicateEntryIds(document.steps, "step_id");
+  if (duplicateStepIds.length > 0) errors.push(`step_id is duplicated: ${duplicateStepIds.join(", ")}`);
+
+  let resolved = 0;
+  let unresolved = 0;
+  for (const [index, step] of document.steps.entries()) {
+    const label = `steps[${index}]`;
+    for (const field of ["position_id", "lifecycle_stage", "task_kind", "context_profile_digest"]) {
+      if (!nonBlankString(step?.task_shape?.[field])) errors.push(`${label}.task_shape.${field} must be non-blank`);
+    }
+    const required = Array.isArray(step?.capability_route?.required) ? step.capability_route.required : [];
+    const optional = Array.isArray(step?.capability_route?.optional) ? step.capability_route.optional : [];
+    const unknownRequired = Array.isArray(step?.capability_route?.unknown_required)
+      ? step.capability_route.unknown_required
+      : [];
+    const unknownOptional = Array.isArray(step?.capability_route?.unknown_optional)
+      ? step.capability_route.unknown_optional
+      : [];
+    validateRouteStrings(required, `${label}.capability_route.required`, errors, { identifiers: true });
+    validateRouteStrings(optional, `${label}.capability_route.optional`, errors, { identifiers: true });
+    validateRouteStrings(unknownRequired, `${label}.capability_route.unknown_required`, errors, { identifiers: true });
+    validateRouteStrings(unknownOptional, `${label}.capability_route.unknown_optional`, errors, { identifiers: true });
+    const requiredOptionalOverlap = optional.filter((id) => required.includes(id));
+    if (requiredOptionalOverlap.length > 0) {
+      errors.push(`${label}.capability_route required and optional capabilities overlap: ${[...new Set(requiredOptionalOverlap)].join(", ")}`);
+    }
+    for (const id of unknownRequired) {
+      if (!required.includes(id)) errors.push(`${label}.capability_route.unknown_required is not a subset of required: ${id}`);
+    }
+    for (const id of unknownOptional) {
+      if (!optional.includes(id)) errors.push(`${label}.capability_route.unknown_optional is not a subset of optional: ${id}`);
+    }
+
+    const expectedAuthority = routeAuthority(step?.selection?.mode);
+    if (!SELECTION_MODES.includes(step?.selection?.mode)) errors.push(`${label}.selection.mode is invalid`);
+    if (step?.selection?.authority !== expectedAuthority) {
+      errors.push(`${label}.selection.authority must be ${expectedAuthority}`);
+    }
+    const selectionMode = step?.selection?.mode;
+    const selectionStatus = step?.selection?.status;
+    const unresolvedReason = step?.selection?.unresolved_reason;
+    const pinnedReasons = new Set(["pinned-profile-not-found", "pinned-profile-ineligible"]);
+    if (selectionMode === "pinned") {
+      if (step?.selection?.fallback_applied !== false) errors.push(`${label}.selection pinned mode cannot apply fallback`);
+      if (selectionStatus === "unresolved" && !pinnedReasons.has(unresolvedReason)) {
+        errors.push(`${label}.selection pinned mode requires a pinned-specific unresolved reason`);
+      }
+    } else if (pinnedReasons.has(unresolvedReason)) {
+      errors.push(`${label}.selection non-pinned mode cannot use a pinned-specific unresolved reason`);
+    }
+    if (unknownRequired.length > 0) {
+      const expectedUnknownReason = selectionMode === "pinned"
+        ? pinnedReasons.has(unresolvedReason)
+        : unresolvedReason === "unknown-required-capability";
+      if (selectionStatus !== "unresolved" || !expectedUnknownReason) {
+        errors.push(`${label}.selection must fail closed for unknown required capabilities`);
+      }
+    } else if (unresolvedReason === "unknown-required-capability") {
+      errors.push(`${label}.selection cannot claim unknown required capabilities when none are reported`);
+    }
+
+    const eligibleIds = Array.isArray(step?.eligibility?.eligible_profile_ids)
+      ? step.eligibility.eligible_profile_ids
+      : [];
+    const rejected = Array.isArray(step?.eligibility?.rejected) ? step.eligibility.rejected : [];
+    for (const [rejectedIndex, entry] of rejected.entries()) {
+      validateRouteStrings(entry?.reasons, `${label}.eligibility.rejected[${rejectedIndex}].reasons`, errors);
+    }
+    const rejectedIds = rejected.map((entry) => entry?.profile_id);
+    const duplicateRejectedIds = duplicateStrings(rejectedIds);
+    if (duplicateRejectedIds.length > 0) {
+      errors.push(`${label}.eligibility.rejected profile_id is duplicated: ${duplicateRejectedIds.join(", ")}`);
+    }
+    const overlap = rejectedIds.filter((id) => eligibleIds.includes(id));
+    if (overlap.length > 0) {
+      errors.push(`${label}.eligibility profiles cannot be both eligible and rejected: ${[...new Set(overlap)].join(", ")}`);
+    }
+
+    if (step?.selection?.status === "resolved") {
+      resolved += 1;
+      if (!step.selected || typeof step.selected !== "object") errors.push(`${label}.selected is required when resolved`);
+      if (step?.selection?.unresolved_reason !== null) errors.push(`${label}.selection.unresolved_reason must be null when resolved`);
+      if (step?.selected?.profile_id && !eligibleIds.includes(step.selected.profile_id)) {
+        errors.push(`${label}.selected.profile_id must be eligible`);
+      }
+      const requested = step?.selected?.requested;
+      const mapping = [requested?.provider_id, requested?.model, requested?.reasoning_effort];
+      const allNull = mapping.every((value) => value === null);
+      const allConcrete = mapping.every((value) => nonBlankString(value));
+      if (!allNull && !allConcrete) {
+        errors.push(`${label}.selected.requested must map provider_id, model, and reasoning_effort together or leave all three null`);
+      }
+      if (
+        selectionMode !== "pinned" &&
+        step?.selection?.rule_id === null &&
+        step?.selection?.fallback_applied !== true
+      ) {
+        errors.push(`${label}.selection resolved non-pinned mode requires rule or fallback provenance`);
+      }
+    } else if (step?.selection?.status === "unresolved") {
+      unresolved += 1;
+      if (step.selected !== null) errors.push(`${label}.selected must be null when unresolved`);
+      if (typeof step?.selection?.unresolved_reason !== "string") {
+        errors.push(`${label}.selection.unresolved_reason is required when unresolved`);
+      }
+      if (step?.selection?.fallback_applied !== false) {
+        errors.push(`${label}.selection.fallback_applied must be false when unresolved`);
+      }
+    }
+    if (step?.selection?.fallback_applied === true && step?.selection?.status !== "resolved") {
+      errors.push(`${label}.selection.fallback_applied requires a resolved route`);
+    }
+
+    for (const [field, entries] of [
+      ["resource_limits", step?.resource_limits],
+      ["resource_observations", step?.resource_observations]
+    ]) {
+      if (!Array.isArray(entries)) {
+        errors.push(`${label}.${field} must be an array`);
+        continue;
+      }
+      const duplicated = duplicateEntryIds(entries, "measure_id");
+      if (duplicated.length > 0) errors.push(`${label}.${field} measure_id is duplicated: ${duplicated.join(", ")}`);
+    }
+    const resourceObservations = Array.isArray(step?.resource_observations) ? step.resource_observations : [];
+    for (const [observationIndex, observation] of resourceObservations.entries()) {
+      if (!nonBlankString(observation?.source)) {
+        errors.push(`${label}.resource_observations[${observationIndex}].source must be non-blank`);
+      }
+    }
+  }
+
+  if (document?.summary?.steps !== document.steps.length) errors.push("summary.steps must equal steps.length");
+  if (document?.summary?.resolved !== resolved) errors.push("summary.resolved must equal resolved step count");
+  if (document?.summary?.unresolved !== unresolved) errors.push("summary.unresolved must equal unresolved step count");
+  if (resolved + unresolved !== document.steps.length) errors.push("every step must be resolved or unresolved");
   return { valid: errors.length === 0, errors };
 }
 
@@ -395,7 +625,24 @@ function selectedRoute(profileEntry) {
   };
 }
 
+function canonicalGeneratedAt(value) {
+  if (typeof value !== "string" || !CANONICAL_UTC_TIMESTAMP.test(value)) return null;
+  const timestamp = new Date(value);
+  if (!Number.isFinite(timestamp.getTime())) return null;
+  return timestamp.toISOString() === value ? value : null;
+}
+
 export function resolveExecutionRequest(policy, request, options = {}) {
+  const policySource = options.policySource === undefined ? "provided" : options.policySource;
+  if (!POLICY_SOURCES.includes(policySource)) {
+    throw new Error(`Invalid execution route policy source: ${policySource}`);
+  }
+  const generatedAt = options.generatedAt === undefined
+    ? new Date().toISOString()
+    : canonicalGeneratedAt(options.generatedAt);
+  if (generatedAt === null) {
+    throw new Error("Invalid execution route generatedAt: expected a canonical UTC ISO-8601 timestamp");
+  }
   const policyValidation = validateExecutionPolicy(policy);
   if (!policyValidation.valid) throw new Error(`Invalid execution policy: ${policyValidation.errors.join("; ")}`);
   const requestValidation = validateExecutionRequest(request, policy);
@@ -440,7 +687,13 @@ export function resolveExecutionRequest(policy, request, options = {}) {
     return {
       step_id: step.step_id,
       responsibility: step.responsibility ?? null,
-      task_shape: { ...step.task_shape },
+      task_shape: {
+        position_id: step.task_shape.position_id,
+        lifecycle_stage: step.task_shape.lifecycle_stage,
+        task_kind: step.task_shape.task_kind,
+        risk_class: step.task_shape.risk_class,
+        context_profile_digest: step.task_shape.context_profile_digest
+      },
       capability_route: {
         required: [...step.capability_route.required],
         optional: [...step.capability_route.optional],
@@ -460,16 +713,26 @@ export function resolveExecutionRequest(policy, request, options = {}) {
         eligible_profile_ids: eligibleIds,
         rejected: evaluated.filter((entry) => entry.reasons.length > 0)
       },
-      resource_limits: (step.constraints.resource_limits ?? []).map((entry) => ({ ...entry })),
-      resource_observations: (step.resource_observations ?? []).map((entry) => ({ ...entry }))
+      resource_limits: (step.constraints.resource_limits ?? []).map((entry) => ({
+        measure_id: entry.measure_id,
+        maximum: entry.maximum,
+        unknown_handling: entry.unknown_handling
+      })),
+      resource_observations: (step.resource_observations ?? []).map((entry) => ({
+        measure_id: entry.measure_id,
+        status: entry.status,
+        value: entry.value,
+        source: entry.source,
+        quality: entry.quality
+      }))
     };
   });
   return {
     schema_version: EXECUTION_ROUTE_SCHEMA,
-    generated_at: options.generatedAt ?? new Date().toISOString(),
+    generated_at: generatedAt,
     policy: {
       schema_version: policy.schema_version,
-      source: options.policySource ?? "provided"
+      source: policySource
     },
     request: {
       schema_version: request.schema_version,

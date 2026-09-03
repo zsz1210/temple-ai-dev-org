@@ -18447,6 +18447,1378 @@
         "status": "planned",
         "procedure": ".ai-org/artifacts/WI-0119/rollback-plan.md"
       }
+    },
+    {
+      "id": "EVID-20260903T032252Z-B1E765B9",
+      "work_item_id": "WI-0120",
+      "recorded_at": "2026-09-03T03:22:52.591Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer full verification",
+      "outcome": "pass",
+      "scope_revision": "486c64df3006e6e8df6c3dd6d51a8a6e29c9843d",
+      "observed_at": "2026-09-03T03:22:11.658Z",
+      "summary": "All 327 tests plus repository, documentation, and package checks passed on the repair candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0120/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0120/developer-test-observation.json",
+          "sha256": "30be42e1932bac571691388565db561f396fe41055baee0128df79d9ceb9c339"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/developer-report.md",
+          "sha256": "01cb891dc23670681269ece069092f7b11a9aab98f0eee46e60de52a5af7421a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/post-close-independent-qa-failure.md",
+          "sha256": "42a8df61f396ec67200628c320582846965ce8084ef18a166f2ee1e251c54fa8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/product-spec.md",
+          "sha256": "246561ffb57e32991aa381539c05d7d03d6e06de20e5a42ef526c573b45a2565"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/technical-design.md",
+          "sha256": "b9387a5099c023f92e01f025c67cc7d091859a69fb2d8ef528704109bb0b289e"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T03:21:03.193Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T032342Z-99C42C65",
+      "work_item_id": "WI-0120",
+      "recorded_at": "2026-09-03T03:23:42.369Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality regression matrix",
+      "outcome": "pass",
+      "scope_revision": "486c64df3006e6e8df6c3dd6d51a8a6e29c9843d",
+      "observed_at": "2026-09-03T03:23:20.046Z",
+      "summary": "All 19 focused route-schema, semantic-validation, installation, and upgrade tests passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0120/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0120/quality-test-observation.json",
+          "sha256": "d58ef8e02ef94eb8c6e8acc063860edeb082e7efa5e5ae92e67a3fd0e35b31df"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/quality-report.md",
+          "sha256": "83f62c926f2367f407c7c9ced5a97831299de37d87ffd21b2cd0733ce6dd44ac"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/post-close-independent-qa-failure.md",
+          "sha256": "42a8df61f396ec67200628c320582846965ce8084ef18a166f2ee1e251c54fa8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/product-spec.md",
+          "sha256": "246561ffb57e32991aa381539c05d7d03d6e06de20e5a42ef526c573b45a2565"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/technical-design.md",
+          "sha256": "b9387a5099c023f92e01f025c67cc7d091859a69fb2d8ef528704109bb0b289e"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/execution-routing.test.mjs",
+          "test/phase4-installation.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T03:23:15.874Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T032935Z-4F83E398",
+      "work_item_id": "WI-0120",
+      "recorded_at": "2026-09-03T03:29:35.463Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "risk",
+      "title": "medium risk",
+      "outcome": "open",
+      "scope_revision": "486c64df3006e6e8df6c3dd6d51a8a6e29c9843d",
+      "observed_at": "2026-09-03T03:29:35.463Z",
+      "summary": "Independent QA attempt 1 found nine accepted Route-validation bypasses, including resolved unknown required capabilities and partial requested mappings.",
+      "adapter": {
+        "id": "manual-risk-record",
+        "version": "1"
+      },
+      "artifacts": [],
+      "details": {
+        "severity": "medium",
+        "status": "open",
+        "mitigation": "Return to Build; encode mode/state/mapping invariants and retain every accepted bypass as a regression."
+      }
+    },
+    {
+      "id": "EVID-20260903T033847Z-947FAE60",
+      "work_item_id": "WI-0121",
+      "recorded_at": "2026-09-03T03:38:47.567Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Execution Route bypass repair candidate",
+      "outcome": "verified",
+      "scope_revision": "a8eea7c3122dfac1ce7cf700a083030bb79bf01d",
+      "observed_at": "2026-09-03T03:38:47.567Z",
+      "summary": "Exact candidate revision for the bounded WI-0121 validation repair.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "a8eea7c3122dfac1ce7cf700a083030bb79bf01d"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "a8eea7c3122dfac1ce7cf700a083030bb79bf01d",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260903T033847Z-A3C9C525",
+      "work_item_id": "WI-0121",
+      "recorded_at": "2026-09-03T03:38:47.912Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer full verification",
+      "outcome": "pass",
+      "scope_revision": "a8eea7c3122dfac1ce7cf700a083030bb79bf01d",
+      "observed_at": "2026-09-03T03:37:45.158Z",
+      "summary": "Repository checks and all 327 tests passed on the exact repair candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0121/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0121/developer-test-observation.json",
+          "sha256": "f906759a61b5c066904fb12e3632aa2602ef7787cf9fd4255a6756a619e53c95"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/developer-report.md",
+          "sha256": "e6f8b720ec79879ed73a3edc6bdebdc4e8daee08708947ac998648215caadca6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/independent-qa-attempt-1.md",
+          "sha256": "3ff3291bf8181a65ba8c33003af6664f431fe33fae4f8b3c7c96bc5f090d02f7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/product-spec.md",
+          "sha256": "f50cf916398e1bb37be1556a9aa99387fbb7a69a165366ebef0e2f120f2c243d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/technical-design.md",
+          "sha256": "2fc335c973bd51275884f10e7a3c5f175d82b934c40b69dba480c31519caf550"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T03:36:37.210Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T033925Z-68CD950B",
+      "work_item_id": "WI-0121",
+      "recorded_at": "2026-09-03T03:39:25.995Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality focused verification",
+      "outcome": "pass",
+      "scope_revision": "a8eea7c3122dfac1ce7cf700a083030bb79bf01d",
+      "observed_at": "2026-09-03T03:38:59.815Z",
+      "summary": "All 19 focused route and installation tests passed on the exact repair candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0121/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0121/quality-test-observation.json",
+          "sha256": "72977d21ab72f917bb110556acf1b4cf6a4aab6122b8bc343e792eee1c6b8571"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/quality-report.md",
+          "sha256": "72f7fda43a26177b2ffd3e7e6134d18b2b53d7d6866749a67927b2bb4f5bbaff"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/developer-report.md",
+          "sha256": "e6f8b720ec79879ed73a3edc6bdebdc4e8daee08708947ac998648215caadca6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/independent-qa-attempt-1.md",
+          "sha256": "3ff3291bf8181a65ba8c33003af6664f431fe33fae4f8b3c7c96bc5f090d02f7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/product-spec.md",
+          "sha256": "f50cf916398e1bb37be1556a9aa99387fbb7a69a165366ebef0e2f120f2c243d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/technical-design.md",
+          "sha256": "2fc335c973bd51275884f10e7a3c5f175d82b934c40b69dba480c31519caf550"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/execution-routing.test.mjs",
+          "test/phase4-installation.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T03:38:55.362Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T034741Z-B870620C",
+      "work_item_id": "WI-0121",
+      "recorded_at": "2026-09-03T03:47:41.315Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "risk",
+      "title": "medium risk",
+      "outcome": "open",
+      "scope_revision": "a8eea7c3122dfac1ce7cf700a083030bb79bf01d",
+      "observed_at": "2026-09-03T03:47:41.315Z",
+      "summary": "Pinned unknown-capability resolver output is rejected by its own route validators.",
+      "adapter": {
+        "id": "manual-risk-record",
+        "version": "1"
+      },
+      "artifacts": [],
+      "details": {
+        "severity": "medium",
+        "status": "open",
+        "mitigation": "Define reason precedence, align resolver/schema/semantic validation, and independently re-test the exact candidate."
+      }
+    },
+    {
+      "id": "EVID-20260903T035320Z-94E70DA7",
+      "work_item_id": "WI-0122",
+      "recorded_at": "2026-09-03T03:53:20.645Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Pinned Route precedence repair candidate",
+      "outcome": "verified",
+      "scope_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
+      "observed_at": "2026-09-03T03:53:20.645Z",
+      "summary": "Exact candidate revision for the resolver-compatible validation repair.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260903T035320Z-BA567C9A",
+      "work_item_id": "WI-0122",
+      "recorded_at": "2026-09-03T03:53:20.886Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer full verification",
+      "outcome": "pass",
+      "scope_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
+      "observed_at": "2026-09-03T03:52:55.224Z",
+      "summary": "All repository checks and 327 tests passed on the exact repair candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0122/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0122/developer-test-observation.json",
+          "sha256": "f2b526aa6a189f3cc71c360c4a620c0315263d4ee7b84928f7ec9b43b69ad7d8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0122/developer-report.md",
+          "sha256": "ad61339453b60cfe773c2017ff9623017673196d2342817ed5f73a07761c16dc"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/independent-qa-attempt-1.md",
+          "sha256": "4fecdc66b8088f4c80e4f29829c16c337e2baf049f73f35a04bcbf002e04bed2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0122/product-spec.md",
+          "sha256": "10f3f807fdd1db2cbd4ca9eb013ae71b25e466d7ddda893b90c884498989b3de"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0122/technical-design.md",
+          "sha256": "a51fd85cd0986477397789edce4ae2d175233c00e24bc7a592927d1b7a4f8f34"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T03:51:47.810Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T035353Z-AF55DAC2",
+      "work_item_id": "WI-0122",
+      "recorded_at": "2026-09-03T03:53:53.998Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality focused verification",
+      "outcome": "pass",
+      "scope_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
+      "observed_at": "2026-09-03T03:53:30.966Z",
+      "summary": "All 19 focused route and installation tests passed on the exact repair candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0122/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0122/quality-test-observation.json",
+          "sha256": "fc9605dbe2e8881d1e5f48d433a290e5d826c09e4eb62ae1d4bef99fdbe37b95"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0122/quality-report.md",
+          "sha256": "361ac10357d63f6f313e046c209c90e9e0a981cf1c863dea83e4d54e92aa7716"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0122/developer-report.md",
+          "sha256": "ad61339453b60cfe773c2017ff9623017673196d2342817ed5f73a07761c16dc"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/independent-qa-attempt-1.md",
+          "sha256": "4fecdc66b8088f4c80e4f29829c16c337e2baf049f73f35a04bcbf002e04bed2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0122/product-spec.md",
+          "sha256": "10f3f807fdd1db2cbd4ca9eb013ae71b25e466d7ddda893b90c884498989b3de"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0122/technical-design.md",
+          "sha256": "a51fd85cd0986477397789edce4ae2d175233c00e24bc7a592927d1b7a4f8f34"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/execution-routing.test.mjs",
+          "test/phase4-installation.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T03:53:26.855Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T040042Z-F5A3A469",
+      "work_item_id": "WI-0122",
+      "recorded_at": "2026-09-03T04:00:42.108Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "risk",
+      "title": "medium risk",
+      "outcome": "open",
+      "scope_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
+      "observed_at": "2026-09-03T04:00:42.108Z",
+      "summary": "Execution Request and resolver options can produce schema-invalid Routes, and direct Route semantic validation can throw on malformed collections.",
+      "adapter": {
+        "id": "manual-risk-record",
+        "version": "1"
+      },
+      "artifacts": [],
+      "details": {
+        "severity": "medium",
+        "status": "open",
+        "mitigation": "Close the public resolver input domain and restore total semantic validation before another Independent QA pass."
+      }
+    },
+    {
+      "id": "EVID-20260903T040546Z-A14088DE",
+      "work_item_id": "WI-0123",
+      "recorded_at": "2026-09-03T04:05:46.347Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Execution resolver input closure candidate",
+      "outcome": "verified",
+      "scope_revision": "4263bc7d533be072191e39bd6f959eebb77f271d",
+      "observed_at": "2026-09-03T04:05:46.347Z",
+      "summary": "Exact candidate revision for Request-to-Route closure and total validation.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "4263bc7d533be072191e39bd6f959eebb77f271d"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "4263bc7d533be072191e39bd6f959eebb77f271d",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260903T040546Z-873D3875",
+      "work_item_id": "WI-0123",
+      "recorded_at": "2026-09-03T04:05:46.582Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer full verification",
+      "outcome": "pass",
+      "scope_revision": "4263bc7d533be072191e39bd6f959eebb77f271d",
+      "observed_at": "2026-09-03T04:05:24.585Z",
+      "summary": "All repository checks and 330 tests passed on the exact candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0123/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0123/developer-test-observation.json",
+          "sha256": "738aaca547b91181b31ec62d63324a6dfe003de28ad0bd8aeca95f6aee90d8ec"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0123/developer-report.md",
+          "sha256": "4472e42232fefc6f54a9827e8f063bac293b0aa5642ad7a7c4a58c911283a3b2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0122/independent-qa-attempt-1.md",
+          "sha256": "c0386644a84403ec2e3453be3026a54e8b4bb990dc7b3da24f9086d016801bf1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0123/product-spec.md",
+          "sha256": "4886bddb70cc5ef7df6b88748682d32d8fe771e94acab3487e6cc5e45a914e21"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0123/technical-design.md",
+          "sha256": "907e29b8d8e32c63bf80d4ad46e9cd52a4cdb932e644d34c37f4346748fe2394"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T04:04:13.381Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T040617Z-8262A47B",
+      "work_item_id": "WI-0123",
+      "recorded_at": "2026-09-03T04:06:17.920Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality focused verification",
+      "outcome": "pass",
+      "scope_revision": "4263bc7d533be072191e39bd6f959eebb77f271d",
+      "observed_at": "2026-09-03T04:05:56.586Z",
+      "summary": "All 22 focused Execution tests passed on the exact candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0123/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0123/quality-test-observation.json",
+          "sha256": "db759b91977f0d1aef517f139c624060e925790e88d9634937a7b95d76988567"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0123/quality-report.md",
+          "sha256": "293fe4bec7994637c7635d2757bd7e9e20f8e89001ec0187e4c9cb60ad145720"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0123/developer-report.md",
+          "sha256": "4472e42232fefc6f54a9827e8f063bac293b0aa5642ad7a7c4a58c911283a3b2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0122/independent-qa-attempt-1.md",
+          "sha256": "c0386644a84403ec2e3453be3026a54e8b4bb990dc7b3da24f9086d016801bf1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0123/product-spec.md",
+          "sha256": "4886bddb70cc5ef7df6b88748682d32d8fe771e94acab3487e6cc5e45a914e21"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0123/technical-design.md",
+          "sha256": "907e29b8d8e32c63bf80d4ad46e9cd52a4cdb932e644d34c37f4346748fe2394"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/execution-routing.test.mjs",
+          "test/phase4-installation.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T04:05:52.326Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T041342Z-6B8C5B7B",
+      "work_item_id": "WI-0123",
+      "recorded_at": "2026-09-03T04:13:42.144Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "risk",
+      "title": "medium risk",
+      "outcome": "open",
+      "scope_revision": "4263bc7d533be072191e39bd6f959eebb77f271d",
+      "observed_at": "2026-09-03T04:13:42.144Z",
+      "summary": "Expanded-year timestamps and nested Request extras can escape resolver output closure.",
+      "adapter": {
+        "id": "manual-risk-record",
+        "version": "1"
+      },
+      "artifacts": [],
+      "details": {
+        "severity": "medium",
+        "status": "open",
+        "mitigation": "Use the managed date-time subset, complete Request nested allowlists, explicit Route projection, and fresh Independent QA."
+      }
+    },
+    {
+      "id": "EVID-20260903T041815Z-CC875307",
+      "work_item_id": "WI-0124",
+      "recorded_at": "2026-09-03T04:18:15.809Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Execution Request projection seal candidate",
+      "outcome": "verified",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:18:15.809Z",
+      "summary": "Exact candidate revision for complete Request allowlists and explicit Route projection.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "0e32149b98e5984b45dac15ec33e8fa99d98e63c"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260903T041816Z-5B5A2C1D",
+      "work_item_id": "WI-0124",
+      "recorded_at": "2026-09-03T04:18:16.047Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer full verification",
+      "outcome": "pass",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:17:52.784Z",
+      "summary": "All repository checks and 331 tests passed on the exact candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0124/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0124/developer-test-observation.json",
+          "sha256": "8acbc81cd215f6df8a97b5f949193875367f5223577e614e148c3d2514c716b8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/developer-report.md",
+          "sha256": "c082a162dc4ed1d40a0a791d147af956689b63bfce387efef017c3e6d9172771"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0123/independent-qa-attempt-1.md",
+          "sha256": "ca8125f7cb6f8f3d5319b1b076a577ba2ef419813be4795babd086ea22e7ea9c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/product-spec.md",
+          "sha256": "949bd272a4b3d040d0978a320facba81c4f0883e9a00155ae2ade39d56e178dd"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/technical-design.md",
+          "sha256": "5e24613f07c33324ffd4415c4fb02988c395527dbe217631a50904e4379f576e"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T04:16:45.003Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T041958Z-B7E421DD",
+      "work_item_id": "WI-0124",
+      "recorded_at": "2026-09-03T04:19:58.813Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality execution-route closure suite",
+      "outcome": "pass",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:19:18.526Z",
+      "summary": "23 focused execution-routing and installation tests passed at candidate 0e32149.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0124/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0124/quality-test-observation.json",
+          "sha256": "89efbd280c8f6e89d87dd18ecf4773478280e848360a9eea68048348547dc50a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/quality-report.md",
+          "sha256": "46387f0d65780c7fc5de64a5f09924bb2b859d28dc092f410f5e27cdf5d7a7a7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/developer-report.md",
+          "sha256": "c082a162dc4ed1d40a0a791d147af956689b63bfce387efef017c3e6d9172771"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0123/independent-qa-attempt-1.md",
+          "sha256": "ca8125f7cb6f8f3d5319b1b076a577ba2ef419813be4795babd086ea22e7ea9c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/product-spec.md",
+          "sha256": "949bd272a4b3d040d0978a320facba81c4f0883e9a00155ae2ade39d56e178dd"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/technical-design.md",
+          "sha256": "5e24613f07c33324ffd4415c4fb02988c395527dbe217631a50904e4379f576e"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/execution-routing.test.mjs",
+          "test/phase4-installation.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T04:19:14.283Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T042745Z-051B6D60",
+      "work_item_id": "WI-0124",
+      "recorded_at": "2026-09-03T04:27:45.807Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent execution-route closure QA",
+      "outcome": "pass",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:26:39Z",
+      "summary": "Independent QA passed 864 accepted combinations, adversarial boundary matrices, and all 331 repository tests at candidate 0e32149.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0124/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0124/independent-qa-test-observation.json",
+          "sha256": "02f127179c1a10d19ef428002f6137f032b9c160bc96c930c04649e521c3b8a5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/independent-qa-report.md",
+          "sha256": "0b54d15ed4705051a78bcbc3d5b6306e453439c292b5c84aee99fdcb47675e9e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/quality-report.md",
+          "sha256": "46387f0d65780c7fc5de64a5f09924bb2b859d28dc092f410f5e27cdf5d7a7a7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/independent-qa-attempt-1.md",
+          "sha256": "3ff3291bf8181a65ba8c33003af6664f431fe33fae4f8b3c7c96bc5f090d02f7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/independent-qa-attempt-1.md",
+          "sha256": "4fecdc66b8088f4c80e4f29829c16c337e2baf049f73f35a04bcbf002e04bed2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0122/independent-qa-attempt-1.md",
+          "sha256": "c0386644a84403ec2e3453be3026a54e8b4bb990dc7b3da24f9086d016801bf1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0123/independent-qa-attempt-1.md",
+          "sha256": "ca8125f7cb6f8f3d5319b1b076a577ba2ef419813be4795babd086ea22e7ea9c"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T04:25:27Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T042802Z-36EFADF4",
+      "work_item_id": "WI-0124",
+      "recorded_at": "2026-09-03T04:28:02.747Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:28:02.747Z",
+      "summary": "Revert cumulative execution-route closure candidate as one synchronized runtime/schema/test/lock unit and rerun repository gates.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0124/rollback-plan.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0124/rollback-plan.md",
+          "sha256": "edba8b2a65fcdedd0edc26baabb1f7cc51df7a76e2eee825f5fe303e88a2456c"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0124/rollback-plan.md"
+      }
+    },
+    {
+      "id": "EVID-20260903T042910Z-A43A1662",
+      "work_item_id": "WI-0123",
+      "recorded_at": "2026-09-03T04:29:10.507Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Cumulative independent execution-route QA",
+      "outcome": "pass",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:26:39Z",
+      "summary": "WI-0124 Independent QA covers and passes the full WI-0120 through WI-0124 repair matrix at candidate 0e32149.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0124/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0124/independent-qa-test-observation.json",
+          "sha256": "02f127179c1a10d19ef428002f6137f032b9c160bc96c930c04649e521c3b8a5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/independent-qa-report.md",
+          "sha256": "0b54d15ed4705051a78bcbc3d5b6306e453439c292b5c84aee99fdcb47675e9e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/quality-report.md",
+          "sha256": "46387f0d65780c7fc5de64a5f09924bb2b859d28dc092f410f5e27cdf5d7a7a7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/independent-qa-attempt-1.md",
+          "sha256": "3ff3291bf8181a65ba8c33003af6664f431fe33fae4f8b3c7c96bc5f090d02f7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/independent-qa-attempt-1.md",
+          "sha256": "4fecdc66b8088f4c80e4f29829c16c337e2baf049f73f35a04bcbf002e04bed2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0122/independent-qa-attempt-1.md",
+          "sha256": "c0386644a84403ec2e3453be3026a54e8b4bb990dc7b3da24f9086d016801bf1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0123/independent-qa-attempt-1.md",
+          "sha256": "ca8125f7cb6f8f3d5319b1b076a577ba2ef419813be4795babd086ea22e7ea9c"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T04:25:27Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T042911Z-28CA8B90",
+      "work_item_id": "WI-0123",
+      "recorded_at": "2026-09-03T04:29:11.473Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:29:11.473Z",
+      "summary": "Revert the cumulative runtime/schema/test/lock repair unit and rerun repository gates.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0123/rollback-plan.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0123/rollback-plan.md",
+          "sha256": "eb4e08244dd1abd452c43b2798251955d86f02d2bbcbba97b433eb3c87263d14"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0123/rollback-plan.md"
+      }
+    },
+    {
+      "id": "EVID-20260903T042925Z-B40EC803",
+      "work_item_id": "WI-0122",
+      "recorded_at": "2026-09-03T04:29:25.561Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Cumulative independent execution-route QA",
+      "outcome": "pass",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:26:39Z",
+      "summary": "WI-0124 Independent QA covers and passes the full WI-0120 through WI-0124 repair matrix at candidate 0e32149.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0124/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0124/independent-qa-test-observation.json",
+          "sha256": "02f127179c1a10d19ef428002f6137f032b9c160bc96c930c04649e521c3b8a5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/independent-qa-report.md",
+          "sha256": "0b54d15ed4705051a78bcbc3d5b6306e453439c292b5c84aee99fdcb47675e9e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/quality-report.md",
+          "sha256": "46387f0d65780c7fc5de64a5f09924bb2b859d28dc092f410f5e27cdf5d7a7a7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/independent-qa-attempt-1.md",
+          "sha256": "3ff3291bf8181a65ba8c33003af6664f431fe33fae4f8b3c7c96bc5f090d02f7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/independent-qa-attempt-1.md",
+          "sha256": "4fecdc66b8088f4c80e4f29829c16c337e2baf049f73f35a04bcbf002e04bed2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0122/independent-qa-attempt-1.md",
+          "sha256": "c0386644a84403ec2e3453be3026a54e8b4bb990dc7b3da24f9086d016801bf1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0123/independent-qa-attempt-1.md",
+          "sha256": "ca8125f7cb6f8f3d5319b1b076a577ba2ef419813be4795babd086ea22e7ea9c"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T04:25:27Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T042926Z-72A3B94D",
+      "work_item_id": "WI-0122",
+      "recorded_at": "2026-09-03T04:29:26.504Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:29:26.504Z",
+      "summary": "Revert the cumulative runtime/schema/test/lock repair unit and rerun repository gates.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0122/rollback-plan.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0122/rollback-plan.md",
+          "sha256": "75ecd3078cb46b62ee6925dec85ea3c1fc21bca3f09d20ad2a0ee33d6b3d2562"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0122/rollback-plan.md"
+      }
+    },
+    {
+      "id": "EVID-20260903T042947Z-6F2F74C7",
+      "work_item_id": "WI-0121",
+      "recorded_at": "2026-09-03T04:29:47.197Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Cumulative independent execution-route QA",
+      "outcome": "pass",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:26:39Z",
+      "summary": "WI-0124 Independent QA covers and passes the full WI-0120 through WI-0124 repair matrix at candidate 0e32149.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0124/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0124/independent-qa-test-observation.json",
+          "sha256": "02f127179c1a10d19ef428002f6137f032b9c160bc96c930c04649e521c3b8a5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/independent-qa-report.md",
+          "sha256": "0b54d15ed4705051a78bcbc3d5b6306e453439c292b5c84aee99fdcb47675e9e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/quality-report.md",
+          "sha256": "46387f0d65780c7fc5de64a5f09924bb2b859d28dc092f410f5e27cdf5d7a7a7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/independent-qa-attempt-1.md",
+          "sha256": "3ff3291bf8181a65ba8c33003af6664f431fe33fae4f8b3c7c96bc5f090d02f7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/independent-qa-attempt-1.md",
+          "sha256": "4fecdc66b8088f4c80e4f29829c16c337e2baf049f73f35a04bcbf002e04bed2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0122/independent-qa-attempt-1.md",
+          "sha256": "c0386644a84403ec2e3453be3026a54e8b4bb990dc7b3da24f9086d016801bf1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0123/independent-qa-attempt-1.md",
+          "sha256": "ca8125f7cb6f8f3d5319b1b076a577ba2ef419813be4795babd086ea22e7ea9c"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T04:25:27Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T042948Z-A37E094C",
+      "work_item_id": "WI-0121",
+      "recorded_at": "2026-09-03T04:29:48.116Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:29:48.116Z",
+      "summary": "Revert the cumulative runtime/schema/test/lock repair unit and rerun repository gates.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0121/rollback-plan.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0121/rollback-plan.md",
+          "sha256": "b0cc0e1a498bb1fc6134c17bd451fc7cef4712b4d25c2720e4d48791702e6ac5"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0121/rollback-plan.md"
+      }
+    },
+    {
+      "id": "EVID-20260903T042949Z-E43D0157",
+      "work_item_id": "WI-0120",
+      "recorded_at": "2026-09-03T04:29:49.033Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Cumulative independent execution-route QA",
+      "outcome": "pass",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:26:39Z",
+      "summary": "WI-0124 Independent QA covers and passes the full WI-0120 through WI-0124 repair matrix at candidate 0e32149.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0124/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0124/independent-qa-test-observation.json",
+          "sha256": "02f127179c1a10d19ef428002f6137f032b9c160bc96c930c04649e521c3b8a5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/independent-qa-report.md",
+          "sha256": "0b54d15ed4705051a78bcbc3d5b6306e453439c292b5c84aee99fdcb47675e9e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0124/quality-report.md",
+          "sha256": "46387f0d65780c7fc5de64a5f09924bb2b859d28dc092f410f5e27cdf5d7a7a7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/independent-qa-attempt-1.md",
+          "sha256": "3ff3291bf8181a65ba8c33003af6664f431fe33fae4f8b3c7c96bc5f090d02f7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/independent-qa-attempt-1.md",
+          "sha256": "4fecdc66b8088f4c80e4f29829c16c337e2baf049f73f35a04bcbf002e04bed2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0122/independent-qa-attempt-1.md",
+          "sha256": "c0386644a84403ec2e3453be3026a54e8b4bb990dc7b3da24f9086d016801bf1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0123/independent-qa-attempt-1.md",
+          "sha256": "ca8125f7cb6f8f3d5319b1b076a577ba2ef419813be4795babd086ea22e7ea9c"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T04:25:27Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T042949Z-3D76A52F",
+      "work_item_id": "WI-0120",
+      "recorded_at": "2026-09-03T04:29:49.960Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:29:49.960Z",
+      "summary": "Revert the cumulative runtime/schema/test/lock repair unit and rerun repository gates.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0120/rollback-plan.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0120/rollback-plan.md",
+          "sha256": "80d9b31a1e9b5e8a9e1f9f78d6a8436079f4715d6a31294719dbcaaacf78d2bb"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0120/rollback-plan.md"
+      }
+    },
+    {
+      "id": "EVID-20260903T045418Z-8A7FB3DB",
+      "work_item_id": "WI-0125",
+      "recorded_at": "2026-09-03T04:54:18.926Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Portable evaluator lab-root candidate",
+      "outcome": "verified",
+      "scope_revision": "78bf7b80060e55be361bfc6b284fe5fdeb2c96bd",
+      "observed_at": "2026-09-03T04:54:18.926Z",
+      "summary": "Candidate requires an explicit Wave 5B lab root and adds a direct CLI regression.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "78bf7b80060e55be361bfc6b284fe5fdeb2c96bd"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "78bf7b80060e55be361bfc6b284fe5fdeb2c96bd",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260903T045419Z-9546F5CA",
+      "work_item_id": "WI-0125",
+      "recorded_at": "2026-09-03T04:54:19.153Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 5B evaluator portability test",
+      "outcome": "pass",
+      "scope_revision": "78bf7b80060e55be361bfc6b284fe5fdeb2c96bd",
+      "observed_at": "2026-09-03T04:53:48.836Z",
+      "summary": "All eight focused tests passed at candidate 78bf7b8.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0125/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0125/developer-test-observation.json",
+          "sha256": "7532bcc3d2764a57c84b471f71348e3cfad6fea00946c66aa35a6ed200d31b41"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0125/developer-report.md",
+          "sha256": "ce4fc1a01990b4ecbe4181c43604daeb520ef7f20121001ef59f8a66aa923328"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0125/product-spec.md",
+          "sha256": "25cd672e65ef0770afb93b5e82c4e25db3009b2f77e4c3934241fb32620aa9fe"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0125/technical-design.md",
+          "sha256": "fe91abf04736a8b732744905395127cbf33a022444f318b031a6f26e87104588"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/wave-5b-live-protocol.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T04:53:45.676Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T045558Z-D6AD88DA",
+      "work_item_id": "WI-0125",
+      "recorded_at": "2026-09-03T04:55:58.168Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Portable evaluator full verification",
+      "outcome": "pass",
+      "scope_revision": "78bf7b80060e55be361bfc6b284fe5fdeb2c96bd",
+      "observed_at": "2026-09-03T04:55:35.515Z",
+      "summary": "The explicit lab-root boundary passed 332 repository tests at candidate 78bf7b8.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0125/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0125/quality-test-observation.json",
+          "sha256": "6c59392b1d86b38cb1a68361d0f421e01e33ecd3d132391d542f15e4657b49ca"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0125/quality-report.md",
+          "sha256": "4a7324591f868ed2aa474f77962e70a10cce93412de728c1b6d5a3ed01580821"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0125/developer-report.md",
+          "sha256": "ce4fc1a01990b4ecbe4181c43604daeb520ef7f20121001ef59f8a66aa923328"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0125/product-spec.md",
+          "sha256": "25cd672e65ef0770afb93b5e82c4e25db3009b2f77e4c3934241fb32620aa9fe"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T04:54:27.460Z"
+      }
     }
   ]
 }
