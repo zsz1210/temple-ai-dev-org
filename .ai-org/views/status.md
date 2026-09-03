@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 125 total, 2 active
+- Work items: 126 total, 3 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -173,6 +173,7 @@
 | WI-0123 | Close Execution resolver input domain | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0e32149b` | 0 | 22 | 0 |
 | WI-0124 | Seal Execution Request projection boundaries | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0e32149b` | 0 | 20 | 0 |
 | WI-0125 | Remove machine-specific evaluator path | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `78bf7b80` | 0 | 14 | 0 |
+| WI-0126 | Refocus the roadmap on Temple core outcomes | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903051957-e4b1c561 | `—` | 0 | 8 | 0 |
 
 ## Codex task registry
 
@@ -241,7 +242,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 24
+- Team-visible Work Items: 25
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -314,14 +315,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-03T04:55:58.694Z | work_item_closed | WI-0125 | agent-lulu |
-| 2026-09-03T04:55:58.694Z | work_item_transitioned | WI-0125 | agent-lulu |
-| 2026-09-03T04:55:58.400Z | handoff_created | WI-0125 | agent-lulu |
-| 2026-09-03T04:55:58.168Z | evidence_recorded | WI-0125 | human |
-| 2026-09-03T04:54:19.872Z | work_item_claimed | WI-0125 | human |
-| 2026-09-03T04:54:19.614Z | work_item_transitioned | WI-0125 | agent-rikku |
-| 2026-09-03T04:54:19.345Z | handoff_created | WI-0125 | agent-rikku |
-| 2026-09-03T04:54:19.153Z | evidence_recorded | WI-0125 | human |
+| 2026-09-03T05:19:57.924Z | work_item_claimed | WI-0126 | human |
+| 2026-09-03T05:19:57.673Z | work_item_transitioned | WI-0126 | agent-tidus |
+| 2026-09-03T05:19:57.396Z | handoff_created | WI-0126 | agent-tidus |
+| 2026-09-03T05:19:36.418Z | work_item_claimed | WI-0126 | human |
+| 2026-09-03T05:19:36.166Z | work_item_transitioned | WI-0126 | agent-yuna |
+| 2026-09-03T05:19:35.892Z | handoff_created | WI-0126 | agent-yuna |
+| 2026-09-03T05:19:03.346Z | work_item_claimed | WI-0126 | human |
+| 2026-09-03T05:18:56.709Z | work_item_transitioned | WI-0126 | agent-mog |
 
 ## Assignments
 

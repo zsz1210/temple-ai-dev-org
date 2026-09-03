@@ -2,95 +2,124 @@
 
 **English** | [日本語](roadmap.ja.md) | [繁體中文](roadmap.zh-TW.md)
 
-Temple's repository-local operating model is implemented and proven across bounded local pilots. The project is now in release qualification for its first public Alpha: reducing state drift, defining a safe distribution, and proving that a new user can adopt the framework from a clean source. This is the final stage of the initial open-source release, not the end of Temple's development and not a production-readiness claim.
+Temple is building a dependable, repository-native operating model for human-directed AI development. Its first priority is not a dashboard or a release: it is making the development organization work clearly from project definition through delivery, independent review, recovery, and learning.
 
-Version history belongs in the [changelog](../../CHANGELOG.md). Exact test results and retained limits belong in [validation records](../validation/README.md). The current release gates are tracked separately in [release readiness](release-readiness.md).
+This roadmap was last reviewed on 3 September 2026. It is maintained by the Temple project and reviewed when evidence changes the direction or a mission reaches its exit signals.
 
-## Current position
+## Vision
 
-- **Package metadata:** `0.1.0-alpha.29`; this is the proposed first public-Alpha release candidate, not yet a public release.
-- **Development stage:** core local framework complete; first public-Alpha release qualification in progress.
-- **Suitable today:** supervised Solo and small-team work, local multi-repository coordination, repository-backed recovery, and read-only operational review.
-- **Distribution today:** the GitHub repository is private, the npm package is marked `private: true`, and no npm version has been published.
-- **Not yet claimed:** production-grade distributed coordination, regulated operation, unattended external action, automatic model routing, or measured cost savings.
-- **Retained open work:** operator-owned Provider trust for untrusted repositories (`WI-0033`), strict Provider-observed model and reasoning attribution (`WI-0064`), and the bounded four-repository effectiveness rehearsal (`WI-0067`) remain open or blocked. Managed Usage snapshot latency and payload (`WI-0094`) is a separate non-blocking Alpha performance follow-up. These items block the corresponding trust, effectiveness, savings, enterprise-readiness, or low-latency claims—not a narrowly labeled local Public Alpha.
+A solo developer, a multidisciplinary team, or a larger organization should be able to give AI Agents clear responsibilities, run safe work in parallel, recover context without relying on chat history, and make delivery decisions from evidence.
 
-## Delivered operating system
+Temple should scale the operating discipline to the risk and size of the work. It should not require every project to run a service, adopt a particular design tool, collect usage telemetry, or operate a Management Console.
 
-The local framework already provides:
+## How to read this roadmap
 
-- stable Positions separated from project-specific people, Agent Identities, and Assignments;
-- Solo, Collaborative, and High-Assurance governance contracts with explicit human authority;
-- repository-owned specifications, decisions, Work Items, handoffs, evidence, learning, and approvals;
-- the visible `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` delivery path;
-- affected-path coordination, claims, resources, safe parallel waves, workers, and integration joins;
-- deterministic context and Skill discovery without requiring RAG, a local model, or a daemon;
-- local backup, restore, audit, recovery, federation, and read-only portfolio boundaries;
-- a human-facing Management Console that keeps local commands separate from private read-only access;
-- optional Off, on-demand, and managed-local Usage observation with clone-local service controls and explicit capture gaps;
-- project-local Token attribution, calibration policy, and a deterministic matched-model advisory that cannot switch models by itself;
-- governed Lessons, Practices, Skill Proposals, project Skills, and optional Packs without automatic promotion.
+This document describes outcomes and priority. It is not the task backlog and does not promise dates for work that still depends on evidence.
 
-## Now — qualify the first public Alpha
+- **Now** is the one active mission and has measurable exit signals.
+- **Next** contains likely missions whose order may change after current validation.
+- **Later** records lower-confidence directions that need stronger evidence or a new decision.
+- Detailed delivery state lives in repository [Work Items](../../.ai-org/work-items/).
+- Exact experiments and retained limits live in [validation records](../validation/README.md).
+- Version history lives in the [changelog](../../CHANGELOG.md).
+- Public-distribution gates remain in [release readiness](release-readiness.md), which is paused rather than erased.
 
-### 1. Keep repository truth consistent
+## Evidence-backed current position
 
-- Reconcile stale Work Item states with their exact Git and verification evidence.
-- Keep failed and blocked experiments as evidence instead of hiding them to make the Dashboard look complete.
-- Rebuild generated status and planning views only after canonical state is correct.
+| Area | Current evidence | Boundary |
+| --- | --- | --- |
+| Core operating model | Implemented and exercised in bounded local pilots | Not yet qualified as production or enterprise operation |
+| Clean onboarding | Deterministic install, init, bootstrap guidance, and Doctor path passed | Fresh-Agent comprehension and real newcomer adoption remain unverified |
+| Existing projects and multiple repositories | Local brownfield, recovery, and multi-repository rehearsals passed within their stated limits | Real multi-human and multi-machine operation remains unrun |
+| Workflow profiles | Lean, Standard, and High-Assurance contracts are implemented with deterministic escalation | Real High-Assurance operation with distinct people remains unrun |
+| Execution routing | Provider-neutral, step-specific, deterministic resolution is implemented and hardened | It is read-only; it cannot launch a model or apply a recommendation |
+| Controlled cross-comparison | Wave 5A and 5B produced mechanism, overhead, and candidate evidence | The result is not qualified: Wave 5A had one comparable pair and Wave 5B concluded `inconclusive` |
+| Provider trust | `WI-0033` is still at Spec | Temple does not recommend Provider execution from an untrusted repository |
+| Public distribution | A private Alpha candidate and historical release evidence exist | `WI-0086` remains blocked; publication is not the current mission |
 
-### 2. Define the release and distribution
+`no-go` and `inconclusive` are useful terminal experiment outcomes. They are retained as evidence, not presented as unfinished implementation and not converted into proof that Temple is effective.
 
-- Finish aligning the selected `0.1.0-alpha.29` identity across package metadata, changelog, validation record, exact candidate revision, and proposed Git tag.
-- Use an immutable GitHub Release as the first distribution; keep npm deferred until separate adoption evidence and approval exist.
-- Keep the enforced package allowlist green. It includes the runtime and public documentation while excluding self-host state, test evidence, screenshots, and optional-adapter examples.
-- Prove clean installation, exact-revision launcher recovery, upgrade preservation, re-initialization, Doctor, and rollback from the final candidate.
+## Now — make the core path dependable
 
-### 3. Finish the public trust boundary
+The current mission is to make one Console-free path understandable and reliable from start to finish:
 
-- Keep the Human-approved MIT license aligned across package metadata, contribution terms, notices, and release notes.
-- Finish the operator-owned Provider trust decision before recommending Provider execution from untrusted repositories.
-- Add supported-version and private vulnerability-reporting instructions, review third-party notices, and enable appropriate public repository protections.
-- Retain the reviewed immutable GitHub Actions revisions and minimal workflow permissions.
-- Require Node.js 24 or later. Keep Node.js 24 as the remote baseline, run complete and browser verification locally, and limit ordinary GitHub Actions to one bounded Node.js 24 repository gate.
+```text
+Define the product and authority
+  -> create and route bounded work
+  -> design and build
+  -> test and evaluate
+  -> independent QA and release decision
+  -> recover context and retain learning
+```
 
-### 4. Prove the final candidate
+### Outcomes
 
-The required automated, package, clean-consumer, security, and compatibility checks are listed in [release readiness](release-readiness.md). A public release requires evidence at the exact candidate revision; an older passing test run is history, not release proof.
+1. **One coherent path.** A user can move from project initialization to organizational closeout through documented repository and CLI contracts without needing the Management Console.
+2. **Proportionate process.** Lean work stays lean, ordinary work preserves review, and high-risk work escalates without treating every task as enterprise ceremony.
+3. **Reliable continuity.** A fresh task can recover responsibility, state, evidence, and the next action from the repository rather than the title or memory of an earlier chat.
+4. **Useful execution choices.** Position authority, capability selection, workflow profile, and model or tool recommendation remain separate and explainable.
+5. **Evidence before claims.** Tests, comparisons, and adoption exercises answer a named question and stop at their stated evidence boundary.
 
-## Next — learn from real adoption
+### Exit signals
 
-After the first public Alpha:
+This mission is complete when retained evidence shows that:
 
-- run one greenfield and one existing-project adoption with people who did not build Temple;
-- run a representative company or OSS pilot and the retained real multi-human, multi-machine collaboration plan;
-- collect real matched task results in shadow mode before enabling any model recommendation for everyday work;
-- repeat recovery and upgrade on another supported operating system and under process-level failure;
-- exercise federation and read-only portfolio views across separately maintained repositories;
-- measure setup friction, state recovery, rework, blocked time, evidence quality, and human comprehension without inventing a savings percentage.
+- a newcomer or fresh Agent can complete the documented core path without maintainer chat history;
+- the same path works in at least one greenfield and one existing-project setting;
+- parallel work, handoff, Independent QA, and interruption recovery remain enforceable;
+- users can tell why a workflow and execution route were selected and when human authority is required;
+- friction, interventions, rework, elapsed time, and available resource usage are reported as measured or unknown; and
+- optional Console, Usage observation, and external integrations can be absent without breaking the path.
 
-## Later — production and enterprise qualification
+The immediate work is a core-path audit: walk the real CLI and repository journey, identify missing or duplicated decisions, rank the friction by consequence, and repair only the gaps that block the outcomes above.
 
-Only after the corresponding real-environment evidence:
+## Next — qualify real adoption
 
-- live Provider soak, disconnect, crash recovery, and bounded performance tests;
-- a real High-Assurance drill with distinct Human Principals and recovery loss scenarios;
-- approved external-tracker, CI/CD, deployment, or notification writes with preview, rollback, and audit;
-- organization-wide RBAC, remote workers, centralized audit export, and cross-team portfolios;
-- optional semantic retrieval where deterministic routing has demonstrated a real limit;
-- automatic model routing only inside an evidence-qualified autonomy envelope.
+The order of these missions will be set by what the core-path audit finds.
 
-## Intentionally not a default dependency
+### Independent adoption
 
-Temple will not require every engineering Skill, Figma, a vector database, a local model, a daemon, external tracker authority, or unlimited agent tasks merely because those options are popular. Optional capabilities must keep their authority, privacy, provenance, rollback, and test boundaries visible.
+- Have people who did not build Temple try one greenfield and one existing-project adoption.
+- Observe where they need maintainer explanation, lose state, misread authority, or create unnecessary process.
+- Turn repeated evidence into documentation, a Practice, a Skill, or a framework change through the existing promotion boundaries.
 
-## Public-Alpha exit criteria
+### Qualified cross-comparison
 
-The first public Alpha is ready when:
+The cross-test program has started, but the comparison is **not complete**. Earlier runs established fail-closed execution and exposed protocol defects. The completed Wave 5B candidates produced provisional resource differences, but no valid blind score was frozen, so the Work Item correctly concluded `inconclusive`.
 
-- the repository, Dashboard, changelog, package version, tag, and validation record describe the same candidate;
-- a clean consumer can install, initialize, inspect, upgrade, and recover without the originating chat;
-- the published artifact contains only the reviewed framework surface and required notices;
-- every promised Node.js and operating-system combination passes at the exact candidate;
-- security reporting, contribution, license, provenance, and repository-protection choices are explicit;
-- blocked real-world validations remain visible and the public claims stop at the evidence boundary.
+Before another generated run, Temple will:
+
+- name one decision the experiment is meant to inform;
+- choose representative task families rather than repeat only two synthetic cases;
+- separate framework-versus-minimal and model-versus-model interventions;
+- freeze inputs, tools, access, scoring ranges, quality gates, telemetry fields, and stop rules;
+- qualify the exact Provider protocol offline; and
+- define what result would cause a framework change, no change, or abandonment of the hypothesis.
+
+Only quality-qualified pairs may enter resource comparison. A small sample can diagnose the mechanism; it cannot establish general Token, time, cost, quality, or rework savings.
+
+### Collaboration and repository scale
+
+- Run a real multi-human, multi-machine collaboration with independently administered environments.
+- Exercise federation across separately maintained repositories and verify integration ownership and conflict recovery.
+- Test the framework with mixed frontend, backend, infrastructure, design, QA, SRE, and Security responsibilities without hard-coding one team shape.
+
+## Later — expand only with evidence
+
+- Add Provider execution only after operator-owned trust, exact protocol contracts, and an explicit autonomy boundary exist.
+- Qualify real High-Assurance operation, recovery loss scenarios, and regulated or enterprise controls with distinct Human Principals.
+- Add semantic retrieval only where deterministic context routing demonstrates a measured limit.
+- Consider automatic execution routing only after representative matched evidence and safe fallback behavior exist.
+- Resume public release preparation only when the repository owner reopens publication and the exact candidate passes the retained release gates.
+
+## Optional tools, not foundations
+
+- **Management Console:** a human-readable, read-only aid for understanding state. Temple must remain usable without it.
+- **Usage observation:** optional Provider telemetry for attribution and analysis. Missing observation remains unknown, not zero.
+- **Local Observer or daemon:** optional for continuous collection; never required for canonical Work Items, evidence, or recovery.
+- **External trackers and integrations:** coordination surfaces whose data cannot replace Temple lifecycle authority.
+- **Figma, RAG, local models, and additional Skills:** supported extension choices, not universal dependencies.
+
+## Roadmapping approach
+
+The structure follows three useful public principles: roadmaps communicate outcomes and what is not being done; they remain distinct from delivery backlogs; and their farther-future contents carry more uncertainty. See the [UK Government Service Manual](https://www.gov.uk/service-manual/agile-delivery/developing-a-roadmap), [GitHub Projects documentation](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects), and [Atlassian's agile roadmapping guide](https://www.atlassian.com/agile/product-management/roadmaps).
