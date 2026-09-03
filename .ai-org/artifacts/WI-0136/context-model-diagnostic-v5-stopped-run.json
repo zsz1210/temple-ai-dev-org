@@ -1,0 +1,834 @@
+{
+  "schema_version": "temple.context-model-diagnostic-stopped-run/v5",
+  "work_item_id": "WI-0136",
+  "protocol_sha256": "9c947a32b2e63f771de3bcdfae2f3e95dd8ab69b66a65e812473c28ec04d615f",
+  "started_at": "2026-09-03T13:14:04.701Z",
+  "stopped_at": "2026-09-03T13:25:45.002Z",
+  "observed_condition_count": 4,
+  "completed_condition_count": 1,
+  "censored_condition_count": 2,
+  "stopped_condition_count": 1,
+  "observed_conditions": [
+    {
+      "condition": "terra-routed",
+      "context_strategy": "routed",
+      "context_strategy_observed": true,
+      "id": "context-terra-routed",
+      "stage": "integration",
+      "started_at": "2026-09-03T13:14:04.702Z",
+      "completed_at": "2026-09-03T13:16:05.208Z",
+      "elapsed_ms": 120506,
+      "session_setup_ms": 139,
+      "turn_elapsed_ms": 120367,
+      "time_to_first_activity_ms": 3609,
+      "time_to_first_command_ms": 6223,
+      "effective_output_tokens_per_second": 33.29,
+      "thread_id": "01a06767-b437-7601-aba0-1a36a708d22b",
+      "turn_id": "01a06767-b4aa-79d1-8178-be2409597634",
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 890776,
+        "cached_input_tokens": 840960,
+        "output_tokens": 4007,
+        "reasoning_output_tokens": 887,
+        "total_tokens": 894783
+      },
+      "operational_tokens": 53823,
+      "prompt_metrics": {
+        "components": {
+          "base_instructions": {
+            "bytes": 168,
+            "characters": 168,
+            "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+          },
+          "developer_instructions": {
+            "bytes": 560,
+            "characters": 560,
+            "sha256": "45d37d5363155e0929d2b32410d811bffe16e29f75ce55910680115f88f93d4f"
+          },
+          "user_input": {
+            "bytes": 874,
+            "characters": 874,
+            "sha256": "c4272639d4f2f0095b8bda84734ec7a4be2d53d6adbf5d11292d6cc4f132420d"
+          },
+          "output_schema": {
+            "bytes": 606,
+            "characters": 606,
+            "sha256": "af99566c4f630e8d2b583c00204e3f85446343cd6991c29d3da2decdbc11fb6a"
+          }
+        },
+        "explicit_bytes": 2208,
+        "raw_prompt_retained": false
+      },
+      "tool_activity": {
+        "command_items": 22,
+        "command_actions": 22,
+        "action_types": {
+          "unknown": 9,
+          "read": 7,
+          "listFiles": 6
+        },
+        "temple_md_reads": 1,
+        "context_resolve_calls": 2,
+        "context_sequence": [
+          "context-resolve",
+          "context-resolve",
+          "temple-md"
+        ],
+        "reported_output_bytes": 149484
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "recovered_revisions": [
+          {
+            "repository": "gateway",
+            "revision": "a2181352462ee786f2b4158c35ec661784b7633f"
+          },
+          {
+            "repository": "catalog",
+            "revision": "6855eec132747b1c1ba85986debc28341f5a5fa7"
+          },
+          {
+            "repository": "orders",
+            "revision": "a93154064c71fd48c5231a3b9bcffb18e8ffa6ad"
+          },
+          {
+            "repository": "notifications",
+            "revision": "f5477295683fb6a82477c91cf129c2a9be0f059a"
+          }
+        ],
+        "governing_contract": "Coordinator TASK.md: OrderPlaced/v2 rolling-compatible delivery. Catalog supplies inventoryRevision; Orders emits the exact v2 nested envelope; Notifications accepts retained v1 and v2, rejects malformed/unsupported events, and is idempotent by event ID; Gateway retains orderId/status and adds eventVersion. Coordinator design-record.json fixes rollout order: notifications, orders-catalog, gateway.",
+        "completed_slices": [
+          "notifications — developer handoff retained at 21c1c25fc2f3fb8a88faea9879a8270243156516",
+          "orders-catalog — catalog developer handoff retained at e27232cd23dceea6727accec8e504db24abcbb88; orders developer handoff retained at 3364a8062480f38d07220c4d96cc089849d98594",
+          "gateway — developer handoff retained at fd97043db351dae4349b40c6452748869707a339",
+          "coordinator design freeze — tech-lead-to-developer handoff retained at 3f4fb36a90df62d17a5cb105c9d09e6ba1b150ca"
+        ],
+        "unresolved": [
+          "No handoff records unresolved work.",
+          "All four service work items remain in state test with Quality Evaluator ownership; no retained independent-QA or cross-repository integration result was found.",
+          "Coordinator WI-0001 remains in state build; its scoped integration-report.json has not been evidenced as completed."
+        ],
+        "safe_next_action": "As Quality Evaluator, perform only the bounded local public-test validation in rollout order (notifications, orders-catalog, gateway), preserve exact tested revisions and results, then hand off the evidence to the integration owner; do not modify sources or advance lifecycle state during recovery.",
+        "summary": "Coordinator revision is 61bca96e7125ddeeeaeaa8ead9a12330f3abcd68. The required Context Capsule preview was attempted from Coordinator with the repository-pinned launcher and returned no capsule output; TEMPLE.md was therefore read to establish authority and the safe recovery boundary. No files were modified."
+      },
+      "expected_revisions": {
+        "gateway": "a2181352462ee786f2b4158c35ec661784b7633f",
+        "catalog": "6855eec132747b1c1ba85986debc28341f5a5fa7",
+        "orders": "a93154064c71fd48c5231a3b9bcffb18e8ffa6ad",
+        "notifications": "f5477295683fb6a82477c91cf129c2a9be0f059a"
+      },
+      "recovery": {
+        "exact_revision_count": 4,
+        "exact_revision_total": 4,
+        "governing_contract_named": true,
+        "completed_slice_count": 0,
+        "completed_slice_total": 3,
+        "unresolved_reported": true,
+        "safe_next_action_bounded": true,
+        "pass": false
+      }
+    },
+    {
+      "condition": "sol-routed-medium",
+      "context_strategy": "routed",
+      "context_strategy_observed": true,
+      "id": "context-sol-routed-medium",
+      "stage": "integration",
+      "started_at": "2026-09-03T13:16:05.228Z",
+      "completed_at": "2026-09-03T13:20:03.387Z",
+      "elapsed_ms": 238159,
+      "session_setup_ms": 166,
+      "turn_elapsed_ms": 237993,
+      "time_to_first_activity_ms": 2488,
+      "time_to_first_command_ms": 5746,
+      "effective_output_tokens_per_second": 16.916,
+      "thread_id": "01a06769-8b27-71d2-99e6-4dbb0c1fecb0",
+      "turn_id": "01a06769-8b93-7b63-acfd-1dd93566309b",
+      "requested_model": "gpt-5.6-sol",
+      "acknowledged_model": "gpt-5.6-sol",
+      "requested_reasoning_effort": "medium",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 1190370,
+        "cached_input_tokens": 1114240,
+        "output_tokens": 4026,
+        "reasoning_output_tokens": 633,
+        "total_tokens": 1194396
+      },
+      "operational_tokens": 80156,
+      "prompt_metrics": {
+        "components": {
+          "base_instructions": {
+            "bytes": 168,
+            "characters": 168,
+            "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+          },
+          "developer_instructions": {
+            "bytes": 560,
+            "characters": 560,
+            "sha256": "45d37d5363155e0929d2b32410d811bffe16e29f75ce55910680115f88f93d4f"
+          },
+          "user_input": {
+            "bytes": 874,
+            "characters": 874,
+            "sha256": "c4272639d4f2f0095b8bda84734ec7a4be2d53d6adbf5d11292d6cc4f132420d"
+          },
+          "output_schema": {
+            "bytes": 606,
+            "characters": 606,
+            "sha256": "af99566c4f630e8d2b583c00204e3f85446343cd6991c29d3da2decdbc11fb6a"
+          }
+        },
+        "explicit_bytes": 2208,
+        "raw_prompt_retained": false
+      },
+      "tool_activity": {
+        "command_items": 28,
+        "command_actions": 28,
+        "action_types": {
+          "unknown": 14,
+          "listFiles": 7,
+          "search": 1,
+          "read": 6
+        },
+        "temple_md_reads": 1,
+        "context_resolve_calls": 3,
+        "context_sequence": [
+          "context-resolve",
+          "temple-md",
+          "context-resolve",
+          "context-resolve"
+        ],
+        "reported_output_bytes": 128274
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "status": "censored",
+      "stop_scope": "condition",
+      "stop_reason": "integration-operational-token-limit",
+      "completion": null,
+      "expected_revisions": {
+        "gateway": "a2181352462ee786f2b4158c35ec661784b7633f",
+        "catalog": "6855eec132747b1c1ba85986debc28341f5a5fa7",
+        "orders": "a93154064c71fd48c5231a3b9bcffb18e8ffa6ad",
+        "notifications": "f5477295683fb6a82477c91cf129c2a9be0f059a"
+      },
+      "recovery": null
+    },
+    {
+      "condition": "sol-routed-xhigh",
+      "context_strategy": "routed",
+      "context_strategy_observed": true,
+      "id": "context-sol-routed-xhigh",
+      "stage": "integration",
+      "started_at": "2026-09-03T13:20:03.404Z",
+      "completed_at": "2026-09-03T13:25:38.446Z",
+      "elapsed_ms": 335042,
+      "session_setup_ms": 199,
+      "turn_elapsed_ms": 334843,
+      "time_to_first_activity_ms": 2751,
+      "time_to_first_command_ms": 7963,
+      "effective_output_tokens_per_second": 18.746,
+      "thread_id": "01a0676d-2d99-7510-9822-82cd74306b82",
+      "turn_id": "01a0676d-2e13-78e1-948e-ae0860dd1d49",
+      "requested_model": "gpt-5.6-sol",
+      "acknowledged_model": "gpt-5.6-sol",
+      "requested_reasoning_effort": "xhigh",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 2081559,
+        "cached_input_tokens": 2007680,
+        "output_tokens": 6277,
+        "reasoning_output_tokens": 1700,
+        "total_tokens": 2087836
+      },
+      "operational_tokens": 80156,
+      "prompt_metrics": {
+        "components": {
+          "base_instructions": {
+            "bytes": 168,
+            "characters": 168,
+            "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+          },
+          "developer_instructions": {
+            "bytes": 560,
+            "characters": 560,
+            "sha256": "45d37d5363155e0929d2b32410d811bffe16e29f75ce55910680115f88f93d4f"
+          },
+          "user_input": {
+            "bytes": 874,
+            "characters": 874,
+            "sha256": "c4272639d4f2f0095b8bda84734ec7a4be2d53d6adbf5d11292d6cc4f132420d"
+          },
+          "output_schema": {
+            "bytes": 606,
+            "characters": 606,
+            "sha256": "af99566c4f630e8d2b583c00204e3f85446343cd6991c29d3da2decdbc11fb6a"
+          }
+        },
+        "explicit_bytes": 2208,
+        "raw_prompt_retained": false
+      },
+      "tool_activity": {
+        "command_items": 40,
+        "command_actions": 40,
+        "action_types": {
+          "unknown": 11,
+          "listFiles": 5,
+          "search": 1,
+          "read": 23
+        },
+        "temple_md_reads": 1,
+        "context_resolve_calls": 3,
+        "context_sequence": [
+          "context-resolve",
+          "temple-md",
+          "context-resolve",
+          "context-resolve"
+        ],
+        "reported_output_bytes": 232779
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "status": "censored",
+      "stop_scope": "condition",
+      "stop_reason": "integration-operational-token-limit",
+      "completion": null,
+      "expected_revisions": {
+        "gateway": "a2181352462ee786f2b4158c35ec661784b7633f",
+        "catalog": "6855eec132747b1c1ba85986debc28341f5a5fa7",
+        "orders": "a93154064c71fd48c5231a3b9bcffb18e8ffa6ad",
+        "notifications": "f5477295683fb6a82477c91cf129c2a9be0f059a"
+      },
+      "recovery": null
+    },
+    {
+      "condition": "terra-full-load",
+      "context_strategy": "full-load",
+      "context_strategy_observed": false,
+      "id": "context-terra-full-load",
+      "stage": "integration",
+      "started_at": "2026-09-03T13:25:38.462Z",
+      "completed_at": "2026-09-03T13:25:44.996Z",
+      "elapsed_ms": 6534,
+      "session_setup_ms": 183,
+      "turn_elapsed_ms": 6351,
+      "time_to_first_activity_ms": 2723,
+      "time_to_first_command_ms": 5848,
+      "effective_output_tokens_per_second": 24.406,
+      "thread_id": "01a06772-4a5c-7172-8b83-b8c8805c2eb6",
+      "turn_id": "01a06772-4ad6-7f90-b531-c5b5ace472d6",
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 19463,
+        "cached_input_tokens": 0,
+        "output_tokens": 155,
+        "reasoning_output_tokens": 42,
+        "total_tokens": 19618
+      },
+      "operational_tokens": 19618,
+      "prompt_metrics": {
+        "components": {
+          "base_instructions": {
+            "bytes": 168,
+            "characters": 168,
+            "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+          },
+          "developer_instructions": {
+            "bytes": 560,
+            "characters": 560,
+            "sha256": "45d37d5363155e0929d2b32410d811bffe16e29f75ce55910680115f88f93d4f"
+          },
+          "user_input": {
+            "bytes": 740,
+            "characters": 740,
+            "sha256": "9e2338ce2860d43d893b2ab4086c0dd85e3b1aebd0ed4c98d6501913d72764af"
+          },
+          "output_schema": {
+            "bytes": 606,
+            "characters": 606,
+            "sha256": "af99566c4f630e8d2b583c00204e3f85446343cd6991c29d3da2decdbc11fb6a"
+          }
+        },
+        "explicit_bytes": 2074,
+        "raw_prompt_retained": false
+      },
+      "tool_activity": {
+        "command_items": 1,
+        "command_actions": 1,
+        "action_types": {
+          "unknown": 1
+        },
+        "temple_md_reads": 0,
+        "context_resolve_calls": 0,
+        "context_sequence": [],
+        "reported_output_bytes": 0
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "status": "stopped",
+      "stop_scope": "run",
+      "stop_reason": "command-policy-violation:command policy rejected: /bin/zsh -lc 'git status --short && git rev-parse --show-toplevel && git log -1 --format=%H'",
+      "completion": null,
+      "expected_revisions": {
+        "gateway": "a2181352462ee786f2b4158c35ec661784b7633f",
+        "catalog": "6855eec132747b1c1ba85986debc28341f5a5fa7",
+        "orders": "a93154064c71fd48c5231a3b9bcffb18e8ffa6ad",
+        "notifications": "f5477295683fb6a82477c91cf129c2a9be0f059a"
+      },
+      "recovery": {
+        "exact_revision_count": 0,
+        "exact_revision_total": 4,
+        "governing_contract_named": false,
+        "completed_slice_count": 0,
+        "completed_slice_total": 3,
+        "unresolved_reported": false,
+        "safe_next_action_bounded": true,
+        "pass": false
+      }
+    }
+  ],
+  "completed_conditions": [
+    {
+      "condition": "terra-routed",
+      "context_strategy": "routed",
+      "context_strategy_observed": true,
+      "id": "context-terra-routed",
+      "stage": "integration",
+      "started_at": "2026-09-03T13:14:04.702Z",
+      "completed_at": "2026-09-03T13:16:05.208Z",
+      "elapsed_ms": 120506,
+      "session_setup_ms": 139,
+      "turn_elapsed_ms": 120367,
+      "time_to_first_activity_ms": 3609,
+      "time_to_first_command_ms": 6223,
+      "effective_output_tokens_per_second": 33.29,
+      "thread_id": "01a06767-b437-7601-aba0-1a36a708d22b",
+      "turn_id": "01a06767-b4aa-79d1-8178-be2409597634",
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 890776,
+        "cached_input_tokens": 840960,
+        "output_tokens": 4007,
+        "reasoning_output_tokens": 887,
+        "total_tokens": 894783
+      },
+      "operational_tokens": 53823,
+      "prompt_metrics": {
+        "components": {
+          "base_instructions": {
+            "bytes": 168,
+            "characters": 168,
+            "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+          },
+          "developer_instructions": {
+            "bytes": 560,
+            "characters": 560,
+            "sha256": "45d37d5363155e0929d2b32410d811bffe16e29f75ce55910680115f88f93d4f"
+          },
+          "user_input": {
+            "bytes": 874,
+            "characters": 874,
+            "sha256": "c4272639d4f2f0095b8bda84734ec7a4be2d53d6adbf5d11292d6cc4f132420d"
+          },
+          "output_schema": {
+            "bytes": 606,
+            "characters": 606,
+            "sha256": "af99566c4f630e8d2b583c00204e3f85446343cd6991c29d3da2decdbc11fb6a"
+          }
+        },
+        "explicit_bytes": 2208,
+        "raw_prompt_retained": false
+      },
+      "tool_activity": {
+        "command_items": 22,
+        "command_actions": 22,
+        "action_types": {
+          "unknown": 9,
+          "read": 7,
+          "listFiles": 6
+        },
+        "temple_md_reads": 1,
+        "context_resolve_calls": 2,
+        "context_sequence": [
+          "context-resolve",
+          "context-resolve",
+          "temple-md"
+        ],
+        "reported_output_bytes": 149484
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "recovered_revisions": [
+          {
+            "repository": "gateway",
+            "revision": "a2181352462ee786f2b4158c35ec661784b7633f"
+          },
+          {
+            "repository": "catalog",
+            "revision": "6855eec132747b1c1ba85986debc28341f5a5fa7"
+          },
+          {
+            "repository": "orders",
+            "revision": "a93154064c71fd48c5231a3b9bcffb18e8ffa6ad"
+          },
+          {
+            "repository": "notifications",
+            "revision": "f5477295683fb6a82477c91cf129c2a9be0f059a"
+          }
+        ],
+        "governing_contract": "Coordinator TASK.md: OrderPlaced/v2 rolling-compatible delivery. Catalog supplies inventoryRevision; Orders emits the exact v2 nested envelope; Notifications accepts retained v1 and v2, rejects malformed/unsupported events, and is idempotent by event ID; Gateway retains orderId/status and adds eventVersion. Coordinator design-record.json fixes rollout order: notifications, orders-catalog, gateway.",
+        "completed_slices": [
+          "notifications — developer handoff retained at 21c1c25fc2f3fb8a88faea9879a8270243156516",
+          "orders-catalog — catalog developer handoff retained at e27232cd23dceea6727accec8e504db24abcbb88; orders developer handoff retained at 3364a8062480f38d07220c4d96cc089849d98594",
+          "gateway — developer handoff retained at fd97043db351dae4349b40c6452748869707a339",
+          "coordinator design freeze — tech-lead-to-developer handoff retained at 3f4fb36a90df62d17a5cb105c9d09e6ba1b150ca"
+        ],
+        "unresolved": [
+          "No handoff records unresolved work.",
+          "All four service work items remain in state test with Quality Evaluator ownership; no retained independent-QA or cross-repository integration result was found.",
+          "Coordinator WI-0001 remains in state build; its scoped integration-report.json has not been evidenced as completed."
+        ],
+        "safe_next_action": "As Quality Evaluator, perform only the bounded local public-test validation in rollout order (notifications, orders-catalog, gateway), preserve exact tested revisions and results, then hand off the evidence to the integration owner; do not modify sources or advance lifecycle state during recovery.",
+        "summary": "Coordinator revision is 61bca96e7125ddeeeaeaa8ead9a12330f3abcd68. The required Context Capsule preview was attempted from Coordinator with the repository-pinned launcher and returned no capsule output; TEMPLE.md was therefore read to establish authority and the safe recovery boundary. No files were modified."
+      },
+      "expected_revisions": {
+        "gateway": "a2181352462ee786f2b4158c35ec661784b7633f",
+        "catalog": "6855eec132747b1c1ba85986debc28341f5a5fa7",
+        "orders": "a93154064c71fd48c5231a3b9bcffb18e8ffa6ad",
+        "notifications": "f5477295683fb6a82477c91cf129c2a9be0f059a"
+      },
+      "recovery": {
+        "exact_revision_count": 4,
+        "exact_revision_total": 4,
+        "governing_contract_named": true,
+        "completed_slice_count": 0,
+        "completed_slice_total": 3,
+        "unresolved_reported": true,
+        "safe_next_action_bounded": true,
+        "pass": false
+      }
+    }
+  ],
+  "censored_conditions": [
+    {
+      "condition": "sol-routed-medium",
+      "context_strategy": "routed",
+      "context_strategy_observed": true,
+      "id": "context-sol-routed-medium",
+      "stage": "integration",
+      "started_at": "2026-09-03T13:16:05.228Z",
+      "completed_at": "2026-09-03T13:20:03.387Z",
+      "elapsed_ms": 238159,
+      "session_setup_ms": 166,
+      "turn_elapsed_ms": 237993,
+      "time_to_first_activity_ms": 2488,
+      "time_to_first_command_ms": 5746,
+      "effective_output_tokens_per_second": 16.916,
+      "thread_id": "01a06769-8b27-71d2-99e6-4dbb0c1fecb0",
+      "turn_id": "01a06769-8b93-7b63-acfd-1dd93566309b",
+      "requested_model": "gpt-5.6-sol",
+      "acknowledged_model": "gpt-5.6-sol",
+      "requested_reasoning_effort": "medium",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 1190370,
+        "cached_input_tokens": 1114240,
+        "output_tokens": 4026,
+        "reasoning_output_tokens": 633,
+        "total_tokens": 1194396
+      },
+      "operational_tokens": 80156,
+      "prompt_metrics": {
+        "components": {
+          "base_instructions": {
+            "bytes": 168,
+            "characters": 168,
+            "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+          },
+          "developer_instructions": {
+            "bytes": 560,
+            "characters": 560,
+            "sha256": "45d37d5363155e0929d2b32410d811bffe16e29f75ce55910680115f88f93d4f"
+          },
+          "user_input": {
+            "bytes": 874,
+            "characters": 874,
+            "sha256": "c4272639d4f2f0095b8bda84734ec7a4be2d53d6adbf5d11292d6cc4f132420d"
+          },
+          "output_schema": {
+            "bytes": 606,
+            "characters": 606,
+            "sha256": "af99566c4f630e8d2b583c00204e3f85446343cd6991c29d3da2decdbc11fb6a"
+          }
+        },
+        "explicit_bytes": 2208,
+        "raw_prompt_retained": false
+      },
+      "tool_activity": {
+        "command_items": 28,
+        "command_actions": 28,
+        "action_types": {
+          "unknown": 14,
+          "listFiles": 7,
+          "search": 1,
+          "read": 6
+        },
+        "temple_md_reads": 1,
+        "context_resolve_calls": 3,
+        "context_sequence": [
+          "context-resolve",
+          "temple-md",
+          "context-resolve",
+          "context-resolve"
+        ],
+        "reported_output_bytes": 128274
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "status": "censored",
+      "stop_scope": "condition",
+      "stop_reason": "integration-operational-token-limit",
+      "completion": null,
+      "expected_revisions": {
+        "gateway": "a2181352462ee786f2b4158c35ec661784b7633f",
+        "catalog": "6855eec132747b1c1ba85986debc28341f5a5fa7",
+        "orders": "a93154064c71fd48c5231a3b9bcffb18e8ffa6ad",
+        "notifications": "f5477295683fb6a82477c91cf129c2a9be0f059a"
+      },
+      "recovery": null
+    },
+    {
+      "condition": "sol-routed-xhigh",
+      "context_strategy": "routed",
+      "context_strategy_observed": true,
+      "id": "context-sol-routed-xhigh",
+      "stage": "integration",
+      "started_at": "2026-09-03T13:20:03.404Z",
+      "completed_at": "2026-09-03T13:25:38.446Z",
+      "elapsed_ms": 335042,
+      "session_setup_ms": 199,
+      "turn_elapsed_ms": 334843,
+      "time_to_first_activity_ms": 2751,
+      "time_to_first_command_ms": 7963,
+      "effective_output_tokens_per_second": 18.746,
+      "thread_id": "01a0676d-2d99-7510-9822-82cd74306b82",
+      "turn_id": "01a0676d-2e13-78e1-948e-ae0860dd1d49",
+      "requested_model": "gpt-5.6-sol",
+      "acknowledged_model": "gpt-5.6-sol",
+      "requested_reasoning_effort": "xhigh",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 2081559,
+        "cached_input_tokens": 2007680,
+        "output_tokens": 6277,
+        "reasoning_output_tokens": 1700,
+        "total_tokens": 2087836
+      },
+      "operational_tokens": 80156,
+      "prompt_metrics": {
+        "components": {
+          "base_instructions": {
+            "bytes": 168,
+            "characters": 168,
+            "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+          },
+          "developer_instructions": {
+            "bytes": 560,
+            "characters": 560,
+            "sha256": "45d37d5363155e0929d2b32410d811bffe16e29f75ce55910680115f88f93d4f"
+          },
+          "user_input": {
+            "bytes": 874,
+            "characters": 874,
+            "sha256": "c4272639d4f2f0095b8bda84734ec7a4be2d53d6adbf5d11292d6cc4f132420d"
+          },
+          "output_schema": {
+            "bytes": 606,
+            "characters": 606,
+            "sha256": "af99566c4f630e8d2b583c00204e3f85446343cd6991c29d3da2decdbc11fb6a"
+          }
+        },
+        "explicit_bytes": 2208,
+        "raw_prompt_retained": false
+      },
+      "tool_activity": {
+        "command_items": 40,
+        "command_actions": 40,
+        "action_types": {
+          "unknown": 11,
+          "listFiles": 5,
+          "search": 1,
+          "read": 23
+        },
+        "temple_md_reads": 1,
+        "context_resolve_calls": 3,
+        "context_sequence": [
+          "context-resolve",
+          "temple-md",
+          "context-resolve",
+          "context-resolve"
+        ],
+        "reported_output_bytes": 232779
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "status": "censored",
+      "stop_scope": "condition",
+      "stop_reason": "integration-operational-token-limit",
+      "completion": null,
+      "expected_revisions": {
+        "gateway": "a2181352462ee786f2b4158c35ec661784b7633f",
+        "catalog": "6855eec132747b1c1ba85986debc28341f5a5fa7",
+        "orders": "a93154064c71fd48c5231a3b9bcffb18e8ffa6ad",
+        "notifications": "f5477295683fb6a82477c91cf129c2a9be0f059a"
+      },
+      "recovery": null
+    }
+  ],
+  "stopped_conditions": [
+    {
+      "condition": "terra-full-load",
+      "context_strategy": "full-load",
+      "context_strategy_observed": false,
+      "id": "context-terra-full-load",
+      "stage": "integration",
+      "started_at": "2026-09-03T13:25:38.462Z",
+      "completed_at": "2026-09-03T13:25:44.996Z",
+      "elapsed_ms": 6534,
+      "session_setup_ms": 183,
+      "turn_elapsed_ms": 6351,
+      "time_to_first_activity_ms": 2723,
+      "time_to_first_command_ms": 5848,
+      "effective_output_tokens_per_second": 24.406,
+      "thread_id": "01a06772-4a5c-7172-8b83-b8c8805c2eb6",
+      "turn_id": "01a06772-4ad6-7f90-b531-c5b5ace472d6",
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 19463,
+        "cached_input_tokens": 0,
+        "output_tokens": 155,
+        "reasoning_output_tokens": 42,
+        "total_tokens": 19618
+      },
+      "operational_tokens": 19618,
+      "prompt_metrics": {
+        "components": {
+          "base_instructions": {
+            "bytes": 168,
+            "characters": 168,
+            "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+          },
+          "developer_instructions": {
+            "bytes": 560,
+            "characters": 560,
+            "sha256": "45d37d5363155e0929d2b32410d811bffe16e29f75ce55910680115f88f93d4f"
+          },
+          "user_input": {
+            "bytes": 740,
+            "characters": 740,
+            "sha256": "9e2338ce2860d43d893b2ab4086c0dd85e3b1aebd0ed4c98d6501913d72764af"
+          },
+          "output_schema": {
+            "bytes": 606,
+            "characters": 606,
+            "sha256": "af99566c4f630e8d2b583c00204e3f85446343cd6991c29d3da2decdbc11fb6a"
+          }
+        },
+        "explicit_bytes": 2074,
+        "raw_prompt_retained": false
+      },
+      "tool_activity": {
+        "command_items": 1,
+        "command_actions": 1,
+        "action_types": {
+          "unknown": 1
+        },
+        "temple_md_reads": 0,
+        "context_resolve_calls": 0,
+        "context_sequence": [],
+        "reported_output_bytes": 0
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "status": "stopped",
+      "stop_scope": "run",
+      "stop_reason": "command-policy-violation:command policy rejected: /bin/zsh -lc 'git status --short && git rev-parse --show-toplevel && git log -1 --format=%H'",
+      "completion": null,
+      "expected_revisions": {
+        "gateway": "a2181352462ee786f2b4158c35ec661784b7633f",
+        "catalog": "6855eec132747b1c1ba85986debc28341f5a5fa7",
+        "orders": "a93154064c71fd48c5231a3b9bcffb18e8ffa6ad",
+        "notifications": "f5477295683fb6a82477c91cf129c2a9be0f059a"
+      },
+      "recovery": {
+        "exact_revision_count": 0,
+        "exact_revision_total": 4,
+        "governing_contract_named": false,
+        "completed_slice_count": 0,
+        "completed_slice_total": 3,
+        "unresolved_reported": false,
+        "safe_next_action_bounded": true,
+        "pass": false
+      }
+    }
+  ],
+  "candidate_operational_tokens": 233753,
+  "reason": "terra-full-load:context-strategy-not-observed",
+  "retry_count": 0,
+  "fallback_count": 0,
+  "model_generation_performed": true
+}
