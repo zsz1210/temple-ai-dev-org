@@ -167,7 +167,7 @@
 | WI-0117 | Run qualified Wave 5B lean workflow comparison | concluded | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b8f41dd0` | 0 | 21 | 1 |
 | WI-0118 | Turn validation evidence into adaptive Lean Mode | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `b3b5c13d` | 0 | 21 | 0 |
 | WI-0119 | Establish adaptive execution routing foundation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `cfa12af5` | 0 | 23 | 0 |
-| WI-0120 | Harden the Execution Route validation boundary | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903031628-115dc067 | `—` | 0 | 9 | 0 |
+| WI-0120 | Harden the Execution Route validation boundary | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903032343-7be5c028 | `486c64df` | 0 | 16 | 0 |
 
 ## Codex task registry
 
@@ -309,14 +309,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-03T03:16:28.404Z | work_item_claimed | WI-0120 | human |
-| 2026-09-03T03:16:28.135Z | work_item_transitioned | WI-0120 | agent-tidus |
-| 2026-09-03T03:16:27.896Z | handoff_created | WI-0120 | agent-tidus |
-| 2026-09-03T03:16:27.675Z | work_item_claimed | WI-0120 | human |
-| 2026-09-03T03:16:27.432Z | work_item_transitioned | WI-0120 | agent-yuna |
-| 2026-09-03T03:16:27.183Z | handoff_created | WI-0120 | agent-yuna |
-| 2026-09-03T03:16:26.955Z | work_item_claimed | WI-0120 | human |
-| 2026-09-03T03:16:26.700Z | work_item_transitioned | WI-0120 | agent-mog |
+| 2026-09-03T03:23:43.302Z | work_item_claimed | WI-0120 | human |
+| 2026-09-03T03:23:43.049Z | work_item_transitioned | WI-0120 | agent-lulu |
+| 2026-09-03T03:23:42.809Z | handoff_created | WI-0120 | agent-lulu |
+| 2026-09-03T03:23:42.572Z | work_item_transitioned | WI-0120 | agent-lulu |
+| 2026-09-03T03:23:42.369Z | evidence_recorded | WI-0120 | human |
+| 2026-09-03T03:23:09.064Z | work_item_claimed | WI-0120 | human |
+| 2026-09-03T03:23:08.808Z | work_item_transitioned | WI-0120 | agent-rikku |
+| 2026-09-03T03:23:08.527Z | handoff_created | WI-0120 | agent-rikku |
 
 ## Assignments
 

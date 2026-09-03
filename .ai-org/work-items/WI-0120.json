@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0120",
   "title": "Harden the Execution Route validation boundary",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-03T03:14:55.435Z",
-  "updated_at": "2026-09-03T03:16:28.404Z",
+  "updated_at": "2026-09-03T03:23:43.302Z",
   "scope": [
     "Reject malformed or authority-expanding execution-route documents with a complete versioned JSON Schema and semantic consistency validation.",
     "Preserve WI-0119 history while recording the separate post-close Independent QA counterexample as the repair trigger."
@@ -57,7 +57,7 @@
   ],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "de45168658c8c9b7d7ad3326b875a3b1ad01deb3",
+  "base_revision": "486c64df3006e6e8df6c3dd6d51a8a6e29c9843d",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -67,14 +67,14 @@
     "WI-0086 retains public-release qualification and its broader installation evidence. WI-0120 touches phase4-installation.test.mjs only to assert the corrected managed schema contract and performs no public release action."
   ],
   "claim": {
-    "id": "claim-20260903031628-115dc067",
+    "id": "claim-20260903032343-7be5c028",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "de45168658c8c9b7d7ad3326b875a3b1ad01deb3",
+    "agent_id": "agent-lulu",
+    "base_revision": "486c64df3006e6e8df6c3dd6d51a8a6e29c9843d",
     "branch": "codex/wi-0120-harden-execution-route-schema",
     "worktree": null,
-    "claimed_at": "2026-09-03T03:16:28.404Z",
+    "claimed_at": "2026-09-03T03:23:43.302Z",
     "released_at": null
   },
   "claims": [
@@ -116,13 +116,37 @@
     },
     {
       "id": "claim-20260903031628-115dc067",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "de45168658c8c9b7d7ad3326b875a3b1ad01deb3",
       "branch": "codex/wi-0120-harden-execution-route-schema",
       "worktree": null,
       "claimed_at": "2026-09-03T03:16:28.404Z",
+      "released_at": "2026-09-03T03:23:08.808Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903032309-41958a68",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "486c64df3006e6e8df6c3dd6d51a8a6e29c9843d",
+      "branch": "codex/wi-0120-harden-execution-route-schema",
+      "worktree": null,
+      "claimed_at": "2026-09-03T03:23:09.064Z",
+      "released_at": "2026-09-03T03:23:43.049Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903032343-7be5c028",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "486c64df3006e6e8df6c3dd6d51a8a6e29c9843d",
+      "branch": "codex/wi-0120-harden-execution-route-schema",
+      "worktree": null,
+      "claimed_at": "2026-09-03T03:23:43.302Z",
       "released_at": null
     }
   ],
@@ -141,6 +165,20 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0120/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0120/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0120/developer-report.md",
+      ".ai-org/artifacts/WI-0120/developer-test-observation.json",
+      "EVID-20260903T032252Z-B1E765B9"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0120/quality-test-observation.json"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0120/quality-report.md"
     ]
   },
   "evidence": [
@@ -152,10 +190,17 @@
     ".ai-org/artifacts/WI-0120/product-spec.md",
     ".ai-org/artifacts/WI-0120/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0120/technical-design.md",
-    ".ai-org/artifacts/WI-0120/risk-review.md"
+    ".ai-org/artifacts/WI-0120/risk-review.md",
+    ".ai-org/artifacts/WI-0120/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0120/developer-report.md",
+    ".ai-org/artifacts/WI-0120/developer-test-observation.json",
+    "EVID-20260903T032252Z-B1E765B9",
+    ".ai-org/artifacts/WI-0120/quality-test-observation.json",
+    ".ai-org/artifacts/WI-0120/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0120/quality-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "release_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -177,6 +222,21 @@
       "input_revision": "de45168658c8c9b7d7ad3326b875a3b1ad01deb3",
       "artifact": ".ai-org/artifacts/WI-0120/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-03T03:16:27.896Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "486c64df3006e6e8df6c3dd6d51a8a6e29c9843d",
+      "artifact": ".ai-org/artifacts/WI-0120/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-03T03:23:08.527Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "486c64df3006e6e8df6c3dd6d51a8a6e29c9843d",
+      "artifact": ".ai-org/artifacts/WI-0120/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-03T03:23:42.809Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "486c64df3006e6e8df6c3dd6d51a8a6e29c9843d"
 }

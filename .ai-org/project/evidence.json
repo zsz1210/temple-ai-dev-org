@@ -18447,6 +18447,113 @@
         "status": "planned",
         "procedure": ".ai-org/artifacts/WI-0119/rollback-plan.md"
       }
+    },
+    {
+      "id": "EVID-20260903T032252Z-B1E765B9",
+      "work_item_id": "WI-0120",
+      "recorded_at": "2026-09-03T03:22:52.591Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer full verification",
+      "outcome": "pass",
+      "scope_revision": "486c64df3006e6e8df6c3dd6d51a8a6e29c9843d",
+      "observed_at": "2026-09-03T03:22:11.658Z",
+      "summary": "All 327 tests plus repository, documentation, and package checks passed on the repair candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0120/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0120/developer-test-observation.json",
+          "sha256": "30be42e1932bac571691388565db561f396fe41055baee0128df79d9ceb9c339"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/developer-report.md",
+          "sha256": "01cb891dc23670681269ece069092f7b11a9aab98f0eee46e60de52a5af7421a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/post-close-independent-qa-failure.md",
+          "sha256": "42a8df61f396ec67200628c320582846965ce8084ef18a166f2ee1e251c54fa8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/product-spec.md",
+          "sha256": "246561ffb57e32991aa381539c05d7d03d6e06de20e5a42ef526c573b45a2565"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/technical-design.md",
+          "sha256": "b9387a5099c023f92e01f025c67cc7d091859a69fb2d8ef528704109bb0b289e"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T03:21:03.193Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T032342Z-99C42C65",
+      "work_item_id": "WI-0120",
+      "recorded_at": "2026-09-03T03:23:42.369Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality regression matrix",
+      "outcome": "pass",
+      "scope_revision": "486c64df3006e6e8df6c3dd6d51a8a6e29c9843d",
+      "observed_at": "2026-09-03T03:23:20.046Z",
+      "summary": "All 19 focused route-schema, semantic-validation, installation, and upgrade tests passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0120/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0120/quality-test-observation.json",
+          "sha256": "d58ef8e02ef94eb8c6e8acc063860edeb082e7efa5e5ae92e67a3fd0e35b31df"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/quality-report.md",
+          "sha256": "83f62c926f2367f407c7c9ced5a97831299de37d87ffd21b2cd0733ce6dd44ac"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/post-close-independent-qa-failure.md",
+          "sha256": "42a8df61f396ec67200628c320582846965ce8084ef18a166f2ee1e251c54fa8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/product-spec.md",
+          "sha256": "246561ffb57e32991aa381539c05d7d03d6e06de20e5a42ef526c573b45a2565"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/technical-design.md",
+          "sha256": "b9387a5099c023f92e01f025c67cc7d091859a69fb2d8ef528704109bb0b289e"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/execution-routing.test.mjs",
+          "test/phase4-installation.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T03:23:15.874Z"
+      }
     }
   ]
 }
