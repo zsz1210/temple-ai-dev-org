@@ -1,0 +1,174 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0127",
+  "title": "Audit the Console-free core operating path",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-03T05:31:32.531Z",
+  "updated_at": "2026-09-03T05:33:26.672Z",
+  "scope": [
+    "Trace the current public documentation, repository contracts, and CLI from initialization through Work Item closeout, context recovery, and learning without the Management Console, Observer, Usage Collector, or Provider generation.",
+    "Use current deterministic greenfield and brownfield evidence to measure commands, required files, explicit human decisions, duplicated ceremony, and recovery gaps without rerunning unrelated model-backed experiments.",
+    "Publish an evidence-backed gap map that separates missing core capability, documentation friction, optional tooling, and future real-user validation, then propose only bounded next changes."
+  ],
+  "acceptance_criteria": [
+    "One reproducible core journey maps every required lifecycle action, authority decision, durable artifact, and optional boundary from initialization to closeout and fresh-task recovery.",
+    "Current no-model validation passes on the merged main revision, or any failure is retained with an exact cause and stop boundary.",
+    "The report quantifies observable friction and ranks gaps by user consequence without inventing Token, cost, or time savings.",
+    "The next implementation work is bounded by explicit evidence and does not expand the Console, enable Provider execution, run a new cross-comparison, or perform release work."
+  ],
+  "affected_paths": [
+    "docs/validation/core-operating-path-audit.md",
+    "docs/validation/README.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "This is a cross-lifecycle audit with no runtime mutation outside disposable fixtures, but its findings will prioritize core framework work.",
+    "evidence_refs": [
+      "docs/planning/roadmap.md"
+    ],
+    "evaluated_at": "2026-09-03T05:31:32.530Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "5a790acf8a39a47b8ddd8ed8b5247b4f10beea16",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0086: serialize validation-index update under WI-0127; retain blocked release scope and do not alter Alpha candidate evidence"
+  ],
+  "claim": {
+    "id": "claim-20260903053326-698e8316",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "5a790acf8a39a47b8ddd8ed8b5247b4f10beea16",
+    "branch": "codex/wi-0127-core-path-audit",
+    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "claimed_at": "2026-09-03T05:33:26.672Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260903053133-c75ac849",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "5a790acf8a39a47b8ddd8ed8b5247b4f10beea16",
+      "branch": "codex/wi-0127-core-path-audit",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-03T05:31:33.088Z",
+      "released_at": "2026-09-03T05:33:24.916Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903053325-dead0440",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "5a790acf8a39a47b8ddd8ed8b5247b4f10beea16",
+      "branch": "codex/wi-0127-core-path-audit",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-03T05:33:25.174Z",
+      "released_at": "2026-09-03T05:33:25.674Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903053325-8543d9be",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "5a790acf8a39a47b8ddd8ed8b5247b4f10beea16",
+      "branch": "codex/wi-0127-core-path-audit",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-03T05:33:25.924Z",
+      "released_at": "2026-09-03T05:33:26.398Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903053326-698e8316",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "5a790acf8a39a47b8ddd8ed8b5247b4f10beea16",
+      "branch": "codex/wi-0127-core-path-audit",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-03T05:33:26.672Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0127/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0127/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0127/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0127/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0127/risk-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0127/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0127/work-order.md",
+    ".ai-org/artifacts/WI-0127/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0127/approved-scope.md",
+    ".ai-org/artifacts/WI-0127/product-spec.md",
+    ".ai-org/artifacts/WI-0127/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0127/technical-design.md",
+    ".ai-org/artifacts/WI-0127/risk-review.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "5a790acf8a39a47b8ddd8ed8b5247b4f10beea16",
+      "artifact": ".ai-org/artifacts/WI-0127/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-03T05:33:24.619Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "5a790acf8a39a47b8ddd8ed8b5247b4f10beea16",
+      "artifact": ".ai-org/artifacts/WI-0127/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-03T05:33:25.420Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "5a790acf8a39a47b8ddd8ed8b5247b4f10beea16",
+      "artifact": ".ai-org/artifacts/WI-0127/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-03T05:33:26.153Z"
+    }
+  ]
+}
