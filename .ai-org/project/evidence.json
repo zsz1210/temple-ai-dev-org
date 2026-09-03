@@ -21330,6 +21330,36 @@
         "dirty_scope": "clean",
         "affected_paths_dirty": []
       }
+    },
+    {
+      "id": "EVID-20260903T154039Z-93DFF0E1",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T15:40:39.197Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Representative protocol v4 harness repair",
+      "outcome": "verified",
+      "scope_revision": "90ac21e977488b113a9c5e2f6cf219ea39b7fa12",
+      "observed_at": "2026-09-03T15:40:39.197Z",
+      "summary": "Preserves the approved v3 fail-closed attempt, fixes Git porcelain path parsing, retains active-stage stop evidence, and freezes successor protocol v4 without authorizing generation.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "90ac21e"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "90ac21e",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
     }
   ]
 }
