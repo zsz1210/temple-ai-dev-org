@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0130",
   "title": "Run the first three-arm Temple effectiveness pilot",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-03T06:27:28.833Z",
-  "updated_at": "2026-09-03T06:31:15.788Z",
+  "updated_at": "2026-09-03T07:08:39.389Z",
   "scope": [
     "Build and validate a reproducible six-candidate pilot across conventional fixed, Temple fixed, and Temple adaptive conditions",
     "Use two frozen bounded implementation cases and isolate A versus B from B versus C",
@@ -58,32 +58,34 @@
   "base_revision": "8b3dc75c839bb8345d79ec000b5cfe21dabae091",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
-  "planned_agent_id": "agent-rikku",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
     "id": "claim-20260903063115-e88d358f",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "base_revision": "8b3dc75c839bb8345d79ec000b5cfe21dabae091",
     "branch": "codex/wi-0130-effectiveness-pilot",
     "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
     "claimed_at": "2026-09-03T06:31:15.788Z",
-    "released_at": null
+    "released_at": "2026-09-03T07:08:39.389Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
       "id": "claim-20260903063115-e88d358f",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "8b3dc75c839bb8345d79ec000b5cfe21dabae091",
       "branch": "codex/wi-0130-effectiveness-pilot",
       "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
       "claimed_at": "2026-09-03T06:31:15.788Z",
-      "released_at": null
+      "released_at": "2026-09-03T07:08:39.389Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -101,6 +103,12 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0130/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0130/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0130/developer-report.md"
     ]
   },
   "evidence": [
@@ -110,7 +118,9 @@
     ".ai-org/artifacts/WI-0130/product-spec.md",
     ".ai-org/artifacts/WI-0130/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0130/technical-design.md",
-    ".ai-org/artifacts/WI-0130/risk-review.md"
+    ".ai-org/artifacts/WI-0130/risk-review.md",
+    ".ai-org/artifacts/WI-0130/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0130/developer-report.md"
   ],
   "unresolved": [],
   "next_position": "quality_evaluator",
@@ -135,6 +145,14 @@
       "input_revision": "8b3dc75c839bb8345d79ec000b5cfe21dabae091",
       "artifact": ".ai-org/artifacts/WI-0130/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-03T06:31:15.048Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "2ac73bc1b2ed3d966114fd9be8b71995510d68ce",
+      "artifact": ".ai-org/artifacts/WI-0130/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-03T07:08:39.105Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "2ac73bc1b2ed3d966114fd9be8b71995510d68ce"
 }

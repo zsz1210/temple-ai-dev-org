@@ -1,25 +1,14 @@
 {
   "schema_version": "temple.test-observation/v1",
-  "work_item_id": "WI-0130",
-  "observed_at": "2026-09-03T06:39:23.000Z",
-  "revision": "candidate-pending-final-commit",
-  "commands": [
-    "node --check scripts/run-effectiveness-pilot.mjs",
-    "node --check scripts/analyze-effectiveness-pilot.mjs",
-    "node --test test/effectiveness-pilot.test.mjs",
-    "node scripts/run-effectiveness-pilot.mjs --mode setup --lab-root /Users/zsz1210/Documents/ChatGPT/temple-effectiveness-pilot-wi0130",
-    "node scripts/run-effectiveness-pilot.mjs --mode preflight --lab-root /Users/zsz1210/Documents/ChatGPT/temple-effectiveness-pilot-wi0130",
-    "six approved candidate turns and one approved blind evaluator turn",
-    "node ./templew.mjs schema validate . --json",
-    "node scripts/check-doc-links.mjs",
-    "npm run verify"
-  ],
+  "revision": "2ac73bc1b2ed3d966114fd9be8b71995510d68ce",
+  "command": ["npm", "run", "verify"],
   "result": "pass",
-  "tests_passed": 339,
-  "tests_failed": 0,
-  "candidate_model_turns_started": 6,
-  "candidate_model_turns_completed": 6,
-  "evaluator_model_turns_started": 1,
-  "evaluator_model_turns_completed": 1,
-  "remaining_gate": "independent-review-of-report-and-protocol-deviation"
+  "exit_code": 0,
+  "started_at": "2026-09-03T07:05:23.000Z",
+  "completed_at": "2026-09-03T07:06:31.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0130/developer-report.md",
+    ".ai-org/artifacts/WI-0130/live-experiment-observation.json",
+    "docs/validation/temple-effectiveness-pilot-result.md"
+  ]
 }

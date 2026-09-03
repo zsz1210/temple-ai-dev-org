@@ -19879,6 +19879,104 @@
         "dirty_scope": "outside-affected-scope",
         "affected_paths_dirty": []
       }
+    },
+    {
+      "id": "EVID-20260903T070838Z-903FABE9",
+      "work_item_id": "WI-0130",
+      "recorded_at": "2026-09-03T07:08:38.707Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0130 full repository verification",
+      "outcome": "pass",
+      "scope_revision": "2ac73bc1b2ed3d966114fd9be8b71995510d68ce",
+      "observed_at": "2026-09-03T07:06:31.000Z",
+      "summary": "All 339 repository tests passed at candidate 2ac73bc after the retained pilot report and protocol safeguards were added.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0130/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0130/developer-test-observation.json",
+          "sha256": "f446da84af71480ba7070d9f0c968eaf67f19347545a55e2c0c37ee7de70efd2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0130/developer-report.md",
+          "sha256": "648fd09ad492d847c76e69d5b09961cfaa9b8d0b7650ddc7c1b3016162608273"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0130/live-experiment-observation.json",
+          "sha256": "353316327fda87bedf54f1a5d93eb85a0060842c549359eac04428ab90bceb73"
+        },
+        {
+          "path": "docs/validation/temple-effectiveness-pilot-result.md",
+          "sha256": "3bf62a5ce8e352cf4c8136f900b68bade427806f95f0a646b3b30c82f7965859"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T07:05:23.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T070838Z-CEC655BB",
+      "work_item_id": "WI-0130",
+      "recorded_at": "2026-09-03T07:08:38.909Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "WI-0130 bounded live pilot execution",
+      "outcome": "pass",
+      "scope_revision": "2ac73bc1b2ed3d966114fd9be8b71995510d68ce",
+      "observed_at": "2026-09-03T07:00:43.000Z",
+      "summary": "Six candidates and one blind evaluator completed within the approved envelope with no retries or fallback; the retained protocol audit marks the Standard-versus-Lean deviation.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0130/runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0130/runtime-observation.json",
+          "sha256": "62daf15952a0ceac7c9e2f599841a3c2fdc00e738e9472ccbe1a7cc85625fe93"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0130/account-approval.json",
+          "sha256": "cd5c436c8dbb08096dccac3c28414e122dd4198ecba157f0c42717d4f6b0a5a5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0130/live-experiment-observation.json",
+          "sha256": "353316327fda87bedf54f1a5d93eb85a0060842c549359eac04428ab90bceb73"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0130/developer-report.md",
+          "sha256": "648fd09ad492d847c76e69d5b09961cfaa9b8d0b7650ddc7c1b3016162608273"
+        },
+        {
+          "path": "docs/validation/temple-effectiveness-pilot-result.md",
+          "sha256": "3bf62a5ce8e352cf4c8136f900b68bade427806f95f0a646b3b30c82f7965859"
+        }
+      ],
+      "details": {
+        "environment": "Local isolated Codex App Server lab",
+        "scenario": "Complete the approved six-candidate pilot and one blind evaluation within its fixed execution envelope",
+        "provenance": "live"
+      }
     }
   ]
 }
