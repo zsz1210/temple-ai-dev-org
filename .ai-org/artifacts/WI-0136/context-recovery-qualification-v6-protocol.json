@@ -1,12 +1,12 @@
 {
-  "schema_version": "temple.context-model-diagnostic/v7",
+  "schema_version": "temple.context-model-diagnostic/v6",
   "work_item_id": "WI-0136",
   "status": "generation-disabled",
-  "protocol_sha256": "5f20f1143394b4e0b6cc19d2a8736029ca4c54e361b93a04310556ec75d6f92d",
-  "lab_manifest_sha256": "25127c04eca8ed4dcf78a2aa9692756f8351ed2d751b97df18733ead23013a90",
+  "protocol_sha256": "74f581c82408340462f1c65ef6a0666847c40ac4750303d08c5adb60ee6c153f",
+  "lab_manifest_sha256": "b80a70d217b3f1e78b9e43f1045ded331e8e26ca7721812907d6a1755351a2b5",
   "source_digests": {
     "fixture_sha256": "194a69a223222f53ddc1fca78dc3a3cf318d7705d007ebd34b8176f9de325303",
-    "runner_sha256": "dd53ebf62cc117f29f4c3050c68fcac966a390770f51a217376f108ce018615a",
+    "runner_sha256": "6b22876833f45c1413aae1fbb3723af00d2717fac4c32d9632ccccd169b4b38d",
     "analyzer_sha256": "5e614a7879a8fbdb7655d6780dcf0c7e693e7326259fa166d7fe3231f1151c5c",
     "task_sha256": "5dfd10dce99196f282f0560a25aaffd359b7af2119a62d943e465f19ae46369c",
     "public_tests_sha256": "8809e165ee024f5606a48c38bb0f6065e3b943fcd00d05fda5fdd6099e0f41f9",
@@ -26,9 +26,9 @@
       "sha256": "45d37d5363155e0929d2b32410d811bffe16e29f75ce55910680115f88f93d4f"
     },
     "output_schema": {
-      "bytes": 684,
-      "characters": 684,
-      "sha256": "677d13bd2fdf4025cd2071f30e3a0745f23b15e2e0be3884086004dff33152f1"
+      "bytes": 703,
+      "characters": 703,
+      "sha256": "99396272502403b26235df027be8244963fa0d0589d55f7086c7c9af62eb5c6b"
     },
     "conditions": {
       "terra-routed": {
@@ -64,24 +64,24 @@
       "operational_token_limit": 80000,
       "repositories": {
         "gateway": {
-          "revision": "9557a8478325372dd9961b8ab34d2256e980daf5",
-          "tree": "64451b1eecf1aadec9cea57cd033f0d33208598c"
+          "revision": "77da8c3331f65d74f7020d4a13210e9ff431df66",
+          "tree": "ba89bdeee0007d74ed491ecc33c4049767944612"
         },
         "catalog": {
-          "revision": "88f004af5e963ecda2271e37f20d8e271d19700b",
-          "tree": "d0354716193ce6fa506b7d56acb9a4bfe5ecfdae"
+          "revision": "5aaef50ecf9d65108a161c54c742dfeef7800c21",
+          "tree": "3acfb50d333a9138a73fac06f61b1196ced34394"
         },
         "orders": {
-          "revision": "8f70d9cfc4b66d204df5f7df21efa098fb587cd0",
-          "tree": "6b295ebe02dabd270c640902448536fc8ae0b0e1"
+          "revision": "fc78de6520da9f6a6f7b61bcc419263b539d2f91",
+          "tree": "23306a36594c4abb672008fcc72486d41bf44e57"
         },
         "notifications": {
-          "revision": "c04f1e3112048020bf18c7430d5e91948d032bbb",
-          "tree": "093735c6c1e73ea267fc040b443fdbf657207c78"
+          "revision": "a652af825ab208cc006d2ad614b97f6277cb2cdb",
+          "tree": "9ddf456a8f73a0ef3af824cbc926d31f2b2e7258"
         },
         "coordinator": {
-          "revision": "75cd519f53cacce8294b0022e89af1a5b59b0b33",
-          "tree": "99d6fc8c7da4db1f5825330c2f5bd575a41458cd"
+          "revision": "3d3ffb522380d10214419496b3606ce63d242a11",
+          "tree": "e0a28a900094df3a326396d78dbd5c984b1d6313"
         }
       }
     },
@@ -95,24 +95,24 @@
       "operational_token_limit": 120000,
       "repositories": {
         "gateway": {
-          "revision": "9557a8478325372dd9961b8ab34d2256e980daf5",
-          "tree": "64451b1eecf1aadec9cea57cd033f0d33208598c"
+          "revision": "77da8c3331f65d74f7020d4a13210e9ff431df66",
+          "tree": "ba89bdeee0007d74ed491ecc33c4049767944612"
         },
         "catalog": {
-          "revision": "88f004af5e963ecda2271e37f20d8e271d19700b",
-          "tree": "d0354716193ce6fa506b7d56acb9a4bfe5ecfdae"
+          "revision": "5aaef50ecf9d65108a161c54c742dfeef7800c21",
+          "tree": "3acfb50d333a9138a73fac06f61b1196ced34394"
         },
         "orders": {
-          "revision": "8f70d9cfc4b66d204df5f7df21efa098fb587cd0",
-          "tree": "6b295ebe02dabd270c640902448536fc8ae0b0e1"
+          "revision": "fc78de6520da9f6a6f7b61bcc419263b539d2f91",
+          "tree": "23306a36594c4abb672008fcc72486d41bf44e57"
         },
         "notifications": {
-          "revision": "c04f1e3112048020bf18c7430d5e91948d032bbb",
-          "tree": "093735c6c1e73ea267fc040b443fdbf657207c78"
+          "revision": "a652af825ab208cc006d2ad614b97f6277cb2cdb",
+          "tree": "9ddf456a8f73a0ef3af824cbc926d31f2b2e7258"
         },
         "coordinator": {
-          "revision": "75cd519f53cacce8294b0022e89af1a5b59b0b33",
-          "tree": "99d6fc8c7da4db1f5825330c2f5bd575a41458cd"
+          "revision": "3d3ffb522380d10214419496b3606ce63d242a11",
+          "tree": "e0a28a900094df3a326396d78dbd5c984b1d6313"
         }
       }
     }
@@ -148,16 +148,6 @@
       "ThreadTokenUsageUpdatedNotification.json": "aba4f6c7e4a19b2b842c08ee793b57000c07dafd57b922ad0d8e7c76609108c2",
       "ModelReroutedNotification.json": "37cd3c1b3a3560b85b01d4061a07d830fc9ed93b80e4663f975f9197cdb501ef",
       "TurnInterruptParams.json": "6dff382dae73d1dbc58406ed045605f647e7a49660e2540fbd2c6c24d60c5f2b"
-    },
-    "structured_output_schema": {
-      "profile": "openai-structured-outputs-subset/2026-09-03",
-      "supported": true,
-      "errors": [],
-      "schema_sha256": "677d13bd2fdf4025cd2071f30e3a0745f23b15e2e0be3884086004dff33152f1",
-      "object_property_count": 8,
-      "enum_value_count": 3,
-      "constrained_string_characters": 138,
-      "maximum_depth": 4
     },
     "required_models": [
       {

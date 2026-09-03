@@ -28,9 +28,10 @@ const fixtureRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/fixture
 const defaultLabRoot = path.join(os.tmpdir(), "temple-wi0136-representative-microservice");
 const defaultProtocolPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/live-protocol.json");
 const defaultApprovalTemplatePath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/account-approval.template.json");
-const defaultAblationLabRoot = path.join(os.tmpdir(), "temple-wi0136-context-recovery-qualification-v6");
+const defaultAblationLabRoot = path.join(os.tmpdir(), "temple-wi0136-context-recovery-qualification-v7");
 const defaultAblationProtocolPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-ablation-protocol.json");
 const defaultAblationApprovalTemplatePath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-ablation-approval.template.json");
+const defaultAblationApprovalPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-ablation-approval.json");
 const services = Object.freeze(["gateway", "catalog", "orders", "notifications"]);
 const repositories = Object.freeze([...services, "coordinator"]);
 const arms = Object.freeze(["minimal-responsible", "temple"]);
@@ -1030,14 +1031,119 @@ export const integrationOutputSchema = Object.freeze({
       type: "array",
       items: { type: "string", enum: [...integrationSliceIds] },
       minItems: integrationSliceIds.length,
-      maxItems: integrationSliceIds.length,
-      uniqueItems: true
+      maxItems: integrationSliceIds.length
     },
     unresolved: { type: "array", items: { type: "string" } },
     safe_next_action: { type: "string" },
     summary: { type: "string" }
   }
 });
+
+const structuredOutputSchemaProfile = "openai-structured-outputs-subset/2026-09-03";
+const structuredOutputCommonKeywords = new Set(["type", "description", "enum", "const", "anyOf", "$ref", "$defs"]);
+const structuredOutputTypeKeywords = Object.freeze({
+  object: new Set(["properties", "required", "additionalProperties"]),
+  array: new Set(["items", "minItems", "maxItems"]),
+  string: new Set(["pattern", "format"]),
+  number: new Set(["multipleOf", "maximum", "exclusiveMaximum", "minimum", "exclusiveMinimum"]),
+  integer: new Set(["multipleOf", "maximum", "exclusiveMaximum", "minimum", "exclusiveMinimum"]),
+  boolean: new Set(),
+  null: new Set()
+});
+
+export function validateProviderOutputSchema(schema) {
+  const errors = [];
+  let objectPropertyCount = 0;
+  let enumValueCount = 0;
+  let constrainedStringCharacters = 0;
+  let maximumDepth = 0;
+
+  function visit(node, pointer, depth, root = false) {
+    maximumDepth = Math.max(maximumDepth, depth);
+    if (!node || typeof node !== "object" || Array.isArray(node)) {
+      errors.push(`${pointer}: schema node must be an object`);
+      return;
+    }
+    const types = Array.isArray(node.type) ? node.type : node.type ? [node.type] : [];
+    if (root && (types.length !== 1 || types[0] !== "object" || Object.hasOwn(node, "anyOf"))) {
+      errors.push(`${pointer}: root schema must be an object and must not use anyOf`);
+    }
+    for (const type of types) {
+      if (!Object.hasOwn(structuredOutputTypeKeywords, type)) errors.push(`${pointer}: unsupported type ${type}`);
+    }
+    const allowedKeywords = new Set(structuredOutputCommonKeywords);
+    for (const type of types) {
+      for (const keyword of structuredOutputTypeKeywords[type] ?? []) allowedKeywords.add(keyword);
+    }
+    for (const keyword of Object.keys(node)) {
+      if (!allowedKeywords.has(keyword)) errors.push(`${pointer}: unsupported keyword ${keyword}`);
+    }
+
+    if (types.includes("object")) {
+      const properties = node.properties;
+      if (!properties || typeof properties !== "object" || Array.isArray(properties)) {
+        errors.push(`${pointer}: object properties must be an object`);
+      } else {
+        const propertyNames = Object.keys(properties);
+        objectPropertyCount += propertyNames.length;
+        constrainedStringCharacters += propertyNames.reduce((sum, name) => sum + name.length, 0);
+        const required = Array.isArray(node.required) ? node.required : [];
+        const missingRequired = propertyNames.filter((name) => !required.includes(name));
+        const unknownRequired = required.filter((name) => !Object.hasOwn(properties, name));
+        if (missingRequired.length > 0 || unknownRequired.length > 0 || new Set(required).size !== required.length) {
+          errors.push(`${pointer}: every object property must be required exactly once`);
+        }
+        for (const [name, child] of Object.entries(properties)) visit(child, `${pointer}/properties/${name}`, depth + 1);
+      }
+      if (node.additionalProperties !== false) errors.push(`${pointer}: additionalProperties must be false`);
+    }
+    if (types.includes("array")) {
+      if (!node.items) errors.push(`${pointer}: array items schema is required`);
+      else visit(node.items, `${pointer}/items`, depth + 1);
+    }
+    if (Object.hasOwn(node, "anyOf")) {
+      if (!Array.isArray(node.anyOf) || node.anyOf.length === 0) errors.push(`${pointer}: anyOf must contain schemas`);
+      else node.anyOf.forEach((child, index) => visit(child, `${pointer}/anyOf/${index}`, depth + 1));
+    }
+    if (Object.hasOwn(node, "$defs")) {
+      if (!node.$defs || typeof node.$defs !== "object" || Array.isArray(node.$defs)) errors.push(`${pointer}: $defs must be an object`);
+      else {
+        for (const [name, child] of Object.entries(node.$defs)) {
+          constrainedStringCharacters += name.length;
+          visit(child, `${pointer}/$defs/${name}`, depth + 1);
+        }
+      }
+    }
+    if (Object.hasOwn(node, "enum")) {
+      if (!Array.isArray(node.enum) || node.enum.length === 0) errors.push(`${pointer}: enum must contain values`);
+      else {
+        enumValueCount += node.enum.length;
+        const enumStringCharacters = node.enum.reduce((sum, value) => sum + (typeof value === "string" ? value.length : 0), 0);
+        constrainedStringCharacters += enumStringCharacters;
+        if (node.enum.length > 250 && enumStringCharacters > 15000) {
+          errors.push(`${pointer}: large string enum exceeds 15000 characters`);
+        }
+      }
+    }
+    if (typeof node.const === "string") constrainedStringCharacters += node.const.length;
+  }
+
+  visit(schema, "#", 1, true);
+  if (objectPropertyCount > 5000) errors.push("#: more than 5000 total object properties");
+  if (maximumDepth > 10) errors.push("#: more than 10 schema nesting levels");
+  if (constrainedStringCharacters > 120000) errors.push("#: constrained schema strings exceed 120000 characters");
+  if (enumValueCount > 1000) errors.push("#: more than 1000 total enum values");
+  return {
+    profile: structuredOutputSchemaProfile,
+    supported: errors.length === 0,
+    errors,
+    schema_sha256: sha256(JSON.stringify(schema)),
+    object_property_count: objectPropertyCount,
+    enum_value_count: enumValueCount,
+    constrained_string_characters: constrainedStringCharacters,
+    maximum_depth: maximumDepth
+  };
+}
 
 const evaluatorOutputSchema = Object.freeze({
   type: "object",
@@ -1827,7 +1933,7 @@ function conditionParity(conditions) {
 
 function buildAblationProtocol(manifest) {
   const protocol = {
-    schema_version: "temple.context-model-diagnostic/v6",
+    schema_version: "temple.context-model-diagnostic/v7",
     work_item_id: "WI-0136",
     status: "generation-disabled",
     protocol_sha256: null,
@@ -1901,7 +2007,7 @@ function buildAblationProtocol(manifest) {
 
 export function validateAblationProtocol(protocol) {
   const errors = [];
-  if (protocol?.schema_version !== "temple.context-model-diagnostic/v6") errors.push("unsupported ablation schema");
+  if (protocol?.schema_version !== "temple.context-model-diagnostic/v7") errors.push("unsupported ablation schema");
   if (protocol?.work_item_id !== "WI-0136" || protocol?.status !== "generation-disabled") errors.push("ablation identity or status mismatch");
   if (protocol?.protocol_sha256 !== protocolDigest(protocol)) errors.push("ablation protocol digest mismatch");
   if (JSON.stringify(protocol?.execution?.condition_order) !== JSON.stringify(ablationConditions)) errors.push("condition order mismatch");
@@ -1922,6 +2028,9 @@ export function validateAblationProtocol(protocol) {
     repositories: Object.fromEntries(Object.entries(condition.repositories ?? {}).map(([id, value]) => [id, { ...value, clean: true }]))
   })))) errors.push("ablation repository conditions are not matched");
   const promptContract = protocol?.prompt_contract;
+  const outputSchemaCheck = validateProviderOutputSchema(integrationOutputSchema);
+  if (!outputSchemaCheck.supported) errors.push(`Provider output schema is unsupported: ${outputSchemaCheck.errors.join("; ")}`);
+  if (promptContract?.output_schema?.sha256 !== outputSchemaCheck.schema_sha256) errors.push("ablation output schema digest mismatch");
   if (!ablationConditions.every((condition) => promptContract?.conditions?.[condition])) errors.push("ablation prompt contract missing");
   for (const definition of ablationConditionDefinitions) {
     const prompt = promptContract?.conditions?.[definition.id];
@@ -1941,6 +2050,10 @@ export function validateAblationProtocol(protocol) {
     if (protocol.execution.candidate_aggregate_operational_token_limit !== conditionLimitTotal) errors.push("ablation aggregate limit mismatch");
     if (protocol.execution.combined_operational_token_limit !== protocol.execution.candidate_aggregate_operational_token_limit) errors.push("ablation combined limit mismatch");
     if (!protocol?.provider_contract?.codex_cli_version || !protocol?.provider_contract?.schema_digests) errors.push("frozen ablation requires a Provider contract");
+    const expectedOutputSchemaContract = validateProviderOutputSchema(integrationOutputSchema);
+    if (JSON.stringify(protocol?.provider_contract?.structured_output_schema) !== JSON.stringify(expectedOutputSchemaContract)) {
+      errors.push("frozen diagnostic output schema contract mismatch");
+    }
     const expectedModels = [
       { model: "gpt-5.6-terra", reasoning_efforts: ["medium"] }
     ];
@@ -1949,8 +2062,42 @@ export function validateAblationProtocol(protocol) {
   return { valid: errors.length === 0, errors };
 }
 
+async function preserveExactArtifact(source, target, expectedSchemaVersion) {
+  if (!await exists(source)) return;
+  const parsed = await readJson(source);
+  if (parsed.schema_version !== expectedSchemaVersion) return;
+  const sourceBytes = await fs.readFile(source);
+  if (await exists(target)) {
+    const targetBytes = await fs.readFile(target);
+    if (!sourceBytes.equals(targetBytes)) throw new Error(`refusing to replace drifted preserved artifact: ${target}`);
+    return;
+  }
+  await fs.mkdir(path.dirname(target), { recursive: true });
+  await fs.writeFile(target, sourceBytes, { flag: "wx" });
+}
+
+async function preserveV6AblationInputs(protocolPath) {
+  const artifactRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136");
+  await preserveExactArtifact(
+    protocolPath,
+    path.join(artifactRoot, "context-recovery-qualification-v6-protocol.json"),
+    "temple.context-model-diagnostic/v6"
+  );
+  await preserveExactArtifact(
+    defaultAblationApprovalPath,
+    path.join(artifactRoot, "context-recovery-qualification-v6-approval.json"),
+    "temple.context-model-diagnostic-account-approval/v6"
+  );
+  await preserveExactArtifact(
+    defaultAblationApprovalTemplatePath,
+    path.join(artifactRoot, "context-recovery-qualification-v6-approval-template.json"),
+    "temple.context-model-diagnostic-account-approval/v6"
+  );
+}
+
 async function setupAblation(labRoot, protocolPath) {
   if (await exists(labRoot)) throw new Error(`refusing to replace existing ablation lab: ${labRoot}`);
+  await preserveV6AblationInputs(protocolPath);
   await fs.mkdir(labRoot, { recursive: true });
   const createdAt = new Date().toISOString();
   try {
@@ -1971,7 +2118,7 @@ async function setupAblation(labRoot, protocolPath) {
     }
     if (!conditionParity(conditions)) throw new Error("ablation conditions are not byte-equivalent at Git revision and tree boundaries");
     const manifest = {
-      schema_version: "temple.context-model-diagnostic-lab/v6",
+      schema_version: "temple.context-model-diagnostic-lab/v7",
       work_item_id: "WI-0136",
       created_at: createdAt,
       lab_root: labRoot,
@@ -1991,7 +2138,7 @@ async function setupAblation(labRoot, protocolPath) {
     return { manifest, protocol, validation };
   } catch (error) {
     await writeJson(path.join(labRoot, "setup-failure.json"), {
-      schema_version: "temple.context-model-diagnostic-setup-failure/v6",
+      schema_version: "temple.context-model-diagnostic-setup-failure/v7",
       work_item_id: "WI-0136",
       stopped_at: new Date().toISOString(),
       reason: String(error.message ?? error),
@@ -2004,7 +2151,7 @@ async function setupAblation(labRoot, protocolPath) {
 function ablationApprovalTemplate(protocol) {
   const routes = protocol.conditions.map((condition) => condition.model_route);
   return {
-    schema_version: "temple.context-model-diagnostic-account-approval/v6",
+    schema_version: "temple.context-model-diagnostic-account-approval/v7",
     work_item_id: protocol.work_item_id,
     protocol_sha256: protocol.protocol_sha256,
     approved: false,
@@ -2056,9 +2203,14 @@ async function freezeAblation(protocolPath) {
     throw new Error("required Terra medium Provider route is unavailable");
   }
   const frozen = structuredClone(protocol);
+  const outputSchemaContract = validateProviderOutputSchema(integrationOutputSchema);
+  if (!outputSchemaContract.supported) {
+    throw new Error(`Provider output schema is unsupported: ${outputSchemaContract.errors.join(", ")}`);
+  }
   frozen.provider_contract = {
     codex_cli_version: handshake.codex_cli_version,
     schema_digests: handshake.schema_digests,
+    structured_output_schema: outputSchemaContract,
     required_models: [
       { model: "gpt-5.6-terra", reasoning_efforts: ["medium"] }
     ]
@@ -2087,10 +2239,18 @@ async function freezeAblation(protocolPath) {
   frozen.protocol_sha256 = protocolDigest(frozen);
   const after = validateAblationProtocol(frozen);
   if (!after.valid) throw new Error(`frozen ablation protocol invalid: ${after.errors.join(", ")}`);
+  const approvalTemplate = ablationApprovalTemplate(frozen);
+  if (await exists(defaultAblationApprovalPath)) {
+    const currentApproval = await readJson(defaultAblationApprovalPath);
+    if (currentApproval.schema_version === approvalTemplate.schema_version && currentApproval.approved === true) {
+      throw new Error("refusing to replace an affirmative approval for the current ablation version");
+    }
+  }
   await writeJson(protocolPath, frozen);
-  await writeJson(defaultAblationApprovalTemplatePath, ablationApprovalTemplate(frozen));
+  await writeJson(defaultAblationApprovalTemplatePath, approvalTemplate);
+  await writeJson(defaultAblationApprovalPath, approvalTemplate);
   return {
-    schema_version: "temple.context-model-diagnostic-freeze/v6",
+    schema_version: "temple.context-model-diagnostic-freeze/v7",
     work_item_id: frozen.work_item_id,
     protocol_sha256: frozen.protocol_sha256,
     provider_handshake: handshake,
@@ -2122,7 +2282,7 @@ async function inspectAblation(labRoot, protocolPath) {
     }
   }
   return {
-    schema_version: "temple.context-model-diagnostic-inspection/v6",
+    schema_version: "temple.context-model-diagnostic-inspection/v7",
     work_item_id: "WI-0136",
     inspected_at: new Date().toISOString(),
     valid: checks.every((entry) => entry.pass),
@@ -2143,26 +2303,33 @@ async function preflightAblation(labRoot, protocolPath, approvalPath) {
   });
   const providerMatch = routeMatch && protocol?.provider_contract?.codex_cli_version === handshake.codex_cli_version &&
     JSON.stringify(protocol?.provider_contract?.schema_digests) === JSON.stringify(handshake.schema_digests);
+  const outputSchemaCheck = validateProviderOutputSchema(integrationOutputSchema);
+  const outputSchemaMatch = outputSchemaCheck.supported &&
+    JSON.stringify(protocol?.provider_contract?.structured_output_schema) === JSON.stringify(outputSchemaCheck);
   const approval = approvalPath && await exists(approvalPath)
     ? validateAblationApproval(await readJson(approvalPath), protocol)
     : { accepted: false, errors: ["exact approval missing"] };
   const blockers = [];
   if (!inspection.valid) blockers.push("ablation-fixture-invalid");
   if (!providerMatch) blockers.push("provider-contract-drift");
+  if (!outputSchemaMatch) blockers.push("provider-output-schema-unsupported-or-drifted");
   if (!approval.accepted) blockers.push("exact-human-approval-required");
   const output = {
-    schema_version: "temple.context-model-diagnostic-preflight/v6",
+    schema_version: "temple.context-model-diagnostic-preflight/v7",
     work_item_id: "WI-0136",
     observed_at: new Date().toISOString(),
     protocol_sha256: protocol.protocol_sha256,
     local_fixture_ready: inspection.valid,
     provider_handshake_performed: true,
     provider_contract_matches: providerMatch,
+    provider_output_schema_checked_without_generation: true,
+    provider_output_schema_matches: outputSchemaMatch,
+    provider_output_schema_check: outputSchemaCheck,
     exact_approval_present: approval.accepted,
     approval_errors: approval.errors,
     generation_ready: blockers.length === 0,
     blockers,
-    checks: inspection.checks,
+    checks: [...inspection.checks, { id: "provider-output-schema-subset", pass: outputSchemaMatch }],
     model_generation_performed: false
   };
   await writeJson(path.join(labRoot, "ablation-preflight.json"), output);
@@ -2218,7 +2385,7 @@ export function diagnosticStoppedRun({ protocol, startedAt, stoppedAt, completed
   const censoredConditions = completed.filter((entry) => entry.status === "censored");
   const stoppedConditions = completed.filter((entry) => entry.status === "stopped");
   return {
-    schema_version: "temple.context-model-diagnostic-stopped-run/v6",
+    schema_version: "temple.context-model-diagnostic-stopped-run/v7",
     work_item_id: protocol.work_item_id,
     protocol_sha256: protocol.protocol_sha256,
     started_at: startedAt,
@@ -2235,7 +2402,7 @@ export function diagnosticStoppedRun({ protocol, startedAt, stoppedAt, completed
     reason,
     retry_count: 0,
     fallback_count: 0,
-    model_generation_performed: true
+    model_generation_performed: operationalTokens > 0 || completed.length > 0
   };
 }
 
@@ -2290,7 +2457,7 @@ async function runAblation(labRoot, protocolPath, approvalPath) {
     const completedCount = observed.filter((entry) => entry.status === "completed").length;
     const censoredCount = observed.filter((entry) => entry.status === "censored").length;
     const output = {
-      schema_version: "temple.context-model-diagnostic-run/v6",
+      schema_version: "temple.context-model-diagnostic-run/v7",
       work_item_id: protocol.work_item_id,
       protocol_sha256: protocol.protocol_sha256,
       started_at: startedAt,
@@ -2412,7 +2579,7 @@ export function analyzeContextAblation({ protocol, run, generatedAt = new Date()
       ? "routed-context-supported"
       : "routed-context-correct-savings-not-observed";
   return {
-    schema_version: "temple.context-model-diagnostic-analysis/v6",
+    schema_version: "temple.context-model-diagnostic-analysis/v7",
     work_item_id: protocol.work_item_id,
     protocol_sha256: protocol.protocol_sha256,
     generated_at: generatedAt,

@@ -13,6 +13,7 @@ import {
   templeRoutedContextInstruction,
   validateAblationApproval,
   validateAblationProtocol,
+  validateProviderOutputSchema,
   validateRepresentativeApproval,
   validateRepresentativeProtocol,
   validateEvaluatorCompletion
@@ -23,6 +24,7 @@ const protocolPath = new URL("../.ai-org/artifacts/WI-0136/live-protocol.json", 
 const approvalTemplatePath = new URL("../.ai-org/artifacts/WI-0136/account-approval.template.json", import.meta.url);
 const ablationProtocolPath = new URL("../.ai-org/artifacts/WI-0136/context-ablation-protocol.json", import.meta.url);
 const ablationApprovalTemplatePath = new URL("../.ai-org/artifacts/WI-0136/context-ablation-approval.template.json", import.meta.url);
+const ablationApprovalPath = new URL("../.ai-org/artifacts/WI-0136/context-ablation-approval.json", import.meta.url);
 
 async function readJson(path) {
   return JSON.parse(await fs.readFile(path, "utf8"));
@@ -149,8 +151,7 @@ test("integration completion schema and recovery evaluator require the same exac
     type: "array",
     items: { type: "string", enum: ["orders-catalog", "notifications", "gateway"] },
     minItems: 3,
-    maxItems: 3,
-    uniqueItems: true
+    maxItems: 3
   });
   const expectedRevisions = {
     gateway: "a",
@@ -180,16 +181,32 @@ test("integration completion schema and recovery evaluator require the same exac
   assert.equal(observation(["orders-catalog — handoff", "notifications", "gateway"]).recovery.pass, false);
 });
 
+test("the generation-free schema check accepts the live schema and rejects unsupported keywords", () => {
+  const supported = validateProviderOutputSchema(integrationOutputSchema);
+  assert.equal(supported.supported, true);
+  assert.deepEqual(supported.errors, []);
+  assert.match(supported.schema_sha256, /^[a-f0-9]{64}$/);
+  const unsupported = structuredClone(integrationOutputSchema);
+  unsupported.properties.completed_slices.uniqueItems = true;
+  const rejected = validateProviderOutputSchema(unsupported);
+  assert.equal(rejected.supported, false);
+  assert.ok(rejected.errors.includes("#/properties/completed_slices: unsupported keyword uniqueItems"));
+});
+
 test("the frozen context ablation requires matched repositories and exact approval", async () => {
   const protocol = await readJson(ablationProtocolPath);
   const template = await readJson(ablationApprovalTemplatePath);
+  const currentApproval = await readJson(ablationApprovalPath);
   assert.deepEqual(validateAblationProtocol(protocol), { valid: true, errors: [] });
   assert.equal(protocol.protocol_sha256, protocolDigest(protocol));
-  assert.equal(protocol.schema_version, "temple.context-model-diagnostic/v6");
+  assert.equal(protocol.schema_version, "temple.context-model-diagnostic/v7");
   assert.equal(protocol.execution.candidate_turns, 2);
   assert.equal(protocol.execution.evaluator_turns, 0);
   assert.equal(protocol.execution.combined_operational_token_limit, 200000);
   assert.equal(protocol.execution.candidate_limit_disposition, "record-censored-and-continue-independent-conditions");
+  assert.equal(currentApproval.schema_version, "temple.context-model-diagnostic-account-approval/v7");
+  assert.equal(currentApproval.approved, false);
+  assert.deepEqual(currentApproval, template);
   assert.deepEqual(protocol.conditions.map((entry) => [entry.id, entry.model_route.model, entry.model_route.reasoning_effort]), [
     ["terra-routed", "gpt-5.6-terra", "medium"],
     ["terra-full-load", "gpt-5.6-terra", "medium"]
@@ -269,6 +286,21 @@ test("a stopped diagnostic retains normalized completed conditions without autho
   assert.deepEqual(result.completed_conditions, completed);
   assert.equal(result.retry_count, 0);
   assert.equal(result.fallback_count, 0);
+  assert.equal(result.model_generation_performed, true);
+});
+
+test("a Provider schema rejection before usage is recorded as zero generation", () => {
+  const result = diagnosticStoppedRun({
+    protocol: { work_item_id: "WI-0136", protocol_sha256: "v7" },
+    startedAt: "2026-09-03T00:00:00.000Z",
+    stoppedAt: "2026-09-03T00:00:04.000Z",
+    completed: [],
+    operationalTokens: 0,
+    reason: "provider-invalid-output-schema"
+  });
+  assert.equal(result.observed_condition_count, 0);
+  assert.equal(result.candidate_operational_tokens, 0);
+  assert.equal(result.model_generation_performed, false);
 });
 
 test("a candidate Token ceiling becomes a retained censored condition rather than recovered output", () => {

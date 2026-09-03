@@ -108,3 +108,16 @@ The exact-approved v5 attempt ran from `2026-09-03T13:14:04.701Z` to `2026-09-03
 - Status: generation disabled until exact account approval
 
 V6 does not repeat the censored Sol conditions. It narrows the remaining gate to the two matched Terra medium context strategies required by the risk review before the main Temple-versus-minimal comparison. The exact slice IDs are now part of the Provider output schema, the evaluator consumes those same IDs, stopped results remain analyzable, and causal command-policy failures are no longer masked by a later context-sequence check.
+
+The exact-approved v6 attempt stopped before candidate generation. The Provider rejected the first turn's strict output schema because `uniqueItems` is outside the supported Structured Outputs subset. It observed zero conditions, retained zero Operational Tokens, and performed no retry or fallback. The raw stopped record incorrectly marked model generation as performed; that telemetry defect is preserved and explained in `context-recovery-qualification-v6-pre-generation-stop-report.md`. V6 produced no candidate result and is not evidence about Terra or context routing.
+
+## Context-recovery qualification v7
+
+V7 is the corrected successor to v6. It retains the same two Terra medium context conditions and approved ceiling design, removes the unsupported `uniqueItems` keyword without weakening the exact enum and array-length contract, validates the exact output schema against the documented Provider subset before generation, and records zero-usage pre-generation failures accurately. Its protocol digest and exact approval are separate from v6.
+
+- Protocol SHA-256: `5f20f1143394b4e0b6cc19d2a8736029ca4c54e361b93a04310556ec75d6f92d`
+- Condition order: Terra routed; Terra full-load
+- Operational-Token hard stops: 80,000 routed; 120,000 full-load; 200,000 combined
+- Wall-clock hard stop: 20 minutes
+- Retry and fallback: disabled
+- Status: generation disabled pending exact v7 approval
