@@ -120,4 +120,19 @@ V7 is the corrected successor to v6. It retains the same two Terra medium contex
 - Operational-Token hard stops: 80,000 routed; 120,000 full-load; 200,000 combined
 - Wall-clock hard stop: 20 minutes
 - Retry and fallback: disabled
-- Status: generation disabled pending exact v7 approval
+- Status: stopped after the routed condition; no valid context comparison
+
+The exact-approved v7 attempt completed an objectively correct Terra routed recovery within 73,381 Operational Tokens, but the command sequence was `temple-md`, `context-resolve`, `context-resolve`. Because the routed treatment required `context resolve` first, the runner stopped before the full-load condition. There was no retry or fallback. V7 demonstrates one correct recovery, but it does not isolate the routed strategy and is not a Temple-effectiveness result.
+
+## Context-recovery qualification v8
+
+V8 corrects the intervention order exposed by v7. The prompt now identifies WI-0001 as a known bounded Work Item, places the condition-specific first action before repository inspection, and explicitly forbids the routed condition from reading `TEMPLE.md` before `context resolve`. Prompt-order regression checks cover both conditions.
+
+- Protocol SHA-256: `c0d4aaefd74419487fd7541f03c4fe1355661df24e1981d2a8897ee371510683`
+- Condition order: Terra routed; Terra full-load
+- Operational-Token hard stops: 80,000 routed; 120,000 full-load; 200,000 combined
+- Wall-clock hard stop: 20 minutes
+- Retry and fallback: disabled
+- Status: generation disabled pending exact v8 approval
+
+V8 preserves the v7 route, effort request, condition ceilings, aggregate ceiling, and no-retry/no-fallback account boundary. Its new digest reflects the repaired prompt contract and fresh matched fixture revisions. It is a new experiment, not a retry of v7.

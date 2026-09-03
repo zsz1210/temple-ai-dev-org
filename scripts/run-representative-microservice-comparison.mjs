@@ -28,7 +28,8 @@ const fixtureRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/fixture
 const defaultLabRoot = path.join(os.tmpdir(), "temple-wi0136-representative-microservice");
 const defaultProtocolPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/live-protocol.json");
 const defaultApprovalTemplatePath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/account-approval.template.json");
-const defaultAblationLabRoot = path.join(os.tmpdir(), "temple-wi0136-context-recovery-qualification-v7");
+const previousAblationLabRoot = path.join(os.tmpdir(), "temple-wi0136-context-recovery-qualification-v7");
+const defaultAblationLabRoot = path.join(os.tmpdir(), "temple-wi0136-context-recovery-qualification-v8");
 const defaultAblationProtocolPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-ablation-protocol.json");
 const defaultAblationApprovalTemplatePath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-ablation-approval.template.json");
 const defaultAblationApprovalPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-ablation-approval.json");
@@ -1582,9 +1583,9 @@ function buildSlices() {
 
 export function templeRoutedContextInstruction(repositoryLabel = "the assigned repository") {
   return [
-    `From ${repositoryLabel}, first preview \`node ./templew.mjs context resolve . --work-item WI-0001 --position developer --no-write --json\`.`,
+    `From ${repositoryLabel}, before reading any repository file, first preview \`node ./templew.mjs context resolve . --work-item WI-0001 --position developer --no-write --json\`.`,
     "Open only the routed repository sources needed for this responsibility.",
-    "Read TEMPLE.md only if the Context Capsule cannot identify authority, current state, or the safe next action; do not read it merely by default."
+    "Do not read TEMPLE.md before that command. Read it afterward only if the Context Capsule cannot identify authority, current state, or the safe next action."
   ].join(" ");
 }
 
@@ -1858,11 +1859,11 @@ async function runIntegrationTurn({ armId, armRoot, protocol, budget, deadline }
   const coordinatorRoot = path.join(armRoot, "coordinator");
   if (armId === "temple") await claimTempleRepository(coordinatorRoot, "agent-fixture-rikku");
   const instruction = [
-    "You are a fresh integration owner with no prior conversation. Recover the exact current state using repository files only.",
-    "Inspect all four service repositories, their current Git revisions, the governing contract, the design record, and every retained slice handoff.",
+    "You are a fresh integration owner with no prior conversation. This is the known bounded Work Item WI-0001, not new or unknown-scope work. Recover its exact current state using repository files only.",
     armId === "temple"
       ? `${templeRoutedContextInstruction("the Coordinator repository")} Do not mutate lifecycle state.`
       : "Start from coordinator/TASK.md, coordinator/design-record.json, and ordinary organization handoffs.",
+    "Only after completing that first-action requirement, inspect all four service repositories, their current Git revisions, the governing contract, the design record, and every retained slice handoff.",
     "Return exact revisions for gateway, catalog, orders, and notifications; name completed slice IDs, unresolved work, and the safe bounded next action.",
     "Do not modify files, fix code, deploy, publish, or infer anything from conversation memory."
   ].join("\n\n");
@@ -1891,12 +1892,13 @@ async function runIntegrationTurn({ armId, armRoot, protocol, budget, deadline }
 export function ablationIntegrationInstruction(condition) {
   const definition = ablationConditionDefinition(condition);
   const contextInstruction = definition.context_strategy === "full-load"
-    ? "From the Coordinator repository, read TEMPLE.md in full before previewing `node ./templew.mjs context resolve . --work-item WI-0001 --position developer --no-write --json`. Then inspect the sources named by the Context Capsule."
+    ? "From the Coordinator repository, before reading any other repository file, read TEMPLE.md in full. Only after that full read, preview `node ./templew.mjs context resolve . --work-item WI-0001 --position developer --no-write --json`, then inspect the sources named by the Context Capsule."
     : templeRoutedContextInstruction("the Coordinator repository");
   return [
-    "You are a fresh integration owner with no prior conversation. Recover the exact current state using repository files only.",
-    "Inspect all four service repositories, their current Git revisions, the governing contract, the design record, and every retained slice handoff.",
+    "You are a fresh integration owner with no prior conversation. This is the known bounded Work Item WI-0001, not new or unknown-scope work. Recover its exact current state using repository files only.",
+    "Before inspecting repository content, follow this condition-specific first-action requirement exactly:",
     contextInstruction,
+    "Only after completing that first-action requirement, inspect all four service repositories, their current Git revisions, the governing contract, the design record, and every retained slice handoff.",
     "Return exact revisions for gateway, catalog, orders, and notifications; name completed slice IDs, unresolved work, and the safe bounded next action.",
     "Do not modify files, fix code, deploy, publish, or infer anything from conversation memory."
   ].join("\n\n");
@@ -1910,7 +1912,7 @@ function contextPromptContract() {
     conditions: Object.fromEntries(ablationConditions.map((condition) => {
       const definition = ablationConditionDefinition(condition);
       return [condition, {
-      strategy: definition.context_strategy === "full-load" ? "temple-full-load-v1" : "temple-routed-context-v1",
+      strategy: definition.context_strategy === "full-load" ? "temple-full-load-v2" : "temple-routed-context-v2",
       model: definition.model,
       reasoning_effort: definition.reasoning_effort,
       user_input: textMetrics(ablationIntegrationInstruction(condition))
@@ -1933,7 +1935,7 @@ function conditionParity(conditions) {
 
 function buildAblationProtocol(manifest) {
   const protocol = {
-    schema_version: "temple.context-model-diagnostic/v7",
+    schema_version: "temple.context-model-diagnostic/v8",
     work_item_id: "WI-0136",
     status: "generation-disabled",
     protocol_sha256: null,
@@ -2007,7 +2009,7 @@ function buildAblationProtocol(manifest) {
 
 export function validateAblationProtocol(protocol) {
   const errors = [];
-  if (protocol?.schema_version !== "temple.context-model-diagnostic/v7") errors.push("unsupported ablation schema");
+  if (protocol?.schema_version !== "temple.context-model-diagnostic/v8") errors.push("unsupported ablation schema");
   if (protocol?.work_item_id !== "WI-0136" || protocol?.status !== "generation-disabled") errors.push("ablation identity or status mismatch");
   if (protocol?.protocol_sha256 !== protocolDigest(protocol)) errors.push("ablation protocol digest mismatch");
   if (JSON.stringify(protocol?.execution?.condition_order) !== JSON.stringify(ablationConditions)) errors.push("condition order mismatch");
@@ -2076,7 +2078,7 @@ async function preserveExactArtifact(source, target, expectedSchemaVersion) {
   await fs.writeFile(target, sourceBytes, { flag: "wx" });
 }
 
-async function preserveV6AblationInputs(protocolPath) {
+async function preservePriorAblationEvidence(protocolPath) {
   const artifactRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136");
   await preserveExactArtifact(
     protocolPath,
@@ -2093,11 +2095,36 @@ async function preserveV6AblationInputs(protocolPath) {
     path.join(artifactRoot, "context-recovery-qualification-v6-approval-template.json"),
     "temple.context-model-diagnostic-account-approval/v6"
   );
+  await preserveExactArtifact(
+    protocolPath,
+    path.join(artifactRoot, "context-recovery-qualification-v7-protocol.json"),
+    "temple.context-model-diagnostic/v7"
+  );
+  await preserveExactArtifact(
+    defaultAblationApprovalPath,
+    path.join(artifactRoot, "context-recovery-qualification-v7-approval.json"),
+    "temple.context-model-diagnostic-account-approval/v7"
+  );
+  await preserveExactArtifact(
+    defaultAblationApprovalTemplatePath,
+    path.join(artifactRoot, "context-recovery-qualification-v7-approval-template.json"),
+    "temple.context-model-diagnostic-account-approval/v7"
+  );
+  await preserveExactArtifact(
+    path.join(previousAblationLabRoot, "ablation-preflight.json"),
+    path.join(artifactRoot, "context-recovery-qualification-v7-preflight.json"),
+    "temple.context-model-diagnostic-preflight/v7"
+  );
+  await preserveExactArtifact(
+    path.join(previousAblationLabRoot, "ablation-stopped-run.json"),
+    path.join(artifactRoot, "context-recovery-qualification-v7-stopped-run.json"),
+    "temple.context-model-diagnostic-stopped-run/v7"
+  );
 }
 
 async function setupAblation(labRoot, protocolPath) {
   if (await exists(labRoot)) throw new Error(`refusing to replace existing ablation lab: ${labRoot}`);
-  await preserveV6AblationInputs(protocolPath);
+  await preservePriorAblationEvidence(protocolPath);
   await fs.mkdir(labRoot, { recursive: true });
   const createdAt = new Date().toISOString();
   try {
@@ -2118,7 +2145,7 @@ async function setupAblation(labRoot, protocolPath) {
     }
     if (!conditionParity(conditions)) throw new Error("ablation conditions are not byte-equivalent at Git revision and tree boundaries");
     const manifest = {
-      schema_version: "temple.context-model-diagnostic-lab/v7",
+      schema_version: "temple.context-model-diagnostic-lab/v8",
       work_item_id: "WI-0136",
       created_at: createdAt,
       lab_root: labRoot,
@@ -2138,7 +2165,7 @@ async function setupAblation(labRoot, protocolPath) {
     return { manifest, protocol, validation };
   } catch (error) {
     await writeJson(path.join(labRoot, "setup-failure.json"), {
-      schema_version: "temple.context-model-diagnostic-setup-failure/v7",
+      schema_version: "temple.context-model-diagnostic-setup-failure/v8",
       work_item_id: "WI-0136",
       stopped_at: new Date().toISOString(),
       reason: String(error.message ?? error),
@@ -2151,7 +2178,7 @@ async function setupAblation(labRoot, protocolPath) {
 function ablationApprovalTemplate(protocol) {
   const routes = protocol.conditions.map((condition) => condition.model_route);
   return {
-    schema_version: "temple.context-model-diagnostic-account-approval/v7",
+    schema_version: "temple.context-model-diagnostic-account-approval/v8",
     work_item_id: protocol.work_item_id,
     protocol_sha256: protocol.protocol_sha256,
     approved: false,
@@ -2250,7 +2277,7 @@ async function freezeAblation(protocolPath) {
   await writeJson(defaultAblationApprovalTemplatePath, approvalTemplate);
   await writeJson(defaultAblationApprovalPath, approvalTemplate);
   return {
-    schema_version: "temple.context-model-diagnostic-freeze/v7",
+    schema_version: "temple.context-model-diagnostic-freeze/v8",
     work_item_id: frozen.work_item_id,
     protocol_sha256: frozen.protocol_sha256,
     provider_handshake: handshake,
@@ -2282,7 +2309,7 @@ async function inspectAblation(labRoot, protocolPath) {
     }
   }
   return {
-    schema_version: "temple.context-model-diagnostic-inspection/v7",
+    schema_version: "temple.context-model-diagnostic-inspection/v8",
     work_item_id: "WI-0136",
     inspected_at: new Date().toISOString(),
     valid: checks.every((entry) => entry.pass),
@@ -2315,7 +2342,7 @@ async function preflightAblation(labRoot, protocolPath, approvalPath) {
   if (!outputSchemaMatch) blockers.push("provider-output-schema-unsupported-or-drifted");
   if (!approval.accepted) blockers.push("exact-human-approval-required");
   const output = {
-    schema_version: "temple.context-model-diagnostic-preflight/v7",
+    schema_version: "temple.context-model-diagnostic-preflight/v8",
     work_item_id: "WI-0136",
     observed_at: new Date().toISOString(),
     protocol_sha256: protocol.protocol_sha256,
@@ -2385,7 +2412,7 @@ export function diagnosticStoppedRun({ protocol, startedAt, stoppedAt, completed
   const censoredConditions = completed.filter((entry) => entry.status === "censored");
   const stoppedConditions = completed.filter((entry) => entry.status === "stopped");
   return {
-    schema_version: "temple.context-model-diagnostic-stopped-run/v7",
+    schema_version: "temple.context-model-diagnostic-stopped-run/v8",
     work_item_id: protocol.work_item_id,
     protocol_sha256: protocol.protocol_sha256,
     started_at: startedAt,
@@ -2457,7 +2484,7 @@ async function runAblation(labRoot, protocolPath, approvalPath) {
     const completedCount = observed.filter((entry) => entry.status === "completed").length;
     const censoredCount = observed.filter((entry) => entry.status === "censored").length;
     const output = {
-      schema_version: "temple.context-model-diagnostic-run/v7",
+      schema_version: "temple.context-model-diagnostic-run/v8",
       work_item_id: protocol.work_item_id,
       protocol_sha256: protocol.protocol_sha256,
       started_at: startedAt,
@@ -2579,7 +2606,7 @@ export function analyzeContextAblation({ protocol, run, generatedAt = new Date()
       ? "routed-context-supported"
       : "routed-context-correct-savings-not-observed";
   return {
-    schema_version: "temple.context-model-diagnostic-analysis/v7",
+    schema_version: "temple.context-model-diagnostic-analysis/v8",
     work_item_id: protocol.work_item_id,
     protocol_sha256: protocol.protocol_sha256,
     generated_at: generatedAt,

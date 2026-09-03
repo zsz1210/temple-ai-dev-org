@@ -1,7 +1,7 @@
 {
-  "schema_version": "temple.context-model-diagnostic-account-approval/v7",
+  "schema_version": "temple.context-model-diagnostic-account-approval/v8",
   "work_item_id": "WI-0136",
-  "protocol_sha256": "5f20f1143394b4e0b6cc19d2a8736029ca4c54e361b93a04310556ec75d6f92d",
+  "protocol_sha256": "c0d4aaefd74419487fd7541f03c4fe1355661df24e1981d2a8897ee371510683",
   "approved": false,
   "authorization_source": null,
   "approved_candidate_turns": 2,

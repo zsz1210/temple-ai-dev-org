@@ -1,12 +1,12 @@
 {
-  "schema_version": "temple.context-model-diagnostic/v8",
+  "schema_version": "temple.context-model-diagnostic/v7",
   "work_item_id": "WI-0136",
   "status": "generation-disabled",
-  "protocol_sha256": "c0d4aaefd74419487fd7541f03c4fe1355661df24e1981d2a8897ee371510683",
-  "lab_manifest_sha256": "8147755dd8d0393e8794179e7943f42d48d96ddfec03967c5bef212cd43ddfdb",
+  "protocol_sha256": "5f20f1143394b4e0b6cc19d2a8736029ca4c54e361b93a04310556ec75d6f92d",
+  "lab_manifest_sha256": "25127c04eca8ed4dcf78a2aa9692756f8351ed2d751b97df18733ead23013a90",
   "source_digests": {
     "fixture_sha256": "194a69a223222f53ddc1fca78dc3a3cf318d7705d007ebd34b8176f9de325303",
-    "runner_sha256": "3060633ddb54643598042348edb552b96dbe1b2971099712202cd396f724aaa9",
+    "runner_sha256": "dd53ebf62cc117f29f4c3050c68fcac966a390770f51a217376f108ce018615a",
     "analyzer_sha256": "5e614a7879a8fbdb7655d6780dcf0c7e693e7326259fa166d7fe3231f1151c5c",
     "task_sha256": "5dfd10dce99196f282f0560a25aaffd359b7af2119a62d943e465f19ae46369c",
     "public_tests_sha256": "8809e165ee024f5606a48c38bb0f6065e3b943fcd00d05fda5fdd6099e0f41f9",
@@ -32,23 +32,23 @@
     },
     "conditions": {
       "terra-routed": {
-        "strategy": "temple-routed-context-v2",
+        "strategy": "temple-routed-context-v1",
         "model": "gpt-5.6-terra",
         "reasoning_effort": "medium",
         "user_input": {
-          "bytes": 1155,
-          "characters": 1155,
-          "sha256": "622df7a9f4c33c9afc962dbce1316a5c2cbd691117e668176bb5c4608c521eb3"
+          "bytes": 874,
+          "characters": 874,
+          "sha256": "c4272639d4f2f0095b8bda84734ec7a4be2d53d6adbf5d11292d6cc4f132420d"
         }
       },
       "terra-full-load": {
-        "strategy": "temple-full-load-v2",
+        "strategy": "temple-full-load-v1",
         "model": "gpt-5.6-terra",
         "reasoning_effort": "medium",
         "user_input": {
-          "bytes": 1033,
-          "characters": 1033,
-          "sha256": "c3aef8804dab335272a4028c71b5d0b3b0d60151d8ac64dce2e4ff2879e2c12d"
+          "bytes": 740,
+          "characters": 740,
+          "sha256": "9e2338ce2860d43d893b2ab4086c0dd85e3b1aebd0ed4c98d6501913d72764af"
         }
       }
     }
@@ -64,24 +64,24 @@
       "operational_token_limit": 80000,
       "repositories": {
         "gateway": {
-          "revision": "9ee19f2cd76bc9b06ed966341cb0af79608c08f8",
-          "tree": "ca8f9c43ed7f7eb15586e81590597e025ff27dde"
+          "revision": "9557a8478325372dd9961b8ab34d2256e980daf5",
+          "tree": "64451b1eecf1aadec9cea57cd033f0d33208598c"
         },
         "catalog": {
-          "revision": "9596781116cdd4119e8b82ba12777b9ee5dafaaa",
-          "tree": "2fbaba8ab3a89e36844d8b2081778af2a302080b"
+          "revision": "88f004af5e963ecda2271e37f20d8e271d19700b",
+          "tree": "d0354716193ce6fa506b7d56acb9a4bfe5ecfdae"
         },
         "orders": {
-          "revision": "aa9602104a9f28d2287e4b3e63154956e4baaf0c",
-          "tree": "ac4bf853d4dd917ab1701eb94fdaaa3d7ba51584"
+          "revision": "8f70d9cfc4b66d204df5f7df21efa098fb587cd0",
+          "tree": "6b295ebe02dabd270c640902448536fc8ae0b0e1"
         },
         "notifications": {
-          "revision": "530a130727083e2a4d5eef45d42541ccf761a07f",
-          "tree": "8ba105ca83ab87321e9fae0c94fbc082a628a65d"
+          "revision": "c04f1e3112048020bf18c7430d5e91948d032bbb",
+          "tree": "093735c6c1e73ea267fc040b443fdbf657207c78"
         },
         "coordinator": {
-          "revision": "46292558a8fb44a587b5716ba41eeaa988b7dece",
-          "tree": "ae812703c38cdbaba05b2ee56446d43cdd313158"
+          "revision": "75cd519f53cacce8294b0022e89af1a5b59b0b33",
+          "tree": "99d6fc8c7da4db1f5825330c2f5bd575a41458cd"
         }
       }
     },
@@ -95,24 +95,24 @@
       "operational_token_limit": 120000,
       "repositories": {
         "gateway": {
-          "revision": "9ee19f2cd76bc9b06ed966341cb0af79608c08f8",
-          "tree": "ca8f9c43ed7f7eb15586e81590597e025ff27dde"
+          "revision": "9557a8478325372dd9961b8ab34d2256e980daf5",
+          "tree": "64451b1eecf1aadec9cea57cd033f0d33208598c"
         },
         "catalog": {
-          "revision": "9596781116cdd4119e8b82ba12777b9ee5dafaaa",
-          "tree": "2fbaba8ab3a89e36844d8b2081778af2a302080b"
+          "revision": "88f004af5e963ecda2271e37f20d8e271d19700b",
+          "tree": "d0354716193ce6fa506b7d56acb9a4bfe5ecfdae"
         },
         "orders": {
-          "revision": "aa9602104a9f28d2287e4b3e63154956e4baaf0c",
-          "tree": "ac4bf853d4dd917ab1701eb94fdaaa3d7ba51584"
+          "revision": "8f70d9cfc4b66d204df5f7df21efa098fb587cd0",
+          "tree": "6b295ebe02dabd270c640902448536fc8ae0b0e1"
         },
         "notifications": {
-          "revision": "530a130727083e2a4d5eef45d42541ccf761a07f",
-          "tree": "8ba105ca83ab87321e9fae0c94fbc082a628a65d"
+          "revision": "c04f1e3112048020bf18c7430d5e91948d032bbb",
+          "tree": "093735c6c1e73ea267fc040b443fdbf657207c78"
         },
         "coordinator": {
-          "revision": "46292558a8fb44a587b5716ba41eeaa988b7dece",
-          "tree": "ae812703c38cdbaba05b2ee56446d43cdd313158"
+          "revision": "75cd519f53cacce8294b0022e89af1a5b59b0b33",
+          "tree": "99d6fc8c7da4db1f5825330c2f5bd575a41458cd"
         }
       }
     }

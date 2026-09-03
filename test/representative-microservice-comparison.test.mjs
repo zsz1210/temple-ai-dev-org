@@ -143,6 +143,10 @@ test("routed Temple context resolves first and treats TEMPLE.md as a fallback", 
   const routed = ablationIntegrationInstruction("terra-routed");
   assert.ok(full.indexOf("TEMPLE.md") < full.indexOf("context resolve"));
   assert.ok(routed.indexOf("context resolve") < routed.indexOf("TEMPLE.md"));
+  assert.ok(full.indexOf("TEMPLE.md") < full.indexOf("inspect all four service repositories"));
+  assert.ok(routed.indexOf("context resolve") < routed.indexOf("inspect all four service repositories"));
+  assert.match(full, /known bounded Work Item WI-0001, not new or unknown-scope work/);
+  assert.match(routed, /known bounded Work Item WI-0001, not new or unknown-scope work/);
   assert.notEqual(full, routed);
 });
 
@@ -199,12 +203,12 @@ test("the frozen context ablation requires matched repositories and exact approv
   const currentApproval = await readJson(ablationApprovalPath);
   assert.deepEqual(validateAblationProtocol(protocol), { valid: true, errors: [] });
   assert.equal(protocol.protocol_sha256, protocolDigest(protocol));
-  assert.equal(protocol.schema_version, "temple.context-model-diagnostic/v7");
+  assert.equal(protocol.schema_version, "temple.context-model-diagnostic/v8");
   assert.equal(protocol.execution.candidate_turns, 2);
   assert.equal(protocol.execution.evaluator_turns, 0);
   assert.equal(protocol.execution.combined_operational_token_limit, 200000);
   assert.equal(protocol.execution.candidate_limit_disposition, "record-censored-and-continue-independent-conditions");
-  assert.equal(currentApproval.schema_version, "temple.context-model-diagnostic-account-approval/v7");
+  assert.equal(currentApproval.schema_version, "temple.context-model-diagnostic-account-approval/v8");
   assert.equal(currentApproval.approved, false);
   assert.deepEqual(currentApproval, template);
   assert.deepEqual(protocol.conditions.map((entry) => [entry.id, entry.model_route.model, entry.model_route.reasoning_effort]), [
