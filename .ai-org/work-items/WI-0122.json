@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0122",
   "title": "Reconcile pinned Route reason precedence",
-  "state": "test",
-  "owner_position": "quality_evaluator",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-03T03:47:54.392Z",
-  "updated_at": "2026-09-03T03:53:21.631Z",
+  "updated_at": "2026-09-03T03:53:54.992Z",
   "scope": [
     "Define and enforce one resolver-compatible precedence for pinned unknown capabilities, reject blank resource sources, and reject impossible resolved non-pinned selection provenance."
   ],
@@ -67,14 +67,14 @@
     "WI-0086 retains public-release qualification; WI-0122 changes only the local validation contract, regression tests, and self-host digest metadata."
   ],
   "claim": {
-    "id": "claim-20260903035321-291771f8",
+    "id": "claim-20260903035354-4da9b74f",
     "status": "active",
     "principal_id": "human",
     "agent_id": "agent-lulu",
     "base_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
     "branch": "codex/wi-0120-harden-execution-route-schema",
     "worktree": null,
-    "claimed_at": "2026-09-03T03:53:21.631Z",
+    "claimed_at": "2026-09-03T03:53:54.992Z",
     "released_at": null
   },
   "claims": [
@@ -128,13 +128,25 @@
     },
     {
       "id": "claim-20260903035321-291771f8",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-lulu",
       "base_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
       "branch": "codex/wi-0120-harden-execution-route-schema",
       "worktree": null,
       "claimed_at": "2026-09-03T03:53:21.631Z",
+      "released_at": "2026-09-03T03:53:54.727Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903035354-4da9b74f",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
+      "branch": "codex/wi-0120-harden-execution-route-schema",
+      "worktree": null,
+      "claimed_at": "2026-09-03T03:53:54.992Z",
       "released_at": null
     }
   ],
@@ -167,6 +179,12 @@
     ],
     "developer_test": [
       ".ai-org/artifacts/WI-0122/developer-test-observation.json"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0122/quality-test-observation.json"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0122/quality-report.md"
     ]
   },
   "evidence": [
@@ -182,10 +200,13 @@
     ".ai-org/artifacts/WI-0122/handoff-004-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0122/developer-report.md",
     ".ai-org/artifacts/WI-0122/developer-test-observation.json",
-    "3c35ddf8c9603ca997d572a240cbcc1dce2c0541"
+    "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
+    ".ai-org/artifacts/WI-0122/quality-test-observation.json",
+    ".ai-org/artifacts/WI-0122/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0122/quality-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "release_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -214,6 +235,13 @@
       "input_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
       "artifact": ".ai-org/artifacts/WI-0122/handoff-004-developer-to-quality_evaluator.md",
       "created_at": "2026-09-03T03:53:21.089Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
+      "artifact": ".ai-org/artifacts/WI-0122/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-03T03:53:54.475Z"
     }
   ],
   "developer_candidate_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541"

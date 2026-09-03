@@ -169,7 +169,7 @@
 | WI-0119 | Establish adaptive execution routing foundation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `cfa12af5` | 0 | 23 | 0 |
 | WI-0120 | Harden the Execution Route validation boundary | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `486c64df` | 0 | 18 | 0 |
 | WI-0121 | Close remaining Execution Route validation bypasses | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a8eea7c3` | 0 | 17 | 0 |
-| WI-0122 | Reconcile pinned Route reason precedence | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903035321-291771f8 | `3c35ddf8` | 0 | 13 | 0 |
+| WI-0122 | Reconcile pinned Route reason precedence | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903035354-4da9b74f | `3c35ddf8` | 0 | 16 | 0 |
 
 ## Codex task registry
 
@@ -313,14 +313,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-03T03:53:54.992Z | work_item_claimed | WI-0122 | human |
+| 2026-09-03T03:53:54.727Z | work_item_transitioned | WI-0122 | agent-lulu |
+| 2026-09-03T03:53:54.475Z | handoff_created | WI-0122 | agent-lulu |
+| 2026-09-03T03:53:54.204Z | work_item_transitioned | WI-0122 | agent-lulu |
+| 2026-09-03T03:53:53.998Z | evidence_recorded | WI-0122 | human |
 | 2026-09-03T03:53:21.631Z | work_item_claimed | WI-0122 | human |
 | 2026-09-03T03:53:21.364Z | work_item_transitioned | WI-0122 | agent-rikku |
 | 2026-09-03T03:53:21.089Z | handoff_created | WI-0122 | agent-rikku |
-| 2026-09-03T03:53:20.886Z | evidence_recorded | WI-0122 | human |
-| 2026-09-03T03:53:20.645Z | evidence_recorded | WI-0122 | human |
-| 2026-09-03T03:48:56.893Z | work_item_claimed | WI-0122 | human |
-| 2026-09-03T03:48:56.625Z | work_item_transitioned | WI-0122 | agent-tidus |
-| 2026-09-03T03:48:56.386Z | handoff_created | WI-0122 | agent-tidus |
 
 ## Assignments
 
