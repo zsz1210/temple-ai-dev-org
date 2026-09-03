@@ -1,0 +1,30 @@
+{
+  "schema_version": "temple.local-test-observation/v1",
+  "work_item_id": "WI-0127",
+  "position": "independent_qa",
+  "agent_id": "agent-lulu",
+  "developer_agent_id": "agent-rikku",
+  "candidate_revision": "2edf130bb658bd7aa2fcde1785b4abfa52fc140a",
+  "environment": "fresh detached Git worktree",
+  "observed_at": "2026-09-03T05:37:10Z",
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "invalid_test_command",
+      "reason": "The clean-onboarding runner was called without its required --output argument; later shell output was not treated as a pass."
+    },
+    {
+      "attempt": 2,
+      "status": "passed",
+      "commands": [
+        "npm run check",
+        "node scripts/validate-agent-led-onboarding.mjs --output <temporary-path>",
+        "node scripts/validate-brownfield-adoption.mjs --output <temporary-path>",
+        "jq assertions over both observations",
+        "direct documentation and runtime source contradiction inspection"
+      ]
+    }
+  ],
+  "provider_generation_performed": false,
+  "external_action_performed": false
+}

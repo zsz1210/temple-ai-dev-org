@@ -1,0 +1,22 @@
+{
+  "schema_version": "temple.local-test-observation/v1",
+  "work_item_id": "WI-0127",
+  "position": "quality_evaluator",
+  "agent_id": "agent-lulu",
+  "candidate_revision": "2edf130bb658bd7aa2fcde1785b4abfa52fc140a",
+  "observed_at": "2026-09-03T05:36:10Z",
+  "commands": [
+    {
+      "command": "npm run verify",
+      "status": "passed",
+      "passed": 332,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "todo": 0,
+      "duration_ms": 66289.694875
+    }
+  ],
+  "provider_generation_performed": false,
+  "external_action_performed": false
+}
