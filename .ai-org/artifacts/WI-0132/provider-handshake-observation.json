@@ -1,0 +1,40 @@
+{
+  "schema_version": "temple.effectiveness-provider-handshake/v1",
+  "work_item_id": "WI-0132",
+  "observed_at": "2026-09-03T08:25:00.000Z",
+  "codex_cli_version": "codex-cli 0.151.0-alpha.7.2",
+  "schema_digests": {
+    "ThreadStartParams.json": "792e2f32e37cece971bd616664ea2053741acbed4e9c92e9d1766427718f2ecd",
+    "TurnStartParams.json": "a3835e8c1e942e4b358e1a670939b89918b16c4d13105a579899892b7ade6dea",
+    "ThreadStartResponse.json": "c8fb6bcd1e4fb5ead6b487f0f35a90d8f13c9272edd4285914012dda403a77d2",
+    "TurnStartResponse.json": "7a817a98d78ac8e982c82c24bf8f7a2d2e61cca9fb91e5386e31cae0888e38e2",
+    "ItemStartedNotification.json": "e30713dca6e8f6842a0c5350003ea433b6cbb4894209b4f871894450caa67b6f",
+    "TurnCompletedNotification.json": "b85470d9eadbcad52700bd1d5aae187a9cd995e50b7099ed05469b6d41d6b997",
+    "ItemCompletedNotification.json": "9958dce3bcab754e88323d233dff5f4c2ee04ce35f068a18d8f83f93528acf8b",
+    "ThreadTokenUsageUpdatedNotification.json": "aba4f6c7e4a19b2b842c08ee793b57000c07dafd57b922ad0d8e7c76609108c2",
+    "ModelReroutedNotification.json": "37cd3c1b3a3560b85b01d4061a07d830fc9ed93b80e4663f975f9197cdb501ef",
+    "TurnInterruptParams.json": "6dff382dae73d1dbc58406ed045605f647e7a49660e2540fbd2c6c24d60c5f2b"
+  },
+  "models": [
+    {
+      "model": "gpt-5.6-terra",
+      "required_reasoning_efforts": ["medium", "high"],
+      "available": true
+    },
+    {
+      "model": "gpt-5.6-luna",
+      "required_reasoning_efforts": ["max"],
+      "available": true
+    },
+    {
+      "model": "gpt-5.6-sol",
+      "required_reasoning_efforts": ["xhigh"],
+      "available": true
+    }
+  ],
+  "account_usage_read_available": true,
+  "model_generation_performed": false,
+  "token_counting_model_call_performed": false,
+  "external_action_performed": false,
+  "pass": true
+}

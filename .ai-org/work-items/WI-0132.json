@@ -1,0 +1,137 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0132",
+  "title": "Run corrected Lean routing effectiveness comparison",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-03T08:23:30.905Z",
+  "updated_at": "2026-09-03T08:26:07.618Z",
+  "scope": [
+    "Execute the corrected four-arm native Lean experiment from WI-0131, retain objective and blind evaluation evidence, and publish a human-facing diagnostic report."
+  ],
+  "acceptance_criteria": [
+    "Run eight isolated candidates and one blind evaluator only after exact approval and Provider handshake; compare A-to-B process, B-to-C Luna escalation, and C-to-D Sol ceiling; report correctness, operational Tokens, latency, limitations, and evidence-backed improvements without enabling automatic routing or making framework-wide claims."
+  ],
+  "affected_paths": [
+    "scripts/run-effectiveness-pilot-v2.mjs",
+    "scripts/analyze-effectiveness-pilot-v2.mjs",
+    "test/effectiveness-pilot-v2.test.mjs",
+    "docs/validation/lean-routing-effectiveness-result.md",
+    "docs/validation/README.md",
+    ".ai-org/artifacts/WI-0132"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "Bounded diagnostic experiment with external Provider generation, exact budget approval, no retries, no fallback, no automatic routing, and no release.",
+    "evidence_refs": [
+      ".ai-org/artifacts/WI-0131/independent-qa-report.md"
+    ],
+    "evaluated_at": "2026-09-03T08:23:30.905Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "926d982db34f116f5998005cfcda21b99f0bd5b5",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0086 owns its release-candidate index entry in docs/validation/README.md; WI-0132 will not edit that shared file and limits its report to docs/validation/lean-routing-effectiveness-result.md."
+  ],
+  "claim": {
+    "id": "claim-20260903082607-8f957e0e",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "926d982db34f116f5998005cfcda21b99f0bd5b5",
+    "branch": "codex/wi-0132-live-routing-effectiveness",
+    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "claimed_at": "2026-09-03T08:26:07.618Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260903082607-8f957e0e",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "926d982db34f116f5998005cfcda21b99f0bd5b5",
+      "branch": "codex/wi-0132-live-routing-effectiveness",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-03T08:26:07.618Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0132/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0132/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0132/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0132/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0132/risk-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0132/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0132/work-order.md",
+    ".ai-org/artifacts/WI-0132/provider-handshake-observation.json",
+    ".ai-org/artifacts/WI-0132/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0132/product-spec.md",
+    ".ai-org/artifacts/WI-0132/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0132/technical-design.md",
+    ".ai-org/artifacts/WI-0132/risk-review.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "926d982db34f116f5998005cfcda21b99f0bd5b5",
+      "artifact": ".ai-org/artifacts/WI-0132/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-03T08:26:01.136Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "926d982db34f116f5998005cfcda21b99f0bd5b5",
+      "artifact": ".ai-org/artifacts/WI-0132/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-03T08:26:01.642Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "926d982db34f116f5998005cfcda21b99f0bd5b5",
+      "artifact": ".ai-org/artifacts/WI-0132/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-03T08:26:02.130Z"
+    }
+  ]
+}

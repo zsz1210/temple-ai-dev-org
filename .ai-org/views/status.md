@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 131 total, 2 active
+- Work items: 132 total, 3 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -179,6 +179,7 @@
 | WI-0129 | Make the product roadmap and core path human-readable | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3e5178ba` | 0 | 18 | 0 |
 | WI-0130 | Run the first three-arm Temple effectiveness pilot | concluded | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `33b6ed3b` | 0 | 16 | 0 |
 | WI-0131 | Correct the Lean routing effectiveness experiment | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c040c0be` | 0 | 16 | 0 |
+| WI-0132 | Run corrected Lean routing effectiveness comparison | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903082607-8f957e0e | `—` | 0 | 8 | 0 |
 
 ## Codex task registry
 
@@ -320,14 +321,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-03T08:00:56.188Z | work_item_closed | WI-0131 | agent-mog |
-| 2026-09-03T08:00:56.188Z | release_gate_completed | WI-0131 | agent-mog |
-| 2026-09-03T08:00:34.509Z | work_item_claimed | WI-0131 | principal-owner |
-| 2026-09-03T08:00:27.390Z | work_item_transitioned | WI-0131 | agent-lulu |
-| 2026-09-03T08:00:27.149Z | handoff_created | WI-0131 | agent-lulu |
-| 2026-09-03T08:00:26.912Z | evidence_recorded | WI-0131 | human |
-| 2026-09-03T07:59:43.484Z | work_item_claimed | WI-0131 | principal-owner |
-| 2026-09-03T07:59:43.214Z | work_item_transitioned | WI-0131 | agent-lulu |
+| 2026-09-03T08:26:07.618Z | work_item_claimed | WI-0132 | human |
+| 2026-09-03T08:26:02.386Z | work_item_transitioned | WI-0132 | agent-tidus |
+| 2026-09-03T08:26:02.130Z | handoff_created | WI-0132 | agent-tidus |
+| 2026-09-03T08:26:01.889Z | work_item_transitioned | WI-0132 | agent-yuna |
+| 2026-09-03T08:26:01.642Z | handoff_created | WI-0132 | agent-yuna |
+| 2026-09-03T08:26:01.407Z | work_item_transitioned | WI-0132 | agent-mog |
+| 2026-09-03T08:26:01.136Z | handoff_created | WI-0132 | agent-mog |
+| 2026-09-03T08:24:35.118Z | work_item_coordination_configured | WI-0132 | agent-mog |
 
 ## Assignments
 

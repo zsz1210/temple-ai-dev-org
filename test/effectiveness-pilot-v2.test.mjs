@@ -10,6 +10,8 @@ import {
 } from "../scripts/run-effectiveness-pilot-v2.mjs";
 
 const protocolUrl = new URL("../.ai-org/artifacts/WI-0131/pilot-protocol-v2.json", import.meta.url);
+const liveProtocolUrl = new URL("../.ai-org/artifacts/WI-0132/live-protocol.json", import.meta.url);
+const liveApprovalTemplateUrl = new URL("../.ai-org/artifacts/WI-0132/account-approval.template.json", import.meta.url);
 
 function candidate(caseId, conditionId, overrides = {}) {
   return {
@@ -63,6 +65,29 @@ test("approval template binds the exact protocol but rejects unset limits and ab
   assert.ok(!result.errors.some((entry) => entry.includes("protocol_sha256")));
   assert.ok(result.errors.some((entry) => entry.includes("included_pro_allowance_accepted")));
   assert.ok(result.errors.some((entry) => entry.includes("approved_combined_operational_tokens")));
+});
+
+test("live protocol binds the Provider contract and data-derived resource envelope", async () => {
+  const protocol = JSON.parse(await fs.readFile(liveProtocolUrl, "utf8"));
+  assert.deepEqual(validatePilotProtocolV2(protocol), { valid: true, errors: [] });
+  assert.equal(protocol.work_item_id, "WI-0132");
+  assert.equal(protocol.execution.candidate_turns, 8);
+  assert.equal(protocol.execution.candidate_operational_token_limit, 100000);
+  assert.equal(protocol.execution.combined_operational_token_limit, 580000);
+  assert.equal(protocol.provider_contract.codex_cli_version, "codex-cli 0.151.0-alpha.7.2");
+});
+
+test("live approval must accept the exact protocol envelope", async () => {
+  const protocol = JSON.parse(await fs.readFile(liveProtocolUrl, "utf8"));
+  const template = JSON.parse(await fs.readFile(liveApprovalTemplateUrl, "utf8"));
+  const rejected = validatePilotApprovalV2(template, protocol);
+  assert.equal(rejected.accepted, false);
+  assert.ok(rejected.errors.some((entry) => entry.includes("included_pro_allowance_accepted")));
+  assert.ok(rejected.errors.some((entry) => entry.includes("approved_at")));
+  const approved = { ...template, included_pro_allowance_accepted: true, approved_at: "2026-09-03T08:30:00.000Z" };
+  assert.deepEqual(validatePilotApprovalV2(approved, protocol), { accepted: true, errors: [] });
+  approved.approved_combined_operational_tokens += 1;
+  assert.ok(validatePilotApprovalV2(approved, protocol).errors.some((entry) => entry.includes("protocol limit")));
 });
 
 test("analysis keeps Sol as a ceiling when it adds no objective quality", async () => {
