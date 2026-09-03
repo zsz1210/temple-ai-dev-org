@@ -20912,6 +20912,75 @@
         "exit_code": 0,
         "started_at": "2026-09-03T10:33:42.000Z"
       }
+    },
+    {
+      "id": "EVID-20260903T103632Z-D4544CEA",
+      "work_item_id": "WI-0135",
+      "recorded_at": "2026-09-03T10:36:32.659Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0135 independent full verification",
+      "outcome": "pass",
+      "scope_revision": "00ea3a4731bc27bd89084be3bd3660618e431da9",
+      "observed_at": "2026-09-03T10:35:46.000Z",
+      "summary": "Independent QA reproduced all 359 tests and verified the protocol, retained evidence, neutral interpretation, resource envelope, and claim boundaries.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0135/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0135/independent-qa-test-observation.json",
+          "sha256": "f601989c7eed39b8fa16f8f09b72b9b0ac46b4da970861036bd8300696aa8215"
+        },
+        {
+          "path": "scripts/run-effectiveness-pilot-v2.mjs",
+          "sha256": "457941a7d818781770f9253c9beea24023be5985961e31ee13d8c73baebeffb2"
+        },
+        {
+          "path": "scripts/analyze-effectiveness-pilot-v2.mjs",
+          "sha256": "af1d11fddfb065894e62bac8651aa6f0b2cc9ef85ac266efeb1d80b916c6bf6e"
+        },
+        {
+          "path": "test/effectiveness-pilot-v2.test.mjs",
+          "sha256": "3cc8275f8c6019a7d16f6b27665e130eae2b85bf2f05aa28ab508b3c2657afaa"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/live-experiment-observation.json",
+          "sha256": "9a545ddf9e9c080d664278db198dd4003fd3e3a042627f32279368720cea981f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/effectiveness-analysis.json",
+          "sha256": "d15d9c89d7187fc509312f0cda1bbd5456345b035ba53f6d816498b205d43118"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/quality-scores-frozen.json",
+          "sha256": "c8e701c31834bc3dd7e7cf10849ed5cadae6267e77a7eaeaaf9e25507d67dd56"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/independent-qa-report.md",
+          "sha256": "65e97e98af8795346557395975c7657a1d2887ff3453a41036026d0aadd43541"
+        },
+        {
+          "path": "docs/validation/lean-routing-effectiveness-result.md",
+          "sha256": "cf2d6b34af26d82f00b89cac0ec671d400a1d21fd0a679afdc4b6d38a0edf30b"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T10:34:40.000Z"
+      }
     }
   ]
 }
