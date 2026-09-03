@@ -20782,6 +20782,71 @@
         "exit_code": 0,
         "started_at": "2026-09-03T10:14:46.000Z"
       }
+    },
+    {
+      "id": "EVID-20260903T103312Z-CE949DD6",
+      "work_item_id": "WI-0135",
+      "recorded_at": "2026-09-03T10:33:12.929Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0135 full repository verification",
+      "outcome": "pass",
+      "scope_revision": "01c0f81412ab9bc590ca2ebe6b9414fae10ed885",
+      "observed_at": "2026-09-03T10:32:23.000Z",
+      "summary": "All 359 tests passed for the exact optimized Terra confirmation candidate and retained textual report.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0135/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0135/developer-test-observation.json",
+          "sha256": "265864b5b8dc0044e581becdf720c222ef5888a9277c088ed83fe737560a6c55"
+        },
+        {
+          "path": "scripts/run-effectiveness-pilot-v2.mjs",
+          "sha256": "457941a7d818781770f9253c9beea24023be5985961e31ee13d8c73baebeffb2"
+        },
+        {
+          "path": "scripts/analyze-effectiveness-pilot-v2.mjs",
+          "sha256": "af1d11fddfb065894e62bac8651aa6f0b2cc9ef85ac266efeb1d80b916c6bf6e"
+        },
+        {
+          "path": "test/effectiveness-pilot-v2.test.mjs",
+          "sha256": "3cc8275f8c6019a7d16f6b27665e130eae2b85bf2f05aa28ab508b3c2657afaa"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/live-experiment-observation.json",
+          "sha256": "9a545ddf9e9c080d664278db198dd4003fd3e3a042627f32279368720cea981f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/effectiveness-analysis.json",
+          "sha256": "d15d9c89d7187fc509312f0cda1bbd5456345b035ba53f6d816498b205d43118"
+        },
+        {
+          "path": "docs/validation/lean-routing-effectiveness-result.md",
+          "sha256": "cf2d6b34af26d82f00b89cac0ec671d400a1d21fd0a679afdc4b6d38a0edf30b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/developer-report.md",
+          "sha256": "7eb9b004d52c1fff5a6b5a54d6e762a773844238a49d733a89006c35c2038e8d"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T10:31:18.000Z"
+      }
     }
   ]
 }

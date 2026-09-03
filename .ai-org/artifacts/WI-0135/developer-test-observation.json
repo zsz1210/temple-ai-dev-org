@@ -1,0 +1,22 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "01c0f81412ab9bc590ca2ebe6b9414fae10ed885",
+  "command": [
+    "npm",
+    "run",
+    "verify"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-03T10:31:18.000Z",
+  "completed_at": "2026-09-03T10:32:23.000Z",
+  "artifact_refs": [
+    "scripts/run-effectiveness-pilot-v2.mjs",
+    "scripts/analyze-effectiveness-pilot-v2.mjs",
+    "test/effectiveness-pilot-v2.test.mjs",
+    ".ai-org/artifacts/WI-0135/live-experiment-observation.json",
+    ".ai-org/artifacts/WI-0135/effectiveness-analysis.json",
+    "docs/validation/lean-routing-effectiveness-result.md",
+    ".ai-org/artifacts/WI-0135/developer-report.md"
+  ]
+}

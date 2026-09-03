@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
 - Work items: 135 total, 3 active
 - Codex tasks: 6 registered, 6 archive-ready
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -182,7 +182,7 @@
 | WI-0132 | Run corrected Lean routing effectiveness comparison | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `fd4bbe88` | 0 | 21 | 0 |
 | WI-0133 | Reduce Lean context overhead and harden effectiveness measurement | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1df92590` | 0 | 20 | 0 |
 | WI-0134 | Repair invalid historical evidence records | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ad1f06a5` | 0 | 18 | 0 |
-| WI-0135 | Run optimized Terra process confirmation | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903101931-42ff6316 | `—` | 0 | 7 | 0 |
+| WI-0135 | Run optimized Terra process confirmation | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `01c0f814` | 0 | 15 | 0 |
 
 ## Codex task registry
 
@@ -324,14 +324,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-03T10:33:21.376Z | work_item_transitioned | WI-0135 | agent-rikku |
+| 2026-09-03T10:33:21.139Z | work_item_claim_released | WI-0135 | human |
+| 2026-09-03T10:33:20.849Z | handoff_created | WI-0135 | agent-rikku |
+| 2026-09-03T10:33:12.929Z | evidence_recorded | WI-0135 | human |
 | 2026-09-03T10:19:31.893Z | work_item_claimed | WI-0135 | human |
 | 2026-09-03T10:19:31.619Z | work_item_coordination_configured | WI-0135 | agent-rikku |
 | 2026-09-03T10:19:31.372Z | work_item_transitioned | WI-0135 | agent-tidus |
 | 2026-09-03T10:19:31.140Z | handoff_created | WI-0135 | agent-tidus |
-| 2026-09-03T10:19:30.909Z | work_item_transitioned | WI-0135 | agent-yuna |
-| 2026-09-03T10:19:30.680Z | handoff_created | WI-0135 | agent-yuna |
-| 2026-09-03T10:19:30.436Z | work_item_transitioned | WI-0135 | agent-mog |
-| 2026-09-03T10:19:30.085Z | handoff_created | WI-0135 | agent-mog |
 
 ## Assignments
 
