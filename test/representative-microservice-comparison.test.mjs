@@ -4,6 +4,7 @@ import test from "node:test";
 
 import {
   ablationIntegrationInstruction,
+  armProcessInstructions,
   analyzeContextAblation,
   comparisonAllowedCommandPrefixes,
   diagnosticConditionFailure,
@@ -43,7 +44,8 @@ test("the representative microservice protocol is frozen but generation-disabled
   assert.equal(protocol.execution.fallback_count, 0);
   assert.equal(protocol.execution.candidate_turns, 10);
   assert.equal(protocol.execution.evaluator_turns, 1);
-  assert.equal(protocol.execution.combined_operational_token_limit, 620000);
+  assert.equal(protocol.execution.combined_operational_token_limit, 625000);
+  assert.deepEqual(protocol.context_policy.temple_md_fallback_when_missing, ["authority", "current-state", "safe-next-action"]);
 });
 
 test("protocol validation rejects product drift, reroute, retry, and digest rewriting", async () => {
@@ -141,7 +143,11 @@ test("analysis treats correctness as primary and reports descriptive deltas", ()
 test("routed Temple context resolves first and treats TEMPLE.md as a fallback", () => {
   const instruction = templeRoutedContextInstruction("the Coordinator repository");
   assert.ok(instruction.indexOf("context resolve") < instruction.indexOf("TEMPLE.md"));
-  assert.match(instruction, /only if the Context Capsule cannot identify authority/);
+  assert.match(instruction, /if the Context Capsule cannot identify authority/);
+  assert.match(instruction, /navigation, not authority/);
+  const buildEntry = armProcessInstructions("temple", ["gateway"]);
+  assert.ok(buildEntry.indexOf("coordinator/templew.mjs context resolve") < buildEntry.indexOf("gateway/templew.mjs context resolve"));
+  assert.ok(buildEntry.indexOf("context resolve") < buildEntry.indexOf("TEMPLE.md"));
   const full = ablationIntegrationInstruction("terra-full-load");
   const routed = ablationIntegrationInstruction("terra-routed");
   assert.ok(full.indexOf("TEMPLE.md") < full.indexOf("context resolve"));

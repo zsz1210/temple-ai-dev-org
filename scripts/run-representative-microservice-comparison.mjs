@@ -578,7 +578,7 @@ async function sourceDigests() {
 
 function buildProtocol(manifest) {
   const protocol = {
-    schema_version: "temple.representative-microservice-comparison/v2",
+    schema_version: "temple.representative-microservice-comparison/v3",
     work_item_id: "WI-0136",
     status: "generation-disabled",
     protocol_sha256: null,
@@ -613,6 +613,13 @@ function buildProtocol(manifest) {
       integration: { model: "gpt-5.6-terra", reasoning_effort: "medium" },
       evaluator: { model: "gpt-5.6-sol", reasoning_effort: "xhigh" }
     },
+    context_policy: {
+      known_bounded_work_item_start: "context-capsule-first",
+      canonical_source_bodies_required: true,
+      route_metadata_is_authority: false,
+      temple_md_fallback_when_missing: ["authority", "current-state", "safe-next-action"],
+      new_unknown_recovery_start: "temple-md-first"
+    },
     stop_rules: {
       protocol_mismatch: true,
       model_reroute: true,
@@ -639,7 +646,7 @@ function buildProtocol(manifest) {
 
 export function validateRepresentativeProtocol(protocol) {
   const errors = [];
-  if (protocol?.schema_version !== "temple.representative-microservice-comparison/v2") errors.push("unsupported schema");
+  if (protocol?.schema_version !== "temple.representative-microservice-comparison/v3") errors.push("unsupported schema");
   if (protocol?.work_item_id !== "WI-0136") errors.push("unexpected work item");
   if (protocol?.status !== "generation-disabled") errors.push("protocol status must remain generation-disabled before exact approval");
   if (protocol?.protocol_sha256 !== protocolDigest(protocol)) errors.push("protocol digest mismatch");
@@ -661,6 +668,14 @@ export function validateRepresentativeProtocol(protocol) {
   })) {
     const observed = protocol?.model_route?.[stage];
     if (observed?.model !== expected[0] || observed?.reasoning_effort !== expected[1]) errors.push(`${stage} model route mismatch`);
+  }
+  const contextPolicy = protocol?.context_policy ?? {};
+  if (contextPolicy.known_bounded_work_item_start !== "context-capsule-first" ||
+      contextPolicy.canonical_source_bodies_required !== true ||
+      contextPolicy.route_metadata_is_authority !== false ||
+      JSON.stringify(contextPolicy.temple_md_fallback_when_missing) !== JSON.stringify(["authority", "current-state", "safe-next-action"]) ||
+      contextPolicy.new_unknown_recovery_start !== "temple-md-first") {
+    errors.push("context policy mismatch");
   }
   if (!/^[a-f0-9]{64}$/.test(protocol?.fixture?.fixture_sha256 ?? "")) errors.push("fixture digest missing");
   const numericLimitFields = [
@@ -843,9 +858,9 @@ function freezeLimits(protocol, handshake) {
     design_operational_token_limit: 100000,
     build_operational_token_limit: 69000,
     integration_operational_token_limit: 80000,
-    candidate_aggregate_operational_token_limit: 520000,
+    candidate_aggregate_operational_token_limit: 525000,
     evaluator_operational_token_limit: 100000,
-    combined_operational_token_limit: 620000,
+    combined_operational_token_limit: 625000,
     program_wall_clock_limit_ms: 2700000
   });
   next.limit_basis = {
@@ -860,13 +875,18 @@ function freezeLimits(protocol, handshake) {
       frozen_limit: 69000
     },
     integration: {
-      basis: "Terra build ceiling plus a bounded cold-recovery allowance",
+      source: ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-analysis.json",
+      observed_routed_terra_operational_tokens: 57296,
+      headroom_percent: 39.63,
       frozen_limit: 80000
     },
     aggregate: {
       source: ".ai-org/artifacts/WI-0132/live-experiment-observation.json",
       prior_eight_candidate_operational_tokens: 416395,
-      candidate_limit: 520000,
+      turn_count_scale: "10 / 8",
+      linearly_scaled_observation_ceiling: 520494,
+      rounded_candidate_limit: 525000,
+      candidate_limit: 525000,
       evaluator_limit: 100000
     },
     meaning: "Safety stops based on retained operational-Token observations; not forecasts, prices, or statistical estimates."
@@ -1635,20 +1655,25 @@ function buildSlices() {
 export function templeRoutedContextInstruction(repositoryLabel = "the assigned repository", launcher = "./templew.mjs", target = ".") {
   return [
     `From the experiment workspace root, before reading any repository file, first preview \`node ${launcher} context resolve ${target} --work-item WI-0001 --position developer --no-write --json\` for ${repositoryLabel}.`,
-    "Open only the routed repository sources needed for this responsibility.",
-    "Do not read TEMPLE.md before that command. Read it afterward only if the Context Capsule cannot identify authority, current state, or the safe next action."
+    "Treat the Context Capsule as navigation, not authority, and open the routed canonical source bodies needed for this responsibility.",
+    "Do not read TEMPLE.md before that command. Read it afterward if the Context Capsule cannot identify authority, current state, or the safe next action."
   ].join(" ");
 }
 
-function armProcessInstructions(armId, repositories_) {
+export function armProcessInstructions(armId, repositories_) {
   if (armId === "temple") {
     return [
+      templeRoutedContextInstruction(
+        "the Coordinator repository",
+        "coordinator/templew.mjs",
+        "coordinator"
+      ),
       ...repositories_.map((repositoryId) => templeRoutedContextInstruction(
         `the assigned ${repositoryId} repository`,
         `${repositoryId}/templew.mjs`,
         repositoryId
       )),
-      "Use only the routed repository state needed for this slice. Claims and lifecycle mutations are owned by the experiment coordinator; do not edit .ai-org files."
+      "Only after those first-action requirements, use the routed canonical state needed for this slice. Claims and lifecycle mutations are owned by the experiment coordinator; do not edit .ai-org files."
     ].join(" ");
   }
   return `For each assigned repository, read organization/WORK_ITEM.md and the Coordinator design record. Use the ordinary repository handoff as durable state. Assigned repositories: ${repositories_.join(", ")}.`;
@@ -1659,13 +1684,13 @@ async function runDesignTurn({ armId, armRoot, protocol, budget, deadline }) {
   if (armId === "temple") await claimTempleRepository(coordinatorRoot, "agent-fixture-tidus");
   const task = await fs.readFile(path.join(coordinatorRoot, "TASK.md"), "utf8");
   const instruction = [
-    "Design the bounded OrderPlaced v2 rolling-compatibility change described below.",
-    "Inspect the four service repositories and return one structured design record. Do not modify files.",
-    "Use contract_version `OrderPlaced/v2`. Use rollout_order with consumer preparation before producer publication.",
-    "Define exactly these slice IDs: orders-catalog, notifications, gateway. Keep their writable repositories disjoint.",
     armId === "temple"
       ? templeRoutedContextInstruction("the Coordinator repository", "coordinator/templew.mjs", "coordinator")
       : "Use TASK.md and organization/WORK_ITEM.md as the ordinary responsible workflow records.",
+    "Design the bounded OrderPlaced v2 rolling-compatibility change described below.",
+    "Only after the preceding workflow entry requirement, inspect the four service repositories and return one structured design record. Do not modify files.",
+    "Use contract_version `OrderPlaced/v2`. Use rollout_order with consumer preparation before producer publication.",
+    "Define exactly these slice IDs: orders-catalog, notifications, gateway. Keep their writable repositories disjoint.",
     task
   ].join("\n\n");
   const turn = await launchModelTurn({
@@ -1685,9 +1710,9 @@ async function runBuildSlice({ armId, armRoot, slice, protocol, budget, deadline
   }
   const before = Object.fromEntries(await Promise.all(slice.repositories.map(async (repositoryId) => [repositoryId, await git(path.join(armRoot, repositoryId), ["rev-parse", "HEAD"])])));
   const instruction = [
+    armProcessInstructions(armId, slice.repositories),
     `Implement only the ${slice.id} slice in these repositories: ${slice.repositories.join(", ")}.`,
     "Read coordinator/TASK.md and coordinator/design-record.json. Preserve the exact contract and rolling v1 compatibility.",
-    armProcessInstructions(armId, slice.repositories),
     "Change only the declared service source file in each assigned repository. Tests and organizational files are read-only.",
     "Run `npm test` separately in each assigned repository. Do not commit; the experiment coordinator records exact revisions and handoff evidence."
   ].join("\n\n");

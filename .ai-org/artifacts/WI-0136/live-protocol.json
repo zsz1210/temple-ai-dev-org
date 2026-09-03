@@ -1,17 +1,19 @@
 {
-  "schema_version": "temple.representative-microservice-comparison/v2",
+  "schema_version": "temple.representative-microservice-comparison/v3",
   "work_item_id": "WI-0136",
   "status": "generation-disabled",
-  "protocol_sha256": "858f296e1582b5d5570882c85a3c5a773457a7c054ad3d8f194be68855dd6c83",
+  "protocol_sha256": "e38b4052462db8206a868cfc24a7a90ed6fe896fe09e8d78de4adbeb7de128ea",
   "fixture": {
-    "fixture_sha256": "73cd9a1a1a9ce1be1103ace73cc6a2f7a755e037ffe8a80358798982ab74f181",
+    "fixture_sha256": "b10ff626ef465686909aaab6d858b087f0c2aaad7a8c484f9955ed0a8465822c",
+    "runner_sha256": "eea2afdd2f51f4a4a57e2d6391312cb5d7c0c1415466e7259abcb5b6fec884b9",
+    "analyzer_sha256": "5e614a7879a8fbdb7655d6780dcf0c7e693e7326259fa166d7fe3231f1151c5c",
     "task_sha256": "5dfd10dce99196f282f0560a25aaffd359b7af2119a62d943e465f19ae46369c",
     "public_tests_sha256": "8809e165ee024f5606a48c38bb0f6065e3b943fcd00d05fda5fdd6099e0f41f9",
     "held_out_tests_sha256": "d4f781d5b03d14c08a4214185ae525c1c6a0e7a7f2c8c9ff1d24291b27363a47",
-    "tool_policy_sha256": "282707b99043c7203be5b6fd4778bae409b001fd017d10c102758ea210a9f771",
+    "tool_policy_sha256": "18f5bef25f7b8a4efc220252818e642b75f5c342dd8d316e79a1254652801913",
     "rubric_sha256": "364d20a3102ddd78131fd2566b8579957b14df2d6638efd3ef1e97e94faeaf3f"
   },
-  "lab_manifest_sha256": "45554c8751ea5bb4f25b20187e096347b2235e6e3f9e929aa69b4c3a6b7fdbc8",
+  "lab_manifest_sha256": "62725be772c1b131b38bd651318f07ebf5fd235e739a931b711faebf04385d4e",
   "arms": [
     {
       "id": "minimal-responsible",
@@ -27,7 +29,7 @@
         "catalog": "490bb75496c715770d2585a18c7a6ddd8c8b67c9",
         "orders": "21b595ddeaf29c43c77ee6b980c8820c499bef67",
         "notifications": "01c716dc842e22b8b241eeb19707d69bf57f9598",
-        "coordinator": "0074c7ba60b281aca07fa761b824a3c0b544a8ce"
+        "coordinator": "751401bee54d332368dae03d7f53c6b9cbc3d1e2"
       }
     },
     {
@@ -40,11 +42,11 @@
         "coordinator": "e3ce9dcde7e25d57df6a310bb850a4977921114f"
       },
       "organization_revisions": {
-        "gateway": "e0e31f5570c2f9a7c99d5dabc0be2e482de8faba",
-        "catalog": "e35de5fb78865eff53c1a0485960e91c361f2279",
-        "orders": "98976543c346669547bad847279945ebb4c4375b",
-        "notifications": "5357333f6d287664bbb01f3ca4e7b1d1a83dd42c",
-        "coordinator": "8972dd7f4038f54e20ba5e87f77582918f15bc3f"
+        "gateway": "a07b509af536758343466cf34a674d21a8323b9e",
+        "catalog": "07344742517cac6cd9a4130ad771a08b4c1fe3fe",
+        "orders": "3d2b80d301e6e0f8e07c7a83d352e9f27778c581",
+        "notifications": "360fc67e9ef8dd12479fc4ad9f946c2ba01f1fba",
+        "coordinator": "8392008e7a5c218041b978987a9da9bf3c1e4eda"
       }
     }
   ],
@@ -64,9 +66,9 @@
     "design_operational_token_limit": 100000,
     "build_operational_token_limit": 69000,
     "integration_operational_token_limit": 80000,
-    "candidate_aggregate_operational_token_limit": 520000,
+    "candidate_aggregate_operational_token_limit": 525000,
     "evaluator_operational_token_limit": 100000,
-    "combined_operational_token_limit": 620000,
+    "combined_operational_token_limit": 625000,
     "program_wall_clock_limit_ms": 2700000
   },
   "model_route": {
@@ -86,6 +88,17 @@
       "model": "gpt-5.6-sol",
       "reasoning_effort": "xhigh"
     }
+  },
+  "context_policy": {
+    "known_bounded_work_item_start": "context-capsule-first",
+    "canonical_source_bodies_required": true,
+    "route_metadata_is_authority": false,
+    "temple_md_fallback_when_missing": [
+      "authority",
+      "current-state",
+      "safe-next-action"
+    ],
+    "new_unknown_recovery_start": "temple-md-first"
   },
   "stop_rules": {
     "protocol_mismatch": true,
@@ -147,13 +160,18 @@
       "frozen_limit": 69000
     },
     "integration": {
-      "basis": "Terra build ceiling plus a bounded cold-recovery allowance",
+      "source": ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-analysis.json",
+      "observed_routed_terra_operational_tokens": 57296,
+      "headroom_percent": 39.63,
       "frozen_limit": 80000
     },
     "aggregate": {
       "source": ".ai-org/artifacts/WI-0132/live-experiment-observation.json",
       "prior_eight_candidate_operational_tokens": 416395,
-      "candidate_limit": 520000,
+      "turn_count_scale": "10 / 8",
+      "linearly_scaled_observation_ceiling": 520494,
+      "rounded_candidate_limit": 525000,
+      "candidate_limit": 525000,
       "evaluator_limit": 100000
     },
     "meaning": "Safety stops based on retained operational-Token observations; not forecasts, prices, or statistical estimates."
