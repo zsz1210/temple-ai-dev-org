@@ -51,6 +51,30 @@ async function writeJson(file, value, { exclusive = false } = {}) {
   await fs.writeFile(file, `${JSON.stringify(value, null, 2)}\n`, { mode: 0o600, ...(exclusive ? { flag: "wx" } : {}) });
 }
 
+async function regularFiles(root, relative = "") {
+  const entries = await fs.readdir(path.join(root, relative), { withFileTypes: true });
+  const files = [];
+  for (const entry of entries) {
+    const child = path.posix.join(relative, entry.name);
+    if (entry.isDirectory()) files.push(...await regularFiles(root, child));
+    else if (entry.isFile()) files.push(child);
+  }
+  return files;
+}
+
+async function fixtureBundleDigest(fixtureRoot, caseId) {
+  const files = await regularFiles(path.join(fixtureRoot, caseId));
+  files.sort((left, right) => Buffer.compare(Buffer.from(`${caseId}/${left}`), Buffer.from(`${caseId}/${right}`)));
+  const digest = crypto.createHash("sha256");
+  for (const relative of files) {
+    digest.update(`${caseId}/${relative}`);
+    digest.update(Buffer.from([0]));
+    digest.update(await fs.readFile(path.join(fixtureRoot, caseId, relative)));
+    digest.update(Buffer.from([0]));
+  }
+  return digest.digest("hex");
+}
+
 function sha256(value) {
   return crypto.createHash("sha256").update(value).digest("hex");
 }
@@ -357,7 +381,21 @@ function routeSummary(route) {
 
 async function preflight(protocol, labRoot, approvalPath) {
   const map = await readJson(path.join(labRoot, "coordinator/candidate-map.json"));
-  const checks = [];
+  const fixtureRoot = path.join(repositoryRoot, protocol.fixture_root);
+  const checks = [{
+    id: "protocol-digest",
+    pass: map.protocol_sha256 === protocolDigest(protocol),
+    expected: protocolDigest(protocol),
+    observed: map.protocol_sha256
+  }];
+  for (const caseDefinition of protocol.cases) {
+    const observed = await fixtureBundleDigest(fixtureRoot, caseDefinition.id);
+    checks.push({ id: `fixture-bundle:${caseDefinition.id}`, pass: observed === caseDefinition.bundle_sha256, expected: caseDefinition.bundle_sha256, observed });
+  }
+  for (const [id, source] of [["launch-instruction", protocol.launch_instruction], ["tool-policy", protocol.tool_policy]]) {
+    const observed = sha256(await fs.readFile(path.join(fixtureRoot, source.path)));
+    checks.push({ id, pass: observed === source.sha256, expected: source.sha256, observed });
+  }
   for (const candidate of map.participants) {
     const clean = await git(candidate.root, ["status", "--porcelain=v1"]);
     checks.push({ id: `clean:${candidate.id}`, pass: clean === "" && await git(candidate.root, ["rev-parse", "HEAD"]) === candidate.revision });
@@ -371,7 +409,14 @@ async function preflight(protocol, labRoot, approvalPath) {
   for (const caseDefinition of protocol.cases) {
     const group = map.participants.filter((entry) => entry.case_id === caseDefinition.id);
     const temple = group.filter((entry) => entry.condition === "temple");
+    const productSignatures = group.map((entry) => ({
+      condition_id: entry.condition_id,
+      components: entry.context.components
+        .filter((component) => ["product-task", "acceptance-contract"].includes(component.id))
+        .map((component) => ({ id: component.id, sha256: component.sha256, utf8_bytes: component.utf8_bytes }))
+    }));
     checks.push({ id: `all-arms:${caseDefinition.id}`, pass: group.length === 4 });
+    checks.push({ id: `matched-product:${caseDefinition.id}`, pass: new Set(productSignatures.map((entry) => JSON.stringify(entry.components))).size === 1, signatures: productSignatures });
     checks.push({ id: `matched-temple-context:${caseDefinition.id}`, pass: new Set(temple.map((entry) => entry.context.context_profile_digest)).size === 1, digests: temple.map((entry) => ({ condition_id: entry.condition_id, digest: entry.context.context_profile_digest, utf8_bytes: entry.context.utf8_bytes })) });
   }
   let approval = { accepted: false, errors: ["exact owner approval is absent"] };

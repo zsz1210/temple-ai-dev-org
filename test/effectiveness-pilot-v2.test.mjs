@@ -55,12 +55,13 @@ test("native Lean recognition reads the canonical profile-assessment scope", () 
   assert.equal(matchesNativeLeanCandidate({ workflow_profile: "standard", profile_assessment: { scope_class: "bounded" }, risk_tier: "low", state: "build" }), false);
 });
 
-test("approval rejects unset limits and must bind the exact protocol digest", async () => {
+test("approval template binds the exact protocol but rejects unset limits and absent allowance consent", async () => {
   const protocol = JSON.parse(await fs.readFile(protocolUrl, "utf8"));
   const template = JSON.parse(await fs.readFile(new URL("../.ai-org/artifacts/WI-0131/account-approval.template.json", import.meta.url), "utf8"));
   const result = validatePilotApprovalV2(template, protocol);
   assert.equal(result.accepted, false);
-  assert.ok(result.errors.some((entry) => entry.includes("protocol_sha256")));
+  assert.ok(!result.errors.some((entry) => entry.includes("protocol_sha256")));
+  assert.ok(result.errors.some((entry) => entry.includes("included_pro_allowance_accepted")));
   assert.ok(result.errors.some((entry) => entry.includes("approved_combined_operational_tokens")));
 });
 

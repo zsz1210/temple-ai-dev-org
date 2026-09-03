@@ -104,6 +104,18 @@
     "meaningful_latency_reduction_percent": 10,
     "interpretation": "Project-owned diagnostic thresholds retained for comparability; they are not statistical or industry benchmarks."
   },
+  "qualification_plan": {
+    "sample_size_method": "derive-from-corrected-pilot-variance",
+    "fixed_work_item_count_is_statistical_qualification": false,
+    "future_task_families": [
+      "mechanical",
+      "error-semantics",
+      "cross-file-change",
+      "concurrency",
+      "api-contract",
+      "ambiguous-requirements"
+    ]
+  },
   "claims": {
     "diagnostic_only": true,
     "statistical_superiority": false,

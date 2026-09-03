@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.effectiveness-pilot-approval/v2",
   "work_item_id": "WI-0131",
-  "protocol_sha256": "REPLACE_AFTER_FINAL_REVIEW",
+  "protocol_sha256": "1c776cd954e9f81c2c865ca657c0d430a9c38852e8fb80cd435f72cc742a3854",
   "approved_by": "repository-owner",
   "approved_at": "REPLACE_WITH_ISO_TIMESTAMP",
   "included_pro_allowance_accepted": false,
