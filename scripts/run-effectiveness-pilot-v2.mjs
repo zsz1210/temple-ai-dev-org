@@ -197,6 +197,24 @@ function executionRequest(condition) {
   };
 }
 
+async function mapExperimentExecutionProfiles(root) {
+  const policyPath = path.join(root, ".ai-org/project/execution-policy.json");
+  const policy = await readJson(policyPath);
+  const mappings = {
+    "mechanical-fast": ["gpt-5.6-luna", "medium"],
+    "lightweight-quality": ["gpt-5.6-luna", "max"],
+    standard: ["gpt-5.6-terra", "medium"],
+    "critical-planning": ["gpt-5.6-sol", "xhigh"]
+  };
+  for (const profile of policy.profiles) {
+    const mapping = mappings[profile.id];
+    if (!mapping) throw new Error(`experiment has no Provider mapping for profile ${profile.id}`);
+    profile.provider_id = "openai-codex";
+    [profile.model, profile.reasoning_effort] = mapping;
+  }
+  await writeJson(policyPath, policy);
+}
+
 function normalizedCapsule(value) {
   const copy = structuredClone(value);
   delete copy.generated_at;
@@ -209,6 +227,7 @@ async function prepareTempleCandidate({ root, caseDefinition, condition, contrac
   const cli = path.join(snapshotRoot, "bin/temple.mjs");
   const initialized = await command(process.execPath, [cli, "init", root, "--config", configPath], { env: { ...process.env, TEMPLE_CLI_PATH: cli } });
   if (initialized.status !== 0) throw new Error(initialized.stderr || initialized.stdout);
+  await mapExperimentExecutionProfiles(root);
   await pinnedTemple(snapshotRoot, root, ["work-item", "create",
     "--title", `Complete ${caseDefinition.id} fixture`,
     "--scope", "Complete only TASK.md and change only src/ and test/.",
