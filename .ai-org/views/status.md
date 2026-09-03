@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 132 total, 3 active
+- Work items: 132 total, 2 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -179,7 +179,7 @@
 | WI-0129 | Make the product roadmap and core path human-readable | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3e5178ba` | 0 | 18 | 0 |
 | WI-0130 | Run the first three-arm Temple effectiveness pilot | concluded | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `33b6ed3b` | 0 | 16 | 0 |
 | WI-0131 | Correct the Lean routing effectiveness experiment | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c040c0be` | 0 | 16 | 0 |
-| WI-0132 | Run corrected Lean routing effectiveness comparison | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b7263e5c` | 0 | 20 | 0 |
+| WI-0132 | Run corrected Lean routing effectiveness comparison | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `fd4bbe88` | 0 | 21 | 0 |
 
 ## Codex task registry
 
@@ -321,14 +321,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-03T09:01:10.973Z | work_item_closed | WI-0132 | agent-mog |
+| 2026-09-03T09:01:10.973Z | release_gate_completed | WI-0132 | agent-mog |
 | 2026-09-03T09:00:43.222Z | work_item_transitioned | WI-0132 | agent-lulu |
 | 2026-09-03T09:00:42.911Z | handoff_created | WI-0132 | agent-lulu |
 | 2026-09-03T09:00:35.948Z | evidence_recorded | WI-0132 | human |
 | 2026-09-03T08:58:25.706Z | work_item_transitioned | WI-0132 | agent-lulu |
 | 2026-09-03T08:58:16.128Z | handoff_created | WI-0132 | agent-lulu |
 | 2026-09-03T08:58:08.065Z | work_item_transitioned | WI-0132 | agent-lulu |
-| 2026-09-03T08:57:58.855Z | evidence_recorded | WI-0132 | human |
-| 2026-09-03T08:57:58.627Z | evidence_recorded | WI-0132 | human |
 
 ## Assignments
 

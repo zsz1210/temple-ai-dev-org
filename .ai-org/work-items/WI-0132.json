@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0132",
   "title": "Run corrected Lean routing effectiveness comparison",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-03T08:23:30.905Z",
-  "updated_at": "2026-09-03T09:00:43.222Z",
+  "updated_at": "2026-09-03T09:01:10.973Z",
   "scope": [
     "Execute the corrected four-arm native Lean experiment from WI-0131, retain objective and blind evaluation evidence, and publish a human-facing diagnostic report."
   ],
@@ -119,6 +119,18 @@
     ],
     "independent_qa_pass": [
       "EVID-20260903T090035Z-B2990923"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0132/product-spec.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0132/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0132/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0132/account-approval.json"
     ]
   },
   "evidence": [
@@ -141,10 +153,11 @@
     ".ai-org/artifacts/WI-0132/handoff-006-independent_qa-to-release_manager.md",
     ".ai-org/artifacts/WI-0132/independent-qa-report.md",
     ".ai-org/artifacts/WI-0132/independent-qa-test-observation.json",
-    "EVID-20260903T090035Z-B2990923"
+    "EVID-20260903T090035Z-B2990923",
+    ".ai-org/artifacts/WI-0132/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -189,5 +202,11 @@
       "created_at": "2026-09-03T09:00:42.911Z"
     }
   ],
-  "developer_candidate_revision": "b7263e5cc64a1f3c5e93a32d2ae10a356074227d"
+  "developer_candidate_revision": "b7263e5cc64a1f3c5e93a32d2ae10a356074227d",
+  "tested_revision": "fd4bbe881b3b86d25cd48846b13d9ae1546c4470",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0132/account-approval.json"
 }
