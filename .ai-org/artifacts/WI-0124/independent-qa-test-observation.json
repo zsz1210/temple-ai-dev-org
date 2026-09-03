@@ -1,0 +1,17 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+  "command": ["npm", "run", "verify"],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-03T04:25:27Z",
+  "completed_at": "2026-09-03T04:26:39Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0124/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0124/quality-report.md",
+    ".ai-org/artifacts/WI-0120/independent-qa-attempt-1.md",
+    ".ai-org/artifacts/WI-0121/independent-qa-attempt-1.md",
+    ".ai-org/artifacts/WI-0122/independent-qa-attempt-1.md",
+    ".ai-org/artifacts/WI-0123/independent-qa-attempt-1.md"
+  ]
+}
