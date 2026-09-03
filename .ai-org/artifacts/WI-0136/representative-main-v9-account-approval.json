@@ -1,9 +1,9 @@
 {
   "schema_version": "temple.representative-microservice-account-approval/v1",
   "work_item_id": "WI-0136",
-  "protocol_sha256": "16591db95bde29d6becd273ce6df3cd39569f016ebdd03c5fd2fb2c21d9253e0",
-  "approved": false,
-  "authorization_source": null,
+  "protocol_sha256": "662cd01c96381f53e4eff79659a0e9da6ddf85022ff4d5cb49d095ced18ae02b",
+  "approved": true,
+  "authorization_source": "user-message:approved-immediately-after-exact-v9-envelope",
   "approved_candidate_turns": 10,
   "approved_evaluator_turns": 1,
   "approved_models": [
@@ -24,5 +24,5 @@
   "usage_reset_authorized": false,
   "retry_count": 0,
   "fallback_count": 0,
-  "approved_at": null
+  "approved_at": "2026-09-03T17:21:59.000Z"
 }

@@ -269,3 +269,15 @@ V8 was superseded before approval or generation. The repair covered the final ob
 - Status: frozen and generation-disabled pending separate exact approval
 
 V9 turns harness readiness into a live preflight requirement instead of another advisory test. The source lab stays pristine; the full rehearsal runs in a disposable canonical temporary clone. A readiness result must match the exact protocol digest and state that no model generation occurred. See `representative-harness-readiness-v1-report.md`.
+
+The exact-approved v9 attempt completed the full Minimal Responsible arm and Temple Design, then stopped fail-closed during the Temple Build wave. The retained event summary identifies an `unknown` CommandAction and a `/bin/zsh -lc` command display for the framework-required Context Capsule command; the same inner command passes the local v9 predicate, so the evidence supports a wrapper-shape mismatch without claiming unretained raw action content. V9 retained 313,151 candidate Operational Tokens, zero retry, zero fallback, settled sibling observations, and clean generated repositories. The evaluator did not start, so there is no arm comparison.
+
+## Representative comparison v10
+
+- Predecessor: representative v9 protocol `662cd01c96381f53e4eff79659a0e9da6ddf85022ff4d5cb49d095ced18ae02b`
+- Resource envelope, task, models, efforts, context treatment, objective tests, retry policy, fallback policy, and network boundary: unchanged from v9
+- Provider event policy: unwrap at most one exact single-quoted `/bin/zsh -lc` layer, then reapply every existing inner-command and path policy
+- Readiness coverage: adds the schema-valid wrapped `unknown` Context Capsule CommandAction that stopped v9
+- Protocol SHA-256: `16591db95bde29d6becd273ce6df3cd39569f016ebdd03c5fd2fb2c21d9253e0`
+- Readiness result: all twelve checks pass with zero Operational Tokens and no model generation
+- Status: frozen and generation-disabled pending separate exact approval

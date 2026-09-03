@@ -11,6 +11,7 @@ import {
   diagnosticConditionObservation,
   diagnosticStoppedRun,
   integrationOutputSchema,
+  normalizeProviderCommandText,
   protocolDigest,
   representativeCommandItemAllowed,
   representativeProtocolViolationForMessage,
@@ -52,17 +53,18 @@ test("the representative microservice protocol is frozen but generation-disabled
   assert.equal(protocol.execution.fallback_count, 0);
   assert.equal(protocol.execution.candidate_turns, 10);
   assert.equal(protocol.execution.evaluator_turns, 1);
-  assert.equal(protocol.protocol_revision, 9);
+  assert.equal(protocol.protocol_revision, 10);
   assert.equal(protocol.execution.design_operational_token_limit, 150000);
   assert.equal(protocol.execution.candidate_aggregate_operational_token_limit, 650000);
   assert.equal(protocol.execution.combined_operational_token_limit, 750000);
   assert.deepEqual(protocol.context_policy.temple_md_fallback_when_missing, ["authority", "current-state", "safe-next-action"]);
-  assert.equal(protocol.predecessor.disposition, "superseded-before-generation-by-harness-readiness-gate");
-  assert.equal(protocol.predecessor.stopped_run, null);
+  assert.equal(protocol.predecessor.disposition, "stopped-candidate-provider-shell-wrapper-unclassified");
+  assert.equal(protocol.predecessor.stopped_run, ".ai-org/artifacts/WI-0136/representative-main-v9-stopped-run.json");
   assert.equal(protocol.stopped_evidence_policy, "completed-active-and-settled-sibling-observations-v3");
   assert.equal(protocol.runner_safety.relative_git_target_policy, "provider-relative-cwd-resolved-against-arm-root-to-exact-fixture-repository-root");
   assert.equal(protocol.runner_safety.parallel_failure_policy, "interrupt-and-await-all-siblings-before-stop-record");
   assert.equal(protocol.runner_safety.build_command_policy, "arm-root-repository-ids-without-candidate-git-self-check");
+  assert.equal(protocol.runner_safety.provider_shell_wrapper_policy, "unwrap-one-exact-zsh-lc-single-quoted-layer-then-reapply-full-policy");
   assert.equal(protocol.runner_safety.harness_readiness_policy, "production-orchestration-with-injected-generation-free-provider-v1");
   assert.equal(protocol.runner_safety.readiness_required_before_exact_approval, true);
 });
@@ -290,11 +292,27 @@ test("historical Provider command events are classified by normalized scope rath
   });
   const classify = (message) => representativeProtocolViolationForMessage(message, { turnId: "turn-1", armRoot });
   assert.equal(classify(event("notifications", "rg --files coordinator", "/bin/zsh -lc 'rg --files coordinator'")), null);
+  assert.equal(classify(event(
+    "notifications",
+    "/bin/zsh -lc 'node coordinator/templew.mjs context resolve coordinator --work-item WI-0001 --position developer --no-write --json'"
+  )), null);
   assert.equal(classify(event(`${armRoot}/catalog/src`, "git -C ../../orders status --short")), null);
   assert.match(classify(event(`${armRoot}/catalog/src`, "git -C ../../../notifications status --short")).message, /command policy rejected/);
   assert.match(classify(event("notifications", "curl https://example.invalid")).message, /command policy rejected/);
+  assert.match(classify(event("notifications", "/bin/zsh -lc 'node coordinator/templew.mjs; curl https://example.invalid'")).message, /command policy rejected/);
+  assert.match(classify(event("notifications", "/bin/zsh -lc \"node coordinator/templew.mjs context resolve coordinator\"")).message, /command policy rejected/);
   assert.match(classify(event("../outside", "rg OrderPlaced")).message, /command policy rejected/);
   assert.equal(classify({ ...event("notifications", "rg OrderPlaced"), params: { ...event("notifications", "rg OrderPlaced").params, turnId: "other" } }), null);
+});
+
+test("Provider shell normalization unwraps one safe layer and rejects ambiguous wrappers", () => {
+  assert.equal(
+    normalizeProviderCommandText("/bin/zsh -lc 'node coordinator/templew.mjs context resolve coordinator --work-item WI-0001 --position developer --no-write --json'"),
+    "node coordinator/templew.mjs context resolve coordinator --work-item WI-0001 --position developer --no-write --json"
+  );
+  assert.equal(normalizeProviderCommandText("node coordinator/templew.mjs"), "node coordinator/templew.mjs");
+  assert.equal(normalizeProviderCommandText('/bin/zsh -lc "node coordinator/templew.mjs"'), null);
+  assert.equal(normalizeProviderCommandText("/bin/zsh -lc 'node coordinator/templew.mjs ' nested"), null);
 });
 
 test("parallel fail-closed settlement aborts and awaits siblings before reporting the primary error", async () => {

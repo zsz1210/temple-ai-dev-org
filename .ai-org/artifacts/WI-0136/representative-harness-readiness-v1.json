@@ -1,11 +1,11 @@
 {
   "schema_version": "temple.representative-harness-readiness/v1",
   "work_item_id": "WI-0136",
-  "protocol_sha256": "662cd01c96381f53e4eff79659a0e9da6ddf85022ff4d5cb49d095ced18ae02b",
-  "completed_at": "2026-09-03T17:17:16.967Z",
+  "protocol_sha256": "16591db95bde29d6becd273ce6df3cd39569f016ebdd03c5fd2fb2c21d9253e0",
+  "completed_at": "2026-09-03T17:40:11.440Z",
   "pass": true,
-  "source_lab": "/tmp/temple-wi0136-representative-microservice-v9-final3",
-  "readiness_lab": "/private/tmp/temple-wi0136-representative-microservice-v9-final3-readiness",
+  "source_lab": "/tmp/temple-wi0136-representative-microservice-v10-final",
+  "readiness_lab": "/private/tmp/temple-wi0136-representative-microservice-v10-final-readiness",
   "candidate_turn_count": 10,
   "evaluator_turn_count": 1,
   "checks": [
@@ -18,6 +18,7 @@
     { "id": "blind-evaluator-completed", "pass": true },
     { "id": "analysis-completed", "pass": true },
     { "id": "all-generated-repositories-clean", "pass": true },
+    { "id": "provider-command-event-replay", "pass": true },
     { "id": "zero-operational-tokens", "pass": true },
     { "id": "no-model-generation", "pass": true }
   ],

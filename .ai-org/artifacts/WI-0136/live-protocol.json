@@ -1,12 +1,12 @@
 {
   "schema_version": "temple.representative-microservice-comparison/v3",
-  "protocol_revision": 9,
+  "protocol_revision": 10,
   "work_item_id": "WI-0136",
   "status": "generation-disabled",
-  "protocol_sha256": "662cd01c96381f53e4eff79659a0e9da6ddf85022ff4d5cb49d095ced18ae02b",
+  "protocol_sha256": "16591db95bde29d6becd273ce6df3cd39569f016ebdd03c5fd2fb2c21d9253e0",
   "fixture": {
     "fixture_sha256": "b10ff626ef465686909aaab6d858b087f0c2aaad7a8c484f9955ed0a8465822c",
-    "runner_sha256": "a03a7572e440234672ba42aa9f4d8f2623566f6c01ec30280a4a4c62909ba715",
+    "runner_sha256": "dfa7ff9677b48ba4f5d99a4c20eb2c132ef214f88c48ad775581bc3f7a19ed5a",
     "analyzer_sha256": "5e614a7879a8fbdb7655d6780dcf0c7e693e7326259fa166d7fe3231f1151c5c",
     "task_sha256": "5dfd10dce99196f282f0560a25aaffd359b7af2119a62d943e465f19ae46369c",
     "public_tests_sha256": "8809e165ee024f5606a48c38bb0f6065e3b943fcd00d05fda5fdd6099e0f41f9",
@@ -14,7 +14,7 @@
     "tool_policy_sha256": "18f5bef25f7b8a4efc220252818e642b75f5c342dd8d316e79a1254652801913",
     "rubric_sha256": "364d20a3102ddd78131fd2566b8579957b14df2d6638efd3ef1e97e94faeaf3f"
   },
-  "lab_manifest_sha256": "e492aa0c343e7e4c73efb3e8ebbf14c32ef7fc26ef1bd6648c6d079cd14d186f",
+  "lab_manifest_sha256": "64a03dfcaf4cc58f310e951e213583f23b6b15cda5ff2142642514c80f76fbd4",
   "arms": [
     {
       "id": "minimal-responsible",
@@ -30,7 +30,7 @@
         "catalog": "490bb75496c715770d2585a18c7a6ddd8c8b67c9",
         "orders": "21b595ddeaf29c43c77ee6b980c8820c499bef67",
         "notifications": "01c716dc842e22b8b241eeb19707d69bf57f9598",
-        "coordinator": "e19c97aeead6fe024c10f6b5273f68a318ce79f4"
+        "coordinator": "96e00bb5cbbb18d80e59884f11702457208b64a1"
       }
     },
     {
@@ -43,11 +43,11 @@
         "coordinator": "e3ce9dcde7e25d57df6a310bb850a4977921114f"
       },
       "organization_revisions": {
-        "gateway": "eee444c0fba7d380c6f924d60e858b4b42bee41e",
-        "catalog": "babb5d778ad3616cf96bcf6f06eae9f7ac1162bf",
-        "orders": "120bf2e3570abb2e8c2312cb40dfdf22f651f01c",
-        "notifications": "d9b39824e9a407104414fb8a8909fbdb259d074e",
-        "coordinator": "cbce228667caf4be29ee5825cae91c9d4087a018"
+        "gateway": "cf78538cc5fb615b54928ed5ebfc6d8d84906860",
+        "catalog": "77bf1bc2c4b47f0800065f4da55f9c2acb18f75e",
+        "orders": "4d148877a622cedb1a27d174bee79eff06a1f883",
+        "notifications": "6d582d6093b641be010bbdbf20b9ee8ceb98e126",
+        "coordinator": "6be310c101cb6477f47d2133b513c66ea8aeb97e"
       }
     }
   ],
@@ -102,16 +102,17 @@
     "new_unknown_recovery_start": "temple-md-first"
   },
   "predecessor": {
-    "protocol_sha256": "3c179b15b37e5fad0a538ff12dc0f4ca5a3e3d7384b8542b394f22bdd42618da",
-    "disposition": "superseded-before-generation-by-harness-readiness-gate",
-    "stopped_run": null,
-    "stop_report": null
+    "protocol_sha256": "662cd01c96381f53e4eff79659a0e9da6ddf85022ff4d5cb49d095ced18ae02b",
+    "disposition": "stopped-candidate-provider-shell-wrapper-unclassified",
+    "stopped_run": ".ai-org/artifacts/WI-0136/representative-main-v9-stopped-run.json",
+    "stop_report": ".ai-org/artifacts/WI-0136/representative-main-v9-stop-report.md"
   },
   "stopped_evidence_policy": "completed-active-and-settled-sibling-observations-v3",
   "runner_safety": {
     "relative_git_target_policy": "provider-relative-cwd-resolved-against-arm-root-to-exact-fixture-repository-root",
     "parallel_failure_policy": "interrupt-and-await-all-siblings-before-stop-record",
     "build_command_policy": "arm-root-repository-ids-without-candidate-git-self-check",
+    "provider_shell_wrapper_policy": "unwrap-one-exact-zsh-lc-single-quoted-layer-then-reapply-full-policy",
     "harness_readiness_policy": "production-orchestration-with-injected-generation-free-provider-v1",
     "readiness_required_before_exact_approval": true
   },

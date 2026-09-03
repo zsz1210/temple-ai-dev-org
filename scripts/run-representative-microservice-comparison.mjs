@@ -52,6 +52,7 @@ const harnessReadinessCheckIds = Object.freeze([
   "blind-evaluator-completed",
   "analysis-completed",
   "all-generated-repositories-clean",
+  "provider-command-event-replay",
   "zero-operational-tokens",
   "no-model-generation"
 ]);
@@ -110,26 +111,49 @@ function fixtureScopedRelativeGitReadAllowed(commandValue, cwd, armRoot) {
   return repositories.some((repositoryId) => resolvedTarget === path.join(resolvedArmRoot, repositoryId));
 }
 
-export function representativeCommandItemAllowed(item, armRoot) {
+export function normalizeProviderCommandText(value) {
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  const wrapped = trimmed.match(/^\/bin\/zsh\s+-lc\s+'([^'\r\n]*)'$/);
+  if (wrapped) return wrapped[1].trim();
+  if (/^\/bin\/zsh(?:\s|$)/.test(trimmed)) return null;
+  return trimmed;
+}
+
+export function representativeCommandItemDecision(item, armRoot) {
   if (
     item?.type !== "commandExecution" ||
     typeof item.cwd !== "string" ||
     !Array.isArray(item.commandActions) ||
     item.commandActions.length === 0 ||
     item.commandActions.length > 32
-  ) return false;
+  ) return { allowed: false, reason: "malformed-command-item" };
   const resolvedArmRoot = path.resolve(armRoot);
   const resolvedCwd = resolveProviderCwd(item.cwd, resolvedArmRoot);
-  if (resolvedCwd === null) return false;
-  if (!pathIsWithin(resolvedArmRoot, resolvedCwd)) return false;
-  return item.commandActions.every((action) => {
-    if (action === null || typeof action !== "object" || typeof action.command !== "string") return false;
-    if (/^git\s+-C(?:\s|$)/.test(action.command.trim())) {
-      return fixtureScopedRelativeGitReadAllowed(action.command, item.cwd, armRoot);
+  if (resolvedCwd === null) return { allowed: false, reason: "invalid-command-cwd" };
+  if (!pathIsWithin(resolvedArmRoot, resolvedCwd)) return { allowed: false, reason: "command-cwd-outside-arm" };
+  for (const action of item.commandActions) {
+    if (action === null || typeof action !== "object" || typeof action.command !== "string") {
+      return { allowed: false, reason: "malformed-command-action" };
     }
-    if (/(?:^|[\s'"=])\.\.(?:[\\/]|$)/.test(action.command)) return false;
-    return commandTextAllowed(action.command, comparisonAllowedCommandPrefixes);
-  });
+    const commandValue = normalizeProviderCommandText(action.command);
+    if (commandValue === null) return { allowed: false, reason: "unsupported-provider-shell-wrapper" };
+    if (/^git\s+-C(?:\s|$)/.test(commandValue)) {
+      if (!fixtureScopedRelativeGitReadAllowed(commandValue, item.cwd, armRoot)) {
+        return { allowed: false, reason: "git-target-outside-exact-fixture-root" };
+      }
+      continue;
+    }
+    if (/(?:^|[\s'"=])\.\.(?:[\\/]|$)/.test(commandValue)) return { allowed: false, reason: "parent-path-segment" };
+    if (!commandTextAllowed(commandValue, comparisonAllowedCommandPrefixes)) {
+      return { allowed: false, reason: "command-prefix-or-shell-control" };
+    }
+  }
+  return { allowed: true, reason: null };
+}
+
+export function representativeCommandItemAllowed(item, armRoot) {
+  return representativeCommandItemDecision(item, armRoot).allowed;
 }
 
 export function representativeProtocolViolationForMessage(message, { turnId, armRoot }) {
@@ -137,11 +161,12 @@ export function representativeProtocolViolationForMessage(message, { turnId, arm
   const observedTurnId = params.turnId ?? params.turn?.id ?? null;
   if (observedTurnId !== null && turnId !== null && observedTurnId !== turnId) return null;
   if (message?.method === "item/started" && params.item?.type === "commandExecution") {
-    return representativeCommandItemAllowed(params.item, armRoot)
+    const decision = representativeCommandItemDecision(params.item, armRoot);
+    return decision.allowed
       ? null
       : {
           code: "command-policy-violation",
-          message: `command policy rejected: ${String(params.item.command ?? "").slice(0, 120)}`
+          message: `command policy rejected (${decision.reason}): ${String(params.item.command ?? "").slice(0, 120)}`
         };
   }
   return protocolViolationForMessage(message, {
@@ -679,7 +704,7 @@ async function sourceDigests() {
 function buildProtocol(manifest) {
   const protocol = {
     schema_version: "temple.representative-microservice-comparison/v3",
-    protocol_revision: 9,
+    protocol_revision: 10,
     work_item_id: "WI-0136",
     status: "generation-disabled",
     protocol_sha256: null,
@@ -722,16 +747,17 @@ function buildProtocol(manifest) {
       new_unknown_recovery_start: "temple-md-first"
     },
     predecessor: {
-      protocol_sha256: "3c179b15b37e5fad0a538ff12dc0f4ca5a3e3d7384b8542b394f22bdd42618da",
-      disposition: "superseded-before-generation-by-harness-readiness-gate",
-      stopped_run: null,
-      stop_report: null
+      protocol_sha256: "662cd01c96381f53e4eff79659a0e9da6ddf85022ff4d5cb49d095ced18ae02b",
+      disposition: "stopped-candidate-provider-shell-wrapper-unclassified",
+      stopped_run: ".ai-org/artifacts/WI-0136/representative-main-v9-stopped-run.json",
+      stop_report: ".ai-org/artifacts/WI-0136/representative-main-v9-stop-report.md"
     },
     stopped_evidence_policy: "completed-active-and-settled-sibling-observations-v3",
     runner_safety: {
       relative_git_target_policy: "provider-relative-cwd-resolved-against-arm-root-to-exact-fixture-repository-root",
       parallel_failure_policy: "interrupt-and-await-all-siblings-before-stop-record",
       build_command_policy: "arm-root-repository-ids-without-candidate-git-self-check",
+      provider_shell_wrapper_policy: "unwrap-one-exact-zsh-lc-single-quoted-layer-then-reapply-full-policy",
       harness_readiness_policy: "production-orchestration-with-injected-generation-free-provider-v1",
       readiness_required_before_exact_approval: true
     },
@@ -762,7 +788,7 @@ function buildProtocol(manifest) {
 export function validateRepresentativeProtocol(protocol) {
   const errors = [];
   if (protocol?.schema_version !== "temple.representative-microservice-comparison/v3") errors.push("unsupported schema");
-  if (protocol?.protocol_revision !== 9) errors.push("unexpected protocol revision");
+  if (protocol?.protocol_revision !== 10) errors.push("unexpected protocol revision");
   if (protocol?.work_item_id !== "WI-0136") errors.push("unexpected work item");
   if (protocol?.status !== "generation-disabled") errors.push("protocol status must remain generation-disabled before exact approval");
   if (protocol?.protocol_sha256 !== protocolDigest(protocol)) errors.push("protocol digest mismatch");
@@ -793,14 +819,15 @@ export function validateRepresentativeProtocol(protocol) {
       contextPolicy.new_unknown_recovery_start !== "temple-md-first") {
     errors.push("context policy mismatch");
   }
-  if (protocol?.predecessor?.protocol_sha256 !== "3c179b15b37e5fad0a538ff12dc0f4ca5a3e3d7384b8542b394f22bdd42618da" ||
-      protocol?.predecessor?.disposition !== "superseded-before-generation-by-harness-readiness-gate" ||
-      protocol?.predecessor?.stopped_run !== null ||
-      protocol?.predecessor?.stop_report !== null ||
+  if (protocol?.predecessor?.protocol_sha256 !== "662cd01c96381f53e4eff79659a0e9da6ddf85022ff4d5cb49d095ced18ae02b" ||
+      protocol?.predecessor?.disposition !== "stopped-candidate-provider-shell-wrapper-unclassified" ||
+      protocol?.predecessor?.stopped_run !== ".ai-org/artifacts/WI-0136/representative-main-v9-stopped-run.json" ||
+      protocol?.predecessor?.stop_report !== ".ai-org/artifacts/WI-0136/representative-main-v9-stop-report.md" ||
       protocol?.stopped_evidence_policy !== "completed-active-and-settled-sibling-observations-v3" ||
       protocol?.runner_safety?.relative_git_target_policy !== "provider-relative-cwd-resolved-against-arm-root-to-exact-fixture-repository-root" ||
       protocol?.runner_safety?.parallel_failure_policy !== "interrupt-and-await-all-siblings-before-stop-record" ||
       protocol?.runner_safety?.build_command_policy !== "arm-root-repository-ids-without-candidate-git-self-check" ||
+      protocol?.runner_safety?.provider_shell_wrapper_policy !== "unwrap-one-exact-zsh-lc-single-quoted-layer-then-reapply-full-policy" ||
       protocol?.runner_safety?.harness_readiness_policy !== "production-orchestration-with-injected-generation-free-provider-v1" ||
       protocol?.runner_safety?.readiness_required_before_exact_approval !== true) {
     errors.push("successor provenance mismatch");
@@ -3511,6 +3538,24 @@ export async function runRepresentativeHarnessReadiness(labRoot, protocolPath) {
       { id: "blind-evaluator-completed", pass: evaluator.status === "completed" && evaluator.scores_frozen_before_mapping_unseal === true },
       { id: "analysis-completed", pass: analysis.arms.length === 2 },
       { id: "all-generated-repositories-clean", pass: cleanliness.every((entry) => entry.clean) },
+      {
+        id: "provider-command-event-replay",
+        pass: representativeProtocolViolationForMessage({
+          method: "item/started",
+          params: {
+            turnId: "readiness-turn",
+            item: {
+              type: "commandExecution",
+              cwd: "notifications",
+              command: "/bin/zsh -lc 'node coordinator/templew.mjs context resolve coordinator --work-item WI-0001 --position developer --no-write --json'",
+              commandActions: [{
+                type: "unknown",
+                command: "/bin/zsh -lc 'node coordinator/templew.mjs context resolve coordinator --work-item WI-0001 --position developer --no-write --json'"
+              }]
+            }
+          }
+        }, { turnId: "readiness-turn", armRoot: path.join(readinessRoot, "arms", "temple") }) === null
+      },
       { id: "zero-operational-tokens", pass: evaluator.combined_operational_tokens === 0 },
       { id: "no-model-generation", pass: run.model_generation_performed === false && evaluator.model_generation_performed === false }
     ];
