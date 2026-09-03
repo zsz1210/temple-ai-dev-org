@@ -18749,6 +18749,89 @@
         "status": "open",
         "mitigation": "Define reason precedence, align resolver/schema/semantic validation, and independently re-test the exact candidate."
       }
+    },
+    {
+      "id": "EVID-20260903T035320Z-94E70DA7",
+      "work_item_id": "WI-0122",
+      "recorded_at": "2026-09-03T03:53:20.645Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Pinned Route precedence repair candidate",
+      "outcome": "verified",
+      "scope_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
+      "observed_at": "2026-09-03T03:53:20.645Z",
+      "summary": "Exact candidate revision for the resolver-compatible validation repair.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260903T035320Z-BA567C9A",
+      "work_item_id": "WI-0122",
+      "recorded_at": "2026-09-03T03:53:20.886Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer full verification",
+      "outcome": "pass",
+      "scope_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
+      "observed_at": "2026-09-03T03:52:55.224Z",
+      "summary": "All repository checks and 327 tests passed on the exact repair candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0122/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0122/developer-test-observation.json",
+          "sha256": "f2b526aa6a189f3cc71c360c4a620c0315263d4ee7b84928f7ec9b43b69ad7d8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0122/developer-report.md",
+          "sha256": "ad61339453b60cfe773c2017ff9623017673196d2342817ed5f73a07761c16dc"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/independent-qa-attempt-1.md",
+          "sha256": "4fecdc66b8088f4c80e4f29829c16c337e2baf049f73f35a04bcbf002e04bed2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0122/product-spec.md",
+          "sha256": "10f3f807fdd1db2cbd4ca9eb013ae71b25e466d7ddda893b90c884498989b3de"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0122/technical-design.md",
+          "sha256": "a51fd85cd0986477397789edce4ae2d175233c00e24bc7a592927d1b7a4f8f34"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T03:51:47.810Z"
+      }
     }
   ]
 }

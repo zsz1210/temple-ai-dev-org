@@ -169,7 +169,7 @@
 | WI-0119 | Establish adaptive execution routing foundation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `cfa12af5` | 0 | 23 | 0 |
 | WI-0120 | Harden the Execution Route validation boundary | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `486c64df` | 0 | 18 | 0 |
 | WI-0121 | Close remaining Execution Route validation bypasses | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a8eea7c3` | 0 | 17 | 0 |
-| WI-0122 | Reconcile pinned Route reason precedence | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903034856-b0275c0b | `—` | 0 | 9 | 0 |
+| WI-0122 | Reconcile pinned Route reason precedence | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903035321-291771f8 | `3c35ddf8` | 0 | 13 | 0 |
 
 ## Codex task registry
 
@@ -313,14 +313,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-03T03:53:21.631Z | work_item_claimed | WI-0122 | human |
+| 2026-09-03T03:53:21.364Z | work_item_transitioned | WI-0122 | agent-rikku |
+| 2026-09-03T03:53:21.089Z | handoff_created | WI-0122 | agent-rikku |
+| 2026-09-03T03:53:20.886Z | evidence_recorded | WI-0122 | human |
+| 2026-09-03T03:53:20.645Z | evidence_recorded | WI-0122 | human |
 | 2026-09-03T03:48:56.893Z | work_item_claimed | WI-0122 | human |
 | 2026-09-03T03:48:56.625Z | work_item_transitioned | WI-0122 | agent-tidus |
 | 2026-09-03T03:48:56.386Z | handoff_created | WI-0122 | agent-tidus |
-| 2026-09-03T03:48:56.162Z | work_item_claimed | WI-0122 | human |
-| 2026-09-03T03:48:55.911Z | work_item_transitioned | WI-0122 | agent-yuna |
-| 2026-09-03T03:48:55.669Z | handoff_created | WI-0122 | agent-yuna |
-| 2026-09-03T03:48:55.417Z | work_item_claimed | WI-0122 | human |
-| 2026-09-03T03:48:55.167Z | work_item_transitioned | WI-0122 | agent-mog |
 
 ## Assignments
 
