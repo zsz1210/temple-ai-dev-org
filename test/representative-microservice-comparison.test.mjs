@@ -9,10 +9,14 @@ import {
   armProcessInstructions,
   analyzeContextAblation,
   comparisonAllowedCommandPrefixes,
+  buildEvaluatorOutputSchema,
   diagnosticConditionFailure,
   diagnosticConditionObservation,
   diagnosticStoppedRun,
+  evaluatorOutputSchema,
+  executeEvaluatorContinuation,
   integrationOutputSchema,
+  modelTurnStopReason,
   normalizeProviderCommandText,
   protocolDigest,
   representativeAppServerArguments,
@@ -29,9 +33,13 @@ import {
   validateAblationProtocol,
   validateProviderOutputSchema,
   validateRepresentativeApproval,
+  validateEvaluatorContinuationApproval,
+  validateEvaluatorContinuationProtocol,
+  validateEvaluatorContinuationReadiness,
   validateRepresentativeHarnessReadiness,
   validateRepresentativeProtocol,
-  validateEvaluatorCompletion
+  validateEvaluatorCompletion,
+  waitForModelTurnSignal
 } from "../scripts/run-representative-microservice-comparison.mjs";
 import { analyzeRepresentativeComparison } from "../scripts/analyze-representative-microservice-comparison.mjs";
 import { commandTextAllowed } from "../src/app-server-protocol-replay.mjs";
@@ -42,6 +50,10 @@ const ablationProtocolPath = new URL("../.ai-org/artifacts/WI-0136/context-ablat
 const ablationApprovalTemplatePath = new URL("../.ai-org/artifacts/WI-0136/context-ablation-approval.template.json", import.meta.url);
 const ablationApprovalPath = new URL("../.ai-org/artifacts/WI-0136/context-ablation-approval.json", import.meta.url);
 const harnessReadinessPath = new URL("../.ai-org/artifacts/WI-0136/representative-harness-readiness-v1.json", import.meta.url);
+const evaluatorContinuationProtocolPath = new URL("../.ai-org/artifacts/WI-0136/evaluator-continuation-protocol.json", import.meta.url);
+const evaluatorContinuationApprovalTemplatePath = new URL("../.ai-org/artifacts/WI-0136/evaluator-continuation-approval.template.json", import.meta.url);
+const evaluatorContinuationReadinessPath = new URL("../.ai-org/artifacts/WI-0136/evaluator-continuation-readiness-v15.json", import.meta.url);
+const archivedV13CandidatePath = new URL("../.ai-org/artifacts/WI-0136/representative-main-v13-candidate-run.json", import.meta.url);
 
 async function readJson(path) {
   return JSON.parse(await fs.readFile(path, "utf8"));
@@ -149,7 +161,10 @@ test("the readiness marker binds the full generation-free production-path rehear
 
 test("the evaluator must freeze both packages and every binary dimension exactly once", () => {
   const packages = [{ package_id: "package-a" }, { package_id: "package-b" }];
-  const rubric = { dimensions: [{ id: "contract" }, { id: "recovery" }] };
+  const rubric = {
+    dimensions: [{ id: "contract" }, { id: "recovery" }],
+    critical_failures: ["held-out-tests-failed"]
+  };
   const valid = {
     packages: packages.map((entry) => ({
       package_id: entry.package_id,
@@ -165,6 +180,41 @@ test("the evaluator must freeze both packages and every binary dimension exactly
   assert.equal(validateEvaluatorCompletion(valid, packages, rubric), valid);
   valid.packages[1].dimensions[1].id = "contract";
   assert.throws(() => validateEvaluatorCompletion(valid, packages, rubric), /dimension count mismatch/);
+});
+
+test("the evaluator schema binds exact package, dimension, and critical-failure identities", () => {
+  const schema = buildEvaluatorOutputSchema(
+    [{ package_id: "package-b" }, { package_id: "package-a" }],
+    {
+      dimensions: [{ id: "recovery" }, { id: "contract" }],
+      critical_failures: ["out-of-scope-write", "held-out-tests-failed"]
+    }
+  );
+  const packageProperties = schema.properties.packages.items.properties;
+  assert.deepEqual(packageProperties.package_id.enum, ["package-a", "package-b"]);
+  assert.deepEqual(packageProperties.dimensions.items.properties.id.enum, ["contract", "recovery"]);
+  assert.deepEqual(packageProperties.critical_failure.enum, [null, "held-out-tests-failed", "out-of-scope-write"]);
+});
+
+test("the evaluator semantic gate rejects vague or invented score evidence", () => {
+  const packages = [{ package_id: "package-a" }];
+  const rubric = {
+    dimensions: [{ id: "contract" }],
+    critical_failures: ["held-out-tests-failed"]
+  };
+  const result = {
+    packages: [{
+      package_id: "package-a",
+      dimensions: [{ id: "contract", score: 1, rationale: "" }],
+      critical_failure: "invented-failure",
+      summary: ""
+    }],
+    summary: ""
+  };
+  assert.throws(
+    () => validateEvaluatorCompletion(result, packages, rubric),
+    /summary missing.*rationale missing.*critical failure invalid/
+  );
 });
 
 test("analysis treats correctness as primary and reports descriptive deltas", () => {
@@ -483,6 +533,151 @@ test("the generation-free schema check accepts the live schema and rejects unsup
   const rejected = validateProviderOutputSchema(unsupported);
   assert.equal(rejected.supported, false);
   assert.ok(rejected.errors.includes("#/properties/completed_slices: unsupported keyword uniqueItems"));
+});
+
+test("the evaluator schema uses the portable binary enum contract", () => {
+  const score = evaluatorOutputSchema.properties.packages.items.properties.dimensions.items.properties.score;
+  assert.deepEqual(score, { type: "integer", enum: [0, 1] });
+  const portable = validateProviderOutputSchema(evaluatorOutputSchema, { portable: true });
+  assert.equal(portable.supported, true);
+  assert.deepEqual(portable.errors, []);
+  assert.match(portable.profile, /portable-subset/);
+
+  const numericBounds = structuredClone(evaluatorOutputSchema);
+  delete numericBounds.properties.packages.items.properties.dimensions.items.properties.score.enum;
+  numericBounds.properties.packages.items.properties.dimensions.items.properties.score.minimum = 0;
+  numericBounds.properties.packages.items.properties.dimensions.items.properties.score.maximum = 1;
+  const rejected = validateProviderOutputSchema(numericBounds, { portable: true });
+  assert.equal(rejected.supported, false);
+  assert.ok(rejected.errors.some((entry) => entry.includes("keyword minimum is not portable")));
+  assert.ok(rejected.errors.some((entry) => entry.includes("keyword maximum is not portable")));
+});
+
+test("a failed Provider terminal is reported before missing usage", () => {
+  assert.equal(
+    modelTurnStopReason({ status: "failed", error: { code: "invalid_json_schema" } }),
+    "provider-invalid-output-schema:provider rejected the structured-output schema before generation"
+  );
+  assert.equal(modelTurnStopReason({ status: "completed" }), null);
+  assert.equal(modelTurnStopReason({ status: "failed" }, "runtime-request:test"), "runtime-request:test");
+});
+
+test("the model-turn wait releases on process exit and deadline without a terminal event", async () => {
+  const pending = new Promise(() => {});
+  assert.equal(await waitForModelTurnSignal({
+    terminal: pending,
+    abort: pending,
+    processExit: Promise.resolve("process-exit"),
+    deadline: pending
+  }), "process-exit");
+  assert.equal(await waitForModelTurnSignal({
+    terminal: pending,
+    abort: pending,
+    processExit: pending,
+    deadline: Promise.resolve("deadline")
+  }), "deadline");
+});
+
+test("the evaluator-only continuation binds the immutable v13 candidate and requires exact approval", async () => {
+  const protocol = await readJson(evaluatorContinuationProtocolPath);
+  const template = await readJson(evaluatorContinuationApprovalTemplatePath);
+  assert.deepEqual(validateEvaluatorContinuationProtocol(protocol), { valid: true, errors: [] });
+  assert.equal(protocol.protocol_sha256, protocolDigest(protocol));
+  assert.equal(protocol.source.candidate_run_sha256, "c78c1ab4753e9aca3c095389cafe19fead5cb98328a4faf23adba71ca0303165");
+  assert.equal(protocol.source.candidate_turns, 10);
+  assert.equal(protocol.source.candidate_operational_tokens, 361250);
+  assert.equal(protocol.protocol_revision, 15);
+  assert.equal(protocol.execution.evaluator_turns, 1);
+  assert.equal(protocol.execution.evaluator_operational_token_limit, 100000);
+  assert.equal(protocol.execution.retry_count, 0);
+  assert.equal(protocol.execution.fallback_count, 0);
+  assert.deepEqual(protocol.output_schema.package_ids, ["package-60b8212567fe0e47", "package-836fb4e9fe89a6e4"]);
+  assert.equal(protocol.output_schema.dimension_ids.length, 8);
+  assert.equal(protocol.output_schema.critical_failures.length, 5);
+  assert.equal(protocol.provider_contract.wire_request_validation.thread_start.pass, true);
+  assert.equal(protocol.provider_contract.wire_request_validation.turn_start.pass, true);
+  assert.match(protocol.evaluator_prompt.instruction_sha256, /^[a-f0-9]{64}$/);
+  assert.equal(validateEvaluatorContinuationApproval(template, protocol).accepted, false);
+
+  const approved = {
+    ...template,
+    approved: true,
+    authorization_source: "exact-test-authorization",
+    approved_at: "2026-09-04T00:00:00.000Z"
+  };
+  assert.deepEqual(validateEvaluatorContinuationApproval(approved, protocol), { accepted: true, errors: [] });
+  approved.approved_evaluator_operational_tokens += 1;
+  assert.equal(validateEvaluatorContinuationApproval(approved, protocol).accepted, false);
+
+  const drifted = structuredClone(protocol);
+  drifted.source.candidate_run_sha256 = "0".repeat(64);
+  assert.equal(validateEvaluatorContinuationProtocol(drifted).valid, false);
+});
+
+test("the durable evaluator readiness binds a generation-free production-path rehearsal", async () => {
+  const protocol = await readJson(evaluatorContinuationProtocolPath);
+  const readiness = await readJson(evaluatorContinuationReadinessPath);
+  assert.deepEqual(
+    validateEvaluatorContinuationReadiness(readiness, protocol, protocol.source.lab_root),
+    { valid: true, errors: [] }
+  );
+  const drifted = structuredClone(readiness);
+  drifted.operational_tokens = 1;
+  drifted.checks.pop();
+  const result = validateEvaluatorContinuationReadiness(drifted, protocol, protocol.source.lab_root);
+  assert.equal(result.valid, false);
+  assert.ok(result.errors.includes("evaluator continuation readiness check set mismatch"));
+  assert.ok(result.errors.includes("evaluator continuation readiness must be generation-free"));
+});
+
+test("post-generation semantic failure retains evaluator usage and the exact stop reason", async () => {
+  const labRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0136-evaluator-stop-test-"));
+  try {
+    await fs.copyFile(archivedV13CandidatePath, path.join(labRoot, "candidate-run.json"));
+    const continuation = await readJson(evaluatorContinuationProtocolPath);
+    const sourceProtocol = await readJson(protocolPath);
+    const run = await readJson(path.join(labRoot, "candidate-run.json"));
+    const completion = structuredClone(run.arms[0].blind);
+    await assert.rejects(
+      executeEvaluatorContinuation({
+        labRoot,
+        continuation,
+        sourceProtocol,
+        modelGenerationPerformed: false,
+        launchTurn: async ({ id, stage, route }) => ({
+          id,
+          stage,
+          requested_model: route.model,
+          requested_reasoning_effort: route.reasoning_effort,
+          usage: {
+            input_tokens: 100,
+            cached_input_tokens: 20,
+            output_tokens: 10,
+            reasoning_output_tokens: 0,
+            total_tokens: 110
+          },
+          operational_tokens: 90,
+          completion: {
+            packages: [{
+              package_id: completion.package_id,
+              dimensions: [],
+              critical_failure: null,
+              summary: "invalid incomplete package"
+            }],
+            summary: "invalid incomplete evaluation"
+          }
+        })
+      }),
+      /evaluator package count mismatch/
+    );
+    const stopped = await readJson(path.join(labRoot, "evaluator-continuation-stopped-run.json"));
+    assert.equal(stopped.evaluator_observation.operational_tokens, 90);
+    assert.equal(stopped.evaluator_observation.usage.input_tokens, 100);
+    assert.match(stopped.evaluator_observation.stop_reason, /^evaluator-contract-invalid:/);
+    assert.equal(stopped.model_generation_status, "not-performed");
+  } finally {
+    await fs.rm(labRoot, { recursive: true, force: true });
+  }
 });
 
 test("the frozen context ablation requires matched repositories and exact approval", async () => {

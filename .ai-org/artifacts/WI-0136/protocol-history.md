@@ -324,3 +324,41 @@ The v12 run completed Minimal Responsible Design at 50,602 Operational Tokens. D
 - Readiness result: all seventeen checks pass with zero Operational Tokens and no model generation
 - Preflight result: fixture, Provider contract, lifecycle, readiness, and repository checks pass; exact v13 approval is the only blocker
 - Status: frozen and generation-disabled pending separate exact approval
+
+The exact-approved v13 candidate run completed both arms and all ten candidate turns once with zero retry and zero fallback. It used 361,250 Operational Tokens: 183,854 for Minimal Responsible and 177,396 for Temple. All service, public integration, and held-out checks passed, and both integrations recovered four of four revisions and three of three slices. The candidate file is archived under SHA-256 `c78c1ab4753e9aca3c095389cafe19fead5cb98328a4faf23adba71ca0303165`.
+
+The v13 evaluator request stopped with the exposed error `blind-evaluator:detailed Token usage missing`. Because the old runner checked usage before preserving a failed `turn/completed` terminal, the underlying Provider error, generation status, and evaluator Token amount are unknown. That attempt is retained as stopped evidence and is not retried.
+
+## Representative evaluator continuation v14
+
+- Source candidate protocol: `ffc48213ef3704418cb031a1fdf0621fb79763df259c9bc290d340224a4ec06c`
+- Source candidate record: `c78c1ab4753e9aca3c095389cafe19fead5cb98328a4faf23adba71ca0303165`
+- Continuation protocol: `df137a01fa36cee2d063319b0d6f7bdfcdc2c1429c4c6009286e39422d8508e5`
+- Scope: one Sol xhigh arm-blind evaluator turn only
+- Additional Operational-Token ceiling: 100,000
+- Wall-clock ceiling: 15 minutes
+- Retry and fallback: disabled
+- Network and tools: disabled
+- Account boundary: Pro included allowance only; no Credits purchase or refill; no reset
+- Status: superseded before approval or model generation
+
+V14 could not regenerate candidate work and introduced a smaller portable evaluator schema using integer `enum: [0, 1]`. Before approval, the systemic review found that it still lacked one complete rehearsal of the exact wire requests, semantic-output failure retention, child-process exit, deadline release, score freeze, and analyzer path. It was therefore superseded without spending a model turn. The missing v13 Provider terminal means the schema remains an unconfirmed cause rather than a diagnosis.
+
+## Representative evaluator continuation v15
+
+- Source candidate protocol: `ffc48213ef3704418cb031a1fdf0621fb79763df259c9bc290d340224a4ec06c`
+- Source candidate record: `c78c1ab4753e9aca3c095389cafe19fead5cb98328a4faf23adba71ca0303165`
+- Continuation protocol: `95ddc4fbe65db25761a4ea1e0d44a437b3760e4422022265ce67ddf827fc1bf3`
+- Scope: one Sol xhigh arm-blind evaluator turn only
+- Additional Operational-Token ceiling: 100,000
+- Wall-clock ceiling: 15 minutes
+- Retry and fallback: disabled
+- Network and tools: disabled
+- Account boundary: Pro included allowance only; no Credits purchase or refill; no reset
+- Generation-free readiness: eleven of eleven checks pass at zero Operational Tokens
+- Live preflight: twenty-one of twenty-two checks pass; exact approval is the only blocker
+- Status: frozen and generation-disabled pending separate exact approval
+
+V15 binds the immutable v13 candidate and lab, exact package and rubric identities, exact evaluator prompt metrics, a dynamic portable output schema, exact installed `thread/start` and synthetic `turn/start` wire-schema validation, runner and analyzer digests, and the memory-isolated Provider contract. The production continuation function completed semantic validation, score freeze, mapping unseal, and analysis under an injected zero-Token evaluator before live approval became eligible.
+
+The runner now waits on terminal, abort, process exit, or deadline; preserves a failed Provider terminal ahead of missing usage; and retains usage plus the causal semantic-validation error if a structured response is invalid. These checks reduce known harness risk but do not claim that an external Provider can never expose a new condition. The detailed classification and interpretation boundary are recorded in `failure-mode-review.md`.

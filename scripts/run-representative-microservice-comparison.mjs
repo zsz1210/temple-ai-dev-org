@@ -9,6 +9,8 @@ import path from "node:path";
 import { promisify } from "node:util";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
+import Ajv from "ajv";
+
 import {
   buildCodexRuntimeRequestResponse,
   createJsonRpcProcess
@@ -30,6 +32,26 @@ const fixtureRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/fixture
 const defaultLabRoot = path.join(os.tmpdir(), "temple-wi0136-representative-microservice");
 const defaultProtocolPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/live-protocol.json");
 const defaultApprovalTemplatePath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/account-approval.template.json");
+const defaultEvaluatorContinuationProtocolPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/evaluator-continuation-protocol.json");
+const defaultEvaluatorContinuationApprovalTemplatePath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/evaluator-continuation-approval.template.json");
+const defaultEvaluatorContinuationApprovalPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/evaluator-continuation-approval.json");
+const defaultEvaluatorContinuationReadinessPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/evaluator-continuation-readiness-v15.json");
+const archivedV13CandidatePath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/representative-main-v13-candidate-run.json");
+const archivedV13ManifestPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/representative-main-v13-lab-manifest.json");
+const evaluatorContinuationRevision = 15;
+const evaluatorContinuationReadinessCheckIds = Object.freeze([
+  "source-candidate-bound",
+  "dynamic-output-schema-valid",
+  "exact-evaluator-prompt-bound",
+  "exact-thread-start-wire-schema",
+  "exact-turn-start-wire-schema",
+  "injected-production-evaluator-completed",
+  "score-freeze-completed",
+  "semantic-output-validation-completed",
+  "analysis-completed",
+  "zero-operational-tokens",
+  "no-model-generation"
+]);
 const priorAblationLabRoots = Object.freeze({
   v7: path.join(os.tmpdir(), "temple-wi0136-context-recovery-qualification-v7"),
   v8: path.join(os.tmpdir(), "temple-wi0136-context-recovery-qualification-v8"),
@@ -307,6 +329,7 @@ function parseArguments(argv) {
   const command = argv[0];
   const commands = [
     "setup", "freeze", "preflight", "inspect", "readiness", "run", "evaluate", "report",
+    "evaluator-continuation-freeze", "evaluator-continuation-readiness", "evaluator-continuation-preflight", "evaluator-continuation-evaluate", "evaluator-continuation-report",
     "ablation-setup", "ablation-freeze", "ablation-preflight", "ablation-inspect", "ablation-run", "ablation-report"
   ];
   if (!command || !commands.includes(command)) {
@@ -326,10 +349,15 @@ function parseArguments(argv) {
     if (argument.startsWith("--")) index += 1;
   }
   const ablation = command.startsWith("ablation-");
+  const evaluatorContinuation = command.startsWith("evaluator-continuation-");
   return {
     command,
     labRoot: value("--lab", ablation ? defaultAblationLabRoot : defaultLabRoot),
-    protocolPath: value("--protocol", ablation ? defaultAblationProtocolPath : defaultProtocolPath),
+    protocolPath: value("--protocol", ablation
+      ? defaultAblationProtocolPath
+      : evaluatorContinuation
+        ? defaultEvaluatorContinuationProtocolPath
+        : defaultProtocolPath),
     approvalPath: value("--approval", null)
   };
 }
@@ -1071,7 +1099,19 @@ function modelEfforts(model) {
   return values.map((entry) => typeof entry === "string" ? entry : entry?.reasoningEffort ?? entry?.effort ?? entry?.value ?? null).filter(Boolean);
 }
 
-async function providerHandshake() {
+function validateGeneratedWireRequest(schemaText, params) {
+  const schema = JSON.parse(schemaText);
+  const ajv = new Ajv({ allErrors: true, strict: false, validateFormats: false });
+  const validate = ajv.compile(schema);
+  const pass = validate(params);
+  return {
+    pass,
+    request_sha256: sha256(JSON.stringify(stable(params))),
+    errors: pass ? [] : (validate.errors ?? []).map((entry) => `${entry.instancePath || "#"}: ${entry.message}`)
+  };
+}
+
+async function providerHandshake(options = {}) {
   const cli = await checked("codex", ["--version"]);
   const schemaRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0136-schema-"));
   const names = [
@@ -1131,8 +1171,15 @@ async function providerHandshake() {
         observed_reasoning_efforts: [...efforts]
       };
     });
+    const wireRequestValidation = options.wireRequests
+      ? {
+          thread_start: validateGeneratedWireRequest(schemaTexts["ThreadStartParams.json"], options.wireRequests.threadStart),
+          turn_start: validateGeneratedWireRequest(schemaTexts["TurnStartParams.json"], options.wireRequests.turnStart)
+        }
+      : null;
     return {
-      pass: checks.every((entry) => entry.available) && memoryIsolation.pass,
+      pass: checks.every((entry) => entry.available) && memoryIsolation.pass &&
+        (wireRequestValidation === null || (wireRequestValidation.thread_start.pass && wireRequestValidation.turn_start.pass)),
       codex_cli_version: cli,
       schema_digests: schemaDigests,
       turn_sandbox_capabilities: {
@@ -1142,6 +1189,7 @@ async function providerHandshake() {
         network_access_toggle_supported: schemaTexts["TurnStartParams.json"].includes('"networkAccess"')
       },
       memory_isolation: memoryIsolation,
+      wire_request_validation: wireRequestValidation,
       required_models: required,
       model_checks: checks,
       model_generation_performed: false
@@ -1397,6 +1445,7 @@ export const integrationOutputSchema = Object.freeze({
 });
 
 const structuredOutputSchemaProfile = "openai-structured-outputs-subset/2026-09-03";
+const structuredOutputPortableProfile = "openai-structured-outputs-portable-subset/2026-09-04";
 const structuredOutputCommonKeywords = new Set(["type", "description", "enum", "const", "anyOf", "$ref", "$defs"]);
 const structuredOutputTypeKeywords = Object.freeze({
   object: new Set(["properties", "required", "additionalProperties"]),
@@ -1408,7 +1457,8 @@ const structuredOutputTypeKeywords = Object.freeze({
   null: new Set()
 });
 
-export function validateProviderOutputSchema(schema) {
+export function validateProviderOutputSchema(schema, options = {}) {
+  const portable = options.portable === true;
   const errors = [];
   let objectPropertyCount = 0;
   let enumValueCount = 0;
@@ -1434,6 +1484,14 @@ export function validateProviderOutputSchema(schema) {
     }
     for (const keyword of Object.keys(node)) {
       if (!allowedKeywords.has(keyword)) errors.push(`${pointer}: unsupported keyword ${keyword}`);
+    }
+    if (portable) {
+      for (const keyword of [
+        "minItems", "maxItems", "pattern", "format", "multipleOf", "maximum",
+        "exclusiveMaximum", "minimum", "exclusiveMinimum"
+      ]) {
+        if (Object.hasOwn(node, keyword)) errors.push(`${pointer}: keyword ${keyword} is not portable across supported model routes`);
+      }
     }
 
     if (types.includes("object")) {
@@ -1491,7 +1549,7 @@ export function validateProviderOutputSchema(schema) {
   if (constrainedStringCharacters > 120000) errors.push("#: constrained schema strings exceed 120000 characters");
   if (enumValueCount > 1000) errors.push("#: more than 1000 total enum values");
   return {
-    profile: structuredOutputSchemaProfile,
+    profile: portable ? structuredOutputPortableProfile : structuredOutputSchemaProfile,
     supported: errors.length === 0,
     errors,
     schema_sha256: sha256(JSON.stringify(schema)),
@@ -1502,40 +1560,181 @@ export function validateProviderOutputSchema(schema) {
   };
 }
 
-const evaluatorOutputSchema = Object.freeze({
-  type: "object",
-  additionalProperties: false,
-  required: ["packages", "summary"],
-  properties: {
-    packages: {
-      type: "array",
-      items: {
-        type: "object",
-        additionalProperties: false,
-        required: ["package_id", "dimensions", "critical_failure", "summary"],
-        properties: {
-          package_id: { type: "string" },
-          dimensions: {
-            type: "array",
-            items: {
-              type: "object",
-              additionalProperties: false,
-              required: ["id", "score", "rationale"],
-              properties: {
-                id: { type: "string" },
-                score: { type: "integer", minimum: 0, maximum: 1 },
-                rationale: { type: "string" }
+export function buildEvaluatorOutputSchema(blindPackages = [], rubric = {}) {
+  const packageIds = blindPackages.map((entry) => entry.package_id).filter(Boolean).toSorted();
+  const dimensionIds = (rubric.dimensions ?? []).map((entry) => entry.id).filter(Boolean).toSorted();
+  const criticalFailures = (rubric.critical_failures ?? []).filter(Boolean).toSorted();
+  return {
+    type: "object",
+    additionalProperties: false,
+    required: ["packages", "summary"],
+    properties: {
+      packages: {
+        type: "array",
+        items: {
+          type: "object",
+          additionalProperties: false,
+          required: ["package_id", "dimensions", "critical_failure", "summary"],
+          properties: {
+            package_id: { type: "string", ...(packageIds.length > 0 ? { enum: packageIds } : {}) },
+            dimensions: {
+              type: "array",
+              items: {
+                type: "object",
+                additionalProperties: false,
+                required: ["id", "score", "rationale"],
+                properties: {
+                  id: { type: "string", ...(dimensionIds.length > 0 ? { enum: dimensionIds } : {}) },
+                  score: { type: "integer", enum: [0, 1] },
+                  rationale: { type: "string" }
+                }
               }
-            }
-          },
-          critical_failure: { type: ["string", "null"] },
-          summary: { type: "string" }
+            },
+            critical_failure: {
+              type: ["string", "null"],
+              ...(criticalFailures.length > 0 ? { enum: [null, ...criticalFailures] } : {})
+            },
+            summary: { type: "string" }
+          }
         }
+      },
+      summary: { type: "string" }
+    }
+  };
+}
+
+export const evaluatorOutputSchema = Object.freeze(buildEvaluatorOutputSchema());
+
+export function modelTurnStopReason(terminal, violation = null) {
+  if (violation) return violation;
+  const failure = terminalFailure(terminal);
+  return failure ? `${failure.code}:${failure.message}` : null;
+}
+
+function sanitizedTerminalObservation(terminal) {
+  if (!terminal || typeof terminal !== "object") return null;
+  const providerError = terminal.error && typeof terminal.error === "object"
+    ? {
+        message: typeof terminal.error.message === "string" ? terminal.error.message.slice(0, 1000) : null,
+        codex_error_info: terminal.error.codexErrorInfo ?? terminal.error.codex_error_info ?? null,
+        additional_details_present: terminal.error.additionalDetails !== undefined || terminal.error.additional_details !== undefined
       }
-    },
-    summary: { type: "string" }
+    : null;
+  return {
+    id: terminal.id ?? null,
+    status: terminal.status ?? null,
+    error: providerError
+  };
+}
+
+function candidateTurnCount(run) {
+  return (run?.arms ?? []).reduce((total, arm) => total + 2 + (arm?.builds?.length ?? 0), 0);
+}
+
+function sortedBlindPackages(run) {
+  return (run?.arms ?? [])
+    .map((entry) => entry.blind)
+    .toSorted((left, right) => left.package_id.localeCompare(right.package_id));
+}
+
+function blindPackagesDigest(run) {
+  return sha256(JSON.stringify(stable(sortedBlindPackages(run))));
+}
+
+function evaluatorContinuationApprovalTemplate(protocol) {
+  return {
+    schema_version: "temple.representative-microservice-evaluator-continuation-approval/v1",
+    work_item_id: protocol.work_item_id,
+    continuation_protocol_sha256: protocol.protocol_sha256,
+    source_protocol_sha256: protocol.source.protocol_sha256,
+    source_candidate_run_sha256: protocol.source.candidate_run_sha256,
+    approved: false,
+    authorization_source: null,
+    approved_evaluator_turns: protocol.execution.evaluator_turns,
+    approved_model: protocol.model_route.evaluator.model,
+    approved_reasoning_effort: protocol.model_route.evaluator.reasoning_effort,
+    approved_evaluator_operational_tokens: protocol.execution.evaluator_operational_token_limit,
+    approved_program_wall_clock_ms: protocol.execution.program_wall_clock_limit_ms,
+    pro_included_allowance_only: true,
+    credits_purchase_authorized: false,
+    automatic_refill_authorized: false,
+    usage_reset_authorized: false,
+    retry_count: 0,
+    fallback_count: 0,
+    approved_at: null
+  };
+}
+
+export function validateEvaluatorContinuationApproval(approval, protocol) {
+  const expected = evaluatorContinuationApprovalTemplate(protocol);
+  const errors = [];
+  for (const key of Object.keys(expected)) {
+    if (["approved", "authorization_source", "approved_at"].includes(key)) continue;
+    if (approval?.[key] !== expected[key]) errors.push(`${key} does not match the frozen continuation protocol`);
   }
-});
+  if (approval?.approved !== true || !approval?.authorization_source || !approval?.approved_at) {
+    errors.push("affirmative continuation approval record is incomplete");
+  }
+  return { accepted: errors.length === 0, errors };
+}
+
+export function validateEvaluatorContinuationProtocol(protocol) {
+  const errors = [];
+  if (protocol?.schema_version !== "temple.representative-microservice-evaluator-continuation/v1") errors.push("unsupported continuation schema");
+  if (protocol?.protocol_revision !== evaluatorContinuationRevision || protocol?.work_item_id !== "WI-0136") errors.push("unexpected continuation identity");
+  if (protocol?.status !== "generation-disabled") errors.push("continuation must remain generation-disabled before exact approval");
+  if (protocol?.protocol_sha256 !== protocolDigest(protocol)) errors.push("continuation protocol digest mismatch");
+  if (protocol?.source?.protocol_sha256 !== "ffc48213ef3704418cb031a1fdf0621fb79763df259c9bc290d340224a4ec06c") errors.push("source v13 protocol mismatch");
+  if (!/^[a-f0-9]{64}$/.test(protocol?.source?.candidate_run_sha256 ?? "") ||
+      !/^[a-f0-9]{64}$/.test(protocol?.source?.blind_packages_sha256 ?? "") ||
+      !/^[a-f0-9]{64}$/.test(protocol?.source?.lab_manifest_sha256 ?? "")) errors.push("source evidence digest missing");
+  if (!path.isAbsolute(protocol?.source?.lab_root ?? "")) errors.push("source lab root missing");
+  if (!/^[a-f0-9]{64}$/.test(protocol?.continuation_runner_sha256 ?? "")) errors.push("continuation runner digest missing");
+  if (!/^[a-f0-9]{64}$/.test(protocol?.continuation_analyzer_sha256 ?? "")) errors.push("continuation analyzer digest missing");
+  if (protocol?.source?.candidate_status !== "candidate-arms-completed" ||
+      protocol?.source?.candidate_turns !== 10 ||
+      !Number.isSafeInteger(protocol?.source?.candidate_operational_tokens) ||
+      protocol.source.candidate_operational_tokens <= 0 ||
+      protocol?.source?.retry_count !== 0 || protocol?.source?.fallback_count !== 0) errors.push("source candidate evidence mismatch");
+  const execution = protocol?.execution ?? {};
+  if (execution.evaluator_turns !== 1 || execution.retry_count !== 0 || execution.fallback_count !== 0 ||
+      execution.network_access !== false || execution.tools_allowed !== false || execution.exact_approval_required !== true ||
+      execution.generation_ready !== false || execution.evaluator_operational_token_limit !== 100000 ||
+      execution.program_wall_clock_limit_ms !== 900000) errors.push("continuation execution boundary mismatch");
+  if (protocol?.model_route?.evaluator?.model !== "gpt-5.6-sol" || protocol?.model_route?.evaluator?.reasoning_effort !== "xhigh") {
+    errors.push("continuation evaluator route mismatch");
+  }
+  const packageIds = protocol?.output_schema?.package_ids;
+  const dimensionIds = protocol?.output_schema?.dimension_ids;
+  const criticalFailures = protocol?.output_schema?.critical_failures;
+  if (!Array.isArray(packageIds) || packageIds.length !== 2 || new Set(packageIds).size !== packageIds.length ||
+      !Array.isArray(dimensionIds) || dimensionIds.length === 0 || new Set(dimensionIds).size !== dimensionIds.length ||
+      !Array.isArray(criticalFailures) || new Set(criticalFailures).size !== criticalFailures.length) {
+    errors.push("evaluator output identities are incomplete or duplicated");
+  }
+  const reconstructedSchema = buildEvaluatorOutputSchema(
+    (packageIds ?? []).map((package_id) => ({ package_id })),
+    {
+      dimensions: (dimensionIds ?? []).map((id) => ({ id })),
+      critical_failures: criticalFailures ?? []
+    }
+  );
+  const portableSchema = validateProviderOutputSchema(reconstructedSchema, { portable: true });
+  if (!portableSchema.supported || protocol?.output_schema?.profile !== portableSchema.profile ||
+      protocol?.output_schema?.schema_sha256 !== portableSchema.schema_sha256) errors.push("portable evaluator output schema mismatch");
+  if (!/^[a-f0-9]{64}$/.test(protocol?.evaluator_prompt?.instruction_sha256 ?? "") ||
+      !Number.isSafeInteger(protocol?.evaluator_prompt?.instruction_bytes) || protocol.evaluator_prompt.instruction_bytes <= 0 ||
+      !Number.isSafeInteger(protocol?.evaluator_prompt?.explicit_prompt_bytes) || protocol.evaluator_prompt.explicit_prompt_bytes <= 0) {
+    errors.push("evaluator prompt binding missing");
+  }
+  if (!protocol?.provider_contract?.codex_cli_version || !protocol?.provider_contract?.schema_digests ||
+      protocol?.provider_contract?.memory_isolation?.pass !== true ||
+      protocol?.provider_contract?.wire_request_validation?.thread_start?.pass !== true ||
+      protocol?.provider_contract?.wire_request_validation?.turn_start?.pass !== true) errors.push("continuation Provider contract missing");
+  if (protocol?.predecessor?.disposition !== "v14-superseded-before-approval-after-systemic-evaluator-audit" ||
+      protocol?.predecessor?.retry_of_v13_evaluator !== false) errors.push("continuation predecessor mismatch");
+  return { valid: errors.length === 0, errors };
+}
 
 function operationalTokens(usage) {
   return usage.input_tokens - usage.cached_input_tokens + usage.output_tokens;
@@ -1588,6 +1787,80 @@ const boundedDeveloperInstructions = [
   "Use apply_patch for allowed file changes. Treat repository files as state and complete exactly one attempt.",
   "Return only the requested structured JSON object."
 ].join("\n");
+
+export function representativeThreadStartParams({ id, cwd, route, sandbox = "workspace-write" }) {
+  return {
+    model: route.model,
+    cwd,
+    approvalPolicy: "never",
+    sandbox,
+    serviceName: `temple-wi0136-${id}`,
+    developerInstructions: boundedDeveloperInstructions,
+    ...wave5ThreadIsolation(cwd),
+    baseInstructions: boundedBaseInstructions
+  };
+}
+
+export function representativeTurnStartParams({ id, threadId, cwd, route, instruction, outputSchema, sandbox = "workspace-write" }) {
+  return {
+    threadId,
+    clientUserMessageId: `wi0136-${id}`,
+    input: [{ type: "text", text: instruction }],
+    turnTrigger: "user",
+    cwd,
+    approvalPolicy: "never",
+    sandboxPolicy: representativeTurnSandboxPolicy(cwd, sandbox),
+    model: route.model,
+    effort: route.reasoning_effort,
+    outputSchema
+  };
+}
+
+function evaluatorInstruction(blindPackages, rubric) {
+  return [
+    "Independently evaluate both arm-neutral packages against the frozen binary rubric.",
+    "Use only the supplied JSON. Do not use tools, infer process identity, or compare resource use.",
+    "A failed held-out objective test is a critical failure. Return each rubric dimension exactly once with score 0 or 1.",
+    JSON.stringify({ rubric, packages: blindPackages })
+  ].join("\n\n");
+}
+
+function evaluatorContract(run, rubric, labRoot, route) {
+  const blindPackages = sortedBlindPackages(run);
+  const instruction = evaluatorInstruction(blindPackages, rubric);
+  const outputSchema = buildEvaluatorOutputSchema(blindPackages, rubric);
+  const schemaValidation = validateProviderOutputSchema(outputSchema, { portable: true });
+  const id = `blind-evaluator-continuation-v${evaluatorContinuationRevision}`;
+  const syntheticThreadId = `wi0136-evaluator-continuation-v${evaluatorContinuationRevision}-schema-check`;
+  const threadStart = representativeThreadStartParams({
+    id,
+    cwd: labRoot,
+    route,
+    sandbox: "read-only"
+  });
+  const turnStart = representativeTurnStartParams({
+    id,
+    threadId: syntheticThreadId,
+    cwd: labRoot,
+    route,
+    instruction,
+    outputSchema,
+    sandbox: "read-only"
+  });
+  return {
+    id,
+    blindPackages,
+    instruction,
+    outputSchema,
+    schemaValidation,
+    prompt: {
+      instruction_sha256: sha256(instruction),
+      instruction_bytes: Buffer.byteLength(instruction),
+      explicit_prompt_bytes: promptMetrics(instruction, outputSchema).explicit_bytes
+    },
+    wireRequests: { threadStart, turnStart }
+  };
+}
 
 function textMetrics(value) {
   return {
@@ -1665,6 +1938,10 @@ export function stoppedStageObservation(observation, stopReason, candidateLimitO
   };
 }
 
+export function waitForModelTurnSignal({ terminal, abort, processExit, deadline }) {
+  return Promise.race([terminal, abort, processExit, deadline]);
+}
+
 function summarizeSuccessfulContextActivity(item, activity, fallbackActions = []) {
   for (const label of successfulContextActionLabels(item, fallbackActions)) {
     if (label === "temple-md") activity.temple_md_reads += 1;
@@ -1715,6 +1992,11 @@ async function launchModelTurn({
   const terminalPromise = new Promise((resolve) => { resolveTerminal = resolve; });
   let resolveAbort;
   const abortPromise = new Promise((resolve) => { resolveAbort = resolve; });
+  let processFailure = null;
+  let resolveProcessExit;
+  const processExitPromise = new Promise((resolve) => { resolveProcessExit = resolve; });
+  let resolveDeadline;
+  const deadlinePromise = new Promise((resolve) => { resolveDeadline = resolve; });
   const startedAt = new Date().toISOString();
   const startedMs = Date.now();
   let turnRequestedMs = null;
@@ -1802,51 +2084,75 @@ async function launchModelTurn({
         try { responder.respond(buildCodexRuntimeRequestResponse(message.method, message.params, { decision: "decline" })); } catch {}
       }
       void interrupt(`runtime-request:${message.method}`);
+    },
+    onProtocolError(error) {
+      processFailure = { code: "app-server-protocol-error", message: String(error.message ?? error), metadata: null };
+      resolveProcessExit();
+    },
+    onExit(error, metadata = null) {
+      processFailure = { code: "app-server-exit", message: String(error.message ?? error), metadata };
+      resolveProcessExit();
     }
   });
 
-  const timer = setTimeout(() => { void interrupt("program-wall-clock-limit"); }, Math.max(1, deadline - Date.now()));
+  const timer = setTimeout(() => {
+    void interrupt("program-wall-clock-limit");
+    resolveDeadline();
+  }, Math.max(1, deadline - Date.now()));
   try {
     await connection.request("initialize", {
       clientInfo: { name: "temple-wi0136", title: "Temple WI-0136 Representative Comparison", version: "1" },
       capabilities: { experimentalApi: false }
     });
     connection.notify("initialized", {});
-    const thread = await connection.request("thread/start", {
-      model: route.model,
-      cwd,
-      approvalPolicy: "never",
-      sandbox,
-      serviceName: `temple-wi0136-${id}`,
-      developerInstructions: boundedDeveloperInstructions,
-      ...wave5ThreadIsolation(cwd),
-      baseInstructions: boundedBaseInstructions
-    });
+    const thread = await connection.request("thread/start", representativeThreadStartParams({ id, cwd, route, sandbox }));
     threadId = thread?.thread?.id;
     if (!threadId || thread.model !== route.model) throw new Error(`${id}: requested model was not acknowledged`);
     turnRequestedMs = Date.now();
-    const turn = await connection.request("turn/start", {
+    const turn = await connection.request("turn/start", representativeTurnStartParams({
+      id,
       threadId,
-      clientUserMessageId: `wi0136-${id}`,
-      input: [{ type: "text", text: instruction }],
-      turnTrigger: "user",
       cwd,
-      approvalPolicy: "never",
-      sandboxPolicy: representativeTurnSandboxPolicy(cwd, sandbox),
-      model: route.model,
-      effort: route.reasoning_effort,
-      outputSchema
-    });
+      route,
+      instruction,
+      outputSchema,
+      sandbox
+    }));
     turnId = turn?.turn?.id;
     if (!turnId) throw new Error(`${id}: turn did not start`);
     if (abortSignal?.aborted) await interrupt("parallel-wave-cancelled");
-    await Promise.race([terminalPromise, abortPromise]);
+    await waitForModelTurnSignal({
+      terminal: terminalPromise,
+      abort: abortPromise,
+      processExit: processExitPromise,
+      deadline: deadlinePromise
+    });
     await new Promise((resolve) => setTimeout(resolve, 500));
+    if (processFailure && terminal === null && violation === null) violation = `${processFailure.code}:${processFailure.message}`;
     const candidateLimitObserved = violation === `${stage}-operational-token-limit`;
-    const failure = terminalFailure(terminal);
-    const stopReason = violation ?? (failure ? `${failure.code}:${failure.message}` : null);
+    const stopReason = modelTurnStopReason(terminal, violation);
     const retainObservedStop = retainStopOutcome && stopReason !== null && latestUsage !== null;
-    if (!latestUsage) throw new Error(`${id}:detailed Token usage missing`);
+    if (!latestUsage) {
+      const error = new Error(stopReason ? `${id}:${stopReason}` : `${id}:detailed Token usage missing`);
+      error.stage_observation = {
+        id,
+        stage,
+        status: "stopped",
+        stop_scope: "run",
+        stop_reason: stopReason ?? "detailed-token-usage-missing",
+        thread_id: threadId,
+        turn_id: turnId,
+        requested_model: route.model,
+        requested_reasoning_effort: route.reasoning_effort,
+        provider_terminal: sanitizedTerminalObservation(terminal),
+        transport_failure: processFailure,
+        usage: null,
+        operational_tokens: null,
+        retry_count: 0,
+        fallback_count: 0
+      };
+      throw error;
+    }
     const tokens = operationalTokens(latestUsage);
     const completedMs = Date.now();
     const turnElapsedMs = completedMs - turnRequestedMs;
@@ -1889,12 +2195,22 @@ async function launchModelTurn({
     if (retainObservedStop) {
       return stoppedStageObservation(observation, stopReason, candidateLimitObserved);
     }
+    let completion;
+    try {
+      completion = parseStructuredMessage(completionText);
+    } catch (error) {
+      error.stage_observation = stoppedStageObservation(
+        observation,
+        `malformed-completion:${String(error.message ?? error)}`
+      );
+      throw error;
+    }
     return {
       ...observation,
       status: "completed",
       stop_scope: null,
       stop_reason: null,
-      completion: parseStructuredMessage(completionText)
+      completion
     };
   } finally {
     clearTimeout(timer);
@@ -3501,8 +3817,11 @@ async function runProgram(labRoot, protocolPath, approvalPath) {
 export function validateEvaluatorCompletion(completion, blindPackages, rubric) {
   const expectedPackages = new Set(blindPackages.map((entry) => entry.package_id));
   const expectedDimensions = new Set(rubric.dimensions.map((entry) => entry.id));
+  const allowedCriticalFailures = new Set(rubric.critical_failures ?? []);
   const errors = [];
+  const nonEmpty = (value) => typeof value === "string" && value.trim().length > 0;
   if (!Array.isArray(completion?.packages) || completion.packages.length !== expectedPackages.size) errors.push("evaluator package count mismatch");
+  if (!nonEmpty(completion?.summary)) errors.push("evaluator summary missing");
   const seen = new Set();
   for (const packageResult of completion?.packages ?? []) {
     if (!expectedPackages.has(packageResult.package_id) || seen.has(packageResult.package_id)) errors.push("evaluator package identity mismatch");
@@ -3511,6 +3830,11 @@ export function validateEvaluatorCompletion(completion, blindPackages, rubric) {
     if (dimensions.length !== expectedDimensions.size || new Set(dimensions.map((entry) => entry.id)).size !== expectedDimensions.size) errors.push("evaluator dimension count mismatch");
     for (const dimension of dimensions) {
       if (!expectedDimensions.has(dimension.id) || ![0, 1].includes(dimension.score)) errors.push("evaluator dimension invalid");
+      if (!nonEmpty(dimension.rationale)) errors.push("evaluator dimension rationale missing");
+    }
+    if (!nonEmpty(packageResult.summary)) errors.push("evaluator package summary missing");
+    if (packageResult.critical_failure !== null && !allowedCriticalFailures.has(packageResult.critical_failure)) {
+      errors.push("evaluator critical failure invalid");
     }
   }
   if (errors.length > 0) throw new Error(errors.join(", "));
@@ -3613,6 +3937,533 @@ async function reportProgram(labRoot, protocolPath) {
   const analysis = analyzeRepresentativeComparison({ protocol, run, evaluator });
   await writeJson(path.join(labRoot, "analysis.json"), analysis);
   return analysis;
+}
+
+async function archiveExactFile(source, target) {
+  const bytes = await fs.readFile(source);
+  const digest = sha256(bytes);
+  if (await exists(target)) {
+    const observed = sha256(await fs.readFile(target));
+    if (observed !== digest) throw new Error(`refusing to replace drifted evidence archive: ${target}`);
+  } else {
+    await fs.mkdir(path.dirname(target), { recursive: true });
+    await fs.copyFile(source, target);
+  }
+  return digest;
+}
+
+function providerContractFromHandshake(handshake) {
+  return {
+    codex_cli_version: handshake.codex_cli_version,
+    schema_digests: handshake.schema_digests,
+    required_models: handshake.required_models,
+    turn_sandbox_capabilities: handshake.turn_sandbox_capabilities,
+    memory_isolation: handshake.memory_isolation,
+    wire_request_validation: handshake.wire_request_validation
+  };
+}
+
+function providerContractMatches(protocolContract, handshake) {
+  return handshake.pass && JSON.stringify(protocolContract) === JSON.stringify(providerContractFromHandshake(handshake));
+}
+
+async function freezeEvaluatorContinuation(labRoot, protocolPath) {
+  if (await exists(protocolPath)) throw new Error(`refusing to replace existing continuation protocol: ${protocolPath}`);
+  const sourceProtocol = await readJson(defaultProtocolPath);
+  const sourceValidation = validateRepresentativeProtocol(sourceProtocol);
+  if (!sourceValidation.valid) throw new Error(`source v13 protocol invalid: ${sourceValidation.errors.join(", ")}`);
+  const candidatePath = path.join(labRoot, "candidate-run.json");
+  const manifestPath = path.join(labRoot, "lab-manifest.json");
+  const run = await readJson(candidatePath);
+  const manifest = await readJson(manifestPath);
+  if (await exists(path.join(labRoot, "evaluator-result.json")) || await exists(path.join(labRoot, "quality-scores-frozen.json"))) {
+    throw new Error("source evaluator evidence already exists; continuation is unnecessary");
+  }
+  if (run.status !== "candidate-arms-completed" || run.protocol_sha256 !== sourceProtocol.protocol_sha256 ||
+      candidateTurnCount(run) !== 10 || run.retry_count !== 0 || run.fallback_count !== 0) {
+    throw new Error("source candidate record is incomplete or protocol-mismatched");
+  }
+  if (manifest.manifest_sha256 !== sourceProtocol.lab_manifest_sha256) throw new Error("source lab manifest mismatch");
+  const candidateRunSha = await archiveExactFile(candidatePath, archivedV13CandidatePath);
+  const manifestFileSha = await archiveExactFile(manifestPath, archivedV13ManifestPath);
+  const rubric = await readJson(path.join(fixtureRoot, "rubric.json"));
+  const route = { model: "gpt-5.6-sol", reasoning_effort: "xhigh" };
+  const contract = evaluatorContract(run, rubric, path.resolve(labRoot), route);
+  if (!contract.schemaValidation.supported) {
+    throw new Error(`portable evaluator schema invalid: ${contract.schemaValidation.errors.join(", ")}`);
+  }
+  const handshake = await providerHandshake({ wireRequests: contract.wireRequests });
+  if (!handshake.pass) throw new Error("required Provider models, efforts, or isolation settings are unavailable");
+  const runnerSha = sha256(await fs.readFile(fileURLToPath(import.meta.url)));
+  const analyzerSha = sha256(await fs.readFile(path.join(repositoryRoot, "scripts/analyze-representative-microservice-comparison.mjs")));
+  const protocol = {
+    schema_version: "temple.representative-microservice-evaluator-continuation/v1",
+    protocol_revision: evaluatorContinuationRevision,
+    work_item_id: "WI-0136",
+    status: "generation-disabled",
+    protocol_sha256: null,
+    source: {
+      protocol_sha256: sourceProtocol.protocol_sha256,
+      lab_root: path.resolve(labRoot),
+      candidate_record: path.relative(repositoryRoot, archivedV13CandidatePath),
+      candidate_run_sha256: candidateRunSha,
+      candidate_status: run.status,
+      candidate_turns: candidateTurnCount(run),
+      candidate_operational_tokens: run.candidate_operational_tokens,
+      retry_count: run.retry_count,
+      fallback_count: run.fallback_count,
+      blind_packages_sha256: blindPackagesDigest(run),
+      lab_manifest_record: path.relative(repositoryRoot, archivedV13ManifestPath),
+      lab_manifest_sha256: manifest.manifest_sha256,
+      lab_manifest_file_sha256: manifestFileSha
+    },
+    continuation_runner_sha256: runnerSha,
+    continuation_analyzer_sha256: analyzerSha,
+    output_schema: {
+      profile: contract.schemaValidation.profile,
+      schema_sha256: contract.schemaValidation.schema_sha256,
+      package_ids: contract.blindPackages.map((entry) => entry.package_id).toSorted(),
+      dimension_ids: rubric.dimensions.map((entry) => entry.id).toSorted(),
+      critical_failures: (rubric.critical_failures ?? []).toSorted(),
+      binary_score_representation: "integer-enum-0-or-1"
+    },
+    evaluator_prompt: contract.prompt,
+    model_route: {
+      evaluator: route
+    },
+    execution: {
+      evaluator_turns: 1,
+      retry_count: 0,
+      fallback_count: 0,
+      network_access: false,
+      tools_allowed: false,
+      generation_ready: false,
+      exact_approval_required: true,
+      evaluator_operational_token_limit: 100000,
+      program_wall_clock_limit_ms: 900000
+    },
+    provider_contract: providerContractFromHandshake(handshake),
+    predecessor: {
+      disposition: "v14-superseded-before-approval-after-systemic-evaluator-audit",
+      superseded_protocol_sha256: "df137a01fa36cee2d063319b0d6f7bdfcdc2c1429c4c6009286e39422d8508e5",
+      superseded_before_approval: true,
+      superseded_model_generation_performed: false,
+      v13_disposition: "candidate-complete-evaluator-stopped-before-attributed-usage",
+      exposed_error: "blind-evaluator:detailed Token usage missing",
+      underlying_provider_terminal: "not-retained-by-v13-runner",
+      model_generation_status: "unverified",
+      operational_tokens: null,
+      retry_of_v13_evaluator: false,
+      rationale: "Evaluate the immutable v13 blind packages once only after exact wire-schema, prompt, semantic-output, failure-retention, and generation-free production-path checks pass; do not regenerate candidates."
+    },
+    claims: {
+      candidate_data_unchanged: true,
+      statistical_generalization: false,
+      automatic_routing_authority: false,
+      monetary_cost_known: false
+    }
+  };
+  protocol.protocol_sha256 = protocolDigest(protocol);
+  const validation = validateEvaluatorContinuationProtocol(protocol);
+  if (!validation.valid) throw new Error(`continuation protocol invalid: ${validation.errors.join(", ")}`);
+  await writeJson(protocolPath, protocol, { exclusive: true });
+  await writeJson(defaultEvaluatorContinuationApprovalTemplatePath, evaluatorContinuationApprovalTemplate(protocol), { exclusive: true });
+  const predecessorRecord = {
+    schema_version: "temple.representative-microservice-evaluator-stop/v1",
+    work_item_id: "WI-0136",
+    source_protocol_sha256: sourceProtocol.protocol_sha256,
+    source_candidate_run_sha256: candidateRunSha,
+    recorded_at: new Date().toISOString(),
+    status: "stopped",
+    exposed_error: "blind-evaluator:detailed Token usage missing",
+    provider_terminal: null,
+    detailed_usage: null,
+    operational_tokens: null,
+    model_generation_status: "unverified",
+    retry_count: 0,
+    fallback_count: 0,
+    disposition: "fail-closed-and-use-new-evaluator-only-continuation-protocol"
+  };
+  const predecessorRecordPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/representative-main-v13-evaluator-stop.json");
+  if (!(await exists(predecessorRecordPath))) await writeJson(predecessorRecordPath, predecessorRecord, { exclusive: true });
+  return {
+    schema_version: "temple.representative-microservice-evaluator-continuation-freeze/v1",
+    work_item_id: protocol.work_item_id,
+    protocol_sha256: protocol.protocol_sha256,
+    source_candidate_run_sha256: candidateRunSha,
+    source_candidate_operational_tokens: run.candidate_operational_tokens,
+    evaluator_operational_token_limit: protocol.execution.evaluator_operational_token_limit,
+    approval_template: path.relative(repositoryRoot, defaultEvaluatorContinuationApprovalTemplatePath),
+    provider_handshake: handshake,
+    model_generation_performed: false
+  };
+}
+
+export function validateEvaluatorContinuationReadiness(readiness, continuation, labRoot) {
+  const errors = [];
+  if (readiness?.schema_version !== "temple.representative-microservice-evaluator-continuation-readiness/v1") {
+    errors.push("unsupported evaluator continuation readiness schema");
+  }
+  if (readiness?.work_item_id !== continuation?.work_item_id ||
+      readiness?.continuation_protocol_sha256 !== continuation?.protocol_sha256 ||
+      readiness?.source_candidate_run_sha256 !== continuation?.source?.candidate_run_sha256) {
+    errors.push("evaluator continuation readiness target mismatch");
+  }
+  if (readiness?.source_lab !== path.resolve(labRoot)) errors.push("evaluator continuation readiness lab mismatch");
+  if (readiness?.pass !== true) errors.push("evaluator continuation readiness is not passing");
+  const checks = Array.isArray(readiness?.checks) ? readiness.checks : [];
+  if (checks.length !== evaluatorContinuationReadinessCheckIds.length ||
+      new Set(checks.map((entry) => entry.id)).size !== evaluatorContinuationReadinessCheckIds.length ||
+      evaluatorContinuationReadinessCheckIds.some((id) => !checks.some((entry) => entry.id === id && entry.pass === true))) {
+    errors.push("evaluator continuation readiness check set mismatch");
+  }
+  if (readiness?.evaluator_turn_count !== 1 || readiness?.analyzed_arm_count !== 2 ||
+      readiness?.retry_count !== 0 || readiness?.fallback_count !== 0) {
+    errors.push("evaluator continuation readiness shape mismatch");
+  }
+  if (readiness?.operational_tokens !== 0 || readiness?.model_generation_performed !== false) {
+    errors.push("evaluator continuation readiness must be generation-free");
+  }
+  return { valid: errors.length === 0, errors };
+}
+
+async function preflightEvaluatorContinuation(labRoot, protocolPath, approvalPath) {
+  const protocol = await readJson(protocolPath);
+  const sourceProtocol = await readJson(defaultProtocolPath);
+  const runPath = path.join(labRoot, "candidate-run.json");
+  const manifestPath = path.join(labRoot, "lab-manifest.json");
+  const run = await readJson(runPath);
+  const manifest = await readJson(manifestPath);
+  const rubric = await readJson(path.join(fixtureRoot, "rubric.json"));
+  const contract = evaluatorContract(run, rubric, path.resolve(labRoot), protocol.model_route.evaluator);
+  const handshake = await providerHandshake({ wireRequests: contract.wireRequests });
+  const schema = contract.schemaValidation;
+  const cleanliness = await repositoryCleanliness(labRoot);
+  const readinessPath = path.join(labRoot, "evaluator-continuation-readiness.json");
+  const readiness = await exists(readinessPath) ? await readJson(readinessPath) : null;
+  const readinessValidation = readiness
+    ? validateEvaluatorContinuationReadiness(readiness, protocol, labRoot)
+    : { valid: false, errors: ["evaluator continuation readiness missing"] };
+  const approval = approvalPath && await exists(approvalPath)
+    ? validateEvaluatorContinuationApproval(await readJson(approvalPath), protocol)
+    : { accepted: false, errors: ["exact continuation approval missing"] };
+  const checks = [
+    { id: "continuation-protocol-valid", pass: validateEvaluatorContinuationProtocol(protocol).valid },
+    { id: "source-protocol-valid", pass: validateRepresentativeProtocol(sourceProtocol).valid },
+    { id: "source-protocol-bound", pass: sourceProtocol.protocol_sha256 === protocol.source.protocol_sha256 },
+    { id: "source-lab-bound", pass: path.resolve(labRoot) === protocol.source.lab_root },
+    { id: "candidate-file-bound", pass: sha256(await fs.readFile(runPath)) === protocol.source.candidate_run_sha256 },
+    { id: "candidate-archive-bound", pass: await exists(archivedV13CandidatePath) && sha256(await fs.readFile(archivedV13CandidatePath)) === protocol.source.candidate_run_sha256 },
+    { id: "candidate-complete", pass: run.status === "candidate-arms-completed" && run.protocol_sha256 === sourceProtocol.protocol_sha256 && candidateTurnCount(run) === 10 },
+    { id: "candidate-usage-bound", pass: run.candidate_operational_tokens === protocol.source.candidate_operational_tokens },
+    { id: "candidate-zero-retry-fallback", pass: run.retry_count === 0 && run.fallback_count === 0 },
+    { id: "blind-packages-bound", pass: blindPackagesDigest(run) === protocol.source.blind_packages_sha256 },
+    { id: "manifest-bound", pass: manifest.manifest_sha256 === protocol.source.lab_manifest_sha256 && sha256(await fs.readFile(manifestPath)) === protocol.source.lab_manifest_file_sha256 },
+    {
+      id: "portable-output-schema",
+      pass: schema.supported && schema.profile === protocol.output_schema.profile &&
+        schema.schema_sha256 === protocol.output_schema.schema_sha256 &&
+        JSON.stringify(contract.blindPackages.map((entry) => entry.package_id).toSorted()) === JSON.stringify(protocol.output_schema.package_ids) &&
+        JSON.stringify(rubric.dimensions.map((entry) => entry.id).toSorted()) === JSON.stringify(protocol.output_schema.dimension_ids) &&
+        JSON.stringify((rubric.critical_failures ?? []).toSorted()) === JSON.stringify(protocol.output_schema.critical_failures)
+    },
+    { id: "exact-evaluator-prompt-bound", pass: JSON.stringify(contract.prompt) === JSON.stringify(protocol.evaluator_prompt) },
+    {
+      id: "exact-wire-requests-valid",
+      pass: handshake.wire_request_validation?.thread_start?.pass === true &&
+        handshake.wire_request_validation?.turn_start?.pass === true
+    },
+    { id: "continuation-runner-bound", pass: sha256(await fs.readFile(fileURLToPath(import.meta.url))) === protocol.continuation_runner_sha256 },
+    { id: "continuation-analyzer-bound", pass: sha256(await fs.readFile(path.join(repositoryRoot, "scripts/analyze-representative-microservice-comparison.mjs"))) === protocol.continuation_analyzer_sha256 },
+    { id: "provider-contract-bound", pass: providerContractMatches(protocol.provider_contract, handshake) },
+    { id: "generation-free-evaluator-readiness", pass: readinessValidation.valid },
+    { id: "all-generated-repositories-clean", pass: cleanliness.every((entry) => entry.clean) },
+    { id: "no-prior-continuation-result", pass: !(await exists(path.join(labRoot, "evaluator-result.json"))) && !(await exists(path.join(labRoot, "quality-scores-frozen.json"))) },
+    { id: "no-prior-continuation-stop", pass: !(await exists(path.join(labRoot, "evaluator-continuation-stopped-run.json"))) },
+    { id: "exact-continuation-approval", pass: approval.accepted }
+  ];
+  const blockers = checks.filter((entry) => !entry.pass).map((entry) => entry.id);
+  const output = {
+    schema_version: "temple.representative-microservice-evaluator-continuation-preflight/v1",
+    work_item_id: protocol.work_item_id,
+    protocol_sha256: protocol.protocol_sha256,
+    observed_at: new Date().toISOString(),
+    checks,
+    approval_errors: approval.errors,
+    readiness_errors: readinessValidation.errors,
+    source_candidate_operational_tokens: run.candidate_operational_tokens,
+    evaluator_operational_token_limit: protocol.execution.evaluator_operational_token_limit,
+    provider_handshake: handshake,
+    repository_cleanliness: cleanliness,
+    generation_ready: blockers.length === 0,
+    blockers,
+    model_generation_performed: false
+  };
+  await writeJson(path.join(labRoot, "evaluator-continuation-preflight.json"), output);
+  return output;
+}
+
+export async function executeEvaluatorContinuation({
+  labRoot,
+  continuation,
+  sourceProtocol,
+  launchTurn = launchModelTurn,
+  modelGenerationPerformed = true
+}) {
+  const evaluatorPath = path.join(labRoot, "evaluator-result.json");
+  const stopPath = path.join(labRoot, "evaluator-continuation-stopped-run.json");
+  if (await exists(evaluatorPath) || await exists(stopPath)) throw new Error("evaluator continuation attempt already exists; retries are prohibited");
+  const run = await readJson(path.join(labRoot, "candidate-run.json"));
+  const rubric = await readJson(path.join(fixtureRoot, "rubric.json"));
+  const contract = evaluatorContract(run, rubric, path.resolve(labRoot), continuation.model_route.evaluator);
+  const blindPackages = contract.blindPackages;
+  const forbidden = /arm_id|armId|temple|minimal-responsible|model|usage|token|latency|thread_id|turn_id|organization_revision/i;
+  for (const package_ of blindPackages) {
+    if (forbidden.test(JSON.stringify(package_))) throw new Error("blind package leaked a condition or resource identity");
+  }
+  if (!contract.schemaValidation.supported ||
+      contract.schemaValidation.schema_sha256 !== continuation.output_schema.schema_sha256 ||
+      JSON.stringify(contract.prompt) !== JSON.stringify(continuation.evaluator_prompt)) {
+    throw new Error("evaluator contract drifted after continuation freeze");
+  }
+  const evaluatorBudget = {
+    active: 0,
+    limit: run.candidate_operational_tokens + continuation.execution.evaluator_operational_token_limit,
+    update(_id, value) { this.active = value; return run.candidate_operational_tokens + value; },
+    settle(_id, value) { this.active = value; return value; },
+    total() { return run.candidate_operational_tokens + this.active; }
+  };
+  let turn = null;
+  let completionValidated = false;
+  try {
+    turn = await launchTurn({
+      id: contract.id,
+      cwd: labRoot,
+      stage: "evaluator",
+      route: continuation.model_route.evaluator,
+      instruction: contract.instruction,
+      outputSchema: contract.outputSchema,
+      protocol: sourceProtocol,
+      budget: evaluatorBudget,
+      deadline: Date.now() + continuation.execution.program_wall_clock_limit_ms,
+      sandbox: "read-only",
+      allowTools: false,
+      operationalTokenLimit: continuation.execution.evaluator_operational_token_limit
+    });
+    const completion = validateEvaluatorCompletion(turn.completion, blindPackages, rubric);
+    completionValidated = true;
+    const frozen = {
+      schema_version: "temple.representative-microservice-frozen-scores/v1",
+      work_item_id: sourceProtocol.work_item_id,
+      protocol_sha256: sourceProtocol.protocol_sha256,
+      continuation_protocol_sha256: continuation.protocol_sha256,
+      source_candidate_run_sha256: continuation.source.candidate_run_sha256,
+      frozen_at: new Date().toISOString(),
+      packages: completion.packages,
+      summary: completion.summary,
+      mapping_unsealed_after_freeze: true
+    };
+    await writeJson(path.join(labRoot, "quality-scores-frozen.json"), frozen, { exclusive: true });
+    const output = {
+      schema_version: "temple.representative-microservice-evaluator-result/v1",
+      work_item_id: sourceProtocol.work_item_id,
+      protocol_sha256: sourceProtocol.protocol_sha256,
+      continuation_protocol_sha256: continuation.protocol_sha256,
+      source_candidate_run_sha256: continuation.source.candidate_run_sha256,
+      completed_at: new Date().toISOString(),
+      status: "completed",
+      scores_frozen_before_mapping_unseal: true,
+      evaluator: { ...turn, completion: undefined },
+      frozen_scores: frozen,
+      arm_mapping: Object.fromEntries(run.arms.map((entry) => [entry.sealed.package_id, entry.arm_id])),
+      combined_operational_tokens: run.candidate_operational_tokens + turn.operational_tokens,
+      retry_count: 0,
+      fallback_count: 0,
+      model_generation_performed: modelGenerationPerformed
+    };
+    await writeJson(evaluatorPath, output, { exclusive: true });
+    return output;
+  } catch (error) {
+    if (!error.stage_observation && turn) {
+      error.stage_observation = stoppedStageObservation(
+        { ...turn, completion: undefined },
+        `${completionValidated ? "evaluator-persistence-failure" : "evaluator-contract-invalid"}:${String(error.message ?? error)}`
+      );
+    }
+    const evaluatorObservation = error.stage_observation ?? null;
+    await writeJson(stopPath, {
+      schema_version: "temple.representative-microservice-evaluator-continuation-stopped-run/v1",
+      work_item_id: sourceProtocol.work_item_id,
+      protocol_sha256: sourceProtocol.protocol_sha256,
+      continuation_protocol_sha256: continuation.protocol_sha256,
+      source_candidate_run_sha256: continuation.source.candidate_run_sha256,
+      stopped_at: new Date().toISOString(),
+      reason: String(error.message ?? error),
+      evaluator_observation: evaluatorObservation,
+      retry_count: 0,
+      fallback_count: 0,
+      model_turn_requested: modelGenerationPerformed,
+      model_generation_status: modelGenerationPerformed
+        ? (evaluatorObservation?.usage ? "observed" : "unverified")
+        : "not-performed",
+      operational_tokens: evaluatorObservation?.operational_tokens ?? null
+    }, { exclusive: true }).catch(() => {});
+    throw error;
+  }
+}
+
+export async function runEvaluatorContinuationReadiness(labRoot, protocolPath) {
+  const readinessPath = path.join(labRoot, "evaluator-continuation-readiness.json");
+  if (await exists(readinessPath)) throw new Error(`refusing to replace existing evaluator readiness: ${readinessPath}`);
+  if (await exists(defaultEvaluatorContinuationReadinessPath)) {
+    throw new Error(`refusing to replace existing durable evaluator readiness: ${defaultEvaluatorContinuationReadinessPath}`);
+  }
+  const continuation = await readJson(protocolPath);
+  const continuationValidation = validateEvaluatorContinuationProtocol(continuation);
+  if (!continuationValidation.valid) throw new Error(`continuation protocol invalid: ${continuationValidation.errors.join(", ")}`);
+  const sourceProtocol = await readJson(defaultProtocolPath);
+  const sourceRunPath = path.join(labRoot, "candidate-run.json");
+  const sourceRun = await readJson(sourceRunPath);
+  const rubric = await readJson(path.join(fixtureRoot, "rubric.json"));
+  const contract = evaluatorContract(sourceRun, rubric, path.resolve(labRoot), continuation.model_route.evaluator);
+  const readinessRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0136-evaluator-readiness-"));
+  try {
+    await fs.copyFile(sourceRunPath, path.join(readinessRoot, "candidate-run.json"));
+    const evaluator = await executeEvaluatorContinuation({
+      labRoot: readinessRoot,
+      continuation,
+      sourceProtocol,
+      launchTurn: readinessTurnLauncher(),
+      modelGenerationPerformed: false
+    });
+    const analysis = analyzeRepresentativeComparison({ protocol: sourceProtocol, run: sourceRun, evaluator });
+    const frozen = await readJson(path.join(readinessRoot, "quality-scores-frozen.json"));
+    const completion = { packages: frozen.packages, summary: frozen.summary };
+    validateEvaluatorCompletion(completion, contract.blindPackages, rubric);
+    const checks = [
+      { id: "source-candidate-bound", pass: sha256(await fs.readFile(sourceRunPath)) === continuation.source.candidate_run_sha256 },
+      { id: "dynamic-output-schema-valid", pass: contract.schemaValidation.supported && contract.schemaValidation.schema_sha256 === continuation.output_schema.schema_sha256 },
+      { id: "exact-evaluator-prompt-bound", pass: JSON.stringify(contract.prompt) === JSON.stringify(continuation.evaluator_prompt) },
+      { id: "exact-thread-start-wire-schema", pass: continuation.provider_contract.wire_request_validation?.thread_start?.pass === true },
+      { id: "exact-turn-start-wire-schema", pass: continuation.provider_contract.wire_request_validation?.turn_start?.pass === true },
+      { id: "injected-production-evaluator-completed", pass: evaluator.status === "completed" && evaluator.evaluator?.provider_kind === "generation-free-readiness-fixture" },
+      { id: "score-freeze-completed", pass: evaluator.scores_frozen_before_mapping_unseal === true && frozen.mapping_unsealed_after_freeze === true },
+      { id: "semantic-output-validation-completed", pass: true },
+      { id: "analysis-completed", pass: analysis.arms.length === 2 },
+      { id: "zero-operational-tokens", pass: evaluator.evaluator?.operational_tokens === 0 },
+      { id: "no-model-generation", pass: evaluator.model_generation_performed === false }
+    ];
+    const output = {
+      schema_version: "temple.representative-microservice-evaluator-continuation-readiness/v1",
+      work_item_id: continuation.work_item_id,
+      continuation_protocol_sha256: continuation.protocol_sha256,
+      source_candidate_run_sha256: continuation.source.candidate_run_sha256,
+      source_lab: path.resolve(labRoot),
+      completed_at: new Date().toISOString(),
+      pass: checks.every((entry) => entry.pass),
+      checks,
+      evaluator_turn_count: 1,
+      analyzed_arm_count: analysis.arms.length,
+      retry_count: 0,
+      fallback_count: 0,
+      operational_tokens: evaluator.evaluator?.operational_tokens ?? null,
+      model_generation_performed: false
+    };
+    const validation = validateEvaluatorContinuationReadiness(output, continuation, labRoot);
+    if (!validation.valid) throw new Error(`evaluator continuation readiness invalid: ${validation.errors.join(", ")}`);
+    await writeJson(readinessPath, output, { exclusive: true });
+    await writeJson(defaultEvaluatorContinuationReadinessPath, output, { exclusive: true });
+    return output;
+  } finally {
+    await fs.rm(readinessRoot, { recursive: true, force: true });
+  }
+}
+
+async function evaluateContinuation(labRoot, protocolPath, approvalPath) {
+  if (!approvalPath) throw new Error("--approval is required for live evaluator continuation");
+  const gate = await preflightEvaluatorContinuation(labRoot, protocolPath, approvalPath);
+  if (!gate.generation_ready) throw new Error(`evaluator continuation blocked: ${gate.blockers.join(", ")}`);
+  return executeEvaluatorContinuation({
+    labRoot,
+    continuation: await readJson(protocolPath),
+    sourceProtocol: await readJson(defaultProtocolPath),
+    launchTurn: launchModelTurn,
+    modelGenerationPerformed: true
+  });
+}
+
+function formatPercent(value) {
+  return value === null ? "unknown" : `${value.toFixed(2)}%`;
+}
+
+function representativeContinuationReport(analysis, evaluator, continuation) {
+  const minimal = analysis.arms.find((entry) => entry.arm_id === "minimal-responsible");
+  const temple = analysis.arms.find((entry) => entry.arm_id === "temple");
+  const score = (entry) => `${entry.blind_dimension_score}/${entry.blind_dimension_total}`;
+  return `# WI-0136 representative microservice comparison\n\n` +
+    `- Status: completed one matched representative pair\n` +
+    `- Candidate protocol: \`${analysis.protocol_sha256}\`\n` +
+    `- Evaluator continuation protocol: \`${continuation.protocol_sha256}\`\n` +
+    `- Candidate record: \`${continuation.source.candidate_run_sha256}\`\n` +
+    `- Retry / fallback: 0 / 0\n\n` +
+    `## Results\n\n` +
+    `| Measure | Minimal Responsible | Temple | Temple delta |\n` +
+    `|---|---:|---:|---:|\n` +
+    `| Objective tests | ${minimal.objective_correctness ? "pass" : "fail"} | ${temple.objective_correctness ? "pass" : "fail"} | ${analysis.comparison.objective_correctness_delta} |\n` +
+    `| Blind score | ${score(minimal)} | ${score(temple)} | ${analysis.comparison.blind_dimension_score_delta} |\n` +
+    `| Operational Tokens | ${minimal.operational_tokens.toLocaleString("en-US")} | ${temple.operational_tokens.toLocaleString("en-US")} | ${formatPercent(analysis.comparison.operational_token_delta_percent)} |\n` +
+    `| Model latency | ${(minimal.model_latency_ms / 1000).toFixed(1)} s | ${(temple.model_latency_ms / 1000).toFixed(1)} s | ${formatPercent(analysis.comparison.model_latency_delta_percent)} |\n` +
+    `| Integration Tokens | ${minimal.integration_operational_tokens.toLocaleString("en-US")} | ${temple.integration_operational_tokens.toLocaleString("en-US")} | ${formatPercent(analysis.comparison.integration_token_delta_percent)} |\n` +
+    `| Exact revisions recovered | ${minimal.recovery_exact_revisions}/${minimal.recovery_exact_revision_total} | ${temple.recovery_exact_revisions}/${temple.recovery_exact_revision_total} | ${analysis.comparison.recovery_exact_revision_delta} |\n` +
+    `| Boundary violations | ${minimal.boundary_violation_count} | ${temple.boundary_violation_count} | ${analysis.comparison.boundary_violation_delta} |\n` +
+    `| Artifact bytes | ${minimal.artifact_bytes.toLocaleString("en-US")} | ${temple.artifact_bytes.toLocaleString("en-US")} | ${formatPercent(analysis.comparison.artifact_byte_delta_percent)} |\n\n` +
+    `The blind evaluator used ${analysis.evaluator.operational_tokens.toLocaleString("en-US")} Operational Tokens on ${analysis.evaluator.model} ${analysis.evaluator.reasoning_effort}. ` +
+    `Candidate plus evaluator usage was ${evaluator.combined_operational_tokens.toLocaleString("en-US")} Operational Tokens.\n\n` +
+    `## Interpretation boundary\n\n` +
+    `This is one controlled matched pair. It describes this scenario; it does not establish statistical generalization, monetary cost, or automatic routing authority. ` +
+    `Correctness and the arm-blind score remain primary; Token, latency, and artifact differences are trade-offs rather than proof by themselves.\n`;
+}
+
+async function reportEvaluatorContinuation(labRoot, protocolPath) {
+  const continuation = await readJson(protocolPath);
+  const continuationValidation = validateEvaluatorContinuationProtocol(continuation);
+  if (!continuationValidation.valid) throw new Error(`continuation protocol invalid: ${continuationValidation.errors.join(", ")}`);
+  const sourceProtocol = await readJson(defaultProtocolPath);
+  const run = await readJson(path.join(labRoot, "candidate-run.json"));
+  const evaluator = await readJson(path.join(labRoot, "evaluator-result.json"));
+  if (evaluator.continuation_protocol_sha256 !== continuation.protocol_sha256 ||
+      evaluator.source_candidate_run_sha256 !== continuation.source.candidate_run_sha256) {
+    throw new Error("evaluator result does not match the continuation protocol");
+  }
+  const analysis = analyzeRepresentativeComparison({ protocol: sourceProtocol, run, evaluator });
+  analysis.continuation = {
+    protocol_sha256: continuation.protocol_sha256,
+    source_candidate_run_sha256: continuation.source.candidate_run_sha256,
+    candidate_operational_tokens: continuation.source.candidate_operational_tokens,
+    candidate_turns: continuation.source.candidate_turns,
+    evaluator_turns: continuation.execution.evaluator_turns,
+    approval_count: 2,
+    retry_count: 0,
+    fallback_count: 0
+  };
+  await writeJson(path.join(labRoot, "analysis.json"), analysis);
+  const artifactRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136");
+  const archived = {};
+  for (const [sourceName, targetName] of [
+    ["evaluator-continuation-preflight.json", "representative-main-v15-approved-preflight.json"],
+    ["evaluator-continuation-readiness.json", "representative-main-v15-evaluator-readiness.json"],
+    ["quality-scores-frozen.json", "representative-main-v15-quality-scores-frozen.json"],
+    ["evaluator-result.json", "representative-main-v15-evaluator-result.json"],
+    ["analysis.json", "representative-main-v15-analysis.json"]
+  ]) {
+    archived[targetName] = await archiveExactFile(path.join(labRoot, sourceName), path.join(artifactRoot, targetName));
+  }
+  await writeText(path.join(artifactRoot, "representative-main-v15-report.md"), representativeContinuationReport(analysis, evaluator, continuation));
+  return {
+    ...analysis,
+    archived_evidence_sha256: archived,
+    report: ".ai-org/artifacts/WI-0136/representative-main-v15-report.md"
+  };
 }
 
 async function repositoryCleanliness(labRoot) {
@@ -3834,10 +4685,16 @@ async function main() {
       ? await setupAblation(arguments_.labRoot, arguments_.protocolPath)
     : arguments_.command === "freeze"
       ? await freeze(arguments_.protocolPath)
+      : arguments_.command === "evaluator-continuation-freeze"
+        ? await freezeEvaluatorContinuation(arguments_.labRoot, arguments_.protocolPath)
+      : arguments_.command === "evaluator-continuation-readiness"
+        ? await runEvaluatorContinuationReadiness(arguments_.labRoot, arguments_.protocolPath)
       : arguments_.command === "ablation-freeze"
         ? await freezeAblation(arguments_.protocolPath)
       : arguments_.command === "preflight"
         ? await preflight(arguments_.labRoot, arguments_.protocolPath, arguments_.approvalPath)
+        : arguments_.command === "evaluator-continuation-preflight"
+          ? await preflightEvaluatorContinuation(arguments_.labRoot, arguments_.protocolPath, arguments_.approvalPath)
         : arguments_.command === "readiness"
           ? await runRepresentativeHarnessReadiness(arguments_.labRoot, arguments_.protocolPath)
         : arguments_.command === "ablation-preflight"
@@ -3848,8 +4705,12 @@ async function main() {
             ? await runAblation(arguments_.labRoot, arguments_.protocolPath, arguments_.approvalPath)
           : arguments_.command === "evaluate"
             ? await evaluateProgram(arguments_.labRoot, arguments_.protocolPath, arguments_.approvalPath)
+            : arguments_.command === "evaluator-continuation-evaluate"
+              ? await evaluateContinuation(arguments_.labRoot, arguments_.protocolPath, arguments_.approvalPath)
           : arguments_.command === "report"
             ? await reportProgram(arguments_.labRoot, arguments_.protocolPath)
+            : arguments_.command === "evaluator-continuation-report"
+              ? await reportEvaluatorContinuation(arguments_.labRoot, arguments_.protocolPath)
             : arguments_.command === "ablation-report"
               ? await reportAblation(arguments_.labRoot, arguments_.protocolPath)
             : arguments_.command === "ablation-inspect"

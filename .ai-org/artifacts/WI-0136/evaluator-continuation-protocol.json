@@ -1,0 +1,146 @@
+{
+  "schema_version": "temple.representative-microservice-evaluator-continuation/v1",
+  "protocol_revision": 15,
+  "work_item_id": "WI-0136",
+  "status": "generation-disabled",
+  "protocol_sha256": "95ddc4fbe65db25761a4ea1e0d44a437b3760e4422022265ce67ddf827fc1bf3",
+  "source": {
+    "protocol_sha256": "ffc48213ef3704418cb031a1fdf0621fb79763df259c9bc290d340224a4ec06c",
+    "lab_root": "/tmp/temple-wi0136-representative-microservice-v13-final",
+    "candidate_record": ".ai-org/artifacts/WI-0136/representative-main-v13-candidate-run.json",
+    "candidate_run_sha256": "c78c1ab4753e9aca3c095389cafe19fead5cb98328a4faf23adba71ca0303165",
+    "candidate_status": "candidate-arms-completed",
+    "candidate_turns": 10,
+    "candidate_operational_tokens": 361250,
+    "retry_count": 0,
+    "fallback_count": 0,
+    "blind_packages_sha256": "bb8fd7a57ae46bb115244802520c9c8d97f6dcdfbac4ce475fc821f665cae9b3",
+    "lab_manifest_record": ".ai-org/artifacts/WI-0136/representative-main-v13-lab-manifest.json",
+    "lab_manifest_sha256": "3707b1a932ab8d4ec222bf6e2c6034488e840c2cf377f45aa1ee3e1423aff18d",
+    "lab_manifest_file_sha256": "82f6b3d6b0821a7f6333cbcbbd8093e1fec9e1d1e05ac9377fcbd4fe0c82033a"
+  },
+  "continuation_runner_sha256": "9aa61b4061bb44a9539c8abff064415e9b7f1c7c63e2712c3d252dfea987a8a3",
+  "continuation_analyzer_sha256": "59dc98b583907adcad9419eab3695658e44946fdb58720f754c9c9b743f89e6a",
+  "output_schema": {
+    "profile": "openai-structured-outputs-portable-subset/2026-09-04",
+    "schema_sha256": "ea30c4177b729827a8d33e8cb13c47c5e4f94e584757e38fc0b6aef738dc1fe7",
+    "package_ids": [
+      "package-60b8212567fe0e47",
+      "package-836fb4e9fe89a6e4"
+    ],
+    "dimension_ids": [
+      "authority",
+      "boundaries",
+      "contract",
+      "current-state",
+      "evidence-quality",
+      "exact-revisions",
+      "rollout",
+      "safe-next-action"
+    ],
+    "critical_failures": [
+      "arm-identity-leaked-before-score-freeze",
+      "held-out-tests-failed",
+      "model-rerouted",
+      "out-of-scope-write",
+      "retry-or-fallback-used"
+    ],
+    "binary_score_representation": "integer-enum-0-or-1"
+  },
+  "evaluator_prompt": {
+    "instruction_sha256": "33ee729ebd9464d6f243bf79b43a51fb57ce9d48109fab0c21dc738a8eb1e613",
+    "instruction_bytes": 11459,
+    "explicit_prompt_bytes": 13993
+  },
+  "model_route": {
+    "evaluator": {
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "xhigh"
+    }
+  },
+  "execution": {
+    "evaluator_turns": 1,
+    "retry_count": 0,
+    "fallback_count": 0,
+    "network_access": false,
+    "tools_allowed": false,
+    "generation_ready": false,
+    "exact_approval_required": true,
+    "evaluator_operational_token_limit": 100000,
+    "program_wall_clock_limit_ms": 900000
+  },
+  "provider_contract": {
+    "codex_cli_version": "codex-cli 0.153.0-alpha.5",
+    "schema_digests": {
+      "ThreadStartParams.json": "792e2f32e37cece971bd616664ea2053741acbed4e9c92e9d1766427718f2ecd",
+      "TurnStartParams.json": "a3835e8c1e942e4b358e1a670939b89918b16c4d13105a579899892b7ade6dea",
+      "ThreadStartResponse.json": "656f8fd0fe91f533126cbfdb9369cfab550927a229e48dd46460f6f015d2b186",
+      "TurnStartResponse.json": "6fc49c3e5d0ce11a3a109ae194619b04d6e3ff98fa29bac683fdb754608958be",
+      "ItemStartedNotification.json": "c4c34f47db6326cd4841bae428f23d08eb285077ffad35be9772b928c65bb912",
+      "TurnCompletedNotification.json": "78af2a37391e8e669a4020cb58593e4d3e378756ced79d5fec72374fa69fb94b",
+      "ItemCompletedNotification.json": "69aba3fe5f72f38bf5c541e7e2c09de40778abe65ff969d9fc73372037812091",
+      "ThreadTokenUsageUpdatedNotification.json": "aba4f6c7e4a19b2b842c08ee793b57000c07dafd57b922ad0d8e7c76609108c2",
+      "ModelReroutedNotification.json": "37cd3c1b3a3560b85b01d4061a07d830fc9ed93b80e4663f975f9197cdb501ef",
+      "TurnInterruptParams.json": "6dff382dae73d1dbc58406ed045605f647e7a49660e2540fbd2c6c24d60c5f2b",
+      "ConfigReadParams.json": "257c54a423b47c1d209ff1076765a1564d82322fd5161670fd489a2874de1bac",
+      "ConfigReadResponse.json": "bd72c94e2c7d49ead6a20bcf54afedc8db11044bf8cadb387e42135dd5d1e342"
+    },
+    "required_models": [
+      {
+        "model": "gpt-5.6-sol",
+        "reasoning_efforts": [
+          "xhigh"
+        ]
+      },
+      {
+        "model": "gpt-5.6-terra",
+        "reasoning_efforts": [
+          "medium"
+        ]
+      }
+    ],
+    "turn_sandbox_capabilities": {
+      "restricted_read_access_supported": false,
+      "workspace_write_roots_supported": true,
+      "network_access_toggle_supported": true
+    },
+    "memory_isolation": {
+      "use_memories": false,
+      "generate_memories": false,
+      "feature_enabled": false,
+      "app_server_arguments_sha256": "e5d3c3be08c8191bc85c61fa4ba79436ae8fedcdb480cba347f2b85f494567ab",
+      "pass": true
+    },
+    "wire_request_validation": {
+      "thread_start": {
+        "pass": true,
+        "request_sha256": "69d47f8a8249c688ddf8f14611049110adb06510250820736226d3df813a431e",
+        "errors": []
+      },
+      "turn_start": {
+        "pass": true,
+        "request_sha256": "d0558c15680bed9a542a9e04a5e5e40c2aba9223999ef5a865dd24c3fe528aa6",
+        "errors": []
+      }
+    }
+  },
+  "predecessor": {
+    "disposition": "v14-superseded-before-approval-after-systemic-evaluator-audit",
+    "superseded_protocol_sha256": "df137a01fa36cee2d063319b0d6f7bdfcdc2c1429c4c6009286e39422d8508e5",
+    "superseded_before_approval": true,
+    "superseded_model_generation_performed": false,
+    "v13_disposition": "candidate-complete-evaluator-stopped-before-attributed-usage",
+    "exposed_error": "blind-evaluator:detailed Token usage missing",
+    "underlying_provider_terminal": "not-retained-by-v13-runner",
+    "model_generation_status": "unverified",
+    "operational_tokens": null,
+    "retry_of_v13_evaluator": false,
+    "rationale": "Evaluate the immutable v13 blind packages once only after exact wire-schema, prompt, semantic-output, failure-retention, and generation-free production-path checks pass; do not regenerate candidates."
+  },
+  "claims": {
+    "candidate_data_unchanged": true,
+    "statistical_generalization": false,
+    "automatic_routing_authority": false,
+    "monetary_cost_known": false
+  }
+}

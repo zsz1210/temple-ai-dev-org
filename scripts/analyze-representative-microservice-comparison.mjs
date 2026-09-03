@@ -69,7 +69,7 @@ export function analyzeRepresentativeComparison({ protocol, run, evaluator, gene
       statistical_generalization: false,
       automatic_routing_authority: false,
       monetary_cost_known: false,
-      account_approval_count: 1,
+      account_approval_count: evaluator.continuation_protocol_sha256 ? 2 : 1,
       retry_count: 0,
       fallback_count: 0
     },
@@ -77,7 +77,9 @@ export function analyzeRepresentativeComparison({ protocol, run, evaluator, gene
       operational_tokens: evaluator.evaluator.operational_tokens,
       gross_tokens: evaluator.evaluator.usage.total_tokens,
       model: evaluator.evaluator.requested_model,
-      reasoning_effort: evaluator.evaluator.requested_reasoning_effort
+      reasoning_effort: evaluator.evaluator.requested_reasoning_effort,
+      continuation_protocol_sha256: evaluator.continuation_protocol_sha256 ?? null,
+      source_candidate_run_sha256: evaluator.source_candidate_run_sha256 ?? null
     }
   };
 }

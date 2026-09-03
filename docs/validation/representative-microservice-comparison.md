@@ -1,6 +1,6 @@
 # Representative multi-Agent microservice comparison
 
-- Status: WI-0136 routed-context qualification passed; representative v9 passed the zero-generation end-to-end Harness Readiness Gate and awaits exact live approval
+- Status: v13 candidate arms completed; v15 evaluator-only continuation passed its generation-free gate and awaits exact approval
 - Purpose: measure where Temple changes delivery outcomes, not accumulate another pass count
 - Comparison: Temple versus a minimal responsible workflow under matched inputs and model routes
 
@@ -160,15 +160,39 @@ V11 canonicalized existing filesystem paths before cwd containment and exact Git
 
 V12 treated the command-item cwd as diagnostic for nested Code Mode commands and kept authorization bound to the frozen turn environment, exact allowed commands and fixture repository IDs, explicit-path containment, an arm-only write root, and disabled network access. Its exact-approved run stopped during the first Minimal Responsible Build wave after 119,084 candidate Operational Tokens. Design completed at 50,602, but Notifications followed an ambient Codex Memory instruction and requested the user's repository-external `MEMORY.md`. The runner rejected the absolute path, settled the sibling turns, and left all ten repositories clean. Allowing it would have contaminated both experiment context and arm comparability. See the [v12 stop report](../../.ai-org/artifacts/WI-0136/representative-main-v12-stop-report.md).
 
-V13 starts every experiment App Server with strict configuration that disables memory use, memory generation, and the Memory feature. Preflight reads the effective configuration back from the Provider and binds those values, launch arguments, and Config schemas into the protocol contract. The personal-memory path remains rejected rather than allowlisted. The readiness gate now contains seventeen checks, including ambient-memory-path rejection and the effective memory-isolation handshake. All seventeen pass with zero Operational Tokens under protocol `ffc48213ef3704418cb031a1fdf0621fb79763df259c9bc290d340224a4ec06c`; preflight has no blocker other than separate exact human approval.
+V13 starts every experiment App Server with strict configuration that disables memory use, memory generation, and the Memory feature. Preflight reads the effective configuration back from the Provider and binds those values, launch arguments, and Config schemas into the protocol contract. The personal-memory path remains rejected rather than allowlisted. The readiness gate contains seventeen checks, including ambient-memory-path rejection and the effective memory-isolation handshake. All seventeen passed with zero Operational Tokens under protocol `ffc48213ef3704418cb031a1fdf0621fb79763df259c9bc290d340224a4ec06c`.
 
-After that replacement main protocol receives its own exact approval, the bounded commands are:
+The exact-approved v13 candidate program completed both arms and all ten candidate turns once. Every service test, public integration test, and held-out test passed; both cold Integration turns recovered all four exact revisions and all three slices. The candidate program used 361,250 Operational Tokens with zero retry and zero fallback. Minimal Responsible used 183,854 candidate Operational Tokens; Temple used 177,396, which is 6,458 fewer (3.51%) in this single run. This is candidate resource evidence only until the arm-blind score is complete.
+
+The original v13 evaluator request then stopped before the runner received attributable detailed usage. The v13 runner reported only `blind-evaluator:detailed Token usage missing` and did not retain the underlying failed terminal, so its generation and Token amount remain unknown. It is not silently retried. The immutable candidate record is archived under SHA-256 `c78c1ab4753e9aca3c095389cafe19fead5cb98328a4faf23adba71ca0303165`.
+
+V14 was superseded before approval or generation after a systemic failure-mode review found that it still did not exercise child-process exit, deadline release, exact wire requests, semantic-output rejection, or stopped-evidence retention as one end-to-end gate. Its schema simplification remains useful hardening, but the missing v13 terminal means schema incompatibility was never established as the cause.
+
+V15 is the evaluator-only continuation under protocol `95ddc4fbe65db25761a4ea1e0d44a437b3760e4422022265ce67ddf827fc1bf3`. It binds the exact v13 candidate and lab, the exact evaluator prompt, a schema generated from the two package IDs, eight rubric dimensions, five permitted critical failures, the installed Provider's exact `thread/start` and synthetic `turn/start` request schemas, the runner, and the analyzer. Its generation-free production-path rehearsal completed evaluation, semantic validation, score freeze, mapping unseal, and analysis with eleven of eleven checks passing and zero Operational Tokens. Live preflight now passes twenty-one of twenty-two checks; exact approval is the only blocker.
+
+V15 permits one Sol xhigh evaluator turn, at most 100,000 additional Operational Tokens, and at most 15 minutes. It cannot regenerate candidate work, retry, fall back, access the network, use tools, buy Credits, refill Credits, or consume a reset. A failed Provider terminal, child-process exit, deadline, missing usage notification, or malformed semantic result is now retained with its causal observation rather than replaced by a later missing-usage symptom.
+
+After that evaluator-only protocol receives its own exact approval, the bounded commands are:
 
 ```bash
-node scripts/run-representative-microservice-comparison.mjs run --approval .ai-org/artifacts/WI-0136/account-approval.json
-node scripts/run-representative-microservice-comparison.mjs evaluate --approval .ai-org/artifacts/WI-0136/account-approval.json
-node scripts/run-representative-microservice-comparison.mjs report
+node scripts/run-representative-microservice-comparison.mjs evaluator-continuation-preflight \
+  --lab /tmp/temple-wi0136-representative-microservice-v13-final \
+  --approval .ai-org/artifacts/WI-0136/evaluator-continuation-approval.json
+node scripts/run-representative-microservice-comparison.mjs evaluator-continuation-evaluate \
+  --lab /tmp/temple-wi0136-representative-microservice-v13-final \
+  --approval .ai-org/artifacts/WI-0136/evaluator-continuation-approval.json
+node scripts/run-representative-microservice-comparison.mjs evaluator-continuation-report \
+  --lab /tmp/temple-wi0136-representative-microservice-v13-final
 ```
+
+The no-generation gate that precedes those commands is:
+
+```bash
+node scripts/run-representative-microservice-comparison.mjs evaluator-continuation-readiness \
+  --lab /tmp/temple-wi0136-representative-microservice-v13-final
+```
+
+It has already completed for the frozen v15 protocol. Re-running it against the same evidence path is intentionally refused rather than counted as another attempt.
 
 The runner refuses a second candidate or evaluator attempt in the same lab. A stopped run remains evidence and requires a new protocol revision and exact approval rather than a hidden retry.
 
