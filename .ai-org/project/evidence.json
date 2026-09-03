@@ -19770,6 +19770,55 @@
         "exit_code": 0,
         "started_at": "2026-09-03T04:53:45.676Z"
       }
+    },
+    {
+      "id": "EVID-20260903T045558Z-D6AD88DA",
+      "work_item_id": "WI-0125",
+      "recorded_at": "2026-09-03T04:55:58.168Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Portable evaluator full verification",
+      "outcome": "pass",
+      "scope_revision": "78bf7b80060e55be361bfc6b284fe5fdeb2c96bd",
+      "observed_at": "2026-09-03T04:55:35.515Z",
+      "summary": "The explicit lab-root boundary passed 332 repository tests at candidate 78bf7b8.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0125/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0125/quality-test-observation.json",
+          "sha256": "6c59392b1d86b38cb1a68361d0f421e01e33ecd3d132391d542f15e4657b49ca"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0125/quality-report.md",
+          "sha256": "4a7324591f868ed2aa474f77962e70a10cce93412de728c1b6d5a3ed01580821"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0125/developer-report.md",
+          "sha256": "ce4fc1a01990b4ecbe4181c43604daeb520ef7f20121001ef59f8a66aa923328"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0125/product-spec.md",
+          "sha256": "25cd672e65ef0770afb93b5e82c4e25db3009b2f77e4c3934241fb32620aa9fe"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T04:54:27.460Z"
+      }
     }
   ]
 }
