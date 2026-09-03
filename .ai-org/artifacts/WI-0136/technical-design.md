@@ -67,3 +67,15 @@ The final numeric envelope is generated only after fixture context sizes and a f
 ## Rollback and stop
 
 Before live generation, rollback is deletion of the disposable lab and reversal of this branch. After generation, raw stopped or completed observations are immutable; harness correction requires a new protocol revision and Work Item. The final experiment ends at its report and cannot authorize deployment, publication, release, or routing-policy changes.
+
+## Context-routing amendment
+
+The first frozen protocol was superseded before model generation because its Temple prompts unconditionally loaded `TEMPLE.md` before resolving the known Work Item context. The corrected route is:
+
+1. preview the repository-pinned `context resolve` result;
+2. open only the routed sources needed for the current responsibility; and
+3. read `TEMPLE.md` only when the capsule cannot identify authority, current state, or the safe next action.
+
+Before the main comparison, run one matched two-turn ablation against an identical prepared recovery state. The full-load condition reads `TEMPLE.md` before the Context Capsule; the routed condition resolves the Context Capsule first and uses `TEMPLE.md` only as a fallback. Both use Terra medium, read-only local tools, exact structured output, zero retry, and zero fallback.
+
+The runner records hashes and byte counts for explicit instruction layers, Provider Token counters, elapsed time, normalized command counts, reported tool-output bytes, and whether `TEMPLE.md` or `context resolve` was observed. It does not retain raw prompts, raw responses, or hidden reasoning.

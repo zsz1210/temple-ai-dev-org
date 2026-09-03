@@ -3,7 +3,12 @@ import fs from "node:fs/promises";
 import test from "node:test";
 
 import {
+  ablationIntegrationInstruction,
+  analyzeContextAblation,
   protocolDigest,
+  templeRoutedContextInstruction,
+  validateAblationApproval,
+  validateAblationProtocol,
   validateRepresentativeApproval,
   validateRepresentativeProtocol,
   validateEvaluatorCompletion
@@ -12,6 +17,8 @@ import { analyzeRepresentativeComparison } from "../scripts/analyze-representati
 
 const protocolPath = new URL("../.ai-org/artifacts/WI-0136/live-protocol.json", import.meta.url);
 const approvalTemplatePath = new URL("../.ai-org/artifacts/WI-0136/account-approval.template.json", import.meta.url);
+const ablationProtocolPath = new URL("../.ai-org/artifacts/WI-0136/context-ablation-protocol.json", import.meta.url);
+const ablationApprovalTemplatePath = new URL("../.ai-org/artifacts/WI-0136/context-ablation-approval.template.json", import.meta.url);
 
 async function readJson(path) {
   return JSON.parse(await fs.readFile(path, "utf8"));
@@ -120,4 +127,60 @@ test("analysis treats correctness as primary and reports descriptive deltas", ()
   assert.equal(result.comparison.operational_token_delta_percent, -20);
   assert.equal(result.comparison.artifact_byte_delta_percent, 100);
   assert.equal(result.interpretation.statistical_generalization, false);
+});
+
+test("routed Temple context resolves first and treats TEMPLE.md as a fallback", () => {
+  const instruction = templeRoutedContextInstruction("the Coordinator repository");
+  assert.ok(instruction.indexOf("context resolve") < instruction.indexOf("TEMPLE.md"));
+  assert.match(instruction, /only if the Context Capsule cannot identify authority/);
+  const full = ablationIntegrationInstruction("full-load");
+  const routed = ablationIntegrationInstruction("routed");
+  assert.ok(full.indexOf("TEMPLE.md") < full.indexOf("context resolve"));
+  assert.ok(routed.indexOf("context resolve") < routed.indexOf("TEMPLE.md"));
+  assert.notEqual(full, routed);
+});
+
+test("the frozen context ablation requires matched repositories and exact approval", async () => {
+  const protocol = await readJson(ablationProtocolPath);
+  const template = await readJson(ablationApprovalTemplatePath);
+  assert.deepEqual(validateAblationProtocol(protocol), { valid: true, errors: [] });
+  assert.equal(protocol.protocol_sha256, protocolDigest(protocol));
+  assert.equal(protocol.execution.candidate_turns, 2);
+  assert.equal(protocol.execution.evaluator_turns, 0);
+  assert.equal(protocol.execution.combined_operational_token_limit, 160000);
+  assert.equal(validateAblationApproval(template, protocol).accepted, false);
+  const approved = {
+    ...template,
+    approved: true,
+    authorization_source: "exact-test-authorization",
+    approved_at: "2026-09-03T00:00:00.000Z"
+  };
+  assert.deepEqual(validateAblationApproval(approved, protocol), { accepted: true, errors: [] });
+  approved.approved_candidate_operational_tokens += 1;
+  assert.equal(validateAblationApproval(approved, protocol).accepted, false);
+});
+
+test("context ablation analysis keeps correctness primary and reports routed deltas", () => {
+  const recovery = { pass: true, exact_revision_count: 4 };
+  const condition = (id, operationalTokens, totalTokens, elapsedMs, templeReads) => ({
+    condition: id,
+    recovery,
+    operational_tokens: operationalTokens,
+    elapsed_ms: elapsedMs,
+    usage: { input_tokens: totalTokens - 100, cached_input_tokens: 50, output_tokens: 100, total_tokens: totalTokens },
+    prompt_metrics: { explicit_bytes: 2000 },
+    tool_activity: { command_actions: 5, temple_md_reads: templeReads, context_resolve_calls: 1, reported_output_bytes: templeReads ? 13000 : 5600 }
+  });
+  const protocol = { work_item_id: "WI-0136", protocol_sha256: "ablation" };
+  const run = {
+    status: "completed",
+    protocol_sha256: "ablation",
+    conditions: [condition("full-load", 1000, 1200, 2000, 1), condition("routed", 600, 800, 1500, 0)]
+  };
+  const result = analyzeContextAblation({ protocol, run, generatedAt: "2026-09-03T00:00:00.000Z" });
+  assert.equal(result.comparison.operational_token_delta, -400);
+  assert.equal(result.comparison.operational_token_delta_percent, -40);
+  assert.equal(result.interpretation.outcome, "routed-context-supported");
+  assert.equal(result.interpretation.statistical_generalization, false);
+  assert.equal(result.interpretation.main_comparison_result, false);
 });

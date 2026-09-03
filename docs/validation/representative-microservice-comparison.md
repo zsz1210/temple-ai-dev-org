@@ -1,6 +1,6 @@
 # Representative multi-Agent microservice comparison
 
-- Status: WI-0136 executable fixture, golden acceptance path, Provider contract, and Temple lifecycle rehearsal pass; exact live account approval is still required
+- Status: WI-0136 fixture and lifecycle preparation pass; the first live protocol was superseded before generation, and a focused context-routing ablation is being frozen before the main comparison
 - Purpose: measure where Temple changes delivery outcomes, not accumulate another pass count
 - Comparison: Temple versus a minimal responsible workflow under matched inputs and model routes
 
@@ -89,7 +89,30 @@ node scripts/run-representative-microservice-comparison.mjs preflight
 
 The current preflight verifies two arms with identical product revisions, four failing starting service tests per arm, a failing public integration path, a failing held-out compatibility path, a fully passing evaluator-only golden implementation, 31 retained fixture and revision checks, the installed Codex App Server contract, and a complete no-generation Temple lifecycle rehearsal across all five repositories. It must still report `exact-human-approval-required` until the frozen protocol envelope is approved.
 
-The live execution shape is ten candidate turns and one blind evaluator turn: one Sol xhigh design turn, three concurrent Terra medium implementation slices, and one fresh Terra medium cold-integration turn per arm, followed by one Sol xhigh evaluator. The frozen safety envelope is 520,000 candidate operational Tokens, 100,000 evaluator operational Tokens, 620,000 combined operational Tokens, and 45 minutes. These are stop limits grounded in retained WI-0132 and WI-0135 observations, not expected consumption, price, or permission to buy Credits.
+## Context-routing ablation
+
+Prompt inspection found an avoidable confound before any candidate generation: the Temple condition loaded `TEMPLE.md` before resolving a known Work Item's Context Capsule. The intended framework route resolves the capsule first, opens only routed sources, and treats `TEMPLE.md` as a recovery fallback.
+
+The focused ablation compares two otherwise identical prepared Temple recovery repositories:
+
+| Condition | Retrieval order |
+|---|---|
+| Full-load | Read `TEMPLE.md` in full, then resolve and follow the Context Capsule |
+| Routed | Resolve the Context Capsule first, follow only routed sources, and read `TEMPLE.md` only if the capsule is insufficient |
+
+Both conditions use one fresh Terra medium read-only turn, the same exact Git revisions, the same output schema and tool policy, zero retry, and zero fallback. The result reports objective recovery, exact revisions, contract and slice recovery, safe next action, input and cached-input Tokens, output and operational Tokens, elapsed time, explicit prompt bytes, normalized context-command order, and reported tool-output bytes.
+
+Generation-free preparation uses:
+
+```bash
+node scripts/run-representative-microservice-comparison.mjs ablation-setup
+node scripts/run-representative-microservice-comparison.mjs ablation-freeze
+node scripts/run-representative-microservice-comparison.mjs ablation-preflight
+```
+
+The ablation is diagnostic. It determines whether the routed condition preserves recovery quality and whether a Token or context-volume reduction is observed in this pair; it is not a Temple-versus-baseline result and makes no statistical claim.
+
+After the ablation, the main live execution shape remains ten candidate turns and one blind evaluator turn: one Sol xhigh design turn, three concurrent Terra medium implementation slices, and one fresh Terra medium cold-integration turn per arm, followed by one Sol xhigh evaluator. Its replacement safety envelope and protocol digest must be regenerated after the routed prompt is frozen. Earlier limits remain historical preparation evidence, not current approval authority.
 
 After exact approval, the bounded commands are:
 

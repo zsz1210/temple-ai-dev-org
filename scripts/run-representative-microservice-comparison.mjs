@@ -28,9 +28,13 @@ const fixtureRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/fixture
 const defaultLabRoot = path.join(os.tmpdir(), "temple-wi0136-representative-microservice");
 const defaultProtocolPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/live-protocol.json");
 const defaultApprovalTemplatePath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/account-approval.template.json");
+const defaultAblationLabRoot = path.join(os.tmpdir(), "temple-wi0136-context-routing-ablation");
+const defaultAblationProtocolPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-ablation-protocol.json");
+const defaultAblationApprovalTemplatePath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-ablation-approval.template.json");
 const services = Object.freeze(["gateway", "catalog", "orders", "notifications"]);
 const repositories = Object.freeze([...services, "coordinator"]);
 const arms = Object.freeze(["minimal-responsible", "temple"]);
+const ablationConditions = Object.freeze(["full-load", "routed"]);
 const comparisonAllowedCommandPrefixes = Object.freeze([
   ...WAVE5_ALLOWED_COMMAND_PREFIXES,
   Object.freeze(["git", "rev-parse"]),
@@ -47,8 +51,12 @@ const fixedGitEnvironment = Object.freeze({
 
 function parseArguments(argv) {
   const command = argv[0];
-  if (!command || !["setup", "freeze", "preflight", "inspect", "run", "evaluate", "report"].includes(command)) {
-    throw new Error("Usage: run-representative-microservice-comparison.mjs setup|freeze|preflight|inspect|run|evaluate|report [--lab path] [--protocol path] [--approval path]");
+  const commands = [
+    "setup", "freeze", "preflight", "inspect", "run", "evaluate", "report",
+    "ablation-setup", "ablation-freeze", "ablation-preflight", "ablation-inspect", "ablation-run", "ablation-report"
+  ];
+  if (!command || !commands.includes(command)) {
+    throw new Error(`Usage: run-representative-microservice-comparison.mjs ${commands.join("|")} [--lab path] [--protocol path] [--approval path]`);
   }
   const value = (name, fallback) => {
     const index = argv.indexOf(name);
@@ -63,10 +71,11 @@ function parseArguments(argv) {
     if (!allowed.has(argument)) throw new Error(`unsupported argument: ${argument}`);
     if (argument.startsWith("--")) index += 1;
   }
+  const ablation = command.startsWith("ablation-");
   return {
     command,
-    labRoot: value("--lab", defaultLabRoot),
-    protocolPath: value("--protocol", defaultProtocolPath),
+    labRoot: value("--lab", ablation ? defaultAblationLabRoot : defaultLabRoot),
+    protocolPath: value("--protocol", ablation ? defaultAblationProtocolPath : defaultProtocolPath),
     approvalPath: value("--approval", null)
   };
 }
@@ -484,7 +493,7 @@ async function repositorySnapshot(root) {
   };
 }
 
-async function createArm(labRoot, armId) {
+async function createArm(labRoot, armId, organizationMode = armId) {
   const armRoot = path.join(labRoot, "arms", armId);
   await fs.mkdir(armRoot, { recursive: true });
   await writeText(path.join(armRoot, ".gitignore"), `${repositories.map((entry) => `${entry}/`).join("\n")}\n`);
@@ -499,16 +508,17 @@ async function createArm(labRoot, armId) {
   const organizationRevisions = {};
   for (const repositoryId of repositories) {
     const root = path.join(armRoot, repositoryId);
-    if (armId === "temple") {
+    if (organizationMode === "temple") {
       const configPath = path.join(labRoot, "config", `${repositoryId}-temple-init.json`);
       organizationRevisions[repositoryId] = await installTempleOrganization(root, repositoryId, configPath);
     } else {
       organizationRevisions[repositoryId] = await installMinimalOrganization(root, repositoryId);
     }
   }
-  organizationRevisions.coordinator = await installArmPortfolio(armRoot, armId, Object.fromEntries(services.map((repositoryId) => [repositoryId, organizationRevisions[repositoryId]])));
+  organizationRevisions.coordinator = await installArmPortfolio(armRoot, organizationMode, Object.fromEntries(services.map((repositoryId) => [repositoryId, organizationRevisions[repositoryId]])));
   return {
     id: armId,
+    organization_mode: organizationMode,
     root: armRoot,
     product_revisions: productRevisions,
     organization_revisions: organizationRevisions,
@@ -531,6 +541,8 @@ async function sourceDigests() {
   }
   return {
     fixture_sha256: await bundleDigest(fixtureRoot),
+    runner_sha256: sha256(await fs.readFile(import.meta.filename)),
+    analyzer_sha256: sha256(await fs.readFile(new URL("./analyze-representative-microservice-comparison.mjs", import.meta.url))),
     task_sha256: sha256(await fs.readFile(path.join(fixtureRoot, "task.md"))),
     public_tests_sha256: await bundleDigest(fixtureRoot, publicFiles),
     held_out_tests_sha256: await bundleDigest(fixtureRoot, hiddenFiles),
@@ -1085,6 +1097,63 @@ function createBudget(protocol) {
   };
 }
 
+const boundedBaseInstructions = "You are a bounded coding worker. Follow the developer instructions and user task, use only available local tools, and return the requested structured completion record.";
+
+const boundedDeveloperInstructions = [
+  "This is one bounded controlled-comparison turn. Do not create subagents or ask the user questions.",
+  `Allowed shell command prefixes: ${comparisonAllowedCommandPrefixes.map((entry) => entry.join(" ")).join(", ")}.`,
+  "Use one command per shell call; do not use pipes, redirects, control operators, command substitutions, package installation, network access, external services, deployment, or publication.",
+  "Use apply_patch for allowed file changes. Treat repository files as state and complete exactly one attempt.",
+  "Return only the requested structured JSON object."
+].join("\n");
+
+function textMetrics(value) {
+  return {
+    bytes: Buffer.byteLength(value),
+    characters: [...value].length,
+    sha256: sha256(value)
+  };
+}
+
+function promptMetrics(instruction, outputSchema) {
+  const schema = JSON.stringify(outputSchema);
+  const components = {
+    base_instructions: textMetrics(boundedBaseInstructions),
+    developer_instructions: textMetrics(boundedDeveloperInstructions),
+    user_input: textMetrics(instruction),
+    output_schema: textMetrics(schema)
+  };
+  return {
+    components,
+    explicit_bytes: Object.values(components).reduce((sum, entry) => sum + entry.bytes, 0),
+    raw_prompt_retained: false
+  };
+}
+
+function summarizeToolActivity(item, activity, includeActions = true) {
+  if (item?.type !== "commandExecution") return;
+  if (includeActions) {
+    activity.command_items += 1;
+    for (const action of item.commandActions ?? []) {
+      activity.command_actions += 1;
+      const type = typeof action?.type === "string" ? action.type : "unknown";
+      activity.action_types[type] = (activity.action_types[type] ?? 0) + 1;
+      const commandText = typeof action?.command === "string" ? action.command : "";
+      if (/(^|[ /])TEMPLE\.md(?:$|[ '"/])/i.test(commandText)) {
+        activity.temple_md_reads += 1;
+        activity.context_sequence.push("temple-md");
+      }
+      if (/\bcontext resolve\b/i.test(commandText)) {
+        activity.context_resolve_calls += 1;
+        activity.context_sequence.push("context-resolve");
+      }
+    }
+  }
+  for (const key of ["aggregatedOutput", "output", "formattedOutput"]) {
+    if (typeof item?.[key] === "string") activity.reported_output_bytes += Buffer.byteLength(item[key]);
+  }
+}
+
 async function launchModelTurn({
   id,
   cwd,
@@ -1105,6 +1174,16 @@ async function launchModelTurn({
   let completionText = null;
   let latestUsage = null;
   let violation = null;
+  const toolActivity = {
+    command_items: 0,
+    command_actions: 0,
+    action_types: {},
+    temple_md_reads: 0,
+    context_resolve_calls: 0,
+    context_sequence: [],
+    reported_output_bytes: 0
+  };
+  const observedCommandItems = new Set();
   let resolveTerminal;
   const terminalPromise = new Promise((resolve) => { resolveTerminal = resolve; });
   const startedAt = new Date().toISOString();
@@ -1138,8 +1217,21 @@ async function launchModelTurn({
       if (message.method === "item/started" && (!allowTools || ["mcpToolCall", "webSearch"].includes(params.item?.type))) {
         void interrupt(`${stage}-tool-policy-violation`);
       }
+      if (message.method === "item/started" && params.item?.type === "commandExecution") {
+        const key = params.item.id ?? `${toolActivity.command_items}`;
+        if (!observedCommandItems.has(key)) {
+          observedCommandItems.add(key);
+          summarizeToolActivity(params.item, toolActivity, true);
+        }
+      }
       if (message.method === "item/completed" && (!turnId || params.turnId === turnId) && params.item?.type === "agentMessage") {
         completionText = params.item.text;
+      }
+      if (message.method === "item/completed" && (!turnId || params.turnId === turnId)) {
+        const key = params.item?.id ?? null;
+        const includeActions = params.item?.type === "commandExecution" && (key === null || !observedCommandItems.has(key));
+        if (includeActions && key !== null) observedCommandItems.add(key);
+        summarizeToolActivity(params.item, toolActivity, includeActions);
       }
       if (message.method === "turn/completed" && (!turnId || params.turn?.id === turnId)) {
         terminal = params.turn;
@@ -1167,14 +1259,9 @@ async function launchModelTurn({
       approvalPolicy: "never",
       sandbox,
       serviceName: `temple-wi0136-${id}`,
-      developerInstructions: [
-        "This is one bounded controlled-comparison turn. Do not create subagents or ask the user questions.",
-        `Allowed shell command prefixes: ${comparisonAllowedCommandPrefixes.map((entry) => entry.join(" ")).join(", ")}.`,
-        "Use one command per shell call; do not use pipes, redirects, control operators, command substitutions, package installation, network access, external services, deployment, or publication.",
-        "Use apply_patch for allowed file changes. Treat repository files as state and complete exactly one attempt.",
-        "Return only the requested structured JSON object."
-      ].join("\n"),
-      ...wave5ThreadIsolation(cwd)
+      developerInstructions: boundedDeveloperInstructions,
+      ...wave5ThreadIsolation(cwd),
+      baseInstructions: boundedBaseInstructions
     });
     threadId = thread?.thread?.id;
     if (!threadId || thread.model !== route.model) throw new Error(`${id}: requested model was not acknowledged`);
@@ -1218,6 +1305,8 @@ async function launchModelTurn({
       effective_turn_reasoning_effort: null,
       usage: latestUsage,
       operational_tokens: tokens,
+      prompt_metrics: promptMetrics(instruction, outputSchema),
+      tool_activity: toolActivity,
       completion,
       retry_count: 0,
       fallback_count: 0,
@@ -1332,10 +1421,18 @@ function buildSlices() {
   ];
 }
 
+export function templeRoutedContextInstruction(repositoryLabel = "the assigned repository") {
+  return [
+    `From ${repositoryLabel}, first preview \`node ./templew.mjs context resolve . --work-item WI-0001 --position developer --no-write --json\`.`,
+    "Open only the routed repository sources needed for this responsibility.",
+    "Read TEMPLE.md only if the Context Capsule cannot identify authority, current state, or the safe next action; do not read it merely by default."
+  ].join(" ");
+}
+
 function armProcessInstructions(armId, repositories_) {
   if (armId === "temple") {
     return [
-      "For every assigned repository, first read TEMPLE.md and preview `node ./templew.mjs context resolve . --work-item WI-0001 --position developer --no-write --json` from that repository.",
+      templeRoutedContextInstruction("each assigned repository"),
       "Use only the routed repository state needed for this slice. Claims and lifecycle mutations are owned by the experiment coordinator; do not edit .ai-org files."
     ].join(" ");
   }
@@ -1352,7 +1449,7 @@ async function runDesignTurn({ armId, armRoot, protocol, budget, deadline }) {
     "Use contract_version `OrderPlaced/v2`. Use rollout_order with consumer preparation before producer publication.",
     "Define exactly these slice IDs: orders-catalog, notifications, gateway. Keep their writable repositories disjoint.",
     armId === "temple"
-      ? "Recover authority from the Coordinator TEMPLE.md and the read-only WI-0001 context before reasoning."
+      ? templeRoutedContextInstruction("the Coordinator repository")
       : "Use TASK.md and organization/WORK_ITEM.md as the ordinary responsible workflow records.",
     task
   ].join("\n\n");
@@ -1481,6 +1578,57 @@ async function finalizeMinimalIntegration(coordinatorRoot, report) {
   return { product_revision: await git(coordinatorRoot, ["rev-parse", "HEAD"]) };
 }
 
+function goldenDesignRecord() {
+  return {
+    contract_version: "OrderPlaced/v2",
+    rollout_order: ["notifications", "orders-catalog", "gateway"],
+    slices: buildSlices().map((slice) => ({ id: slice.id, repositories: slice.repositories, responsibility: `${slice.id} golden rehearsal` })),
+    risks: ["retained v1 compatibility"],
+    assumptions: ["local synthetic fixture"]
+  };
+}
+
+async function prepareGoldenTempleRecoveryState(armRoot) {
+  const coordinatorRoot = path.join(armRoot, "coordinator");
+  await claimTempleRepository(coordinatorRoot, "agent-fixture-tidus");
+  await finalizeTempleDesign(coordinatorRoot, goldenDesignRecord());
+  for (const repositoryId of services) {
+    const root = path.join(armRoot, repositoryId);
+    await claimTempleRepository(root, "agent-fixture-rikku");
+    await fs.copyFile(
+      path.join(fixtureRoot, "evaluator-only/golden", serviceAffectedPath(repositoryId).split("/").at(-1)),
+      path.join(root, serviceAffectedPath(repositoryId))
+    );
+    await git(root, ["add", "--", serviceAffectedPath(repositoryId)]);
+    await git(root, ["commit", "-m", `Apply ${repositoryId} golden recovery fixture`]);
+    const productRevision = await git(root, ["rev-parse", "HEAD"]);
+    await completeTempleBuildRepository(root, "Golden no-generation recovery fixture", productRevision);
+  }
+  const expectedRevisions = Object.fromEntries(await Promise.all(
+    services.map(async (repositoryId) => [repositoryId, await git(path.join(armRoot, repositoryId), ["rev-parse", "HEAD"])])
+  ));
+  const portfolioRevision = await installArmPortfolio(armRoot, "temple", expectedRevisions);
+  const objective = await objectiveTests(armRoot);
+  const states = {};
+  let doctorPass = true;
+  for (const repositoryId of repositories) {
+    const root = path.join(armRoot, repositoryId);
+    const item = await readJson(path.join(root, ".ai-org/work-items/WI-0001.json"));
+    states[repositoryId] = item.state;
+    const doctor = JSON.parse(await temple(root, ["doctor", ".", "--json"]));
+    doctorPass = doctorPass && doctor.summary?.fail === 0;
+  }
+  return {
+    pass: objective.pass && doctorPass && states.coordinator === "build" && services.every((repositoryId) => states[repositoryId] === "test"),
+    expected_revisions: expectedRevisions,
+    portfolio_revision: portfolioRevision,
+    objective_pass: objective.pass,
+    doctor_pass: doctorPass,
+    states,
+    model_generation_performed: false
+  };
+}
+
 async function rehearseTempleLifecycle(labRoot) {
   const rehearsalRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0136-lifecycle-"));
   try {
@@ -1492,13 +1640,7 @@ async function rehearseTempleLifecycle(labRoot) {
     }
     const coordinatorRoot = path.join(rehearsalRoot, "coordinator");
     await claimTempleRepository(coordinatorRoot, "agent-fixture-tidus");
-    await finalizeTempleDesign(coordinatorRoot, {
-      contract_version: "OrderPlaced/v2",
-      rollout_order: ["notifications", "orders-catalog", "gateway"],
-      slices: buildSlices().map((slice) => ({ id: slice.id, repositories: slice.repositories, responsibility: `${slice.id} golden rehearsal` })),
-      risks: ["retained v1 compatibility"],
-      assumptions: ["local synthetic fixture"]
-    });
+    await finalizeTempleDesign(coordinatorRoot, goldenDesignRecord());
     for (const repositoryId of services) {
       const root = path.join(rehearsalRoot, repositoryId);
       await claimTempleRepository(root, "agent-fixture-rikku");
@@ -1560,7 +1702,7 @@ async function runIntegrationTurn({ armId, armRoot, protocol, budget, deadline }
     "You are a fresh integration owner with no prior conversation. Recover the exact current state using repository files only.",
     "Inspect all four service repositories, their current Git revisions, the governing contract, the design record, and every retained slice handoff.",
     armId === "temple"
-      ? "Start from coordinator/TEMPLE.md and preview the Coordinator WI-0001 developer context with the repository launcher. Follow its routed sources; do not mutate lifecycle state."
+      ? `${templeRoutedContextInstruction("the Coordinator repository")} Do not mutate lifecycle state.`
       : "Start from coordinator/TASK.md, coordinator/design-record.json, and ordinary organization handoffs.",
     "Return exact revisions for gateway, catalog, orders, and notifications; name completed slice IDs, unresolved work, and the safe bounded next action.",
     "Do not modify files, fix code, deploy, publish, or infer anything from conversation memory."
@@ -1585,6 +1727,488 @@ async function runIntegrationTurn({ armId, armRoot, protocol, budget, deadline }
     ? await finalizeTempleIntegration(coordinatorRoot, turn.completion)
     : await finalizeMinimalIntegration(coordinatorRoot, turn.completion);
   return { ...turn, ...finalized, expected_revisions: expectedRevisions, recovery, objective_tests: objective };
+}
+
+export function ablationIntegrationInstruction(condition) {
+  if (!ablationConditions.includes(condition)) throw new Error(`unknown context condition: ${condition}`);
+  const contextInstruction = condition === "full-load"
+    ? "From the Coordinator repository, read TEMPLE.md in full before previewing `node ./templew.mjs context resolve . --work-item WI-0001 --position developer --no-write --json`. Then inspect the sources named by the Context Capsule."
+    : templeRoutedContextInstruction("the Coordinator repository");
+  return [
+    "You are a fresh integration owner with no prior conversation. Recover the exact current state using repository files only.",
+    "Inspect all four service repositories, their current Git revisions, the governing contract, the design record, and every retained slice handoff.",
+    contextInstruction,
+    "Return exact revisions for gateway, catalog, orders, and notifications; name completed slice IDs, unresolved work, and the safe bounded next action.",
+    "Do not modify files, fix code, deploy, publish, or infer anything from conversation memory."
+  ].join("\n\n");
+}
+
+function contextPromptContract() {
+  return {
+    base_instructions: textMetrics(boundedBaseInstructions),
+    developer_instructions: textMetrics(boundedDeveloperInstructions),
+    output_schema: textMetrics(JSON.stringify(integrationOutputSchema)),
+    conditions: Object.fromEntries(ablationConditions.map((condition) => [condition, {
+      strategy: condition === "full-load" ? "temple-full-load-v1" : "temple-routed-context-v1",
+      user_input: textMetrics(ablationIntegrationInstruction(condition))
+    }]))
+  };
+}
+
+function conditionParity(conditions) {
+  if (!Array.isArray(conditions) || conditions.length !== ablationConditions.length) return false;
+  const normalized = conditions.map((condition) => Object.fromEntries(
+    repositories.map((repositoryId) => [repositoryId, {
+      revision: condition.repositories?.[repositoryId]?.revision,
+      tree: condition.repositories?.[repositoryId]?.tree,
+      clean: condition.repositories?.[repositoryId]?.clean
+    }])
+  ));
+  return normalized.slice(1).every((entry) => JSON.stringify(entry) === JSON.stringify(normalized[0]));
+}
+
+function buildAblationProtocol(manifest) {
+  const protocol = {
+    schema_version: "temple.context-routing-ablation/v1",
+    work_item_id: "WI-0136",
+    status: "generation-disabled",
+    protocol_sha256: null,
+    lab_manifest_sha256: manifest.manifest_sha256,
+    source_digests: manifest.source_digests,
+    prompt_contract: contextPromptContract(),
+    conditions: manifest.conditions.map((condition) => ({
+      id: condition.id,
+      repositories: Object.fromEntries(repositories.map((repositoryId) => [repositoryId, {
+        revision: condition.repositories[repositoryId].revision,
+        tree: condition.repositories[repositoryId].tree
+      }]))
+    })),
+    execution: {
+      condition_order: [...ablationConditions],
+      candidate_turns: 2,
+      evaluator_turns: 0,
+      retry_count: 0,
+      fallback_count: 0,
+      network_access: false,
+      generation_ready: false,
+      exact_approval_required: true,
+      integration_operational_token_limit: null,
+      candidate_aggregate_operational_token_limit: null,
+      combined_operational_token_limit: null,
+      program_wall_clock_limit_ms: null
+    },
+    model_route: { model: "gpt-5.6-terra", reasoning_effort: "medium" },
+    provider_contract: null,
+    limit_basis: null,
+    measures: [
+      "objective-recovery",
+      "exact-revisions",
+      "governing-contract",
+      "completed-slices",
+      "safe-next-action",
+      "input-tokens",
+      "cached-input-tokens",
+      "output-tokens",
+      "operational-tokens",
+      "elapsed-ms",
+      "explicit-prompt-bytes",
+      "context-command-sequence",
+      "reported-tool-output-bytes"
+    ],
+    claims: {
+      statistical_generalization: false,
+      main_comparison_result: false,
+      automatic_routing_authority: false,
+      monetary_cost_known: false,
+      raw_prompts_retained: false,
+      raw_responses_retained: false,
+      hidden_reasoning_retained: false
+    }
+  };
+  protocol.protocol_sha256 = protocolDigest(protocol);
+  return protocol;
+}
+
+export function validateAblationProtocol(protocol) {
+  const errors = [];
+  if (protocol?.schema_version !== "temple.context-routing-ablation/v1") errors.push("unsupported ablation schema");
+  if (protocol?.work_item_id !== "WI-0136" || protocol?.status !== "generation-disabled") errors.push("ablation identity or status mismatch");
+  if (protocol?.protocol_sha256 !== protocolDigest(protocol)) errors.push("ablation protocol digest mismatch");
+  if (JSON.stringify(protocol?.execution?.condition_order) !== JSON.stringify(ablationConditions)) errors.push("condition order mismatch");
+  if (protocol?.execution?.candidate_turns !== 2 || protocol?.execution?.evaluator_turns !== 0) errors.push("ablation execution shape mismatch");
+  if (protocol?.execution?.retry_count !== 0 || protocol?.execution?.fallback_count !== 0 || protocol?.execution?.network_access !== false) errors.push("ablation retry, fallback, or network boundary mismatch");
+  if (protocol?.model_route?.model !== "gpt-5.6-terra" || protocol?.model_route?.reasoning_effort !== "medium") errors.push("ablation model route mismatch");
+  if (!conditionParity(protocol?.conditions?.map((condition) => ({
+    ...condition,
+    repositories: Object.fromEntries(Object.entries(condition.repositories ?? {}).map(([id, value]) => [id, { ...value, clean: true }]))
+  })))) errors.push("ablation repository conditions are not matched");
+  const promptContract = protocol?.prompt_contract;
+  if (!promptContract?.conditions?.["full-load"] || !promptContract?.conditions?.routed) errors.push("ablation prompt contract missing");
+  if (promptContract?.conditions?.["full-load"]?.user_input?.sha256 === promptContract?.conditions?.routed?.user_input?.sha256) errors.push("ablation prompt strategies are not distinct");
+  const frozen = protocol?.execution?.integration_operational_token_limit !== null && protocol?.execution?.integration_operational_token_limit !== undefined;
+  if (frozen) {
+    for (const field of ["integration_operational_token_limit", "candidate_aggregate_operational_token_limit", "combined_operational_token_limit", "program_wall_clock_limit_ms"]) {
+      if (!Number.isSafeInteger(protocol.execution[field]) || protocol.execution[field] <= 0) errors.push(`${field} must be a positive integer when frozen`);
+    }
+    if (protocol.execution.candidate_aggregate_operational_token_limit !== protocol.execution.integration_operational_token_limit * 2) errors.push("ablation aggregate limit mismatch");
+    if (protocol.execution.combined_operational_token_limit !== protocol.execution.candidate_aggregate_operational_token_limit) errors.push("ablation combined limit mismatch");
+    if (!protocol?.provider_contract?.codex_cli_version || !protocol?.provider_contract?.schema_digests) errors.push("frozen ablation requires a Provider contract");
+  }
+  return { valid: errors.length === 0, errors };
+}
+
+async function setupAblation(labRoot, protocolPath) {
+  if (await exists(labRoot)) throw new Error(`refusing to replace existing ablation lab: ${labRoot}`);
+  await fs.mkdir(labRoot, { recursive: true });
+  const createdAt = new Date().toISOString();
+  try {
+    const source = await createArm(labRoot, "source", "temple");
+    const sourceRoot = path.join(labRoot, "arms", "source");
+    const prepared = await prepareGoldenTempleRecoveryState(sourceRoot);
+    if (!prepared.pass) throw new Error("generation-free recovery state preparation failed");
+    const conditions = [];
+    for (const condition of ablationConditions) {
+      const conditionRoot = path.join(labRoot, "conditions", condition);
+      await fs.mkdir(path.dirname(conditionRoot), { recursive: true });
+      await fs.cp(sourceRoot, conditionRoot, { recursive: true, force: false, errorOnExist: true });
+      conditions.push({
+        id: condition,
+        root: conditionRoot,
+        repositories: Object.fromEntries(await Promise.all(repositories.map(async (repositoryId) => [repositoryId, await repositorySnapshot(path.join(conditionRoot, repositoryId))])))
+      });
+    }
+    if (!conditionParity(conditions)) throw new Error("ablation conditions are not byte-equivalent at Git revision and tree boundaries");
+    const manifest = {
+      schema_version: "temple.context-routing-ablation-lab/v1",
+      work_item_id: "WI-0136",
+      created_at: createdAt,
+      lab_root: labRoot,
+      source_digests: await sourceDigests(),
+      source_arm: source,
+      prepared_recovery_state: prepared,
+      conditions,
+      model_generation_performed: false,
+      manifest_sha256: null
+    };
+    manifest.manifest_sha256 = sha256(JSON.stringify(stable({ ...manifest, manifest_sha256: null })));
+    await writeJson(path.join(labRoot, "ablation-manifest.json"), manifest, { exclusive: true });
+    const protocol = buildAblationProtocol(manifest);
+    const validation = validateAblationProtocol(protocol);
+    if (!validation.valid) throw new Error(`generated ablation protocol invalid: ${validation.errors.join(", ")}`);
+    await writeJson(protocolPath, protocol);
+    return { manifest, protocol, validation };
+  } catch (error) {
+    await writeJson(path.join(labRoot, "setup-failure.json"), {
+      schema_version: "temple.context-routing-ablation-setup-failure/v1",
+      work_item_id: "WI-0136",
+      stopped_at: new Date().toISOString(),
+      reason: String(error.message ?? error),
+      model_generation_performed: false
+    }).catch(() => {});
+    throw error;
+  }
+}
+
+function ablationApprovalTemplate(protocol) {
+  return {
+    schema_version: "temple.context-routing-ablation-account-approval/v1",
+    work_item_id: protocol.work_item_id,
+    protocol_sha256: protocol.protocol_sha256,
+    approved: false,
+    authorization_source: null,
+    approved_candidate_turns: protocol.execution.candidate_turns,
+    approved_models: [protocol.model_route.model],
+    approved_reasoning_efforts: [protocol.model_route.reasoning_effort],
+    approved_candidate_operational_tokens: protocol.execution.candidate_aggregate_operational_token_limit,
+    approved_combined_operational_tokens: protocol.execution.combined_operational_token_limit,
+    approved_program_wall_clock_ms: protocol.execution.program_wall_clock_limit_ms,
+    pro_included_allowance_only: true,
+    credits_purchase_authorized: false,
+    automatic_refill_authorized: false,
+    usage_reset_authorized: false,
+    retry_count: 0,
+    fallback_count: 0,
+    approved_at: null
+  };
+}
+
+export function validateAblationApproval(approval, protocol) {
+  const expected = ablationApprovalTemplate(protocol);
+  const errors = [];
+  if (approval?.schema_version !== expected.schema_version) errors.push("unsupported ablation approval schema");
+  if (approval?.work_item_id !== expected.work_item_id || approval?.protocol_sha256 !== expected.protocol_sha256) errors.push("ablation approval target mismatch");
+  if (approval?.approved !== true || !approval?.authorization_source || !approval?.approved_at) errors.push("affirmative ablation approval record is incomplete");
+  for (const key of [
+    "approved_candidate_turns", "approved_candidate_operational_tokens", "approved_combined_operational_tokens",
+    "approved_program_wall_clock_ms", "pro_included_allowance_only", "credits_purchase_authorized",
+    "automatic_refill_authorized", "usage_reset_authorized", "retry_count", "fallback_count"
+  ]) {
+    if (approval?.[key] !== expected[key]) errors.push(`${key} does not match the frozen ablation protocol`);
+  }
+  if (JSON.stringify(approval?.approved_models) !== JSON.stringify(expected.approved_models)) errors.push("approved ablation models mismatch");
+  if (JSON.stringify(approval?.approved_reasoning_efforts) !== JSON.stringify(expected.approved_reasoning_efforts)) errors.push("approved ablation efforts mismatch");
+  return { accepted: errors.length === 0, errors };
+}
+
+async function freezeAblation(protocolPath) {
+  const protocol = await readJson(protocolPath);
+  const before = validateAblationProtocol(protocol);
+  if (!before.valid) throw new Error(`ablation protocol invalid before freeze: ${before.errors.join(", ")}`);
+  const handshake = await providerHandshake();
+  const terra = handshake.model_checks.find((entry) => entry.model === "gpt-5.6-terra");
+  if (!handshake.pass || !terra?.available) throw new Error("required Terra medium Provider route is unavailable");
+  const frozen = structuredClone(protocol);
+  frozen.provider_contract = {
+    codex_cli_version: handshake.codex_cli_version,
+    schema_digests: handshake.schema_digests,
+    required_models: [{ model: "gpt-5.6-terra", reasoning_efforts: ["medium"] }]
+  };
+  Object.assign(frozen.execution, {
+    integration_operational_token_limit: 80000,
+    candidate_aggregate_operational_token_limit: 160000,
+    combined_operational_token_limit: 160000,
+    program_wall_clock_limit_ms: 1200000
+  });
+  frozen.limit_basis = {
+    source: ".ai-org/artifacts/WI-0136/live-protocol.json",
+    prior_integration_operational_token_limit: 80000,
+    meaning: "Two independent hard stops inherited from the already reviewed integration ceiling; not an expected use or price."
+  };
+  frozen.protocol_sha256 = protocolDigest(frozen);
+  const after = validateAblationProtocol(frozen);
+  if (!after.valid) throw new Error(`frozen ablation protocol invalid: ${after.errors.join(", ")}`);
+  await writeJson(protocolPath, frozen);
+  await writeJson(defaultAblationApprovalTemplatePath, ablationApprovalTemplate(frozen));
+  return {
+    schema_version: "temple.context-routing-ablation-freeze/v1",
+    work_item_id: frozen.work_item_id,
+    protocol_sha256: frozen.protocol_sha256,
+    provider_handshake: handshake,
+    limits: frozen.execution,
+    approval_template: path.relative(repositoryRoot, defaultAblationApprovalTemplatePath),
+    model_generation_performed: false
+  };
+}
+
+async function inspectAblation(labRoot, protocolPath) {
+  const manifest = await readJson(path.join(labRoot, "ablation-manifest.json"));
+  const protocol = await readJson(protocolPath);
+  const checks = [
+    { id: "protocol-valid", pass: validateAblationProtocol(protocol).valid },
+    { id: "manifest-digest", pass: manifest.manifest_sha256 === sha256(JSON.stringify(stable({ ...manifest, manifest_sha256: null }))) },
+    { id: "protocol-manifest", pass: protocol.lab_manifest_sha256 === manifest.manifest_sha256 },
+    { id: "source-current", pass: JSON.stringify(await sourceDigests()) === JSON.stringify(manifest.source_digests) },
+    { id: "prompt-contract-current", pass: JSON.stringify(protocol.prompt_contract) === JSON.stringify(contextPromptContract()) },
+    { id: "conditions-matched", pass: conditionParity(manifest.conditions) },
+    { id: "prepared-recovery-state", pass: manifest.prepared_recovery_state?.pass === true }
+  ];
+  for (const condition of manifest.conditions) {
+    for (const repositoryId of repositories) {
+      const observed = await repositorySnapshot(path.join(condition.root, repositoryId));
+      const expected = condition.repositories[repositoryId];
+      checks.push({ id: `${condition.id}:${repositoryId}:revision`, pass: observed.revision === expected.revision });
+      checks.push({ id: `${condition.id}:${repositoryId}:tree`, pass: observed.tree === expected.tree });
+      checks.push({ id: `${condition.id}:${repositoryId}:clean`, pass: observed.clean === true });
+    }
+  }
+  return {
+    schema_version: "temple.context-routing-ablation-inspection/v1",
+    work_item_id: "WI-0136",
+    inspected_at: new Date().toISOString(),
+    valid: checks.every((entry) => entry.pass),
+    checks,
+    model_generation_performed: false
+  };
+}
+
+async function preflightAblation(labRoot, protocolPath, approvalPath) {
+  const inspection = await inspectAblation(labRoot, protocolPath);
+  const protocol = await readJson(protocolPath);
+  const handshake = await providerHandshake();
+  const terra = handshake.model_checks.find((entry) => entry.model === "gpt-5.6-terra");
+  const providerMatch = Boolean(terra?.available) && protocol?.provider_contract?.codex_cli_version === handshake.codex_cli_version &&
+    JSON.stringify(protocol?.provider_contract?.schema_digests) === JSON.stringify(handshake.schema_digests);
+  const approval = approvalPath && await exists(approvalPath)
+    ? validateAblationApproval(await readJson(approvalPath), protocol)
+    : { accepted: false, errors: ["exact approval missing"] };
+  const blockers = [];
+  if (!inspection.valid) blockers.push("ablation-fixture-invalid");
+  if (!providerMatch) blockers.push("provider-contract-drift");
+  if (!approval.accepted) blockers.push("exact-human-approval-required");
+  const output = {
+    schema_version: "temple.context-routing-ablation-preflight/v1",
+    work_item_id: "WI-0136",
+    observed_at: new Date().toISOString(),
+    protocol_sha256: protocol.protocol_sha256,
+    local_fixture_ready: inspection.valid,
+    provider_handshake_performed: true,
+    provider_contract_matches: providerMatch,
+    exact_approval_present: approval.accepted,
+    approval_errors: approval.errors,
+    generation_ready: blockers.length === 0,
+    blockers,
+    checks: inspection.checks,
+    model_generation_performed: false
+  };
+  await writeJson(path.join(labRoot, "ablation-preflight.json"), output);
+  return output;
+}
+
+function recoveryObservation(completion, expectedRevisions) {
+  const recovered = Object.fromEntries((completion?.recovered_revisions ?? []).map((entry) => [entry.repository, entry.revision]));
+  const metrics = {
+    exact_revision_count: services.filter((entry) => recovered[entry] === expectedRevisions[entry]).length,
+    exact_revision_total: services.length,
+    governing_contract_named: /TASK\.md|OrderPlaced\/v2|OrderPlaced v2/i.test(completion?.governing_contract ?? ""),
+    completed_slice_count: buildSlices().filter((slice) => completion?.completed_slices?.includes(slice.id)).length,
+    completed_slice_total: buildSlices().length,
+    unresolved_reported: Array.isArray(completion?.unresolved),
+    safe_next_action_bounded: !/deploy|publish|release to production/i.test(completion?.safe_next_action ?? "")
+  };
+  return {
+    ...metrics,
+    pass: metrics.exact_revision_count === metrics.exact_revision_total && metrics.governing_contract_named &&
+      metrics.completed_slice_count === metrics.completed_slice_total && metrics.unresolved_reported && metrics.safe_next_action_bounded
+  };
+}
+
+function validateContextSequence(condition, activity) {
+  const firstTemple = activity.context_sequence.indexOf("temple-md");
+  const firstResolve = activity.context_sequence.indexOf("context-resolve");
+  if (firstResolve < 0) return false;
+  if (condition === "full-load") return firstTemple >= 0 && firstTemple < firstResolve;
+  return firstTemple < 0 || firstResolve < firstTemple;
+}
+
+async function runAblation(labRoot, protocolPath, approvalPath) {
+  if (!approvalPath) throw new Error("--approval is required for live ablation generation");
+  const resultPath = path.join(labRoot, "ablation-run.json");
+  if (await exists(resultPath) || await exists(path.join(labRoot, "ablation-stopped-run.json"))) throw new Error("live ablation attempt already exists; retries and resumes are prohibited");
+  const gate = await preflightAblation(labRoot, protocolPath, approvalPath);
+  if (!gate.generation_ready) throw new Error(`ablation generation blocked: ${gate.blockers.join(", ")}`);
+  const protocol = await readJson(protocolPath);
+  const manifest = await readJson(path.join(labRoot, "ablation-manifest.json"));
+  const budget = createBudget(protocol);
+  const startedAt = new Date().toISOString();
+  const deadline = Date.now() + protocol.execution.program_wall_clock_limit_ms;
+  const completed = [];
+  try {
+    for (const condition of protocol.execution.condition_order) {
+      const conditionRoot = path.join(labRoot, "conditions", condition);
+      const turn = await launchModelTurn({
+        id: `context-${condition}`,
+        cwd: conditionRoot,
+        stage: "integration",
+        route: protocol.model_route,
+        instruction: ablationIntegrationInstruction(condition),
+        outputSchema: integrationOutputSchema,
+        protocol,
+        budget,
+        deadline,
+        sandbox: "read-only"
+      });
+      if (!validateContextSequence(condition, turn.tool_activity)) throw new Error(`${condition}:context-strategy-not-observed`);
+      const expected = manifest.prepared_recovery_state.expected_revisions;
+      completed.push({
+        condition,
+        ...turn,
+        expected_revisions: expected,
+        recovery: recoveryObservation(turn.completion, expected)
+      });
+    }
+    const output = {
+      schema_version: "temple.context-routing-ablation-run/v1",
+      work_item_id: protocol.work_item_id,
+      protocol_sha256: protocol.protocol_sha256,
+      started_at: startedAt,
+      completed_at: new Date().toISOString(),
+      status: "completed",
+      conditions: completed,
+      candidate_operational_tokens: budget.total(),
+      retry_count: 0,
+      fallback_count: 0,
+      model_generation_performed: true
+    };
+    await writeJson(resultPath, output, { exclusive: true });
+    return output;
+  } catch (error) {
+    await writeJson(path.join(labRoot, "ablation-stopped-run.json"), {
+      schema_version: "temple.context-routing-ablation-stopped-run/v1",
+      work_item_id: protocol.work_item_id,
+      protocol_sha256: protocol.protocol_sha256,
+      started_at: startedAt,
+      stopped_at: new Date().toISOString(),
+      completed_condition_count: completed.length,
+      candidate_operational_tokens: budget.total(),
+      reason: String(error.message ?? error),
+      retry_count: 0,
+      fallback_count: 0,
+      model_generation_performed: true
+    }, { exclusive: true });
+    throw error;
+  }
+}
+
+export function analyzeContextAblation({ protocol, run, generatedAt = new Date().toISOString() }) {
+  if (run?.status !== "completed" || run?.protocol_sha256 !== protocol?.protocol_sha256) throw new Error("completed protocol-matched ablation run required");
+  const byCondition = Object.fromEntries(run.conditions.map((entry) => [entry.condition, entry]));
+  const full = byCondition["full-load"];
+  const routed = byCondition.routed;
+  if (!full || !routed) throw new Error("both ablation conditions are required");
+  const metric = (entry) => ({
+    recovery_pass: entry.recovery.pass,
+    exact_revision_count: entry.recovery.exact_revision_count,
+    operational_tokens: entry.operational_tokens,
+    input_tokens: entry.usage.input_tokens,
+    cached_input_tokens: entry.usage.cached_input_tokens,
+    output_tokens: entry.usage.output_tokens,
+    gross_tokens: entry.usage.total_tokens,
+    elapsed_ms: entry.elapsed_ms,
+    explicit_prompt_bytes: entry.prompt_metrics.explicit_bytes,
+    command_actions: entry.tool_activity.command_actions,
+    temple_md_reads: entry.tool_activity.temple_md_reads,
+    context_resolve_calls: entry.tool_activity.context_resolve_calls,
+    reported_tool_output_bytes: entry.tool_activity.reported_output_bytes
+  });
+  const fullMetric = metric(full);
+  const routedMetric = metric(routed);
+  const delta = (key) => routedMetric[key] - fullMetric[key];
+  const percent = (key) => fullMetric[key] === 0 ? null : Number(((delta(key) / fullMetric[key]) * 100).toFixed(2));
+  const outcome = !routedMetric.recovery_pass
+    ? "routed-context-not-ready"
+    : !fullMetric.recovery_pass || routedMetric.operational_tokens < fullMetric.operational_tokens
+      ? "routed-context-supported"
+      : "routed-context-correct-savings-not-observed";
+  return {
+    schema_version: "temple.context-routing-ablation-analysis/v1",
+    work_item_id: protocol.work_item_id,
+    protocol_sha256: protocol.protocol_sha256,
+    generated_at: generatedAt,
+    conditions: { "full-load": fullMetric, routed: routedMetric },
+    comparison: {
+      operational_token_delta: delta("operational_tokens"),
+      operational_token_delta_percent: percent("operational_tokens"),
+      gross_token_delta: delta("gross_tokens"),
+      elapsed_ms_delta: delta("elapsed_ms"),
+      reported_tool_output_byte_delta: delta("reported_tool_output_bytes"),
+      objective_quality_equal: fullMetric.recovery_pass === routedMetric.recovery_pass
+    },
+    interpretation: {
+      outcome,
+      use_routed_context_in_main_comparison: routedMetric.recovery_pass,
+      statistical_generalization: false,
+      main_comparison_result: false,
+      note: "One matched pair isolates context-loading behavior; it does not prove a population effect or Temple effectiveness."
+    }
+  };
+}
+
+async function reportAblation(labRoot, protocolPath) {
+  const protocol = await readJson(protocolPath);
+  const run = await readJson(path.join(labRoot, "ablation-run.json"));
+  const analysis = analyzeContextAblation({ protocol, run });
+  await writeJson(path.join(labRoot, "ablation-analysis.json"), analysis);
+  return analysis;
 }
 
 async function directoryBytes(root) {
@@ -1819,16 +2443,28 @@ async function main() {
   const arguments_ = parseArguments(process.argv.slice(2));
   const result = arguments_.command === "setup"
     ? await setup(arguments_.labRoot, arguments_.protocolPath)
+    : arguments_.command === "ablation-setup"
+      ? await setupAblation(arguments_.labRoot, arguments_.protocolPath)
     : arguments_.command === "freeze"
       ? await freeze(arguments_.protocolPath)
+      : arguments_.command === "ablation-freeze"
+        ? await freezeAblation(arguments_.protocolPath)
       : arguments_.command === "preflight"
         ? await preflight(arguments_.labRoot, arguments_.protocolPath, arguments_.approvalPath)
+        : arguments_.command === "ablation-preflight"
+          ? await preflightAblation(arguments_.labRoot, arguments_.protocolPath, arguments_.approvalPath)
         : arguments_.command === "run"
           ? await runProgram(arguments_.labRoot, arguments_.protocolPath, arguments_.approvalPath)
+          : arguments_.command === "ablation-run"
+            ? await runAblation(arguments_.labRoot, arguments_.protocolPath, arguments_.approvalPath)
           : arguments_.command === "evaluate"
             ? await evaluateProgram(arguments_.labRoot, arguments_.protocolPath, arguments_.approvalPath)
-            : arguments_.command === "report"
-              ? await reportProgram(arguments_.labRoot, arguments_.protocolPath)
+          : arguments_.command === "report"
+            ? await reportProgram(arguments_.labRoot, arguments_.protocolPath)
+            : arguments_.command === "ablation-report"
+              ? await reportAblation(arguments_.labRoot, arguments_.protocolPath)
+            : arguments_.command === "ablation-inspect"
+              ? await inspectAblation(arguments_.labRoot, arguments_.protocolPath)
               : await inspect(arguments_.labRoot, arguments_.protocolPath);
   process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
   if ((result.valid === false) || (result.local_fixture_ready === false)) process.exitCode = 2;

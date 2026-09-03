@@ -1,0 +1,177 @@
+{
+  "schema_version": "temple.context-routing-ablation/v1",
+  "work_item_id": "WI-0136",
+  "status": "generation-disabled",
+  "protocol_sha256": "3eff52f42ffc31a74f169aa3f462bb0b8fcb04de2a623a2901508b9c51f64e73",
+  "lab_manifest_sha256": "780b9c458ae42976e69b91790e450a7a0cedd7b11b5f84ac3b5d4dab44e11eb0",
+  "source_digests": {
+    "fixture_sha256": "73cd9a1a1a9ce1be1103ace73cc6a2f7a755e037ffe8a80358798982ab74f181",
+    "runner_sha256": "6f3785426bceeb4c21c4a9dafdf8f9ac2f1d7b1131aa13da46b09d8cde040ca7",
+    "analyzer_sha256": "5e614a7879a8fbdb7655d6780dcf0c7e693e7326259fa166d7fe3231f1151c5c",
+    "task_sha256": "5dfd10dce99196f282f0560a25aaffd359b7af2119a62d943e465f19ae46369c",
+    "public_tests_sha256": "8809e165ee024f5606a48c38bb0f6065e3b943fcd00d05fda5fdd6099e0f41f9",
+    "held_out_tests_sha256": "d4f781d5b03d14c08a4214185ae525c1c6a0e7a7f2c8c9ff1d24291b27363a47",
+    "tool_policy_sha256": "282707b99043c7203be5b6fd4778bae409b001fd017d10c102758ea210a9f771",
+    "rubric_sha256": "364d20a3102ddd78131fd2566b8579957b14df2d6638efd3ef1e97e94faeaf3f"
+  },
+  "prompt_contract": {
+    "base_instructions": {
+      "bytes": 168,
+      "characters": 168,
+      "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+    },
+    "developer_instructions": {
+      "bytes": 547,
+      "characters": 547,
+      "sha256": "487fb41b22b5b6a2f3f5d68f67ed3f9daf13c2dd5e5450d03f1144992fd6bddd"
+    },
+    "output_schema": {
+      "bytes": 606,
+      "characters": 606,
+      "sha256": "af99566c4f630e8d2b583c00204e3f85446343cd6991c29d3da2decdbc11fb6a"
+    },
+    "conditions": {
+      "full-load": {
+        "strategy": "temple-full-load-v1",
+        "user_input": {
+          "bytes": 740,
+          "characters": 740,
+          "sha256": "9e2338ce2860d43d893b2ab4086c0dd85e3b1aebd0ed4c98d6501913d72764af"
+        }
+      },
+      "routed": {
+        "strategy": "temple-routed-context-v1",
+        "user_input": {
+          "bytes": 874,
+          "characters": 874,
+          "sha256": "c4272639d4f2f0095b8bda84734ec7a4be2d53d6adbf5d11292d6cc4f132420d"
+        }
+      }
+    }
+  },
+  "conditions": [
+    {
+      "id": "full-load",
+      "repositories": {
+        "gateway": {
+          "revision": "e3a35999c116e69602e5a196fc85ff61db3500f4",
+          "tree": "9cc6284fa911e46ce435cae5afad1cdfd77b2bc7"
+        },
+        "catalog": {
+          "revision": "9df9b24639f8c44318690132e6c2c48c0dc61dcd",
+          "tree": "f249cdd1b0586df48a5bafa33031e3fe13b3df5e"
+        },
+        "orders": {
+          "revision": "212edb1d84aec5b93e017c3431ce304294529720",
+          "tree": "3a2026aaf2e132acac113304ab7cca8f3064fa60"
+        },
+        "notifications": {
+          "revision": "2baef0437ff3f916a13fb78aee1825029280f0d3",
+          "tree": "5e8b6043d30cd8b64e24301822802d61e48daf13"
+        },
+        "coordinator": {
+          "revision": "e30ffaf81a576dba79d12dc50f5ad3ddda58bc3b",
+          "tree": "cb5802affbd92e7bf5bc42c57ee4f4d10d5775e2"
+        }
+      }
+    },
+    {
+      "id": "routed",
+      "repositories": {
+        "gateway": {
+          "revision": "e3a35999c116e69602e5a196fc85ff61db3500f4",
+          "tree": "9cc6284fa911e46ce435cae5afad1cdfd77b2bc7"
+        },
+        "catalog": {
+          "revision": "9df9b24639f8c44318690132e6c2c48c0dc61dcd",
+          "tree": "f249cdd1b0586df48a5bafa33031e3fe13b3df5e"
+        },
+        "orders": {
+          "revision": "212edb1d84aec5b93e017c3431ce304294529720",
+          "tree": "3a2026aaf2e132acac113304ab7cca8f3064fa60"
+        },
+        "notifications": {
+          "revision": "2baef0437ff3f916a13fb78aee1825029280f0d3",
+          "tree": "5e8b6043d30cd8b64e24301822802d61e48daf13"
+        },
+        "coordinator": {
+          "revision": "e30ffaf81a576dba79d12dc50f5ad3ddda58bc3b",
+          "tree": "cb5802affbd92e7bf5bc42c57ee4f4d10d5775e2"
+        }
+      }
+    }
+  ],
+  "execution": {
+    "condition_order": [
+      "full-load",
+      "routed"
+    ],
+    "candidate_turns": 2,
+    "evaluator_turns": 0,
+    "retry_count": 0,
+    "fallback_count": 0,
+    "network_access": false,
+    "generation_ready": false,
+    "exact_approval_required": true,
+    "integration_operational_token_limit": 80000,
+    "candidate_aggregate_operational_token_limit": 160000,
+    "combined_operational_token_limit": 160000,
+    "program_wall_clock_limit_ms": 1200000
+  },
+  "model_route": {
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "medium"
+  },
+  "provider_contract": {
+    "codex_cli_version": "codex-cli 0.151.0-alpha.7.2",
+    "schema_digests": {
+      "ThreadStartParams.json": "792e2f32e37cece971bd616664ea2053741acbed4e9c92e9d1766427718f2ecd",
+      "TurnStartParams.json": "a3835e8c1e942e4b358e1a670939b89918b16c4d13105a579899892b7ade6dea",
+      "ThreadStartResponse.json": "c8fb6bcd1e4fb5ead6b487f0f35a90d8f13c9272edd4285914012dda403a77d2",
+      "TurnStartResponse.json": "7a817a98d78ac8e982c82c24bf8f7a2d2e61cca9fb91e5386e31cae0888e38e2",
+      "ItemStartedNotification.json": "e30713dca6e8f6842a0c5350003ea433b6cbb4894209b4f871894450caa67b6f",
+      "TurnCompletedNotification.json": "b85470d9eadbcad52700bd1d5aae187a9cd995e50b7099ed05469b6d41d6b997",
+      "ItemCompletedNotification.json": "9958dce3bcab754e88323d233dff5f4c2ee04ce35f068a18d8f83f93528acf8b",
+      "ThreadTokenUsageUpdatedNotification.json": "aba4f6c7e4a19b2b842c08ee793b57000c07dafd57b922ad0d8e7c76609108c2",
+      "ModelReroutedNotification.json": "37cd3c1b3a3560b85b01d4061a07d830fc9ed93b80e4663f975f9197cdb501ef",
+      "TurnInterruptParams.json": "6dff382dae73d1dbc58406ed045605f647e7a49660e2540fbd2c6c24d60c5f2b"
+    },
+    "required_models": [
+      {
+        "model": "gpt-5.6-terra",
+        "reasoning_efforts": [
+          "medium"
+        ]
+      }
+    ]
+  },
+  "limit_basis": {
+    "source": ".ai-org/artifacts/WI-0136/live-protocol.json",
+    "prior_integration_operational_token_limit": 80000,
+    "meaning": "Two independent hard stops inherited from the already reviewed integration ceiling; not an expected use or price."
+  },
+  "measures": [
+    "objective-recovery",
+    "exact-revisions",
+    "governing-contract",
+    "completed-slices",
+    "safe-next-action",
+    "input-tokens",
+    "cached-input-tokens",
+    "output-tokens",
+    "operational-tokens",
+    "elapsed-ms",
+    "explicit-prompt-bytes",
+    "context-command-sequence",
+    "reported-tool-output-bytes"
+  ],
+  "claims": {
+    "statistical_generalization": false,
+    "main_comparison_result": false,
+    "automatic_routing_authority": false,
+    "monetary_cost_known": false,
+    "raw_prompts_retained": false,
+    "raw_responses_retained": false,
+    "hidden_reasoning_retained": false
+  }
+}

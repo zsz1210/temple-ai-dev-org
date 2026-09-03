@@ -17,6 +17,8 @@ Standard, cross-system, local-only experiment. It can consume material Provider 
 - **Self-reported metrics:** derive Git, tests, usage, timing, and footprint mechanically; model completion is supporting evidence only.
 - **System burden:** use local Node processes and Git repositories only; no Docker, VM, published port, daemon, or network service is required.
 - **Overclaiming:** one scenario produces descriptive evidence only. Correctness failure blocks every efficiency claim.
+- **Context-loading confound:** unconditionally loading `TEMPLE.md` for a known Work Item tests a workflow Temple does not recommend and can inflate input. The main protocol remains blocked until routed-context behavior is frozen and a focused ablation preserves objective recovery quality.
+- **Ablation overclaiming:** one full-load versus routed pair is diagnostic only. Even if routed context uses fewer Tokens, it cannot establish a population effect or Temple effectiveness.
 
 ## Rollback
 
