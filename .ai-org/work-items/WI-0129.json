@@ -1,0 +1,147 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0129",
+  "title": "Make the product roadmap and core path human-readable",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-03T06:06:40.485Z",
+  "updated_at": "2026-09-03T06:07:17.695Z",
+  "scope": [
+    "Replace the internal-progress Roadmap with a product capability and milestone Roadmap in English, Japanese, and Traditional Chinese",
+    "Create one concise Console-free Core Path and connect workflow profile, claim/release, routing, lifecycle closeout, recovery, and learning",
+    "Correct the no-go lifecycle guidance and define the next adaptive-routing validation question without running a Provider",
+    "No runtime behavior, model execution, external release, deployment, publication, or Console change"
+  ],
+  "acceptance_criteria": [
+    "All three Roadmaps state Temple's purpose, delivered capabilities, current milestone, next milestone, and later direction without Work Item-level operational detail",
+    "A first-time reader has one primary Lean-first Core Path with exact repository-pinned commands and clear Standard and High-Assurance escalation",
+    "Usage guidance shows ordinary claim and release, per-step execution resolution, and the actual terminal concluded behavior for no-go",
+    "The next experiment compares Temple with a competent conventional workflow, separately compares fixed and adaptive model routes, and names decision, measures, validity gates, and stop conditions",
+    "Documentation links, focused validation, full npm run verify, and separate Independent QA pass"
+  ],
+  "affected_paths": [
+    "docs/planning/roadmap.md",
+    "docs/planning/roadmap.ja.md",
+    "docs/planning/roadmap.zh-TW.md",
+    "docs/getting-started/core-path.md",
+    "docs/getting-started/usage.md",
+    "docs/README.md",
+    "docs/validation/adaptive-execution-routing-experiment.md",
+    "docs/validation/README.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [
+      "independent-assurance-required"
+    ],
+    "rationale": "Human-facing product guidance changes require separate Independent QA even though implementation is documentation-only",
+    "evidence_refs": [
+      "docs/validation/core-operating-path-audit.md"
+    ],
+    "evaluated_at": "2026-09-03T06:06:40.484Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "0b855e40e6e1d42ac3f226873d820e0e5425a2d8",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0086: serialize Roadmap and validation-index updates under WI-0129; preserve the blocked public-release scope and do not alter release-candidate evidence"
+  ],
+  "claim": {
+    "id": "claim-20260903060717-2f4b1576",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "0b855e40e6e1d42ac3f226873d820e0e5425a2d8",
+    "branch": "codex/wi-0129-product-roadmap-core-path",
+    "worktree": null,
+    "claimed_at": "2026-09-03T06:07:17.695Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260903060717-2f4b1576",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "0b855e40e6e1d42ac3f226873d820e0e5425a2d8",
+      "branch": "codex/wi-0129-product-roadmap-core-path",
+      "worktree": null,
+      "claimed_at": "2026-09-03T06:07:17.695Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0129/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0129/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0129/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0129/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0129/risk-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0129/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0129/work-order.md",
+    ".ai-org/artifacts/WI-0129/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0129/product-spec.md",
+    ".ai-org/artifacts/WI-0129/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0129/technical-design.md",
+    ".ai-org/artifacts/WI-0129/risk-review.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "0b855e40e6e1d42ac3f226873d820e0e5425a2d8",
+      "artifact": ".ai-org/artifacts/WI-0129/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-03T06:07:16.318Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "0b855e40e6e1d42ac3f226873d820e0e5425a2d8",
+      "artifact": ".ai-org/artifacts/WI-0129/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-03T06:07:16.785Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "0b855e40e6e1d42ac3f226873d820e0e5425a2d8",
+      "artifact": ".ai-org/artifacts/WI-0129/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-03T06:07:17.247Z"
+    }
+  ]
+}

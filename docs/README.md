@@ -8,7 +8,8 @@ The root README explains what Temple is and why it exists. This index routes imp
 |---|---|---|
 | Evaluate the framework | [Vision and operating model](concepts/vision.md) | [Architecture](concepts/architecture.md), [Roadmap](planning/roadmap.md) |
 | Understand Temple terms or the `$name` methods used in prompts | [Temple terminology](concepts/terminology.md) | [Temple Core Skills](getting-started/core-skills.md), [Capability catalog](extensions/capability-catalog.md) |
-| Install or adopt Temple | [Usage guide](getting-started/usage.md) | [Enterprise document adoption](getting-started/enterprise-document-adoption.md), [Testing strategy](getting-started/testing.md) |
+| Complete the first Work Item | [Core Path](getting-started/core-path.md) | [Usage guide](getting-started/usage.md), [Workflow profiles](concepts/workflow-profiles.md) |
+| Install or adopt Temple | [Usage guide](getting-started/usage.md) | [Core Path](getting-started/core-path.md), [Enterprise document adoption](getting-started/enterprise-document-adoption.md) |
 | Coordinate people and AI agents | [Collaborative development](operations/collaboration.md) | [Parallel orchestration](operations/parallel-orchestration.md), [Runtime coordination](operations/runtime-coordination.md) |
 | Choose proportionate delivery controls | [Workflow profiles and outcomes](concepts/workflow-profiles.md) | [High-Assurance](operations/high-assurance.md), [ADR-0045](adr/0045-adaptive-workflow-profiles.md) |
 | Resolve a model or execution profile for one step | [Adaptive execution routing](concepts/adaptive-execution-routing.md) | [Execution routing operations](operations/execution-routing.md), [ADR-0046](adr/0046-separate-adaptive-execution-routing.md) |
@@ -27,6 +28,7 @@ The root README explains what Temple is and why it exists. This index routes imp
 
 ### Getting started
 
+- [Core Path](getting-started/core-path.md) — the shortest Console-free journey from an initialized project to a closed Work Item.
 - [Usage guide](getting-started/usage.md) — initialize, adopt, operate, self-host, upgrade, and troubleshoot.
 - [Temple Core Skills](getting-started/core-skills.md) — human-facing triggers, outcomes, examples, and authority limits for the six repository Core Skills.
 - [Enterprise document adoption](getting-started/enterprise-document-adoption.md) — preserve, bridge, or intentionally migrate an existing documentation system.
@@ -75,7 +77,7 @@ The root README explains what Temple is and why it exists. This index routes imp
 
 ### Planning and historical boundaries
 
-- [Roadmap](planning/roadmap.md) ([Japanese](planning/roadmap.ja.md), [Traditional Chinese](planning/roadmap.zh-TW.md)) — delivered foundation, current work, next gates, and later options.
+- [Roadmap](planning/roadmap.md) ([Japanese](planning/roadmap.ja.md), [Traditional Chinese](planning/roadmap.zh-TW.md)) — product purpose, capabilities, delivered milestones, current qualification, and later direction.
 - [Release readiness](planning/release-readiness.md) — current public-Alpha gates, package and compatibility blockers, and retained non-blocking validation.
 - [Pre-Phase 4 closeout review](planning/pre-phase-4-closeout-review.md) — the readiness audit that closed the earlier phases.
 - [Phase 4 design](planning/phase-4.md) — completed local durability, evaluation, federation, and usage contracts plus retained enterprise qualification.

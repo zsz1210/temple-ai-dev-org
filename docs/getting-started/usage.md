@@ -1,5 +1,7 @@
 # Usage guide
 
+This is the complete reference. If this is your first Work Item, follow the shorter [Temple Core Path](core-path.md) from initialization through closeout, then return here for advanced and alternative operations.
+
 ## 1. Install the central framework
 
 ```bash
@@ -352,13 +354,21 @@ For existing organizations, preserve trusted documents first and migrate only wh
 
 ## 8. Create a work item
 
+Choose the workflow profile before execution. The example below is a bounded Lean change; use Standard for ordinary delivery or required Independent QA, and High-Assurance for production, security, sensitive-data, destructive, or difficult-to-reverse work.
+
 ```bash
-temple work-item create . \
-  --title "Ship checkout" \
-  --scope "One local flow" \
-  --scope "No production release" \
-  --acceptance "The result is visible at runtime" \
-  --acceptance "Independent QA reproduces the exact revision"
+node ./templew.mjs work-item create . \
+  --title "Correct the checkout total" \
+  --scope "Checkout calculation and focused tests" \
+  --scope "No deployment or external release" \
+  --acceptance "The reproduced total is correct and existing tests pass" \
+  --affected-path "src/checkout/**" \
+  --affected-path "test/checkout/**" \
+  --workflow-profile lean \
+  --risk-tier low \
+  --scope-class bounded \
+  --profile-rationale "Local reversible change with stable acceptance" \
+  --ui-mode not-applicable
 ```
 
 Temple allocates the next `WI-####`, resolves the current owner Position and Agent, appends an event, rebuilds status, and outputs a suggested Codex task title, for example:
@@ -381,6 +391,57 @@ temple task list .
 This changes only repository-stored suggestions. It preserves thread IDs, task status, model and revision evidence, claims, workers, and archive state, and it does not rename a task in the Codex app. Rename the visible task separately through the app, then verify the displayed result.
 
 In Collaborative mode the printed ID instead resembles `WI-20260829-A1B2C3D4E5`. Do not predict it; use the value returned by `work-item create`.
+
+### Claim ordinary sequential work
+
+After the Work Item reaches the stage owned by the assigned Agent, claim active responsibility using the current revision and branch:
+
+```bash
+git rev-parse HEAD
+git branch --show-current
+
+node ./templew.mjs work-item claim . \
+  --work-item WI-0002 \
+  --agent-id agent-taylor \
+  --principal-id human \
+  --base-revision abc123 \
+  --branch feature/checkout-total
+```
+
+Record the handoff before leaving the stage, then release the claim:
+
+```bash
+node ./templew.mjs work-item release . \
+  --work-item WI-0002 \
+  --agent-id agent-taylor \
+  --principal-id human \
+  --reason "Handoff recorded"
+```
+
+Assignment identifies the responsible Agent; an active claim identifies who is executing now. Releasing a claim changes neither the Assignment nor the retained Work Item history.
+
+### Resolve method, context, and execution advice
+
+Immediately before scoped execution, discover a relevant Capability, preview the bounded Context Capsule, and—when the project uses Adaptive Execution Routing—resolve the current step:
+
+```bash
+node ./templew.mjs capability find . \
+  --query "checkout calculation" \
+  --position developer
+
+node ./templew.mjs context resolve . \
+  --work-item WI-0002 \
+  --position developer \
+  --revision abc123 \
+  --no-write \
+  --json
+
+node ./templew.mjs execution resolve . \
+  --request .ai-org/evaluations/execution/WI-0002-build.json \
+  --json
+```
+
+The Execution Route is a read-only recommendation. It does not start a Provider, apply a model, change a claim, or satisfy a lifecycle gate. See [Execution routing operations](../operations/execution-routing.md) for the request format and interpretation rules.
 
 For parallel candidates, record the coordination contract and inspect every readiness check before runtime preparation. Stage requirements replace the legacy Discipline only at the named lifecycle stage. Define a shared resource first when work needs scarce local or remote capacity:
 
@@ -574,7 +635,7 @@ Use `--approval not-required` only when policies contain no production-change, e
 
 High-Assurance never accepts `not-required`. Use a valid repository `temple.approval/v1` record bound to the exact tested commit, and pass normalized rollback Evidence IDs instead of prose. High and critical tiers also enforce their approval count and rollback depth. See [High-Assurance profile](../operations/high-assurance.md).
 
-`--decision no-go` requires at least one `--reason` and returns the work item to the Engineering Manager in the `blocked` state.
+`--decision no-go` requires at least one `--reason` and closes the approved attempt in terminal state `concluded`, owned by the Engineering Manager, with lifecycle outcome `no-go` or an explicitly supplied `inconclusive`. It does not imply continuation. Use `blocked` only when unfinished work can resume after a named impediment is resolved.
 
 ## 13. Observation and health checks
 

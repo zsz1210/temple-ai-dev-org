@@ -1,0 +1,129 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0128",
+  "title": "Make the product roadmap and core path human-readable",
+  "state": "cancelled",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-03T05:52:36.894Z",
+  "updated_at": "2026-09-03T06:06:40.217Z",
+  "scope": [
+    "Replace the internal-progress Roadmap with a product capability and milestone Roadmap in English, Japanese, and Traditional Chinese",
+    "Create one concise Console-free Core Path and connect workflow profile, claim/release, routing, lifecycle closeout, recovery, and learning",
+    "Correct the no-go lifecycle guidance and define the next adaptive-routing validation question without running a Provider",
+    "No runtime behavior, model execution, external release, deployment, publication, or Console change"
+  ],
+  "acceptance_criteria": [
+    "All three Roadmaps state Temple's purpose, delivered capabilities, current milestone, next milestone, and later direction without Work Item-level operational detail",
+    "A first-time reader has one primary Lean-first Core Path with exact repository-pinned commands and clear Standard and High-Assurance escalation",
+    "Usage guidance shows ordinary claim and release, per-step execution resolution, and the actual terminal concluded behavior for no-go",
+    "The next experiment separates Temple process value from execution-route value and names decision, measures, validity gates, and stop conditions",
+    "Documentation links, focused validation, full npm run verify, and separate Independent QA pass"
+  ],
+  "affected_paths": [
+    "docs/planning/roadmap.md",
+    "docs/planning/roadmap.ja.md",
+    "docs/planning/roadmap.zh-TW.md",
+    "docs/getting-started/core-path.md",
+    "docs/getting-started/usage.md",
+    "docs/README.md",
+    "docs/validation/adaptive-execution-routing-experiment.md",
+    "docs/validation/README.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "Documentation-only, local, reversible correction with stable audited findings and no external operation",
+    "evidence_refs": [
+      "docs/validation/core-operating-path-audit.md"
+    ],
+    "evaluated_at": "2026-09-03T05:52:36.893Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "0b855e40e6e1d42ac3f226873d820e0e5425a2d8",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0086: serialize Roadmap and validation-index updates under WI-0128; preserve the blocked public-release scope and do not alter release-candidate evidence"
+  ],
+  "claim": {
+    "id": "claim-20260903055350-e7ba3d0e",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "0b855e40e6e1d42ac3f226873d820e0e5425a2d8",
+    "branch": "codex/wi-0128-product-roadmap-core-path",
+    "worktree": null,
+    "claimed_at": "2026-09-03T05:53:50.962Z",
+    "released_at": "2026-09-03T06:06:39.956Z",
+    "release_reason": [
+      "Workflow profile mismatch detected before candidate commit"
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260903055350-e7ba3d0e",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "0b855e40e6e1d42ac3f226873d820e0e5425a2d8",
+      "branch": "codex/wi-0128-product-roadmap-core-path",
+      "worktree": null,
+      "claimed_at": "2026-09-03T05:53:50.962Z",
+      "released_at": "2026-09-03T06:06:39.956Z",
+      "release_reason": [
+        "Workflow profile mismatch detected before candidate commit"
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0128/delivery-brief.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0128/delivery-brief.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0128/delivery-brief.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0128/delivery-brief.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0128/delivery-brief.md"
+    ],
+    "profile_eligibility": [
+      ".ai-org/artifacts/WI-0128/delivery-brief.md"
+    ],
+    "cancellation_reason": [
+      ".ai-org/artifacts/WI-0128/cancellation.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0128/delivery-brief.md",
+    ".ai-org/artifacts/WI-0128/cancellation.md"
+  ],
+  "unresolved": [],
+  "next_position": null
+}

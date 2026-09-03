@@ -1,0 +1,43 @@
+{
+  "schema_version": "temple.local-test-observation/v1",
+  "work_item_id": "WI-0129",
+  "position": "developer",
+  "agent_id": "agent-rikku",
+  "observed_at": "2026-09-03T06:08:48Z",
+  "commands": [
+    {
+      "command": "npm run check",
+      "status": "passed",
+      "summary": "Repository, documentation links, and package boundary passed."
+    },
+    {
+      "command": "node --test test/workflow.test.mjs test/runtime-coordination.test.mjs test/execution-routing.test.mjs test/doc-links.test.mjs",
+      "status": "passed",
+      "passed": 58,
+      "failed": 0,
+      "duration_ms": 22945.858125
+    },
+    {
+      "command": "npm run verify:fast",
+      "status": "passed",
+      "passed": 25,
+      "failed": 0
+    },
+    {
+      "command": "npm run verify",
+      "status": "passed",
+      "passed": 332,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "todo": 0,
+      "duration_ms": 59965.968709
+    },
+    {
+      "command": "git diff --check",
+      "status": "passed"
+    }
+  ],
+  "provider_generation_performed": false,
+  "external_action_performed": false
+}
