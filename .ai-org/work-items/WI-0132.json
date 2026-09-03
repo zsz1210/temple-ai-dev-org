@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0132",
   "title": "Run corrected Lean routing effectiveness comparison",
-  "state": "independent_qa",
-  "owner_position": "independent_qa",
-  "assigned_agent_id": "agent-lulu",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-03T08:23:30.905Z",
-  "updated_at": "2026-09-03T08:58:25.706Z",
+  "updated_at": "2026-09-03T09:00:43.222Z",
   "scope": [
     "Execute the corrected four-arm native Lean experiment from WI-0131, retain objective and blind evaluation evidence, and publish a human-facing diagnostic report."
   ],
@@ -116,6 +116,9 @@
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0132/quality-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260903T090035Z-B2990923"
     ]
   },
   "evidence": [
@@ -134,10 +137,14 @@
     ".ai-org/artifacts/WI-0132/handoff-005-quality_evaluator-to-independent_qa.md",
     ".ai-org/artifacts/WI-0132/live-experiment-observation.json",
     ".ai-org/artifacts/WI-0132/quality-report.md",
-    "docs/validation/lean-routing-effectiveness-result.md"
+    "docs/validation/lean-routing-effectiveness-result.md",
+    ".ai-org/artifacts/WI-0132/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0132/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0132/independent-qa-test-observation.json",
+    "EVID-20260903T090035Z-B2990923"
   ],
   "unresolved": [],
-  "next_position": "release_manager",
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -173,6 +180,13 @@
       "input_revision": "7ebd8db41b5e4ce8b6ec605ff9d068d2b06f8301",
       "artifact": ".ai-org/artifacts/WI-0132/handoff-005-quality_evaluator-to-independent_qa.md",
       "created_at": "2026-09-03T08:58:16.128Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "fd4bbe881b3b86d25cd48846b13d9ae1546c4470",
+      "artifact": ".ai-org/artifacts/WI-0132/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-03T09:00:42.911Z"
     }
   ],
   "developer_candidate_revision": "b7263e5cc64a1f3c5e93a32d2ae10a356074227d"

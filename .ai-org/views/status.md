@@ -179,7 +179,7 @@
 | WI-0129 | Make the product roadmap and core path human-readable | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3e5178ba` | 0 | 18 | 0 |
 | WI-0130 | Run the first three-arm Temple effectiveness pilot | concluded | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `33b6ed3b` | 0 | 16 | 0 |
 | WI-0131 | Correct the Lean routing effectiveness experiment | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c040c0be` | 0 | 16 | 0 |
-| WI-0132 | Run corrected Lean routing effectiveness comparison | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b7263e5c` | 0 | 16 | 0 |
+| WI-0132 | Run corrected Lean routing effectiveness comparison | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b7263e5c` | 0 | 20 | 0 |
 
 ## Codex task registry
 
@@ -321,14 +321,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-03T09:00:43.222Z | work_item_transitioned | WI-0132 | agent-lulu |
+| 2026-09-03T09:00:42.911Z | handoff_created | WI-0132 | agent-lulu |
+| 2026-09-03T09:00:35.948Z | evidence_recorded | WI-0132 | human |
 | 2026-09-03T08:58:25.706Z | work_item_transitioned | WI-0132 | agent-lulu |
 | 2026-09-03T08:58:16.128Z | handoff_created | WI-0132 | agent-lulu |
 | 2026-09-03T08:58:08.065Z | work_item_transitioned | WI-0132 | agent-lulu |
 | 2026-09-03T08:57:58.855Z | evidence_recorded | WI-0132 | human |
 | 2026-09-03T08:57:58.627Z | evidence_recorded | WI-0132 | human |
-| 2026-09-03T08:33:40.447Z | work_item_transitioned | WI-0132 | agent-rikku |
-| 2026-09-03T08:33:40.189Z | work_item_claim_released | WI-0132 | human |
-| 2026-09-03T08:33:34.000Z | handoff_created | WI-0132 | agent-rikku |
 
 ## Assignments
 

@@ -20412,6 +20412,59 @@
         "exit_code": 0,
         "started_at": "2026-09-03T08:57:20Z"
       }
+    },
+    {
+      "id": "EVID-20260903T090035Z-B2990923",
+      "work_item_id": "WI-0132",
+      "recorded_at": "2026-09-03T09:00:35.948Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0132 independent QA",
+      "outcome": "pass",
+      "scope_revision": "fd4bbe881b3b86d25cd48846b13d9ae1546c4470",
+      "observed_at": "2026-09-03T09:00:10Z",
+      "summary": "Independent QA verified the experiment, report arithmetic, claim boundaries, and all 350 repository tests.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0132/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0132/independent-qa-test-observation.json",
+          "sha256": "40425280856b64431ec91ecad8298301606221b70ed3c969f94ce2cc090816af"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0132/independent-qa-report.md",
+          "sha256": "e6cf47bc963262459ce145a4d593f5509b154d46a6fbb8f1e9a06f4f2665bf9f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0132/quality-report.md",
+          "sha256": "51ba0771330ec3595531c22603aa0b61079084e1070dba7a3558fdece45a3403"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0132/live-experiment-observation.json",
+          "sha256": "9ba848ec870200e1cffd9cc1435f03cdf3e51ca8ebc18e83655294bc56df4e99"
+        },
+        {
+          "path": "docs/validation/lean-routing-effectiveness-result.md",
+          "sha256": "dc0a744145a443e2566aa69ba36143a74659fa216cc9bc3aa067c56b03c0ba40"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T08:59:03Z"
+      }
     }
   ]
 }
