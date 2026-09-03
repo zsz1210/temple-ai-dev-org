@@ -5,6 +5,8 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import Ajv2020 from "ajv/dist/2020.js";
+import addFormats from "ajv-formats";
 
 import {
   defaultExecutionPolicy,
@@ -13,7 +15,8 @@ import {
   resolveExecutionRequest,
   resolveExecutionRequestFile,
   validateExecutionPolicy,
-  validateExecutionRequest
+  validateExecutionRequest,
+  validateExecutionRoute
 } from "../src/execution-routing.mjs";
 
 const mappedPolicy = () => defaultExecutionPolicy({
@@ -72,6 +75,67 @@ test("provider-neutral and mapped execution policies remain valid and explain th
   const automatic = structuredClone(neutral);
   automatic.authority.automatic_execution = true;
   assert.match(validateExecutionPolicy(automatic).errors.join("\n"), /read-only and non-executing/);
+});
+
+test("the managed Execution Route schema rejects the post-close Independent QA counterexample", async () => {
+  const schema = JSON.parse(await fs.readFile(new URL("../.ai-org/core/schemas/execution-route.schema.json", import.meta.url), "utf8"));
+  const ajv = new Ajv2020({ allErrors: true, strict: false, validateFormats: true });
+  addFormats(ajv);
+  const validate = ajv.compile(schema);
+  const validRoute = resolveExecutionRequest(mappedPolicy(), request([step("route-contract", {
+    resource_observations: [
+      { measure_id: "credits", status: "unavailable", value: null, source: "provider-boundary", quality: "declared" }
+    ]
+  })]), { generatedAt: "2026-09-03T00:00:00.000Z" });
+  assert.equal(validate(validRoute), true, JSON.stringify(validate.errors, null, 2));
+  assert.deepEqual(validateExecutionRoute(validRoute), { valid: true, errors: [] });
+
+  const counterexamples = [
+    ["numeric step identifier", (route) => { route.steps[0].step_id = 42; }],
+    ["string task shape", (route) => { route.steps[0].task_shape = "build anything"; }],
+    ["invented executed status", (route) => { route.steps[0].selection.status = "executed"; }],
+    ["automatic selection authority", (route) => { route.steps[0].selection.authority = "automatic"; }],
+    ["claimed effective model", (route) => {
+      route.steps[0].selected.effective.status = "observed";
+      route.steps[0].selected.effective.provider_id = "provider";
+      route.steps[0].selected.effective.model = "claimed-model";
+    }],
+    ["unavailable resource represented as zero", (route) => { route.steps[0].resource_observations[0].value = 0; }],
+    ["unexpected Provider launch command", (route) => { route.steps[0].command = { launch_provider: true }; }]
+  ];
+  for (const [label, mutate] of counterexamples) {
+    const route = structuredClone(validRoute);
+    mutate(route);
+    assert.equal(validate(route), false, label);
+  }
+});
+
+test("Execution Route semantic validation rejects structurally valid cross-field contradictions", () => {
+  const validRoute = resolveExecutionRequest(mappedPolicy(), request([step("semantic-route")]), {
+    generatedAt: "2026-09-03T00:00:00.000Z"
+  });
+  const mutations = [
+    ["summary", (route) => { route.summary.resolved = 0; route.summary.unresolved = 1; }],
+    ["mode authority", (route) => { route.steps[0].selection.authority = "none"; }],
+    ["selected eligibility", (route) => { route.steps[0].eligibility.eligible_profile_ids = []; }],
+    ["unknown capability subset", (route) => { route.steps[0].capability_route.unknown_optional = ["not-declared"]; }],
+    ["eligible and rejected overlap", (route) => {
+      route.steps[0].eligibility.rejected.push({ profile_id: route.steps[0].selected.profile_id, reasons: ["invented"] });
+    }],
+    ["duplicate resource identity", (route) => {
+      route.steps[0].resource_limits = [
+        { measure_id: "tokens.total", maximum: 1000, unknown_handling: "allow" },
+        { measure_id: "tokens.total", maximum: 2000, unknown_handling: "allow" }
+      ];
+    }]
+  ];
+  for (const [label, mutate] of mutations) {
+    const route = structuredClone(validRoute);
+    mutate(route);
+    const result = validateExecutionRoute(route);
+    assert.equal(result.valid, false, label);
+    assert.ok(result.errors.length > 0, label);
+  }
 });
 
 test("one request resolves independent steps by task shape instead of Position or Agent identity", () => {

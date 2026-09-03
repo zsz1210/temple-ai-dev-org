@@ -334,6 +334,115 @@ export function validateExecutionRequest(document, policy) {
   return { valid: errors.length === 0, errors };
 }
 
+function duplicateStrings(values) {
+  if (!Array.isArray(values)) return [];
+  const seen = new Set();
+  const duplicated = new Set();
+  for (const value of values) {
+    if (seen.has(value)) duplicated.add(value);
+    seen.add(value);
+  }
+  return [...duplicated];
+}
+
+function duplicateEntryIds(entries, field) {
+  return duplicateStrings(Array.isArray(entries) ? entries.map((entry) => entry?.[field]) : []);
+}
+
+export function validateExecutionRoute(document) {
+  const errors = [];
+  if (document?.schema_version !== EXECUTION_ROUTE_SCHEMA) {
+    errors.push(`schema_version must be ${EXECUTION_ROUTE_SCHEMA}`);
+  }
+  if (
+    document?.authority?.automatic_execution !== false ||
+    document?.authority?.provider_contact !== false ||
+    document?.authority?.mutation_performed !== false
+  ) {
+    errors.push("route authority must remain read-only and non-executing");
+  }
+  if (!Array.isArray(document?.steps) || document.steps.length === 0) {
+    return { valid: false, errors: [...errors, "steps must be non-empty"] };
+  }
+
+  const duplicateStepIds = duplicateEntryIds(document.steps, "step_id");
+  if (duplicateStepIds.length > 0) errors.push(`step_id is duplicated: ${duplicateStepIds.join(", ")}`);
+
+  let resolved = 0;
+  let unresolved = 0;
+  for (const [index, step] of document.steps.entries()) {
+    const label = `steps[${index}]`;
+    const required = Array.isArray(step?.capability_route?.required) ? step.capability_route.required : [];
+    const optional = Array.isArray(step?.capability_route?.optional) ? step.capability_route.optional : [];
+    const unknownRequired = Array.isArray(step?.capability_route?.unknown_required)
+      ? step.capability_route.unknown_required
+      : [];
+    const unknownOptional = Array.isArray(step?.capability_route?.unknown_optional)
+      ? step.capability_route.unknown_optional
+      : [];
+    for (const id of unknownRequired) {
+      if (!required.includes(id)) errors.push(`${label}.capability_route.unknown_required is not a subset of required: ${id}`);
+    }
+    for (const id of unknownOptional) {
+      if (!optional.includes(id)) errors.push(`${label}.capability_route.unknown_optional is not a subset of optional: ${id}`);
+    }
+
+    const expectedAuthority = routeAuthority(step?.selection?.mode);
+    if (step?.selection?.authority !== expectedAuthority) {
+      errors.push(`${label}.selection.authority must be ${expectedAuthority}`);
+    }
+
+    const eligibleIds = Array.isArray(step?.eligibility?.eligible_profile_ids)
+      ? step.eligibility.eligible_profile_ids
+      : [];
+    const rejected = Array.isArray(step?.eligibility?.rejected) ? step.eligibility.rejected : [];
+    const rejectedIds = rejected.map((entry) => entry?.profile_id);
+    const duplicateRejectedIds = duplicateStrings(rejectedIds);
+    if (duplicateRejectedIds.length > 0) {
+      errors.push(`${label}.eligibility.rejected profile_id is duplicated: ${duplicateRejectedIds.join(", ")}`);
+    }
+    const overlap = rejectedIds.filter((id) => eligibleIds.includes(id));
+    if (overlap.length > 0) {
+      errors.push(`${label}.eligibility profiles cannot be both eligible and rejected: ${[...new Set(overlap)].join(", ")}`);
+    }
+
+    if (step?.selection?.status === "resolved") {
+      resolved += 1;
+      if (!step.selected || typeof step.selected !== "object") errors.push(`${label}.selected is required when resolved`);
+      if (step?.selection?.unresolved_reason !== null) errors.push(`${label}.selection.unresolved_reason must be null when resolved`);
+      if (step?.selected?.profile_id && !eligibleIds.includes(step.selected.profile_id)) {
+        errors.push(`${label}.selected.profile_id must be eligible`);
+      }
+    } else if (step?.selection?.status === "unresolved") {
+      unresolved += 1;
+      if (step.selected !== null) errors.push(`${label}.selected must be null when unresolved`);
+      if (typeof step?.selection?.unresolved_reason !== "string") {
+        errors.push(`${label}.selection.unresolved_reason is required when unresolved`);
+      }
+      if (step?.selection?.fallback_applied !== false) {
+        errors.push(`${label}.selection.fallback_applied must be false when unresolved`);
+      }
+    }
+    if (step?.selection?.fallback_applied === true && step?.selection?.status !== "resolved") {
+      errors.push(`${label}.selection.fallback_applied requires a resolved route`);
+    }
+
+    for (const [field, entries] of [
+      ["resource_limits", step?.resource_limits],
+      ["resource_observations", step?.resource_observations]
+    ]) {
+      const duplicated = duplicateEntryIds(entries, "measure_id");
+      if (duplicated.length > 0) errors.push(`${label}.${field} measure_id is duplicated: ${duplicated.join(", ")}`);
+    }
+  }
+
+  if (document?.summary?.steps !== document.steps.length) errors.push("summary.steps must equal steps.length");
+  if (document?.summary?.resolved !== resolved) errors.push("summary.resolved must equal resolved step count");
+  if (document?.summary?.unresolved !== unresolved) errors.push("summary.unresolved must equal unresolved step count");
+  if (resolved + unresolved !== document.steps.length) errors.push("every step must be resolved or unresolved");
+  return { valid: errors.length === 0, errors };
+}
+
 function listContains(values, value) {
   return values.includes("*") || values.includes(value);
 }

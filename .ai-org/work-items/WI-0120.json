@@ -1,0 +1,182 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0120",
+  "title": "Harden the Execution Route validation boundary",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-03T03:14:55.435Z",
+  "updated_at": "2026-09-03T03:16:28.404Z",
+  "scope": [
+    "Reject malformed or authority-expanding execution-route documents with a complete versioned JSON Schema and semantic consistency validation.",
+    "Preserve WI-0119 history while recording the separate post-close Independent QA counterexample as the repair trigger."
+  ],
+  "acceptance_criteria": [
+    "The Execution Route schema defines every nested field, enum, nullability rule, and additionalProperties boundary required by temple.execution-route/v1.",
+    "Malformed routes with numeric identifiers, executed or automatic authority, claimed effective values, unavailable zero values, invalid summaries, or unexpected command fields fail validation.",
+    "Valid resolver output, provider-neutral mapping, install and upgrade ownership, CLI no-write behavior, and all existing repository tests continue to pass."
+  ],
+  "affected_paths": [
+    "src/execution-routing.mjs",
+    "src/schema-validation.mjs",
+    "project-overlay/.ai-org/core/schemas/execution-route.schema.json",
+    ".ai-org/core/schemas/execution-route.schema.json",
+    "test/execution-routing.test.mjs",
+    "test/phase4-installation.test.mjs",
+    ".ai-org/artifacts/WI-0120"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [
+      "schema-or-data-migration"
+    ],
+    "rationale": "This repairs a versioned managed schema and validation contract after a separate Independent QA counterexample; Standard preserves design, evaluation, and distinct QA.",
+    "evidence_refs": [
+      ".ai-org/artifacts/WI-0119/independent-qa-report.md"
+    ],
+    "evaluated_at": "2026-09-03T03:14:55.434Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [
+    "WI-0119"
+  ],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "de45168658c8c9b7d7ad3326b875a3b1ad01deb3",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0086 retains public-release qualification and its broader installation evidence. WI-0120 touches phase4-installation.test.mjs only to assert the corrected managed schema contract and performs no public release action."
+  ],
+  "claim": {
+    "id": "claim-20260903031628-115dc067",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "de45168658c8c9b7d7ad3326b875a3b1ad01deb3",
+    "branch": "codex/wi-0120-harden-execution-route-schema",
+    "worktree": null,
+    "claimed_at": "2026-09-03T03:16:28.404Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260903031534-12ea2cab",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "de45168658c8c9b7d7ad3326b875a3b1ad01deb3",
+      "branch": "codex/wi-0120-harden-execution-route-schema",
+      "worktree": null,
+      "claimed_at": "2026-09-03T03:15:34.254Z",
+      "released_at": "2026-09-03T03:16:26.700Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903031626-331f15ad",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "de45168658c8c9b7d7ad3326b875a3b1ad01deb3",
+      "branch": "codex/wi-0120-harden-execution-route-schema",
+      "worktree": null,
+      "claimed_at": "2026-09-03T03:16:26.955Z",
+      "released_at": "2026-09-03T03:16:27.432Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903031627-462086e9",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "de45168658c8c9b7d7ad3326b875a3b1ad01deb3",
+      "branch": "codex/wi-0120-harden-execution-route-schema",
+      "worktree": null,
+      "claimed_at": "2026-09-03T03:16:27.675Z",
+      "released_at": "2026-09-03T03:16:28.135Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903031628-115dc067",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "de45168658c8c9b7d7ad3326b875a3b1ad01deb3",
+      "branch": "codex/wi-0120-harden-execution-route-schema",
+      "worktree": null,
+      "claimed_at": "2026-09-03T03:16:28.404Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0120/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0120/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0120/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0120/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0120/risk-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0120/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0120/work-order.md",
+    ".ai-org/artifacts/WI-0120/post-close-independent-qa-failure.md",
+    ".ai-org/artifacts/WI-0120/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0120/approved-scope.md",
+    ".ai-org/artifacts/WI-0120/product-spec.md",
+    ".ai-org/artifacts/WI-0120/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0120/technical-design.md",
+    ".ai-org/artifacts/WI-0120/risk-review.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "de45168658c8c9b7d7ad3326b875a3b1ad01deb3",
+      "artifact": ".ai-org/artifacts/WI-0120/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-03T03:16:26.431Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "de45168658c8c9b7d7ad3326b875a3b1ad01deb3",
+      "artifact": ".ai-org/artifacts/WI-0120/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-03T03:16:27.183Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "de45168658c8c9b7d7ad3326b875a3b1ad01deb3",
+      "artifact": ".ai-org/artifacts/WI-0120/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-03T03:16:27.896Z"
+    }
+  ]
+}

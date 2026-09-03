@@ -8,7 +8,8 @@ import { validateUsagePolicy } from "./usage-policy.mjs";
 import {
   readExecutionPolicy,
   validateExecutionPolicy,
-  validateExecutionRequest
+  validateExecutionRequest,
+  validateExecutionRoute
 } from "./execution-routing.mjs";
 import { validateLearningRepository } from "./learning.mjs";
 
@@ -78,6 +79,7 @@ export async function validateProjectSchemas(target) {
             executionPolicy ??= (await readExecutionPolicy(target)).policy;
             semantic = validateExecutionRequest(document, executionPolicy);
           }
+          else if (entry.id === "execution-routes") semantic = validateExecutionRoute(document);
         }
         const valid = jsonSchemaValid && semantic.valid;
         checked.push({ document: documentPath, schema: schemaPath, valid });

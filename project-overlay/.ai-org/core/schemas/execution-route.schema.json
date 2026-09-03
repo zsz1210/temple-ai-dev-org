@@ -1,6 +1,141 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "temple.execution-route/v1",
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+    "strings": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "resourceLimit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["measure_id", "maximum", "unknown_handling"],
+      "properties": {
+        "measure_id": { "$ref": "#/$defs/id" },
+        "maximum": { "type": "number", "minimum": 0 },
+        "unknown_handling": { "enum": ["reject", "allow"] }
+      }
+    },
+    "resourceObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["measure_id", "status", "value", "source", "quality"],
+      "properties": {
+        "measure_id": { "$ref": "#/$defs/id" },
+        "status": { "enum": ["observed", "unavailable"] },
+        "value": { "type": ["number", "null"] },
+        "source": { "type": "string", "minLength": 1 },
+        "quality": { "enum": ["declared", "observed", "qualified"] }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "observed" } }, "required": ["status"] },
+          "then": { "properties": { "value": { "type": "number", "minimum": 0 } } },
+          "else": { "properties": { "value": { "const": null } } }
+        }
+      ]
+    },
+    "taskShape": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["position_id", "lifecycle_stage", "task_kind", "risk_class", "context_profile_digest"],
+      "properties": {
+        "position_id": { "type": "string", "minLength": 1 },
+        "lifecycle_stage": { "type": "string", "minLength": 1 },
+        "task_kind": { "type": "string", "minLength": 1 },
+        "risk_class": { "enum": ["low", "standard", "high", "critical"] },
+        "context_profile_digest": { "type": "string", "minLength": 1 }
+      }
+    },
+    "capabilityRoute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "optional", "unknown_required", "unknown_optional"],
+      "properties": {
+        "required": { "allOf": [{ "$ref": "#/$defs/strings" }, { "minItems": 1 }] },
+        "optional": { "$ref": "#/$defs/strings" },
+        "unknown_required": { "$ref": "#/$defs/strings" },
+        "unknown_optional": { "$ref": "#/$defs/strings" }
+      }
+    },
+    "selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "authority", "status", "rule_id", "fallback_applied", "unresolved_reason"],
+      "properties": {
+        "mode": { "enum": ["pinned", "shadow", "advisory"] },
+        "authority": { "enum": ["human-or-coordinator-pinned", "advisory", "none"] },
+        "status": { "enum": ["resolved", "unresolved"] },
+        "rule_id": { "type": ["string", "null"], "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+        "fallback_applied": { "type": "boolean" },
+        "unresolved_reason": {
+          "enum": [null, "pinned-profile-not-found", "pinned-profile-ineligible", "unknown-required-capability", "no-eligible-profile"]
+        }
+      }
+    },
+    "selectedProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile_id", "requested", "effective"],
+      "properties": {
+        "profile_id": { "$ref": "#/$defs/id" },
+        "requested": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["provider_id", "model", "reasoning_effort", "model_class", "reasoning_class"],
+          "properties": {
+            "provider_id": { "type": ["string", "null"], "minLength": 1 },
+            "model": { "type": ["string", "null"], "minLength": 1 },
+            "reasoning_effort": { "type": ["string", "null"], "minLength": 1 },
+            "model_class": { "enum": ["efficient", "balanced", "frontier", "specialized", "local"] },
+            "reasoning_class": { "enum": ["none", "light", "balanced", "deep"] }
+          }
+        },
+        "effective": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "provider_id", "model", "reasoning_effort"],
+          "properties": {
+            "status": { "const": "unobserved" },
+            "provider_id": { "const": null },
+            "model": { "const": null },
+            "reasoning_effort": { "const": null }
+          }
+        }
+      }
+    },
+    "eligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["eligible_profile_ids", "rejected"],
+      "properties": {
+        "eligible_profile_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/id" }
+        },
+        "rejected": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["profile_id", "reasons"],
+            "properties": {
+              "profile_id": { "$ref": "#/$defs/id" },
+              "reasons": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { "type": "string", "minLength": 1 }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_version", "generated_at", "policy", "request", "authority", "summary", "steps"],
@@ -50,7 +185,39 @@
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": ["step_id", "responsibility", "task_shape", "capability_route", "selection", "selected", "eligibility", "resource_limits", "resource_observations"]
+        "additionalProperties": false,
+        "required": ["step_id", "responsibility", "task_shape", "capability_route", "selection", "selected", "eligibility", "resource_limits", "resource_observations"],
+        "properties": {
+          "step_id": { "$ref": "#/$defs/id" },
+          "responsibility": { "type": ["string", "null"], "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+          "task_shape": { "$ref": "#/$defs/taskShape" },
+          "capability_route": { "$ref": "#/$defs/capabilityRoute" },
+          "selection": { "$ref": "#/$defs/selection" },
+          "selected": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/selectedProfile" }] },
+          "eligibility": { "$ref": "#/$defs/eligibility" },
+          "resource_limits": { "type": "array", "items": { "$ref": "#/$defs/resourceLimit" } },
+          "resource_observations": { "type": "array", "items": { "$ref": "#/$defs/resourceObservation" } }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": { "selection": { "properties": { "status": { "const": "resolved" } }, "required": ["status"] } },
+              "required": ["selection"]
+            },
+            "then": {
+              "properties": {
+                "selected": { "$ref": "#/$defs/selectedProfile" },
+                "selection": { "properties": { "unresolved_reason": { "const": null } } }
+              }
+            },
+            "else": {
+              "properties": {
+                "selected": { "type": "null" },
+                "selection": { "properties": { "unresolved_reason": { "not": { "type": "null" } } } }
+              }
+            }
+          }
+        ]
       }
     }
   }
