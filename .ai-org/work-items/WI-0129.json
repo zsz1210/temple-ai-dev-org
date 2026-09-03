@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0129",
   "title": "Make the product roadmap and core path human-readable",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-03T06:06:40.485Z",
-  "updated_at": "2026-09-03T06:07:17.695Z",
+  "updated_at": "2026-09-03T06:14:33.661Z",
   "scope": [
     "Replace the internal-progress Roadmap with a product capability and milestone Roadmap in English, Japanese, and Traditional Chinese",
     "Create one concise Console-free Core Path and connect workflow profile, claim/release, routing, lifecycle closeout, recovery, and learning",
@@ -60,7 +60,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "0b855e40e6e1d42ac3f226873d820e0e5425a2d8",
+  "base_revision": "3e5178bac6564a1128beac97c1a782b4a45c941e",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -70,27 +70,71 @@
     "WI-0086: serialize Roadmap and validation-index updates under WI-0129; preserve the blocked public-release scope and do not alter release-candidate evidence"
   ],
   "claim": {
-    "id": "claim-20260903060717-2f4b1576",
-    "status": "active",
+    "id": "claim-20260903061419-160fbd7a",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "0b855e40e6e1d42ac3f226873d820e0e5425a2d8",
+    "agent_id": "agent-mog",
+    "base_revision": "3e5178bac6564a1128beac97c1a782b4a45c941e",
     "branch": "codex/wi-0129-product-roadmap-core-path",
     "worktree": null,
-    "claimed_at": "2026-09-03T06:07:17.695Z",
-    "released_at": null
+    "claimed_at": "2026-09-03T06:14:19.890Z",
+    "released_at": "2026-09-03T06:14:33.661Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
       "id": "claim-20260903060717-2f4b1576",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "0b855e40e6e1d42ac3f226873d820e0e5425a2d8",
       "branch": "codex/wi-0129-product-roadmap-core-path",
       "worktree": null,
       "claimed_at": "2026-09-03T06:07:17.695Z",
-      "released_at": null
+      "released_at": "2026-09-03T06:11:04.016Z",
+      "release_reason": [
+        "Developer candidate handed to Quality & Evaluation at revision 3e5178b"
+      ]
+    },
+    {
+      "id": "claim-20260903061104-cef7f66a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "3e5178b",
+      "branch": "codex/wi-0129-product-roadmap-core-path",
+      "worktree": null,
+      "claimed_at": "2026-09-03T06:11:04.477Z",
+      "released_at": "2026-09-03T06:12:28.990Z",
+      "release_reason": [
+        "Quality evaluation handed to Independent QA"
+      ]
+    },
+    {
+      "id": "claim-20260903061229-3d68509d",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "3e5178b",
+      "branch": "codex/wi-0129-product-roadmap-core-path",
+      "worktree": null,
+      "claimed_at": "2026-09-03T06:12:29.480Z",
+      "released_at": "2026-09-03T06:14:13.612Z",
+      "release_reason": [
+        "Independent QA passed exact candidate and handed it to Release Manager"
+      ]
+    },
+    {
+      "id": "claim-20260903061419-160fbd7a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "3e5178bac6564a1128beac97c1a782b4a45c941e",
+      "branch": "codex/wi-0129-product-roadmap-core-path",
+      "worktree": null,
+      "claimed_at": "2026-09-03T06:14:19.890Z",
+      "released_at": "2026-09-03T06:14:33.661Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -108,6 +152,34 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0129/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0129/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0129/developer-report.md",
+      ".ai-org/artifacts/WI-0129/developer-test-observation.json"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0129/quality-report.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0129/evaluation-report.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0129/independent-qa-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0129/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0129/product-spec.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0129/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -117,10 +189,21 @@
     ".ai-org/artifacts/WI-0129/product-spec.md",
     ".ai-org/artifacts/WI-0129/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0129/technical-design.md",
-    ".ai-org/artifacts/WI-0129/risk-review.md"
+    ".ai-org/artifacts/WI-0129/risk-review.md",
+    ".ai-org/artifacts/WI-0129/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0129/developer-report.md",
+    ".ai-org/artifacts/WI-0129/developer-test-observation.json",
+    ".ai-org/artifacts/WI-0129/quality-report.md",
+    ".ai-org/artifacts/WI-0129/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0129/quality-test-observation.json",
+    ".ai-org/artifacts/WI-0129/evaluation-report.md",
+    ".ai-org/artifacts/WI-0129/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0129/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0129/independent-qa-observation.json",
+    ".ai-org/artifacts/WI-0129/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -142,6 +225,34 @@
       "input_revision": "0b855e40e6e1d42ac3f226873d820e0e5425a2d8",
       "artifact": ".ai-org/artifacts/WI-0129/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-03T06:07:17.247Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "3e5178b",
+      "artifact": ".ai-org/artifacts/WI-0129/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-03T06:11:03.743Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "3e5178b",
+      "artifact": ".ai-org/artifacts/WI-0129/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-03T06:12:28.766Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "3e5178bac6564a1128beac97c1a782b4a45c941e",
+      "artifact": ".ai-org/artifacts/WI-0129/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-03T06:14:13.343Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "3e5178b",
+  "tested_revision": "3e5178bac6564a1128beac97c1a782b4a45c941e",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }
