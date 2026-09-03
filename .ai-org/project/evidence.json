@@ -20265,6 +20265,55 @@
         "dirty_scope": "clean",
         "affected_paths_dirty": []
       }
+    },
+    {
+      "id": "EVID-20260903T083327Z-1529080F",
+      "work_item_id": "WI-0132",
+      "recorded_at": "2026-09-03T08:33:27.328Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0132 provider-free implementation verification",
+      "outcome": "pass",
+      "scope_revision": "b7263e5cc64a1f3c5e93a32d2ae10a356074227d",
+      "observed_at": "2026-09-03T08:32:36.000Z",
+      "summary": "Eight-repository preflight, exact App Server handshake, package checks, and all 350 tests passed without model generation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0132/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0132/developer-test-observation.json",
+          "sha256": "5355190bb1d20c051d1b56d301bed6a77ed82d9f85c253eb94cb250ab72103c8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0132/developer-report.md",
+          "sha256": "fc373d0a23212cf02f5675ccb5a6013146c3ef6982589b00bfb30355210d93dc"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0132/provider-handshake-observation.json",
+          "sha256": "79faa7eed2b6bbb0f1eb935937723779397a4c19a570b77155c6613bb830f449"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0132/live-protocol.json",
+          "sha256": "146071ecfcddb0d9e7c9803dfc36e7712231319846bf48bd511833a68f9e5782"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T08:31:29.000Z"
+      }
     }
   ]
 }

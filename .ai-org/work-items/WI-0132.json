@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0132",
   "title": "Run corrected Lean routing effectiveness comparison",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-03T08:23:30.905Z",
-  "updated_at": "2026-09-03T08:26:07.618Z",
+  "updated_at": "2026-09-03T08:33:40.447Z",
   "scope": [
     "Execute the corrected four-arm native Lean experiment from WI-0131, retain objective and blind evaluation evidence, and publish a human-facing diagnostic report."
   ],
@@ -60,26 +60,32 @@
   ],
   "claim": {
     "id": "claim-20260903082607-8f957e0e",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "base_revision": "926d982db34f116f5998005cfcda21b99f0bd5b5",
     "branch": "codex/wi-0132-live-routing-effectiveness",
     "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
     "claimed_at": "2026-09-03T08:26:07.618Z",
-    "released_at": null
+    "released_at": "2026-09-03T08:33:40.189Z",
+    "release_reason": [
+      "Developer implementation completed and handed to Quality Evaluator; live generation remains pending exact owner approval."
+    ]
   },
   "claims": [
     {
       "id": "claim-20260903082607-8f957e0e",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "926d982db34f116f5998005cfcda21b99f0bd5b5",
       "branch": "codex/wi-0132-live-routing-effectiveness",
       "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
       "claimed_at": "2026-09-03T08:26:07.618Z",
-      "released_at": null
+      "released_at": "2026-09-03T08:33:40.189Z",
+      "release_reason": [
+        "Developer implementation completed and handed to Quality Evaluator; live generation remains pending exact owner approval."
+      ]
     }
   ],
   "gate_evidence": {
@@ -97,6 +103,13 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0132/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0132/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0132/developer-report.md",
+      ".ai-org/artifacts/WI-0132/developer-test-observation.json"
     ]
   },
   "evidence": [
@@ -107,7 +120,10 @@
     ".ai-org/artifacts/WI-0132/product-spec.md",
     ".ai-org/artifacts/WI-0132/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0132/technical-design.md",
-    ".ai-org/artifacts/WI-0132/risk-review.md"
+    ".ai-org/artifacts/WI-0132/risk-review.md",
+    ".ai-org/artifacts/WI-0132/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0132/developer-report.md",
+    ".ai-org/artifacts/WI-0132/developer-test-observation.json"
   ],
   "unresolved": [],
   "next_position": "quality_evaluator",
@@ -132,6 +148,14 @@
       "input_revision": "926d982db34f116f5998005cfcda21b99f0bd5b5",
       "artifact": ".ai-org/artifacts/WI-0132/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-03T08:26:02.130Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "b7263e5cc64a1f3c5e93a32d2ae10a356074227d",
+      "artifact": ".ai-org/artifacts/WI-0132/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-03T08:33:34.000Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "b7263e5cc64a1f3c5e93a32d2ae10a356074227d"
 }
