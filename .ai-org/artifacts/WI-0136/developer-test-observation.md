@@ -1,7 +1,7 @@
 # Developer test observation
 
 - Subject: WI-0136 generation-free representative microservice comparison harness
-- Revision under test: uncommitted preparation on `codex/wi-0136-representative-microservice-comparison`
+- Revision under test: `15239a247de4c069c27cb82a0783fee176482230`
 - Outcome: pass with one non-blocking Doctor warning
 - Model generation performed: no
 
