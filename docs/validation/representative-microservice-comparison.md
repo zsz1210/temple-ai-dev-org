@@ -1,6 +1,6 @@
 # Representative multi-Agent microservice comparison
 
-- Status: WI-0136 routed-context qualification passed; representative v6 stopped on an invalid candidate cross-repository path, and v7 is being prepared with explicit Build command-location instructions
+- Status: WI-0136 routed-context qualification passed; representative v9 passed the zero-generation end-to-end Harness Readiness Gate and awaits exact live approval
 - Purpose: measure where Temple changes delivery outcomes, not accumulate another pass count
 - Comparison: Temple versus a minimal responsible workflow under matched inputs and model routes
 
@@ -84,6 +84,7 @@ WI-0136 now supplies that separate execution boundary. Its generation-free prepa
 ```bash
 node scripts/run-representative-microservice-comparison.mjs setup
 node scripts/run-representative-microservice-comparison.mjs freeze
+node scripts/run-representative-microservice-comparison.mjs readiness
 node scripts/run-representative-microservice-comparison.mjs preflight
 ```
 
@@ -146,6 +147,10 @@ Successor v7 is frozen under digest `ff06ec032d8bc6f452e307269d9e87774e4f4207d04
 Exact-approved v7 ran once and stopped during the Minimal Responsible Build wave after 107,085 candidate Operational Tokens. Design completed at 55,565. Notifications requested the allowlisted read-only command `rg --files coordinator`, but v7 interpreted its Provider-relative command cwd against the runner process directory rather than the generated arm. Notifications stopped at 14,336; Gateway and orders-catalog were interrupted as siblings after 17,089 and 20,095. Every App Server child exited and all generated repositories remained clean. No arm completed, so v7 is harness evidence rather than a Temple comparison. See the [v7 stop report](../../.ai-org/artifacts/WI-0136/representative-main-v7-stop-report.md).
 
 Successor v8 is frozen under digest `3c179b15b37e5fad0a538ff12dc0f4ca5a3e3d7384b8542b394f22bdd42618da`. It normalizes absolute and `file://` cwd values directly, resolves Provider-relative cwd values from the exact generated arm, and still rejects every normalized escape or unknown URI scheme. It changes no model route, task, resource ceiling, test, retry, fallback, or network boundary. V8 uses fresh matched repositories and requires separate exact approval before generation.
+
+V8 was superseded before approval or generation. V9 adds the missing systemic guard: the same production orchestration must first complete both arms, all ten candidate stages, both three-way Build waves, cold integration, arm-neutral evaluation, score freeze, analysis, objective tests, and repository-cleanliness checks through a deterministic local Provider double. This readiness path cannot call model generation, runs only inside a disposable temporary clone, and writes an exact-digest evidence record that live preflight requires.
+
+The v9 readiness run passed every check with zero Operational Tokens, zero retry, zero fallback, and no model generation. It also replayed the Provider command-event shapes that caused earlier path and wrapper failures. The final protocol is `662cd01c96381f53e4eff79659a0e9da6ddf85022ff4d5cb49d095ced18ae02b`; preflight now passes every technical gate and remains blocked only on a new exact human approval. See the [Harness Readiness report](../../.ai-org/artifacts/WI-0136/representative-harness-readiness-v1-report.md).
 
 After that replacement main protocol receives its own exact approval, the bounded commands are:
 

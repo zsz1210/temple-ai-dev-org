@@ -254,3 +254,18 @@ The exact-approved v7 attempt ran from `2026-09-03T16:46:53.272Z` to `2026-09-03
 - Status: frozen and generation-disabled pending separate exact approval
 
 V8 corrects the cwd normalization defect without adding a command prefix, allowing a parent-directory segment, or broadening the generated arm. It is a new controlled experiment on fresh matched repositories and cannot reuse the v7 approval.
+
+V8 was superseded before approval or generation. The repair covered the final observed symptom but still did not prove that the production runner could complete its entire lifecycle before using account capacity.
+
+## Representative comparison v9
+
+- Predecessor: representative v8 protocol `3c179b15b37e5fad0a538ff12dc0f4ca5a3e3d7384b8542b394f22bdd42618da`
+- Resource envelope, task, models, efforts, context treatment, objective tests, retry policy, fallback policy, and network boundary: unchanged from v8
+- New gate: run the production orchestration with a deterministic generation-free Provider double before exact approval
+- Gate coverage: both arms, ten candidate stages, two three-way Build waves, cold integration, blind evaluation, analysis, objective tests, and ten repository cleanliness checks
+- Historical event regression: Provider-relative cwd, `file://`, display-wrapper versus structured action, exact relative Git target, escape, network command, and cross-turn isolation cases
+- Protocol SHA-256: `662cd01c96381f53e4eff79659a0e9da6ddf85022ff4d5cb49d095ced18ae02b`
+- Readiness result: pass with zero Operational Tokens, zero retry, zero fallback, and no model generation
+- Status: frozen and generation-disabled pending separate exact approval
+
+V9 turns harness readiness into a live preflight requirement instead of another advisory test. The source lab stays pristine; the full rehearsal runs in a disposable canonical temporary clone. A readiness result must match the exact protocol digest and state that no model generation occurred. See `representative-harness-readiness-v1-report.md`.

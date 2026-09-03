@@ -42,6 +42,19 @@ const services = Object.freeze(["gateway", "catalog", "orders", "notifications"]
 const repositories = Object.freeze([...services, "coordinator"]);
 const arms = Object.freeze(["minimal-responsible", "temple"]);
 const integrationSliceIds = Object.freeze(["orders-catalog", "notifications", "gateway"]);
+const harnessReadinessCheckIds = Object.freeze([
+  "source-lab-inspection",
+  "both-arms-completed",
+  "all-ten-candidate-turns-completed",
+  "three-way-build-wave-observed-per-arm",
+  "objective-tests-pass-both-arms",
+  "exact-cold-recovery-both-arms",
+  "blind-evaluator-completed",
+  "analysis-completed",
+  "all-generated-repositories-clean",
+  "zero-operational-tokens",
+  "no-model-generation"
+]);
 const ablationConditionDefinitions = Object.freeze([
   Object.freeze({ id: "terra-routed", context_strategy: "routed", model: "gpt-5.6-terra", reasoning_effort: "medium", operational_token_limit: 80000 }),
   Object.freeze({ id: "terra-full-load", context_strategy: "full-load", model: "gpt-5.6-terra", reasoning_effort: "medium", operational_token_limit: 120000 })
@@ -119,7 +132,7 @@ export function representativeCommandItemAllowed(item, armRoot) {
   });
 }
 
-function representativeProtocolViolationForMessage(message, { turnId, armRoot }) {
+export function representativeProtocolViolationForMessage(message, { turnId, armRoot }) {
   const params = message?.params ?? {};
   const observedTurnId = params.turnId ?? params.turn?.id ?? null;
   if (observedTurnId !== null && turnId !== null && observedTurnId !== turnId) return null;
@@ -164,7 +177,7 @@ const fixedGitEnvironment = Object.freeze({
 function parseArguments(argv) {
   const command = argv[0];
   const commands = [
-    "setup", "freeze", "preflight", "inspect", "run", "evaluate", "report",
+    "setup", "freeze", "preflight", "inspect", "readiness", "run", "evaluate", "report",
     "ablation-setup", "ablation-freeze", "ablation-preflight", "ablation-inspect", "ablation-run", "ablation-report"
   ];
   if (!command || !commands.includes(command)) {
@@ -666,7 +679,7 @@ async function sourceDigests() {
 function buildProtocol(manifest) {
   const protocol = {
     schema_version: "temple.representative-microservice-comparison/v3",
-    protocol_revision: 8,
+    protocol_revision: 9,
     work_item_id: "WI-0136",
     status: "generation-disabled",
     protocol_sha256: null,
@@ -709,16 +722,18 @@ function buildProtocol(manifest) {
       new_unknown_recovery_start: "temple-md-first"
     },
     predecessor: {
-      protocol_sha256: "ff06ec032d8bc6f452e307269d9e87774e4f4207d0449af70905fcc314786674",
-      disposition: "stopped-candidate-provider-relative-cwd-misresolved",
-      stopped_run: ".ai-org/artifacts/WI-0136/representative-main-v7-stopped-run.json",
-      stop_report: ".ai-org/artifacts/WI-0136/representative-main-v7-stop-report.md"
+      protocol_sha256: "3c179b15b37e5fad0a538ff12dc0f4ca5a3e3d7384b8542b394f22bdd42618da",
+      disposition: "superseded-before-generation-by-harness-readiness-gate",
+      stopped_run: null,
+      stop_report: null
     },
     stopped_evidence_policy: "completed-active-and-settled-sibling-observations-v3",
     runner_safety: {
       relative_git_target_policy: "provider-relative-cwd-resolved-against-arm-root-to-exact-fixture-repository-root",
       parallel_failure_policy: "interrupt-and-await-all-siblings-before-stop-record",
-      build_command_policy: "arm-root-repository-ids-without-candidate-git-self-check"
+      build_command_policy: "arm-root-repository-ids-without-candidate-git-self-check",
+      harness_readiness_policy: "production-orchestration-with-injected-generation-free-provider-v1",
+      readiness_required_before_exact_approval: true
     },
     stop_rules: {
       protocol_mismatch: true,
@@ -747,7 +762,7 @@ function buildProtocol(manifest) {
 export function validateRepresentativeProtocol(protocol) {
   const errors = [];
   if (protocol?.schema_version !== "temple.representative-microservice-comparison/v3") errors.push("unsupported schema");
-  if (protocol?.protocol_revision !== 8) errors.push("unexpected protocol revision");
+  if (protocol?.protocol_revision !== 9) errors.push("unexpected protocol revision");
   if (protocol?.work_item_id !== "WI-0136") errors.push("unexpected work item");
   if (protocol?.status !== "generation-disabled") errors.push("protocol status must remain generation-disabled before exact approval");
   if (protocol?.protocol_sha256 !== protocolDigest(protocol)) errors.push("protocol digest mismatch");
@@ -778,12 +793,16 @@ export function validateRepresentativeProtocol(protocol) {
       contextPolicy.new_unknown_recovery_start !== "temple-md-first") {
     errors.push("context policy mismatch");
   }
-  if (protocol?.predecessor?.protocol_sha256 !== "ff06ec032d8bc6f452e307269d9e87774e4f4207d0449af70905fcc314786674" ||
-      protocol?.predecessor?.disposition !== "stopped-candidate-provider-relative-cwd-misresolved" ||
+  if (protocol?.predecessor?.protocol_sha256 !== "3c179b15b37e5fad0a538ff12dc0f4ca5a3e3d7384b8542b394f22bdd42618da" ||
+      protocol?.predecessor?.disposition !== "superseded-before-generation-by-harness-readiness-gate" ||
+      protocol?.predecessor?.stopped_run !== null ||
+      protocol?.predecessor?.stop_report !== null ||
       protocol?.stopped_evidence_policy !== "completed-active-and-settled-sibling-observations-v3" ||
       protocol?.runner_safety?.relative_git_target_policy !== "provider-relative-cwd-resolved-against-arm-root-to-exact-fixture-repository-root" ||
       protocol?.runner_safety?.parallel_failure_policy !== "interrupt-and-await-all-siblings-before-stop-record" ||
-      protocol?.runner_safety?.build_command_policy !== "arm-root-repository-ids-without-candidate-git-self-check") {
+      protocol?.runner_safety?.build_command_policy !== "arm-root-repository-ids-without-candidate-git-self-check" ||
+      protocol?.runner_safety?.harness_readiness_policy !== "production-orchestration-with-injected-generation-free-provider-v1" ||
+      protocol?.runner_safety?.readiness_required_before_exact_approval !== true) {
     errors.push("successor provenance mismatch");
   }
   if (!/^[a-f0-9]{64}$/.test(protocol?.fixture?.fixture_sha256 ?? "")) errors.push("fixture digest missing");
@@ -1097,10 +1116,15 @@ async function preflight(labRoot, protocolPath, approvalPath) {
   const providerMatch = handshake.pass && protocol?.provider_contract?.codex_cli_version === handshake.codex_cli_version &&
     JSON.stringify(protocol?.provider_contract?.schema_digests) === JSON.stringify(handshake.schema_digests);
   const approval = approvalPath && await exists(approvalPath) ? validateRepresentativeApproval(await readJson(approvalPath), protocol) : { accepted: false, errors: ["exact approval missing"] };
+  const readinessPath = path.join(labRoot, "harness-readiness.json");
+  const readiness = await exists(readinessPath) ? await readJson(readinessPath) : null;
+  const readinessValidation = validateRepresentativeHarnessReadiness(readiness, protocol, labRoot);
+  const readinessMatches = readinessValidation.valid;
   const blockers = [];
   if (!inspection.valid) blockers.push("local-fixture-invalid");
   if (!lifecycleRehearsal.pass) blockers.push("temple-lifecycle-rehearsal-failed");
   if (!providerMatch) blockers.push("provider-contract-drift");
+  if (!readinessMatches) blockers.push("harness-readiness-required");
   if (!approval.accepted) blockers.push("exact-human-approval-required");
   const output = {
     schema_version: "temple.representative-microservice-preflight/v1",
@@ -1112,6 +1136,9 @@ async function preflight(labRoot, protocolPath, approvalPath) {
     provider_contract_matches: providerMatch,
     provider_handshake: handshake,
     temple_lifecycle_rehearsal: lifecycleRehearsal,
+    harness_readiness: readiness,
+    harness_readiness_matches: readinessMatches,
+    harness_readiness_errors: readinessValidation.errors,
     exact_approval_present: approval.accepted,
     approval_errors: approval.errors,
     generation_ready: blockers.length === 0,
@@ -1821,7 +1848,7 @@ export function armProcessInstructions(armId, repositories_) {
   return `For each assigned repository, read organization/WORK_ITEM.md and the Coordinator design record. Use the ordinary repository handoff as durable state. Assigned repositories: ${repositories_.join(", ")}.`;
 }
 
-async function runDesignTurn({ armId, armRoot, protocol, budget, deadline }) {
+async function runDesignTurn({ armId, armRoot, protocol, budget, deadline, launchTurn = launchModelTurn }) {
   const coordinatorRoot = path.join(armRoot, "coordinator");
   if (armId === "temple") await claimTempleRepository(coordinatorRoot, "agent-fixture-tidus");
   const task = await fs.readFile(path.join(coordinatorRoot, "TASK.md"), "utf8");
@@ -1835,7 +1862,7 @@ async function runDesignTurn({ armId, armRoot, protocol, budget, deadline }) {
     "Define exactly these slice IDs: orders-catalog, notifications, gateway. Keep their writable repositories disjoint.",
     task
   ].join("\n\n");
-  const turn = await launchModelTurn({
+  const turn = await launchTurn({
     id: `${armId}-design`, cwd: armRoot, stage: "design", route: protocol.model_route.design,
     instruction, outputSchema: designOutputSchema, protocol, budget, deadline, sandbox: "read-only"
   });
@@ -1845,7 +1872,7 @@ async function runDesignTurn({ armId, armRoot, protocol, budget, deadline }) {
   return { ...turn, ...result };
 }
 
-async function runBuildSlice({ armId, armRoot, slice, protocol, budget, deadline, abortSignal }) {
+async function runBuildSlice({ armId, armRoot, slice, protocol, budget, deadline, abortSignal, launchTurn = launchModelTurn }) {
   const coordinatorRoot = path.join(armRoot, "coordinator");
   if (armId === "temple") {
     for (const repositoryId of slice.repositories) await claimTempleRepository(path.join(armRoot, repositoryId), "agent-fixture-rikku");
@@ -1860,7 +1887,7 @@ async function runBuildSlice({ armId, armRoot, slice, protocol, budget, deadline
     "Do not run Git commands or inspect Git status, diffs, logs, or revisions. Do not use parent-directory paths. The experiment coordinator collects Git evidence after your turn.",
     "Do not commit; return the structured Build result after the assigned tests."
   ].join("\n\n");
-  const turn = await launchModelTurn({
+  const turn = await launchTurn({
     id: `${armId}-${slice.id}`, cwd: armRoot, stage: "build", route: protocol.model_route.build,
     instruction, outputSchema: buildOutputSchema, protocol, budget, deadline, abortSignal
   });
@@ -2079,7 +2106,7 @@ async function rehearseTempleLifecycle(labRoot) {
   }
 }
 
-async function runIntegrationTurn({ armId, armRoot, protocol, budget, deadline }) {
+async function runIntegrationTurn({ armId, armRoot, protocol, budget, deadline, launchTurn = launchModelTurn }) {
   const coordinatorRoot = path.join(armRoot, "coordinator");
   if (armId === "temple") await claimTempleRepository(coordinatorRoot, "agent-fixture-rikku");
   const instruction = [
@@ -2091,7 +2118,7 @@ async function runIntegrationTurn({ armId, armRoot, protocol, budget, deadline }
     "Return exact revisions for gateway, catalog, orders, and notifications; name completed slice IDs, unresolved work, and the safe bounded next action.",
     "Do not modify files, fix code, deploy, publish, or infer anything from conversation memory."
   ].join("\n\n");
-  const turn = await launchModelTurn({
+  const turn = await launchTurn({
     id: `${armId}-integration`, cwd: armRoot, stage: "integration", route: protocol.model_route.integration,
     instruction, outputSchema: integrationOutputSchema, protocol, budget, deadline, sandbox: "read-only"
   });
@@ -3049,11 +3076,11 @@ async function buildArmPackage({ armId, armRoot, design, builds, integration }) 
   };
 }
 
-async function runArm({ armId, labRoot, protocol, budget, deadline, progress }) {
+async function runArm({ armId, labRoot, protocol, budget, deadline, progress, launchTurn = launchModelTurn }) {
   const armRoot = path.join(labRoot, "arms", armId);
   let design;
   try {
-    design = await runDesignTurn({ armId, armRoot, protocol, budget, deadline });
+    design = await runDesignTurn({ armId, armRoot, protocol, budget, deadline, launchTurn });
     progress.design = design;
   } catch (error) {
     if (error.stage_observation) progress.design = error.stage_observation;
@@ -3061,7 +3088,7 @@ async function runArm({ armId, labRoot, protocol, budget, deadline, progress }) 
   }
   const builds = await settleFailClosedParallel(buildSlices().map((slice) => async (abortSignal) => {
     try {
-      const build = await runBuildSlice({ armId, armRoot, slice, protocol, budget, deadline, abortSignal });
+      const build = await runBuildSlice({ armId, armRoot, slice, protocol, budget, deadline, abortSignal, launchTurn });
       progress.builds.push(build);
       return build;
     } catch (error) {
@@ -3075,7 +3102,7 @@ async function runArm({ armId, labRoot, protocol, budget, deadline, progress }) 
   progress.portfolio_revision = portfolioRevision;
   let integration;
   try {
-    integration = await runIntegrationTurn({ armId, armRoot, protocol, budget, deadline });
+    integration = await runIntegrationTurn({ armId, armRoot, protocol, budget, deadline, launchTurn });
     progress.integration = integration;
   } catch (error) {
     if (error.stage_observation) progress.integration = error.stage_observation;
@@ -3085,7 +3112,127 @@ async function runArm({ armId, labRoot, protocol, budget, deadline, progress }) 
   return { arm_id: armId, design, builds, portfolio_revision: portfolioRevision, integration, ...packages };
 }
 
-export function representativeStoppedRun({ protocol, startedAt, stoppedAt, completed, activeArm, candidateOperationalTokens, reason }) {
+function emptyToolActivity() {
+  return {
+    command_items: 0,
+    command_actions: 0,
+    action_types: {},
+    temple_md_attempts: 0,
+    context_resolve_attempts: 0,
+    temple_md_reads: 0,
+    context_resolve_calls: 0,
+    context_sequence: [],
+    reported_output_bytes: 0
+  };
+}
+
+function readinessTurnObservation({ id, stage, route, instruction, outputSchema, completion }) {
+  const observedAt = new Date().toISOString();
+  return {
+    id,
+    stage,
+    started_at: observedAt,
+    completed_at: observedAt,
+    elapsed_ms: 0,
+    session_setup_ms: 0,
+    turn_elapsed_ms: 0,
+    time_to_first_activity_ms: null,
+    time_to_first_command_ms: null,
+    effective_output_tokens_per_second: null,
+    thread_id: null,
+    turn_id: null,
+    requested_model: route.model,
+    acknowledged_model: route.model,
+    requested_reasoning_effort: route.reasoning_effort,
+    observed_thread_reasoning_effort: null,
+    effective_turn_reasoning_effort: null,
+    usage: {
+      input_tokens: 0,
+      cached_input_tokens: 0,
+      output_tokens: 0,
+      reasoning_output_tokens: 0,
+      total_tokens: 0
+    },
+    operational_tokens: 0,
+    prompt_metrics: promptMetrics(instruction, outputSchema),
+    tool_activity: emptyToolActivity(),
+    retry_count: 0,
+    fallback_count: 0,
+    raw_prompt_retained: false,
+    raw_response_retained: false,
+    hidden_reasoning_retained: false,
+    status: "completed",
+    stop_scope: null,
+    stop_reason: null,
+    completion,
+    provider_kind: "generation-free-readiness-fixture"
+  };
+}
+
+function evaluatorPayload(instruction) {
+  const payload = instruction.split("\n\n").at(-1);
+  const parsed = JSON.parse(payload);
+  if (!parsed?.rubric || !Array.isArray(parsed?.packages)) throw new Error("readiness evaluator payload is malformed");
+  return parsed;
+}
+
+function readinessTurnLauncher() {
+  return async ({ id, cwd, stage, route, instruction, outputSchema, budget, abortSignal }) => {
+    if (abortSignal?.aborted) throw new Error(`${id}:parallel-wave-cancelled`);
+    let completion;
+    if (stage === "design") {
+      completion = goldenDesignRecord();
+    } else if (stage === "build") {
+      const slice = buildSlices().find((entry) => id.endsWith(`-${entry.id}`));
+      if (!slice) throw new Error(`${id}:unknown readiness Build slice`);
+      for (const repositoryId of slice.repositories) {
+        await fs.copyFile(
+          path.join(fixtureRoot, "evaluator-only/golden", path.basename(serviceAffectedPath(repositoryId))),
+          path.join(cwd, repositoryId, serviceAffectedPath(repositoryId))
+        );
+      }
+      completion = {
+        summary: `Applied the generation-free ${slice.id} acceptance fixture.`,
+        changed_paths: slice.repositories.map((repositoryId) => `${repositoryId}/${serviceAffectedPath(repositoryId)}`),
+        test_command: slice.repositories.map((repositoryId) => `(cd ${repositoryId} && npm test)`).join("; "),
+        test_result: "The production runner verifies each repository test after the injected turn.",
+        unresolved: []
+      };
+    } else if (stage === "integration") {
+      const revisions = await currentProductRevisions(cwd);
+      completion = {
+        recovered_revisions: services.map((repositoryId) => ({ repository: repositoryId, revision: revisions[repositoryId] })),
+        governing_contract: "Coordinator TASK.md and OrderPlaced/v2",
+        completed_slices: integrationSliceIds,
+        unresolved: [],
+        safe_next_action: "Run the bounded independent evaluation without deployment or publication.",
+        summary: "Recovered every exact service revision and all three completed slices."
+      };
+    } else if (stage === "evaluator") {
+      const payload = evaluatorPayload(instruction);
+      completion = {
+        packages: payload.packages.map((entry) => ({
+          package_id: entry.package_id,
+          dimensions: payload.rubric.dimensions.map((dimension) => ({
+            id: dimension.id,
+            score: 1,
+            rationale: "The generation-free golden fixture satisfies this binary harness check."
+          })),
+          critical_failure: null,
+          summary: "All frozen objective harness checks passed."
+        })),
+        summary: "Both arm-neutral readiness packages passed the frozen binary harness rubric."
+      };
+    } else {
+      throw new Error(`${id}:unsupported readiness stage ${stage}`);
+    }
+    budget.update(id, 0);
+    budget.settle(id, 0);
+    return readinessTurnObservation({ id, stage, route, instruction, outputSchema, completion });
+  };
+}
+
+export function representativeStoppedRun({ protocol, startedAt, stoppedAt, completed, activeArm, candidateOperationalTokens, reason, modelGenerationPerformed = true }) {
   return {
     schema_version: "temple.representative-microservice-stopped-run/v2",
     work_item_id: protocol.work_item_id,
@@ -3102,17 +3249,13 @@ export function representativeStoppedRun({ protocol, startedAt, stoppedAt, compl
     reason,
     retry_count: 0,
     fallback_count: 0,
-    model_generation_performed: true
+    model_generation_performed: modelGenerationPerformed
   };
 }
 
-async function runProgram(labRoot, protocolPath, approvalPath) {
-  if (!approvalPath) throw new Error("--approval is required for live generation");
+async function executeCandidateProgram({ labRoot, protocol, launchTurn, modelGenerationPerformed }) {
   const resultPath = path.join(labRoot, "candidate-run.json");
-  if (await exists(resultPath) || await exists(path.join(labRoot, "stopped-run.json"))) throw new Error("live candidate attempt already exists; retries and resumes are prohibited");
-  const gate = await preflight(labRoot, protocolPath, approvalPath);
-  if (!gate.generation_ready) throw new Error(`generation blocked: ${gate.blockers.join(", ")}`);
-  const protocol = await readJson(protocolPath);
+  if (await exists(resultPath) || await exists(path.join(labRoot, "stopped-run.json"))) throw new Error("candidate attempt already exists; retries and resumes are prohibited");
   const budget = createBudget(protocol);
   const startedAt = new Date().toISOString();
   const deadline = Date.now() + protocol.execution.program_wall_clock_limit_ms;
@@ -3121,7 +3264,7 @@ async function runProgram(labRoot, protocolPath, approvalPath) {
   try {
     for (const armId of protocol.execution.arm_order) {
       activeArm = { arm_id: armId, design: null, builds: [], portfolio_revision: null, integration: null };
-      completed.push(await runArm({ armId, labRoot, protocol, budget, deadline, progress: activeArm }));
+      completed.push(await runArm({ armId, labRoot, protocol, budget, deadline, progress: activeArm, launchTurn }));
       activeArm = null;
     }
     const output = {
@@ -3136,7 +3279,7 @@ async function runProgram(labRoot, protocolPath, approvalPath) {
       retry_count: 0,
       fallback_count: 0,
       evaluator_pending: true,
-      model_generation_performed: true
+      model_generation_performed: modelGenerationPerformed
     };
     await writeJson(resultPath, output, { exclusive: true });
     return output;
@@ -3148,11 +3291,24 @@ async function runProgram(labRoot, protocolPath, approvalPath) {
       completed,
       activeArm,
       candidateOperationalTokens: budget.total(),
-      reason: String(error.message ?? error)
+      reason: String(error.message ?? error),
+      modelGenerationPerformed
     });
     await writeJson(path.join(labRoot, "stopped-run.json"), stopped, { exclusive: true });
     throw error;
   }
+}
+
+async function runProgram(labRoot, protocolPath, approvalPath) {
+  if (!approvalPath) throw new Error("--approval is required for live generation");
+  const gate = await preflight(labRoot, protocolPath, approvalPath);
+  if (!gate.generation_ready) throw new Error(`generation blocked: ${gate.blockers.join(", ")}`);
+  return executeCandidateProgram({
+    labRoot,
+    protocol: await readJson(protocolPath),
+    launchTurn: launchModelTurn,
+    modelGenerationPerformed: true
+  });
 }
 
 export function validateEvaluatorCompletion(completion, blindPackages, rubric) {
@@ -3174,13 +3330,9 @@ export function validateEvaluatorCompletion(completion, blindPackages, rubric) {
   return completion;
 }
 
-async function evaluateProgram(labRoot, protocolPath, approvalPath) {
-  if (!approvalPath) throw new Error("--approval is required for live evaluation");
+async function executeEvaluatorProgram({ labRoot, protocol, launchTurn, modelGenerationPerformed }) {
   const evaluatorPath = path.join(labRoot, "evaluator-result.json");
   if (await exists(evaluatorPath)) throw new Error("evaluator attempt already exists; retries are prohibited");
-  const protocol = await readJson(protocolPath);
-  const approval = validateRepresentativeApproval(await readJson(approvalPath), protocol);
-  if (!approval.accepted) throw new Error(`evaluation approval mismatch: ${approval.errors.join(", ")}`);
   const run = await readJson(path.join(labRoot, "candidate-run.json"));
   if (run.status !== "candidate-arms-completed" || run.protocol_sha256 !== protocol.protocol_sha256) throw new Error("candidate run is incomplete or protocol-mismatched");
   const blindPackages = run.arms.map((entry) => entry.blind).toSorted((left, right) => left.package_id.localeCompare(right.package_id));
@@ -3210,7 +3362,7 @@ async function evaluateProgram(labRoot, protocolPath, approvalPath) {
     total() { return run.candidate_operational_tokens + this.active; }
   };
   const deadline = Date.parse(run.started_at) + protocol.execution.program_wall_clock_limit_ms;
-  const turn = await launchModelTurn({
+  const turn = await launchTurn({
     id: "blind-evaluator",
     cwd: labRoot,
     stage: "evaluator",
@@ -3246,10 +3398,24 @@ async function evaluateProgram(labRoot, protocolPath, approvalPath) {
     arm_mapping: Object.fromEntries(run.arms.map((entry) => [entry.sealed.package_id, entry.arm_id])),
     combined_operational_tokens: run.candidate_operational_tokens + turn.operational_tokens,
     retry_count: 0,
-    fallback_count: 0
+    fallback_count: 0,
+    model_generation_performed: modelGenerationPerformed
   };
   await writeJson(evaluatorPath, output, { exclusive: true });
   return output;
+}
+
+async function evaluateProgram(labRoot, protocolPath, approvalPath) {
+  if (!approvalPath) throw new Error("--approval is required for live evaluation");
+  const protocol = await readJson(protocolPath);
+  const approval = validateRepresentativeApproval(await readJson(approvalPath), protocol);
+  if (!approval.accepted) throw new Error(`evaluation approval mismatch: ${approval.errors.join(", ")}`);
+  return executeEvaluatorProgram({
+    labRoot,
+    protocol,
+    launchTurn: launchModelTurn,
+    modelGenerationPerformed: true
+  });
 }
 
 async function reportProgram(labRoot, protocolPath) {
@@ -3260,6 +3426,128 @@ async function reportProgram(labRoot, protocolPath) {
   const analysis = analyzeRepresentativeComparison({ protocol, run, evaluator });
   await writeJson(path.join(labRoot, "analysis.json"), analysis);
   return analysis;
+}
+
+async function repositoryCleanliness(labRoot) {
+  const checks = [];
+  for (const armId of arms) {
+    for (const repositoryId of repositories) {
+      const root = path.join(labRoot, "arms", armId, repositoryId);
+      checks.push({
+        arm_id: armId,
+        repository: repositoryId,
+        clean: (await git(root, ["status", "--porcelain=v1", "--untracked-files=all"])) === ""
+      });
+    }
+  }
+  return checks;
+}
+
+export function validateRepresentativeHarnessReadiness(readiness, protocol, labRoot) {
+  const errors = [];
+  if (readiness?.schema_version !== "temple.representative-harness-readiness/v1") errors.push("unsupported readiness schema");
+  if (readiness?.work_item_id !== protocol?.work_item_id || readiness?.protocol_sha256 !== protocol?.protocol_sha256) errors.push("readiness target mismatch");
+  if (readiness?.pass !== true) errors.push("readiness result is not passing");
+  if (readiness?.source_lab !== path.resolve(labRoot)) errors.push("readiness source lab mismatch");
+  if (readiness?.candidate_turn_count !== 10 || readiness?.evaluator_turn_count !== 1) errors.push("readiness turn shape mismatch");
+  if (readiness?.retry_count !== 0 || readiness?.fallback_count !== 0) errors.push("readiness retry or fallback mismatch");
+  if (readiness?.operational_tokens !== 0 || readiness?.model_generation_performed !== false) errors.push("readiness must be generation-free");
+  const observedChecks = Array.isArray(readiness?.checks) ? readiness.checks : [];
+  if (observedChecks.length !== harnessReadinessCheckIds.length ||
+      new Set(observedChecks.map((entry) => entry.id)).size !== harnessReadinessCheckIds.length ||
+      harnessReadinessCheckIds.some((id) => !observedChecks.some((entry) => entry.id === id && entry.pass === true))) {
+    errors.push("readiness check set mismatch");
+  }
+  const cleanliness = Array.isArray(readiness?.repository_cleanliness) ? readiness.repository_cleanliness : [];
+  const expectedRepositories = arms.flatMap((armId) => repositories.map((repositoryId) => `${armId}:${repositoryId}`)).toSorted();
+  const observedRepositories = cleanliness.map((entry) => `${entry.arm_id}:${entry.repository}`).toSorted();
+  if (JSON.stringify(observedRepositories) !== JSON.stringify(expectedRepositories) || cleanliness.some((entry) => entry.clean !== true)) {
+    errors.push("readiness repository cleanliness mismatch");
+  }
+  return { valid: errors.length === 0, errors };
+}
+
+export async function runRepresentativeHarnessReadiness(labRoot, protocolPath) {
+  const resolvedLab = path.resolve(labRoot);
+  const canonicalLab = await fs.realpath(resolvedLab);
+  const readinessRoot = `${canonicalLab}-readiness`;
+  const temporaryRoots = [...new Set(await Promise.all([os.tmpdir(), "/tmp"].map((entry) => fs.realpath(entry))))];
+  const withinTemporaryRoot = (candidate) => temporaryRoots.some((root) => pathIsWithin(root, candidate));
+  if (!withinTemporaryRoot(canonicalLab) || !withinTemporaryRoot(readinessRoot)) {
+    throw new Error("readiness labs must remain inside the operating-system temporary directory");
+  }
+  if (await exists(readinessRoot)) throw new Error(`refusing to replace existing readiness lab: ${readinessRoot}`);
+  const inspection = await inspect(resolvedLab, protocolPath);
+  if (!inspection.valid) throw new Error("readiness source lab failed immutable inspection");
+  const protocol = await readJson(protocolPath);
+  if (!Number.isSafeInteger(protocol.execution?.combined_operational_token_limit)) {
+    throw new Error("readiness requires the final frozen protocol envelope");
+  }
+  await fs.cp(canonicalLab, readinessRoot, { recursive: true, force: false, errorOnExist: true });
+  try {
+    const launchTurn = readinessTurnLauncher();
+    const run = await executeCandidateProgram({
+      labRoot: readinessRoot,
+      protocol,
+      launchTurn,
+      modelGenerationPerformed: false
+    });
+    const evaluator = await executeEvaluatorProgram({
+      labRoot: readinessRoot,
+      protocol,
+      launchTurn,
+      modelGenerationPerformed: false
+    });
+    const analysis = await reportProgram(readinessRoot, protocolPath);
+    const cleanliness = await repositoryCleanliness(readinessRoot);
+    const candidateTurns = run.arms.reduce((total, arm) => total + 2 + arm.builds.length, 0);
+    const checks = [
+      { id: "source-lab-inspection", pass: inspection.valid },
+      { id: "both-arms-completed", pass: run.arms.length === 2 },
+      { id: "all-ten-candidate-turns-completed", pass: candidateTurns === 10 },
+      { id: "three-way-build-wave-observed-per-arm", pass: run.arms.every((arm) => arm.builds.length === 3) },
+      { id: "objective-tests-pass-both-arms", pass: run.arms.every((arm) => arm.integration.objective_tests.pass) },
+      { id: "exact-cold-recovery-both-arms", pass: run.arms.every((arm) => arm.integration.recovery.exact_revision_count === services.length) },
+      { id: "blind-evaluator-completed", pass: evaluator.status === "completed" && evaluator.scores_frozen_before_mapping_unseal === true },
+      { id: "analysis-completed", pass: analysis.arms.length === 2 },
+      { id: "all-generated-repositories-clean", pass: cleanliness.every((entry) => entry.clean) },
+      { id: "zero-operational-tokens", pass: evaluator.combined_operational_tokens === 0 },
+      { id: "no-model-generation", pass: run.model_generation_performed === false && evaluator.model_generation_performed === false }
+    ];
+    const output = {
+      schema_version: "temple.representative-harness-readiness/v1",
+      work_item_id: protocol.work_item_id,
+      protocol_sha256: protocol.protocol_sha256,
+      completed_at: new Date().toISOString(),
+      pass: checks.every((entry) => entry.pass),
+      source_lab: resolvedLab,
+      readiness_lab: readinessRoot,
+      candidate_turn_count: candidateTurns,
+      evaluator_turn_count: 1,
+      checks,
+      repository_cleanliness: cleanliness,
+      retry_count: 0,
+      fallback_count: 0,
+      operational_tokens: 0,
+      model_generation_performed: false
+    };
+    const validation = validateRepresentativeHarnessReadiness(output, protocol, resolvedLab);
+    if (!validation.valid) throw new Error(`harness readiness record invalid: ${validation.errors.join(", ")}`);
+    await writeJson(path.join(readinessRoot, "harness-readiness.json"), output, { exclusive: true });
+    if (!output.pass) throw new Error(`harness readiness failed: ${checks.filter((entry) => !entry.pass).map((entry) => entry.id).join(", ")}`);
+    await writeJson(path.join(resolvedLab, "harness-readiness.json"), output, { exclusive: true });
+    return output;
+  } catch (error) {
+    await writeJson(path.join(readinessRoot, "harness-readiness-failure.json"), {
+      schema_version: "temple.representative-harness-readiness-failure/v1",
+      work_item_id: protocol.work_item_id,
+      protocol_sha256: protocol.protocol_sha256,
+      stopped_at: new Date().toISOString(),
+      reason: String(error.message ?? error),
+      model_generation_performed: false
+    }).catch(() => {});
+    throw error;
+  }
 }
 
 async function main() {
@@ -3274,6 +3562,8 @@ async function main() {
         ? await freezeAblation(arguments_.protocolPath)
       : arguments_.command === "preflight"
         ? await preflight(arguments_.labRoot, arguments_.protocolPath, arguments_.approvalPath)
+        : arguments_.command === "readiness"
+          ? await runRepresentativeHarnessReadiness(arguments_.labRoot, arguments_.protocolPath)
         : arguments_.command === "ablation-preflight"
           ? await preflightAblation(arguments_.labRoot, arguments_.protocolPath, arguments_.approvalPath)
         : arguments_.command === "run"

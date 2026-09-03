@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.representative-microservice-account-approval/v1",
   "work_item_id": "WI-0136",
-  "protocol_sha256": "3c179b15b37e5fad0a538ff12dc0f4ca5a3e3d7384b8542b394f22bdd42618da",
+  "protocol_sha256": "662cd01c96381f53e4eff79659a0e9da6ddf85022ff4d5cb49d095ced18ae02b",
   "approved": false,
   "authorization_source": null,
   "approved_candidate_turns": 10,
