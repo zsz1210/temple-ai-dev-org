@@ -97,6 +97,16 @@ export function validateEvidenceRegistry(registry) {
     if (!(entry?.invalidated_at === null || validTimestamp(entry?.invalidated_at))) errors.push(`${label}.invalidated_at is invalid`);
     if (!(entry?.invalidated_by === null || nonEmpty(entry?.invalidated_by))) errors.push(`${label}.invalidated_by is invalid`);
     if (!(entry?.invalidation_reason === null || nonEmpty(entry?.invalidation_reason))) errors.push(`${label}.invalidation_reason is invalid`);
+    if (entry?.invalidated_at === null && (entry?.invalidated_by !== null || entry?.invalidation_reason !== null)) {
+      errors.push(`${label} has invalidation metadata without invalidated_at`);
+    }
+    if (entry?.invalidated_at !== null && (!nonEmpty(entry?.invalidated_by) || !nonEmpty(entry?.invalidation_reason))) {
+      errors.push(`${label} invalidation requires actor and reason`);
+    }
+    const replacementId = entry?.details?.invalidation?.replacement_evidence_id;
+    if (!(replacementId === undefined || replacementId === null || EVIDENCE_ID.test(replacementId))) {
+      errors.push(`${label}.details.invalidation.replacement_evidence_id is invalid`);
+    }
   }
   return { valid: errors.length === 0, errors };
 }
@@ -153,6 +163,7 @@ export async function validateEvidenceArtifacts(target, registry, workItemIds = 
   const errors = [];
   for (const entry of registry?.entries ?? []) {
     if (workItemIds && !workItemIds.has(entry.work_item_id)) errors.push(`${entry.id}: unknown Work Item ${entry.work_item_id}`);
+    if (entry.invalidated_at) continue;
     if (entry.scope_revision && !gitObjectExists(target, `${entry.scope_revision}^{commit}`)) {
       errors.push(`${entry.id}: recorded revision ${entry.scope_revision} is unavailable`);
       continue;
@@ -451,6 +462,79 @@ export async function preserveEvidenceRevision(target, options) {
 export async function recordEvidence(target, kind, options) {
   const entry = await buildEvidence(target, kind, options);
   return appendNormalizedEvidence(target, entry);
+}
+
+export async function invalidateEvidence(target, options) {
+  const evidenceIdValue = String(options.evidenceId ?? "").trim();
+  const reason = String(options.reason ?? "").trim();
+  const replacementEvidenceId = String(options.replacementEvidenceId ?? "").trim() || null;
+  if (!EVIDENCE_ID.test(evidenceIdValue)) throw new Error("--evidence-id must be a valid Evidence ID");
+  if (!reason) throw new Error("Evidence invalidation requires --reason");
+
+  const registryPath = path.join(target, EVIDENCE_REGISTRY_RELATIVE_PATH);
+  const registry = await readEvidenceRegistry(target);
+  const validation = validateEvidenceRegistry(registry);
+  if (!validation.valid) throw new Error(`Invalid evidence registry: ${validation.errors.join("; ")}`);
+  const index = registry.entries.findIndex((entry) => entry.id === evidenceIdValue);
+  if (index < 0) throw new Error(`Unknown Evidence ID: ${evidenceIdValue}`);
+  const current = registry.entries[index];
+  if (current.invalidated_at) throw new Error(`${evidenceIdValue} is already invalidated`);
+
+  const actor = String(options.actor ?? "human").trim() || "human";
+  const agents = await readJson(path.join(target, ".ai-org/project/agents.json"));
+  if (actor !== "human" && !(agents.agents ?? []).some((agent) => agent.id === actor && agent.active !== false)) {
+    throw new Error(`Unknown evidence actor: ${actor}`);
+  }
+
+  let replacement = null;
+  if (replacementEvidenceId) {
+    if (replacementEvidenceId === evidenceIdValue) throw new Error("Replacement evidence must differ from the invalidated record");
+    replacement = registry.entries.find((entry) => entry.id === replacementEvidenceId) ?? null;
+    if (!replacement) throw new Error(`Unknown replacement Evidence ID: ${replacementEvidenceId}`);
+    if (replacement.work_item_id !== current.work_item_id) throw new Error("Replacement evidence must belong to the same Work Item");
+    if (replacement.invalidated_at || (replacement.expires_at && Date.parse(replacement.expires_at) <= Date.now())) {
+      throw new Error("Replacement evidence must be current");
+    }
+  }
+
+  const timestamp = new Date().toISOString();
+  const invalidated = {
+    ...current,
+    invalidated_at: timestamp,
+    invalidated_by: actor,
+    invalidation_reason: reason,
+    details: {
+      ...current.details,
+      invalidation: {
+        replacement_evidence_id: replacementEvidenceId
+      }
+    }
+  };
+  const entries = [...registry.entries];
+  entries[index] = invalidated;
+  const updated = { ...registry, entries };
+  const updatedValidation = validateEvidenceRegistry(updated);
+  if (!updatedValidation.valid) throw new Error(`Invalid evidence invalidation: ${updatedValidation.errors.join("; ")}`);
+
+  const before = await fs.readFile(registryPath);
+  await atomicWrite(registryPath, formatJson(updated));
+  try {
+    await appendEvent(target, {
+      timestamp,
+      event_type: "evidence_invalidated",
+      actor,
+      work_item_id: current.work_item_id,
+      evidence_id: current.id,
+      replacement_evidence_id: replacementEvidenceId,
+      reason,
+      external_action_performed: false,
+      refs: [EVIDENCE_REGISTRY_RELATIVE_PATH, ...current.artifacts.map((artifact) => artifact.path)]
+    });
+  } catch (error) {
+    await atomicWrite(registryPath, before);
+    throw error;
+  }
+  return invalidated;
 }
 
 export async function appendNormalizedEvidence(target, entry) {

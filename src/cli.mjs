@@ -32,7 +32,7 @@ import {
 import { clearLocalActorBinding, readLocalActorBinding, writeLocalActorBinding } from "./local-identity.mjs";
 import { assertSafeTarget, atomicWrite, formatJson, readJson } from "./files.mjs";
 import { executeInit, formatInitPlan, planInit } from "./install.mjs";
-import { preserveEvidenceRevision, readEvidenceRegistry, recordEvidence } from "./evidence.mjs";
+import { invalidateEvidence, preserveEvidenceRevision, readEvidenceRegistry, recordEvidence } from "./evidence.mjs";
 import { validateInitConfig } from "./model.mjs";
 import {
   executePackInstall,
@@ -196,6 +196,7 @@ Usage:
   temple evidence unverified [target] --work-item WI-ID --summary text --reason text --expected-verification text
   temple evidence risk [target] --work-item WI-ID --summary text --severity low|medium|high|critical --risk-status open|accepted|mitigated --mitigation text [--revision ref]
   temple evidence rollback [target] --work-item WI-ID --summary text --procedure path --rollback-status planned|verified [--revision ref]
+  temple evidence invalidate [target] --evidence-id EVID-ID --reason text [--replacement-evidence-id EVID-ID] [--actor id]
   temple evidence list [target] [--work-item WI-ID] [--json]
   temple schema validate [target] [--json]
   temple migration plan [target] [--json]
@@ -317,6 +318,8 @@ const VALUE_FLAGS = new Set([
   "--title",
   "--actor",
   "--work-item",
+  "--evidence-id",
+  "--replacement-evidence-id",
   "--to",
   "--input-revision",
   "--decision",
@@ -1597,6 +1600,26 @@ async function runEvidence(parsed) {
       `Revision: ${result.revision}`,
       `Evidence entries: ${result.evidence_ids.join(", ")}`,
       `Remote preservation: git push origin refs/tags/${result.tag}`,
+      "External action: not performed"
+    ]);
+    return 0;
+  }
+  if (parsed.action === "invalidate") {
+    const result = await withProjectMutationLock(target, async () => {
+      const invalidated = await invalidateEvidence(target, {
+        evidenceId: parsed.options["--evidence-id"],
+        replacementEvidenceId: parsed.options["--replacement-evidence-id"],
+        reason: listOption(parsed, "--reason").join("; "),
+        actor: parsed.options["--actor"]
+      });
+      await refreshViews(target);
+      return invalidated;
+    });
+    printResult(parsed, result, [
+      `Invalidated ${result.id}`,
+      `Work Item: ${result.work_item_id}`,
+      `Replacement: ${result.details.invalidation.replacement_evidence_id ?? "none"}`,
+      "Evidence deleted: no",
       "External action: not performed"
     ]);
     return 0;

@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 133 total, 2 active
+- Work items: 134 total, 3 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -181,6 +181,7 @@
 | WI-0131 | Correct the Lean routing effectiveness experiment | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c040c0be` | 0 | 16 | 0 |
 | WI-0132 | Run corrected Lean routing effectiveness comparison | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `fd4bbe88` | 0 | 21 | 0 |
 | WI-0133 | Reduce Lean context overhead and harden effectiveness measurement | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1df92590` | 0 | 20 | 0 |
+| WI-0134 | Repair invalid historical evidence records | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903100914-99f084b5 | `—` | 0 | 7 | 0 |
 
 ## Codex task registry
 
@@ -249,7 +250,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 28
+- Team-visible Work Items: 29
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -322,14 +323,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-03T09:49:40.260Z | work_item_closed | WI-0133 | agent-mog |
-| 2026-09-03T09:49:40.260Z | release_gate_completed | WI-0133 | agent-mog |
-| 2026-09-03T09:47:58.382Z | work_item_transitioned | WI-0133 | agent-lulu |
-| 2026-09-03T09:47:58.118Z | handoff_created | WI-0133 | agent-lulu |
-| 2026-09-03T09:47:57.921Z | evidence_recorded | WI-0133 | human |
-| 2026-09-03T09:46:06.312Z | work_item_transitioned | WI-0133 | agent-lulu |
-| 2026-09-03T09:46:06.079Z | handoff_created | WI-0133 | agent-lulu |
-| 2026-09-03T09:46:05.847Z | work_item_transitioned | WI-0133 | agent-lulu |
+| 2026-09-03T10:11:15.670Z | evidence_invalidated | WI-0131 | human |
+| 2026-09-03T10:11:15.387Z | evidence_invalidated | WI-0130 | human |
+| 2026-09-03T10:09:14.192Z | work_item_claimed | WI-0134 | principal-zsz1210 |
+| 2026-09-03T10:09:13.939Z | work_item_transitioned | WI-0134 | agent-tidus |
+| 2026-09-03T10:09:13.715Z | handoff_created | WI-0134 | agent-tidus |
+| 2026-09-03T10:09:13.493Z | work_item_transitioned | WI-0134 | agent-yuna |
+| 2026-09-03T10:09:13.254Z | handoff_created | WI-0134 | agent-yuna |
+| 2026-09-03T10:09:13.030Z | work_item_transitioned | WI-0134 | agent-mog |
 
 ## Assignments
 

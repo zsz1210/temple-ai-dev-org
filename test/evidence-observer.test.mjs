@@ -409,6 +409,110 @@ test("doctor detects drift in an evidence artifact", async (context) => {
   assert.match(check.message, /digest mismatch/);
 });
 
+test("explicit invalidation retains audit history while removing unusable evidence from health", async (context) => {
+  const { target } = await fixture(context);
+  const workItemId = createWorkItem(target);
+  const artifactPath = ".ai-org/artifacts/invalidation-proof.txt";
+  const observationPath = ".ai-org/artifacts/invalidation-test.json";
+  await fs.mkdir(path.dirname(path.join(target, artifactPath)), { recursive: true });
+  await fs.writeFile(path.join(target, artifactPath), "original\n");
+  await writeJson(target, observationPath, {
+    schema_version: "temple.test-observation/v1",
+    revision: "HEAD",
+    command: ["npm", "test"],
+    result: "pass",
+    exit_code: 0,
+    started_at: "2026-08-30T00:00:00.000Z",
+    completed_at: "2026-08-30T00:01:00.000Z",
+    artifact_refs: [artifactPath]
+  });
+  const recorded = run([
+    "evidence", "test", target,
+    "--work-item", workItemId,
+    "--observation", observationPath,
+    "--actor", "agent-fixture-devon"
+  ]);
+  assert.equal(recorded.status, 0, recorded.stderr || recorded.stdout);
+  const evidenceId = /Recorded (EVID-[A-Z0-9-]+):/.exec(recorded.stdout)?.[1];
+  assert.ok(evidenceId, recorded.stdout);
+
+  const replacementRecorded = run([
+    "evidence", "git", target,
+    "--work-item", workItemId,
+    "--revision", "HEAD",
+    "--actor", "agent-fixture-hollis"
+  ]);
+  assert.equal(replacementRecorded.status, 0, replacementRecorded.stderr || replacementRecorded.stdout);
+  const replacementId = /Recorded (EVID-[A-Z0-9-]+):/.exec(replacementRecorded.stdout)?.[1];
+  assert.ok(replacementId, replacementRecorded.stdout);
+
+  await fs.writeFile(path.join(target, artifactPath), "changed\n");
+  const driftedDoctor = run(["doctor", target, "--json"]);
+  assert.equal(driftedDoctor.status, 1, driftedDoctor.stderr || driftedDoctor.stdout);
+  assert.match(
+    JSON.parse(driftedDoctor.stdout).checks.find((entry) => entry.id === "evidence_registry").message,
+    new RegExp(evidenceId)
+  );
+
+  const invalidated = run([
+    "evidence", "invalidate", target,
+    "--evidence-id", evidenceId,
+    "--replacement-evidence-id", replacementId,
+    "--reason", "The retained artifact drifted after the observation and is superseded by exact Git evidence.",
+    "--actor", "agent-fixture-hollis"
+  ]);
+  assert.equal(invalidated.status, 0, invalidated.stderr || invalidated.stdout);
+  assert.match(invalidated.stdout, /Evidence deleted: no/);
+
+  const registry = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/evidence.json"), "utf8"));
+  const retained = registry.entries.find((entry) => entry.id === evidenceId);
+  assert.ok(retained.invalidated_at);
+  assert.equal(retained.invalidated_by, "agent-fixture-hollis");
+  assert.match(retained.invalidation_reason, /retained artifact drifted/);
+  assert.equal(retained.details.invalidation.replacement_evidence_id, replacementId);
+  assert.ok(retained.artifacts.some((artifact) => artifact.path === artifactPath));
+
+  const observer = run(["observe", target, "--json", "--no-write"]);
+  assert.equal(observer.status, 0, observer.stderr || observer.stdout);
+  assert.ok(JSON.parse(observer.stdout).attention.some((entry) => entry.type === "invalidated_evidence" && entry.evidence_id === evidenceId));
+  const repairedDoctor = run(["doctor", target, "--json"]);
+  assert.equal(repairedDoctor.status, 0, repairedDoctor.stderr || repairedDoctor.stdout);
+
+  const repeated = run([
+    "evidence", "invalidate", target,
+    "--evidence-id", evidenceId,
+    "--reason", "Attempt to rewrite invalidation history"
+  ]);
+  assert.equal(repeated.status, 1, repeated.stdout);
+  assert.match(repeated.stderr, /already invalidated/);
+});
+
+test("evidence invalidation rolls the registry back when audit append fails", async (context) => {
+  const { target } = await fixture(context);
+  const workItemId = createWorkItem(target);
+  const recorded = run(["evidence", "git", target, "--work-item", workItemId, "--revision", "HEAD"]);
+  assert.equal(recorded.status, 0, recorded.stderr || recorded.stdout);
+  const evidenceId = /Recorded (EVID-[A-Z0-9-]+):/.exec(recorded.stdout)?.[1];
+  assert.ok(evidenceId, recorded.stdout);
+  const registryPath = path.join(target, ".ai-org/project/evidence.json");
+  const before = await fs.readFile(registryPath, "utf8");
+  const eventPath = path.join(target, ".ai-org/events/events.jsonl");
+  const eventContent = await fs.readFile(eventPath);
+  await fs.rm(eventPath);
+  await fs.mkdir(eventPath);
+
+  const failed = run([
+    "evidence", "invalidate", target,
+    "--evidence-id", evidenceId,
+    "--reason", "The audit append must fail"
+  ]);
+  assert.equal(failed.status, 1, failed.stdout);
+  assert.equal(await fs.readFile(registryPath, "utf8"), before);
+
+  await fs.rm(eventPath, { recursive: true });
+  await fs.writeFile(eventPath, eventContent);
+});
+
 test("doctor validates tracked evidence artifacts at their recorded revision", async (context) => {
   const { target } = await fixture(context);
   const artifactPath = "README.md";

@@ -19886,9 +19886,9 @@
       "recorded_at": "2026-09-03T07:08:38.707Z",
       "recorded_by": "agent-rikku",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-03T10:11:15.387Z",
+      "invalidated_by": "human",
+      "invalidation_reason": "The observation file was rewritten after scope revision 2ac73bc, so this unused developer record cannot prove the bytes it retained. Superseded by the later current quality evidence; historical artifacts remain unchanged.",
       "external_action_performed": false,
       "kind": "test",
       "title": "WI-0130 full repository verification",
@@ -19926,7 +19926,10 @@
           "verify"
         ],
         "exit_code": 0,
-        "started_at": "2026-09-03T07:05:23.000Z"
+        "started_at": "2026-09-03T07:05:23.000Z",
+        "invalidation": {
+          "replacement_evidence_id": "EVID-20260903T070940Z-0EA94917"
+        }
       }
     },
     {
@@ -20167,9 +20170,9 @@
       "recorded_at": "2026-09-03T07:59:42.484Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-03T10:11:15.670Z",
+      "invalidated_by": "human",
+      "invalidation_reason": "The offline-lab observation was updated after scope revision c040c0b, so this unused quality record cannot prove the bytes it retained. Superseded by exact reviewed-revision evidence; historical artifacts remain unchanged.",
       "external_action_performed": false,
       "kind": "test",
       "title": "WI-0131 independent quality regression",
@@ -20203,7 +20206,10 @@
           "verify"
         ],
         "exit_code": 0,
-        "started_at": "2026-09-03T07:56:55.000Z"
+        "started_at": "2026-09-03T07:56:55.000Z",
+        "invalidation": {
+          "replacement_evidence_id": "EVID-20260903T080026Z-351F6369"
+        }
       }
     },
     {
