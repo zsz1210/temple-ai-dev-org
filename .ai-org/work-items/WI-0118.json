@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0118",
   "title": "Turn validation evidence into adaptive Lean Mode",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-03T00:05:05.260Z",
-  "updated_at": "2026-09-03T00:35:34.146Z",
+  "updated_at": "2026-09-03T00:51:07.295Z",
   "scope": [
     "Synthesize retained Temple validation evidence into explicit findings about value, overhead, failure modes, and project-size fit without treating test count as success.",
     "Define and implement measurable Lean, Standard, and High-Assurance workflow profiles with evidence-based escalation, bounded context, relevant-Skill retrieval, and role-appropriate model guidance.",
@@ -87,7 +87,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "d28830760f9e9eb87bee75cd6e0304fcfa29d8e4",
+  "base_revision": "40986cdf971d444f7709b79eb5b661960f806c13",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-rikku",
   "planned_agent_id": null,
@@ -98,14 +98,14 @@
     "WI-0086 remains blocked for a future public-release candidate and must requalify that exact revision; WI-0118 owns workflow-profile tests and its own validation-index entries."
   ],
   "claim": {
-    "id": "claim-20260903001439-78fdb134",
+    "id": "claim-20260903005107-cbe1c156",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "d28830760f9e9eb87bee75cd6e0304fcfa29d8e4",
+    "agent_id": "agent-lulu",
+    "base_revision": "40986cdf971d444f7709b79eb5b661960f806c13",
     "branch": "codex/wi-0115-0117-validation-program",
     "worktree": null,
-    "claimed_at": "2026-09-03T00:14:39.599Z",
+    "claimed_at": "2026-09-03T00:51:07.295Z",
     "released_at": null
   },
   "claims": [
@@ -135,13 +135,25 @@
     },
     {
       "id": "claim-20260903001439-78fdb134",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "d28830760f9e9eb87bee75cd6e0304fcfa29d8e4",
       "branch": "codex/wi-0115-0117-validation-program",
       "worktree": null,
       "claimed_at": "2026-09-03T00:14:39.599Z",
+      "released_at": "2026-09-03T00:51:01.302Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903005107-cbe1c156",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "40986cdf971d444f7709b79eb5b661960f806c13",
+      "branch": "codex/wi-0115-0117-validation-program",
+      "worktree": null,
+      "claimed_at": "2026-09-03T00:51:07.295Z",
       "released_at": null
     }
   ],
@@ -166,6 +178,15 @@
     ],
     "required_state_coverage": [
       ".ai-org/artifacts/WI-0118/ui-design-brief.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0118/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0118/developer-report.md",
+      ".ai-org/artifacts/WI-0118/developer-test-observation.json",
+      "docs/validation/evidence-driven-lean-mode.md",
+      ".ai-org/artifacts/WI-0118/representative-microservice-protocol.json"
     ]
   },
   "evidence": [
@@ -177,7 +198,12 @@
     ".ai-org/artifacts/WI-0118/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0118/technical-design.md",
     ".ai-org/artifacts/WI-0118/risk-review.md",
-    ".ai-org/artifacts/WI-0118/ui-design-brief.md"
+    ".ai-org/artifacts/WI-0118/ui-design-brief.md",
+    ".ai-org/artifacts/WI-0118/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0118/developer-report.md",
+    ".ai-org/artifacts/WI-0118/developer-test-observation.json",
+    "docs/validation/evidence-driven-lean-mode.md",
+    ".ai-org/artifacts/WI-0118/representative-microservice-protocol.json"
   ],
   "unresolved": [],
   "next_position": "quality_evaluator",
@@ -202,6 +228,13 @@
       "input_revision": "d28830760f9e9eb87bee75cd6e0304fcfa29d8e4",
       "artifact": ".ai-org/artifacts/WI-0118/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-03T00:14:11.129Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "40986cdf971d444f7709b79eb5b661960f806c13",
+      "artifact": ".ai-org/artifacts/WI-0118/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-03T00:50:55.848Z"
     }
   ],
   "workflow_profile": "standard",
@@ -217,5 +250,6 @@
     ],
     "evaluated_at": "2026-09-03T00:34:59.119Z",
     "escalated": false
-  }
+  },
+  "developer_candidate_revision": "40986cdf971d444f7709b79eb5b661960f806c13"
 }

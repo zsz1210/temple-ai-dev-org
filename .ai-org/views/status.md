@@ -165,7 +165,7 @@
 | WI-0115 | Validate clean agent-led greenfield onboarding | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `11012a38` | 0 | 19 | 0 |
 | WI-0116 | Analyze Wave 5A overhead and repair blind evaluation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2ec67d32` | 0 | 17 | 0 |
 | WI-0117 | Run qualified Wave 5B lean workflow comparison | concluded | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b8f41dd0` | 0 | 21 | 1 |
-| WI-0118 | Turn validation evidence into adaptive Lean Mode | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260903001439-78fdb134 | `—` | 0 | 9 | 0 |
+| WI-0118 | Turn validation evidence into adaptive Lean Mode | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260903005107-cbe1c156 | `40986cdf` | 0 | 14 | 0 |
 
 ## Codex task registry
 
@@ -297,14 +297,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-03T00:51:07.295Z | work_item_claimed | WI-0118 | human |
+| 2026-09-03T00:51:01.302Z | work_item_transitioned | WI-0118 | agent-rikku |
+| 2026-09-03T00:50:55.848Z | handoff_created | WI-0118 | agent-rikku |
 | 2026-09-03T00:35:34.146Z | work_item_coordination_configured | WI-0118 | agent-rikku |
 | 2026-09-03T00:35:23.856Z | work_item_coordination_configured | WI-0086 | agent-mog |
 | 2026-09-03T00:35:23.751Z | work_item_coordination_configured | WI-0033 | agent-yuna |
 | 2026-09-03T00:34:59.119Z | work_item_coordination_configured | WI-0118 | agent-rikku |
 | 2026-09-03T00:34:58.863Z | legacy_work_item_outcome_migrated | WI-0112 | human |
-| 2026-09-03T00:34:58.863Z | legacy_work_item_outcome_migrated | WI-0110 | human |
-| 2026-09-03T00:34:58.863Z | legacy_work_item_outcome_migrated | WI-0108 | human |
-| 2026-09-03T00:34:58.863Z | legacy_work_item_outcome_migrated | WI-0107 | human |
 
 ## Assignments
 
