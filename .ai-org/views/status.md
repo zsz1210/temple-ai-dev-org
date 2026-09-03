@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
 - Work items: 136 total, 3 active
 - Codex tasks: 6 registered, 6 archive-ready
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -183,7 +183,7 @@
 | WI-0133 | Reduce Lean context overhead and harden effectiveness measurement | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1df92590` | 0 | 20 | 0 |
 | WI-0134 | Repair invalid historical evidence records | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ad1f06a5` | 0 | 18 | 0 |
 | WI-0135 | Run optimized Terra process confirmation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `00ea3a47` | 0 | 24 | 0 |
-| WI-0136 | Execute representative multi-Agent microservice comparison | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903144953-d38e6072 | `f76d2e7b` | 0 | 13 | 0 |
+| WI-0136 | Execute representative multi-Agent microservice comparison | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f76d2e7b` | 0 | 13 | 0 |
 
 ## Codex task registry
 
@@ -325,6 +325,7 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-03T14:52:36.299Z | work_item_claim_released | WI-0136 | human |
 | 2026-09-03T14:52:06.169Z | work_item_unresolved_updated | WI-0136 | agent-lulu |
 | 2026-09-03T14:51:59.347Z | evidence_recorded | WI-0136 | human |
 | 2026-09-03T14:49:53.967Z | work_item_claimed | WI-0136 | human |
@@ -332,7 +333,6 @@
 | 2026-09-03T14:49:18.375Z | handoff_created | WI-0136 | agent-rikku |
 | 2026-09-03T14:49:12.820Z | evidence_recorded | WI-0136 | human |
 | 2026-09-03T12:09:44.571Z | evidence_recorded | WI-0136 | human |
-| 2026-09-03T11:28:59.755Z | evidence_recorded | WI-0136 | human |
 
 ## Assignments
 
