@@ -95,6 +95,35 @@ test("Execution Request capability identifiers close the resolver input domain",
   }
 });
 
+test("Execution Request semantic validation mirrors every managed unknown-property boundary", () => {
+  const mutations = [
+    ["request", (value) => { value.extra = true; }],
+    ["step", (value) => { value.steps[0].extra = true; }],
+    ["Task Shape", (value) => { value.steps[0].task_shape.extra = true; }],
+    ["capability route", (value) => { value.steps[0].capability_route.extra = true; }],
+    ["constraints", (value) => { value.steps[0].constraints.extra = true; }],
+    ["selection", (value) => { value.steps[0].selection.extra = true; }],
+    ["resource limit", (value) => {
+      value.steps[0].constraints.resource_limits = [
+        { measure_id: "tokens.total", maximum: 1000, unknown_handling: "reject", extra: true }
+      ];
+    }],
+    ["resource observation", (value) => {
+      value.steps[0].resource_observations = [
+        { measure_id: "credits", status: "unavailable", value: null, source: "provider", quality: "declared", extra: true }
+      ];
+    }],
+    ["missing selection", (value) => { delete value.steps[0].selection; }]
+  ];
+  for (const [label, mutate] of mutations) {
+    const invalidRequest = request([step(`unknown-property-${label.toLowerCase().replaceAll(" ", "-")}`)]);
+    mutate(invalidRequest);
+    const result = validateExecutionRequest(invalidRequest, mappedPolicy());
+    assert.equal(result.valid, false, label);
+    assert.throws(() => resolveExecutionRequest(mappedPolicy(), invalidRequest), /Invalid execution request/, label);
+  }
+});
+
 test("Execution resolver metadata options cannot produce schema-invalid Route metadata", () => {
   const validRequest = request([step("resolver-options")]);
   for (const policySource of ["external", "", null, 42]) {
@@ -103,7 +132,16 @@ test("Execution resolver metadata options cannot produce schema-invalid Route me
       /Invalid execution route policy source/
     );
   }
-  for (const generatedAt of ["not-a-date", "2026-09-03", "2026-09-03T00:00:00Z", null, 42]) {
+  for (const generatedAt of [
+    "not-a-date",
+    "2026-09-03",
+    "2026-09-03T00:00:00Z",
+    "+010000-01-01T00:00:00.000Z",
+    "-000001-01-01T00:00:00.000Z",
+    "+275760-09-13T00:00:00.000Z",
+    null,
+    42
+  ]) {
     assert.throws(
       () => resolveExecutionRequest(mappedPolicy(), validRequest, { generatedAt }),
       /Invalid execution route generatedAt/

@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 123 total, 6 active
+- Work items: 124 total, 7 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 16
+- Attention signals: 17
 
 ## Collaboration
 
@@ -170,7 +170,8 @@
 | WI-0120 | Harden the Execution Route validation boundary | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `486c64df` | 0 | 18 | 0 |
 | WI-0121 | Close remaining Execution Route validation bypasses | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a8eea7c3` | 0 | 17 | 0 |
 | WI-0122 | Reconcile pinned Route reason precedence | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3c35ddf8` | 0 | 17 | 0 |
-| WI-0123 | Close Execution resolver input domain | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903040618-b60491d8 | `4263bc7d` | 0 | 16 | 0 |
+| WI-0123 | Close Execution resolver input domain | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `4263bc7d` | 0 | 17 | 0 |
+| WI-0124 | Seal Execution Request projection boundaries | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903041427-004884b2 | `—` | 0 | 9 | 0 |
 
 ## Codex task registry
 
@@ -224,6 +225,7 @@
 - WI-0120 is blocked
 - WI-0121 is blocked
 - WI-0122 is blocked
+- WI-0123 is blocked
 - task-0001 can be archived
 - task-0002 can be archived
 - task-0003 can be archived
@@ -315,14 +317,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-03T04:06:18.919Z | work_item_claimed | WI-0123 | human |
-| 2026-09-03T04:06:18.649Z | work_item_transitioned | WI-0123 | agent-lulu |
-| 2026-09-03T04:06:18.398Z | handoff_created | WI-0123 | agent-lulu |
-| 2026-09-03T04:06:18.124Z | work_item_transitioned | WI-0123 | agent-lulu |
-| 2026-09-03T04:06:17.920Z | evidence_recorded | WI-0123 | human |
-| 2026-09-03T04:05:47.532Z | work_item_claimed | WI-0123 | human |
-| 2026-09-03T04:05:47.266Z | work_item_transitioned | WI-0123 | agent-rikku |
-| 2026-09-03T04:05:46.787Z | handoff_created | WI-0123 | agent-rikku |
+| 2026-09-03T04:14:27.052Z | work_item_claimed | WI-0124 | human |
+| 2026-09-03T04:14:26.804Z | work_item_transitioned | WI-0124 | agent-tidus |
+| 2026-09-03T04:14:26.569Z | handoff_created | WI-0124 | agent-tidus |
+| 2026-09-03T04:14:26.330Z | work_item_claimed | WI-0124 | human |
+| 2026-09-03T04:14:26.077Z | work_item_transitioned | WI-0124 | agent-yuna |
+| 2026-09-03T04:14:25.839Z | handoff_created | WI-0124 | agent-yuna |
+| 2026-09-03T04:14:25.611Z | work_item_claimed | WI-0124 | human |
+| 2026-09-03T04:14:25.335Z | work_item_transitioned | WI-0124 | agent-mog |
 
 ## Assignments
 

@@ -15,6 +15,7 @@ const MEASURE_QUALITIES = ["declared", "observed", "qualified"];
 const OBSERVATION_STATUSES = ["observed", "unavailable"];
 const POLICY_SOURCES = ["project", "framework-default", "provided"];
 const IDENTIFIER = /^[a-z0-9][a-z0-9._-]*$/;
+const CANONICAL_UTC_TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
 
 const DEFAULT_CAPABILITIES = [
   {
@@ -276,6 +277,12 @@ export function validateExecutionPolicy(document) {
   return { valid: errors.length === 0, errors };
 }
 
+function rejectUnknownProperties(value, allowedKeys, label, errors) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return;
+  const unexpected = Object.keys(value).filter((key) => !allowedKeys.includes(key));
+  if (unexpected.length > 0) errors.push(`${label} has unknown properties: ${unexpected.join(", ")}`);
+}
+
 function validateResourceEntries(entries, measureIds, label, { observation = false } = {}) {
   const errors = [];
   if (entries === undefined) return errors;
@@ -283,6 +290,18 @@ function validateResourceEntries(entries, measureIds, label, { observation = fal
   const seen = new Set();
   for (const [index, entry] of entries.entries()) {
     const location = `${label}[${index}]`;
+    if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
+      errors.push(`${location} must be an object`);
+      continue;
+    }
+    rejectUnknownProperties(
+      entry,
+      observation
+        ? ["measure_id", "status", "value", "source", "quality"]
+        : ["measure_id", "maximum", "unknown_handling"],
+      location,
+      errors
+    );
     if (!measureIds.has(entry?.measure_id) || seen.has(entry?.measure_id)) errors.push(`${location}.measure_id is unknown or duplicated`);
     seen.add(entry?.measure_id);
     if (observation) {
@@ -301,6 +320,7 @@ function validateResourceEntries(entries, measureIds, label, { observation = fal
 
 export function validateExecutionRequest(document, policy) {
   const errors = [];
+  rejectUnknownProperties(document, ["schema_version", "work_item_id", "steps"], "request", errors);
   if (document?.schema_version !== EXECUTION_REQUEST_SCHEMA) errors.push(`schema_version must be ${EXECUTION_REQUEST_SCHEMA}`);
   if (typeof document?.work_item_id !== "string" || !document.work_item_id.trim()) errors.push("work_item_id is required");
   if (!Array.isArray(document?.steps) || document.steps.length === 0) return { valid: false, errors: [...errors, "steps must be non-empty"] };
@@ -308,16 +328,24 @@ export function validateExecutionRequest(document, policy) {
   const stepIds = new Set();
   for (const [index, step] of document.steps.entries()) {
     const label = `steps[${index}]`;
+    rejectUnknownProperties(
+      step,
+      ["step_id", "responsibility", "task_shape", "capability_route", "constraints", "selection", "resource_observations"],
+      label,
+      errors
+    );
     if (!validIdentifier(step?.step_id) || stepIds.has(step.step_id)) errors.push(`${label}.step_id is invalid or duplicated`);
     stepIds.add(step?.step_id);
     if (!(step?.responsibility === null || step?.responsibility === undefined || validIdentifier(step.responsibility))) errors.push(`${label}.responsibility is invalid`);
     const shape = step?.task_shape;
+    rejectUnknownProperties(shape, ["position_id", "lifecycle_stage", "task_kind", "risk_class", "context_profile_digest"], `${label}.task_shape`, errors);
     for (const field of ["position_id", "lifecycle_stage", "task_kind", "context_profile_digest"]) {
       if (typeof shape?.[field] !== "string" || !shape[field].trim()) errors.push(`${label}.task_shape.${field} is required`);
     }
     if (!RISK_CLASSES.includes(shape?.risk_class)) errors.push(`${label}.task_shape.risk_class is invalid`);
     const required = step?.capability_route?.required;
     const optional = step?.capability_route?.optional;
+    rejectUnknownProperties(step?.capability_route, ["required", "optional"], `${label}.capability_route`, errors);
     if (!uniqueNonEmptyStrings(required) || required.some((value) => !validIdentifier(value))) {
       errors.push(`${label}.capability_route.required is invalid`);
     }
@@ -329,12 +357,22 @@ export function validateExecutionRequest(document, policy) {
       errors.push(`${label}.capability_route.optional is invalid`);
     }
     if (Array.isArray(required) && Array.isArray(optional) && optional.some((id) => required.includes(id))) errors.push(`${label}.capability_route required and optional capabilities overlap`);
+    rejectUnknownProperties(
+      step?.constraints,
+      ["required_modalities", "allowed_provider_ids", "data_class", "execution_boundary", "resource_limits"],
+      `${label}.constraints`,
+      errors
+    );
     if (!uniqueNonEmptyStrings(step?.constraints?.required_modalities)) errors.push(`${label}.constraints.required_modalities is invalid`);
     if (!Array.isArray(step?.constraints?.allowed_provider_ids) || new Set(step.constraints.allowed_provider_ids).size !== step.constraints.allowed_provider_ids.length || step.constraints.allowed_provider_ids.some((value) => typeof value !== "string" || !value.trim())) errors.push(`${label}.constraints.allowed_provider_ids is invalid`);
     if (typeof step?.constraints?.data_class !== "string" || !step.constraints.data_class.trim()) errors.push(`${label}.constraints.data_class is required`);
     if (typeof step?.constraints?.execution_boundary !== "string" || !step.constraints.execution_boundary.trim()) errors.push(`${label}.constraints.execution_boundary is required`);
     errors.push(...validateResourceEntries(step?.constraints?.resource_limits, measureIds, `${label}.constraints.resource_limits`));
     errors.push(...validateResourceEntries(step?.resource_observations, measureIds, `${label}.resource_observations`, { observation: true }));
+    rejectUnknownProperties(step?.selection, ["mode", "pinned_profile_id"], `${label}.selection`, errors);
+    if (!step?.selection || typeof step.selection !== "object" || Array.isArray(step.selection)) {
+      errors.push(`${label}.selection is required`);
+    }
     const mode = step?.selection?.mode ?? policy?.authority?.default_selection_mode;
     if (!SELECTION_MODES.includes(mode)) errors.push(`${label}.selection.mode is invalid`);
     if (mode === "pinned" && !validIdentifier(step?.selection?.pinned_profile_id)) errors.push(`${label}.selection.pinned_profile_id is required for pinned mode`);
@@ -588,7 +626,7 @@ function selectedRoute(profileEntry) {
 }
 
 function canonicalGeneratedAt(value) {
-  if (typeof value !== "string") return null;
+  if (typeof value !== "string" || !CANONICAL_UTC_TIMESTAMP.test(value)) return null;
   const timestamp = new Date(value);
   if (!Number.isFinite(timestamp.getTime())) return null;
   return timestamp.toISOString() === value ? value : null;
@@ -649,7 +687,13 @@ export function resolveExecutionRequest(policy, request, options = {}) {
     return {
       step_id: step.step_id,
       responsibility: step.responsibility ?? null,
-      task_shape: { ...step.task_shape },
+      task_shape: {
+        position_id: step.task_shape.position_id,
+        lifecycle_stage: step.task_shape.lifecycle_stage,
+        task_kind: step.task_shape.task_kind,
+        risk_class: step.task_shape.risk_class,
+        context_profile_digest: step.task_shape.context_profile_digest
+      },
       capability_route: {
         required: [...step.capability_route.required],
         optional: [...step.capability_route.optional],
@@ -669,8 +713,18 @@ export function resolveExecutionRequest(policy, request, options = {}) {
         eligible_profile_ids: eligibleIds,
         rejected: evaluated.filter((entry) => entry.reasons.length > 0)
       },
-      resource_limits: (step.constraints.resource_limits ?? []).map((entry) => ({ ...entry })),
-      resource_observations: (step.resource_observations ?? []).map((entry) => ({ ...entry }))
+      resource_limits: (step.constraints.resource_limits ?? []).map((entry) => ({
+        measure_id: entry.measure_id,
+        maximum: entry.maximum,
+        unknown_handling: entry.unknown_handling
+      })),
+      resource_observations: (step.resource_observations ?? []).map((entry) => ({
+        measure_id: entry.measure_id,
+        status: entry.status,
+        value: entry.value,
+        source: entry.source,
+        quality: entry.quality
+      }))
     };
   });
   return {

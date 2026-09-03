@@ -19058,6 +19058,33 @@
         "exit_code": 0,
         "started_at": "2026-09-03T04:05:52.326Z"
       }
+    },
+    {
+      "id": "EVID-20260903T041342Z-6B8C5B7B",
+      "work_item_id": "WI-0123",
+      "recorded_at": "2026-09-03T04:13:42.144Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "risk",
+      "title": "medium risk",
+      "outcome": "open",
+      "scope_revision": "4263bc7d533be072191e39bd6f959eebb77f271d",
+      "observed_at": "2026-09-03T04:13:42.144Z",
+      "summary": "Expanded-year timestamps and nested Request extras can escape resolver output closure.",
+      "adapter": {
+        "id": "manual-risk-record",
+        "version": "1"
+      },
+      "artifacts": [],
+      "details": {
+        "severity": "medium",
+        "status": "open",
+        "mitigation": "Use the managed date-time subset, complete Request nested allowlists, explicit Route projection, and fresh Independent QA."
+      }
     }
   ]
 }
