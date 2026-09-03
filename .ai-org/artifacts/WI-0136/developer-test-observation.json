@@ -16,7 +16,6 @@
     "test/representative-microservice-comparison.test.mjs",
     ".ai-org/artifacts/WI-0136/live-protocol.json",
     ".ai-org/artifacts/WI-0136/developer-preflight-report.md",
-    ".ai-org/artifacts/WI-0136/developer-test-observation.md",
     "docs/validation/representative-microservice-comparison.md"
   ]
 }

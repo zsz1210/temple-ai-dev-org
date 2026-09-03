@@ -20988,9 +20988,9 @@
       "recorded_at": "2026-09-03T11:27:19.070Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-03T11:28:59.485Z",
+      "invalidated_by": "human",
+      "invalidation_reason": "Observation referenced a documentation file whose post-test wording no longer matched the scoped revision.",
       "external_action_performed": false,
       "kind": "test",
       "title": "WI-0136 generation-free preflight",
@@ -21044,7 +21044,10 @@
           "verify"
         ],
         "exit_code": 0,
-        "started_at": "2026-09-03T11:23:37.000Z"
+        "started_at": "2026-09-03T11:23:37.000Z",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -21075,6 +21078,67 @@
         "dirty_path_count": 0,
         "dirty_scope": "clean",
         "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260903T112859Z-E4E1A33C",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T11:28:59.755Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0136 generation-free preflight",
+      "outcome": "pass",
+      "scope_revision": "15239a247de4c069c27cb82a0783fee176482230",
+      "observed_at": "2026-09-03T11:24:44.000Z",
+      "summary": "The matched multi-repository fixture, Provider contract, refusal boundary, and full 364-test repository verification pass without candidate or evaluator generation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0136/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0136/developer-test-observation.json",
+          "sha256": "6bfc77f119762124330552af9291f068b02add217c74b6ed8f097ad4359f7de6"
+        },
+        {
+          "path": "scripts/run-representative-microservice-comparison.mjs",
+          "sha256": "b6f59df49725907462918cf81afbf6f460d4d754b205495a03fc603d7d48277e"
+        },
+        {
+          "path": "scripts/analyze-representative-microservice-comparison.mjs",
+          "sha256": "5e614a7879a8fbdb7655d6780dcf0c7e693e7326259fa166d7fe3231f1151c5c"
+        },
+        {
+          "path": "test/representative-microservice-comparison.test.mjs",
+          "sha256": "4377a14bd03ff49cbf5d8c04690becef1d094034e6995a2d485a38193f1a1acb"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/live-protocol.json",
+          "sha256": "9d1d451f29e8de33b9c9ca38e084c1ccd3fd2d63c96e060ff251e98bb342571e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/developer-preflight-report.md",
+          "sha256": "5ef30e2dfb17517322ad53945b66aec4d3d97f5ac6f47dec37fa32480d75510c"
+        },
+        {
+          "path": "docs/validation/representative-microservice-comparison.md",
+          "sha256": "459a9bcae21f216dc055b51f38886fd7a646c36b85fe4b7bb4bccb4d02463d98"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T11:23:37.000Z"
       }
     }
   ]
