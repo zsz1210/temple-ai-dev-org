@@ -1,19 +1,16 @@
 {
   "schema_version": "temple.test-observation/v1",
-  "work_item_id": "WI-0132",
-  "observed_at": "2026-09-03T08:33:00.000Z",
-  "tested_revision": "b7263e5cc64a1f3c5e93a32d2ae10a356074227d",
-  "commands": [
-    "node --check scripts/run-effectiveness-pilot-v2.mjs",
-    "node --test test/effectiveness-pilot-v2.test.mjs",
-    "node scripts/run-effectiveness-pilot-v2.mjs --mode validate --protocol .ai-org/artifacts/WI-0132/live-protocol.json",
-    "node scripts/run-effectiveness-pilot-v2.mjs --mode setup --protocol .ai-org/artifacts/WI-0132/live-protocol.json --lab-root /tmp/temple-wi0132-live-preflight-20260903 --framework-revision 926d982db34f116f5998005cfcda21b99f0bd5b5",
-    "node scripts/run-effectiveness-pilot-v2.mjs --mode preflight --protocol .ai-org/artifacts/WI-0132/live-protocol.json --lab-root /tmp/temple-wi0132-live-preflight-20260903",
-    "npm run verify"
-  ],
-  "results": {
-    "targeted_tests": { "passed": 8, "failed": 0 },
-    "full_tests": { "passed": 350, "failed": 0 },
+  "revision": "b7263e5cc64a1f3c5e93a32d2ae10a356074227d",
+  "command": ["npm", "run", "verify"],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-03T08:31:29.000Z",
+  "completed_at": "2026-09-03T08:32:36.000Z",
+  "summary": {
+    "tests": 350,
+    "passed": 350,
+    "failed": 0,
+    "targeted_tests": 8,
     "candidate_repositories": 8,
     "native_lean_candidates": 6,
     "provider_handshake": "pass",
@@ -21,8 +18,9 @@
     "generation_ready": false,
     "remaining_blockers": ["exact-owner-approval-required"]
   },
-  "protocol_sha256": "84d30df16d72bfbae6ac1d111729ddab9e90d761c46a8694250955985028bc45",
-  "model_generation_performed": false,
-  "external_action_performed": false,
-  "outcome": "pass"
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0132/developer-report.md",
+    ".ai-org/artifacts/WI-0132/provider-handshake-observation.json",
+    ".ai-org/artifacts/WI-0132/live-protocol.json"
+  ]
 }

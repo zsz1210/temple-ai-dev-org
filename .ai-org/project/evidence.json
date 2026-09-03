@@ -20235,6 +20235,36 @@
         "dirty_scope": "clean",
         "affected_paths_dirty": []
       }
+    },
+    {
+      "id": "EVID-20260903T083256Z-C5B6E3B5",
+      "work_item_id": "WI-0132",
+      "recorded_at": "2026-09-03T08:32:56.849Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0132 live runner implementation",
+      "outcome": "verified",
+      "scope_revision": "b7263e5cc64a1f3c5e93a32d2ae10a356074227d",
+      "observed_at": "2026-09-03T08:32:56.849Z",
+      "summary": "Exact candidate revision containing the no-retry four-arm live runner and Provider contract preflight.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "b7263e5cc64a1f3c5e93a32d2ae10a356074227d"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "b7263e5cc64a1f3c5e93a32d2ae10a356074227d",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
     }
   ]
 }
