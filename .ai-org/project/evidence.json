@@ -21420,6 +21420,171 @@
         "dirty_scope": "clean",
         "affected_paths_dirty": []
       }
+    },
+    {
+      "id": "EVID-20260903T232923Z-A114E9C1",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T23:29:23.273Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0136 representative comparison v16",
+      "outcome": "pass",
+      "scope_revision": "6a7abb6c3e86e78c3e638a35d6e1f9d28843adda",
+      "observed_at": "2026-09-03T23:29:03Z",
+      "summary": "The frozen matched pair and arm-blind evaluator completed once with zero retry and fallback; both arms passed objective tests and scored 8/8, and the exact result revision passed all 398 repository tests.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0136/representative-main-v16-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-test-observation.json",
+          "sha256": "3edbda3fcc304291003c9a8b9ea646eea0bd859465f6bb6f0af8d573b3f14d90"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/evaluator-continuation-approval.json",
+          "sha256": "3a2b4b335b5d2bff55a99252246f09ecb1b63059387c7973265e344b511ee734"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-approved-preflight.json",
+          "sha256": "e7328ec2f9f9f674d7a18bcb6748b494763191aeac1cae48c091c84d9baa63a7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-evaluator-readiness.json",
+          "sha256": "5f7167f18979791f56baa72e068590a4867d512b39aba24a4e96b720fc693c12"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-evaluator-result.json",
+          "sha256": "9edb8d78031720e4bc29ee2d4950bfcea1b4acc5b4668d00947708232b71f39a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-quality-scores-frozen.json",
+          "sha256": "830fcef99efd147f0d246b3edd73ac746bbfa663758bd872053954f2c9f76941"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-analysis.json",
+          "sha256": "973e0b4a3a54726577edab7d5518d5f05c0d4bcda8d57e16fedbacbfd1feece1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-report.md",
+          "sha256": "4a965a979562e3956dea6fadeaed6eb3d11644ad3834c58a87bce9bafefe59ed"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-findings.md",
+          "sha256": "d69b4c372de2b056cb9c018f385c3a7d7d72f783b6bd0a57da04615d5028da76"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/failure-mode-review.md",
+          "sha256": "0e8df93986413a3c9873ec05a61a00a56b5646fc1e7e684932544c4cd6103fee"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/protocol-history.md",
+          "sha256": "1e96c3188ebec3b7671646aec5a339f21f64d05801d57860938550d55c2a3d4f"
+        },
+        {
+          "path": "scripts/run-representative-microservice-comparison.mjs",
+          "sha256": "efd7811f11a9a655726bfc43b1c462af20bc083b656150f731acbe5fe1f739ed"
+        },
+        {
+          "path": "scripts/analyze-representative-microservice-comparison.mjs",
+          "sha256": "59dc98b583907adcad9419eab3695658e44946fdb58720f754c9c9b743f89e6a"
+        },
+        {
+          "path": "test/representative-microservice-comparison.test.mjs",
+          "sha256": "5f5d4e4dc6098b2dd4fdd440818198e17e9d7b0e4e1a9c7e591c583fee8775f6"
+        },
+        {
+          "path": "docs/validation/representative-microservice-comparison.md",
+          "sha256": "02d2608e1431bd9cc1e9d8b93eeeba8864f90ac1dbb4323b8bd643706e6d6e57"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T23:27:39Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T233315Z-05887961",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T23:33:15.769Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0136 v16 independent QA",
+      "outcome": "pass",
+      "scope_revision": "6a7abb6c3e86e78c3e638a35d6e1f9d28843adda",
+      "observed_at": "2026-09-03T23:32:38Z",
+      "summary": "Independent QA reproduced both arms' public and held-out checks, recomputed every comparison field, verified five archived evidence pairs and score-freeze ordering, and found the exact bounded result consistent.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0136/representative-main-v16-independent-qa-test.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-independent-qa-test.json",
+          "sha256": "0e03f99951dd78a13b3404039f0432cc524dab657ea05f1aff7baa8daa6852ae"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-independent-qa.md",
+          "sha256": "76f2a4bcc4217752d895ed23c08ede5b1ca5e2ebd3463edd0dfa3bc5a0a867e3"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-evaluator-result.json",
+          "sha256": "9edb8d78031720e4bc29ee2d4950bfcea1b4acc5b4668d00947708232b71f39a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-quality-scores-frozen.json",
+          "sha256": "830fcef99efd147f0d246b3edd73ac746bbfa663758bd872053954f2c9f76941"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-analysis.json",
+          "sha256": "973e0b4a3a54726577edab7d5518d5f05c0d4bcda8d57e16fedbacbfd1feece1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-report.md",
+          "sha256": "4a965a979562e3956dea6fadeaed6eb3d11644ad3834c58a87bce9bafefe59ed"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-findings.md",
+          "sha256": "d69b4c372de2b056cb9c018f385c3a7d7d72f783b6bd0a57da04615d5028da76"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/fixture/coordinator/evaluator-only/held-out-integration.test.mjs",
+          "sha256": "0a8f345fb5796b54524cda9d90e89fa4dbfbf4b48b9eb2bb8b0a5921c977bc42"
+        },
+        {
+          "path": "scripts/analyze-representative-microservice-comparison.mjs",
+          "sha256": "59dc98b583907adcad9419eab3695658e44946fdb58720f754c9c9b743f89e6a"
+        },
+        {
+          "path": "test/representative-microservice-comparison.test.mjs",
+          "sha256": "5f5d4e4dc6098b2dd4fdd440818198e17e9d7b0e4e1a9c7e591c583fee8775f6"
+        }
+      ],
+      "details": {
+        "command": [
+          "independent-qa",
+          "reproduce-v16-frozen-evidence"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T23:29:24Z"
+      }
     }
   ]
 }
