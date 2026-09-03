@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 136 total, 3 active
+- Work items: 137 total, 4 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -184,6 +184,7 @@
 | WI-0134 | Repair invalid historical evidence records | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ad1f06a5` | 0 | 18 | 0 |
 | WI-0135 | Run optimized Terra process confirmation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `00ea3a47` | 0 | 24 | 0 |
 | WI-0136 | Execute representative multi-Agent microservice comparison | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f76d2e7b` | 0 | 20 | 0 |
+| WI-0137 | Make context routing stage-aware and measurement-ready | spec | Product Manager | Yuna | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903235555-14d573d5 | `—` | 0 | 1 | 0 |
 
 ## Codex task registry
 
@@ -252,7 +253,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 31
+- Team-visible Work Items: 32
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -325,14 +326,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-03T23:55:55.563Z | work_item_claimed | WI-0137 | human |
+| 2026-09-03T23:55:55.309Z | work_item_coordination_configured | WI-0137 | agent-yuna |
+| 2026-09-03T23:55:46.887Z | work_item_coordination_configured | WI-0137 | agent-yuna |
+| 2026-09-03T23:55:41.277Z | work_item_coordination_configured | WI-0137 | agent-yuna |
+| 2026-09-03T23:55:32.761Z | work_item_transitioned | WI-0137 | agent-mog |
+| 2026-09-03T23:55:06.667Z | work_item_created | WI-0137 | agent-mog |
 | 2026-09-03T23:33:51.755Z | work_item_unresolved_updated | WI-0136 | agent-mog |
 | 2026-09-03T23:33:31.896Z | work_item_transitioned | WI-0136 | agent-lulu |
-| 2026-09-03T23:33:31.628Z | handoff_created | WI-0136 | agent-lulu |
-| 2026-09-03T23:33:15.769Z | evidence_recorded | WI-0136 | human |
-| 2026-09-03T23:29:59.623Z | work_item_transitioned | WI-0136 | agent-lulu |
-| 2026-09-03T23:29:59.390Z | handoff_created | WI-0136 | agent-lulu |
-| 2026-09-03T23:29:50.900Z | work_item_transitioned | WI-0136 | agent-lulu |
-| 2026-09-03T23:29:23.273Z | evidence_recorded | WI-0136 | human |
 
 ## Assignments
 
