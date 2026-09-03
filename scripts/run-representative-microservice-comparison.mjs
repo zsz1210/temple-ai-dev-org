@@ -6,7 +6,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { promisify } from "node:util";
-import { pathToFileURL } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 import {
   buildCodexRuntimeRequestResponse,
@@ -71,12 +71,27 @@ function pathIsWithin(root, candidate) {
   return relative === "" || (!relative.startsWith(`..${path.sep}`) && relative !== ".." && !path.isAbsolute(relative));
 }
 
+function resolveProviderCwd(cwd, armRoot) {
+  let candidate = cwd;
+  if (candidate.startsWith("file://")) {
+    try {
+      candidate = fileURLToPath(candidate);
+    } catch {
+      return null;
+    }
+  } else if (/^[A-Za-z][A-Za-z0-9+.-]*:/.test(candidate)) {
+    return null;
+  }
+  return path.isAbsolute(candidate) ? path.resolve(candidate) : path.resolve(armRoot, candidate);
+}
+
 function fixtureScopedRelativeGitReadAllowed(commandValue, cwd, armRoot) {
   if (!commandTextAllowed(commandValue, [["git"]])) return false;
   const match = commandValue.trim().match(/^git\s+-C\s+(\S+)\s+(status|diff|rev-parse|log|ls-tree)(?:\s|$)/);
   if (!match) return false;
-  const resolvedCwd = path.resolve(cwd);
   const resolvedArmRoot = path.resolve(armRoot);
+  const resolvedCwd = resolveProviderCwd(cwd, resolvedArmRoot);
+  if (resolvedCwd === null) return false;
   if (!pathIsWithin(resolvedArmRoot, resolvedCwd)) return false;
   const resolvedTarget = path.resolve(resolvedCwd, match[1]);
   return repositories.some((repositoryId) => resolvedTarget === path.join(resolvedArmRoot, repositoryId));
@@ -90,8 +105,9 @@ export function representativeCommandItemAllowed(item, armRoot) {
     item.commandActions.length === 0 ||
     item.commandActions.length > 32
   ) return false;
-  const resolvedCwd = path.resolve(item.cwd);
   const resolvedArmRoot = path.resolve(armRoot);
+  const resolvedCwd = resolveProviderCwd(item.cwd, resolvedArmRoot);
+  if (resolvedCwd === null) return false;
   if (!pathIsWithin(resolvedArmRoot, resolvedCwd)) return false;
   return item.commandActions.every((action) => {
     if (action === null || typeof action !== "object" || typeof action.command !== "string") return false;
@@ -650,7 +666,7 @@ async function sourceDigests() {
 function buildProtocol(manifest) {
   const protocol = {
     schema_version: "temple.representative-microservice-comparison/v3",
-    protocol_revision: 7,
+    protocol_revision: 8,
     work_item_id: "WI-0136",
     status: "generation-disabled",
     protocol_sha256: null,
@@ -693,14 +709,14 @@ function buildProtocol(manifest) {
       new_unknown_recovery_start: "temple-md-first"
     },
     predecessor: {
-      protocol_sha256: "35deeb5fb60f8f48e818ad6abad7d576d7de976d95159d7a1fbe8ef00baa67c7",
-      disposition: "stopped-candidate-invalid-cross-repository-path",
-      stopped_run: ".ai-org/artifacts/WI-0136/representative-main-v6-stopped-run.json",
-      stop_report: ".ai-org/artifacts/WI-0136/representative-main-v6-stop-report.md"
+      protocol_sha256: "ff06ec032d8bc6f452e307269d9e87774e4f4207d0449af70905fcc314786674",
+      disposition: "stopped-candidate-provider-relative-cwd-misresolved",
+      stopped_run: ".ai-org/artifacts/WI-0136/representative-main-v7-stopped-run.json",
+      stop_report: ".ai-org/artifacts/WI-0136/representative-main-v7-stop-report.md"
     },
     stopped_evidence_policy: "completed-active-and-settled-sibling-observations-v3",
     runner_safety: {
-      relative_git_target_policy: "provider-cwd-to-exact-fixture-repository-root",
+      relative_git_target_policy: "provider-relative-cwd-resolved-against-arm-root-to-exact-fixture-repository-root",
       parallel_failure_policy: "interrupt-and-await-all-siblings-before-stop-record",
       build_command_policy: "arm-root-repository-ids-without-candidate-git-self-check"
     },
@@ -731,7 +747,7 @@ function buildProtocol(manifest) {
 export function validateRepresentativeProtocol(protocol) {
   const errors = [];
   if (protocol?.schema_version !== "temple.representative-microservice-comparison/v3") errors.push("unsupported schema");
-  if (protocol?.protocol_revision !== 7) errors.push("unexpected protocol revision");
+  if (protocol?.protocol_revision !== 8) errors.push("unexpected protocol revision");
   if (protocol?.work_item_id !== "WI-0136") errors.push("unexpected work item");
   if (protocol?.status !== "generation-disabled") errors.push("protocol status must remain generation-disabled before exact approval");
   if (protocol?.protocol_sha256 !== protocolDigest(protocol)) errors.push("protocol digest mismatch");
@@ -762,10 +778,10 @@ export function validateRepresentativeProtocol(protocol) {
       contextPolicy.new_unknown_recovery_start !== "temple-md-first") {
     errors.push("context policy mismatch");
   }
-  if (protocol?.predecessor?.protocol_sha256 !== "35deeb5fb60f8f48e818ad6abad7d576d7de976d95159d7a1fbe8ef00baa67c7" ||
-      protocol?.predecessor?.disposition !== "stopped-candidate-invalid-cross-repository-path" ||
+  if (protocol?.predecessor?.protocol_sha256 !== "ff06ec032d8bc6f452e307269d9e87774e4f4207d0449af70905fcc314786674" ||
+      protocol?.predecessor?.disposition !== "stopped-candidate-provider-relative-cwd-misresolved" ||
       protocol?.stopped_evidence_policy !== "completed-active-and-settled-sibling-observations-v3" ||
-      protocol?.runner_safety?.relative_git_target_policy !== "provider-cwd-to-exact-fixture-repository-root" ||
+      protocol?.runner_safety?.relative_git_target_policy !== "provider-relative-cwd-resolved-against-arm-root-to-exact-fixture-repository-root" ||
       protocol?.runner_safety?.parallel_failure_policy !== "interrupt-and-await-all-siblings-before-stop-record" ||
       protocol?.runner_safety?.build_command_policy !== "arm-root-repository-ids-without-candidate-git-self-check") {
     errors.push("successor provenance mismatch");

@@ -49,14 +49,14 @@ test("the representative microservice protocol is frozen but generation-disabled
   assert.equal(protocol.execution.fallback_count, 0);
   assert.equal(protocol.execution.candidate_turns, 10);
   assert.equal(protocol.execution.evaluator_turns, 1);
-  assert.equal(protocol.protocol_revision, 7);
+  assert.equal(protocol.protocol_revision, 8);
   assert.equal(protocol.execution.design_operational_token_limit, 150000);
   assert.equal(protocol.execution.candidate_aggregate_operational_token_limit, 650000);
   assert.equal(protocol.execution.combined_operational_token_limit, 750000);
   assert.deepEqual(protocol.context_policy.temple_md_fallback_when_missing, ["authority", "current-state", "safe-next-action"]);
-  assert.equal(protocol.predecessor.disposition, "stopped-candidate-invalid-cross-repository-path");
+  assert.equal(protocol.predecessor.disposition, "stopped-candidate-provider-relative-cwd-misresolved");
   assert.equal(protocol.stopped_evidence_policy, "completed-active-and-settled-sibling-observations-v3");
-  assert.equal(protocol.runner_safety.relative_git_target_policy, "provider-cwd-to-exact-fixture-repository-root");
+  assert.equal(protocol.runner_safety.relative_git_target_policy, "provider-relative-cwd-resolved-against-arm-root-to-exact-fixture-repository-root");
   assert.equal(protocol.runner_safety.parallel_failure_policy, "interrupt-and-await-all-siblings-before-stop-record");
   assert.equal(protocol.runner_safety.build_command_policy, "arm-root-repository-ids-without-candidate-git-self-check");
 });
@@ -235,6 +235,21 @@ test("representative command policy resolves relative Git targets from Provider-
     representativeCommandItemAllowed(item(`${armRoot}/catalog`, "rg OrderPlaced ../../outside"), armRoot),
     false
   );
+});
+
+test("representative command policy resolves Provider-relative cwd from the arm root", () => {
+  const armRoot = "/tmp/temple-arm";
+  const item = (cwd, command) => ({
+    type: "commandExecution",
+    cwd,
+    commandActions: [{ type: "read", command }]
+  });
+  assert.equal(representativeCommandItemAllowed(item("notifications", "rg --files coordinator"), armRoot), true);
+  assert.equal(representativeCommandItemAllowed(item("notifications", "rg OrderPlaced src"), armRoot), true);
+  assert.equal(representativeCommandItemAllowed(item("file:///tmp/temple-arm/notifications", "rg OrderPlaced src"), armRoot), true);
+  assert.equal(representativeCommandItemAllowed(item("../outside", "rg OrderPlaced"), armRoot), false);
+  assert.equal(representativeCommandItemAllowed(item("file:///tmp/outside", "rg OrderPlaced"), armRoot), false);
+  assert.equal(representativeCommandItemAllowed(item("https://example.invalid/notifications", "rg OrderPlaced"), armRoot), false);
 });
 
 test("parallel fail-closed settlement aborts and awaits siblings before reporting the primary error", async () => {

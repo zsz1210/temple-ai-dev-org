@@ -241,3 +241,16 @@ The exact-approved v6 attempt ran from `2026-09-03T16:33:33.382Z` to `2026-09-03
 - Status: frozen and generation-disabled pending separate exact approval
 
 V7 treats the repeated Git status request as unnecessary candidate work: the coordinator already checks paths, diffs, revisions, and handoff state after each Build turn. Removing that responsibility from the candidate prompt reduces accidental path traversal without loosening the command policy. V7 is a new experiment on fresh matched repositories and cannot reuse the v6 approval.
+
+The exact-approved v7 attempt ran from `2026-09-03T16:46:53.272Z` to `2026-09-03T16:51:55.025Z` and retained 107,085 candidate Operational Tokens with zero retry and zero fallback. Minimal Responsible Design completed at 55,565. Notifications then requested the allowlisted read-only command `rg --files coordinator`, but the command-working-directory guard interpreted its Provider-relative cwd against the runner process directory instead of the generated arm. Notifications stopped at 14,336; Gateway and orders-catalog were interrupted after 17,089 and 20,095 respectively. All App Server children exited and both arms' repositories remained clean. No arm completed; Temple and the evaluator did not start.
+
+## Representative comparison v8
+
+- Predecessor: representative v7 protocol `ff06ec032d8bc6f452e307269d9e87774e4f4207d0449af70905fcc314786674`
+- Resource envelope, task, models, efforts, context treatment, objective tests, retry policy, fallback policy, and network boundary: unchanged from v7
+- Working-directory policy: normalize absolute paths and `file://` paths directly; resolve Provider-relative cwd values from the exact generated arm root; reject other URI schemes and every normalized escape
+- Regression coverage: allow a safe repository-relative command and reject relative, URI, and absolute escapes
+- Protocol SHA-256: `3c179b15b37e5fad0a538ff12dc0f4ca5a3e3d7384b8542b394f22bdd42618da`
+- Status: frozen and generation-disabled pending separate exact approval
+
+V8 corrects the cwd normalization defect without adding a command prefix, allowing a parent-directory segment, or broadening the generated arm. It is a new controlled experiment on fresh matched repositories and cannot reuse the v7 approval.

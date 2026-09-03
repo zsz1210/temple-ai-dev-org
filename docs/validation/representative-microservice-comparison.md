@@ -143,6 +143,10 @@ Exact-approved v6 ran once with zero retry and zero fallback. Minimal Responsibl
 
 Successor v7 is frozen under digest `ff06ec032d8bc6f452e307269d9e87774e4f4207d0449af70905fcc314786674`. It keeps the v6 task, routes, tests, limits, zero-retry policy, zero-fallback policy, and network boundary. It explicitly tells every candidate to avoid parent-directory paths, keep cross-repository commands at the arm root, and leave Git inspection to the experiment coordinator. The same path policy remains fail-closed, so the prompt clarification does not grant broader filesystem authority. V7 uses fresh matched repositories and requires its own exact approval.
 
+Exact-approved v7 ran once and stopped during the Minimal Responsible Build wave after 107,085 candidate Operational Tokens. Design completed at 55,565. Notifications requested the allowlisted read-only command `rg --files coordinator`, but v7 interpreted its Provider-relative command cwd against the runner process directory rather than the generated arm. Notifications stopped at 14,336; Gateway and orders-catalog were interrupted as siblings after 17,089 and 20,095. Every App Server child exited and all generated repositories remained clean. No arm completed, so v7 is harness evidence rather than a Temple comparison. See the [v7 stop report](../../.ai-org/artifacts/WI-0136/representative-main-v7-stop-report.md).
+
+Successor v8 is frozen under digest `3c179b15b37e5fad0a538ff12dc0f4ca5a3e3d7384b8542b394f22bdd42618da`. It normalizes absolute and `file://` cwd values directly, resolves Provider-relative cwd values from the exact generated arm, and still rejects every normalized escape or unknown URI scheme. It changes no model route, task, resource ceiling, test, retry, fallback, or network boundary. V8 uses fresh matched repositories and requires separate exact approval before generation.
+
 After that replacement main protocol receives its own exact approval, the bounded commands are:
 
 ```bash
