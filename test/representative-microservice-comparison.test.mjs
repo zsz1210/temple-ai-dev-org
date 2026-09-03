@@ -5,8 +5,10 @@ import test from "node:test";
 import {
   ablationIntegrationInstruction,
   analyzeContextAblation,
+  diagnosticConditionFailure,
   diagnosticConditionObservation,
   diagnosticStoppedRun,
+  integrationOutputSchema,
   protocolDigest,
   templeRoutedContextInstruction,
   validateAblationApproval,
@@ -142,25 +144,58 @@ test("routed Temple context resolves first and treats TEMPLE.md as a fallback", 
   assert.notEqual(full, routed);
 });
 
+test("integration completion schema and recovery evaluator require the same exact slice IDs", () => {
+  assert.deepEqual(integrationOutputSchema.properties.completed_slices, {
+    type: "array",
+    items: { type: "string", enum: ["orders-catalog", "notifications", "gateway"] },
+    minItems: 3,
+    maxItems: 3,
+    uniqueItems: true
+  });
+  const expectedRevisions = {
+    gateway: "a",
+    catalog: "b",
+    orders: "c",
+    notifications: "d"
+  };
+  const completion = (completedSlices) => ({
+    recovered_revisions: Object.entries(expectedRevisions).map(([repository, revision]) => ({ repository, revision })),
+    governing_contract: "Coordinator TASK.md governs OrderPlaced/v2",
+    completed_slices: completedSlices,
+    unresolved: [],
+    safe_next_action: "Run bounded local tests",
+    summary: "Recovered"
+  });
+  const observation = (completedSlices) => diagnosticConditionObservation({
+    condition: "terra-routed",
+    contextStrategy: "routed",
+    turn: {
+      status: "completed",
+      tool_activity: { context_sequence: ["context-resolve"] },
+      completion: completion(completedSlices)
+    },
+    expectedRevisions
+  });
+  assert.equal(observation(["orders-catalog", "notifications", "gateway"]).recovery.pass, true);
+  assert.equal(observation(["orders-catalog — handoff", "notifications", "gateway"]).recovery.pass, false);
+});
+
 test("the frozen context ablation requires matched repositories and exact approval", async () => {
   const protocol = await readJson(ablationProtocolPath);
   const template = await readJson(ablationApprovalTemplatePath);
   assert.deepEqual(validateAblationProtocol(protocol), { valid: true, errors: [] });
   assert.equal(protocol.protocol_sha256, protocolDigest(protocol));
-  assert.equal(protocol.execution.candidate_turns, 4);
+  assert.equal(protocol.schema_version, "temple.context-model-diagnostic/v6");
+  assert.equal(protocol.execution.candidate_turns, 2);
   assert.equal(protocol.execution.evaluator_turns, 0);
-  assert.equal(protocol.execution.combined_operational_token_limit, 360000);
+  assert.equal(protocol.execution.combined_operational_token_limit, 200000);
   assert.equal(protocol.execution.candidate_limit_disposition, "record-censored-and-continue-independent-conditions");
   assert.deepEqual(protocol.conditions.map((entry) => [entry.id, entry.model_route.model, entry.model_route.reasoning_effort]), [
     ["terra-routed", "gpt-5.6-terra", "medium"],
-    ["sol-routed-medium", "gpt-5.6-sol", "medium"],
-    ["sol-routed-xhigh", "gpt-5.6-sol", "xhigh"],
     ["terra-full-load", "gpt-5.6-terra", "medium"]
   ]);
   assert.deepEqual(Object.fromEntries(protocol.conditions.map((entry) => [entry.id, entry.operational_token_limit])), {
     "terra-routed": 80000,
-    "sol-routed-medium": 80000,
-    "sol-routed-xhigh": 80000,
     "terra-full-load": 120000
   });
   assert.equal(validateAblationApproval(template, protocol).accepted, false);
@@ -291,6 +326,19 @@ test("a whole-run stop preserves prior censored and active stopped condition tel
   assert.equal(result.fallback_count, 0);
 });
 
+test("a causal stopped condition wins over a later missing context observation", () => {
+  assert.equal(diagnosticConditionFailure("terra-full-load", {
+    status: "stopped",
+    stop_reason: "command-policy-violation",
+    context_strategy_observed: false
+  }), "terra-full-load:command-policy-violation");
+  assert.equal(diagnosticConditionFailure("terra-full-load", {
+    status: "completed",
+    stop_reason: null,
+    context_strategy_observed: false
+  }), "terra-full-load:context-strategy-not-observed");
+});
+
 test("analysis preserves a censored full-load result without inventing an exact savings delta", () => {
   const condition = (id, status, tokens, pass) => ({
     condition: id,
@@ -328,4 +376,46 @@ test("analysis preserves a censored full-load result without inventing an exact 
   assert.equal(result.comparison.context_routing.observed_operational_token_lower_bound_delta, -60621);
   assert.equal(result.comparison.model_same_effort.exact_comparison_available, true);
   assert.equal(result.comparison.model_same_effort.operational_token_delta, -2000);
+});
+
+test("analysis accepts a fully observed stopped run without inventing exact comparisons", () => {
+  const condition = (id, status, tokens, pass) => ({
+    condition: id,
+    status,
+    stop_reason: status === "stopped" ? "command-policy-violation" : status === "censored" ? "integration-operational-token-limit" : null,
+    requested_model: id.startsWith("terra") ? "gpt-5.6-terra" : "gpt-5.6-sol",
+    requested_reasoning_effort: id === "sol-routed-xhigh" ? "xhigh" : "medium",
+    observed_thread_reasoning_effort: "high",
+    effective_turn_reasoning_effort: null,
+    recovery: status === "completed" ? { pass, exact_revision_count: pass ? 4 : 0 } : null,
+    operational_tokens: tokens,
+    elapsed_ms: 1000,
+    session_setup_ms: 100,
+    turn_elapsed_ms: 900,
+    time_to_first_activity_ms: 100,
+    time_to_first_command_ms: 200,
+    effective_output_tokens_per_second: 2,
+    usage: { input_tokens: tokens - 100, cached_input_tokens: 50, output_tokens: 100, reasoning_output_tokens: 25, total_tokens: tokens + 50 },
+    prompt_metrics: { explicit_bytes: 1000 },
+    tool_activity: { command_actions: 2, temple_md_reads: id === "terra-full-load" ? 0 : 1, context_resolve_calls: 1, reported_output_bytes: 2000 }
+  });
+  const protocol = { work_item_id: "WI-0136", protocol_sha256: "v5" };
+  const run = {
+    schema_version: "temple.context-model-diagnostic-stopped-run/v5",
+    protocol_sha256: "v5",
+    observed_conditions: [
+      condition("terra-routed", "completed", 53823, true),
+      condition("sol-routed-medium", "censored", 80156, false),
+      condition("sol-routed-xhigh", "censored", 80156, false),
+      condition("terra-full-load", "stopped", 19618, false)
+    ]
+  };
+  const result = analyzeContextAblation({ protocol, run, generatedAt: "2026-09-03T00:00:00.000Z" });
+  assert.equal(result.interpretation.context_outcome, "routed-context-supported-with-full-load-failure");
+  assert.equal(result.comparison.context_routing.exact_comparison_available, false);
+  assert.equal(result.comparison.context_routing.baseline_stopped, true);
+  assert.equal(result.comparison.model_same_effort.candidate_censored, true);
+  assert.equal(result.comparison.model_same_effort.operational_token_delta, null);
+  assert.equal(result.comparison.model_same_effort.observed_operational_token_lower_bound_delta, 26333);
+  assert.equal(result.comparison.sol_reasoning_effort.effective_effort_comparison_available, false);
 });

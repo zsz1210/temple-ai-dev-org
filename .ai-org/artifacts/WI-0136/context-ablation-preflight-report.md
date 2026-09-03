@@ -2,22 +2,22 @@
 
 ## Result
 
-The four-condition context/model diagnostic v5 is locally prepared and generation remains disabled pending a new exact account approval.
+The two-condition context-recovery qualification v6 is locally prepared and generation remains disabled pending a new exact account approval.
 
 ## Frozen boundary
 
-- Protocol SHA-256: `9c947a32b2e63f771de3bcdfae2f3e95dd8ab69b66a65e812473c28ec04d615f`
-- Conditions: 4
-- Order: Terra medium routed; Sol medium routed; Sol xhigh routed; Terra medium full-load
-- Routed-condition Operational-Token hard stop: 80,000 each
+- Protocol SHA-256: `74f581c82408340462f1c65ef6a0666847c40ac4750303d08c5adb60ee6c153f`
+- Conditions: 2
+- Order: Terra medium routed; Terra medium full-load
+- Routed-condition Operational-Token hard stop: 80,000
 - Full-load Operational-Token hard stop: 120,000
-- Combined Operational-Token hard stop: 360,000
-- Wall-clock hard stop: 40 minutes
+- Combined Operational-Token hard stop: 200,000
+- Wall-clock hard stop: 20 minutes
 - Retry and fallback: disabled
 - Network and external actions: disabled
 - Account boundary: Pro included allowance only; no Credits purchase, automatic refill, or usage reset
 
-The routed limits retain the reviewed 80,000 ceiling. V2 completed full-load before its combined full-load-plus-partial-routed observation reached 104,893, while v3 stopped full-load at 80,621. V5 therefore gives full-load a 120,000 ceiling and increases the total by only 40,000. These remain safety stops, not expected consumption, price, or permission to purchase capacity.
+V5 completed Terra routed within 53,823 Operational Tokens, so that condition retains its reviewed 80,000 ceiling. Full-load retains the evidence-backed 120,000 ceiling introduced in v5. The two-condition 200,000 total is their exact sum. These remain safety stops, not expected consumption, price, or permission to purchase capacity.
 
 ## Generation-free evidence
 
@@ -30,12 +30,12 @@ The routed limits retain the reviewed 80,000 ceiling. V2 completed full-load bef
 - A per-condition Token stop retains exact partial telemetry as a censored observation and permits the remaining unused independent conditions to run once.
 - Aggregate budget, program time, Provider, command-policy, protocol, and revision violations still stop the complete run.
 - Terra medium, Sol medium, and Sol xhigh are available through the installed `codex-cli 0.151.0-alpha.7.2` App Server contract.
-- Inspection passes 67 checks with no failure.
-- The focused App Server and experiment suite covers condition-specific approval limits, censored outcomes, whole-run stops, and non-invented comparison deltas.
+- Inspection passes 37 checks with no failure.
+- The focused App Server and experiment suite passes 24 of 24 tests, including exact slice-ID schema/evaluator parity, causal stop reporting, censored outcomes, and stopped-run analysis.
 - An unapproved ablation run exits with `exact-human-approval-required` and creates no live result, stopped-run, or analysis artifact.
 
 ## Basis for the correction
 
-V3 started Terra medium with full-load context at `2026-09-03T12:49:23.845Z` and interrupted it 142.914 seconds later after the latest observation reached 80,621 Operational Tokens. No condition completed, and the three routed conditions did not start. The result shows that this full-load attempt did not fit the inherited 80,000-Token candidate ceiling; it provides no context, model, effort, quality, or speed comparison. Retry and fallback remained zero.
+V5 attempted all four conditions and retained 233,753 Operational Tokens. Terra routed completed, both Sol routes were censored at 80,156, and Terra full-load stopped on a chained shell command prohibited by the frozen command policy. It also exposed a loose `completed_slices` schema paired with an exact-ID evaluator and a top-level stop reason that masked the earlier causal failure.
 
-V4 implemented censored-condition isolation but was not approved or run. V5 retains that behavior, prioritizes the three routed model comparisons, and moves full-load to the final condition with the evidence-backed 120,000 ceiling. No v5 model turn has run.
+V6 fixes those harness defects without relaxing command policy. The output schema and evaluator now share the exact three slice IDs, the earliest causal condition failure is preserved, and a fully observed stopped run can produce a non-invented analysis. V6 returns to the minimum qualification required before the main comparison: matched Terra routed and Terra full-load conditions only. No v6 model turn has run.

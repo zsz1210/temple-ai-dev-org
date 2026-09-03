@@ -124,6 +124,8 @@ V4 implements that correction without raising any limit or changing the four pro
 
 V4 was superseded before approval or generation. V5 runs Terra routed, Sol routed medium, and Sol routed xhigh before Terra full-load. The three routed ceilings remain 80,000 Operational Tokens each; full-load rises to 120,000 because v2 completed it before a combined observation reached 104,893 and v3 stopped it at 80,621. The combined ceiling is 360,000, a 12.5% increase, while the 40-minute, zero-retry, zero-fallback, Pro-included-only, and no-purchase boundaries remain unchanged. V5 is frozen under protocol `9c947a32b2e63f771de3bcdfae2f3e95dd8ab69b66a65e812473c28ec04d615f` and remains generation-disabled until exact approval.
 
+The exact-approved v5 attempt produced one completed Terra routed condition, two censored Sol routed conditions, and one Terra full-load command-policy stop. It also exposed an output-schema/evaluator mismatch and masked top-level failure reporting. V6 corrects those defects and narrows the remaining qualification to matched Terra medium routed and full-load conditions. Its exact slice-ID output contract, stopped-run analysis, 80,000 routed ceiling, 120,000 full-load ceiling, 200,000 aggregate ceiling, and 20-minute boundary are frozen under protocol `74f581c82408340462f1c65ef6a0666847c40ac4750303d08c5adb60ee6c153f`. Generation remains disabled until exact approval.
+
 After exact diagnostic approval, the bounded commands are:
 
 ```bash

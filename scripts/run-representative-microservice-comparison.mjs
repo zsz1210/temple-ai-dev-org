@@ -28,16 +28,15 @@ const fixtureRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/fixture
 const defaultLabRoot = path.join(os.tmpdir(), "temple-wi0136-representative-microservice");
 const defaultProtocolPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/live-protocol.json");
 const defaultApprovalTemplatePath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/account-approval.template.json");
-const defaultAblationLabRoot = path.join(os.tmpdir(), "temple-wi0136-context-model-diagnostic-v5");
+const defaultAblationLabRoot = path.join(os.tmpdir(), "temple-wi0136-context-recovery-qualification-v6");
 const defaultAblationProtocolPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-ablation-protocol.json");
 const defaultAblationApprovalTemplatePath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-ablation-approval.template.json");
 const services = Object.freeze(["gateway", "catalog", "orders", "notifications"]);
 const repositories = Object.freeze([...services, "coordinator"]);
 const arms = Object.freeze(["minimal-responsible", "temple"]);
+const integrationSliceIds = Object.freeze(["orders-catalog", "notifications", "gateway"]);
 const ablationConditionDefinitions = Object.freeze([
   Object.freeze({ id: "terra-routed", context_strategy: "routed", model: "gpt-5.6-terra", reasoning_effort: "medium", operational_token_limit: 80000 }),
-  Object.freeze({ id: "sol-routed-medium", context_strategy: "routed", model: "gpt-5.6-sol", reasoning_effort: "medium", operational_token_limit: 80000 }),
-  Object.freeze({ id: "sol-routed-xhigh", context_strategy: "routed", model: "gpt-5.6-sol", reasoning_effort: "xhigh", operational_token_limit: 80000 }),
   Object.freeze({ id: "terra-full-load", context_strategy: "full-load", model: "gpt-5.6-terra", reasoning_effort: "medium", operational_token_limit: 120000 })
 ]);
 const ablationConditions = Object.freeze(ablationConditionDefinitions.map((entry) => entry.id));
@@ -1012,7 +1011,7 @@ const buildOutputSchema = Object.freeze({
   }
 });
 
-const integrationOutputSchema = Object.freeze({
+export const integrationOutputSchema = Object.freeze({
   type: "object",
   additionalProperties: false,
   required: ["recovered_revisions", "governing_contract", "completed_slices", "unresolved", "safe_next_action", "summary"],
@@ -1027,7 +1026,13 @@ const integrationOutputSchema = Object.freeze({
       }
     },
     governing_contract: { type: "string" },
-    completed_slices: { type: "array", items: { type: "string" } },
+    completed_slices: {
+      type: "array",
+      items: { type: "string", enum: [...integrationSliceIds] },
+      minItems: integrationSliceIds.length,
+      maxItems: integrationSliceIds.length,
+      uniqueItems: true
+    },
     unresolved: { type: "array", items: { type: "string" } },
     safe_next_action: { type: "string" },
     summary: { type: "string" }
@@ -1822,7 +1827,7 @@ function conditionParity(conditions) {
 
 function buildAblationProtocol(manifest) {
   const protocol = {
-    schema_version: "temple.context-model-diagnostic/v5",
+    schema_version: "temple.context-model-diagnostic/v6",
     work_item_id: "WI-0136",
     status: "generation-disabled",
     protocol_sha256: null,
@@ -1896,7 +1901,7 @@ function buildAblationProtocol(manifest) {
 
 export function validateAblationProtocol(protocol) {
   const errors = [];
-  if (protocol?.schema_version !== "temple.context-model-diagnostic/v5") errors.push("unsupported ablation schema");
+  if (protocol?.schema_version !== "temple.context-model-diagnostic/v6") errors.push("unsupported ablation schema");
   if (protocol?.work_item_id !== "WI-0136" || protocol?.status !== "generation-disabled") errors.push("ablation identity or status mismatch");
   if (protocol?.protocol_sha256 !== protocolDigest(protocol)) errors.push("ablation protocol digest mismatch");
   if (JSON.stringify(protocol?.execution?.condition_order) !== JSON.stringify(ablationConditions)) errors.push("condition order mismatch");
@@ -1937,8 +1942,7 @@ export function validateAblationProtocol(protocol) {
     if (protocol.execution.combined_operational_token_limit !== protocol.execution.candidate_aggregate_operational_token_limit) errors.push("ablation combined limit mismatch");
     if (!protocol?.provider_contract?.codex_cli_version || !protocol?.provider_contract?.schema_digests) errors.push("frozen ablation requires a Provider contract");
     const expectedModels = [
-      { model: "gpt-5.6-terra", reasoning_efforts: ["medium"] },
-      { model: "gpt-5.6-sol", reasoning_efforts: ["medium", "xhigh"] }
+      { model: "gpt-5.6-terra", reasoning_efforts: ["medium"] }
     ];
     if (JSON.stringify(protocol?.provider_contract?.required_models) !== JSON.stringify(expectedModels)) errors.push("frozen diagnostic Provider routes mismatch");
   }
@@ -1967,7 +1971,7 @@ async function setupAblation(labRoot, protocolPath) {
     }
     if (!conditionParity(conditions)) throw new Error("ablation conditions are not byte-equivalent at Git revision and tree boundaries");
     const manifest = {
-      schema_version: "temple.context-model-diagnostic-lab/v5",
+      schema_version: "temple.context-model-diagnostic-lab/v6",
       work_item_id: "WI-0136",
       created_at: createdAt,
       lab_root: labRoot,
@@ -1987,7 +1991,7 @@ async function setupAblation(labRoot, protocolPath) {
     return { manifest, protocol, validation };
   } catch (error) {
     await writeJson(path.join(labRoot, "setup-failure.json"), {
-      schema_version: "temple.context-model-diagnostic-setup-failure/v5",
+      schema_version: "temple.context-model-diagnostic-setup-failure/v6",
       work_item_id: "WI-0136",
       stopped_at: new Date().toISOString(),
       reason: String(error.message ?? error),
@@ -2000,7 +2004,7 @@ async function setupAblation(labRoot, protocolPath) {
 function ablationApprovalTemplate(protocol) {
   const routes = protocol.conditions.map((condition) => condition.model_route);
   return {
-    schema_version: "temple.context-model-diagnostic-account-approval/v5",
+    schema_version: "temple.context-model-diagnostic-account-approval/v6",
     work_item_id: protocol.work_item_id,
     protocol_sha256: protocol.protocol_sha256,
     approved: false,
@@ -2047,40 +2051,38 @@ async function freezeAblation(protocolPath) {
   if (!before.valid) throw new Error(`ablation protocol invalid before freeze: ${before.errors.join(", ")}`);
   const handshake = await providerHandshake();
   const terra = handshake.model_checks.find((entry) => entry.model === "gpt-5.6-terra");
-  const sol = handshake.model_checks.find((entry) => entry.model === "gpt-5.6-sol");
   const terraEfforts = new Set(terra?.observed_reasoning_efforts ?? []);
-  const solEfforts = new Set(sol?.observed_reasoning_efforts ?? []);
-  if (!handshake.pass || !terra?.available || !terraEfforts.has("medium") || !sol?.available || !solEfforts.has("medium") || !solEfforts.has("xhigh")) {
-    throw new Error("required Terra medium and Sol medium/xhigh Provider routes are unavailable");
+  if (!terra?.available || !terraEfforts.has("medium")) {
+    throw new Error("required Terra medium Provider route is unavailable");
   }
   const frozen = structuredClone(protocol);
   frozen.provider_contract = {
     codex_cli_version: handshake.codex_cli_version,
     schema_digests: handshake.schema_digests,
     required_models: [
-      { model: "gpt-5.6-terra", reasoning_efforts: ["medium"] },
-      { model: "gpt-5.6-sol", reasoning_efforts: ["medium", "xhigh"] }
+      { model: "gpt-5.6-terra", reasoning_efforts: ["medium"] }
     ]
   };
   Object.assign(frozen.execution, {
     integration_operational_token_limit: 120000,
-    candidate_aggregate_operational_token_limit: 360000,
-    combined_operational_token_limit: 360000,
-    program_wall_clock_limit_ms: 2400000
+    candidate_aggregate_operational_token_limit: 200000,
+    combined_operational_token_limit: 200000,
+    program_wall_clock_limit_ms: 1200000
   });
   frozen.limit_basis = {
     sources: [
-      ".ai-org/artifacts/WI-0136/context-model-diagnostic-v2-stopped-run.json",
-      ".ai-org/artifacts/WI-0136/context-model-diagnostic-v3-stopped-run.json"
+      ".ai-org/artifacts/WI-0136/context-model-diagnostic-v3-stopped-run.json",
+      ".ai-org/artifacts/WI-0136/context-model-diagnostic-v5-stopped-run.json"
     ],
     source_sha256: {
-      v2_stopped_run: sha256(await fs.readFile(path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-model-diagnostic-v2-stopped-run.json"))),
-      v3_stopped_run: sha256(await fs.readFile(path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-model-diagnostic-v3-stopped-run.json")))
+      v3_stopped_run: sha256(await fs.readFile(path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-model-diagnostic-v3-stopped-run.json"))),
+      v5_stopped_run: sha256(await fs.readFile(path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-model-diagnostic-v5-stopped-run.json")))
     },
-    prior_integration_operational_token_limit: 80000,
-    v2_completed_full_load_plus_partial_routed_operational_tokens: 104893,
+    routed_operational_token_limit: 80000,
+    full_load_operational_token_limit: 120000,
+    v5_completed_routed_operational_tokens: 53823,
     v3_full_load_stop_operational_tokens: 80621,
-    meaning: "Routed conditions retain the reviewed 80,000 ceiling. Full-load receives 120,000 because v2 completed that condition within an aggregate observation no greater than 104,893, while v3 crossed 80,000 before completion. The 360,000 total is the exact sum of condition ceilings, not expected use or price."
+    meaning: "The two-condition qualification retains the reviewed 80,000 routed ceiling that v5 completed within 53,823 and the evidence-backed 120,000 full-load ceiling. The 200,000 total is the exact sum of condition ceilings, not expected use or price."
   };
   frozen.protocol_sha256 = protocolDigest(frozen);
   const after = validateAblationProtocol(frozen);
@@ -2088,7 +2090,7 @@ async function freezeAblation(protocolPath) {
   await writeJson(protocolPath, frozen);
   await writeJson(defaultAblationApprovalTemplatePath, ablationApprovalTemplate(frozen));
   return {
-    schema_version: "temple.context-model-diagnostic-freeze/v5",
+    schema_version: "temple.context-model-diagnostic-freeze/v6",
     work_item_id: frozen.work_item_id,
     protocol_sha256: frozen.protocol_sha256,
     provider_handshake: handshake,
@@ -2120,7 +2122,7 @@ async function inspectAblation(labRoot, protocolPath) {
     }
   }
   return {
-    schema_version: "temple.context-model-diagnostic-inspection/v5",
+    schema_version: "temple.context-model-diagnostic-inspection/v6",
     work_item_id: "WI-0136",
     inspected_at: new Date().toISOString(),
     valid: checks.every((entry) => entry.pass),
@@ -2149,7 +2151,7 @@ async function preflightAblation(labRoot, protocolPath, approvalPath) {
   if (!providerMatch) blockers.push("provider-contract-drift");
   if (!approval.accepted) blockers.push("exact-human-approval-required");
   const output = {
-    schema_version: "temple.context-model-diagnostic-preflight/v5",
+    schema_version: "temple.context-model-diagnostic-preflight/v6",
     work_item_id: "WI-0136",
     observed_at: new Date().toISOString(),
     protocol_sha256: protocol.protocol_sha256,
@@ -2173,8 +2175,8 @@ function recoveryObservation(completion, expectedRevisions) {
     exact_revision_count: services.filter((entry) => recovered[entry] === expectedRevisions[entry]).length,
     exact_revision_total: services.length,
     governing_contract_named: /TASK\.md|OrderPlaced\/v2|OrderPlaced v2/i.test(completion?.governing_contract ?? ""),
-    completed_slice_count: buildSlices().filter((slice) => completion?.completed_slices?.includes(slice.id)).length,
-    completed_slice_total: buildSlices().length,
+    completed_slice_count: integrationSliceIds.filter((sliceId) => completion?.completed_slices?.includes(sliceId)).length,
+    completed_slice_total: integrationSliceIds.length,
     unresolved_reported: Array.isArray(completion?.unresolved),
     safe_next_action_bounded: !/deploy|publish|release to production/i.test(completion?.safe_next_action ?? "")
   };
@@ -2216,7 +2218,7 @@ export function diagnosticStoppedRun({ protocol, startedAt, stoppedAt, completed
   const censoredConditions = completed.filter((entry) => entry.status === "censored");
   const stoppedConditions = completed.filter((entry) => entry.status === "stopped");
   return {
-    schema_version: "temple.context-model-diagnostic-stopped-run/v5",
+    schema_version: "temple.context-model-diagnostic-stopped-run/v6",
     work_item_id: protocol.work_item_id,
     protocol_sha256: protocol.protocol_sha256,
     started_at: startedAt,
@@ -2235,6 +2237,12 @@ export function diagnosticStoppedRun({ protocol, startedAt, stoppedAt, completed
     fallback_count: 0,
     model_generation_performed: true
   };
+}
+
+export function diagnosticConditionFailure(condition, observation) {
+  if (observation.status === "stopped") return `${condition}:${observation.stop_reason}`;
+  if (!observation.context_strategy_observed) return `${condition}:context-strategy-not-observed`;
+  return null;
 }
 
 async function runAblation(labRoot, protocolPath, approvalPath) {
@@ -2276,13 +2284,13 @@ async function runAblation(labRoot, protocolPath, approvalPath) {
         expectedRevisions: expected
       });
       observed.push(observation);
-      if (!observation.context_strategy_observed) throw new Error(`${condition}:context-strategy-not-observed`);
-      if (observation.status === "stopped") throw new Error(`${condition}:${observation.stop_reason}`);
+      const conditionFailure = diagnosticConditionFailure(condition, observation);
+      if (conditionFailure) throw new Error(conditionFailure);
     }
     const completedCount = observed.filter((entry) => entry.status === "completed").length;
     const censoredCount = observed.filter((entry) => entry.status === "censored").length;
     const output = {
-      schema_version: "temple.context-model-diagnostic-run/v5",
+      schema_version: "temple.context-model-diagnostic-run/v6",
       work_item_id: protocol.work_item_id,
       protocol_sha256: protocol.protocol_sha256,
       started_at: startedAt,
@@ -2313,17 +2321,25 @@ async function runAblation(labRoot, protocolPath, approvalPath) {
 }
 
 export function analyzeContextAblation({ protocol, run, generatedAt = new Date().toISOString() }) {
-  if (!["completed", "completed-with-censored-conditions"].includes(run?.status) || run?.protocol_sha256 !== protocol?.protocol_sha256) {
+  const runConditions = run?.conditions ?? run?.observed_conditions;
+  const completedRun = ["completed", "completed-with-censored-conditions"].includes(run?.status);
+  const stoppedRun = /^temple\.context-model-diagnostic-stopped-run\/v\d+$/.test(run?.schema_version ?? "");
+  if ((!completedRun && !stoppedRun) || run?.protocol_sha256 !== protocol?.protocol_sha256) {
     throw new Error("completed protocol-matched ablation run required");
   }
-  const byCondition = Object.fromEntries(run.conditions.map((entry) => [entry.condition, entry]));
-  if (!ablationConditions.every((condition) => byCondition[condition])) throw new Error("all diagnostic conditions are required");
+  const byCondition = Object.fromEntries((runConditions ?? []).map((entry) => [entry.condition, entry]));
+  const requiredConditions = ["terra-full-load", "terra-routed"];
+  if (!requiredConditions.every((condition) => byCondition[condition])) throw new Error("both context qualification conditions are required");
   const metric = (entry) => ({
     status: entry.status,
+    completed: entry.status === "completed" || entry.status === undefined,
     censored: entry.status === "censored",
+    stopped: entry.status === "stopped",
     stop_reason: entry.stop_reason,
     requested_model: entry.requested_model,
     requested_reasoning_effort: entry.requested_reasoning_effort,
+    observed_thread_reasoning_effort: entry.observed_thread_reasoning_effort ?? null,
+    effective_turn_reasoning_effort: entry.effective_turn_reasoning_effort ?? null,
     recovery_pass: entry.recovery?.pass ?? null,
     exact_revision_count: entry.recovery?.exact_revision_count ?? null,
     operational_tokens: entry.operational_tokens,
@@ -2344,11 +2360,11 @@ export function analyzeContextAblation({ protocol, run, generatedAt = new Date()
     context_resolve_calls: entry.tool_activity.context_resolve_calls,
     reported_tool_output_bytes: entry.tool_activity.reported_output_bytes
   });
-  const conditions = Object.fromEntries(ablationConditions.map((condition) => [condition, metric(byCondition[condition])]));
+  const conditions = Object.fromEntries(Object.keys(byCondition).map((condition) => [condition, metric(byCondition[condition])]));
   const comparison = (baselineId, candidateId) => {
     const baseline = conditions[baselineId];
     const candidate = conditions[candidateId];
-    const exactComparisonAvailable = !baseline.censored && !candidate.censored;
+    const exactComparisonAvailable = baseline.completed && candidate.completed;
     const delta = (key) => Number.isFinite(candidate[key]) && Number.isFinite(baseline[key])
       ? candidate[key] - baseline[key]
       : null;
@@ -2361,6 +2377,8 @@ export function analyzeContextAblation({ protocol, run, generatedAt = new Date()
       exact_comparison_available: exactComparisonAvailable,
       baseline_censored: baseline.censored,
       candidate_censored: candidate.censored,
+      baseline_stopped: baseline.stopped,
+      candidate_stopped: candidate.stopped,
       objective_quality_equal: exactComparisonAvailable ? baseline.recovery_pass === candidate.recovery_pass : null,
       operational_token_delta: exactComparisonAvailable ? delta("operational_tokens") : null,
       operational_token_delta_percent: exactComparisonAvailable ? percent("operational_tokens") : null,
@@ -2370,23 +2388,31 @@ export function analyzeContextAblation({ protocol, run, generatedAt = new Date()
       time_to_first_activity_ms_delta: exactComparisonAvailable ? delta("time_to_first_activity_ms") : null,
       effective_output_tokens_per_second_delta: exactComparisonAvailable ? delta("effective_output_tokens_per_second") : null,
       reported_tool_output_byte_delta: exactComparisonAvailable ? delta("reported_tool_output_bytes") : null,
+      effective_effort_comparison_available: exactComparisonAvailable &&
+        baseline.effective_turn_reasoning_effort !== null && candidate.effective_turn_reasoning_effort !== null,
       observed_operational_token_lower_bound_delta: baseline.censored && !candidate.censored
         ? candidate.operational_tokens - baseline.operational_tokens
+        : candidate.censored && baseline.completed
+          ? candidate.operational_tokens - baseline.operational_tokens
         : null
     };
   };
   const contextComparison = comparison("terra-full-load", "terra-routed");
-  const modelComparison = comparison("terra-routed", "sol-routed-medium");
-  const effortComparison = comparison("sol-routed-medium", "sol-routed-xhigh");
-  const contextOutcome = conditions["terra-routed"].censored || conditions["terra-routed"].recovery_pass !== true
+  const modelComparison = byCondition["sol-routed-medium"] ? comparison("terra-routed", "sol-routed-medium") : null;
+  const effortComparison = byCondition["sol-routed-medium"] && byCondition["sol-routed-xhigh"]
+    ? comparison("sol-routed-medium", "sol-routed-xhigh")
+    : null;
+  const contextOutcome = !conditions["terra-routed"].completed || conditions["terra-routed"].recovery_pass !== true
     ? "routed-context-not-ready"
     : conditions["terra-full-load"].censored
       ? "routed-context-supported-within-ceiling"
+      : conditions["terra-full-load"].stopped
+        ? "routed-context-supported-with-full-load-failure"
       : !conditions["terra-full-load"].recovery_pass || conditions["terra-routed"].operational_tokens < conditions["terra-full-load"].operational_tokens
       ? "routed-context-supported"
       : "routed-context-correct-savings-not-observed";
   return {
-    schema_version: "temple.context-model-diagnostic-analysis/v5",
+    schema_version: "temple.context-model-diagnostic-analysis/v6",
     work_item_id: protocol.work_item_id,
     protocol_sha256: protocol.protocol_sha256,
     generated_at: generatedAt,
@@ -2402,14 +2428,16 @@ export function analyzeContextAblation({ protocol, run, generatedAt = new Date()
       model_routing_change_authorized: false,
       statistical_generalization: false,
       main_comparison_result: false,
-      note: "Four one-attempt diagnostic conditions isolate context loading, same-effort model choice, and Sol reasoning effort. A censored condition proves only that its approved ceiling was reached; exact deltas involving it remain unavailable. These observations do not prove a population effect, automatic routing policy, or Temple effectiveness."
+      note: "The declared one-attempt diagnostic conditions isolate context loading and, when present, requested model or effort choices. A censored condition proves only that its approved ceiling was reached, and a stopped condition preserves its causal failure; exact deltas involving either remain unavailable. Effective turn effort remains unknown unless the Provider reports it. These observations do not prove a population effect, automatic routing policy, or Temple effectiveness."
     }
   };
 }
 
 async function reportAblation(labRoot, protocolPath) {
   const protocol = await readJson(protocolPath);
-  const run = await readJson(path.join(labRoot, "ablation-run.json"));
+  const completedPath = path.join(labRoot, "ablation-run.json");
+  const stoppedPath = path.join(labRoot, "ablation-stopped-run.json");
+  const run = await readJson(await exists(completedPath) ? completedPath : stoppedPath);
   const analysis = analyzeContextAblation({ protocol, run });
   await writeJson(path.join(labRoot, "ablation-analysis.json"), analysis);
   return analysis;

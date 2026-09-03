@@ -95,3 +95,16 @@ V4 changes only stopped-condition evidence and isolation semantics. A per-condit
 V5 preserves v4's censored-condition isolation and whole-run safety boundaries. It prioritizes the three routed conditions so a later full-load failure cannot erase the model comparisons. The full-load ceiling is raised by 40,000 based on two retained observations: v2 completed full-load before the full-load-plus-partial-routed aggregate reached 104,893, while v3 crossed the prior 80,000 ceiling at 80,621. The other conditions remain at 80,000, so the total rises by 12.5% rather than doubling.
 
 The exact-approved v5 attempt ran from `2026-09-03T13:14:04.701Z` to `2026-09-03T13:25:45.002Z` and retained 233,753 Operational Tokens with zero retry and zero fallback. Terra routed completed at 53,823; Sol routed medium and xhigh were independently censored at 80,156; Terra full-load stopped at 19,618 after attempting a chained shell command prohibited by the frozen command policy. The run also exposed a schema/evaluator mismatch for descriptive `completed_slices` values and a top-level stop-reason ordering defect. The result is diagnostic partial evidence, not a completed comparison or routing decision.
+
+## Context-recovery qualification v6
+
+- Protocol SHA-256: `74f581c82408340462f1c65ef6a0666847c40ac4750303d08c5adb60ee6c153f`
+- Condition order: Terra routed; Terra full-load
+- Routed Operational-Token hard stop: 80,000
+- Full-load Operational-Token hard stop: 120,000
+- Combined Operational-Token hard stop: 200,000
+- Wall-clock hard stop: 20 minutes
+- Retry and fallback: disabled
+- Status: generation disabled until exact account approval
+
+V6 does not repeat the censored Sol conditions. It narrows the remaining gate to the two matched Terra medium context strategies required by the risk review before the main Temple-versus-minimal comparison. The exact slice IDs are now part of the Provider output schema, the evaluator consumes those same IDs, stopped results remain analyzable, and causal command-policy failures are no longer masked by a later context-sequence check.

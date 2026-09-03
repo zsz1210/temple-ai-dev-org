@@ -1,0 +1,296 @@
+{
+  "schema_version": "temple.context-model-diagnostic/v5",
+  "work_item_id": "WI-0136",
+  "status": "generation-disabled",
+  "protocol_sha256": "9c947a32b2e63f771de3bcdfae2f3e95dd8ab69b66a65e812473c28ec04d615f",
+  "lab_manifest_sha256": "101513c085b02ae33e71d3fb945cbf5ccb3819023aad2b22df12c1ed48ef5796",
+  "source_digests": {
+    "fixture_sha256": "194a69a223222f53ddc1fca78dc3a3cf318d7705d007ebd34b8176f9de325303",
+    "runner_sha256": "aa0478637c642325de24d529a47e131d6f0927a9a9446780d999e184624d8bc5",
+    "analyzer_sha256": "5e614a7879a8fbdb7655d6780dcf0c7e693e7326259fa166d7fe3231f1151c5c",
+    "task_sha256": "5dfd10dce99196f282f0560a25aaffd359b7af2119a62d943e465f19ae46369c",
+    "public_tests_sha256": "8809e165ee024f5606a48c38bb0f6065e3b943fcd00d05fda5fdd6099e0f41f9",
+    "held_out_tests_sha256": "d4f781d5b03d14c08a4214185ae525c1c6a0e7a7f2c8c9ff1d24291b27363a47",
+    "tool_policy_sha256": "4177975086462d296e7a6f62d05f00a76cecaf2b8288c0ef0cd8d0d21c51049b",
+    "rubric_sha256": "364d20a3102ddd78131fd2566b8579957b14df2d6638efd3ef1e97e94faeaf3f"
+  },
+  "prompt_contract": {
+    "base_instructions": {
+      "bytes": 168,
+      "characters": 168,
+      "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+    },
+    "developer_instructions": {
+      "bytes": 560,
+      "characters": 560,
+      "sha256": "45d37d5363155e0929d2b32410d811bffe16e29f75ce55910680115f88f93d4f"
+    },
+    "output_schema": {
+      "bytes": 606,
+      "characters": 606,
+      "sha256": "af99566c4f630e8d2b583c00204e3f85446343cd6991c29d3da2decdbc11fb6a"
+    },
+    "conditions": {
+      "terra-routed": {
+        "strategy": "temple-routed-context-v1",
+        "model": "gpt-5.6-terra",
+        "reasoning_effort": "medium",
+        "user_input": {
+          "bytes": 874,
+          "characters": 874,
+          "sha256": "c4272639d4f2f0095b8bda84734ec7a4be2d53d6adbf5d11292d6cc4f132420d"
+        }
+      },
+      "sol-routed-medium": {
+        "strategy": "temple-routed-context-v1",
+        "model": "gpt-5.6-sol",
+        "reasoning_effort": "medium",
+        "user_input": {
+          "bytes": 874,
+          "characters": 874,
+          "sha256": "c4272639d4f2f0095b8bda84734ec7a4be2d53d6adbf5d11292d6cc4f132420d"
+        }
+      },
+      "sol-routed-xhigh": {
+        "strategy": "temple-routed-context-v1",
+        "model": "gpt-5.6-sol",
+        "reasoning_effort": "xhigh",
+        "user_input": {
+          "bytes": 874,
+          "characters": 874,
+          "sha256": "c4272639d4f2f0095b8bda84734ec7a4be2d53d6adbf5d11292d6cc4f132420d"
+        }
+      },
+      "terra-full-load": {
+        "strategy": "temple-full-load-v1",
+        "model": "gpt-5.6-terra",
+        "reasoning_effort": "medium",
+        "user_input": {
+          "bytes": 740,
+          "characters": 740,
+          "sha256": "9e2338ce2860d43d893b2ab4086c0dd85e3b1aebd0ed4c98d6501913d72764af"
+        }
+      }
+    }
+  },
+  "conditions": [
+    {
+      "id": "terra-routed",
+      "context_strategy": "routed",
+      "model_route": {
+        "model": "gpt-5.6-terra",
+        "reasoning_effort": "medium"
+      },
+      "operational_token_limit": 80000,
+      "repositories": {
+        "gateway": {
+          "revision": "a2181352462ee786f2b4158c35ec661784b7633f",
+          "tree": "e530cf6234d19f641c3a89e2f426cff2c3606aa3"
+        },
+        "catalog": {
+          "revision": "6855eec132747b1c1ba85986debc28341f5a5fa7",
+          "tree": "21d1c1ac2e60ce374b24c7bde9f2c5ab41857119"
+        },
+        "orders": {
+          "revision": "a93154064c71fd48c5231a3b9bcffb18e8ffa6ad",
+          "tree": "8dc9efa083ae600d3c675528d837ec55261af449"
+        },
+        "notifications": {
+          "revision": "f5477295683fb6a82477c91cf129c2a9be0f059a",
+          "tree": "40d4f0939493c65f28196878c5f0dc9369d4d705"
+        },
+        "coordinator": {
+          "revision": "61bca96e7125ddeeeaeaa8ead9a12330f3abcd68",
+          "tree": "71ff28e7b6ffd85a796a639379d562bf36615b8c"
+        }
+      }
+    },
+    {
+      "id": "sol-routed-medium",
+      "context_strategy": "routed",
+      "model_route": {
+        "model": "gpt-5.6-sol",
+        "reasoning_effort": "medium"
+      },
+      "operational_token_limit": 80000,
+      "repositories": {
+        "gateway": {
+          "revision": "a2181352462ee786f2b4158c35ec661784b7633f",
+          "tree": "e530cf6234d19f641c3a89e2f426cff2c3606aa3"
+        },
+        "catalog": {
+          "revision": "6855eec132747b1c1ba85986debc28341f5a5fa7",
+          "tree": "21d1c1ac2e60ce374b24c7bde9f2c5ab41857119"
+        },
+        "orders": {
+          "revision": "a93154064c71fd48c5231a3b9bcffb18e8ffa6ad",
+          "tree": "8dc9efa083ae600d3c675528d837ec55261af449"
+        },
+        "notifications": {
+          "revision": "f5477295683fb6a82477c91cf129c2a9be0f059a",
+          "tree": "40d4f0939493c65f28196878c5f0dc9369d4d705"
+        },
+        "coordinator": {
+          "revision": "61bca96e7125ddeeeaeaa8ead9a12330f3abcd68",
+          "tree": "71ff28e7b6ffd85a796a639379d562bf36615b8c"
+        }
+      }
+    },
+    {
+      "id": "sol-routed-xhigh",
+      "context_strategy": "routed",
+      "model_route": {
+        "model": "gpt-5.6-sol",
+        "reasoning_effort": "xhigh"
+      },
+      "operational_token_limit": 80000,
+      "repositories": {
+        "gateway": {
+          "revision": "a2181352462ee786f2b4158c35ec661784b7633f",
+          "tree": "e530cf6234d19f641c3a89e2f426cff2c3606aa3"
+        },
+        "catalog": {
+          "revision": "6855eec132747b1c1ba85986debc28341f5a5fa7",
+          "tree": "21d1c1ac2e60ce374b24c7bde9f2c5ab41857119"
+        },
+        "orders": {
+          "revision": "a93154064c71fd48c5231a3b9bcffb18e8ffa6ad",
+          "tree": "8dc9efa083ae600d3c675528d837ec55261af449"
+        },
+        "notifications": {
+          "revision": "f5477295683fb6a82477c91cf129c2a9be0f059a",
+          "tree": "40d4f0939493c65f28196878c5f0dc9369d4d705"
+        },
+        "coordinator": {
+          "revision": "61bca96e7125ddeeeaeaa8ead9a12330f3abcd68",
+          "tree": "71ff28e7b6ffd85a796a639379d562bf36615b8c"
+        }
+      }
+    },
+    {
+      "id": "terra-full-load",
+      "context_strategy": "full-load",
+      "model_route": {
+        "model": "gpt-5.6-terra",
+        "reasoning_effort": "medium"
+      },
+      "operational_token_limit": 120000,
+      "repositories": {
+        "gateway": {
+          "revision": "a2181352462ee786f2b4158c35ec661784b7633f",
+          "tree": "e530cf6234d19f641c3a89e2f426cff2c3606aa3"
+        },
+        "catalog": {
+          "revision": "6855eec132747b1c1ba85986debc28341f5a5fa7",
+          "tree": "21d1c1ac2e60ce374b24c7bde9f2c5ab41857119"
+        },
+        "orders": {
+          "revision": "a93154064c71fd48c5231a3b9bcffb18e8ffa6ad",
+          "tree": "8dc9efa083ae600d3c675528d837ec55261af449"
+        },
+        "notifications": {
+          "revision": "f5477295683fb6a82477c91cf129c2a9be0f059a",
+          "tree": "40d4f0939493c65f28196878c5f0dc9369d4d705"
+        },
+        "coordinator": {
+          "revision": "61bca96e7125ddeeeaeaa8ead9a12330f3abcd68",
+          "tree": "71ff28e7b6ffd85a796a639379d562bf36615b8c"
+        }
+      }
+    }
+  ],
+  "execution": {
+    "condition_order": [
+      "terra-routed",
+      "sol-routed-medium",
+      "sol-routed-xhigh",
+      "terra-full-load"
+    ],
+    "candidate_turns": 4,
+    "evaluator_turns": 0,
+    "retry_count": 0,
+    "fallback_count": 0,
+    "network_access": false,
+    "generation_ready": false,
+    "exact_approval_required": true,
+    "candidate_limit_disposition": "record-censored-and-continue-independent-conditions",
+    "integration_operational_token_limit": 120000,
+    "candidate_aggregate_operational_token_limit": 360000,
+    "combined_operational_token_limit": 360000,
+    "program_wall_clock_limit_ms": 2400000
+  },
+  "provider_contract": {
+    "codex_cli_version": "codex-cli 0.151.0-alpha.7.2",
+    "schema_digests": {
+      "ThreadStartParams.json": "792e2f32e37cece971bd616664ea2053741acbed4e9c92e9d1766427718f2ecd",
+      "TurnStartParams.json": "a3835e8c1e942e4b358e1a670939b89918b16c4d13105a579899892b7ade6dea",
+      "ThreadStartResponse.json": "c8fb6bcd1e4fb5ead6b487f0f35a90d8f13c9272edd4285914012dda403a77d2",
+      "TurnStartResponse.json": "7a817a98d78ac8e982c82c24bf8f7a2d2e61cca9fb91e5386e31cae0888e38e2",
+      "ItemStartedNotification.json": "e30713dca6e8f6842a0c5350003ea433b6cbb4894209b4f871894450caa67b6f",
+      "TurnCompletedNotification.json": "b85470d9eadbcad52700bd1d5aae187a9cd995e50b7099ed05469b6d41d6b997",
+      "ItemCompletedNotification.json": "9958dce3bcab754e88323d233dff5f4c2ee04ce35f068a18d8f83f93528acf8b",
+      "ThreadTokenUsageUpdatedNotification.json": "aba4f6c7e4a19b2b842c08ee793b57000c07dafd57b922ad0d8e7c76609108c2",
+      "ModelReroutedNotification.json": "37cd3c1b3a3560b85b01d4061a07d830fc9ed93b80e4663f975f9197cdb501ef",
+      "TurnInterruptParams.json": "6dff382dae73d1dbc58406ed045605f647e7a49660e2540fbd2c6c24d60c5f2b"
+    },
+    "required_models": [
+      {
+        "model": "gpt-5.6-terra",
+        "reasoning_efforts": [
+          "medium"
+        ]
+      },
+      {
+        "model": "gpt-5.6-sol",
+        "reasoning_efforts": [
+          "medium",
+          "xhigh"
+        ]
+      }
+    ]
+  },
+  "limit_basis": {
+    "sources": [
+      ".ai-org/artifacts/WI-0136/context-model-diagnostic-v2-stopped-run.json",
+      ".ai-org/artifacts/WI-0136/context-model-diagnostic-v3-stopped-run.json"
+    ],
+    "source_sha256": {
+      "v2_stopped_run": "32aa163ab90bb9beaa70096e4e16b2d8d7ca01ac71c107cda03e9bf68070a343",
+      "v3_stopped_run": "e88d3cd8e153ad0c9473e73a611147f08a06de7c78440aba3686b402c3152fb9"
+    },
+    "prior_integration_operational_token_limit": 80000,
+    "v2_completed_full_load_plus_partial_routed_operational_tokens": 104893,
+    "v3_full_load_stop_operational_tokens": 80621,
+    "meaning": "Routed conditions retain the reviewed 80,000 ceiling. Full-load receives 120,000 because v2 completed that condition within an aggregate observation no greater than 104,893, while v3 crossed 80,000 before completion. The 360,000 total is the exact sum of condition ceilings, not expected use or price."
+  },
+  "measures": [
+    "objective-recovery",
+    "exact-revisions",
+    "governing-contract",
+    "completed-slices",
+    "safe-next-action",
+    "input-tokens",
+    "cached-input-tokens",
+    "output-tokens",
+    "operational-tokens",
+    "reasoning-output-tokens",
+    "elapsed-ms",
+    "session-setup-ms",
+    "turn-elapsed-ms",
+    "time-to-first-activity-ms",
+    "time-to-first-command-ms",
+    "effective-output-tokens-per-second",
+    "explicit-prompt-bytes",
+    "context-command-sequence",
+    "reported-tool-output-bytes"
+  ],
+  "claims": {
+    "statistical_generalization": false,
+    "main_comparison_result": false,
+    "automatic_routing_authority": false,
+    "monetary_cost_known": false,
+    "raw_prompts_retained": false,
+    "raw_responses_retained": false,
+    "hidden_reasoning_retained": false
+  }
+}
