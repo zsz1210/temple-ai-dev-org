@@ -184,7 +184,7 @@
 | WI-0134 | Repair invalid historical evidence records | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ad1f06a5` | 0 | 18 | 0 |
 | WI-0135 | Run optimized Terra process confirmation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `00ea3a47` | 0 | 24 | 0 |
 | WI-0136 | Execute representative multi-Agent microservice comparison | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f76d2e7b` | 0 | 20 | 0 |
-| WI-0137 | Make context routing stage-aware and measurement-ready | spec | Product Manager | Yuna | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903235555-14d573d5 | `—` | 0 | 1 | 0 |
+| WI-0137 | Make context routing stage-aware and measurement-ready | design | Tech Lead | Tidus | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903235645-69372389 | `—` | 0 | 3 | 0 |
 
 ## Codex task registry
 
@@ -326,14 +326,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-03T23:56:45.827Z | work_item_claimed | WI-0137 | human |
+| 2026-09-03T23:56:45.576Z | work_item_coordination_configured | WI-0137 | agent-tidus |
+| 2026-09-03T23:56:45.351Z | work_item_transitioned | WI-0137 | agent-yuna |
+| 2026-09-03T23:56:45.121Z | work_item_claim_released | WI-0137 | human |
+| 2026-09-03T23:56:44.848Z | handoff_created | WI-0137 | agent-yuna |
 | 2026-09-03T23:55:55.563Z | work_item_claimed | WI-0137 | human |
 | 2026-09-03T23:55:55.309Z | work_item_coordination_configured | WI-0137 | agent-yuna |
 | 2026-09-03T23:55:46.887Z | work_item_coordination_configured | WI-0137 | agent-yuna |
-| 2026-09-03T23:55:41.277Z | work_item_coordination_configured | WI-0137 | agent-yuna |
-| 2026-09-03T23:55:32.761Z | work_item_transitioned | WI-0137 | agent-mog |
-| 2026-09-03T23:55:06.667Z | work_item_created | WI-0137 | agent-mog |
-| 2026-09-03T23:33:51.755Z | work_item_unresolved_updated | WI-0136 | agent-mog |
-| 2026-09-03T23:33:31.896Z | work_item_transitioned | WI-0136 | agent-lulu |
 
 ## Assignments
 

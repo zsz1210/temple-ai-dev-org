@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0137",
   "title": "Make context routing stage-aware and measurement-ready",
-  "state": "spec",
-  "owner_position": "product_manager",
-  "assigned_agent_id": "agent-yuna",
+  "state": "design",
+  "owner_position": "tech_lead",
+  "assigned_agent_id": "agent-tidus",
   "created_at": "2026-09-03T23:55:06.667Z",
-  "updated_at": "2026-09-03T23:55:55.563Z",
+  "updated_at": "2026-09-03T23:56:45.827Z",
   "scope": [
     "Add stage- and purpose-bound Context Capsules that route only relevant sources without copying source bodies or expanding authority.",
     "Expose content-addressed source size and category measurements so context, cached-input, latency, and storage trade-offs can be analyzed without guessing.",
@@ -77,45 +77,76 @@
       "resources": []
     }
   },
-  "base_revision": "b4d680e",
+  "base_revision": "904bc6b",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
-  "planned_agent_id": "agent-yuna",
+  "planned_agent_id": "agent-tidus",
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260903235555-14d573d5",
+    "id": "claim-20260903235645-69372389",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-yuna",
-    "base_revision": "b4d680e",
+    "agent_id": "agent-tidus",
+    "base_revision": "904bc6b",
     "branch": "codex/wi-0137-stage-context-capsules",
     "worktree": null,
-    "claimed_at": "2026-09-03T23:55:55.563Z",
+    "claimed_at": "2026-09-03T23:56:45.827Z",
     "released_at": null
   },
   "claims": [
     {
       "id": "claim-20260903235555-14d573d5",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-yuna",
       "base_revision": "b4d680e",
       "branch": "codex/wi-0137-stage-context-capsules",
       "worktree": null,
       "claimed_at": "2026-09-03T23:55:55.563Z",
+      "released_at": "2026-09-03T23:56:45.121Z",
+      "release_reason": [
+        "Product scope handed off to Tech Lead."
+      ]
+    },
+    {
+      "id": "claim-20260903235645-69372389",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "904bc6b",
+      "branch": "codex/wi-0137-stage-context-capsules",
+      "worktree": null,
+      "claimed_at": "2026-09-03T23:56:45.827Z",
       "released_at": null
     }
   ],
   "gate_evidence": {
     "work_order": [
       ".ai-org/work-items/WI-0137.json"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0137/product-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0137/product-scope.md"
     ]
   },
   "evidence": [
-    ".ai-org/work-items/WI-0137.json"
+    ".ai-org/work-items/WI-0137.json",
+    ".ai-org/artifacts/WI-0137/handoff-001-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0137/product-scope.md"
   ],
   "unresolved": [],
-  "next_position": "tech_lead"
+  "next_position": "developer",
+  "handoffs": [
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "904bc6b",
+      "artifact": ".ai-org/artifacts/WI-0137/handoff-001-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-03T23:56:44.848Z"
+    }
+  ]
 }
