@@ -349,6 +349,18 @@ function duplicateEntryIds(entries, field) {
   return duplicateStrings(Array.isArray(entries) ? entries.map((entry) => entry?.[field]) : []);
 }
 
+function nonBlankString(value) {
+  return typeof value === "string" && value.trim().length > 0;
+}
+
+function validateRouteStrings(values, label, errors, { identifiers = false } = {}) {
+  if (!Array.isArray(values)) return;
+  for (const value of values) {
+    if (!nonBlankString(value)) errors.push(`${label} contains a blank value`);
+    else if (identifiers && !validIdentifier(value)) errors.push(`${label} contains an invalid identifier: ${value}`);
+  }
+}
+
 export function validateExecutionRoute(document) {
   const errors = [];
   if (document?.schema_version !== EXECUTION_ROUTE_SCHEMA) {
@@ -361,6 +373,7 @@ export function validateExecutionRoute(document) {
   ) {
     errors.push("route authority must remain read-only and non-executing");
   }
+  if (!nonBlankString(document?.request?.work_item_id)) errors.push("request.work_item_id must be non-blank");
   if (!Array.isArray(document?.steps) || document.steps.length === 0) {
     return { valid: false, errors: [...errors, "steps must be non-empty"] };
   }
@@ -372,6 +385,9 @@ export function validateExecutionRoute(document) {
   let unresolved = 0;
   for (const [index, step] of document.steps.entries()) {
     const label = `steps[${index}]`;
+    for (const field of ["position_id", "lifecycle_stage", "task_kind", "context_profile_digest"]) {
+      if (!nonBlankString(step?.task_shape?.[field])) errors.push(`${label}.task_shape.${field} must be non-blank`);
+    }
     const required = Array.isArray(step?.capability_route?.required) ? step.capability_route.required : [];
     const optional = Array.isArray(step?.capability_route?.optional) ? step.capability_route.optional : [];
     const unknownRequired = Array.isArray(step?.capability_route?.unknown_required)
@@ -380,6 +396,14 @@ export function validateExecutionRoute(document) {
     const unknownOptional = Array.isArray(step?.capability_route?.unknown_optional)
       ? step.capability_route.unknown_optional
       : [];
+    validateRouteStrings(required, `${label}.capability_route.required`, errors, { identifiers: true });
+    validateRouteStrings(optional, `${label}.capability_route.optional`, errors, { identifiers: true });
+    validateRouteStrings(unknownRequired, `${label}.capability_route.unknown_required`, errors, { identifiers: true });
+    validateRouteStrings(unknownOptional, `${label}.capability_route.unknown_optional`, errors, { identifiers: true });
+    const requiredOptionalOverlap = optional.filter((id) => required.includes(id));
+    if (requiredOptionalOverlap.length > 0) {
+      errors.push(`${label}.capability_route required and optional capabilities overlap: ${[...new Set(requiredOptionalOverlap)].join(", ")}`);
+    }
     for (const id of unknownRequired) {
       if (!required.includes(id)) errors.push(`${label}.capability_route.unknown_required is not a subset of required: ${id}`);
     }
@@ -388,14 +412,37 @@ export function validateExecutionRoute(document) {
     }
 
     const expectedAuthority = routeAuthority(step?.selection?.mode);
+    if (!SELECTION_MODES.includes(step?.selection?.mode)) errors.push(`${label}.selection.mode is invalid`);
     if (step?.selection?.authority !== expectedAuthority) {
       errors.push(`${label}.selection.authority must be ${expectedAuthority}`);
+    }
+    const selectionMode = step?.selection?.mode;
+    const selectionStatus = step?.selection?.status;
+    const unresolvedReason = step?.selection?.unresolved_reason;
+    const pinnedReasons = new Set(["pinned-profile-not-found", "pinned-profile-ineligible"]);
+    if (selectionMode === "pinned") {
+      if (step?.selection?.fallback_applied !== false) errors.push(`${label}.selection pinned mode cannot apply fallback`);
+      if (selectionStatus === "unresolved" && !pinnedReasons.has(unresolvedReason)) {
+        errors.push(`${label}.selection pinned mode requires a pinned-specific unresolved reason`);
+      }
+    } else if (pinnedReasons.has(unresolvedReason)) {
+      errors.push(`${label}.selection non-pinned mode cannot use a pinned-specific unresolved reason`);
+    }
+    if (unknownRequired.length > 0) {
+      if (selectionStatus !== "unresolved" || unresolvedReason !== "unknown-required-capability") {
+        errors.push(`${label}.selection must fail closed for unknown required capabilities`);
+      }
+    } else if (unresolvedReason === "unknown-required-capability") {
+      errors.push(`${label}.selection cannot claim unknown required capabilities when none are reported`);
     }
 
     const eligibleIds = Array.isArray(step?.eligibility?.eligible_profile_ids)
       ? step.eligibility.eligible_profile_ids
       : [];
     const rejected = Array.isArray(step?.eligibility?.rejected) ? step.eligibility.rejected : [];
+    for (const [rejectedIndex, entry] of rejected.entries()) {
+      validateRouteStrings(entry?.reasons, `${label}.eligibility.rejected[${rejectedIndex}].reasons`, errors);
+    }
     const rejectedIds = rejected.map((entry) => entry?.profile_id);
     const duplicateRejectedIds = duplicateStrings(rejectedIds);
     if (duplicateRejectedIds.length > 0) {
@@ -412,6 +459,13 @@ export function validateExecutionRoute(document) {
       if (step?.selection?.unresolved_reason !== null) errors.push(`${label}.selection.unresolved_reason must be null when resolved`);
       if (step?.selected?.profile_id && !eligibleIds.includes(step.selected.profile_id)) {
         errors.push(`${label}.selected.profile_id must be eligible`);
+      }
+      const requested = step?.selected?.requested;
+      const mapping = [requested?.provider_id, requested?.model, requested?.reasoning_effort];
+      const allNull = mapping.every((value) => value === null);
+      const allConcrete = mapping.every((value) => nonBlankString(value));
+      if (!allNull && !allConcrete) {
+        errors.push(`${label}.selected.requested must map provider_id, model, and reasoning_effort together or leave all three null`);
       }
     } else if (step?.selection?.status === "unresolved") {
       unresolved += 1;

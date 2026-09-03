@@ -3,10 +3,16 @@
   "$id": "temple.execution-route/v1",
   "$defs": {
     "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+    "nonBlank": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
     "strings": {
       "type": "array",
       "uniqueItems": true,
-      "items": { "type": "string", "minLength": 1 }
+      "items": { "$ref": "#/$defs/nonBlank" }
+    },
+    "ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/id" }
     },
     "resourceLimit": {
       "type": "object",
@@ -42,11 +48,11 @@
       "additionalProperties": false,
       "required": ["position_id", "lifecycle_stage", "task_kind", "risk_class", "context_profile_digest"],
       "properties": {
-        "position_id": { "type": "string", "minLength": 1 },
-        "lifecycle_stage": { "type": "string", "minLength": 1 },
-        "task_kind": { "type": "string", "minLength": 1 },
+        "position_id": { "$ref": "#/$defs/nonBlank" },
+        "lifecycle_stage": { "$ref": "#/$defs/nonBlank" },
+        "task_kind": { "$ref": "#/$defs/nonBlank" },
         "risk_class": { "enum": ["low", "standard", "high", "critical"] },
-        "context_profile_digest": { "type": "string", "minLength": 1 }
+        "context_profile_digest": { "$ref": "#/$defs/nonBlank" }
       }
     },
     "capabilityRoute": {
@@ -54,10 +60,10 @@
       "additionalProperties": false,
       "required": ["required", "optional", "unknown_required", "unknown_optional"],
       "properties": {
-        "required": { "allOf": [{ "$ref": "#/$defs/strings" }, { "minItems": 1 }] },
-        "optional": { "$ref": "#/$defs/strings" },
-        "unknown_required": { "$ref": "#/$defs/strings" },
-        "unknown_optional": { "$ref": "#/$defs/strings" }
+        "required": { "allOf": [{ "$ref": "#/$defs/ids" }, { "minItems": 1 }] },
+        "optional": { "$ref": "#/$defs/ids" },
+        "unknown_required": { "$ref": "#/$defs/ids" },
+        "unknown_optional": { "$ref": "#/$defs/ids" }
       }
     },
     "selection": {
@@ -73,7 +79,32 @@
         "unresolved_reason": {
           "enum": [null, "pinned-profile-not-found", "pinned-profile-ineligible", "unknown-required-capability", "no-eligible-profile"]
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "mode": { "const": "pinned" } }, "required": ["mode"] },
+          "then": {
+            "properties": {
+              "authority": { "const": "human-or-coordinator-pinned" },
+              "fallback_applied": { "const": false },
+              "unresolved_reason": { "enum": [null, "pinned-profile-not-found", "pinned-profile-ineligible"] }
+            }
+          },
+          "else": {
+            "properties": {
+              "unresolved_reason": { "enum": [null, "unknown-required-capability", "no-eligible-profile"] }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "mode": { "const": "advisory" } }, "required": ["mode"] },
+          "then": { "properties": { "authority": { "const": "advisory" } } }
+        },
+        {
+          "if": { "properties": { "mode": { "const": "shadow" } }, "required": ["mode"] },
+          "then": { "properties": { "authority": { "const": "none" } } }
+        }
+      ]
     },
     "selectedProfile": {
       "type": "object",
@@ -86,12 +117,28 @@
           "additionalProperties": false,
           "required": ["provider_id", "model", "reasoning_effort", "model_class", "reasoning_class"],
           "properties": {
-            "provider_id": { "type": ["string", "null"], "minLength": 1 },
-            "model": { "type": ["string", "null"], "minLength": 1 },
-            "reasoning_effort": { "type": ["string", "null"], "minLength": 1 },
+            "provider_id": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/nonBlank" }] },
+            "model": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/nonBlank" }] },
+            "reasoning_effort": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/nonBlank" }] },
             "model_class": { "enum": ["efficient", "balanced", "frontier", "specialized", "local"] },
             "reasoning_class": { "enum": ["none", "light", "balanced", "deep"] }
-          }
+          },
+          "oneOf": [
+            {
+              "properties": {
+                "provider_id": { "const": null },
+                "model": { "const": null },
+                "reasoning_effort": { "const": null }
+              }
+            },
+            {
+              "properties": {
+                "provider_id": { "$ref": "#/$defs/nonBlank" },
+                "model": { "$ref": "#/$defs/nonBlank" },
+                "reasoning_effort": { "$ref": "#/$defs/nonBlank" }
+              }
+            }
+          ]
         },
         "effective": {
           "type": "object",
@@ -128,7 +175,7 @@
                 "type": "array",
                 "minItems": 1,
                 "uniqueItems": true,
-                "items": { "type": "string", "minLength": 1 }
+                "items": { "$ref": "#/$defs/nonBlank" }
               }
             }
           }
@@ -157,7 +204,7 @@
       "required": ["schema_version", "work_item_id"],
       "properties": {
         "schema_version": { "const": "temple.execution-request/v1" },
-        "work_item_id": { "type": "string", "minLength": 1 }
+        "work_item_id": { "$ref": "#/$defs/nonBlank" }
       }
     },
     "authority": {
@@ -214,6 +261,29 @@
               "properties": {
                 "selected": { "type": "null" },
                 "selection": { "properties": { "unresolved_reason": { "not": { "type": "null" } } } }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "capability_route": {
+                  "properties": { "unknown_required": { "minItems": 1 } },
+                  "required": ["unknown_required"]
+                }
+              },
+              "required": ["capability_route"]
+            },
+            "then": {
+              "properties": {
+                "selection": {
+                  "properties": {
+                    "status": { "const": "unresolved" },
+                    "unresolved_reason": { "const": "unknown-required-capability" },
+                    "fallback_applied": { "const": false }
+                  }
+                },
+                "selected": { "type": "null" }
               }
             }
           }

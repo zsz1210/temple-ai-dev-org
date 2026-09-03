@@ -90,6 +90,34 @@ test("the managed Execution Route schema rejects the post-close Independent QA c
   assert.equal(validate(validRoute), true, JSON.stringify(validate.errors, null, 2));
   assert.deepEqual(validateExecutionRoute(validRoute), { valid: true, errors: [] });
 
+  const neutralRoute = resolveExecutionRequest(defaultExecutionPolicy(), request([step("neutral-route", {
+    allowed_provider_ids: []
+  })]), { generatedAt: "2026-09-03T00:00:00.000Z" });
+  const pinnedUnresolved = resolveExecutionRequest(mappedPolicy(), request([step("pinned-unresolved", {
+    risk_class: "high",
+    selection: { mode: "pinned", pinned_profile_id: "standard" }
+  })]), { generatedAt: "2026-09-03T00:00:00.000Z" });
+  const shadowRoute = resolveExecutionRequest(mappedPolicy(), request([step("shadow-route", {
+    selection: { mode: "shadow" }
+  })]), { generatedAt: "2026-09-03T00:00:00.000Z" });
+  const mediaFixture = JSON.parse(await fs.readFile(new URL("fixtures/execution-routing/content-production.json", import.meta.url), "utf8"));
+  const mediaPolicy = defaultExecutionPolicy();
+  mediaPolicy.capabilities.push(...mediaFixture.capabilities);
+  mediaPolicy.profiles.push(mediaFixture.profile);
+  mediaPolicy.rules.unshift(mediaFixture.rule);
+  const mediaRoute = resolveExecutionRequest(mediaPolicy, mediaFixture.request, {
+    generatedAt: "2026-09-03T00:00:00.000Z"
+  });
+  for (const [label, route] of [
+    ["Provider-neutral", neutralRoute],
+    ["pinned unresolved", pinnedUnresolved],
+    ["shadow", shadowRoute],
+    ["media extension", mediaRoute]
+  ]) {
+    assert.equal(validate(route), true, `${label}: ${JSON.stringify(validate.errors, null, 2)}`);
+    assert.deepEqual(validateExecutionRoute(route), { valid: true, errors: [] }, label);
+  }
+
   const counterexamples = [
     ["numeric step identifier", (route) => { route.steps[0].step_id = 42; }],
     ["string task shape", (route) => { route.steps[0].task_shape = "build anything"; }],
@@ -99,6 +127,27 @@ test("the managed Execution Route schema rejects the post-close Independent QA c
       route.steps[0].selected.effective.status = "observed";
       route.steps[0].selected.effective.provider_id = "provider";
       route.steps[0].selected.effective.model = "claimed-model";
+    }],
+    ["partial requested mapping", (route) => { route.steps[0].selected.requested.model = null; }],
+    ["blank Work Item", (route) => { route.request.work_item_id = "   "; }],
+    ["blank Task Shape", (route) => { route.steps[0].task_shape.task_kind = "  "; }],
+    ["blank requested Provider", (route) => { route.steps[0].selected.requested.provider_id = "  "; }],
+    ["blank capability", (route) => { route.steps[0].capability_route.required[0] = "  "; }],
+    ["pinned route marked as fallback", (route) => {
+      route.steps[0].selection.mode = "pinned";
+      route.steps[0].selection.authority = "human-or-coordinator-pinned";
+      route.steps[0].selection.fallback_applied = true;
+    }],
+    ["advisory route with pinned-only unresolved reason", (route) => {
+      route.steps[0].selection.status = "unresolved";
+      route.steps[0].selection.unresolved_reason = "pinned-profile-not-found";
+      route.steps[0].selection.fallback_applied = false;
+      route.steps[0].selected = null;
+      route.summary.resolved = 0;
+      route.summary.unresolved = 1;
+    }],
+    ["resolved route with unknown required capability", (route) => {
+      route.steps[0].capability_route.unknown_required = [route.steps[0].capability_route.required[0]];
     }],
     ["unavailable resource represented as zero", (route) => { route.steps[0].resource_observations[0].value = 0; }],
     ["unexpected Provider launch command", (route) => { route.steps[0].command = { launch_provider: true }; }]
@@ -119,6 +168,30 @@ test("Execution Route semantic validation rejects structurally valid cross-field
     ["mode authority", (route) => { route.steps[0].selection.authority = "none"; }],
     ["selected eligibility", (route) => { route.steps[0].eligibility.eligible_profile_ids = []; }],
     ["unknown capability subset", (route) => { route.steps[0].capability_route.unknown_optional = ["not-declared"]; }],
+    ["resolved unknown required capability", (route) => {
+      route.steps[0].capability_route.unknown_required = [route.steps[0].capability_route.required[0]];
+    }],
+    ["required and optional capability overlap", (route) => {
+      route.steps[0].capability_route.optional = [route.steps[0].capability_route.required[0]];
+    }],
+    ["partial requested mapping", (route) => { route.steps[0].selected.requested.model = null; }],
+    ["blank Work Item", (route) => { route.request.work_item_id = "   "; }],
+    ["blank Task Shape", (route) => { route.steps[0].task_shape.task_kind = "  "; }],
+    ["blank capability", (route) => { route.steps[0].capability_route.required[0] = "  "; }],
+    ["blank rejected reason", (route) => { route.steps[0].eligibility.rejected[0].reasons[0] = "  "; }],
+    ["pinned fallback", (route) => {
+      route.steps[0].selection.mode = "pinned";
+      route.steps[0].selection.authority = "human-or-coordinator-pinned";
+      route.steps[0].selection.fallback_applied = true;
+    }],
+    ["non-pinned use of pinned reason", (route) => {
+      route.steps[0].selection.status = "unresolved";
+      route.steps[0].selection.unresolved_reason = "pinned-profile-not-found";
+      route.steps[0].selection.fallback_applied = false;
+      route.steps[0].selected = null;
+      route.summary.resolved = 0;
+      route.summary.unresolved = 1;
+    }],
     ["eligible and rejected overlap", (route) => {
       route.steps[0].eligibility.rejected.push({ profile_id: route.steps[0].selected.profile_id, reasons: ["invented"] });
     }],

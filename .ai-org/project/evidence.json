@@ -18554,6 +18554,33 @@
         "exit_code": 0,
         "started_at": "2026-09-03T03:23:15.874Z"
       }
+    },
+    {
+      "id": "EVID-20260903T032935Z-4F83E398",
+      "work_item_id": "WI-0120",
+      "recorded_at": "2026-09-03T03:29:35.463Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "risk",
+      "title": "medium risk",
+      "outcome": "open",
+      "scope_revision": "486c64df3006e6e8df6c3dd6d51a8a6e29c9843d",
+      "observed_at": "2026-09-03T03:29:35.463Z",
+      "summary": "Independent QA attempt 1 found nine accepted Route-validation bypasses, including resolved unknown required capabilities and partial requested mappings.",
+      "adapter": {
+        "id": "manual-risk-record",
+        "version": "1"
+      },
+      "artifacts": [],
+      "details": {
+        "severity": "medium",
+        "status": "open",
+        "mitigation": "Return to Build; encode mode/state/mapping invariants and retain every accepted bypass as a regression."
+      }
     }
   ]
 }
