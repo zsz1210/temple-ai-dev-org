@@ -1,0 +1,106 @@
+{
+  "schema_version": "temple.representative-microservice-frozen-scores/v1",
+  "work_item_id": "WI-0136",
+  "protocol_sha256": "ffc48213ef3704418cb031a1fdf0621fb79763df259c9bc290d340224a4ec06c",
+  "continuation_protocol_sha256": "3247ab0cfcfa8664efea67cd751cae51cbaf9d0729276f03d250010e81ab9eb5",
+  "source_candidate_run_sha256": "c78c1ab4753e9aca3c095389cafe19fead5cb98328a4faf23adba71ca0303165",
+  "frozen_at": "2026-09-03T23:23:21.943Z",
+  "packages": [
+    {
+      "package_id": "package-60b8212567fe0e47",
+      "dimensions": [
+        {
+          "id": "contract",
+          "score": 1,
+          "rationale": "Defines one explicit OrderPlaced/v2 envelope while Notifications retains v1 compatibility."
+        },
+        {
+          "id": "rollout",
+          "score": 1,
+          "rationale": "Prepares Notifications before v2 publication and requires Catalog availability before Orders enables v2."
+        },
+        {
+          "id": "boundaries",
+          "score": 1,
+          "rationale": "Changes are confined to declared service repositories, with no reported boundary violations or shared-file conflicts."
+        },
+        {
+          "id": "exact-revisions",
+          "score": 1,
+          "rationale": "Provides full revisions for gateway, catalog, orders, and notifications."
+        },
+        {
+          "id": "authority",
+          "score": 1,
+          "rationale": "Names coordinator/TASK.md as the governing contract rather than chat or generated status."
+        },
+        {
+          "id": "current-state",
+          "score": 1,
+          "rationale": "Identifies all completed slices and explicitly records remaining integration and Notifications-coverage gaps."
+        },
+        {
+          "id": "safe-next-action",
+          "score": 1,
+          "rationale": "Selects only the bounded Coordinator integration test and avoids deployment, publication, or follow-on implementation."
+        },
+        {
+          "id": "evidence-quality",
+          "score": 1,
+          "rationale": "Supports claims with passing objective tests, exact revisions, changed paths, clean trees, and retained handoffs."
+        }
+      ],
+      "critical_failure": null,
+      "summary": "Passes all eight dimensions; every objective test, including the held-out test, passed and no critical failure is reported."
+    },
+    {
+      "package_id": "package-836fb4e9fe89a6e4",
+      "dimensions": [
+        {
+          "id": "contract",
+          "score": 1,
+          "rationale": "Defines the exact OrderPlaced/v2 contract and explicitly preserves valid flat v1 consumption."
+        },
+        {
+          "id": "rollout",
+          "score": 1,
+          "rationale": "Prepares Notifications and Gateway before producer enablement, with Catalog made available before Orders publishes v2."
+        },
+        {
+          "id": "boundaries",
+          "score": 1,
+          "rationale": "Implementation paths remain within declared repositories, and no boundary violation or concurrent shared-file change is reported."
+        },
+        {
+          "id": "exact-revisions",
+          "score": 1,
+          "rationale": "Provides full recovered revisions for all four service repositories."
+        },
+        {
+          "id": "authority",
+          "score": 1,
+          "rationale": "Identifies coordinator/TASK.md and the frozen design record as governing contract sources."
+        },
+        {
+          "id": "current-state",
+          "score": 1,
+          "rationale": "Reports all three slices complete while retaining explicit QA, coverage, and persistence limitations."
+        },
+        {
+          "id": "safe-next-action",
+          "score": 1,
+          "rationale": "Limits the next action to QA review, assigned tests, and evidence recording without lifecycle mutation or deployment."
+        },
+        {
+          "id": "evidence-quality",
+          "score": 1,
+          "rationale": "Ties completion to passing service and integration tests, exact revisions, clean trees, and retained handoff evidence."
+        }
+      ],
+      "critical_failure": null,
+      "summary": "Passes all eight dimensions; every objective test, including the held-out test, passed and no critical failure is reported."
+    }
+  ],
+  "summary": "Both arm-neutral packages satisfy the frozen binary rubric with no critical failures.",
+  "mapping_unsealed_after_freeze": true
+}

@@ -10,7 +10,7 @@ From representative protocol v3 through evaluator continuation v15, eleven live 
 - one was the intentional v4 Design Operational-Token ceiling; and
 - zero produced a completed arm-blind Temple-versus-baseline judgment.
 
-V13 later completed all ten candidate turns, both arms, all objective tests, and exact cold recovery. Its evaluator still stopped, but the old runner masked the Provider terminal behind a missing-usage message. The underlying cause therefore remains unknown.
+V13 later completed all ten candidate turns, both arms, all objective tests, and exact cold recovery. Its evaluator still stopped, but the old runner masked the Provider terminal behind a missing-usage message. The underlying v13 cause therefore remains unknown. The separately approved v16 continuation then completed the frozen arm-blind evaluation successfully without regenerating candidate work.
 
 ## Failure classification
 
@@ -51,8 +51,8 @@ V15 added the first evaluator-only production-path rehearsal, but the injected l
 7. Release waits on a terminal, abort, child-process exit, or deadline so a missing terminal cannot hang indefinitely.
 8. Preserve Provider terminal details, transport failures, observed item types, usage, and semantic-validation failures in the stopped evidence instead of replacing them with a later symptom.
 
-The v16 durable readiness record contains fourteen passing checks, zero Operational Tokens, zero retry, zero fallback, and `model_generation_performed: false`. Live preflight contains twenty-three checks; exact human approval is intentionally the only remaining blocker.
+The v16 durable readiness record contains fourteen passing checks, zero Operational Tokens, zero retry, zero fallback, and `model_generation_performed: false`. After exact human approval, all twenty-three live preflight checks passed. The evaluator completed once in 37.693 seconds with 20,860 Operational Tokens, zero retry, zero fallback, no tool activity, frozen scores before mapping unseal, and no critical failure in either anonymous package.
 
 ## Interpretation boundary
 
-This repair materially lowers the risk of repeating known harness classes. It cannot guarantee that a live Provider or model will never return a new failure. If a new live failure occurs, v16 must retain its actual terminal, item types, usage state, and stage observation so the result is diagnosable without guessing or spending another turn merely to discover what happened.
+This repair materially lowered the risk of repeating the known harness classes and completed the bounded v16 path. It does not prove that a future Provider or model can never return a new failure. The completed evidence shows that v16 retained the terminal, observed item types, usage, score-freeze order, and final analysis needed to diagnose or reproduce this run without guessing.

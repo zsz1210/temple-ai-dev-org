@@ -378,9 +378,13 @@ The exact-approved v15 turn stopped on `evaluator-tool-policy-violation`. Inspec
 - Account boundary: Pro included allowance only; no Credits purchase or refill; no reset
 - Installed item contract: nineteen types partitioned into five passive no-tool values and fourteen denied values
 - Generation-free readiness: fourteen of fourteen checks pass at zero Operational Tokens
-- Live preflight: twenty-two of twenty-three checks pass; exact approval is the only blocker
-- Status: frozen and generation-disabled pending separate exact approval
+- Live preflight: twenty-three of twenty-three checks passed after exact approval
+- Live evaluator: completed once in 37.693 seconds with 20,860 Operational Tokens
+- Result: both anonymous packages scored 8/8 with no critical failure; mapping unsealed only after score freeze
+- Status: completed; no retry or fallback
 
 V16 preserves the v15 candidate, evaluator route, resource envelope, schema, prompt, isolation, and no-retry boundaries. It replaces the faulty Boolean condition with an explicit fail-closed item classifier derived from the installed App Server schema. Passive `userMessage`, `agentMessage`, `plan`, `reasoning`, and `contextCompaction` events are allowed; every other installed type is denied in this no-tool evaluator. The exact partition is frozen in the Provider contract, exercised in readiness, and observed item types are retained in any stopped stage record.
 
 The successor uses a fresh evaluator lab copied from the immutable v13 candidate state. It does not resume the v15 stopped lab or regenerate any candidate turn.
+
+The exact-approved v16 evaluator observed only `userMessage`, `reasoning`, and `agentMessage` item types and no tool activity. It acknowledged `gpt-5.6-sol`, retained detailed usage, froze the arm-neutral scores, then unsealed the mapping. Candidate plus evaluator usage was 382,110 Operational Tokens. See `representative-main-v16-report.md` and `representative-main-v16-findings.md`.

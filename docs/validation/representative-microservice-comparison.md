@@ -1,6 +1,6 @@
 # Representative multi-Agent microservice comparison
 
-- Status: v13 candidate arms completed; v15 exposed an evaluator item-classification defect; v16 passed its expanded generation-free gate and awaits exact approval
+- Status: v16 completed one matched pair with zero retry and zero fallback; both arms passed objective tests and received 8/8 from the arm-blind evaluator
 - Purpose: measure where Temple changes delivery outcomes, not accumulate another pass count
 - Comparison: Temple versus a minimal responsible workflow under matched inputs and model routes
 
@@ -9,6 +9,8 @@
 For one realistic, bounded change spanning four service repositories, does Temple improve recovery, task boundaries, contract convergence, correctness, rework, or human coordination enough to justify its Token, latency, and artifact overhead?
 
 The result may be positive, negative, mixed, or inconclusive. The protocol is useful only if all four answers remain possible.
+
+The observed result is mixed. Both arms achieved equal correctness, recovery, boundary, and blind-evaluation outcomes. Temple used 3.51% fewer Operational Tokens and 2.72% less measured model latency, while its integration was 18.70% slower and its artifact footprint was 1062.65% larger. This is one pair and cannot establish a population effect. See the [v16 report](../../.ai-org/artifacts/WI-0136/representative-main-v16-report.md) and [evidence-backed findings](../../.ai-org/artifacts/WI-0136/representative-main-v16-findings.md).
 
 ## Scenario
 
@@ -170,9 +172,9 @@ V14 was superseded before approval or generation after a systemic failure-mode r
 
 V15 bound the exact v13 candidate and lab, prompt, dynamic output schema, wire request shapes, runner, and analyzer. Its exact-approved live turn stopped after 3.7 seconds because the runner treated every `item/started` notification as a tool violation whenever tools were disabled. The predicate therefore rejected passive `reasoning` or `agentMessage` activity as well as real tool activity. The v15 record preserves the interrupted terminal, but that revision did not retain the triggering item type and received no detailed usage notification, so model generation and Operational Tokens remain unknown. It is not retried.
 
-V16 is the evaluator-only successor under protocol `3247ab0cfcfa8664efea67cd751cae51cbaf9d0729276f03d250010e81ab9eb5`. It reads all nineteen installed App Server item types from the generated schema, permits only five passive no-tool types, rejects the other fourteen active or unexpected types, records observed item types, and binds that partition into the Provider contract. Its expanded generation-free rehearsal passes fourteen of fourteen checks at zero Operational Tokens; live preflight passes twenty-two of twenty-three checks, with exact v16 approval as the only blocker.
+V16 is the evaluator-only successor under protocol `3247ab0cfcfa8664efea67cd751cae51cbaf9d0729276f03d250010e81ab9eb5`. It reads all nineteen installed App Server item types from the generated schema, permits only five passive no-tool types, rejects the other fourteen active or unexpected types, records observed item types, and binds that partition into the Provider contract. Its expanded generation-free rehearsal passed fourteen of fourteen checks at zero Operational Tokens. After exact approval, all twenty-three live preflight checks passed.
 
-V16 permits one Sol xhigh evaluator turn, at most 100,000 additional Operational Tokens, and at most 15 minutes. It cannot regenerate candidate work, retry, fall back, access the network, use tools, buy Credits, refill Credits, or consume a reset. A failed Provider terminal, child-process exit, deadline, missing usage notification, disallowed item type, or malformed semantic result is retained with its causal observation rather than replaced by a later symptom.
+The single v16 Sol evaluator turn completed in 37.693 seconds and used 20,860 additional Operational Tokens. It did not regenerate candidate work, retry, fall back, access the network, use tools, buy Credits, refill Credits, or consume a reset. Scores were frozen before the anonymous package mapping was unsealed; both packages received 8/8 with no critical failure.
 
 After that evaluator-only protocol receives its own exact approval, the bounded commands are:
 
@@ -207,4 +209,4 @@ The runner refuses a second candidate or evaluator attempt in the same lab. A st
 - Do not convert Tokens to cost without an authoritative versioned billing source.
 - With one scenario and one pair, report descriptive effects and failure modes only; do not claim statistical generalization.
 
-The live run remains a later, explicitly bounded validation action. This document and its validator authorize no model generation, external write, deployment, release, or Credits purchase.
+The bounded live run is complete. Its evidence authorizes no deployment, release, policy change, automatic model routing, external write, or Credits purchase.
