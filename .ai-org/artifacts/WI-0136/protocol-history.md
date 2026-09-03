@@ -186,10 +186,11 @@ V3 stopped after observing 144,372 Operational Tokens. The model changed the all
 
 ## Representative comparison v4
 
-- Protocol SHA-256: `1aa274148ad8616fa8d14bd067eb43b004504ec74786c0afcbbb7b0c631c1b7d`
+- Initial protocol SHA-256: `1aa274148ad8616fa8d14bd067eb43b004504ec74786c0afcbbb7b0c631c1b7d`
+- Current protocol SHA-256: `b01f96b48bb585e4b24390fa0b0c322d2abfc03d8f99650fa9b07a3da4932c71`
 - Models, efforts, candidate count, safety limits, retry policy, fallback policy, and network boundary: unchanged from v3
 - Harness repair: accept exact Git porcelain records both before and after the shared command helper trims leading whitespace
 - Stopped evidence: retain completed arms and normalized active Design, Build, and Integration observations
 - Status: generation disabled until separate exact account approval
 
-V4 uses fresh matched repositories and a new runner digest. The v3 approval cannot authorize it, and the stopped v3 lab cannot be resumed or retried.
+V4 uses fresh matched repositories and a new runner digest. The v3 approval cannot authorize it, and the stopped v3 lab cannot be resumed or retried. The first approval-aware v4 preflight performed no model generation and failed closed because Codex CLI changed from `0.151.0-alpha.7.2` to `0.153.0-alpha.5` after the initial freeze. The experiment inputs, routes, resource limits, and retry policy were left unchanged; only the inspected Provider version and wire-schema digests were refreshed. The resulting current digest requires a new exact approval.
