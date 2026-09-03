@@ -5,6 +5,7 @@ import test from "node:test";
 import {
   ablationIntegrationInstruction,
   analyzeContextAblation,
+  comparisonAllowedCommandPrefixes,
   diagnosticConditionFailure,
   diagnosticConditionObservation,
   diagnosticStoppedRun,
@@ -20,6 +21,7 @@ import {
   validateEvaluatorCompletion
 } from "../scripts/run-representative-microservice-comparison.mjs";
 import { analyzeRepresentativeComparison } from "../scripts/analyze-representative-microservice-comparison.mjs";
+import { commandTextAllowed } from "../src/app-server-protocol-replay.mjs";
 
 const protocolPath = new URL("../.ai-org/artifacts/WI-0136/live-protocol.json", import.meta.url);
 const approvalTemplatePath = new URL("../.ai-org/artifacts/WI-0136/account-approval.template.json", import.meta.url);
@@ -170,6 +172,15 @@ test("context treatment observation counts only successful command completions",
   ]);
 });
 
+test("comparison command policy permits only fixture-scoped git -C reads", () => {
+  for (const repository of ["gateway", "catalog", "orders", "notifications", "coordinator"]) {
+    assert.equal(commandTextAllowed(`git -C ${repository} rev-parse HEAD`, comparisonAllowedCommandPrefixes), true);
+    assert.equal(commandTextAllowed(`git -C ${repository} status --short`, comparisonAllowedCommandPrefixes), true);
+  }
+  assert.equal(commandTextAllowed("git -C ../outside rev-parse HEAD", comparisonAllowedCommandPrefixes), false);
+  assert.equal(commandTextAllowed("git -C gateway config core.sshCommand exploit", comparisonAllowedCommandPrefixes), false);
+});
+
 test("integration completion schema and recovery evaluator require the same exact slice IDs", () => {
   assert.deepEqual(integrationOutputSchema.properties.completed_slices, {
     type: "array",
@@ -223,12 +234,12 @@ test("the frozen context ablation requires matched repositories and exact approv
   const currentApproval = await readJson(ablationApprovalPath);
   assert.deepEqual(validateAblationProtocol(protocol), { valid: true, errors: [] });
   assert.equal(protocol.protocol_sha256, protocolDigest(protocol));
-  assert.equal(protocol.schema_version, "temple.context-model-diagnostic/v9");
+  assert.equal(protocol.schema_version, "temple.context-model-diagnostic/v10");
   assert.equal(protocol.execution.candidate_turns, 2);
   assert.equal(protocol.execution.evaluator_turns, 0);
   assert.equal(protocol.execution.combined_operational_token_limit, 200000);
   assert.equal(protocol.execution.candidate_limit_disposition, "record-censored-and-continue-independent-conditions");
-  assert.equal(currentApproval.schema_version, "temple.context-model-diagnostic-account-approval/v9");
+  assert.equal(currentApproval.schema_version, "temple.context-model-diagnostic-account-approval/v10");
   assert.equal(currentApproval.approved, false);
   assert.deepEqual(currentApproval, template);
   assert.deepEqual(protocol.conditions.map((entry) => [entry.id, entry.model_route.model, entry.model_route.reasoning_effort]), [

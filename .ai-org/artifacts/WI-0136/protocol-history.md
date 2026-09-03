@@ -146,6 +146,19 @@ V9 repairs the fixture boundary exposed by v8. It uses root-relative Coordinator
 - Operational-Token hard stops: 80,000 routed; 120,000 full-load; 200,000 combined
 - Wall-clock hard stop: 20 minutes
 - Retry and fallback: disabled
-- Status: generation disabled pending exact v9 approval
+- Status: stopped during full-load recovery; no valid context comparison
 
-V9 preserves the v8 route, effort request, condition ceilings, aggregate ceiling, and no-retry/no-fallback account boundary. Its new digest reflects the repaired prompt, runtime, observer, and fresh matched-fixture contracts. It is a new experiment, not a retry or continuation of v8.
+The exact-approved v9 attempt successfully observed routed `context-resolve` and full-load `TEMPLE.md → context-resolve`. Routed recovery passed at 50,255 Operational Tokens. Full-load was stopped at 19,892 after the command policy rejected `git -C gateway rev-parse HEAD`; combined observed usage was 70,147. There was no retry or fallback. Because full-load has no completed recovery result, the values are not comparable efficiency evidence.
+
+## Context-recovery qualification v10
+
+V10 retains v9 treatment delivery and adds fixture-scoped variants of the already approved read-only Git subcommands. `git -C` is accepted only for the five exact fixture repository IDs; traversal and unapproved Git subcommands remain rejected. Generation-free preflight verifies every expected repository-scoped revision command in both conditions.
+
+- Protocol SHA-256: `f1a3da3550d5751581a049e0e17085948517eea5caa8b40c63e744c495fef33f`
+- Condition order: Terra routed; Terra full-load
+- Operational-Token hard stops: 80,000 routed; 120,000 full-load; 200,000 combined
+- Wall-clock hard stop: 20 minutes
+- Retry and fallback: disabled
+- Status: generation disabled pending exact v10 approval
+
+V10 preserves the v9 route, effort request, context treatments, condition ceilings, aggregate ceiling, and no-retry/no-fallback account boundary. Its new digest reflects the bounded command-policy expansion and fresh matched-fixture revisions. It is a new experiment, not a retry or continuation of v9.

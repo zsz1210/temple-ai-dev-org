@@ -13,6 +13,7 @@ import {
   createJsonRpcProcess
 } from "../src/codex-app-server-provider.mjs";
 import {
+  commandTextAllowed,
   isolateWave5CodexEnvironment,
   normalizeTokenUsage,
   protocolViolationForMessage,
@@ -30,9 +31,10 @@ const defaultProtocolPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136
 const defaultApprovalTemplatePath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/account-approval.template.json");
 const priorAblationLabRoots = Object.freeze({
   v7: path.join(os.tmpdir(), "temple-wi0136-context-recovery-qualification-v7"),
-  v8: path.join(os.tmpdir(), "temple-wi0136-context-recovery-qualification-v8")
+  v8: path.join(os.tmpdir(), "temple-wi0136-context-recovery-qualification-v8"),
+  v9: path.join(os.tmpdir(), "temple-wi0136-context-recovery-qualification-v9")
 });
-const defaultAblationLabRoot = path.join(os.tmpdir(), "temple-wi0136-context-recovery-qualification-v9");
+const defaultAblationLabRoot = path.join(os.tmpdir(), "temple-wi0136-context-recovery-qualification-v10");
 const defaultAblationProtocolPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-ablation-protocol.json");
 const defaultAblationApprovalTemplatePath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-ablation-approval.template.json");
 const defaultAblationApprovalPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-ablation-approval.json");
@@ -51,11 +53,17 @@ function ablationConditionDefinition(id) {
   if (!definition) throw new Error(`unknown diagnostic condition: ${id}`);
   return definition;
 }
-const comparisonAllowedCommandPrefixes = Object.freeze([
+const repositoryScopedGitReadPrefixes = Object.freeze(repositories.flatMap((repositoryId) =>
+  ["status", "diff", "rev-parse", "log", "ls-tree"].map((subcommand) =>
+    Object.freeze(["git", "-C", repositoryId, subcommand])
+  )
+));
+export const comparisonAllowedCommandPrefixes = Object.freeze([
   ...WAVE5_ALLOWED_COMMAND_PREFIXES,
   Object.freeze(["git", "rev-parse"]),
   Object.freeze(["git", "log"]),
-  Object.freeze(["git", "ls-tree"])
+  Object.freeze(["git", "ls-tree"]),
+  ...repositoryScopedGitReadPrefixes
 ]);
 const fixedGitEnvironment = Object.freeze({
   GIT_AUTHOR_NAME: "Temple Representative Fixture",
@@ -1982,7 +1990,7 @@ function conditionParity(conditions) {
 
 function buildAblationProtocol(manifest) {
   const protocol = {
-    schema_version: "temple.context-model-diagnostic/v9",
+    schema_version: "temple.context-model-diagnostic/v10",
     work_item_id: "WI-0136",
     status: "generation-disabled",
     protocol_sha256: null,
@@ -2056,7 +2064,7 @@ function buildAblationProtocol(manifest) {
 
 export function validateAblationProtocol(protocol) {
   const errors = [];
-  if (protocol?.schema_version !== "temple.context-model-diagnostic/v9") errors.push("unsupported ablation schema");
+  if (protocol?.schema_version !== "temple.context-model-diagnostic/v10") errors.push("unsupported ablation schema");
   if (protocol?.work_item_id !== "WI-0136" || protocol?.status !== "generation-disabled") errors.push("ablation identity or status mismatch");
   if (protocol?.protocol_sha256 !== protocolDigest(protocol)) errors.push("ablation protocol digest mismatch");
   if (JSON.stringify(protocol?.execution?.condition_order) !== JSON.stringify(ablationConditions)) errors.push("condition order mismatch");
@@ -2192,6 +2200,31 @@ async function preservePriorAblationEvidence(protocolPath) {
     path.join(artifactRoot, "context-recovery-qualification-v8-stopped-run.json"),
     "temple.context-model-diagnostic-stopped-run/v8"
   );
+  await preserveExactArtifact(
+    protocolPath,
+    path.join(artifactRoot, "context-recovery-qualification-v9-protocol.json"),
+    "temple.context-model-diagnostic/v9"
+  );
+  await preserveExactArtifact(
+    defaultAblationApprovalPath,
+    path.join(artifactRoot, "context-recovery-qualification-v9-approval.json"),
+    "temple.context-model-diagnostic-account-approval/v9"
+  );
+  await preserveExactArtifact(
+    defaultAblationApprovalTemplatePath,
+    path.join(artifactRoot, "context-recovery-qualification-v9-approval-template.json"),
+    "temple.context-model-diagnostic-account-approval/v9"
+  );
+  await preserveExactArtifact(
+    path.join(priorAblationLabRoots.v9, "ablation-preflight.json"),
+    path.join(artifactRoot, "context-recovery-qualification-v9-preflight.json"),
+    "temple.context-model-diagnostic-preflight/v9"
+  );
+  await preserveExactArtifact(
+    path.join(priorAblationLabRoots.v9, "ablation-stopped-run.json"),
+    path.join(artifactRoot, "context-recovery-qualification-v9-stopped-run.json"),
+    "temple.context-model-diagnostic-stopped-run/v9"
+  );
 }
 
 async function setupAblation(labRoot, protocolPath) {
@@ -2217,7 +2250,7 @@ async function setupAblation(labRoot, protocolPath) {
     }
     if (!conditionParity(conditions)) throw new Error("ablation conditions are not byte-equivalent at Git revision and tree boundaries");
     const manifest = {
-      schema_version: "temple.context-model-diagnostic-lab/v9",
+      schema_version: "temple.context-model-diagnostic-lab/v10",
       work_item_id: "WI-0136",
       created_at: createdAt,
       lab_root: labRoot,
@@ -2237,7 +2270,7 @@ async function setupAblation(labRoot, protocolPath) {
     return { manifest, protocol, validation };
   } catch (error) {
     await writeJson(path.join(labRoot, "setup-failure.json"), {
-      schema_version: "temple.context-model-diagnostic-setup-failure/v9",
+      schema_version: "temple.context-model-diagnostic-setup-failure/v10",
       work_item_id: "WI-0136",
       stopped_at: new Date().toISOString(),
       reason: String(error.message ?? error),
@@ -2250,7 +2283,7 @@ async function setupAblation(labRoot, protocolPath) {
 function ablationApprovalTemplate(protocol) {
   const routes = protocol.conditions.map((condition) => condition.model_route);
   return {
-    schema_version: "temple.context-model-diagnostic-account-approval/v9",
+    schema_version: "temple.context-model-diagnostic-account-approval/v10",
     work_item_id: protocol.work_item_id,
     protocol_sha256: protocol.protocol_sha256,
     approved: false,
@@ -2349,7 +2382,7 @@ async function freezeAblation(protocolPath) {
   await writeJson(defaultAblationApprovalTemplatePath, approvalTemplate);
   await writeJson(defaultAblationApprovalPath, approvalTemplate);
   return {
-    schema_version: "temple.context-model-diagnostic-freeze/v9",
+    schema_version: "temple.context-model-diagnostic-freeze/v10",
     work_item_id: frozen.work_item_id,
     protocol_sha256: frozen.protocol_sha256,
     provider_handshake: handshake,
@@ -2401,9 +2434,15 @@ async function inspectAblation(labRoot, protocolPath) {
       } catch {}
     }
     checks.push({ id: `${condition.id}:root-relative-context-command`, pass: contextProbePass });
+    for (const repositoryId of repositories) {
+      checks.push({
+        id: `${condition.id}:command-policy:git-c-${repositoryId}-rev-parse`,
+        pass: commandTextAllowed(`git -C ${repositoryId} rev-parse HEAD`, comparisonAllowedCommandPrefixes)
+      });
+    }
   }
   return {
-    schema_version: "temple.context-model-diagnostic-inspection/v9",
+    schema_version: "temple.context-model-diagnostic-inspection/v10",
     work_item_id: "WI-0136",
     inspected_at: new Date().toISOString(),
     valid: checks.every((entry) => entry.pass),
@@ -2436,7 +2475,7 @@ async function preflightAblation(labRoot, protocolPath, approvalPath) {
   if (!outputSchemaMatch) blockers.push("provider-output-schema-unsupported-or-drifted");
   if (!approval.accepted) blockers.push("exact-human-approval-required");
   const output = {
-    schema_version: "temple.context-model-diagnostic-preflight/v9",
+    schema_version: "temple.context-model-diagnostic-preflight/v10",
     work_item_id: "WI-0136",
     observed_at: new Date().toISOString(),
     protocol_sha256: protocol.protocol_sha256,
@@ -2506,7 +2545,7 @@ export function diagnosticStoppedRun({ protocol, startedAt, stoppedAt, completed
   const censoredConditions = completed.filter((entry) => entry.status === "censored");
   const stoppedConditions = completed.filter((entry) => entry.status === "stopped");
   return {
-    schema_version: "temple.context-model-diagnostic-stopped-run/v9",
+    schema_version: "temple.context-model-diagnostic-stopped-run/v10",
     work_item_id: protocol.work_item_id,
     protocol_sha256: protocol.protocol_sha256,
     started_at: startedAt,
@@ -2578,7 +2617,7 @@ async function runAblation(labRoot, protocolPath, approvalPath) {
     const completedCount = observed.filter((entry) => entry.status === "completed").length;
     const censoredCount = observed.filter((entry) => entry.status === "censored").length;
     const output = {
-      schema_version: "temple.context-model-diagnostic-run/v9",
+      schema_version: "temple.context-model-diagnostic-run/v10",
       work_item_id: protocol.work_item_id,
       protocol_sha256: protocol.protocol_sha256,
       started_at: startedAt,
@@ -2700,7 +2739,7 @@ export function analyzeContextAblation({ protocol, run, generatedAt = new Date()
       ? "routed-context-supported"
       : "routed-context-correct-savings-not-observed";
   return {
-    schema_version: "temple.context-model-diagnostic-analysis/v9",
+    schema_version: "temple.context-model-diagnostic-analysis/v10",
     work_item_id: protocol.work_item_id,
     protocol_sha256: protocol.protocol_sha256,
     generated_at: generatedAt,

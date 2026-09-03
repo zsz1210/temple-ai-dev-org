@@ -1,12 +1,12 @@
-# Context-recovery qualification v9 preflight
+# Context-recovery qualification v10 preflight
 
 ## Result
 
-V9 is locally ready. Model generation remains disabled because the corrected protocol requires a new exact account approval.
+V10 is locally ready. Model generation remains disabled because the corrected protocol requires a new exact account approval.
 
 ## Frozen boundary
 
-- Protocol SHA-256: `6ad30fd488aa57c0bc3318161a2f00b7cb7ade97b20e1fcbaffedc5bd0e81715`
+- Protocol SHA-256: `f1a3da3550d5751581a049e0e17085948517eea5caa8b40c63e744c495fef33f`
 - Conditions: Terra medium routed context, then Terra medium full-load context
 - Operational-Token hard stops: 80,000 routed; 120,000 full-load; 200,000 combined
 - Wall-clock hard stop: 20 minutes
@@ -26,14 +26,16 @@ These are safety ceilings, not expected consumption, price, or permission to pur
 - The exact output schema passes the local `openai-structured-outputs-subset/2026-09-03` check: 8 object properties, 3 enum values, 4 nesting levels, and no unsupported keyword.
 - The exact root-relative context command succeeds in both matched condition fixtures and returns the expected Context Capsule for WI-0001 and the Developer Position.
 - `coordinator/TEMPLE.md` is readable in both matched condition fixtures.
-- Preflight passes all 42 non-approval checks. Its only blocker is `exact-human-approval-required`.
-- The focused experiment test file passes all 18 tests, including schema, prompt-order, successful-command observation, and zero-generation telemetry cases.
-- Full repository verification passes all 377 tests after repository, documentation-link, and package-boundary checks.
+- The exact repository-scoped `git -C <fixture> rev-parse HEAD` form passes the command policy for all five fixture repositories in both conditions.
+- Traversal targets and unapproved Git subcommands remain rejected by focused tests.
+- Preflight passes all 52 non-approval checks. Its only blocker is `exact-human-approval-required`.
+- The focused experiment test file passes all 19 tests, including schema, prompt-order, successful-command observation, scoped Git policy, and zero-generation telemetry cases.
+- Full repository verification passes all 378 tests after repository, documentation-link, and package-boundary checks.
 
-## Why v9 exists
+## Why v10 exists
 
-The exact-approved v8 attempt completed both candidates, but the full-load candidate looked for `TEMPLE.md` in the experiment root rather than `coordinator/TEMPLE.md`, reported the required entrypoint missing, and performed no equivalent recovery. V8 also revealed that treatment telemetry counted attempted commands without checking their exit status.
+The exact-approved v9 attempt successfully delivered and observed both context treatments. Its routed candidate completed correct recovery, while its full-load candidate was stopped after treatment because the command policy rejected the ordinary read-only form `git -C gateway rev-parse HEAD`.
 
-V9 uses unambiguous root-relative paths, supplies the pinned local Temple CLI path to the isolated runtime, and admits only successful command completions into the observed context sequence. Generation-free preflight now runs the exact context command in both condition roots instead of assuming that the launcher works.
+V10 adds only fixture-bounded `git -C` variants of the already allowed read-only Git subcommands. It does not permit arbitrary directories, mutation commands, network access, shell control operators, retries, or fallback. Preflight and focused tests verify both the accepted and rejected boundaries.
 
-The v8 protocol, approval, preflight, raw stop, and explanatory report remain preserved as immutable evidence. V9 keeps the same models, reasoning request, fixture shape, condition ceilings, total ceiling, wall-clock ceiling, retry policy, and fallback policy; it changes the prompt contract, runtime fixture wiring, observation semantics, and fixture revision.
+The v9 protocol, approval, preflight, raw stop, and explanatory report remain preserved as immutable evidence. V10 keeps the same models, reasoning request, context treatments, condition ceilings, total ceiling, wall-clock ceiling, retry policy, and fallback policy; it changes the command-policy contract and fresh matched-fixture revision.
