@@ -1,5 +1,7 @@
 # Release readiness
 
+> **Paused:** public distribution is not Temple's current mission. This checklist is retained so earlier release evidence and unresolved gates are not lost. Resume it only after the repository owner explicitly reopens publication; until then, follow the core outcomes in the [roadmap](roadmap.md).
+
 - Audit date: 2026-09-02
 - Latest package checkpoint in this record: `dba1866ae0ebbcf7ada1474be38016970355b040`
 - Latest hosted integration in this record: `650f1aa2c13695be324f40f07bb0f44b66a6c9f3`

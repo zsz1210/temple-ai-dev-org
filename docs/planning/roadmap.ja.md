@@ -2,97 +2,124 @@
 
 [English](roadmap.md) | **日本語** | [繁體中文](roadmap.zh-TW.md)
 
-Temple は、ローカルで動く中核機能の実装と、範囲を限定した複数の検証を終えています。現在は、最初の公開 Alpha に向けたリリース適格性の確認段階です。正式な状態を整理し、安全な配布方法を決め、Temple を初めて使う人がクリーンな環境から導入できることを証明します。
+Temple が目指すのは、人が方向を決め、AI と協力して開発するための、信頼できるリポジトリ中心の運営モデルです。いま優先するのは Dashboard や公開リリースではありません。プロジェクトの定義から実装、独立レビュー、復旧、学習まで、開発組織そのものが一貫して機能することです。
 
-これは、最初のオープンソース公開に向けた最終段階です。ただし、Temple の開発が終わるわけでも、production-ready になったことを意味するわけでもありません。
+最終確認日：2026 年 9 月 3 日。このロードマップは Temple プロジェクトが管理し、新しい証拠によって方針が変わったとき、または現在のミッションが完了条件に達したときに見直します。
 
-バージョンごとの変更は [Changelog（英語）](../../CHANGELOG.md)、検証結果と適用範囲は [Validation records（英語）](../validation/README.md) に記録します。現在のリリース条件は [Release readiness（英語）](release-readiness.md) にまとめています。
+## Vision
 
-## 現在地
+個人開発者、小規模な専門混成チーム、大規模な組織のいずれでも、AI Agent に明確な責任を与え、安全に並行作業を進め、過去の会話に頼らず状況を復元し、証拠に基づいて提供可否を判断できる状態をつくります。
 
-- **パッケージ上のバージョン：** `0.1.0-alpha.29` を、最初の公開 Alpha 候補として準備しています。まだ公開版ではありません。
-- **開発段階：** ローカルで動く中核フレームワークは完成し、最初の公開 Alpha を出せる状態かどうかを確認しています。
-- **現時点で想定する用途：** 人が監督する Solo または小規模チームでの開発、ローカル環境での複数リポジトリ協調、リポジトリを正とした作業復旧、日常状態の読み取り専用ビューです。
-- **まだ公開していないもの：** GitHub リポジトリは private のままで、npm パッケージも `private: true` です。npm への公開実績もありません。
-- **まだ保証しないもの：** 本番運用を前提とした分散協調、規制対象環境、無人での外部操作、モデルの自動切り替え、コスト削減効果です。
-- **意図的に残している未完了項目：** 信頼できないリポジトリに対する Provider の信頼設計（`WI-0033`）、Provider が実際のモデルと推論強度を返せるかを確認する厳格な検証（`WI-0064`）、4 リポジトリでの効果検証（`WI-0067`）は、未決または blocked のままです。ローカルの常駐観測サービスが生成する Usage スナップショットの応答時間とデータ量（`WI-0094`）は、公開 Alpha を止めない別の性能改善として残しています。これらが完了するまでは、対応する信頼性、効果、コスト削減、企業利用適合性、低遅延を案内・保証しません。
+Temple は、作業の規模とリスクに応じて運営の厳密さを変えます。すべてのプロジェクトに常駐サービス、特定のデザインツール、Usage 観測、Management Console を要求しません。
 
-## 実装済みの主な機能
+## このロードマップの読み方
 
-Temple には、すでに次の仕組みがあります。
+ここに書くのは成果と優先順位です。タスク一覧ではなく、証拠が不足している将来の作業に固定日を約束するものでもありません。
 
-- 変わりにくい Position と、プロジェクトごとの人、Agent Identity、Assignment を分けて管理する組織モデル
-- 人の承認権限を明示した Solo、Collaborative、High-Assurance の各モード
-- 仕様、意思決定、Work Item、引き継ぎ、証拠、学習、承認をリポジトリに残す仕組み
-- `Spec → Design → Build → Test → Eval → Independent QA → Release Gate` を追跡できる開発フロー
-- affected path、claim、共有リソース、安全な並行実行、worker、統合責任の管理
-- RAG、ローカルモデル、常駐サービスを必須にしないコンテキスト解決と Skill 検索
-- ローカルでのバックアップ、復元、監査、作業復旧、複数リポジトリ協調、読み取り専用の集約境界
-- 人が状況を把握するための Management Console と、ローカル操作と private な読み取り専用表示の分離
-- Usage の観測を Off、on-demand、managed-local から選び、観測できなかった期間も明示する仕組み
-- Work Item ごとの Token 使用量、段階的な調整方針、自動切り替えを行わないモデル比較の提案
-- Lesson、Practice、Skill Proposal、プロジェクト Skill、任意導入の Pack を、審査なしに自動昇格させない学習フロー
+- **Now** は、現在取り組む一つのミッションと、その測定可能な完了条件です。
+- **Next** は、現在の検証結果によって順序が変わり得る次の候補です。
+- **Later** は、より強い証拠や新しい判断が必要な、確度の低い方向性です。
+- 詳細な進行状態はリポジトリの [Work Item](../../.ai-org/work-items/) にあります。
+- 実験結果と適用範囲は [Validation records（英語）](../validation/README.md) にあります。
+- バージョンごとの変更は [Changelog（英語）](../../CHANGELOG.md) にあります。
+- 公開条件は [Release readiness（英語）](release-readiness.md) に残します。削除ではなく一時停止です。
 
-## Now — 最初の公開 Alpha を出せる状態にする
+## 証拠から見た現在地
 
-### 1. 正式な状態を一致させる
+| 領域 | 現在確認できていること | 適用範囲の限界 |
+| --- | --- | --- |
+| 中核運営モデル | 実装済みで、範囲を限定したローカル検証を実施済み | 本番運用や企業全体での利用は未検証 |
+| クリーンな導入 | install、init、bootstrap 案内、Doctor の決定論的な経路は合格 | 新しい Agent の理解や、初見の利用者による導入は未検証 |
+| 既存プロジェクトと複数リポジトリ | ローカルの brownfield、復旧、複数リポジトリ演習は各条件内で合格 | 実際の複数人・複数マシン運用は未実施 |
+| Workflow Profile | Lean、Standard、High-Assurance と決定論的な昇格条件を実装済み | 複数の実在人物による High-Assurance 運用は未実施 |
+| Execution Route | Provider 非依存・step 単位・決定論的な解決機能を実装し、入力境界も強化済み | 読み取り専用であり、モデルの起動や提案の適用はできない |
+| 対照比較 | Wave 5A / 5B で実行機構、オーバーヘッド、候補結果を取得 | 結論は未確定。Wave 5A の比較可能な組は一つだけで、Wave 5B は `inconclusive` |
+| Provider trust | `WI-0033` は Spec の段階 | 信頼できないリポジトリからの Provider 実行は推奨しない |
+| 公開配布 | private Alpha 候補と過去の release 証拠は存在 | `WI-0086` は blocked。公開は現在のミッションではない |
 
-- Work Item の状態を、正確な Git revision と検証証拠に基づいて整理します。
-- 失敗した検証や保留中の実験は、Dashboard をきれいに見せるために消さず、正式な証拠として残します。
-- 正式データを修正してから、status や parallel plan などの再生成可能なビューを更新します。
+`no-go` と `inconclusive` は、有用な実験結果です。未完了の実装として扱わず、Temple の効果を証明したことにも変換せず、証拠として残します。
 
-### 2. 配布方法を決める
+## Now — 中核経路を信頼できるものにする
 
-- 選定済みの `0.1.0-alpha.29` を、パッケージ、Changelog、検証記録、候補 revision、予定する Git tag のすべてで一致させます。
-- 最初の配布は変更不能な GitHub Release とし、npm は導入実績と個別の承認が得られるまで見送ります。
-- runtime と公開ドキュメントだけを含める allowlist を維持し、self-host の状態、検証証拠、スクリーンショット、任意 Adapter の例が混入した場合は検証を失敗させます。
-- 最終候補の revision で、クリーンインストール、固定 revision からの launcher 復旧、プロジェクト所有データを保持したアップグレード、再初期化、Doctor、ロールバックを確認します。
+現在のミッションは、Management Console がなくても、次の一連の経路を最初から最後まで理解し、実行できる状態にすることです。
 
-### 3. 公開プロジェクトとしての信頼境界を整える
+```text
+プロダクトと権限を定義する
+  -> 範囲を限定した作業を作成し、担当へ渡す
+  -> 設計し、実装する
+  -> テストし、評価する
+  -> Independent QA と release 判断を行う
+  -> 状況を復旧し、学びを残す
+```
 
-- Human Principal が承認した MIT を、パッケージ、contribution 条件、第三者表示、リリースノートで一貫させます。
-- 信頼できないリポジトリで Provider を有効にするよう案内する前に、操作者が Provider の信頼元を管理できる設計を完成させます。
-- サポート対象バージョン、非公開の脆弱性報告窓口、第三者ライセンスの確認、公開リポジトリの保護ルールを整えます。
-- GitHub Actions の外部 Action は、審査済みの変更されない revision に固定し、権限も必要最小限に保ちます。
-- Node.js 24 以降を必須とします。リモート CI は Node.js 24 の単一かつ時間制限付きのリポジトリ検査に絞り、完全なテストとブラウザ検証はローカルで実行して正確な revision に結び付けます。
+### 目指す成果
 
-### 4. 最終候補を同じ revision で検証する
+1. **一つにつながった経路。** 初期化から組織上の closeout まで、リポジトリと CLI の契約だけで進められる。
+2. **作業に見合ったプロセス。** 小さな作業は Lean のまま、通常作業には必要なレビューを残し、高リスク作業だけを厳格化する。
+3. **信頼できる継続性。** 新しい task が、過去の chat title や会話記憶ではなく、リポジトリから担当、状態、証拠、次の行動を復元できる。
+4. **説明できる実行選択。** Position の権限、Capability、Workflow Profile、モデルやツールの提案を混同しない。
+5. **主張より先に証拠。** テスト、比較、導入演習は一つの問いに答え、定めた証拠の範囲で停止する。
 
-自動テスト、配布内容、クリーンな利用者環境、安全性、互換性の確認項目は [Release readiness（英語）](release-readiness.md) にまとめています。公開可否の判断には、同じ最終候補 revision から得た証拠を使います。過去の revision で成功した試験は、参考となる履歴ではあっても、現在の候補を保証する証拠にはしません。
+### 完了条件
 
-## Next — 実際の導入から学ぶ
+次のことをリポジトリの証拠で確認できたとき、このミッションは完了です。
 
-最初の公開 Alpha の後は、次を進めます。
+- 初見の利用者または新しい Agent が、開発者の過去 chat を読まずに中核経路を完了できる。
+- 同じ経路が、新規プロジェクトと既存プロジェクトでそれぞれ一度以上成立する。
+- 並行作業、handoff、Independent QA、中断後の復旧が引き続き強制される。
+- Workflow と Execution Route が選ばれた理由、人の権限が必要な境界を利用者が理解できる。
+- 手間、人の介入、手戻り、経過時間、取得可能な resource 使用量を、実測値または unknown として記録する。
+- Console、Usage 観測、外部 integration がなくても中核経路が壊れない。
 
-- Temple の開発に参加していない人に、新規プロジェクトと既存プロジェクトへの導入を一度ずつ試してもらう
-- 代表的な企業または OSS での試用と、保留している複数人・複数マシンの協調検証を行う
-- 同種の作業で実モデルの比較結果を shadow mode に蓄積してから、日常的なモデル提案へつなげる
-- 別のサポート対象 OS と、処理中断を含む条件でアップグレードと復旧を再検証する
-- 実際に分離されたリポジトリで federation と読み取り専用 portfolio を検証する
-- 導入の難しさ、状態復旧、手戻り、ブロック時間、証拠の品質、人が理解できたかを測る。根拠のない削減率は示さない
+直近では、中核経路を実際の CLI とリポジトリで端から端まで確認します。足りない判断や重複した手順を見つけ、影響の大きさで優先順位を付け、この成果を妨げる問題だけを修正します。
 
-## Later — 本番運用・企業利用に必要な検証
+## Next — 実際の導入で適用範囲を確認する
 
-次の項目は、それぞれに必要な実環境の証拠がそろってから進めます。
+以下の順序は、中核経路の確認結果によって決めます。
 
-- Provider の長時間稼働、切断、クラッシュ復旧、限定的な負荷試験
-- 複数の Human Principal を分けた実際の High-Assurance 訓練と、担当者離脱時の復旧
-- preview、rollback、audit を備えた外部 tracker、CI/CD、deploy、notification への書き込み
-- 組織単位の RBAC、remote worker、集中監査出力、チーム横断の集約
-- deterministic routing だけでは不足することを確認した後の、任意導入による semantic retrieval
-- 十分な比較証拠と承認範囲がある場合に限ったモデル自動選択
+### 初見の利用者による導入
 
-## 標準構成に含めないもの
+- Temple の開発に参加していない人が、新規プロジェクトと既存プロジェクトを一度ずつ導入する。
+- 開発者の説明が必要になった場所、状態を失った場所、権限を誤読した場所、不要な手順が増えた場所を観察する。
+- 繰り返し確認できた学びだけを、既存の昇格ルールに従って documentation、Practice、Skill、framework change に反映する。
 
-人気があるという理由だけで、あらゆる engineering Skill、Figma、ベクトルデータベース、ローカルモデル、常駐サービスを必須にはしません。外部 tracker をリリース権限として扱うことも、制限なく Agent task を増やすこともありません。任意機能を導入する場合も、権限、プライバシー、出所、ロールバック、テスト範囲を明記します。
+### 結論を出せる対照比較
 
-## 公開 Alpha の完了条件
+交差・対照テストは開始済みですが、比較は**未完了**です。以前の実行では fail-closed の仕組みを確認し、複数の protocol defect を発見しました。Wave 5B の四つの候補は完了して暫定的な resource 差も得られましたが、有効な blind score を確定できず、Work Item は正しく `inconclusive` で終了しています。
 
-次の条件をすべて満たした時点で、最初の公開 Alpha を出せる状態と判断します。
+次にモデルを実行する前に、Temple は次を固定します。
 
-- リポジトリ、Dashboard、Changelog、パッケージ、Git tag、検証記録が、同じ候補 revision を示している
-- 初めて使う人が過去の会話に頼らず、クリーンな環境でインストール、初期化、診断、アップグレード、復旧を完了できる
-- 配布物に、審査済みのフレームワークファイルと必要なライセンス表示だけが含まれている
-- サポートを表明する Node.js と OS の組み合わせが、同じ候補 revision で合格している
-- 脆弱性報告、contribution、ライセンス、第三者由来の内容、リポジトリ保護ルールが明文化されている
-- 未完了の実環境テストが見える状態で残り、対外的な説明が取得済みの証拠を超えていない
+- 実験結果を何の判断に使うのかを一つに絞る。
+- 二つの synthetic case だけを繰り返さず、代表的な task family を選ぶ。
+- framework 対 minimal workflow と、model 対 model を別の介入として扱う。
+- input、tool、access、score range、quality gate、telemetry field、stop rule を事前に固定する。
+- 使用中の Provider protocol をオフラインで適格確認する。
+- どの結果なら framework を変更するか、変更しないか、仮説を破棄するかを決める。
+
+品質条件を満たした組だけを resource 比較に使います。小さな sample は仕組みの診断には使えますが、一般的な Token、時間、費用、品質、手戻り削減の証明にはなりません。
+
+### 組織とリポジトリ規模
+
+- 独立して管理された環境で、実際の複数人・複数マシン協力を行う。
+- 別々に保守されるリポジトリ間で federation を実行し、統合責任と conflict recovery を確認する。
+- frontend、backend、infrastructure、design、QA、SRE、Security が混在するチームで、特定の人数や構成を固定せずに試す。
+
+## Later — 証拠がある範囲だけを拡張する
+
+- 操作者が管理する trust、正確な protocol contract、明示的な autonomy boundary がそろってから Provider execution を追加する。
+- 複数の Human Principal による High-Assurance、復旧時の損失、規制・企業向け control を実環境で確認する。
+- 決定論的な context routing の限界を測定してから semantic retrieval を追加する。
+- 代表性のある matched evidence と安全な fallback がそろってから automatic execution routing を検討する。
+- リポジトリ所有者が公開判断を再開し、同一 candidate が保存済み release gate を通過してから公開準備を再開する。
+
+## 補助ツールであり、土台ではないもの
+
+- **Management Console：** 人が状態を理解するための読み取り専用補助画面。なくても Temple を利用できることが前提です。
+- **Usage 観測：** attribution と分析のための任意の Provider telemetry。観測できない値は 0 ではなく unknown です。
+- **Local Observer / daemon：** 継続観測を行う任意機能。正式な Work Item、証拠、復旧には不要です。
+- **外部 tracker / integration：** 協力のための表示・連携先であり、Temple の lifecycle authority を置き換えません。
+- **Figma、RAG、local model、追加 Skill：** 選択可能な拡張であり、全プロジェクトの必須要件ではありません。
+
+## ロードマップの方針
+
+この構成は、ロードマップが成果と「いま行わないこと」を伝えること、delivery backlog と分けること、遠い将来ほど不確実性を明示すること、という公開ガイドを参考にしています。[UK Government Service Manual](https://www.gov.uk/service-manual/agile-delivery/developing-a-roadmap)、[GitHub Projects documentation](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects)、[Atlassian の agile roadmapping guide](https://www.atlassian.com/agile/product-management/roadmaps) を参照してください。

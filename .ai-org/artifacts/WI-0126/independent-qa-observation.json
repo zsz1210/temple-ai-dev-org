@@ -1,0 +1,27 @@
+{
+  "schema_version": "temple.local-test-observation/v1",
+  "work_item_id": "WI-0126",
+  "position": "independent_qa",
+  "agent_id": "agent-lulu",
+  "developer_agent_id": "agent-rikku",
+  "candidate_revision": "e4c3a6248a8c065aa56c712017c0b194f3794956",
+  "environment": "fresh detached Git worktree",
+  "observed_at": "2026-09-03T05:27:35Z",
+  "commands": [
+    {
+      "command": "npm run check",
+      "status": "passed"
+    },
+    {
+      "command": "independent three-language roadmap evidence inspection",
+      "status": "passed"
+    },
+    {
+      "command": "exact candidate changed-path boundary inspection",
+      "status": "passed",
+      "summary": "Only documentation and repository-owned lifecycle evidence changed."
+    }
+  ],
+  "external_action_performed": false,
+  "provider_generation_performed": false
+}

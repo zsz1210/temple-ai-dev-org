@@ -1,0 +1,37 @@
+{
+  "schema_version": "temple.local-test-observation/v1",
+  "work_item_id": "WI-0126",
+  "position": "quality_evaluator",
+  "agent_id": "agent-lulu",
+  "candidate_revision": "e4c3a6248a8c065aa56c712017c0b194f3794956",
+  "observed_at": "2026-09-03T05:25:35Z",
+  "runs": [
+    {
+      "command": "npm run verify",
+      "status": "failed",
+      "passed": 331,
+      "failed": 1,
+      "duration_ms": 66629.021958,
+      "failure": "Optional Console refresh signal timed out during the complete suite."
+    },
+    {
+      "command": "node --test test/optional-console-collector.test.mjs",
+      "status": "passed",
+      "repetitions": 2,
+      "passed_per_run": 8,
+      "failed_per_run": 0
+    },
+    {
+      "command": "npm run verify",
+      "status": "passed",
+      "passed": 332,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "todo": 0,
+      "duration_ms": 66858.458833
+    }
+  ],
+  "external_action_performed": false,
+  "provider_generation_performed": false
+}
