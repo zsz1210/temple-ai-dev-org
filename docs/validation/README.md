@@ -43,5 +43,6 @@ Validation records preserve bounded evidence for framework capabilities. They id
 - [Representative multi-Agent microservice comparison — locally rehearsed protocol; live run not authorized](representative-microservice-comparison.md)
 - [Temple effectiveness and adaptive-routing experiment](adaptive-execution-routing-experiment.md) — registered three-arm design and validity rules.
 - [Temple effectiveness pilot result](temple-effectiveness-pilot-result.md) — first six-candidate result, protocol deviation, measured trade-offs, and required product changes.
+- [Native Lean routing effectiveness](lean-routing-effectiveness-result.md) — corrected bounded comparison completed; static context reduced by about 39%; matched Terra confirmation prepared but not run.
 - [Bounded four-repository commerce rehearsal — stopped safely at the Token ceiling](bounded-four-repository-commerce-rehearsal.md)
 - [Collaborative large-scale real-environment test plan — planned / not run](collaborative-large-scale-test-plan.md)

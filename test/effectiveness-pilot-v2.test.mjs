@@ -1,17 +1,24 @@
 import assert from "node:assert/strict";
+import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import test from "node:test";
 
-import { analyzeEffectivenessPilotV2 } from "../scripts/analyze-effectiveness-pilot-v2.mjs";
+import { analyzeEffectivenessPilotV2, classifyEfficiencyEvidenceV3 } from "../scripts/analyze-effectiveness-pilot-v2.mjs";
 import {
   matchesNativeLeanCandidate,
   validatePilotApprovalV2,
-  validatePilotProtocolV2
+  validatePilotProtocolV2,
+  validateTerraAbConfirmationProtocol
 } from "../scripts/run-effectiveness-pilot-v2.mjs";
 
 const protocolUrl = new URL("../.ai-org/artifacts/WI-0131/pilot-protocol-v2.json", import.meta.url);
 const liveProtocolUrl = new URL("../.ai-org/artifacts/WI-0132/live-protocol.json", import.meta.url);
 const liveApprovalTemplateUrl = new URL("../.ai-org/artifacts/WI-0132/account-approval.template.json", import.meta.url);
+const terraAbProtocolUrl = new URL("../.ai-org/artifacts/WI-0133/terra-ab-protocol.json", import.meta.url);
+
+async function fileSha256(url) {
+  return crypto.createHash("sha256").update(await fs.readFile(url)).digest("hex");
+}
 
 function candidate(caseId, conditionId, overrides = {}) {
   return {
@@ -77,6 +84,22 @@ test("live protocol binds the Provider contract and data-derived resource envelo
   assert.equal(protocol.provider_contract.codex_cli_version, "codex-cli 0.151.0-alpha.7.2");
 });
 
+test("WI-0132 canonical experiment artifacts remain frozen", async () => {
+  assert.equal(await fileSha256(new URL("../.ai-org/artifacts/WI-0132/live-experiment-observation.json", import.meta.url)), "9ba848ec870200e1cffd9cc1435f03cdf3e51ca8ebc18e83655294bc56df4e99");
+  assert.equal(await fileSha256(liveProtocolUrl), "146071ecfcddb0d9e7c9803dfc36e7712231319846bf48bd511833a68f9e5782");
+});
+
+test("prepared Terra A/B protocol validates locally but cannot start generation", async () => {
+  const protocol = JSON.parse(await fs.readFile(terraAbProtocolUrl, "utf8"));
+  assert.deepEqual(validateTerraAbConfirmationProtocol(protocol), { valid: true, errors: [] });
+  assert.equal(protocol.execution.generation_ready, false);
+  assert.equal(protocol.execution.candidate_turns, 4);
+  assert.equal(protocol.execution.combined_operational_token_limit, 209000);
+  const unsafe = structuredClone(protocol);
+  unsafe.execution.generation_ready = true;
+  assert.ok(validateTerraAbConfirmationProtocol(unsafe).errors.some((entry) => entry.includes("generation-disabled")));
+});
+
 test("live approval must accept the exact protocol envelope", async () => {
   const protocol = JSON.parse(await fs.readFile(liveProtocolUrl, "utf8"));
   const template = JSON.parse(await fs.readFile(liveApprovalTemplateUrl, "utf8"));
@@ -99,6 +122,36 @@ test("analysis keeps Sol as a ceiling when it adds no objective quality", async 
   assert.equal(result.comparisons["flagship-ceiling"].recommendation.decision, "reserve-only");
   assert.equal(result.claims.pure_model_effect_proven, false);
   assert.equal(result.claims.automatic_routing_authorized, false);
+});
+
+test("v3 decision semantics distinguish promising efficiency without changing routing authority", () => {
+  const result = classifyEfficiencyEvidenceV3({
+    schema_version: "temple.effectiveness-decision-input/v3",
+    baseline: { objective_pass: true, blind_score: 96.5 },
+    next: { objective_pass: true, blind_score: 98.5 },
+    deltas: { operational_token_percent: -22.79, latency_percent: -14.91 },
+    thresholds: {
+      quality_non_inferiority_points: 3,
+      meaningful_operational_token_reduction_percent: 10,
+      meaningful_latency_reduction_percent: 10
+    }
+  });
+  assert.equal(result.schema_version, "temple.effectiveness-decision/v3");
+  assert.equal(result.classification, "promising-efficiency");
+  assert.equal(result.authority.routing_change_authorized, false);
+
+  const regression = classifyEfficiencyEvidenceV3({
+    schema_version: "temple.effectiveness-decision-input/v3",
+    baseline: { objective_pass: true, blind_score: 98 },
+    next: { objective_pass: false, blind_score: 94 },
+    deltas: { operational_token_percent: -30, latency_percent: -30 },
+    thresholds: {
+      quality_non_inferiority_points: 3,
+      meaningful_operational_token_reduction_percent: 10,
+      meaningful_latency_reduction_percent: 10
+    }
+  });
+  assert.equal(regression.classification, "reject-quality");
 });
 
 test("an objective Sol-only win retains Sol as a capability ceiling, not a default", async () => {

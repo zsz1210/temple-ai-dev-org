@@ -6,6 +6,7 @@ import { spawnSync } from "node:child_process";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import {
+  createRepositoryRetrievalProvider,
   measureContextEnvelope,
   RETRIEVAL_PROVIDER_SCHEMA,
   validateAcceptanceContract,
@@ -52,8 +53,46 @@ test("context envelope accounting is stable, componentized, and content-sensitiv
   assert.equal(first.context_profile_digest, reordered.context_profile_digest);
   assert.equal(first.utf8_bytes, reordered.utf8_bytes);
   assert.deepEqual(first.components.map((entry) => entry.id), ["instructions", "task"]);
+  assert.equal(first.largest_component.id, "task");
+  assert.equal(first.components.reduce((total, entry) => total + entry.utf8_bytes, 0), first.utf8_bytes);
+  assert.ok(first.components.every((entry) => Number.isFinite(entry.share_percent)));
   assert.notEqual(first.context_profile_digest, changed.context_profile_digest);
   assert.match(first.context_profile_digest, /^sha256:[0-9a-f]{64}$/);
+});
+
+test("deterministic retrieval does not treat Position membership as relevance", async () => {
+  const provider = createRepositoryRetrievalProvider();
+  const documents = [
+    {
+      id: "project-documentation",
+      name: "project-documentation",
+      description: "Create human-facing repository documentation from verified project evidence.",
+      position_hints: ["developer"],
+      retrieval_kind: "capability",
+      status: "available"
+    },
+    {
+      id: "domain-modeling",
+      name: "domain-modeling",
+      description: "Clarify domain language, boundaries, and invariants.",
+      position_hints: ["developer"],
+      retrieval_kind: "capability",
+      status: "available"
+    }
+  ];
+  const generic = await provider.search({
+    documents,
+    query: "Complete only the task in TASK.md, change src and tests, and make no out-of-scope writes",
+    position: "developer",
+    work_item_id: "WI-0001"
+  });
+  assert.deepEqual(generic, []);
+
+  const byId = await provider.search({ documents, query: "project documentation", position: "developer" });
+  assert.equal(byId[0].id, "project-documentation");
+  assert.ok(byId[0].reasons.includes("position-match"));
+  const byDescription = await provider.search({ documents, query: "domain invariants", position: "developer" });
+  assert.equal(byDescription[0].id, "domain-modeling");
 });
 
 function run(args) {
@@ -85,6 +124,70 @@ async function fixture(context) {
   assert.equal(initialized.status, 0, initialized.stderr || initialized.stdout);
   return { target, configPath };
 }
+
+test("fresh initialization installs a compact authority-equivalent instruction router", async (context) => {
+  const { target } = await fixture(context);
+  const installed = await fs.readFile(path.join(target, "AGENTS.md"), "utf8");
+  const distribution = await fs.readFile(path.join(root, "project-overlay/AGENTS.md"), "utf8");
+  const toolkit = await fs.readFile(path.join(root, "AGENTS.md"), "utf8");
+  const marker = /<!-- temple:instructions:start -->[\s\S]*?<!-- temple:instructions:end -->/;
+  assert.equal(installed, distribution);
+  assert.equal(toolkit.match(marker)?.[0], distribution.trim());
+  assert.ok(Buffer.byteLength(installed, "utf8") < 9310);
+  for (const invariant of [
+    "Repository files and recorded evidence are canonical",
+    "Position, Agent Identity, Assignment, Discipline, Human Principal",
+    "node ./templew.mjs context resolve",
+    "result is not evidence of instruction loading, comprehension, authority, or lifecycle progress",
+    "Only exact `temple.lock.managed_files` entries are framework-managed",
+    "Spec → Design → Build → Test → Eval → Independent QA → Release Gate",
+    "Developer and Independent QA must be different Agent Identities",
+    "A pilot, example, template validation, or bounded experiment stops",
+    ".ai-org/project/usage-policy.json",
+    ".ai-org/core/high-assurance.json",
+    "work-item claim/release",
+    "UI Designer Assignment"
+  ]) {
+    assert.match(installed, new RegExp(invariant.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  }
+});
+
+test("fresh bounded Lean fixture does not route unrelated Skills from generic task wording", async (context) => {
+  const { target } = await fixture(context);
+  const created = run([
+    "work-item",
+    "create",
+    target,
+    "--title",
+    "Complete idempotent-command fixture",
+    "--scope",
+    "Complete only TASK.md and change only src/ and test/.",
+    "--acceptance",
+    "Satisfy TASK.md and ACCEPTANCE-CONTRACT.json with no out-of-scope writes.",
+    "--affected-path",
+    "src",
+    "--affected-path",
+    "test",
+    "--spec-mode",
+    "gate-evidence",
+    "--ui-mode",
+    "not-applicable",
+    "--workflow-profile",
+    "lean",
+    "--risk-tier",
+    "low",
+    "--scope-class",
+    "bounded",
+    "--profile-rationale",
+    "The fixture is explicit, local, reversible, and bounded."
+  ]);
+  assert.equal(created.status, 0, created.stderr || created.stdout);
+  const resolved = run(["context", "resolve", target, "--work-item", "WI-0001", "--position", "developer", "--no-write", "--json"]);
+  assert.equal(resolved.status, 0, resolved.stderr || resolved.stdout);
+  const capsule = JSON.parse(resolved.stdout);
+  assert.deepEqual(capsule.capabilities, []);
+  assert.equal(capsule.retrieval.provider_id, "repository-deterministic");
+});
 
 test("capability registry observes managed and project-owned Skills without taking ownership", async (context) => {
   const { target } = await fixture(context);

@@ -57,16 +57,57 @@ const CONTEXT_STATUSES = ["active", "deprecated"];
 const SKILL_NAME = /^[a-z0-9][a-z0-9-]{0,63}$/;
 const CONTEXT_ID = /^[a-z0-9][a-z0-9-]{0,79}$/;
 const EXCLUDED_QUERY_WORDS = new Set([
+  "a",
+  "an",
   "and",
+  "as",
+  "at",
+  "be",
+  "but",
+  "by",
+  "change",
+  "complete",
+  "do",
+  "does",
+  "evidence",
+  "file",
+  "files",
   "for",
   "from",
+  "if",
+  "in",
   "into",
+  "is",
+  "it",
+  "its",
+  "may",
+  "md",
+  "must",
+  "no",
+  "not",
+  "of",
+  "on",
+  "only",
+  "or",
+  "project",
+  "repository",
+  "rules",
+  "src",
+  "task",
+  "test",
+  "tests",
   "the",
   "this",
   "that",
+  "to",
+  "use",
+  "using",
+  "when",
   "with",
   "without",
   "work",
+  "write",
+  "writes",
   "item"
 ]);
 
@@ -121,11 +162,18 @@ export function measureContextEnvelope(components) {
     digest.push(id, "\0", canonical, "\0");
     return { id, utf8_bytes: bytes, item_count: contextItemCount(value), sha256: sha256(canonical) };
   });
+  const utf8Bytes = measured.reduce((total, entry) => total + entry.utf8_bytes, 0);
+  const measuredWithShares = measured.map((entry) => ({
+    ...entry,
+    share_percent: utf8Bytes === 0 ? 0 : Number(((entry.utf8_bytes / utf8Bytes) * 100).toFixed(2))
+  }));
+  const largest = [...measuredWithShares].sort((left, right) => right.utf8_bytes - left.utf8_bytes || left.id.localeCompare(right.id))[0];
   return {
     algorithm: "stable-json-v1",
     context_profile_digest: `sha256:${sha256(digest.join(""))}`,
-    utf8_bytes: measured.reduce((total, entry) => total + entry.utf8_bytes, 0),
-    components: measured
+    utf8_bytes: utf8Bytes,
+    largest_component: { id: largest.id, utf8_bytes: largest.utf8_bytes, share_percent: largest.share_percent },
+    components: measuredWithShares
   };
 }
 
@@ -383,12 +431,15 @@ function scoreDocument(document, request) {
   const fields = textFields(document);
   const reasons = [];
   let score = 0;
+  let relevanceSignals = 0;
   if ((request.pinned_ids ?? []).includes(document.id)) {
     score += 1000;
+    relevanceSignals += 1;
     reasons.push("explicit-context-reference");
   }
   if ((document.work_items ?? document.source_work_items ?? []).includes(request.work_item_id)) {
     score += 160;
+    relevanceSignals += 1;
     reasons.push("work-item-reference");
   }
   if (request.position && (document.positions ?? document.position_hints ?? []).includes(request.position)) {
@@ -397,6 +448,7 @@ function scoreDocument(document, request) {
   }
   if (query.length > 1 && Object.values(fields).some((value) => value.includes(query))) {
     score += 80;
+    relevanceSignals += 1;
     reasons.push("phrase-match");
   }
   for (const token of tokens) {
@@ -410,10 +462,11 @@ function scoreDocument(document, request) {
     else if (fields.hints.includes(token)) tokenScore = 6;
     if (tokenScore > 0) {
       score += tokenScore;
+      relevanceSignals += 1;
       reasons.push(`term:${token}`);
     }
   }
-  return { score, reasons: [...new Set(reasons)] };
+  return { score, relevant: relevanceSignals > 0, reasons: [...new Set(reasons)] };
 }
 
 export function createRepositoryRetrievalProvider() {
@@ -427,7 +480,7 @@ export function createRepositoryRetrievalProvider() {
       return (request.documents ?? [])
         .filter((document) => document.status !== "deprecated" || (request.pinned_ids ?? []).includes(document.id))
         .map((document) => ({ document, ...scoreDocument(document, request) }))
-        .filter((entry) => entry.score > 0)
+        .filter((entry) => entry.relevant && entry.score > 0)
         .sort((left, right) => right.score - left.score || left.document.id.localeCompare(right.document.id))
         .slice(0, limit)
         .map((entry) => ({

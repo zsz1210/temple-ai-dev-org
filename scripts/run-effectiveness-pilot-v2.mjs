@@ -165,6 +165,84 @@ export function validatePilotProtocolV2(protocol) {
   return { valid: errors.length === 0, errors };
 }
 
+export function validateTerraAbConfirmationProtocol(protocol) {
+  const errors = [];
+  if (protocol?.schema_version !== "temple.effectiveness-terra-ab/v1") errors.push("unsupported Terra A/B protocol schema");
+  if (protocol?.work_item_id !== "WI-0133") errors.push("work_item_id must be WI-0133");
+  if (protocol?.source_evidence?.work_item_id !== "WI-0132") errors.push("source evidence must identify WI-0132");
+  for (const field of ["result_ref", "raw_evidence_sha256", "analysis_sha256", "frozen_scores_sha256"]) {
+    if (typeof protocol?.source_evidence?.[field] !== "string" || !protocol.source_evidence[field]) {
+      errors.push(`source_evidence.${field} is required`);
+    }
+  }
+
+  const conditions = protocol?.conditions ?? [];
+  const conditionIds = conditions.map((entry) => entry.id);
+  if (conditions.length !== 2 || new Set(conditionIds).size !== 2) errors.push("exactly two unique conditions are required");
+  const conventional = conditions.find((entry) => entry.id === "conventional-terra");
+  const optimized = conditions.find((entry) => entry.id === "temple-terra-optimized");
+  if (!conventional) errors.push("missing condition conventional-terra");
+  if (!optimized) errors.push("missing condition temple-terra-optimized");
+  if (conventional && optimized) {
+    if (conventional.process !== "minimal-responsible" || optimized.process !== "temple-lean-optimized") {
+      errors.push("conditions must isolate the conventional and optimized Temple processes");
+    }
+    if (conventional.model !== "gpt-5.6-terra" || optimized.model !== conventional.model || conventional.reasoning_effort !== "medium" || optimized.reasoning_effort !== conventional.reasoning_effort) {
+      errors.push("both conditions must use Terra medium");
+    }
+  }
+
+  const cases = protocol?.cases ?? [];
+  if (cases.length !== 2 || new Set(cases.map((entry) => entry.id)).size !== 2) errors.push("exactly two unique corrected cases are required");
+  for (const caseDefinition of cases) {
+    if (caseDefinition.condition_order?.length !== 2 || new Set(caseDefinition.condition_order).size !== 2 || caseDefinition.condition_order.some((id) => !conditionIds.includes(id))) {
+      errors.push(`${caseDefinition.id ?? "case"} must schedule both conditions exactly once`);
+    }
+    if (typeof caseDefinition.acceptance_contract !== "string" || !caseDefinition.acceptance_contract) {
+      errors.push(`${caseDefinition.id ?? "case"} acceptance_contract is required`);
+    }
+  }
+
+  const execution = protocol?.execution ?? {};
+  if (execution.candidate_turns !== 4 || execution.evaluator_turns !== 1) errors.push("the confirmation requires four candidate turns and one evaluator turn");
+  if (execution.retry_count !== 0 || execution.fallback_count !== 0 || execution.network_access !== false) {
+    errors.push("retry, fallback, and network boundaries are invalid");
+  }
+  if (execution.generation_ready !== false || execution.fresh_provider_handshake_required !== true || execution.live_generation_requires_exact_approval !== true) {
+    errors.push("the protocol must remain generation-disabled until a fresh handshake and exact approval");
+  }
+  for (const field of [
+    "candidate_operational_token_limit",
+    "candidate_aggregate_operational_token_limit",
+    "evaluator_operational_token_limit",
+    "combined_operational_token_limit",
+    "program_wall_clock_limit_ms"
+  ]) {
+    if (!Number.isSafeInteger(execution[field]) || execution[field] <= 0) errors.push(`${field} must be a positive integer`);
+  }
+  if (Number.isSafeInteger(execution.candidate_operational_token_limit) && Number.isSafeInteger(execution.candidate_aggregate_operational_token_limit) &&
+      execution.candidate_aggregate_operational_token_limit > execution.candidate_operational_token_limit * execution.candidate_turns) {
+    errors.push("candidate aggregate limit exceeds the sum of per-candidate limits");
+  }
+  if (Number.isSafeInteger(execution.candidate_aggregate_operational_token_limit) && Number.isSafeInteger(execution.evaluator_operational_token_limit) &&
+      execution.combined_operational_token_limit !== execution.candidate_aggregate_operational_token_limit + execution.evaluator_operational_token_limit) {
+    errors.push("combined operational Token limit must equal candidate plus evaluator limits");
+  }
+
+  if (protocol?.evaluation?.objective_held_out_tests_primary !== true || protocol?.evaluation?.blind_review_secondary !== true || protocol?.evaluation?.score_freeze_before_mapping_unseal !== true) {
+    errors.push("objective and blind evaluation controls are incomplete");
+  }
+  if (protocol?.decision_contract?.schema_version !== "temple.effectiveness-decision-input/v3") errors.push("the v3 decision contract is required");
+  const thresholds = protocol?.decision_contract?.thresholds ?? {};
+  for (const field of ["quality_non_inferiority_points", "meaningful_operational_token_reduction_percent", "meaningful_latency_reduction_percent"]) {
+    if (!Number.isFinite(thresholds[field]) || thresholds[field] < 0) errors.push(`decision threshold ${field} is invalid`);
+  }
+  if (protocol?.claims?.automatic_routing !== false || protocol?.claims?.temple_superiority !== false || protocol?.claims?.statistical_qualification !== false || protocol?.claims?.provider_generation_performed !== false) {
+    errors.push("claim boundaries are invalid");
+  }
+  return { valid: errors.length === 0, errors };
+}
+
 export function matchesNativeLeanCandidate(workItem) {
   return workItem?.workflow_profile === "lean" &&
     workItem?.profile_assessment?.scope_class === "bounded" &&

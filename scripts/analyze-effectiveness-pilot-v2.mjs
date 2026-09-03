@@ -106,6 +106,85 @@ function recommendation(comparison, pairs, summary, thresholds) {
   return { decision: "no-observed-advantage", action: "retain the capability ceiling without expanding its routing scope" };
 }
 
+export function classifyEfficiencyEvidenceV3(observation) {
+  if (observation?.schema_version !== "temple.effectiveness-decision-input/v3") {
+    throw new Error("unsupported v3 efficiency decision input schema");
+  }
+  const baseline = observation.baseline;
+  const next = observation.next;
+  const deltas = observation.deltas;
+  const thresholds = observation.thresholds;
+  if (![baseline?.objective_pass, next?.objective_pass].every((value) => typeof value === "boolean")) {
+    throw new Error("v3 objective results must be boolean");
+  }
+  for (const [label, value] of [
+    ["quality_non_inferiority_points", thresholds?.quality_non_inferiority_points],
+    ["meaningful_operational_token_reduction_percent", thresholds?.meaningful_operational_token_reduction_percent],
+    ["meaningful_latency_reduction_percent", thresholds?.meaningful_latency_reduction_percent]
+  ]) {
+    if (!Number.isFinite(value) || value < 0) throw new Error(`${label} must be a non-negative number`);
+  }
+  const numericOrNull = [
+    baseline?.blind_score,
+    next?.blind_score,
+    deltas?.operational_token_percent,
+    deltas?.latency_percent
+  ];
+  if (numericOrNull.some((value) => value !== null && !Number.isFinite(value))) {
+    throw new Error("v3 observed scores and deltas must be finite numbers or null");
+  }
+
+  const qualityDelta = baseline.blind_score === null || next.blind_score === null
+    ? null
+    : round(next.blind_score - baseline.blind_score);
+  const qualityNonInferior = qualityDelta === null
+    ? null
+    : qualityDelta >= -thresholds.quality_non_inferiority_points;
+  const objectiveNonregressing = !baseline.objective_pass || next.objective_pass;
+  const bothObjectivelyCorrect = baseline.objective_pass && next.objective_pass;
+  const tokenImprovement = deltas.operational_token_percent === null
+    ? null
+    : deltas.operational_token_percent <= -thresholds.meaningful_operational_token_reduction_percent;
+  const latencyImprovement = deltas.latency_percent === null
+    ? null
+    : deltas.latency_percent <= -thresholds.meaningful_latency_reduction_percent;
+
+  let classification;
+  let action;
+  if ([qualityNonInferior, tokenImprovement, latencyImprovement].includes(null)) {
+    classification = "inconclusive";
+    action = "complete the pre-registered objective, blind-quality, Token, and latency observations";
+  } else if (!objectiveNonregressing || qualityNonInferior === false) {
+    classification = "reject-quality";
+    action = "retain the baseline route and inspect the quality regression";
+  } else if (bothObjectivelyCorrect && tokenImprovement && latencyImprovement) {
+    classification = "promising-efficiency";
+    action = "confirm the result on a separately registered matched comparison before any routing change";
+  } else {
+    classification = "neutral";
+    action = "retain the current route and collect more matched evidence";
+  }
+
+  return {
+    schema_version: "temple.effectiveness-decision/v3",
+    classification,
+    checks: {
+      objective_nonregressing: objectiveNonregressing,
+      both_objectively_correct: bothObjectivelyCorrect,
+      quality_delta_points: qualityDelta,
+      quality_non_inferior: qualityNonInferior,
+      operational_token_improvement: tokenImprovement,
+      latency_improvement: latencyImprovement
+    },
+    action,
+    authority: {
+      routing_change_authorized: false,
+      model_default_change_authorized: false,
+      generalizable: false
+    }
+  };
+}
+
 export function analyzeEffectivenessPilotV2(source, protocol) {
   if (source?.schema_version !== "temple.effectiveness-pilot-evidence/v2") throw new Error("unsupported evidence schema");
   if (protocol?.schema_version !== "temple.effectiveness-pilot/v2") throw new Error("unsupported protocol schema");

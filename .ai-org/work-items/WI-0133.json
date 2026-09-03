@@ -1,0 +1,145 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0133",
+  "title": "Reduce Lean context overhead and harden effectiveness measurement",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-03T09:23:26.442Z",
+  "updated_at": "2026-09-03T09:26:51.721Z",
+  "scope": [
+    "Preserve bounded WI-0132 evidence, reduce always-on and irrelevant routed context without weakening Temple authority rules, version future analyzer semantics, prepare but do not execute a small Terra A/B confirmation, and reconcile human-facing validation planning."
+  ],
+  "acceptance_criteria": [
+    "A fresh initialized bounded Lean fixture uses a shorter authority-equivalent project instruction block; generic task wording cannot retrieve unrelated Skills; relevant capability queries still resolve; the next analyzer protocol distinguishes promising efficiency without rewriting WI-0132; a no-generation four-candidate A/B protocol validates; a scoped Engineering Lesson and trilingual planning updates cite retained evidence; full verification and distinct Independent QA pass; no Provider generation, routing activation, publication, push, or merge occurs."
+  ],
+  "affected_paths": [
+    "project-overlay/AGENTS.md",
+    "AGENTS.md",
+    "src/context.mjs",
+    "scripts/run-effectiveness-pilot-v2.mjs",
+    "scripts/analyze-effectiveness-pilot-v2.mjs",
+    "test/context.test.mjs",
+    "test/effectiveness-pilot-v2.test.mjs",
+    "docs/planning/roadmap.md",
+    "docs/planning/roadmap.ja.md",
+    "docs/planning/roadmap.zh-TW.md",
+    "docs/validation/README.md",
+    "docs/validation/lean-routing-effectiveness-result.md",
+    ".ai-org/learning",
+    ".ai-org/artifacts/WI-0133"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "Core instruction and deterministic retrieval changes require the complete standard lifecycle, focused regression evidence, and distinct Independent QA; all work remains local and reversible with no Provider generation.",
+    "evidence_refs": [
+      "docs/validation/lean-routing-effectiveness-result.md"
+    ],
+    "evaluated_at": "2026-09-03T09:23:26.441Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "caadcabf714ff80eb71c2f7bb81e664c42fd7958",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0086 retains release-candidate ownership; WI-0133 may add only the completed WI-0132 diagnostic and next evidence step to the three Roadmaps and validation index, and WI-0086 must requalify its later release candidate after integration."
+  ],
+  "claim": {
+    "id": "claim-20260903092651-d8dae39f",
+    "status": "active",
+    "principal_id": "principal-zsz1210",
+    "agent_id": "agent-rikku",
+    "base_revision": "caadcabf714ff80eb71c2f7bb81e664c42fd7958",
+    "branch": "codex/wi-0133-lean-context-efficiency",
+    "worktree": null,
+    "claimed_at": "2026-09-03T09:26:51.721Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260903092651-d8dae39f",
+      "status": "active",
+      "principal_id": "principal-zsz1210",
+      "agent_id": "agent-rikku",
+      "base_revision": "caadcabf714ff80eb71c2f7bb81e664c42fd7958",
+      "branch": "codex/wi-0133-lean-context-efficiency",
+      "worktree": null,
+      "claimed_at": "2026-09-03T09:26:51.721Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0133/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0133/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0133/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0133/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0133/risk-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0133/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0133/work-order.md",
+    "docs/validation/lean-routing-effectiveness-result.md",
+    ".ai-org/artifacts/WI-0133/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0133/product-spec.md",
+    ".ai-org/artifacts/WI-0133/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0133/technical-design.md",
+    ".ai-org/artifacts/WI-0133/risk-review.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "caadcabf714ff80eb71c2f7bb81e664c42fd7958",
+      "artifact": ".ai-org/artifacts/WI-0133/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-03T09:24:12.265Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "caadcabf714ff80eb71c2f7bb81e664c42fd7958",
+      "artifact": ".ai-org/artifacts/WI-0133/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-03T09:24:38.917Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "caadcabf714ff80eb71c2f7bb81e664c42fd7958",
+      "artifact": ".ai-org/artifacts/WI-0133/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-03T09:26:51.183Z"
+    }
+  ]
+}

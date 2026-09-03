@@ -151,6 +151,45 @@
         ],
         "history": []
       }
+    },
+    {
+      "id": "LESSON-0004",
+      "kind": "lesson",
+      "title": "Repair explicit acceptance contracts before bounded model escalation",
+      "summary": "In the two corrected low-risk bounded implementation cases from WI-0132, explicit identity, immutability, idempotency, compatibility, and error semantics let Terra medium match the higher routes on objective correctness. Treat contract repair as the first diagnostic step before escalation; this low-confidence result must be revalidated on broader task families.",
+      "status": "candidate",
+      "confidence": "low",
+      "tags": [
+        "acceptance-contract",
+        "model-routing",
+        "context-efficiency"
+      ],
+      "applies_to": [
+        "tech_lead",
+        "developer",
+        "quality_evaluator"
+      ],
+      "source_work_items": [
+        "WI-0132"
+      ],
+      "path": ".ai-org/learning/lessons/LESSON-0004.md",
+      "updated_at": "2026-09-03T09:36:08.082Z",
+      "last_validated_at": null,
+      "promotion": {
+        "target": "none",
+        "status": "none",
+        "reference": null
+      },
+      "derived_from": [],
+      "owner_position": null,
+      "revalidation": {
+        "last_result": null,
+        "review_after": null,
+        "evidence_refs": [
+          ".ai-org/artifacts/WI-0133/retained-effectiveness-evidence.json"
+        ],
+        "history": []
+      }
     }
   ]
 }

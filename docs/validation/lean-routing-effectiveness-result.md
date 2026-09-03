@@ -12,6 +12,19 @@ The corrected experiment produced a useful answer: **for clearly specified, low-
 
 Temple's Lean process did not improve correctness over the responsible conventional baseline in these two cases. It did finish about 10% faster, but used about 78% more operational Tokens. The most actionable Temple improvement is therefore not “use a stronger model”; it is **make the routed context smaller while keeping the explicit acceptance contract**.
 
+## Efficiency follow-up
+
+WI-0133 implemented the first response without running another model experiment:
+
+- the installed instruction component fell from 9,350 to 6,039 measured UTF-8 bytes, a 35.41% reduction;
+- unrelated Skills retrieved by the two generic fixture requests fell from five to zero;
+- routed context fell from 4,409 to 1,634 bytes and from 4,425 to 1,650 bytes; and
+- total static context fell from 15,412 to 9,326 bytes and from 15,458 to 9,372 bytes, about 39% in both cases.
+
+These are deterministic pre-generation byte measurements, not Provider Tokens and not proof of lower cost or equal runtime quality. The complete compact record is in `.ai-org/artifacts/WI-0133/retained-effectiveness-evidence.json`.
+
+WI-0133 also added separately versioned `promising-efficiency` semantics. The classification requires objective correctness, blind-quality non-inferiority, and pre-registered Token and latency improvements, but grants no routing authority. A matched two-arm, four-candidate Terra confirmation is validated at `.ai-org/artifacts/WI-0133/terra-ab-protocol.json`; it remains `generation_ready: false` until a fresh Provider handshake and exact approval.
+
 ## What was compared
 
 | Arm | Process | Requested route | Purpose |
@@ -80,14 +93,15 @@ WI-0130 left a return-identity invariant implicit. Its Terra candidates missed t
 
 This supports a strong operational rule: **repair an incomplete contract before escalating the model.** A larger model may compensate for ambiguity, but that is an expensive and unreliable substitute for Specification and Design.
 
-## Improvements to implement next
+## Response and remaining work
 
-1. **Slim the Lean Context Capsule.** Separate a minimal task execution header from optional organization explanation. Target the 9.35 KB candidate-instruction block first, then retrieve only the context records required by the task.
-2. **Make escalation evidence-driven.** Terra remains the bounded default. Recommend Luna only for explicit ambiguity or invariant risk; recommend Sol for consequential work or after a lower route produces evidence of failure.
-3. **Version the analyzer semantics.** Pre-register a distinct `promising efficiency` classification for a ceiling arm that is quality-non-inferior and materially reduces both Tokens and latency. Do not retroactively change this run.
-4. **Expand the case set.** Add mechanical, error-semantics, cross-file, concurrency, API-contract, and deliberately ambiguous cases. Derive the next sample size from observed variance.
-5. **Separate model from effort.** When the Provider can expose effective turn effort, run matched-effort model comparisons. Until then, describe C and D as route bundles.
-6. **Measure developer outcomes.** Add rework, review findings, intervention count, and elapsed delivery time. Token volume alone is not a product-value measure.
+1. **Context reduction — implemented and statically verified.** The authority rules remain in the compact instruction router, while generic task language no longer retrieves Skills merely because the Position matches.
+2. **Evidence-driven escalation — retained.** Terra remains the bounded default. Luna and Sol require task-shape or failure evidence; the two-case result is not an automatic rule.
+3. **Versioned analyzer semantics — implemented for future evidence.** WI-0132 remains frozen and keeps its original decision language.
+4. **Matched confirmation — prepared, not run.** Run the four candidates and one blind evaluator only after fresh compatibility checks and exact approval.
+5. **Broader qualification — still required.** Add mechanical, error-semantics, cross-file, concurrency, API-contract, and deliberately ambiguous cases. Derive later sample size from observed variance.
+6. **Separate model from effort — still required.** When the Provider can expose effective turn effort, run matched-effort comparisons. Until then, C and D remain route bundles.
+7. **Measure developer outcomes — still required.** Add rework, review findings, intervention count, and elapsed delivery time. Token volume alone is not product value.
 
 ## Evidence quality and limitations
 
@@ -115,5 +129,8 @@ The two implementation cases are deliberately narrow. Their percentages describe
 - Raw evidence digest: `fdcd5d54e7dd07dee69234a5ad80ed750b52771aadaa29c9c21b1e246e5d67f7`
 - Analysis digest: `4eefe732c33464c6d43189e84fa9b82e1e1369fe7087f4d055587a4958d89a68`
 - Frozen score digest: `7898b6bbf0c9c376572cee48c178e5460da79999bb80fc9d09d947379f327377`
+- WI-0133 retained evidence: `.ai-org/artifacts/WI-0133/retained-effectiveness-evidence.json`
+- WI-0133 Engineering Lesson: `.ai-org/learning/lessons/LESSON-0004.md`
+- Prepared confirmation protocol: `.ai-org/artifacts/WI-0133/terra-ab-protocol.json`
 
 The raw lab is local and temporary. The canonical observation retains the bounded metrics, protocol audit, and source digests without raw prompts or hidden reasoning.
