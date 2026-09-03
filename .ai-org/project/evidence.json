@@ -20111,6 +20111,100 @@
         "status": "planned",
         "procedure": ".ai-org/artifacts/WI-0130/rollback-plan.md"
       }
+    },
+    {
+      "id": "EVID-20260903T075512Z-1C1830CB",
+      "work_item_id": "WI-0131",
+      "recorded_at": "2026-09-03T07:55:12.129Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0131 full regression and offline lab pass",
+      "outcome": "pass",
+      "scope_revision": "c0e6720513d2e4b86f7cd689ef2f214df5dbc066",
+      "observed_at": "2026-09-03T07:54:49.000Z",
+      "summary": "348 tests passed; eight repositories constructed without generation and all six Temple candidates were native Lean.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0131/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0131/developer-test-observation.json",
+          "sha256": "a837fc1eb10fb2b792d6407d337421335425afcfb2ce95cf4f13ed4629de1e41"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0131/developer-report.md",
+          "sha256": "5248fb9f8d1dfdc8f2ef5b9ea61a9358502bf6eb7279985d9fbc2ede8adacd22"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0131/offline-lab-observation.json",
+          "sha256": "40a6c76ebca71a250d74c8998ce0c9d0bc3ea0855ea9ad78acebd56d4fbd3600"
+        },
+        {
+          "path": "docs/validation/lean-routing-effectiveness-plan.md",
+          "sha256": "67b2117c960784cd50dfacd3d1c07ccc51d5f296f85c5c07ea69b39c8d3e1368"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T07:53:42.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T075942Z-C6F47254",
+      "work_item_id": "WI-0131",
+      "recorded_at": "2026-09-03T07:59:42.484Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0131 independent quality regression",
+      "outcome": "pass",
+      "scope_revision": "c040c0be1cc955e7c9aa260f534ea482278af0e5",
+      "observed_at": "2026-09-03T07:58:02.000Z",
+      "summary": "Quality evaluation passed 348 tests and an eight-repository provider-free rehearsal after removing route-treatment leakage.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0131/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0131/quality-test-observation.json",
+          "sha256": "c8a708be5c14123e6157b812ea43c94919dd0ffc892f385b61e1bd1ce82934ec"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0131/quality-report.md",
+          "sha256": "fd3daeee9644e75a9b5f2f35532371e676bc9662857defe740bb14760723fbc6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0131/offline-lab-observation.json",
+          "sha256": "9ced3752d7a7798eceb795e1dc584a00e128f0e0ebff0462058bb3213fa0b77e"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T07:56:55.000Z"
+      }
     }
   ]
 }

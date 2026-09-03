@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0131",
   "title": "Correct the Lean routing effectiveness experiment",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-03T07:38:26.175Z",
-  "updated_at": "2026-09-03T07:39:17.989Z",
+  "updated_at": "2026-09-03T07:59:43.484Z",
   "scope": [
     "Build a native Lean experiment harness, explicit acceptance contracts, context accounting, shadow routing corrections, and a Sol capability-ceiling comparison arm without contacting any model provider."
   ],
@@ -64,7 +64,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "72001dd",
+  "base_revision": "c040c0be1cc955e7c9aa260f534ea482278af0e5",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -72,26 +72,50 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260903073917-df1aaa35",
+    "id": "claim-20260903075943-42859dba",
     "status": "active",
     "principal_id": "principal-owner",
-    "agent_id": "agent-rikku",
-    "base_revision": "72001dd",
+    "agent_id": "agent-lulu",
+    "base_revision": "c040c0be1cc955e7c9aa260f534ea482278af0e5",
     "branch": "codex/wi-0131-lean-routing-evaluation",
     "worktree": null,
-    "claimed_at": "2026-09-03T07:39:17.989Z",
+    "claimed_at": "2026-09-03T07:59:43.484Z",
     "released_at": null
   },
   "claims": [
     {
       "id": "claim-20260903073917-df1aaa35",
-      "status": "active",
+      "status": "released",
       "principal_id": "principal-owner",
       "agent_id": "agent-rikku",
       "base_revision": "72001dd",
       "branch": "codex/wi-0131-lean-routing-evaluation",
       "worktree": null,
       "claimed_at": "2026-09-03T07:39:17.989Z",
+      "released_at": "2026-09-03T07:55:12.621Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903075521-8a9d7a63",
+      "status": "released",
+      "principal_id": "principal-owner",
+      "agent_id": "agent-lulu",
+      "base_revision": "c0e6720513d2e4b86f7cd689ef2f214df5dbc066",
+      "branch": "codex/wi-0131-lean-routing-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-03T07:55:21.102Z",
+      "released_at": "2026-09-03T07:59:43.214Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903075943-42859dba",
+      "status": "active",
+      "principal_id": "principal-owner",
+      "agent_id": "agent-lulu",
+      "base_revision": "c040c0be1cc955e7c9aa260f534ea482278af0e5",
+      "branch": "codex/wi-0131-lean-routing-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-03T07:59:43.484Z",
       "released_at": null
     }
   ],
@@ -110,6 +134,20 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0131/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0131/handoff-003-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0131/developer-report.md",
+      ".ai-org/artifacts/WI-0131/developer-test-observation.json",
+      ".ai-org/artifacts/WI-0131/offline-lab-observation.json"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0131/quality-test-observation.json"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0131/quality-report.md"
     ]
   },
   "evidence": [
@@ -118,10 +156,17 @@
     ".ai-org/artifacts/WI-0131/product-spec.md",
     ".ai-org/artifacts/WI-0131/handoff-002-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0131/technical-design.md",
-    ".ai-org/artifacts/WI-0131/risk-review.md"
+    ".ai-org/artifacts/WI-0131/risk-review.md",
+    ".ai-org/artifacts/WI-0131/handoff-003-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0131/developer-report.md",
+    ".ai-org/artifacts/WI-0131/developer-test-observation.json",
+    ".ai-org/artifacts/WI-0131/offline-lab-observation.json",
+    ".ai-org/artifacts/WI-0131/quality-test-observation.json",
+    ".ai-org/artifacts/WI-0131/handoff-004-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0131/quality-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "release_manager",
   "handoffs": [
     {
       "from_position": "product_manager",
@@ -136,6 +181,21 @@
       "input_revision": "HEAD",
       "artifact": ".ai-org/artifacts/WI-0131/handoff-002-tech_lead-to-developer.md",
       "created_at": "2026-09-03T07:39:17.476Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "c0e6720513d2e4b86f7cd689ef2f214df5dbc066",
+      "artifact": ".ai-org/artifacts/WI-0131/handoff-003-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-03T07:55:12.335Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "c040c0be1cc955e7c9aa260f534ea482278af0e5",
+      "artifact": ".ai-org/artifacts/WI-0131/handoff-004-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-03T07:59:42.971Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "c0e6720513d2e4b86f7cd689ef2f214df5dbc066"
 }

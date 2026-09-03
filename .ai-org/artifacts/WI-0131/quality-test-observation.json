@@ -1,0 +1,24 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "c040c0be1cc955e7c9aa260f534ea482278af0e5",
+  "command": ["npm", "run", "verify"],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-03T07:56:55.000Z",
+  "completed_at": "2026-09-03T07:58:02.000Z",
+  "summary": {
+    "tests": 348,
+    "passed": 348,
+    "failed": 0,
+    "offline_candidate_repositories": 8,
+    "native_lean_candidates": 6,
+    "route_treatment_hidden": true,
+    "matched_product_inputs": true,
+    "matched_temple_context": true,
+    "model_generation_performed": false
+  },
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0131/quality-report.md",
+    ".ai-org/artifacts/WI-0131/offline-lab-observation.json"
+  ]
+}

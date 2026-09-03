@@ -178,7 +178,7 @@
 | WI-0128 | Make the product roadmap and core path human-readable | cancelled | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 | WI-0129 | Make the product roadmap and core path human-readable | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3e5178ba` | 0 | 18 | 0 |
 | WI-0130 | Run the first three-arm Temple effectiveness pilot | concluded | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `33b6ed3b` | 0 | 16 | 0 |
-| WI-0131 | Correct the Lean routing effectiveness experiment | build | Developer | Rikku | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903073917-df1aaa35 | `—` | 0 | 6 | 0 |
+| WI-0131 | Correct the Lean routing effectiveness experiment | independent_qa | Independent QA | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903075943-42859dba | `c0e67205` | 0 | 13 | 0 |
 
 ## Codex task registry
 
@@ -320,14 +320,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-03T07:39:17.989Z | work_item_claimed | WI-0131 | principal-owner |
-| 2026-09-03T07:39:17.726Z | work_item_transitioned | WI-0131 | agent-tidus |
-| 2026-09-03T07:39:17.476Z | handoff_created | WI-0131 | agent-tidus |
-| 2026-09-03T07:39:17.249Z | work_item_transitioned | WI-0131 | agent-yuna |
-| 2026-09-03T07:39:17.015Z | handoff_created | WI-0131 | agent-yuna |
-| 2026-09-03T07:39:07.900Z | work_item_transitioned | WI-0131 | agent-mog |
-| 2026-09-03T07:38:26.175Z | work_item_created | WI-0131 | agent-mog |
-| 2026-09-03T07:12:33.620Z | work_item_concluded | WI-0130 | agent-mog |
+| 2026-09-03T07:59:43.484Z | work_item_claimed | WI-0131 | principal-owner |
+| 2026-09-03T07:59:43.214Z | work_item_transitioned | WI-0131 | agent-lulu |
+| 2026-09-03T07:59:42.971Z | handoff_created | WI-0131 | agent-lulu |
+| 2026-09-03T07:59:42.695Z | work_item_transitioned | WI-0131 | agent-lulu |
+| 2026-09-03T07:59:42.484Z | evidence_recorded | WI-0131 | human |
+| 2026-09-03T07:55:21.102Z | work_item_claimed | WI-0131 | principal-owner |
+| 2026-09-03T07:55:12.621Z | work_item_transitioned | WI-0131 | agent-rikku |
+| 2026-09-03T07:55:12.335Z | handoff_created | WI-0131 | agent-rikku |
 
 ## Assignments
 
