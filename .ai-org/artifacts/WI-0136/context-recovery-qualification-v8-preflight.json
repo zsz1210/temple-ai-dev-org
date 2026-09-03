@@ -1,0 +1,180 @@
+{
+  "schema_version": "temple.context-model-diagnostic-preflight/v8",
+  "work_item_id": "WI-0136",
+  "observed_at": "2026-09-03T14:06:07.214Z",
+  "protocol_sha256": "c0d4aaefd74419487fd7541f03c4fe1355661df24e1981d2a8897ee371510683",
+  "local_fixture_ready": true,
+  "provider_handshake_performed": true,
+  "provider_contract_matches": true,
+  "provider_output_schema_checked_without_generation": true,
+  "provider_output_schema_matches": true,
+  "provider_output_schema_check": {
+    "profile": "openai-structured-outputs-subset/2026-09-03",
+    "supported": true,
+    "errors": [],
+    "schema_sha256": "677d13bd2fdf4025cd2071f30e3a0745f23b15e2e0be3884086004dff33152f1",
+    "object_property_count": 8,
+    "enum_value_count": 3,
+    "constrained_string_characters": 138,
+    "maximum_depth": 4
+  },
+  "exact_approval_present": true,
+  "approval_errors": [],
+  "generation_ready": true,
+  "blockers": [],
+  "checks": [
+    {
+      "id": "protocol-valid",
+      "pass": true
+    },
+    {
+      "id": "manifest-digest",
+      "pass": true
+    },
+    {
+      "id": "protocol-manifest",
+      "pass": true
+    },
+    {
+      "id": "source-current",
+      "pass": true
+    },
+    {
+      "id": "prompt-contract-current",
+      "pass": true
+    },
+    {
+      "id": "conditions-matched",
+      "pass": true
+    },
+    {
+      "id": "prepared-recovery-state",
+      "pass": true
+    },
+    {
+      "id": "terra-routed:gateway:revision",
+      "pass": true
+    },
+    {
+      "id": "terra-routed:gateway:tree",
+      "pass": true
+    },
+    {
+      "id": "terra-routed:gateway:clean",
+      "pass": true
+    },
+    {
+      "id": "terra-routed:catalog:revision",
+      "pass": true
+    },
+    {
+      "id": "terra-routed:catalog:tree",
+      "pass": true
+    },
+    {
+      "id": "terra-routed:catalog:clean",
+      "pass": true
+    },
+    {
+      "id": "terra-routed:orders:revision",
+      "pass": true
+    },
+    {
+      "id": "terra-routed:orders:tree",
+      "pass": true
+    },
+    {
+      "id": "terra-routed:orders:clean",
+      "pass": true
+    },
+    {
+      "id": "terra-routed:notifications:revision",
+      "pass": true
+    },
+    {
+      "id": "terra-routed:notifications:tree",
+      "pass": true
+    },
+    {
+      "id": "terra-routed:notifications:clean",
+      "pass": true
+    },
+    {
+      "id": "terra-routed:coordinator:revision",
+      "pass": true
+    },
+    {
+      "id": "terra-routed:coordinator:tree",
+      "pass": true
+    },
+    {
+      "id": "terra-routed:coordinator:clean",
+      "pass": true
+    },
+    {
+      "id": "terra-full-load:gateway:revision",
+      "pass": true
+    },
+    {
+      "id": "terra-full-load:gateway:tree",
+      "pass": true
+    },
+    {
+      "id": "terra-full-load:gateway:clean",
+      "pass": true
+    },
+    {
+      "id": "terra-full-load:catalog:revision",
+      "pass": true
+    },
+    {
+      "id": "terra-full-load:catalog:tree",
+      "pass": true
+    },
+    {
+      "id": "terra-full-load:catalog:clean",
+      "pass": true
+    },
+    {
+      "id": "terra-full-load:orders:revision",
+      "pass": true
+    },
+    {
+      "id": "terra-full-load:orders:tree",
+      "pass": true
+    },
+    {
+      "id": "terra-full-load:orders:clean",
+      "pass": true
+    },
+    {
+      "id": "terra-full-load:notifications:revision",
+      "pass": true
+    },
+    {
+      "id": "terra-full-load:notifications:tree",
+      "pass": true
+    },
+    {
+      "id": "terra-full-load:notifications:clean",
+      "pass": true
+    },
+    {
+      "id": "terra-full-load:coordinator:revision",
+      "pass": true
+    },
+    {
+      "id": "terra-full-load:coordinator:tree",
+      "pass": true
+    },
+    {
+      "id": "terra-full-load:coordinator:clean",
+      "pass": true
+    },
+    {
+      "id": "provider-output-schema-subset",
+      "pass": true
+    }
+  ],
+  "model_generation_performed": false
+}

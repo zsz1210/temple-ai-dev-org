@@ -133,6 +133,19 @@ V8 corrects the intervention order exposed by v7. The prompt now identifies WI-0
 - Operational-Token hard stops: 80,000 routed; 120,000 full-load; 200,000 combined
 - Wall-clock hard stop: 20 minutes
 - Retry and fallback: disabled
-- Status: generation disabled pending exact v8 approval
+- Status: stopped after both conditions; no valid context comparison
 
-V8 preserves the v7 route, effort request, condition ceilings, aggregate ceiling, and no-retry/no-fallback account boundary. Its new digest reflects the repaired prompt contract and fresh matched fixture revisions. It is a new experiment, not a retry of v7.
+The exact-approved v8 attempt produced a correct routed recovery at 67,042 Operational Tokens and an invalid full-load recovery at 24,370, for 91,412 combined. The full-load candidate looked for `TEMPLE.md` in the experiment root instead of `coordinator/TEMPLE.md` and returned no revisions or governing contract. V8 also counted context command attempts without proving exit-code-zero completion. There was no retry or fallback. These values are not comparable efficiency evidence.
+
+## Context-recovery qualification v9
+
+V9 repairs the fixture boundary exposed by v8. It uses root-relative Coordinator paths, supplies the pinned local Temple CLI path inside the isolated runtime, and records treatment sequence only for successful command completions. Preflight executes the exact root-relative resolver command in both matched fixtures and validates its returned Context Capsule.
+
+- Protocol SHA-256: `6ad30fd488aa57c0bc3318161a2f00b7cb7ade97b20e1fcbaffedc5bd0e81715`
+- Condition order: Terra routed; Terra full-load
+- Operational-Token hard stops: 80,000 routed; 120,000 full-load; 200,000 combined
+- Wall-clock hard stop: 20 minutes
+- Retry and fallback: disabled
+- Status: generation disabled pending exact v9 approval
+
+V9 preserves the v8 route, effort request, condition ceilings, aggregate ceiling, and no-retry/no-fallback account boundary. Its new digest reflects the repaired prompt, runtime, observer, and fresh matched-fixture contracts. It is a new experiment, not a retry or continuation of v8.

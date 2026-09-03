@@ -28,8 +28,11 @@ const fixtureRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/fixture
 const defaultLabRoot = path.join(os.tmpdir(), "temple-wi0136-representative-microservice");
 const defaultProtocolPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/live-protocol.json");
 const defaultApprovalTemplatePath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/account-approval.template.json");
-const previousAblationLabRoot = path.join(os.tmpdir(), "temple-wi0136-context-recovery-qualification-v7");
-const defaultAblationLabRoot = path.join(os.tmpdir(), "temple-wi0136-context-recovery-qualification-v8");
+const priorAblationLabRoots = Object.freeze({
+  v7: path.join(os.tmpdir(), "temple-wi0136-context-recovery-qualification-v7"),
+  v8: path.join(os.tmpdir(), "temple-wi0136-context-recovery-qualification-v8")
+});
+const defaultAblationLabRoot = path.join(os.tmpdir(), "temple-wi0136-context-recovery-qualification-v9");
 const defaultAblationProtocolPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-ablation-protocol.json");
 const defaultAblationApprovalTemplatePath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-ablation-approval.template.json");
 const defaultAblationApprovalPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-ablation-approval.json");
@@ -1255,6 +1258,16 @@ function promptMetrics(instruction, outputSchema) {
   };
 }
 
+function contextActionLabels(actions) {
+  const labels = [];
+  for (const action of actions ?? []) {
+    const commandText = typeof action?.command === "string" ? action.command : "";
+    if (/(^|[ /])TEMPLE\.md(?:$|[ '"/])/i.test(commandText)) labels.push("temple-md");
+    if (/\bcontext resolve\b/i.test(commandText)) labels.push("context-resolve");
+  }
+  return labels;
+}
+
 function summarizeToolActivity(item, activity, includeActions = true) {
   if (item?.type !== "commandExecution") return;
   if (includeActions) {
@@ -1263,19 +1276,30 @@ function summarizeToolActivity(item, activity, includeActions = true) {
       activity.command_actions += 1;
       const type = typeof action?.type === "string" ? action.type : "unknown";
       activity.action_types[type] = (activity.action_types[type] ?? 0) + 1;
-      const commandText = typeof action?.command === "string" ? action.command : "";
-      if (/(^|[ /])TEMPLE\.md(?:$|[ '"/])/i.test(commandText)) {
-        activity.temple_md_reads += 1;
-        activity.context_sequence.push("temple-md");
-      }
-      if (/\bcontext resolve\b/i.test(commandText)) {
-        activity.context_resolve_calls += 1;
-        activity.context_sequence.push("context-resolve");
-      }
+    }
+    for (const label of contextActionLabels(item.commandActions)) {
+      if (label === "temple-md") activity.temple_md_attempts += 1;
+      if (label === "context-resolve") activity.context_resolve_attempts += 1;
     }
   }
   for (const key of ["aggregatedOutput", "output", "formattedOutput"]) {
     if (typeof item?.[key] === "string") activity.reported_output_bytes += Buffer.byteLength(item[key]);
+  }
+}
+
+export function successfulContextActionLabels(item, fallbackActions = []) {
+  if (item?.type !== "commandExecution" || item.exitCode !== 0) return [];
+  const actions = Array.isArray(item.commandActions) && item.commandActions.length > 0
+    ? item.commandActions
+    : fallbackActions;
+  return contextActionLabels(actions);
+}
+
+function summarizeSuccessfulContextActivity(item, activity, fallbackActions = []) {
+  for (const label of successfulContextActionLabels(item, fallbackActions)) {
+    if (label === "temple-md") activity.temple_md_reads += 1;
+    if (label === "context-resolve") activity.context_resolve_calls += 1;
+    activity.context_sequence.push(label);
   }
 }
 
@@ -1305,12 +1329,16 @@ async function launchModelTurn({
     command_items: 0,
     command_actions: 0,
     action_types: {},
+    temple_md_attempts: 0,
+    context_resolve_attempts: 0,
     temple_md_reads: 0,
     context_resolve_calls: 0,
     context_sequence: [],
     reported_output_bytes: 0
   };
   const observedCommandItems = new Set();
+  const successfulContextItems = new Set();
+  const commandActionsByItem = new Map();
   let resolveTerminal;
   const terminalPromise = new Promise((resolve) => { resolveTerminal = resolve; });
   const startedAt = new Date().toISOString();
@@ -1326,7 +1354,10 @@ async function launchModelTurn({
 
   connection = createJsonRpcProcess("codex", ["app-server", "--stdio"], {
     cwd,
-    env: isolateWave5CodexEnvironment(process.env),
+    env: isolateWave5CodexEnvironment({
+      ...process.env,
+      TEMPLE_CLI_PATH: path.join(repositoryRoot, "bin/temple.mjs")
+    }),
     onNotification(message) {
       const params = message.params ?? {};
       if (turnRequestedMs !== null && message.method === "item/started" && (!turnId || params.turnId === turnId)) {
@@ -1355,6 +1386,7 @@ async function launchModelTurn({
         const key = params.item.id ?? `${toolActivity.command_items}`;
         if (!observedCommandItems.has(key)) {
           observedCommandItems.add(key);
+          commandActionsByItem.set(key, params.item.commandActions ?? []);
           summarizeToolActivity(params.item, toolActivity, true);
         }
       }
@@ -1366,6 +1398,17 @@ async function launchModelTurn({
         const includeActions = params.item?.type === "commandExecution" && (key === null || !observedCommandItems.has(key));
         if (includeActions && key !== null) observedCommandItems.add(key);
         summarizeToolActivity(params.item, toolActivity, includeActions);
+        if (params.item?.type === "commandExecution") {
+          const contextKey = key ?? `completed-${successfulContextItems.size}`;
+          if (!successfulContextItems.has(contextKey)) {
+            successfulContextItems.add(contextKey);
+            summarizeSuccessfulContextActivity(
+              params.item,
+              toolActivity,
+              key === null ? [] : commandActionsByItem.get(key)
+            );
+          }
+        }
       }
       if (message.method === "turn/completed" && (!turnId || params.turn?.id === turnId)) {
         terminal = params.turn;
@@ -1581,9 +1624,9 @@ function buildSlices() {
   ];
 }
 
-export function templeRoutedContextInstruction(repositoryLabel = "the assigned repository") {
+export function templeRoutedContextInstruction(repositoryLabel = "the assigned repository", launcher = "./templew.mjs", target = ".") {
   return [
-    `From ${repositoryLabel}, before reading any repository file, first preview \`node ./templew.mjs context resolve . --work-item WI-0001 --position developer --no-write --json\`.`,
+    `From the experiment workspace root, before reading any repository file, first preview \`node ${launcher} context resolve ${target} --work-item WI-0001 --position developer --no-write --json\` for ${repositoryLabel}.`,
     "Open only the routed repository sources needed for this responsibility.",
     "Do not read TEMPLE.md before that command. Read it afterward only if the Context Capsule cannot identify authority, current state, or the safe next action."
   ].join(" ");
@@ -1592,7 +1635,11 @@ export function templeRoutedContextInstruction(repositoryLabel = "the assigned r
 function armProcessInstructions(armId, repositories_) {
   if (armId === "temple") {
     return [
-      templeRoutedContextInstruction("each assigned repository"),
+      ...repositories_.map((repositoryId) => templeRoutedContextInstruction(
+        `the assigned ${repositoryId} repository`,
+        `${repositoryId}/templew.mjs`,
+        repositoryId
+      )),
       "Use only the routed repository state needed for this slice. Claims and lifecycle mutations are owned by the experiment coordinator; do not edit .ai-org files."
     ].join(" ");
   }
@@ -1609,7 +1656,7 @@ async function runDesignTurn({ armId, armRoot, protocol, budget, deadline }) {
     "Use contract_version `OrderPlaced/v2`. Use rollout_order with consumer preparation before producer publication.",
     "Define exactly these slice IDs: orders-catalog, notifications, gateway. Keep their writable repositories disjoint.",
     armId === "temple"
-      ? templeRoutedContextInstruction("the Coordinator repository")
+      ? templeRoutedContextInstruction("the Coordinator repository", "coordinator/templew.mjs", "coordinator")
       : "Use TASK.md and organization/WORK_ITEM.md as the ordinary responsible workflow records.",
     task
   ].join("\n\n");
@@ -1861,7 +1908,7 @@ async function runIntegrationTurn({ armId, armRoot, protocol, budget, deadline }
   const instruction = [
     "You are a fresh integration owner with no prior conversation. This is the known bounded Work Item WI-0001, not new or unknown-scope work. Recover its exact current state using repository files only.",
     armId === "temple"
-      ? `${templeRoutedContextInstruction("the Coordinator repository")} Do not mutate lifecycle state.`
+      ? `${templeRoutedContextInstruction("the Coordinator repository", "coordinator/templew.mjs", "coordinator")} Do not mutate lifecycle state.`
       : "Start from coordinator/TASK.md, coordinator/design-record.json, and ordinary organization handoffs.",
     "Only after completing that first-action requirement, inspect all four service repositories, their current Git revisions, the governing contract, the design record, and every retained slice handoff.",
     "Return exact revisions for gateway, catalog, orders, and notifications; name completed slice IDs, unresolved work, and the safe bounded next action.",
@@ -1892,8 +1939,8 @@ async function runIntegrationTurn({ armId, armRoot, protocol, budget, deadline }
 export function ablationIntegrationInstruction(condition) {
   const definition = ablationConditionDefinition(condition);
   const contextInstruction = definition.context_strategy === "full-load"
-    ? "From the Coordinator repository, before reading any other repository file, read TEMPLE.md in full. Only after that full read, preview `node ./templew.mjs context resolve . --work-item WI-0001 --position developer --no-write --json`, then inspect the sources named by the Context Capsule."
-    : templeRoutedContextInstruction("the Coordinator repository");
+    ? "From the experiment workspace root, before reading any other repository file, read `coordinator/TEMPLE.md` in full. Only after that successful full read, preview `node coordinator/templew.mjs context resolve coordinator --work-item WI-0001 --position developer --no-write --json`, then inspect the sources named by the Context Capsule."
+    : templeRoutedContextInstruction("the Coordinator repository", "coordinator/templew.mjs", "coordinator");
   return [
     "You are a fresh integration owner with no prior conversation. This is the known bounded Work Item WI-0001, not new or unknown-scope work. Recover its exact current state using repository files only.",
     "Before inspecting repository content, follow this condition-specific first-action requirement exactly:",
@@ -1912,7 +1959,7 @@ function contextPromptContract() {
     conditions: Object.fromEntries(ablationConditions.map((condition) => {
       const definition = ablationConditionDefinition(condition);
       return [condition, {
-      strategy: definition.context_strategy === "full-load" ? "temple-full-load-v2" : "temple-routed-context-v2",
+      strategy: definition.context_strategy === "full-load" ? "temple-full-load-v3" : "temple-routed-context-v3",
       model: definition.model,
       reasoning_effort: definition.reasoning_effort,
       user_input: textMetrics(ablationIntegrationInstruction(condition))
@@ -1935,7 +1982,7 @@ function conditionParity(conditions) {
 
 function buildAblationProtocol(manifest) {
   const protocol = {
-    schema_version: "temple.context-model-diagnostic/v8",
+    schema_version: "temple.context-model-diagnostic/v9",
     work_item_id: "WI-0136",
     status: "generation-disabled",
     protocol_sha256: null,
@@ -2009,7 +2056,7 @@ function buildAblationProtocol(manifest) {
 
 export function validateAblationProtocol(protocol) {
   const errors = [];
-  if (protocol?.schema_version !== "temple.context-model-diagnostic/v8") errors.push("unsupported ablation schema");
+  if (protocol?.schema_version !== "temple.context-model-diagnostic/v9") errors.push("unsupported ablation schema");
   if (protocol?.work_item_id !== "WI-0136" || protocol?.status !== "generation-disabled") errors.push("ablation identity or status mismatch");
   if (protocol?.protocol_sha256 !== protocolDigest(protocol)) errors.push("ablation protocol digest mismatch");
   if (JSON.stringify(protocol?.execution?.condition_order) !== JSON.stringify(ablationConditions)) errors.push("condition order mismatch");
@@ -2111,14 +2158,39 @@ async function preservePriorAblationEvidence(protocolPath) {
     "temple.context-model-diagnostic-account-approval/v7"
   );
   await preserveExactArtifact(
-    path.join(previousAblationLabRoot, "ablation-preflight.json"),
+    path.join(priorAblationLabRoots.v7, "ablation-preflight.json"),
     path.join(artifactRoot, "context-recovery-qualification-v7-preflight.json"),
     "temple.context-model-diagnostic-preflight/v7"
   );
   await preserveExactArtifact(
-    path.join(previousAblationLabRoot, "ablation-stopped-run.json"),
+    path.join(priorAblationLabRoots.v7, "ablation-stopped-run.json"),
     path.join(artifactRoot, "context-recovery-qualification-v7-stopped-run.json"),
     "temple.context-model-diagnostic-stopped-run/v7"
+  );
+  await preserveExactArtifact(
+    protocolPath,
+    path.join(artifactRoot, "context-recovery-qualification-v8-protocol.json"),
+    "temple.context-model-diagnostic/v8"
+  );
+  await preserveExactArtifact(
+    defaultAblationApprovalPath,
+    path.join(artifactRoot, "context-recovery-qualification-v8-approval.json"),
+    "temple.context-model-diagnostic-account-approval/v8"
+  );
+  await preserveExactArtifact(
+    defaultAblationApprovalTemplatePath,
+    path.join(artifactRoot, "context-recovery-qualification-v8-approval-template.json"),
+    "temple.context-model-diagnostic-account-approval/v8"
+  );
+  await preserveExactArtifact(
+    path.join(priorAblationLabRoots.v8, "ablation-preflight.json"),
+    path.join(artifactRoot, "context-recovery-qualification-v8-preflight.json"),
+    "temple.context-model-diagnostic-preflight/v8"
+  );
+  await preserveExactArtifact(
+    path.join(priorAblationLabRoots.v8, "ablation-stopped-run.json"),
+    path.join(artifactRoot, "context-recovery-qualification-v8-stopped-run.json"),
+    "temple.context-model-diagnostic-stopped-run/v8"
   );
 }
 
@@ -2145,7 +2217,7 @@ async function setupAblation(labRoot, protocolPath) {
     }
     if (!conditionParity(conditions)) throw new Error("ablation conditions are not byte-equivalent at Git revision and tree boundaries");
     const manifest = {
-      schema_version: "temple.context-model-diagnostic-lab/v8",
+      schema_version: "temple.context-model-diagnostic-lab/v9",
       work_item_id: "WI-0136",
       created_at: createdAt,
       lab_root: labRoot,
@@ -2165,7 +2237,7 @@ async function setupAblation(labRoot, protocolPath) {
     return { manifest, protocol, validation };
   } catch (error) {
     await writeJson(path.join(labRoot, "setup-failure.json"), {
-      schema_version: "temple.context-model-diagnostic-setup-failure/v8",
+      schema_version: "temple.context-model-diagnostic-setup-failure/v9",
       work_item_id: "WI-0136",
       stopped_at: new Date().toISOString(),
       reason: String(error.message ?? error),
@@ -2178,7 +2250,7 @@ async function setupAblation(labRoot, protocolPath) {
 function ablationApprovalTemplate(protocol) {
   const routes = protocol.conditions.map((condition) => condition.model_route);
   return {
-    schema_version: "temple.context-model-diagnostic-account-approval/v8",
+    schema_version: "temple.context-model-diagnostic-account-approval/v9",
     work_item_id: protocol.work_item_id,
     protocol_sha256: protocol.protocol_sha256,
     approved: false,
@@ -2277,7 +2349,7 @@ async function freezeAblation(protocolPath) {
   await writeJson(defaultAblationApprovalTemplatePath, approvalTemplate);
   await writeJson(defaultAblationApprovalPath, approvalTemplate);
   return {
-    schema_version: "temple.context-model-diagnostic-freeze/v8",
+    schema_version: "temple.context-model-diagnostic-freeze/v9",
     work_item_id: frozen.work_item_id,
     protocol_sha256: frozen.protocol_sha256,
     provider_handshake: handshake,
@@ -2307,9 +2379,31 @@ async function inspectAblation(labRoot, protocolPath) {
       checks.push({ id: `${condition.id}:${repositoryId}:tree`, pass: observed.tree === expected.tree });
       checks.push({ id: `${condition.id}:${repositoryId}:clean`, pass: observed.clean === true });
     }
+    const templePath = path.join(condition.root, "coordinator/TEMPLE.md");
+    const templeText = await fs.readFile(templePath, "utf8").catch(() => "");
+    checks.push({ id: `${condition.id}:coordinator-temple-readable`, pass: templeText.length > 0 });
+    const contextProbe = await command(process.execPath, [
+      "coordinator/templew.mjs", "context", "resolve", "coordinator",
+      "--work-item", "WI-0001", "--position", "developer", "--no-write", "--json"
+    ], {
+      cwd: condition.root,
+      env: {
+        ...process.env,
+        TEMPLE_CLI_PATH: path.join(repositoryRoot, "bin/temple.mjs")
+      }
+    });
+    let contextProbePass = false;
+    if (contextProbe.status === 0) {
+      try {
+        const capsule = JSON.parse(contextProbe.stdout);
+        contextProbePass = capsule.schema_version === "temple.context-capsule/v1" &&
+          capsule.work_item?.id === "WI-0001" && capsule.position?.id === "developer";
+      } catch {}
+    }
+    checks.push({ id: `${condition.id}:root-relative-context-command`, pass: contextProbePass });
   }
   return {
-    schema_version: "temple.context-model-diagnostic-inspection/v8",
+    schema_version: "temple.context-model-diagnostic-inspection/v9",
     work_item_id: "WI-0136",
     inspected_at: new Date().toISOString(),
     valid: checks.every((entry) => entry.pass),
@@ -2342,7 +2436,7 @@ async function preflightAblation(labRoot, protocolPath, approvalPath) {
   if (!outputSchemaMatch) blockers.push("provider-output-schema-unsupported-or-drifted");
   if (!approval.accepted) blockers.push("exact-human-approval-required");
   const output = {
-    schema_version: "temple.context-model-diagnostic-preflight/v8",
+    schema_version: "temple.context-model-diagnostic-preflight/v9",
     work_item_id: "WI-0136",
     observed_at: new Date().toISOString(),
     protocol_sha256: protocol.protocol_sha256,
@@ -2412,7 +2506,7 @@ export function diagnosticStoppedRun({ protocol, startedAt, stoppedAt, completed
   const censoredConditions = completed.filter((entry) => entry.status === "censored");
   const stoppedConditions = completed.filter((entry) => entry.status === "stopped");
   return {
-    schema_version: "temple.context-model-diagnostic-stopped-run/v8",
+    schema_version: "temple.context-model-diagnostic-stopped-run/v9",
     work_item_id: protocol.work_item_id,
     protocol_sha256: protocol.protocol_sha256,
     started_at: startedAt,
@@ -2484,7 +2578,7 @@ async function runAblation(labRoot, protocolPath, approvalPath) {
     const completedCount = observed.filter((entry) => entry.status === "completed").length;
     const censoredCount = observed.filter((entry) => entry.status === "censored").length;
     const output = {
-      schema_version: "temple.context-model-diagnostic-run/v8",
+      schema_version: "temple.context-model-diagnostic-run/v9",
       work_item_id: protocol.work_item_id,
       protocol_sha256: protocol.protocol_sha256,
       started_at: startedAt,
@@ -2606,7 +2700,7 @@ export function analyzeContextAblation({ protocol, run, generatedAt = new Date()
       ? "routed-context-supported"
       : "routed-context-correct-savings-not-observed";
   return {
-    schema_version: "temple.context-model-diagnostic-analysis/v8",
+    schema_version: "temple.context-model-diagnostic-analysis/v9",
     work_item_id: protocol.work_item_id,
     protocol_sha256: protocol.protocol_sha256,
     generated_at: generatedAt,
