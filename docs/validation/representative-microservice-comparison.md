@@ -89,18 +89,22 @@ node scripts/run-representative-microservice-comparison.mjs preflight
 
 The current preflight verifies two arms with identical product revisions, four failing starting service tests per arm, a failing public integration path, a failing held-out compatibility path, a fully passing evaluator-only golden implementation, 31 retained fixture and revision checks, the installed Codex App Server contract, and a complete no-generation Temple lifecycle rehearsal across all five repositories. It must still report `exact-human-approval-required` until the frozen protocol envelope is approved.
 
-## Context-routing ablation
+## Context and model diagnostic
 
 Prompt inspection found an avoidable confound before any candidate generation: the Temple condition loaded `TEMPLE.md` before resolving a known Work Item's Context Capsule. The intended framework route resolves the capsule first, opens only routed sources, and treats `TEMPLE.md` as a recovery fallback.
 
-The focused ablation compares two otherwise identical prepared Temple recovery repositories:
+The diagnostic compares four otherwise identical prepared Temple recovery repositories:
 
-| Condition | Retrieval order |
-|---|---|
-| Full-load | Read `TEMPLE.md` in full, then resolve and follow the Context Capsule |
-| Routed | Resolve the Context Capsule first, follow only routed sources, and read `TEMPLE.md` only if the capsule is insufficient |
+| Condition | Model and effort | Retrieval order | Question isolated |
+|---|---|---|---|
+| Terra full-load | Terra medium | Read `TEMPLE.md` in full, then resolve and follow the Context Capsule | Full-load baseline |
+| Terra routed | Terra medium | Resolve the Context Capsule first and use `TEMPLE.md` only as fallback | Context-routing effect |
+| Sol routed medium | Sol medium | Same routed prompt and repositories | Same-effort model effect |
+| Sol routed xhigh | Sol xhigh | Same routed prompt and repositories | User's quality-first effort effect |
 
-Both conditions use one fresh Terra medium read-only turn, the same exact Git revisions, the same output schema and tool policy, zero retry, and zero fallback. The result reports objective recovery, exact revisions, contract and slice recovery, safe next action, input and cached-input Tokens, output and operational Tokens, elapsed time, explicit prompt bytes, normalized context-command order, and reported tool-output bytes.
+Every condition uses one fresh read-only turn, the same exact Git revisions, the same output schema and tool policy, zero retry, and zero fallback. The result reports objective recovery, exact revisions, contract and slice recovery, safe next action, input, cached-input, output, reasoning-output, gross, and operational Tokens, session setup, turn duration, time to first activity, time to first command, effective output Tokens per second, explicit prompt bytes, normalized context-command order, and reported tool-output bytes.
+
+OpenAI documents Sol as the flagship GPT-5.6 model for complex professional work and Terra as the balanced intelligence-and-cost option. The documentation does not provide a fixed Codex task duration for this workload, so the diagnostic reports observed timings rather than assuming a speed ranking.
 
 Generation-free preparation uses:
 
@@ -110,11 +114,18 @@ node scripts/run-representative-microservice-comparison.mjs ablation-freeze
 node scripts/run-representative-microservice-comparison.mjs ablation-preflight
 ```
 
-The ablation is diagnostic. It determines whether the routed condition preserves recovery quality and whether a Token or context-volume reduction is observed in this pair; it is not a Temple-versus-baseline result and makes no statistical claim.
+The diagnostic determines whether routed context preserves recovery quality, whether Token or context-volume reduction is observed, how Terra and Sol differ at medium effort, and how Sol xhigh changes the observed tradeoff. One attempt per setting is directional only: it is not a Temple-versus-baseline result, does not establish a stable model-routing policy, and makes no statistical claim.
+
+After exact diagnostic approval, the bounded commands are:
+
+```bash
+node scripts/run-representative-microservice-comparison.mjs ablation-run --approval .ai-org/artifacts/WI-0136/context-ablation-approval.json
+node scripts/run-representative-microservice-comparison.mjs ablation-report
+```
 
 After the ablation, the main live execution shape remains ten candidate turns and one blind evaluator turn: one Sol xhigh design turn, three concurrent Terra medium implementation slices, and one fresh Terra medium cold-integration turn per arm, followed by one Sol xhigh evaluator. Its replacement safety envelope and protocol digest must be regenerated after the routed prompt is frozen. Earlier limits remain historical preparation evidence, not current approval authority.
 
-After exact approval, the bounded commands are:
+After that replacement main protocol receives its own exact approval, the bounded commands are:
 
 ```bash
 node scripts/run-representative-microservice-comparison.mjs run --approval .ai-org/artifacts/WI-0136/account-approval.json

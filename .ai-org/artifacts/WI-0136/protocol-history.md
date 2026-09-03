@@ -21,6 +21,22 @@ The next protocol must freeze the runner digest, use Context Capsule-first retri
 - Combined operational-Token hard stop: 160,000
 - Wall-clock hard stop: 20 minutes
 - Retry and fallback: disabled
-- Status: generation disabled until exact account approval
+- Candidate generation: not started
+- Disposition: superseded before account approval by the context/model diagnostic v2
 
 The ablation freezes the runner, analyzer, fixture, prompt layers, output schema, tool policy, model route, and identical repository revisions. It is diagnostic only and cannot serve as the main Temple-versus-baseline result.
+
+The user requested a directly measured Sol comparison before generation. Because changing the model matrix after approval would invalidate causal interpretation and the approval envelope, v1 was retained in Git history and replaced before any model turn ran.
+
+## Context/model diagnostic v2
+
+- Protocol SHA-256: `09cb2b5a3442d637dfc380537e5f2860c116125ab5472a7ead8853b070da687d`
+- Conditions: Terra medium full-load, Terra medium routed, Sol medium routed, and Sol xhigh routed
+- Candidate turns: 4
+- Per-condition operational-Token hard stop: 80,000
+- Combined operational-Token hard stop: 320,000
+- Wall-clock hard stop: 40 minutes
+- Retry and fallback: disabled
+- Status: generation disabled until exact account approval
+
+The four one-attempt conditions answer three separate diagnostic questions: whether routed context preserves recovery while reducing context work, whether Terra and Sol differ under the same medium effort, and what changes when Sol moves from medium to the user's quality-first xhigh configuration. The protocol records end-to-end and turn timing, time to first activity and command, effective output Tokens per second, detailed Token counters, tool-output volume, and objective recovery. It remains a directional diagnostic rather than routing authority or statistical proof.

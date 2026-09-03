@@ -1,19 +1,21 @@
 {
-  "schema_version": "temple.context-routing-ablation-account-approval/v1",
+  "schema_version": "temple.context-model-diagnostic-account-approval/v2",
   "work_item_id": "WI-0136",
-  "protocol_sha256": "3eff52f42ffc31a74f169aa3f462bb0b8fcb04de2a623a2901508b9c51f64e73",
+  "protocol_sha256": "09cb2b5a3442d637dfc380537e5f2860c116125ab5472a7ead8853b070da687d",
   "approved": false,
   "authorization_source": null,
-  "approved_candidate_turns": 2,
+  "approved_candidate_turns": 4,
   "approved_models": [
-    "gpt-5.6-terra"
+    "gpt-5.6-terra",
+    "gpt-5.6-sol"
   ],
   "approved_reasoning_efforts": [
-    "medium"
+    "medium",
+    "xhigh"
   ],
-  "approved_candidate_operational_tokens": 160000,
-  "approved_combined_operational_tokens": 160000,
-  "approved_program_wall_clock_ms": 1200000,
+  "approved_candidate_operational_tokens": 320000,
+  "approved_combined_operational_tokens": 320000,
+  "approved_program_wall_clock_ms": 2400000,
   "pro_included_allowance_only": true,
   "credits_purchase_authorized": false,
   "automatic_refill_authorized": false,

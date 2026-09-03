@@ -133,8 +133,8 @@ test("routed Temple context resolves first and treats TEMPLE.md as a fallback", 
   const instruction = templeRoutedContextInstruction("the Coordinator repository");
   assert.ok(instruction.indexOf("context resolve") < instruction.indexOf("TEMPLE.md"));
   assert.match(instruction, /only if the Context Capsule cannot identify authority/);
-  const full = ablationIntegrationInstruction("full-load");
-  const routed = ablationIntegrationInstruction("routed");
+  const full = ablationIntegrationInstruction("terra-full-load");
+  const routed = ablationIntegrationInstruction("terra-routed");
   assert.ok(full.indexOf("TEMPLE.md") < full.indexOf("context resolve"));
   assert.ok(routed.indexOf("context resolve") < routed.indexOf("TEMPLE.md"));
   assert.notEqual(full, routed);
@@ -145,9 +145,15 @@ test("the frozen context ablation requires matched repositories and exact approv
   const template = await readJson(ablationApprovalTemplatePath);
   assert.deepEqual(validateAblationProtocol(protocol), { valid: true, errors: [] });
   assert.equal(protocol.protocol_sha256, protocolDigest(protocol));
-  assert.equal(protocol.execution.candidate_turns, 2);
+  assert.equal(protocol.execution.candidate_turns, 4);
   assert.equal(protocol.execution.evaluator_turns, 0);
-  assert.equal(protocol.execution.combined_operational_token_limit, 160000);
+  assert.equal(protocol.execution.combined_operational_token_limit, 320000);
+  assert.deepEqual(protocol.conditions.map((entry) => [entry.id, entry.model_route.model, entry.model_route.reasoning_effort]), [
+    ["terra-full-load", "gpt-5.6-terra", "medium"],
+    ["terra-routed", "gpt-5.6-terra", "medium"],
+    ["sol-routed-medium", "gpt-5.6-sol", "medium"],
+    ["sol-routed-xhigh", "gpt-5.6-sol", "xhigh"]
+  ]);
   assert.equal(validateAblationApproval(template, protocol).accepted, false);
   const approved = {
     ...template,
@@ -162,12 +168,19 @@ test("the frozen context ablation requires matched repositories and exact approv
 
 test("context ablation analysis keeps correctness primary and reports routed deltas", () => {
   const recovery = { pass: true, exact_revision_count: 4 };
-  const condition = (id, operationalTokens, totalTokens, elapsedMs, templeReads) => ({
+  const condition = (id, model, effort, operationalTokens, totalTokens, elapsedMs, templeReads) => ({
     condition: id,
+    requested_model: model,
+    requested_reasoning_effort: effort,
     recovery,
     operational_tokens: operationalTokens,
     elapsed_ms: elapsedMs,
-    usage: { input_tokens: totalTokens - 100, cached_input_tokens: 50, output_tokens: 100, total_tokens: totalTokens },
+    session_setup_ms: 100,
+    turn_elapsed_ms: elapsedMs - 100,
+    time_to_first_activity_ms: 200,
+    time_to_first_command_ms: 300,
+    effective_output_tokens_per_second: 10,
+    usage: { input_tokens: totalTokens - 100, cached_input_tokens: 50, output_tokens: 100, reasoning_output_tokens: 25, total_tokens: totalTokens },
     prompt_metrics: { explicit_bytes: 2000 },
     tool_activity: { command_actions: 5, temple_md_reads: templeReads, context_resolve_calls: 1, reported_output_bytes: templeReads ? 13000 : 5600 }
   });
@@ -175,12 +188,19 @@ test("context ablation analysis keeps correctness primary and reports routed del
   const run = {
     status: "completed",
     protocol_sha256: "ablation",
-    conditions: [condition("full-load", 1000, 1200, 2000, 1), condition("routed", 600, 800, 1500, 0)]
+    conditions: [
+      condition("terra-full-load", "gpt-5.6-terra", "medium", 1000, 1200, 2000, 1),
+      condition("terra-routed", "gpt-5.6-terra", "medium", 600, 800, 1500, 0),
+      condition("sol-routed-medium", "gpt-5.6-sol", "medium", 500, 700, 1300, 0),
+      condition("sol-routed-xhigh", "gpt-5.6-sol", "xhigh", 700, 900, 1700, 0)
+    ]
   };
   const result = analyzeContextAblation({ protocol, run, generatedAt: "2026-09-03T00:00:00.000Z" });
-  assert.equal(result.comparison.operational_token_delta, -400);
-  assert.equal(result.comparison.operational_token_delta_percent, -40);
-  assert.equal(result.interpretation.outcome, "routed-context-supported");
+  assert.equal(result.comparison.context_routing.operational_token_delta, -400);
+  assert.equal(result.comparison.context_routing.operational_token_delta_percent, -40);
+  assert.equal(result.comparison.model_same_effort.operational_token_delta, -100);
+  assert.equal(result.comparison.sol_reasoning_effort.operational_token_delta, 200);
+  assert.equal(result.interpretation.context_outcome, "routed-context-supported");
   assert.equal(result.interpretation.statistical_generalization, false);
   assert.equal(result.interpretation.main_comparison_result, false);
 });

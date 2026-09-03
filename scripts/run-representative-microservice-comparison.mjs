@@ -28,13 +28,25 @@ const fixtureRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/fixture
 const defaultLabRoot = path.join(os.tmpdir(), "temple-wi0136-representative-microservice");
 const defaultProtocolPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/live-protocol.json");
 const defaultApprovalTemplatePath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/account-approval.template.json");
-const defaultAblationLabRoot = path.join(os.tmpdir(), "temple-wi0136-context-routing-ablation");
+const defaultAblationLabRoot = path.join(os.tmpdir(), "temple-wi0136-context-model-diagnostic-v2");
 const defaultAblationProtocolPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-ablation-protocol.json");
 const defaultAblationApprovalTemplatePath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/context-ablation-approval.template.json");
 const services = Object.freeze(["gateway", "catalog", "orders", "notifications"]);
 const repositories = Object.freeze([...services, "coordinator"]);
 const arms = Object.freeze(["minimal-responsible", "temple"]);
-const ablationConditions = Object.freeze(["full-load", "routed"]);
+const ablationConditionDefinitions = Object.freeze([
+  Object.freeze({ id: "terra-full-load", context_strategy: "full-load", model: "gpt-5.6-terra", reasoning_effort: "medium" }),
+  Object.freeze({ id: "terra-routed", context_strategy: "routed", model: "gpt-5.6-terra", reasoning_effort: "medium" }),
+  Object.freeze({ id: "sol-routed-medium", context_strategy: "routed", model: "gpt-5.6-sol", reasoning_effort: "medium" }),
+  Object.freeze({ id: "sol-routed-xhigh", context_strategy: "routed", model: "gpt-5.6-sol", reasoning_effort: "xhigh" })
+]);
+const ablationConditions = Object.freeze(ablationConditionDefinitions.map((entry) => entry.id));
+
+function ablationConditionDefinition(id) {
+  const definition = ablationConditionDefinitions.find((entry) => entry.id === id);
+  if (!definition) throw new Error(`unknown diagnostic condition: ${id}`);
+  return definition;
+}
 const comparisonAllowedCommandPrefixes = Object.freeze([
   ...WAVE5_ALLOWED_COMMAND_PREFIXES,
   Object.freeze(["git", "rev-parse"]),
@@ -1188,6 +1200,9 @@ async function launchModelTurn({
   const terminalPromise = new Promise((resolve) => { resolveTerminal = resolve; });
   const startedAt = new Date().toISOString();
   const startedMs = Date.now();
+  let turnRequestedMs = null;
+  let firstActivityMs = null;
+  let firstCommandMs = null;
 
   async function interrupt(reason) {
     if (violation === null) violation = reason;
@@ -1199,6 +1214,10 @@ async function launchModelTurn({
     env: isolateWave5CodexEnvironment(process.env),
     onNotification(message) {
       const params = message.params ?? {};
+      if (turnRequestedMs !== null && message.method === "item/started" && (!turnId || params.turnId === turnId)) {
+        if (firstActivityMs === null) firstActivityMs = Date.now();
+        if (params.item?.type === "commandExecution" && firstCommandMs === null) firstCommandMs = Date.now();
+      }
       if (message.method === "thread/tokenUsage/updated" && (!turnId || params.turnId === turnId)) {
         const usage = normalizeTokenUsage(params);
         if (usage) {
@@ -1265,6 +1284,7 @@ async function launchModelTurn({
     });
     threadId = thread?.thread?.id;
     if (!threadId || thread.model !== route.model) throw new Error(`${id}: requested model was not acknowledged`);
+    turnRequestedMs = Date.now();
     const turn = await connection.request("turn/start", {
       threadId,
       clientUserMessageId: `wi0136-${id}`,
@@ -1289,13 +1309,22 @@ async function launchModelTurn({
     if (!latestUsage) throw new Error(`${id}:detailed Token usage missing`);
     const completion = parseStructuredMessage(completionText);
     const tokens = operationalTokens(latestUsage);
+    const completedMs = Date.now();
+    const turnElapsedMs = completedMs - turnRequestedMs;
     budget.settle(id, tokens);
     return {
       id,
       stage,
       started_at: startedAt,
       completed_at: new Date().toISOString(),
-      elapsed_ms: Date.now() - startedMs,
+      elapsed_ms: completedMs - startedMs,
+      session_setup_ms: turnRequestedMs - startedMs,
+      turn_elapsed_ms: turnElapsedMs,
+      time_to_first_activity_ms: firstActivityMs === null ? null : firstActivityMs - turnRequestedMs,
+      time_to_first_command_ms: firstCommandMs === null ? null : firstCommandMs - turnRequestedMs,
+      effective_output_tokens_per_second: turnElapsedMs === 0
+        ? null
+        : Number((latestUsage.output_tokens / (turnElapsedMs / 1000)).toFixed(3)),
       thread_id: threadId,
       turn_id: turnId,
       requested_model: route.model,
@@ -1730,8 +1759,8 @@ async function runIntegrationTurn({ armId, armRoot, protocol, budget, deadline }
 }
 
 export function ablationIntegrationInstruction(condition) {
-  if (!ablationConditions.includes(condition)) throw new Error(`unknown context condition: ${condition}`);
-  const contextInstruction = condition === "full-load"
+  const definition = ablationConditionDefinition(condition);
+  const contextInstruction = definition.context_strategy === "full-load"
     ? "From the Coordinator repository, read TEMPLE.md in full before previewing `node ./templew.mjs context resolve . --work-item WI-0001 --position developer --no-write --json`. Then inspect the sources named by the Context Capsule."
     : templeRoutedContextInstruction("the Coordinator repository");
   return [
@@ -1748,10 +1777,15 @@ function contextPromptContract() {
     base_instructions: textMetrics(boundedBaseInstructions),
     developer_instructions: textMetrics(boundedDeveloperInstructions),
     output_schema: textMetrics(JSON.stringify(integrationOutputSchema)),
-    conditions: Object.fromEntries(ablationConditions.map((condition) => [condition, {
-      strategy: condition === "full-load" ? "temple-full-load-v1" : "temple-routed-context-v1",
+    conditions: Object.fromEntries(ablationConditions.map((condition) => {
+      const definition = ablationConditionDefinition(condition);
+      return [condition, {
+      strategy: definition.context_strategy === "full-load" ? "temple-full-load-v1" : "temple-routed-context-v1",
+      model: definition.model,
+      reasoning_effort: definition.reasoning_effort,
       user_input: textMetrics(ablationIntegrationInstruction(condition))
-    }]))
+    }];
+    }))
   };
 }
 
@@ -1769,7 +1803,7 @@ function conditionParity(conditions) {
 
 function buildAblationProtocol(manifest) {
   const protocol = {
-    schema_version: "temple.context-routing-ablation/v1",
+    schema_version: "temple.context-model-diagnostic/v2",
     work_item_id: "WI-0136",
     status: "generation-disabled",
     protocol_sha256: null,
@@ -1778,6 +1812,11 @@ function buildAblationProtocol(manifest) {
     prompt_contract: contextPromptContract(),
     conditions: manifest.conditions.map((condition) => ({
       id: condition.id,
+      context_strategy: ablationConditionDefinition(condition.id).context_strategy,
+      model_route: {
+        model: ablationConditionDefinition(condition.id).model,
+        reasoning_effort: ablationConditionDefinition(condition.id).reasoning_effort
+      },
       repositories: Object.fromEntries(repositories.map((repositoryId) => [repositoryId, {
         revision: condition.repositories[repositoryId].revision,
         tree: condition.repositories[repositoryId].tree
@@ -1785,7 +1824,7 @@ function buildAblationProtocol(manifest) {
     })),
     execution: {
       condition_order: [...ablationConditions],
-      candidate_turns: 2,
+      candidate_turns: ablationConditions.length,
       evaluator_turns: 0,
       retry_count: 0,
       fallback_count: 0,
@@ -1797,7 +1836,6 @@ function buildAblationProtocol(manifest) {
       combined_operational_token_limit: null,
       program_wall_clock_limit_ms: null
     },
-    model_route: { model: "gpt-5.6-terra", reasoning_effort: "medium" },
     provider_contract: null,
     limit_basis: null,
     measures: [
@@ -1810,7 +1848,13 @@ function buildAblationProtocol(manifest) {
       "cached-input-tokens",
       "output-tokens",
       "operational-tokens",
+      "reasoning-output-tokens",
       "elapsed-ms",
+      "session-setup-ms",
+      "turn-elapsed-ms",
+      "time-to-first-activity-ms",
+      "time-to-first-command-ms",
+      "effective-output-tokens-per-second",
       "explicit-prompt-bytes",
       "context-command-sequence",
       "reported-tool-output-bytes"
@@ -1831,28 +1875,46 @@ function buildAblationProtocol(manifest) {
 
 export function validateAblationProtocol(protocol) {
   const errors = [];
-  if (protocol?.schema_version !== "temple.context-routing-ablation/v1") errors.push("unsupported ablation schema");
+  if (protocol?.schema_version !== "temple.context-model-diagnostic/v2") errors.push("unsupported ablation schema");
   if (protocol?.work_item_id !== "WI-0136" || protocol?.status !== "generation-disabled") errors.push("ablation identity or status mismatch");
   if (protocol?.protocol_sha256 !== protocolDigest(protocol)) errors.push("ablation protocol digest mismatch");
   if (JSON.stringify(protocol?.execution?.condition_order) !== JSON.stringify(ablationConditions)) errors.push("condition order mismatch");
-  if (protocol?.execution?.candidate_turns !== 2 || protocol?.execution?.evaluator_turns !== 0) errors.push("ablation execution shape mismatch");
+  if (protocol?.execution?.candidate_turns !== ablationConditions.length || protocol?.execution?.evaluator_turns !== 0) errors.push("ablation execution shape mismatch");
   if (protocol?.execution?.retry_count !== 0 || protocol?.execution?.fallback_count !== 0 || protocol?.execution?.network_access !== false) errors.push("ablation retry, fallback, or network boundary mismatch");
-  if (protocol?.model_route?.model !== "gpt-5.6-terra" || protocol?.model_route?.reasoning_effort !== "medium") errors.push("ablation model route mismatch");
+  for (const definition of ablationConditionDefinitions) {
+    const condition = protocol?.conditions?.find((entry) => entry.id === definition.id);
+    if (condition?.context_strategy !== definition.context_strategy ||
+      condition?.model_route?.model !== definition.model ||
+      condition?.model_route?.reasoning_effort !== definition.reasoning_effort) {
+      errors.push(`${definition.id} diagnostic route mismatch`);
+    }
+  }
   if (!conditionParity(protocol?.conditions?.map((condition) => ({
     ...condition,
     repositories: Object.fromEntries(Object.entries(condition.repositories ?? {}).map(([id, value]) => [id, { ...value, clean: true }]))
   })))) errors.push("ablation repository conditions are not matched");
   const promptContract = protocol?.prompt_contract;
-  if (!promptContract?.conditions?.["full-load"] || !promptContract?.conditions?.routed) errors.push("ablation prompt contract missing");
-  if (promptContract?.conditions?.["full-load"]?.user_input?.sha256 === promptContract?.conditions?.routed?.user_input?.sha256) errors.push("ablation prompt strategies are not distinct");
+  if (!ablationConditions.every((condition) => promptContract?.conditions?.[condition])) errors.push("ablation prompt contract missing");
+  for (const definition of ablationConditionDefinitions) {
+    const prompt = promptContract?.conditions?.[definition.id];
+    if (prompt?.model !== definition.model || prompt?.reasoning_effort !== definition.reasoning_effort) {
+      errors.push(`${definition.id} prompt route mismatch`);
+    }
+  }
+  if (promptContract?.conditions?.["terra-full-load"]?.user_input?.sha256 === promptContract?.conditions?.["terra-routed"]?.user_input?.sha256) errors.push("ablation prompt strategies are not distinct");
   const frozen = protocol?.execution?.integration_operational_token_limit !== null && protocol?.execution?.integration_operational_token_limit !== undefined;
   if (frozen) {
     for (const field of ["integration_operational_token_limit", "candidate_aggregate_operational_token_limit", "combined_operational_token_limit", "program_wall_clock_limit_ms"]) {
       if (!Number.isSafeInteger(protocol.execution[field]) || protocol.execution[field] <= 0) errors.push(`${field} must be a positive integer when frozen`);
     }
-    if (protocol.execution.candidate_aggregate_operational_token_limit !== protocol.execution.integration_operational_token_limit * 2) errors.push("ablation aggregate limit mismatch");
+    if (protocol.execution.candidate_aggregate_operational_token_limit !== protocol.execution.integration_operational_token_limit * ablationConditions.length) errors.push("ablation aggregate limit mismatch");
     if (protocol.execution.combined_operational_token_limit !== protocol.execution.candidate_aggregate_operational_token_limit) errors.push("ablation combined limit mismatch");
     if (!protocol?.provider_contract?.codex_cli_version || !protocol?.provider_contract?.schema_digests) errors.push("frozen ablation requires a Provider contract");
+    const expectedModels = [
+      { model: "gpt-5.6-terra", reasoning_efforts: ["medium"] },
+      { model: "gpt-5.6-sol", reasoning_efforts: ["medium", "xhigh"] }
+    ];
+    if (JSON.stringify(protocol?.provider_contract?.required_models) !== JSON.stringify(expectedModels)) errors.push("frozen diagnostic Provider routes mismatch");
   }
   return { valid: errors.length === 0, errors };
 }
@@ -1879,7 +1941,7 @@ async function setupAblation(labRoot, protocolPath) {
     }
     if (!conditionParity(conditions)) throw new Error("ablation conditions are not byte-equivalent at Git revision and tree boundaries");
     const manifest = {
-      schema_version: "temple.context-routing-ablation-lab/v1",
+      schema_version: "temple.context-model-diagnostic-lab/v2",
       work_item_id: "WI-0136",
       created_at: createdAt,
       lab_root: labRoot,
@@ -1899,7 +1961,7 @@ async function setupAblation(labRoot, protocolPath) {
     return { manifest, protocol, validation };
   } catch (error) {
     await writeJson(path.join(labRoot, "setup-failure.json"), {
-      schema_version: "temple.context-routing-ablation-setup-failure/v1",
+      schema_version: "temple.context-model-diagnostic-setup-failure/v2",
       work_item_id: "WI-0136",
       stopped_at: new Date().toISOString(),
       reason: String(error.message ?? error),
@@ -1910,15 +1972,16 @@ async function setupAblation(labRoot, protocolPath) {
 }
 
 function ablationApprovalTemplate(protocol) {
+  const routes = protocol.conditions.map((condition) => condition.model_route);
   return {
-    schema_version: "temple.context-routing-ablation-account-approval/v1",
+    schema_version: "temple.context-model-diagnostic-account-approval/v2",
     work_item_id: protocol.work_item_id,
     protocol_sha256: protocol.protocol_sha256,
     approved: false,
     authorization_source: null,
     approved_candidate_turns: protocol.execution.candidate_turns,
-    approved_models: [protocol.model_route.model],
-    approved_reasoning_efforts: [protocol.model_route.reasoning_effort],
+    approved_models: [...new Set(routes.map((route) => route.model))],
+    approved_reasoning_efforts: [...new Set(routes.map((route) => route.reasoning_effort))],
     approved_candidate_operational_tokens: protocol.execution.candidate_aggregate_operational_token_limit,
     approved_combined_operational_tokens: protocol.execution.combined_operational_token_limit,
     approved_program_wall_clock_ms: protocol.execution.program_wall_clock_limit_ms,
@@ -1956,23 +2019,31 @@ async function freezeAblation(protocolPath) {
   if (!before.valid) throw new Error(`ablation protocol invalid before freeze: ${before.errors.join(", ")}`);
   const handshake = await providerHandshake();
   const terra = handshake.model_checks.find((entry) => entry.model === "gpt-5.6-terra");
-  if (!handshake.pass || !terra?.available) throw new Error("required Terra medium Provider route is unavailable");
+  const sol = handshake.model_checks.find((entry) => entry.model === "gpt-5.6-sol");
+  const terraEfforts = new Set(terra?.observed_reasoning_efforts ?? []);
+  const solEfforts = new Set(sol?.observed_reasoning_efforts ?? []);
+  if (!handshake.pass || !terra?.available || !terraEfforts.has("medium") || !sol?.available || !solEfforts.has("medium") || !solEfforts.has("xhigh")) {
+    throw new Error("required Terra medium and Sol medium/xhigh Provider routes are unavailable");
+  }
   const frozen = structuredClone(protocol);
   frozen.provider_contract = {
     codex_cli_version: handshake.codex_cli_version,
     schema_digests: handshake.schema_digests,
-    required_models: [{ model: "gpt-5.6-terra", reasoning_efforts: ["medium"] }]
+    required_models: [
+      { model: "gpt-5.6-terra", reasoning_efforts: ["medium"] },
+      { model: "gpt-5.6-sol", reasoning_efforts: ["medium", "xhigh"] }
+    ]
   };
   Object.assign(frozen.execution, {
     integration_operational_token_limit: 80000,
-    candidate_aggregate_operational_token_limit: 160000,
-    combined_operational_token_limit: 160000,
-    program_wall_clock_limit_ms: 1200000
+    candidate_aggregate_operational_token_limit: 320000,
+    combined_operational_token_limit: 320000,
+    program_wall_clock_limit_ms: 2400000
   });
   frozen.limit_basis = {
     source: ".ai-org/artifacts/WI-0136/live-protocol.json",
     prior_integration_operational_token_limit: 80000,
-    meaning: "Two independent hard stops inherited from the already reviewed integration ceiling; not an expected use or price."
+    meaning: "Four independent hard stops inherited from the already reviewed integration ceiling; not an expected use or price."
   };
   frozen.protocol_sha256 = protocolDigest(frozen);
   const after = validateAblationProtocol(frozen);
@@ -1980,7 +2051,7 @@ async function freezeAblation(protocolPath) {
   await writeJson(protocolPath, frozen);
   await writeJson(defaultAblationApprovalTemplatePath, ablationApprovalTemplate(frozen));
   return {
-    schema_version: "temple.context-routing-ablation-freeze/v1",
+    schema_version: "temple.context-model-diagnostic-freeze/v2",
     work_item_id: frozen.work_item_id,
     protocol_sha256: frozen.protocol_sha256,
     provider_handshake: handshake,
@@ -2012,7 +2083,7 @@ async function inspectAblation(labRoot, protocolPath) {
     }
   }
   return {
-    schema_version: "temple.context-routing-ablation-inspection/v1",
+    schema_version: "temple.context-model-diagnostic-inspection/v2",
     work_item_id: "WI-0136",
     inspected_at: new Date().toISOString(),
     valid: checks.every((entry) => entry.pass),
@@ -2025,8 +2096,13 @@ async function preflightAblation(labRoot, protocolPath, approvalPath) {
   const inspection = await inspectAblation(labRoot, protocolPath);
   const protocol = await readJson(protocolPath);
   const handshake = await providerHandshake();
-  const terra = handshake.model_checks.find((entry) => entry.model === "gpt-5.6-terra");
-  const providerMatch = Boolean(terra?.available) && protocol?.provider_contract?.codex_cli_version === handshake.codex_cli_version &&
+  const requiredModels = protocol?.provider_contract?.required_models ?? [];
+  const routeMatch = requiredModels.every((requirement) => {
+    const observed = handshake.model_checks.find((entry) => entry.model === requirement.model);
+    const efforts = new Set(observed?.observed_reasoning_efforts ?? []);
+    return Boolean(observed?.available) && requirement.reasoning_efforts.every((effort) => efforts.has(effort));
+  });
+  const providerMatch = routeMatch && protocol?.provider_contract?.codex_cli_version === handshake.codex_cli_version &&
     JSON.stringify(protocol?.provider_contract?.schema_digests) === JSON.stringify(handshake.schema_digests);
   const approval = approvalPath && await exists(approvalPath)
     ? validateAblationApproval(await readJson(approvalPath), protocol)
@@ -2036,7 +2112,7 @@ async function preflightAblation(labRoot, protocolPath, approvalPath) {
   if (!providerMatch) blockers.push("provider-contract-drift");
   if (!approval.accepted) blockers.push("exact-human-approval-required");
   const output = {
-    schema_version: "temple.context-routing-ablation-preflight/v1",
+    schema_version: "temple.context-model-diagnostic-preflight/v2",
     work_item_id: "WI-0136",
     observed_at: new Date().toISOString(),
     protocol_sha256: protocol.protocol_sha256,
@@ -2072,11 +2148,11 @@ function recoveryObservation(completion, expectedRevisions) {
   };
 }
 
-function validateContextSequence(condition, activity) {
+function validateContextSequence(contextStrategy, activity) {
   const firstTemple = activity.context_sequence.indexOf("temple-md");
   const firstResolve = activity.context_sequence.indexOf("context-resolve");
   if (firstResolve < 0) return false;
-  if (condition === "full-load") return firstTemple >= 0 && firstTemple < firstResolve;
+  if (contextStrategy === "full-load") return firstTemple >= 0 && firstTemple < firstResolve;
   return firstTemple < 0 || firstResolve < firstTemple;
 }
 
@@ -2094,12 +2170,14 @@ async function runAblation(labRoot, protocolPath, approvalPath) {
   const completed = [];
   try {
     for (const condition of protocol.execution.condition_order) {
+      const conditionProtocol = protocol.conditions.find((entry) => entry.id === condition);
+      if (!conditionProtocol) throw new Error(`${condition}:protocol-condition-missing`);
       const conditionRoot = path.join(labRoot, "conditions", condition);
       const turn = await launchModelTurn({
         id: `context-${condition}`,
         cwd: conditionRoot,
         stage: "integration",
-        route: protocol.model_route,
+        route: conditionProtocol.model_route,
         instruction: ablationIntegrationInstruction(condition),
         outputSchema: integrationOutputSchema,
         protocol,
@@ -2107,7 +2185,7 @@ async function runAblation(labRoot, protocolPath, approvalPath) {
         deadline,
         sandbox: "read-only"
       });
-      if (!validateContextSequence(condition, turn.tool_activity)) throw new Error(`${condition}:context-strategy-not-observed`);
+      if (!validateContextSequence(conditionProtocol.context_strategy, turn.tool_activity)) throw new Error(`${condition}:context-strategy-not-observed`);
       const expected = manifest.prepared_recovery_state.expected_revisions;
       completed.push({
         condition,
@@ -2117,7 +2195,7 @@ async function runAblation(labRoot, protocolPath, approvalPath) {
       });
     }
     const output = {
-      schema_version: "temple.context-routing-ablation-run/v1",
+      schema_version: "temple.context-model-diagnostic-run/v2",
       work_item_id: protocol.work_item_id,
       protocol_sha256: protocol.protocol_sha256,
       started_at: startedAt,
@@ -2133,7 +2211,7 @@ async function runAblation(labRoot, protocolPath, approvalPath) {
     return output;
   } catch (error) {
     await writeJson(path.join(labRoot, "ablation-stopped-run.json"), {
-      schema_version: "temple.context-routing-ablation-stopped-run/v1",
+      schema_version: "temple.context-model-diagnostic-stopped-run/v2",
       work_item_id: protocol.work_item_id,
       protocol_sha256: protocol.protocol_sha256,
       started_at: startedAt,
@@ -2152,53 +2230,80 @@ async function runAblation(labRoot, protocolPath, approvalPath) {
 export function analyzeContextAblation({ protocol, run, generatedAt = new Date().toISOString() }) {
   if (run?.status !== "completed" || run?.protocol_sha256 !== protocol?.protocol_sha256) throw new Error("completed protocol-matched ablation run required");
   const byCondition = Object.fromEntries(run.conditions.map((entry) => [entry.condition, entry]));
-  const full = byCondition["full-load"];
-  const routed = byCondition.routed;
-  if (!full || !routed) throw new Error("both ablation conditions are required");
+  if (!ablationConditions.every((condition) => byCondition[condition])) throw new Error("all diagnostic conditions are required");
   const metric = (entry) => ({
+    requested_model: entry.requested_model,
+    requested_reasoning_effort: entry.requested_reasoning_effort,
     recovery_pass: entry.recovery.pass,
     exact_revision_count: entry.recovery.exact_revision_count,
     operational_tokens: entry.operational_tokens,
     input_tokens: entry.usage.input_tokens,
     cached_input_tokens: entry.usage.cached_input_tokens,
     output_tokens: entry.usage.output_tokens,
+    reasoning_output_tokens: entry.usage.reasoning_output_tokens,
     gross_tokens: entry.usage.total_tokens,
     elapsed_ms: entry.elapsed_ms,
+    session_setup_ms: entry.session_setup_ms,
+    turn_elapsed_ms: entry.turn_elapsed_ms,
+    time_to_first_activity_ms: entry.time_to_first_activity_ms,
+    time_to_first_command_ms: entry.time_to_first_command_ms,
+    effective_output_tokens_per_second: entry.effective_output_tokens_per_second,
     explicit_prompt_bytes: entry.prompt_metrics.explicit_bytes,
     command_actions: entry.tool_activity.command_actions,
     temple_md_reads: entry.tool_activity.temple_md_reads,
     context_resolve_calls: entry.tool_activity.context_resolve_calls,
     reported_tool_output_bytes: entry.tool_activity.reported_output_bytes
   });
-  const fullMetric = metric(full);
-  const routedMetric = metric(routed);
-  const delta = (key) => routedMetric[key] - fullMetric[key];
-  const percent = (key) => fullMetric[key] === 0 ? null : Number(((delta(key) / fullMetric[key]) * 100).toFixed(2));
-  const outcome = !routedMetric.recovery_pass
-    ? "routed-context-not-ready"
-    : !fullMetric.recovery_pass || routedMetric.operational_tokens < fullMetric.operational_tokens
-      ? "routed-context-supported"
-      : "routed-context-correct-savings-not-observed";
-  return {
-    schema_version: "temple.context-routing-ablation-analysis/v1",
-    work_item_id: protocol.work_item_id,
-    protocol_sha256: protocol.protocol_sha256,
-    generated_at: generatedAt,
-    conditions: { "full-load": fullMetric, routed: routedMetric },
-    comparison: {
+  const conditions = Object.fromEntries(ablationConditions.map((condition) => [condition, metric(byCondition[condition])]));
+  const comparison = (baselineId, candidateId) => {
+    const baseline = conditions[baselineId];
+    const candidate = conditions[candidateId];
+    const delta = (key) => Number.isFinite(candidate[key]) && Number.isFinite(baseline[key])
+      ? candidate[key] - baseline[key]
+      : null;
+    const percent = (key) => baseline[key] === 0 || delta(key) === null
+      ? null
+      : Number(((delta(key) / baseline[key]) * 100).toFixed(2));
+    return {
+      baseline: baselineId,
+      candidate: candidateId,
+      objective_quality_equal: baseline.recovery_pass === candidate.recovery_pass,
       operational_token_delta: delta("operational_tokens"),
       operational_token_delta_percent: percent("operational_tokens"),
       gross_token_delta: delta("gross_tokens"),
-      elapsed_ms_delta: delta("elapsed_ms"),
-      reported_tool_output_byte_delta: delta("reported_tool_output_bytes"),
-      objective_quality_equal: fullMetric.recovery_pass === routedMetric.recovery_pass
+      elapsed_ms_delta: delta("turn_elapsed_ms"),
+      elapsed_ms_delta_percent: percent("turn_elapsed_ms"),
+      time_to_first_activity_ms_delta: delta("time_to_first_activity_ms"),
+      effective_output_tokens_per_second_delta: delta("effective_output_tokens_per_second"),
+      reported_tool_output_byte_delta: delta("reported_tool_output_bytes")
+    };
+  };
+  const contextComparison = comparison("terra-full-load", "terra-routed");
+  const modelComparison = comparison("terra-routed", "sol-routed-medium");
+  const effortComparison = comparison("sol-routed-medium", "sol-routed-xhigh");
+  const contextOutcome = !conditions["terra-routed"].recovery_pass
+    ? "routed-context-not-ready"
+    : !conditions["terra-full-load"].recovery_pass || conditions["terra-routed"].operational_tokens < conditions["terra-full-load"].operational_tokens
+      ? "routed-context-supported"
+      : "routed-context-correct-savings-not-observed";
+  return {
+    schema_version: "temple.context-model-diagnostic-analysis/v2",
+    work_item_id: protocol.work_item_id,
+    protocol_sha256: protocol.protocol_sha256,
+    generated_at: generatedAt,
+    conditions,
+    comparison: {
+      context_routing: contextComparison,
+      model_same_effort: modelComparison,
+      sol_reasoning_effort: effortComparison
     },
     interpretation: {
-      outcome,
-      use_routed_context_in_main_comparison: routedMetric.recovery_pass,
+      context_outcome: contextOutcome,
+      use_routed_context_in_main_comparison: conditions["terra-routed"].recovery_pass,
+      model_routing_change_authorized: false,
       statistical_generalization: false,
       main_comparison_result: false,
-      note: "One matched pair isolates context-loading behavior; it does not prove a population effect or Temple effectiveness."
+      note: "Four one-attempt diagnostic conditions isolate context loading, same-effort model choice, and Sol reasoning effort. They do not prove a population effect, automatic routing policy, or Temple effectiveness."
     }
   };
 }

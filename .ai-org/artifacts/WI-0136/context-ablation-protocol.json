@@ -1,12 +1,12 @@
 {
-  "schema_version": "temple.context-routing-ablation/v1",
+  "schema_version": "temple.context-model-diagnostic/v2",
   "work_item_id": "WI-0136",
   "status": "generation-disabled",
-  "protocol_sha256": "3eff52f42ffc31a74f169aa3f462bb0b8fcb04de2a623a2901508b9c51f64e73",
-  "lab_manifest_sha256": "780b9c458ae42976e69b91790e450a7a0cedd7b11b5f84ac3b5d4dab44e11eb0",
+  "protocol_sha256": "09cb2b5a3442d637dfc380537e5f2860c116125ab5472a7ead8853b070da687d",
+  "lab_manifest_sha256": "f7f8c3894b77acc1b8e31ebebbbb3fb38ad13bf5b31afee2963619e04d3bff36",
   "source_digests": {
     "fixture_sha256": "73cd9a1a1a9ce1be1103ace73cc6a2f7a755e037ffe8a80358798982ab74f181",
-    "runner_sha256": "6f3785426bceeb4c21c4a9dafdf8f9ac2f1d7b1131aa13da46b09d8cde040ca7",
+    "runner_sha256": "768a3d57873aaa179c0e8a50cfe3f055390e13fca9c21358e5d7a2d6ef3aebd8",
     "analyzer_sha256": "5e614a7879a8fbdb7655d6780dcf0c7e693e7326259fa166d7fe3231f1151c5c",
     "task_sha256": "5dfd10dce99196f282f0560a25aaffd359b7af2119a62d943e465f19ae46369c",
     "public_tests_sha256": "8809e165ee024f5606a48c38bb0f6065e3b943fcd00d05fda5fdd6099e0f41f9",
@@ -31,16 +31,40 @@
       "sha256": "af99566c4f630e8d2b583c00204e3f85446343cd6991c29d3da2decdbc11fb6a"
     },
     "conditions": {
-      "full-load": {
+      "terra-full-load": {
         "strategy": "temple-full-load-v1",
+        "model": "gpt-5.6-terra",
+        "reasoning_effort": "medium",
         "user_input": {
           "bytes": 740,
           "characters": 740,
           "sha256": "9e2338ce2860d43d893b2ab4086c0dd85e3b1aebd0ed4c98d6501913d72764af"
         }
       },
-      "routed": {
+      "terra-routed": {
         "strategy": "temple-routed-context-v1",
+        "model": "gpt-5.6-terra",
+        "reasoning_effort": "medium",
+        "user_input": {
+          "bytes": 874,
+          "characters": 874,
+          "sha256": "c4272639d4f2f0095b8bda84734ec7a4be2d53d6adbf5d11292d6cc4f132420d"
+        }
+      },
+      "sol-routed-medium": {
+        "strategy": "temple-routed-context-v1",
+        "model": "gpt-5.6-sol",
+        "reasoning_effort": "medium",
+        "user_input": {
+          "bytes": 874,
+          "characters": 874,
+          "sha256": "c4272639d4f2f0095b8bda84734ec7a4be2d53d6adbf5d11292d6cc4f132420d"
+        }
+      },
+      "sol-routed-xhigh": {
+        "strategy": "temple-routed-context-v1",
+        "model": "gpt-5.6-sol",
+        "reasoning_effort": "xhigh",
         "user_input": {
           "bytes": 874,
           "characters": 874,
@@ -51,62 +75,134 @@
   },
   "conditions": [
     {
-      "id": "full-load",
+      "id": "terra-full-load",
+      "context_strategy": "full-load",
+      "model_route": {
+        "model": "gpt-5.6-terra",
+        "reasoning_effort": "medium"
+      },
       "repositories": {
         "gateway": {
-          "revision": "e3a35999c116e69602e5a196fc85ff61db3500f4",
-          "tree": "9cc6284fa911e46ce435cae5afad1cdfd77b2bc7"
+          "revision": "6a88bdb22017076d1cb9e6452cbc4a6a49961974",
+          "tree": "3e75a45dd33395dbedfd58ab069c76dae6fb4964"
         },
         "catalog": {
-          "revision": "9df9b24639f8c44318690132e6c2c48c0dc61dcd",
-          "tree": "f249cdd1b0586df48a5bafa33031e3fe13b3df5e"
+          "revision": "ed6008c711f0c7809e74adf3003af6d51d816873",
+          "tree": "d5a0b4b1f150b648960ce91fa5d9822b25be5676"
         },
         "orders": {
-          "revision": "212edb1d84aec5b93e017c3431ce304294529720",
-          "tree": "3a2026aaf2e132acac113304ab7cca8f3064fa60"
+          "revision": "552f6d9ab9f6019c24f0b3aa420df724cd0349cc",
+          "tree": "9c8e012ea40d699d58e4ca6a5601c5d5e8a33305"
         },
         "notifications": {
-          "revision": "2baef0437ff3f916a13fb78aee1825029280f0d3",
-          "tree": "5e8b6043d30cd8b64e24301822802d61e48daf13"
+          "revision": "833a5bdc48b08980fbdd67cd65191037ea2ad461",
+          "tree": "71720c03d929b6139b251e540dbf16f9a4a479e0"
         },
         "coordinator": {
-          "revision": "e30ffaf81a576dba79d12dc50f5ad3ddda58bc3b",
-          "tree": "cb5802affbd92e7bf5bc42c57ee4f4d10d5775e2"
+          "revision": "debb10884ae20d290f30610ea6826d5988dd1791",
+          "tree": "3d3d1fe7a0d832f5633387db61340716b3d8dcfe"
         }
       }
     },
     {
-      "id": "routed",
+      "id": "terra-routed",
+      "context_strategy": "routed",
+      "model_route": {
+        "model": "gpt-5.6-terra",
+        "reasoning_effort": "medium"
+      },
       "repositories": {
         "gateway": {
-          "revision": "e3a35999c116e69602e5a196fc85ff61db3500f4",
-          "tree": "9cc6284fa911e46ce435cae5afad1cdfd77b2bc7"
+          "revision": "6a88bdb22017076d1cb9e6452cbc4a6a49961974",
+          "tree": "3e75a45dd33395dbedfd58ab069c76dae6fb4964"
         },
         "catalog": {
-          "revision": "9df9b24639f8c44318690132e6c2c48c0dc61dcd",
-          "tree": "f249cdd1b0586df48a5bafa33031e3fe13b3df5e"
+          "revision": "ed6008c711f0c7809e74adf3003af6d51d816873",
+          "tree": "d5a0b4b1f150b648960ce91fa5d9822b25be5676"
         },
         "orders": {
-          "revision": "212edb1d84aec5b93e017c3431ce304294529720",
-          "tree": "3a2026aaf2e132acac113304ab7cca8f3064fa60"
+          "revision": "552f6d9ab9f6019c24f0b3aa420df724cd0349cc",
+          "tree": "9c8e012ea40d699d58e4ca6a5601c5d5e8a33305"
         },
         "notifications": {
-          "revision": "2baef0437ff3f916a13fb78aee1825029280f0d3",
-          "tree": "5e8b6043d30cd8b64e24301822802d61e48daf13"
+          "revision": "833a5bdc48b08980fbdd67cd65191037ea2ad461",
+          "tree": "71720c03d929b6139b251e540dbf16f9a4a479e0"
         },
         "coordinator": {
-          "revision": "e30ffaf81a576dba79d12dc50f5ad3ddda58bc3b",
-          "tree": "cb5802affbd92e7bf5bc42c57ee4f4d10d5775e2"
+          "revision": "debb10884ae20d290f30610ea6826d5988dd1791",
+          "tree": "3d3d1fe7a0d832f5633387db61340716b3d8dcfe"
+        }
+      }
+    },
+    {
+      "id": "sol-routed-medium",
+      "context_strategy": "routed",
+      "model_route": {
+        "model": "gpt-5.6-sol",
+        "reasoning_effort": "medium"
+      },
+      "repositories": {
+        "gateway": {
+          "revision": "6a88bdb22017076d1cb9e6452cbc4a6a49961974",
+          "tree": "3e75a45dd33395dbedfd58ab069c76dae6fb4964"
+        },
+        "catalog": {
+          "revision": "ed6008c711f0c7809e74adf3003af6d51d816873",
+          "tree": "d5a0b4b1f150b648960ce91fa5d9822b25be5676"
+        },
+        "orders": {
+          "revision": "552f6d9ab9f6019c24f0b3aa420df724cd0349cc",
+          "tree": "9c8e012ea40d699d58e4ca6a5601c5d5e8a33305"
+        },
+        "notifications": {
+          "revision": "833a5bdc48b08980fbdd67cd65191037ea2ad461",
+          "tree": "71720c03d929b6139b251e540dbf16f9a4a479e0"
+        },
+        "coordinator": {
+          "revision": "debb10884ae20d290f30610ea6826d5988dd1791",
+          "tree": "3d3d1fe7a0d832f5633387db61340716b3d8dcfe"
+        }
+      }
+    },
+    {
+      "id": "sol-routed-xhigh",
+      "context_strategy": "routed",
+      "model_route": {
+        "model": "gpt-5.6-sol",
+        "reasoning_effort": "xhigh"
+      },
+      "repositories": {
+        "gateway": {
+          "revision": "6a88bdb22017076d1cb9e6452cbc4a6a49961974",
+          "tree": "3e75a45dd33395dbedfd58ab069c76dae6fb4964"
+        },
+        "catalog": {
+          "revision": "ed6008c711f0c7809e74adf3003af6d51d816873",
+          "tree": "d5a0b4b1f150b648960ce91fa5d9822b25be5676"
+        },
+        "orders": {
+          "revision": "552f6d9ab9f6019c24f0b3aa420df724cd0349cc",
+          "tree": "9c8e012ea40d699d58e4ca6a5601c5d5e8a33305"
+        },
+        "notifications": {
+          "revision": "833a5bdc48b08980fbdd67cd65191037ea2ad461",
+          "tree": "71720c03d929b6139b251e540dbf16f9a4a479e0"
+        },
+        "coordinator": {
+          "revision": "debb10884ae20d290f30610ea6826d5988dd1791",
+          "tree": "3d3d1fe7a0d832f5633387db61340716b3d8dcfe"
         }
       }
     }
   ],
   "execution": {
     "condition_order": [
-      "full-load",
-      "routed"
+      "terra-full-load",
+      "terra-routed",
+      "sol-routed-medium",
+      "sol-routed-xhigh"
     ],
-    "candidate_turns": 2,
+    "candidate_turns": 4,
     "evaluator_turns": 0,
     "retry_count": 0,
     "fallback_count": 0,
@@ -114,13 +210,9 @@
     "generation_ready": false,
     "exact_approval_required": true,
     "integration_operational_token_limit": 80000,
-    "candidate_aggregate_operational_token_limit": 160000,
-    "combined_operational_token_limit": 160000,
-    "program_wall_clock_limit_ms": 1200000
-  },
-  "model_route": {
-    "model": "gpt-5.6-terra",
-    "reasoning_effort": "medium"
+    "candidate_aggregate_operational_token_limit": 320000,
+    "combined_operational_token_limit": 320000,
+    "program_wall_clock_limit_ms": 2400000
   },
   "provider_contract": {
     "codex_cli_version": "codex-cli 0.151.0-alpha.7.2",
@@ -142,13 +234,20 @@
         "reasoning_efforts": [
           "medium"
         ]
+      },
+      {
+        "model": "gpt-5.6-sol",
+        "reasoning_efforts": [
+          "medium",
+          "xhigh"
+        ]
       }
     ]
   },
   "limit_basis": {
     "source": ".ai-org/artifacts/WI-0136/live-protocol.json",
     "prior_integration_operational_token_limit": 80000,
-    "meaning": "Two independent hard stops inherited from the already reviewed integration ceiling; not an expected use or price."
+    "meaning": "Four independent hard stops inherited from the already reviewed integration ceiling; not an expected use or price."
   },
   "measures": [
     "objective-recovery",
@@ -160,7 +259,13 @@
     "cached-input-tokens",
     "output-tokens",
     "operational-tokens",
+    "reasoning-output-tokens",
     "elapsed-ms",
+    "session-setup-ms",
+    "turn-elapsed-ms",
+    "time-to-first-activity-ms",
+    "time-to-first-command-ms",
+    "effective-output-tokens-per-second",
     "explicit-prompt-bytes",
     "context-command-sequence",
     "reported-tool-output-bytes"
