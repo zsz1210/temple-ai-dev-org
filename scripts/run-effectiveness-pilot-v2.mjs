@@ -309,10 +309,10 @@ async function setup(protocol, labRoot, frameworkRevision) {
         treatment = { route: null, capsule: null, contract };
       }
       const context = measureContextEnvelope({
-        product_task: await fs.readFile(path.join(root, "TASK.md"), "utf8"),
-        acceptance_contract: contract,
-        candidate_instructions: await fs.readFile(path.join(root, "AGENTS.md"), "utf8"),
-        routed_context: treatment.capsule
+        "product-task": await fs.readFile(path.join(root, "TASK.md"), "utf8"),
+        "acceptance-contract": contract,
+        "candidate-instructions": await fs.readFile(path.join(root, "AGENTS.md"), "utf8"),
+        "routed-context": treatment.capsule
       });
       candidates.push({
         id: `candidate-${String(index).padStart(2, "0")}`,
