@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0119",
   "title": "Establish adaptive execution routing foundation",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-03T02:03:29.794Z",
-  "updated_at": "2026-09-03T02:22:38.000Z",
+  "updated_at": "2026-09-03T02:37:39.001Z",
   "scope": [
     "Define versioned, provider-neutral boundaries for Task Shape, Capability Route, Execution Profile, Execution Step, Execution Route, resource observations, and calibration.",
     "Implement deterministic read-only route resolution with hard capability and policy filtering before objective-based selection; retain pinned, shadow, and advisory modes only.",
@@ -90,7 +90,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "0af14cbd13bdd9d6e6e9020babd3ef6a6b765fef",
+  "base_revision": "d5862757d29d77ef77d2d833350aa20ddd62a4f4",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -101,14 +101,14 @@
     "WI-0086 remains blocked and owns public-release qualification; WI-0119 may update reusable architecture and tests but performs no public release action."
   ],
   "claim": {
-    "id": "claim-20260903020555-94a5d59f",
+    "id": "claim-20260903023739-67fe0669",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "0af14cbd13bdd9d6e6e9020babd3ef6a6b765fef",
+    "agent_id": "agent-lulu",
+    "base_revision": "d5862757d29d77ef77d2d833350aa20ddd62a4f4",
     "branch": "codex/wi-0119-adaptive-execution-routing",
     "worktree": null,
-    "claimed_at": "2026-09-03T02:05:55.867Z",
+    "claimed_at": "2026-09-03T02:37:39.001Z",
     "released_at": null
   },
   "claims": [
@@ -150,13 +150,37 @@
     },
     {
       "id": "claim-20260903020555-94a5d59f",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "0af14cbd13bdd9d6e6e9020babd3ef6a6b765fef",
       "branch": "codex/wi-0119-adaptive-execution-routing",
       "worktree": null,
       "claimed_at": "2026-09-03T02:05:55.867Z",
+      "released_at": "2026-09-03T02:36:11.919Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903023625-6de06f90",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "d5862757d29d77ef77d2d833350aa20ddd62a4f4",
+      "branch": "codex/wi-0119-adaptive-execution-routing",
+      "worktree": null,
+      "claimed_at": "2026-09-03T02:36:25.235Z",
+      "released_at": "2026-09-03T02:37:32.133Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903023739-67fe0669",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "d5862757d29d77ef77d2d833350aa20ddd62a4f4",
+      "branch": "codex/wi-0119-adaptive-execution-routing",
+      "worktree": null,
+      "claimed_at": "2026-09-03T02:37:39.001Z",
       "released_at": null
     }
   ],
@@ -181,6 +205,20 @@
     ],
     "required_state_coverage": [
       ".ai-org/artifacts/WI-0119/ui-design-brief.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0119/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0119/developer-report.md",
+      ".ai-org/artifacts/WI-0119/developer-test-observation.json",
+      ".ai-org/artifacts/WI-0119/runtime-observation.json"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0119/quality-test-observation.json"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0119/quality-report.md"
     ]
   },
   "evidence": [
@@ -192,10 +230,17 @@
     ".ai-org/artifacts/WI-0119/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0119/technical-design.md",
     ".ai-org/artifacts/WI-0119/risk-review.md",
-    ".ai-org/artifacts/WI-0119/ui-design-brief.md"
+    ".ai-org/artifacts/WI-0119/ui-design-brief.md",
+    ".ai-org/artifacts/WI-0119/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0119/developer-report.md",
+    ".ai-org/artifacts/WI-0119/developer-test-observation.json",
+    ".ai-org/artifacts/WI-0119/runtime-observation.json",
+    ".ai-org/artifacts/WI-0119/quality-test-observation.json",
+    ".ai-org/artifacts/WI-0119/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0119/quality-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "release_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -217,6 +262,21 @@
       "input_revision": "0af14cbd13bdd9d6e6e9020babd3ef6a6b765fef",
       "artifact": ".ai-org/artifacts/WI-0119/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-03T02:05:55.125Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "d5862757d29d77ef77d2d833350aa20ddd62a4f4",
+      "artifact": ".ai-org/artifacts/WI-0119/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-03T02:36:04.935Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "d5862757d29d77ef77d2d833350aa20ddd62a4f4",
+      "artifact": ".ai-org/artifacts/WI-0119/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-03T02:37:25.757Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "d5862757d29d77ef77d2d833350aa20ddd62a4f4"
 }

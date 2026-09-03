@@ -18221,6 +18221,151 @@
         "status": "planned",
         "procedure": ".ai-org/artifacts/WI-0117/rollback-plan.md"
       }
+    },
+    {
+      "id": "EVID-20260903T023537Z-E4BF0D11",
+      "work_item_id": "WI-0119",
+      "recorded_at": "2026-09-03T02:35:37.215Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Adaptive execution routing full verification",
+      "outcome": "pass",
+      "scope_revision": "d5862757d29d77ef77d2d833350aa20ddd62a4f4",
+      "observed_at": "2026-09-03T02:35:18.609Z",
+      "summary": "Candidate d586275 passed 325 local tests plus repository, documentation, and package checks.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0119/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0119/developer-test-observation.json",
+          "sha256": "fe36a5e3f5c1dc8ae29feed2bee1af31bed26bca937657d7eee906aa0c711c87"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0119/developer-report.md",
+          "sha256": "5a977e3edd73e67f3ec05bfa8d23605db958e88285da28a89132b431e421445b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0119/execution-request.json",
+          "sha256": "9c5d8c1bbde3f1e3c723630672ae001788247d2e513d5585a1004da59bf0c216"
+        },
+        {
+          "path": "docs/concepts/adaptive-execution-routing.md",
+          "sha256": "4ae8c7984fa42343b1fbc33ad3deb52f60f53748b576b25181a8c0c5448654cb"
+        },
+        {
+          "path": "docs/operations/execution-routing.md",
+          "sha256": "0eb55288536f7d3a457fab99948a058ac1661e33bf8ff13eb30165c0dcdd9f8f"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T02:33:58.437Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T023558Z-1094716A",
+      "work_item_id": "WI-0119",
+      "recorded_at": "2026-09-03T02:35:58.261Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Adaptive execution routing Console review",
+      "outcome": "pass",
+      "scope_revision": "d5862757d29d77ef77d2d833350aa20ddd62a4f4",
+      "observed_at": "2026-09-03T02:33:15.000Z",
+      "summary": "Chrome verified the read-only execution-routing projection with real project counts across responsive viewports.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0119/runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0119/runtime-observation.json",
+          "sha256": "640d0e85ea054dd492cde25fc92228d9776096588b4999299a4e291d10fd24cc"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0119/developer-report.md",
+          "sha256": "5a977e3edd73e67f3ec05bfa8d23605db958e88285da28a89132b431e421445b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0119/ui-design-brief.md",
+          "sha256": "cc0ae73b94396aca86395633d252b3530630464bf6d72e5d79bde78b71f5d9e7"
+        }
+      ],
+      "details": {
+        "environment": "Temple self-host repository on macOS, optional loopback Management Console, installed Chrome 152, and fresh Playwright sessions",
+        "scenario": "Render all six primary Management Console views at 390 by 844, 768 by 1024, 1440 by 1000, and 3440 by 1440; verify reduced-motion behavior; then inspect System Configuration at 1600 by 1000 and 720 by 1000 with real project execution-routing data, wrapping, horizontal overflow, and browser console output",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260903T023709Z-3399F499",
+      "work_item_id": "WI-0119",
+      "recorded_at": "2026-09-03T02:37:09.109Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Adaptive execution routing acceptance matrix",
+      "outcome": "pass",
+      "scope_revision": "d5862757d29d77ef77d2d833350aa20ddd62a4f4",
+      "observed_at": "2026-09-03T02:36:36.606Z",
+      "summary": "Quality evaluation passed 25 focused routing, installation, and Console tests against candidate d586275.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0119/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0119/quality-test-observation.json",
+          "sha256": "c6eea9209c302b87bdba2470486e5bc695045e8d293272c644fbd77d649a91b4"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0119/quality-report.md",
+          "sha256": "e97d63a40a85473a9c85cb47c71424abd2252fe765f610d7f72a06cd8ccc78f2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0119/product-spec.md",
+          "sha256": "58b83e61721356cf542f98ff894d05ddfe009d5d55bb6512725b525255b68ed8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0119/technical-design.md",
+          "sha256": "3178776df4b987d8d873ed9c53b6046bdf1b42be8e0ddb98aa2e0002543250d9"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/execution-routing.test.mjs",
+          "test/phase4-installation.test.mjs",
+          "test/optional-console-collector.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T02:36:32.502Z"
+      }
     }
   ]
 }

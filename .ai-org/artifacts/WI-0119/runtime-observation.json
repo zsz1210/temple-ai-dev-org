@@ -1,0 +1,15 @@
+{
+  "schema_version": "temple.runtime-observation/v1",
+  "work_item_id": "WI-0119",
+  "revision": "d5862757d29d77ef77d2d833350aa20ddd62a4f4",
+  "environment": "Temple self-host repository on macOS, optional loopback Management Console, installed Chrome 152, and fresh Playwright sessions",
+  "scenario": "Render all six primary Management Console views at 390 by 844, 768 by 1024, 1440 by 1000, and 3440 by 1440; verify reduced-motion behavior; then inspect System Configuration at 1600 by 1000 and 720 by 1000 with real project execution-routing data, wrapping, horizontal overflow, and browser console output",
+  "result": "pass",
+  "provenance": "live",
+  "observed_at": "2026-09-03T02:33:15.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0119/developer-report.md",
+    ".ai-org/artifacts/WI-0119/ui-design-brief.md"
+  ],
+  "external_action_performed": false
+}

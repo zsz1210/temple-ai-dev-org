@@ -166,7 +166,7 @@
 | WI-0116 | Analyze Wave 5A overhead and repair blind evaluation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2ec67d32` | 0 | 17 | 0 |
 | WI-0117 | Run qualified Wave 5B lean workflow comparison | concluded | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b8f41dd0` | 0 | 21 | 1 |
 | WI-0118 | Turn validation evidence into adaptive Lean Mode | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `b3b5c13d` | 0 | 21 | 0 |
-| WI-0119 | Establish adaptive execution routing foundation | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260903020555-94a5d59f | `—` | 0 | 9 | 0 |
+| WI-0119 | Establish adaptive execution routing foundation | independent_qa | Independent QA | Lulu | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260903023739-67fe0669 | `d5862757` | 0 | 16 | 0 |
 
 ## Codex task registry
 
@@ -308,14 +308,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-03T02:05:55.867Z | work_item_claimed | WI-0119 | human |
-| 2026-09-03T02:05:55.563Z | work_item_transitioned | WI-0119 | agent-tidus |
-| 2026-09-03T02:05:55.125Z | handoff_created | WI-0119 | agent-tidus |
-| 2026-09-03T02:05:54.911Z | work_item_claimed | WI-0119 | human |
-| 2026-09-03T02:05:54.667Z | work_item_transitioned | WI-0119 | agent-yuna |
-| 2026-09-03T02:05:54.416Z | handoff_created | WI-0119 | agent-yuna |
-| 2026-09-03T02:05:54.196Z | work_item_claimed | WI-0119 | human |
-| 2026-09-03T02:05:53.951Z | work_item_transitioned | WI-0119 | agent-mog |
+| 2026-09-03T02:37:39.001Z | work_item_claimed | WI-0119 | human |
+| 2026-09-03T02:37:32.133Z | work_item_transitioned | WI-0119 | agent-lulu |
+| 2026-09-03T02:37:25.757Z | handoff_created | WI-0119 | agent-lulu |
+| 2026-09-03T02:37:16.891Z | work_item_transitioned | WI-0119 | agent-lulu |
+| 2026-09-03T02:37:09.109Z | evidence_recorded | WI-0119 | human |
+| 2026-09-03T02:36:25.235Z | work_item_claimed | WI-0119 | human |
+| 2026-09-03T02:36:11.919Z | work_item_transitioned | WI-0119 | agent-rikku |
+| 2026-09-03T02:36:04.935Z | handoff_created | WI-0119 | agent-rikku |
 
 ## Assignments
 
