@@ -342,7 +342,9 @@ export async function preflightWave5BEvaluator({ labRoot, fixtureRoot, protocol,
 async function main(argv) {
   const repositoryRoot = path.resolve(import.meta.dirname, "..");
   const workItemId = argument(argv, "--work-item-id") ?? "WI-0117";
-  const labRoot = path.resolve(argument(argv, "--lab-root") ?? "/Users/zsz1210/Documents/ChatGPT/temple-wave-5b-lab");
+  const labRootArgument = argument(argv, "--lab-root");
+  if (!labRootArgument) throw new Error("--lab-root is required");
+  const labRoot = path.resolve(labRootArgument);
   const protocolPath = path.resolve(argument(argv, "--protocol-path") ?? path.join(repositoryRoot, ".ai-org/artifacts/WI-0117/wave-5b-protocol.json"));
   const approvalPath = path.resolve(argument(argv, "--approval-path") ?? path.join(repositoryRoot, ".ai-org/artifacts/WI-0117/account-approval.json"));
   const preflightPath = path.resolve(argument(argv, "--preflight-output") ?? path.join(repositoryRoot, ".ai-org/artifacts/WI-0117/evaluator-preflight.json"));

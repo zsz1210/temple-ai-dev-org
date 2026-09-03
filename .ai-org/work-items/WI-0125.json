@@ -1,0 +1,117 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0125",
+  "title": "Remove machine-specific evaluator path",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-03T04:52:40.045Z",
+  "updated_at": "2026-09-03T04:53:15.021Z",
+  "scope": [
+    "Require an explicit Wave 5B lab root instead of defaulting to one developer's absolute path."
+  ],
+  "acceptance_criteria": [
+    "The evaluator runner rejects a missing lab-root argument, accepts an explicit temporary lab root, and retains all existing protocol behavior."
+  ],
+  "affected_paths": [
+    "scripts/run-wave-5b-evaluator.mjs",
+    "test/wave-5b-live-protocol.test.mjs"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "One local, reversible portability fix with deterministic CLI acceptance and no Provider execution.",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-03T04:52:40.044Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "aac4a995e41a11b581dd6dcf912cae4e4b9d1cde",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260903045315-4855ee65",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "aac4a995e41a11b581dd6dcf912cae4e4b9d1cde",
+    "branch": "codex/wi-0120-harden-execution-route-schema",
+    "worktree": null,
+    "claimed_at": "2026-09-03T04:53:15.021Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260903045315-4855ee65",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "aac4a995e41a11b581dd6dcf912cae4e4b9d1cde",
+      "branch": "codex/wi-0120-harden-execution-route-schema",
+      "worktree": null,
+      "claimed_at": "2026-09-03T04:53:15.021Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0125/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0125/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0125/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0125/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0125/risk-review.md"
+    ],
+    "profile_eligibility": [
+      ".ai-org/artifacts/WI-0125/profile-eligibility.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0125/handoff-001-engineering_manager-to-developer.md",
+    ".ai-org/artifacts/WI-0125/work-order.md",
+    ".ai-org/artifacts/WI-0125/approved-scope.md",
+    ".ai-org/artifacts/WI-0125/product-spec.md",
+    ".ai-org/artifacts/WI-0125/technical-design.md",
+    ".ai-org/artifacts/WI-0125/risk-review.md",
+    ".ai-org/artifacts/WI-0125/profile-eligibility.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "developer",
+      "input_revision": "aac4a995e41a11b581dd6dcf912cae4e4b9d1cde",
+      "artifact": ".ai-org/artifacts/WI-0125/handoff-001-engineering_manager-to-developer.md",
+      "created_at": "2026-09-03T04:53:14.480Z"
+    }
+  ]
+}

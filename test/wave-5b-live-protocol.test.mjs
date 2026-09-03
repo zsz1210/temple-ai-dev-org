@@ -28,6 +28,15 @@ test("evaluator package sanitizer removes condition, usage, Token, and revision 
   assert.doesNotMatch(JSON.stringify(result), /token/i);
 });
 
+test("Wave 5B evaluator requires an explicit portable lab root", () => {
+  const run = spawnSync(process.execPath, [
+    new URL("../scripts/run-wave-5b-evaluator.mjs", import.meta.url).pathname,
+    "--preflight-only"
+  ], { encoding: "utf8" });
+  assert.notEqual(run.status, 0);
+  assert.match(run.stderr, /--lab-root is required/);
+});
+
 test("Wave 5B setup accepts a pinned protocol path and emits Luna Medium candidate limits", async (testContext) => {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wave5b-setup-test-"));
   const lab = path.join(root, "lab");
