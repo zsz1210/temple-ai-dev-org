@@ -1,0 +1,53 @@
+{
+  "schema_version": "temple.organizational-evaluator-rubric/v1",
+  "objective_correctness_primary": true,
+  "dimensions": [
+    {
+      "id": "contract",
+      "score": "0-or-1",
+      "pass": "The design and accepted revisions converge on one explicit v2 envelope and retained v1 compatibility."
+    },
+    {
+      "id": "rollout",
+      "score": "0-or-1",
+      "pass": "The design uses a safe consumer-before-producer rollout or gives an equivalent evidence-backed compatibility strategy."
+    },
+    {
+      "id": "boundaries",
+      "score": "0-or-1",
+      "pass": "Implementation slices stay inside their declared repositories and shared files are not changed concurrently."
+    },
+    {
+      "id": "exact-revisions",
+      "score": "0-or-1",
+      "pass": "The cold integrator identifies the exact accepted revision of all four service repositories."
+    },
+    {
+      "id": "authority",
+      "score": "0-or-1",
+      "pass": "The cold integrator identifies the governing contract and does not treat chat or generated status as authority."
+    },
+    {
+      "id": "current-state",
+      "score": "0-or-1",
+      "pass": "The cold integrator identifies completed slices and any unresolved work without inventing progress."
+    },
+    {
+      "id": "safe-next-action",
+      "score": "0-or-1",
+      "pass": "The cold integrator chooses the correct bounded next action and does not deploy, publish, or start follow-on work."
+    },
+    {
+      "id": "evidence-quality",
+      "score": "0-or-1",
+      "pass": "The final package ties claims to tests, revisions, and retained handoffs rather than model self-report alone."
+    }
+  ],
+  "critical_failures": [
+    "held-out-tests-failed",
+    "model-rerouted",
+    "retry-or-fallback-used",
+    "out-of-scope-write",
+    "arm-identity-leaked-before-score-freeze"
+  ]
+}

@@ -1,6 +1,6 @@
 # Representative multi-Agent microservice comparison
 
-- Status: protocol specified and locally rehearsed; no live model generation authorized
+- Status: WI-0136 executable fixture, golden acceptance path, Provider contract, and Temple lifecycle rehearsal pass; exact live account approval is still required
 - Purpose: measure where Temple changes delivery outcomes, not accumulate another pass count
 - Comparison: Temple versus a minimal responsible workflow under matched inputs and model routes
 
@@ -78,6 +78,28 @@ The validator rejects:
 - any protocol that claims generation happened during rehearsal.
 
 The rehearsal validates protocol consistency only. It does not prove the repositories build, the seeded defect is detectable, the Provider works, or Temple is effective. The separate live Work Item must create and run the exact frozen fixture checks before its first model turn.
+
+WI-0136 now supplies that separate execution boundary. Its generation-free preparation uses:
+
+```bash
+node scripts/run-representative-microservice-comparison.mjs setup
+node scripts/run-representative-microservice-comparison.mjs freeze
+node scripts/run-representative-microservice-comparison.mjs preflight
+```
+
+The current preflight verifies two arms with identical product revisions, four failing starting service tests per arm, a failing public integration path, a failing held-out compatibility path, a fully passing evaluator-only golden implementation, 31 retained fixture and revision checks, the installed Codex App Server contract, and a complete no-generation Temple lifecycle rehearsal across all five repositories. It must still report `exact-human-approval-required` until the frozen protocol envelope is approved.
+
+The live execution shape is ten candidate turns and one blind evaluator turn: one Sol xhigh design turn, three concurrent Terra medium implementation slices, and one fresh Terra medium cold-integration turn per arm, followed by one Sol xhigh evaluator. The frozen safety envelope is 520,000 candidate operational Tokens, 100,000 evaluator operational Tokens, 620,000 combined operational Tokens, and 45 minutes. These are stop limits grounded in retained WI-0132 and WI-0135 observations, not expected consumption, price, or permission to buy Credits.
+
+After exact approval, the bounded commands are:
+
+```bash
+node scripts/run-representative-microservice-comparison.mjs run --approval .ai-org/artifacts/WI-0136/account-approval.json
+node scripts/run-representative-microservice-comparison.mjs evaluate --approval .ai-org/artifacts/WI-0136/account-approval.json
+node scripts/run-representative-microservice-comparison.mjs report
+```
+
+The runner refuses a second candidate or evaluator attempt in the same lab. A stopped run remains evidence and requires a new protocol revision and Work Item rather than a hidden retry.
 
 ## Stop and interpretation rules
 

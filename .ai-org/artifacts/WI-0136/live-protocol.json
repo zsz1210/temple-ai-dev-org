@@ -1,0 +1,161 @@
+{
+  "schema_version": "temple.representative-microservice-comparison/v2",
+  "work_item_id": "WI-0136",
+  "status": "generation-disabled",
+  "protocol_sha256": "858f296e1582b5d5570882c85a3c5a773457a7c054ad3d8f194be68855dd6c83",
+  "fixture": {
+    "fixture_sha256": "73cd9a1a1a9ce1be1103ace73cc6a2f7a755e037ffe8a80358798982ab74f181",
+    "task_sha256": "5dfd10dce99196f282f0560a25aaffd359b7af2119a62d943e465f19ae46369c",
+    "public_tests_sha256": "8809e165ee024f5606a48c38bb0f6065e3b943fcd00d05fda5fdd6099e0f41f9",
+    "held_out_tests_sha256": "d4f781d5b03d14c08a4214185ae525c1c6a0e7a7f2c8c9ff1d24291b27363a47",
+    "tool_policy_sha256": "282707b99043c7203be5b6fd4778bae409b001fd017d10c102758ea210a9f771",
+    "rubric_sha256": "364d20a3102ddd78131fd2566b8579957b14df2d6638efd3ef1e97e94faeaf3f"
+  },
+  "lab_manifest_sha256": "45554c8751ea5bb4f25b20187e096347b2235e6e3f9e929aa69b4c3a6b7fdbc8",
+  "arms": [
+    {
+      "id": "minimal-responsible",
+      "product_revisions": {
+        "gateway": "98bf9aa6469d6d60ee9e9a6121be99fcf8d85f0d",
+        "catalog": "cdde879bc07cc38a4f11cd1f376bf0f2ea0dcff1",
+        "orders": "11fbc3f5d6c31a878a62a0e0044e0859562459a4",
+        "notifications": "d42b5101f8f850cac01c087a0221e8da68180f72",
+        "coordinator": "e3ce9dcde7e25d57df6a310bb850a4977921114f"
+      },
+      "organization_revisions": {
+        "gateway": "b650f0713776851c609659d5f6872d60e67742fe",
+        "catalog": "490bb75496c715770d2585a18c7a6ddd8c8b67c9",
+        "orders": "21b595ddeaf29c43c77ee6b980c8820c499bef67",
+        "notifications": "01c716dc842e22b8b241eeb19707d69bf57f9598",
+        "coordinator": "0074c7ba60b281aca07fa761b824a3c0b544a8ce"
+      }
+    },
+    {
+      "id": "temple",
+      "product_revisions": {
+        "gateway": "98bf9aa6469d6d60ee9e9a6121be99fcf8d85f0d",
+        "catalog": "cdde879bc07cc38a4f11cd1f376bf0f2ea0dcff1",
+        "orders": "11fbc3f5d6c31a878a62a0e0044e0859562459a4",
+        "notifications": "d42b5101f8f850cac01c087a0221e8da68180f72",
+        "coordinator": "e3ce9dcde7e25d57df6a310bb850a4977921114f"
+      },
+      "organization_revisions": {
+        "gateway": "e0e31f5570c2f9a7c99d5dabc0be2e482de8faba",
+        "catalog": "e35de5fb78865eff53c1a0485960e91c361f2279",
+        "orders": "98976543c346669547bad847279945ebb4c4375b",
+        "notifications": "5357333f6d287664bbb01f3ca4e7b1d1a83dd42c",
+        "coordinator": "8972dd7f4038f54e20ba5e87f77582918f15bc3f"
+      }
+    }
+  ],
+  "execution": {
+    "arm_order": [
+      "minimal-responsible",
+      "temple"
+    ],
+    "candidate_turns": 10,
+    "evaluator_turns": 1,
+    "build_wave_concurrency": 3,
+    "retry_count": 0,
+    "fallback_count": 0,
+    "network_access": false,
+    "generation_ready": false,
+    "exact_approval_required": true,
+    "design_operational_token_limit": 100000,
+    "build_operational_token_limit": 69000,
+    "integration_operational_token_limit": 80000,
+    "candidate_aggregate_operational_token_limit": 520000,
+    "evaluator_operational_token_limit": 100000,
+    "combined_operational_token_limit": 620000,
+    "program_wall_clock_limit_ms": 2700000
+  },
+  "model_route": {
+    "design": {
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "xhigh"
+    },
+    "build": {
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium"
+    },
+    "integration": {
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium"
+    },
+    "evaluator": {
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "xhigh"
+    }
+  },
+  "stop_rules": {
+    "protocol_mismatch": true,
+    "model_reroute": true,
+    "provider_approval_request": true,
+    "command_policy_violation": true,
+    "out_of_scope_write": true,
+    "missing_usage": true,
+    "malformed_completion": true,
+    "token_limit": true,
+    "wall_clock_limit": true
+  },
+  "claims": {
+    "statistical_generalization": false,
+    "automatic_routing_authority": false,
+    "monetary_cost_known": false,
+    "raw_prompts_retained": false,
+    "raw_responses_retained": false,
+    "hidden_reasoning_retained": false
+  },
+  "provider_contract": {
+    "codex_cli_version": "codex-cli 0.151.0-alpha.7.2",
+    "schema_digests": {
+      "ThreadStartParams.json": "792e2f32e37cece971bd616664ea2053741acbed4e9c92e9d1766427718f2ecd",
+      "TurnStartParams.json": "a3835e8c1e942e4b358e1a670939b89918b16c4d13105a579899892b7ade6dea",
+      "ThreadStartResponse.json": "c8fb6bcd1e4fb5ead6b487f0f35a90d8f13c9272edd4285914012dda403a77d2",
+      "TurnStartResponse.json": "7a817a98d78ac8e982c82c24bf8f7a2d2e61cca9fb91e5386e31cae0888e38e2",
+      "ItemStartedNotification.json": "e30713dca6e8f6842a0c5350003ea433b6cbb4894209b4f871894450caa67b6f",
+      "TurnCompletedNotification.json": "b85470d9eadbcad52700bd1d5aae187a9cd995e50b7099ed05469b6d41d6b997",
+      "ItemCompletedNotification.json": "9958dce3bcab754e88323d233dff5f4c2ee04ce35f068a18d8f83f93528acf8b",
+      "ThreadTokenUsageUpdatedNotification.json": "aba4f6c7e4a19b2b842c08ee793b57000c07dafd57b922ad0d8e7c76609108c2",
+      "ModelReroutedNotification.json": "37cd3c1b3a3560b85b01d4061a07d830fc9ed93b80e4663f975f9197cdb501ef",
+      "TurnInterruptParams.json": "6dff382dae73d1dbc58406ed045605f647e7a49660e2540fbd2c6c24d60c5f2b"
+    },
+    "required_models": [
+      {
+        "model": "gpt-5.6-sol",
+        "reasoning_efforts": [
+          "xhigh"
+        ]
+      },
+      {
+        "model": "gpt-5.6-terra",
+        "reasoning_efforts": [
+          "medium"
+        ]
+      }
+    ]
+  },
+  "limit_basis": {
+    "design_and_evaluator": {
+      "source": ".ai-org/artifacts/WI-0132/live-experiment-observation.json",
+      "observed_sol_xhigh_candidate_maximum": 78497,
+      "frozen_limit": 100000
+    },
+    "build": {
+      "source": ".ai-org/artifacts/WI-0135/live-protocol.json",
+      "prior_terra_per_candidate_limit": 69000,
+      "frozen_limit": 69000
+    },
+    "integration": {
+      "basis": "Terra build ceiling plus a bounded cold-recovery allowance",
+      "frozen_limit": 80000
+    },
+    "aggregate": {
+      "source": ".ai-org/artifacts/WI-0132/live-experiment-observation.json",
+      "prior_eight_candidate_operational_tokens": 416395,
+      "candidate_limit": 520000,
+      "evaluator_limit": 100000
+    },
+    "meaning": "Safety stops based on retained operational-Token observations; not forecasts, prices, or statistical estimates."
+  }
+}

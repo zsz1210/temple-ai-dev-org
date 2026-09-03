@@ -1,0 +1,1843 @@
+#!/usr/bin/env node
+
+import crypto from "node:crypto";
+import { execFile as execFileCallback } from "node:child_process";
+import fs from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
+import { promisify } from "node:util";
+import { pathToFileURL } from "node:url";
+
+import {
+  buildCodexRuntimeRequestResponse,
+  createJsonRpcProcess
+} from "../src/codex-app-server-provider.mjs";
+import {
+  isolateWave5CodexEnvironment,
+  normalizeTokenUsage,
+  protocolViolationForMessage,
+  terminalFailure,
+  WAVE5_ALLOWED_COMMAND_PREFIXES,
+  wave5ThreadIsolation
+} from "../src/app-server-protocol-replay.mjs";
+import { analyzeRepresentativeComparison } from "./analyze-representative-microservice-comparison.mjs";
+
+const execFile = promisify(execFileCallback);
+const repositoryRoot = path.resolve(import.meta.dirname, "..");
+const fixtureRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/fixture");
+const defaultLabRoot = path.join(os.tmpdir(), "temple-wi0136-representative-microservice");
+const defaultProtocolPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/live-protocol.json");
+const defaultApprovalTemplatePath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/account-approval.template.json");
+const services = Object.freeze(["gateway", "catalog", "orders", "notifications"]);
+const repositories = Object.freeze([...services, "coordinator"]);
+const arms = Object.freeze(["minimal-responsible", "temple"]);
+const comparisonAllowedCommandPrefixes = Object.freeze([
+  ...WAVE5_ALLOWED_COMMAND_PREFIXES,
+  Object.freeze(["git", "rev-parse"]),
+  Object.freeze(["git", "log"])
+]);
+const fixedGitEnvironment = Object.freeze({
+  GIT_AUTHOR_NAME: "Temple Representative Fixture",
+  GIT_AUTHOR_EMAIL: "wi-0136@temple.invalid",
+  GIT_COMMITTER_NAME: "Temple Representative Fixture",
+  GIT_COMMITTER_EMAIL: "wi-0136@temple.invalid",
+  GIT_AUTHOR_DATE: "2026-09-03T00:00:00Z",
+  GIT_COMMITTER_DATE: "2026-09-03T00:00:00Z"
+});
+
+function parseArguments(argv) {
+  const command = argv[0];
+  if (!command || !["setup", "freeze", "preflight", "inspect", "run", "evaluate", "report"].includes(command)) {
+    throw new Error("Usage: run-representative-microservice-comparison.mjs setup|freeze|preflight|inspect|run|evaluate|report [--lab path] [--protocol path] [--approval path]");
+  }
+  const value = (name, fallback) => {
+    const index = argv.indexOf(name);
+    if (index < 0) return fallback;
+    const result = argv[index + 1];
+    if (!result || result.startsWith("--")) throw new Error(`${name} requires a value`);
+    return path.resolve(result);
+  };
+  const allowed = new Set([command, "--lab", "--protocol", "--approval"]);
+  for (let index = 1; index < argv.length; index += 1) {
+    const argument = argv[index];
+    if (!allowed.has(argument)) throw new Error(`unsupported argument: ${argument}`);
+    if (argument.startsWith("--")) index += 1;
+  }
+  return {
+    command,
+    labRoot: value("--lab", defaultLabRoot),
+    protocolPath: value("--protocol", defaultProtocolPath),
+    approvalPath: value("--approval", null)
+  };
+}
+
+async function command(executable, args, options = {}) {
+  try {
+    const result = await execFile(executable, args, {
+      encoding: "utf8",
+      maxBuffer: 64 * 1024 * 1024,
+      ...options
+    });
+    return { status: 0, stdout: result.stdout.trim(), stderr: result.stderr.trim() };
+  } catch (error) {
+    if (Number.isInteger(error.code)) {
+      return {
+        status: error.code,
+        stdout: String(error.stdout ?? "").trim(),
+        stderr: String(error.stderr ?? "").trim()
+      };
+    }
+    throw error;
+  }
+}
+
+async function checked(executable, args, options = {}) {
+  const result = await command(executable, args, options);
+  if (result.status !== 0) {
+    throw new Error(`${executable} ${args.join(" ")} failed (${result.status}): ${result.stderr || result.stdout}`);
+  }
+  return result.stdout;
+}
+
+async function git(root, args) {
+  return checked("git", ["-C", root, ...args], {
+    env: {
+      ...process.env,
+      ...fixedGitEnvironment,
+      GIT_OPTIONAL_LOCKS: "0",
+      GIT_TERMINAL_PROMPT: "0"
+    }
+  });
+}
+
+async function writeText(target, value, options = {}) {
+  await fs.mkdir(path.dirname(target), { recursive: true });
+  await fs.writeFile(target, value.endsWith("\n") ? value : `${value}\n`, {
+    encoding: "utf8",
+    ...(options.exclusive ? { flag: "wx" } : {})
+  });
+}
+
+async function writeJson(target, value, options = {}) {
+  await writeText(target, `${JSON.stringify(value, null, 2)}\n`, options);
+}
+
+async function readJson(target) {
+  return JSON.parse(await fs.readFile(target, "utf8"));
+}
+
+async function exists(target) {
+  return fs.access(target).then(() => true).catch(() => false);
+}
+
+function sha256(value) {
+  return crypto.createHash("sha256").update(value).digest("hex");
+}
+
+function stable(value) {
+  if (Array.isArray(value)) return value.map(stable);
+  if (value === null || typeof value !== "object") return value;
+  return Object.fromEntries(Object.keys(value).sort().map((key) => [key, stable(value[key])]));
+}
+
+export function protocolDigest(protocol) {
+  const copy = structuredClone(protocol);
+  copy.protocol_sha256 = null;
+  return sha256(JSON.stringify(stable(copy)));
+}
+
+async function regularFiles(root, relative = "") {
+  const entries = await fs.readdir(path.join(root, relative), { withFileTypes: true });
+  const files = [];
+  for (const entry of entries) {
+    const child = path.posix.join(relative, entry.name);
+    if (entry.isDirectory()) files.push(...await regularFiles(root, child));
+    else if (entry.isFile()) files.push(child);
+  }
+  return files;
+}
+
+async function bundleDigest(root, included = null) {
+  const files = (included ?? await regularFiles(root)).toSorted((left, right) => Buffer.compare(Buffer.from(left), Buffer.from(right)));
+  const digest = crypto.createHash("sha256");
+  for (const relative of files) {
+    digest.update(relative);
+    digest.update(Buffer.from([0]));
+    digest.update(await fs.readFile(path.join(root, relative)));
+    digest.update(Buffer.from([0]));
+  }
+  return digest.digest("hex");
+}
+
+async function copyTree(source, destination, filter = () => true, relative = "") {
+  for (const entry of await fs.readdir(path.join(source, relative), { withFileTypes: true })) {
+    const child = path.posix.join(relative, entry.name);
+    if (!filter(child, entry)) continue;
+    if (entry.isDirectory()) await copyTree(source, destination, filter, child);
+    else if (entry.isFile()) {
+      const target = path.join(destination, child);
+      await fs.mkdir(path.dirname(target), { recursive: true });
+      await fs.copyFile(path.join(source, child), target, fs.constants.COPYFILE_EXCL);
+    }
+  }
+}
+
+async function initializeProductRepository(root, repositoryId) {
+  await fs.mkdir(root, { recursive: true });
+  const source = path.join(fixtureRoot, repositoryId);
+  if (repositoryId === "coordinator") {
+    await copyTree(source, root, (relative) => !relative.startsWith("evaluator-only"));
+  } else {
+    await copyTree(source, root);
+  }
+  await fs.copyFile(path.join(fixtureRoot, "task.md"), path.join(root, "TASK.md"), fs.constants.COPYFILE_EXCL);
+  await writeText(path.join(root, "README.md"), `# ${repositoryId}\n\nSynthetic local repository for Temple WI-0136. No production or external authority.\n`);
+  await checked("git", ["init", "-b", "main", root], { env: { ...process.env, ...fixedGitEnvironment } });
+  await git(root, ["add", "-A"]);
+  await git(root, ["commit", "-m", `Create ${repositoryId} benchmark baseline`]);
+  return git(root, ["rev-parse", "HEAD"]);
+}
+
+function templeInitConfig(repositoryId) {
+  return {
+    schema_version: "temple.init/v1",
+    project: {
+      id: `wi0136-${repositoryId}`,
+      name: `WI-0136 ${repositoryId}`
+    },
+    naming_mode: "manual",
+    agents: [
+      { display_name: "Fixture Mog", positions: ["engineering_manager", "release_manager", "observer"] },
+      { display_name: "Fixture Yuna", positions: ["product_manager", "ux_designer", "ui_designer"] },
+      { display_name: "Fixture Tidus", positions: ["tech_lead"] },
+      { display_name: "Fixture Rikku", positions: ["developer"] },
+      { display_name: "Fixture Lulu", positions: ["quality_evaluator", "independent_qa"] }
+    ]
+  };
+}
+
+async function temple(root, args) {
+  const launcher = path.join(root, "templew.mjs");
+  return checked(process.execPath, [launcher, ...args], {
+    cwd: root,
+    env: { ...process.env, TEMPLE_CLI_PATH: path.join(repositoryRoot, "bin/temple.mjs") }
+  });
+}
+
+function serviceAffectedPath(repositoryId) {
+  return {
+    catalog: "src/catalog.mjs",
+    orders: "src/order-event.mjs",
+    notifications: "src/consumer.mjs",
+    gateway: "src/checkout-response.mjs",
+    coordinator: "integration-report.json"
+  }[repositoryId];
+}
+
+async function installTempleOrganization(root, repositoryId, configPath) {
+  await writeJson(configPath, templeInitConfig(repositoryId));
+  await checked(process.execPath, [path.join(repositoryRoot, "bin/temple.mjs"), "init", root, "--config", configPath], {
+    cwd: root,
+    env: { ...process.env, TEMPLE_CLI_PATH: path.join(repositoryRoot, "bin/temple.mjs") }
+  });
+  const title = repositoryId === "coordinator"
+    ? "Integrate and recover OrderPlaced v2 delivery"
+    : `Implement ${repositoryId} OrderPlaced v2 slice`;
+  const affectedPath = serviceAffectedPath(repositoryId);
+  const createArguments = [
+    "work-item", "create", ".",
+    "--title", title,
+    "--scope", `Complete only the bounded ${repositoryId} responsibility from TASK.md and preserve exact-revision evidence for the next owner.`,
+    "--acceptance", "The assigned public tests pass, changed paths remain in scope, and a repository-backed handoff names the exact revision and unresolved work.",
+    "--affected-path", affectedPath,
+    "--spec-mode", "gate-evidence",
+    "--ui-mode", "not-applicable",
+    "--workflow-profile", repositoryId === "coordinator" ? "standard" : "lean",
+    "--risk-tier", repositoryId === "coordinator" ? "standard" : "low",
+    "--scope-class", repositoryId === "coordinator" ? "cross-system" : "bounded",
+    "--profile-rationale", repositoryId === "coordinator"
+      ? "The coordinator owns the shared cross-repository contract and cold integration, so Standard preserves design and independent evidence boundaries."
+      : "The shared contract is already frozen by the coordinator; this repository owns one bounded local slice with no external action.",
+    "--profile-evidence", "TASK.md",
+    "--tracker-visibility", "internal"
+  ];
+  if (repositoryId === "coordinator") createArguments.push("--affected-path", "design-record.json");
+  await temple(root, createArguments);
+  const artifact = path.join(root, ".ai-org/artifacts/WI-0001/delivery-brief.md");
+  await writeText(artifact, [
+    "# WI-0001 delivery brief",
+    "",
+    `Repository responsibility: ${repositoryId}.`,
+    `Affected path: ${affectedPath}.`,
+    "Governing product requirement: TASK.md.",
+    "Acceptance: assigned public tests pass; exact revision and unresolved work are handed off.",
+    "Risk: local synthetic fixture only; no network, package install, deployment, publication, or external write.",
+    ""
+  ].join("\n"));
+  const beforeTransition = await git(root, ["rev-parse", "HEAD"]);
+  await temple(root, [
+    "work-item", "configure", ".",
+    "--work-item", "WI-0001",
+    "--agent-id", repositoryId === "coordinator" ? "agent-fixture-tidus" : "agent-fixture-rikku",
+    "--base-revision", beforeTransition,
+    "--parallel-mode", "sequential"
+  ]);
+  if (repositoryId === "coordinator") {
+    await temple(root, ["transition", ".", "--work-item", "WI-0001", "--to", "spec", "--satisfy", "work_order=.ai-org/artifacts/WI-0001/delivery-brief.md"]);
+    await temple(root, [
+      "transition", ".", "--work-item", "WI-0001", "--to", "design",
+      "--satisfy", "approved_scope=.ai-org/artifacts/WI-0001/delivery-brief.md",
+      "--satisfy", "acceptance_criteria=.ai-org/artifacts/WI-0001/delivery-brief.md"
+    ]);
+  } else {
+    await temple(root, [
+      "transition", ".",
+      "--work-item", "WI-0001",
+      "--to", "build",
+      "--satisfy", "work_order=.ai-org/artifacts/WI-0001/delivery-brief.md",
+      "--satisfy", "approved_scope=.ai-org/artifacts/WI-0001/delivery-brief.md",
+      "--satisfy", "acceptance_criteria=.ai-org/artifacts/WI-0001/delivery-brief.md",
+      "--satisfy", "technical_design=.ai-org/artifacts/WI-0001/delivery-brief.md",
+      "--satisfy", "risk_review=.ai-org/artifacts/WI-0001/delivery-brief.md",
+      "--satisfy", "profile_eligibility=.ai-org/artifacts/WI-0001/delivery-brief.md"
+    ]);
+  }
+  await git(root, ["add", "-A"]);
+  await git(root, ["commit", "-m", `Install Temple ${repositoryId} responsibility`]);
+  return git(root, ["rev-parse", "HEAD"]);
+}
+
+async function installMinimalOrganization(root, repositoryId) {
+  await writeText(path.join(root, "organization/WORK_ITEM.md"), [
+    `# ${repositoryId} responsibility`,
+    "",
+    "Governing product requirement: `TASK.md` in the Coordinator repository.",
+    `Owned path: \`${serviceAffectedPath(repositoryId)}\`.`,
+    "Run the repository public tests, commit the accepted change, and write `organization/HANDOFF.md` with the exact revision, tests, completed work, and unresolved issues.",
+    "Do not use conversation memory as state and do not deploy, publish, install packages, or access the network.",
+    ""
+  ].join("\n"));
+  await git(root, ["add", "-A"]);
+  await git(root, ["commit", "-m", `Record minimal ${repositoryId} responsibility`]);
+  return git(root, ["rev-parse", "HEAD"]);
+}
+
+function workItemReference(repositoryId, revision) {
+  return { project_id: `wi0136-${repositoryId}`, work_item_id: "WI-0001", revision };
+}
+
+function federationRegistry(revisions, observedAt = new Date().toISOString()) {
+  const gateway = workItemReference("gateway", revisions.gateway);
+  const catalog = workItemReference("catalog", revisions.catalog);
+  const orders = workItemReference("orders", revisions.orders);
+  const notifications = workItemReference("notifications", revisions.notifications);
+  return {
+    schema_version: "temple.federation/v1",
+    participants: services.map((repositoryId) => ({
+      id: `wi0136-${repositoryId}`,
+      path: `../${repositoryId}`,
+      expected_project_id: `wi0136-${repositoryId}`,
+      expected_revision: revisions[repositoryId],
+      expected_revision_observed_at: observedAt,
+      max_work_items: 10
+    })),
+    initiatives: [{
+      id: "order-placed-v2",
+      version: "2.0.0",
+      revision: "order-placed-v2",
+      work_items: [gateway, catalog, orders, notifications]
+    }],
+    dependencies: [
+      { id: "catalog-before-orders", version: "1", revision: "dependency-1", predecessor: catalog, successor: orders },
+      { id: "notifications-before-orders", version: "1", revision: "dependency-1", predecessor: notifications, successor: orders },
+      { id: "orders-before-gateway", version: "1", revision: "dependency-1", predecessor: orders, successor: gateway }
+    ],
+    contracts: [
+      {
+        id: "catalog-availability",
+        kind: "api",
+        version: "2.0.0",
+        revision: "catalog-availability-v2",
+        compatibility: "compatible",
+        owner: catalog,
+        consumers: [orders]
+      },
+      {
+        id: "order-placed",
+        kind: "event",
+        version: "2.0.0",
+        revision: "order-placed-v2",
+        compatibility: "compatible",
+        owner: orders,
+        consumers: [notifications, gateway]
+      }
+    ],
+    rollout_waves: [
+      {
+        id: "prepare-consumers",
+        version: "1",
+        revision: "wave-1",
+        order: 1,
+        work_items: [notifications, catalog],
+        contract_refs: [
+          { id: "order-placed", version: "2.0.0", revision: "order-placed-v2" },
+          { id: "catalog-availability", version: "2.0.0", revision: "catalog-availability-v2" }
+        ]
+      },
+      {
+        id: "publish-producer",
+        version: "1",
+        revision: "wave-2",
+        order: 2,
+        work_items: [orders],
+        contract_refs: [{ id: "order-placed", version: "2.0.0", revision: "order-placed-v2" }]
+      },
+      {
+        id: "expose-gateway",
+        version: "1",
+        revision: "wave-3",
+        order: 3,
+        work_items: [gateway],
+        contract_refs: [{ id: "order-placed", version: "2.0.0", revision: "order-placed-v2" }]
+      }
+    ],
+    updated_at: observedAt
+  };
+}
+
+async function installArmPortfolio(armRoot, armId, revisions) {
+  const coordinatorRoot = path.join(armRoot, "coordinator");
+  const registry = federationRegistry(revisions);
+  if (armId === "temple") {
+    await writeJson(path.join(coordinatorRoot, ".ai-org/project/federation.json"), registry);
+    const validation = JSON.parse(await temple(coordinatorRoot, ["federation", "validate", ".", "--json"]));
+    if (validation.valid !== true) throw new Error(`Temple federation registry invalid: ${JSON.stringify(validation.errors ?? validation)}`);
+  } else {
+    await writeJson(path.join(coordinatorRoot, "organization/PORTFOLIO.json"), {
+      schema_version: "minimal-responsible.portfolio/v1",
+      participants: services.map((repositoryId) => ({
+        repository: repositoryId,
+        revision: revisions[repositoryId],
+        responsibility: serviceAffectedPath(repositoryId),
+        work_item: `${repositoryId}/organization/WORK_ITEM.md`,
+        handoff: `${repositoryId}/organization/HANDOFF.md`
+      })),
+      contracts: registry.contracts.map((entry) => ({ id: entry.id, version: entry.version, compatibility: entry.compatibility })),
+      rollout_order: registry.rollout_waves.map((entry) => entry.id),
+      updated_at: registry.updated_at
+    });
+  }
+  await git(coordinatorRoot, ["add", "-A"]);
+  await git(coordinatorRoot, ["commit", "-m", `Record ${armId} cross-repository portfolio`]);
+  return git(coordinatorRoot, ["rev-parse", "HEAD"]);
+}
+
+async function runNodeTests(root, args = ["--test"]) {
+  return command(process.execPath, args, { cwd: root, env: { ...process.env, TEMPLE_BENCHMARK_ARM_ROOT: root } });
+}
+
+async function startingTestEvidence(armRoot) {
+  const publicResults = {};
+  for (const repositoryId of services) {
+    const result = await command("npm", ["test"], { cwd: path.join(armRoot, repositoryId), env: process.env });
+    publicResults[repositoryId] = { exit_code: result.status, output_sha256: sha256(`${result.stdout}\n${result.stderr}`) };
+  }
+  const publicIntegration = await command("npm", ["test"], { cwd: path.join(armRoot, "coordinator"), env: process.env });
+  const heldOut = await runNodeTests(armRoot, ["--test", path.join(fixtureRoot, "coordinator/evaluator-only/held-out-integration.test.mjs")]);
+  return {
+    public: publicResults,
+    public_integration: { exit_code: publicIntegration.status, output_sha256: sha256(`${publicIntegration.stdout}\n${publicIntegration.stderr}`) },
+    held_out: { exit_code: heldOut.status, output_sha256: sha256(`${heldOut.stdout}\n${heldOut.stderr}`) }
+  };
+}
+
+async function validateGoldenFixture() {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0136-golden-"));
+  try {
+    for (const repositoryId of services) {
+      const target = path.join(root, repositoryId);
+      await copyTree(path.join(fixtureRoot, repositoryId), target);
+      await fs.copyFile(
+        path.join(fixtureRoot, "evaluator-only/golden", `${serviceAffectedPath(repositoryId).split("/").at(-1)}`),
+        path.join(target, serviceAffectedPath(repositoryId))
+      );
+    }
+    await copyTree(path.join(fixtureRoot, "coordinator"), path.join(root, "coordinator"), (relative) => !relative.startsWith("evaluator-only"));
+    const result = await objectiveTests(root);
+    return {
+      pass: result.pass,
+      service_exit_codes: Object.fromEntries(Object.entries(result.services).map(([id, entry]) => [id, entry.exit_code])),
+      public_integration_exit_code: result.public_integration.exit_code,
+      held_out_exit_code: result.held_out.exit_code
+    };
+  } finally {
+    await fs.rm(root, { recursive: true, force: true });
+  }
+}
+
+async function repositorySnapshot(root) {
+  return {
+    revision: await git(root, ["rev-parse", "HEAD"]),
+    tree: await git(root, ["rev-parse", "HEAD^{tree}"]),
+    clean: (await git(root, ["status", "--porcelain=v1", "--untracked-files=all"])) === "",
+    bytes: (await Promise.all((await regularFiles(root)).filter((entry) => !entry.startsWith(".git/")).map(async (entry) => (await fs.stat(path.join(root, entry))).size))).reduce((sum, value) => sum + value, 0)
+  };
+}
+
+async function createArm(labRoot, armId) {
+  const armRoot = path.join(labRoot, "arms", armId);
+  await fs.mkdir(armRoot, { recursive: true });
+  await writeText(path.join(armRoot, ".gitignore"), `${repositories.map((entry) => `${entry}/`).join("\n")}\n`);
+  await writeText(path.join(armRoot, "ARM.md"), `# ${armId}\n\nThis umbrella repository bounds one isolated WI-0136 experiment arm. Product state lives in the ignored child Git repositories.\n`);
+  await checked("git", ["init", "-b", "main", armRoot], { env: { ...process.env, ...fixedGitEnvironment } });
+  await git(armRoot, ["add", ".gitignore", "ARM.md"]);
+  await git(armRoot, ["commit", "-m", `Create ${armId} experiment workspace`]);
+  const productRevisions = {};
+  for (const repositoryId of repositories) {
+    productRevisions[repositoryId] = await initializeProductRepository(path.join(armRoot, repositoryId), repositoryId);
+  }
+  const organizationRevisions = {};
+  for (const repositoryId of repositories) {
+    const root = path.join(armRoot, repositoryId);
+    if (armId === "temple") {
+      const configPath = path.join(labRoot, "config", `${repositoryId}-temple-init.json`);
+      organizationRevisions[repositoryId] = await installTempleOrganization(root, repositoryId, configPath);
+    } else {
+      organizationRevisions[repositoryId] = await installMinimalOrganization(root, repositoryId);
+    }
+  }
+  organizationRevisions.coordinator = await installArmPortfolio(armRoot, armId, Object.fromEntries(services.map((repositoryId) => [repositoryId, organizationRevisions[repositoryId]])));
+  return {
+    id: armId,
+    root: armRoot,
+    product_revisions: productRevisions,
+    organization_revisions: organizationRevisions,
+    starting_tests: await startingTestEvidence(armRoot),
+    repositories: Object.fromEntries(await Promise.all(repositories.map(async (repositoryId) => [repositoryId, await repositorySnapshot(path.join(armRoot, repositoryId))])))
+  };
+}
+
+function productParity(armResults) {
+  const baseline = armResults[0].product_revisions;
+  return armResults.every((arm) => JSON.stringify(arm.product_revisions) === JSON.stringify(baseline));
+}
+
+async function sourceDigests() {
+  const publicFiles = [];
+  const hiddenFiles = [];
+  for (const relative of await regularFiles(fixtureRoot)) {
+    if (relative.startsWith("coordinator/evaluator-only/")) hiddenFiles.push(relative);
+    else if (relative.endsWith(".test.mjs")) publicFiles.push(relative);
+  }
+  return {
+    fixture_sha256: await bundleDigest(fixtureRoot),
+    task_sha256: sha256(await fs.readFile(path.join(fixtureRoot, "task.md"))),
+    public_tests_sha256: await bundleDigest(fixtureRoot, publicFiles),
+    held_out_tests_sha256: await bundleDigest(fixtureRoot, hiddenFiles),
+    tool_policy_sha256: sha256(await fs.readFile(path.join(fixtureRoot, "tool-policy.json"))),
+    rubric_sha256: sha256(await fs.readFile(path.join(fixtureRoot, "rubric.json")))
+  };
+}
+
+function buildProtocol(manifest) {
+  const protocol = {
+    schema_version: "temple.representative-microservice-comparison/v2",
+    work_item_id: "WI-0136",
+    status: "generation-disabled",
+    protocol_sha256: null,
+    fixture: manifest.source_digests,
+    lab_manifest_sha256: manifest.manifest_sha256,
+    arms: manifest.arms.map((arm) => ({
+      id: arm.id,
+      product_revisions: arm.product_revisions,
+      organization_revisions: arm.organization_revisions
+    })),
+    execution: {
+      arm_order: ["minimal-responsible", "temple"],
+      candidate_turns: 10,
+      evaluator_turns: 1,
+      build_wave_concurrency: 3,
+      retry_count: 0,
+      fallback_count: 0,
+      network_access: false,
+      generation_ready: false,
+      exact_approval_required: true,
+      design_operational_token_limit: null,
+      build_operational_token_limit: null,
+      integration_operational_token_limit: null,
+      candidate_aggregate_operational_token_limit: null,
+      evaluator_operational_token_limit: null,
+      combined_operational_token_limit: null,
+      program_wall_clock_limit_ms: null
+    },
+    model_route: {
+      design: { model: "gpt-5.6-sol", reasoning_effort: "xhigh" },
+      build: { model: "gpt-5.6-terra", reasoning_effort: "medium" },
+      integration: { model: "gpt-5.6-terra", reasoning_effort: "medium" },
+      evaluator: { model: "gpt-5.6-sol", reasoning_effort: "xhigh" }
+    },
+    stop_rules: {
+      protocol_mismatch: true,
+      model_reroute: true,
+      provider_approval_request: true,
+      command_policy_violation: true,
+      out_of_scope_write: true,
+      missing_usage: true,
+      malformed_completion: true,
+      token_limit: true,
+      wall_clock_limit: true
+    },
+    claims: {
+      statistical_generalization: false,
+      automatic_routing_authority: false,
+      monetary_cost_known: false,
+      raw_prompts_retained: false,
+      raw_responses_retained: false,
+      hidden_reasoning_retained: false
+    }
+  };
+  protocol.protocol_sha256 = protocolDigest(protocol);
+  return protocol;
+}
+
+export function validateRepresentativeProtocol(protocol) {
+  const errors = [];
+  if (protocol?.schema_version !== "temple.representative-microservice-comparison/v2") errors.push("unsupported schema");
+  if (protocol?.work_item_id !== "WI-0136") errors.push("unexpected work item");
+  if (protocol?.status !== "generation-disabled") errors.push("protocol status must remain generation-disabled before exact approval");
+  if (protocol?.protocol_sha256 !== protocolDigest(protocol)) errors.push("protocol digest mismatch");
+  const armIds = protocol?.arms?.map((arm) => arm.id).toSorted() ?? [];
+  if (JSON.stringify(armIds) !== JSON.stringify([...arms].toSorted())) errors.push("two exact arms are required");
+  if (protocol?.arms?.length === 2 && JSON.stringify(protocol.arms[0].product_revisions) !== JSON.stringify(protocol.arms[1].product_revisions)) {
+    errors.push("product revisions are not matched");
+  }
+  const execution = protocol?.execution ?? {};
+  if (execution.candidate_turns !== 10 || execution.evaluator_turns !== 1 || execution.build_wave_concurrency !== 3) errors.push("execution shape mismatch");
+  if (execution.retry_count !== 0 || execution.fallback_count !== 0 || execution.network_access !== false) errors.push("retry, fallback, or network boundary mismatch");
+  if (execution.generation_ready !== false || execution.exact_approval_required !== true) errors.push("generation boundary mismatch");
+  for (const value of Object.values(protocol?.stop_rules ?? {})) if (value !== true) errors.push("every stop rule must fail closed");
+  for (const [stage, expected] of Object.entries({
+    design: ["gpt-5.6-sol", "xhigh"],
+    build: ["gpt-5.6-terra", "medium"],
+    integration: ["gpt-5.6-terra", "medium"],
+    evaluator: ["gpt-5.6-sol", "xhigh"]
+  })) {
+    const observed = protocol?.model_route?.[stage];
+    if (observed?.model !== expected[0] || observed?.reasoning_effort !== expected[1]) errors.push(`${stage} model route mismatch`);
+  }
+  if (!/^[a-f0-9]{64}$/.test(protocol?.fixture?.fixture_sha256 ?? "")) errors.push("fixture digest missing");
+  const numericLimitFields = [
+    "design_operational_token_limit",
+    "build_operational_token_limit",
+    "integration_operational_token_limit",
+    "candidate_aggregate_operational_token_limit",
+    "evaluator_operational_token_limit",
+    "combined_operational_token_limit",
+    "program_wall_clock_limit_ms"
+  ];
+  const numericLimits = numericLimitFields.map((field) => execution[field]);
+  if (numericLimits.some((value) => value !== null && value !== undefined)) {
+    for (const [index, value] of numericLimits.entries()) {
+      if (!Number.isSafeInteger(value) || value <= 0) errors.push(`${numericLimitFields[index]} must be a positive integer when frozen`);
+    }
+    if (execution.combined_operational_token_limit !== execution.candidate_aggregate_operational_token_limit + execution.evaluator_operational_token_limit) {
+      errors.push("combined Token limit must equal candidate plus evaluator limits");
+    }
+    if (!protocol?.provider_contract?.codex_cli_version || !protocol?.provider_contract?.schema_digests) errors.push("frozen protocol requires a Provider contract");
+  }
+  return { valid: errors.length === 0, errors };
+}
+
+async function setup(labRoot, protocolPath) {
+  if (await exists(labRoot)) throw new Error(`refusing to replace existing lab: ${labRoot}`);
+  await fs.mkdir(labRoot, { recursive: true });
+  const startedAt = new Date().toISOString();
+  const armResults = [];
+  try {
+    const goldenValidation = await validateGoldenFixture();
+    if (!goldenValidation.pass) throw new Error("golden acceptance fixture does not pass every objective check");
+    for (const armId of arms) armResults.push(await createArm(labRoot, armId));
+    const manifest = {
+      schema_version: "temple.representative-microservice-lab/v1",
+      work_item_id: "WI-0136",
+      created_at: startedAt,
+      lab_root: labRoot,
+      source_digests: await sourceDigests(),
+      golden_validation: goldenValidation,
+      product_revisions_matched: productParity(armResults),
+      arms: armResults,
+      model_generation_performed: false,
+      manifest_sha256: null
+    };
+    manifest.manifest_sha256 = sha256(JSON.stringify(stable({ ...manifest, manifest_sha256: null })));
+    await writeJson(path.join(labRoot, "lab-manifest.json"), manifest, { exclusive: true });
+    const protocol = buildProtocol(manifest);
+    const validation = validateRepresentativeProtocol(protocol);
+    if (!validation.valid) throw new Error(`generated protocol invalid: ${validation.errors.join(", ")}`);
+    await writeJson(protocolPath, protocol);
+    return { manifest, protocol, validation };
+  } catch (error) {
+    await writeJson(path.join(labRoot, "setup-failure.json"), {
+      schema_version: "temple.representative-microservice-setup-failure/v1",
+      work_item_id: "WI-0136",
+      stopped_at: new Date().toISOString(),
+      reason: String(error.message ?? error),
+      model_generation_performed: false
+    }).catch(() => {});
+    throw error;
+  }
+}
+
+async function inspect(labRoot, protocolPath) {
+  const manifest = await readJson(path.join(labRoot, "lab-manifest.json"));
+  const protocol = await readJson(protocolPath);
+  const checks = [];
+  checks.push({ id: "protocol-valid", pass: validateRepresentativeProtocol(protocol).valid });
+  checks.push({ id: "manifest-digest", pass: manifest.manifest_sha256 === sha256(JSON.stringify(stable({ ...manifest, manifest_sha256: null }))) });
+  checks.push({ id: "protocol-manifest", pass: protocol.lab_manifest_sha256 === manifest.manifest_sha256 });
+  checks.push({ id: "product-revisions-matched", pass: manifest.product_revisions_matched === true && productParity(manifest.arms) });
+  checks.push({ id: "fixture-current", pass: JSON.stringify(await sourceDigests()) === JSON.stringify(manifest.source_digests) });
+  checks.push({ id: "golden-acceptance-pass", pass: manifest.golden_validation?.pass === true });
+  const toolPolicy = await readJson(path.join(fixtureRoot, "tool-policy.json"));
+  checks.push({
+    id: "runtime-tool-policy-matched",
+    pass: toolPolicy.network_access === false && JSON.stringify(toolPolicy.allowed_command_prefixes) === JSON.stringify(comparisonAllowedCommandPrefixes)
+  });
+  for (const arm of manifest.arms) {
+    for (const repositoryId of repositories) {
+      const root = path.join(labRoot, "arms", arm.id, repositoryId);
+      const snapshot = await repositorySnapshot(root);
+      checks.push({ id: `${arm.id}:${repositoryId}:revision`, pass: snapshot.revision === arm.repositories[repositoryId].revision });
+      checks.push({ id: `${arm.id}:${repositoryId}:clean`, pass: snapshot.clean });
+    }
+    checks.push({ id: `${arm.id}:seeded-public-failure`, pass: Object.values(arm.starting_tests.public).every((entry) => entry.exit_code !== 0) && arm.starting_tests.public_integration.exit_code !== 0 });
+    checks.push({ id: `${arm.id}:seeded-held-out-failure`, pass: arm.starting_tests.held_out.exit_code !== 0 });
+  }
+  return {
+    schema_version: "temple.representative-microservice-inspection/v1",
+    work_item_id: "WI-0136",
+    inspected_at: new Date().toISOString(),
+    valid: checks.every((entry) => entry.pass),
+    checks,
+    model_generation_performed: false
+  };
+}
+
+function modelEntries(response) {
+  if (Array.isArray(response?.data)) return response.data;
+  if (Array.isArray(response?.models)) return response.models;
+  return Array.isArray(response) ? response : [];
+}
+
+function modelId(model) {
+  return model?.model ?? model?.id ?? model?.slug ?? null;
+}
+
+function modelEfforts(model) {
+  const values = model?.supportedReasoningEfforts ?? model?.supported_reasoning_efforts ?? model?.reasoningEfforts ?? [];
+  return values.map((entry) => typeof entry === "string" ? entry : entry?.reasoningEffort ?? entry?.effort ?? entry?.value ?? null).filter(Boolean);
+}
+
+async function providerHandshake() {
+  const cli = await checked("codex", ["--version"]);
+  const schemaRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0136-schema-"));
+  const names = [
+    "ThreadStartParams.json",
+    "TurnStartParams.json",
+    "ThreadStartResponse.json",
+    "TurnStartResponse.json",
+    "ItemStartedNotification.json",
+    "TurnCompletedNotification.json",
+    "ItemCompletedNotification.json",
+    "ThreadTokenUsageUpdatedNotification.json",
+    "ModelReroutedNotification.json",
+    "TurnInterruptParams.json"
+  ];
+  const schemaDigests = {};
+  let connection;
+  try {
+    await checked("codex", ["app-server", "generate-json-schema", "--out", schemaRoot]);
+    for (const name of names) schemaDigests[name] = sha256(await fs.readFile(path.join(schemaRoot, "v2", name)));
+    connection = createJsonRpcProcess("codex", ["app-server", "--stdio"], {
+      cwd: repositoryRoot,
+      env: isolateWave5CodexEnvironment(process.env)
+    });
+    await connection.request("initialize", {
+      clientInfo: { name: "temple-wi0136-preflight", title: "Temple WI-0136 Preflight", version: "1" },
+      capabilities: { experimentalApi: false }
+    });
+    connection.notify("initialized", {});
+    const models = modelEntries(await connection.request("model/list", {}));
+    const required = [
+      { model: "gpt-5.6-sol", reasoning_efforts: ["xhigh"] },
+      { model: "gpt-5.6-terra", reasoning_efforts: ["medium"] }
+    ];
+    const checks = required.map((requirement) => {
+      const observed = models.find((entry) => modelId(entry) === requirement.model);
+      const efforts = new Set(modelEfforts(observed));
+      return {
+        ...requirement,
+        available: Boolean(observed) && requirement.reasoning_efforts.every((effort) => efforts.has(effort)),
+        observed_reasoning_efforts: [...efforts]
+      };
+    });
+    return {
+      pass: checks.every((entry) => entry.available),
+      codex_cli_version: cli,
+      schema_digests: schemaDigests,
+      required_models: required,
+      model_checks: checks,
+      model_generation_performed: false
+    };
+  } finally {
+    await connection?.close().catch(() => {});
+    await fs.rm(schemaRoot, { recursive: true, force: true });
+  }
+}
+
+function freezeLimits(protocol, handshake) {
+  const next = structuredClone(protocol);
+  next.provider_contract = {
+    codex_cli_version: handshake.codex_cli_version,
+    schema_digests: handshake.schema_digests,
+    required_models: handshake.required_models
+  };
+  Object.assign(next.execution, {
+    design_operational_token_limit: 100000,
+    build_operational_token_limit: 69000,
+    integration_operational_token_limit: 80000,
+    candidate_aggregate_operational_token_limit: 520000,
+    evaluator_operational_token_limit: 100000,
+    combined_operational_token_limit: 620000,
+    program_wall_clock_limit_ms: 2700000
+  });
+  next.limit_basis = {
+    design_and_evaluator: {
+      source: ".ai-org/artifacts/WI-0132/live-experiment-observation.json",
+      observed_sol_xhigh_candidate_maximum: 78497,
+      frozen_limit: 100000
+    },
+    build: {
+      source: ".ai-org/artifacts/WI-0135/live-protocol.json",
+      prior_terra_per_candidate_limit: 69000,
+      frozen_limit: 69000
+    },
+    integration: {
+      basis: "Terra build ceiling plus a bounded cold-recovery allowance",
+      frozen_limit: 80000
+    },
+    aggregate: {
+      source: ".ai-org/artifacts/WI-0132/live-experiment-observation.json",
+      prior_eight_candidate_operational_tokens: 416395,
+      candidate_limit: 520000,
+      evaluator_limit: 100000
+    },
+    meaning: "Safety stops based on retained operational-Token observations; not forecasts, prices, or statistical estimates."
+  };
+  next.protocol_sha256 = protocolDigest(next);
+  return next;
+}
+
+function approvalTemplate(protocol) {
+  return {
+    schema_version: "temple.representative-microservice-account-approval/v1",
+    work_item_id: protocol.work_item_id,
+    protocol_sha256: protocol.protocol_sha256,
+    approved: false,
+    authorization_source: null,
+    approved_candidate_turns: protocol.execution.candidate_turns,
+    approved_evaluator_turns: protocol.execution.evaluator_turns,
+    approved_models: ["gpt-5.6-sol", "gpt-5.6-terra"],
+    approved_reasoning_efforts: ["xhigh", "medium"],
+    approved_candidate_operational_tokens: protocol.execution.candidate_aggregate_operational_token_limit,
+    approved_evaluator_operational_tokens: protocol.execution.evaluator_operational_token_limit,
+    approved_combined_operational_tokens: protocol.execution.combined_operational_token_limit,
+    approved_program_wall_clock_ms: protocol.execution.program_wall_clock_limit_ms,
+    pro_included_allowance_only: true,
+    credits_purchase_authorized: false,
+    automatic_refill_authorized: false,
+    usage_reset_authorized: false,
+    retry_count: 0,
+    fallback_count: 0,
+    approved_at: null
+  };
+}
+
+export function validateRepresentativeApproval(approval, protocol) {
+  const expected = approvalTemplate(protocol);
+  const errors = [];
+  if (approval?.schema_version !== expected.schema_version) errors.push("unsupported approval schema");
+  if (approval?.work_item_id !== expected.work_item_id || approval?.protocol_sha256 !== expected.protocol_sha256) errors.push("approval target mismatch");
+  if (approval?.approved !== true || !approval?.authorization_source || !approval?.approved_at) errors.push("affirmative approval record is incomplete");
+  for (const key of [
+    "approved_candidate_turns",
+    "approved_evaluator_turns",
+    "approved_candidate_operational_tokens",
+    "approved_evaluator_operational_tokens",
+    "approved_combined_operational_tokens",
+    "approved_program_wall_clock_ms",
+    "pro_included_allowance_only",
+    "credits_purchase_authorized",
+    "automatic_refill_authorized",
+    "usage_reset_authorized",
+    "retry_count",
+    "fallback_count"
+  ]) {
+    if (approval?.[key] !== expected[key]) errors.push(`${key} does not match the frozen protocol`);
+  }
+  if (JSON.stringify(approval?.approved_models) !== JSON.stringify(expected.approved_models)) errors.push("approved models mismatch");
+  if (JSON.stringify(approval?.approved_reasoning_efforts) !== JSON.stringify(expected.approved_reasoning_efforts)) errors.push("approved efforts mismatch");
+  return { accepted: errors.length === 0, errors };
+}
+
+async function freeze(protocolPath) {
+  const protocol = await readJson(protocolPath);
+  const before = validateRepresentativeProtocol(protocol);
+  if (!before.valid) throw new Error(`protocol invalid before freeze: ${before.errors.join(", ")}`);
+  const handshake = await providerHandshake();
+  if (!handshake.pass) throw new Error("required Provider models or efforts are unavailable");
+  const frozen = freezeLimits(protocol, handshake);
+  const after = validateRepresentativeProtocol(frozen);
+  if (!after.valid) throw new Error(`frozen protocol invalid: ${after.errors.join(", ")}`);
+  await writeJson(protocolPath, frozen);
+  const template = approvalTemplate(frozen);
+  await writeJson(defaultApprovalTemplatePath, template);
+  return {
+    schema_version: "temple.representative-microservice-freeze/v1",
+    work_item_id: frozen.work_item_id,
+    protocol_sha256: frozen.protocol_sha256,
+    provider_handshake: handshake,
+    limits: frozen.execution,
+    approval_template: path.relative(repositoryRoot, defaultApprovalTemplatePath),
+    model_generation_performed: false
+  };
+}
+
+async function preflight(labRoot, protocolPath, approvalPath) {
+  const inspection = await inspect(labRoot, protocolPath);
+  const protocol = await readJson(protocolPath);
+  const handshake = await providerHandshake();
+  const lifecycleRehearsal = inspection.valid
+    ? await rehearseTempleLifecycle(labRoot)
+    : { pass: false, reason: "local fixture invalid" };
+  const providerMatch = handshake.pass && protocol?.provider_contract?.codex_cli_version === handshake.codex_cli_version &&
+    JSON.stringify(protocol?.provider_contract?.schema_digests) === JSON.stringify(handshake.schema_digests);
+  const approval = approvalPath && await exists(approvalPath) ? validateRepresentativeApproval(await readJson(approvalPath), protocol) : { accepted: false, errors: ["exact approval missing"] };
+  const blockers = [];
+  if (!inspection.valid) blockers.push("local-fixture-invalid");
+  if (!lifecycleRehearsal.pass) blockers.push("temple-lifecycle-rehearsal-failed");
+  if (!providerMatch) blockers.push("provider-contract-drift");
+  if (!approval.accepted) blockers.push("exact-human-approval-required");
+  const output = {
+    schema_version: "temple.representative-microservice-preflight/v1",
+    work_item_id: "WI-0136",
+    observed_at: new Date().toISOString(),
+    local_fixture_ready: inspection.valid,
+    protocol_sha256: protocol.protocol_sha256,
+    provider_handshake_performed: true,
+    provider_contract_matches: providerMatch,
+    provider_handshake: handshake,
+    temple_lifecycle_rehearsal: lifecycleRehearsal,
+    exact_approval_present: approval.accepted,
+    approval_errors: approval.errors,
+    generation_ready: blockers.length === 0,
+    blockers,
+    checks: inspection.checks,
+    model_generation_performed: false
+  };
+  await writeJson(path.join(labRoot, "preflight.json"), output);
+  return output;
+}
+
+const designOutputSchema = Object.freeze({
+  type: "object",
+  additionalProperties: false,
+  required: ["contract_version", "rollout_order", "slices", "risks", "assumptions"],
+  properties: {
+    contract_version: { type: "string" },
+    rollout_order: { type: "array", items: { type: "string" } },
+    slices: {
+      type: "array",
+      items: {
+        type: "object",
+        additionalProperties: false,
+        required: ["id", "repositories", "responsibility"],
+        properties: {
+          id: { type: "string" },
+          repositories: { type: "array", items: { type: "string" } },
+          responsibility: { type: "string" }
+        }
+      }
+    },
+    risks: { type: "array", items: { type: "string" } },
+    assumptions: { type: "array", items: { type: "string" } }
+  }
+});
+
+const buildOutputSchema = Object.freeze({
+  type: "object",
+  additionalProperties: false,
+  required: ["summary", "changed_paths", "test_command", "test_result", "unresolved"],
+  properties: {
+    summary: { type: "string" },
+    changed_paths: { type: "array", items: { type: "string" } },
+    test_command: { type: "string" },
+    test_result: { type: "string" },
+    unresolved: { type: "array", items: { type: "string" } }
+  }
+});
+
+const integrationOutputSchema = Object.freeze({
+  type: "object",
+  additionalProperties: false,
+  required: ["recovered_revisions", "governing_contract", "completed_slices", "unresolved", "safe_next_action", "summary"],
+  properties: {
+    recovered_revisions: {
+      type: "array",
+      items: {
+        type: "object",
+        additionalProperties: false,
+        required: ["repository", "revision"],
+        properties: { repository: { type: "string" }, revision: { type: "string" } }
+      }
+    },
+    governing_contract: { type: "string" },
+    completed_slices: { type: "array", items: { type: "string" } },
+    unresolved: { type: "array", items: { type: "string" } },
+    safe_next_action: { type: "string" },
+    summary: { type: "string" }
+  }
+});
+
+const evaluatorOutputSchema = Object.freeze({
+  type: "object",
+  additionalProperties: false,
+  required: ["packages", "summary"],
+  properties: {
+    packages: {
+      type: "array",
+      items: {
+        type: "object",
+        additionalProperties: false,
+        required: ["package_id", "dimensions", "critical_failure", "summary"],
+        properties: {
+          package_id: { type: "string" },
+          dimensions: {
+            type: "array",
+            items: {
+              type: "object",
+              additionalProperties: false,
+              required: ["id", "score", "rationale"],
+              properties: {
+                id: { type: "string" },
+                score: { type: "integer", minimum: 0, maximum: 1 },
+                rationale: { type: "string" }
+              }
+            }
+          },
+          critical_failure: { type: ["string", "null"] },
+          summary: { type: "string" }
+        }
+      }
+    },
+    summary: { type: "string" }
+  }
+});
+
+function operationalTokens(usage) {
+  return usage.input_tokens - usage.cached_input_tokens + usage.output_tokens;
+}
+
+function parseStructuredMessage(value) {
+  if (typeof value !== "string" || value.trim() === "") throw new Error("structured completion message missing");
+  const normalized = value.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
+  const parsed = JSON.parse(normalized);
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error("structured completion must be an object");
+  return parsed;
+}
+
+function stageLimit(protocol, stage) {
+  return {
+    design: protocol.execution.design_operational_token_limit,
+    build: protocol.execution.build_operational_token_limit,
+    integration: protocol.execution.integration_operational_token_limit,
+    evaluator: protocol.execution.evaluator_operational_token_limit
+  }[stage];
+}
+
+function createBudget(protocol) {
+  const active = new Map();
+  let settled = 0;
+  return {
+    update(id, value) {
+      active.set(id, value);
+      return settled + [...active.values()].reduce((sum, entry) => sum + entry, 0);
+    },
+    settle(id, value) {
+      active.delete(id);
+      settled += value;
+      return settled;
+    },
+    total() {
+      return settled + [...active.values()].reduce((sum, entry) => sum + entry, 0);
+    },
+    limit: protocol.execution.candidate_aggregate_operational_token_limit
+  };
+}
+
+async function launchModelTurn({
+  id,
+  cwd,
+  stage,
+  route,
+  instruction,
+  outputSchema,
+  protocol,
+  budget,
+  deadline,
+  sandbox = "workspace-write",
+  allowTools = true
+}) {
+  let connection;
+  let threadId = null;
+  let turnId = null;
+  let terminal = null;
+  let completionText = null;
+  let latestUsage = null;
+  let violation = null;
+  let resolveTerminal;
+  const terminalPromise = new Promise((resolve) => { resolveTerminal = resolve; });
+  const startedAt = new Date().toISOString();
+  const startedMs = Date.now();
+
+  async function interrupt(reason) {
+    if (violation === null) violation = reason;
+    if (connection && threadId && turnId) await connection.request("turn/interrupt", { threadId, turnId }, 15000).catch(() => {});
+  }
+
+  connection = createJsonRpcProcess("codex", ["app-server", "--stdio"], {
+    cwd,
+    env: isolateWave5CodexEnvironment(process.env),
+    onNotification(message) {
+      const params = message.params ?? {};
+      if (message.method === "thread/tokenUsage/updated" && (!turnId || params.turnId === turnId)) {
+        const usage = normalizeTokenUsage(params);
+        if (usage) {
+          latestUsage = usage;
+          const stageTokens = operationalTokens(usage);
+          const aggregate = budget.update(id, stageTokens);
+          if (stageTokens > stageLimit(protocol, stage)) void interrupt(`${stage}-operational-token-limit`);
+          if (aggregate > budget.limit) void interrupt("candidate-aggregate-operational-token-limit");
+        }
+      }
+      const policyViolation = protocolViolationForMessage(message, {
+        turnId,
+        allowedCommandPrefixes: comparisonAllowedCommandPrefixes
+      });
+      if (policyViolation) void interrupt(`${policyViolation.code}:${policyViolation.message}`);
+      if (message.method === "item/started" && (!allowTools || ["mcpToolCall", "webSearch"].includes(params.item?.type))) {
+        void interrupt(`${stage}-tool-policy-violation`);
+      }
+      if (message.method === "item/completed" && (!turnId || params.turnId === turnId) && params.item?.type === "agentMessage") {
+        completionText = params.item.text;
+      }
+      if (message.method === "turn/completed" && (!turnId || params.turn?.id === turnId)) {
+        terminal = params.turn;
+        resolveTerminal();
+      }
+    },
+    onRequest(message, responder) {
+      if (["item/commandExecution/requestApproval", "item/fileChange/requestApproval", "item/permissions/requestApproval"].includes(message.method)) {
+        try { responder.respond(buildCodexRuntimeRequestResponse(message.method, message.params, { decision: "decline" })); } catch {}
+      }
+      void interrupt(`runtime-request:${message.method}`);
+    }
+  });
+
+  const timer = setTimeout(() => { void interrupt("program-wall-clock-limit"); }, Math.max(1, deadline - Date.now()));
+  try {
+    await connection.request("initialize", {
+      clientInfo: { name: "temple-wi0136", title: "Temple WI-0136 Representative Comparison", version: "1" },
+      capabilities: { experimentalApi: false }
+    });
+    connection.notify("initialized", {});
+    const thread = await connection.request("thread/start", {
+      model: route.model,
+      cwd,
+      approvalPolicy: "never",
+      sandbox,
+      serviceName: `temple-wi0136-${id}`,
+      developerInstructions: [
+        "This is one bounded controlled-comparison turn. Do not create subagents or ask the user questions.",
+        `Allowed shell command prefixes: ${comparisonAllowedCommandPrefixes.map((entry) => entry.join(" ")).join(", ")}.`,
+        "Use one command per shell call; do not use pipes, redirects, control operators, command substitutions, package installation, network access, external services, deployment, or publication.",
+        "Use apply_patch for allowed file changes. Treat repository files as state and complete exactly one attempt.",
+        "Return only the requested structured JSON object."
+      ].join("\n"),
+      ...wave5ThreadIsolation(cwd)
+    });
+    threadId = thread?.thread?.id;
+    if (!threadId || thread.model !== route.model) throw new Error(`${id}: requested model was not acknowledged`);
+    const turn = await connection.request("turn/start", {
+      threadId,
+      clientUserMessageId: `wi0136-${id}`,
+      input: [{ type: "text", text: instruction }],
+      turnTrigger: "user",
+      cwd,
+      approvalPolicy: "never",
+      sandboxPolicy: sandbox === "read-only"
+        ? { type: "readOnly", networkAccess: false }
+        : { type: "workspaceWrite", writableRoots: [cwd], networkAccess: false },
+      model: route.model,
+      effort: route.reasoning_effort,
+      outputSchema
+    });
+    turnId = turn?.turn?.id;
+    if (!turnId) throw new Error(`${id}: turn did not start`);
+    await terminalPromise;
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    if (violation) throw new Error(`${id}:${violation}`);
+    const failure = terminalFailure(terminal);
+    if (failure) throw new Error(`${id}:${failure.code}:${failure.message}`);
+    if (!latestUsage) throw new Error(`${id}:detailed Token usage missing`);
+    const completion = parseStructuredMessage(completionText);
+    const tokens = operationalTokens(latestUsage);
+    budget.settle(id, tokens);
+    return {
+      id,
+      stage,
+      started_at: startedAt,
+      completed_at: new Date().toISOString(),
+      elapsed_ms: Date.now() - startedMs,
+      thread_id: threadId,
+      turn_id: turnId,
+      requested_model: route.model,
+      acknowledged_model: thread.model,
+      requested_reasoning_effort: route.reasoning_effort,
+      observed_thread_reasoning_effort: thread.reasoningEffort ?? null,
+      effective_turn_reasoning_effort: null,
+      usage: latestUsage,
+      operational_tokens: tokens,
+      completion,
+      retry_count: 0,
+      fallback_count: 0,
+      raw_prompt_retained: false,
+      raw_response_retained: false,
+      hidden_reasoning_retained: false
+    };
+  } finally {
+    clearTimeout(timer);
+    await connection?.close().catch(() => {});
+  }
+}
+
+function statusPaths(output) {
+  return output.split("\n").filter(Boolean).map((entry) => entry.slice(3)).toSorted();
+}
+
+async function changedPaths(root) {
+  return statusPaths(await git(root, ["status", "--porcelain=v1", "--untracked-files=all"]));
+}
+
+async function diffLineCount(root) {
+  const output = await git(root, ["diff", "--numstat"]);
+  let total = 0;
+  for (const line of output.split("\n").filter(Boolean)) {
+    const [added, removed] = line.split("\t");
+    if (/^\d+$/.test(added)) total += Number(added);
+    if (/^\d+$/.test(removed)) total += Number(removed);
+  }
+  return total;
+}
+
+async function claimTempleRepository(root, agentId) {
+  const revision = await git(root, ["rev-parse", "HEAD"]);
+  await temple(root, [
+    "work-item", "claim", ".",
+    "--work-item", "WI-0001",
+    "--agent-id", agentId,
+    "--principal-id", "human",
+    "--base-revision", revision,
+    "--branch", "main",
+    "--worktree", root
+  ]);
+  await git(root, ["add", "-A"]);
+  await git(root, ["commit", "-m", "Record bounded experiment claim"]);
+  return git(root, ["rev-parse", "HEAD"]);
+}
+
+async function completeTempleBuildRepository(root, summary, evidenceRevision) {
+  await temple(root, [
+    "handoff", ".", "--work-item", "WI-0001", "--to", "quality_evaluator",
+    "--input-revision", evidenceRevision,
+    "--completed", summary,
+    "--evidence", evidenceRevision
+  ]);
+  await temple(root, ["work-item", "release", ".", "--work-item", "WI-0001", "--agent-id", "agent-fixture-rikku", "--principal-id", "human", "--reason", "Bounded build handoff complete"]);
+  await temple(root, [
+    "transition", ".", "--work-item", "WI-0001", "--to", "test",
+    "--satisfy", `developer_handoff=${evidenceRevision}`,
+    "--satisfy", `developer_evidence=${evidenceRevision}`
+  ]);
+  await git(root, ["add", "-A"]);
+  await git(root, ["commit", "-m", "Record Temple build handoff"]);
+  return git(root, ["rev-parse", "HEAD"]);
+}
+
+async function finalizeTempleDesign(coordinatorRoot, design) {
+  const designPath = path.join(coordinatorRoot, "design-record.json");
+  await writeJson(designPath, design);
+  await writeText(path.join(coordinatorRoot, ".ai-org/artifacts/WI-0001/technical-design.md"), `# WI-0001 technical design\n\nFrozen structured design: \`design-record.json\`.\n\nContract: ${design.contract_version}.\n`);
+  await writeText(path.join(coordinatorRoot, ".ai-org/artifacts/WI-0001/risk-review.md"), "# WI-0001 risk review\n\nLocal synthetic cross-repository change. Preserve v1 compatibility, exact revisions, disjoint slice ownership, and no external action.\n");
+  await git(coordinatorRoot, ["add", "-A"]);
+  await git(coordinatorRoot, ["commit", "-m", "Freeze Temple design record"]);
+  const designRevision = await git(coordinatorRoot, ["rev-parse", "HEAD"]);
+  await temple(coordinatorRoot, [
+    "handoff", ".", "--work-item", "WI-0001", "--to", "developer",
+    "--input-revision", designRevision,
+    "--completed", "Frozen the OrderPlaced v2 contract, rollout, slices, and risks.",
+    "--evidence", "design-record.json"
+  ]);
+  await temple(coordinatorRoot, ["work-item", "release", ".", "--work-item", "WI-0001", "--agent-id", "agent-fixture-tidus", "--principal-id", "human", "--reason", "Design handoff complete"]);
+  await temple(coordinatorRoot, [
+    "transition", ".", "--work-item", "WI-0001", "--to", "build",
+    "--satisfy", "technical_design=.ai-org/artifacts/WI-0001/technical-design.md",
+    "--satisfy", "risk_review=.ai-org/artifacts/WI-0001/risk-review.md"
+  ]);
+  await temple(coordinatorRoot, ["work-item", "configure", ".", "--work-item", "WI-0001", "--agent-id", "agent-fixture-rikku"]);
+  await git(coordinatorRoot, ["add", "-A"]);
+  await git(coordinatorRoot, ["commit", "-m", "Advance Temple coordinator to integration"]);
+  return { design_revision: designRevision, organization_revision: await git(coordinatorRoot, ["rev-parse", "HEAD"]) };
+}
+
+async function finalizeMinimalDesign(coordinatorRoot, design) {
+  await writeJson(path.join(coordinatorRoot, "design-record.json"), design);
+  await writeText(path.join(coordinatorRoot, "organization/DESIGN_HANDOFF.md"), [
+    "# Design handoff",
+    "",
+    "The structured contract, rollout, slice ownership, assumptions, and risks are frozen in `design-record.json`.",
+    "The three implementation slices may start because their writable repositories do not overlap.",
+    ""
+  ].join("\n"));
+  await git(coordinatorRoot, ["add", "-A"]);
+  await git(coordinatorRoot, ["commit", "-m", "Freeze minimal responsible design"]);
+  return { design_revision: await git(coordinatorRoot, ["rev-parse", "HEAD"]) };
+}
+
+function buildSlices() {
+  return [
+    { id: "orders-catalog", repositories: ["orders", "catalog"] },
+    { id: "notifications", repositories: ["notifications"] },
+    { id: "gateway", repositories: ["gateway"] }
+  ];
+}
+
+function armProcessInstructions(armId, repositories_) {
+  if (armId === "temple") {
+    return [
+      "For every assigned repository, first read TEMPLE.md and preview `node ./templew.mjs context resolve . --work-item WI-0001 --position developer --no-write --json` from that repository.",
+      "Use only the routed repository state needed for this slice. Claims and lifecycle mutations are owned by the experiment coordinator; do not edit .ai-org files."
+    ].join(" ");
+  }
+  return `For each assigned repository, read organization/WORK_ITEM.md and the Coordinator design record. Use the ordinary repository handoff as durable state. Assigned repositories: ${repositories_.join(", ")}.`;
+}
+
+async function runDesignTurn({ armId, armRoot, protocol, budget, deadline }) {
+  const coordinatorRoot = path.join(armRoot, "coordinator");
+  if (armId === "temple") await claimTempleRepository(coordinatorRoot, "agent-fixture-tidus");
+  const task = await fs.readFile(path.join(coordinatorRoot, "TASK.md"), "utf8");
+  const instruction = [
+    "Design the bounded OrderPlaced v2 rolling-compatibility change described below.",
+    "Inspect the four service repositories and return one structured design record. Do not modify files.",
+    "Use contract_version `OrderPlaced/v2`. Use rollout_order with consumer preparation before producer publication.",
+    "Define exactly these slice IDs: orders-catalog, notifications, gateway. Keep their writable repositories disjoint.",
+    armId === "temple"
+      ? "Recover authority from the Coordinator TEMPLE.md and the read-only WI-0001 context before reasoning."
+      : "Use TASK.md and organization/WORK_ITEM.md as the ordinary responsible workflow records.",
+    task
+  ].join("\n\n");
+  const turn = await launchModelTurn({
+    id: `${armId}-design`, cwd: armRoot, stage: "design", route: protocol.model_route.design,
+    instruction, outputSchema: designOutputSchema, protocol, budget, deadline, sandbox: "read-only"
+  });
+  const result = armId === "temple"
+    ? await finalizeTempleDesign(coordinatorRoot, turn.completion)
+    : await finalizeMinimalDesign(coordinatorRoot, turn.completion);
+  return { ...turn, ...result };
+}
+
+async function runBuildSlice({ armId, armRoot, slice, protocol, budget, deadline }) {
+  const coordinatorRoot = path.join(armRoot, "coordinator");
+  if (armId === "temple") {
+    for (const repositoryId of slice.repositories) await claimTempleRepository(path.join(armRoot, repositoryId), "agent-fixture-rikku");
+  }
+  const before = Object.fromEntries(await Promise.all(slice.repositories.map(async (repositoryId) => [repositoryId, await git(path.join(armRoot, repositoryId), ["rev-parse", "HEAD"])])));
+  const instruction = [
+    `Implement only the ${slice.id} slice in these repositories: ${slice.repositories.join(", ")}.`,
+    "Read coordinator/TASK.md and coordinator/design-record.json. Preserve the exact contract and rolling v1 compatibility.",
+    armProcessInstructions(armId, slice.repositories),
+    "Change only the declared service source file in each assigned repository. Tests and organizational files are read-only.",
+    "Run `npm test` separately in each assigned repository. Do not commit; the experiment coordinator records exact revisions and handoff evidence."
+  ].join("\n\n");
+  const turn = await launchModelTurn({
+    id: `${armId}-${slice.id}`, cwd: armRoot, stage: "build", route: protocol.model_route.build,
+    instruction, outputSchema: buildOutputSchema, protocol, budget, deadline
+  });
+  const repositoriesResult = {};
+  for (const repositoryId of slice.repositories) {
+    const root = path.join(armRoot, repositoryId);
+    const changed = await changedPaths(root);
+    const allowed = serviceAffectedPath(repositoryId);
+    const disallowed = changed.filter((entry) => entry !== allowed);
+    if (disallowed.length > 0) throw new Error(`${armId}-${slice.id}: out-of-scope writes in ${repositoryId}: ${disallowed.join(", ")}`);
+    const changedLines = await diffLineCount(root);
+    const testResult = await command("npm", ["test"], { cwd: root, env: process.env });
+    if (changed.length > 0) {
+      await git(root, ["add", "--", allowed]);
+      await git(root, ["commit", "-m", `Implement ${slice.id} candidate`]);
+    }
+    const productRevision = await git(root, ["rev-parse", "HEAD"]);
+    let handoffRevision = productRevision;
+    if (armId === "temple") {
+      handoffRevision = await completeTempleBuildRepository(root, turn.completion.summary, productRevision);
+    } else {
+      await writeText(path.join(root, "organization/HANDOFF.md"), [
+        `# ${slice.id} handoff`, "", `Exact candidate revision: \`${productRevision}\`.`,
+        `Tests: npm test exited ${testResult.status}.`, `Completed: ${turn.completion.summary}`,
+        `Unresolved: ${turn.completion.unresolved.join("; ") || "none"}.`, ""
+      ].join("\n"));
+      await git(root, ["add", "organization/HANDOFF.md"]);
+      await git(root, ["commit", "-m", `Record ${slice.id} handoff`]);
+      handoffRevision = await git(root, ["rev-parse", "HEAD"]);
+    }
+    repositoriesResult[repositoryId] = {
+      launch_revision: before[repositoryId],
+      product_revision: productRevision,
+      handoff_revision: handoffRevision,
+      changed_paths: changed,
+      changed_lines: changedLines,
+      public_test_exit_code: testResult.status,
+      public_test_output_sha256: sha256(`${testResult.stdout}\n${testResult.stderr}`)
+    };
+  }
+  return { ...turn, repositories: repositoriesResult };
+}
+
+async function currentProductRevisions(armRoot) {
+  const result = {};
+  for (const repositoryId of services) {
+    const root = path.join(armRoot, repositoryId);
+    result[repositoryId] = await git(root, ["rev-parse", "HEAD"]);
+  }
+  return result;
+}
+
+async function objectiveTests(armRoot) {
+  const serviceResults = {};
+  for (const repositoryId of services) {
+    const result = await command("npm", ["test"], { cwd: path.join(armRoot, repositoryId), env: process.env });
+    serviceResults[repositoryId] = { exit_code: result.status, output_sha256: sha256(`${result.stdout}\n${result.stderr}`) };
+  }
+  const publicIntegration = await command("npm", ["test"], { cwd: path.join(armRoot, "coordinator"), env: process.env });
+  const heldOut = await command(process.execPath, ["--test", path.join(fixtureRoot, "coordinator/evaluator-only/held-out-integration.test.mjs")], {
+    cwd: armRoot,
+    env: { ...process.env, TEMPLE_BENCHMARK_ARM_ROOT: armRoot }
+  });
+  return {
+    services: serviceResults,
+    public_integration: { exit_code: publicIntegration.status, output_sha256: sha256(`${publicIntegration.stdout}\n${publicIntegration.stderr}`) },
+    held_out: { exit_code: heldOut.status, output_sha256: sha256(`${heldOut.stdout}\n${heldOut.stderr}`) },
+    pass: Object.values(serviceResults).every((entry) => entry.exit_code === 0) && publicIntegration.status === 0 && heldOut.status === 0
+  };
+}
+
+async function finalizeTempleIntegration(coordinatorRoot, report) {
+  await writeJson(path.join(coordinatorRoot, "integration-report.json"), report);
+  await git(coordinatorRoot, ["add", "integration-report.json"]);
+  await git(coordinatorRoot, ["commit", "-m", "Record Temple cold integration recovery"]);
+  const revision = await git(coordinatorRoot, ["rev-parse", "HEAD"]);
+  await temple(coordinatorRoot, [
+    "handoff", ".", "--work-item", "WI-0001", "--to", "quality_evaluator",
+    "--input-revision", revision,
+    "--completed", report.summary,
+    "--evidence", "integration-report.json"
+  ]);
+  await temple(coordinatorRoot, ["work-item", "release", ".", "--work-item", "WI-0001", "--agent-id", "agent-fixture-rikku", "--principal-id", "human", "--reason", "Cold integration handoff complete"]);
+  await temple(coordinatorRoot, [
+    "transition", ".", "--work-item", "WI-0001", "--to", "test",
+    "--satisfy", "developer_handoff=integration-report.json",
+    "--satisfy", "developer_evidence=integration-report.json"
+  ]);
+  await git(coordinatorRoot, ["add", "-A"]);
+  await git(coordinatorRoot, ["commit", "-m", "Advance Temple integration to test"]);
+  return { product_revision: revision, organization_revision: await git(coordinatorRoot, ["rev-parse", "HEAD"]) };
+}
+
+async function finalizeMinimalIntegration(coordinatorRoot, report) {
+  await writeJson(path.join(coordinatorRoot, "integration-report.json"), report);
+  await writeText(path.join(coordinatorRoot, "organization/INTEGRATION_HANDOFF.md"), `# Integration handoff\n\n${report.summary}\n\nNext action: ${report.safe_next_action}\n`);
+  await git(coordinatorRoot, ["add", "integration-report.json", "organization/INTEGRATION_HANDOFF.md"]);
+  await git(coordinatorRoot, ["commit", "-m", "Record minimal cold integration recovery"]);
+  return { product_revision: await git(coordinatorRoot, ["rev-parse", "HEAD"]) };
+}
+
+async function rehearseTempleLifecycle(labRoot) {
+  const rehearsalRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0136-lifecycle-"));
+  try {
+    const sourceRoot = path.join(labRoot, "arms", "temple");
+    for (const repositoryId of repositories) {
+      await checked("git", ["clone", "--quiet", "--no-hardlinks", path.join(sourceRoot, repositoryId), path.join(rehearsalRoot, repositoryId)], {
+        env: { ...process.env, GIT_TERMINAL_PROMPT: "0" }
+      });
+    }
+    const coordinatorRoot = path.join(rehearsalRoot, "coordinator");
+    await claimTempleRepository(coordinatorRoot, "agent-fixture-tidus");
+    await finalizeTempleDesign(coordinatorRoot, {
+      contract_version: "OrderPlaced/v2",
+      rollout_order: ["notifications", "orders-catalog", "gateway"],
+      slices: buildSlices().map((slice) => ({ id: slice.id, repositories: slice.repositories, responsibility: `${slice.id} golden rehearsal` })),
+      risks: ["retained v1 compatibility"],
+      assumptions: ["local synthetic fixture"]
+    });
+    for (const repositoryId of services) {
+      const root = path.join(rehearsalRoot, repositoryId);
+      await claimTempleRepository(root, "agent-fixture-rikku");
+      await fs.copyFile(
+        path.join(fixtureRoot, "evaluator-only/golden", serviceAffectedPath(repositoryId).split("/").at(-1)),
+        path.join(root, serviceAffectedPath(repositoryId))
+      );
+      await git(root, ["add", "--", serviceAffectedPath(repositoryId)]);
+      await git(root, ["commit", "-m", `Apply ${repositoryId} golden rehearsal`]);
+      const productRevision = await git(root, ["rev-parse", "HEAD"]);
+      await completeTempleBuildRepository(root, "Golden no-generation lifecycle rehearsal", productRevision);
+    }
+    await installArmPortfolio(
+      rehearsalRoot,
+      "temple",
+      Object.fromEntries(await Promise.all(services.map(async (repositoryId) => [repositoryId, await git(path.join(rehearsalRoot, repositoryId), ["rev-parse", "HEAD"])])))
+    );
+    await claimTempleRepository(coordinatorRoot, "agent-fixture-rikku");
+    await finalizeTempleIntegration(coordinatorRoot, {
+      recovered_revisions: await Promise.all(services.map(async (repositoryId) => ({ repository: repositoryId, revision: await git(path.join(rehearsalRoot, repositoryId), ["rev-parse", "HEAD"]) }))),
+      governing_contract: "TASK.md and OrderPlaced/v2",
+      completed_slices: buildSlices().map((slice) => slice.id),
+      unresolved: [],
+      safe_next_action: "Run bounded independent evaluation without deployment or publication.",
+      summary: "Recovered every exact repository revision and completed the bounded local integration."
+    });
+    const states = {};
+    let doctorPass = true;
+    for (const repositoryId of repositories) {
+      const root = path.join(rehearsalRoot, repositoryId);
+      const item = await readJson(path.join(root, ".ai-org/work-items/WI-0001.json"));
+      states[repositoryId] = item.state;
+      const doctor = JSON.parse(await temple(root, ["doctor", ".", "--json"]));
+      doctorPass = doctorPass && doctor.summary?.fail === 0;
+    }
+    const objective = await objectiveTests(rehearsalRoot);
+    return {
+      pass: doctorPass && objective.pass && Object.values(states).every((state) => state === "test"),
+      states,
+      doctor_pass: doctorPass,
+      objective_pass: objective.pass,
+      model_generation_performed: false
+    };
+  } catch (error) {
+    return {
+      pass: false,
+      reason: String(error.message ?? error),
+      model_generation_performed: false
+    };
+  } finally {
+    await fs.rm(rehearsalRoot, { recursive: true, force: true });
+  }
+}
+
+async function runIntegrationTurn({ armId, armRoot, protocol, budget, deadline }) {
+  const coordinatorRoot = path.join(armRoot, "coordinator");
+  if (armId === "temple") await claimTempleRepository(coordinatorRoot, "agent-fixture-rikku");
+  const instruction = [
+    "You are a fresh integration owner with no prior conversation. Recover the exact current state using repository files only.",
+    "Inspect all four service repositories, their current Git revisions, the governing contract, the design record, and every retained slice handoff.",
+    armId === "temple"
+      ? "Start from coordinator/TEMPLE.md and preview the Coordinator WI-0001 developer context with the repository launcher. Follow its routed sources; do not mutate lifecycle state."
+      : "Start from coordinator/TASK.md, coordinator/design-record.json, and ordinary organization handoffs.",
+    "Return exact revisions for gateway, catalog, orders, and notifications; name completed slice IDs, unresolved work, and the safe bounded next action.",
+    "Do not modify files, fix code, deploy, publish, or infer anything from conversation memory."
+  ].join("\n\n");
+  const turn = await launchModelTurn({
+    id: `${armId}-integration`, cwd: armRoot, stage: "integration", route: protocol.model_route.integration,
+    instruction, outputSchema: integrationOutputSchema, protocol, budget, deadline, sandbox: "read-only"
+  });
+  const objective = await objectiveTests(armRoot);
+  const expectedRevisions = await currentProductRevisions(armRoot);
+  const recovered = Object.fromEntries(turn.completion.recovered_revisions.map((entry) => [entry.repository, entry.revision]));
+  const recovery = {
+    exact_revision_count: services.filter((entry) => recovered[entry] === expectedRevisions[entry]).length,
+    exact_revision_total: services.length,
+    governing_contract_named: /TASK\.md|OrderPlaced\/v2|OrderPlaced v2/i.test(turn.completion.governing_contract),
+    completed_slice_count: buildSlices().filter((slice) => turn.completion.completed_slices.includes(slice.id)).length,
+    completed_slice_total: buildSlices().length,
+    unresolved_reported: Array.isArray(turn.completion.unresolved),
+    safe_next_action_bounded: !/deploy|publish|release to production/i.test(turn.completion.safe_next_action)
+  };
+  const finalized = armId === "temple"
+    ? await finalizeTempleIntegration(coordinatorRoot, turn.completion)
+    : await finalizeMinimalIntegration(coordinatorRoot, turn.completion);
+  return { ...turn, ...finalized, expected_revisions: expectedRevisions, recovery, objective_tests: objective };
+}
+
+async function directoryBytes(root) {
+  let total = 0;
+  for (const relative of await regularFiles(root)) total += (await fs.stat(path.join(root, relative))).size;
+  return total;
+}
+
+function armNeutralValue(value) {
+  if (Array.isArray(value)) return value.map(armNeutralValue);
+  if (value === null || typeof value !== "object") {
+    return typeof value === "string"
+      ? value
+        .replaceAll("minimal-responsible", "process-arm")
+        .replaceAll("Temple", "process framework")
+        .replaceAll("temple", "process-framework")
+        .replace(/Fixture (Mog|Yuna|Tidus|Rikku|Lulu)/g, "assigned worker")
+      : value;
+  }
+  return Object.fromEntries(Object.entries(value).map(([key, child]) => [key, armNeutralValue(child)]));
+}
+
+async function buildArmPackage({ armId, armRoot, design, builds, integration }) {
+  const packageId = `package-${sha256(`${armId}:${integration.product_revision}`).slice(0, 16)}`;
+  const boundaryViolations = builds.flatMap((entry) => Object.values(entry.repositories).flatMap((repository) => repository.changed_paths.filter((candidate) => !candidate.startsWith("src/"))));
+  const artifactBytes = await directoryBytes(armRoot);
+  return {
+    sealed: {
+      package_id: packageId,
+      arm_id: armId,
+      design,
+      builds,
+      integration,
+      artifact_bytes: artifactBytes,
+      boundary_violations: boundaryViolations,
+      retry_count: 0,
+      fallback_count: 0
+    },
+    blind: armNeutralValue({
+      package_id: packageId,
+      objective_tests: integration.objective_tests,
+      design_record: {
+        contract_version: design.completion.contract_version,
+        rollout_order: design.completion.rollout_order,
+        slices: design.completion.slices
+      },
+      build_evidence: builds.map((entry) => ({
+        slice_id: entry.id.replace(/^.*?-(?=(orders-catalog|notifications|gateway)$)/, ""),
+        repositories: Object.fromEntries(Object.entries(entry.repositories).map(([id, value]) => [id, {
+          changed_paths: value.changed_paths,
+          changed_lines: value.changed_lines,
+          public_test_exit_code: value.public_test_exit_code
+        }]))
+      })),
+      recovery: integration.recovery,
+      integration_record: integration.completion,
+      boundary_violations: boundaryViolations,
+      exact_revision_evidence_present: Object.keys(integration.expected_revisions).length === services.length,
+      retry_count: 0,
+      fallback_count: 0
+    })
+  };
+}
+
+async function runArm({ armId, labRoot, protocol, budget, deadline }) {
+  const armRoot = path.join(labRoot, "arms", armId);
+  const design = await runDesignTurn({ armId, armRoot, protocol, budget, deadline });
+  const builds = await Promise.all(buildSlices().map((slice) => runBuildSlice({ armId, armRoot, slice, protocol, budget, deadline })));
+  const serviceRevisions = Object.fromEntries(await Promise.all(services.map(async (repositoryId) => [repositoryId, await git(path.join(armRoot, repositoryId), ["rev-parse", "HEAD"])])));
+  const portfolioRevision = await installArmPortfolio(armRoot, armId, serviceRevisions);
+  const integration = await runIntegrationTurn({ armId, armRoot, protocol, budget, deadline });
+  const packages = await buildArmPackage({ armId, armRoot, design, builds, integration });
+  return { arm_id: armId, design, builds, portfolio_revision: portfolioRevision, integration, ...packages };
+}
+
+async function runProgram(labRoot, protocolPath, approvalPath) {
+  if (!approvalPath) throw new Error("--approval is required for live generation");
+  const resultPath = path.join(labRoot, "candidate-run.json");
+  if (await exists(resultPath) || await exists(path.join(labRoot, "stopped-run.json"))) throw new Error("live candidate attempt already exists; retries and resumes are prohibited");
+  const gate = await preflight(labRoot, protocolPath, approvalPath);
+  if (!gate.generation_ready) throw new Error(`generation blocked: ${gate.blockers.join(", ")}`);
+  const protocol = await readJson(protocolPath);
+  const budget = createBudget(protocol);
+  const startedAt = new Date().toISOString();
+  const deadline = Date.now() + protocol.execution.program_wall_clock_limit_ms;
+  const completed = [];
+  try {
+    for (const armId of protocol.execution.arm_order) completed.push(await runArm({ armId, labRoot, protocol, budget, deadline }));
+    const output = {
+      schema_version: "temple.representative-microservice-candidate-run/v1",
+      work_item_id: protocol.work_item_id,
+      protocol_sha256: protocol.protocol_sha256,
+      started_at: startedAt,
+      completed_at: new Date().toISOString(),
+      status: "candidate-arms-completed",
+      arms: completed,
+      candidate_operational_tokens: budget.total(),
+      retry_count: 0,
+      fallback_count: 0,
+      evaluator_pending: true,
+      model_generation_performed: true
+    };
+    await writeJson(resultPath, output, { exclusive: true });
+    return output;
+  } catch (error) {
+    const stopped = {
+      schema_version: "temple.representative-microservice-stopped-run/v1",
+      work_item_id: protocol.work_item_id,
+      protocol_sha256: protocol.protocol_sha256,
+      started_at: startedAt,
+      stopped_at: new Date().toISOString(),
+      completed_arm_count: completed.length,
+      candidate_operational_tokens: budget.total(),
+      reason: String(error.message ?? error),
+      retry_count: 0,
+      fallback_count: 0,
+      model_generation_performed: true
+    };
+    await writeJson(path.join(labRoot, "stopped-run.json"), stopped, { exclusive: true });
+    throw error;
+  }
+}
+
+export function validateEvaluatorCompletion(completion, blindPackages, rubric) {
+  const expectedPackages = new Set(blindPackages.map((entry) => entry.package_id));
+  const expectedDimensions = new Set(rubric.dimensions.map((entry) => entry.id));
+  const errors = [];
+  if (!Array.isArray(completion?.packages) || completion.packages.length !== expectedPackages.size) errors.push("evaluator package count mismatch");
+  const seen = new Set();
+  for (const packageResult of completion?.packages ?? []) {
+    if (!expectedPackages.has(packageResult.package_id) || seen.has(packageResult.package_id)) errors.push("evaluator package identity mismatch");
+    seen.add(packageResult.package_id);
+    const dimensions = packageResult.dimensions ?? [];
+    if (dimensions.length !== expectedDimensions.size || new Set(dimensions.map((entry) => entry.id)).size !== expectedDimensions.size) errors.push("evaluator dimension count mismatch");
+    for (const dimension of dimensions) {
+      if (!expectedDimensions.has(dimension.id) || ![0, 1].includes(dimension.score)) errors.push("evaluator dimension invalid");
+    }
+  }
+  if (errors.length > 0) throw new Error(errors.join(", "));
+  return completion;
+}
+
+async function evaluateProgram(labRoot, protocolPath, approvalPath) {
+  if (!approvalPath) throw new Error("--approval is required for live evaluation");
+  const evaluatorPath = path.join(labRoot, "evaluator-result.json");
+  if (await exists(evaluatorPath)) throw new Error("evaluator attempt already exists; retries are prohibited");
+  const protocol = await readJson(protocolPath);
+  const approval = validateRepresentativeApproval(await readJson(approvalPath), protocol);
+  if (!approval.accepted) throw new Error(`evaluation approval mismatch: ${approval.errors.join(", ")}`);
+  const run = await readJson(path.join(labRoot, "candidate-run.json"));
+  if (run.status !== "candidate-arms-completed" || run.protocol_sha256 !== protocol.protocol_sha256) throw new Error("candidate run is incomplete or protocol-mismatched");
+  const blindPackages = run.arms.map((entry) => entry.blind).toSorted((left, right) => left.package_id.localeCompare(right.package_id));
+  const rubric = await readJson(path.join(fixtureRoot, "rubric.json"));
+  const forbidden = /arm_id|armId|temple|minimal-responsible|model|usage|token|latency|thread_id|turn_id|organization_revision/i;
+  for (const package_ of blindPackages) {
+    const serialized = JSON.stringify(package_);
+    if (forbidden.test(serialized)) throw new Error("blind package leaked a condition or resource identity");
+  }
+  const instruction = [
+    "Independently evaluate both arm-neutral packages against the frozen binary rubric.",
+    "Use only the supplied JSON. Do not use tools, infer process identity, or compare resource use.",
+    "A failed held-out objective test is a critical failure. Return each rubric dimension exactly once with score 0 or 1.",
+    JSON.stringify({ rubric, packages: blindPackages })
+  ].join("\n\n");
+  const evaluatorBudget = {
+    active: 0,
+    limit: protocol.execution.combined_operational_token_limit,
+    update(_id, value) {
+      this.active = value;
+      return run.candidate_operational_tokens + value;
+    },
+    settle(_id, value) {
+      this.active = value;
+      return value;
+    },
+    total() { return run.candidate_operational_tokens + this.active; }
+  };
+  const deadline = Date.parse(run.started_at) + protocol.execution.program_wall_clock_limit_ms;
+  const turn = await launchModelTurn({
+    id: "blind-evaluator",
+    cwd: labRoot,
+    stage: "evaluator",
+    route: protocol.model_route.evaluator,
+    instruction,
+    outputSchema: evaluatorOutputSchema,
+    protocol,
+    budget: evaluatorBudget,
+    deadline,
+    sandbox: "read-only",
+    allowTools: false
+  });
+  const completion = validateEvaluatorCompletion(turn.completion, blindPackages, rubric);
+  const frozen = {
+    schema_version: "temple.representative-microservice-frozen-scores/v1",
+    work_item_id: protocol.work_item_id,
+    protocol_sha256: protocol.protocol_sha256,
+    frozen_at: new Date().toISOString(),
+    packages: completion.packages,
+    summary: completion.summary,
+    mapping_unsealed_after_freeze: true
+  };
+  await writeJson(path.join(labRoot, "quality-scores-frozen.json"), frozen, { exclusive: true });
+  const output = {
+    schema_version: "temple.representative-microservice-evaluator-result/v1",
+    work_item_id: protocol.work_item_id,
+    protocol_sha256: protocol.protocol_sha256,
+    completed_at: new Date().toISOString(),
+    status: "completed",
+    scores_frozen_before_mapping_unseal: true,
+    evaluator: { ...turn, completion: undefined },
+    frozen_scores: frozen,
+    arm_mapping: Object.fromEntries(run.arms.map((entry) => [entry.sealed.package_id, entry.arm_id])),
+    combined_operational_tokens: run.candidate_operational_tokens + turn.operational_tokens,
+    retry_count: 0,
+    fallback_count: 0
+  };
+  await writeJson(evaluatorPath, output, { exclusive: true });
+  return output;
+}
+
+async function reportProgram(labRoot, protocolPath) {
+  const protocol = await readJson(protocolPath);
+  const run = await readJson(path.join(labRoot, "candidate-run.json"));
+  const evaluator = await readJson(path.join(labRoot, "evaluator-result.json"));
+  if (run.protocol_sha256 !== protocol.protocol_sha256 || evaluator.protocol_sha256 !== protocol.protocol_sha256) throw new Error("report evidence does not match protocol");
+  const analysis = analyzeRepresentativeComparison({ protocol, run, evaluator });
+  await writeJson(path.join(labRoot, "analysis.json"), analysis);
+  return analysis;
+}
+
+async function main() {
+  const arguments_ = parseArguments(process.argv.slice(2));
+  const result = arguments_.command === "setup"
+    ? await setup(arguments_.labRoot, arguments_.protocolPath)
+    : arguments_.command === "freeze"
+      ? await freeze(arguments_.protocolPath)
+      : arguments_.command === "preflight"
+        ? await preflight(arguments_.labRoot, arguments_.protocolPath, arguments_.approvalPath)
+        : arguments_.command === "run"
+          ? await runProgram(arguments_.labRoot, arguments_.protocolPath, arguments_.approvalPath)
+          : arguments_.command === "evaluate"
+            ? await evaluateProgram(arguments_.labRoot, arguments_.protocolPath, arguments_.approvalPath)
+            : arguments_.command === "report"
+              ? await reportProgram(arguments_.labRoot, arguments_.protocolPath)
+              : await inspect(arguments_.labRoot, arguments_.protocolPath);
+  process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
+  if ((result.valid === false) || (result.local_fixture_ready === false)) process.exitCode = 2;
+}
+
+const direct = process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href;
+if (direct) {
+  main().catch((error) => {
+    process.stderr.write(`${error.stack ?? error.message}\n`);
+    process.exitCode = 1;
+  });
+}

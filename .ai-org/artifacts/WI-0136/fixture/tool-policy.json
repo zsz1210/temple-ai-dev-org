@@ -1,0 +1,22 @@
+{
+  "schema_version": "temple.experiment-tool-policy/v1",
+  "network_access": false,
+  "approval_policy": "never",
+  "allowed_command_prefixes": [
+    ["rg"],
+    ["sed"],
+    ["node"],
+    ["npm", "test"],
+    ["git", "status"],
+    ["git", "diff"],
+    ["git", "rev-parse"],
+    ["git", "log"]
+  ],
+  "forbidden_actions": [
+    "external-write",
+    "package-install",
+    "deployment",
+    "publication",
+    "credential-access"
+  ]
+}

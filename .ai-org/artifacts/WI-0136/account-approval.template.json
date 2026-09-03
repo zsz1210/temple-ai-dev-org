@@ -1,0 +1,28 @@
+{
+  "schema_version": "temple.representative-microservice-account-approval/v1",
+  "work_item_id": "WI-0136",
+  "protocol_sha256": "858f296e1582b5d5570882c85a3c5a773457a7c054ad3d8f194be68855dd6c83",
+  "approved": false,
+  "authorization_source": null,
+  "approved_candidate_turns": 10,
+  "approved_evaluator_turns": 1,
+  "approved_models": [
+    "gpt-5.6-sol",
+    "gpt-5.6-terra"
+  ],
+  "approved_reasoning_efforts": [
+    "xhigh",
+    "medium"
+  ],
+  "approved_candidate_operational_tokens": 520000,
+  "approved_evaluator_operational_tokens": 100000,
+  "approved_combined_operational_tokens": 620000,
+  "approved_program_wall_clock_ms": 2700000,
+  "pro_included_allowance_only": true,
+  "credits_purchase_authorized": false,
+  "automatic_refill_authorized": false,
+  "usage_reset_authorized": false,
+  "retry_count": 0,
+  "fallback_count": 0,
+  "approved_at": null
+}
