@@ -20465,6 +20465,166 @@
         "exit_code": 0,
         "started_at": "2026-09-03T08:59:03Z"
       }
+    },
+    {
+      "id": "EVID-20260903T094443Z-B41C3220",
+      "work_item_id": "WI-0133",
+      "recorded_at": "2026-09-03T09:44:43.834Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0133 full repository verification",
+      "outcome": "pass",
+      "scope_revision": "1df92590bb3fd8c33e494b75a17c094a7b81d3ec",
+      "observed_at": "2026-09-03T09:42:00.000Z",
+      "summary": "Repository checks, package boundary, and all 356 tests passed on the exact implementation candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0133/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0133/developer-test-observation.json",
+          "sha256": "f62011cd6f667d77ae2e03cf4735fcadee2c8ca72787541b38f8a386415ca5c6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/developer-report.md",
+          "sha256": "8ebfd07824537809162b8c4e70a94a6f2310e33d5ecb378b35de61ad94165101"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/retained-effectiveness-evidence.json",
+          "sha256": "193c4d80880c5a1396eb2cf789b959bdb89d893e160004b5cf217ccd79fb9028"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/product-spec.md",
+          "sha256": "45eb758b525ce1e769cc1f8b2db6aa5fb1fe2432c423c52176d8841e98a85718"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/technical-design.md",
+          "sha256": "e26b527106dceb2fd63a6526e5fb2c464f7683129106dadfc09e2749a7e9b026"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T09:40:51.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T094605Z-96DC0179",
+      "work_item_id": "WI-0133",
+      "recorded_at": "2026-09-03T09:46:05.633Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0133 focused quality verification",
+      "outcome": "pass",
+      "scope_revision": "1df92590bb3fd8c33e494b75a17c094a7b81d3ec",
+      "observed_at": "2026-09-03T09:45:35.000Z",
+      "summary": "All 21 focused Context and effectiveness tests and the repository checks passed on the candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0133/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0133/quality-test-observation.json",
+          "sha256": "fa403a6a1c507940a04800e836dba565f8df6960f7d743e7cf5c7c973c8271fc"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/quality-report.md",
+          "sha256": "f1e3b633b8945af7606566b805c5b843559a2114f585b00a28d8d6f0999741e6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/developer-report.md",
+          "sha256": "8ebfd07824537809162b8c4e70a94a6f2310e33d5ecb378b35de61ad94165101"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/retained-effectiveness-evidence.json",
+          "sha256": "193c4d80880c5a1396eb2cf789b959bdb89d893e160004b5cf217ccd79fb9028"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/terra-ab-protocol.json",
+          "sha256": "f2a691c27920dae6373cae02b1fdf8143466f6a15f2671049b1b37974149650b"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/context.test.mjs",
+          "test/effectiveness-pilot-v2.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T09:45:24.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T094757Z-62B2BC1E",
+      "work_item_id": "WI-0133",
+      "recorded_at": "2026-09-03T09:47:57.921Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0133 independent full verification",
+      "outcome": "pass",
+      "scope_revision": "1df92590bb3fd8c33e494b75a17c094a7b81d3ec",
+      "observed_at": "2026-09-03T09:47:20.000Z",
+      "summary": "Independent QA reran the complete repository gate; all 356 tests and repository checks passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0133/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0133/independent-qa-test-observation.json",
+          "sha256": "ea44609e0f1b010978977ae62d5d187245eecdc8da9cca881f6289c15ab0afae"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/independent-qa-report.md",
+          "sha256": "aed7a1af775144cda6a4d1085d78c35fd7c4af2a5e12f70c2d94a9e0c818641d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/quality-report.md",
+          "sha256": "f1e3b633b8945af7606566b805c5b843559a2114f585b00a28d8d6f0999741e6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/retained-effectiveness-evidence.json",
+          "sha256": "193c4d80880c5a1396eb2cf789b959bdb89d893e160004b5cf217ccd79fb9028"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/terra-ab-protocol.json",
+          "sha256": "f2a691c27920dae6373cae02b1fdf8143466f6a15f2671049b1b37974149650b"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T09:46:15.000Z"
+      }
     }
   ]
 }

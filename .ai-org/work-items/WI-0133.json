@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0133",
   "title": "Reduce Lean context overhead and harden effectiveness measurement",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-03T09:23:26.442Z",
-  "updated_at": "2026-09-03T09:26:51.721Z",
+  "updated_at": "2026-09-03T09:49:40.260Z",
   "scope": [
     "Preserve bounded WI-0132 evidence, reduce always-on and irrelevant routed context without weakening Temple authority rules, version future analyzer semantics, prepare but do not execute a small Terra A/B confirmation, and reconcile human-facing validation planning."
   ],
@@ -68,26 +68,28 @@
   ],
   "claim": {
     "id": "claim-20260903092651-d8dae39f",
-    "status": "active",
+    "status": "released",
     "principal_id": "principal-zsz1210",
     "agent_id": "agent-rikku",
     "base_revision": "caadcabf714ff80eb71c2f7bb81e664c42fd7958",
     "branch": "codex/wi-0133-lean-context-efficiency",
     "worktree": null,
     "claimed_at": "2026-09-03T09:26:51.721Z",
-    "released_at": null
+    "released_at": "2026-09-03T09:44:59.606Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
       "id": "claim-20260903092651-d8dae39f",
-      "status": "active",
+      "status": "released",
       "principal_id": "principal-zsz1210",
       "agent_id": "agent-rikku",
       "base_revision": "caadcabf714ff80eb71c2f7bb81e664c42fd7958",
       "branch": "codex/wi-0133-lean-context-efficiency",
       "worktree": null,
       "claimed_at": "2026-09-03T09:26:51.721Z",
-      "released_at": null
+      "released_at": "2026-09-03T09:44:59.606Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -105,6 +107,35 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0133/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0133/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0133/developer-report.md",
+      ".ai-org/artifacts/WI-0133/developer-test-observation.json",
+      ".ai-org/artifacts/WI-0133/retained-effectiveness-evidence.json"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0133/quality-test-observation.json"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0133/quality-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0133/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0133/product-spec.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0133/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0133/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -115,10 +146,22 @@
     ".ai-org/artifacts/WI-0133/product-spec.md",
     ".ai-org/artifacts/WI-0133/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0133/technical-design.md",
-    ".ai-org/artifacts/WI-0133/risk-review.md"
+    ".ai-org/artifacts/WI-0133/risk-review.md",
+    ".ai-org/artifacts/WI-0133/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0133/developer-report.md",
+    ".ai-org/artifacts/WI-0133/developer-test-observation.json",
+    ".ai-org/artifacts/WI-0133/retained-effectiveness-evidence.json",
+    ".ai-org/artifacts/WI-0133/quality-test-observation.json",
+    ".ai-org/artifacts/WI-0133/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0133/quality-report.md",
+    ".ai-org/artifacts/WI-0133/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0133/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0133/independent-qa-test-observation.json",
+    ".ai-org/artifacts/WI-0133/release-record.md",
+    ".ai-org/artifacts/WI-0133/terra-ab-protocol.json"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -140,6 +183,34 @@
       "input_revision": "caadcabf714ff80eb71c2f7bb81e664c42fd7958",
       "artifact": ".ai-org/artifacts/WI-0133/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-03T09:26:51.183Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "1df92590bb3fd8c33e494b75a17c094a7b81d3ec",
+      "artifact": ".ai-org/artifacts/WI-0133/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-03T09:44:59.337Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "1df92590bb3fd8c33e494b75a17c094a7b81d3ec",
+      "artifact": ".ai-org/artifacts/WI-0133/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-03T09:46:06.079Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "1df92590bb3fd8c33e494b75a17c094a7b81d3ec",
+      "artifact": ".ai-org/artifacts/WI-0133/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-03T09:47:58.118Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "1df92590bb3fd8c33e494b75a17c094a7b81d3ec",
+  "tested_revision": "1df92590bb3fd8c33e494b75a17c094a7b81d3ec",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

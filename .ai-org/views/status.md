@@ -3,16 +3,16 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 133 total, 3 active
+- Work items: 133 total, 2 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
 - Context routes: 0 active (repository-deterministic, semantic=false)
-- Engineering learning: 3 Lessons, 1 Practices
+- Engineering learning: 4 Lessons, 1 Practices
 - Learning revalidation: 0 due, 0 contradicted
 - Skill promotion: 0 candidate(s), 0 approval pending, 0 authoring Work Item(s)
 - Specifications: 2 indexed, 2 approved (hybrid)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -180,7 +180,7 @@
 | WI-0130 | Run the first three-arm Temple effectiveness pilot | concluded | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `33b6ed3b` | 0 | 16 | 0 |
 | WI-0131 | Correct the Lean routing effectiveness experiment | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c040c0be` | 0 | 16 | 0 |
 | WI-0132 | Run corrected Lean routing effectiveness comparison | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `fd4bbe88` | 0 | 21 | 0 |
-| WI-0133 | Reduce Lean context overhead and harden effectiveness measurement | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903092651-d8dae39f | `—` | 0 | 8 | 0 |
+| WI-0133 | Reduce Lean context overhead and harden effectiveness measurement | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1df92590` | 0 | 20 | 0 |
 
 ## Codex task registry
 
@@ -305,7 +305,7 @@
 
 ## Engineering learning
 
-- Candidate: 4
+- Candidate: 5
 - Validated: 0
 - Active: 0
 - Deprecated: 0
@@ -322,14 +322,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-03T09:26:51.721Z | work_item_claimed | WI-0133 | principal-zsz1210 |
-| 2026-09-03T09:26:51.452Z | work_item_transitioned | WI-0133 | agent-tidus |
-| 2026-09-03T09:26:51.183Z | handoff_created | WI-0133 | agent-tidus |
-| 2026-09-03T09:24:39.221Z | work_item_transitioned | WI-0133 | agent-yuna |
-| 2026-09-03T09:24:38.917Z | handoff_created | WI-0133 | agent-yuna |
-| 2026-09-03T09:24:12.571Z | work_item_transitioned | WI-0133 | agent-mog |
-| 2026-09-03T09:24:12.265Z | handoff_created | WI-0133 | agent-mog |
-| 2026-09-03T09:23:34.367Z | work_item_coordination_configured | WI-0133 | agent-mog |
+| 2026-09-03T09:49:40.260Z | work_item_closed | WI-0133 | agent-mog |
+| 2026-09-03T09:49:40.260Z | release_gate_completed | WI-0133 | agent-mog |
+| 2026-09-03T09:47:58.382Z | work_item_transitioned | WI-0133 | agent-lulu |
+| 2026-09-03T09:47:58.118Z | handoff_created | WI-0133 | agent-lulu |
+| 2026-09-03T09:47:57.921Z | evidence_recorded | WI-0133 | human |
+| 2026-09-03T09:46:06.312Z | work_item_transitioned | WI-0133 | agent-lulu |
+| 2026-09-03T09:46:06.079Z | handoff_created | WI-0133 | agent-lulu |
+| 2026-09-03T09:46:05.847Z | work_item_transitioned | WI-0133 | agent-lulu |
 
 ## Assignments
 
