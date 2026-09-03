@@ -13,6 +13,7 @@ const SELECTION_MODES = ["pinned", "shadow", "advisory"];
 const RISK_CLASSES = ["low", "standard", "high", "critical"];
 const MEASURE_QUALITIES = ["declared", "observed", "qualified"];
 const OBSERVATION_STATUSES = ["observed", "unavailable"];
+const POLICY_SOURCES = ["project", "framework-default", "provided"];
 const IDENTIFIER = /^[a-z0-9][a-z0-9._-]*$/;
 
 const DEFAULT_CAPABILITIES = [
@@ -317,8 +318,16 @@ export function validateExecutionRequest(document, policy) {
     if (!RISK_CLASSES.includes(shape?.risk_class)) errors.push(`${label}.task_shape.risk_class is invalid`);
     const required = step?.capability_route?.required;
     const optional = step?.capability_route?.optional;
-    if (!uniqueNonEmptyStrings(required)) errors.push(`${label}.capability_route.required is invalid`);
-    if (!Array.isArray(optional) || optional.some((value) => typeof value !== "string" || !value.trim()) || new Set(optional).size !== optional.length) errors.push(`${label}.capability_route.optional is invalid`);
+    if (!uniqueNonEmptyStrings(required) || required.some((value) => !validIdentifier(value))) {
+      errors.push(`${label}.capability_route.required is invalid`);
+    }
+    if (
+      !Array.isArray(optional) ||
+      optional.some((value) => !validIdentifier(value)) ||
+      new Set(optional).size !== optional.length
+    ) {
+      errors.push(`${label}.capability_route.optional is invalid`);
+    }
     if (Array.isArray(required) && Array.isArray(optional) && optional.some((id) => required.includes(id))) errors.push(`${label}.capability_route required and optional capabilities overlap`);
     if (!uniqueNonEmptyStrings(step?.constraints?.required_modalities)) errors.push(`${label}.constraints.required_modalities is invalid`);
     if (!Array.isArray(step?.constraints?.allowed_provider_ids) || new Set(step.constraints.allowed_provider_ids).size !== step.constraints.allowed_provider_ids.length || step.constraints.allowed_provider_ids.some((value) => typeof value !== "string" || !value.trim())) errors.push(`${label}.constraints.allowed_provider_ids is invalid`);
@@ -495,10 +504,15 @@ export function validateExecutionRoute(document) {
       ["resource_limits", step?.resource_limits],
       ["resource_observations", step?.resource_observations]
     ]) {
+      if (!Array.isArray(entries)) {
+        errors.push(`${label}.${field} must be an array`);
+        continue;
+      }
       const duplicated = duplicateEntryIds(entries, "measure_id");
       if (duplicated.length > 0) errors.push(`${label}.${field} measure_id is duplicated: ${duplicated.join(", ")}`);
     }
-    for (const [observationIndex, observation] of (step?.resource_observations ?? []).entries()) {
+    const resourceObservations = Array.isArray(step?.resource_observations) ? step.resource_observations : [];
+    for (const [observationIndex, observation] of resourceObservations.entries()) {
       if (!nonBlankString(observation?.source)) {
         errors.push(`${label}.resource_observations[${observationIndex}].source must be non-blank`);
       }
@@ -573,7 +587,24 @@ function selectedRoute(profileEntry) {
   };
 }
 
+function canonicalGeneratedAt(value) {
+  if (typeof value !== "string") return null;
+  const timestamp = new Date(value);
+  if (!Number.isFinite(timestamp.getTime())) return null;
+  return timestamp.toISOString() === value ? value : null;
+}
+
 export function resolveExecutionRequest(policy, request, options = {}) {
+  const policySource = options.policySource === undefined ? "provided" : options.policySource;
+  if (!POLICY_SOURCES.includes(policySource)) {
+    throw new Error(`Invalid execution route policy source: ${policySource}`);
+  }
+  const generatedAt = options.generatedAt === undefined
+    ? new Date().toISOString()
+    : canonicalGeneratedAt(options.generatedAt);
+  if (generatedAt === null) {
+    throw new Error("Invalid execution route generatedAt: expected a canonical UTC ISO-8601 timestamp");
+  }
   const policyValidation = validateExecutionPolicy(policy);
   if (!policyValidation.valid) throw new Error(`Invalid execution policy: ${policyValidation.errors.join("; ")}`);
   const requestValidation = validateExecutionRequest(request, policy);
@@ -644,10 +675,10 @@ export function resolveExecutionRequest(policy, request, options = {}) {
   });
   return {
     schema_version: EXECUTION_ROUTE_SCHEMA,
-    generated_at: options.generatedAt ?? new Date().toISOString(),
+    generated_at: generatedAt,
     policy: {
       schema_version: policy.schema_version,
-      source: options.policySource ?? "provided"
+      source: policySource
     },
     request: {
       schema_version: request.schema_version,

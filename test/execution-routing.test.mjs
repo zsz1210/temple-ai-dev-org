@@ -77,6 +77,40 @@ test("provider-neutral and mapped execution policies remain valid and explain th
   assert.match(validateExecutionPolicy(automatic).errors.join("\n"), /read-only and non-executing/);
 });
 
+test("Execution Request capability identifiers close the resolver input domain", async () => {
+  const schema = JSON.parse(await fs.readFile(new URL("../.ai-org/core/schemas/execution-request.schema.json", import.meta.url), "utf8"));
+  const ajv = new Ajv2020({ allErrors: true, strict: false, validateFormats: true });
+  addFormats(ajv);
+  const validate = ajv.compile(schema);
+  for (const field of ["required", "optional"]) {
+    const invalidRequest = request([step(`invalid-${field}`)]);
+    invalidRequest.steps[0].capability_route[field] = ["INVALID/CAPABILITY"];
+    assert.equal(validate(invalidRequest), false, `${field} schema boundary`);
+    assert.equal(validateExecutionRequest(invalidRequest, mappedPolicy()).valid, false, `${field} semantic boundary`);
+    assert.throws(
+      () => resolveExecutionRequest(mappedPolicy(), invalidRequest),
+      /Invalid execution request/,
+      `${field} resolver boundary`
+    );
+  }
+});
+
+test("Execution resolver metadata options cannot produce schema-invalid Route metadata", () => {
+  const validRequest = request([step("resolver-options")]);
+  for (const policySource of ["external", "", null, 42]) {
+    assert.throws(
+      () => resolveExecutionRequest(mappedPolicy(), validRequest, { policySource }),
+      /Invalid execution route policy source/
+    );
+  }
+  for (const generatedAt of ["not-a-date", "2026-09-03", "2026-09-03T00:00:00Z", null, 42]) {
+    assert.throws(
+      () => resolveExecutionRequest(mappedPolicy(), validRequest, { generatedAt }),
+      /Invalid execution route generatedAt/
+    );
+  }
+});
+
 test("the managed Execution Route schema rejects the post-close Independent QA counterexample", async () => {
   const schema = JSON.parse(await fs.readFile(new URL("../.ai-org/core/schemas/execution-route.schema.json", import.meta.url), "utf8"));
   const ajv = new Ajv2020({ allErrors: true, strict: false, validateFormats: true });
@@ -232,6 +266,22 @@ test("Execution Route semantic validation rejects structurally valid cross-field
     const result = validateExecutionRoute(route);
     assert.equal(result.valid, false, label);
     assert.ok(result.errors.length > 0, label);
+  }
+});
+
+test("Execution Route semantic validation is total for malformed resource collections", () => {
+  const validRoute = resolveExecutionRequest(mappedPolicy(), request([step("malformed-collections")]), {
+    generatedAt: "2026-09-03T00:00:00.000Z"
+  });
+  for (const field of ["resource_limits", "resource_observations"]) {
+    for (const malformed of ["not-an-array", { value: true }, 42]) {
+      const route = structuredClone(validRoute);
+      route.steps[0][field] = malformed;
+      let result;
+      assert.doesNotThrow(() => { result = validateExecutionRoute(route); }, `${field}: ${typeof malformed}`);
+      assert.equal(result.valid, false, `${field}: ${typeof malformed}`);
+      assert.match(result.errors.join("\n"), new RegExp(`${field} must be an array`));
+    }
   }
 });
 

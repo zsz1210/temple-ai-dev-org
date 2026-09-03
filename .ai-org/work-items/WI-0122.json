@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0122",
   "title": "Reconcile pinned Route reason precedence",
-  "state": "independent_qa",
-  "owner_position": "independent_qa",
-  "assigned_agent_id": "agent-lulu",
+  "state": "blocked",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-03T03:47:54.392Z",
-  "updated_at": "2026-09-03T03:53:54.992Z",
+  "updated_at": "2026-09-03T04:00:42.349Z",
   "scope": [
     "Define and enforce one resolver-compatible precedence for pinned unknown capabilities, reject blank resource sources, and reject impossible resolved non-pinned selection provenance."
   ],
@@ -68,14 +68,15 @@
   ],
   "claim": {
     "id": "claim-20260903035354-4da9b74f",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-lulu",
     "base_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
     "branch": "codex/wi-0120-harden-execution-route-schema",
     "worktree": null,
     "claimed_at": "2026-09-03T03:53:54.992Z",
-    "released_at": null
+    "released_at": "2026-09-03T04:00:42.349Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
@@ -140,14 +141,15 @@
     },
     {
       "id": "claim-20260903035354-4da9b74f",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-lulu",
       "base_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
       "branch": "codex/wi-0120-harden-execution-route-schema",
       "worktree": null,
       "claimed_at": "2026-09-03T03:53:54.992Z",
-      "released_at": null
+      "released_at": "2026-09-03T04:00:42.349Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -185,6 +187,9 @@
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0122/quality-report.md"
+    ],
+    "blocker_record": [
+      ".ai-org/artifacts/WI-0122/independent-qa-attempt-1.md"
     ]
   },
   "evidence": [
@@ -203,10 +208,11 @@
     "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
     ".ai-org/artifacts/WI-0122/quality-test-observation.json",
     ".ai-org/artifacts/WI-0122/handoff-005-quality_evaluator-to-independent_qa.md",
-    ".ai-org/artifacts/WI-0122/quality-report.md"
+    ".ai-org/artifacts/WI-0122/quality-report.md",
+    ".ai-org/artifacts/WI-0122/independent-qa-attempt-1.md"
   ],
   "unresolved": [],
-  "next_position": "release_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -244,5 +250,6 @@
       "created_at": "2026-09-03T03:53:54.475Z"
     }
   ],
-  "developer_candidate_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541"
+  "developer_candidate_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
+  "previous_state": "independent_qa"
 }

@@ -18890,6 +18890,33 @@
         "exit_code": 0,
         "started_at": "2026-09-03T03:53:26.855Z"
       }
+    },
+    {
+      "id": "EVID-20260903T040042Z-F5A3A469",
+      "work_item_id": "WI-0122",
+      "recorded_at": "2026-09-03T04:00:42.108Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "risk",
+      "title": "medium risk",
+      "outcome": "open",
+      "scope_revision": "3c35ddf8c9603ca997d572a240cbcc1dce2c0541",
+      "observed_at": "2026-09-03T04:00:42.108Z",
+      "summary": "Execution Request and resolver options can produce schema-invalid Routes, and direct Route semantic validation can throw on malformed collections.",
+      "adapter": {
+        "id": "manual-risk-record",
+        "version": "1"
+      },
+      "artifacts": [],
+      "details": {
+        "severity": "medium",
+        "status": "open",
+        "mitigation": "Close the public resolver input domain and restore total semantic validation before another Independent QA pass."
+      }
     }
   ]
 }
