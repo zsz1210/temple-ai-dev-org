@@ -5,6 +5,7 @@ import test from "node:test";
 import {
   ablationIntegrationInstruction,
   analyzeContextAblation,
+  diagnosticStoppedRun,
   protocolDigest,
   templeRoutedContextInstruction,
   validateAblationApproval,
@@ -203,4 +204,20 @@ test("context ablation analysis keeps correctness primary and reports routed del
   assert.equal(result.interpretation.context_outcome, "routed-context-supported");
   assert.equal(result.interpretation.statistical_generalization, false);
   assert.equal(result.interpretation.main_comparison_result, false);
+});
+
+test("a stopped diagnostic retains normalized completed conditions without authorizing retry", () => {
+  const completed = [{ condition: "terra-full-load", operational_tokens: 4321, raw_prompt_retained: false }];
+  const result = diagnosticStoppedRun({
+    protocol: { work_item_id: "WI-0136", protocol_sha256: "v3" },
+    startedAt: "2026-09-03T00:00:00.000Z",
+    stoppedAt: "2026-09-03T00:01:00.000Z",
+    completed,
+    operationalTokens: 5000,
+    reason: "bounded-stop"
+  });
+  assert.equal(result.completed_condition_count, 1);
+  assert.deepEqual(result.completed_conditions, completed);
+  assert.equal(result.retry_count, 0);
+  assert.equal(result.fallback_count, 0);
 });

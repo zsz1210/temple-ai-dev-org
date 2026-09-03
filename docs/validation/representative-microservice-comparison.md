@@ -116,6 +116,8 @@ node scripts/run-representative-microservice-comparison.mjs ablation-preflight
 
 The diagnostic determines whether routed context preserves recovery quality, whether Token or context-volume reduction is observed, how Terra and Sol differ at medium effort, and how Sol xhigh changes the observed tradeoff. One attempt per setting is directional only: it is not a Temple-versus-baseline result, does not establish a stable model-routing policy, and makes no statistical claim.
 
+The exact-approved v2 attempt stopped after one completed condition when Terra routed selected the safe repository-inspection command `git ls-tree`, which the recovery allowlist had omitted. V2 was not retried and produced no valid model comparison. V3 adds that bounded read-only prefix, retains completed normalized condition records on any future stop, rebuilds fresh matched repositories, and requires a new exact approval under protocol `c5e0b069880a079de6fd8030fda3818cee92c809bd834999db2a04ca32be147a`.
+
 After exact diagnostic approval, the bounded commands are:
 
 ```bash

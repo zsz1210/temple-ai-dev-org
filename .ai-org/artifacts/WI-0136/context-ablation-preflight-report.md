@@ -2,11 +2,11 @@
 
 ## Result
 
-The four-condition context/model diagnostic is locally prepared and generation remains disabled pending exact account approval and the final generation-free preflight.
+The corrected four-condition context/model diagnostic v3 is locally prepared and generation remains disabled pending a new exact account approval and the final generation-free preflight.
 
 ## Frozen boundary
 
-- Protocol SHA-256: `09cb2b5a3442d637dfc380537e5f2860c116125ab5472a7ead8853b070da687d`
+- Protocol SHA-256: `c5e0b069880a079de6fd8030fda3818cee92c809bd834999db2a04ca32be147a`
 - Conditions: 4
 - Routes: Terra medium full-load; Terra medium routed; Sol medium routed; Sol xhigh routed
 - Per-condition operational-Token hard stop: 80,000
@@ -25,12 +25,15 @@ The limits are safety stops inherited from the already reviewed WI-0136 integrat
 - The prepared implementation passes every service, public integration, and held-out compatibility test.
 - Participant Doctor checks pass.
 - The protocol freezes the runner, analyzer, fixture, task, tests, tool policy, rubric, explicit instruction layers, and output schema by SHA-256.
+- The recovery allowlist includes the repository-local read-only `git ls-tree` command observed in the v2 stopped attempt.
+- A stopped v3 run retains normalized completed-condition records while still prohibiting retry and fallback.
 - Terra medium, Sol medium, and Sol xhigh are available through the installed `codex-cli 0.151.0-alpha.7.2` App Server contract.
 - Inspection passes 67 checks with no failure.
-- The experiment-specific suite passes 8 of 8 tests.
+- The focused App Server and experiment suite passes 18 of 18 tests.
+- The repository verification suite passes 368 of 368 tests.
 - `npm run verify` passes 367 of 367 tests with no failure, skip, or cancellation.
 - An unapproved ablation run exits with `exact-human-approval-required` and creates no live result, stopped-run, or analysis artifact.
 
 ## Remaining boundary
 
-No diagnostic model turn has run. Context, model, effort, Token, and latency comparisons remain unknown until the exact frozen approval is recorded and all four one-attempt conditions complete. One observation per setting will remain directional rather than statistically generalizable.
+No v3 model turn has run. The stopped v2 attempt cannot provide a valid comparison. Context, model, effort, Token, and latency comparisons therefore remain unknown until the new exact approval is recorded and all four v3 one-attempt conditions complete. One observation per setting will remain directional rather than statistically generalizable.

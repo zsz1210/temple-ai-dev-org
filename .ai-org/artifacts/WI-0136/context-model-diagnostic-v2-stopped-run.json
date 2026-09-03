@@ -1,0 +1,13 @@
+{
+  "schema_version": "temple.context-model-diagnostic-stopped-run/v2",
+  "work_item_id": "WI-0136",
+  "protocol_sha256": "09cb2b5a3442d637dfc380537e5f2860c116125ab5472a7ead8853b070da687d",
+  "started_at": "2026-09-03T12:31:05.205Z",
+  "stopped_at": "2026-09-03T12:38:29.005Z",
+  "completed_condition_count": 1,
+  "candidate_operational_tokens": 104893,
+  "reason": "context-terra-routed:command-policy-violation:command policy rejected: /bin/zsh -lc 'git ls-tree -r --name-only HEAD'",
+  "retry_count": 0,
+  "fallback_count": 0,
+  "model_generation_performed": true
+}

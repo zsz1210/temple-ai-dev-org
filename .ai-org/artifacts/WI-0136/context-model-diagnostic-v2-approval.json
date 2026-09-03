@@ -1,9 +1,9 @@
 {
-  "schema_version": "temple.context-model-diagnostic-account-approval/v3",
+  "schema_version": "temple.context-model-diagnostic-account-approval/v2",
   "work_item_id": "WI-0136",
-  "protocol_sha256": "c5e0b069880a079de6fd8030fda3818cee92c809bd834999db2a04ca32be147a",
-  "approved": false,
-  "authorization_source": null,
+  "protocol_sha256": "09cb2b5a3442d637dfc380537e5f2860c116125ab5472a7ead8853b070da687d",
+  "approved": true,
+  "authorization_source": "user-message:exact-WI-0136-context-model-diagnostic-approval",
   "approved_candidate_turns": 4,
   "approved_models": [
     "gpt-5.6-terra",
@@ -22,5 +22,5 @@
   "usage_reset_authorized": false,
   "retry_count": 0,
   "fallback_count": 0,
-  "approved_at": null
+  "approved_at": "2026-09-03T12:30:36Z"
 }

@@ -37,6 +37,25 @@ The user requested a directly measured Sol comparison before generation. Because
 - Combined operational-Token hard stop: 320,000
 - Wall-clock hard stop: 40 minutes
 - Retry and fallback: disabled
-- Status: generation disabled until exact account approval
+- Exact approval: recorded at `2026-09-03T12:30:36Z`
+- Live attempt: stopped after 1 completed condition and during the second condition
+- Operational Tokens observed before stop: 104,893
+- Retry and fallback: 0
+- Disposition: superseded by v3 after a command-policy false positive
 
 The four one-attempt conditions answer three separate diagnostic questions: whether routed context preserves recovery while reducing context work, whether Terra and Sol differ under the same medium effort, and what changes when Sol moves from medium to the user's quality-first xhigh configuration. The protocol records end-to-end and turn timing, time to first activity and command, effective output Tokens per second, detailed Token counters, tool-output volume, and objective recovery. It remains a directional diagnostic rather than routing authority or statistical proof.
+
+The runner correctly stopped instead of retrying when Terra routed selected `git ls-tree -r --name-only HEAD`, but the recovery allowlist had omitted this repository-local read-only command. The v2 stopped artifact also retained only the aggregate count and Token total rather than the completed normalized condition record. No Terra-versus-Sol result exists for v2.
+
+## Context/model diagnostic v3
+
+- Protocol SHA-256: `c5e0b069880a079de6fd8030fda3818cee92c809bd834999db2a04ca32be147a`
+- Conditions and model routes: unchanged from v2
+- Candidate turns: 4
+- Per-condition operational-Token hard stop: 80,000
+- Combined operational-Token hard stop: 320,000
+- Wall-clock hard stop: 40 minutes
+- Retry and fallback: disabled
+- Status: generation disabled until a new exact account approval
+
+V3 adds only `git ls-tree` to the bounded read-only recovery allowlist and retains normalized completed-condition records in any stopped-run artifact. It uses fresh byte-matched repositories and a new protocol digest. The v2 approval does not authorize v3.

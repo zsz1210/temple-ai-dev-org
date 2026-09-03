@@ -10,7 +10,8 @@
     ["git", "status"],
     ["git", "diff"],
     ["git", "rev-parse"],
-    ["git", "log"]
+    ["git", "log"],
+    ["git", "ls-tree"]
   ],
   "forbidden_actions": [
     "external-write",

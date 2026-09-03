@@ -1,17 +1,17 @@
 {
-  "schema_version": "temple.context-model-diagnostic/v2",
+  "schema_version": "temple.context-model-diagnostic/v3",
   "work_item_id": "WI-0136",
   "status": "generation-disabled",
-  "protocol_sha256": "09cb2b5a3442d637dfc380537e5f2860c116125ab5472a7ead8853b070da687d",
-  "lab_manifest_sha256": "f7f8c3894b77acc1b8e31ebebbbb3fb38ad13bf5b31afee2963619e04d3bff36",
+  "protocol_sha256": "c5e0b069880a079de6fd8030fda3818cee92c809bd834999db2a04ca32be147a",
+  "lab_manifest_sha256": "6e0edfe7d77100c9ee9d6f7bacbe51d8cdc7631b3f55ab27ddcc3873d828fd2a",
   "source_digests": {
-    "fixture_sha256": "73cd9a1a1a9ce1be1103ace73cc6a2f7a755e037ffe8a80358798982ab74f181",
-    "runner_sha256": "768a3d57873aaa179c0e8a50cfe3f055390e13fca9c21358e5d7a2d6ef3aebd8",
+    "fixture_sha256": "194a69a223222f53ddc1fca78dc3a3cf318d7705d007ebd34b8176f9de325303",
+    "runner_sha256": "cf6c4900126dd2a4f9afdc331e508aa82f3d73957f6e3181fb535b479201c795",
     "analyzer_sha256": "5e614a7879a8fbdb7655d6780dcf0c7e693e7326259fa166d7fe3231f1151c5c",
     "task_sha256": "5dfd10dce99196f282f0560a25aaffd359b7af2119a62d943e465f19ae46369c",
     "public_tests_sha256": "8809e165ee024f5606a48c38bb0f6065e3b943fcd00d05fda5fdd6099e0f41f9",
     "held_out_tests_sha256": "d4f781d5b03d14c08a4214185ae525c1c6a0e7a7f2c8c9ff1d24291b27363a47",
-    "tool_policy_sha256": "282707b99043c7203be5b6fd4778bae409b001fd017d10c102758ea210a9f771",
+    "tool_policy_sha256": "4177975086462d296e7a6f62d05f00a76cecaf2b8288c0ef0cd8d0d21c51049b",
     "rubric_sha256": "364d20a3102ddd78131fd2566b8579957b14df2d6638efd3ef1e97e94faeaf3f"
   },
   "prompt_contract": {
@@ -21,9 +21,9 @@
       "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
     },
     "developer_instructions": {
-      "bytes": 547,
-      "characters": 547,
-      "sha256": "487fb41b22b5b6a2f3f5d68f67ed3f9daf13c2dd5e5450d03f1144992fd6bddd"
+      "bytes": 560,
+      "characters": 560,
+      "sha256": "45d37d5363155e0929d2b32410d811bffe16e29f75ce55910680115f88f93d4f"
     },
     "output_schema": {
       "bytes": 606,
@@ -83,24 +83,24 @@
       },
       "repositories": {
         "gateway": {
-          "revision": "6a88bdb22017076d1cb9e6452cbc4a6a49961974",
-          "tree": "3e75a45dd33395dbedfd58ab069c76dae6fb4964"
+          "revision": "c0f8032dff86bddf1a85b1da179dd014a97330f0",
+          "tree": "67bd8fa807a18e8d734037dd72595502154bc8ef"
         },
         "catalog": {
-          "revision": "ed6008c711f0c7809e74adf3003af6d51d816873",
-          "tree": "d5a0b4b1f150b648960ce91fa5d9822b25be5676"
+          "revision": "e222b341d520fe541502ef929c5a19d4d0ecf319",
+          "tree": "36139f4a20ad418bed63ecf9aa873a9c27658408"
         },
         "orders": {
-          "revision": "552f6d9ab9f6019c24f0b3aa420df724cd0349cc",
-          "tree": "9c8e012ea40d699d58e4ca6a5601c5d5e8a33305"
+          "revision": "e6f367754378dc4165e92f0d0c6ec1b754f77db0",
+          "tree": "d02bbe3127dcc93b2f2ec3c6e8dadd8217d270fc"
         },
         "notifications": {
-          "revision": "833a5bdc48b08980fbdd67cd65191037ea2ad461",
-          "tree": "71720c03d929b6139b251e540dbf16f9a4a479e0"
+          "revision": "44e472cf169a12a8c8f45fb83ab58dd67f5bb9b2",
+          "tree": "fdb9d60af137d6a4ffeae302eb3fb4bd3034b6a8"
         },
         "coordinator": {
-          "revision": "debb10884ae20d290f30610ea6826d5988dd1791",
-          "tree": "3d3d1fe7a0d832f5633387db61340716b3d8dcfe"
+          "revision": "57874eda89fb3051a429574ab6e8cf3e5dcf768d",
+          "tree": "de732570a0db063104bb44bc6a4eabc62388db99"
         }
       }
     },
@@ -113,24 +113,24 @@
       },
       "repositories": {
         "gateway": {
-          "revision": "6a88bdb22017076d1cb9e6452cbc4a6a49961974",
-          "tree": "3e75a45dd33395dbedfd58ab069c76dae6fb4964"
+          "revision": "c0f8032dff86bddf1a85b1da179dd014a97330f0",
+          "tree": "67bd8fa807a18e8d734037dd72595502154bc8ef"
         },
         "catalog": {
-          "revision": "ed6008c711f0c7809e74adf3003af6d51d816873",
-          "tree": "d5a0b4b1f150b648960ce91fa5d9822b25be5676"
+          "revision": "e222b341d520fe541502ef929c5a19d4d0ecf319",
+          "tree": "36139f4a20ad418bed63ecf9aa873a9c27658408"
         },
         "orders": {
-          "revision": "552f6d9ab9f6019c24f0b3aa420df724cd0349cc",
-          "tree": "9c8e012ea40d699d58e4ca6a5601c5d5e8a33305"
+          "revision": "e6f367754378dc4165e92f0d0c6ec1b754f77db0",
+          "tree": "d02bbe3127dcc93b2f2ec3c6e8dadd8217d270fc"
         },
         "notifications": {
-          "revision": "833a5bdc48b08980fbdd67cd65191037ea2ad461",
-          "tree": "71720c03d929b6139b251e540dbf16f9a4a479e0"
+          "revision": "44e472cf169a12a8c8f45fb83ab58dd67f5bb9b2",
+          "tree": "fdb9d60af137d6a4ffeae302eb3fb4bd3034b6a8"
         },
         "coordinator": {
-          "revision": "debb10884ae20d290f30610ea6826d5988dd1791",
-          "tree": "3d3d1fe7a0d832f5633387db61340716b3d8dcfe"
+          "revision": "57874eda89fb3051a429574ab6e8cf3e5dcf768d",
+          "tree": "de732570a0db063104bb44bc6a4eabc62388db99"
         }
       }
     },
@@ -143,24 +143,24 @@
       },
       "repositories": {
         "gateway": {
-          "revision": "6a88bdb22017076d1cb9e6452cbc4a6a49961974",
-          "tree": "3e75a45dd33395dbedfd58ab069c76dae6fb4964"
+          "revision": "c0f8032dff86bddf1a85b1da179dd014a97330f0",
+          "tree": "67bd8fa807a18e8d734037dd72595502154bc8ef"
         },
         "catalog": {
-          "revision": "ed6008c711f0c7809e74adf3003af6d51d816873",
-          "tree": "d5a0b4b1f150b648960ce91fa5d9822b25be5676"
+          "revision": "e222b341d520fe541502ef929c5a19d4d0ecf319",
+          "tree": "36139f4a20ad418bed63ecf9aa873a9c27658408"
         },
         "orders": {
-          "revision": "552f6d9ab9f6019c24f0b3aa420df724cd0349cc",
-          "tree": "9c8e012ea40d699d58e4ca6a5601c5d5e8a33305"
+          "revision": "e6f367754378dc4165e92f0d0c6ec1b754f77db0",
+          "tree": "d02bbe3127dcc93b2f2ec3c6e8dadd8217d270fc"
         },
         "notifications": {
-          "revision": "833a5bdc48b08980fbdd67cd65191037ea2ad461",
-          "tree": "71720c03d929b6139b251e540dbf16f9a4a479e0"
+          "revision": "44e472cf169a12a8c8f45fb83ab58dd67f5bb9b2",
+          "tree": "fdb9d60af137d6a4ffeae302eb3fb4bd3034b6a8"
         },
         "coordinator": {
-          "revision": "debb10884ae20d290f30610ea6826d5988dd1791",
-          "tree": "3d3d1fe7a0d832f5633387db61340716b3d8dcfe"
+          "revision": "57874eda89fb3051a429574ab6e8cf3e5dcf768d",
+          "tree": "de732570a0db063104bb44bc6a4eabc62388db99"
         }
       }
     },
@@ -173,24 +173,24 @@
       },
       "repositories": {
         "gateway": {
-          "revision": "6a88bdb22017076d1cb9e6452cbc4a6a49961974",
-          "tree": "3e75a45dd33395dbedfd58ab069c76dae6fb4964"
+          "revision": "c0f8032dff86bddf1a85b1da179dd014a97330f0",
+          "tree": "67bd8fa807a18e8d734037dd72595502154bc8ef"
         },
         "catalog": {
-          "revision": "ed6008c711f0c7809e74adf3003af6d51d816873",
-          "tree": "d5a0b4b1f150b648960ce91fa5d9822b25be5676"
+          "revision": "e222b341d520fe541502ef929c5a19d4d0ecf319",
+          "tree": "36139f4a20ad418bed63ecf9aa873a9c27658408"
         },
         "orders": {
-          "revision": "552f6d9ab9f6019c24f0b3aa420df724cd0349cc",
-          "tree": "9c8e012ea40d699d58e4ca6a5601c5d5e8a33305"
+          "revision": "e6f367754378dc4165e92f0d0c6ec1b754f77db0",
+          "tree": "d02bbe3127dcc93b2f2ec3c6e8dadd8217d270fc"
         },
         "notifications": {
-          "revision": "833a5bdc48b08980fbdd67cd65191037ea2ad461",
-          "tree": "71720c03d929b6139b251e540dbf16f9a4a479e0"
+          "revision": "44e472cf169a12a8c8f45fb83ab58dd67f5bb9b2",
+          "tree": "fdb9d60af137d6a4ffeae302eb3fb4bd3034b6a8"
         },
         "coordinator": {
-          "revision": "debb10884ae20d290f30610ea6826d5988dd1791",
-          "tree": "3d3d1fe7a0d832f5633387db61340716b3d8dcfe"
+          "revision": "57874eda89fb3051a429574ab6e8cf3e5dcf768d",
+          "tree": "de732570a0db063104bb44bc6a4eabc62388db99"
         }
       }
     }
