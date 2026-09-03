@@ -1,0 +1,367 @@
+{
+  "schema_version": "temple.representative-microservice-stopped-run/v2",
+  "work_item_id": "WI-0136",
+  "protocol_sha256": "16591db95bde29d6becd273ce6df3cd39569f016ebdd03c5fd2fb2c21d9253e0",
+  "started_at": "2026-09-03T17:45:55.994Z",
+  "stopped_at": "2026-09-03T17:49:04.758Z",
+  "completed_arm_count": 0,
+  "completed_arms": [],
+  "active_arm": {
+    "arm_id": "minimal-responsible",
+    "design": {
+      "id": "minimal-responsible-design",
+      "stage": "design",
+      "started_at": "2026-09-03T17:45:55.994Z",
+      "completed_at": "2026-09-03T17:48:55.531Z",
+      "elapsed_ms": 179537,
+      "session_setup_ms": 122,
+      "turn_elapsed_ms": 179415,
+      "time_to_first_activity_ms": 2568,
+      "time_to_first_command_ms": 8276,
+      "effective_output_tokens_per_second": 35.075,
+      "thread_id": "01a06860-9833-79d3-befa-54f65b8e012f",
+      "turn_id": "01a06860-9894-7ab2-aa9e-5bb751f151d0",
+      "requested_model": "gpt-5.6-sol",
+      "acknowledged_model": "gpt-5.6-sol",
+      "requested_reasoning_effort": "xhigh",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 653355,
+        "cached_input_tokens": 610432,
+        "output_tokens": 6293,
+        "reasoning_output_tokens": 3308,
+        "total_tokens": 659648
+      },
+      "operational_tokens": 49216,
+      "prompt_metrics": {
+        "components": {
+          "base_instructions": {
+            "bytes": 168,
+            "characters": 168,
+            "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+          },
+          "developer_instructions": {
+            "bytes": 1408,
+            "characters": 1408,
+            "sha256": "05264f4e8fef83ba39be450ff0a8e6fe586a9f0788818b711a227e4938dd55d4"
+          },
+          "user_input": {
+            "bytes": 1873,
+            "characters": 1873,
+            "sha256": "ed05308117a50aa6409f528383c2de85033224a76d801b15294a33d44d9202d9"
+          },
+          "output_schema": {
+            "bytes": 606,
+            "characters": 606,
+            "sha256": "dd96eba2c74430a2bb90418d024e9dfb21cc36d0e6ad62ad23fdc65a14e19d37"
+          }
+        },
+        "explicit_bytes": 4055,
+        "raw_prompt_retained": false
+      },
+      "tool_activity": {
+        "command_items": 40,
+        "command_actions": 40,
+        "action_types": {
+          "read": 13,
+          "listFiles": 6,
+          "unknown": 21
+        },
+        "temple_md_attempts": 0,
+        "context_resolve_attempts": 0,
+        "temple_md_reads": 0,
+        "context_resolve_calls": 0,
+        "context_sequence": [],
+        "reported_output_bytes": 36916
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "contract_version": "OrderPlaced/v2",
+        "rollout_order": [
+          "notifications",
+          "orders-catalog",
+          "gateway"
+        ],
+        "slices": [
+          {
+            "id": "notifications",
+            "repositories": [
+              "notifications"
+            ],
+            "responsibility": "Prepare the consumer before v2 publication by changing only src/consumer.mjs. Accept well-formed retained v1 flat events and v2 nested events; reject wrong type, unsupported version, or missing/invalid required fields; normalize the order ID from orderId or order.id; and apply event-ID idempotency only after validation so duplicates remain accepted without increasing deliveryCount."
+          },
+          {
+            "id": "orders-catalog",
+            "repositories": [
+              "catalog",
+              "orders"
+            ],
+            "responsibility": "Deploy Catalog compatibility first, then publish from Orders. In catalog/src/catalog.mjs, include the stored inventoryRevision for known SKUs while preserving existing availability behavior. In orders/src/order-event.mjs, propagate that revision and emit exactly the required v2 envelope with occurredAt, locale, inventoryRevision, and nested order fields, without retained v1 flat fields."
+          },
+          {
+            "id": "gateway",
+            "repositories": [
+              "gateway"
+            ],
+            "responsibility": "After producer publication, change only src/checkout-response.mjs so checkout responses retain orderId and status unchanged and add eventVersion from event.version."
+          }
+        ],
+        "risks": [
+          "All four service public test suites currently fail (0 passed, 1 failed each), so no slice is implementation-ready at its inspected revision.",
+          "Notifications' public test covers only v2 acceptance and duplicate handling; retained v1 acceptance plus unsupported and malformed rejection remain unproved and must gate Orders publication.",
+          "The coordinator public integration test currently fails at the v1-versus-v2 assertion and must be rerun after all three slices land to prove Catalog revision propagation through Orders, Notifications, and Gateway.",
+          "The coordinator repository is intentionally outside all slice write sets; integration-report and handoff updates require a separate coordinator owner without granting overlapping service writes."
+        ],
+        "assumptions": [
+          "Inspected clean baselines: catalog@490bb75496c715770d2585a18c7a6ddd8c8b67c9, orders@21b595ddeaf29c43c77ee6b980c8820c499bef67, notifications@01c716dc842e22b8b241eeb19707d69bf57f9598, gateway@b650f0713776851c609659d5f6872d60e67742fe, and coordinator@96e00bb5cbbb18d80e59884f11702457208b64a1.",
+          "The retained v1 contract is the existing flat shape containing type, version, id, orderId, sku, and quantity; the v2 contract is the exact shape in TASK.md.",
+          "Each slice owner will run npm test in every assigned repository and record the resulting committed revision, test result, completed work, and unresolved issues in that repository's required handoff.",
+          "No files were modified during inspection."
+        ]
+      },
+      "design_revision": "7ca283848a740a5d00de9415cc2086618bdfabbd"
+    },
+    "builds": [
+      {
+        "id": "minimal-responsible-gateway",
+        "stage": "build",
+        "started_at": "2026-09-03T17:48:55.621Z",
+        "completed_at": "2026-09-03T17:49:04.737Z",
+        "elapsed_ms": 9116,
+        "session_setup_ms": 199,
+        "turn_elapsed_ms": 8917,
+        "time_to_first_activity_ms": 2620,
+        "time_to_first_command_ms": 7992,
+        "effective_output_tokens_per_second": 23.775,
+        "thread_id": "01a06863-55f3-7ad3-b840-ac678e2fa29e",
+        "turn_id": "01a06863-5690-7df0-956e-4e327c10d774",
+        "requested_model": "gpt-5.6-terra",
+        "acknowledged_model": "gpt-5.6-terra",
+        "requested_reasoning_effort": "medium",
+        "observed_thread_reasoning_effort": "high",
+        "effective_turn_reasoning_effort": null,
+        "usage": {
+          "input_tokens": 20540,
+          "cached_input_tokens": 0,
+          "output_tokens": 212,
+          "reasoning_output_tokens": 128,
+          "total_tokens": 20752
+        },
+        "operational_tokens": 20752,
+        "prompt_metrics": {
+          "components": {
+            "base_instructions": {
+              "bytes": 168,
+              "characters": 168,
+              "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+            },
+            "developer_instructions": {
+              "bytes": 1408,
+              "characters": 1408,
+              "sha256": "05264f4e8fef83ba39be450ff0a8e6fe586a9f0788818b711a227e4938dd55d4"
+            },
+            "user_input": {
+              "bytes": 847,
+              "characters": 847,
+              "sha256": "973bf17350ff18cf75794e8fb0f80daa3eb50f5e688e6dd43617eaf56a7cc856"
+            },
+            "output_schema": {
+              "bytes": 350,
+              "characters": 350,
+              "sha256": "c29cae9d81c3749e9869f21c25e39961641415e0e8bac39b09d166c7e4afae91"
+            }
+          },
+          "explicit_bytes": 2773,
+          "raw_prompt_retained": false
+        },
+        "tool_activity": {
+          "command_items": 1,
+          "command_actions": 1,
+          "action_types": {
+            "read": 1
+          },
+          "temple_md_attempts": 0,
+          "context_resolve_attempts": 0,
+          "temple_md_reads": 0,
+          "context_resolve_calls": 0,
+          "context_sequence": [],
+          "reported_output_bytes": 58
+        },
+        "retry_count": 0,
+        "fallback_count": 0,
+        "raw_prompt_retained": false,
+        "raw_response_retained": false,
+        "hidden_reasoning_retained": false,
+        "status": "stopped",
+        "stop_scope": "run",
+        "stop_reason": "parallel-wave-cancelled",
+        "completion": null
+      },
+      {
+        "id": "minimal-responsible-notifications",
+        "stage": "build",
+        "started_at": "2026-09-03T17:48:55.618Z",
+        "completed_at": "2026-09-03T17:49:04.736Z",
+        "elapsed_ms": 9118,
+        "session_setup_ms": 202,
+        "turn_elapsed_ms": 8916,
+        "time_to_first_activity_ms": 2613,
+        "time_to_first_command_ms": 7978,
+        "effective_output_tokens_per_second": 20.076,
+        "thread_id": "01a06863-55f5-7db2-9a39-cb9b574725be",
+        "turn_id": "01a06863-568e-7712-8a39-68f732161cc2",
+        "requested_model": "gpt-5.6-terra",
+        "acknowledged_model": "gpt-5.6-terra",
+        "requested_reasoning_effort": "medium",
+        "observed_thread_reasoning_effort": "high",
+        "effective_turn_reasoning_effort": null,
+        "usage": {
+          "input_tokens": 20540,
+          "cached_input_tokens": 17152,
+          "output_tokens": 179,
+          "reasoning_output_tokens": 93,
+          "total_tokens": 20719
+        },
+        "operational_tokens": 3567,
+        "prompt_metrics": {
+          "components": {
+            "base_instructions": {
+              "bytes": 168,
+              "characters": 168,
+              "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+            },
+            "developer_instructions": {
+              "bytes": 1408,
+              "characters": 1408,
+              "sha256": "05264f4e8fef83ba39be450ff0a8e6fe586a9f0788818b711a227e4938dd55d4"
+            },
+            "user_input": {
+              "bytes": 865,
+              "characters": 865,
+              "sha256": "34717ffc6f84a60383aa9b3d3800d13d6017d357f3a83e9db64a0a5249765563"
+            },
+            "output_schema": {
+              "bytes": 350,
+              "characters": 350,
+              "sha256": "c29cae9d81c3749e9869f21c25e39961641415e0e8bac39b09d166c7e4afae91"
+            }
+          },
+          "explicit_bytes": 2791,
+          "raw_prompt_retained": false
+        },
+        "tool_activity": {
+          "command_items": 1,
+          "command_actions": 1,
+          "action_types": {
+            "read": 1
+          },
+          "temple_md_attempts": 0,
+          "context_resolve_attempts": 0,
+          "temple_md_reads": 0,
+          "context_resolve_calls": 0,
+          "context_sequence": [],
+          "reported_output_bytes": 413
+        },
+        "retry_count": 0,
+        "fallback_count": 0,
+        "raw_prompt_retained": false,
+        "raw_response_retained": false,
+        "hidden_reasoning_retained": false,
+        "status": "stopped",
+        "stop_scope": "run",
+        "stop_reason": "parallel-wave-cancelled",
+        "completion": null
+      },
+      {
+        "id": "minimal-responsible-orders-catalog",
+        "stage": "build",
+        "started_at": "2026-09-03T17:48:55.620Z",
+        "completed_at": "2026-09-03T17:49:04.226Z",
+        "elapsed_ms": 8606,
+        "session_setup_ms": 182,
+        "turn_elapsed_ms": 8424,
+        "time_to_first_activity_ms": 2623,
+        "time_to_first_command_ms": 7912,
+        "effective_output_tokens_per_second": 22.08,
+        "thread_id": "01a06863-55f2-7a61-af57-d0afbc79aff8",
+        "turn_id": "01a06863-567d-7cb1-91cf-6f8624e60af6",
+        "requested_model": "gpt-5.6-terra",
+        "acknowledged_model": "gpt-5.6-terra",
+        "requested_reasoning_effort": "medium",
+        "observed_thread_reasoning_effort": "high",
+        "effective_turn_reasoning_effort": null,
+        "usage": {
+          "input_tokens": 20655,
+          "cached_input_tokens": 17152,
+          "output_tokens": 186,
+          "reasoning_output_tokens": 93,
+          "total_tokens": 20841
+        },
+        "operational_tokens": 3689,
+        "prompt_metrics": {
+          "components": {
+            "base_instructions": {
+              "bytes": 168,
+              "characters": 168,
+              "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+            },
+            "developer_instructions": {
+              "bytes": 1408,
+              "characters": 1408,
+              "sha256": "05264f4e8fef83ba39be450ff0a8e6fe586a9f0788818b711a227e4938dd55d4"
+            },
+            "user_input": {
+              "bytes": 870,
+              "characters": 870,
+              "sha256": "1da5224b5ad4e5a5359d040da6606f326315fd42db1043dd5bddd313d65010b8"
+            },
+            "output_schema": {
+              "bytes": 350,
+              "characters": 350,
+              "sha256": "c29cae9d81c3749e9869f21c25e39961641415e0e8bac39b09d166c7e4afae91"
+            }
+          },
+          "explicit_bytes": 2796,
+          "raw_prompt_retained": false
+        },
+        "tool_activity": {
+          "command_items": 1,
+          "command_actions": 1,
+          "action_types": {
+            "listFiles": 1
+          },
+          "temple_md_attempts": 0,
+          "context_resolve_attempts": 0,
+          "temple_md_reads": 0,
+          "context_resolve_calls": 0,
+          "context_sequence": [],
+          "reported_output_bytes": 0
+        },
+        "retry_count": 0,
+        "fallback_count": 0,
+        "raw_prompt_retained": false,
+        "raw_response_retained": false,
+        "hidden_reasoning_retained": false,
+        "status": "stopped",
+        "stop_scope": "run",
+        "stop_reason": "command-policy-violation:command policy rejected (command-cwd-outside-arm): /bin/zsh -lc \"rg --files -g 'WORK_ITEM.md' -g 'TASK.md' -g 'design-record.json' -g 'AGENTS.md'\"",
+        "completion": null
+      }
+    ],
+    "portfolio_revision": null,
+    "integration": null
+  },
+  "candidate_operational_tokens": 77224,
+  "reason": "minimal-responsible-orders-catalog:command-policy-violation:command policy rejected (command-cwd-outside-arm): /bin/zsh -lc \"rg --files -g 'WORK_ITEM.md' -g 'TASK.md' -g 'design-record.json' -g 'AGENTS.md'\"",
+  "retry_count": 0,
+  "fallback_count": 0,
+  "model_generation_performed": true
+}

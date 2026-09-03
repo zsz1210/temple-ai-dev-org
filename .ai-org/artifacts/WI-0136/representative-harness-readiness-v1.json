@@ -1,38 +1,118 @@
 {
   "schema_version": "temple.representative-harness-readiness/v1",
   "work_item_id": "WI-0136",
-  "protocol_sha256": "16591db95bde29d6becd273ce6df3cd39569f016ebdd03c5fd2fb2c21d9253e0",
-  "completed_at": "2026-09-03T17:40:11.440Z",
+  "protocol_sha256": "d729c503d8e8a9d35e0eb6367fda51fa76dbf34e7db45a5ef0a0408166283040",
+  "completed_at": "2026-09-03T17:53:25.385Z",
   "pass": true,
-  "source_lab": "/tmp/temple-wi0136-representative-microservice-v10-final",
-  "readiness_lab": "/private/tmp/temple-wi0136-representative-microservice-v10-final-readiness",
+  "source_lab": "/tmp/temple-wi0136-representative-microservice-v11-final",
+  "readiness_lab": "/private/tmp/temple-wi0136-representative-microservice-v11-final-readiness",
   "candidate_turn_count": 10,
   "evaluator_turn_count": 1,
   "checks": [
-    { "id": "source-lab-inspection", "pass": true },
-    { "id": "both-arms-completed", "pass": true },
-    { "id": "all-ten-candidate-turns-completed", "pass": true },
-    { "id": "three-way-build-wave-observed-per-arm", "pass": true },
-    { "id": "objective-tests-pass-both-arms", "pass": true },
-    { "id": "exact-cold-recovery-both-arms", "pass": true },
-    { "id": "blind-evaluator-completed", "pass": true },
-    { "id": "analysis-completed", "pass": true },
-    { "id": "all-generated-repositories-clean", "pass": true },
-    { "id": "provider-command-event-replay", "pass": true },
-    { "id": "zero-operational-tokens", "pass": true },
-    { "id": "no-model-generation", "pass": true }
+    {
+      "id": "source-lab-inspection",
+      "pass": true
+    },
+    {
+      "id": "both-arms-completed",
+      "pass": true
+    },
+    {
+      "id": "all-ten-candidate-turns-completed",
+      "pass": true
+    },
+    {
+      "id": "three-way-build-wave-observed-per-arm",
+      "pass": true
+    },
+    {
+      "id": "objective-tests-pass-both-arms",
+      "pass": true
+    },
+    {
+      "id": "exact-cold-recovery-both-arms",
+      "pass": true
+    },
+    {
+      "id": "blind-evaluator-completed",
+      "pass": true
+    },
+    {
+      "id": "analysis-completed",
+      "pass": true
+    },
+    {
+      "id": "all-generated-repositories-clean",
+      "pass": true
+    },
+    {
+      "id": "provider-command-event-replay",
+      "pass": true
+    },
+    {
+      "id": "provider-cwd-canonicalization-replay",
+      "pass": true
+    },
+    {
+      "id": "zero-operational-tokens",
+      "pass": true
+    },
+    {
+      "id": "no-model-generation",
+      "pass": true
+    }
   ],
   "repository_cleanliness": [
-    { "arm_id": "minimal-responsible", "repository": "gateway", "clean": true },
-    { "arm_id": "minimal-responsible", "repository": "catalog", "clean": true },
-    { "arm_id": "minimal-responsible", "repository": "orders", "clean": true },
-    { "arm_id": "minimal-responsible", "repository": "notifications", "clean": true },
-    { "arm_id": "minimal-responsible", "repository": "coordinator", "clean": true },
-    { "arm_id": "temple", "repository": "gateway", "clean": true },
-    { "arm_id": "temple", "repository": "catalog", "clean": true },
-    { "arm_id": "temple", "repository": "orders", "clean": true },
-    { "arm_id": "temple", "repository": "notifications", "clean": true },
-    { "arm_id": "temple", "repository": "coordinator", "clean": true }
+    {
+      "arm_id": "minimal-responsible",
+      "repository": "gateway",
+      "clean": true
+    },
+    {
+      "arm_id": "minimal-responsible",
+      "repository": "catalog",
+      "clean": true
+    },
+    {
+      "arm_id": "minimal-responsible",
+      "repository": "orders",
+      "clean": true
+    },
+    {
+      "arm_id": "minimal-responsible",
+      "repository": "notifications",
+      "clean": true
+    },
+    {
+      "arm_id": "minimal-responsible",
+      "repository": "coordinator",
+      "clean": true
+    },
+    {
+      "arm_id": "temple",
+      "repository": "gateway",
+      "clean": true
+    },
+    {
+      "arm_id": "temple",
+      "repository": "catalog",
+      "clean": true
+    },
+    {
+      "arm_id": "temple",
+      "repository": "orders",
+      "clean": true
+    },
+    {
+      "arm_id": "temple",
+      "repository": "notifications",
+      "clean": true
+    },
+    {
+      "arm_id": "temple",
+      "repository": "coordinator",
+      "clean": true
+    }
   ],
   "retry_count": 0,
   "fallback_count": 0,

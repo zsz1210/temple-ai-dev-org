@@ -154,6 +154,10 @@ The v9 readiness run passed its declared checks with zero Operational Tokens, ze
 
 V10 classifies at most one exact single-quoted Provider shell wrapper, then reapplies the same inner command, shell-control, parent-path, cwd, and exact Git-target policies. It does not generally permit shell commands or nested wrappers. The exact event shape that stopped v9 is now a mandatory Harness Readiness check before live approval. All twelve readiness checks pass with zero Operational Tokens under protocol `16591db95bde29d6becd273ce6df3cd39569f016ebdd03c5fd2fb2c21d9253e0`; the only remaining preflight blocker is separate exact human approval.
 
+The exact-approved v10 attempt stopped during the first Minimal Responsible Build wave after 77,224 candidate Operational Tokens. Its Design turn completed, but the Provider reported an existing generated repository under canonical `/private/tmp/...` while the frozen arm root used the equivalent `/tmp/...` spelling. The literal path-containment comparison rejected this as `command-cwd-outside-arm`. All sibling turns settled, all generated repositories remained clean, no retry or fallback occurred, and neither the Temple arm nor evaluator started. This is a harness compatibility result, not an arm comparison. See the [v10 stop report](../../.ai-org/artifacts/WI-0136/representative-main-v10-stop-report.md).
+
+V11 canonicalizes existing filesystem paths before cwd containment and exact Git-target checks. A regression test accepts equivalent aliases and rejects an in-arm symlink that resolves outside the arm. The generation-free Harness Readiness Gate now replays the exact `/tmp` versus `/private/tmp` event shape as a thirteenth mandatory check. All thirteen checks pass with zero Operational Tokens under protocol `d729c503d8e8a9d35e0eb6367fda51fa76dbf34e7db45a5ef0a0408166283040`; live execution still requires a separate exact approval for that digest.
+
 After that replacement main protocol receives its own exact approval, the bounded commands are:
 
 ```bash

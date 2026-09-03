@@ -281,3 +281,16 @@ The exact-approved v9 attempt completed the full Minimal Responsible arm and Tem
 - Protocol SHA-256: `16591db95bde29d6becd273ce6df3cd39569f016ebdd03c5fd2fb2c21d9253e0`
 - Readiness result: all twelve checks pass with zero Operational Tokens and no model generation
 - Status: frozen and generation-disabled pending separate exact approval
+
+The exact-approved v10 attempt completed Minimal Responsible Design, then stopped fail-closed during the first parallel Build wave. The Provider reported the same temporary workspace through canonical `/private/tmp/...` cwd paths while the runner's frozen arm root used the equivalent `/tmp/...` path. The v10 string containment check treated that filesystem alias as an escape. The run retained 77,224 candidate Operational Tokens, zero retry, zero fallback, settled all sibling turns, and left all generated repositories clean. No arm completed and the evaluator did not start. See `representative-main-v10-stop-report.md`.
+
+## Representative comparison v11
+
+- Predecessor: representative v10 protocol `16591db95bde29d6becd273ce6df3cd39569f016ebdd03c5fd2fb2c21d9253e0`
+- Resource envelope, task, models, efforts, context treatment, objective tests, retry policy, fallback policy, and network boundary: unchanged from v10
+- Provider cwd policy: canonicalize existing arm, cwd, and Git-target paths before containment and exact-repository checks
+- Safety property: equivalent filesystem aliases are accepted, while an in-arm symlink resolving outside the arm remains rejected
+- Readiness coverage: adds the exact lexical-versus-canonical temporary-path event shape that stopped v10
+- Protocol SHA-256: `d729c503d8e8a9d35e0eb6367fda51fa76dbf34e7db45a5ef0a0408166283040`
+- Readiness result: all thirteen checks pass with zero Operational Tokens and no model generation
+- Status: frozen and generation-disabled pending separate exact approval

@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 import test from "node:test";
 
 import {
@@ -53,18 +55,19 @@ test("the representative microservice protocol is frozen but generation-disabled
   assert.equal(protocol.execution.fallback_count, 0);
   assert.equal(protocol.execution.candidate_turns, 10);
   assert.equal(protocol.execution.evaluator_turns, 1);
-  assert.equal(protocol.protocol_revision, 10);
+  assert.equal(protocol.protocol_revision, 11);
   assert.equal(protocol.execution.design_operational_token_limit, 150000);
   assert.equal(protocol.execution.candidate_aggregate_operational_token_limit, 650000);
   assert.equal(protocol.execution.combined_operational_token_limit, 750000);
   assert.deepEqual(protocol.context_policy.temple_md_fallback_when_missing, ["authority", "current-state", "safe-next-action"]);
-  assert.equal(protocol.predecessor.disposition, "stopped-candidate-provider-shell-wrapper-unclassified");
-  assert.equal(protocol.predecessor.stopped_run, ".ai-org/artifacts/WI-0136/representative-main-v9-stopped-run.json");
+  assert.equal(protocol.predecessor.disposition, "stopped-candidate-equivalent-temporary-path-unrecognized");
+  assert.equal(protocol.predecessor.stopped_run, ".ai-org/artifacts/WI-0136/representative-main-v10-stopped-run.json");
   assert.equal(protocol.stopped_evidence_policy, "completed-active-and-settled-sibling-observations-v3");
-  assert.equal(protocol.runner_safety.relative_git_target_policy, "provider-relative-cwd-resolved-against-arm-root-to-exact-fixture-repository-root");
+  assert.equal(protocol.runner_safety.relative_git_target_policy, "provider-relative-cwd-canonicalized-against-arm-root-to-exact-canonical-fixture-repository-root");
   assert.equal(protocol.runner_safety.parallel_failure_policy, "interrupt-and-await-all-siblings-before-stop-record");
   assert.equal(protocol.runner_safety.build_command_policy, "arm-root-repository-ids-without-candidate-git-self-check");
   assert.equal(protocol.runner_safety.provider_shell_wrapper_policy, "unwrap-one-exact-zsh-lc-single-quoted-layer-then-reapply-full-policy");
+  assert.equal(protocol.runner_safety.provider_cwd_policy, "canonicalize-existing-filesystem-aliases-before-containment-and-exact-target-checks");
   assert.equal(protocol.runner_safety.harness_readiness_policy, "production-orchestration-with-injected-generation-free-provider-v1");
   assert.equal(protocol.runner_safety.readiness_required_before_exact_approval, true);
 });
@@ -292,6 +295,7 @@ test("historical Provider command events are classified by normalized scope rath
   });
   const classify = (message) => representativeProtocolViolationForMessage(message, { turnId: "turn-1", armRoot });
   assert.equal(classify(event("notifications", "rg --files coordinator", "/bin/zsh -lc 'rg --files coordinator'")), null);
+  assert.equal(classify(event("notifications", "rg --files coordinator", "/bin/zsh -lc \"rg --files coordinator\"")), null);
   assert.equal(classify(event(
     "notifications",
     "/bin/zsh -lc 'node coordinator/templew.mjs context resolve coordinator --work-item WI-0001 --position developer --no-write --json'"
@@ -303,6 +307,28 @@ test("historical Provider command events are classified by normalized scope rath
   assert.match(classify(event("notifications", "/bin/zsh -lc \"node coordinator/templew.mjs context resolve coordinator\"")).message, /command policy rejected/);
   assert.match(classify(event("../outside", "rg OrderPlaced")).message, /command policy rejected/);
   assert.equal(classify({ ...event("notifications", "rg OrderPlaced"), params: { ...event("notifications", "rg OrderPlaced").params, turnId: "other" } }), null);
+});
+
+test("representative command policy canonicalizes filesystem aliases and rejects symlink escapes", async () => {
+  const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-command-cwd-"));
+  const armRoot = path.join(temporaryRoot, "arm");
+  const aliasRoot = path.join(temporaryRoot, "arm-alias");
+  const outsideRoot = path.join(temporaryRoot, "outside");
+  await fs.mkdir(path.join(armRoot, "notifications"), { recursive: true });
+  await fs.mkdir(outsideRoot, { recursive: true });
+  await fs.symlink(armRoot, aliasRoot, "dir");
+  await fs.symlink(outsideRoot, path.join(armRoot, "escape"), "dir");
+  const item = (cwd) => ({
+    type: "commandExecution",
+    cwd,
+    commandActions: [{ type: "listFiles", command: "rg --files" }]
+  });
+  try {
+    assert.equal(representativeCommandItemAllowed(item(path.join(aliasRoot, "notifications")), armRoot), true);
+    assert.equal(representativeCommandItemAllowed(item(path.join(armRoot, "escape")), armRoot), false);
+  } finally {
+    await fs.rm(temporaryRoot, { recursive: true, force: true });
+  }
 });
 
 test("Provider shell normalization unwraps one safe layer and rejects ambiguous wrappers", () => {

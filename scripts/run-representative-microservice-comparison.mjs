@@ -2,6 +2,7 @@
 
 import crypto from "node:crypto";
 import { execFile as execFileCallback } from "node:child_process";
+import { realpathSync } from "node:fs";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -53,6 +54,7 @@ const harnessReadinessCheckIds = Object.freeze([
   "analysis-completed",
   "all-generated-repositories-clean",
   "provider-command-event-replay",
+  "provider-cwd-canonicalization-replay",
   "zero-operational-tokens",
   "no-model-generation"
 ]);
@@ -85,6 +87,15 @@ function pathIsWithin(root, candidate) {
   return relative === "" || (!relative.startsWith(`..${path.sep}`) && relative !== ".." && !path.isAbsolute(relative));
 }
 
+function canonicalProviderPath(candidate) {
+  const resolved = path.resolve(candidate);
+  try {
+    return realpathSync.native(resolved);
+  } catch {
+    return resolved;
+  }
+}
+
 function resolveProviderCwd(cwd, armRoot) {
   let candidate = cwd;
   if (candidate.startsWith("file://")) {
@@ -103,12 +114,13 @@ function fixtureScopedRelativeGitReadAllowed(commandValue, cwd, armRoot) {
   if (!commandTextAllowed(commandValue, [["git"]])) return false;
   const match = commandValue.trim().match(/^git\s+-C\s+(\S+)\s+(status|diff|rev-parse|log|ls-tree)(?:\s|$)/);
   if (!match) return false;
-  const resolvedArmRoot = path.resolve(armRoot);
-  const resolvedCwd = resolveProviderCwd(cwd, resolvedArmRoot);
-  if (resolvedCwd === null) return false;
+  const resolvedArmRoot = canonicalProviderPath(armRoot);
+  const providerCwd = resolveProviderCwd(cwd, resolvedArmRoot);
+  if (providerCwd === null) return false;
+  const resolvedCwd = canonicalProviderPath(providerCwd);
   if (!pathIsWithin(resolvedArmRoot, resolvedCwd)) return false;
-  const resolvedTarget = path.resolve(resolvedCwd, match[1]);
-  return repositories.some((repositoryId) => resolvedTarget === path.join(resolvedArmRoot, repositoryId));
+  const resolvedTarget = canonicalProviderPath(path.resolve(resolvedCwd, match[1]));
+  return repositories.some((repositoryId) => resolvedTarget === canonicalProviderPath(path.join(resolvedArmRoot, repositoryId)));
 }
 
 export function normalizeProviderCommandText(value) {
@@ -128,9 +140,10 @@ export function representativeCommandItemDecision(item, armRoot) {
     item.commandActions.length === 0 ||
     item.commandActions.length > 32
   ) return { allowed: false, reason: "malformed-command-item" };
-  const resolvedArmRoot = path.resolve(armRoot);
-  const resolvedCwd = resolveProviderCwd(item.cwd, resolvedArmRoot);
-  if (resolvedCwd === null) return { allowed: false, reason: "invalid-command-cwd" };
+  const resolvedArmRoot = canonicalProviderPath(armRoot);
+  const providerCwd = resolveProviderCwd(item.cwd, resolvedArmRoot);
+  if (providerCwd === null) return { allowed: false, reason: "invalid-command-cwd" };
+  const resolvedCwd = canonicalProviderPath(providerCwd);
   if (!pathIsWithin(resolvedArmRoot, resolvedCwd)) return { allowed: false, reason: "command-cwd-outside-arm" };
   for (const action of item.commandActions) {
     if (action === null || typeof action !== "object" || typeof action.command !== "string") {
@@ -704,7 +717,7 @@ async function sourceDigests() {
 function buildProtocol(manifest) {
   const protocol = {
     schema_version: "temple.representative-microservice-comparison/v3",
-    protocol_revision: 10,
+    protocol_revision: 11,
     work_item_id: "WI-0136",
     status: "generation-disabled",
     protocol_sha256: null,
@@ -747,17 +760,18 @@ function buildProtocol(manifest) {
       new_unknown_recovery_start: "temple-md-first"
     },
     predecessor: {
-      protocol_sha256: "662cd01c96381f53e4eff79659a0e9da6ddf85022ff4d5cb49d095ced18ae02b",
-      disposition: "stopped-candidate-provider-shell-wrapper-unclassified",
-      stopped_run: ".ai-org/artifacts/WI-0136/representative-main-v9-stopped-run.json",
-      stop_report: ".ai-org/artifacts/WI-0136/representative-main-v9-stop-report.md"
+      protocol_sha256: "16591db95bde29d6becd273ce6df3cd39569f016ebdd03c5fd2fb2c21d9253e0",
+      disposition: "stopped-candidate-equivalent-temporary-path-unrecognized",
+      stopped_run: ".ai-org/artifacts/WI-0136/representative-main-v10-stopped-run.json",
+      stop_report: ".ai-org/artifacts/WI-0136/representative-main-v10-stop-report.md"
     },
     stopped_evidence_policy: "completed-active-and-settled-sibling-observations-v3",
     runner_safety: {
-      relative_git_target_policy: "provider-relative-cwd-resolved-against-arm-root-to-exact-fixture-repository-root",
+      relative_git_target_policy: "provider-relative-cwd-canonicalized-against-arm-root-to-exact-canonical-fixture-repository-root",
       parallel_failure_policy: "interrupt-and-await-all-siblings-before-stop-record",
       build_command_policy: "arm-root-repository-ids-without-candidate-git-self-check",
       provider_shell_wrapper_policy: "unwrap-one-exact-zsh-lc-single-quoted-layer-then-reapply-full-policy",
+      provider_cwd_policy: "canonicalize-existing-filesystem-aliases-before-containment-and-exact-target-checks",
       harness_readiness_policy: "production-orchestration-with-injected-generation-free-provider-v1",
       readiness_required_before_exact_approval: true
     },
@@ -788,7 +802,7 @@ function buildProtocol(manifest) {
 export function validateRepresentativeProtocol(protocol) {
   const errors = [];
   if (protocol?.schema_version !== "temple.representative-microservice-comparison/v3") errors.push("unsupported schema");
-  if (protocol?.protocol_revision !== 10) errors.push("unexpected protocol revision");
+  if (protocol?.protocol_revision !== 11) errors.push("unexpected protocol revision");
   if (protocol?.work_item_id !== "WI-0136") errors.push("unexpected work item");
   if (protocol?.status !== "generation-disabled") errors.push("protocol status must remain generation-disabled before exact approval");
   if (protocol?.protocol_sha256 !== protocolDigest(protocol)) errors.push("protocol digest mismatch");
@@ -819,15 +833,16 @@ export function validateRepresentativeProtocol(protocol) {
       contextPolicy.new_unknown_recovery_start !== "temple-md-first") {
     errors.push("context policy mismatch");
   }
-  if (protocol?.predecessor?.protocol_sha256 !== "662cd01c96381f53e4eff79659a0e9da6ddf85022ff4d5cb49d095ced18ae02b" ||
-      protocol?.predecessor?.disposition !== "stopped-candidate-provider-shell-wrapper-unclassified" ||
-      protocol?.predecessor?.stopped_run !== ".ai-org/artifacts/WI-0136/representative-main-v9-stopped-run.json" ||
-      protocol?.predecessor?.stop_report !== ".ai-org/artifacts/WI-0136/representative-main-v9-stop-report.md" ||
+  if (protocol?.predecessor?.protocol_sha256 !== "16591db95bde29d6becd273ce6df3cd39569f016ebdd03c5fd2fb2c21d9253e0" ||
+      protocol?.predecessor?.disposition !== "stopped-candidate-equivalent-temporary-path-unrecognized" ||
+      protocol?.predecessor?.stopped_run !== ".ai-org/artifacts/WI-0136/representative-main-v10-stopped-run.json" ||
+      protocol?.predecessor?.stop_report !== ".ai-org/artifacts/WI-0136/representative-main-v10-stop-report.md" ||
       protocol?.stopped_evidence_policy !== "completed-active-and-settled-sibling-observations-v3" ||
-      protocol?.runner_safety?.relative_git_target_policy !== "provider-relative-cwd-resolved-against-arm-root-to-exact-fixture-repository-root" ||
+      protocol?.runner_safety?.relative_git_target_policy !== "provider-relative-cwd-canonicalized-against-arm-root-to-exact-canonical-fixture-repository-root" ||
       protocol?.runner_safety?.parallel_failure_policy !== "interrupt-and-await-all-siblings-before-stop-record" ||
       protocol?.runner_safety?.build_command_policy !== "arm-root-repository-ids-without-candidate-git-self-check" ||
       protocol?.runner_safety?.provider_shell_wrapper_policy !== "unwrap-one-exact-zsh-lc-single-quoted-layer-then-reapply-full-policy" ||
+      protocol?.runner_safety?.provider_cwd_policy !== "canonicalize-existing-filesystem-aliases-before-containment-and-exact-target-checks" ||
       protocol?.runner_safety?.harness_readiness_policy !== "production-orchestration-with-injected-generation-free-provider-v1" ||
       protocol?.runner_safety?.readiness_required_before_exact_approval !== true) {
     errors.push("successor provenance mismatch");
@@ -3551,6 +3566,24 @@ export async function runRepresentativeHarnessReadiness(labRoot, protocolPath) {
               commandActions: [{
                 type: "unknown",
                 command: "/bin/zsh -lc 'node coordinator/templew.mjs context resolve coordinator --work-item WI-0001 --position developer --no-write --json'"
+              }]
+            }
+          }
+        }, { turnId: "readiness-turn", armRoot: path.join(readinessRoot, "arms", "temple") }) === null
+      },
+      {
+        id: "provider-cwd-canonicalization-replay",
+        pass: representativeProtocolViolationForMessage({
+          method: "item/started",
+          params: {
+            turnId: "readiness-turn",
+            item: {
+              type: "commandExecution",
+              cwd: path.join(`${resolvedLab}-readiness`, "arms", "temple", "notifications"),
+              command: "/bin/zsh -lc \"rg --files -g 'WORK_ITEM.md' -g 'TASK.md' -g 'design-record.json' -g 'AGENTS.md'\"",
+              commandActions: [{
+                type: "listFiles",
+                command: "rg --files -g 'WORK_ITEM.md' -g 'TASK.md' -g 'design-record.json' -g 'AGENTS.md'"
               }]
             }
           }

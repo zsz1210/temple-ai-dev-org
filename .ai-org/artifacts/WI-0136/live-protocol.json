@@ -1,12 +1,12 @@
 {
   "schema_version": "temple.representative-microservice-comparison/v3",
-  "protocol_revision": 10,
+  "protocol_revision": 11,
   "work_item_id": "WI-0136",
   "status": "generation-disabled",
-  "protocol_sha256": "16591db95bde29d6becd273ce6df3cd39569f016ebdd03c5fd2fb2c21d9253e0",
+  "protocol_sha256": "d729c503d8e8a9d35e0eb6367fda51fa76dbf34e7db45a5ef0a0408166283040",
   "fixture": {
     "fixture_sha256": "b10ff626ef465686909aaab6d858b087f0c2aaad7a8c484f9955ed0a8465822c",
-    "runner_sha256": "dfa7ff9677b48ba4f5d99a4c20eb2c132ef214f88c48ad775581bc3f7a19ed5a",
+    "runner_sha256": "12dcbf38a07589c03098b048269dcee8e92ead53e78a690512d39409a12a3802",
     "analyzer_sha256": "5e614a7879a8fbdb7655d6780dcf0c7e693e7326259fa166d7fe3231f1151c5c",
     "task_sha256": "5dfd10dce99196f282f0560a25aaffd359b7af2119a62d943e465f19ae46369c",
     "public_tests_sha256": "8809e165ee024f5606a48c38bb0f6065e3b943fcd00d05fda5fdd6099e0f41f9",
@@ -14,7 +14,7 @@
     "tool_policy_sha256": "18f5bef25f7b8a4efc220252818e642b75f5c342dd8d316e79a1254652801913",
     "rubric_sha256": "364d20a3102ddd78131fd2566b8579957b14df2d6638efd3ef1e97e94faeaf3f"
   },
-  "lab_manifest_sha256": "64a03dfcaf4cc58f310e951e213583f23b6b15cda5ff2142642514c80f76fbd4",
+  "lab_manifest_sha256": "56a04ba9bd3bfb2596bf071420c51b283f07ee8dffa2405b056500bba55e2f7b",
   "arms": [
     {
       "id": "minimal-responsible",
@@ -30,7 +30,7 @@
         "catalog": "490bb75496c715770d2585a18c7a6ddd8c8b67c9",
         "orders": "21b595ddeaf29c43c77ee6b980c8820c499bef67",
         "notifications": "01c716dc842e22b8b241eeb19707d69bf57f9598",
-        "coordinator": "96e00bb5cbbb18d80e59884f11702457208b64a1"
+        "coordinator": "9cca4a59fb9d333433d6fb86fa5503a358733d04"
       }
     },
     {
@@ -43,11 +43,11 @@
         "coordinator": "e3ce9dcde7e25d57df6a310bb850a4977921114f"
       },
       "organization_revisions": {
-        "gateway": "cf78538cc5fb615b54928ed5ebfc6d8d84906860",
-        "catalog": "77bf1bc2c4b47f0800065f4da55f9c2acb18f75e",
-        "orders": "4d148877a622cedb1a27d174bee79eff06a1f883",
-        "notifications": "6d582d6093b641be010bbdbf20b9ee8ceb98e126",
-        "coordinator": "6be310c101cb6477f47d2133b513c66ea8aeb97e"
+        "gateway": "83fe0c16ca9380c408061be84ddb08086573a83f",
+        "catalog": "cb70098521b551f07a8534133f9518adc4975718",
+        "orders": "bfbfcf3925c70f494297ba3089fc009d6453c0a0",
+        "notifications": "80d0538a58d0d6b84ac39ff574ae3c2769620062",
+        "coordinator": "e171f15e33e76ad0f84180f0e0bb6266ec04b527"
       }
     }
   ],
@@ -102,17 +102,18 @@
     "new_unknown_recovery_start": "temple-md-first"
   },
   "predecessor": {
-    "protocol_sha256": "662cd01c96381f53e4eff79659a0e9da6ddf85022ff4d5cb49d095ced18ae02b",
-    "disposition": "stopped-candidate-provider-shell-wrapper-unclassified",
-    "stopped_run": ".ai-org/artifacts/WI-0136/representative-main-v9-stopped-run.json",
-    "stop_report": ".ai-org/artifacts/WI-0136/representative-main-v9-stop-report.md"
+    "protocol_sha256": "16591db95bde29d6becd273ce6df3cd39569f016ebdd03c5fd2fb2c21d9253e0",
+    "disposition": "stopped-candidate-equivalent-temporary-path-unrecognized",
+    "stopped_run": ".ai-org/artifacts/WI-0136/representative-main-v10-stopped-run.json",
+    "stop_report": ".ai-org/artifacts/WI-0136/representative-main-v10-stop-report.md"
   },
   "stopped_evidence_policy": "completed-active-and-settled-sibling-observations-v3",
   "runner_safety": {
-    "relative_git_target_policy": "provider-relative-cwd-resolved-against-arm-root-to-exact-fixture-repository-root",
+    "relative_git_target_policy": "provider-relative-cwd-canonicalized-against-arm-root-to-exact-canonical-fixture-repository-root",
     "parallel_failure_policy": "interrupt-and-await-all-siblings-before-stop-record",
     "build_command_policy": "arm-root-repository-ids-without-candidate-git-self-check",
     "provider_shell_wrapper_policy": "unwrap-one-exact-zsh-lc-single-quoted-layer-then-reapply-full-policy",
+    "provider_cwd_policy": "canonicalize-existing-filesystem-aliases-before-containment-and-exact-target-checks",
     "harness_readiness_policy": "production-orchestration-with-injected-generation-free-provider-v1",
     "readiness_required_before_exact_approval": true
   },
