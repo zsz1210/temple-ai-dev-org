@@ -1,9 +1,9 @@
 {
-  "schema_version": "temple.context-model-diagnostic-account-approval/v3",
+  "schema_version": "temple.context-model-diagnostic-account-approval/v5",
   "work_item_id": "WI-0136",
-  "protocol_sha256": "c5e0b069880a079de6fd8030fda3818cee92c809bd834999db2a04ca32be147a",
+  "protocol_sha256": "9c947a32b2e63f771de3bcdfae2f3e95dd8ab69b66a65e812473c28ec04d615f",
   "approved": true,
-  "authorization_source": "user-message:exact-WI-0136-v3-context-model-diagnostic-approval",
+  "authorization_source": "user-message:exact-WI-0136-v5-context-model-diagnostic-approval",
   "approved_candidate_turns": 4,
   "approved_models": [
     "gpt-5.6-terra",
@@ -13,8 +13,14 @@
     "medium",
     "xhigh"
   ],
-  "approved_candidate_operational_tokens": 320000,
-  "approved_combined_operational_tokens": 320000,
+  "approved_condition_operational_token_limits": {
+    "terra-routed": 80000,
+    "sol-routed-medium": 80000,
+    "sol-routed-xhigh": 80000,
+    "terra-full-load": 120000
+  },
+  "approved_candidate_operational_tokens": 360000,
+  "approved_combined_operational_tokens": 360000,
   "approved_program_wall_clock_ms": 2400000,
   "pro_included_allowance_only": true,
   "credits_purchase_authorized": false,
@@ -22,5 +28,5 @@
   "usage_reset_authorized": false,
   "retry_count": 0,
   "fallback_count": 0,
-  "approved_at": "2026-09-03T12:48:58Z"
+  "approved_at": "2026-09-03T13:13:35Z"
 }
