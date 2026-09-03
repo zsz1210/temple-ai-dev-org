@@ -325,14 +325,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-03T11:28:59.485Z | evidence_invalidated | WI-0136 | human |
+| 2026-09-03T11:27:34.647Z | evidence_recorded | WI-0136 | human |
+| 2026-09-03T11:27:19.070Z | evidence_recorded | WI-0136 | human |
 | 2026-09-03T10:51:58.546Z | work_item_claimed | WI-0136 | human |
 | 2026-09-03T10:51:58.295Z | work_item_transitioned | WI-0136 | agent-tidus |
 | 2026-09-03T10:51:58.060Z | handoff_created | WI-0136 | agent-tidus |
 | 2026-09-03T10:51:57.773Z | work_item_coordination_configured | WI-0136 | agent-tidus |
 | 2026-09-03T10:49:49.665Z | work_item_transitioned | WI-0136 | agent-yuna |
-| 2026-09-03T10:49:49.384Z | handoff_created | WI-0136 | agent-yuna |
-| 2026-09-03T10:48:36.521Z | work_item_transitioned | WI-0136 | agent-mog |
-| 2026-09-03T10:48:36.179Z | handoff_created | WI-0136 | agent-mog |
 
 ## Assignments
 
