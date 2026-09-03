@@ -182,7 +182,7 @@
 | WI-0132 | Run corrected Lean routing effectiveness comparison | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `fd4bbe88` | 0 | 21 | 0 |
 | WI-0133 | Reduce Lean context overhead and harden effectiveness measurement | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1df92590` | 0 | 20 | 0 |
 | WI-0134 | Repair invalid historical evidence records | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ad1f06a5` | 0 | 18 | 0 |
-| WI-0135 | Run optimized Terra process confirmation | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `01c0f814` | 0 | 15 | 0 |
+| WI-0135 | Run optimized Terra process confirmation | independent_qa | Independent QA | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `01c0f814` | 0 | 19 | 0 |
 
 ## Codex task registry
 
@@ -324,14 +324,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-03T10:34:22.855Z | work_item_coordination_configured | WI-0135 | agent-lulu |
+| 2026-09-03T10:34:22.614Z | work_item_transitioned | WI-0135 | agent-lulu |
+| 2026-09-03T10:34:22.335Z | handoff_created | WI-0135 | agent-lulu |
+| 2026-09-03T10:34:22.068Z | work_item_transitioned | WI-0135 | agent-lulu |
+| 2026-09-03T10:34:13.436Z | evidence_recorded | WI-0135 | human |
 | 2026-09-03T10:33:21.376Z | work_item_transitioned | WI-0135 | agent-rikku |
 | 2026-09-03T10:33:21.139Z | work_item_claim_released | WI-0135 | human |
 | 2026-09-03T10:33:20.849Z | handoff_created | WI-0135 | agent-rikku |
-| 2026-09-03T10:33:12.929Z | evidence_recorded | WI-0135 | human |
-| 2026-09-03T10:19:31.893Z | work_item_claimed | WI-0135 | human |
-| 2026-09-03T10:19:31.619Z | work_item_coordination_configured | WI-0135 | agent-rikku |
-| 2026-09-03T10:19:31.372Z | work_item_transitioned | WI-0135 | agent-tidus |
-| 2026-09-03T10:19:31.140Z | handoff_created | WI-0135 | agent-tidus |
 
 ## Assignments
 

@@ -1,0 +1,22 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "7394ec9a659f65909bf8ab80ba7b2989fc9c8731",
+  "command": [
+    "node",
+    "--test",
+    "test/effectiveness-pilot-v2.test.mjs"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-03T10:33:42.000Z",
+  "completed_at": "2026-09-03T10:33:50.000Z",
+  "artifact_refs": [
+    "test/effectiveness-pilot-v2.test.mjs",
+    ".ai-org/artifacts/WI-0135/live-protocol.json",
+    ".ai-org/artifacts/WI-0135/account-approval.json",
+    ".ai-org/artifacts/WI-0135/live-experiment-observation.json",
+    ".ai-org/artifacts/WI-0135/effectiveness-analysis.json",
+    ".ai-org/artifacts/WI-0135/quality-report.md",
+    "docs/validation/lean-routing-effectiveness-result.md"
+  ]
+}

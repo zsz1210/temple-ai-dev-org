@@ -20847,6 +20847,71 @@
         "exit_code": 0,
         "started_at": "2026-09-03T10:31:18.000Z"
       }
+    },
+    {
+      "id": "EVID-20260903T103413Z-588A5419",
+      "work_item_id": "WI-0135",
+      "recorded_at": "2026-09-03T10:34:13.436Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0135 quality evaluation",
+      "outcome": "pass",
+      "scope_revision": "7394ec9a659f65909bf8ab80ba7b2989fc9c8731",
+      "observed_at": "2026-09-03T10:33:50.000Z",
+      "summary": "Focused protocol, approval, evidence-reconciliation, analysis, and reporting checks passed for the neutral Terra confirmation result.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0135/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0135/quality-test-observation.json",
+          "sha256": "05e3b98596e5a70372e54e803bcdf5ae2892be1bd52340c22489d9f37178e340"
+        },
+        {
+          "path": "test/effectiveness-pilot-v2.test.mjs",
+          "sha256": "3cc8275f8c6019a7d16f6b27665e130eae2b85bf2f05aa28ab508b3c2657afaa"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/live-protocol.json",
+          "sha256": "6e405ecc670069886a776de246762eeafa23a93d27cd0951c85d5ae0a6685f17"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/account-approval.json",
+          "sha256": "c119e856fc7b2e92fbf1b72a23a0f6e64936a585393b5a66d86b8dc6abc34962"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/live-experiment-observation.json",
+          "sha256": "9a545ddf9e9c080d664278db198dd4003fd3e3a042627f32279368720cea981f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/effectiveness-analysis.json",
+          "sha256": "d15d9c89d7187fc509312f0cda1bbd5456345b035ba53f6d816498b205d43118"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/quality-report.md",
+          "sha256": "6648d2d8391cfcead7ad5f6014c8c3ce5482794ae28fb4ff70ea15a7f4579715"
+        },
+        {
+          "path": "docs/validation/lean-routing-effectiveness-result.md",
+          "sha256": "cf2d6b34af26d82f00b89cac0ec671d400a1d21fd0a679afdc4b6d38a0edf30b"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/effectiveness-pilot-v2.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T10:33:42.000Z"
+      }
     }
   ]
 }

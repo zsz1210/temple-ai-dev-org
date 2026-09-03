@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0135",
   "title": "Run optimized Terra process confirmation",
-  "state": "test",
-  "owner_position": "quality_evaluator",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-03T10:18:36.380Z",
-  "updated_at": "2026-09-03T10:33:21.376Z",
+  "updated_at": "2026-09-03T10:34:22.855Z",
   "scope": [
     "Extend the governed effectiveness runner to execute the registered two-arm optimized Terra confirmation, run exactly four isolated Terra medium candidates and one Terra high blind evaluator under the approved 209000 operational Token ceiling, preserve bounded evidence, and publish a human-readable textual report."
   ],
@@ -48,10 +48,10 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "4f9da0499ab8d9e61c97417c86ba57bc7867a8e6",
+  "base_revision": "7394ec9a659f65909bf8ab80ba7b2989fc9c8731",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
-  "planned_agent_id": null,
+  "planned_agent_id": "agent-lulu",
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
@@ -112,6 +112,12 @@
       ".ai-org/artifacts/WI-0135/effectiveness-analysis.json",
       "docs/validation/lean-routing-effectiveness-result.md",
       "EVID-20260903T103312Z-CE949DD6"
+    ],
+    "test_evidence": [
+      "EVID-20260903T103413Z-588A5419"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0135/quality-report.md"
     ]
   },
   "evidence": [
@@ -129,10 +135,14 @@
     ".ai-org/artifacts/WI-0135/effectiveness-analysis.json",
     "docs/validation/lean-routing-effectiveness-result.md",
     ".ai-org/artifacts/WI-0135/handoff-004-developer-to_quality_evaluator.md",
-    "EVID-20260903T103312Z-CE949DD6"
+    "EVID-20260903T103312Z-CE949DD6",
+    "EVID-20260903T103413Z-588A5419",
+    ".ai-org/artifacts/WI-0135/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0135/quality-report.md",
+    ".ai-org/artifacts/WI-0135/quality-test-observation.json"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "release_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -161,6 +171,13 @@
       "input_revision": "01c0f81412ab9bc590ca2ebe6b9414fae10ed885",
       "artifact": ".ai-org/artifacts/WI-0135/handoff-004-developer-to-quality_evaluator.md",
       "created_at": "2026-09-03T10:33:20.849Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "7394ec9a659f65909bf8ab80ba7b2989fc9c8731",
+      "artifact": ".ai-org/artifacts/WI-0135/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-03T10:34:22.335Z"
     }
   ],
   "developer_candidate_revision": "01c0f81412ab9bc590ca2ebe6b9414fae10ed885"
