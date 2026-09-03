@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 127 total, 2 active
+- Work items: 129 total, 2 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -175,6 +175,8 @@
 | WI-0125 | Remove machine-specific evaluator path | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `78bf7b80` | 0 | 14 | 0 |
 | WI-0126 | Refocus the roadmap on Temple core outcomes | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e4c3a624` | 0 | 19 | 0 |
 | WI-0127 | Audit the Console-free core operating path | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2edf130b` | 0 | 20 | 0 |
+| WI-0128 | Make the product roadmap and core path human-readable | cancelled | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
+| WI-0129 | Make the product roadmap and core path human-readable | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3e5178ba` | 0 | 18 | 0 |
 
 ## Codex task registry
 
@@ -243,7 +245,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 26
+- Team-visible Work Items: 28
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -316,14 +318,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-03T05:37:14.839Z | work_item_closed | WI-0127 | agent-mog |
-| 2026-09-03T05:37:14.839Z | release_gate_completed | WI-0127 | agent-mog |
-| 2026-09-03T05:37:14.565Z | work_item_claimed | WI-0127 | human |
-| 2026-09-03T05:37:14.303Z | work_item_transitioned | WI-0127 | agent-lulu |
-| 2026-09-03T05:37:14.012Z | handoff_created | WI-0127 | agent-lulu |
-| 2026-09-03T05:37:13.726Z | evidence_recorded | WI-0127 | human |
-| 2026-09-03T05:36:23.056Z | work_item_claimed | WI-0127 | human |
-| 2026-09-03T05:36:22.786Z | work_item_transitioned | WI-0127 | agent-lulu |
+| 2026-09-03T06:14:33.661Z | work_item_closed | WI-0129 | agent-mog |
+| 2026-09-03T06:14:33.661Z | release_gate_completed | WI-0129 | agent-mog |
+| 2026-09-03T06:14:19.890Z | work_item_claimed | WI-0129 | human |
+| 2026-09-03T06:14:19.643Z | work_item_transitioned | WI-0129 | agent-lulu |
+| 2026-09-03T06:14:13.612Z | work_item_claim_released | WI-0129 | human |
+| 2026-09-03T06:14:13.343Z | handoff_created | WI-0129 | agent-lulu |
+| 2026-09-03T06:12:29.480Z | work_item_claimed | WI-0129 | human |
+| 2026-09-03T06:12:29.227Z | work_item_transitioned | WI-0129 | agent-lulu |
 
 ## Assignments
 

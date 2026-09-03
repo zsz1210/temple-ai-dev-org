@@ -1,0 +1,32 @@
+{
+  "schema_version": "temple.local-test-observation/v1",
+  "work_item_id": "WI-0129",
+  "position": "independent_qa",
+  "agent_id": "agent-lulu",
+  "developer_agent_id": "agent-rikku",
+  "candidate_revision": "3e5178bac6564a1128beac97c1a782b4a45c941e",
+  "environment": "fresh detached Git worktree",
+  "observed_at": "2026-09-03T06:13:39Z",
+  "commands": [
+    {
+      "command": "npm run verify",
+      "status": "passed",
+      "passed": 332,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "todo": 0,
+      "duration_ms": 59957.474292
+    }
+  ],
+  "manual_checks": [
+    "Roadmap content remains at product purpose, capability, and milestone level",
+    "The three localized Roadmaps use aligned information architecture",
+    "Core Path covers the four P1 findings from the preceding audit",
+    "A versus B and B versus C isolate separate interventions",
+    "The conventional baseline retains scope, version control, testing, review, and integration responsibility",
+    "Invalid, inconclusive, neutral, and negative experiment outcomes cannot become a positive Temple claim"
+  ],
+  "provider_generation_performed": false,
+  "external_action_performed": false
+}

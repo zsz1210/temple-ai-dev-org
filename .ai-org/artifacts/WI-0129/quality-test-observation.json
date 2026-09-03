@@ -1,0 +1,39 @@
+{
+  "schema_version": "temple.local-test-observation/v1",
+  "work_item_id": "WI-0129",
+  "position": "quality_evaluator",
+  "agent_id": "agent-lulu",
+  "candidate_revision": "3e5178bac6564a1128beac97c1a782b4a45c941e",
+  "environment": "fresh detached Git worktree",
+  "observed_at": "2026-09-03T06:12:01Z",
+  "commands": [
+    {
+      "command": "npm ci --ignore-scripts",
+      "status": "passed",
+      "vulnerabilities": 0
+    },
+    {
+      "command": "npm run check",
+      "status": "passed"
+    },
+    {
+      "command": "node --test test/workflow.test.mjs test/runtime-coordination.test.mjs test/execution-routing.test.mjs test/doc-links.test.mjs",
+      "status": "passed",
+      "passed": 58,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "todo": 0,
+      "duration_ms": 23242.239625
+    }
+  ],
+  "manual_checks": [
+    "All three Roadmaps retain the same product-level heading structure and contain no Work Item-level roadmap entries",
+    "The Core Path includes Lean, Standard, High-Assurance, ordinary claim and release, execution resolve, evidence handoff, closeout, and continuity",
+    "The Usage guide describes no-go as terminal concluded rather than blocked",
+    "The experiment isolates A versus B as Temple process effect and B versus C as routing effect",
+    "Neutral, negative, invalid, and inconclusive results all have explicit actions"
+  ],
+  "provider_generation_performed": false,
+  "external_action_performed": false
+}
