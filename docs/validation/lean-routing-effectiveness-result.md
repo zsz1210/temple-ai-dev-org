@@ -1,4 +1,60 @@
-# Native Lean routing effectiveness result
+# Lean routing effectiveness results
+
+## WI-0135 optimized Terra confirmation
+
+- Run date: 2026-09-03
+- Registered protocol: `2e8b3053beed780c9851027382675b5aecea658aa4d7231d412e3ce96bcdf071`
+- Scope: two corrected implementation cases, conventional and optimized Temple processes, four Terra candidates, and one blind Terra evaluator
+- Classification: `neutral`
+
+### Bottom line
+
+The optimized Temple process preserved correctness and blind-reviewed quality, and it completed the two candidates **19.77% faster** than the responsible conventional process. It did **not** reduce operational Tokens: Temple used 63,930 versus 62,825, an increase of 1.76%. Because the registered decision required at least a 10% improvement in both Tokens and latency, the result is neutral and does not authorize a routing or default-model change.
+
+This is still a substantial improvement over the first Temple treatment: the same-run process gap is now close to Token parity instead of the earlier run's 77.94% overhead. However, cross-run baselines moved materially, so that change cannot be treated as a causal savings estimate. The only controlled conclusion is the current within-run comparison.
+
+### Aggregate result
+
+| Condition | Objective tests | Mean blind score | Operational Tokens | Candidate time | Mean context |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Responsible conventional Terra | 2 / 2 | 100 | 62,825 | 167.01 s | 2,166 B |
+| Optimized Temple Terra | 2 / 2 | 100 | 63,930 | 133.99 s | 9,339 B |
+| Temple delta | equal | 0 points | **+1.76%** | **-19.77%** | **+331.16%** |
+
+All four candidates passed their public and coordinator-held acceptance tests. The arm-neutral evaluator scored all four packages 100. The complete run used 149,982 operational Tokens including the evaluator, or 71.76% of the approved 209,000 ceiling, with no retry, fallback, reroute, or network access.
+
+### Per-case result
+
+| Case | Condition | Objective | Blind | Operational Tokens | Time | Context |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| Idempotent command | Conventional | Pass | 100 | 31,851 | 82.95 s | 2,151 B |
+| Idempotent command | Optimized Temple | Pass | 100 | 32,271 | 65.28 s | 9,316 B |
+| Compatible event evolution | Conventional | Pass | 100 | 30,974 | 84.06 s | 2,181 B |
+| Compatible event evolution | Optimized Temple | Pass | 100 | 31,659 | 68.71 s | 9,362 B |
+
+Temple was faster in both pairs, by 21.31% and 18.26%, but used 1.32% and 2.21% more operational Tokens. The direction is consistent across the two cases, but two pairs remain diagnostic rather than statistically representative.
+
+### What this changes
+
+1. **Keep Terra as the bounded-work default.** Both processes solved both corrected cases at the same quality; a stronger model is not justified here.
+2. **Keep the optimized Lean treatment.** It removed most of the previously observed Token penalty while retaining explicit authority and acceptance evidence, but it is not yet a Token-saving treatment.
+3. **Do not market Temple as cheaper from this result.** The data supports quality parity and a promising latency signal for these cases, not a cost or universal productivity claim.
+4. **Target the remaining context overhead.** The optimized Temple envelope is still about 7.2 KB larger per case. The next design should test a minimum authority capsule rather than deleting acceptance or safety contracts.
+5. **Measure Temple's actual organizational value.** One-turn coding fixtures do not capture handoff recovery, duplicate-work avoidance, review findings, rework, human intervention, or multi-Agent continuity. Those outcomes are the next representative experiment family.
+6. **Repair reasoning-effort observability before effort claims.** All candidates requested `medium`, the thread-level observation reported `high`, and effective turn effort remained unavailable. Both arms were matched, but this run cannot prove the effective effort value.
+
+### Evidence and limits
+
+- Canonical observation: `.ai-org/artifacts/WI-0135/live-experiment-observation.json`
+- Frozen blind scores: `.ai-org/artifacts/WI-0135/quality-scores-frozen.json`
+- Analysis: `.ai-org/artifacts/WI-0135/effectiveness-analysis.json`
+- Preflight audit: `.ai-org/artifacts/WI-0135/preflight-audit.json`
+- Exact approval: `.ai-org/artifacts/WI-0135/account-approval.json`
+- Raw prompts, responses, hidden reasoning, credentials, candidate repositories, and PDF are not retained in Git.
+- Monetary cost is unknown. Operational Tokens are a registered resource metric, not a billing-price claim.
+- The sample covers two bounded JavaScript tasks. It does not establish statistical superiority or generalize to large, ambiguous, multi-repository, UI, security, or operational work.
+
+## WI-0132 four-arm baseline
 
 - Work Item: `WI-0132`
 - Run date: 2026-09-03
