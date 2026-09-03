@@ -159,7 +159,8 @@ async function initializeGit(root, message) {
 
 async function pinnedTemple(snapshotRoot, target, args) {
   const cli = path.join(snapshotRoot, "bin/temple.mjs");
-  const result = await command(process.execPath, [cli, ...args.slice(0, 2), target, ...args.slice(2)], {
+  const targetIndex = ["work-item", "execution", "context"].includes(args[0]) ? 2 : 1;
+  const result = await command(process.execPath, [cli, ...args.slice(0, targetIndex), target, ...args.slice(targetIndex)], {
     env: { ...process.env, TEMPLE_CLI_PATH: cli }
   });
   if (result.status !== 0) throw new Error(result.stderr || result.stdout);
