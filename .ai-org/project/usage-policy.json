@@ -67,8 +67,14 @@
         "profile_id": "mechanical-fast"
       },
       {
-        "id": "bounded-quality",
+        "id": "explicit-bounded-delivery",
         "task_kinds": ["bounded"],
+        "risk_classes": ["low", "standard"],
+        "profile_id": "standard"
+      },
+      {
+        "id": "semantic-ambiguity-escalation",
+        "task_kinds": ["semantic-ambiguity", "invariant-sensitive"],
         "risk_classes": ["low", "standard"],
         "profile_id": "lightweight-quality"
       },

@@ -290,7 +290,7 @@ Concrete model preferences belong to project-owned policy, not the framework-man
 |---|---|---|
 | `critical-planning` | `gpt-5.6-sol`, `xhigh` | consequential planning, architecture, security, migrations, and high-risk review |
 | `standard` | `gpt-5.6-terra`, `medium` or `high` | ordinary implementation, diagnosis, documentation synthesis, and broad exploration |
-| `lightweight-quality` | `gpt-5.6-luna`, `max` | bounded and reversible work with objective acceptance checks where quality matters |
+| `lightweight-quality` | `gpt-5.6-luna`, `max` | semantic ambiguity or invariant-sensitive work that justifies an advisory quality escalation |
 | `mechanical-fast` | `gpt-5.6-luna`, `medium` or `low`, or no model | formatting, extraction, inventory, repetitive transformation, and deterministic checks |
 
 These are coordinator choices for the exact task, not automatic-routing behavior and not defaults imposed on repositories that adopt Temple. Task shape and risk take precedence over Position or Agent display name. Explicit human task-level selection still wins within the authorized scope and spending boundary, and a fallback outside the GPT-5.6 family requires an explicit exception. Requested and effective model remain distinct facts.

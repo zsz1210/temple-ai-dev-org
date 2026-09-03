@@ -347,6 +347,32 @@ test("one request resolves independent steps by task shape instead of Position o
   assert.equal(route.authority.mutation_performed, false);
 });
 
+test("bounded work stays on Terra while semantic ambiguity escalates to Luna and consequential work to Sol", () => {
+  const route = resolveExecutionRequest(mappedPolicy(), request([
+    step("explicit-bounded", { task_kind: "bounded", risk_class: "low" }),
+    step("ambiguous-invariant", { task_kind: "semantic-ambiguity", risk_class: "low" }),
+    step("consequential-security", { task_kind: "security", risk_class: "high", required: ["text.reasoning", "architecture.design"] })
+  ]));
+  assert.deepEqual(route.steps.map((entry) => entry.selection.rule_id), [
+    "explicit-bounded-delivery",
+    "semantic-ambiguity-escalation",
+    "consequential-work"
+  ]);
+  assert.deepEqual(route.steps.map((entry) => entry.selected.profile_id), [
+    "standard",
+    "lightweight-quality",
+    "critical-planning"
+  ]);
+  assert.deepEqual(route.steps.map((entry) => entry.selected.requested.model), [
+    "gpt-5.6-terra",
+    "gpt-5.6-luna",
+    "gpt-5.6-sol"
+  ]);
+  assert.ok(route.steps.every((entry) => entry.selected.effective.status === "unobserved"));
+  assert.equal(route.authority.automatic_execution, false);
+  assert.equal(route.authority.provider_contact, false);
+});
+
 test("hard capability, Provider, data, boundary, risk, and resource filters run before preference", () => {
   const policy = mappedPolicy();
   policy.profiles.find((entry) => entry.id === "standard").resource_estimates = [

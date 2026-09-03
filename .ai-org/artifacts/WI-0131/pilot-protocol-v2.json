@@ -1,0 +1,115 @@
+{
+  "schema_version": "temple.effectiveness-pilot/v2",
+  "protocol_id": "native-lean-four-arm-pilot-1",
+  "work_item_id": "WI-0131",
+  "fixture_root": ".ai-org/artifacts/WI-0106/fixtures",
+  "fixture_source_revision": "87d7e68aaed0af6559697a690cf623ac158ab283",
+  "framework_revision_source": "required-setup-argument",
+  "launch_instruction": {
+    "path": "launch-instruction.md",
+    "sha256": "f5b60dfe7525b64f1b9fac35fdf836314a6c8729136c1a850b3a43e47b0e24eb"
+  },
+  "tool_policy": {
+    "path": "tool-policy.json",
+    "sha256": "c249684d7a24776c4b02639ac2fae5bdd027dd38e6f2ab017b48302db773e126"
+  },
+  "conditions": [
+    {
+      "id": "conventional-terra",
+      "process": "minimal-responsible",
+      "selection_mode": "fixed",
+      "profile_id": "standard",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "purpose": "baseline"
+    },
+    {
+      "id": "temple-terra",
+      "process": "temple-lean",
+      "selection_mode": "advisory",
+      "task_kind": "bounded",
+      "profile_id": "standard",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "purpose": "process-effect"
+    },
+    {
+      "id": "temple-luna",
+      "process": "temple-lean",
+      "selection_mode": "advisory",
+      "task_kind": "semantic-ambiguity",
+      "profile_id": "lightweight-quality",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "max",
+      "purpose": "efficient-deep-escalation"
+    },
+    {
+      "id": "temple-sol",
+      "process": "temple-lean",
+      "selection_mode": "pinned",
+      "task_kind": "invariant-sensitive",
+      "profile_id": "critical-planning",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "xhigh",
+      "purpose": "flagship-capability-ceiling"
+    }
+  ],
+  "comparisons": [
+    { "id": "process-effect", "baseline": "conventional-terra", "next": "temple-terra", "attribution": "process" },
+    { "id": "efficient-escalation", "baseline": "temple-terra", "next": "temple-luna", "attribution": "route-bundle" },
+    { "id": "flagship-ceiling", "baseline": "temple-luna", "next": "temple-sol", "attribution": "route-bundle" }
+  ],
+  "cases": [
+    {
+      "id": "idempotent-command",
+      "bundle_sha256": "d1e305e558d889b04a94bb3ece31e4575c064a41bde49af197170a3a885f2bfa",
+      "acceptance_contract": ".ai-org/artifacts/WI-0131/cases/idempotent-command.acceptance.json",
+      "condition_order": ["temple-luna", "conventional-terra", "temple-sol", "temple-terra"],
+      "temple_init_path": "temple-init-idempotent-command.json"
+    },
+    {
+      "id": "compatible-event-evolution",
+      "bundle_sha256": "84126afb5d4d82ebb479cc1a9ded3c1cbefabb13fddd845b0de7d6441a8e57d1",
+      "acceptance_contract": ".ai-org/artifacts/WI-0131/cases/compatible-event-evolution.acceptance.json",
+      "condition_order": ["temple-terra", "temple-sol", "conventional-terra", "temple-luna"],
+      "temple_init_path": "temple-init-compatible-event-evolution.json"
+    }
+  ],
+  "execution": {
+    "candidate_turns": 8,
+    "evaluator_turns": 1,
+    "concurrency": 1,
+    "retry_count": 0,
+    "fallback_count": 0,
+    "network_access": false,
+    "live_generation_requires_exact_approval": true,
+    "candidate_operational_token_limit": null,
+    "evaluator_operational_token_limit": null,
+    "combined_operational_token_limit": null,
+    "program_wall_clock_limit_ms": null
+  },
+  "evaluation": {
+    "objective_held_out_tests_primary": true,
+    "blind_review_secondary": true,
+    "evaluator_model": "gpt-5.6-terra",
+    "evaluator_reasoning_effort": "high",
+    "fresh_provider_context_required": true,
+    "tools_allowed": false,
+    "score_freeze_before_mapping_unseal": true,
+    "same_model_judge_bias_avoided_for_sol_arm": true
+  },
+  "decision_thresholds": {
+    "quality_non_inferiority_points": 3,
+    "meaningful_operational_token_reduction_percent": 10,
+    "meaningful_latency_reduction_percent": 10,
+    "interpretation": "Project-owned diagnostic thresholds retained for comparability; they are not statistical or industry benchmarks."
+  },
+  "claims": {
+    "diagnostic_only": true,
+    "statistical_superiority": false,
+    "pure_model_effect": false,
+    "framework_wide_effectiveness": false,
+    "automatic_routing": false,
+    "billing_cost": false
+  }
+}

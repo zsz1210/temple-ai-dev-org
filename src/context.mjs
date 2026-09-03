@@ -32,6 +32,14 @@ export const CONTEXT_MAP_SCHEMA = "temple.context-map/v1";
 export const CAPABILITY_REGISTRY_SCHEMA = "temple.capability-registry/v1";
 export const CONTEXT_CAPSULE_SCHEMA = "temple.context-capsule/v1";
 export const RETRIEVAL_PROVIDER_SCHEMA = "temple.retrieval-provider/v1";
+export const ACCEPTANCE_CONTRACT_SCHEMA = "temple.acceptance-contract/v1";
+export const ACCEPTANCE_CONTRACT_DIMENSIONS = Object.freeze([
+  "identity_semantics",
+  "input_immutability",
+  "idempotency",
+  "compatibility",
+  "error_semantics"
+]);
 
 export const CONTEXT_KINDS = [
   "product-spec",
@@ -83,6 +91,78 @@ function uniqueNonEmptyStrings(values) {
     values.every((value) => typeof value === "string" && value.trim().length > 0) &&
     new Set(values).size === values.length
   );
+}
+
+function stableJson(value) {
+  if (Array.isArray(value)) return `[${value.map(stableJson).join(",")}]`;
+  if (value && typeof value === "object") {
+    return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${stableJson(value[key])}`).join(",")}}`;
+  }
+  return JSON.stringify(value);
+}
+
+function contextItemCount(value) {
+  if (Array.isArray(value)) return value.length;
+  if (value && typeof value === "object") return Object.keys(value).length;
+  return value === null || value === undefined ? 0 : 1;
+}
+
+export function measureContextEnvelope(components) {
+  if (!components || typeof components !== "object" || Array.isArray(components)) {
+    throw new Error("context components must be an object");
+  }
+  const entries = Object.entries(components).sort(([left], [right]) => left.localeCompare(right));
+  if (entries.length === 0) throw new Error("context components must not be empty");
+  const digest = [];
+  const measured = entries.map(([id, value]) => {
+    if (!CONTEXT_ID.test(id)) throw new Error(`invalid context component id ${id}`);
+    const canonical = stableJson(value);
+    const bytes = Buffer.byteLength(canonical, "utf8");
+    digest.push(id, "\0", canonical, "\0");
+    return { id, utf8_bytes: bytes, item_count: contextItemCount(value), sha256: sha256(canonical) };
+  });
+  return {
+    algorithm: "stable-json-v1",
+    context_profile_digest: `sha256:${sha256(digest.join(""))}`,
+    utf8_bytes: measured.reduce((total, entry) => total + entry.utf8_bytes, 0),
+    components: measured
+  };
+}
+
+export function validateAcceptanceContract(document) {
+  const errors = [];
+  const blockers = [];
+  if (document?.schema_version !== ACCEPTANCE_CONTRACT_SCHEMA) {
+    errors.push(`schema_version must be ${ACCEPTANCE_CONTRACT_SCHEMA}`);
+  }
+  if (typeof document?.case_id !== "string" || !document.case_id.trim()) errors.push("case_id is required");
+  const dimensions = document?.dimensions;
+  if (!dimensions || typeof dimensions !== "object" || Array.isArray(dimensions)) {
+    errors.push("dimensions must be an object");
+  } else {
+    const unknown = Object.keys(dimensions).filter((id) => !ACCEPTANCE_CONTRACT_DIMENSIONS.includes(id));
+    if (unknown.length) errors.push(`unknown acceptance dimensions: ${unknown.join(", ")}`);
+    for (const id of ACCEPTANCE_CONTRACT_DIMENSIONS) {
+      const entry = dimensions[id];
+      if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
+        errors.push(`${id} is required`);
+        continue;
+      }
+      if (!["specified", "not-applicable", "unknown"].includes(entry.status)) {
+        errors.push(`${id}.status is invalid`);
+        continue;
+      }
+      if (entry.status === "specified") {
+        if (typeof entry.requirement !== "string" || !entry.requirement.trim()) errors.push(`${id}.requirement is required when specified`);
+        if (typeof entry.evidence_ref !== "string" || !entry.evidence_ref.trim()) errors.push(`${id}.evidence_ref is required when specified`);
+      }
+      if (entry.status === "not-applicable" && (typeof entry.rationale !== "string" || !entry.rationale.trim())) {
+        errors.push(`${id}.rationale is required when not-applicable`);
+      }
+      if (entry.status === "unknown") blockers.push(`acceptance dimension ${id} is unknown`);
+    }
+  }
+  return { valid: errors.length === 0, ready: errors.length === 0 && blockers.length === 0, errors, blockers };
 }
 
 export function isSafeRepositoryPath(value) {

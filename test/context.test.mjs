@@ -6,12 +6,55 @@ import { spawnSync } from "node:child_process";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import {
+  measureContextEnvelope,
   RETRIEVAL_PROVIDER_SCHEMA,
+  validateAcceptanceContract,
   validateRetrievalProvider
 } from "../src/context.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const cli = path.join(root, "bin/temple.mjs");
+
+test("acceptance contracts fail closed on unknown semantics", () => {
+  const dimensions = Object.fromEntries([
+    "identity_semantics",
+    "input_immutability",
+    "idempotency",
+    "compatibility",
+    "error_semantics"
+  ].map((id) => [id, { status: "not-applicable", rationale: `${id} does not apply` }]));
+  dimensions.identity_semantics = {
+    status: "specified",
+    requirement: "Return a fresh result object",
+    evidence_ref: "TASK.md"
+  };
+  const valid = validateAcceptanceContract({
+    schema_version: "temple.acceptance-contract/v1",
+    case_id: "fixture",
+    dimensions
+  });
+  assert.deepEqual(valid, { valid: true, ready: true, errors: [], blockers: [] });
+  dimensions.error_semantics = { status: "unknown" };
+  const blocked = validateAcceptanceContract({
+    schema_version: "temple.acceptance-contract/v1",
+    case_id: "fixture",
+    dimensions
+  });
+  assert.equal(blocked.valid, true);
+  assert.equal(blocked.ready, false);
+  assert.deepEqual(blocked.blockers, ["acceptance dimension error_semantics is unknown"]);
+});
+
+test("context envelope accounting is stable, componentized, and content-sensitive", () => {
+  const first = measureContextEnvelope({ task: { title: "Bounded work", rules: ["one", "two"] }, instructions: "Read TASK.md" });
+  const reordered = measureContextEnvelope({ instructions: "Read TASK.md", task: { rules: ["one", "two"], title: "Bounded work" } });
+  const changed = measureContextEnvelope({ instructions: "Read TASK.md", task: { rules: ["one", "three"], title: "Bounded work" } });
+  assert.equal(first.context_profile_digest, reordered.context_profile_digest);
+  assert.equal(first.utf8_bytes, reordered.utf8_bytes);
+  assert.deepEqual(first.components.map((entry) => entry.id), ["instructions", "task"]);
+  assert.notEqual(first.context_profile_digest, changed.context_profile_digest);
+  assert.match(first.context_profile_digest, /^sha256:[0-9a-f]{64}$/);
+});
 
 function run(args) {
   return spawnSync(process.execPath, [cli, ...args], { encoding: "utf8" });
