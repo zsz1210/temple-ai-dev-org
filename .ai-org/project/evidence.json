@@ -21360,6 +21360,36 @@
         "dirty_scope": "clean",
         "affected_paths_dirty": []
       }
+    },
+    {
+      "id": "EVID-20260903T154759Z-95FB65A5",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T15:47:59.635Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Representative Provider contract refresh",
+      "outcome": "verified",
+      "scope_revision": "710144ca089ea4a19aab81db8b27e4b3de4585ec",
+      "observed_at": "2026-09-03T15:47:59.635Z",
+      "summary": "Records the zero-generation preflight stop caused by Codex CLI schema drift and freezes the unchanged v4 experiment against the installed Provider contract under a new exact digest.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "710144c"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "710144c",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
     }
   ]
 }
