@@ -25,7 +25,23 @@
       "type": ["string", "null"],
       "enum": ["not-applicable", "code-first", "preview-first", "design-led", null]
     },
+    "workflow_profile": { "enum": ["lean", "standard", "high-assurance"] },
     "risk_tier": { "enum": ["low", "standard", "high", "critical"] },
+    "profile_assessment": {
+      "type": "object",
+      "required": ["requested_profile", "effective_profile", "scope_class", "escalation_triggers", "rationale", "evidence_refs", "evaluated_at"],
+      "properties": {
+        "requested_profile": { "enum": ["lean", "standard", "high-assurance"] },
+        "effective_profile": { "enum": ["lean", "standard", "high-assurance"] },
+        "scope_class": { "enum": ["bounded", "ordinary", "cross-system"] },
+        "escalation_triggers": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" } },
+        "rationale": { "type": "string" },
+        "evidence_refs": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "evaluated_at": { "type": "string", "format": "date-time" },
+        "escalated": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
     "assurance": {
       "type": "object",
       "required": ["profile", "policy_schema", "artifact_depth", "minimum_approvals", "rollback_status", "external_action_performed"],
@@ -126,6 +142,9 @@
     },
     "evidence": { "type": "array", "items": { "type": "string" } },
     "unresolved": { "type": "array", "items": { "type": "string" } },
+    "release_gate_result": { "enum": ["go", "no-go"] },
+    "lifecycle_outcome": { "enum": ["accepted", "no-go", "inconclusive", "cancelled"] },
+    "closeout_reasons": { "type": "array", "items": { "type": "string" } },
     "next_position": { "type": ["string", "null"] }
   },
   "$defs": {
@@ -144,7 +163,10 @@
   },
   "allOf": [
     {
-      "if": { "required": ["risk_tier"] },
+      "if": {
+        "properties": { "workflow_profile": { "const": "high-assurance" } },
+        "required": ["workflow_profile"]
+      },
       "then": { "required": ["assurance"] }
     },
     {

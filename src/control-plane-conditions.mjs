@@ -2,6 +2,7 @@ import path from "node:path";
 import { atomicWrite, formatJson, pathExists, readJson } from "./files.mjs";
 import { listWorkItemDocuments } from "./work-items.mjs";
 import { readRuntimeWorkerRegistry } from "./workers.mjs";
+import { isLegacyConcludedItem } from "./workflow.mjs";
 
 export const CONTROL_PLANE_CONDITIONS_SCHEMA = "temple.control-plane-conditions/v1";
 
@@ -80,6 +81,7 @@ function activityFor(records, task, worker) {
 function rawConditions({ observer, workItems, tasks, workers, providers, records, config, now }) {
   const output = [];
   const itemsById = new Map(workItems.map((item) => [item.id, item]));
+  const currentItemsById = new Map(workItems.map((item) => [item.id, item]));
   const workersById = new Map(workers.map((worker) => [worker.id, worker]));
 
   const activeTasks = tasks.filter((task) => task.status === "active");
@@ -162,7 +164,8 @@ function rawConditions({ observer, workItems, tasks, workers, providers, records
   }));
 
   const stale = observer.evidence.items.filter((entry) =>
-    entry.stale && !["done", "cancelled"].includes(itemsById.get(entry.work_item_id)?.state)
+    entry.stale && !["done", "concluded", "cancelled"].includes(currentItemsById.get(entry.work_item_id)?.state) &&
+    !isLegacyConcludedItem(currentItemsById.get(entry.work_item_id))
   );
   if (stale.length) {
     for (const entry of stale) output.push(condition({

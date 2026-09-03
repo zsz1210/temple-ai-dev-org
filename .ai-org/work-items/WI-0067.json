@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0067",
   "title": "Run bounded four-repository commerce rehearsal",
-  "state": "blocked",
+  "state": "concluded",
   "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-31T11:58:24.023Z",
-  "updated_at": "2026-08-31T12:28:52.927Z",
+  "updated_at": "2026-09-03T00:34:58.863Z",
   "scope": [
     "Initialize four independent local Temple repositories for Coordinator, Catalog, Orders, and Notifications under the retained experiment root.",
     "Execute the predeclared 15-Work-Item commerce scenario through at most ten Provider-owned gpt-5.6-luna Max turns using the WI-0066 runner, zero retry, and all approved hard limits.",
@@ -195,5 +195,10 @@
   "release_gate_result": "no-go",
   "external_release_status": "not_performed",
   "approval_record": "not-required",
-  "previous_state": "release_gate"
+  "lifecycle_outcome": "no-go",
+  "closeout_reasons": [
+    "The retained 60,000-Token per-turn ceiling interrupted both Wave 1 turns before completion.",
+    "Zero of ten model Work Items qualified, and the remaining eight turns plus planned failure and cold-recovery checks were not run.",
+    "The as-run telemetry directory was incompatible with the formal report builder and requires a separate framework correction."
+  ]
 }

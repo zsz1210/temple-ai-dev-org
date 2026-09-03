@@ -44,5 +44,6 @@
 - [ADR-0042: Adapt first-run guidance to the project's repository workflow](0042-adaptive-repository-integration-onboarding.md)
 - [ADR-0043: Require Node.js 24 and keep hosted CI bounded](0043-node-24-local-first-ci.md)
 - [ADR-0044: Keep the Management Console optional and separate usage collection](0044-optional-management-console-and-usage-collector.md)
+- [ADR-0045: Match delivery controls to risk and keep concluded work out of the blocked queue](0045-adaptive-workflow-profiles.md)
 
 An ADR is an Architecture Decision Record. It preserves the context, decision, rationale, and consequences of an important technical or organizational choice so that later Agents do not have to infer why it was made from chat memory.

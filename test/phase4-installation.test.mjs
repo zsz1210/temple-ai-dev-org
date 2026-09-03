@@ -26,6 +26,7 @@ import {
   REPOSITORY_INTEGRATION_RELATIVE_PATH,
   validateRepositoryIntegration
 } from "../src/repository-integration.mjs";
+import { runAgentLedOnboardingValidation } from "../scripts/validate-agent-led-onboarding.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const releaseVersion = "0.1.0-alpha.29";
@@ -56,6 +57,24 @@ function configDocument(projectId) {
     ]
   };
 }
+
+test("agent-led onboarding validation keeps deterministic success separate from provider evidence", async (context) => {
+  const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-agent-led-onboarding-test-"));
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  const output = path.join(temporaryRoot, "observation.json");
+
+  const { document } = await runAgentLedOnboardingValidation({ root, output, keep: false });
+  assert.equal(document.status, "passed_with_provider_limits");
+  assert.equal(document.deterministic_validation.init_status, "initialized");
+  assert.equal(document.deterministic_validation.doctor.fail, 0);
+  assert.equal(document.deterministic_validation.claude_entrypoint.contents, "@AGENTS.md");
+  assert.equal(document.deterministic_validation.claude_entrypoint.framework_managed, false);
+  assert.ok(document.deterministic_validation.instruction_reads.every((entry) => entry.status === "read"));
+  assert.deepEqual(new Set(Object.values(document.deterministic_validation.authority)), new Set([false]));
+  assert.equal(document.provider_validation.status, "not_run");
+  assert.equal(document.provider_validation.total_tokens, null);
+  assert.equal(document.authority.provider_call_performed, false);
+});
 
 async function temporaryProject(testContext, projectId) {
   const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-phase4-installation-"));

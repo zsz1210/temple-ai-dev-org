@@ -1,0 +1,84 @@
+{
+  "schema_version": "temple.representative-microservice-comparison/v1",
+  "status": "local-rehearsal-only",
+  "model_generation_performed": false,
+  "scenario": {
+    "id": "order-event-v2-compatible-evolution",
+    "task_input_sha256": "734f9a0276ecac65f8c94a78b375a5d04d9ea853d13e65177ca0749ff781b91d",
+    "public_tests_sha256": "3a280a8fcd20ba145ae60d17e89992ef41ac2f4257cf0ca354c2905836744d1a",
+    "hidden_tests_sha256": "048238d0b6af9a9cdede0049287da33400a02cb8e04adc9f5c388efd4160bfc3",
+    "tool_policy_sha256": "4cc33fd061683563fa1bb71dbbe1a033be10d63100d150b7d634467fa06bde39",
+    "repositories": {
+      "gateway": "1111111111111111111111111111111111111111",
+      "catalog": "2222222222222222222222222222222222222222",
+      "orders": "3333333333333333333333333333333333333333",
+      "notifications": "4444444444444444444444444444444444444444"
+    },
+    "seeded_defect": {
+      "id": "legacy-consumer-rejects-v2-envelope",
+      "detection_command": "npm run test:hidden-contract",
+      "expected_exit_code_before_fix": 1,
+      "expected_exit_code_after_fix": 0
+    }
+  },
+  "arms": [
+    {
+      "id": "minimal-responsible",
+      "task_input_sha256": "734f9a0276ecac65f8c94a78b375a5d04d9ea853d13e65177ca0749ff781b91d",
+      "public_tests_sha256": "3a280a8fcd20ba145ae60d17e89992ef41ac2f4257cf0ca354c2905836744d1a",
+      "hidden_tests_sha256": "048238d0b6af9a9cdede0049287da33400a02cb8e04adc9f5c388efd4160bfc3",
+      "tool_policy_sha256": "4cc33fd061683563fa1bb71dbbe1a033be10d63100d150b7d634467fa06bde39",
+      "repositories": {
+        "gateway": "1111111111111111111111111111111111111111",
+        "catalog": "2222222222222222222222222222222222222222",
+        "orders": "3333333333333333333333333333333333333333",
+        "notifications": "4444444444444444444444444444444444444444"
+      },
+      "model_route": [
+        { "stage": "design", "model": "gpt-5.6-sol", "reasoning_effort": "xhigh" },
+        { "stage": "build", "model": "gpt-5.6-terra", "reasoning_effort": "medium" },
+        { "stage": "evaluation", "model": "gpt-5.6-sol", "reasoning_effort": "xhigh" }
+      ]
+    },
+    {
+      "id": "temple",
+      "task_input_sha256": "734f9a0276ecac65f8c94a78b375a5d04d9ea853d13e65177ca0749ff781b91d",
+      "public_tests_sha256": "3a280a8fcd20ba145ae60d17e89992ef41ac2f4257cf0ca354c2905836744d1a",
+      "hidden_tests_sha256": "048238d0b6af9a9cdede0049287da33400a02cb8e04adc9f5c388efd4160bfc3",
+      "tool_policy_sha256": "4cc33fd061683563fa1bb71dbbe1a033be10d63100d150b7d634467fa06bde39",
+      "repositories": {
+        "gateway": "1111111111111111111111111111111111111111",
+        "catalog": "2222222222222222222222222222222222222222",
+        "orders": "3333333333333333333333333333333333333333",
+        "notifications": "4444444444444444444444444444444444444444"
+      },
+      "model_route": [
+        { "stage": "design", "model": "gpt-5.6-sol", "reasoning_effort": "xhigh" },
+        { "stage": "build", "model": "gpt-5.6-terra", "reasoning_effort": "medium" },
+        { "stage": "evaluation", "model": "gpt-5.6-sol", "reasoning_effort": "xhigh" }
+      ]
+    }
+  ],
+  "evaluator": {
+    "score_minimum": 0,
+    "score_maximum": 1,
+    "freeze_before_mapping_unseal": true,
+    "fresh_context_required": true
+  },
+  "limits": {
+    "automatic_retries": 0,
+    "fallback_models": 0,
+    "stop_on_protocol_mismatch": true
+  },
+  "required_metrics": [
+    "cold-recovery",
+    "boundary-quality",
+    "contract-convergence",
+    "correctness",
+    "rework",
+    "human-intervention",
+    "usage",
+    "latency",
+    "footprint"
+  ]
+}

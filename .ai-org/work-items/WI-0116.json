@@ -1,0 +1,282 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0116",
+  "title": "Analyze Wave 5A overhead and repair blind evaluation",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-02T22:37:43.924Z",
+  "updated_at": "2026-09-02T22:47:47.452Z",
+  "scope": [
+    "Derive an offline, reproducible breakdown of retained Wave 5A Token, latency, cache, quality, and intervention observations without inferring unmeasured billing or causality.",
+    "Define and implement a Wave 5B evaluator access protocol that freezes arm-neutral scores before the coordinator mapping is joined and fails closed when separation evidence is absent.",
+    "Update the human validation record with evidence-backed conclusions and an explicit model-backed execution boundary; do not start a provider turn."
+  ],
+  "acceptance_criteria": [
+    "A deterministic command regenerates the analysis from retained repository evidence and reproduces the published totals and qualified-pair deltas.",
+    "The Wave 5B preflight verifies arm-neutral input manifests, frozen-score-before-unseal ordering, and rejects leaked mapping or unproven evaluator separation.",
+    "Claims distinguish observed association from causal explanation, gross throughput from operational Tokens, and both from billed cost."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0116",
+    "scripts/analyze-wave-5a-overhead.mjs",
+    "scripts/validate-wave-5b-protocol.mjs",
+    "test/wave-5b-analysis.test.mjs",
+    "docs/validation/wave-5a-overhead-analysis.md",
+    "docs/validation/wave-5-controlled-comparison-plan.md",
+    "docs/validation/README.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0067: historical blocked rehearsal remains immutable; WI-0116 adds distinct analysis artifacts and one additive validation-index entry",
+    "WI-0086: blocked release work remains untouched; WI-0116 changes validation analysis only",
+    "WI-0107: historical runner and evidence remain immutable; WI-0116 reads retained observations and implements a new protocol gate",
+    "WI-0108: stopped run history remains immutable; shared plan update summarizes later evidence only",
+    "WI-0110: stopped run history remains immutable; shared plan update summarizes later evidence only",
+    "WI-0112: stopped run history remains immutable; shared plan update summarizes later evidence only",
+    "WI-0115: completed onboarding validation remains immutable; shared validation index update is additive"
+  ],
+  "claim": {
+    "id": "claim-20260902224747-783322db",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+    "branch": "codex/wi-0115-0117-validation-program",
+    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "claimed_at": "2026-09-02T22:47:47.065Z",
+    "released_at": "2026-09-02T22:47:47.452Z",
+    "release_reason": "work_item_closed"
+  },
+  "claims": [
+    {
+      "id": "claim-20260902223744-604d140e",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "ee0984ffa497a697bb6b23c0666415c421d5ded4",
+      "branch": "codex/wi-0115-0117-validation-program",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T22:37:44.600Z",
+      "released_at": "2026-09-02T22:38:48.105Z",
+      "release_reason": [
+        "handoff_to_product_manager"
+      ]
+    },
+    {
+      "id": "claim-20260902223848-4edce4eb",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "ee0984ffa497a697bb6b23c0666415c421d5ded4",
+      "branch": "codex/wi-0115-0117-validation-program",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T22:38:48.575Z",
+      "released_at": "2026-09-02T22:38:48.997Z",
+      "release_reason": [
+        "handoff_to_tech_lead"
+      ]
+    },
+    {
+      "id": "claim-20260902223849-be7c93d4",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "ee0984ffa497a697bb6b23c0666415c421d5ded4",
+      "branch": "codex/wi-0115-0117-validation-program",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T22:38:49.439Z",
+      "released_at": "2026-09-02T22:38:49.864Z",
+      "release_reason": [
+        "handoff_to_developer"
+      ]
+    },
+    {
+      "id": "claim-20260902223850-49867997",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "ee0984ffa497a697bb6b23c0666415c421d5ded4",
+      "branch": "codex/wi-0115-0117-validation-program",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T22:38:50.305Z",
+      "released_at": "2026-09-02T22:45:03.549Z",
+      "release_reason": [
+        "handoff_to_quality_evaluator"
+      ]
+    },
+    {
+      "id": "claim-20260902224504-c8b7edf0",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+      "branch": "codex/wi-0115-0117-validation-program",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T22:45:04.001Z",
+      "released_at": "2026-09-02T22:46:02.227Z",
+      "release_reason": [
+        "handoff_to_independent_qa"
+      ]
+    },
+    {
+      "id": "claim-20260902224602-9733701d",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+      "branch": "codex/wi-0115-0117-validation-program",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T22:46:02.683Z",
+      "released_at": "2026-09-02T22:47:37.004Z",
+      "release_reason": [
+        "handoff_to_release_manager"
+      ]
+    },
+    {
+      "id": "claim-20260902224747-783322db",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+      "branch": "codex/wi-0115-0117-validation-program",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-02T22:47:47.065Z",
+      "released_at": "2026-09-02T22:47:47.452Z",
+      "release_reason": "work_item_closed"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0116/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0116/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0116/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0116/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0116/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0116/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0116/developer-report.md"
+    ],
+    "test_evidence": [
+      "EVID-20260902T224550Z-07AE715E"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0116/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260902T224736Z-115A46C8"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0116/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0116/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0116/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0116/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0116/work-order.md",
+    ".ai-org/artifacts/WI-0116/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0116/approved-scope.md",
+    ".ai-org/artifacts/WI-0116/product-spec.md",
+    ".ai-org/artifacts/WI-0116/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0116/technical-design.md",
+    ".ai-org/artifacts/WI-0116/risk-review.md",
+    ".ai-org/artifacts/WI-0116/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0116/developer-report.md",
+    "EVID-20260902T224550Z-07AE715E",
+    ".ai-org/artifacts/WI-0116/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0116/evaluation-report.md",
+    ".ai-org/artifacts/WI-0116/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0116/independent-qa-report.md",
+    "EVID-20260902T224736Z-115A46C8",
+    ".ai-org/artifacts/WI-0116/release-record.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "ee0984ffa497a697bb6b23c0666415c421d5ded4",
+      "artifact": ".ai-org/artifacts/WI-0116/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-02T22:38:47.794Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "ee0984ffa497a697bb6b23c0666415c421d5ded4",
+      "artifact": ".ai-org/artifacts/WI-0116/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-02T22:38:48.787Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "ee0984ffa497a697bb6b23c0666415c421d5ded4",
+      "artifact": ".ai-org/artifacts/WI-0116/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-02T22:38:49.642Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+      "artifact": ".ai-org/artifacts/WI-0116/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-02T22:45:03.296Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+      "artifact": ".ai-org/artifacts/WI-0116/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-02T22:46:01.980Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+      "artifact": ".ai-org/artifacts/WI-0116/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-02T22:47:36.747Z"
+    }
+  ],
+  "developer_candidate_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+  "tested_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+  "release_gate_result": "go",
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
+}

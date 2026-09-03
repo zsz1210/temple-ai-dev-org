@@ -1,0 +1,207 @@
+{
+  "schema_version": "temple.wave-5a-preflight/v1",
+  "work_item_id": "WI-0117",
+  "generated_at": "2026-09-02T22:53:43.099Z",
+  "pass": false,
+  "generation_ready": false,
+  "blockers": [
+    "invalid-validation-manifest",
+    "owner-confirmation-required"
+  ],
+  "checks": [
+    {
+      "id": "parent-codex-environment-isolated",
+      "pass": true,
+      "removed_keys": [
+        "CODEX_APP_TOOLS_PIPE_PATH",
+        "CODEX_INTERNAL_ORIGINATOR_OVERRIDE",
+        "CODEX_SESSION_ID",
+        "CODEX_THREAD_ID"
+      ]
+    },
+    {
+      "id": "thread-context-isolated",
+      "pass": true
+    },
+    {
+      "id": "provider-output-schema-subset",
+      "pass": true,
+      "rule": "The installed Responses structured-output subset rejects uniqueItems."
+    },
+    {
+      "id": "provider-command-action-policy",
+      "pass": true,
+      "rule": "Validate App Server commandActions rather than its shell-formatted display command."
+    },
+    {
+      "id": "codex-cli-version",
+      "pass": true,
+      "expected": "codex-cli 0.151.0-alpha.7.2",
+      "observed": "codex-cli 0.151.0-alpha.7.2"
+    },
+    {
+      "id": "fixture-source-provenance",
+      "pass": true,
+      "expected_ancestor_revision": "87d7e68aaed0af6559697a690cf623ac158ab283",
+      "note": "Pinned content digests below, rather than later protocol metadata edits, establish fixture byte identity."
+    },
+    {
+      "id": "case-bundle-idempotent-command",
+      "pass": true,
+      "expected": "d1e305e558d889b04a94bb3ece31e4575c064a41bde49af197170a3a885f2bfa",
+      "observed": "d1e305e558d889b04a94bb3ece31e4575c064a41bde49af197170a3a885f2bfa"
+    },
+    {
+      "id": "case-bundle-compatible-event-evolution",
+      "pass": true,
+      "expected": "84126afb5d4d82ebb479cc1a9ded3c1cbefabb13fddd845b0de7d6441a8e57d1",
+      "observed": "84126afb5d4d82ebb479cc1a9ded3c1cbefabb13fddd845b0de7d6441a8e57d1"
+    },
+    {
+      "id": "launch-instruction",
+      "pass": true,
+      "expected": "f5b60dfe7525b64f1b9fac35fdf836314a6c8729136c1a850b3a43e47b0e24eb",
+      "observed": "f5b60dfe7525b64f1b9fac35fdf836314a6c8729136c1a850b3a43e47b0e24eb"
+    },
+    {
+      "id": "tool-policy",
+      "pass": true,
+      "expected": "c249684d7a24776c4b02639ac2fae5bdd027dd38e6f2ab017b48302db773e126",
+      "observed": "c249684d7a24776c4b02639ac2fae5bdd027dd38e6f2ab017b48302db773e126"
+    },
+    {
+      "id": "manifest-semantics",
+      "pass": false,
+      "errors": [
+        "limits contains unsupported field combined_operational_hard_tokens",
+        "limits contains unsupported field combined_program_hard_ms",
+        "limits contains unsupported field evaluator_hard_ms",
+        "limits contains unsupported field evaluator_hard_tokens",
+        "limits contains unsupported field evaluator_warning_tokens"
+      ]
+    },
+    {
+      "id": "candidate-01-idempotent-command-temple",
+      "pass": true,
+      "clean": true,
+      "expected_revision": "9b451cce5859716f5c764b301e17535d3fe42ce1",
+      "observed_revision": "9b451cce5859716f5c764b301e17535d3fe42ce1"
+    },
+    {
+      "id": "candidate-02-idempotent-command-minimal",
+      "pass": true,
+      "clean": true,
+      "expected_revision": "abbcdb681bc83f028baf594ea6ee2ece832bf3fc",
+      "observed_revision": "abbcdb681bc83f028baf594ea6ee2ece832bf3fc"
+    },
+    {
+      "id": "minimal-boundary-02-idempotent-command-minimal",
+      "pass": true
+    },
+    {
+      "id": "candidate-03-compatible-event-evolution-minimal",
+      "pass": true,
+      "clean": true,
+      "expected_revision": "b1d89b00f0404251fde2d0ede7555d90043f9194",
+      "observed_revision": "b1d89b00f0404251fde2d0ede7555d90043f9194"
+    },
+    {
+      "id": "minimal-boundary-03-compatible-event-evolution-minimal",
+      "pass": true
+    },
+    {
+      "id": "candidate-04-compatible-event-evolution-temple",
+      "pass": true,
+      "clean": true,
+      "expected_revision": "20a366fa22a01c03d59c45ec6388767aca1d9505",
+      "observed_revision": "20a366fa22a01c03d59c45ec6388767aca1d9505"
+    },
+    {
+      "id": "app-server-schema-ThreadStartParams.json",
+      "pass": true,
+      "expected": "792e2f32e37cece971bd616664ea2053741acbed4e9c92e9d1766427718f2ecd",
+      "observed": "792e2f32e37cece971bd616664ea2053741acbed4e9c92e9d1766427718f2ecd"
+    },
+    {
+      "id": "app-server-schema-TurnStartParams.json",
+      "pass": true,
+      "expected": "a3835e8c1e942e4b358e1a670939b89918b16c4d13105a579899892b7ade6dea",
+      "observed": "a3835e8c1e942e4b358e1a670939b89918b16c4d13105a579899892b7ade6dea"
+    },
+    {
+      "id": "app-server-schema-ThreadStartResponse.json",
+      "pass": true,
+      "expected": "c8fb6bcd1e4fb5ead6b487f0f35a90d8f13c9272edd4285914012dda403a77d2",
+      "observed": "c8fb6bcd1e4fb5ead6b487f0f35a90d8f13c9272edd4285914012dda403a77d2"
+    },
+    {
+      "id": "app-server-schema-TurnStartResponse.json",
+      "pass": true,
+      "expected": "7a817a98d78ac8e982c82c24bf8f7a2d2e61cca9fb91e5386e31cae0888e38e2",
+      "observed": "7a817a98d78ac8e982c82c24bf8f7a2d2e61cca9fb91e5386e31cae0888e38e2"
+    },
+    {
+      "id": "app-server-schema-ItemStartedNotification.json",
+      "pass": true,
+      "expected": "e30713dca6e8f6842a0c5350003ea433b6cbb4894209b4f871894450caa67b6f",
+      "observed": "e30713dca6e8f6842a0c5350003ea433b6cbb4894209b4f871894450caa67b6f"
+    },
+    {
+      "id": "app-server-schema-TurnCompletedNotification.json",
+      "pass": true,
+      "expected": "b85470d9eadbcad52700bd1d5aae187a9cd995e50b7099ed05469b6d41d6b997",
+      "observed": "b85470d9eadbcad52700bd1d5aae187a9cd995e50b7099ed05469b6d41d6b997"
+    },
+    {
+      "id": "app-server-schema-ItemCompletedNotification.json",
+      "pass": true,
+      "expected": "9958dce3bcab754e88323d233dff5f4c2ee04ce35f068a18d8f83f93528acf8b",
+      "observed": "9958dce3bcab754e88323d233dff5f4c2ee04ce35f068a18d8f83f93528acf8b"
+    },
+    {
+      "id": "app-server-schema-ThreadTokenUsageUpdatedNotification.json",
+      "pass": true,
+      "expected": "aba4f6c7e4a19b2b842c08ee793b57000c07dafd57b922ad0d8e7c76609108c2",
+      "observed": "aba4f6c7e4a19b2b842c08ee793b57000c07dafd57b922ad0d8e7c76609108c2"
+    },
+    {
+      "id": "app-server-schema-ModelReroutedNotification.json",
+      "pass": true,
+      "expected": "37cd3c1b3a3560b85b01d4061a07d830fc9ed93b80e4663f975f9197cdb501ef",
+      "observed": "37cd3c1b3a3560b85b01d4061a07d830fc9ed93b80e4663f975f9197cdb501ef"
+    },
+    {
+      "id": "app-server-schema-TurnInterruptParams.json",
+      "pass": true,
+      "expected": "6dff382dae73d1dbc58406ed045605f647e7a49660e2540fbd2c6c24d60c5f2b",
+      "observed": "6dff382dae73d1dbc58406ed045605f647e7a49660e2540fbd2c6c24d60c5f2b"
+    },
+    {
+      "id": "requested-model",
+      "pass": true,
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "medium"
+    },
+    {
+      "id": "no-new-payment-owner-confirmation",
+      "pass": false,
+      "source": null
+    }
+  ],
+  "cli_version": "codex-cli 0.151.0-alpha.7.2",
+  "schema_digests": {
+    "ThreadStartParams.json": "792e2f32e37cece971bd616664ea2053741acbed4e9c92e9d1766427718f2ecd",
+    "TurnStartParams.json": "a3835e8c1e942e4b358e1a670939b89918b16c4d13105a579899892b7ade6dea",
+    "ThreadStartResponse.json": "c8fb6bcd1e4fb5ead6b487f0f35a90d8f13c9272edd4285914012dda403a77d2",
+    "TurnStartResponse.json": "7a817a98d78ac8e982c82c24bf8f7a2d2e61cca9fb91e5386e31cae0888e38e2",
+    "ItemStartedNotification.json": "e30713dca6e8f6842a0c5350003ea433b6cbb4894209b4f871894450caa67b6f",
+    "TurnCompletedNotification.json": "b85470d9eadbcad52700bd1d5aae187a9cd995e50b7099ed05469b6d41d6b997",
+    "ItemCompletedNotification.json": "9958dce3bcab754e88323d233dff5f4c2ee04ce35f068a18d8f83f93528acf8b",
+    "ThreadTokenUsageUpdatedNotification.json": "aba4f6c7e4a19b2b842c08ee793b57000c07dafd57b922ad0d8e7c76609108c2",
+    "ModelReroutedNotification.json": "37cd3c1b3a3560b85b01d4061a07d830fc9ed93b80e4663f975f9197cdb501ef",
+    "TurnInterruptParams.json": "6dff382dae73d1dbc58406ed045605f647e7a49660e2540fbd2c6c24d60c5f2b"
+  },
+  "model_generation_performed": false,
+  "billing_guarantee_available": false,
+  "reactive_token_interrupt": true
+}

@@ -220,6 +220,7 @@ test("work item lifecycle, handoff, task registry, close, and observer status wo
   const item = await readJson(path.join(target, ".ai-org/work-items/WI-0001.json"));
   assert.equal(item.state, "done");
   assert.equal(item.release_gate_result, "go");
+  assert.equal(item.lifecycle_outcome, "accepted");
   assert.equal(item.developer_candidate_revision, "candidate-123");
   assert.ok(item.evidence.includes(".ai-org/artifacts/WI-0001/release-record.md"));
   const releaseRecord = await fs.readFile(path.join(target, ".ai-org/artifacts/WI-0001/release-record.md"), "utf8");
@@ -258,6 +259,134 @@ test("work item lifecycle, handoff, task registry, close, and observer status wo
   const reinit = run(["init", target, "--config", configPath]);
   assert.equal(reinit.status, 0, reinit.stderr || reinit.stdout);
   assert.equal((await readJson(path.join(target, ".ai-org/project/tasks.json"))).tasks.length, 1);
+});
+
+test("Lean workflow stays bounded, escalates deterministically, and closes without a release gate", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+
+  const created = run([
+    "work-item", "create", target,
+    "--title", "Make one bounded change",
+    "--scope", "One local module",
+    "--acceptance", "The focused test passes",
+    "--workflow-profile", "lean",
+    "--risk-tier", "low",
+    "--scope-class", "bounded",
+    "--profile-rationale", "Local reversible change with one acceptance check",
+    "--ui-mode", "not-applicable",
+    "--json"
+  ]);
+  assert.equal(created.status, 0, created.stderr || created.stdout);
+  const lean = JSON.parse(created.stdout).item;
+  assert.equal(lean.workflow_profile, "lean");
+  assert.equal(lean.next_position, "developer");
+  assert.equal(lean.profile_assessment.escalated, false);
+
+  const incomplete = run(["transition", target, "--work-item", lean.id, "--to", "build"]);
+  assert.equal(incomplete.status, 1);
+  assert.match(incomplete.stderr, /work_order, approved_scope, acceptance_criteria, technical_design, risk_review, profile_eligibility/);
+
+  const build = run([
+    "transition", target, "--work-item", lean.id, "--to", "build",
+    "--satisfy", "work_order=docs/brief.md",
+    "--satisfy", "approved_scope=docs/brief.md",
+    "--satisfy", "acceptance_criteria=docs/brief.md",
+    "--satisfy", "technical_design=docs/brief.md",
+    "--satisfy", "risk_review=docs/brief.md",
+    "--satisfy", "profile_eligibility=docs/brief.md"
+  ]);
+  assert.equal(build.status, 0, build.stderr || build.stdout);
+  assert.equal(run([
+    "transition", target, "--work-item", lean.id, "--to", "test",
+    "--satisfy", "developer_handoff=artifacts/handoff.md",
+    "--satisfy", "developer_evidence=artifacts/test.md"
+  ]).status, 0);
+  assert.equal(run([
+    "transition", target, "--work-item", lean.id, "--to", "done",
+    "--satisfy", "test_evidence=artifacts/test.md",
+    "--satisfy", "lean_closeout=artifacts/closeout.md"
+  ]).status, 0);
+  const closed = await readJson(path.join(target, `.ai-org/work-items/${lean.id}.json`));
+  assert.equal(closed.state, "done");
+  assert.equal(closed.lifecycle_outcome, "accepted");
+  assert.equal(closed.external_release_status, "not_performed");
+
+  const escalated = run([
+    "work-item", "create", target,
+    "--title", "Coordinate a cross-system change",
+    "--workflow-profile", "lean",
+    "--risk-tier", "low",
+    "--scope-class", "cross-system",
+    "--profile-rationale", "Assessment should raise the profile",
+    "--ui-mode", "not-applicable",
+    "--json"
+  ]);
+  assert.equal(escalated.status, 0, escalated.stderr || escalated.stdout);
+  const standard = JSON.parse(escalated.stdout).item;
+  assert.equal(standard.workflow_profile, "standard");
+  assert.equal(standard.profile_assessment.requested_profile, "lean");
+  assert.equal(standard.profile_assessment.escalated, true);
+  assert.equal(standard.next_position, "product_manager");
+
+  const unsafeLean = run([
+    "work-item", "create", target,
+    "--title", "Touch a security boundary",
+    "--workflow-profile", "lean",
+    "--risk-tier", "low",
+    "--scope-class", "bounded",
+    "--escalation-trigger", "security-boundary",
+    "--profile-rationale", "Assessment must fail closed",
+    "--ui-mode", "not-applicable"
+  ]);
+  assert.equal(unsafeLean.status, 1);
+  assert.match(unsafeLean.stderr, /requires High-Assurance collaboration prerequisites/);
+});
+
+test("legacy release-gate no-go records migrate to a terminal conclusion without hiding active blockers", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  for (const title of ["Finished experiment", "Active blocker"]) {
+    const created = run(["work-item", "create", target, "--title", title, "--ui-mode", "not-applicable"]);
+    assert.equal(created.status, 0, created.stderr || created.stdout);
+  }
+  const finishedPath = path.join(target, ".ai-org/work-items/WI-0001.json");
+  const finished = await readJson(finishedPath);
+  finished.state = "blocked";
+  finished.previous_state = "release_gate";
+  finished.release_gate_result = "no-go";
+  finished.next_position = null;
+  finished.unresolved = ["Evaluator result was unavailable"];
+  finished.gate_evidence.rollback_plan = [".ai-org/artifacts/WI-0001/release-record.md"];
+  await fs.writeFile(finishedPath, `${JSON.stringify(finished, null, 2)}\n`);
+  const blockerPath = path.join(target, ".ai-org/work-items/WI-0002.json");
+  const blocker = await readJson(blockerPath);
+  blocker.state = "blocked";
+  blocker.previous_state = "build";
+  blocker.next_position = null;
+  await fs.writeFile(blockerPath, `${JSON.stringify(blocker, null, 2)}\n`);
+
+  const preview = run(["work-item", "migrate-outcomes", target, "--dry-run", "--json"]);
+  assert.equal(preview.status, 0, preview.stderr || preview.stdout);
+  assert.deepEqual(JSON.parse(preview.stdout).candidates.map((entry) => entry.work_item_id), ["WI-0001"]);
+
+  const migrated = run([
+    "work-item", "migrate-outcomes", target,
+    "--work-item", "WI-0001",
+    "--outcome", "inconclusive",
+    "--reason", "No matched-quality score was frozen",
+    "--json"
+  ]);
+  assert.equal(migrated.status, 0, migrated.stderr || migrated.stdout);
+  const concluded = await readJson(finishedPath);
+  assert.equal(concluded.state, "concluded");
+  assert.equal(concluded.lifecycle_outcome, "inconclusive");
+  assert.deepEqual(concluded.closeout_reasons, ["No matched-quality score was frozen", "Evaluator result was unavailable"]);
+  assert.equal((await readJson(blockerPath)).state, "blocked");
+
+  const observer = JSON.parse(run(["observe", target, "--json"]).stdout);
+  assert.equal(observer.work.categories.terminal, 1);
+  assert.equal(observer.work.categories.blocked, 1);
 });
 
 test("task title refresh is explicit, idempotent, and preserves canonical task metadata", async (context) => {
@@ -742,7 +871,10 @@ test("go closeout rechecks specification revisions while no-go remains available
     ...evidenceArgs
   ]);
   assert.equal(noGo.status, 0, noGo.stderr || noGo.stdout);
-  assert.equal((await readJson(itemPath)).state, "blocked");
+  const concluded = await readJson(itemPath);
+  assert.equal(concluded.state, "concluded");
+  assert.equal(concluded.lifecycle_outcome, "no-go");
+  assert.deepEqual(concluded.closeout_reasons, ["Specification revision changed"]);
 });
 
 test("go closeout enforces the selected UI mode evidence contract", async (context) => {

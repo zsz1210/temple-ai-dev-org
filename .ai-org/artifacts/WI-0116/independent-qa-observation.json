@@ -1,0 +1,25 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+  "command": [
+    "exact detached candidate: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund",
+    "exact detached candidate: npm run verify",
+    "exact detached candidate: git status --short"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T22:46:20.000Z",
+  "completed_at": "2026-09-02T22:47:15.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0116/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0116/wave-5a-overhead-analysis.json",
+    ".ai-org/artifacts/WI-0116/wave-5b-protocol-check.json"
+  ],
+  "model_generation_performed": false,
+  "summary": {
+    "repository_tests_passed": 302,
+    "repository_tests_failed": 0,
+    "candidate_tree_clean": true,
+    "live_provider_context_verified": false
+  }
+}

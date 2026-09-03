@@ -30,10 +30,11 @@ import {
 const execFile = promisify(execFileCallback);
 const frameworkRoot = path.resolve(import.meta.dirname, "../../..");
 const fixtureRoot = path.join(frameworkRoot, ".ai-org/artifacts/WI-0106/fixtures");
+const protocolPath = path.resolve(argument("--protocol-path") ?? path.join(fixtureRoot, "feasibility-protocol.json"));
 const expectedWorkItemId = argument("--work-item-id") ?? "WI-0107";
 const approvalPath = path.resolve(argument("--approval-path") ?? path.join(import.meta.dirname, "account-approval.json"));
 const preflightOutputPath = path.resolve(argument("--preflight-output") ?? path.join(import.meta.dirname, "preflight-observation.json"));
-const protocol = JSON.parse(await fs.readFile(path.join(fixtureRoot, "feasibility-protocol.json"), "utf8"));
+const protocol = JSON.parse(await fs.readFile(protocolPath, "utf8"));
 const toolPolicy = JSON.parse(await fs.readFile(path.join(fixtureRoot, "tool-policy.json"), "utf8"));
 const allowedCommandPrefixes = toolPolicy.allowed_command_prefixes;
 const defaultLabRoot = "/Users/zsz1210/Documents/ChatGPT/temple-wave-5a-lab";
@@ -145,7 +146,7 @@ function modelEfforts(model) {
 async function readApproval() {
   try {
     const approval = JSON.parse(await fs.readFile(approvalPath, "utf8"));
-    const accepted = approval?.schema_version === "temple.wave-5a-account-approval/v1" &&
+    const accepted = ["temple.wave-5a-account-approval/v1", "temple.wave-5b-account-approval/v1"].includes(approval?.schema_version) &&
       approval?.work_item_id === expectedWorkItemId &&
       approval?.approved_by === "repository-owner" &&
       approval?.automatic_credit_reload_disabled === true &&

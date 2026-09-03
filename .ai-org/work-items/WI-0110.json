@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0110",
   "title": "Run bounded Wave 5A controlled comparison",
-  "state": "blocked",
+  "state": "concluded",
   "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-02T14:49:27.916Z",
-  "updated_at": "2026-09-02T15:00:46.902Z",
+  "updated_at": "2026-09-03T00:34:58.863Z",
   "scope": [
     "Create a fresh isolated Wave 5A lab, pass the offline replay and exact installed-schema preflight, then execute at most four sequential gpt-5.6-luna Max candidate turns using included Pro allowance under zero-retry fail-closed limits."
   ],
@@ -192,5 +192,8 @@
   "release_gate_result": "no-go",
   "external_release_status": "not_performed",
   "approval_record": ".ai-org/artifacts/WI-0110/account-approval.json",
-  "previous_state": "release_gate"
+  "lifecycle_outcome": "no-go",
+  "closeout_reasons": [
+    "The first turn stopped on a quote-insensitive command-policy false positive after 77,865 observed Tokens; zero candidates completed, so Wave 5A remains unqualified."
+  ]
 }

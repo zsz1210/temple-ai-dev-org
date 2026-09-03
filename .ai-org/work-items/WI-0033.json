@@ -6,7 +6,7 @@
   "owner_position": "product_manager",
   "assigned_agent_id": "agent-yuna",
   "created_at": "2026-08-30T13:55:47.632Z",
-  "updated_at": "2026-08-30T13:57:49.004Z",
+  "updated_at": "2026-09-03T00:35:23.751Z",
   "scope": [
     "Move executable selection, credential binding, and approved provider origins outside repository-controlled configuration before enterprise or untrusted-repository adoption."
   ],
@@ -44,7 +44,8 @@
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [
-    "WI-0032 owns federation Git SECURITY sections; WI-0033 owns provider-trust SECURITY sections and remains out of Build pending approval."
+    "WI-0032 owns federation Git SECURITY sections; WI-0033 owns provider-trust SECURITY sections and remains out of Build pending approval.",
+    "WI-0118 owns only terminal and concluded eligibility behavior in src/codex-app-server-provider.mjs; WI-0033 retains provider trust and transport authority design."
   ],
   "claim": null,
   "claims": [],
@@ -59,5 +60,7 @@
   "unresolved": [
     "Product decision required: choose the operator-local approval model for provider origins, credential handles, executable path and argument pinning before Build."
   ],
-  "next_position": "tech_lead"
+  "next_position": "tech_lead",
+  "workflow_profile": "standard",
+  "risk_tier": "standard"
 }

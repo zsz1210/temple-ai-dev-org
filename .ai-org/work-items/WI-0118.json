@@ -1,0 +1,332 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0118",
+  "title": "Turn validation evidence into adaptive Lean Mode",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-03T00:05:05.260Z",
+  "updated_at": "2026-09-03T00:54:54.646Z",
+  "scope": [
+    "Synthesize retained Temple validation evidence into explicit findings about value, overhead, failure modes, and project-size fit without treating test count as success.",
+    "Define and implement measurable Lean, Standard, and High-Assurance workflow profiles with evidence-based escalation, bounded context, relevant-Skill retrieval, and role-appropriate model guidance.",
+    "Represent completed no-go or inconclusive experiments separately from active blocked delivery, and expose the distinction in human-facing status and Management Console projections.",
+    "Prepare a representative multi-Agent, multi-repository microservice benchmark with a pure-local protocol rehearsal before any new model-backed execution."
+  ],
+  "acceptance_criteria": [
+    "A source-linked retrospective reproduces existing Token, latency, correctness, intervention, and protocol-failure facts and labels unsupported conclusions explicitly.",
+    "Low-risk bounded work can select Lean Mode without traversing unnecessary gates, while escalation preserves Independent QA and Release authority for higher-risk work.",
+    "A concluded no-go experiment is terminal and historical, while a blocked delivery item remains actionable; status, Observer, Console, and tests agree.",
+    "Model routing assigns Sol to consequential planning and evaluation, Terra to ordinary delivery, Luna to bounded mechanical work, and applies the same routing to both benchmark arms.",
+    "The benchmark measures recovery, conflicts, rework, human intervention, Token attribution, latency, and correctness; no generation runs until its local schema and fixture rehearsal pass."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0118",
+    "docs/validation/evidence-driven-lean-mode.md",
+    "docs/validation/representative-microservice-comparison.md",
+    "src/work-items.mjs",
+    "src/assurance.mjs",
+    "src/observer.mjs",
+    "src/control-plane-dashboard.mjs",
+    "src/usage-attribution.mjs",
+    "src/workflow.mjs",
+    "src/project.mjs",
+    "src/status.mjs",
+    "src/context.mjs",
+    "src/orchestration.mjs",
+    "src/control-plane-conditions.mjs",
+    "src/codex-app-server-provider.mjs",
+    "src/tracker.mjs",
+    "src/usage-policy.mjs",
+    "src/cli.mjs",
+    "src/doctor.mjs",
+    "src/federation.mjs",
+    "project-overlay/.ai-org/core/workflow.json",
+    "project-overlay/.ai-org/core/schemas/workflow.schema.json",
+    "project-overlay/.ai-org/core/schemas/work-item.schema.json",
+    "project-overlay/.ai-org/core/schemas/schema-catalog.json",
+    ".ai-org/core/workflow.json",
+    ".ai-org/core/schemas/workflow.schema.json",
+    ".ai-org/core/schemas/work-item.schema.json",
+    ".ai-org/core/schemas/schema-catalog.json",
+    ".ai-org/work-items/WI-0064.json",
+    ".ai-org/work-items/WI-0033.json",
+    ".ai-org/work-items/WI-0067.json",
+    ".ai-org/work-items/WI-0107.json",
+    ".ai-org/work-items/WI-0108.json",
+    ".ai-org/work-items/WI-0110.json",
+    ".ai-org/work-items/WI-0112.json",
+    ".ai-org/work-items/WI-0117.json",
+    "test/workflow.test.mjs",
+    "test/evidence-observer.test.mjs",
+    "test/control-plane-foundation.test.mjs",
+    "test/control-plane-live.test.mjs",
+    "test/control-plane-conditions.test.mjs",
+    "test/tracker.test.mjs",
+    "test/usage-attribution.test.mjs",
+    "test/phase-4b.test.mjs",
+    "test/representative-microservice-protocol.test.mjs",
+    "scripts/validate-representative-microservice-protocol.mjs",
+    "docs/adr/0045-adaptive-workflow-profiles.md",
+    "docs/adr/README.md",
+    "docs/concepts/workflow-profiles.md",
+    "docs/README.md",
+    "docs/validation/README.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "code-first",
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "b3b5c13d523039938b7e0fffaa1f2357c6cc42d2",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-rikku",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0033 retains provider trust and transport authority design; WI-0118 owns only terminal and concluded task eligibility behavior in src/codex-app-server-provider.mjs.",
+    "WI-0086 remains blocked for a future public-release candidate and must requalify that exact revision; WI-0118 owns workflow-profile tests and its own validation-index entries."
+  ],
+  "claim": {
+    "id": "claim-20260903005442-40556edf",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "b3b5c13d523039938b7e0fffaa1f2357c6cc42d2",
+    "branch": "codex/wi-0115-0117-validation-program",
+    "worktree": null,
+    "claimed_at": "2026-09-03T00:54:42.453Z",
+    "released_at": "2026-09-03T00:54:54.646Z",
+    "release_reason": "work_item_closed"
+  },
+  "claims": [
+    {
+      "id": "claim-20260903000716-fe00fa96",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "d28830760f9e9eb87bee75cd6e0304fcfa29d8e4",
+      "branch": "codex/wi-0115-0117-validation-program",
+      "worktree": null,
+      "claimed_at": "2026-09-03T00:07:16.139Z",
+      "released_at": "2026-09-03T00:11:20.792Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903001410-32cd6d97",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "d28830760f9e9eb87bee75cd6e0304fcfa29d8e4",
+      "branch": "codex/wi-0115-0117-validation-program",
+      "worktree": null,
+      "claimed_at": "2026-09-03T00:14:10.880Z",
+      "released_at": "2026-09-03T00:14:35.037Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903001439-78fdb134",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "d28830760f9e9eb87bee75cd6e0304fcfa29d8e4",
+      "branch": "codex/wi-0115-0117-validation-program",
+      "worktree": null,
+      "claimed_at": "2026-09-03T00:14:39.599Z",
+      "released_at": "2026-09-03T00:51:01.302Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903005107-cbe1c156",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "40986cdf971d444f7709b79eb5b661960f806c13",
+      "branch": "codex/wi-0115-0117-validation-program",
+      "worktree": null,
+      "claimed_at": "2026-09-03T00:51:07.295Z",
+      "released_at": "2026-09-03T00:53:05.279Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903005310-2fb2291c",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "b3b5c13d523039938b7e0fffaa1f2357c6cc42d2",
+      "branch": "codex/wi-0115-0117-validation-program",
+      "worktree": null,
+      "claimed_at": "2026-09-03T00:53:10.497Z",
+      "released_at": "2026-09-03T00:54:27.176Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903005442-40556edf",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "b3b5c13d523039938b7e0fffaa1f2357c6cc42d2",
+      "branch": "codex/wi-0115-0117-validation-program",
+      "worktree": null,
+      "claimed_at": "2026-09-03T00:54:42.453Z",
+      "released_at": "2026-09-03T00:54:54.646Z",
+      "release_reason": "work_item_closed"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0118/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0118/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0118/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0118/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0118/risk-review.md"
+    ],
+    "ui_brief": [
+      ".ai-org/artifacts/WI-0118/ui-design-brief.md"
+    ],
+    "required_state_coverage": [
+      ".ai-org/artifacts/WI-0118/ui-design-brief.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0118/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0118/developer-report.md",
+      ".ai-org/artifacts/WI-0118/developer-test-observation.json",
+      "docs/validation/evidence-driven-lean-mode.md",
+      ".ai-org/artifacts/WI-0118/representative-microservice-protocol.json"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0118/quality-test-observation.json"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0118/quality-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0118/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0118/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0118/independent-qa-report.md"
+    ],
+    "runtime_visual_review": [
+      ".ai-org/artifacts/WI-0118/developer-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0118/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0118/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0118/work-order.md",
+    ".ai-org/artifacts/WI-0118/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0118/approved-scope.md",
+    ".ai-org/artifacts/WI-0118/product-spec.md",
+    ".ai-org/artifacts/WI-0118/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0118/technical-design.md",
+    ".ai-org/artifacts/WI-0118/risk-review.md",
+    ".ai-org/artifacts/WI-0118/ui-design-brief.md",
+    ".ai-org/artifacts/WI-0118/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0118/developer-report.md",
+    ".ai-org/artifacts/WI-0118/developer-test-observation.json",
+    "docs/validation/evidence-driven-lean-mode.md",
+    ".ai-org/artifacts/WI-0118/representative-microservice-protocol.json",
+    ".ai-org/artifacts/WI-0118/quality-test-observation.json",
+    ".ai-org/artifacts/WI-0118/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0118/quality-report.md",
+    ".ai-org/artifacts/WI-0118/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0118/independent-qa-test-observation.json",
+    ".ai-org/artifacts/WI-0118/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0118/release-record.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "d28830760f9e9eb87bee75cd6e0304fcfa29d8e4",
+      "artifact": ".ai-org/artifacts/WI-0118/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-03T00:06:58.534Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "d28830760f9e9eb87bee75cd6e0304fcfa29d8e4",
+      "artifact": ".ai-org/artifacts/WI-0118/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-03T00:11:20.483Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "d28830760f9e9eb87bee75cd6e0304fcfa29d8e4",
+      "artifact": ".ai-org/artifacts/WI-0118/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-03T00:14:11.129Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "40986cdf971d444f7709b79eb5b661960f806c13",
+      "artifact": ".ai-org/artifacts/WI-0118/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-03T00:50:55.848Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "b3b5c13d523039938b7e0fffaa1f2357c6cc42d2",
+      "artifact": ".ai-org/artifacts/WI-0118/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-03T00:53:05.059Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "b3b5c13d523039938b7e0fffaa1f2357c6cc42d2",
+      "artifact": ".ai-org/artifacts/WI-0118/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-03T00:54:26.835Z"
+    }
+  ],
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "cross-system",
+    "escalation_triggers": [],
+    "rationale": "Cross-cutting lifecycle, schema, observer, provider, tracker, and Console change",
+    "evidence_refs": [
+      ".ai-org/artifacts/WI-0118/product-spec.md"
+    ],
+    "evaluated_at": "2026-09-03T00:34:59.119Z",
+    "escalated": false
+  },
+  "developer_candidate_revision": "40986cdf971d444f7709b79eb5b661960f806c13",
+  "tested_revision": "b3b5c13d523039938b7e0fffaa1f2357c6cc42d2",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
+}

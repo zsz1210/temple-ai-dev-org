@@ -1,0 +1,109 @@
+{
+  "schema_version": "temple.wave-5b-protocol/v1",
+  "protocol_id": "wave-5b-lean-process-comparison",
+  "fixture_root": ".ai-org/artifacts/WI-0106/fixtures",
+  "fixture_source_revision": "87d7e68aaed0af6559697a690cf623ac158ab283",
+  "temple_framework_revision": "19a1c6e9ef0e94610dd7c641215e7d4ab0151a0e",
+  "launch_instruction": {
+    "path": "launch-instruction.md",
+    "sha256": "f5b60dfe7525b64f1b9fac35fdf836314a6c8729136c1a850b3a43e47b0e24eb"
+  },
+  "model": {
+    "provider_id": "codex-local",
+    "requested_model": "gpt-5.6-luna",
+    "requested_reasoning_effort": "medium",
+    "sandbox": "workspace-write",
+    "approval_policy": "never",
+    "network_access": false,
+    "candidate_turns": 4,
+    "evaluator_turns": 1,
+    "retry_count": 0,
+    "fallback_count": 0,
+    "concurrency": 1
+  },
+  "limits": {
+    "max_turns": 4,
+    "max_launch_attempts": 4,
+    "max_retries": 0,
+    "max_concurrency": 1,
+    "per_turn_warning_tokens": 40000,
+    "per_turn_hard_tokens": 60000,
+    "aggregate_warning_tokens": 160000,
+    "aggregate_hard_tokens": 240000,
+    "per_turn_warning_ms": 300000,
+    "per_turn_hard_ms": 600000,
+    "program_warning_ms": 1800000,
+    "program_hard_ms": 2700000,
+    "per_repository_warning_bytes": 67108864,
+    "per_repository_hard_bytes": 134217728,
+    "aggregate_warning_bytes": 268435456,
+    "aggregate_hard_bytes": 536870912
+  },
+  "evaluator_limits": {
+    "evaluator_warning_tokens": 12000,
+    "evaluator_hard_tokens": 20000,
+    "evaluator_hard_ms": 600000
+  },
+  "combined_limits": {
+    "combined_operational_hard_tokens": 260000,
+    "combined_program_hard_ms": 3300000
+  },
+  "tool_policy": {
+    "path": "tool-policy.json",
+    "sha256": "c249684d7a24776c4b02639ac2fae5bdd027dd38e6f2ab017b48302db773e126"
+  },
+  "conditions": [
+    {
+      "id": "temple",
+      "display_id": "temple-lean",
+      "setup": "Initialize the starter with the pinned framework, create one bounded Work Item, and route only Developer sources required for the task."
+    },
+    {
+      "id": "minimal",
+      "display_id": "minimal-responsible",
+      "setup": "Use the frozen minimal responsible AGENTS instructions with identical product and safety evidence.",
+      "instruction_path": "minimal-AGENTS.md",
+      "instruction_sha256": "5b737f8597809446631177b407e392f407d90aaa388af5942a111ab29580e01d"
+    }
+  ],
+  "cases": [
+    {
+      "id": "idempotent-command",
+      "bundle_sha256": "d1e305e558d889b04a94bb3ece31e4575c064a41bde49af197170a3a885f2bfa",
+      "task_sha256": "f7f2648d08a58f0ffb38467be9cda554f7cae1cea27e93f256cb8de8cb108f25",
+      "hidden_test_sha256": "9ac9399bbc984bd436439f57fdd3f5e9f4e7a78aae1934cbffe2e3e7e27d50cb",
+      "rubric_sha256": "06d4fff22f5a773b9c40eac69e3093b65b2ce2e1aee8af485f0bc46ad3d3727e",
+      "order_seed_sha256": "04cdc1146c7d87358c4bd035f539682d85bc4b9d49e45ca22f473fa082d7474e",
+      "condition_order": ["temple", "minimal"],
+      "temple_init_path": "temple-init-idempotent-command.json",
+      "temple_init_sha256": "2dd24bde14be733fee84ea8e0daf6ebce5aa776be0060ffca5006c874db461cb"
+    },
+    {
+      "id": "compatible-event-evolution",
+      "bundle_sha256": "84126afb5d4d82ebb479cc1a9ded3c1cbefabb13fddd845b0de7d6441a8e57d1",
+      "task_sha256": "eea593c19c0801bf7a47d46c4aaea029cecc186745dba1fe253a18eff49b0edc",
+      "hidden_test_sha256": "4d3d218c2f763eb623d53cdc0defc417dacd7cc5ea4093b8d9c0d44d2a314760",
+      "rubric_sha256": "5ce268818474942390904519617af9e645a2d0b610e8e990fa028825cb26fbf4",
+      "order_seed_sha256": "d1bad924a632709ef7f2f7e4572431dcccbdd3dd8fef69323041cec6d3015ca8",
+      "condition_order": ["minimal", "temple"],
+      "temple_init_path": "temple-init-compatible-event-evolution.json",
+      "temple_init_sha256": "549a048cd20f91b166c73cd1430735a4cde1938b7615a955f2175451d2917007"
+    }
+  ],
+  "blind_evaluation": {
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "medium",
+    "fresh_provider_context_required": true,
+    "arm_neutral_manifest_required": true,
+    "score_freeze_before_mapping_unseal": true,
+    "same_context_evaluator_allowed": false
+  },
+  "claims": {
+    "descriptive_comparison_only": true,
+    "causal_savings": false,
+    "temple_superiority": false,
+    "model_preference": false,
+    "automatic_routing": false,
+    "statistical_qualification": false
+  }
+}

@@ -3,6 +3,7 @@ import { atomicWrite, formatJson, pathExists, readJson, sha256, sha256File } fro
 import { loadProjectContext, positionName, suggestedTaskTitle } from "./project.mjs";
 import { activeExecutionRequirements, evaluateParallelReadiness, listWorkItemDocuments, readWorkItem } from "./work-items.mjs";
 import { readResourceRegistry } from "./resources.mjs";
+import { lifecycleProjection } from "./workflow.mjs";
 
 export const PARALLEL_PLAN_RELATIVE_PATH = ".ai-org/views/parallel-plan.json";
 export const PARALLEL_PLAN_SCHEMA = "temple.parallel-plan/v1";
@@ -345,13 +346,13 @@ export async function buildParallelPlan(target, options = {}) {
   const resourceRegistry = await readResourceRegistry(target);
   const allItems = await listWorkItemDocuments(target);
   const itemsById = new Map(allItems.map((item) => [item.id, item]));
-  const terminalStates = new Set(context.workflow.terminal_states ?? []);
+  const terminal = (item) => lifecycleProjection(context.workflow, item).terminal;
   const parentId = options.parentWorkItemId ?? null;
   if (parentId) await readWorkItem(target, parentId);
   const selectedIds = parentId
     ? descendantsOf(parentId, itemsById)
-    : new Set(allItems.filter((item) => !terminalStates.has(item.state)).map((item) => item.id));
-  const selectedItems = allItems.filter((item) => selectedIds.has(item.id) && !terminalStates.has(item.state));
+    : new Set(allItems.filter((item) => !terminal(item)).map((item) => item.id));
+  const selectedItems = allItems.filter((item) => selectedIds.has(item.id) && !terminal(item));
   const selectedById = new Map(selectedItems.map((item) => [item.id, item]));
   const maxWorkers = options.maxWorkers ?? null;
   if (!(maxWorkers === null || (Number.isInteger(maxWorkers) && maxWorkers > 0))) {
@@ -437,7 +438,7 @@ export async function buildParallelPlan(target, options = {}) {
     for (const dependencyId of item.dependencies ?? []) {
       const dependency = itemsById.get(dependencyId);
       if (!dependency) dependencyReasons.push(`dependency_missing:${dependencyId}`);
-      else if (terminalStates.has(dependency.state)) continue;
+      else if (terminal(dependency)) continue;
       else if (!selectedById.has(dependencyId)) dependencyReasons.push(`dependency_outside_scope:${dependencyId}`);
       else if (dependency.claim?.status === "active") dependencyReasons.push(`dependency_active:${dependencyId}`);
     }
@@ -494,7 +495,7 @@ export async function buildParallelPlan(target, options = {}) {
     const dependencyReady = [...pending.values()].filter((item) =>
       (item.dependencies ?? []).every((dependencyId) => {
         const dependency = itemsById.get(dependencyId);
-        return terminalStates.has(dependency?.state) || scheduled.has(dependencyId);
+        return Boolean(dependency && terminal(dependency)) || scheduled.has(dependencyId);
       })
     );
     if (dependencyReady.length === 0) {

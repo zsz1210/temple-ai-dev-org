@@ -119,6 +119,7 @@ import {
   createWorkItem,
   evaluateParallelReadiness,
   listUnresolvedItems,
+  migrateLegacyOutcome,
   releaseWorkItemClaim,
   transitionWorkItem,
   updateUnresolvedItems
@@ -173,8 +174,9 @@ Usage:
   temple collaboration establish-bootstrap [target] --principal-id principal-name --approved-by principal-name
   temple collaboration retire-bootstrap [target] --approved-by principal-name
   temple collaboration record-validation [target] --validation-level level --status status [--revision ref] [--evidence ref] [--participant-principal principal-name] [--environment id]
-  temple work-item create [target] --title text [--scope text] [--acceptance text] [--affected-path path] [--context-ref id] [--spec-mode gate-evidence|indexed] [--spec-ref ID@revision] [--ui-mode mode] [--risk-tier low|standard|high|critical] [--discipline backend] [--stage-discipline build=backend] [--stage-resource test=ios-simulator[:units]] [--tracker-visibility internal|team-visible]
-  temple work-item configure [target] --work-item WI-ID [--parent WI-ID] [--depends-on WI-ID] [--agent-id agent-name] [--discipline backend] [--clear-disciplines] [--stage-discipline build=backend] [--stage-resource test=ios-simulator[:units]] [--clear-stage-requirement test] [--base-revision ref] [--parallel-mode mode] [--spec-ref ID@revision] [--replace-spec-refs]
+  temple work-item create [target] --title text [--scope text] [--acceptance text] [--affected-path path] [--context-ref id] [--spec-mode gate-evidence|indexed] [--spec-ref ID@revision] [--ui-mode mode] [--workflow-profile lean|standard|high-assurance] [--risk-tier low|standard|high|critical] [--scope-class bounded|ordinary|cross-system] [--escalation-trigger id] [--profile-rationale text] [--profile-evidence ref] [--discipline backend] [--stage-discipline build=backend] [--stage-resource test=ios-simulator[:units]] [--tracker-visibility internal|team-visible]
+  temple work-item configure [target] --work-item WI-ID [--parent WI-ID] [--depends-on WI-ID] [--agent-id agent-name] [--workflow-profile profile] [--risk-tier tier] [--scope-class class] [--escalation-trigger id] [--profile-rationale text] [--profile-evidence ref] [--discipline backend] [--clear-disciplines] [--stage-discipline build=backend] [--stage-resource test=ios-simulator[:units]] [--clear-stage-requirement test] [--base-revision ref] [--parallel-mode mode] [--spec-ref ID@revision] [--replace-spec-refs]
+  temple work-item migrate-outcomes [target] [--work-item WI-ID] [--outcome no-go|inconclusive] [--reason text] [--dry-run] [--json]
   temple work-item claim [target] --work-item WI-ID --agent-id agent-name --principal-id principal-name --base-revision ref --branch name [--worktree path]
   temple work-item release [target] --work-item WI-ID [--agent-id agent-name] [--principal-id principal-name] [--reason text]
   temple work-item unresolved [target] --work-item WI-0001 [--resolve text] [--merge text]
@@ -357,6 +359,11 @@ const VALUE_FLAGS = new Set([
   "--contract-ref",
   "--spec-mode",
   "--ui-mode",
+  "--workflow-profile",
+  "--scope-class",
+  "--escalation-trigger",
+  "--profile-rationale",
+  "--profile-evidence",
   "--profile",
   "--principal-id",
   "--verification-class",
@@ -418,6 +425,7 @@ const VALUE_FLAGS = new Set([
   "--procedure",
   "--rollback-status",
   "--risk-tier",
+  "--outcome",
   "--confidence",
   "--tag",
   "--applies-to",
@@ -1911,7 +1919,12 @@ async function runWorkItemCreate(parsed) {
       contractRefs: parseDocumentReferences(listOption(parsed, "--contract-ref"), "--contract-ref"),
       specificationMode: parsed.options["--spec-mode"],
       uiDeliveryMode: parsed.options["--ui-mode"],
+      workflowProfile: parsed.options["--workflow-profile"],
       riskTier: parsed.options["--risk-tier"],
+      scopeClass: parsed.options["--scope-class"],
+      escalationTriggers: listOption(parsed, "--escalation-trigger"),
+      profileRationale: parsed.options["--profile-rationale"],
+      profileEvidence: listOption(parsed, "--profile-evidence"),
       parentWorkItemId: parsed.options["--parent"],
       dependencies: listOption(parsed, "--depends-on"),
       requiredDisciplines: listOption(parsed, "--discipline"),
@@ -2140,7 +2153,15 @@ async function runWorkItemConfigure(parsed) {
           : parseDocumentReferences(listOption(parsed, "--contract-ref"), "--contract-ref"),
       replaceContractRefs: parsed.flags.has("--replace-contract-refs"),
       specificationMode: parsed.options["--spec-mode"],
-      uiDeliveryMode: parsed.options["--ui-mode"]
+      uiDeliveryMode: parsed.options["--ui-mode"],
+      workflowProfile: parsed.options["--workflow-profile"],
+      riskTier: parsed.options["--risk-tier"],
+      scopeClass: parsed.options["--scope-class"],
+      escalationTriggers:
+        parsed.options["--escalation-trigger"] === undefined ? undefined : listOption(parsed, "--escalation-trigger"),
+      profileRationale: parsed.options["--profile-rationale"],
+      profileEvidence:
+        parsed.options["--profile-evidence"] === undefined ? undefined : listOption(parsed, "--profile-evidence")
     });
     await refreshViews(target);
     return configured;
@@ -2189,6 +2210,27 @@ async function runWorkItemRelease(parsed) {
     return released;
   });
   printResult(parsed, item, [`Released ${item.id}: ${item.claim.id}`, `Reason: ${item.claim.release_reason}`]);
+  return 0;
+}
+
+async function runWorkItemMigrateOutcomes(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  const result = await withProjectMutationLock(target, async () => {
+    const migrated = await migrateLegacyOutcome(target, {
+      workItemId: parsed.options["--work-item"],
+      outcome: parsed.options["--outcome"],
+      reason: listOption(parsed, "--reason"),
+      dryRun: parsed.flags.has("--dry-run"),
+      actor: parsed.options["--actor"]
+    });
+    if (!migrated.dry_run) await refreshViews(target);
+    return migrated;
+  });
+  printResult(parsed, result, [
+    `Legacy no-go candidates: ${result.candidates.length}`,
+    `Changed: ${result.changed}`,
+    `Dry run: ${result.dry_run ? "yes" : "no"}`
+  ]);
   return 0;
 }
 
@@ -2397,6 +2439,7 @@ async function runClose(parsed) {
     const closed = await closeWorkItem(target, {
       workItemId: parsed.options["--work-item"],
       decision: parsed.options["--decision"],
+      outcome: parsed.options["--outcome"],
       testedRevision: parsed.options["--tested-revision"],
       approval: parsed.options["--approval"],
       actor: parsed.options["--actor"],
@@ -2805,6 +2848,7 @@ export async function main(argv) {
   if (parsed.command === "work-item" && parsed.action === "configure") return runWorkItemConfigure(parsed);
   if (parsed.command === "work-item" && parsed.action === "claim") return runWorkItemClaim(parsed);
   if (parsed.command === "work-item" && parsed.action === "release") return runWorkItemRelease(parsed);
+  if (parsed.command === "work-item" && parsed.action === "migrate-outcomes") return runWorkItemMigrateOutcomes(parsed);
   if (parsed.command === "work-item" && parsed.action === "unresolved") return runWorkItemUnresolved(parsed);
   if (parsed.command === "parallel") return runParallel(parsed);
   if (parsed.command === "resource") return runResource(parsed);

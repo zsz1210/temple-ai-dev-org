@@ -1,0 +1,117 @@
+{
+  "schema_version": "temple.agent-led-onboarding-observation/v1",
+  "work_item_id": "WI-0115",
+  "status": "passed_with_provider_limits",
+  "observed_at": "2026-09-02T22:27:50.811Z",
+  "package": {
+    "name": "@zsz1210/temple-ai-dev-org",
+    "version": "0.1.0-alpha.29",
+    "filename": "zsz1210-temple-ai-dev-org-0.1.0-alpha.29.tgz",
+    "size_bytes": 691110,
+    "unpacked_size_bytes": 2751375,
+    "integrity": "sha512-4Z+xK7bJd4dTbJYISkeCNxXMEcLb98fuM+2J1aqg/XPabMOHj2GmxFgafJknk5R7h2RXnHFQmXM9iW6rggMVnw=="
+  },
+  "deterministic_validation": {
+    "temporary_project_created": true,
+    "package_installed_offline": true,
+    "init_status": "initialized",
+    "bootstrap_schema": "temple.bootstrap-required/v1",
+    "bootstrap_marker": "TEMPLE_BOOTSTRAP_REQUIRED",
+    "doctor": {
+      "pass": 36,
+      "warn": 1,
+      "fail": 0
+    },
+    "status_project_id": "agent-led-greenfield",
+    "claude_entrypoint": {
+      "contents": "@AGENTS.md",
+      "integration": "installed",
+      "project_owned": true,
+      "framework_managed": false
+    },
+    "instruction_sources": [
+      "AGENTS.md",
+      "TEMPLE.md",
+      ".agents/skills/temple-work/SKILL.md"
+    ],
+    "instruction_reads": [
+      {
+        "path": "AGENTS.md",
+        "bytes": 9310,
+        "status": "read"
+      },
+      {
+        "path": "TEMPLE.md",
+        "bytes": 13031,
+        "status": "read"
+      },
+      {
+        "path": ".agents/skills/temple-work/SKILL.md",
+        "bytes": 5304,
+        "status": "read"
+      }
+    ],
+    "authority": {
+      "verifies_instruction_loading": false,
+      "verifies_model_comprehension": false,
+      "records_acknowledgement_as_evidence": false,
+      "creates_work_item": false,
+      "creates_claim": false,
+      "transitions_lifecycle": false,
+      "closes_work_item": false,
+      "performs_external_action": false
+    },
+    "human_interventions": 0,
+    "timeline": [
+      {
+        "step": "pack",
+        "elapsed_ms": 578,
+        "status": "passed"
+      },
+      {
+        "step": "install",
+        "elapsed_ms": 363,
+        "status": "passed"
+      },
+      {
+        "step": "init",
+        "elapsed_ms": 373,
+        "status": "passed"
+      },
+      {
+        "step": "doctor",
+        "elapsed_ms": 885,
+        "status": "passed"
+      },
+      {
+        "step": "status",
+        "elapsed_ms": 238,
+        "status": "passed"
+      }
+    ],
+    "total_elapsed_ms": 2437
+  },
+  "provider_validation": {
+    "status": "not_run",
+    "reason": "A deterministic clean installation cannot prove provider-owned session loading or comprehension.",
+    "session_loading_verified": false,
+    "comprehension_verified": false,
+    "input_tokens": null,
+    "cached_input_tokens": null,
+    "output_tokens": null,
+    "reasoning_output_tokens": null,
+    "total_tokens": null
+  },
+  "authority": {
+    "lifecycle_mutation_authorized": false,
+    "external_write_performed": false,
+    "provider_call_performed": false,
+    "package_published": false,
+    "deployment_performed": false
+  },
+  "retained_limits": [
+    "The runner read the declared files deterministically; it did not observe a fresh provider session.",
+    "No model Token or comprehension result is inferred from installation success.",
+    "Offline package installation depends on the local npm cache and is not a public-registry availability test."
+  ]
+}

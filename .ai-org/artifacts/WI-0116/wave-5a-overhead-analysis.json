@@ -1,0 +1,124 @@
+{
+  "schema_version": "temple.wave-5a-overhead-analysis/v1",
+  "work_item_id": "WI-0116",
+  "source": {
+    "work_item_id": "WI-0113",
+    "schema_version": "temple.wave-5a-experiment-result/v1",
+    "sha256": "14c377df3fd1691e555c10701b243a0c17961b39e683122ff4415b653ef4b543"
+  },
+  "recomputed": {
+    "gross_total_tokens": 1662089,
+    "operational_budget_tokens": 153481,
+    "candidate_latency_ms": 472441,
+    "program_elapsed_ms": 473047,
+    "coordinator_overhead_ms": 606,
+    "coordinator_overhead_percent": 0.1281,
+    "input_tokens": 1648353,
+    "cached_input_tokens": 1508608,
+    "output_tokens": 13736,
+    "input_cache_ratio": 0.9152214362,
+    "gross_to_operational_ratio": 10.8293
+  },
+  "candidates": [
+    {
+      "case_id": "idempotent-command",
+      "condition": "temple",
+      "quality_decision": "pass",
+      "gross_total_tokens": 279546,
+      "operational_budget_tokens": 35578,
+      "operational_share_percent": 23.18,
+      "latency_ms": 93809,
+      "latency_share_percent": 19.83
+    },
+    {
+      "case_id": "idempotent-command",
+      "condition": "minimal",
+      "quality_decision": "reject",
+      "gross_total_tokens": 244116,
+      "operational_budget_tokens": 32916,
+      "operational_share_percent": 21.45,
+      "latency_ms": 97510,
+      "latency_share_percent": 20.61
+    },
+    {
+      "case_id": "compatible-event-evolution",
+      "condition": "minimal",
+      "quality_decision": "pass",
+      "gross_total_tokens": 222234,
+      "operational_budget_tokens": 31258,
+      "operational_share_percent": 20.37,
+      "latency_ms": 81396,
+      "latency_share_percent": 17.21
+    },
+    {
+      "case_id": "compatible-event-evolution",
+      "condition": "temple",
+      "quality_decision": "pass",
+      "gross_total_tokens": 916193,
+      "operational_budget_tokens": 53729,
+      "operational_share_percent": 35.01,
+      "latency_ms": 199726,
+      "latency_share_percent": 42.22
+    }
+  ],
+  "pairs": [
+    {
+      "case_id": "idempotent-command",
+      "qualified_for_resource_comparison": false,
+      "exclusion_reason": "At least one condition failed objective quality.",
+      "temple_minus_minimal": {
+        "operational_budget_tokens": 2662,
+        "operational_budget_percent": 8.0873,
+        "latency_ms": -3701,
+        "latency_percent": -3.7955
+      }
+    },
+    {
+      "case_id": "compatible-event-evolution",
+      "qualified_for_resource_comparison": true,
+      "exclusion_reason": null,
+      "temple_minus_minimal": {
+        "operational_budget_tokens": 22471,
+        "operational_budget_percent": 71.8888,
+        "latency_ms": 118330,
+        "latency_percent": 145.3757
+      }
+    }
+  ],
+  "observations": {
+    "largest_operational_candidate": {
+      "case_id": "compatible-event-evolution",
+      "condition": "temple",
+      "share_percent": 35.01
+    },
+    "largest_latency_candidate": {
+      "case_id": "compatible-event-evolution",
+      "condition": "temple",
+      "share_percent": 42.22
+    },
+    "qualifying_pair_count": 1,
+    "quality_excluded_pair_count": 1,
+    "model_profile": "gpt-5.6-luna/max",
+    "human_intervention_between_candidates": 0,
+    "retries": 0,
+    "fallbacks": 0
+  },
+  "interpretation": {
+    "supported": [
+      "Wave 5A completed four bounded candidates with correlated usage and quality evidence.",
+      "The only quality-qualified pair used more operational Tokens and more elapsed time in the Temple condition.",
+      "High cached-input volume explains why gross throughput is much larger than the operational budget metric."
+    ],
+    "hypotheses_requiring_new_instrumentation": [
+      "Temple instruction volume or completion protocol caused the qualified-pair overhead.",
+      "Max reasoning effort was the dominant overhead driver.",
+      "Observation cadence changed model behavior or completion time."
+    ],
+    "prohibited_claims": [
+      "The retained data establish billed cost.",
+      "One qualifying pair establishes a causal Temple penalty or benefit.",
+      "The pilot statistically qualifies automatic model or workflow routing.",
+      "Gross Provider Tokens equal non-cached operational Tokens."
+    ]
+  }
+}

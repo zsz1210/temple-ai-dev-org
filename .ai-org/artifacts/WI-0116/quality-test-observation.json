@@ -1,0 +1,26 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+  "command": [
+    "exact detached candidate: node --test test/wave-5b-analysis.test.mjs",
+    "exact detached candidate: regenerate analysis and protocol outputs to exclusive temporary paths",
+    "exact detached candidate: assert coordinator overhead, qualified pair count, protocol result, and clean Git state"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-02T22:45:20.000Z",
+  "completed_at": "2026-09-02T22:45:21.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0116/quality-report.md",
+    ".ai-org/artifacts/WI-0116/wave-5a-overhead-analysis.json",
+    ".ai-org/artifacts/WI-0116/wave-5b-protocol-check.json"
+  ],
+  "model_generation_performed": false,
+  "summary": {
+    "focused_tests_passed": 5,
+    "focused_tests_failed": 0,
+    "fresh_outputs_verified": true,
+    "candidate_tree_clean": true,
+    "protocol_status": "qualified"
+  }
+}

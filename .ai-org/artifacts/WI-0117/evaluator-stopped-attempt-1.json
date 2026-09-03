@@ -1,0 +1,38 @@
+{
+  "schema_version": "temple.wave-5b-evaluator-result/v1",
+  "work_item_id": "WI-0117",
+  "status": "stopped",
+  "started_at": "2026-09-02T23:03:11.133Z",
+  "completed_at": "2026-09-02T23:03:21.852Z",
+  "elapsed_ms": 10719,
+  "stop": {
+    "code": "evaluator-operational-token-limit",
+    "message": "The first fresh-context evaluator was interrupted after crossing its approved 20,000 operational-Token limit."
+  },
+  "evaluator": {
+    "requested_model": "gpt-5.6-luna",
+    "requested_reasoning_effort": "medium",
+    "turns_started": 1,
+    "turns_completed": 0,
+    "exact_usage": null,
+    "operational_budget_tokens_lower_bound": 20000,
+    "usage_limit_was_reactive": true
+  },
+  "input": {
+    "blind_packages": 4,
+    "blind_package_bytes": 11011,
+    "rubric_bytes": 1123,
+    "total_file_bytes": 12134
+  },
+  "scores_frozen": false,
+  "mapping_unsealed": false,
+  "raw_prompt_retained": false,
+  "hidden_reasoning_retained": false,
+  "automatic_retry": false,
+  "fallback_used": false,
+  "limits": [
+    "The first runner version did not persist its last detailed usage update on failure, so exact usage is unknown rather than estimated.",
+    "Account-wide usage cannot safely backfill this ephemeral evaluator turn to one Work Item.",
+    "No result or comparison is qualified until a fresh evaluator freezes scores before mapping unseal."
+  ]
+}

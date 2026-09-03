@@ -4,6 +4,7 @@ import { REQUIRED_SKILLS } from "./constants.mjs";
 import { atomicCreate, atomicWrite, formatJson, pathExists, readJson, sha256 } from "./files.mjs";
 import { emptyLearningIndex, LEARNING_INDEX_RELATIVE_PATH } from "./learning.mjs";
 import { assignedAgent, loadProjectContext } from "./project.mjs";
+import { lifecycleProjection } from "./workflow.mjs";
 import { readWorkItem } from "./work-items.mjs";
 import { isWorkItemId } from "./ids.mjs";
 import { parallelExecutionForWorkItem } from "./orchestration.mjs";
@@ -514,7 +515,7 @@ function pathsOverlap(left, right) {
   );
 }
 
-async function findAffectedPathOverlaps(target, item, terminalStates) {
+async function findAffectedPathOverlaps(target, item, workflow) {
   const affectedPaths = Array.isArray(item.affected_paths) ? item.affected_paths : [];
   if (affectedPaths.length === 0) return [];
   const directory = path.join(target, ".ai-org/work-items");
@@ -523,7 +524,7 @@ async function findAffectedPathOverlaps(target, item, terminalStates) {
   for (const entry of await fs.readdir(directory, { withFileTypes: true })) {
     if (!entry.isFile() || !entry.name.endsWith(".json") || entry.name === `${item.id}.json`) continue;
     const other = await readJson(path.join(directory, entry.name));
-    if (terminalStates.has(other.state)) continue;
+    if (lifecycleProjection(workflow, other).terminal) continue;
     const matches = [];
     for (const currentPath of affectedPaths) {
       for (const otherPath of Array.isArray(other.affected_paths) ? other.affected_paths : []) {
@@ -611,8 +612,8 @@ export async function resolveWorkItemContext(target, options) {
   const deprecatedContextRefs = (item.context_refs ?? []).filter(
     (routeId) => contextMap.routes.find((route) => route.id === routeId)?.status === "deprecated"
   );
-  const terminalStates = new Set(context.workflow.terminal_states ?? []);
-  const overlaps = await findAffectedPathOverlaps(target, item, terminalStates);
+  const lifecycle = lifecycleProjection(context.workflow, item);
+  const overlaps = await findAffectedPathOverlaps(target, item, context.workflow);
   const parallelExecution = await parallelExecutionForWorkItem(target, item.id);
   const agent = assignedAgent(context, positionId);
   const warnings = [];
@@ -649,6 +650,10 @@ export async function resolveWorkItemContext(target, options) {
       path: `.ai-org/work-items/${item.id}.json`,
       title: item.title,
       state: item.state,
+      effective_state: lifecycle.effective_state,
+      terminal: lifecycle.terminal,
+      workflow_profile: lifecycle.workflow_profile,
+      lifecycle_outcome: lifecycle.lifecycle_outcome,
       specification_mode: item.specification_mode ?? null,
       ui_delivery_mode: item.ui_delivery_mode ?? null,
       tracker_visibility: trackerVisibility(item),

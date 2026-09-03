@@ -17497,6 +17497,730 @@
         "status": "planned",
         "procedure": ".ai-org/artifacts/WI-0114/rollback-plan.md"
       }
+    },
+    {
+      "id": "EVID-20260902T223014Z-DC6D1CDD",
+      "work_item_id": "WI-0115",
+      "recorded_at": "2026-09-02T22:30:14.771Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0115 deterministic onboarding candidate",
+      "outcome": "verified",
+      "scope_revision": "11012a38523676f1187fbea8b4a388ba4d81bb18",
+      "observed_at": "2026-09-02T22:30:14.771Z",
+      "summary": "Exact candidate containing the clean consumer runner, retained observation, focused regression, and human validation record.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "11012a38523676f1187fbea8b4a388ba4d81bb18"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "11012a38523676f1187fbea8b4a388ba4d81bb18",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T223015Z-B9486904",
+      "work_item_id": "WI-0115",
+      "recorded_at": "2026-09-02T22:30:15.009Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0115 Developer onboarding verification",
+      "outcome": "pass",
+      "scope_revision": "11012a38523676f1187fbea8b4a388ba4d81bb18",
+      "observed_at": "2026-09-02T22:29:44.000Z",
+      "summary": "Clean onboarding passed, focused tests passed 5 of 5, and the complete repository suite passed 297 of 297 without a model turn.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0115/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0115/developer-test-observation.json",
+          "sha256": "1ba8d5bca959c8140b73869e15a0d19794939c307209a6d50d0e1fe6358aa590"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0115/onboarding-observation.json",
+          "sha256": "4d538c7bce0eabe26023e190a872e8282cdcda30dd3c942ec00a6fdc55efb2d7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0115/developer-report.md",
+          "sha256": "0b84dfa9dd2f06d7a45c9c6d1e795c5d26ea0e14d9c4c8671e553fbbd5485bd0"
+        },
+        {
+          "path": "docs/validation/greenfield-agent-led-onboarding.md",
+          "sha256": "ecb43175692818d7379bdf25aa3997ed9cd1c25f14e5e084d86ec4e7effd9d5d"
+        }
+      ],
+      "details": {
+        "command": [
+          "node scripts/validate-agent-led-onboarding.mjs --output .ai-org/artifacts/WI-0115/onboarding-observation.json",
+          "node --test test/phase4-installation.test.mjs",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T22:27:48.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T223202Z-7B362D3A",
+      "work_item_id": "WI-0115",
+      "recorded_at": "2026-09-02T22:32:02.307Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0115 detached Quality verification",
+      "outcome": "pass",
+      "scope_revision": "11012a38523676f1187fbea8b4a388ba4d81bb18",
+      "observed_at": "2026-09-02T22:31:27.000Z",
+      "summary": "Fresh detached candidate passed 5 of 5 focused tests, reported zero production vulnerabilities, and retained provider comprehension as not run.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0115/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0115/quality-test-observation.json",
+          "sha256": "b357980770dc43557d5dcfb03483dbbba0fa7a9353622d49dc93f58de751d7bf"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0115/quality-report.md",
+          "sha256": "face4ed4779fae78ec24cc6393e30ad0947af65c00d0efbf2503b86906e7e5e4"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0115/onboarding-observation.json",
+          "sha256": "4d538c7bce0eabe26023e190a872e8282cdcda30dd3c942ec00a6fdc55efb2d7"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached candidate: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund",
+          "fresh detached candidate: node --test test/phase4-installation.test.mjs",
+          "fresh detached candidate: npm audit --omit=dev --audit-level=high",
+          "fresh detached candidate: git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T22:31:22.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T223618Z-131FB97E",
+      "work_item_id": "WI-0115",
+      "recorded_at": "2026-09-02T22:36:18.176Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0115 Independent QA",
+      "outcome": "pass",
+      "scope_revision": "11012a38523676f1187fbea8b4a388ba4d81bb18",
+      "observed_at": "2026-09-02T22:35:49.000Z",
+      "summary": "Exact detached candidate passed 297 of 297 repository tests and a separate clean-consumer onboarding run; provider comprehension remains not run.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0115/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0115/independent-qa-observation.json",
+          "sha256": "ec2162b08318f09fc66b0091ea3a175bc84262ee26cf471add70f9d4b498c739"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0115/independent-qa-report.md",
+          "sha256": "182fe73599aac7a9d1ef237baf6e5a389b7f6e1b7b317f28cb9cc67f1d96eb07"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0115/onboarding-observation.json",
+          "sha256": "4d538c7bce0eabe26023e190a872e8282cdcda30dd3c942ec00a6fdc55efb2d7"
+        }
+      ],
+      "details": {
+        "command": [
+          "exact detached candidate: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund",
+          "exact detached candidate: npm run verify",
+          "exact detached candidate: node scripts/validate-agent-led-onboarding.mjs --output /tmp/temple-wi0115-iqa-observation.json",
+          "exact detached candidate: git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T22:34:30.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T223652Z-24F5FBE6",
+      "work_item_id": "WI-0115",
+      "recorded_at": "2026-09-02T22:36:52.754Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "11012a38523676f1187fbea8b4a388ba4d81bb18",
+      "observed_at": "2026-09-02T22:36:52.754Z",
+      "summary": "Additive repository validation can be reverted without external cleanup.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0115/rollback-plan.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0115/rollback-plan.md",
+          "sha256": "87516af2296316c27aef3ff87d14bf2124cfd04dc505af447dd8a836a48ca961"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0115/rollback-plan.md"
+      }
+    },
+    {
+      "id": "EVID-20260902T224503Z-840AC16F",
+      "work_item_id": "WI-0116",
+      "recorded_at": "2026-09-02T22:45:03.116Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0116 Developer verification",
+      "outcome": "pass",
+      "scope_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+      "observed_at": "2026-09-02T22:42:00.000Z",
+      "summary": "Five focused tests and 302 of 302 full repository tests passed without model generation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0116/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0116/developer-test-observation.json",
+          "sha256": "27a455120817ed82e024acf2c1b9072cf00a999f6f18facc750e14f21d4ac332"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0116/developer-report.md",
+          "sha256": "a049ecd1ce2d356906aa9ac4037f1b111c4c26c9deddda23374234c0a5c7ee71"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0116/wave-5a-overhead-analysis.json",
+          "sha256": "0abd9235efda3d56f4d330980d276ed308c972bce30e0a52ce122cdff3c12f83"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0116/wave-5b-protocol-check.json",
+          "sha256": "83ed147ab51575f87d66d871e98834c8d58b1589b9cd94fe785e26c05f27806a"
+        },
+        {
+          "path": "docs/validation/wave-5a-overhead-analysis.md",
+          "sha256": "55ed5f3cb7b109df74e4b2fc4d9b48c29f23c819305cd162ff391c01a195020b"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --check scripts/analyze-wave-5a-overhead.mjs",
+          "node --check scripts/validate-wave-5b-protocol.mjs",
+          "node --test test/wave-5b-analysis.test.mjs",
+          "node scripts/analyze-wave-5a-overhead.mjs --input .ai-org/artifacts/WI-0113/experiment-result.json --output .ai-org/artifacts/WI-0116/wave-5a-overhead-analysis.json",
+          "node scripts/validate-wave-5b-protocol.mjs --input .ai-org/artifacts/WI-0116/wave-5b-protocol-fixture.json --output .ai-org/artifacts/WI-0116/wave-5b-protocol-check.json",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T22:39:00.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T224510Z-7C3E90DF",
+      "work_item_id": "WI-0116",
+      "recorded_at": "2026-09-02T22:45:10.171Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0116 analysis candidate",
+      "outcome": "verified",
+      "scope_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+      "observed_at": "2026-09-02T22:45:10.171Z",
+      "summary": "Exact candidate with reproducible Wave 5A analysis and fail-closed Wave 5B evaluator protocol.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "2ec67d32fd83236028406d06c48a00276d7fa853"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T224550Z-07AE715E",
+      "work_item_id": "WI-0116",
+      "recorded_at": "2026-09-02T22:45:50.800Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0116 detached Quality verification",
+      "outcome": "pass",
+      "scope_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+      "observed_at": "2026-09-02T22:45:21.000Z",
+      "summary": "Exact detached candidate passed five focused tests and regenerated both machine-readable outputs.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0116/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0116/quality-test-observation.json",
+          "sha256": "f51a9f5c0f2623bc4c725c3ef4f97957e08d1192c8aab986651ddf2bd6816ce2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0116/quality-report.md",
+          "sha256": "dba6ea338facc60cdaf5d3b65776986eedbb92ccb64e0aa3d39237576bf38de9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0116/wave-5a-overhead-analysis.json",
+          "sha256": "0abd9235efda3d56f4d330980d276ed308c972bce30e0a52ce122cdff3c12f83"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0116/wave-5b-protocol-check.json",
+          "sha256": "83ed147ab51575f87d66d871e98834c8d58b1589b9cd94fe785e26c05f27806a"
+        }
+      ],
+      "details": {
+        "command": [
+          "exact detached candidate: node --test test/wave-5b-analysis.test.mjs",
+          "exact detached candidate: regenerate analysis and protocol outputs to exclusive temporary paths",
+          "exact detached candidate: assert coordinator overhead, qualified pair count, protocol result, and clean Git state"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T22:45:20.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T224736Z-115A46C8",
+      "work_item_id": "WI-0116",
+      "recorded_at": "2026-09-02T22:47:36.565Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0116 Independent QA",
+      "outcome": "pass",
+      "scope_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+      "observed_at": "2026-09-02T22:47:15.000Z",
+      "summary": "Exact detached candidate passed 302 of 302 tests; live Provider context remains unverified.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0116/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0116/independent-qa-observation.json",
+          "sha256": "83f41a07f042bb7affdbcdc3867fc40a1af365f8d46492fb6a49c677d58856a2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0116/independent-qa-report.md",
+          "sha256": "2da8fc1bc1de3ef02b63a7b50484a2bfd352bfdd7c3dceb92b52ff23eb01e027"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0116/wave-5a-overhead-analysis.json",
+          "sha256": "0abd9235efda3d56f4d330980d276ed308c972bce30e0a52ce122cdff3c12f83"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0116/wave-5b-protocol-check.json",
+          "sha256": "83ed147ab51575f87d66d871e98834c8d58b1589b9cd94fe785e26c05f27806a"
+        }
+      ],
+      "details": {
+        "command": [
+          "exact detached candidate: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund",
+          "exact detached candidate: npm run verify",
+          "exact detached candidate: git status --short"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T22:46:20.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T224747Z-A207B466",
+      "work_item_id": "WI-0116",
+      "recorded_at": "2026-09-02T22:47:47.268Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "2ec67d32fd83236028406d06c48a00276d7fa853",
+      "observed_at": "2026-09-02T22:47:47.268Z",
+      "summary": "Offline additive analysis and protocol changes can be reverted without external cleanup.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0116/rollback-plan.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0116/rollback-plan.md",
+          "sha256": "0d823607f511a0061912a55271caeb9c852228a6b473b9016c16b36e12ebb951"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0116/rollback-plan.md"
+      }
+    },
+    {
+      "id": "EVID-20260902T225706Z-49B1E99A",
+      "work_item_id": "WI-0117",
+      "recorded_at": "2026-09-02T22:57:06.016Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0117 Wave 5B prepared candidate",
+      "outcome": "verified",
+      "scope_revision": "20eae0ad1680d8ee263f5c26ff73d50072d36ec7",
+      "observed_at": "2026-09-02T22:57:06.016Z",
+      "summary": "Exact offline preparation candidate with a clean Luna Medium lab and fresh-context evaluator runner.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "20eae0ad1680d8ee263f5c26ff73d50072d36ec7"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "20eae0ad1680d8ee263f5c26ff73d50072d36ec7",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T225706Z-1ECBB7C3",
+      "work_item_id": "WI-0117",
+      "recorded_at": "2026-09-02T22:57:06.220Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0117 offline preparation verification",
+      "outcome": "pass",
+      "scope_revision": "20eae0ad1680d8ee263f5c26ff73d50072d36ec7",
+      "observed_at": "2026-09-02T22:56:30.000Z",
+      "summary": "Nine focused and 306 full tests passed; all no-generation preflight checks pass except the required owner approval.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0117/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0117/developer-test-observation.json",
+          "sha256": "97502e6fb34874d83ffc54ce534a912a4266054e0d83545d97ffaa5d980bf1ca"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/developer-report.md",
+          "sha256": "eb7d9b6ef1c38292369b229bdfe1930553996b99d7dfe36d57873e02ccc30dda"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/candidate-preflight.json",
+          "sha256": "094112c5b890d432d7c9495e62edfea0af1c3950f98029a180b15f27789a929f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/evaluator-preflight.json",
+          "sha256": "cd038a492e5f971e152f1feb116f9fb8db7b64c24ad70586b0cfc1c2e6e8d302"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/offline-preparation-report.md",
+          "sha256": "2b9fd6c44786ad0fad4838003c9ccda2712d1a2358ab782d45b48744023c534e"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --check scripts/run-wave-5b-evaluator.mjs",
+          "node --test test/wave-5b-analysis.test.mjs test/wave-5b-live-protocol.test.mjs",
+          "create exclusive Wave 5B lab with pinned protocol",
+          "candidate runner --preflight-only against installed Codex App Server",
+          "blind evaluator --preflight-only",
+          "temple usage preflight --probe-codex-account",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T22:51:00.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T232633Z-E84EC939",
+      "work_item_id": "WI-0117",
+      "recorded_at": "2026-09-02T23:26:33.941Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Wave 5B replacement evaluator terminal result",
+      "outcome": "verified",
+      "scope_revision": "b8f41dd0e1255526f63c0e541ea480ef3d35e059",
+      "observed_at": "2026-09-02T23:26:33.941Z",
+      "summary": "Records the owner-approved replacement, fail-closed score-scale rejection, contract repair, and no qualified comparison.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "b8f41dd0e1255526f63c0e541ea480ef3d35e059"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "b8f41dd0e1255526f63c0e541ea480ef3d35e059",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260902T232650Z-1772D48F",
+      "work_item_id": "WI-0117",
+      "recorded_at": "2026-09-02T23:26:50.773Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer verification after Wave 5B terminal stop",
+      "outcome": "pass",
+      "scope_revision": "b8f41dd0e1255526f63c0e541ea480ef3d35e059",
+      "observed_at": "2026-09-02T23:25:31.000Z",
+      "summary": "Focused and complete verification pass; one transient Console timeout passed on focused and subsequent full reruns.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0117/developer-live-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0117/developer-live-test-observation.json",
+          "sha256": "a65a3690bf476fcbc0af87bfebff205e3ddc5bbba12153005b2bbfabbcacb7f6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/developer-report.md",
+          "sha256": "eb7d9b6ef1c38292369b229bdfe1930553996b99d7dfe36d57873e02ccc30dda"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/evaluator-replacement-preflight.json",
+          "sha256": "73e8708ecb9e23202a57c4ddadba0d7d284d0901e29f70d837023b6c650e67fb"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/evaluator-result-attempt-2.json",
+          "sha256": "1d889e2429028e0a8ac7aa50a194d7689bda381bf9e256cfe8c9596f34c3cb1c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/evaluator-stopped-attempt-2-recovery.json",
+          "sha256": "b56b082e70a7b7057924789b84531efddcf2f86114209f39364484e2eec7e18e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/live-execution-status.md",
+          "sha256": "d8fed9a3d4c6dfa80805ceebff92a0fbf924f3ef29956c0b9a30ed4de7e43202"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/wave-5b-live-protocol.test.mjs",
+          "npm run verify",
+          "node --test --test-name-pattern='optional Console emits a bounded refresh signal' test/optional-console-collector.test.mjs",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T23:20:00.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T232749Z-39AAA91E",
+      "work_item_id": "WI-0117",
+      "recorded_at": "2026-09-02T23:27:49.688Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality evaluation of Wave 5B fail-closed result",
+      "outcome": "pass",
+      "scope_revision": "b8f41dd0e1255526f63c0e541ea480ef3d35e059",
+      "observed_at": "2026-09-02T23:27:25.000Z",
+      "summary": "Twelve focused tests pass; the implementation is valid but the matched comparison remains inconclusive.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0117/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0117/quality-test-observation.json",
+          "sha256": "710797b82c3b7a70a2e5abc1dd32c4316020981949485204f15864098945fce8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/quality-report.md",
+          "sha256": "edbe2efdb3dcc0d72c5a8ecd365f19d67e1eb7166a73a5149b98421ada6d49e6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/evaluator-stopped-attempt-2-recovery.json",
+          "sha256": "b56b082e70a7b7057924789b84531efddcf2f86114209f39364484e2eec7e18e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/live-execution-status.md",
+          "sha256": "d8fed9a3d4c6dfa80805ceebff92a0fbf924f3ef29956c0b9a30ed4de7e43202"
+        }
+      ],
+      "details": {
+        "command": [
+          "git diff --exit-code b8f41dd0e1255526f63c0e541ea480ef3d35e059 -- scoped candidate paths",
+          "node --test test/wave-5b-analysis.test.mjs test/wave-5b-live-protocol.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T23:27:20.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T233028Z-E50253DF",
+      "work_item_id": "WI-0117",
+      "recorded_at": "2026-09-02T23:30:28.673Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent QA for Wave 5B terminal result",
+      "outcome": "pass",
+      "scope_revision": "b8f41dd0e1255526f63c0e541ea480ef3d35e059",
+      "observed_at": "2026-09-02T23:30:02.000Z",
+      "summary": "Exact detached candidate passes offline locked install and all 309 repository tests; comparison remains no-go.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0117/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0117/independent-qa-observation.json",
+          "sha256": "0ef8cc136f7fd3109222dee4c680737bc83e35ede3d79b183af095eb506d5eae"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/independent-qa-report.md",
+          "sha256": "1a333e53a151f87d7c5da35961b132373d519f3b51ec60e83a84389343b98309"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/quality-report.md",
+          "sha256": "edbe2efdb3dcc0d72c5a8ecd365f19d67e1eb7166a73a5149b98421ada6d49e6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0117/evaluator-stopped-attempt-2-recovery.json",
+          "sha256": "b56b082e70a7b7057924789b84531efddcf2f86114209f39364484e2eec7e18e"
+        }
+      ],
+      "details": {
+        "command": [
+          "git worktree add --detach <temporary-path> b8f41dd0e1255526f63c0e541ea480ef3d35e059",
+          "npm ci --offline --ignore-scripts --no-audit --no-fund",
+          "npm run verify",
+          "git status --porcelain"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-02T23:28:35.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260902T233110Z-6D571AAB",
+      "work_item_id": "WI-0117",
+      "recorded_at": "2026-09-02T23:31:10.228Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "b8f41dd0e1255526f63c0e541ea480ef3d35e059",
+      "observed_at": "2026-09-02T23:31:10.228Z",
+      "summary": "No external runtime changed; revert the isolated candidate if the runner repair must be removed.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0117/rollback-plan.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0117/rollback-plan.md",
+          "sha256": "59c5f132a11eb5d24f924d057e872cdebca0da34c72c4a3561f0f8beae6939e1"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0117/rollback-plan.md"
+      }
     }
   ]
 }

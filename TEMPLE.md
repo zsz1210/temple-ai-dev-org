@@ -13,6 +13,14 @@ Before acting:
 
 When the request is only to inspect, explain, diagnose, review, or report status, remain read-only. Repository mutation requires explicit authorization from the request or current work item.
 
+## Agent-led initialization continuity
+
+When an already running Agent executes `temple init`, the newly installed repository instructions may not be part of that session's context. A successful init emits `temple.bootstrap-required/v1` with the marker `TEMPLE_BOOTSTRAP_REQUIRED`, the actual `AGENTS.md` integration state, the instruction sources to read, a recommended fresh-session path, a supported explicit-read path, and copyable read-only verification commands.
+
+A fresh session is strongest only after pending `AGENTS.md` and provider-entrypoint merges are resolved and the Agent provider is known to load its supported entrypoint. The CLI does not detect the executing provider or claim `AGENTS.md` is universal. For Claude Code it creates an absent project-owned `CLAUDE.md` containing only `@AGENTS.md`; an existing compatible file is preserved, while an incompatible file is preserved with `.ai-org/project/CLAUDE.temple.md` reported as `pending_merge`. This verifies only the documented import form, never session loading or comprehension. If the session must continue, read every canonical source named by the result, run Doctor and read-only Status, identify or create the durable Work Item through the ordinary lifecycle, then run read-only Context resolution and report the Position, Agent Identity, Work Item ID, and next canonical action before mutation.
+
+The bootstrap result cannot prove instruction loading or model comprehension. It creates no Work Item, claim, Evidence entry, handoff, transition, closeout, approval, or external action. Never use an acknowledgement of the result as lifecycle or Release Gate evidence.
+
 Before handoff:
 
 1. Update canonical project files, not only the conversation.

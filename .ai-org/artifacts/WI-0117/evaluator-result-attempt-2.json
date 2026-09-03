@@ -1,0 +1,21 @@
+{
+  "schema_version": "temple.wave-5b-evaluator-result/v1",
+  "work_item_id": "WI-0117",
+  "status": "stopped",
+  "stop": {
+    "code": "evaluator-failed",
+    "message": "weighted score is outside 0..1"
+  },
+  "evaluator": {
+    "thread_id": null,
+    "turn_id": null,
+    "usage": null,
+    "operational_budget_tokens": null
+  },
+  "scores_frozen": false,
+  "mapping_unsealed": false,
+  "raw_prompt_retained": false,
+  "hidden_reasoning_retained": false,
+  "automatic_retry": false,
+  "fallback_used": false
+}

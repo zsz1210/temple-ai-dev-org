@@ -13,6 +13,7 @@ import {
 } from "./project.mjs";
 import { readWorkItem } from "./work-items.mjs";
 import { attachUserTaskWorker, syncUserTaskWorker, validateUserTaskReservation } from "./workers.mjs";
+import { lifecycleProjection } from "./workflow.mjs";
 
 export const TASK_EXECUTION_ORIGINS = ["codex-host-owned", "temple-provider-owned"];
 export const REASONING_EFFORT_SOURCES = ["provider-turn", "provider-thread", "canonical-requested", "unknown"];
@@ -240,8 +241,7 @@ export async function updateTask(target, options) {
   const status = options.status ?? current.status;
   validateStatus(status);
   const item = await readWorkItem(target, current.work_item_id);
-  const terminalStates = new Set(context.workflow.terminal_states ?? []);
-  if (status === "archived" && current.status !== "completed" && !terminalStates.has(item.state)) {
+  if (status === "archived" && current.status !== "completed" && !lifecycleProjection(context.workflow, item).terminal) {
     throw new Error("A task may be archived only after it is completed or its work item is terminal");
   }
   const timestamp = new Date().toISOString();
@@ -345,7 +345,6 @@ export async function refreshTaskTitles(target, options = {}) {
 export async function listTasks(target) {
   const context = await loadProjectContext(target);
   const registry = await readTaskRegistry(target);
-  const terminalStates = new Set(context.workflow.terminal_states ?? []);
   const items = new Map();
   for (const task of registry.tasks ?? []) {
     if (!items.has(task.work_item_id)) items.set(task.work_item_id, await readWorkItem(target, task.work_item_id));
@@ -354,6 +353,6 @@ export async function listTasks(target) {
     ...task,
     position_name: positionName(context, task.position_id),
     agent_name: context.agents.get(task.agent_id)?.display_name ?? task.agent_id,
-    archive_ready: task.status === "completed" && terminalStates.has(items.get(task.work_item_id)?.state) && task.status !== "archived"
+    archive_ready: task.status === "completed" && Boolean(items.get(task.work_item_id) && lifecycleProjection(context.workflow, items.get(task.work_item_id)).terminal) && task.status !== "archived"
   }));
 }
