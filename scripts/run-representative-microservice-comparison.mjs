@@ -35,16 +35,19 @@ const defaultApprovalTemplatePath = path.join(repositoryRoot, ".ai-org/artifacts
 const defaultEvaluatorContinuationProtocolPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/evaluator-continuation-protocol.json");
 const defaultEvaluatorContinuationApprovalTemplatePath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/evaluator-continuation-approval.template.json");
 const defaultEvaluatorContinuationApprovalPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/evaluator-continuation-approval.json");
-const defaultEvaluatorContinuationReadinessPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/evaluator-continuation-readiness-v15.json");
+const defaultEvaluatorContinuationReadinessPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/evaluator-continuation-readiness-v16.json");
 const archivedV13CandidatePath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/representative-main-v13-candidate-run.json");
 const archivedV13ManifestPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136/representative-main-v13-lab-manifest.json");
-const evaluatorContinuationRevision = 15;
+const evaluatorContinuationRevision = 16;
 const evaluatorContinuationReadinessCheckIds = Object.freeze([
   "source-candidate-bound",
   "dynamic-output-schema-valid",
   "exact-evaluator-prompt-bound",
   "exact-thread-start-wire-schema",
   "exact-turn-start-wire-schema",
+  "installed-item-type-partition",
+  "passive-no-tool-events-accepted",
+  "active-tool-events-rejected",
   "injected-production-evaluator-completed",
   "score-freeze-completed",
   "semantic-output-validation-completed",
@@ -118,6 +121,35 @@ export const comparisonAllowedCommandPrefixes = Object.freeze([
   Object.freeze(["git", "ls-tree"]),
   ...repositoryScopedGitReadPrefixes
 ]);
+export const representativeNoToolPassiveItemTypes = Object.freeze([
+  "userMessage",
+  "agentMessage",
+  "plan",
+  "reasoning",
+  "contextCompaction"
+]);
+const representativeUnboundedToolItemTypes = Object.freeze([
+  "mcpToolCall",
+  "dynamicToolCall",
+  "collabAgentToolCall",
+  "subAgentActivity",
+  "webSearch",
+  "imageView",
+  "sleep",
+  "imageGeneration"
+]);
+
+export function modelTurnItemPolicyViolation(itemType, allowTools) {
+  if (typeof itemType !== "string" || itemType === "") return "item-type-missing";
+  if (!allowTools) {
+    return representativeNoToolPassiveItemTypes.includes(itemType)
+      ? null
+      : `disallowed-item-type:${itemType}`;
+  }
+  return representativeUnboundedToolItemTypes.includes(itemType)
+    ? `unbounded-tool-item-type:${itemType}`
+    : null;
+}
 
 function pathIsWithin(root, candidate) {
   const relative = path.relative(root, candidate);
@@ -1111,6 +1143,14 @@ function validateGeneratedWireRequest(schemaText, params) {
   };
 }
 
+function installedThreadItemTypes(schemaText) {
+  const schema = JSON.parse(schemaText);
+  return (schema?.definitions?.ThreadItem?.oneOf ?? [])
+    .flatMap((entry) => entry?.properties?.type?.enum ?? [])
+    .filter((entry) => typeof entry === "string")
+    .toSorted();
+}
+
 async function providerHandshake(options = {}) {
   const cli = await checked("codex", ["--version"]);
   const schemaRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0136-schema-"));
@@ -1177,8 +1217,20 @@ async function providerHandshake(options = {}) {
           turn_start: validateGeneratedWireRequest(schemaTexts["TurnStartParams.json"], options.wireRequests.turnStart)
         }
       : null;
+    const itemTypes = installedThreadItemTypes(schemaTexts["ItemStartedNotification.json"]);
+    const itemTypePartition = {
+      schema_values: itemTypes,
+      passive_no_tool_values: itemTypes.filter((entry) => representativeNoToolPassiveItemTypes.includes(entry)),
+      denied_no_tool_values: itemTypes.filter((entry) => !representativeNoToolPassiveItemTypes.includes(entry)),
+      pass: itemTypes.length > 0 &&
+        ["agentMessage", "reasoning"].every((entry) => itemTypes.includes(entry)) &&
+        itemTypes.every((entry) => modelTurnItemPolicyViolation(entry, false) === null
+          ? representativeNoToolPassiveItemTypes.includes(entry)
+          : !representativeNoToolPassiveItemTypes.includes(entry))
+    };
     return {
       pass: checks.every((entry) => entry.available) && memoryIsolation.pass &&
+        itemTypePartition.pass &&
         (wireRequestValidation === null || (wireRequestValidation.thread_start.pass && wireRequestValidation.turn_start.pass)),
       codex_cli_version: cli,
       schema_digests: schemaDigests,
@@ -1190,6 +1242,7 @@ async function providerHandshake(options = {}) {
       },
       memory_isolation: memoryIsolation,
       wire_request_validation: wireRequestValidation,
+      item_type_partition: itemTypePartition,
       required_models: required,
       model_checks: checks,
       model_generation_performed: false
@@ -1730,8 +1783,9 @@ export function validateEvaluatorContinuationProtocol(protocol) {
   if (!protocol?.provider_contract?.codex_cli_version || !protocol?.provider_contract?.schema_digests ||
       protocol?.provider_contract?.memory_isolation?.pass !== true ||
       protocol?.provider_contract?.wire_request_validation?.thread_start?.pass !== true ||
-      protocol?.provider_contract?.wire_request_validation?.turn_start?.pass !== true) errors.push("continuation Provider contract missing");
-  if (protocol?.predecessor?.disposition !== "v14-superseded-before-approval-after-systemic-evaluator-audit" ||
+      protocol?.provider_contract?.wire_request_validation?.turn_start?.pass !== true ||
+      protocol?.provider_contract?.item_type_partition?.pass !== true) errors.push("continuation Provider contract missing");
+  if (protocol?.predecessor?.disposition !== "v15-stopped-on-runner-item-classification-defect" ||
       protocol?.predecessor?.retry_of_v13_evaluator !== false) errors.push("continuation predecessor mismatch");
   return { valid: errors.length === 0, errors };
 }
@@ -1983,7 +2037,8 @@ async function launchModelTurn({
     context_resolve_calls: 0,
     context_sequence: [],
     reported_output_bytes: 0,
-    provider_cwd_diagnostics: {}
+    provider_cwd_diagnostics: {},
+    item_types: {}
   };
   const observedCommandItems = new Set();
   const successfulContextItems = new Set();
@@ -2042,8 +2097,12 @@ async function launchModelTurn({
         armRoot: cwd
       });
       if (policyViolation) void interrupt(`${policyViolation.code}:${policyViolation.message}`);
-      if (message.method === "item/started" && (!allowTools || ["mcpToolCall", "webSearch"].includes(params.item?.type))) {
-        void interrupt(`${stage}-tool-policy-violation`);
+      if (message.method === "item/started") {
+        const itemType = params.item?.type ?? null;
+        const itemTypeLabel = typeof itemType === "string" && itemType !== "" ? itemType : "missing";
+        toolActivity.item_types[itemTypeLabel] = (toolActivity.item_types[itemTypeLabel] ?? 0) + 1;
+        const itemViolation = modelTurnItemPolicyViolation(itemType, allowTools);
+        if (itemViolation) void interrupt(`${stage}-${itemViolation}`);
       }
       if (message.method === "item/started" && params.item?.type === "commandExecution") {
         const key = params.item.id ?? `${toolActivity.command_items}`;
@@ -2146,6 +2205,7 @@ async function launchModelTurn({
         requested_reasoning_effort: route.reasoning_effort,
         provider_terminal: sanitizedTerminalObservation(terminal),
         transport_failure: processFailure,
+        tool_activity: toolActivity,
         usage: null,
         operational_tokens: null,
         retry_count: 0,
@@ -3625,7 +3685,9 @@ function emptyToolActivity() {
     temple_md_reads: 0,
     context_resolve_calls: 0,
     context_sequence: [],
-    reported_output_bytes: 0
+    reported_output_bytes: 0,
+    provider_cwd_diagnostics: {},
+    item_types: {}
   };
 }
 
@@ -3959,7 +4021,8 @@ function providerContractFromHandshake(handshake) {
     required_models: handshake.required_models,
     turn_sandbox_capabilities: handshake.turn_sandbox_capabilities,
     memory_isolation: handshake.memory_isolation,
-    wire_request_validation: handshake.wire_request_validation
+    wire_request_validation: handshake.wire_request_validation,
+    item_type_partition: handshake.item_type_partition
   };
 }
 
@@ -4044,17 +4107,19 @@ async function freezeEvaluatorContinuation(labRoot, protocolPath) {
     },
     provider_contract: providerContractFromHandshake(handshake),
     predecessor: {
-      disposition: "v14-superseded-before-approval-after-systemic-evaluator-audit",
-      superseded_protocol_sha256: "df137a01fa36cee2d063319b0d6f7bdfcdc2c1429c4c6009286e39422d8508e5",
-      superseded_before_approval: true,
-      superseded_model_generation_performed: false,
+      disposition: "v15-stopped-on-runner-item-classification-defect",
+      stopped_protocol_sha256: "95ddc4fbe65db25761a4ea1e0d44a437b3760e4422022265ce67ddf827fc1bf3",
+      stopped_record: ".ai-org/artifacts/WI-0136/representative-main-v15-evaluator-stop.json",
+      stopped_reason: "blind-evaluator-continuation-v15:evaluator-tool-policy-violation",
+      stopped_model_generation_status: "unverified",
+      stopped_operational_tokens: null,
       v13_disposition: "candidate-complete-evaluator-stopped-before-attributed-usage",
       exposed_error: "blind-evaluator:detailed Token usage missing",
       underlying_provider_terminal: "not-retained-by-v13-runner",
       model_generation_status: "unverified",
       operational_tokens: null,
       retry_of_v13_evaluator: false,
-      rationale: "Evaluate the immutable v13 blind packages once only after exact wire-schema, prompt, semantic-output, failure-retention, and generation-free production-path checks pass; do not regenerate candidates."
+      rationale: "Evaluate the immutable v13 blind packages once only after the installed item-type partition, passive-versus-active event policy, exact wire schema, prompt, semantic-output, failure-retention, and generation-free production path all pass; do not regenerate candidates."
     },
     claims: {
       candidate_data_unchanged: true,
@@ -4172,6 +4237,11 @@ async function preflightEvaluatorContinuation(labRoot, protocolPath, approvalPat
       id: "exact-wire-requests-valid",
       pass: handshake.wire_request_validation?.thread_start?.pass === true &&
         handshake.wire_request_validation?.turn_start?.pass === true
+    },
+    {
+      id: "installed-item-type-partition",
+      pass: handshake.item_type_partition?.pass === true &&
+        JSON.stringify(handshake.item_type_partition) === JSON.stringify(protocol.provider_contract.item_type_partition)
     },
     { id: "continuation-runner-bound", pass: sha256(await fs.readFile(fileURLToPath(import.meta.url))) === protocol.continuation_runner_sha256 },
     { id: "continuation-analyzer-bound", pass: sha256(await fs.readFile(path.join(repositoryRoot, "scripts/analyze-representative-microservice-comparison.mjs"))) === protocol.continuation_analyzer_sha256 },
@@ -4346,6 +4416,21 @@ export async function runEvaluatorContinuationReadiness(labRoot, protocolPath) {
       { id: "exact-evaluator-prompt-bound", pass: JSON.stringify(contract.prompt) === JSON.stringify(continuation.evaluator_prompt) },
       { id: "exact-thread-start-wire-schema", pass: continuation.provider_contract.wire_request_validation?.thread_start?.pass === true },
       { id: "exact-turn-start-wire-schema", pass: continuation.provider_contract.wire_request_validation?.turn_start?.pass === true },
+      {
+        id: "installed-item-type-partition",
+        pass: continuation.provider_contract.item_type_partition?.pass === true &&
+          continuation.provider_contract.item_type_partition.schema_values.length > 0
+      },
+      {
+        id: "passive-no-tool-events-accepted",
+        pass: representativeNoToolPassiveItemTypes.every((entry) => modelTurnItemPolicyViolation(entry, false) === null)
+      },
+      {
+        id: "active-tool-events-rejected",
+        pass: continuation.provider_contract.item_type_partition?.denied_no_tool_values?.every(
+          (entry) => modelTurnItemPolicyViolation(entry, false) !== null
+        ) === true
+      },
       { id: "injected-production-evaluator-completed", pass: evaluator.status === "completed" && evaluator.evaluator?.provider_kind === "generation-free-readiness-fixture" },
       { id: "score-freeze-completed", pass: evaluator.scores_frozen_before_mapping_unseal === true && frozen.mapping_unsealed_after_freeze === true },
       { id: "semantic-output-validation-completed", pass: true },
@@ -4450,19 +4535,19 @@ async function reportEvaluatorContinuation(labRoot, protocolPath) {
   const artifactRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0136");
   const archived = {};
   for (const [sourceName, targetName] of [
-    ["evaluator-continuation-preflight.json", "representative-main-v15-approved-preflight.json"],
-    ["evaluator-continuation-readiness.json", "representative-main-v15-evaluator-readiness.json"],
-    ["quality-scores-frozen.json", "representative-main-v15-quality-scores-frozen.json"],
-    ["evaluator-result.json", "representative-main-v15-evaluator-result.json"],
-    ["analysis.json", "representative-main-v15-analysis.json"]
+    ["evaluator-continuation-preflight.json", "representative-main-v16-approved-preflight.json"],
+    ["evaluator-continuation-readiness.json", "representative-main-v16-evaluator-readiness.json"],
+    ["quality-scores-frozen.json", "representative-main-v16-quality-scores-frozen.json"],
+    ["evaluator-result.json", "representative-main-v16-evaluator-result.json"],
+    ["analysis.json", "representative-main-v16-analysis.json"]
   ]) {
     archived[targetName] = await archiveExactFile(path.join(labRoot, sourceName), path.join(artifactRoot, targetName));
   }
-  await writeText(path.join(artifactRoot, "representative-main-v15-report.md"), representativeContinuationReport(analysis, evaluator, continuation));
+  await writeText(path.join(artifactRoot, "representative-main-v16-report.md"), representativeContinuationReport(analysis, evaluator, continuation));
   return {
     ...analysis,
     archived_evidence_sha256: archived,
-    report: ".ai-org/artifacts/WI-0136/representative-main-v15-report.md"
+    report: ".ai-org/artifacts/WI-0136/representative-main-v16-report.md"
   };
 }
 

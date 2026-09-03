@@ -1,12 +1,12 @@
 {
   "schema_version": "temple.representative-microservice-evaluator-continuation/v1",
-  "protocol_revision": 15,
+  "protocol_revision": 16,
   "work_item_id": "WI-0136",
   "status": "generation-disabled",
-  "protocol_sha256": "95ddc4fbe65db25761a4ea1e0d44a437b3760e4422022265ce67ddf827fc1bf3",
+  "protocol_sha256": "3247ab0cfcfa8664efea67cd751cae51cbaf9d0729276f03d250010e81ab9eb5",
   "source": {
     "protocol_sha256": "ffc48213ef3704418cb031a1fdf0621fb79763df259c9bc290d340224a4ec06c",
-    "lab_root": "/tmp/temple-wi0136-representative-microservice-v13-final",
+    "lab_root": "/tmp/temple-wi0136-representative-microservice-v16-evaluator",
     "candidate_record": ".ai-org/artifacts/WI-0136/representative-main-v13-candidate-run.json",
     "candidate_run_sha256": "c78c1ab4753e9aca3c095389cafe19fead5cb98328a4faf23adba71ca0303165",
     "candidate_status": "candidate-arms-completed",
@@ -19,7 +19,7 @@
     "lab_manifest_sha256": "3707b1a932ab8d4ec222bf6e2c6034488e840c2cf377f45aa1ee3e1423aff18d",
     "lab_manifest_file_sha256": "82f6b3d6b0821a7f6333cbcbbd8093e1fec9e1d1e05ac9377fcbd4fe0c82033a"
   },
-  "continuation_runner_sha256": "9aa61b4061bb44a9539c8abff064415e9b7f1c7c63e2712c3d252dfea987a8a3",
+  "continuation_runner_sha256": "efd7811f11a9a655726bfc43b1c462af20bc083b656150f731acbe5fe1f739ed",
   "continuation_analyzer_sha256": "59dc98b583907adcad9419eab3695658e44946fdb58720f754c9c9b743f89e6a",
   "output_schema": {
     "profile": "openai-structured-outputs-portable-subset/2026-09-04",
@@ -114,28 +114,77 @@
     "wire_request_validation": {
       "thread_start": {
         "pass": true,
-        "request_sha256": "69d47f8a8249c688ddf8f14611049110adb06510250820736226d3df813a431e",
+        "request_sha256": "ce568276732d6016d9cb5c362163c14c1d3de49c8ddedb930a96b25101e9f025",
         "errors": []
       },
       "turn_start": {
         "pass": true,
-        "request_sha256": "d0558c15680bed9a542a9e04a5e5e40c2aba9223999ef5a865dd24c3fe528aa6",
+        "request_sha256": "d56537a0154731fb97bc733bb9c6e3ee74c6cf1a7732b60701e967eda24061ac",
         "errors": []
       }
+    },
+    "item_type_partition": {
+      "schema_values": [
+        "agentMessage",
+        "collabAgentToolCall",
+        "commandExecution",
+        "contextCompaction",
+        "dynamicToolCall",
+        "enteredReviewMode",
+        "exitedReviewMode",
+        "fileChange",
+        "functionCallOutput",
+        "hookPrompt",
+        "imageGeneration",
+        "imageView",
+        "mcpToolCall",
+        "plan",
+        "reasoning",
+        "sleep",
+        "subAgentActivity",
+        "userMessage",
+        "webSearch"
+      ],
+      "passive_no_tool_values": [
+        "agentMessage",
+        "contextCompaction",
+        "plan",
+        "reasoning",
+        "userMessage"
+      ],
+      "denied_no_tool_values": [
+        "collabAgentToolCall",
+        "commandExecution",
+        "dynamicToolCall",
+        "enteredReviewMode",
+        "exitedReviewMode",
+        "fileChange",
+        "functionCallOutput",
+        "hookPrompt",
+        "imageGeneration",
+        "imageView",
+        "mcpToolCall",
+        "sleep",
+        "subAgentActivity",
+        "webSearch"
+      ],
+      "pass": true
     }
   },
   "predecessor": {
-    "disposition": "v14-superseded-before-approval-after-systemic-evaluator-audit",
-    "superseded_protocol_sha256": "df137a01fa36cee2d063319b0d6f7bdfcdc2c1429c4c6009286e39422d8508e5",
-    "superseded_before_approval": true,
-    "superseded_model_generation_performed": false,
+    "disposition": "v15-stopped-on-runner-item-classification-defect",
+    "stopped_protocol_sha256": "95ddc4fbe65db25761a4ea1e0d44a437b3760e4422022265ce67ddf827fc1bf3",
+    "stopped_record": ".ai-org/artifacts/WI-0136/representative-main-v15-evaluator-stop.json",
+    "stopped_reason": "blind-evaluator-continuation-v15:evaluator-tool-policy-violation",
+    "stopped_model_generation_status": "unverified",
+    "stopped_operational_tokens": null,
     "v13_disposition": "candidate-complete-evaluator-stopped-before-attributed-usage",
     "exposed_error": "blind-evaluator:detailed Token usage missing",
     "underlying_provider_terminal": "not-retained-by-v13-runner",
     "model_generation_status": "unverified",
     "operational_tokens": null,
     "retry_of_v13_evaluator": false,
-    "rationale": "Evaluate the immutable v13 blind packages once only after exact wire-schema, prompt, semantic-output, failure-retention, and generation-free production-path checks pass; do not regenerate candidates."
+    "rationale": "Evaluate the immutable v13 blind packages once only after the installed item-type partition, passive-versus-active event policy, exact wire schema, prompt, semantic-output, failure-retention, and generation-free production path all pass; do not regenerate candidates."
   },
   "claims": {
     "candidate_data_unchanged": true,

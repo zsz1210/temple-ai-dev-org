@@ -357,8 +357,30 @@ V14 could not regenerate candidate work and introduced a smaller portable evalua
 - Account boundary: Pro included allowance only; no Credits purchase or refill; no reset
 - Generation-free readiness: eleven of eleven checks pass at zero Operational Tokens
 - Live preflight: twenty-one of twenty-two checks pass; exact approval is the only blocker
-- Status: frozen and generation-disabled pending separate exact approval
+- Exact approval: recorded at `2026-09-03T23:11:38Z`
+- Live attempt: stopped after 3.7 seconds with no retained detailed usage
+- Status: stopped; no retry or fallback
 
 V15 binds the immutable v13 candidate and lab, exact package and rubric identities, exact evaluator prompt metrics, a dynamic portable output schema, exact installed `thread/start` and synthetic `turn/start` wire-schema validation, runner and analyzer digests, and the memory-isolated Provider contract. The production continuation function completed semantic validation, score freeze, mapping unseal, and analysis under an injected zero-Token evaluator before live approval became eligible.
 
-The runner now waits on terminal, abort, process exit, or deadline; preserves a failed Provider terminal ahead of missing usage; and retains usage plus the causal semantic-validation error if a structured response is invalid. These checks reduce known harness risk but do not claim that an external Provider can never expose a new condition. The detailed classification and interpretation boundary are recorded in `failure-mode-review.md`.
+The exact-approved v15 turn stopped on `evaluator-tool-policy-violation`. Inspection found that the runner's no-tool predicate used `!allowTools || activeType`, so every `item/started` notification—including passive reasoning or message activity—caused interruption. The stopped record preserves the interrupted terminal, but v15 did not retain the triggering item type and received no detailed usage notification. Generation state and Operational Tokens therefore remain unknown. This is a runner-classification defect, not evaluator quality evidence.
+
+## Representative evaluator continuation v16
+
+- Source candidate protocol: `ffc48213ef3704418cb031a1fdf0621fb79763df259c9bc290d340224a4ec06c`
+- Source candidate record: `c78c1ab4753e9aca3c095389cafe19fead5cb98328a4faf23adba71ca0303165`
+- Continuation protocol: `3247ab0cfcfa8664efea67cd751cae51cbaf9d0729276f03d250010e81ab9eb5`
+- Scope: one Sol xhigh arm-blind evaluator turn only
+- Additional Operational-Token ceiling: 100,000
+- Wall-clock ceiling: 15 minutes
+- Retry and fallback: disabled
+- Network and tools: disabled
+- Account boundary: Pro included allowance only; no Credits purchase or refill; no reset
+- Installed item contract: nineteen types partitioned into five passive no-tool values and fourteen denied values
+- Generation-free readiness: fourteen of fourteen checks pass at zero Operational Tokens
+- Live preflight: twenty-two of twenty-three checks pass; exact approval is the only blocker
+- Status: frozen and generation-disabled pending separate exact approval
+
+V16 preserves the v15 candidate, evaluator route, resource envelope, schema, prompt, isolation, and no-retry boundaries. It replaces the faulty Boolean condition with an explicit fail-closed item classifier derived from the installed App Server schema. Passive `userMessage`, `agentMessage`, `plan`, `reasoning`, and `contextCompaction` events are allowed; every other installed type is denied in this no-tool evaluator. The exact partition is frozen in the Provider contract, exercised in readiness, and observed item types are retained in any stopped stage record.
+
+The successor uses a fresh evaluator lab copied from the immutable v13 candidate state. It does not resume the v15 stopped lab or regenerate any candidate turn.

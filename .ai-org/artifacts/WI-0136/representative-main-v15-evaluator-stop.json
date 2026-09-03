@@ -1,0 +1,35 @@
+{
+  "schema_version": "temple.representative-microservice-evaluator-continuation-stopped-run/v1",
+  "work_item_id": "WI-0136",
+  "protocol_sha256": "ffc48213ef3704418cb031a1fdf0621fb79763df259c9bc290d340224a4ec06c",
+  "continuation_protocol_sha256": "95ddc4fbe65db25761a4ea1e0d44a437b3760e4422022265ce67ddf827fc1bf3",
+  "source_candidate_run_sha256": "c78c1ab4753e9aca3c095389cafe19fead5cb98328a4faf23adba71ca0303165",
+  "stopped_at": "2026-09-03T23:12:13.840Z",
+  "reason": "blind-evaluator-continuation-v15:evaluator-tool-policy-violation",
+  "evaluator_observation": {
+    "id": "blind-evaluator-continuation-v15",
+    "stage": "evaluator",
+    "status": "stopped",
+    "stop_scope": "run",
+    "stop_reason": "evaluator-tool-policy-violation",
+    "thread_id": "01a0698b-475d-7be3-afb0-7dfe1d77093e",
+    "turn_id": "01a0698b-47c7-70c2-8576-31001f903bea",
+    "requested_model": "gpt-5.6-sol",
+    "requested_reasoning_effort": "xhigh",
+    "provider_terminal": {
+      "id": "01a0698b-47c7-70c2-8576-31001f903bea",
+      "status": "interrupted",
+      "error": null
+    },
+    "transport_failure": null,
+    "usage": null,
+    "operational_tokens": null,
+    "retry_count": 0,
+    "fallback_count": 0
+  },
+  "retry_count": 0,
+  "fallback_count": 0,
+  "model_turn_requested": true,
+  "model_generation_status": "unverified",
+  "operational_tokens": null
+}

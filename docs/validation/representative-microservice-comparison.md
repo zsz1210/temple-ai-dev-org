@@ -1,6 +1,6 @@
 # Representative multi-Agent microservice comparison
 
-- Status: v13 candidate arms completed; v15 evaluator-only continuation passed its generation-free gate and awaits exact approval
+- Status: v13 candidate arms completed; v15 exposed an evaluator item-classification defect; v16 passed its expanded generation-free gate and awaits exact approval
 - Purpose: measure where Temple changes delivery outcomes, not accumulate another pass count
 - Comparison: Temple versus a minimal responsible workflow under matched inputs and model routes
 
@@ -168,31 +168,33 @@ The original v13 evaluator request then stopped before the runner received attri
 
 V14 was superseded before approval or generation after a systemic failure-mode review found that it still did not exercise child-process exit, deadline release, exact wire requests, semantic-output rejection, or stopped-evidence retention as one end-to-end gate. Its schema simplification remains useful hardening, but the missing v13 terminal means schema incompatibility was never established as the cause.
 
-V15 is the evaluator-only continuation under protocol `95ddc4fbe65db25761a4ea1e0d44a437b3760e4422022265ce67ddf827fc1bf3`. It binds the exact v13 candidate and lab, the exact evaluator prompt, a schema generated from the two package IDs, eight rubric dimensions, five permitted critical failures, the installed Provider's exact `thread/start` and synthetic `turn/start` request schemas, the runner, and the analyzer. Its generation-free production-path rehearsal completed evaluation, semantic validation, score freeze, mapping unseal, and analysis with eleven of eleven checks passing and zero Operational Tokens. Live preflight now passes twenty-one of twenty-two checks; exact approval is the only blocker.
+V15 bound the exact v13 candidate and lab, prompt, dynamic output schema, wire request shapes, runner, and analyzer. Its exact-approved live turn stopped after 3.7 seconds because the runner treated every `item/started` notification as a tool violation whenever tools were disabled. The predicate therefore rejected passive `reasoning` or `agentMessage` activity as well as real tool activity. The v15 record preserves the interrupted terminal, but that revision did not retain the triggering item type and received no detailed usage notification, so model generation and Operational Tokens remain unknown. It is not retried.
 
-V15 permits one Sol xhigh evaluator turn, at most 100,000 additional Operational Tokens, and at most 15 minutes. It cannot regenerate candidate work, retry, fall back, access the network, use tools, buy Credits, refill Credits, or consume a reset. A failed Provider terminal, child-process exit, deadline, missing usage notification, or malformed semantic result is now retained with its causal observation rather than replaced by a later missing-usage symptom.
+V16 is the evaluator-only successor under protocol `3247ab0cfcfa8664efea67cd751cae51cbaf9d0729276f03d250010e81ab9eb5`. It reads all nineteen installed App Server item types from the generated schema, permits only five passive no-tool types, rejects the other fourteen active or unexpected types, records observed item types, and binds that partition into the Provider contract. Its expanded generation-free rehearsal passes fourteen of fourteen checks at zero Operational Tokens; live preflight passes twenty-two of twenty-three checks, with exact v16 approval as the only blocker.
+
+V16 permits one Sol xhigh evaluator turn, at most 100,000 additional Operational Tokens, and at most 15 minutes. It cannot regenerate candidate work, retry, fall back, access the network, use tools, buy Credits, refill Credits, or consume a reset. A failed Provider terminal, child-process exit, deadline, missing usage notification, disallowed item type, or malformed semantic result is retained with its causal observation rather than replaced by a later symptom.
 
 After that evaluator-only protocol receives its own exact approval, the bounded commands are:
 
 ```bash
 node scripts/run-representative-microservice-comparison.mjs evaluator-continuation-preflight \
-  --lab /tmp/temple-wi0136-representative-microservice-v13-final \
+  --lab /tmp/temple-wi0136-representative-microservice-v16-evaluator \
   --approval .ai-org/artifacts/WI-0136/evaluator-continuation-approval.json
 node scripts/run-representative-microservice-comparison.mjs evaluator-continuation-evaluate \
-  --lab /tmp/temple-wi0136-representative-microservice-v13-final \
+  --lab /tmp/temple-wi0136-representative-microservice-v16-evaluator \
   --approval .ai-org/artifacts/WI-0136/evaluator-continuation-approval.json
 node scripts/run-representative-microservice-comparison.mjs evaluator-continuation-report \
-  --lab /tmp/temple-wi0136-representative-microservice-v13-final
+  --lab /tmp/temple-wi0136-representative-microservice-v16-evaluator
 ```
 
 The no-generation gate that precedes those commands is:
 
 ```bash
 node scripts/run-representative-microservice-comparison.mjs evaluator-continuation-readiness \
-  --lab /tmp/temple-wi0136-representative-microservice-v13-final
+  --lab /tmp/temple-wi0136-representative-microservice-v16-evaluator
 ```
 
-It has already completed for the frozen v15 protocol. Re-running it against the same evidence path is intentionally refused rather than counted as another attempt.
+It has already completed for the frozen v16 protocol. Re-running it against the same evidence path is intentionally refused rather than counted as another attempt.
 
 The runner refuses a second candidate or evaluator attempt in the same lab. A stopped run remains evidence and requires a new protocol revision and exact approval rather than a hidden retry.
 

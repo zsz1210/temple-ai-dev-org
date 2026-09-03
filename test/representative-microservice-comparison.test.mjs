@@ -17,9 +17,11 @@ import {
   executeEvaluatorContinuation,
   integrationOutputSchema,
   modelTurnStopReason,
+  modelTurnItemPolicyViolation,
   normalizeProviderCommandText,
   protocolDigest,
   representativeAppServerArguments,
+  representativeNoToolPassiveItemTypes,
   representativeCommandItemAllowed,
   representativeProtocolViolationForMessage,
   representativeTurnSandboxPolicy,
@@ -52,7 +54,7 @@ const ablationApprovalPath = new URL("../.ai-org/artifacts/WI-0136/context-ablat
 const harnessReadinessPath = new URL("../.ai-org/artifacts/WI-0136/representative-harness-readiness-v1.json", import.meta.url);
 const evaluatorContinuationProtocolPath = new URL("../.ai-org/artifacts/WI-0136/evaluator-continuation-protocol.json", import.meta.url);
 const evaluatorContinuationApprovalTemplatePath = new URL("../.ai-org/artifacts/WI-0136/evaluator-continuation-approval.template.json", import.meta.url);
-const evaluatorContinuationReadinessPath = new URL("../.ai-org/artifacts/WI-0136/evaluator-continuation-readiness-v15.json", import.meta.url);
+const evaluatorContinuationReadinessPath = new URL("../.ai-org/artifacts/WI-0136/evaluator-continuation-readiness-v16.json", import.meta.url);
 const archivedV13CandidatePath = new URL("../.ai-org/artifacts/WI-0136/representative-main-v13-candidate-run.json", import.meta.url);
 
 async function readJson(path) {
@@ -562,6 +564,29 @@ test("a failed Provider terminal is reported before missing usage", () => {
   assert.equal(modelTurnStopReason({ status: "failed" }, "runtime-request:test"), "runtime-request:test");
 });
 
+test("no-tool evaluation accepts passive model events and rejects every active item class", () => {
+  assert.ok(representativeNoToolPassiveItemTypes.includes("reasoning"));
+  assert.ok(representativeNoToolPassiveItemTypes.includes("agentMessage"));
+  for (const itemType of representativeNoToolPassiveItemTypes) {
+    assert.equal(modelTurnItemPolicyViolation(itemType, false), null);
+  }
+  for (const itemType of [
+    "commandExecution",
+    "fileChange",
+    "mcpToolCall",
+    "dynamicToolCall",
+    "collabAgentToolCall",
+    "subAgentActivity",
+    "webSearch",
+    "imageView",
+    "sleep",
+    "imageGeneration"
+  ]) {
+    assert.equal(modelTurnItemPolicyViolation(itemType, false), `disallowed-item-type:${itemType}`);
+  }
+  assert.equal(modelTurnItemPolicyViolation(null, false), "item-type-missing");
+});
+
 test("the model-turn wait releases on process exit and deadline without a terminal event", async () => {
   const pending = new Promise(() => {});
   assert.equal(await waitForModelTurnSignal({
@@ -586,7 +611,7 @@ test("the evaluator-only continuation binds the immutable v13 candidate and requ
   assert.equal(protocol.source.candidate_run_sha256, "c78c1ab4753e9aca3c095389cafe19fead5cb98328a4faf23adba71ca0303165");
   assert.equal(protocol.source.candidate_turns, 10);
   assert.equal(protocol.source.candidate_operational_tokens, 361250);
-  assert.equal(protocol.protocol_revision, 15);
+  assert.equal(protocol.protocol_revision, 16);
   assert.equal(protocol.execution.evaluator_turns, 1);
   assert.equal(protocol.execution.evaluator_operational_token_limit, 100000);
   assert.equal(protocol.execution.retry_count, 0);
@@ -596,6 +621,9 @@ test("the evaluator-only continuation binds the immutable v13 candidate and requ
   assert.equal(protocol.output_schema.critical_failures.length, 5);
   assert.equal(protocol.provider_contract.wire_request_validation.thread_start.pass, true);
   assert.equal(protocol.provider_contract.wire_request_validation.turn_start.pass, true);
+  assert.equal(protocol.provider_contract.item_type_partition.pass, true);
+  assert.ok(protocol.provider_contract.item_type_partition.passive_no_tool_values.includes("reasoning"));
+  assert.ok(protocol.provider_contract.item_type_partition.denied_no_tool_values.includes("commandExecution"));
   assert.match(protocol.evaluator_prompt.instruction_sha256, /^[a-f0-9]{64}$/);
   assert.equal(validateEvaluatorContinuationApproval(template, protocol).accepted, false);
 
