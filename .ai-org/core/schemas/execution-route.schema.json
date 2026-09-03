@@ -32,7 +32,7 @@
         "measure_id": { "$ref": "#/$defs/id" },
         "status": { "enum": ["observed", "unavailable"] },
         "value": { "type": ["number", "null"] },
-        "source": { "type": "string", "minLength": 1 },
+        "source": { "$ref": "#/$defs/nonBlank" },
         "quality": { "enum": ["declared", "observed", "qualified"] }
       },
       "allOf": [
@@ -255,7 +255,30 @@
               "properties": {
                 "selected": { "$ref": "#/$defs/selectedProfile" },
                 "selection": { "properties": { "unresolved_reason": { "const": null } } }
-              }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "selection": {
+                        "properties": { "mode": { "enum": ["advisory", "shadow"] } },
+                        "required": ["mode"]
+                      }
+                    },
+                    "required": ["selection"]
+                  },
+                  "then": {
+                    "properties": {
+                      "selection": {
+                        "anyOf": [
+                          { "properties": { "rule_id": { "$ref": "#/$defs/id" } }, "required": ["rule_id"] },
+                          { "properties": { "fallback_applied": { "const": true } }, "required": ["fallback_applied"] }
+                        ]
+                      }
+                    }
+                  }
+                }
+              ]
             },
             "else": {
               "properties": {
@@ -279,9 +302,21 @@
                 "selection": {
                   "properties": {
                     "status": { "const": "unresolved" },
-                    "unresolved_reason": { "const": "unknown-required-capability" },
                     "fallback_applied": { "const": false }
-                  }
+                  },
+                  "allOf": [
+                    {
+                      "if": { "properties": { "mode": { "const": "pinned" } }, "required": ["mode"] },
+                      "then": {
+                        "properties": {
+                          "unresolved_reason": { "enum": ["pinned-profile-not-found", "pinned-profile-ineligible"] }
+                        }
+                      },
+                      "else": {
+                        "properties": { "unresolved_reason": { "const": "unknown-required-capability" } }
+                      }
+                    }
+                  ]
                 },
                 "selected": { "type": "null" }
               }

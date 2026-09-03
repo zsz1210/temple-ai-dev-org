@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 121 total, 4 active
+- Work items: 122 total, 5 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 14
+- Attention signals: 15
 
 ## Collaboration
 
@@ -168,7 +168,8 @@
 | WI-0118 | Turn validation evidence into adaptive Lean Mode | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `b3b5c13d` | 0 | 21 | 0 |
 | WI-0119 | Establish adaptive execution routing foundation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `cfa12af5` | 0 | 23 | 0 |
 | WI-0120 | Harden the Execution Route validation boundary | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `486c64df` | 0 | 18 | 0 |
-| WI-0121 | Close remaining Execution Route validation bypasses | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903033945-3957c4c8 | `a8eea7c3` | 0 | 16 | 0 |
+| WI-0121 | Close remaining Execution Route validation bypasses | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a8eea7c3` | 0 | 17 | 0 |
+| WI-0122 | Reconcile pinned Route reason precedence | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903034856-b0275c0b | `—` | 0 | 9 | 0 |
 
 ## Codex task registry
 
@@ -220,6 +221,7 @@
 
 - WI-0086 is blocked
 - WI-0120 is blocked
+- WI-0121 is blocked
 - task-0001 can be archived
 - task-0002 can be archived
 - task-0003 can be archived
@@ -311,14 +313,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-03T03:39:45.987Z | work_item_claimed | WI-0121 | human |
-| 2026-09-03T03:39:45.726Z | work_item_transitioned | WI-0121 | agent-lulu |
-| 2026-09-03T03:39:45.481Z | handoff_created | WI-0121 | agent-lulu |
-| 2026-09-03T03:39:45.207Z | work_item_transitioned | WI-0121 | agent-lulu |
-| 2026-09-03T03:39:25.995Z | evidence_recorded | WI-0121 | human |
-| 2026-09-03T03:38:48.690Z | work_item_claimed | WI-0121 | human |
-| 2026-09-03T03:38:48.423Z | work_item_transitioned | WI-0121 | agent-rikku |
-| 2026-09-03T03:38:48.112Z | handoff_created | WI-0121 | agent-rikku |
+| 2026-09-03T03:48:56.893Z | work_item_claimed | WI-0122 | human |
+| 2026-09-03T03:48:56.625Z | work_item_transitioned | WI-0122 | agent-tidus |
+| 2026-09-03T03:48:56.386Z | handoff_created | WI-0122 | agent-tidus |
+| 2026-09-03T03:48:56.162Z | work_item_claimed | WI-0122 | human |
+| 2026-09-03T03:48:55.911Z | work_item_transitioned | WI-0122 | agent-yuna |
+| 2026-09-03T03:48:55.669Z | handoff_created | WI-0122 | agent-yuna |
+| 2026-09-03T03:48:55.417Z | work_item_claimed | WI-0122 | human |
+| 2026-09-03T03:48:55.167Z | work_item_transitioned | WI-0122 | agent-mog |
 
 ## Assignments
 

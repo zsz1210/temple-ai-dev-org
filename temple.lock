@@ -11,12 +11,12 @@
       "launcher": "templew.mjs",
       "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.29",
       "repository_spec": null,
-      "source_revision": "52b2b70aa5d8425a88c8e28a22a89373c8905923",
+      "source_revision": "8c637aa5fab5dea209a28f9a230ffc41dc05294d",
       "source_clean": false,
       "invocation": "node ./templew.mjs <command> ."
     },
     "installed_at": "2026-08-30T02:28:18.355Z",
-    "upgraded_at": "2026-09-03T03:34:45.000Z",
+    "upgraded_at": "2026-09-03T03:49:57.000Z",
     "upgraded_from": "0.1.0-alpha.29"
   },
   "installation": {
@@ -275,7 +275,7 @@
     },
     {
       "path": ".ai-org/core/schemas/execution-route.schema.json",
-      "sha256": "f65da8560206c865115b0e3aea21a1303b4036a073ae9fb7e5a03fdf961e97ec"
+      "sha256": "97b2f77fbd1811e39c2d4b346b1f9fa9f74398ead0b9f21ca4609586b371013d"
     },
     {
       "path": ".ai-org/core/schemas/federated-portfolio.schema.json",

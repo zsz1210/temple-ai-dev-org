@@ -18722,6 +18722,33 @@
         "exit_code": 0,
         "started_at": "2026-09-03T03:38:55.362Z"
       }
+    },
+    {
+      "id": "EVID-20260903T034741Z-B870620C",
+      "work_item_id": "WI-0121",
+      "recorded_at": "2026-09-03T03:47:41.315Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "risk",
+      "title": "medium risk",
+      "outcome": "open",
+      "scope_revision": "a8eea7c3122dfac1ce7cf700a083030bb79bf01d",
+      "observed_at": "2026-09-03T03:47:41.315Z",
+      "summary": "Pinned unknown-capability resolver output is rejected by its own route validators.",
+      "adapter": {
+        "id": "manual-risk-record",
+        "version": "1"
+      },
+      "artifacts": [],
+      "details": {
+        "severity": "medium",
+        "status": "open",
+        "mitigation": "Define reason precedence, align resolver/schema/semantic validation, and independently re-test the exact candidate."
+      }
     }
   ]
 }

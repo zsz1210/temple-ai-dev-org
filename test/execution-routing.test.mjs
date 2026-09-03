@@ -97,6 +97,14 @@ test("the managed Execution Route schema rejects the post-close Independent QA c
     risk_class: "high",
     selection: { mode: "pinned", pinned_profile_id: "standard" }
   })]), { generatedAt: "2026-09-03T00:00:00.000Z" });
+  const pinnedUnknownExisting = resolveExecutionRequest(mappedPolicy(), request([step("pinned-unknown-existing", {
+    required: ["text.reasoning", "capability.not-registered"],
+    selection: { mode: "pinned", pinned_profile_id: "standard" }
+  })]), { generatedAt: "2026-09-03T00:00:00.000Z" });
+  const pinnedUnknownMissing = resolveExecutionRequest(mappedPolicy(), request([step("pinned-unknown-missing", {
+    required: ["text.reasoning", "capability.not-registered"],
+    selection: { mode: "pinned", pinned_profile_id: "profile.not-registered" }
+  })]), { generatedAt: "2026-09-03T00:00:00.000Z" });
   const shadowRoute = resolveExecutionRequest(mappedPolicy(), request([step("shadow-route", {
     selection: { mode: "shadow" }
   })]), { generatedAt: "2026-09-03T00:00:00.000Z" });
@@ -111,6 +119,8 @@ test("the managed Execution Route schema rejects the post-close Independent QA c
   for (const [label, route] of [
     ["Provider-neutral", neutralRoute],
     ["pinned unresolved", pinnedUnresolved],
+    ["pinned unknown capability with existing profile", pinnedUnknownExisting],
+    ["pinned unknown capability with missing profile", pinnedUnknownMissing],
     ["shadow", shadowRoute],
     ["media extension", mediaRoute]
   ]) {
@@ -133,6 +143,11 @@ test("the managed Execution Route schema rejects the post-close Independent QA c
     ["blank Task Shape", (route) => { route.steps[0].task_shape.task_kind = "  "; }],
     ["blank requested Provider", (route) => { route.steps[0].selected.requested.provider_id = "  "; }],
     ["blank capability", (route) => { route.steps[0].capability_route.required[0] = "  "; }],
+    ["blank resource observation source", (route) => { route.steps[0].resource_observations[0].source = "  "; }],
+    ["resolved non-pinned route without rule or fallback provenance", (route) => {
+      route.steps[0].selection.rule_id = null;
+      route.steps[0].selection.fallback_applied = false;
+    }],
     ["pinned route marked as fallback", (route) => {
       route.steps[0].selection.mode = "pinned";
       route.steps[0].selection.authority = "human-or-coordinator-pinned";
@@ -179,6 +194,15 @@ test("Execution Route semantic validation rejects structurally valid cross-field
     ["blank Task Shape", (route) => { route.steps[0].task_shape.task_kind = "  "; }],
     ["blank capability", (route) => { route.steps[0].capability_route.required[0] = "  "; }],
     ["blank rejected reason", (route) => { route.steps[0].eligibility.rejected[0].reasons[0] = "  "; }],
+    ["blank resource observation source", (route) => {
+      route.steps[0].resource_observations = [
+        { measure_id: "credits", status: "unavailable", value: null, source: "  ", quality: "declared" }
+      ];
+    }],
+    ["resolved non-pinned route without rule or fallback provenance", (route) => {
+      route.steps[0].selection.rule_id = null;
+      route.steps[0].selection.fallback_applied = false;
+    }],
     ["pinned fallback", (route) => {
       route.steps[0].selection.mode = "pinned";
       route.steps[0].selection.authority = "human-or-coordinator-pinned";

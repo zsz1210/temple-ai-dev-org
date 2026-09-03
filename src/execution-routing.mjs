@@ -429,7 +429,10 @@ export function validateExecutionRoute(document) {
       errors.push(`${label}.selection non-pinned mode cannot use a pinned-specific unresolved reason`);
     }
     if (unknownRequired.length > 0) {
-      if (selectionStatus !== "unresolved" || unresolvedReason !== "unknown-required-capability") {
+      const expectedUnknownReason = selectionMode === "pinned"
+        ? pinnedReasons.has(unresolvedReason)
+        : unresolvedReason === "unknown-required-capability";
+      if (selectionStatus !== "unresolved" || !expectedUnknownReason) {
         errors.push(`${label}.selection must fail closed for unknown required capabilities`);
       }
     } else if (unresolvedReason === "unknown-required-capability") {
@@ -467,6 +470,13 @@ export function validateExecutionRoute(document) {
       if (!allNull && !allConcrete) {
         errors.push(`${label}.selected.requested must map provider_id, model, and reasoning_effort together or leave all three null`);
       }
+      if (
+        selectionMode !== "pinned" &&
+        step?.selection?.rule_id === null &&
+        step?.selection?.fallback_applied !== true
+      ) {
+        errors.push(`${label}.selection resolved non-pinned mode requires rule or fallback provenance`);
+      }
     } else if (step?.selection?.status === "unresolved") {
       unresolved += 1;
       if (step.selected !== null) errors.push(`${label}.selected must be null when unresolved`);
@@ -487,6 +497,11 @@ export function validateExecutionRoute(document) {
     ]) {
       const duplicated = duplicateEntryIds(entries, "measure_id");
       if (duplicated.length > 0) errors.push(`${label}.${field} measure_id is duplicated: ${duplicated.join(", ")}`);
+    }
+    for (const [observationIndex, observation] of (step?.resource_observations ?? []).entries()) {
+      if (!nonBlankString(observation?.source)) {
+        errors.push(`${label}.resource_observations[${observationIndex}].source must be non-blank`);
+      }
     }
   }
 
