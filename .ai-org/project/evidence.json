@@ -21205,6 +21205,36 @@
         "exit_code": 0,
         "started_at": "2026-09-03T12:07:30.000Z"
       }
+    },
+    {
+      "id": "EVID-20260903T144912Z-292F2426",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T14:49:12.820Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0136 completed context qualification",
+      "outcome": "verified",
+      "scope_revision": "f76d2e7be336e96c1e89a5c9b0d06fb6ab6ec0a9",
+      "observed_at": "2026-09-03T14:49:12.820Z",
+      "summary": "Exact revision preserving the completed v10 routed-versus-full-load run, deterministic analysis, human report, full 378-test verification, and one-attempt consumption guard.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "f76d2e7be336e96c1e89a5c9b0d06fb6ab6ec0a9"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "f76d2e7be336e96c1e89a5c9b0d06fb6ab6ec0a9",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
     }
   ]
 }
