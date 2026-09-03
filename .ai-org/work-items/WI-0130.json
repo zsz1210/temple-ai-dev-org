@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0130",
   "title": "Run the first three-arm Temple effectiveness pilot",
-  "state": "test",
-  "owner_position": "quality_evaluator",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-03T06:27:28.833Z",
-  "updated_at": "2026-09-03T07:08:39.389Z",
+  "updated_at": "2026-09-03T07:09:47.696Z",
   "scope": [
     "Build and validate a reproducible six-candidate pilot across conventional fixed, Temple fixed, and Temple adaptive conditions",
     "Use two frozen bounded implementation cases and isolate A versus B from B versus C",
@@ -55,7 +55,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "8b3dc75c839bb8345d79ec000b5cfe21dabae091",
+  "base_revision": "4fbb0fb4a7fa17e5ab71e5f76053190a562d2b70",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -63,15 +63,15 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260903063115-e88d358f",
+    "id": "claim-20260903070911-945fcd94",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "8b3dc75c839bb8345d79ec000b5cfe21dabae091",
+    "agent_id": "agent-lulu",
+    "base_revision": "4fbb0fb4a7fa17e5ab71e5f76053190a562d2b70",
     "branch": "codex/wi-0130-effectiveness-pilot",
-    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
-    "claimed_at": "2026-09-03T06:31:15.788Z",
-    "released_at": "2026-09-03T07:08:39.389Z",
+    "worktree": null,
+    "claimed_at": "2026-09-03T07:09:11.831Z",
+    "released_at": "2026-09-03T07:09:47.696Z",
     "release_reason": "position_transition"
   },
   "claims": [
@@ -85,6 +85,18 @@
       "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
       "claimed_at": "2026-09-03T06:31:15.788Z",
       "released_at": "2026-09-03T07:08:39.389Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903070911-945fcd94",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "4fbb0fb4a7fa17e5ab71e5f76053190a562d2b70",
+      "branch": "codex/wi-0130-effectiveness-pilot",
+      "worktree": null,
+      "claimed_at": "2026-09-03T07:09:11.831Z",
+      "released_at": "2026-09-03T07:09:47.696Z",
       "release_reason": "position_transition"
     }
   ],
@@ -109,6 +121,12 @@
     ],
     "developer_evidence": [
       ".ai-org/artifacts/WI-0130/developer-report.md"
+    ],
+    "test_evidence": [
+      "EVID-20260903T070940Z-0EA94917"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0130/quality-report.md"
     ]
   },
   "evidence": [
@@ -120,10 +138,13 @@
     ".ai-org/artifacts/WI-0130/technical-design.md",
     ".ai-org/artifacts/WI-0130/risk-review.md",
     ".ai-org/artifacts/WI-0130/handoff-004-developer-to-quality_evaluator.md",
-    ".ai-org/artifacts/WI-0130/developer-report.md"
+    ".ai-org/artifacts/WI-0130/developer-report.md",
+    "EVID-20260903T070940Z-0EA94917",
+    ".ai-org/artifacts/WI-0130/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0130/quality-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "release_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -152,6 +173,13 @@
       "input_revision": "2ac73bc1b2ed3d966114fd9be8b71995510d68ce",
       "artifact": ".ai-org/artifacts/WI-0130/handoff-004-developer-to-quality_evaluator.md",
       "created_at": "2026-09-03T07:08:39.105Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "4fbb0fb4a7fa17e5ab71e5f76053190a562d2b70",
+      "artifact": ".ai-org/artifacts/WI-0130/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-03T07:09:47.455Z"
     }
   ],
   "developer_candidate_revision": "2ac73bc1b2ed3d966114fd9be8b71995510d68ce"

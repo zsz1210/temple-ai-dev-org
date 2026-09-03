@@ -1,0 +1,14 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "4fbb0fb4a7fa17e5ab71e5f76053190a562d2b70",
+  "command": ["node", "--test", "test/effectiveness-pilot.test.mjs"],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-03T07:09:11.000Z",
+  "completed_at": "2026-09-03T07:09:12.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0130/quality-report.md",
+    ".ai-org/artifacts/WI-0130/live-experiment-observation.json",
+    "docs/validation/temple-effectiveness-pilot-result.md"
+  ]
+}

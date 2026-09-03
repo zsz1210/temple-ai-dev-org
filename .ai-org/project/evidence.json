@@ -19977,6 +19977,55 @@
         "scenario": "Complete the approved six-candidate pilot and one blind evaluation within its fixed execution envelope",
         "provenance": "live"
       }
+    },
+    {
+      "id": "EVID-20260903T070940Z-0EA94917",
+      "work_item_id": "WI-0130",
+      "recorded_at": "2026-09-03T07:09:40.389Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0130 independent quality evaluation",
+      "outcome": "pass",
+      "scope_revision": "4fbb0fb4a7fa17e5ab71e5f76053190a562d2b70",
+      "observed_at": "2026-09-03T07:09:12.000Z",
+      "summary": "Seven focused regressions pass and the retained report truthfully limits its claims to observed Standard-process diagnostic evidence.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0130/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0130/quality-test-observation.json",
+          "sha256": "5fdd69b00057b7c7d0b7532f9b88cf0d40d44cb0c51450edfb0a01173016bff4"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0130/quality-report.md",
+          "sha256": "f13c7a532dd07eef39842da21eec966087d8ab343f03cbf35f63763ad0694ab8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0130/live-experiment-observation.json",
+          "sha256": "353316327fda87bedf54f1a5d93eb85a0060842c549359eac04428ab90bceb73"
+        },
+        {
+          "path": "docs/validation/temple-effectiveness-pilot-result.md",
+          "sha256": "3bf62a5ce8e352cf4c8136f900b68bade427806f95f0a646b3b30c82f7965859"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/effectiveness-pilot.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T07:09:11.000Z"
+      }
     }
   ]
 }
