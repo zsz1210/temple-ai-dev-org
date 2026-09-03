@@ -77,6 +77,19 @@ The full-load condition crossed its independent 80,000-Operational-Token ceiling
 - Combined operational-Token hard stop: 320,000
 - Wall-clock hard stop: 40 minutes
 - Retry and fallback: disabled
-- Status: generation disabled until a new exact account approval
+- Status: superseded before approval or generation by v5
 
 V4 changes only stopped-condition evidence and isolation semantics. A per-condition Token ceiling becomes a retained censored observation with exact last usage, timing, route, context strategy, tool-activity counters, and stop reason. It does not authorize a retry; the runner proceeds only to independent conditions that have not started. Aggregate budget, program time, Provider, command-policy, protocol, context-strategy, and revision violations remain whole-run stops. V4 keeps the observed ceiling instead of raising it from the failed attempt.
+
+## Context/model diagnostic v5
+
+- Protocol SHA-256: `9c947a32b2e63f771de3bcdfae2f3e95dd8ab69b66a65e812473c28ec04d615f`
+- Condition order: Terra routed; Sol routed medium; Sol routed xhigh; Terra full-load
+- Routed-condition operational-Token hard stop: 80,000 each
+- Full-load operational-Token hard stop: 120,000
+- Combined operational-Token hard stop: 360,000
+- Wall-clock hard stop: 40 minutes
+- Retry and fallback: disabled
+- Status: generation disabled until exact account approval
+
+V5 preserves v4's censored-condition isolation and whole-run safety boundaries. It prioritizes the three routed conditions so a later full-load failure cannot erase the model comparisons. The full-load ceiling is raised by 40,000 based on two retained observations: v2 completed full-load before the full-load-plus-partial-routed aggregate reached 104,893, while v3 crossed the prior 80,000 ceiling at 80,621. The other conditions remain at 80,000, so the total rises by 12.5% rather than doubling.

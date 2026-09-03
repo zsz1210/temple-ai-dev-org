@@ -1,12 +1,12 @@
 {
-  "schema_version": "temple.context-model-diagnostic/v4",
+  "schema_version": "temple.context-model-diagnostic/v5",
   "work_item_id": "WI-0136",
   "status": "generation-disabled",
-  "protocol_sha256": "c291842d43692df0dd117bec75ed3ed716312125caa0e0d383b2e8b06313d90a",
-  "lab_manifest_sha256": "36a82b8693f92598ff1d828f67629a37c91158845e077245fa46aebe8679312e",
+  "protocol_sha256": "9c947a32b2e63f771de3bcdfae2f3e95dd8ab69b66a65e812473c28ec04d615f",
+  "lab_manifest_sha256": "101513c085b02ae33e71d3fb945cbf5ccb3819023aad2b22df12c1ed48ef5796",
   "source_digests": {
     "fixture_sha256": "194a69a223222f53ddc1fca78dc3a3cf318d7705d007ebd34b8176f9de325303",
-    "runner_sha256": "5016eb122063deaa319ab433bb9e3e62edc3037b0d0f24eb1674d823521bebe8",
+    "runner_sha256": "aa0478637c642325de24d529a47e131d6f0927a9a9446780d999e184624d8bc5",
     "analyzer_sha256": "5e614a7879a8fbdb7655d6780dcf0c7e693e7326259fa166d7fe3231f1151c5c",
     "task_sha256": "5dfd10dce99196f282f0560a25aaffd359b7af2119a62d943e465f19ae46369c",
     "public_tests_sha256": "8809e165ee024f5606a48c38bb0f6065e3b943fcd00d05fda5fdd6099e0f41f9",
@@ -31,16 +31,6 @@
       "sha256": "af99566c4f630e8d2b583c00204e3f85446343cd6991c29d3da2decdbc11fb6a"
     },
     "conditions": {
-      "terra-full-load": {
-        "strategy": "temple-full-load-v1",
-        "model": "gpt-5.6-terra",
-        "reasoning_effort": "medium",
-        "user_input": {
-          "bytes": 740,
-          "characters": 740,
-          "sha256": "9e2338ce2860d43d893b2ab4086c0dd85e3b1aebd0ed4c98d6501913d72764af"
-        }
-      },
       "terra-routed": {
         "strategy": "temple-routed-context-v1",
         "model": "gpt-5.6-terra",
@@ -70,40 +60,20 @@
           "characters": 874,
           "sha256": "c4272639d4f2f0095b8bda84734ec7a4be2d53d6adbf5d11292d6cc4f132420d"
         }
+      },
+      "terra-full-load": {
+        "strategy": "temple-full-load-v1",
+        "model": "gpt-5.6-terra",
+        "reasoning_effort": "medium",
+        "user_input": {
+          "bytes": 740,
+          "characters": 740,
+          "sha256": "9e2338ce2860d43d893b2ab4086c0dd85e3b1aebd0ed4c98d6501913d72764af"
+        }
       }
     }
   },
   "conditions": [
-    {
-      "id": "terra-full-load",
-      "context_strategy": "full-load",
-      "model_route": {
-        "model": "gpt-5.6-terra",
-        "reasoning_effort": "medium"
-      },
-      "repositories": {
-        "gateway": {
-          "revision": "44e2a724e2e429344bf150988addda495118b8af",
-          "tree": "bc14d4e463945e0e24a88a64a7ebb3981d337adf"
-        },
-        "catalog": {
-          "revision": "ab1567ca00ec86b20f37c41936879ee376acffc3",
-          "tree": "582a1227d19b5b5695d27016dd1590952f818c3f"
-        },
-        "orders": {
-          "revision": "e527bfc8cfbbf891d4f1886b1a263baf9132f5be",
-          "tree": "8450d7315ec720fe70d6ba128150640145f607ab"
-        },
-        "notifications": {
-          "revision": "8662d4f41412ab9a0f22e592bbabd11c1daea5ee",
-          "tree": "e475509194649a1683f3293a6fb88dc2ddfc6323"
-        },
-        "coordinator": {
-          "revision": "e0ceb055b7d6e0d6f8554f093a4513d94887a8ab",
-          "tree": "73f862205aae1d76117f83733ae0ef2b4c604afd"
-        }
-      }
-    },
     {
       "id": "terra-routed",
       "context_strategy": "routed",
@@ -111,26 +81,27 @@
         "model": "gpt-5.6-terra",
         "reasoning_effort": "medium"
       },
+      "operational_token_limit": 80000,
       "repositories": {
         "gateway": {
-          "revision": "44e2a724e2e429344bf150988addda495118b8af",
-          "tree": "bc14d4e463945e0e24a88a64a7ebb3981d337adf"
+          "revision": "a2181352462ee786f2b4158c35ec661784b7633f",
+          "tree": "e530cf6234d19f641c3a89e2f426cff2c3606aa3"
         },
         "catalog": {
-          "revision": "ab1567ca00ec86b20f37c41936879ee376acffc3",
-          "tree": "582a1227d19b5b5695d27016dd1590952f818c3f"
+          "revision": "6855eec132747b1c1ba85986debc28341f5a5fa7",
+          "tree": "21d1c1ac2e60ce374b24c7bde9f2c5ab41857119"
         },
         "orders": {
-          "revision": "e527bfc8cfbbf891d4f1886b1a263baf9132f5be",
-          "tree": "8450d7315ec720fe70d6ba128150640145f607ab"
+          "revision": "a93154064c71fd48c5231a3b9bcffb18e8ffa6ad",
+          "tree": "8dc9efa083ae600d3c675528d837ec55261af449"
         },
         "notifications": {
-          "revision": "8662d4f41412ab9a0f22e592bbabd11c1daea5ee",
-          "tree": "e475509194649a1683f3293a6fb88dc2ddfc6323"
+          "revision": "f5477295683fb6a82477c91cf129c2a9be0f059a",
+          "tree": "40d4f0939493c65f28196878c5f0dc9369d4d705"
         },
         "coordinator": {
-          "revision": "e0ceb055b7d6e0d6f8554f093a4513d94887a8ab",
-          "tree": "73f862205aae1d76117f83733ae0ef2b4c604afd"
+          "revision": "61bca96e7125ddeeeaeaa8ead9a12330f3abcd68",
+          "tree": "71ff28e7b6ffd85a796a639379d562bf36615b8c"
         }
       }
     },
@@ -141,26 +112,27 @@
         "model": "gpt-5.6-sol",
         "reasoning_effort": "medium"
       },
+      "operational_token_limit": 80000,
       "repositories": {
         "gateway": {
-          "revision": "44e2a724e2e429344bf150988addda495118b8af",
-          "tree": "bc14d4e463945e0e24a88a64a7ebb3981d337adf"
+          "revision": "a2181352462ee786f2b4158c35ec661784b7633f",
+          "tree": "e530cf6234d19f641c3a89e2f426cff2c3606aa3"
         },
         "catalog": {
-          "revision": "ab1567ca00ec86b20f37c41936879ee376acffc3",
-          "tree": "582a1227d19b5b5695d27016dd1590952f818c3f"
+          "revision": "6855eec132747b1c1ba85986debc28341f5a5fa7",
+          "tree": "21d1c1ac2e60ce374b24c7bde9f2c5ab41857119"
         },
         "orders": {
-          "revision": "e527bfc8cfbbf891d4f1886b1a263baf9132f5be",
-          "tree": "8450d7315ec720fe70d6ba128150640145f607ab"
+          "revision": "a93154064c71fd48c5231a3b9bcffb18e8ffa6ad",
+          "tree": "8dc9efa083ae600d3c675528d837ec55261af449"
         },
         "notifications": {
-          "revision": "8662d4f41412ab9a0f22e592bbabd11c1daea5ee",
-          "tree": "e475509194649a1683f3293a6fb88dc2ddfc6323"
+          "revision": "f5477295683fb6a82477c91cf129c2a9be0f059a",
+          "tree": "40d4f0939493c65f28196878c5f0dc9369d4d705"
         },
         "coordinator": {
-          "revision": "e0ceb055b7d6e0d6f8554f093a4513d94887a8ab",
-          "tree": "73f862205aae1d76117f83733ae0ef2b4c604afd"
+          "revision": "61bca96e7125ddeeeaeaa8ead9a12330f3abcd68",
+          "tree": "71ff28e7b6ffd85a796a639379d562bf36615b8c"
         }
       }
     },
@@ -171,36 +143,68 @@
         "model": "gpt-5.6-sol",
         "reasoning_effort": "xhigh"
       },
+      "operational_token_limit": 80000,
       "repositories": {
         "gateway": {
-          "revision": "44e2a724e2e429344bf150988addda495118b8af",
-          "tree": "bc14d4e463945e0e24a88a64a7ebb3981d337adf"
+          "revision": "a2181352462ee786f2b4158c35ec661784b7633f",
+          "tree": "e530cf6234d19f641c3a89e2f426cff2c3606aa3"
         },
         "catalog": {
-          "revision": "ab1567ca00ec86b20f37c41936879ee376acffc3",
-          "tree": "582a1227d19b5b5695d27016dd1590952f818c3f"
+          "revision": "6855eec132747b1c1ba85986debc28341f5a5fa7",
+          "tree": "21d1c1ac2e60ce374b24c7bde9f2c5ab41857119"
         },
         "orders": {
-          "revision": "e527bfc8cfbbf891d4f1886b1a263baf9132f5be",
-          "tree": "8450d7315ec720fe70d6ba128150640145f607ab"
+          "revision": "a93154064c71fd48c5231a3b9bcffb18e8ffa6ad",
+          "tree": "8dc9efa083ae600d3c675528d837ec55261af449"
         },
         "notifications": {
-          "revision": "8662d4f41412ab9a0f22e592bbabd11c1daea5ee",
-          "tree": "e475509194649a1683f3293a6fb88dc2ddfc6323"
+          "revision": "f5477295683fb6a82477c91cf129c2a9be0f059a",
+          "tree": "40d4f0939493c65f28196878c5f0dc9369d4d705"
         },
         "coordinator": {
-          "revision": "e0ceb055b7d6e0d6f8554f093a4513d94887a8ab",
-          "tree": "73f862205aae1d76117f83733ae0ef2b4c604afd"
+          "revision": "61bca96e7125ddeeeaeaa8ead9a12330f3abcd68",
+          "tree": "71ff28e7b6ffd85a796a639379d562bf36615b8c"
+        }
+      }
+    },
+    {
+      "id": "terra-full-load",
+      "context_strategy": "full-load",
+      "model_route": {
+        "model": "gpt-5.6-terra",
+        "reasoning_effort": "medium"
+      },
+      "operational_token_limit": 120000,
+      "repositories": {
+        "gateway": {
+          "revision": "a2181352462ee786f2b4158c35ec661784b7633f",
+          "tree": "e530cf6234d19f641c3a89e2f426cff2c3606aa3"
+        },
+        "catalog": {
+          "revision": "6855eec132747b1c1ba85986debc28341f5a5fa7",
+          "tree": "21d1c1ac2e60ce374b24c7bde9f2c5ab41857119"
+        },
+        "orders": {
+          "revision": "a93154064c71fd48c5231a3b9bcffb18e8ffa6ad",
+          "tree": "8dc9efa083ae600d3c675528d837ec55261af449"
+        },
+        "notifications": {
+          "revision": "f5477295683fb6a82477c91cf129c2a9be0f059a",
+          "tree": "40d4f0939493c65f28196878c5f0dc9369d4d705"
+        },
+        "coordinator": {
+          "revision": "61bca96e7125ddeeeaeaa8ead9a12330f3abcd68",
+          "tree": "71ff28e7b6ffd85a796a639379d562bf36615b8c"
         }
       }
     }
   ],
   "execution": {
     "condition_order": [
-      "terra-full-load",
       "terra-routed",
       "sol-routed-medium",
-      "sol-routed-xhigh"
+      "sol-routed-xhigh",
+      "terra-full-load"
     ],
     "candidate_turns": 4,
     "evaluator_turns": 0,
@@ -210,9 +214,9 @@
     "generation_ready": false,
     "exact_approval_required": true,
     "candidate_limit_disposition": "record-censored-and-continue-independent-conditions",
-    "integration_operational_token_limit": 80000,
-    "candidate_aggregate_operational_token_limit": 320000,
-    "combined_operational_token_limit": 320000,
+    "integration_operational_token_limit": 120000,
+    "candidate_aggregate_operational_token_limit": 360000,
+    "combined_operational_token_limit": 360000,
     "program_wall_clock_limit_ms": 2400000
   },
   "provider_contract": {
@@ -246,9 +250,18 @@
     ]
   },
   "limit_basis": {
-    "source": ".ai-org/artifacts/WI-0136/live-protocol.json",
+    "sources": [
+      ".ai-org/artifacts/WI-0136/context-model-diagnostic-v2-stopped-run.json",
+      ".ai-org/artifacts/WI-0136/context-model-diagnostic-v3-stopped-run.json"
+    ],
+    "source_sha256": {
+      "v2_stopped_run": "32aa163ab90bb9beaa70096e4e16b2d8d7ca01ac71c107cda03e9bf68070a343",
+      "v3_stopped_run": "e88d3cd8e153ad0c9473e73a611147f08a06de7c78440aba3686b402c3152fb9"
+    },
     "prior_integration_operational_token_limit": 80000,
-    "meaning": "Four independent hard stops inherited from the already reviewed integration ceiling; not an expected use or price."
+    "v2_completed_full_load_plus_partial_routed_operational_tokens": 104893,
+    "v3_full_load_stop_operational_tokens": 80621,
+    "meaning": "Routed conditions retain the reviewed 80,000 ceiling. Full-load receives 120,000 because v2 completed that condition within an aggregate observation no greater than 104,893, while v3 crossed 80,000 before completion. The 360,000 total is the exact sum of condition ceilings, not expected use or price."
   },
   "measures": [
     "objective-recovery",

@@ -1,7 +1,7 @@
 {
-  "schema_version": "temple.context-model-diagnostic-account-approval/v4",
+  "schema_version": "temple.context-model-diagnostic-account-approval/v5",
   "work_item_id": "WI-0136",
-  "protocol_sha256": "c291842d43692df0dd117bec75ed3ed716312125caa0e0d383b2e8b06313d90a",
+  "protocol_sha256": "9c947a32b2e63f771de3bcdfae2f3e95dd8ab69b66a65e812473c28ec04d615f",
   "approved": false,
   "authorization_source": null,
   "approved_candidate_turns": 4,
@@ -13,8 +13,14 @@
     "medium",
     "xhigh"
   ],
-  "approved_candidate_operational_tokens": 320000,
-  "approved_combined_operational_tokens": 320000,
+  "approved_condition_operational_token_limits": {
+    "terra-routed": 80000,
+    "sol-routed-medium": 80000,
+    "sol-routed-xhigh": 80000,
+    "terra-full-load": 120000
+  },
+  "approved_candidate_operational_tokens": 360000,
+  "approved_combined_operational_tokens": 360000,
   "approved_program_wall_clock_ms": 2400000,
   "pro_included_allowance_only": true,
   "credits_purchase_authorized": false,

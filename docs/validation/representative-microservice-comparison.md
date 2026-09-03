@@ -122,6 +122,8 @@ The exact-approved v3 attempt then stopped during its first Terra full-load cond
 
 V4 implements that correction without raising any limit or changing the four prompts, models, efforts, conditions, or order. A candidate that reaches its independent Token ceiling is retained as a censored observation and is not retried; the other unused independent conditions may each run once. Exact numeric deltas involving a censored condition remain unavailable, while the successful routed conditions can still support same-effort Terra-versus-Sol and Sol-effort comparisons. V4 is frozen under protocol `c291842d43692df0dd117bec75ed3ed716312125caa0e0d383b2e8b06313d90a` and remains generation-disabled until exact approval.
 
+V4 was superseded before approval or generation. V5 runs Terra routed, Sol routed medium, and Sol routed xhigh before Terra full-load. The three routed ceilings remain 80,000 Operational Tokens each; full-load rises to 120,000 because v2 completed it before a combined observation reached 104,893 and v3 stopped it at 80,621. The combined ceiling is 360,000, a 12.5% increase, while the 40-minute, zero-retry, zero-fallback, Pro-included-only, and no-purchase boundaries remain unchanged. V5 is frozen under protocol `9c947a32b2e63f771de3bcdfae2f3e95dd8ab69b66a65e812473c28ec04d615f` and remains generation-disabled until exact approval.
+
 After exact diagnostic approval, the bounded commands are:
 
 ```bash

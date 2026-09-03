@@ -149,14 +149,20 @@ test("the frozen context ablation requires matched repositories and exact approv
   assert.equal(protocol.protocol_sha256, protocolDigest(protocol));
   assert.equal(protocol.execution.candidate_turns, 4);
   assert.equal(protocol.execution.evaluator_turns, 0);
-  assert.equal(protocol.execution.combined_operational_token_limit, 320000);
+  assert.equal(protocol.execution.combined_operational_token_limit, 360000);
   assert.equal(protocol.execution.candidate_limit_disposition, "record-censored-and-continue-independent-conditions");
   assert.deepEqual(protocol.conditions.map((entry) => [entry.id, entry.model_route.model, entry.model_route.reasoning_effort]), [
-    ["terra-full-load", "gpt-5.6-terra", "medium"],
     ["terra-routed", "gpt-5.6-terra", "medium"],
     ["sol-routed-medium", "gpt-5.6-sol", "medium"],
-    ["sol-routed-xhigh", "gpt-5.6-sol", "xhigh"]
+    ["sol-routed-xhigh", "gpt-5.6-sol", "xhigh"],
+    ["terra-full-load", "gpt-5.6-terra", "medium"]
   ]);
+  assert.deepEqual(Object.fromEntries(protocol.conditions.map((entry) => [entry.id, entry.operational_token_limit])), {
+    "terra-routed": 80000,
+    "sol-routed-medium": 80000,
+    "sol-routed-xhigh": 80000,
+    "terra-full-load": 120000
+  });
   assert.equal(validateAblationApproval(template, protocol).accepted, false);
   const approved = {
     ...template,
@@ -165,6 +171,9 @@ test("the frozen context ablation requires matched repositories and exact approv
     approved_at: "2026-09-03T00:00:00.000Z"
   };
   assert.deepEqual(validateAblationApproval(approved, protocol), { accepted: true, errors: [] });
+  const driftedLimits = structuredClone(approved);
+  driftedLimits.approved_condition_operational_token_limits["terra-full-load"] = 80000;
+  assert.ok(validateAblationApproval(driftedLimits, protocol).errors.includes("approved ablation condition limits mismatch"));
   approved.approved_candidate_operational_tokens += 1;
   assert.equal(validateAblationApproval(approved, protocol).accepted, false);
 });
@@ -211,7 +220,7 @@ test("context ablation analysis keeps correctness primary and reports routed del
 test("a stopped diagnostic retains normalized completed conditions without authorizing retry", () => {
   const completed = [{ condition: "terra-full-load", operational_tokens: 4321, raw_prompt_retained: false }];
   const result = diagnosticStoppedRun({
-    protocol: { work_item_id: "WI-0136", protocol_sha256: "v4" },
+    protocol: { work_item_id: "WI-0136", protocol_sha256: "v5" },
     startedAt: "2026-09-03T00:00:00.000Z",
     stoppedAt: "2026-09-03T00:01:00.000Z",
     completed,
@@ -265,7 +274,7 @@ test("a whole-run stop preserves prior censored and active stopped condition tel
   const censored = { condition: "terra-full-load", status: "censored", operational_tokens: 80621 };
   const stopped = { condition: "terra-routed", status: "stopped", stop_scope: "run", operational_tokens: 240000 };
   const result = diagnosticStoppedRun({
-    protocol: { work_item_id: "WI-0136", protocol_sha256: "v4" },
+    protocol: { work_item_id: "WI-0136", protocol_sha256: "v5" },
     startedAt: "2026-09-03T00:00:00.000Z",
     stoppedAt: "2026-09-03T00:02:00.000Z",
     completed: [censored, stopped],
@@ -301,10 +310,10 @@ test("analysis preserves a censored full-load result without inventing an exact 
     prompt_metrics: { explicit_bytes: 1000 },
     tool_activity: { command_actions: 2, temple_md_reads: id === "terra-full-load" ? 1 : 0, context_resolve_calls: 1, reported_output_bytes: 2000 }
   });
-  const protocol = { work_item_id: "WI-0136", protocol_sha256: "v4" };
+  const protocol = { work_item_id: "WI-0136", protocol_sha256: "v5" };
   const run = {
     status: "completed-with-censored-conditions",
-    protocol_sha256: "v4",
+    protocol_sha256: "v5",
     conditions: [
       condition("terra-full-load", "censored", 80621, false),
       condition("terra-routed", "completed", 20000, true),
