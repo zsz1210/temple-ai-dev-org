@@ -19287,6 +19287,38 @@
         "exit_code": 0,
         "started_at": "2026-09-03T04:25:27Z"
       }
+    },
+    {
+      "id": "EVID-20260903T042802Z-36EFADF4",
+      "work_item_id": "WI-0124",
+      "recorded_at": "2026-09-03T04:28:02.747Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "0e32149b98e5984b45dac15ec33e8fa99d98e63c",
+      "observed_at": "2026-09-03T04:28:02.747Z",
+      "summary": "Revert cumulative execution-route closure candidate as one synchronized runtime/schema/test/lock unit and rerun repository gates.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0124/rollback-plan.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0124/rollback-plan.md",
+          "sha256": "edba8b2a65fcdedd0edc26baabb1f7cc51df7a76e2eee825f5fe303e88a2456c"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0124/rollback-plan.md"
+      }
     }
   ]
 }
