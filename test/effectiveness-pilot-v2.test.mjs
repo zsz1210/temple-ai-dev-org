@@ -3,7 +3,11 @@ import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import test from "node:test";
 
-import { analyzeEffectivenessPilotV2, classifyEfficiencyEvidenceV3 } from "../scripts/analyze-effectiveness-pilot-v2.mjs";
+import {
+  analyzeEffectivenessPilotV2,
+  analyzeTerraAbConfirmationV1,
+  classifyEfficiencyEvidenceV3
+} from "../scripts/analyze-effectiveness-pilot-v2.mjs";
 import {
   matchesNativeLeanCandidate,
   validatePilotApprovalV2,
@@ -98,6 +102,25 @@ test("prepared Terra A/B protocol validates locally but cannot start generation"
   const unsafe = structuredClone(protocol);
   unsafe.execution.generation_ready = true;
   assert.ok(validateTerraAbConfirmationProtocol(unsafe).errors.some((entry) => entry.includes("generation-disabled")));
+});
+
+test("Terra A/B analysis classifies aggregate process efficiency without granting routing authority", async () => {
+  const protocol = JSON.parse(await fs.readFile(terraAbProtocolUrl, "utf8"));
+  const source = {
+    schema_version: "temple.effectiveness-pilot-evidence/v2",
+    candidates: ["idempotent-command", "compatible-event-evolution"].flatMap((caseId) => [
+      candidate(caseId, "conventional-terra", { blind_score: 97, operational_tokens: 30000, latency_ms: 30000, context_utf8_bytes: 2000 }),
+      candidate(caseId, "temple-terra-optimized", { blind_score: 96, operational_tokens: 24000, latency_ms: 24000, context_utf8_bytes: 9000 })
+    ]),
+    evaluator: { usage: { input_tokens: 5000, cached_input_tokens: 1000, output_tokens: 1000 } }
+  };
+  const result = analyzeTerraAbConfirmationV1(source, protocol);
+  assert.equal(result.validity.candidate_count, 4);
+  assert.equal(result.comparison.deltas.operational_token_percent, -20);
+  assert.equal(result.comparison.deltas.latency_percent, -20);
+  assert.equal(result.comparison.decision.classification, "promising-efficiency");
+  assert.equal(result.comparison.decision.authority.routing_change_authorized, false);
+  assert.equal(result.aggregate.combined_operational_tokens, 113000);
 });
 
 test("live approval must accept the exact protocol envelope", async () => {

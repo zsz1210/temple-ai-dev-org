@@ -237,12 +237,112 @@ export function analyzeEffectivenessPilotV2(source, protocol) {
   };
 }
 
+function mean(values) {
+  return values.length === 0 ? null : round(values.reduce((total, value) => total + value, 0) / values.length);
+}
+
+function summarizeCondition(candidates) {
+  return {
+    candidates: candidates.length,
+    objective_passes: candidates.filter(objectivePass).length,
+    objective_pass: candidates.every(objectivePass),
+    mean_blind_score: mean(candidates.map((entry) => entry.blind_score).filter(Number.isInteger)),
+    operational_tokens: candidates.reduce((total, entry) => total + entry.operational_tokens, 0),
+    gross_tokens: candidates.reduce((total, entry) => total + entry.gross_tokens, 0),
+    latency_ms: candidates.reduce((total, entry) => total + entry.latency_ms, 0),
+    mean_context_utf8_bytes: mean(candidates.map((entry) => entry.context_utf8_bytes))
+  };
+}
+
+export function analyzeTerraAbConfirmationV1(source, protocol) {
+  if (source?.schema_version !== "temple.effectiveness-pilot-evidence/v2") throw new Error("unsupported evidence schema");
+  if (protocol?.schema_version !== "temple.effectiveness-terra-ab/v1") throw new Error("unsupported Terra A/B protocol schema");
+  const conditionIds = new Set(protocol.conditions.map((entry) => entry.id));
+  const expected = conditionIds.size * protocol.cases.length;
+  if (!Array.isArray(source.candidates) || source.candidates.length !== expected) throw new Error(`exactly ${expected} candidates are required`);
+  source.candidates.forEach((entry) => validateCandidate(entry, conditionIds));
+
+  const byKey = new Map();
+  for (const candidate of source.candidates) {
+    const key = `${candidate.case_id}\0${candidate.condition_id}`;
+    if (byKey.has(key)) throw new Error(`duplicate candidate ${key}`);
+    byKey.set(key, candidate);
+  }
+  const thresholds = protocol.decision_contract.thresholds;
+  const comparison = {
+    id: "optimized-process-effect",
+    baseline: "conventional-terra",
+    next: "temple-terra-optimized",
+    attribution: "process"
+  };
+  const pairs = protocol.cases.map((entry) => buildPair(entry.id, comparison, byKey, thresholds));
+  const conditions = Object.fromEntries(protocol.conditions.map((condition) => [
+    condition.id,
+    summarizeCondition(source.candidates.filter((entry) => entry.condition_id === condition.id))
+  ]));
+  const baseline = conditions[comparison.baseline];
+  const next = conditions[comparison.next];
+  const deltas = {
+    blind_score_points: next.mean_blind_score === null || baseline.mean_blind_score === null ? null : round(next.mean_blind_score - baseline.mean_blind_score),
+    operational_tokens: next.operational_tokens - baseline.operational_tokens,
+    operational_token_percent: percentDelta(next.operational_tokens, baseline.operational_tokens),
+    latency_ms: next.latency_ms - baseline.latency_ms,
+    latency_percent: percentDelta(next.latency_ms, baseline.latency_ms),
+    mean_context_utf8_bytes: next.mean_context_utf8_bytes - baseline.mean_context_utf8_bytes,
+    context_percent: percentDelta(next.mean_context_utf8_bytes, baseline.mean_context_utf8_bytes)
+  };
+  const decision = classifyEfficiencyEvidenceV3({
+    schema_version: "temple.effectiveness-decision-input/v3",
+    baseline: { objective_pass: baseline.objective_pass, blind_score: baseline.mean_blind_score },
+    next: { objective_pass: next.objective_pass, blind_score: next.mean_blind_score },
+    deltas: {
+      operational_token_percent: deltas.operational_token_percent,
+      latency_percent: deltas.latency_percent
+    },
+    thresholds
+  });
+  const evaluatorOperational = source.evaluator?.usage
+    ? source.evaluator.usage.input_tokens - source.evaluator.usage.cached_input_tokens + source.evaluator.usage.output_tokens
+    : null;
+  const candidateOperational = source.candidates.reduce((total, entry) => total + entry.operational_tokens, 0);
+
+  return {
+    schema_version: "temple.effectiveness-terra-ab-analysis/v1",
+    work_item_id: protocol.work_item_id,
+    validity: {
+      status: source.candidates.every((entry) => Number.isInteger(entry.blind_score)) ? "diagnostic-complete" : "diagnostic-incomplete",
+      case_count: protocol.cases.length,
+      candidate_count: source.candidates.length,
+      statistical_qualification: false,
+      generalizable: false
+    },
+    conditions,
+    comparison: { ...comparison, pairs, deltas, decision },
+    aggregate: {
+      candidate_operational_tokens: candidateOperational,
+      evaluator_operational_tokens: evaluatorOperational,
+      combined_operational_tokens: evaluatorOperational === null ? null : candidateOperational + evaluatorOperational,
+      retry_count: source.candidates.reduce((total, entry) => total + entry.retry_count, 0),
+      fallback_count: source.candidates.reduce((total, entry) => total + entry.fallback_count, 0)
+    },
+    claims: {
+      matched_terra_process_confirmation: true,
+      pure_model_effect_proven: false,
+      temple_superiority_proven: false,
+      automatic_routing_authorized: false,
+      billed_cost_known: false
+    }
+  };
+}
+
 async function main(argv) {
   const options = Object.fromEntries(Array.from({ length: Math.floor(argv.length / 2) }, (_, index) => [argv[index * 2], argv[index * 2 + 1]]));
   if (!options["--input"] || !options["--protocol"] || !options["--output"]) throw new Error("--input, --protocol, and --output are required");
   const source = JSON.parse(await fs.readFile(path.resolve(options["--input"]), "utf8"));
   const protocol = JSON.parse(await fs.readFile(path.resolve(options["--protocol"]), "utf8"));
-  const result = analyzeEffectivenessPilotV2(source, protocol);
+  const result = protocol.schema_version === "temple.effectiveness-terra-ab/v1"
+    ? analyzeTerraAbConfirmationV1(source, protocol)
+    : analyzeEffectivenessPilotV2(source, protocol);
   const output = path.resolve(options["--output"]);
   await fs.mkdir(path.dirname(output), { recursive: true });
   await fs.writeFile(output, `${JSON.stringify(result, null, 2)}\n`, { flag: "wx" });

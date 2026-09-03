@@ -24,7 +24,7 @@ import {
   wave5ThreadIsolation
 } from "../src/app-server-protocol-replay.mjs";
 import { inspectGitRepository } from "../src/validation-program.mjs";
-import { analyzeEffectivenessPilotV2 } from "./analyze-effectiveness-pilot-v2.mjs";
+import { analyzeEffectivenessPilotV2, analyzeTerraAbConfirmationV1 } from "./analyze-effectiveness-pilot-v2.mjs";
 
 const execFile = promisify(execFileCallback);
 const repositoryRoot = path.resolve(import.meta.dirname, "..");
@@ -168,7 +168,7 @@ export function validatePilotProtocolV2(protocol) {
 export function validateTerraAbConfirmationProtocol(protocol) {
   const errors = [];
   if (protocol?.schema_version !== "temple.effectiveness-terra-ab/v1") errors.push("unsupported Terra A/B protocol schema");
-  if (protocol?.work_item_id !== "WI-0133") errors.push("work_item_id must be WI-0133");
+  if (!/^WI-\d{4}$/.test(protocol?.work_item_id ?? "")) errors.push("work_item_id must be a durable WI identifier");
   if (protocol?.source_evidence?.work_item_id !== "WI-0132") errors.push("source evidence must identify WI-0132");
   for (const field of ["result_ref", "raw_evidence_sha256", "analysis_sha256", "frozen_scores_sha256"]) {
     if (typeof protocol?.source_evidence?.[field] !== "string" || !protocol.source_evidence[field]) {
@@ -241,6 +241,16 @@ export function validateTerraAbConfirmationProtocol(protocol) {
     errors.push("claim boundaries are invalid");
   }
   return { valid: errors.length === 0, errors };
+}
+
+function validateExecutableProtocol(protocol) {
+  return protocol?.schema_version === "temple.effectiveness-terra-ab/v1"
+    ? validateTerraAbConfirmationProtocol(protocol)
+    : validatePilotProtocolV2(protocol);
+}
+
+function isTempleProcess(processId) {
+  return processId === "temple-lean" || processId === "temple-lean-optimized";
 }
 
 export function matchesNativeLeanCandidate(workItem) {
@@ -456,7 +466,7 @@ async function setup(protocol, labRoot, frameworkRevision) {
       await fs.appendFile(path.join(root, "TASK.md"), "\n## Explicit acceptance contract\n\nRead and satisfy `ACCEPTANCE-CONTRACT.json`; coordinator-held tests enforce only its specified dimensions.\n");
       await fs.writeFile(path.join(root, ".gitignore"), ".DS_Store\n*.log\n", { flag: "wx" });
       let treatment;
-      if (condition.process === "temple-lean") {
+      if (isTempleProcess(condition.process)) {
         treatment = await prepareTempleCandidate({ root, caseDefinition, condition, contract, fixtureRoot, snapshotRoot });
       } else {
         await fs.copyFile(path.join(fixtureRoot, "minimal-AGENTS.md"), path.join(root, "AGENTS.md"));
@@ -628,13 +638,13 @@ async function preflight(protocol, labRoot, approvalPath) {
         .filter((component) => ["product-task", "acceptance-contract"].includes(component.id))
         .map((component) => ({ id: component.id, sha256: component.sha256, utf8_bytes: component.utf8_bytes }))
     }));
-    checks.push({ id: `all-arms:${caseDefinition.id}`, pass: group.length === 4 });
+    checks.push({ id: `all-arms:${caseDefinition.id}`, pass: group.length === protocol.conditions.length });
     checks.push({ id: `matched-product:${caseDefinition.id}`, pass: new Set(productSignatures.map((entry) => JSON.stringify(entry.components))).size === 1, signatures: productSignatures });
     checks.push({ id: `matched-temple-context:${caseDefinition.id}`, pass: new Set(temple.map((entry) => entry.context.context_profile_digest)).size === 1, digests: temple.map((entry) => ({ condition_id: entry.condition_id, digest: entry.context.context_profile_digest, utf8_bytes: entry.context.utf8_bytes })) });
   }
   let approval = { accepted: false, errors: ["exact owner approval is absent"] };
   if (approvalPath) approval = validatePilotApprovalV2(await readJson(approvalPath), protocol);
-  const offlinePass = validatePilotProtocolV2(protocol).valid && checks.every((entry) => entry.pass);
+  const offlinePass = validateExecutableProtocol(protocol).valid && checks.every((entry) => entry.pass);
   const handshake = protocol.provider_contract
     ? await providerHandshake(protocol, path.join(labRoot, "coordinator"))
     : { pass: false, blockers: ["provider-contract-required"], model_generation_performed: false };
@@ -1237,7 +1247,9 @@ async function evaluateLive(protocol, labRoot, approvalPath) {
     await writeJson(path.join(coordinatorRoot, "quality-scores-frozen.json"), frozen, { exclusive: true });
     const evidence = await collectEvidence(protocol, labRoot, evaluator);
     await writeJson(path.join(coordinatorRoot, "effectiveness-evidence.json"), evidence, { exclusive: true });
-    const analysis = analyzeEffectivenessPilotV2(evidence, protocol);
+    const analysis = protocol.schema_version === "temple.effectiveness-terra-ab/v1"
+      ? analyzeTerraAbConfirmationV1(evidence, protocol)
+      : analyzeEffectivenessPilotV2(evidence, protocol);
     await writeJson(path.join(coordinatorRoot, "effectiveness-analysis.json"), analysis, { exclusive: true });
     const output = {
       schema_version: "temple.effectiveness-pilot-evaluator-result/v2",
@@ -1260,7 +1272,7 @@ async function evaluateLive(protocol, labRoot, approvalPath) {
 
 async function main() {
   const protocol = await readJson(path.resolve(argument("--protocol") ?? defaultProtocolPath));
-  const validation = validatePilotProtocolV2(protocol);
+  const validation = validateExecutableProtocol(protocol);
   if (!validation.valid) throw new Error(validation.errors.join("; "));
   const mode = argument("--mode") ?? "validate";
   let output;
