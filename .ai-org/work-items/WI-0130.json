@@ -1,0 +1,140 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0130",
+  "title": "Run the first three-arm Temple effectiveness pilot",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-03T06:27:28.833Z",
+  "updated_at": "2026-09-03T06:31:15.788Z",
+  "scope": [
+    "Build and validate a reproducible six-candidate pilot across conventional fixed, Temple fixed, and Temple adaptive conditions",
+    "Use two frozen bounded implementation cases and isolate A versus B from B versus C",
+    "Run live Provider turns only after exact App Server, model, approval, Token, wall-clock, path, retry, fallback, and blind-evaluator preflight pass",
+    "Produce an evidence-backed human report; no deployment, publication, public release, automatic routing, purchased Credits, or automatic Credit reload"
+  ],
+  "acceptance_criteria": [
+    "Two independent frozen cases run through all three arms from clean matched starting states",
+    "A and B use the same fixed model and reasoning; B and C use the same Temple process with only the resolved route changed",
+    "Public and held-out correctness, blind quality, operational and gross Tokens, latency, rework, interventions, path violations, retries, and disk growth are retained",
+    "Invalid or incomplete pairs are excluded; neutral and negative results trigger explicit simplify, remove, retain, or redesign decisions",
+    "Offline fixtures and protocol tests, live result analysis, full verification, and separate Independent QA pass"
+  ],
+  "affected_paths": [
+    "scripts/run-effectiveness-pilot.mjs",
+    "scripts/analyze-effectiveness-pilot.mjs",
+    "test/effectiveness-pilot.test.mjs",
+    ".ai-org/artifacts/WI-0130",
+    "docs/validation/temple-effectiveness-pilot-result.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "The experiment is locally reversible but Provider generation and effectiveness claims require Standard review and separate Independent QA",
+    "evidence_refs": [
+      "docs/validation/adaptive-execution-routing-experiment.md"
+    ],
+    "evaluated_at": "2026-09-03T06:27:28.833Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "8b3dc75c839bb8345d79ec000b5cfe21dabae091",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": "agent-rikku",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260903063115-e88d358f",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "8b3dc75c839bb8345d79ec000b5cfe21dabae091",
+    "branch": "codex/wi-0130-effectiveness-pilot",
+    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "claimed_at": "2026-09-03T06:31:15.788Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260903063115-e88d358f",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "8b3dc75c839bb8345d79ec000b5cfe21dabae091",
+      "branch": "codex/wi-0130-effectiveness-pilot",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-03T06:31:15.788Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0130/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0130/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0130/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0130/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0130/risk-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0130/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0130/work-order.md",
+    ".ai-org/artifacts/WI-0130/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0130/product-spec.md",
+    ".ai-org/artifacts/WI-0130/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0130/technical-design.md",
+    ".ai-org/artifacts/WI-0130/risk-review.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "8b3dc75c839bb8345d79ec000b5cfe21dabae091",
+      "artifact": ".ai-org/artifacts/WI-0130/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-03T06:31:14.077Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "8b3dc75c839bb8345d79ec000b5cfe21dabae091",
+      "artifact": ".ai-org/artifacts/WI-0130/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-03T06:31:14.581Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "8b3dc75c839bb8345d79ec000b5cfe21dabae091",
+      "artifact": ".ai-org/artifacts/WI-0130/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-03T06:31:15.048Z"
+    }
+  ]
+}

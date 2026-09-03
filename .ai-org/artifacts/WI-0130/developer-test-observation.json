@@ -1,0 +1,20 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "work_item_id": "WI-0130",
+  "observed_at": "2026-09-03T06:39:23.000Z",
+  "revision": "working-tree-before-live-pilot",
+  "commands": [
+    "node --check scripts/run-effectiveness-pilot.mjs",
+    "node --check scripts/analyze-effectiveness-pilot.mjs",
+    "node --test test/effectiveness-pilot.test.mjs",
+    "node scripts/run-effectiveness-pilot.mjs --mode setup --lab-root /Users/zsz1210/Documents/ChatGPT/temple-effectiveness-pilot-wi0130",
+    "node scripts/run-effectiveness-pilot.mjs --mode preflight --lab-root /Users/zsz1210/Documents/ChatGPT/temple-effectiveness-pilot-wi0130",
+    "npm run verify"
+  ],
+  "result": "pass",
+  "tests_passed": 336,
+  "tests_failed": 0,
+  "candidate_model_turns_started": 0,
+  "evaluator_model_turns_started": 0,
+  "remaining_gate": "exact-owner-approval-required"
+}

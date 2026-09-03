@@ -1,0 +1,28 @@
+{
+  "schema_version": "temple.effectiveness-pilot-offline-observation/v1",
+  "work_item_id": "WI-0130",
+  "observed_at": "2026-09-03T06:39:23.000Z",
+  "lab_root": "/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-pilot-wi0130",
+  "candidate_count": 6,
+  "checks": {
+    "clean_candidate_repositories": "pass",
+    "matched_product_inputs_by_case": "pass",
+    "matched_temple_process_by_case": "pass",
+    "fixed_route_standard_terra_medium": "pass",
+    "adaptive_route_lightweight_quality_luna_max": "pass",
+    "codex_cli_0_151_0_alpha_7_2": "pass",
+    "non_experimental_app_server_schema": "pass",
+    "requested_models_available": "pass",
+    "repository_verify_336_tests": "pass"
+  },
+  "generation_ready": false,
+  "only_blocker": "exact-owner-approval-required",
+  "model_generation_performed": false,
+  "account_probe": {
+    "availability": "available",
+    "scope": "account-wide",
+    "allocation": "unallocated",
+    "model_generation_requested": false,
+    "raw_values_retained": false
+  }
+}
