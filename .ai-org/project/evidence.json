@@ -21300,6 +21300,36 @@
         "exit_code": 0,
         "started_at": "2026-09-03T14:50:18.000Z"
       }
+    },
+    {
+      "id": "EVID-20260903T150920Z-F74043C7",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T15:09:20.874Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Routed main comparison protocol",
+      "outcome": "verified",
+      "scope_revision": "1c43123e8c56a762f35c0a010af962bffe40c2a8",
+      "observed_at": "2026-09-03T15:09:20.874Z",
+      "summary": "Frozen generation-disabled v3 protocol after matched context qualification; Context Capsule navigation, canonical body reads, fallback policy, and measured safety limits are bound to the runner digest.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "1c43123"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "1c43123",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
     }
   ]
 }
