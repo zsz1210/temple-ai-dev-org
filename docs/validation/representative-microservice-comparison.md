@@ -118,6 +118,10 @@ The diagnostic determines whether routed context preserves recovery quality, whe
 
 The exact-approved v2 attempt stopped after one completed condition when Terra routed selected the safe repository-inspection command `git ls-tree`, which the recovery allowlist had omitted. V2 was not retried and produced no valid model comparison. V3 adds that bounded read-only prefix, retains completed normalized condition records on any future stop, rebuilds fresh matched repositories, and requires a new exact approval under protocol `c5e0b069880a079de6fd8030fda3818cee92c809bd834999db2a04ca32be147a`.
 
+The exact-approved v3 attempt then stopped during its first Terra full-load condition after 142.914 seconds and 80,621 observed Operational Tokens, just beyond the independent 80,000-Token hard stop. No condition completed and none of the routed conditions started. This establishes a bounded full-load resource failure for that attempt, not a context or model comparison. A successor protocol must retain partial-condition telemetry and may continue after an independent candidate Token stop, while global budget, time, policy, Provider, and revision violations remain whole-run stops.
+
+V4 implements that correction without raising any limit or changing the four prompts, models, efforts, conditions, or order. A candidate that reaches its independent Token ceiling is retained as a censored observation and is not retried; the other unused independent conditions may each run once. Exact numeric deltas involving a censored condition remain unavailable, while the successful routed conditions can still support same-effort Terra-versus-Sol and Sol-effort comparisons. V4 is frozen under protocol `c291842d43692df0dd117bec75ed3ed716312125caa0e0d383b2e8b06313d90a` and remains generation-disabled until exact approval.
+
 After exact diagnostic approval, the bounded commands are:
 
 ```bash
@@ -135,12 +139,12 @@ node scripts/run-representative-microservice-comparison.mjs evaluate --approval 
 node scripts/run-representative-microservice-comparison.mjs report
 ```
 
-The runner refuses a second candidate or evaluator attempt in the same lab. A stopped run remains evidence and requires a new protocol revision and Work Item rather than a hidden retry.
+The runner refuses a second candidate or evaluator attempt in the same lab. A stopped run remains evidence and requires a new protocol revision and exact approval rather than a hidden retry.
 
 ## Stop and interpretation rules
 
 - Stop the pair after any protocol mismatch, missing exact revision, lost usage correlation, retry request, fallback request, evaluator contract mismatch, or score unseal before freeze.
-- Preserve the stopped outcome once. Correcting the harness requires a new protocol revision and a new Work Item, not a hidden retry.
+- Preserve the stopped outcome once. Correcting the harness requires a new protocol revision and exact approval, not a hidden retry.
 - Report objective correctness even when subjective evaluation is inconclusive.
 - Report operational and gross Token counters separately.
 - Do not convert Tokens to cost without an authoritative versioned billing source.

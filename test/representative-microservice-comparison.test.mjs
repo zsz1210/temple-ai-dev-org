@@ -5,6 +5,7 @@ import test from "node:test";
 import {
   ablationIntegrationInstruction,
   analyzeContextAblation,
+  diagnosticConditionObservation,
   diagnosticStoppedRun,
   protocolDigest,
   templeRoutedContextInstruction,
@@ -149,6 +150,7 @@ test("the frozen context ablation requires matched repositories and exact approv
   assert.equal(protocol.execution.candidate_turns, 4);
   assert.equal(protocol.execution.evaluator_turns, 0);
   assert.equal(protocol.execution.combined_operational_token_limit, 320000);
+  assert.equal(protocol.execution.candidate_limit_disposition, "record-censored-and-continue-independent-conditions");
   assert.deepEqual(protocol.conditions.map((entry) => [entry.id, entry.model_route.model, entry.model_route.reasoning_effort]), [
     ["terra-full-load", "gpt-5.6-terra", "medium"],
     ["terra-routed", "gpt-5.6-terra", "medium"],
@@ -209,15 +211,112 @@ test("context ablation analysis keeps correctness primary and reports routed del
 test("a stopped diagnostic retains normalized completed conditions without authorizing retry", () => {
   const completed = [{ condition: "terra-full-load", operational_tokens: 4321, raw_prompt_retained: false }];
   const result = diagnosticStoppedRun({
-    protocol: { work_item_id: "WI-0136", protocol_sha256: "v3" },
+    protocol: { work_item_id: "WI-0136", protocol_sha256: "v4" },
     startedAt: "2026-09-03T00:00:00.000Z",
     stoppedAt: "2026-09-03T00:01:00.000Z",
     completed,
     operationalTokens: 5000,
     reason: "bounded-stop"
   });
+  assert.equal(result.observed_condition_count, 1);
   assert.equal(result.completed_condition_count, 1);
+  assert.equal(result.censored_condition_count, 0);
+  assert.equal(result.stopped_condition_count, 0);
   assert.deepEqual(result.completed_conditions, completed);
   assert.equal(result.retry_count, 0);
   assert.equal(result.fallback_count, 0);
+});
+
+test("a candidate Token ceiling becomes a retained censored condition rather than recovered output", () => {
+  const turn = {
+    status: "censored",
+    stop_scope: "condition",
+    stop_reason: "integration-operational-token-limit",
+    operational_tokens: 80621,
+    tool_activity: {
+      context_sequence: ["temple-md"],
+      command_actions: 1,
+      temple_md_reads: 1,
+      context_resolve_calls: 0,
+      reported_output_bytes: 5000
+    },
+    completion: null
+  };
+  const result = diagnosticConditionObservation({
+    condition: "terra-full-load",
+    contextStrategy: "full-load",
+    turn,
+    expectedRevisions: { gateway: "a" }
+  });
+  assert.equal(result.status, "censored");
+  assert.equal(result.context_strategy_observed, true);
+  assert.equal(result.recovery, null);
+  assert.equal(result.operational_tokens, 80621);
+  const mismatched = diagnosticConditionObservation({
+    condition: "terra-routed",
+    contextStrategy: "routed",
+    turn,
+    expectedRevisions: { gateway: "a" }
+  });
+  assert.equal(mismatched.context_strategy_observed, false);
+});
+
+test("a whole-run stop preserves prior censored and active stopped condition telemetry", () => {
+  const censored = { condition: "terra-full-load", status: "censored", operational_tokens: 80621 };
+  const stopped = { condition: "terra-routed", status: "stopped", stop_scope: "run", operational_tokens: 240000 };
+  const result = diagnosticStoppedRun({
+    protocol: { work_item_id: "WI-0136", protocol_sha256: "v4" },
+    startedAt: "2026-09-03T00:00:00.000Z",
+    stoppedAt: "2026-09-03T00:02:00.000Z",
+    completed: [censored, stopped],
+    operationalTokens: 320621,
+    reason: "candidate-aggregate-operational-token-limit"
+  });
+  assert.equal(result.observed_condition_count, 2);
+  assert.equal(result.completed_condition_count, 0);
+  assert.equal(result.censored_condition_count, 1);
+  assert.equal(result.stopped_condition_count, 1);
+  assert.deepEqual(result.censored_conditions, [censored]);
+  assert.deepEqual(result.stopped_conditions, [stopped]);
+  assert.equal(result.retry_count, 0);
+  assert.equal(result.fallback_count, 0);
+});
+
+test("analysis preserves a censored full-load result without inventing an exact savings delta", () => {
+  const condition = (id, status, tokens, pass) => ({
+    condition: id,
+    status,
+    stop_reason: status === "censored" ? "integration-operational-token-limit" : null,
+    requested_model: id.startsWith("terra") ? "gpt-5.6-terra" : "gpt-5.6-sol",
+    requested_reasoning_effort: id === "sol-routed-xhigh" ? "xhigh" : "medium",
+    recovery: status === "censored" ? null : { pass, exact_revision_count: pass ? 4 : 0 },
+    operational_tokens: tokens,
+    elapsed_ms: 1000,
+    session_setup_ms: 100,
+    turn_elapsed_ms: 900,
+    time_to_first_activity_ms: 100,
+    time_to_first_command_ms: 200,
+    effective_output_tokens_per_second: 2,
+    usage: { input_tokens: tokens - 100, cached_input_tokens: 50, output_tokens: 100, reasoning_output_tokens: 25, total_tokens: tokens + 50 },
+    prompt_metrics: { explicit_bytes: 1000 },
+    tool_activity: { command_actions: 2, temple_md_reads: id === "terra-full-load" ? 1 : 0, context_resolve_calls: 1, reported_output_bytes: 2000 }
+  });
+  const protocol = { work_item_id: "WI-0136", protocol_sha256: "v4" };
+  const run = {
+    status: "completed-with-censored-conditions",
+    protocol_sha256: "v4",
+    conditions: [
+      condition("terra-full-load", "censored", 80621, false),
+      condition("terra-routed", "completed", 20000, true),
+      condition("sol-routed-medium", "completed", 18000, true),
+      condition("sol-routed-xhigh", "completed", 24000, true)
+    ]
+  };
+  const result = analyzeContextAblation({ protocol, run, generatedAt: "2026-09-03T00:00:00.000Z" });
+  assert.equal(result.interpretation.context_outcome, "routed-context-supported-within-ceiling");
+  assert.equal(result.comparison.context_routing.exact_comparison_available, false);
+  assert.equal(result.comparison.context_routing.operational_token_delta, null);
+  assert.equal(result.comparison.context_routing.observed_operational_token_lower_bound_delta, -60621);
+  assert.equal(result.comparison.model_same_effort.exact_comparison_available, true);
+  assert.equal(result.comparison.model_same_effort.operational_token_delta, -2000);
 });

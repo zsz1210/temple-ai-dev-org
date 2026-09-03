@@ -56,6 +56,27 @@ The runner correctly stopped instead of retrying when Terra routed selected `git
 - Combined operational-Token hard stop: 320,000
 - Wall-clock hard stop: 40 minutes
 - Retry and fallback: disabled
-- Status: generation disabled until a new exact account approval
+- Exact approval: recorded at `2026-09-03T12:48:58Z`
+- Live attempt: stopped during the first condition
+- Condition at stop: Terra medium with full-load context
+- Operational Tokens observed at interruption: 80,621
+- Elapsed: 142.914 seconds
+- Retry and fallback: 0
+- Disposition: no model or context comparison; successor protocol required
 
 V3 adds only `git ls-tree` to the bounded read-only recovery allowlist and retains normalized completed-condition records in any stopped-run artifact. It uses fresh byte-matched repositories and a new protocol digest. The v2 approval does not authorize v3.
+
+The full-load condition crossed its independent 80,000-Operational-Token ceiling before returning a structured completion record, so the runner correctly interrupted it. Because v3 treated every condition failure as a whole-run stop, Terra routed and both Sol conditions did not start. This is evidence that full-load recovery did not fit the approved ceiling in this attempt, but it is not a Terra-versus-Sol or full-versus-routed comparison. V3 also exposed a remaining evidence gap: it retained completed conditions but not normalized telemetry for the interrupted condition.
+
+## Context/model diagnostic v4
+
+- Protocol SHA-256: `c291842d43692df0dd117bec75ed3ed716312125caa0e0d383b2e8b06313d90a`
+- Conditions, models, efforts, order, and prompts: unchanged from v3
+- Candidate turns: 4
+- Per-condition operational-Token hard stop: 80,000
+- Combined operational-Token hard stop: 320,000
+- Wall-clock hard stop: 40 minutes
+- Retry and fallback: disabled
+- Status: generation disabled until a new exact account approval
+
+V4 changes only stopped-condition evidence and isolation semantics. A per-condition Token ceiling becomes a retained censored observation with exact last usage, timing, route, context strategy, tool-activity counters, and stop reason. It does not authorize a retry; the runner proceeds only to independent conditions that have not started. Aggregate budget, program time, Provider, command-policy, protocol, context-strategy, and revision violations remain whole-run stops. V4 keeps the observed ceiling instead of raising it from the failed attempt.

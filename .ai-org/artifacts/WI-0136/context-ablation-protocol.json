@@ -1,12 +1,12 @@
 {
-  "schema_version": "temple.context-model-diagnostic/v3",
+  "schema_version": "temple.context-model-diagnostic/v4",
   "work_item_id": "WI-0136",
   "status": "generation-disabled",
-  "protocol_sha256": "c5e0b069880a079de6fd8030fda3818cee92c809bd834999db2a04ca32be147a",
-  "lab_manifest_sha256": "6e0edfe7d77100c9ee9d6f7bacbe51d8cdc7631b3f55ab27ddcc3873d828fd2a",
+  "protocol_sha256": "c291842d43692df0dd117bec75ed3ed716312125caa0e0d383b2e8b06313d90a",
+  "lab_manifest_sha256": "36a82b8693f92598ff1d828f67629a37c91158845e077245fa46aebe8679312e",
   "source_digests": {
     "fixture_sha256": "194a69a223222f53ddc1fca78dc3a3cf318d7705d007ebd34b8176f9de325303",
-    "runner_sha256": "cf6c4900126dd2a4f9afdc331e508aa82f3d73957f6e3181fb535b479201c795",
+    "runner_sha256": "5016eb122063deaa319ab433bb9e3e62edc3037b0d0f24eb1674d823521bebe8",
     "analyzer_sha256": "5e614a7879a8fbdb7655d6780dcf0c7e693e7326259fa166d7fe3231f1151c5c",
     "task_sha256": "5dfd10dce99196f282f0560a25aaffd359b7af2119a62d943e465f19ae46369c",
     "public_tests_sha256": "8809e165ee024f5606a48c38bb0f6065e3b943fcd00d05fda5fdd6099e0f41f9",
@@ -83,24 +83,24 @@
       },
       "repositories": {
         "gateway": {
-          "revision": "c0f8032dff86bddf1a85b1da179dd014a97330f0",
-          "tree": "67bd8fa807a18e8d734037dd72595502154bc8ef"
+          "revision": "44e2a724e2e429344bf150988addda495118b8af",
+          "tree": "bc14d4e463945e0e24a88a64a7ebb3981d337adf"
         },
         "catalog": {
-          "revision": "e222b341d520fe541502ef929c5a19d4d0ecf319",
-          "tree": "36139f4a20ad418bed63ecf9aa873a9c27658408"
+          "revision": "ab1567ca00ec86b20f37c41936879ee376acffc3",
+          "tree": "582a1227d19b5b5695d27016dd1590952f818c3f"
         },
         "orders": {
-          "revision": "e6f367754378dc4165e92f0d0c6ec1b754f77db0",
-          "tree": "d02bbe3127dcc93b2f2ec3c6e8dadd8217d270fc"
+          "revision": "e527bfc8cfbbf891d4f1886b1a263baf9132f5be",
+          "tree": "8450d7315ec720fe70d6ba128150640145f607ab"
         },
         "notifications": {
-          "revision": "44e472cf169a12a8c8f45fb83ab58dd67f5bb9b2",
-          "tree": "fdb9d60af137d6a4ffeae302eb3fb4bd3034b6a8"
+          "revision": "8662d4f41412ab9a0f22e592bbabd11c1daea5ee",
+          "tree": "e475509194649a1683f3293a6fb88dc2ddfc6323"
         },
         "coordinator": {
-          "revision": "57874eda89fb3051a429574ab6e8cf3e5dcf768d",
-          "tree": "de732570a0db063104bb44bc6a4eabc62388db99"
+          "revision": "e0ceb055b7d6e0d6f8554f093a4513d94887a8ab",
+          "tree": "73f862205aae1d76117f83733ae0ef2b4c604afd"
         }
       }
     },
@@ -113,24 +113,24 @@
       },
       "repositories": {
         "gateway": {
-          "revision": "c0f8032dff86bddf1a85b1da179dd014a97330f0",
-          "tree": "67bd8fa807a18e8d734037dd72595502154bc8ef"
+          "revision": "44e2a724e2e429344bf150988addda495118b8af",
+          "tree": "bc14d4e463945e0e24a88a64a7ebb3981d337adf"
         },
         "catalog": {
-          "revision": "e222b341d520fe541502ef929c5a19d4d0ecf319",
-          "tree": "36139f4a20ad418bed63ecf9aa873a9c27658408"
+          "revision": "ab1567ca00ec86b20f37c41936879ee376acffc3",
+          "tree": "582a1227d19b5b5695d27016dd1590952f818c3f"
         },
         "orders": {
-          "revision": "e6f367754378dc4165e92f0d0c6ec1b754f77db0",
-          "tree": "d02bbe3127dcc93b2f2ec3c6e8dadd8217d270fc"
+          "revision": "e527bfc8cfbbf891d4f1886b1a263baf9132f5be",
+          "tree": "8450d7315ec720fe70d6ba128150640145f607ab"
         },
         "notifications": {
-          "revision": "44e472cf169a12a8c8f45fb83ab58dd67f5bb9b2",
-          "tree": "fdb9d60af137d6a4ffeae302eb3fb4bd3034b6a8"
+          "revision": "8662d4f41412ab9a0f22e592bbabd11c1daea5ee",
+          "tree": "e475509194649a1683f3293a6fb88dc2ddfc6323"
         },
         "coordinator": {
-          "revision": "57874eda89fb3051a429574ab6e8cf3e5dcf768d",
-          "tree": "de732570a0db063104bb44bc6a4eabc62388db99"
+          "revision": "e0ceb055b7d6e0d6f8554f093a4513d94887a8ab",
+          "tree": "73f862205aae1d76117f83733ae0ef2b4c604afd"
         }
       }
     },
@@ -143,24 +143,24 @@
       },
       "repositories": {
         "gateway": {
-          "revision": "c0f8032dff86bddf1a85b1da179dd014a97330f0",
-          "tree": "67bd8fa807a18e8d734037dd72595502154bc8ef"
+          "revision": "44e2a724e2e429344bf150988addda495118b8af",
+          "tree": "bc14d4e463945e0e24a88a64a7ebb3981d337adf"
         },
         "catalog": {
-          "revision": "e222b341d520fe541502ef929c5a19d4d0ecf319",
-          "tree": "36139f4a20ad418bed63ecf9aa873a9c27658408"
+          "revision": "ab1567ca00ec86b20f37c41936879ee376acffc3",
+          "tree": "582a1227d19b5b5695d27016dd1590952f818c3f"
         },
         "orders": {
-          "revision": "e6f367754378dc4165e92f0d0c6ec1b754f77db0",
-          "tree": "d02bbe3127dcc93b2f2ec3c6e8dadd8217d270fc"
+          "revision": "e527bfc8cfbbf891d4f1886b1a263baf9132f5be",
+          "tree": "8450d7315ec720fe70d6ba128150640145f607ab"
         },
         "notifications": {
-          "revision": "44e472cf169a12a8c8f45fb83ab58dd67f5bb9b2",
-          "tree": "fdb9d60af137d6a4ffeae302eb3fb4bd3034b6a8"
+          "revision": "8662d4f41412ab9a0f22e592bbabd11c1daea5ee",
+          "tree": "e475509194649a1683f3293a6fb88dc2ddfc6323"
         },
         "coordinator": {
-          "revision": "57874eda89fb3051a429574ab6e8cf3e5dcf768d",
-          "tree": "de732570a0db063104bb44bc6a4eabc62388db99"
+          "revision": "e0ceb055b7d6e0d6f8554f093a4513d94887a8ab",
+          "tree": "73f862205aae1d76117f83733ae0ef2b4c604afd"
         }
       }
     },
@@ -173,24 +173,24 @@
       },
       "repositories": {
         "gateway": {
-          "revision": "c0f8032dff86bddf1a85b1da179dd014a97330f0",
-          "tree": "67bd8fa807a18e8d734037dd72595502154bc8ef"
+          "revision": "44e2a724e2e429344bf150988addda495118b8af",
+          "tree": "bc14d4e463945e0e24a88a64a7ebb3981d337adf"
         },
         "catalog": {
-          "revision": "e222b341d520fe541502ef929c5a19d4d0ecf319",
-          "tree": "36139f4a20ad418bed63ecf9aa873a9c27658408"
+          "revision": "ab1567ca00ec86b20f37c41936879ee376acffc3",
+          "tree": "582a1227d19b5b5695d27016dd1590952f818c3f"
         },
         "orders": {
-          "revision": "e6f367754378dc4165e92f0d0c6ec1b754f77db0",
-          "tree": "d02bbe3127dcc93b2f2ec3c6e8dadd8217d270fc"
+          "revision": "e527bfc8cfbbf891d4f1886b1a263baf9132f5be",
+          "tree": "8450d7315ec720fe70d6ba128150640145f607ab"
         },
         "notifications": {
-          "revision": "44e472cf169a12a8c8f45fb83ab58dd67f5bb9b2",
-          "tree": "fdb9d60af137d6a4ffeae302eb3fb4bd3034b6a8"
+          "revision": "8662d4f41412ab9a0f22e592bbabd11c1daea5ee",
+          "tree": "e475509194649a1683f3293a6fb88dc2ddfc6323"
         },
         "coordinator": {
-          "revision": "57874eda89fb3051a429574ab6e8cf3e5dcf768d",
-          "tree": "de732570a0db063104bb44bc6a4eabc62388db99"
+          "revision": "e0ceb055b7d6e0d6f8554f093a4513d94887a8ab",
+          "tree": "73f862205aae1d76117f83733ae0ef2b4c604afd"
         }
       }
     }
@@ -209,6 +209,7 @@
     "network_access": false,
     "generation_ready": false,
     "exact_approval_required": true,
+    "candidate_limit_disposition": "record-censored-and-continue-independent-conditions",
     "integration_operational_token_limit": 80000,
     "candidate_aggregate_operational_token_limit": 320000,
     "combined_operational_token_limit": 320000,

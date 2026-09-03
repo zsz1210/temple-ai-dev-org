@@ -2,11 +2,11 @@
 
 ## Result
 
-The corrected four-condition context/model diagnostic v3 is locally prepared and generation remains disabled pending a new exact account approval and the final generation-free preflight.
+The four-condition context/model diagnostic v4 is locally prepared and generation remains disabled pending a new exact account approval.
 
 ## Frozen boundary
 
-- Protocol SHA-256: `c5e0b069880a079de6fd8030fda3818cee92c809bd834999db2a04ca32be147a`
+- Protocol SHA-256: `c291842d43692df0dd117bec75ed3ed716312125caa0e0d383b2e8b06313d90a`
 - Conditions: 4
 - Routes: Terra medium full-load; Terra medium routed; Sol medium routed; Sol xhigh routed
 - Per-condition operational-Token hard stop: 80,000
@@ -26,14 +26,15 @@ The limits are safety stops inherited from the already reviewed WI-0136 integrat
 - Participant Doctor checks pass.
 - The protocol freezes the runner, analyzer, fixture, task, tests, tool policy, rubric, explicit instruction layers, and output schema by SHA-256.
 - The recovery allowlist includes the repository-local read-only `git ls-tree` command observed in the v2 stopped attempt.
-- A stopped v3 run retains normalized completed-condition records while still prohibiting retry and fallback.
+- A per-condition Token stop retains exact partial telemetry as a censored observation and permits the remaining unused independent conditions to run once.
+- Aggregate budget, program time, Provider, command-policy, protocol, and revision violations still stop the complete run.
 - Terra medium, Sol medium, and Sol xhigh are available through the installed `codex-cli 0.151.0-alpha.7.2` App Server contract.
 - Inspection passes 67 checks with no failure.
-- The focused App Server and experiment suite passes 18 of 18 tests.
-- The repository verification suite passes 368 of 368 tests.
-- `npm run verify` passes 367 of 367 tests with no failure, skip, or cancellation.
+- The focused App Server and experiment suite passes 20 of 20 tests.
 - An unapproved ablation run exits with `exact-human-approval-required` and creates no live result, stopped-run, or analysis artifact.
 
-## Remaining boundary
+## Basis for the correction
 
-No v3 model turn has run. The stopped v2 attempt cannot provide a valid comparison. Context, model, effort, Token, and latency comparisons therefore remain unknown until the new exact approval is recorded and all four v3 one-attempt conditions complete. One observation per setting will remain directional rather than statistically generalizable.
+V3 started Terra medium with full-load context at `2026-09-03T12:49:23.845Z` and interrupted it 142.914 seconds later after the latest observation reached 80,621 Operational Tokens. No condition completed, and the three routed conditions did not start. The result shows that this full-load attempt did not fit the inherited 80,000-Token candidate ceiling; it provides no context, model, effort, quality, or speed comparison. Retry and fallback remained zero.
+
+V4 does not raise that ceiling. It records a condition reaching the ceiling as a bounded censored outcome, preserves its latest usage and timing fields, and continues only to the three still-unused independent one-attempt conditions. No v4 model turn has run.
