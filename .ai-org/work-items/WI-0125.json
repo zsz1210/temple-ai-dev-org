@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0125",
   "title": "Remove machine-specific evaluator path",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-03T04:52:40.045Z",
-  "updated_at": "2026-09-03T04:53:15.021Z",
+  "updated_at": "2026-09-03T04:54:19.872Z",
   "scope": [
     "Require an explicit Wave 5B lab root instead of defaulting to one developer's absolute path."
   ],
@@ -43,7 +43,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "aac4a995e41a11b581dd6dcf912cae4e4b9d1cde",
+  "base_revision": "78bf7b80060e55be361bfc6b284fe5fdeb2c96bd",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -51,26 +51,38 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260903045315-4855ee65",
+    "id": "claim-20260903045419-142660ae",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "aac4a995e41a11b581dd6dcf912cae4e4b9d1cde",
+    "agent_id": "agent-lulu",
+    "base_revision": "78bf7b80060e55be361bfc6b284fe5fdeb2c96bd",
     "branch": "codex/wi-0120-harden-execution-route-schema",
     "worktree": null,
-    "claimed_at": "2026-09-03T04:53:15.021Z",
+    "claimed_at": "2026-09-03T04:54:19.872Z",
     "released_at": null
   },
   "claims": [
     {
       "id": "claim-20260903045315-4855ee65",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "aac4a995e41a11b581dd6dcf912cae4e4b9d1cde",
       "branch": "codex/wi-0120-harden-execution-route-schema",
       "worktree": null,
       "claimed_at": "2026-09-03T04:53:15.021Z",
+      "released_at": "2026-09-03T04:54:19.614Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903045419-142660ae",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "78bf7b80060e55be361bfc6b284fe5fdeb2c96bd",
+      "branch": "codex/wi-0120-harden-execution-route-schema",
+      "worktree": null,
+      "claimed_at": "2026-09-03T04:54:19.872Z",
       "released_at": null
     }
   ],
@@ -92,6 +104,13 @@
     ],
     "profile_eligibility": [
       ".ai-org/artifacts/WI-0125/profile-eligibility.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0125/handoff-002-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0125/developer-report.md",
+      ".ai-org/artifacts/WI-0125/developer-test-observation.json"
     ]
   },
   "evidence": [
@@ -101,10 +120,13 @@
     ".ai-org/artifacts/WI-0125/product-spec.md",
     ".ai-org/artifacts/WI-0125/technical-design.md",
     ".ai-org/artifacts/WI-0125/risk-review.md",
-    ".ai-org/artifacts/WI-0125/profile-eligibility.md"
+    ".ai-org/artifacts/WI-0125/profile-eligibility.md",
+    ".ai-org/artifacts/WI-0125/handoff-002-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0125/developer-report.md",
+    ".ai-org/artifacts/WI-0125/developer-test-observation.json"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -112,6 +134,14 @@
       "input_revision": "aac4a995e41a11b581dd6dcf912cae4e4b9d1cde",
       "artifact": ".ai-org/artifacts/WI-0125/handoff-001-engineering_manager-to-developer.md",
       "created_at": "2026-09-03T04:53:14.480Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "78bf7b80060e55be361bfc6b284fe5fdeb2c96bd",
+      "artifact": ".ai-org/artifacts/WI-0125/handoff-002-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-03T04:54:19.345Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "78bf7b80060e55be361bfc6b284fe5fdeb2c96bd"
 }

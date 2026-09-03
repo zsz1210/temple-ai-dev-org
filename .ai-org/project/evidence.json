@@ -19691,6 +19691,85 @@
         "status": "planned",
         "procedure": ".ai-org/artifacts/WI-0120/rollback-plan.md"
       }
+    },
+    {
+      "id": "EVID-20260903T045418Z-8A7FB3DB",
+      "work_item_id": "WI-0125",
+      "recorded_at": "2026-09-03T04:54:18.926Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Portable evaluator lab-root candidate",
+      "outcome": "verified",
+      "scope_revision": "78bf7b80060e55be361bfc6b284fe5fdeb2c96bd",
+      "observed_at": "2026-09-03T04:54:18.926Z",
+      "summary": "Candidate requires an explicit Wave 5B lab root and adds a direct CLI regression.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "78bf7b80060e55be361bfc6b284fe5fdeb2c96bd"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "78bf7b80060e55be361bfc6b284fe5fdeb2c96bd",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260903T045419Z-9546F5CA",
+      "work_item_id": "WI-0125",
+      "recorded_at": "2026-09-03T04:54:19.153Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Wave 5B evaluator portability test",
+      "outcome": "pass",
+      "scope_revision": "78bf7b80060e55be361bfc6b284fe5fdeb2c96bd",
+      "observed_at": "2026-09-03T04:53:48.836Z",
+      "summary": "All eight focused tests passed at candidate 78bf7b8.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0125/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0125/developer-test-observation.json",
+          "sha256": "7532bcc3d2764a57c84b471f71348e3cfad6fea00946c66aa35a6ed200d31b41"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0125/developer-report.md",
+          "sha256": "ce4fc1a01990b4ecbe4181c43604daeb520ef7f20121001ef59f8a66aa923328"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0125/product-spec.md",
+          "sha256": "25cd672e65ef0770afb93b5e82c4e25db3009b2f77e4c3934241fb32620aa9fe"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0125/technical-design.md",
+          "sha256": "fe91abf04736a8b732744905395127cbf33a022444f318b031a6f26e87104588"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/wave-5b-live-protocol.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T04:53:45.676Z"
+      }
     }
   ]
 }

@@ -172,7 +172,7 @@
 | WI-0122 | Reconcile pinned Route reason precedence | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0e32149b` | 0 | 22 | 0 |
 | WI-0123 | Close Execution resolver input domain | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0e32149b` | 0 | 22 | 0 |
 | WI-0124 | Seal Execution Request projection boundaries | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0e32149b` | 0 | 20 | 0 |
-| WI-0125 | Remove machine-specific evaluator path | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903045315-4855ee65 | `—` | 0 | 7 | 0 |
+| WI-0125 | Remove machine-specific evaluator path | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903045419-142660ae | `78bf7b80` | 0 | 10 | 0 |
 
 ## Codex task registry
 
@@ -314,14 +314,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-03T04:54:19.872Z | work_item_claimed | WI-0125 | human |
+| 2026-09-03T04:54:19.614Z | work_item_transitioned | WI-0125 | agent-rikku |
+| 2026-09-03T04:54:19.345Z | handoff_created | WI-0125 | agent-rikku |
+| 2026-09-03T04:54:19.153Z | evidence_recorded | WI-0125 | human |
+| 2026-09-03T04:54:18.926Z | evidence_recorded | WI-0125 | human |
 | 2026-09-03T04:53:15.021Z | work_item_claimed | WI-0125 | human |
 | 2026-09-03T04:53:14.749Z | work_item_transitioned | WI-0125 | agent-mog |
 | 2026-09-03T04:53:14.480Z | handoff_created | WI-0125 | agent-mog |
-| 2026-09-03T04:52:40.315Z | work_item_coordination_configured | WI-0125 | agent-mog |
-| 2026-09-03T04:52:40.045Z | work_item_created | WI-0125 | agent-mog |
-| 2026-09-03T04:29:50.159Z | work_item_closed | WI-0120 | agent-mog |
-| 2026-09-03T04:29:50.159Z | release_gate_completed | WI-0120 | agent-mog |
-| 2026-09-03T04:29:49.960Z | evidence_recorded | WI-0120 | human |
 
 ## Assignments
 
