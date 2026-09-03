@@ -307,5 +307,20 @@ The v11 run completed Minimal Responsible Design at 86,096 Operational Tokens. D
 - Readiness coverage: fifteen end-to-end checks, including the v11 cwd presentation, explicit-path escape rejection, and exact installed sandbox schema
 - Protocol SHA-256: `94fb522ec92b9f76694d2a1a0d457d9da0e2422ef33d40d0c5463e5ef962dbd0`
 - Readiness result: all fifteen checks pass with zero Operational Tokens and no model generation
-- Preflight result: fixture, Provider contract, lifecycle, readiness, and repository checks pass; exact v12 approval is the only blocker
+- Preflight result: fixture, Provider contract, lifecycle, readiness, and repository checks passed before exact approval
+- Status: stopped after one exact-approved run; no retry or fallback
+
+The v12 run completed Minimal Responsible Design at 50,602 Operational Tokens. During the three-way Build wave, Notifications followed an ambient Codex Memory instruction and requested the repository-external personal `MEMORY.md`. The path guard stopped the run at 119,084 candidate Operational Tokens, settled both sibling turns, and left all ten generated repositories clean. No arm completed and the evaluator did not start. This is context-contamination evidence, not a Temple comparison.
+
+## Representative comparison v13
+
+- Predecessor: stopped representative v12 protocol `94fb522ec92b9f76694d2a1a0d457d9da0e2422ef33d40d0c5463e5ef962dbd0`
+- Resource envelope, task, models, efforts, context treatment, objective tests, retry policy, fallback policy, and network boundary: unchanged from v12
+- Memory isolation: start App Server with strict config, `memories.use_memories=false`, `memories.generate_memories=false`, and the Memory feature disabled
+- Provider verification: read the effective config through `config/read` and bind the returned values, launch-argument digest, and Config schemas to the protocol
+- Safety property: personal Memory paths remain rejected; no broader read allowlist is introduced
+- Readiness coverage: seventeen checks, including v12 personal-memory-path rejection and the exact effective memory-isolation handshake
+- Protocol SHA-256: `ffc48213ef3704418cb031a1fdf0621fb79763df259c9bc290d340224a4ec06c`
+- Readiness result: all seventeen checks pass with zero Operational Tokens and no model generation
+- Preflight result: fixture, Provider contract, lifecycle, readiness, and repository checks pass; exact v13 approval is the only blocker
 - Status: frozen and generation-disabled pending separate exact approval

@@ -1,12 +1,12 @@
 {
   "schema_version": "temple.representative-microservice-comparison/v3",
-  "protocol_revision": 12,
+  "protocol_revision": 13,
   "work_item_id": "WI-0136",
   "status": "generation-disabled",
-  "protocol_sha256": "94fb522ec92b9f76694d2a1a0d457d9da0e2422ef33d40d0c5463e5ef962dbd0",
+  "protocol_sha256": "ffc48213ef3704418cb031a1fdf0621fb79763df259c9bc290d340224a4ec06c",
   "fixture": {
     "fixture_sha256": "b10ff626ef465686909aaab6d858b087f0c2aaad7a8c484f9955ed0a8465822c",
-    "runner_sha256": "32dff8ed071ee1d2583baa9b955f4d99a41b6ff3f1f7eb3779c267b5a35ff52f",
+    "runner_sha256": "f2787ea13db93002e6448ecc36bab1170f71d9e50daa5bd28ea0e385f3e28843",
     "analyzer_sha256": "5e614a7879a8fbdb7655d6780dcf0c7e693e7326259fa166d7fe3231f1151c5c",
     "task_sha256": "5dfd10dce99196f282f0560a25aaffd359b7af2119a62d943e465f19ae46369c",
     "public_tests_sha256": "8809e165ee024f5606a48c38bb0f6065e3b943fcd00d05fda5fdd6099e0f41f9",
@@ -14,7 +14,7 @@
     "tool_policy_sha256": "18f5bef25f7b8a4efc220252818e642b75f5c342dd8d316e79a1254652801913",
     "rubric_sha256": "364d20a3102ddd78131fd2566b8579957b14df2d6638efd3ef1e97e94faeaf3f"
   },
-  "lab_manifest_sha256": "ac9e7c27733f9e0a438ee4fca49d614bbf328b2812fe02f70934d369e0b35f95",
+  "lab_manifest_sha256": "3707b1a932ab8d4ec222bf6e2c6034488e840c2cf377f45aa1ee3e1423aff18d",
   "arms": [
     {
       "id": "minimal-responsible",
@@ -30,7 +30,7 @@
         "catalog": "490bb75496c715770d2585a18c7a6ddd8c8b67c9",
         "orders": "21b595ddeaf29c43c77ee6b980c8820c499bef67",
         "notifications": "01c716dc842e22b8b241eeb19707d69bf57f9598",
-        "coordinator": "2bc8a92d46acd3993560b1b5aebb8a94f8307f37"
+        "coordinator": "a282b8a12e3c54631e83c178325788ec30e3ad4a"
       }
     },
     {
@@ -43,11 +43,11 @@
         "coordinator": "e3ce9dcde7e25d57df6a310bb850a4977921114f"
       },
       "organization_revisions": {
-        "gateway": "d61139aff9dc394ad0dde2d6772fe9da110b1664",
-        "catalog": "440f20af28c63db25c2073158af7dcd77154cd68",
-        "orders": "6f082401a8cf055acf0471d25a694269442530b8",
-        "notifications": "8d40e21e4e53a5d8ce1a48bbcb9107eb4f7b0279",
-        "coordinator": "07a428fde09ed7e4ed96ef4a3cd84e3aa0c01fc0"
+        "gateway": "bd345944df1674f22d327a6930fd7ed4e8337343",
+        "catalog": "f109fc8f13676b186fc01cfa73a348676fe2bb9a",
+        "orders": "6832274543c1e7295eb92db36407a79c90bcfe23",
+        "notifications": "5a4fea12bd78b270af83036bfce18795c2854eff",
+        "coordinator": "8383ce35abde8eec22e27e6869706bf532fc2203"
       }
     }
   ],
@@ -102,10 +102,10 @@
     "new_unknown_recovery_start": "temple-md-first"
   },
   "predecessor": {
-    "protocol_sha256": "d729c503d8e8a9d35e0eb6367fda51fa76dbf34e7db45a5ef0a0408166283040",
-    "disposition": "stopped-candidate-code-mode-command-cwd-presentation-mismatch",
-    "stopped_run": ".ai-org/artifacts/WI-0136/representative-main-v11-stopped-run.json",
-    "stop_report": ".ai-org/artifacts/WI-0136/representative-main-v11-stop-report.md"
+    "protocol_sha256": "94fb522ec92b9f76694d2a1a0d457d9da0e2422ef33d40d0c5463e5ef962dbd0",
+    "disposition": "stopped-candidate-ambient-memory-context-contamination",
+    "stopped_run": ".ai-org/artifacts/WI-0136/representative-main-v12-stopped-run.json",
+    "stop_report": ".ai-org/artifacts/WI-0136/representative-main-v12-stop-report.md"
   },
   "stopped_evidence_policy": "completed-active-and-settled-sibling-observations-v3",
   "runner_safety": {
@@ -115,6 +115,7 @@
     "provider_shell_wrapper_policy": "unwrap-one-exact-zsh-lc-single-quoted-layer-then-reapply-full-policy",
     "provider_cwd_policy": "diagnostic-only-for-nested-code-mode-command-items",
     "turn_sandbox_policy": "installed-provider-arm-write-boundary-network-disabled-plus-command-and-explicit-path-gates",
+    "memory_isolation_policy": "strict-app-server-config-disables-memory-use-generation-and-feature",
     "harness_readiness_policy": "production-orchestration-with-injected-generation-free-provider-v1",
     "readiness_required_before_exact_approval": true
   },
@@ -149,7 +150,9 @@
       "ItemCompletedNotification.json": "69aba3fe5f72f38bf5c541e7e2c09de40778abe65ff969d9fc73372037812091",
       "ThreadTokenUsageUpdatedNotification.json": "aba4f6c7e4a19b2b842c08ee793b57000c07dafd57b922ad0d8e7c76609108c2",
       "ModelReroutedNotification.json": "37cd3c1b3a3560b85b01d4061a07d830fc9ed93b80e4663f975f9197cdb501ef",
-      "TurnInterruptParams.json": "6dff382dae73d1dbc58406ed045605f647e7a49660e2540fbd2c6c24d60c5f2b"
+      "TurnInterruptParams.json": "6dff382dae73d1dbc58406ed045605f647e7a49660e2540fbd2c6c24d60c5f2b",
+      "ConfigReadParams.json": "257c54a423b47c1d209ff1076765a1564d82322fd5161670fd489a2874de1bac",
+      "ConfigReadResponse.json": "bd72c94e2c7d49ead6a20bcf54afedc8db11044bf8cadb387e42135dd5d1e342"
     },
     "required_models": [
       {
@@ -169,6 +172,13 @@
       "restricted_read_access_supported": false,
       "workspace_write_roots_supported": true,
       "network_access_toggle_supported": true
+    },
+    "memory_isolation": {
+      "use_memories": false,
+      "generate_memories": false,
+      "feature_enabled": false,
+      "app_server_arguments_sha256": "e5d3c3be08c8191bc85c61fa4ba79436ae8fedcdb480cba347f2b85f494567ab",
+      "pass": true
     }
   },
   "limit_basis": {

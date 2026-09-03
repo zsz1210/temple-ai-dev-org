@@ -1,11 +1,11 @@
 {
   "schema_version": "temple.representative-harness-readiness/v1",
   "work_item_id": "WI-0136",
-  "protocol_sha256": "94fb522ec92b9f76694d2a1a0d457d9da0e2422ef33d40d0c5463e5ef962dbd0",
-  "completed_at": "2026-09-03T18:23:53.686Z",
+  "protocol_sha256": "ffc48213ef3704418cb031a1fdf0621fb79763df259c9bc290d340224a4ec06c",
+  "completed_at": "2026-09-03T18:40:42.013Z",
   "pass": true,
-  "source_lab": "/tmp/temple-wi0136-representative-microservice-v12-final-r2",
-  "readiness_lab": "/private/tmp/temple-wi0136-representative-microservice-v12-final-r2-readiness",
+  "source_lab": "/tmp/temple-wi0136-representative-microservice-v13-final",
+  "readiness_lab": "/private/tmp/temple-wi0136-representative-microservice-v13-final-readiness",
   "candidate_turn_count": 10,
   "evaluator_turn_count": 1,
   "checks": [
@@ -59,6 +59,14 @@
     },
     {
       "id": "installed-provider-sandbox-schema-replay",
+      "pass": true
+    },
+    {
+      "id": "ambient-memory-path-rejection-replay",
+      "pass": true
+    },
+    {
+      "id": "memory-isolation-config-handshake",
       "pass": true
     },
     {

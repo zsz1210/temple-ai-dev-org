@@ -15,6 +15,7 @@ import {
   integrationOutputSchema,
   normalizeProviderCommandText,
   protocolDigest,
+  representativeAppServerArguments,
   representativeCommandItemAllowed,
   representativeProtocolViolationForMessage,
   representativeTurnSandboxPolicy,
@@ -56,13 +57,13 @@ test("the representative microservice protocol is frozen but generation-disabled
   assert.equal(protocol.execution.fallback_count, 0);
   assert.equal(protocol.execution.candidate_turns, 10);
   assert.equal(protocol.execution.evaluator_turns, 1);
-  assert.equal(protocol.protocol_revision, 12);
+  assert.equal(protocol.protocol_revision, 13);
   assert.equal(protocol.execution.design_operational_token_limit, 150000);
   assert.equal(protocol.execution.candidate_aggregate_operational_token_limit, 650000);
   assert.equal(protocol.execution.combined_operational_token_limit, 750000);
   assert.deepEqual(protocol.context_policy.temple_md_fallback_when_missing, ["authority", "current-state", "safe-next-action"]);
-  assert.equal(protocol.predecessor.disposition, "stopped-candidate-code-mode-command-cwd-presentation-mismatch");
-  assert.equal(protocol.predecessor.stopped_run, ".ai-org/artifacts/WI-0136/representative-main-v11-stopped-run.json");
+  assert.equal(protocol.predecessor.disposition, "stopped-candidate-ambient-memory-context-contamination");
+  assert.equal(protocol.predecessor.stopped_run, ".ai-org/artifacts/WI-0136/representative-main-v12-stopped-run.json");
   assert.equal(protocol.stopped_evidence_policy, "completed-active-and-settled-sibling-observations-v3");
   assert.equal(protocol.runner_safety.relative_git_target_policy, "exact-fixture-repository-id-plus-installed-provider-turn-sandbox");
   assert.equal(protocol.runner_safety.parallel_failure_policy, "interrupt-and-await-all-siblings-before-stop-record");
@@ -70,6 +71,7 @@ test("the representative microservice protocol is frozen but generation-disabled
   assert.equal(protocol.runner_safety.provider_shell_wrapper_policy, "unwrap-one-exact-zsh-lc-single-quoted-layer-then-reapply-full-policy");
   assert.equal(protocol.runner_safety.provider_cwd_policy, "diagnostic-only-for-nested-code-mode-command-items");
   assert.equal(protocol.runner_safety.turn_sandbox_policy, "installed-provider-arm-write-boundary-network-disabled-plus-command-and-explicit-path-gates");
+  assert.equal(protocol.runner_safety.memory_isolation_policy, "strict-app-server-config-disables-memory-use-generation-and-feature");
   assert.equal(protocol.runner_safety.harness_readiness_policy, "production-orchestration-with-injected-generation-free-provider-v1");
   assert.equal(protocol.runner_safety.readiness_required_before_exact_approval, true);
   assert.deepEqual(protocol.provider_contract.turn_sandbox_capabilities, {
@@ -77,6 +79,26 @@ test("the representative microservice protocol is frozen but generation-disabled
     workspace_write_roots_supported: true,
     network_access_toggle_supported: true
   });
+  const memoryIsolation = protocol.provider_contract.memory_isolation;
+  assert.deepEqual({ ...memoryIsolation, app_server_arguments_sha256: "<digest>" }, {
+    use_memories: false,
+    generate_memories: false,
+    feature_enabled: false,
+    app_server_arguments_sha256: "<digest>",
+    pass: true
+  });
+  assert.match(memoryIsolation.app_server_arguments_sha256, /^[a-f0-9]{64}$/);
+  assert.deepEqual(representativeAppServerArguments, [
+    "app-server",
+    "--stdio",
+    "--strict-config",
+    "-c",
+    "memories.use_memories=false",
+    "-c",
+    "memories.generate_memories=false",
+    "--disable",
+    "memories"
+  ]);
 });
 
 test("protocol validation rejects product drift, reroute, retry, and digest rewriting", async () => {
@@ -270,6 +292,11 @@ test("nested Code Mode Provider cwd is diagnostic while explicit paths remain bo
   assert.equal(representativeCommandItemAllowed(item("/tmp/provider-presentation-root", "rg --files"), armRoot), true);
   assert.equal(representativeCommandItemAllowed(item("https://example.invalid/notifications", "rg --files"), armRoot), true);
   assert.equal(representativeCommandItemAllowed(item("/tmp/provider-presentation-root", "sed -n '1,20p' /tmp/outside/secret"), armRoot), false);
+  assert.equal(representativeCommandItemAllowed(item(
+    "/tmp/provider-presentation-root",
+    `rg WI-0136 ${path.join(os.homedir(), ".codex", "memories", "MEMORY.md")}`,
+    { path: path.join(os.homedir(), ".codex", "memories", "MEMORY.md") }
+  ), armRoot), false);
   assert.equal(representativeCommandItemAllowed(item("/tmp/provider-presentation-root", "sed -n '1,20p' source.mjs", { path: "/tmp/outside/secret" }), armRoot), false);
   assert.equal(representativeCommandItemAllowed(item("/tmp/provider-presentation-root", "sed -n '1,20p' source.mjs", { path: "/tmp/temple-arm/gateway/source.mjs" }), armRoot), true);
   assert.equal(representativeCommandItemAllowed(item("/tmp/provider-presentation-root", "rg OrderPlaced ../outside"), armRoot), false);

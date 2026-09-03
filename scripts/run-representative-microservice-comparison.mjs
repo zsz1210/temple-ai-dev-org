@@ -43,6 +43,17 @@ const services = Object.freeze(["gateway", "catalog", "orders", "notifications"]
 const repositories = Object.freeze([...services, "coordinator"]);
 const arms = Object.freeze(["minimal-responsible", "temple"]);
 const integrationSliceIds = Object.freeze(["orders-catalog", "notifications", "gateway"]);
+export const representativeAppServerArguments = Object.freeze([
+  "app-server",
+  "--stdio",
+  "--strict-config",
+  "-c",
+  "memories.use_memories=false",
+  "-c",
+  "memories.generate_memories=false",
+  "--disable",
+  "memories"
+]);
 const harnessReadinessCheckIds = Object.freeze([
   "source-lab-inspection",
   "both-arms-completed",
@@ -57,6 +68,8 @@ const harnessReadinessCheckIds = Object.freeze([
   "nested-code-mode-cwd-advisory-replay",
   "explicit-path-escape-replay",
   "installed-provider-sandbox-schema-replay",
+  "ambient-memory-path-rejection-replay",
+  "memory-isolation-config-handshake",
   "zero-operational-tokens",
   "no-model-generation"
 ]);
@@ -795,7 +808,7 @@ async function sourceDigests() {
 function buildProtocol(manifest) {
   const protocol = {
     schema_version: "temple.representative-microservice-comparison/v3",
-    protocol_revision: 12,
+    protocol_revision: 13,
     work_item_id: "WI-0136",
     status: "generation-disabled",
     protocol_sha256: null,
@@ -838,10 +851,10 @@ function buildProtocol(manifest) {
       new_unknown_recovery_start: "temple-md-first"
     },
     predecessor: {
-      protocol_sha256: "d729c503d8e8a9d35e0eb6367fda51fa76dbf34e7db45a5ef0a0408166283040",
-      disposition: "stopped-candidate-code-mode-command-cwd-presentation-mismatch",
-      stopped_run: ".ai-org/artifacts/WI-0136/representative-main-v11-stopped-run.json",
-      stop_report: ".ai-org/artifacts/WI-0136/representative-main-v11-stop-report.md"
+      protocol_sha256: "94fb522ec92b9f76694d2a1a0d457d9da0e2422ef33d40d0c5463e5ef962dbd0",
+      disposition: "stopped-candidate-ambient-memory-context-contamination",
+      stopped_run: ".ai-org/artifacts/WI-0136/representative-main-v12-stopped-run.json",
+      stop_report: ".ai-org/artifacts/WI-0136/representative-main-v12-stop-report.md"
     },
     stopped_evidence_policy: "completed-active-and-settled-sibling-observations-v3",
     runner_safety: {
@@ -851,6 +864,7 @@ function buildProtocol(manifest) {
       provider_shell_wrapper_policy: "unwrap-one-exact-zsh-lc-single-quoted-layer-then-reapply-full-policy",
       provider_cwd_policy: "diagnostic-only-for-nested-code-mode-command-items",
       turn_sandbox_policy: "installed-provider-arm-write-boundary-network-disabled-plus-command-and-explicit-path-gates",
+      memory_isolation_policy: "strict-app-server-config-disables-memory-use-generation-and-feature",
       harness_readiness_policy: "production-orchestration-with-injected-generation-free-provider-v1",
       readiness_required_before_exact_approval: true
     },
@@ -881,7 +895,7 @@ function buildProtocol(manifest) {
 export function validateRepresentativeProtocol(protocol) {
   const errors = [];
   if (protocol?.schema_version !== "temple.representative-microservice-comparison/v3") errors.push("unsupported schema");
-  if (protocol?.protocol_revision !== 12) errors.push("unexpected protocol revision");
+  if (protocol?.protocol_revision !== 13) errors.push("unexpected protocol revision");
   if (protocol?.work_item_id !== "WI-0136") errors.push("unexpected work item");
   if (protocol?.status !== "generation-disabled") errors.push("protocol status must remain generation-disabled before exact approval");
   if (protocol?.protocol_sha256 !== protocolDigest(protocol)) errors.push("protocol digest mismatch");
@@ -912,10 +926,10 @@ export function validateRepresentativeProtocol(protocol) {
       contextPolicy.new_unknown_recovery_start !== "temple-md-first") {
     errors.push("context policy mismatch");
   }
-  if (protocol?.predecessor?.protocol_sha256 !== "d729c503d8e8a9d35e0eb6367fda51fa76dbf34e7db45a5ef0a0408166283040" ||
-      protocol?.predecessor?.disposition !== "stopped-candidate-code-mode-command-cwd-presentation-mismatch" ||
-      protocol?.predecessor?.stopped_run !== ".ai-org/artifacts/WI-0136/representative-main-v11-stopped-run.json" ||
-      protocol?.predecessor?.stop_report !== ".ai-org/artifacts/WI-0136/representative-main-v11-stop-report.md" ||
+  if (protocol?.predecessor?.protocol_sha256 !== "94fb522ec92b9f76694d2a1a0d457d9da0e2422ef33d40d0c5463e5ef962dbd0" ||
+      protocol?.predecessor?.disposition !== "stopped-candidate-ambient-memory-context-contamination" ||
+      protocol?.predecessor?.stopped_run !== ".ai-org/artifacts/WI-0136/representative-main-v12-stopped-run.json" ||
+      protocol?.predecessor?.stop_report !== ".ai-org/artifacts/WI-0136/representative-main-v12-stop-report.md" ||
       protocol?.stopped_evidence_policy !== "completed-active-and-settled-sibling-observations-v3" ||
       protocol?.runner_safety?.relative_git_target_policy !== "exact-fixture-repository-id-plus-installed-provider-turn-sandbox" ||
       protocol?.runner_safety?.parallel_failure_policy !== "interrupt-and-await-all-siblings-before-stop-record" ||
@@ -923,6 +937,7 @@ export function validateRepresentativeProtocol(protocol) {
       protocol?.runner_safety?.provider_shell_wrapper_policy !== "unwrap-one-exact-zsh-lc-single-quoted-layer-then-reapply-full-policy" ||
       protocol?.runner_safety?.provider_cwd_policy !== "diagnostic-only-for-nested-code-mode-command-items" ||
       protocol?.runner_safety?.turn_sandbox_policy !== "installed-provider-arm-write-boundary-network-disabled-plus-command-and-explicit-path-gates" ||
+      protocol?.runner_safety?.memory_isolation_policy !== "strict-app-server-config-disables-memory-use-generation-and-feature" ||
       protocol?.runner_safety?.harness_readiness_policy !== "production-orchestration-with-injected-generation-free-provider-v1" ||
       protocol?.runner_safety?.readiness_required_before_exact_approval !== true) {
     errors.push("successor provenance mismatch");
@@ -953,6 +968,14 @@ export function validateRepresentativeProtocol(protocol) {
         sandboxCapabilities?.workspace_write_roots_supported !== true ||
         sandboxCapabilities?.network_access_toggle_supported !== true) {
       errors.push("installed Provider sandbox capability contract mismatch");
+    }
+    const memoryIsolation = protocol?.provider_contract?.memory_isolation;
+    if (memoryIsolation?.use_memories !== false ||
+        memoryIsolation?.generate_memories !== false ||
+        memoryIsolation?.feature_enabled !== false ||
+        memoryIsolation?.pass !== true ||
+        memoryIsolation?.app_server_arguments_sha256 !== sha256(JSON.stringify(representativeAppServerArguments))) {
+      errors.push("installed Provider memory isolation contract mismatch");
     }
   }
   return { valid: errors.length === 0, errors };
@@ -1061,7 +1084,9 @@ async function providerHandshake() {
     "ItemCompletedNotification.json",
     "ThreadTokenUsageUpdatedNotification.json",
     "ModelReroutedNotification.json",
-    "TurnInterruptParams.json"
+    "TurnInterruptParams.json",
+    "ConfigReadParams.json",
+    "ConfigReadResponse.json"
   ];
   const schemaDigests = {};
   const schemaTexts = {};
@@ -1072,7 +1097,7 @@ async function providerHandshake() {
       schemaTexts[name] = await fs.readFile(path.join(schemaRoot, "v2", name), "utf8");
       schemaDigests[name] = sha256(schemaTexts[name]);
     }
-    connection = createJsonRpcProcess("codex", ["app-server", "--stdio"], {
+    connection = createJsonRpcProcess("codex", representativeAppServerArguments, {
       cwd: repositoryRoot,
       env: isolateWave5CodexEnvironment(process.env)
     });
@@ -1081,6 +1106,17 @@ async function providerHandshake() {
       capabilities: { experimentalApi: false }
     });
     connection.notify("initialized", {});
+    const effectiveConfig = await connection.request("config/read", { cwd: repositoryRoot, includeLayers: false });
+    const memoryConfig = effectiveConfig?.config?.memories ?? {};
+    const memoryIsolation = {
+      use_memories: memoryConfig.use_memories ?? null,
+      generate_memories: memoryConfig.generate_memories ?? null,
+      feature_enabled: effectiveConfig?.config?.features?.memories ?? null,
+      app_server_arguments_sha256: sha256(JSON.stringify(representativeAppServerArguments)),
+      pass: memoryConfig.use_memories === false &&
+        memoryConfig.generate_memories === false &&
+        effectiveConfig?.config?.features?.memories === false
+    };
     const models = modelEntries(await connection.request("model/list", {}));
     const required = [
       { model: "gpt-5.6-sol", reasoning_efforts: ["xhigh"] },
@@ -1096,7 +1132,7 @@ async function providerHandshake() {
       };
     });
     return {
-      pass: checks.every((entry) => entry.available),
+      pass: checks.every((entry) => entry.available) && memoryIsolation.pass,
       codex_cli_version: cli,
       schema_digests: schemaDigests,
       turn_sandbox_capabilities: {
@@ -1105,6 +1141,7 @@ async function providerHandshake() {
         workspace_write_roots_supported: schemaTexts["TurnStartParams.json"].includes('"writableRoots"'),
         network_access_toggle_supported: schemaTexts["TurnStartParams.json"].includes('"networkAccess"')
       },
+      memory_isolation: memoryIsolation,
       required_models: required,
       model_checks: checks,
       model_generation_performed: false
@@ -1121,7 +1158,8 @@ function freezeLimits(protocol, handshake) {
     codex_cli_version: handshake.codex_cli_version,
     schema_digests: handshake.schema_digests,
     required_models: handshake.required_models,
-    turn_sandbox_capabilities: handshake.turn_sandbox_capabilities
+    turn_sandbox_capabilities: handshake.turn_sandbox_capabilities,
+    memory_isolation: handshake.memory_isolation
   };
   Object.assign(next.execution, {
     design_operational_token_limit: 150000,
@@ -1256,7 +1294,8 @@ async function preflight(labRoot, protocolPath, approvalPath) {
     : { pass: false, reason: "local fixture invalid" };
   const providerMatch = handshake.pass && protocol?.provider_contract?.codex_cli_version === handshake.codex_cli_version &&
     JSON.stringify(protocol?.provider_contract?.schema_digests) === JSON.stringify(handshake.schema_digests) &&
-    JSON.stringify(protocol?.provider_contract?.turn_sandbox_capabilities) === JSON.stringify(handshake.turn_sandbox_capabilities);
+    JSON.stringify(protocol?.provider_contract?.turn_sandbox_capabilities) === JSON.stringify(handshake.turn_sandbox_capabilities) &&
+    JSON.stringify(protocol?.provider_contract?.memory_isolation) === JSON.stringify(handshake.memory_isolation);
   const approval = approvalPath && await exists(approvalPath) ? validateRepresentativeApproval(await readJson(approvalPath), protocol) : { accepted: false, errors: ["exact approval missing"] };
   const readinessPath = path.join(labRoot, "harness-readiness.json");
   const readiness = await exists(readinessPath) ? await readJson(readinessPath) : null;
@@ -1694,7 +1733,7 @@ async function launchModelTurn({
   if (abortSignal?.aborted) throw new Error(`${id}:parallel-wave-cancelled`);
   abortSignal?.addEventListener("abort", abortListener, { once: true });
 
-  connection = createJsonRpcProcess("codex", ["app-server", "--stdio"], {
+  connection = createJsonRpcProcess("codex", representativeAppServerArguments, {
     cwd,
     env: isolateWave5CodexEnvironment({
       ...process.env,
@@ -3720,6 +3759,33 @@ export async function runRepresentativeHarnessReadiness(labRoot, protocolPath) {
             writableRoots: [path.join(readinessRoot, "arms", "temple")],
             networkAccess: false
           })
+      },
+      {
+        id: "ambient-memory-path-rejection-replay",
+        pass: representativeProtocolViolationForMessage({
+          method: "item/started",
+          params: {
+            turnId: "readiness-turn",
+            item: {
+              type: "commandExecution",
+              cwd: repositoryRoot,
+              command: `rg WI-0136 ${path.join(os.homedir(), ".codex", "memories", "MEMORY.md")}`,
+              commandActions: [{
+                type: "search",
+                command: `rg WI-0136 ${path.join(os.homedir(), ".codex", "memories", "MEMORY.md")}`,
+                path: path.join(os.homedir(), ".codex", "memories", "MEMORY.md")
+              }]
+            }
+          }
+        }, { turnId: "readiness-turn", armRoot: path.join(readinessRoot, "arms", "temple") })?.message.includes("explicit-action-path-outside-arm") === true
+      },
+      {
+        id: "memory-isolation-config-handshake",
+        pass: protocol.provider_contract?.memory_isolation?.use_memories === false &&
+          protocol.provider_contract?.memory_isolation?.generate_memories === false &&
+          protocol.provider_contract?.memory_isolation?.feature_enabled === false &&
+          protocol.provider_contract?.memory_isolation?.pass === true &&
+          protocol.provider_contract?.memory_isolation?.app_server_arguments_sha256 === sha256(JSON.stringify(representativeAppServerArguments))
       },
       { id: "zero-operational-tokens", pass: evaluator.combined_operational_tokens === 0 },
       { id: "no-model-generation", pass: run.model_generation_performed === false && evaluator.model_generation_performed === false }
