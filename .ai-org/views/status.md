@@ -168,7 +168,7 @@
 | WI-0118 | Turn validation evidence into adaptive Lean Mode | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `b3b5c13d` | 0 | 21 | 0 |
 | WI-0119 | Establish adaptive execution routing foundation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `cfa12af5` | 0 | 23 | 0 |
 | WI-0120 | Harden the Execution Route validation boundary | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `486c64df` | 0 | 18 | 0 |
-| WI-0121 | Close remaining Execution Route validation bypasses | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903033848-4e3c5887 | `a8eea7c3` | 0 | 13 | 0 |
+| WI-0121 | Close remaining Execution Route validation bypasses | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903033945-3957c4c8 | `a8eea7c3` | 0 | 16 | 0 |
 
 ## Codex task registry
 
@@ -311,14 +311,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-03T03:39:45.987Z | work_item_claimed | WI-0121 | human |
+| 2026-09-03T03:39:45.726Z | work_item_transitioned | WI-0121 | agent-lulu |
+| 2026-09-03T03:39:45.481Z | handoff_created | WI-0121 | agent-lulu |
+| 2026-09-03T03:39:45.207Z | work_item_transitioned | WI-0121 | agent-lulu |
+| 2026-09-03T03:39:25.995Z | evidence_recorded | WI-0121 | human |
 | 2026-09-03T03:38:48.690Z | work_item_claimed | WI-0121 | human |
 | 2026-09-03T03:38:48.423Z | work_item_transitioned | WI-0121 | agent-rikku |
 | 2026-09-03T03:38:48.112Z | handoff_created | WI-0121 | agent-rikku |
-| 2026-09-03T03:38:47.912Z | evidence_recorded | WI-0121 | human |
-| 2026-09-03T03:38:47.567Z | evidence_recorded | WI-0121 | human |
-| 2026-09-03T03:30:46.455Z | work_item_claimed | WI-0121 | human |
-| 2026-09-03T03:30:46.207Z | work_item_transitioned | WI-0121 | agent-tidus |
-| 2026-09-03T03:30:45.975Z | handoff_created | WI-0121 | agent-tidus |
 
 ## Assignments
 

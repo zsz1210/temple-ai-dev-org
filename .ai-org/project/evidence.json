@@ -18664,6 +18664,64 @@
         "exit_code": 0,
         "started_at": "2026-09-03T03:36:37.210Z"
       }
+    },
+    {
+      "id": "EVID-20260903T033925Z-68CD950B",
+      "work_item_id": "WI-0121",
+      "recorded_at": "2026-09-03T03:39:25.995Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality focused verification",
+      "outcome": "pass",
+      "scope_revision": "a8eea7c3122dfac1ce7cf700a083030bb79bf01d",
+      "observed_at": "2026-09-03T03:38:59.815Z",
+      "summary": "All 19 focused route and installation tests passed on the exact repair candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0121/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0121/quality-test-observation.json",
+          "sha256": "72977d21ab72f917bb110556acf1b4cf6a4aab6122b8bc343e792eee1c6b8571"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/quality-report.md",
+          "sha256": "72f7fda43a26177b2ffd3e7e6134d18b2b53d7d6866749a67927b2bb4f5bbaff"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/developer-report.md",
+          "sha256": "e6f8b720ec79879ed73a3edc6bdebdc4e8daee08708947ac998648215caadca6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/independent-qa-attempt-1.md",
+          "sha256": "3ff3291bf8181a65ba8c33003af6664f431fe33fae4f8b3c7c96bc5f090d02f7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/product-spec.md",
+          "sha256": "f50cf916398e1bb37be1556a9aa99387fbb7a69a165366ebef0e2f120f2c243d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/technical-design.md",
+          "sha256": "2fc335c973bd51275884f10e7a3c5f175d82b934c40b69dba480c31519caf550"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/execution-routing.test.mjs",
+          "test/phase4-installation.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T03:38:55.362Z"
+      }
     }
   ]
 }
