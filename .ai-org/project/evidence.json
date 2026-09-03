@@ -21046,6 +21046,36 @@
         "exit_code": 0,
         "started_at": "2026-09-03T11:23:37.000Z"
       }
+    },
+    {
+      "id": "EVID-20260903T112734Z-0630C985",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T11:27:34.647Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0136 verified preparation revision",
+      "outcome": "verified",
+      "scope_revision": "6f692ef75f72c0f79d74fb2a4872ffd37144e39b",
+      "observed_at": "2026-09-03T11:27:34.647Z",
+      "summary": "Exact revision containing the executable matched fixture, frozen protocol, full verification observation, and no-generation preflight evidence.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "6f692ef75f72c0f79d74fb2a4872ffd37144e39b"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "6f692ef75f72c0f79d74fb2a4872ffd37144e39b",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
     }
   ]
 }
