@@ -177,7 +177,7 @@
 | WI-0127 | Audit the Console-free core operating path | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2edf130b` | 0 | 20 | 0 |
 | WI-0128 | Make the product roadmap and core path human-readable | cancelled | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 | WI-0129 | Make the product roadmap and core path human-readable | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3e5178ba` | 0 | 18 | 0 |
-| WI-0130 | Run the first three-arm Temple effectiveness pilot | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2ac73bc1` | 0 | 12 | 0 |
+| WI-0130 | Run the first three-arm Temple effectiveness pilot | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2ac73bc1` | 0 | 15 | 0 |
 
 ## Codex task registry
 
@@ -319,14 +319,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-03T07:11:54.641Z | work_item_transitioned | WI-0130 | agent-lulu |
+| 2026-09-03T07:11:54.348Z | handoff_created | WI-0130 | agent-lulu |
+| 2026-09-03T07:11:48.734Z | evidence_recorded | WI-0130 | agent-lulu |
+| 2026-09-03T07:10:02.624Z | work_item_claimed | WI-0130 | human |
 | 2026-09-03T07:09:47.696Z | work_item_transitioned | WI-0130 | agent-lulu |
 | 2026-09-03T07:09:47.455Z | handoff_created | WI-0130 | agent-lulu |
 | 2026-09-03T07:09:47.180Z | work_item_transitioned | WI-0130 | agent-lulu |
 | 2026-09-03T07:09:40.389Z | evidence_recorded | WI-0130 | agent-lulu |
-| 2026-09-03T07:09:11.831Z | work_item_claimed | WI-0130 | human |
-| 2026-09-03T07:08:39.389Z | work_item_transitioned | WI-0130 | agent-rikku |
-| 2026-09-03T07:08:39.105Z | handoff_created | WI-0130 | agent-rikku |
-| 2026-09-03T07:08:38.909Z | evidence_recorded | WI-0130 | agent-rikku |
 
 ## Assignments
 
