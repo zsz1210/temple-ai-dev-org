@@ -1,0 +1,167 @@
+{
+  "schema_version": "temple.effectiveness-pilot-live-observation/v2",
+  "work_item_id": "WI-0132",
+  "observed_at": "2026-09-03T08:53:14.458Z",
+  "protocol_digest": "84d30df16d72bfbae6ac1d111729ddab9e90d761c46a8694250955985028bc45",
+  "lab_root": "/tmp/temple-wi0132-live-preflight-20260903",
+  "source_digests": {
+    "effectiveness_evidence_sha256": "fdcd5d54e7dd07dee69234a5ad80ed750b52771aadaa29c9c21b1e246e5d67f7",
+    "effectiveness_analysis_sha256": "4eefe732c33464c6d43189e84fa9b82e1e1369fe7087f4d055587a4958d89a68",
+    "frozen_scores_sha256": "7898b6bbf0c9c376572cee48c178e5460da79999bb80fc9d09d947379f327377",
+    "run_result_sha256": "ba3d3346f3714b80d830b733558708ee7a8647a41c033bf97b720c4e24ac74db",
+    "evaluator_result_sha256": "9ee13068df8e1466490f1a6917d8ea17a29f383706c6ecf1c6fdd5386ae70512",
+    "preflight_observation_sha256": "b2b78ddecc6e8ede622d94a2f23a213d16d2ba30abeba0718c6fb6b3cb9c12f6"
+  },
+  "execution": {
+    "started_at": "2026-09-03T08:38:12.424Z",
+    "candidate_matrix_completed_at": "2026-09-03T08:52:41.272Z",
+    "candidate_turns_started": 8,
+    "candidate_turns_completed": 8,
+    "evaluator_turns_started": 1,
+    "evaluator_turns_completed": 1,
+    "retry_count": 0,
+    "fallback_count": 0,
+    "reroute_count": 0,
+    "path_violation_count": 0,
+    "candidate_operational_tokens": 416395,
+    "evaluator_operational_tokens": 27237,
+    "combined_operational_tokens": 443632,
+    "approved_combined_operational_tokens": 580000,
+    "candidate_gross_tokens": 4348427,
+    "evaluator_gross_tokens": 27237,
+    "combined_gross_tokens": 4375664,
+    "candidate_latency_ms": 868644,
+    "approved_wall_clock_ms": 4500000,
+    "billed_cost_known": false
+  },
+  "conditions": [
+    {
+      "condition_id": "conventional-terra",
+      "process": "responsible-conventional",
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "candidate_count": 2,
+      "objective_pass_count": 2,
+      "blind_pass_count": 2,
+      "mean_blind_score": 97.5,
+      "operational_tokens": 49926,
+      "gross_tokens": 471302,
+      "latency_ms": 108872,
+      "mean_context_utf8_bytes": 2166
+    },
+    {
+      "condition_id": "temple-terra",
+      "process": "native-lean-temple",
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "candidate_count": 2,
+      "objective_pass_count": 2,
+      "blind_pass_count": 2,
+      "mean_blind_score": 97.5,
+      "operational_tokens": 88836,
+      "gross_tokens": 499972,
+      "latency_ms": 97627,
+      "mean_context_utf8_bytes": 15435
+    },
+    {
+      "condition_id": "temple-luna",
+      "process": "native-lean-temple",
+      "requested_model": "gpt-5.6-luna",
+      "acknowledged_model": "gpt-5.6-luna",
+      "requested_reasoning_effort": "max",
+      "candidate_count": 2,
+      "objective_pass_count": 2,
+      "blind_pass_count": 2,
+      "mean_blind_score": 96.5,
+      "operational_tokens": 156673,
+      "gross_tokens": 1943297,
+      "latency_ms": 357735,
+      "mean_context_utf8_bytes": 15435
+    },
+    {
+      "condition_id": "temple-sol",
+      "process": "native-lean-temple",
+      "requested_model": "gpt-5.6-sol",
+      "acknowledged_model": "gpt-5.6-sol",
+      "requested_reasoning_effort": "xhigh",
+      "candidate_count": 2,
+      "objective_pass_count": 2,
+      "blind_pass_count": 2,
+      "mean_blind_score": 98.5,
+      "operational_tokens": 120960,
+      "gross_tokens": 1433856,
+      "latency_ms": 304410,
+      "mean_context_utf8_bytes": 15435
+    }
+  ],
+  "case_results": [
+    {
+      "case_id": "idempotent-command",
+      "conventional_terra": { "objective": "pass", "blind_score": 98, "operational_tokens": 23924, "latency_ms": 52708 },
+      "temple_terra": { "objective": "pass", "blind_score": 97, "operational_tokens": 33801, "latency_ms": 47584 },
+      "temple_luna": { "objective": "pass", "blind_score": 97, "operational_tokens": 85442, "latency_ms": 174232 },
+      "temple_sol": { "objective": "pass", "blind_score": 99, "operational_tokens": 42463, "latency_ms": 114534 }
+    },
+    {
+      "case_id": "compatible-event-evolution",
+      "conventional_terra": { "objective": "pass", "blind_score": 97, "operational_tokens": 26002, "latency_ms": 56164 },
+      "temple_terra": { "objective": "pass", "blind_score": 98, "operational_tokens": 55035, "latency_ms": 50043 },
+      "temple_luna": { "objective": "pass", "blind_score": 96, "operational_tokens": 71231, "latency_ms": 183503 },
+      "temple_sol": { "objective": "pass", "blind_score": 98, "operational_tokens": 78497, "latency_ms": 189876 }
+    }
+  ],
+  "comparisons": {
+    "process_effect": {
+      "baseline": "conventional-terra",
+      "next": "temple-terra",
+      "objective_wins": 0,
+      "mean_blind_score_delta": 0,
+      "aggregate_operational_token_delta_percent": 77.94,
+      "aggregate_latency_delta_percent": -10.33,
+      "median_context_byte_delta": 13269,
+      "decision": "simplify-and-rerun"
+    },
+    "efficient_escalation": {
+      "baseline": "temple-terra",
+      "next": "temple-luna",
+      "objective_wins": 0,
+      "mean_blind_score_delta": -1,
+      "aggregate_operational_token_delta_percent": 76.36,
+      "aggregate_latency_delta_percent": 266.43,
+      "decision": "keep-terra-default"
+    },
+    "flagship_ceiling": {
+      "baseline": "temple-luna",
+      "next": "temple-sol",
+      "objective_wins": 0,
+      "mean_blind_score_delta": 2,
+      "aggregate_operational_token_delta_percent": -22.79,
+      "aggregate_latency_delta_percent": -14.91,
+      "decision": "retain-ceiling-and-qualify-before-routing-change"
+    }
+  },
+  "evaluator": {
+    "requested_model": "gpt-5.6-terra",
+    "acknowledged_model": "gpt-5.6-terra",
+    "requested_reasoning_effort": "high",
+    "observed_thread_reasoning_effort": "high",
+    "effective_turn_reasoning_effort": null,
+    "scores_frozen_before_mapping_unseal": true,
+    "score_count": 8,
+    "score_range": [96, 99]
+  },
+  "protocol_audit": {
+    "status": "completed",
+    "native_lean_profile_observed": true,
+    "bounded_low_risk_observed": true,
+    "matched_product_inputs": true,
+    "matched_temple_context": true,
+    "requested_models_acknowledged": true,
+    "effective_turn_reasoning_effort_observed": false,
+    "automatic_routing_qualified": false,
+    "statistical_qualification": false,
+    "external_release_performed": false
+  }
+}
