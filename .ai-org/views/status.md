@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 130 total, 3 active
+- Work items: 130 total, 2 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -177,7 +177,7 @@
 | WI-0127 | Audit the Console-free core operating path | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2edf130b` | 0 | 20 | 0 |
 | WI-0128 | Make the product roadmap and core path human-readable | cancelled | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 | WI-0129 | Make the product roadmap and core path human-readable | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3e5178ba` | 0 | 18 | 0 |
-| WI-0130 | Run the first three-arm Temple effectiveness pilot | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2ac73bc1` | 0 | 15 | 0 |
+| WI-0130 | Run the first three-arm Temple effectiveness pilot | concluded | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `33b6ed3b` | 0 | 16 | 0 |
 
 ## Codex task registry
 
@@ -319,14 +319,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-03T07:12:33.620Z | work_item_concluded | WI-0130 | agent-mog |
+| 2026-09-03T07:12:33.620Z | release_gate_completed | WI-0130 | agent-mog |
+| 2026-09-03T07:12:25.201Z | evidence_recorded | WI-0130 | agent-mog |
+| 2026-09-03T07:12:24.953Z | work_item_claimed | WI-0130 | human |
 | 2026-09-03T07:11:54.641Z | work_item_transitioned | WI-0130 | agent-lulu |
 | 2026-09-03T07:11:54.348Z | handoff_created | WI-0130 | agent-lulu |
 | 2026-09-03T07:11:48.734Z | evidence_recorded | WI-0130 | agent-lulu |
 | 2026-09-03T07:10:02.624Z | work_item_claimed | WI-0130 | human |
-| 2026-09-03T07:09:47.696Z | work_item_transitioned | WI-0130 | agent-lulu |
-| 2026-09-03T07:09:47.455Z | handoff_created | WI-0130 | agent-lulu |
-| 2026-09-03T07:09:47.180Z | work_item_transitioned | WI-0130 | agent-lulu |
-| 2026-09-03T07:09:40.389Z | evidence_recorded | WI-0130 | agent-lulu |
 
 ## Assignments
 

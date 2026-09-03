@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0130",
   "title": "Run the first three-arm Temple effectiveness pilot",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "concluded",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-03T06:27:28.833Z",
-  "updated_at": "2026-09-03T07:11:54.641Z",
+  "updated_at": "2026-09-03T07:12:33.620Z",
   "scope": [
     "Build and validate a reproducible six-candidate pilot across conventional fixed, Temple fixed, and Temple adaptive conditions",
     "Use two frozen bounded implementation cases and isolate A versus B from B versus C",
@@ -55,7 +55,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "33b6ed3bd5dc96bffbb168818d62f9bba221d733",
+  "base_revision": "21444796a2505a49716f5d6a18a19bdcd56376ca",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -63,16 +63,16 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260903071002-291a5831",
+    "id": "claim-20260903071224-8f43e45f",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-lulu",
-    "base_revision": "33b6ed3bd5dc96bffbb168818d62f9bba221d733",
+    "agent_id": "agent-mog",
+    "base_revision": "21444796a2505a49716f5d6a18a19bdcd56376ca",
     "branch": "codex/wi-0130-effectiveness-pilot",
     "worktree": null,
-    "claimed_at": "2026-09-03T07:10:02.624Z",
-    "released_at": "2026-09-03T07:11:54.641Z",
-    "release_reason": "position_transition"
+    "claimed_at": "2026-09-03T07:12:24.953Z",
+    "released_at": "2026-09-03T07:12:33.620Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -110,6 +110,18 @@
       "claimed_at": "2026-09-03T07:10:02.624Z",
       "released_at": "2026-09-03T07:11:54.641Z",
       "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903071224-8f43e45f",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "21444796a2505a49716f5d6a18a19bdcd56376ca",
+      "branch": "codex/wi-0130-effectiveness-pilot",
+      "worktree": null,
+      "claimed_at": "2026-09-03T07:12:24.953Z",
+      "released_at": "2026-09-03T07:12:33.620Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -142,6 +154,18 @@
     ],
     "independent_qa_pass": [
       "EVID-20260903T071148Z-86E35406"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0130/product-spec.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0130/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0130/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0130/account-approval.json"
     ]
   },
   "evidence": [
@@ -159,10 +183,11 @@
     ".ai-org/artifacts/WI-0130/quality-report.md",
     ".ai-org/artifacts/WI-0130/handoff-006-independent_qa-to-release_manager.md",
     ".ai-org/artifacts/WI-0130/independent-qa-report.md",
-    "EVID-20260903T071148Z-86E35406"
+    "EVID-20260903T071148Z-86E35406",
+    ".ai-org/artifacts/WI-0130/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -207,5 +232,14 @@
       "created_at": "2026-09-03T07:11:54.348Z"
     }
   ],
-  "developer_candidate_revision": "2ac73bc1b2ed3d966114fd9be8b71995510d68ce"
+  "developer_candidate_revision": "2ac73bc1b2ed3d966114fd9be8b71995510d68ce",
+  "tested_revision": "33b6ed3bd5dc96bffbb168818d62f9bba221d733",
+  "release_gate_result": "no-go",
+  "lifecycle_outcome": "inconclusive",
+  "closeout_reasons": [
+    "The live Temple arms used Standard workflow instead of the registered Lean Core Path.",
+    "Two cases and unavailable effective-turn reasoning evidence cannot qualify framework-wide effectiveness or automatic routing."
+  ],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0130/account-approval.json"
 }

@@ -20079,6 +20079,38 @@
         "exit_code": 0,
         "started_at": "2026-09-03T07:10:02.000Z"
       }
+    },
+    {
+      "id": "EVID-20260903T071225Z-DE170376",
+      "work_item_id": "WI-0130",
+      "recorded_at": "2026-09-03T07:12:25.201Z",
+      "recorded_by": "agent-mog",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "33b6ed3bd5dc96bffbb168818d62f9bba221d733",
+      "observed_at": "2026-09-03T07:12:25.201Z",
+      "summary": "Revert the WI-0130 branch commits and rerun repository verification; preserve the frozen local lab until evidence audit is complete.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0130/rollback-plan.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0130/rollback-plan.md",
+          "sha256": "2c76ee5ad420d79291b47b56ffef033a2f81af12344948689026f6be315ab04a"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0130/rollback-plan.md"
+      }
     }
   ]
 }
