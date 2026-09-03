@@ -18581,6 +18581,89 @@
         "status": "open",
         "mitigation": "Return to Build; encode mode/state/mapping invariants and retain every accepted bypass as a regression."
       }
+    },
+    {
+      "id": "EVID-20260903T033847Z-947FAE60",
+      "work_item_id": "WI-0121",
+      "recorded_at": "2026-09-03T03:38:47.567Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Execution Route bypass repair candidate",
+      "outcome": "verified",
+      "scope_revision": "a8eea7c3122dfac1ce7cf700a083030bb79bf01d",
+      "observed_at": "2026-09-03T03:38:47.567Z",
+      "summary": "Exact candidate revision for the bounded WI-0121 validation repair.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "a8eea7c3122dfac1ce7cf700a083030bb79bf01d"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "a8eea7c3122dfac1ce7cf700a083030bb79bf01d",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260903T033847Z-A3C9C525",
+      "work_item_id": "WI-0121",
+      "recorded_at": "2026-09-03T03:38:47.912Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer full verification",
+      "outcome": "pass",
+      "scope_revision": "a8eea7c3122dfac1ce7cf700a083030bb79bf01d",
+      "observed_at": "2026-09-03T03:37:45.158Z",
+      "summary": "Repository checks and all 327 tests passed on the exact repair candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0121/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0121/developer-test-observation.json",
+          "sha256": "f906759a61b5c066904fb12e3632aa2602ef7787cf9fd4255a6756a619e53c95"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/developer-report.md",
+          "sha256": "e6f8b720ec79879ed73a3edc6bdebdc4e8daee08708947ac998648215caadca6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0120/independent-qa-attempt-1.md",
+          "sha256": "3ff3291bf8181a65ba8c33003af6664f431fe33fae4f8b3c7c96bc5f090d02f7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/product-spec.md",
+          "sha256": "f50cf916398e1bb37be1556a9aa99387fbb7a69a165366ebef0e2f120f2c243d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0121/technical-design.md",
+          "sha256": "2fc335c973bd51275884f10e7a3c5f175d82b934c40b69dba480c31519caf550"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T03:36:37.210Z"
+      }
     }
   ]
 }
