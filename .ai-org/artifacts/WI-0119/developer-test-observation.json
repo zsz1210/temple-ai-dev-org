@@ -1,0 +1,19 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "d5862757d29d77ef77d2d833350aa20ddd62a4f4",
+  "command": [
+    "npm",
+    "run",
+    "verify"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-03T02:33:58.437Z",
+  "completed_at": "2026-09-03T02:35:18.609Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0119/developer-report.md",
+    ".ai-org/artifacts/WI-0119/execution-request.json",
+    "docs/concepts/adaptive-execution-routing.md",
+    "docs/operations/execution-routing.md"
+  ]
+}

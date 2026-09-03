@@ -1,9 +1,18 @@
 # Token Efficiency and Model Routing
 
-- Status: the current implementation exposes telemetry qualification, project-owned usage policy, progressive calibration, low-confidence shadow candidates, and project-configured matched-evaluation advisories; evaluation execution and model-routing execution remain unavailable
+- Status: the current implementation exposes telemetry qualification, project-owned usage and execution policies, progressive calibration, low-confidence shadow candidates, project-configured matched-evaluation advisories, and a deterministic per-step route resolver; model invocation and automatic route execution remain unavailable
 - Primary readers: maintainers, Engineering Managers, Tech Leads, Observers, and cost-accountable humans
 
 Temple treats Token usage as an operational signal. The goal is not the smallest prompt or the cheapest individual turn. The goal is a correct, accepted Work Item with less waste, rework, latency, and coordination cost.
+
+## Route resolution is now a separate layer
+
+Model Calibration and Execution Routing answer different questions:
+
+- Calibration asks whether matched project evidence supports preferring one profile for one exact Task Shape.
+- Execution Routing asks which project profile is eligible for one current step after capability, modality, Provider, data, boundary, risk, and resource constraints.
+
+The read-only command `temple execution resolve` now supplies the second contract. It can consume calibrated preference later, but it does not launch a model, apply a recommendation, or turn requested settings into effective observations. Position remains responsibility—not a fixed model assignment. See [Adaptive execution routing](../concepts/adaptive-execution-routing.md), [Execution routing operations](execution-routing.md), and [ADR-0046](../adr/0046-separate-adaptive-execution-routing.md).
 
 ## Does counting Tokens consume more Tokens?
 

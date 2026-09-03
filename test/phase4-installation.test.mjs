@@ -22,6 +22,11 @@ import {
   validateUsagePolicy
 } from "../src/usage-policy.mjs";
 import {
+  defaultExecutionPolicy,
+  EXECUTION_POLICY_RELATIVE_PATH,
+  validateExecutionPolicy
+} from "../src/execution-routing.mjs";
+import {
   defaultRepositoryIntegration,
   REPOSITORY_INTEGRATION_RELATIVE_PATH,
   validateRepositoryIntegration
@@ -36,6 +41,9 @@ const phase4Capabilities = [
   "usage_qualification",
   "progressive_usage_calibration",
   "matched_model_advisory",
+  "adaptive_execution_routing",
+  "typed_resource_observations",
+  "non_executing_route_resolution",
   "exception_only_autonomy",
   "provider_attach_outcomes",
   "repository_federation",
@@ -150,6 +158,9 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
   assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/validation-program.schema.json"));
   assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/validation-program-report.schema.json"));
   assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/usage-policy.schema.json"));
+  assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/execution-policy.schema.json"));
+  assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/execution-request.schema.json"));
+  assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/execution-route.schema.json"));
   assert.ok(
     lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/repository-integration.schema.json")
   );
@@ -157,6 +168,7 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
   assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/templates/validation-program.json"));
   assert.equal(lock.managed_files.some((entry) => entry.path === ".ai-org/project/validation-program.json"), false);
   assert.equal(lock.managed_files.some((entry) => entry.path === USAGE_POLICY_RELATIVE_PATH), false);
+  assert.equal(lock.managed_files.some((entry) => entry.path === EXECUTION_POLICY_RELATIVE_PATH), false);
   assert.equal(lock.managed_files.some((entry) => entry.path === REPOSITORY_INTEGRATION_RELATIVE_PATH), false);
 
   const repositoryIntegration = await readJson(path.join(target, REPOSITORY_INTEGRATION_RELATIVE_PATH));
@@ -171,6 +183,9 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
     maximum_age_days: 90,
     supported_method: "paired-sign-test-v1"
   });
+  const executionPolicy = await readJson(path.join(target, EXECUTION_POLICY_RELATIVE_PATH));
+  assert.deepEqual(executionPolicy, defaultExecutionPolicy());
+  assert.deepEqual(validateExecutionPolicy(executionPolicy), { valid: true, errors: [] });
 
   const packageDocument = await readJson(path.join(root, "package.json"));
   const packageLock = await readJson(path.join(root, "package-lock.json"));
@@ -205,6 +220,16 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
       id: "usage-policy",
       path: USAGE_POLICY_RELATIVE_PATH,
       schema: "usage-policy.schema.json",
+      required: true,
+      ownership: "project"
+    }
+  );
+  assert.deepEqual(
+    catalog.documents.find((entry) => entry.id === "execution-policy"),
+    {
+      id: "execution-policy",
+      path: EXECUTION_POLICY_RELATIVE_PATH,
+      schema: "execution-policy.schema.json",
       required: true,
       ownership: "project"
     }
@@ -276,12 +301,56 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
   assert.equal(portfolio.summary.unknown, 1);
   await fs.mkdir(path.dirname(portfolioPath), { recursive: true });
   await fs.writeFile(portfolioPath, `${JSON.stringify(portfolio, null, 2)}\n`);
+  const executionRequestPath = ".ai-org/evaluations/execution/request.json";
+  const executionRequest = {
+    schema_version: "temple.execution-request/v1",
+    work_item_id: "WI-FRESH-0001",
+    steps: [
+      {
+        step_id: "implementation",
+        task_shape: {
+          position_id: "developer",
+          lifecycle_stage: "build",
+          task_kind: "implementation",
+          risk_class: "standard",
+          context_profile_digest: "sha256:fixture"
+        },
+        capability_route: { required: ["text.reasoning", "code.change"], optional: [] },
+        constraints: {
+          required_modalities: ["text"],
+          allowed_provider_ids: [],
+          data_class: "internal",
+          execution_boundary: "local",
+          resource_limits: [
+            { measure_id: "tokens.total", maximum: 5000, unknown_handling: "allow" }
+          ]
+        },
+        selection: { mode: "advisory" },
+        resource_observations: []
+      }
+    ]
+  };
+  await fs.mkdir(path.join(target, path.dirname(executionRequestPath)), { recursive: true });
+  await fs.writeFile(path.join(target, executionRequestPath), `${JSON.stringify(executionRequest, null, 2)}\n`);
   const validSchemas = await validateProjectSchemas(target);
   assert.equal(validSchemas.valid, true, JSON.stringify(validSchemas.errors, null, 2));
   assert.ok(validSchemas.checked.some((entry) => entry.document === FEDERATION_REGISTRY_RELATIVE_PATH && entry.valid));
   assert.ok(validSchemas.checked.some((entry) => entry.document === ".ai-org/views/portfolio.json" && entry.valid));
   assert.ok(validSchemas.checked.some((entry) => entry.document === ".ai-org/project/validation-program.json" && entry.valid));
   assert.ok(validSchemas.checked.some((entry) => entry.document === USAGE_POLICY_RELATIVE_PATH && entry.valid));
+  assert.ok(validSchemas.checked.some((entry) => entry.document === executionRequestPath && entry.valid));
+
+  executionRequest.steps[0].constraints.resource_limits[0].measure_id = "missing.measure";
+  await fs.writeFile(path.join(target, executionRequestPath), `${JSON.stringify(executionRequest, null, 2)}\n`);
+  const rejectedExecutionRequest = await validateProjectSchemas(target);
+  assert.equal(rejectedExecutionRequest.valid, false);
+  assert.ok(
+    rejectedExecutionRequest.errors.some(
+      (entry) => entry.document === executionRequestPath && entry.keyword === "semantic"
+    )
+  );
+  executionRequest.steps[0].constraints.resource_limits[0].measure_id = "tokens.total";
+  await fs.writeFile(path.join(target, executionRequestPath), `${JSON.stringify(executionRequest, null, 2)}\n`);
 
   usagePolicy.seed_policy.rules[0].profile_id = "missing-profile";
   await fs.writeFile(path.join(target, USAGE_POLICY_RELATIVE_PATH), `${JSON.stringify(usagePolicy, null, 2)}\n`);
@@ -324,22 +393,26 @@ test("upgrade creates a missing federation registry without adopting it as manag
   await markAsOlderInstallation(target);
   await fs.unlink(path.join(target, FEDERATION_REGISTRY_RELATIVE_PATH));
   await fs.unlink(path.join(target, USAGE_POLICY_RELATIVE_PATH));
+  await fs.unlink(path.join(target, EXECUTION_POLICY_RELATIVE_PATH));
 
   const plan = await planUpgrade(target);
   assert.deepEqual(plan.conflicts, []);
   assert.ok(plan.actions.some((entry) => entry.type === "create-federation-registry"));
   assert.ok(plan.actions.some((entry) => entry.type === "create-usage-policy"));
+  assert.ok(plan.actions.some((entry) => entry.type === "create-execution-policy"));
   const lock = await executeUpgrade(plan);
 
   assert.equal(lock.template.version, releaseVersion);
   for (const capability of phase4Capabilities) assert.equal(lock.capabilities[capability], true, capability);
   assert.equal(lock.managed_files.some((entry) => entry.path === FEDERATION_REGISTRY_RELATIVE_PATH), false);
   assert.equal(lock.managed_files.some((entry) => entry.path === USAGE_POLICY_RELATIVE_PATH), false);
+  assert.equal(lock.managed_files.some((entry) => entry.path === EXECUTION_POLICY_RELATIVE_PATH), false);
   assert.deepEqual(validateFederationRegistry(await readJson(path.join(target, FEDERATION_REGISTRY_RELATIVE_PATH))), {
     valid: true,
     errors: []
   });
   assert.deepEqual(await readJson(path.join(target, USAGE_POLICY_RELATIVE_PATH)), defaultUsagePolicy());
+  assert.deepEqual(await readJson(path.join(target, EXECUTION_POLICY_RELATIVE_PATH)), defaultExecutionPolicy());
 });
 
 test("upgrade preserves an existing federation registry byte for byte", async (testContext) => {
@@ -367,15 +440,23 @@ test("upgrade preserves an existing federation registry byte for byte", async (t
   assert.deepEqual(validateUsagePolicy(customUsagePolicy), { valid: true, errors: [] });
   const usagePolicyBytes = `${JSON.stringify(customUsagePolicy)}\n\n`;
   await fs.writeFile(usagePolicyPath, usagePolicyBytes);
+  const executionPolicyPath = path.join(target, EXECUTION_POLICY_RELATIVE_PATH);
+  const customExecutionPolicy = defaultExecutionPolicy();
+  customExecutionPolicy.authority.default_selection_mode = "shadow";
+  const executionPolicyBytes = `${JSON.stringify(customExecutionPolicy)}\n\n`;
+  await fs.writeFile(executionPolicyPath, executionPolicyBytes);
 
   const plan = await planUpgrade(target);
   assert.deepEqual(plan.conflicts, []);
   assert.ok(plan.actions.some((entry) => entry.type === "skip-federation-registry"));
   assert.ok(plan.actions.some((entry) => entry.type === "skip-usage-policy"));
+  assert.ok(plan.actions.some((entry) => entry.type === "skip-execution-policy"));
   const lock = await executeUpgrade(plan);
 
   assert.equal(await fs.readFile(registryPath, "utf8"), projectOwnedBytes);
   assert.equal(await fs.readFile(usagePolicyPath, "utf8"), usagePolicyBytes);
+  assert.equal(await fs.readFile(executionPolicyPath, "utf8"), executionPolicyBytes);
   assert.equal(lock.managed_files.some((entry) => entry.path === FEDERATION_REGISTRY_RELATIVE_PATH), false);
   assert.equal(lock.managed_files.some((entry) => entry.path === USAGE_POLICY_RELATIVE_PATH), false);
+  assert.equal(lock.managed_files.some((entry) => entry.path === EXECUTION_POLICY_RELATIVE_PATH), false);
 });

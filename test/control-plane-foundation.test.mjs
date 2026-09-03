@@ -646,6 +646,11 @@ test("Codex history bounds are validated and Temple Workspace exposes terminal w
   assert.match(html, /#view-now \.attention-more\{grid-column:1\/-1/);
   assert.match(html, /Technical details/);
   assert.match(html, /Effective workspace configuration/);
+  assert.match(html, /Execution routing/);
+  assert.match(html, /Per-step capability and execution policy/);
+  assert.match(html, /human or coordinator applies/);
+  assert.match(html, /Resolution is read only and does not contact a Provider/);
+  assert.match(html, /Model calibration/);
   assert.match(html, /data-system-mode="configuration"/);
   assert.match(html, /This measures captured project work, not your whole account/);
   assert.match(html, /The capture status below explains whether new work can be observed now/);

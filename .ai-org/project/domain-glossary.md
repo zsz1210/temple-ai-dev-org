@@ -217,10 +217,94 @@ Project-owned vocabulary for product decisions, implementation, tests, and hando
 - Definition: Applying a qualified project profile to a task without a new per-task model choice, inside a separately implemented and authorized executor.
 - Examples: A future allowlisted low-risk mechanical task receiving a calibrated profile with a tested fallback.
 - Non-examples: Displaying a shadow or advisory recommendation; routine read-only observation; a coordinator manually accepting a suggestion.
-- Invariants: A recommendation never proves the executor exists or grants execution authority; WI-0083 keeps routing execution not implemented.
+- Invariants: A recommendation never proves the executor exists or grants execution authority; ADR-0046 adds a read-only resolver while keeping routing execution unimplemented.
 - Owner or authoritative source: Usage Policy autonomy boundary and DEC-0006.
 - Related terms: Advisory recommendation; Autonomy Envelope; model switch.
 - Last confirmed: 2026-09-01
+
+## Task Shape
+
+- Status: confirmed
+- Bounded context: Adaptive execution routing
+- Definition: Structured characteristics of one execution step: Position, lifecycle stage, task kind, risk class, and Context Profile digest.
+- Examples: A Tech Lead design step for high-risk security architecture; a Developer low-risk mechanical edit.
+- Non-examples: Agent display name, Work Item title, free-form prompt, or fixed Position-to-model mapping.
+- Invariants: Routing matches declared fields; it does not infer task shape from prose. Matched calibration requires the stronger Exact task shape identity.
+- Owner or authoritative source: Execution Policy, execution-request schema, and ADR-0046.
+- Related terms: Exact task shape; Execution Step; Capability Route.
+- Last confirmed: 2026-09-03
+
+## Capability Route
+
+- Status: confirmed
+- Bounded context: Adaptive execution routing
+- Definition: The required and optional capability IDs plus modalities declared for one Execution Step.
+- Examples: `text.reasoning` plus `architecture.design`; project-owned `content.storyboard` plus `media.video.render`.
+- Non-examples: A Position Membership, Skill installation, Provider permission, or proof that a tool was invoked.
+- Invariants: Missing required capabilities reject a profile; missing optional capabilities stay visible without blocking; routing never expands authority.
+- Owner or authoritative source: Execution Policy, execution-request schema, and ADR-0046.
+- Related terms: Capability Registry; Skill; Execution Profile.
+- Last confirmed: 2026-09-03
+
+## Execution Profile
+
+- Status: confirmed
+- Bounded context: Adaptive execution routing
+- Definition: A project-owned candidate configuration declaring model and reasoning classes, optional concrete Provider mapping, capabilities, modalities, data and execution boundaries, supported risk, and resource estimates.
+- Examples: A Provider-neutral balanced profile; a project-mapped GPT-5.6 profile; a local media-rendering profile.
+- Non-examples: Position, Agent Identity, universal best-model claim, task launch, or Provider acknowledgement.
+- Invariants: Provider, model, and reasoning mapping is either complete or entirely unknown; eligibility is checked before preference.
+- Owner or authoritative source: `.ai-org/project/execution-policy.json` and ADR-0046.
+- Related terms: Execution Route; Model Calibration; Task Shape.
+- Last confirmed: 2026-09-03
+
+## Execution Step
+
+- Status: confirmed
+- Bounded context: Adaptive execution routing inside a Work Item
+- Definition: One independently routable unit with its own Task Shape, Capability Route, constraints, selection mode, and resource observations.
+- Examples: Design, implementation, and evaluation steps inside one feature Work Item.
+- Non-examples: A new Work Item lifecycle, Codex task, Agent identity, or lifecycle transition.
+- Invariants: Several steps may resolve different profiles without changing Work Item scope or authority.
+- Owner or authoritative source: Execution-request schema and ADR-0046.
+- Related terms: Work Item; Task Shape; Execution Route.
+- Last confirmed: 2026-09-03
+
+## Execution Route
+
+- Status: confirmed
+- Bounded context: Adaptive execution routing result
+- Definition: The deterministic per-step result containing eligibility, rejection reasons, rule and fallback details, selected profile, and requested execution settings.
+- Examples: An advisory route to `critical-planning`; an unresolved pinned route whose profile fails the risk constraint.
+- Non-examples: Provider contact, task creation, model switch, effective-model evidence, or lifecycle authority.
+- Invariants: Every current result records automatic execution, Provider contact, and mutation as false; requested and effective fields remain separate.
+- Owner or authoritative source: Execution-route schema, resolver, and ADR-0046.
+- Related terms: Execution Profile; Requested model; effective model.
+- Last confirmed: 2026-09-03
+
+## Resource Observation
+
+- Status: confirmed
+- Bounded context: Execution routing and operational analysis
+- Definition: A typed numeric observation with measure ID, unit defined by policy, source, and evidence quality, or an explicit unavailable value.
+- Examples: Provider-reported total Tokens; measured latency; local GPU seconds; human editing minutes; unavailable Credits.
+- Non-examples: A guessed cost, missing data recorded as zero, or a quality claim without its rubric.
+- Invariants: Unavailable values are `null`; project measures have stable IDs, units, and aggregation rules; observations do not grant routing authority.
+- Owner or authoritative source: Execution Policy, execution-request schema, and ADR-0046.
+- Related terms: Usage observation; Model Calibration; Execution Profile.
+- Last confirmed: 2026-09-03
+
+## Model Calibration
+
+- Status: confirmed
+- Bounded context: Project-local execution-profile preference
+- Definition: Matched quality and resource evidence used to evaluate or revise which profile a project prefers for one Exact task shape.
+- Examples: Two profiles pass the same quality gate on identical cases before Token and latency comparison.
+- Non-examples: Natural-work Token totals alone, Position-to-model assignment, or permission to launch a model.
+- Invariants: Calibration and route resolution remain separate; a recommendation has no automatic execution authority.
+- Owner or authoritative source: Usage Policy, matched-evaluation schema, ADR-0034, and ADR-0046.
+- Related terms: Matched evaluation; Execution Profile; Advisory recommendation.
+- Last confirmed: 2026-09-03
 
 ## Unresolved terminology
 

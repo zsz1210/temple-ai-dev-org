@@ -43,6 +43,21 @@ Development Skills are a separate layer from Temple's organization lifecycle. A 
 
 These packs are not role replacements. A Developer can invoke a build-quality Skill while a separately assigned Quality or Independent QA identity evaluates its evidence. Packs change reusable development procedure; Position assignment determines responsibility and approval boundaries.
 
+## Capability discovery and execution routing
+
+The Capability Registry answers what reusable methods are available in the repository. An Execution Policy may also declare model, service, tool, or modality capabilities that are not Skills. An Execution Step names the required and optional capability IDs for that one step; the deterministic resolver then removes profiles that cannot satisfy the required route.
+
+These mechanisms remain separate:
+
+| Mechanism | Purpose | Authority it does not gain |
+|---|---|---|
+| Position or Position Membership | Responsibility and eligibility | No automatic model, tool, or Skill choice |
+| Skill discovery | Find a repository procedure likely to help | No permission to invoke external services or mutate state |
+| Capability Route | State what one execution step requires or would benefit from | No installation, assignment, or execution authority |
+| Execution Profile | Declare one candidate's capabilities and boundaries | No proof that it is best or was actually used |
+
+Project extensions can add namespaced capability IDs and profiles without modifying the core Position catalog. Promoting a reusable procedure into a Skill still follows the separate provenance, trigger, ownership, and validation rules in [Skill authoring](skill-authoring.md). See [Adaptive execution routing](../concepts/adaptive-execution-routing.md) for the complete relationship.
+
 ## Distribution and extension classes
 
 Capabilities and their origins are separate concerns:
@@ -54,7 +69,7 @@ Capabilities and their origins are separate concerns:
 | Project extension | Created locally | Product repository | A domain- or stack-specific repeated procedure |
 | Third-party extension | Selected locally | Product repository until a dedicated lifecycle exists | A separately reviewed external Skill |
 
-An initialized repository can create collision-free project Skills under `.agents/skills/<name>/`. It must not edit `temple.lock` to claim them as managed. The generated Capability Registry observes these extensions without taking ownership, and `temple capability find` can route to them by repository evidence. The current alpha still has no Skill mutation command, custom-pack publisher, generic dependency resolver, automated model-routing evaluator, or third-party Skill updater. Official Pack v2 dependencies and one isolated Archify adapter are narrower implemented contracts; see [Extending a project with Skills](skill-authoring.md), [Extension and migration contracts](extension-and-migrations.md), and [Progressive context routing](context-routing.md).
+An initialized repository can create collision-free project Skills under `.agents/skills/<name>/`. It must not edit `temple.lock` to claim them as managed. The generated Capability Registry observes these extensions without taking ownership, and `temple capability find` can route to them by repository evidence. The current alpha still has no Skill mutation command, custom-pack publisher, generic dependency resolver, automatic execution router, or third-party Skill updater. It does include a read-only deterministic execution-route resolver; that resolver does not invoke a discovered Skill or Provider. Official Pack v2 dependencies and one isolated Archify adapter are narrower implemented contracts; see [Extending a project with Skills](skill-authoring.md), [Extension and migration contracts](extension-and-migrations.md), and [Progressive context routing](context-routing.md).
 
 ## Adoption gate
 

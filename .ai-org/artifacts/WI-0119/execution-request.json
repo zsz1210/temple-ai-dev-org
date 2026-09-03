@@ -1,0 +1,78 @@
+{
+  "schema_version": "temple.execution-request/v1",
+  "work_item_id": "WI-0119",
+  "steps": [
+    {
+      "step_id": "design-routing-contract",
+      "responsibility": "tech_lead",
+      "task_shape": {
+        "position_id": "tech_lead",
+        "lifecycle_stage": "design",
+        "task_kind": "architecture",
+        "risk_class": "high",
+        "context_profile_digest": "wi-0119:technical-design"
+      },
+      "capability_route": {
+        "required": ["text.reasoning", "architecture.design"],
+        "optional": ["documentation.author"]
+      },
+      "constraints": {
+        "required_modalities": ["text"],
+        "allowed_provider_ids": ["openai-codex"],
+        "data_class": "internal",
+        "execution_boundary": "approved-provider",
+        "resource_limits": []
+      },
+      "selection": { "mode": "advisory" },
+      "resource_observations": []
+    },
+    {
+      "step_id": "implement-routing-foundation",
+      "responsibility": "developer",
+      "task_shape": {
+        "position_id": "developer",
+        "lifecycle_stage": "build",
+        "task_kind": "implementation",
+        "risk_class": "standard",
+        "context_profile_digest": "wi-0119:implementation"
+      },
+      "capability_route": {
+        "required": ["text.reasoning", "code.change"],
+        "optional": ["documentation.author"]
+      },
+      "constraints": {
+        "required_modalities": ["text"],
+        "allowed_provider_ids": ["openai-codex"],
+        "data_class": "internal",
+        "execution_boundary": "approved-provider",
+        "resource_limits": []
+      },
+      "selection": { "mode": "advisory" },
+      "resource_observations": []
+    },
+    {
+      "step_id": "independent-route-review",
+      "responsibility": "independent_qa",
+      "task_shape": {
+        "position_id": "independent_qa",
+        "lifecycle_stage": "independent_qa",
+        "task_kind": "independent-qa",
+        "risk_class": "high",
+        "context_profile_digest": "wi-0119:independent-qa"
+      },
+      "capability_route": {
+        "required": ["text.reasoning", "quality.evaluate"],
+        "optional": []
+      },
+      "constraints": {
+        "required_modalities": ["text"],
+        "allowed_provider_ids": ["openai-codex"],
+        "data_class": "internal",
+        "execution_boundary": "approved-provider",
+        "resource_limits": []
+      },
+      "selection": { "mode": "advisory" },
+      "resource_observations": []
+    }
+  ]
+}

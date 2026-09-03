@@ -11,12 +11,12 @@
       "launcher": "templew.mjs",
       "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.29",
       "repository_spec": null,
-      "source_revision": "d28830760f9e9eb87bee75cd6e0304fcfa29d8e4",
+      "source_revision": "0af14cbd13bdd9d6e6e9020babd3ef6a6b765fef",
       "source_clean": false,
       "invocation": "node ./templew.mjs <command> ."
     },
     "installed_at": "2026-08-30T02:28:18.355Z",
-    "upgraded_at": "2026-09-03T00:17:32.833Z",
+    "upgraded_at": "2026-09-03T02:13:18.832Z",
     "upgraded_from": "0.1.0-alpha.29"
   },
   "installation": {
@@ -266,6 +266,18 @@
       "sha256": "e8d9b9505cda1d5398ff80ea616b9551ffd6407bffd3e1aad4330f64966a4890"
     },
     {
+      "path": ".ai-org/core/schemas/execution-policy.schema.json",
+      "sha256": "e33e185a698d77ac430c63e9b78c4346f59202fe6f6109a3c221aa499eab7c2e"
+    },
+    {
+      "path": ".ai-org/core/schemas/execution-request.schema.json",
+      "sha256": "59fa91ccb37754947b5956ef3d33aea0ada8da3992a2690ed28ab10d1379ce87"
+    },
+    {
+      "path": ".ai-org/core/schemas/execution-route.schema.json",
+      "sha256": "f945bdefd717a224833046447ba5d79bcf5c5afe269a7b2620bcf586261d3234"
+    },
+    {
       "path": ".ai-org/core/schemas/federated-portfolio.schema.json",
       "sha256": "88f57b061349e05a6fcef30eb0336d4b9e7c881ed862ce4c1ba52d5a993069ca"
     },
@@ -327,7 +339,7 @@
     },
     {
       "path": ".ai-org/core/schemas/schema-catalog.json",
-      "sha256": "48ca2a0225b605de47dcdb07a6ff5b350f39a8d7ec8a6b73f93e85e14c8596ea"
+      "sha256": "7e8c0f4548a97e0d43dcb1fe034bd706b203a3a0bd7260f2d82f7efb03f16321"
     },
     {
       "path": ".ai-org/core/schemas/spec-index.schema.json",

@@ -12,6 +12,7 @@ import {
   sponsorshipStatus
 } from "./collaboration.mjs";
 import { lifecycleProjection } from "./workflow.mjs";
+import { executionPolicyProjection, readExecutionPolicy } from "./execution-routing.mjs";
 
 export const OBSERVER_SCHEMA = "temple.observer/v1";
 export const ORGANIZATION_VIEW_SCHEMA = "temple.organization-view/v1";
@@ -237,7 +238,7 @@ function buildOrganizationProjection({ agentsDocument, assignmentsDocument, posi
 }
 
 export async function buildObserverProjection(target) {
-  const [project, agentsDocument, assignmentsDocument, positionsDocument, workflow, collaboration, workItems, workersDocument, evidenceRegistry, events, learning, learningValidation] = await Promise.all([
+  const [project, agentsDocument, assignmentsDocument, positionsDocument, workflow, collaboration, workItems, workersDocument, evidenceRegistry, events, learning, learningValidation, executionPolicyState] = await Promise.all([
     readJson(path.join(target, ".ai-org/project/project.json")),
     readJson(path.join(target, ".ai-org/project/agents.json")),
     readJson(path.join(target, ".ai-org/project/assignments.json")),
@@ -249,7 +250,8 @@ export async function buildObserverProjection(target) {
     readEvidenceRegistry(target),
     readEvents(target),
     listLearningEntries(target),
-    validateLearningRepository(target)
+    validateLearningRepository(target),
+    readExecutionPolicy(target)
   ]);
   const revisions = new Map(workItems.map((item) => [item.id, resolveCurrentRevision(target, item)]));
   const skillProposals = new Map((learningValidation.proposals ?? []).map((proposal) => [proposal.id, proposal]));
@@ -346,6 +348,7 @@ export async function buildObserverProjection(target) {
     generated_at: new Date().toISOString(),
     project: { id: project.id, name: project.name },
     organization,
+    execution_routing: executionPolicyProjection(executionPolicyState.policy, executionPolicyState.source),
     work: { total: work.length, categories, items: work },
     evidence: {
       total: evidence.length,

@@ -257,6 +257,18 @@ test("the Console snapshot omits duplicate evidence and Provider task history", 
       schema_version: "temple.observer/v1",
       project: { id: "compact-product", name: "Compact Product" },
       organization: { profile: "solo", agents: [] },
+      execution_routing: {
+        schema_version: "temple.execution-policy/v1",
+        source: "project",
+        selection_mode: "advisory",
+        automatic_execution: false,
+        provider_contact: false,
+        profiles: 4,
+        mapped_profiles: 3,
+        capabilities: 5,
+        resource_measures: 10,
+        fallback_profile_id: "standard"
+      },
       evidence: { total: 1, items: [{ body: retainedProviderHistory }] },
       work: { total: 1, items: [{ id: "WI-0001" }] },
       timeline: [{ name: "duplicate-canonical-event" }]
@@ -301,6 +313,7 @@ test("the Console snapshot omits duplicate evidence and Provider task history", 
   const safe = managementConsoleSnapshot(snapshot);
 
   assert.deepEqual(safe.observer.organization, snapshot.observer.organization);
+  assert.deepEqual(safe.observer.execution_routing, snapshot.observer.execution_routing);
   assert.equal(Object.hasOwn(safe.observer, "evidence"), false);
   assert.equal(Object.hasOwn(safe.observer, "work"), false);
   assert.equal(Object.hasOwn(safe.live_observer.tasks, "items"), false);

@@ -17,6 +17,7 @@ flowchart LR
     B[Observer<br/>generated local state]
     U[Usage and health<br/>projections]
     L[Learning and retrieval<br/>bounded context]
+    A[Adaptive execution routing<br/>per-step and non-executing]
     E[External trackers and providers<br/>observations only]
 
     H -->|reviews| W
@@ -32,9 +33,12 @@ flowchart LR
     U --> W
     R --> L
     L -->|routed context| O
+    O -->|Task Shape| A
+    L -->|capability evidence| A
+    A -.->|requested settings only| X
 ```
 
-Solid arrows show governed project flow. The dotted arrow is deliberately weaker: an external tracker or provider may contribute an observation, but it cannot complete a Work Item, satisfy QA, or grant release authority. Temple Workspace reads generated projections; canonical changes still pass through the local CLI and repository evidence.
+Solid arrows show governed project flow. Dotted arrows are deliberately weaker: an external tracker or Provider may contribute an observation, and the routing layer may describe requested execution settings, but neither completes a Work Item, satisfies QA, grants release authority, or launches work. Temple Workspace reads generated projections; canonical changes still pass through the local CLI and repository evidence.
 
 ## Identity and collaboration model
 
@@ -105,6 +109,7 @@ The framework uses Git-friendly JSON and Markdown:
 - `tracker.json`: selected external-planning profile, provider identities, mapping granularity, field ownership, and read/write policy. It contains no credentials.
 - `context-map.json`: compact project-owned routes to important Specs, ADRs, domain sources, runbooks, tests, and documentation; it contains paths and retrieval metadata, not copied source bodies.
 - `retrieval.json`: selected deterministic provider and the unconfigured local-hybrid privacy and fallback boundary.
+- `execution-policy.json`: project-owned capabilities, execution profiles, policy constraints, preference rules, typed resource measures, and the non-executing authority boundary.
 - `evidence.json`: normalized exact-revision and content-addressed evidence entries.
 - `learning/index.json`: compact retrieval metadata for Lessons and Practices.
 - `learning/lessons/*.md` and `learning/practices/*.md`: full project evidence, applicability, guidance, and validation history.
@@ -121,8 +126,17 @@ The framework uses Git-friendly JSON and Markdown:
 - `views/retrieval-evaluation.json`: an optional generated retrieval-quality report.
 - `views/policy-evaluation.json`: an optional generated scorecard derived from a project-owned adversarial observation fixture; it has no lifecycle authority.
 - `views/usage-baseline.json`: an optional generated provider-usage aggregation; unavailable dimensions, Token counts, and monetary cost remain unknown rather than being inferred.
+- `views/execution-routes/*.json`: optional generated route projections validated against the managed schema; route resolution itself writes nothing and never launches a Provider.
 
 Conversations can recover context from these files; conversations themselves cannot override them.
+
+Project-owned execution requests may be retained below `.ai-org/evaluations/execution/*.json` when a team needs reviewable route fixtures. A request describes one or more steps inside a Work Item; it is not another Work Item registry.
+
+## Adaptive execution routing
+
+Temple resolves execution configuration after responsibility and scope are known. Position answers who owns the work. Task Shape and Capability Route describe what one step needs. The project Execution Policy then removes profiles that fail capability, modality, Provider, data, execution-boundary, risk, or resource constraints before applying explicit preference.
+
+The resolver returns requested settings and rejection reasons. Effective Provider, model, and reasoning values remain unobserved until a separate execution boundary supplies evidence. The current layer supports only pinned, shadow, and advisory selection; it has no automatic executor. See [Adaptive execution routing](adaptive-execution-routing.md), [Execution routing operations](../operations/execution-routing.md), and [ADR-0046](../adr/0046-separate-adaptive-execution-routing.md).
 
 ## Product specification and authority
 

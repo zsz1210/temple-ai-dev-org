@@ -1,0 +1,334 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0119",
+  "title": "Establish adaptive execution routing foundation",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-03T02:03:29.794Z",
+  "updated_at": "2026-09-03T03:02:00.338Z",
+  "scope": [
+    "Define versioned, provider-neutral boundaries for Task Shape, Capability Route, Execution Profile, Execution Step, Execution Route, resource observations, and calibration.",
+    "Implement deterministic read-only route resolution with hard capability and policy filtering before objective-based selection; retain pinned, shadow, and advisory modes only.",
+    "Prove extensibility with a non-software content-production fixture and expose explainable read-only route projections without starting tasks or contacting providers."
+  ],
+  "acceptance_criteria": [
+    "Position authority, Capability Route, and Execution Route are separately represented and documented; model selection is never hard-coded to an Agent Identity or Position.",
+    "One Work Item can resolve multiple Execution Steps independently, with explicit requested and effective provider/model/reasoning fields and fail-closed reasons.",
+    "Resolver results are deterministic, schema validated, explain the eligible and rejected candidates, and never call a provider, mutate policy, or execute an automatic route.",
+    "Resource observations support Tokens plus extensible typed measures such as image count, video duration, audio duration, latency, retries, Credits, GPU time, and human editing time without pretending missing values are zero.",
+    "A project-owned custom content-production capability and Position-like responsibility fixture resolves without changing the framework core Position catalog.",
+    "Focused regressions cover unsupported capability, privacy and provider constraints, quoted command-like inputs, reactive-budget failures, step-specific routes, and fallback behavior; full repository verification passes."
+  ],
+  "affected_paths": [
+    "src/execution-routing.mjs",
+    "src/cli.mjs",
+    "src/schema-validation.mjs",
+    "src/install.mjs",
+    "src/upgrade.mjs",
+    "src/status.mjs",
+    "src/observer.mjs",
+    "src/control-plane-dashboard.mjs",
+    "src/management-console-server.mjs",
+    "project-overlay/.ai-org/core/schemas/execution-policy.schema.json",
+    "project-overlay/.ai-org/core/schemas/execution-request.schema.json",
+    "project-overlay/.ai-org/core/schemas/execution-route.schema.json",
+    "project-overlay/.ai-org/core/schemas/schema-catalog.json",
+    "project-overlay/.ai-org/project/execution-policy.json",
+    ".ai-org/core/schemas/execution-policy.schema.json",
+    ".ai-org/core/schemas/execution-request.schema.json",
+    ".ai-org/core/schemas/execution-route.schema.json",
+    ".ai-org/core/schemas/schema-catalog.json",
+    "test/execution-routing.test.mjs",
+    "test/phase4-installation.test.mjs",
+    "test/control-plane-live.test.mjs",
+    "test/control-plane-foundation.test.mjs",
+    "test/optional-console-collector.test.mjs",
+    "test/fixtures/execution-routing/content-production.json",
+    "docs/README.md",
+    "docs/concepts/adaptive-execution-routing.md",
+    "docs/concepts/terminology.md",
+    "docs/concepts/architecture.md",
+    "docs/concepts/vision.md",
+    "docs/operations/execution-routing.md",
+    "docs/operations/token-efficiency-and-model-routing.md",
+    "docs/extensions/capability-catalog.md",
+    "docs/adr/0046-adaptive-execution-routing.md",
+    "docs/adr/README.md",
+    ".ai-org/project/domain-glossary.md",
+    ".ai-org/project/execution-policy.json",
+    ".ai-org/artifacts/WI-0119",
+    "temple.lock"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "code-first",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "cross-system",
+    "escalation_triggers": [
+      "schema-or-data-migration"
+    ],
+    "rationale": "This changes versioned routing contracts, CLI behavior, installation defaults, and human-facing read-only projections; the Standard workflow preserves design, evaluation, and independent QA without invoking High-Assurance external-action gates.",
+    "evidence_refs": [
+      ".ai-org/decisions/DEC-0006-matched-model-advisory-before-automatic-routing.md"
+    ],
+    "evaluated_at": "2026-09-03T02:03:29.794Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "cfa12af59f28159cd7f3c55989b984a03c817e7f",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0033 retains provider trust and executable-origin authority; WI-0119 defines only provider-neutral routing eligibility and emits no provider call.",
+    "WI-0086 remains blocked and owns public-release qualification; WI-0119 may update reusable architecture and tests but performs no public release action."
+  ],
+  "claim": {
+    "id": "claim-20260903030109-56cfc14d",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "cfa12af59f28159cd7f3c55989b984a03c817e7f",
+    "branch": "codex/wi-0119-adaptive-execution-routing",
+    "worktree": null,
+    "claimed_at": "2026-09-03T03:01:09.366Z",
+    "released_at": "2026-09-03T03:02:00.338Z",
+    "release_reason": "work_item_closed"
+  },
+  "claims": [
+    {
+      "id": "claim-20260903020401-b2e427a2",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "0af14cbd13bdd9d6e6e9020babd3ef6a6b765fef",
+      "branch": "codex/wi-0119-adaptive-execution-routing",
+      "worktree": null,
+      "claimed_at": "2026-09-03T02:04:01.037Z",
+      "released_at": "2026-09-03T02:05:53.951Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903020554-ef580697",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "0af14cbd13bdd9d6e6e9020babd3ef6a6b765fef",
+      "branch": "codex/wi-0119-adaptive-execution-routing",
+      "worktree": null,
+      "claimed_at": "2026-09-03T02:05:54.196Z",
+      "released_at": "2026-09-03T02:05:54.667Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903020554-a5c94e0b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "0af14cbd13bdd9d6e6e9020babd3ef6a6b765fef",
+      "branch": "codex/wi-0119-adaptive-execution-routing",
+      "worktree": null,
+      "claimed_at": "2026-09-03T02:05:54.911Z",
+      "released_at": "2026-09-03T02:05:55.563Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903020555-94a5d59f",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "0af14cbd13bdd9d6e6e9020babd3ef6a6b765fef",
+      "branch": "codex/wi-0119-adaptive-execution-routing",
+      "worktree": null,
+      "claimed_at": "2026-09-03T02:05:55.867Z",
+      "released_at": "2026-09-03T02:36:11.919Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903023625-6de06f90",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "d5862757d29d77ef77d2d833350aa20ddd62a4f4",
+      "branch": "codex/wi-0119-adaptive-execution-routing",
+      "worktree": null,
+      "claimed_at": "2026-09-03T02:36:25.235Z",
+      "released_at": "2026-09-03T02:37:32.133Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903023739-67fe0669",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "d5862757d29d77ef77d2d833350aa20ddd62a4f4",
+      "branch": "codex/wi-0119-adaptive-execution-routing",
+      "worktree": null,
+      "claimed_at": "2026-09-03T02:37:39.001Z",
+      "released_at": "2026-09-03T03:01:01.904Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903030109-56cfc14d",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "cfa12af59f28159cd7f3c55989b984a03c817e7f",
+      "branch": "codex/wi-0119-adaptive-execution-routing",
+      "worktree": null,
+      "claimed_at": "2026-09-03T03:01:09.366Z",
+      "released_at": "2026-09-03T03:02:00.338Z",
+      "release_reason": "work_item_closed"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0119/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0119/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0119/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0119/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0119/risk-review.md"
+    ],
+    "ui_brief": [
+      ".ai-org/artifacts/WI-0119/ui-design-brief.md"
+    ],
+    "required_state_coverage": [
+      ".ai-org/artifacts/WI-0119/ui-design-brief.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0119/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0119/developer-report.md",
+      ".ai-org/artifacts/WI-0119/developer-test-observation.json",
+      ".ai-org/artifacts/WI-0119/runtime-observation.json"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0119/quality-test-observation.json"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0119/quality-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0119/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0119/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0119/independent-qa-report.md"
+    ],
+    "runtime_visual_review": [
+      ".ai-org/artifacts/WI-0119/developer-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0119/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0119/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0119/work-order.md",
+    ".ai-org/artifacts/WI-0119/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0119/approved-scope.md",
+    ".ai-org/artifacts/WI-0119/product-spec.md",
+    ".ai-org/artifacts/WI-0119/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0119/technical-design.md",
+    ".ai-org/artifacts/WI-0119/risk-review.md",
+    ".ai-org/artifacts/WI-0119/ui-design-brief.md",
+    ".ai-org/artifacts/WI-0119/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0119/developer-report.md",
+    ".ai-org/artifacts/WI-0119/developer-test-observation.json",
+    ".ai-org/artifacts/WI-0119/runtime-observation.json",
+    ".ai-org/artifacts/WI-0119/quality-test-observation.json",
+    ".ai-org/artifacts/WI-0119/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0119/quality-report.md",
+    ".ai-org/artifacts/WI-0119/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0119/independent-qa-test-observation.json",
+    ".ai-org/artifacts/WI-0119/independent-qa-report.md",
+    "EVID-20260903T030053Z-9F32D96A",
+    ".ai-org/artifacts/WI-0119/release-record.md",
+    ".ai-org/artifacts/WI-0119/rollback-plan.md",
+    "EVID-20260903T030131Z-0AAF9E1C"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "0af14cbd13bdd9d6e6e9020babd3ef6a6b765fef",
+      "artifact": ".ai-org/artifacts/WI-0119/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-03T02:05:53.690Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "0af14cbd13bdd9d6e6e9020babd3ef6a6b765fef",
+      "artifact": ".ai-org/artifacts/WI-0119/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-03T02:05:54.416Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "0af14cbd13bdd9d6e6e9020babd3ef6a6b765fef",
+      "artifact": ".ai-org/artifacts/WI-0119/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-03T02:05:55.125Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "d5862757d29d77ef77d2d833350aa20ddd62a4f4",
+      "artifact": ".ai-org/artifacts/WI-0119/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-03T02:36:04.935Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "d5862757d29d77ef77d2d833350aa20ddd62a4f4",
+      "artifact": ".ai-org/artifacts/WI-0119/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-03T02:37:25.757Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "cfa12af59f28159cd7f3c55989b984a03c817e7f",
+      "artifact": ".ai-org/artifacts/WI-0119/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-03T03:01:01.652Z"
+    }
+  ],
+  "developer_candidate_revision": "d5862757d29d77ef77d2d833350aa20ddd62a4f4",
+  "tested_revision": "cfa12af59f28159cd7f3c55989b984a03c817e7f",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
+}

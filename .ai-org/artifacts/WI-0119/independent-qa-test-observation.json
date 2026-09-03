@@ -1,0 +1,18 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "cfa12af59f28159cd7f3c55989b984a03c817e7f",
+  "command": [
+    "npm",
+    "run",
+    "verify"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-03T02:58:26.254Z",
+  "completed_at": "2026-09-03T02:59:34.529Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0119/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0119/product-spec.md",
+    ".ai-org/artifacts/WI-0119/technical-design.md"
+  ]
+}
