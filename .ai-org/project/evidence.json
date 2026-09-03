@@ -21390,6 +21390,36 @@
         "dirty_scope": "clean",
         "affected_paths_dirty": []
       }
+    },
+    {
+      "id": "EVID-20260903T160816Z-18534220",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T16:08:16.874Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Representative protocol v5 preparation",
+      "outcome": "verified",
+      "scope_revision": "dc81593de086d0cc6939565a0820116d2710ebb8",
+      "observed_at": "2026-09-03T16:08:16.874Z",
+      "summary": "Preserves the exact-approved v4 partial result, records its Temple Design Token stop, retains active-stage telemetry in future stops, and freezes fresh v5 limits derived from the observed run.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "dc81593"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "dc81593",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
     }
   ]
 }
