@@ -6,6 +6,7 @@ import { atomicCreate, atomicWrite, formatJson, pathExists, readJson, sha256 } f
 import { isWorkItemId } from "./ids.mjs";
 import { appendEvent, loadProjectContext, resolveActor, uniqueStrings } from "./project.mjs";
 import { readWorkItem } from "./work-items.mjs";
+import { isLegacyConcludedItem } from "./workflow.mjs";
 
 const execFile = promisify(execFileCallback);
 
@@ -840,7 +841,7 @@ export async function inspectTrackerItem(target, options) {
 
 function templeTrackerStatus(item) {
   if (item.state === "done") return "done";
-  if (item.state === "cancelled") return "cancelled";
+  if (["concluded", "cancelled"].includes(item.state) || isLegacyConcludedItem(item)) return "cancelled";
   if (item.state === "blocked") return "blocked";
   if (["build", "test", "eval", "independent_qa", "release_gate"].includes(item.state)) return "in_progress";
   return "open";

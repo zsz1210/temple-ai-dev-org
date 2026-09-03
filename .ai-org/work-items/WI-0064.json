@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0064",
   "title": "Revalidate Provider-observed model attribution",
-  "state": "blocked",
+  "state": "concluded",
   "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-08-31T10:39:13.047Z",
-  "updated_at": "2026-08-31T10:55:46.714Z",
+  "updated_at": "2026-09-03T00:34:58.863Z",
   "scope": [
     "Run exactly one local Provider-owned Luna Max turn against the existing synthetic instrumentation pilot after a fresh installed-schema check.",
     "Require exact project, Work Item, task, Position, Agent, revision, Provider, effective-model, reasoning, terminal-outcome, and positive detailed-Token correlation before passing.",
@@ -280,5 +280,9 @@
   "release_gate_result": "no-go",
   "external_release_status": "not_performed",
   "approval_record": ".ai-org/artifacts/WI-0064/human-approval.md",
-  "previous_state": "release_gate"
+  "lifecycle_outcome": "no-go",
+  "closeout_reasons": [
+    "Effective turn reasoning is unavailable through the inspected Provider protocol, so the predeclared strict gate did not pass.",
+    "The four-repository harness and cross-repository reporting prerequisites remain incomplete."
+  ]
 }

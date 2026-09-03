@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { atomicCreate, atomicWrite, formatJson, pathExists, readJson, sha256 } from "./files.mjs";
+import { nextStateForItem } from "./workflow.mjs";
 
 export async function loadProjectContext(target) {
   const lockPath = path.join(target, "temple.lock");
@@ -104,10 +105,9 @@ export function suggestedTaskTitle(context, workItemId, positionId, workItemTitl
   return `${prefix}${goal}${suffix}`;
 }
 
-export function nextPositionForState(context, stateId) {
-  const transition = (context.workflow.transitions ?? []).find((candidate) => candidate.from === stateId);
-  if (!transition) return null;
-  return context.states.get(transition.to)?.owner_position ?? null;
+export function nextPositionForState(context, stateId, item = null) {
+  const nextState = nextStateForItem(context.workflow, item ?? { state: stateId });
+  return nextState ? context.states.get(nextState)?.owner_position ?? null : null;
 }
 
 export async function appendEvent(target, event) {

@@ -6,6 +6,7 @@ import { readJson, sha256 } from "./files.mjs";
 import { withProjectMutationLock } from "./project.mjs";
 import { registerTask, updateTask } from "./tasks.mjs";
 import { listWorkItemDocuments } from "./work-items.mjs";
+import { isLegacyConcludedItem } from "./workflow.mjs";
 import {
   PROVIDER_CAPABILITIES,
   PROVIDER_CONTRACT_SCHEMA
@@ -17,7 +18,7 @@ export const DEFAULT_CODEX_HISTORY_TURN_LIMIT = 20;
 export const DEFAULT_CODEX_HISTORY_ITEM_LIMIT = 200;
 export const CODEX_LIVE_TASK_STATUSES = ["active", "waiting", "attention"];
 export const CODEX_TERMINAL_TASK_STATUSES = ["completed", "archived"];
-export const CODEX_TERMINAL_WORK_ITEM_STATES = ["done", "cancelled"];
+export const CODEX_TERMINAL_WORK_ITEM_STATES = ["done", "concluded", "cancelled"];
 export const CODEX_AGENT_COMMAND_OPERATIONS = ["new-turn", "steer", "interrupt"];
 export const CODEX_PROVIDER_OWNED_INSTRUCTION_LIMIT = 4000;
 export const CODEX_PROVIDER_OWNED_APPROVAL_POLICIES = ["never", "onRequest", "unlessTrusted"];
@@ -271,7 +272,7 @@ function taskForThread(tasks, threadId) {
 function terminalWorkItemIds(workItems = []) {
   return new Set(
     workItems
-      .filter((item) => TERMINAL_WORK_ITEM_STATE_SET.has(item?.state))
+      .filter((item) => TERMINAL_WORK_ITEM_STATE_SET.has(item?.state) || isLegacyConcludedItem(item))
       .map((item) => item.id)
   );
 }
@@ -418,7 +419,11 @@ function optionalDimension(...values) {
 
 function usageOutcome(workItem) {
   if (!workItem) return "unknown";
+  if (workItem.lifecycle_outcome === "accepted") return "accepted";
+  if (["no-go", "inconclusive"].includes(workItem.lifecycle_outcome)) return workItem.lifecycle_outcome;
+  if (workItem.lifecycle_outcome === "cancelled") return "abandoned";
   if (workItem.state === "done") return "accepted";
+  if (workItem.state === "concluded" || isLegacyConcludedItem(workItem)) return "no-go";
   if (workItem.state === "cancelled") return "abandoned";
   if (workItem.state === "blocked") return "blocked";
   return "in-progress";
@@ -1142,7 +1147,7 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
       else if (task.thread_id !== registeredTask.thread_id) unavailableReason = "provider-thread-changed";
       else if (task.host_id !== "local") unavailableReason = "target-host-not-local";
       else if (!LIVE_TASK_STATUS_SET.has(task.status)) unavailableReason = "task-not-live";
-      else if (TERMINAL_WORK_ITEM_STATE_SET.has(item.state)) unavailableReason = "work-item-terminal";
+      else if (TERMINAL_WORK_ITEM_STATE_SET.has(item.state) || isLegacyConcludedItem(item)) unavailableReason = "work-item-terminal";
       else if (outcome?.attach_outcome !== "live-attached") unavailableReason = "provider-thread-not-live-attached";
       const operations = unavailableReason
         ? []
@@ -1306,7 +1311,7 @@ export async function startCodexAppServerProvider(target, journal, registry, opt
     const launch = providerOwnedLaunchRequest(request, target);
     await refreshWorkItems();
     const workItem = workItems.find((item) => item.id === launch.workItemId);
-    if (!workItem || TERMINAL_WORK_ITEM_STATE_SET.has(workItem.state)) {
+    if (!workItem || TERMINAL_WORK_ITEM_STATE_SET.has(workItem.state) || isLegacyConcludedItem(workItem)) {
       throw new CodexProviderOwnedLaunchError("Work Item is unavailable for launch", "work-item-not-launchable");
     }
     if (workItem.owner_position !== launch.positionId || workItem.claim?.status !== "active") {

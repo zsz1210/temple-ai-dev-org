@@ -103,7 +103,12 @@ export function assuranceForRisk(policy, riskTier) {
 export function validateWorkItemAssurance(policy, item) {
   const hasRiskTier = Object.hasOwn(item ?? {}, "risk_tier");
   const hasAssurance = Object.hasOwn(item ?? {}, "assurance");
-  if (!hasRiskTier && !hasAssurance) return { valid: true, errors: [] };
+  const workflowProfile = item?.workflow_profile ?? item?.assurance?.profile ?? null;
+  if (workflowProfile !== HIGH_ASSURANCE_PROFILE) {
+    return hasAssurance
+      ? { valid: false, errors: ["assurance is valid only for a high-assurance workflow profile"] }
+      : { valid: true, errors: [] };
+  }
   if (!hasRiskTier || !hasAssurance) return { valid: false, errors: ["risk_tier and assurance must be recorded together"] };
   let expected;
   try {

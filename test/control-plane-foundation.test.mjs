@@ -635,7 +635,7 @@ test("Codex history bounds are validated and Temple Workspace exposes terminal w
   assert.match(html, /work-detail/);
   assert.match(html, /Waiting for release decision/);
   assert.match(html, /Release review/);
-  assert.match(html, /item\.state==="release_gate"\?"Release review":workStageLabel\(item\.state\)/);
+  assert.match(html, /effectiveWorkState\(item\)==="release_gate"\?"Release review":workStageLabel\(effectiveWorkState\(item\)\)/);
   assert.match(html, /verification record/);
   assert.match(html, /Token anomaly monitoring is not configured/);
   assert.match(html, /scrollTo\(0,0\)/);

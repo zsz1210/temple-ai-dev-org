@@ -10,6 +10,7 @@ The root README explains what Temple is and why it exists. This index routes imp
 | Understand Temple terms or the `$name` methods used in prompts | [Temple terminology](concepts/terminology.md) | [Temple Core Skills](getting-started/core-skills.md), [Capability catalog](extensions/capability-catalog.md) |
 | Install or adopt Temple | [Usage guide](getting-started/usage.md) | [Enterprise document adoption](getting-started/enterprise-document-adoption.md), [Testing strategy](getting-started/testing.md) |
 | Coordinate people and AI agents | [Collaborative development](operations/collaboration.md) | [Parallel orchestration](operations/parallel-orchestration.md), [Runtime coordination](operations/runtime-coordination.md) |
+| Choose proportionate delivery controls | [Workflow profiles and outcomes](concepts/workflow-profiles.md) | [High-Assurance](operations/high-assurance.md), [ADR-0045](adr/0045-adaptive-workflow-profiles.md) |
 | Define product, UX, UI, or API behavior | [Product specifications](concepts/product-specifications.md) | [UI design modes](concepts/ui-design.md), [UI interaction contracts](concepts/ui-interaction-contracts.md) |
 | Add engineering methods or project Skills | [Capability catalog](extensions/capability-catalog.md) | [Skill authoring](extensions/skill-authoring.md), [Engineering Learning Loop](extensions/engineering-learning.md) |
 | Inspect evidence, risk, or live project state | [Evidence and Observer](operations/evidence-and-observer.md) | [Optional Management Console](operations/management-console.md), [High-Assurance](operations/high-assurance.md) |
@@ -35,6 +36,7 @@ The root README explains what Temple is and why it exists. This index routes imp
 - [Vision and operating model](concepts/vision.md) — Positions, Agent Identities, Skills, human authority, and lifecycle.
 - [Temple terminology](concepts/terminology.md) — plain-language definitions for responsibility, identity, work, evidence, profiles, learning, and repository ownership.
 - [Architecture](concepts/architecture.md) — a compact system-boundary diagram plus canonical state, ownership, mutation safety, generated views, and extension boundaries.
+- [Workflow profiles and lifecycle outcomes](concepts/workflow-profiles.md) — choose Lean, Standard, or High-Assurance and distinguish concluded work from an active blocker.
 - [Product specification system](concepts/product-specifications.md) — product truth, revisions, Feature Specs, and external authority.
 - [UI design modes](concepts/ui-design.md) — proportionate design evidence without requiring a particular vendor.
 - [UI interaction contracts](concepts/ui-interaction-contracts.md) — connect behavior, screens, implementation, APIs, and backend rules.
@@ -55,6 +57,7 @@ The root README explains what Temple is and why it exists. This index routes imp
 - [Token Efficiency and Model Routing](operations/token-efficiency-and-model-routing.md) — provider-reported usage, project-local calibration, Credits provenance, exception-only autonomy, and the boundary before automatic routing.
 - [Multi-repository federation](operations/multi-repository-federation.md) — project-owned participants, exact revisions, composite references, rollout waves, and read-only portfolio authority.
 - [Bounded validation programs](operations/validation-programs.md) — reviewed multi-repository waves, resource ceilings, durable checkpoints, write allowlists, and limitation-aware usage aggregation.
+- [Evidence-driven Lean Mode retrospective](validation/evidence-driven-lean-mode.md) — what the Wave 5 evidence supports, what it does not, and why the next experiment changes shape.
 
 ### Extensions and learning
 

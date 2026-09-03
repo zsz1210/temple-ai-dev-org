@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0107",
   "title": "Run Wave 5A matched process feasibility pilot",
-  "state": "blocked",
+  "state": "concluded",
   "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-02T12:10:29.557Z",
-  "updated_at": "2026-09-02T12:43:48.665Z",
+  "updated_at": "2026-09-03T00:34:58.863Z",
   "scope": [
     "Prepare and, only after a verified zero-new-payment boundary, execute the approved four-turn Luna Max Temple-versus-minimal feasibility comparison from WI-0106; retain correlated usage, objective tests, blinded quality scores, stop behavior, and exact revisions without extending the result into a superiority or routing claim."
   ],
@@ -205,5 +205,11 @@
   "release_gate_result": "no-go",
   "external_release_status": "not_performed",
   "approval_record": ".ai-org/artifacts/WI-0107/account-approval.json",
-  "previous_state": "release_gate"
+  "lifecycle_outcome": "no-go",
+  "closeout_reasons": [
+    "A new execution Work Item and explicit owner authority are required before any replacement four-turn run.",
+    "Wave 5A mechanism remains unqualified because no candidate completed.",
+    "Release gate must record NO-GO for experiment qualification.",
+    "The first candidate was rejected before generation by an unsupported structured-output keyword, so zero candidates completed and Wave 5A mechanism feasibility is not qualified."
+  ]
 }

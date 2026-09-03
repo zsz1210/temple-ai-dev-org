@@ -394,6 +394,7 @@ test("repository observer classifies completed and cancelled work as terminal", 
   const firstPath = path.join(target, `.ai-org/work-items/${workItemId}.json`);
   const first = JSON.parse(await fs.readFile(firstPath, "utf8"));
   first.state = "done";
+  first.evidence = ["docs/fixture-evidence.md"];
   await writeJson(firstPath, first);
   const created = run([
     "work-item", "create", target,
@@ -415,6 +416,8 @@ test("repository observer classifies completed and cancelled work as terminal", 
   assert.equal(observer.work.categories.terminal, 2);
   assert.equal(observer.work.categories.queued, 0);
   assert.ok(observer.work.items.every((entry) => entry.category === "terminal"));
+  assert.equal(observer.work.items.find((entry) => entry.id === workItemId).artifact_ref_count, 1);
+  assert.equal(observer.work.items.find((entry) => entry.id === workItemId).evidence_count, 0);
 });
 
 test("repository observer projects canonical organization independently of live execution", async (context) => {

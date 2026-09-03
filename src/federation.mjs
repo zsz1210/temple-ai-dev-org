@@ -4,6 +4,7 @@ import path from "node:path";
 import { execFile as execFileCallback } from "node:child_process";
 import { promisify } from "node:util";
 import { atomicCreate, formatJson, pathExists, sha256 } from "./files.mjs";
+import { normalizeWorkflow } from "./workflow.mjs";
 
 const execFile = promisify(execFileCallback);
 
@@ -830,16 +831,23 @@ async function readParticipant(coordinatorRoot, allowedRoot, participant, now) {
     result.provenance.source_revision = sourceRevision;
     return result;
   }
+  let normalizedWorkflow;
+  try {
+    normalizedWorkflow = normalizeWorkflow(workflow);
+  } catch {
+    const result = unknownParticipant(participant, "participant_invalid", observedAt);
+    result.provenance.source_revision = sourceRevision;
+    return result;
+  }
   if (
-    workflow?.schema_version !== "temple.workflow/v1" ||
-    !Array.isArray(workflow.states) ||
-    workflow.states.some((entry) => !isNonEmptyString(entry?.id))
+    !Array.isArray(normalizedWorkflow.states) ||
+    normalizedWorkflow.states.some((entry) => !isNonEmptyString(entry?.id))
   ) {
     const result = unknownParticipant(participant, "participant_invalid", observedAt);
     result.provenance.source_revision = sourceRevision;
     return result;
   }
-  const lifecycleStates = new Set(workflow.states.map((entry) => entry.id));
+  const lifecycleStates = new Set(normalizedWorkflow.states.map((entry) => entry.id));
 
   const maxWorkItems = participant.max_work_items ?? 100;
   let names;

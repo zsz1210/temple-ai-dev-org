@@ -3,6 +3,7 @@
   "documents": [
     { "id": "adversarial-scenarios", "path": ".ai-org/core/adversarial-scenarios.json", "schema": "adversarial-scenarios.schema.json", "required": true, "ownership": "framework" },
     { "id": "high-assurance-policy", "path": ".ai-org/core/high-assurance.json", "schema": "high-assurance.schema.json", "required": true, "ownership": "framework" },
+    { "id": "workflow", "path": ".ai-org/core/workflow.json", "schema": "workflow.schema.json", "required": true, "ownership": "framework" },
     { "id": "project", "path": ".ai-org/project/project.json", "schema": "project.schema.json", "required": true, "ownership": "project" },
     { "id": "repository-integration", "path": ".ai-org/project/repository-integration.json", "schema": "repository-integration.schema.json", "required": true, "ownership": "project" },
     { "id": "agents", "path": ".ai-org/project/agents.json", "schema": "agents.schema.json", "required": true, "ownership": "project" },

@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0117",
   "title": "Run qualified Wave 5B lean workflow comparison",
-  "state": "blocked",
+  "state": "concluded",
   "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-02T22:49:04.886Z",
-  "updated_at": "2026-09-02T23:31:25.469Z",
+  "updated_at": "2026-09-03T00:34:58.577Z",
   "scope": [
     "Prepare and, after the named usage approval, run two pinned engineering cases once under Temple lean and once under a minimal responsible workflow using the same GPT-5.6 Luna Medium profile.",
     "Run one separate fresh-context blind evaluator after four arm-neutral packages exist, freeze signed scores before unsealing the coordinator mapping, and retain exact usage, latency, quality, intervention, and revision evidence.",
@@ -302,5 +302,9 @@
   "release_gate_result": "no-go",
   "external_release_status": "not_performed",
   "approval_record": ".ai-org/artifacts/WI-0117/evaluator-replacement-approval.json",
-  "previous_state": "release_gate"
+  "lifecycle_outcome": "inconclusive",
+  "closeout_reasons": [
+    "No valid independent quality score was frozen before mapping unseal",
+    "No valid independent quality score was frozen before mapping unseal, so the matched-quality comparison remains inconclusive."
+  ]
 }

@@ -38,5 +38,7 @@ Validation records preserve bounded evidence for framework capabilities. They id
 - [Wave 4 organization-scale operating boundaries — local matrix passed; real enterprise operations remain not run](wave-4-operating-boundaries.md)
 - [Wave 5 controlled comparison — Wave 5A analyzed; Wave 5B clean lab and no-generation preflight prepared](wave-5-controlled-comparison-plan.md)
 - [Wave 5A overhead analysis — reproducible offline findings and Wave 5B evaluator boundary](wave-5a-overhead-analysis.md)
+- [Evidence-driven Lean Mode retrospective — observations, unsupported claims, and implemented response](evidence-driven-lean-mode.md)
+- [Representative multi-Agent microservice comparison — locally rehearsed protocol; live run not authorized](representative-microservice-comparison.md)
 - [Bounded four-repository commerce rehearsal — stopped safely at the Token ceiling](bounded-four-repository-commerce-rehearsal.md)
 - [Collaborative large-scale real-environment test plan — planned / not run](collaborative-large-scale-test-plan.md)

@@ -11,6 +11,7 @@ import {
   principalStatus,
   sponsorshipStatus
 } from "./collaboration.mjs";
+import { lifecycleProjection } from "./workflow.mjs";
 
 export const OBSERVER_SCHEMA = "temple.observer/v1";
 export const ORGANIZATION_VIEW_SCHEMA = "temple.organization-view/v1";
@@ -40,11 +41,12 @@ function resolveCurrentRevision(target, item) {
   }
 }
 
-function categoryFor(item, workers) {
-  if (["done", "cancelled"].includes(item.state)) return "terminal";
-  if (item.state === "blocked") return "blocked";
-  if (item.state === "release_gate") return "approval_pending";
-  if (["test", "eval", "independent_qa"].includes(item.state)) return "qa_pending";
+function categoryFor(item, workers, workflow) {
+  const lifecycle = lifecycleProjection(workflow, item);
+  if (lifecycle.terminal) return "terminal";
+  if (lifecycle.effective_state === "blocked") return "blocked";
+  if (lifecycle.effective_state === "release_gate") return "approval_pending";
+  if (["test", "eval", "independent_qa"].includes(lifecycle.effective_state)) return "qa_pending";
   if (item.claim?.status === "active" || workers.some((worker) => ["reserved", "active", "waiting", "attention"].includes(worker.status))) {
     return "active";
   }
@@ -235,11 +237,12 @@ function buildOrganizationProjection({ agentsDocument, assignmentsDocument, posi
 }
 
 export async function buildObserverProjection(target) {
-  const [project, agentsDocument, assignmentsDocument, positionsDocument, collaboration, workItems, workersDocument, evidenceRegistry, events, learning, learningValidation] = await Promise.all([
+  const [project, agentsDocument, assignmentsDocument, positionsDocument, workflow, collaboration, workItems, workersDocument, evidenceRegistry, events, learning, learningValidation] = await Promise.all([
     readJson(path.join(target, ".ai-org/project/project.json")),
     readJson(path.join(target, ".ai-org/project/agents.json")),
     readJson(path.join(target, ".ai-org/project/assignments.json")),
     readJson(path.join(target, ".ai-org/core/positions.json")),
+    readJson(path.join(target, ".ai-org/core/workflow.json")),
     readJson(path.join(target, ".ai-org/project/collaboration.json")),
     listWorkItemDocuments(target),
     readRuntimeWorkerRegistry(target),
@@ -251,7 +254,7 @@ export async function buildObserverProjection(target) {
   const revisions = new Map(workItems.map((item) => [item.id, resolveCurrentRevision(target, item)]));
   const skillProposals = new Map((learningValidation.proposals ?? []).map((proposal) => [proposal.id, proposal]));
   const terminalWorkItemIds = new Set(
-    workItems.filter((item) => ["done", "cancelled"].includes(item.state)).map((item) => item.id)
+    workItems.filter((item) => lifecycleProjection(workflow, item).terminal).map((item) => item.id)
   );
   const evidence = evidenceRegistry.entries.map((entry) => {
     const current = revisions.get(entry.work_item_id) ?? { reference: null, revision: null, resolved: false };
@@ -260,11 +263,20 @@ export async function buildObserverProjection(target) {
   });
   const work = workItems.map((item) => {
     const itemWorkers = workersDocument.workers.filter((worker) => worker.work_item_id === item.id);
-    const category = categoryFor(item, itemWorkers);
+    const lifecycle = lifecycleProjection(workflow, item);
+    const category = categoryFor(item, itemWorkers, workflow);
     return {
       id: item.id,
       title: item.title,
       state: item.state,
+      effective_state: lifecycle.effective_state,
+      terminal: lifecycle.terminal,
+      workflow_profile: lifecycle.workflow_profile,
+      risk_tier: item.risk_tier ?? null,
+      profile_assessment: item.profile_assessment ?? null,
+      lifecycle_outcome: lifecycle.lifecycle_outcome,
+      closeout_reasons: lifecycle.closeout_reasons,
+      legacy_terminal_normalized: lifecycle.legacy_terminal_normalized,
       owner_position: item.owner_position,
       assigned_agent_id: item.assigned_agent_id ?? null,
       category,
@@ -273,6 +285,7 @@ export async function buildObserverProjection(target) {
       active_claim_agent_id: item.claim?.status === "active" ? item.claim.agent_id ?? null : null,
       runtime_workers: itemWorkers.map((worker) => ({ id: worker.id, status: worker.status, runtime_kind: worker.runtime_kind })),
       evidence_count: evidence.filter((entry) => entry.work_item_id === item.id).length,
+      artifact_ref_count: Array.isArray(item.evidence) ? item.evidence.length : 0,
       unresolved_count: (item.unresolved ?? []).length
     };
   });

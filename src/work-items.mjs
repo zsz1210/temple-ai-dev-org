@@ -35,6 +35,15 @@ import {
   exactHandoffRevision,
   readHighAssurancePolicy
 } from "./assurance.mjs";
+import {
+  LIFECYCLE_OUTCOMES,
+  assessWorkflowProfile,
+  assertProfileChangeAllowed,
+  isLegacyConcludedItem,
+  lifecycleProjection,
+  transitionFor,
+  workflowProfileForItem
+} from "./workflow.mjs";
 
 const UI_DELIVERY_MODES = ["not-applicable", "code-first", "preview-first", "design-led"];
 const SPECIFICATION_MODES = ["gate-evidence", "indexed"];
@@ -461,15 +470,25 @@ export async function createWorkItem(target, options) {
   assertSpecificationMode(specificationMode, specRefs);
   const uiDeliveryMode = options.uiDeliveryMode === undefined ? null : options.uiDeliveryMode;
   assertUiDeliveryMode(uiDeliveryMode, uiRefs);
-  let riskTier = null;
+  const requestedProfile = options.workflowProfile ?? (collaboration.profile === HIGH_ASSURANCE_PROFILE ? "high-assurance" : "standard");
+  if (requestedProfile === "lean" && (!options.riskTier || !options.scopeClass || !String(options.profileRationale ?? "").trim())) {
+    throw new Error("Lean creation requires --risk-tier, --scope-class, and --profile-rationale");
+  }
+  const profileAssessment = assessWorkflowProfile(context.workflow, {
+    requestedProfile,
+    riskTier: options.riskTier,
+    scopeClass: options.scopeClass,
+    escalationTriggers: options.escalationTriggers,
+    rationale: options.profileRationale,
+    evidenceRefs: options.profileEvidence,
+    collaborationProfile: collaboration.profile
+  });
+  let riskTier = profileAssessment.risk_tier;
   let assurance = null;
-  if (collaboration.profile === HIGH_ASSURANCE_PROFILE) {
+  if (profileAssessment.effective_profile === HIGH_ASSURANCE_PROFILE) {
     const policy = await readHighAssurancePolicy(target);
-    riskTier = String(options.riskTier ?? "standard").trim();
     assurance = assuranceForRisk(policy, riskTier);
     assertHighAssuranceUiMode(policy, riskTier, uiDeliveryMode);
-  } else if (options.riskTier !== undefined) {
-    throw new Error("--risk-tier is available only in the high-assurance collaboration profile");
   }
 
   const workItemId = await newWorkItemId(target, collaboration.profile);
@@ -498,7 +517,19 @@ export async function createWorkItem(target, options) {
     contract_refs: contractRefs,
     specification_mode: specificationMode,
     ui_delivery_mode: uiDeliveryMode,
-    ...(riskTier ? { risk_tier: riskTier, assurance } : {}),
+    workflow_profile: profileAssessment.effective_profile,
+    risk_tier: riskTier,
+    profile_assessment: {
+      requested_profile: profileAssessment.requested_profile,
+      effective_profile: profileAssessment.effective_profile,
+      scope_class: profileAssessment.scope_class,
+      escalation_triggers: profileAssessment.escalation_triggers,
+      rationale: profileAssessment.rationale,
+      evidence_refs: profileAssessment.evidence_refs,
+      evaluated_at: profileAssessment.evaluated_at,
+      escalated: profileAssessment.escalated
+    },
+    ...(assurance ? { assurance } : {}),
     parent_work_item_id: parentWorkItemId,
     tracker_visibility: trackerVisibility,
     tracker_refs: [],
@@ -518,8 +549,9 @@ export async function createWorkItem(target, options) {
     gate_evidence: {},
     evidence: uniqueStrings(options.evidence),
     unresolved: uniqueStrings(options.unresolved),
-    next_position: nextPositionForState(context, state)
+    next_position: null
   };
+  item.next_position = nextPositionForState(context, state, item);
 
   await evaluateSpecificationReferences(target, item);
 
@@ -574,11 +606,10 @@ export async function evaluateParallelReadiness(target, workItemId, options = {}
   const context = await loadProjectContext(target);
   const collaboration = await readCollaborationState(target);
   const item = await readWorkItem(target, workItemId);
-  const terminalStates = new Set(context.workflow.terminal_states ?? []);
   const allItems = await listWorkItemDocuments(target);
   const dependencyItems = new Map(allItems.map((candidate) => [candidate.id, candidate]));
   const overlaps = allItems
-    .filter((candidate) => candidate.id !== item.id && !terminalStates.has(candidate.state))
+    .filter((candidate) => candidate.id !== item.id && !lifecycleProjection(context.workflow, candidate).terminal)
     .flatMap((candidate) => {
       const shared = (item.affected_paths ?? []).filter((left) =>
         (candidate.affected_paths ?? []).some((right) => pathsOverlap(left, right))
@@ -603,7 +634,10 @@ export async function evaluateParallelReadiness(target, workItemId, options = {}
     { id: "affected_paths_declared", pass: (item.affected_paths ?? []).length > 0 },
     {
       id: "dependencies_resolved",
-      pass: (item.dependencies ?? []).every((id) => terminalStates.has(dependencyItems.get(id)?.state))
+      pass: (item.dependencies ?? []).every((id) => {
+        const dependency = dependencyItems.get(id);
+        return Boolean(dependency && lifecycleProjection(context.workflow, dependency).terminal);
+      })
     },
     { id: "dependency_graph_acyclic", pass: !dependencyCycleFrom(item.id, dependencyItems) },
     {
@@ -665,6 +699,7 @@ export async function evaluateParallelReadiness(target, workItemId, options = {}
 
 export async function configureWorkItem(target, options) {
   const context = await loadProjectContext(target);
+  const collaboration = await readCollaborationState(target);
   const item = await readWorkItem(target, options.workItemId);
   const dependencies = options.dependencies === undefined ? item.dependencies ?? [] : uniqueStrings(options.dependencies);
   const parent = options.parentWorkItemId === undefined ? item.parent_work_item_id ?? null : String(options.parentWorkItemId).trim() || null;
@@ -728,6 +763,48 @@ export async function configureWorkItem(target, options) {
     uiDeliveryMode
   });
   const timestamp = new Date().toISOString();
+  const profileInputProvided = [
+    options.workflowProfile,
+    options.riskTier,
+    options.scopeClass,
+    options.profileRationale,
+    options.escalationTriggers,
+    options.profileEvidence
+  ].some((value) => value !== undefined);
+  let profileAssessment = item.profile_assessment ?? null;
+  let workflowProfile = workflowProfileForItem(context.workflow, item);
+  let riskTier = item.risk_tier ?? (workflowProfile === "lean" ? "low" : "standard");
+  let assurance = item.assurance;
+  if (profileInputProvided) {
+    const assessed = assessWorkflowProfile(context.workflow, {
+      requestedProfile: options.workflowProfile ?? workflowProfile,
+      riskTier: options.riskTier ?? riskTier,
+      scopeClass: options.scopeClass ?? profileAssessment?.scope_class,
+      escalationTriggers: options.escalationTriggers ?? profileAssessment?.escalation_triggers,
+      rationale: options.profileRationale ?? profileAssessment?.rationale,
+      evidenceRefs: options.profileEvidence ?? profileAssessment?.evidence_refs,
+      collaborationProfile: collaboration.profile,
+      evaluatedAt: timestamp
+    });
+    assertProfileChangeAllowed(context.workflow, item, assessed);
+    workflowProfile = assessed.effective_profile;
+    riskTier = assessed.risk_tier;
+    profileAssessment = {
+      requested_profile: assessed.requested_profile,
+      effective_profile: assessed.effective_profile,
+      scope_class: assessed.scope_class,
+      escalation_triggers: assessed.escalation_triggers,
+      rationale: assessed.rationale,
+      evidence_refs: assessed.evidence_refs,
+      evaluated_at: assessed.evaluated_at,
+      escalated: assessed.escalated
+    };
+    if (workflowProfile === HIGH_ASSURANCE_PROFILE) {
+      const policy = await readHighAssurancePolicy(target);
+      assurance = assuranceForRisk(policy, riskTier);
+      assertHighAssuranceUiMode(policy, riskTier, uiDeliveryMode);
+    }
+  }
   const updated = {
     ...item,
     updated_at: timestamp,
@@ -749,8 +826,13 @@ export async function configureWorkItem(target, options) {
     ui_refs: uiRefs,
     contract_refs: contractRefs,
     specification_mode: specificationMode,
+    workflow_profile: workflowProfile,
+    risk_tier: riskTier,
+    ...(profileAssessment ? { profile_assessment: profileAssessment } : {}),
+    ...(assurance ? { assurance } : {}),
     ...(uiDeliveryMode === undefined ? {} : { ui_delivery_mode: uiDeliveryMode })
   };
+  updated.next_position = nextPositionForState(context, item.state, updated);
   const specificationState = await evaluateSpecificationReferences(target, updated);
   if (!["intake", "spec", "blocked", "cancelled"].includes(item.state)) {
     if (specificationState.evaluation.stale_count > 0) {
@@ -895,18 +977,8 @@ export async function releaseWorkItemClaim(target, options) {
 }
 
 function parseTransition(context, item, toState) {
-  const regular = (context.workflow.transitions ?? []).find(
-    (transition) => transition.from === item.state && transition.to === toState
-  );
-  if (regular) return regular;
-
-  const escape = (context.workflow.escape_transitions ?? []).find((transition) => {
-    if (!(transition.from === "*" || transition.from === item.state)) return false;
-    if (transition.to === toState) return true;
-    return transition.to === "previous" && item.previous_state === toState;
-  });
-  if (escape) return escape;
-
+  const transition = transitionFor(context.workflow, item, toState);
+  if (transition) return transition;
   throw new Error(`Illegal work item transition: ${item.state} -> ${toState}`);
 }
 
@@ -1030,8 +1102,14 @@ export async function transitionWorkItem(target, options) {
       ...uniqueStrings(options.evidence),
       ...Object.values(additions).flat()
     ]),
-    next_position: nextPositionForState(context, toState)
+    next_position: null
   };
+  updated.next_position = nextPositionForState(context, toState, updated);
+  if (toState === "done" && workflowProfileForItem(context.workflow, item) === "lean") {
+    updated.lifecycle_outcome = "accepted";
+    updated.closeout_reasons = [];
+    updated.external_release_status = "not_performed";
+  }
   if (previousState) updated.previous_state = previousState;
   if (item.state === "blocked" && toState === item.previous_state) delete updated.previous_state;
 
@@ -1046,6 +1124,20 @@ export async function transitionWorkItem(target, options) {
     satisfied_requirements: transition.requires ?? [],
     refs: uniqueStrings([...Object.values(additions).flat(), ...(options.evidence ?? [])])
   });
+  if (toState === "done") {
+    await appendEvent(target, {
+      timestamp,
+      event_type: "work_item_closed",
+      actor,
+      position: item.owner_position,
+      work_item_id: item.id,
+      from_state: item.state,
+      to_state: "done",
+      result: updated.lifecycle_outcome ?? "accepted",
+      next_owner_position: "engineering_manager",
+      refs: [`.ai-org/work-items/${item.id}.json`, ...Object.values(additions).flat()]
+    });
+  }
 
   return {
     item: updated,
@@ -1149,7 +1241,7 @@ function releaseRecordMarkdown(context, item, options, timestamp, actor, gateEvi
   return `# Release gate and closeout record — ${item.id}\n\n- Decision time: \`${timestamp}\`\n- Release Manager: ${context.agents.get(actor)?.display_name ?? actor} (\`${actor}\`)\n- Decision: **${options.decision.toUpperCase()} for organizational closeout**\n- Tested revision: \`${options.testedRevision}\`\n- External release: **not performed by organizational closeout**\n- Approval record: \`${options.approval}\`\n\n## Gate evidence\n\n${gateLines.join("\n")}\n\n## Supporting evidence\n\n${markdownList(evidence)}\n\n## Rollback plan\n\n${markdownList(options.rollback)}\n\n## Residual risk or no-go reason\n\n${markdownList(options.reason)}\n\n## Disposition\n\n${
     options.decision === "go"
       ? `The accepted scope is closed as \`done\`. This record is not reusable as authorization for a production or external release.`
-      : `The release gate is no-go. The work item returns to Engineering Manager ownership as \`blocked\`.`
+      : `The release gate is no-go. The approved attempt is closed as \`concluded\` with outcome \`${options.outcome ?? "no-go"}\`; no continuation is implied.`
   }\n`;
 }
 
@@ -1158,6 +1250,12 @@ export async function closeWorkItem(target, options) {
   const item = await readWorkItem(target, options.workItemId);
   if (item.state !== "release_gate") throw new Error(`temple close requires release_gate; ${item.id} is ${item.state}`);
   if (!["go", "no-go"].includes(options.decision)) throw new Error("--decision must be go or no-go");
+  const lifecycleOutcome = options.decision === "go" ? "accepted" : options.outcome ?? "no-go";
+  if (!LIFECYCLE_OUTCOMES.includes(lifecycleOutcome)) throw new Error(`--outcome must be one of: ${LIFECYCLE_OUTCOMES.join(", ")}`);
+  if (options.decision === "go" && options.outcome !== undefined) throw new Error("--outcome is valid only with --decision no-go");
+  if (options.decision === "no-go" && !["no-go", "inconclusive"].includes(lifecycleOutcome)) {
+    throw new Error("A no-go close may use only --outcome no-go or inconclusive");
+  }
   if (options.decision === "go") {
     assertSpecificationMode(item.specification_mode, item.spec_refs ?? [], true);
     if (Object.hasOwn(item, "ui_delivery_mode") && (item.ui_delivery_mode === null || item.ui_delivery_mode === undefined)) {
@@ -1189,7 +1287,7 @@ export async function closeWorkItem(target, options) {
   }
 
   const assuranceCloseout = await assertHighAssuranceCloseout(target, context, item, options, gateEvidence);
-  const closeOptions = { ...options, testedRevision: assuranceCloseout.testedRevision };
+  const closeOptions = { ...options, outcome: lifecycleOutcome, testedRevision: assuranceCloseout.testedRevision };
 
   const timestamp = new Date().toISOString();
   const relativePath = `.ai-org/artifacts/${item.id}/release-record.md`;
@@ -1200,7 +1298,7 @@ export async function closeWorkItem(target, options) {
     releaseRecordMarkdown(context, item, closeOptions, timestamp, actor, gateEvidence)
   );
 
-  const destinationState = options.decision === "go" ? "done" : "blocked";
+  const destinationState = options.decision === "go" ? "done" : "concluded";
   const ownerPosition = context.states.get(destinationState).owner_position;
   const closeClaim =
     item.claim?.status === "active"
@@ -1225,14 +1323,16 @@ export async function closeWorkItem(target, options) {
     updated_at: timestamp,
     tested_revision: closeOptions.testedRevision,
     release_gate_result: options.decision,
+    lifecycle_outcome: lifecycleOutcome,
+    closeout_reasons: uniqueStrings(options.reason),
     external_release_status: "not_performed",
     approval_record: options.approval,
     gate_evidence: gateEvidence,
     evidence: normalizedEvidence(item, [relativePath, ...(options.evidence ?? []), ...Object.values(satisfied).flat()]),
-    unresolved: options.decision === "go" ? uniqueStrings(item.unresolved) : uniqueStrings([...(item.unresolved ?? []), ...(options.reason ?? [])]),
+    unresolved: uniqueStrings(item.unresolved),
     next_position: null
   };
-  if (options.decision === "no-go") updated.previous_state = "release_gate";
+  delete updated.previous_state;
   await writeWorkItem(target, updated);
   await appendEvent(target, {
     timestamp,
@@ -1248,19 +1348,66 @@ export async function closeWorkItem(target, options) {
     external_release: false,
     refs: [relativePath]
   });
-  if (options.decision === "go") {
-    await appendEvent(target, {
-      timestamp,
-      event_type: "work_item_closed",
-      actor,
-      position: "release_manager",
-      work_item_id: item.id,
-      from_state: "release_gate",
-      to_state: "done",
-      next_owner_position: "engineering_manager",
-      refs: [`.ai-org/work-items/${item.id}.json`, relativePath]
-    });
-  }
+  await appendEvent(target, {
+    timestamp,
+    event_type: options.decision === "go" ? "work_item_closed" : "work_item_concluded",
+    actor,
+    position: "release_manager",
+    work_item_id: item.id,
+    from_state: "release_gate",
+    to_state: destinationState,
+    result: lifecycleOutcome,
+    next_owner_position: "engineering_manager",
+    refs: [`.ai-org/work-items/${item.id}.json`, relativePath]
+  });
 
   return { item: updated, artifact: relativePath };
+}
+
+export async function migrateLegacyOutcome(target, options) {
+  const context = await loadProjectContext(target);
+  const selected = options.workItemId
+    ? [await readWorkItem(target, options.workItemId)]
+    : await listWorkItemDocuments(target);
+  const candidates = selected.filter(isLegacyConcludedItem);
+  if (options.workItemId && candidates.length === 0) {
+    throw new Error(`${options.workItemId} is not a structurally qualified legacy release-gate no-go item`);
+  }
+  const outcome = options.outcome ?? "no-go";
+  if (!["no-go", "inconclusive"].includes(outcome)) throw new Error("--outcome must be no-go or inconclusive");
+  const preview = candidates.map((item) => ({ work_item_id: item.id, from_state: item.state, to_state: "concluded", outcome }));
+  if (options.dryRun) return { dry_run: true, changed: 0, candidates: preview };
+  const timestamp = new Date().toISOString();
+  for (const item of candidates) {
+    const activeClaim = item.claim?.status === "active"
+      ? { ...item.claim, status: "released", released_at: timestamp, release_reason: "legacy_outcome_migrated" }
+      : item.claim ?? null;
+    const updated = {
+      ...item,
+      state: "concluded",
+      owner_position: context.states.get("concluded").owner_position,
+      assigned_agent_id: assignedAgentId(context, context.states.get("concluded").owner_position),
+      claim: activeClaim,
+      claims: item.claim?.status === "active"
+        ? [...(item.claims ?? []).filter((entry) => entry.id !== activeClaim.id), activeClaim]
+        : item.claims ?? [],
+      lifecycle_outcome: outcome,
+      closeout_reasons: uniqueStrings([...(item.closeout_reasons ?? []), ...(options.reason ?? []), ...(item.unresolved ?? [])]),
+      next_position: null,
+      updated_at: timestamp
+    };
+    delete updated.previous_state;
+    await writeWorkItem(target, updated);
+    await appendEvent(target, {
+      timestamp,
+      event_type: "legacy_work_item_outcome_migrated",
+      actor: options.actor ?? "human",
+      work_item_id: item.id,
+      from_state: "blocked",
+      to_state: "concluded",
+      result: outcome,
+      refs: [`.ai-org/work-items/${item.id}.json`, ...(item.gate_evidence?.rollback_plan ?? [])]
+    });
+  }
+  return { dry_run: false, changed: candidates.length, candidates: preview };
 }

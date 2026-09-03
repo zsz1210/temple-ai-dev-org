@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 117 total, 9 active
+- Work items: 118 total, 3 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 20
+- Attention signals: 13
 
 ## Collaboration
 
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -111,10 +111,10 @@
 | WI-0061 | Approve a bounded local instrumentation pilot | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `cdd05741` | 0 | 19 | 0 |
 | WI-0062 | Run the approved provider-owned instrumentation pilot | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5979c1e3` | 0 | 20 | 0 |
 | WI-0063 | Correct Provider-observed model attribution | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c44bbdf5` | 0 | 22 | 0 |
-| WI-0064 | Revalidate Provider-observed model attribution | blocked | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6bdcf181` | 0 | 22 | 2 |
+| WI-0064 | Revalidate Provider-observed model attribution | concluded | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6bdcf181` | 0 | 22 | 2 |
 | WI-0065 | Separate reasoning request and observation provenance | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | code-first | 1 | 0 | 0 | — | `c984f249` | 0 | 20 | 0 |
 | WI-0066 | Add bounded multi-repository experiment runner | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ab212c0f` | 0 | 19 | 0 |
-| WI-0067 | Run bounded four-repository commerce rehearsal | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0d656df5` | 0 | 18 | 3 |
+| WI-0067 | Run bounded four-repository commerce rehearsal | concluded | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0d656df5` | 0 | 18 | 3 |
 | WI-0068 | Fail closed on invalid experiment telemetry paths | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `123a9fda` | 0 | 18 | 0 |
 | WI-0069 | Establish progressive usage calibration and autonomy policy | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `aead7f54` | 0 | 13 | 0 |
 | WI-0070 | Stabilize provider-owned usage notification test timing | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a5f3860a` | 0 | 19 | 0 |
@@ -154,17 +154,18 @@
 | WI-0104 | Validate a local multi-repository service rollout | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6385b89d` | 0 | 17 | 3 |
 | WI-0105 | Qualify Wave 4 operating boundaries | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `43100b5e` | 0 | 12 | 0 |
 | WI-0106 | Design Wave 5 controlled matched comparison | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2612207e` | 0 | 17 | 0 |
-| WI-0107 | Run Wave 5A matched process feasibility pilot | blocked | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `984cd027` | 0 | 18 | 4 |
-| WI-0108 | Rerun corrected Wave 5A four-turn pilot | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1211d700` | 0 | 20 | 1 |
+| WI-0107 | Run Wave 5A matched process feasibility pilot | concluded | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `984cd027` | 0 | 18 | 4 |
+| WI-0108 | Rerun corrected Wave 5A four-turn pilot | concluded | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1211d700` | 0 | 20 | 1 |
 | WI-0109 | Add no-generation App Server protocol replay | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a21fbc4f` | 0 | 18 | 0 |
-| WI-0110 | Run bounded Wave 5A controlled comparison | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `19b78371` | 0 | 20 | 1 |
+| WI-0110 | Run bounded Wave 5A controlled comparison | concluded | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `19b78371` | 0 | 20 | 1 |
 | WI-0111 | Make command policy quote-aware | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2d523b5f` | 0 | 18 | 0 |
-| WI-0112 | Run quote-aware Wave 5A controlled comparison | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a836643a` | 0 | 20 | 1 |
+| WI-0112 | Run quote-aware Wave 5A controlled comparison | concluded | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a836643a` | 0 | 20 | 1 |
 | WI-0113 | Make Wave 5A autonomous and observable | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6f8596bb` | 0 | 23 | 0 |
 | WI-0114 | Integrate the agent-led init and Claude entrypoint handshake | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `555cd6fd` | 0 | 21 | 0 |
 | WI-0115 | Validate clean agent-led greenfield onboarding | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `11012a38` | 0 | 19 | 0 |
 | WI-0116 | Analyze Wave 5A overhead and repair blind evaluation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2ec67d32` | 0 | 17 | 0 |
-| WI-0117 | Run qualified Wave 5B lean workflow comparison | blocked | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b8f41dd0` | 0 | 21 | 1 |
+| WI-0117 | Run qualified Wave 5B lean workflow comparison | concluded | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b8f41dd0` | 0 | 21 | 1 |
+| WI-0118 | Turn validation evidence into adaptive Lean Mode | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260903001439-78fdb134 | `—` | 0 | 9 | 0 |
 
 ## Codex task registry
 
@@ -214,14 +215,7 @@
 
 ## Attention
 
-- WI-0064 is blocked
-- WI-0067 is blocked
 - WI-0086 is blocked
-- WI-0107 is blocked
-- WI-0108 is blocked
-- WI-0110 is blocked
-- WI-0112 is blocked
-- WI-0117 is blocked
 - task-0001 can be archived
 - task-0002 can be archived
 - task-0003 can be archived
@@ -240,7 +234,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 21
+- Team-visible Work Items: 22
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -303,14 +297,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-02T23:31:25.469Z | release_gate_completed | WI-0117 | agent-mog |
-| 2026-09-02T23:31:10.228Z | evidence_recorded | WI-0117 | human |
-| 2026-09-02T23:30:50.907Z | work_item_claimed | WI-0117 | human |
-| 2026-09-02T23:30:39.164Z | work_item_transitioned | WI-0117 | agent-lulu |
-| 2026-09-02T23:30:28.860Z | handoff_created | WI-0117 | agent-lulu |
-| 2026-09-02T23:30:28.673Z | evidence_recorded | WI-0117 | human |
-| 2026-09-02T23:28:20.989Z | work_item_claimed | WI-0117 | human |
-| 2026-09-02T23:28:07.421Z | work_item_transitioned | WI-0117 | agent-lulu |
+| 2026-09-03T00:35:34.146Z | work_item_coordination_configured | WI-0118 | agent-rikku |
+| 2026-09-03T00:35:23.856Z | work_item_coordination_configured | WI-0086 | agent-mog |
+| 2026-09-03T00:35:23.751Z | work_item_coordination_configured | WI-0033 | agent-yuna |
+| 2026-09-03T00:34:59.119Z | work_item_coordination_configured | WI-0118 | agent-rikku |
+| 2026-09-03T00:34:58.863Z | legacy_work_item_outcome_migrated | WI-0112 | human |
+| 2026-09-03T00:34:58.863Z | legacy_work_item_outcome_migrated | WI-0110 | human |
+| 2026-09-03T00:34:58.863Z | legacy_work_item_outcome_migrated | WI-0108 | human |
+| 2026-09-03T00:34:58.863Z | legacy_work_item_outcome_migrated | WI-0107 | human |
 
 ## Assignments
 

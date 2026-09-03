@@ -45,6 +45,7 @@ import {
   REPOSITORY_INTEGRATION_RELATIVE_PATH,
   validateRepositoryIntegration
 } from "./repository-integration.mjs";
+import { lifecycleProjection } from "./workflow.mjs";
 
 function markdown(value) {
   return String(value ?? "").replace(/\|/g, "\\|").replace(/\r?\n/g, " ");
@@ -156,7 +157,6 @@ export async function buildStatus(target, options = {}) {
     }))
     .sort((left, right) => left.position_name.localeCompare(right.position_name));
 
-  const terminalStates = new Set(workflow.terminal_states ?? []);
   const workItemsDirectory = path.join(target, ".ai-org/work-items");
   const workItems = [];
   const rawItems = new Map();
@@ -182,6 +182,7 @@ export async function buildStatus(target, options = {}) {
           null;
         const specificationReferences = evaluateWorkItemSpecRefs(item, specIndex);
         const activeRequirements = activeExecutionRequirements(item);
+        const lifecycle = lifecycleProjection(workflow, item);
         workItems.push({
           id: item.id ?? entry.name.replace(/\.json$/, ""),
           title: item.title ?? "Untitled",
@@ -193,7 +194,11 @@ export async function buildStatus(target, options = {}) {
           latest_revision: latestRevision,
           evidence_count: Array.isArray(item.evidence) ? item.evidence.length : 0,
           unresolved_count: Array.isArray(item.unresolved) ? item.unresolved.length : 0,
-          terminal: terminalStates.has(item.state),
+          effective_state: lifecycle.effective_state,
+          terminal: lifecycle.terminal,
+          workflow_profile: lifecycle.workflow_profile,
+          lifecycle_outcome: lifecycle.lifecycle_outcome,
+          legacy_terminal_normalized: lifecycle.legacy_terminal_normalized,
           parallel_mode: item.parallel_mode ?? "pending",
           required_disciplines: item.required_disciplines ?? [],
           active_requirements: activeRequirements,
@@ -247,7 +252,7 @@ export async function buildStatus(target, options = {}) {
       ...task,
       position_name: positions.get(task.position_id)?.display_name ?? task.position_id,
       agent_name: agents.get(task.agent_id)?.display_name ?? task.agent_id,
-      archive_ready: task.status === "completed" && terminalStates.has(workItem?.state)
+      archive_ready: task.status === "completed" && Boolean(workItem && lifecycleProjection(workflow, workItem).terminal)
     };
   });
   const workers = (workerRegistry.workers ?? []).map((worker) => ({
