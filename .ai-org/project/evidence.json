@@ -19819,6 +19819,36 @@
         "exit_code": 0,
         "started_at": "2026-09-03T04:54:27.460Z"
       }
+    },
+    {
+      "id": "EVID-20260903T052730Z-7F845496",
+      "work_item_id": "WI-0126",
+      "recorded_at": "2026-09-03T05:27:30.857Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Core-outcome roadmap candidate",
+      "outcome": "verified",
+      "scope_revision": "e4c3a6248a8c065aa56c712017c0b194f3794956",
+      "observed_at": "2026-09-03T05:27:30.857Z",
+      "summary": "Three-language roadmap and paused release-readiness notice; no runtime or Console implementation change.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "e4c3a6248a8c065aa56c712017c0b194f3794956"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "e4c3a6248a8c065aa56c712017c0b194f3794956",
+        "working_tree_dirty": true,
+        "dirty_path_count": 11,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
     }
   ]
 }
