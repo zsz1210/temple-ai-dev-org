@@ -228,3 +228,16 @@ The exact-approved v5 attempt ran from `2026-09-03T16:11:17.073Z` to `2026-09-03
 - Status: frozen and generation-disabled pending separate exact approval
 
 V6 is a successor experiment, not a retry. It does not globally allow relative traversal and does not reuse the v5 lab or approval. The command-policy repair is limited to read-only `status`, `diff`, `rev-parse`, `log`, and `ls-tree` operations whose normalized target is exactly one of the five generated fixture repositories. The parallel repair ensures that the final stop record cannot be written while sibling model turns remain active.
+
+The exact-approved v6 attempt ran from `2026-09-03T16:33:33.382Z` to `2026-09-03T16:38:17.662Z` and retained 103,555 candidate Operational Tokens with zero retry and zero fallback. Minimal Responsible Design completed at 53,617. Notifications then requested `git -C ../../../notifications status --short`; its normalized target was not an exact fixture repository root, so the Build wave stopped. Gateway and orders-catalog were interrupted as siblings. The final artifact contains all three Build observations, every App Server child exited, and all five Minimal Responsible repositories remained clean. No arm completed; Temple and the evaluator did not start.
+
+## Representative comparison v7
+
+- Predecessor: representative v6 protocol `35deeb5fb60f8f48e818ad6abad7d576d7de976d95159d7a1fbe8ef00baa67c7`
+- Resource envelope, task, models, efforts, context treatment, objective tests, retry policy, fallback policy, and network boundary: unchanged from v6
+- Build command guidance: no candidate Git inspection, no parent-directory paths, and cross-repository commands originate at the arm root
+- Safety boundary: the v6 exact-target and settled-sibling policies remain active
+- Protocol SHA-256: `ff06ec032d8bc6f452e307269d9e87774e4f4207d0449af70905fcc314786674`
+- Status: frozen and generation-disabled pending separate exact approval
+
+V7 treats the repeated Git status request as unnecessary candidate work: the coordinator already checks paths, diffs, revisions, and handoff state after each Build turn. Removing that responsibility from the candidate prompt reduces accidental path traversal without loosening the command policy. V7 is a new experiment on fresh matched repositories and cannot reuse the v6 approval.

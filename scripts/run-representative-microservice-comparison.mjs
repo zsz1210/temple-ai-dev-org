@@ -98,6 +98,7 @@ export function representativeCommandItemAllowed(item, armRoot) {
     if (/^git\s+-C(?:\s|$)/.test(action.command.trim())) {
       return fixtureScopedRelativeGitReadAllowed(action.command, item.cwd, armRoot);
     }
+    if (/(?:^|[\s'"=])\.\.(?:[\\/]|$)/.test(action.command)) return false;
     return commandTextAllowed(action.command, comparisonAllowedCommandPrefixes);
   });
 }
@@ -649,7 +650,7 @@ async function sourceDigests() {
 function buildProtocol(manifest) {
   const protocol = {
     schema_version: "temple.representative-microservice-comparison/v3",
-    protocol_revision: 6,
+    protocol_revision: 7,
     work_item_id: "WI-0136",
     status: "generation-disabled",
     protocol_sha256: null,
@@ -692,15 +693,16 @@ function buildProtocol(manifest) {
       new_unknown_recovery_start: "temple-md-first"
     },
     predecessor: {
-      protocol_sha256: "4b6c78cfa4b367787eb79a1d555dcfa387d2048d656741f7611f64c48b5f64f6",
-      disposition: "stopped-command-policy-working-directory-mismatch",
-      stopped_run: ".ai-org/artifacts/WI-0136/representative-main-v5-stopped-run.json",
-      stop_report: ".ai-org/artifacts/WI-0136/representative-main-v5-stop-report.md"
+      protocol_sha256: "35deeb5fb60f8f48e818ad6abad7d576d7de976d95159d7a1fbe8ef00baa67c7",
+      disposition: "stopped-candidate-invalid-cross-repository-path",
+      stopped_run: ".ai-org/artifacts/WI-0136/representative-main-v6-stopped-run.json",
+      stop_report: ".ai-org/artifacts/WI-0136/representative-main-v6-stop-report.md"
     },
     stopped_evidence_policy: "completed-active-and-settled-sibling-observations-v3",
     runner_safety: {
       relative_git_target_policy: "provider-cwd-to-exact-fixture-repository-root",
-      parallel_failure_policy: "interrupt-and-await-all-siblings-before-stop-record"
+      parallel_failure_policy: "interrupt-and-await-all-siblings-before-stop-record",
+      build_command_policy: "arm-root-repository-ids-without-candidate-git-self-check"
     },
     stop_rules: {
       protocol_mismatch: true,
@@ -729,7 +731,7 @@ function buildProtocol(manifest) {
 export function validateRepresentativeProtocol(protocol) {
   const errors = [];
   if (protocol?.schema_version !== "temple.representative-microservice-comparison/v3") errors.push("unsupported schema");
-  if (protocol?.protocol_revision !== 6) errors.push("unexpected protocol revision");
+  if (protocol?.protocol_revision !== 7) errors.push("unexpected protocol revision");
   if (protocol?.work_item_id !== "WI-0136") errors.push("unexpected work item");
   if (protocol?.status !== "generation-disabled") errors.push("protocol status must remain generation-disabled before exact approval");
   if (protocol?.protocol_sha256 !== protocolDigest(protocol)) errors.push("protocol digest mismatch");
@@ -760,11 +762,12 @@ export function validateRepresentativeProtocol(protocol) {
       contextPolicy.new_unknown_recovery_start !== "temple-md-first") {
     errors.push("context policy mismatch");
   }
-  if (protocol?.predecessor?.protocol_sha256 !== "4b6c78cfa4b367787eb79a1d555dcfa387d2048d656741f7611f64c48b5f64f6" ||
-      protocol?.predecessor?.disposition !== "stopped-command-policy-working-directory-mismatch" ||
+  if (protocol?.predecessor?.protocol_sha256 !== "35deeb5fb60f8f48e818ad6abad7d576d7de976d95159d7a1fbe8ef00baa67c7" ||
+      protocol?.predecessor?.disposition !== "stopped-candidate-invalid-cross-repository-path" ||
       protocol?.stopped_evidence_policy !== "completed-active-and-settled-sibling-observations-v3" ||
       protocol?.runner_safety?.relative_git_target_policy !== "provider-cwd-to-exact-fixture-repository-root" ||
-      protocol?.runner_safety?.parallel_failure_policy !== "interrupt-and-await-all-siblings-before-stop-record") {
+      protocol?.runner_safety?.parallel_failure_policy !== "interrupt-and-await-all-siblings-before-stop-record" ||
+      protocol?.runner_safety?.build_command_policy !== "arm-root-repository-ids-without-candidate-git-self-check") {
     errors.push("successor provenance mismatch");
   }
   if (!/^[a-f0-9]{64}$/.test(protocol?.fixture?.fixture_sha256 ?? "")) errors.push("fixture digest missing");
@@ -1357,6 +1360,7 @@ const boundedDeveloperInstructions = [
   "This is one bounded controlled-comparison turn. Do not create subagents or ask the user questions.",
   `Allowed shell command prefixes: ${comparisonAllowedCommandPrefixes.map((entry) => entry.join(" ")).join(", ")}.`,
   "Use one command per shell call; do not use pipes, redirects, control operators, command substitutions, package installation, network access, external services, deployment, or publication.",
+  "Never use parent-directory path segments. For cross-repository reads, set the command working directory to the experiment workspace root and use only the exact repository IDs gateway, catalog, orders, notifications, and coordinator.",
   "Use apply_patch for allowed file changes. Treat repository files as state and complete exactly one attempt.",
   "Return only the requested structured JSON object."
 ].join("\n");
@@ -1836,7 +1840,9 @@ async function runBuildSlice({ armId, armRoot, slice, protocol, budget, deadline
     `Implement only the ${slice.id} slice in these repositories: ${slice.repositories.join(", ")}.`,
     "Read coordinator/TASK.md and coordinator/design-record.json. Preserve the exact contract and rolling v1 compatibility.",
     "Change only the declared service source file in each assigned repository. Tests and organizational files are read-only.",
-    "Run `npm test` separately in each assigned repository. Do not commit; the experiment coordinator records exact revisions and handoff evidence."
+    "Run `npm test` separately by setting the command working directory directly to each assigned repository.",
+    "Do not run Git commands or inspect Git status, diffs, logs, or revisions. Do not use parent-directory paths. The experiment coordinator collects Git evidence after your turn.",
+    "Do not commit; return the structured Build result after the assigned tests."
   ].join("\n\n");
   const turn = await launchModelTurn({
     id: `${armId}-${slice.id}`, cwd: armRoot, stage: "build", route: protocol.model_route.build,

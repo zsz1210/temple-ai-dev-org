@@ -6,7 +6,7 @@
   "owner_position": "quality_evaluator",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-03T10:47:38.923Z",
-  "updated_at": "2026-09-03T14:52:36.299Z",
+  "updated_at": "2026-09-03T16:32:48.677Z",
   "scope": [
     "Turn the locally rehearsed WI-0118 protocol into a deterministic four-repository fixture and fail-closed experiment runner, then execute the frozen matched comparison only after exact Provider and account approval.",
     "Compare Temple with a competent minimal responsible workflow under identical repositories, task input, tests, tools, and model routes; measure organizational outcomes rather than pass counts.",
@@ -54,7 +54,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "0b906a643ad1f86391dfca428b36c903a1f38744",
+  "base_revision": "71a4ce0",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -62,18 +62,15 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260903144953-d38e6072",
-    "status": "released",
+    "id": "claim-20260903163248-db33f0a9",
+    "status": "active",
     "principal_id": "human",
     "agent_id": "agent-lulu",
-    "base_revision": "0b906a643ad1f86391dfca428b36c903a1f38744",
+    "base_revision": "71a4ce0",
     "branch": "codex/wi-0136-representative-microservice-comparison",
     "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
-    "claimed_at": "2026-09-03T14:49:53.967Z",
-    "released_at": "2026-09-03T14:52:36.299Z",
-    "release_reason": [
-      "The bounded v10 context qualification was independently verified; the main Temple-versus-minimal protocol remains a separate unapproved next step."
-    ]
+    "claimed_at": "2026-09-03T16:32:48.677Z",
+    "released_at": null
   },
   "claims": [
     {
@@ -101,6 +98,17 @@
       "release_reason": [
         "The bounded v10 context qualification was independently verified; the main Temple-versus-minimal protocol remains a separate unapproved next step."
       ]
+    },
+    {
+      "id": "claim-20260903163248-db33f0a9",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "71a4ce0",
+      "branch": "codex/wi-0136-representative-microservice-comparison",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-03T16:32:48.677Z",
+      "released_at": null
     }
   ],
   "gate_evidence": {

@@ -1,0 +1,14 @@
+{
+  "schema_version": "temple.representative-microservice-preflight-summary/v1",
+  "work_item_id": "WI-0136",
+  "observed_at": "2026-09-03T16:33:15.346Z",
+  "local_fixture_ready": true,
+  "protocol_sha256": "35deeb5fb60f8f48e818ad6abad7d576d7de976d95159d7a1fbe8ef00baa67c7",
+  "provider_contract_matches": true,
+  "codex_cli_version": "codex-cli 0.153.0-alpha.5",
+  "exact_approval_present": true,
+  "generation_ready": true,
+  "blockers": [],
+  "temple_lifecycle_rehearsal_pass": true,
+  "model_generation_performed": false
+}

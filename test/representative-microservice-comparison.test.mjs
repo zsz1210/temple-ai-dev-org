@@ -49,15 +49,16 @@ test("the representative microservice protocol is frozen but generation-disabled
   assert.equal(protocol.execution.fallback_count, 0);
   assert.equal(protocol.execution.candidate_turns, 10);
   assert.equal(protocol.execution.evaluator_turns, 1);
-  assert.equal(protocol.protocol_revision, 6);
+  assert.equal(protocol.protocol_revision, 7);
   assert.equal(protocol.execution.design_operational_token_limit, 150000);
   assert.equal(protocol.execution.candidate_aggregate_operational_token_limit, 650000);
   assert.equal(protocol.execution.combined_operational_token_limit, 750000);
   assert.deepEqual(protocol.context_policy.temple_md_fallback_when_missing, ["authority", "current-state", "safe-next-action"]);
-  assert.equal(protocol.predecessor.disposition, "stopped-command-policy-working-directory-mismatch");
+  assert.equal(protocol.predecessor.disposition, "stopped-candidate-invalid-cross-repository-path");
   assert.equal(protocol.stopped_evidence_policy, "completed-active-and-settled-sibling-observations-v3");
   assert.equal(protocol.runner_safety.relative_git_target_policy, "provider-cwd-to-exact-fixture-repository-root");
   assert.equal(protocol.runner_safety.parallel_failure_policy, "interrupt-and-await-all-siblings-before-stop-record");
+  assert.equal(protocol.runner_safety.build_command_policy, "arm-root-repository-ids-without-candidate-git-self-check");
 });
 
 test("protocol validation rejects product drift, reroute, retry, and digest rewriting", async () => {
@@ -228,6 +229,10 @@ test("representative command policy resolves relative Git targets from Provider-
   );
   assert.equal(
     representativeCommandItemAllowed(item(`${armRoot}/catalog/src`, "git -C ../../orders config core.sshCommand exploit"), armRoot),
+    false
+  );
+  assert.equal(
+    representativeCommandItemAllowed(item(`${armRoot}/catalog`, "rg OrderPlaced ../../outside"), armRoot),
     false
   );
 });
