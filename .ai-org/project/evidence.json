@@ -20314,6 +20314,104 @@
         "exit_code": 0,
         "started_at": "2026-09-03T08:31:29.000Z"
       }
+    },
+    {
+      "id": "EVID-20260903T085758Z-E101BC9E",
+      "work_item_id": "WI-0132",
+      "recorded_at": "2026-09-03T08:57:58.627Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Corrected Lean routing experiment",
+      "outcome": "pass",
+      "scope_revision": "7ebd8db41b5e4ce8b6ec605ff9d068d2b06f8301",
+      "observed_at": "2026-09-03T08:53:14.458Z",
+      "summary": "Eight candidates and one blind evaluator completed within the approved envelope with zero retry, fallback, reroute, or path violation.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0132/runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0132/runtime-observation.json",
+          "sha256": "5c393722a7d4e4230a524a91d301436be362ea0bfebf329447d84a4d8df36146"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0132/account-approval.json",
+          "sha256": "782405a3f213b14c1a3a437cc5bfa203512aae0ce0d7db12547a1d59c51aac1f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0132/live-experiment-observation.json",
+          "sha256": "9ba848ec870200e1cffd9cc1435f03cdf3e51ca8ebc18e83655294bc56df4e99"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0132/quality-report.md",
+          "sha256": "51ba0771330ec3595531c22603aa0b61079084e1070dba7a3558fdece45a3403"
+        },
+        {
+          "path": "docs/validation/lean-routing-effectiveness-result.md",
+          "sha256": "dc0a744145a443e2566aa69ba36143a74659fa216cc9bc3aa067c56b03c0ba40"
+        }
+      ],
+      "details": {
+        "environment": "Local isolated Codex App Server lab",
+        "scenario": "Complete the approved eight-candidate native Lean comparison and one Terra high blind evaluation within its fixed execution envelope",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260903T085758Z-413039C9",
+      "work_item_id": "WI-0132",
+      "recorded_at": "2026-09-03T08:57:58.855Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0132 experiment harness tests",
+      "outcome": "pass",
+      "scope_revision": "7ebd8db41b5e4ce8b6ec605ff9d068d2b06f8301",
+      "observed_at": "2026-09-03T08:57:21Z",
+      "summary": "All eight focused v2 protocol and analysis regression tests passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0132/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0132/quality-test-observation.json",
+          "sha256": "4176fead991db8986d3bc78864f6227cc7977df3d8d95280f664a5d621b982ce"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0132/live-experiment-observation.json",
+          "sha256": "9ba848ec870200e1cffd9cc1435f03cdf3e51ca8ebc18e83655294bc56df4e99"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0132/quality-report.md",
+          "sha256": "51ba0771330ec3595531c22603aa0b61079084e1070dba7a3558fdece45a3403"
+        },
+        {
+          "path": "docs/validation/lean-routing-effectiveness-result.md",
+          "sha256": "dc0a744145a443e2566aa69ba36143a74659fa216cc9bc3aa067c56b03c0ba40"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/effectiveness-pilot-v2.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T08:57:20Z"
+      }
     }
   ]
 }
