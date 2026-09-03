@@ -579,7 +579,7 @@ async function sourceDigests() {
 function buildProtocol(manifest) {
   const protocol = {
     schema_version: "temple.representative-microservice-comparison/v3",
-    protocol_revision: 4,
+    protocol_revision: 5,
     work_item_id: "WI-0136",
     status: "generation-disabled",
     protocol_sha256: null,
@@ -622,12 +622,12 @@ function buildProtocol(manifest) {
       new_unknown_recovery_start: "temple-md-first"
     },
     predecessor: {
-      protocol_sha256: "e38b4052462db8206a868cfc24a7a90ed6fe896fe09e8d78de4adbeb7de128ea",
-      disposition: "stopped-harness-path-parsing-failure",
-      stopped_run: ".ai-org/artifacts/WI-0136/representative-main-v3-stopped-run.json",
-      stop_report: ".ai-org/artifacts/WI-0136/representative-main-v3-stop-report.md"
+      protocol_sha256: "b01f96b48bb585e4b24390fa0b0c322d2abfc03d8f99650fa9b07a3da4932c71",
+      disposition: "stopped-temple-design-operational-token-limit",
+      stopped_run: ".ai-org/artifacts/WI-0136/representative-main-v4-stopped-run.json",
+      stop_report: ".ai-org/artifacts/WI-0136/representative-main-v4-stop-report.md"
     },
-    stopped_evidence_policy: "completed-and-active-stage-observations",
+    stopped_evidence_policy: "completed-and-active-stage-observations-v2",
     stop_rules: {
       protocol_mismatch: true,
       model_reroute: true,
@@ -655,7 +655,7 @@ function buildProtocol(manifest) {
 export function validateRepresentativeProtocol(protocol) {
   const errors = [];
   if (protocol?.schema_version !== "temple.representative-microservice-comparison/v3") errors.push("unsupported schema");
-  if (protocol?.protocol_revision !== 4) errors.push("unexpected protocol revision");
+  if (protocol?.protocol_revision !== 5) errors.push("unexpected protocol revision");
   if (protocol?.work_item_id !== "WI-0136") errors.push("unexpected work item");
   if (protocol?.status !== "generation-disabled") errors.push("protocol status must remain generation-disabled before exact approval");
   if (protocol?.protocol_sha256 !== protocolDigest(protocol)) errors.push("protocol digest mismatch");
@@ -686,9 +686,9 @@ export function validateRepresentativeProtocol(protocol) {
       contextPolicy.new_unknown_recovery_start !== "temple-md-first") {
     errors.push("context policy mismatch");
   }
-  if (protocol?.predecessor?.protocol_sha256 !== "e38b4052462db8206a868cfc24a7a90ed6fe896fe09e8d78de4adbeb7de128ea" ||
-      protocol?.predecessor?.disposition !== "stopped-harness-path-parsing-failure" ||
-      protocol?.stopped_evidence_policy !== "completed-and-active-stage-observations") {
+  if (protocol?.predecessor?.protocol_sha256 !== "b01f96b48bb585e4b24390fa0b0c322d2abfc03d8f99650fa9b07a3da4932c71" ||
+      protocol?.predecessor?.disposition !== "stopped-temple-design-operational-token-limit" ||
+      protocol?.stopped_evidence_policy !== "completed-and-active-stage-observations-v2") {
     errors.push("successor provenance mismatch");
   }
   if (!/^[a-f0-9]{64}$/.test(protocol?.fixture?.fixture_sha256 ?? "")) errors.push("fixture digest missing");
@@ -869,16 +869,23 @@ function freezeLimits(protocol, handshake) {
     required_models: handshake.required_models
   };
   Object.assign(next.execution, {
-    design_operational_token_limit: 100000,
+    design_operational_token_limit: 150000,
     build_operational_token_limit: 69000,
     integration_operational_token_limit: 80000,
-    candidate_aggregate_operational_token_limit: 525000,
+    candidate_aggregate_operational_token_limit: 650000,
     evaluator_operational_token_limit: 100000,
-    combined_operational_token_limit: 625000,
+    combined_operational_token_limit: 750000,
     program_wall_clock_limit_ms: 2700000
   });
   next.limit_basis = {
-    design_and_evaluator: {
+    design: {
+      source: ".ai-org/artifacts/WI-0136/representative-main-v4-stopped-run.json",
+      observed_censored_temple_design_operational_tokens: 101815,
+      prior_limit: 100000,
+      frozen_limit: 150000,
+      meaning: "A bounded safety ceiling above the observed censored lower bound; not a completion forecast."
+    },
+    evaluator: {
       source: ".ai-org/artifacts/WI-0132/live-experiment-observation.json",
       observed_sol_xhigh_candidate_maximum: 78497,
       frozen_limit: 100000
@@ -895,12 +902,13 @@ function freezeLimits(protocol, handshake) {
       frozen_limit: 80000
     },
     aggregate: {
-      source: ".ai-org/artifacts/WI-0132/live-experiment-observation.json",
-      prior_eight_candidate_operational_tokens: 416395,
-      turn_count_scale: "10 / 8",
-      linearly_scaled_observation_ceiling: 520494,
-      rounded_candidate_limit: 525000,
-      candidate_limit: 525000,
+      source: ".ai-org/artifacts/WI-0136/representative-main-v4-stopped-run.json",
+      completed_minimal_arm_operational_tokens: 234099,
+      censored_temple_design_operational_tokens: 101815,
+      remaining_declared_stage_ceiling: 287000,
+      observed_plus_remaining_declared_ceiling: 623914,
+      rounded_candidate_limit: 650000,
+      candidate_limit: 650000,
       evaluator_limit: 100000
     },
     meaning: "Safety stops based on retained operational-Token observations; not forecasts, prices, or statistical estimates."
@@ -1337,6 +1345,16 @@ export function successfulContextActionLabels(item, fallbackActions = []) {
   return contextActionLabels(actions);
 }
 
+export function stoppedStageObservation(observation, stopReason, candidateLimitObserved = false) {
+  return {
+    ...observation,
+    status: candidateLimitObserved ? "censored" : "stopped",
+    stop_scope: candidateLimitObserved ? "condition" : "run",
+    stop_reason: stopReason,
+    completion: null
+  };
+}
+
 function summarizeSuccessfulContextActivity(item, activity, fallbackActions = []) {
   for (const label of successfulContextActionLabels(item, fallbackActions)) {
     if (label === "temple-md") activity.temple_md_reads += 1;
@@ -1503,11 +1521,10 @@ async function launchModelTurn({
     if (!turnId) throw new Error(`${id}: turn did not start`);
     await terminalPromise;
     await new Promise((resolve) => setTimeout(resolve, 500));
-    const candidateLimitObserved = retainStopOutcome && violation === `${stage}-operational-token-limit`;
+    const candidateLimitObserved = violation === `${stage}-operational-token-limit`;
     const failure = terminalFailure(terminal);
     const stopReason = violation ?? (failure ? `${failure.code}:${failure.message}` : null);
     const retainObservedStop = retainStopOutcome && stopReason !== null && latestUsage !== null;
-    if (stopReason && !retainObservedStop) throw new Error(`${id}:${stopReason}`);
     if (!latestUsage) throw new Error(`${id}:detailed Token usage missing`);
     const tokens = operationalTokens(latestUsage);
     const completedMs = Date.now();
@@ -1543,14 +1560,13 @@ async function launchModelTurn({
       raw_response_retained: false,
       hidden_reasoning_retained: false
     };
+    if (stopReason && !retainObservedStop) {
+      const error = new Error(`${id}:${stopReason}`);
+      error.stage_observation = stoppedStageObservation(observation, stopReason, candidateLimitObserved);
+      throw error;
+    }
     if (retainObservedStop) {
-      return {
-        ...observation,
-        status: candidateLimitObserved ? "censored" : "stopped",
-        stop_scope: candidateLimitObserved ? "condition" : "run",
-        stop_reason: stopReason,
-        completion: null
-      };
+      return stoppedStageObservation(observation, stopReason, candidateLimitObserved);
     }
     return {
       ...observation,
@@ -2925,19 +2941,36 @@ async function buildArmPackage({ armId, armRoot, design, builds, integration }) 
 
 async function runArm({ armId, labRoot, protocol, budget, deadline, progress }) {
   const armRoot = path.join(labRoot, "arms", armId);
-  const design = await runDesignTurn({ armId, armRoot, protocol, budget, deadline });
-  progress.design = design;
+  let design;
+  try {
+    design = await runDesignTurn({ armId, armRoot, protocol, budget, deadline });
+    progress.design = design;
+  } catch (error) {
+    if (error.stage_observation) progress.design = error.stage_observation;
+    throw error;
+  }
   const builds = await Promise.all(buildSlices().map(async (slice) => {
-    const build = await runBuildSlice({ armId, armRoot, slice, protocol, budget, deadline });
-    progress.builds.push(build);
-    return build;
+    try {
+      const build = await runBuildSlice({ armId, armRoot, slice, protocol, budget, deadline });
+      progress.builds.push(build);
+      return build;
+    } catch (error) {
+      if (error.stage_observation) progress.builds.push(error.stage_observation);
+      throw error;
+    }
   }));
   progress.builds.sort((left, right) => left.id.localeCompare(right.id));
   const serviceRevisions = Object.fromEntries(await Promise.all(services.map(async (repositoryId) => [repositoryId, await git(path.join(armRoot, repositoryId), ["rev-parse", "HEAD"])])));
   const portfolioRevision = await installArmPortfolio(armRoot, armId, serviceRevisions);
   progress.portfolio_revision = portfolioRevision;
-  const integration = await runIntegrationTurn({ armId, armRoot, protocol, budget, deadline });
-  progress.integration = integration;
+  let integration;
+  try {
+    integration = await runIntegrationTurn({ armId, armRoot, protocol, budget, deadline });
+    progress.integration = integration;
+  } catch (error) {
+    if (error.stage_observation) progress.integration = error.stage_observation;
+    throw error;
+  }
   const packages = await buildArmPackage({ armId, armRoot, design, builds, integration });
   return { arm_id: armId, design, builds, portfolio_revision: portfolioRevision, integration, ...packages };
 }

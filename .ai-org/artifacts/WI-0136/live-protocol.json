@@ -1,12 +1,12 @@
 {
   "schema_version": "temple.representative-microservice-comparison/v3",
-  "protocol_revision": 4,
+  "protocol_revision": 5,
   "work_item_id": "WI-0136",
   "status": "generation-disabled",
-  "protocol_sha256": "b01f96b48bb585e4b24390fa0b0c322d2abfc03d8f99650fa9b07a3da4932c71",
+  "protocol_sha256": "4b6c78cfa4b367787eb79a1d555dcfa387d2048d656741f7611f64c48b5f64f6",
   "fixture": {
     "fixture_sha256": "b10ff626ef465686909aaab6d858b087f0c2aaad7a8c484f9955ed0a8465822c",
-    "runner_sha256": "516d68c6346935d10c7c6b33bde6567ca591379b623b4d7c708c9bfba141710e",
+    "runner_sha256": "c41375edd83c821fef8eac63b6b4960442c001a2dcb460e493a4d053e66b071b",
     "analyzer_sha256": "5e614a7879a8fbdb7655d6780dcf0c7e693e7326259fa166d7fe3231f1151c5c",
     "task_sha256": "5dfd10dce99196f282f0560a25aaffd359b7af2119a62d943e465f19ae46369c",
     "public_tests_sha256": "8809e165ee024f5606a48c38bb0f6065e3b943fcd00d05fda5fdd6099e0f41f9",
@@ -14,7 +14,7 @@
     "tool_policy_sha256": "18f5bef25f7b8a4efc220252818e642b75f5c342dd8d316e79a1254652801913",
     "rubric_sha256": "364d20a3102ddd78131fd2566b8579957b14df2d6638efd3ef1e97e94faeaf3f"
   },
-  "lab_manifest_sha256": "8104adc4f9b77bda9f6bd5226c658b11d5cabe9dea456aa85bc9620bc20bdf33",
+  "lab_manifest_sha256": "3e0cdcbd1df801db075db856bc1075007cc339918ee4c45d38969267158e558d",
   "arms": [
     {
       "id": "minimal-responsible",
@@ -30,7 +30,7 @@
         "catalog": "490bb75496c715770d2585a18c7a6ddd8c8b67c9",
         "orders": "21b595ddeaf29c43c77ee6b980c8820c499bef67",
         "notifications": "01c716dc842e22b8b241eeb19707d69bf57f9598",
-        "coordinator": "d13171c828dfc99c85173561aa3bcaeafad5705b"
+        "coordinator": "e026aa0c15a9be0525283278b27c389a555c7ede"
       }
     },
     {
@@ -43,11 +43,11 @@
         "coordinator": "e3ce9dcde7e25d57df6a310bb850a4977921114f"
       },
       "organization_revisions": {
-        "gateway": "c6742a6e0c4a7d8bb803abc9875e8b9519abee49",
-        "catalog": "f1a4642817521dd19bd16a036b5f1ff175fe904a",
-        "orders": "86db1d3f8b372612b443312ea6c92de0d2a9978a",
-        "notifications": "6d7e8ee8e9987aa3bdaa9482e793d5812720c027",
-        "coordinator": "2670ff8300d7fb4f158458374ef543dcac94ee5b"
+        "gateway": "872a4f749fdaaf95288ff20441534f19f59ebf0c",
+        "catalog": "c0b220b81d7cd5a5f7974e1ffda7ced150ffe47b",
+        "orders": "78bb21e4726628d4137b00405fb93d31aab90deb",
+        "notifications": "712ca47bfad1b0f30000b0ad0eb217b34ed76339",
+        "coordinator": "ab59f5e520aa33e754eb465251b2432c5f0c1194"
       }
     }
   ],
@@ -64,12 +64,12 @@
     "network_access": false,
     "generation_ready": false,
     "exact_approval_required": true,
-    "design_operational_token_limit": 100000,
+    "design_operational_token_limit": 150000,
     "build_operational_token_limit": 69000,
     "integration_operational_token_limit": 80000,
-    "candidate_aggregate_operational_token_limit": 525000,
+    "candidate_aggregate_operational_token_limit": 650000,
     "evaluator_operational_token_limit": 100000,
-    "combined_operational_token_limit": 625000,
+    "combined_operational_token_limit": 750000,
     "program_wall_clock_limit_ms": 2700000
   },
   "model_route": {
@@ -102,12 +102,12 @@
     "new_unknown_recovery_start": "temple-md-first"
   },
   "predecessor": {
-    "protocol_sha256": "e38b4052462db8206a868cfc24a7a90ed6fe896fe09e8d78de4adbeb7de128ea",
-    "disposition": "stopped-harness-path-parsing-failure",
-    "stopped_run": ".ai-org/artifacts/WI-0136/representative-main-v3-stopped-run.json",
-    "stop_report": ".ai-org/artifacts/WI-0136/representative-main-v3-stop-report.md"
+    "protocol_sha256": "b01f96b48bb585e4b24390fa0b0c322d2abfc03d8f99650fa9b07a3da4932c71",
+    "disposition": "stopped-temple-design-operational-token-limit",
+    "stopped_run": ".ai-org/artifacts/WI-0136/representative-main-v4-stopped-run.json",
+    "stop_report": ".ai-org/artifacts/WI-0136/representative-main-v4-stop-report.md"
   },
-  "stopped_evidence_policy": "completed-and-active-stage-observations",
+  "stopped_evidence_policy": "completed-and-active-stage-observations-v2",
   "stop_rules": {
     "protocol_mismatch": true,
     "model_reroute": true,
@@ -157,7 +157,14 @@
     ]
   },
   "limit_basis": {
-    "design_and_evaluator": {
+    "design": {
+      "source": ".ai-org/artifacts/WI-0136/representative-main-v4-stopped-run.json",
+      "observed_censored_temple_design_operational_tokens": 101815,
+      "prior_limit": 100000,
+      "frozen_limit": 150000,
+      "meaning": "A bounded safety ceiling above the observed censored lower bound; not a completion forecast."
+    },
+    "evaluator": {
       "source": ".ai-org/artifacts/WI-0132/live-experiment-observation.json",
       "observed_sol_xhigh_candidate_maximum": 78497,
       "frozen_limit": 100000
@@ -174,12 +181,13 @@
       "frozen_limit": 80000
     },
     "aggregate": {
-      "source": ".ai-org/artifacts/WI-0132/live-experiment-observation.json",
-      "prior_eight_candidate_operational_tokens": 416395,
-      "turn_count_scale": "10 / 8",
-      "linearly_scaled_observation_ceiling": 520494,
-      "rounded_candidate_limit": 525000,
-      "candidate_limit": 525000,
+      "source": ".ai-org/artifacts/WI-0136/representative-main-v4-stopped-run.json",
+      "completed_minimal_arm_operational_tokens": 234099,
+      "censored_temple_design_operational_tokens": 101815,
+      "remaining_declared_stage_ceiling": 287000,
+      "observed_plus_remaining_declared_ceiling": 623914,
+      "rounded_candidate_limit": 650000,
+      "candidate_limit": 650000,
       "evaluator_limit": 100000
     },
     "meaning": "Safety stops based on retained operational-Token observations; not forecasts, prices, or statistical estimates."

@@ -191,6 +191,27 @@ V3 stopped after observing 144,372 Operational Tokens. The model changed the all
 - Models, efforts, candidate count, safety limits, retry policy, fallback policy, and network boundary: unchanged from v3
 - Harness repair: accept exact Git porcelain records both before and after the shared command helper trims leading whitespace
 - Stopped evidence: retain completed arms and normalized active Design, Build, and Integration observations
-- Status: generation disabled until separate exact account approval
+- Exact approval: recorded at `2026-09-03T15:49:07Z`
+- Live attempt: completed one arm, then stopped at the Temple Design Token limit
+- Operational Tokens observed: 335,914
+- Retry and fallback observed: 0
+- Status: stopped; no matched comparison result
 
-V4 uses fresh matched repositories and a new runner digest. The v3 approval cannot authorize it, and the stopped v3 lab cannot be resumed or retried. The first approval-aware v4 preflight performed no model generation and failed closed because Codex CLI changed from `0.151.0-alpha.7.2` to `0.153.0-alpha.5` after the initial freeze. The experiment inputs, routes, resource limits, and retry policy were left unchanged; only the inspected Provider version and wire-schema digests were refreshed. The resulting current digest requires a new exact approval.
+V4 uses fresh matched repositories and a new runner digest. The v3 approval cannot authorize it, and the stopped v3 lab cannot be resumed or retried. The first approval-aware v4 preflight performed no model generation and failed closed because Codex CLI changed from `0.151.0-alpha.7.2` to `0.153.0-alpha.5` after the initial freeze. The experiment inputs, routes, resource limits, and retry policy were left unchanged; only the inspected Provider version and wire-schema digests were refreshed.
+
+The exact-approved current digest completed the entire Minimal Responsible arm at 234,099 Operational Tokens. All objective tests passed, cold recovery found all four exact revisions and all three slices, and no boundary violation was observed. The Temple Design turn then crossed its 100,000 stage ceiling. Total candidate usage was 335,914, leaving 101,815 attributable to the censored Temple attempt. No blind evaluator ran. The stopped artifact retained the completed arm but exposed that the active stage telemetry was not attached before the main runner threw.
+
+## Representative comparison v5
+
+- Protocol SHA-256: `4b6c78cfa4b367787eb79a1d555dcfa387d2048d656741f7611f64c48b5f64f6`
+- Design Operational-Token hard stop: 150,000
+- Build Operational-Token hard stop: 69,000 per slice
+- Integration Operational-Token hard stop: 80,000
+- Candidate Operational-Token hard stop: 650,000
+- Evaluator Operational-Token hard stop: 100,000
+- Combined Operational-Token hard stop: 750,000
+- Wall-clock hard stop: 45 minutes
+- Retry and fallback: disabled
+- Status: generation disabled until exact approval
+
+V5 uses fresh matched repositories and preserves the task, arm order, model routes, context treatment, network boundary, and objective tests. The Design ceiling is a bounded increase from the 101,815 censored v4 observation, not a completion forecast. The candidate ceiling is derived from 234,099 completed Minimal Responsible Tokens plus 101,815 observed Temple Design Tokens plus 287,000 in already-declared remaining Build and Integration ceilings, then rounded from 623,914 to 650,000. The runner now attaches partial stage telemetry before propagating a fail-closed error.

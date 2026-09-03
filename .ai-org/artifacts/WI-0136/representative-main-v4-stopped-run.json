@@ -1,0 +1,1366 @@
+{
+  "schema_version": "temple.representative-microservice-stopped-run/v2",
+  "work_item_id": "WI-0136",
+  "protocol_sha256": "b01f96b48bb585e4b24390fa0b0c322d2abfc03d8f99650fa9b07a3da4932c71",
+  "started_at": "2026-09-03T15:49:49.353Z",
+  "stopped_at": "2026-09-03T16:01:55.285Z",
+  "completed_arm_count": 1,
+  "completed_arms": [
+    {
+      "arm_id": "minimal-responsible",
+      "design": {
+        "id": "minimal-responsible-design",
+        "stage": "design",
+        "started_at": "2026-09-03T15:49:49.354Z",
+        "completed_at": "2026-09-03T15:53:09.732Z",
+        "elapsed_ms": 200377,
+        "session_setup_ms": 139,
+        "turn_elapsed_ms": 200238,
+        "time_to_first_activity_ms": 15656,
+        "time_to_first_command_ms": 21594,
+        "effective_output_tokens_per_second": 40.317,
+        "thread_id": "01a067f6-4ac9-7a03-95fb-3dc53fdb610e",
+        "turn_id": "01a067f6-4b35-7512-aa47-73c71bf26a03",
+        "requested_model": "gpt-5.6-sol",
+        "acknowledged_model": "gpt-5.6-sol",
+        "requested_reasoning_effort": "xhigh",
+        "observed_thread_reasoning_effort": "high",
+        "effective_turn_reasoning_effort": null,
+        "usage": {
+          "input_tokens": 967022,
+          "cached_input_tokens": 919168,
+          "output_tokens": 8073,
+          "reasoning_output_tokens": 4872,
+          "total_tokens": 975095
+        },
+        "operational_tokens": 55927,
+        "prompt_metrics": {
+          "components": {
+            "base_instructions": {
+              "bytes": 168,
+              "characters": 168,
+              "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+            },
+            "developer_instructions": {
+              "bytes": 1175,
+              "characters": 1175,
+              "sha256": "2d6ffef8823ca937641e7fcc76edce08f14e4f3b4a11fbf05edbd9f41bf1fed3"
+            },
+            "user_input": {
+              "bytes": 1873,
+              "characters": 1873,
+              "sha256": "ed05308117a50aa6409f528383c2de85033224a76d801b15294a33d44d9202d9"
+            },
+            "output_schema": {
+              "bytes": 606,
+              "characters": 606,
+              "sha256": "dd96eba2c74430a2bb90418d024e9dfb21cc36d0e6ad62ad23fdc65a14e19d37"
+            }
+          },
+          "explicit_bytes": 3822,
+          "raw_prompt_retained": false
+        },
+        "tool_activity": {
+          "command_items": 30,
+          "command_actions": 30,
+          "action_types": {
+            "read": 9,
+            "listFiles": 3,
+            "unknown": 18
+          },
+          "temple_md_attempts": 0,
+          "context_resolve_attempts": 0,
+          "temple_md_reads": 0,
+          "context_resolve_calls": 0,
+          "context_sequence": [],
+          "reported_output_bytes": 45001
+        },
+        "retry_count": 0,
+        "fallback_count": 0,
+        "raw_prompt_retained": false,
+        "raw_response_retained": false,
+        "hidden_reasoning_retained": false,
+        "status": "completed",
+        "stop_scope": null,
+        "stop_reason": null,
+        "completion": {
+          "contract_version": "OrderPlaced/v2",
+          "rollout_order": [
+            "notifications",
+            "orders-catalog",
+            "gateway"
+          ],
+          "slices": [
+            {
+              "id": "notifications",
+              "repositories": [
+                "notifications"
+              ],
+              "responsibility": "Prepare the consumer before v2 publication. In the recorded owned path `src/consumer.mjs`, validate `OrderPlaced` v1 flat events and v2 nested events before deduplication; reject malformed or unsupported events; derive the order ID from `orderId` for v1 or `order.id` for v2; and retain event-ID-keyed idempotency. Run `npm test`, commit the accepted change, and record the exact accepted revision, results, and unresolved issues in `organization/HANDOFF.md`."
+            },
+            {
+              "id": "orders-catalog",
+              "repositories": [
+                "catalog",
+                "orders"
+              ],
+              "responsibility": "After the notifications handoff, update only the recorded owned paths. Catalog must return its stored `inventoryRevision` for known SKUs while preserving unknown-SKU behavior. Deploy/accept Catalog first; then make Orders publish only the specified v2 envelope, copying the Catalog revision, locale, and occurrence time and nesting order fields. Run `npm test` independently in both repositories, commit each accepted change, and write separate handoffs with exact revisions and unresolved issues."
+            },
+            {
+              "id": "gateway",
+              "repositories": [
+                "gateway"
+              ],
+              "responsibility": "After producer publication, update the recorded owned path `src/checkout-response.mjs` so the response retains `orderId` and `status` unchanged and adds `eventVersion` from `event.version`. Run the Gateway `npm test`; after all predecessor revisions are pinned, run the Coordinator public integration test without making Coordinator writable. Commit the accepted Gateway change and record its revision, test evidence, and unresolved issues in `organization/HANDOFF.md`."
+            }
+          ],
+          "risks": [
+            "All current service public tests fail at the inspected baselines: Catalog omits `inventoryRevision`; Orders still emits a flat v1 event; Notifications rejects v2; and Gateway omits `eventVersion`. Each run reported 0 passed and 1 failed.",
+            "Coordinator revision d13171c828dfc99c85173561aa3bcaeafad5705b also fails its public integration test at the first assertion (`v1` versus `v2`), so downstream propagation, notification, and Gateway assertions were not exercised by that run.",
+            "Notifications' public test covers v2 acceptance and duplicate handling only; retained-v1 acceptance plus malformed and unsupported-event rejection require explicit verification before handoff.",
+            "The requirement does not fully define malformed-field policy. The design assumes required identifiers and strings must be non-empty, quantity must be a positive integer, v2 must contain a valid nested order and required metadata, and additional fields remain tolerable for rolling compatibility.",
+            "No deployment or external compatibility evidence exists; the repositories identify themselves as synthetic local repositories."
+          ],
+          "assumptions": [
+            "The exclusive writable repository sets are `{notifications}`, `{catalog, orders}`, and `{gateway}`; Coordinator remains read-only acceptance scope.",
+            "The retained v1 contract is the currently emitted flat shape: `type`, `version`, `id`, `orderId`, `sku`, and `quantity`. Idempotency is shared across accepted versions solely by event ID and validation occurs before duplicate lookup.",
+            "Inspected clean baseline revisions are Catalog 490bb75496c715770d2585a18c7a6ddd8c8b67c9, Orders 21b595ddeaf29c43c77ee6b980c8820c499bef67, Notifications 01c716dc842e22b8b241eeb19707d69bf57f9598, and Gateway b650f0713776851c609659d5f6872d60e67742fe.",
+            "No files were modified during this design attempt."
+          ]
+        },
+        "design_revision": "eb730fa541b2884aea87ce5583d51eaaf0002371"
+      },
+      "builds": [
+        {
+          "id": "minimal-responsible-orders-catalog",
+          "stage": "build",
+          "started_at": "2026-09-03T15:53:09.834Z",
+          "completed_at": "2026-09-03T15:55:15.582Z",
+          "elapsed_ms": 125748,
+          "session_setup_ms": 227,
+          "turn_elapsed_ms": 125521,
+          "time_to_first_activity_ms": 3306,
+          "time_to_first_command_ms": 7087,
+          "effective_output_tokens_per_second": 25.757,
+          "thread_id": "01a067f9-5a05-7de0-ae31-4c0acc705819",
+          "turn_id": "01a067f9-5aaf-7db0-8a09-122ed7151251",
+          "requested_model": "gpt-5.6-terra",
+          "acknowledged_model": "gpt-5.6-terra",
+          "requested_reasoning_effort": "medium",
+          "observed_thread_reasoning_effort": "high",
+          "effective_turn_reasoning_effort": null,
+          "usage": {
+            "input_tokens": 687042,
+            "cached_input_tokens": 642304,
+            "output_tokens": 3233,
+            "reasoning_output_tokens": 468,
+            "total_tokens": 690275
+          },
+          "operational_tokens": 47971,
+          "prompt_metrics": {
+            "components": {
+              "base_instructions": {
+                "bytes": 168,
+                "characters": 168,
+                "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+              },
+              "developer_instructions": {
+                "bytes": 1175,
+                "characters": 1175,
+                "sha256": "2d6ffef8823ca937641e7fcc76edce08f14e4f3b4a11fbf05edbd9f41bf1fed3"
+              },
+              "user_input": {
+                "bytes": 655,
+                "characters": 655,
+                "sha256": "164e62afcd111c37d237c0a81688991029bc91d06a8b893c4e42f7ef612f44de"
+              },
+              "output_schema": {
+                "bytes": 350,
+                "characters": 350,
+                "sha256": "c29cae9d81c3749e9869f21c25e39961641415e0e8bac39b09d166c7e4afae91"
+              }
+            },
+            "explicit_bytes": 2348,
+            "raw_prompt_retained": false
+          },
+          "tool_activity": {
+            "command_items": 26,
+            "command_actions": 26,
+            "action_types": {
+              "read": 13,
+              "listFiles": 4,
+              "unknown": 9
+            },
+            "temple_md_attempts": 0,
+            "context_resolve_attempts": 0,
+            "temple_md_reads": 0,
+            "context_resolve_calls": 0,
+            "context_sequence": [],
+            "reported_output_bytes": 14938
+          },
+          "retry_count": 0,
+          "fallback_count": 0,
+          "raw_prompt_retained": false,
+          "raw_response_retained": false,
+          "hidden_reasoning_retained": false,
+          "status": "completed",
+          "stop_scope": null,
+          "stop_reason": null,
+          "completion": {
+            "summary": "Implemented the orders-catalog v2 slice. Catalog exposes stored inventoryRevision for known SKUs while retaining unknown-SKU output; Orders emits only the exact nested OrderPlaced v2 envelope. No commits or handoff files were created per instruction.",
+            "changed_paths": [
+              "catalog/src/catalog.mjs",
+              "orders/src/order-event.mjs"
+            ],
+            "test_command": "(cd catalog && npm test) && (cd orders && npm test)",
+            "test_result": "Passed separately: catalog 1/1; orders 1/1. Baselines remain uncommitted: catalog 490bb75496c715770d2585a18c7a6ddd8c8b67c9; orders 21b595ddeaf29c43c77ee6b980c8820c499bef67.",
+            "unresolved": [
+              "No organization/HANDOFF.md existed in either assigned repository; it was not created because only declared service source files were allowed to change."
+            ]
+          },
+          "repositories": {
+            "orders": {
+              "launch_revision": "21b595ddeaf29c43c77ee6b980c8820c499bef67",
+              "product_revision": "c13e1dd2c179060f303ca479d0e052f202d795f9",
+              "handoff_revision": "e6d3e08d77832faefefe3f71392f57becaf2c83f",
+              "changed_paths": [
+                "src/order-event.mjs"
+              ],
+              "changed_lines": 13,
+              "public_test_exit_code": 0,
+              "public_test_output_sha256": "62ee793d48910b9ced10c39c184d8bd7a46f8c902e410ed40649874702e1acde"
+            },
+            "catalog": {
+              "launch_revision": "490bb75496c715770d2585a18c7a6ddd8c8b67c9",
+              "product_revision": "e67e1d03f9394c75758f1ece3b3907e76377d622",
+              "handoff_revision": "81702d69281fcb7cbe9de1bb5b28112593b032cf",
+              "changed_paths": [
+                "src/catalog.mjs"
+              ],
+              "changed_lines": 3,
+              "public_test_exit_code": 0,
+              "public_test_output_sha256": "fe24efaf5870af8b33119ba43784dead0d8f757e0422fe5d0a4d40241378278a"
+            }
+          }
+        },
+        {
+          "id": "minimal-responsible-notifications",
+          "stage": "build",
+          "started_at": "2026-09-03T15:53:09.833Z",
+          "completed_at": "2026-09-03T15:54:13.837Z",
+          "elapsed_ms": 64004,
+          "session_setup_ms": 181,
+          "turn_elapsed_ms": 63823,
+          "time_to_first_activity_ms": 4862,
+          "time_to_first_command_ms": 7916,
+          "effective_output_tokens_per_second": 32.903,
+          "thread_id": "01a067f9-59f3-7a21-bf0a-1ccbdecc7ff7",
+          "turn_id": "01a067f9-5a7f-7793-85b8-6d94dda83f39",
+          "requested_model": "gpt-5.6-terra",
+          "acknowledged_model": "gpt-5.6-terra",
+          "requested_reasoning_effort": "medium",
+          "observed_thread_reasoning_effort": "high",
+          "effective_turn_reasoning_effort": null,
+          "usage": {
+            "input_tokens": 332944,
+            "cached_input_tokens": 299520,
+            "output_tokens": 2100,
+            "reasoning_output_tokens": 487,
+            "total_tokens": 335044
+          },
+          "operational_tokens": 35524,
+          "prompt_metrics": {
+            "components": {
+              "base_instructions": {
+                "bytes": 168,
+                "characters": 168,
+                "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+              },
+              "developer_instructions": {
+                "bytes": 1175,
+                "characters": 1175,
+                "sha256": "2d6ffef8823ca937641e7fcc76edce08f14e4f3b4a11fbf05edbd9f41bf1fed3"
+              },
+              "user_input": {
+                "bytes": 650,
+                "characters": 650,
+                "sha256": "6f0453ebff7d44f975cf3f521c5edb792aafacc26e46663d29874dcdbd4dd992"
+              },
+              "output_schema": {
+                "bytes": 350,
+                "characters": 350,
+                "sha256": "c29cae9d81c3749e9869f21c25e39961641415e0e8bac39b09d166c7e4afae91"
+              }
+            },
+            "explicit_bytes": 2343,
+            "raw_prompt_retained": false
+          },
+          "tool_activity": {
+            "command_items": 13,
+            "command_actions": 13,
+            "action_types": {
+              "unknown": 7,
+              "read": 6
+            },
+            "temple_md_attempts": 0,
+            "context_resolve_attempts": 0,
+            "temple_md_reads": 0,
+            "context_resolve_calls": 0,
+            "context_sequence": [],
+            "reported_output_bytes": 7079
+          },
+          "retry_count": 0,
+          "fallback_count": 0,
+          "raw_prompt_retained": false,
+          "raw_response_retained": false,
+          "hidden_reasoning_retained": false,
+          "status": "completed",
+          "stop_scope": null,
+          "stop_reason": null,
+          "completion": {
+            "summary": "Updated Notifications consumer for validated v1 flat and v2 nested OrderPlaced events, with validation before event-ID deduplication and normalized order ID delivery records.",
+            "changed_paths": [
+              "notifications/src/consumer.mjs"
+            ],
+            "test_command": "cd notifications && npm test",
+            "test_result": "Passed: 1 test, 0 failures.",
+            "unresolved": [
+              "Retained-v1 and malformed/unsupported paths are implemented per the Coordinator design record but are not covered by the repository's public test.",
+              "Change remains uncommitted as requested."
+            ]
+          },
+          "repositories": {
+            "notifications": {
+              "launch_revision": "01c716dc842e22b8b241eeb19707d69bf57f9598",
+              "product_revision": "5581d19a42a4a0344e60f174541c7ffddb5c22b3",
+              "handoff_revision": "9c172471bbf995de904c9a346c8a0ac25b35e8b6",
+              "changed_paths": [
+                "src/consumer.mjs"
+              ],
+              "changed_lines": 45,
+              "public_test_exit_code": 0,
+              "public_test_output_sha256": "d6e90b0a15df2dc4a27dfe5bbc3237166387f63152a41ed4b233a7e6cae00f07"
+            }
+          }
+        },
+        {
+          "id": "minimal-responsible-gateway",
+          "stage": "build",
+          "started_at": "2026-09-03T15:53:09.831Z",
+          "completed_at": "2026-09-03T15:54:39.575Z",
+          "elapsed_ms": 89743,
+          "session_setup_ms": 172,
+          "turn_elapsed_ms": 89571,
+          "time_to_first_activity_ms": 3572,
+          "time_to_first_command_ms": 7755,
+          "effective_output_tokens_per_second": 21.592,
+          "thread_id": "01a067f9-59f3-73a3-8d74-6d836e96fe33",
+          "turn_id": "01a067f9-5a74-7401-8f67-11bc8364478f",
+          "requested_model": "gpt-5.6-terra",
+          "acknowledged_model": "gpt-5.6-terra",
+          "requested_reasoning_effort": "medium",
+          "observed_thread_reasoning_effort": "high",
+          "effective_turn_reasoning_effort": null,
+          "usage": {
+            "input_tokens": 402809,
+            "cached_input_tokens": 368384,
+            "output_tokens": 1934,
+            "reasoning_output_tokens": 529,
+            "total_tokens": 404743
+          },
+          "operational_tokens": 36359,
+          "prompt_metrics": {
+            "components": {
+              "base_instructions": {
+                "bytes": 168,
+                "characters": 168,
+                "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+              },
+              "developer_instructions": {
+                "bytes": 1175,
+                "characters": 1175,
+                "sha256": "2d6ffef8823ca937641e7fcc76edce08f14e4f3b4a11fbf05edbd9f41bf1fed3"
+              },
+              "user_input": {
+                "bytes": 632,
+                "characters": 632,
+                "sha256": "737a148c88ed1918bac82be25f3d47bb0e213ebe1d91a9eeb53cb8bb3733d23f"
+              },
+              "output_schema": {
+                "bytes": 350,
+                "characters": 350,
+                "sha256": "c29cae9d81c3749e9869f21c25e39961641415e0e8bac39b09d166c7e4afae91"
+              }
+            },
+            "explicit_bytes": 2325,
+            "raw_prompt_retained": false
+          },
+          "tool_activity": {
+            "command_items": 16,
+            "command_actions": 16,
+            "action_types": {
+              "unknown": 8,
+              "read": 8
+            },
+            "temple_md_attempts": 0,
+            "context_resolve_attempts": 0,
+            "temple_md_reads": 0,
+            "context_resolve_calls": 0,
+            "context_sequence": [],
+            "reported_output_bytes": 7170
+          },
+          "retry_count": 0,
+          "fallback_count": 0,
+          "raw_prompt_retained": false,
+          "raw_response_retained": false,
+          "hidden_reasoning_retained": false,
+          "status": "completed",
+          "stop_scope": null,
+          "stop_reason": null,
+          "completion": {
+            "summary": "Gateway response now retains orderId/status and exposes eventVersion from event.version.",
+            "changed_paths": [
+              "gateway/src/checkout-response.mjs"
+            ],
+            "test_command": "cd gateway && npm test",
+            "test_result": "PASS: 1 passed, 0 failed.",
+            "unresolved": [
+              "No commit or organization handoff was created per instruction; gateway baseline revision remains b650f0713776851c609659d5f6872d60e67742fe. Coordinator integration test was not run because gateway is the only assigned repository."
+            ]
+          },
+          "repositories": {
+            "gateway": {
+              "launch_revision": "b650f0713776851c609659d5f6872d60e67742fe",
+              "product_revision": "3dd0a545aa888ffd04bd54410ff34a6a8f1ef5b9",
+              "handoff_revision": "038efa548bdcc25f9008c10109ec39263d8defc8",
+              "changed_paths": [
+                "src/checkout-response.mjs"
+              ],
+              "changed_lines": 3,
+              "public_test_exit_code": 0,
+              "public_test_output_sha256": "6b0ae1de1e1932fcf001149a49ea3c0b5e493b635e84ec133301db525d98438d"
+            }
+          }
+        }
+      ],
+      "portfolio_revision": "1e9004f195e61b3fc440469da54c19cbaaf9c54e",
+      "integration": {
+        "id": "minimal-responsible-integration",
+        "stage": "integration",
+        "started_at": "2026-09-03T15:55:16.149Z",
+        "completed_at": "2026-09-03T15:58:04.720Z",
+        "elapsed_ms": 168571,
+        "session_setup_ms": 152,
+        "turn_elapsed_ms": 168419,
+        "time_to_first_activity_ms": 3649,
+        "time_to_first_command_ms": 12900,
+        "effective_output_tokens_per_second": 22.379,
+        "thread_id": "01a067fb-4760-7893-8a0c-936d187890c2",
+        "turn_id": "01a067fb-47cd-7ff3-921e-7ef6cac364b6",
+        "requested_model": "gpt-5.6-terra",
+        "acknowledged_model": "gpt-5.6-terra",
+        "requested_reasoning_effort": "medium",
+        "observed_thread_reasoning_effort": "high",
+        "effective_turn_reasoning_effort": null,
+        "usage": {
+          "input_tokens": 850453,
+          "cached_input_tokens": 795904,
+          "output_tokens": 3769,
+          "reasoning_output_tokens": 916,
+          "total_tokens": 854222
+        },
+        "operational_tokens": 58318,
+        "prompt_metrics": {
+          "components": {
+            "base_instructions": {
+              "bytes": 168,
+              "characters": 168,
+              "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+            },
+            "developer_instructions": {
+              "bytes": 1175,
+              "characters": 1175,
+              "sha256": "2d6ffef8823ca937641e7fcc76edce08f14e4f3b4a11fbf05edbd9f41bf1fed3"
+            },
+            "user_input": {
+              "bytes": 741,
+              "characters": 741,
+              "sha256": "8cbec0e27effe7d0221e73a22750cd99bca9926ba91e9085cf09fe6876c18cd1"
+            },
+            "output_schema": {
+              "bytes": 684,
+              "characters": 684,
+              "sha256": "677d13bd2fdf4025cd2071f30e3a0745f23b15e2e0be3884086004dff33152f1"
+            }
+          },
+          "explicit_bytes": 2768,
+          "raw_prompt_retained": false
+        },
+        "tool_activity": {
+          "command_items": 31,
+          "command_actions": 31,
+          "action_types": {
+            "read": 13,
+            "unknown": 14,
+            "listFiles": 3,
+            "search": 1
+          },
+          "temple_md_attempts": 0,
+          "context_resolve_attempts": 0,
+          "temple_md_reads": 0,
+          "context_resolve_calls": 0,
+          "context_sequence": [],
+          "reported_output_bytes": 29857
+        },
+        "retry_count": 0,
+        "fallback_count": 0,
+        "raw_prompt_retained": false,
+        "raw_response_retained": false,
+        "hidden_reasoning_retained": false,
+        "status": "completed",
+        "stop_scope": null,
+        "stop_reason": null,
+        "completion": {
+          "recovered_revisions": [
+            {
+              "repository": "gateway",
+              "revision": "038efa548bdcc25f9008c10109ec39263d8defc8"
+            },
+            {
+              "repository": "catalog",
+              "revision": "81702d69281fcb7cbe9de1bb5b28112593b032cf"
+            },
+            {
+              "repository": "orders",
+              "revision": "e6d3e08d77832faefefe3f71392f57becaf2c83f"
+            },
+            {
+              "repository": "notifications",
+              "revision": "9c172471bbf995de904c9a346c8a0ac25b35e8b6"
+            }
+          ],
+          "governing_contract": "OrderPlaced/v2 rolling compatibility: Catalog exposes known-SKU inventoryRevision; Orders publishes the specified nested v2 envelope; Notifications accepts validated retained v1 and v2 with event-ID idempotency; Gateway retains orderId/status and adds eventVersion; checkout propagates Catalog inventoryRevision.",
+          "completed_slices": [
+            "notifications",
+            "orders-catalog",
+            "gateway"
+          ],
+          "unresolved": [
+            "Coordinator public integration acceptance has not been run after all four service revisions were pinned.",
+            "Notifications retained-v1 and malformed/unsupported rejection paths are implemented but not covered by its public test."
+          ],
+          "safe_next_action": "Run the Coordinator public integration test read-only against the pinned service revisions; record its result without changing any repository.",
+          "summary": "All four service worktrees are clean. Their current HEAD revisions include the recorded candidate implementations and handoffs."
+        },
+        "product_revision": "e82f50f9d3d22281235f648fa9b1e06a890df94e",
+        "expected_revisions": {
+          "gateway": "038efa548bdcc25f9008c10109ec39263d8defc8",
+          "catalog": "81702d69281fcb7cbe9de1bb5b28112593b032cf",
+          "orders": "e6d3e08d77832faefefe3f71392f57becaf2c83f",
+          "notifications": "9c172471bbf995de904c9a346c8a0ac25b35e8b6"
+        },
+        "recovery": {
+          "exact_revision_count": 4,
+          "exact_revision_total": 4,
+          "governing_contract_named": true,
+          "completed_slice_count": 3,
+          "completed_slice_total": 3,
+          "unresolved_reported": true,
+          "safe_next_action_bounded": true
+        },
+        "objective_tests": {
+          "services": {
+            "gateway": {
+              "exit_code": 0,
+              "output_sha256": "669deecd9d95d0cd6b15fff775e21ab8d3c335feafec8ea1e2a4ae55df1c2058"
+            },
+            "catalog": {
+              "exit_code": 0,
+              "output_sha256": "e3ab1bcbe3426e93a527619c665ee44d8f44d2d0f1ade313fa5e27f90a4a3d97"
+            },
+            "orders": {
+              "exit_code": 0,
+              "output_sha256": "bdb9e913a111de3ce1d3ef122406dc871930fce2b7597724210f418eb774f594"
+            },
+            "notifications": {
+              "exit_code": 0,
+              "output_sha256": "c6fdca8b5bb31e1410b4ecd6a7a102362be1145b79cb0661233b461de2be260f"
+            }
+          },
+          "public_integration": {
+            "exit_code": 0,
+            "output_sha256": "9042dd359de110ad19c4e3c08c4f681b3bf76845ae25aa259f5f196a4578eb6e"
+          },
+          "held_out": {
+            "exit_code": 0,
+            "output_sha256": "9ff10c7663eef79777e3972dce6d3276f86014b8bc53b66e31aecdf1b55317ff"
+          },
+          "pass": true
+        }
+      },
+      "sealed": {
+        "package_id": "package-806a86971b3a017f",
+        "arm_id": "minimal-responsible",
+        "design": {
+          "id": "minimal-responsible-design",
+          "stage": "design",
+          "started_at": "2026-09-03T15:49:49.354Z",
+          "completed_at": "2026-09-03T15:53:09.732Z",
+          "elapsed_ms": 200377,
+          "session_setup_ms": 139,
+          "turn_elapsed_ms": 200238,
+          "time_to_first_activity_ms": 15656,
+          "time_to_first_command_ms": 21594,
+          "effective_output_tokens_per_second": 40.317,
+          "thread_id": "01a067f6-4ac9-7a03-95fb-3dc53fdb610e",
+          "turn_id": "01a067f6-4b35-7512-aa47-73c71bf26a03",
+          "requested_model": "gpt-5.6-sol",
+          "acknowledged_model": "gpt-5.6-sol",
+          "requested_reasoning_effort": "xhigh",
+          "observed_thread_reasoning_effort": "high",
+          "effective_turn_reasoning_effort": null,
+          "usage": {
+            "input_tokens": 967022,
+            "cached_input_tokens": 919168,
+            "output_tokens": 8073,
+            "reasoning_output_tokens": 4872,
+            "total_tokens": 975095
+          },
+          "operational_tokens": 55927,
+          "prompt_metrics": {
+            "components": {
+              "base_instructions": {
+                "bytes": 168,
+                "characters": 168,
+                "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+              },
+              "developer_instructions": {
+                "bytes": 1175,
+                "characters": 1175,
+                "sha256": "2d6ffef8823ca937641e7fcc76edce08f14e4f3b4a11fbf05edbd9f41bf1fed3"
+              },
+              "user_input": {
+                "bytes": 1873,
+                "characters": 1873,
+                "sha256": "ed05308117a50aa6409f528383c2de85033224a76d801b15294a33d44d9202d9"
+              },
+              "output_schema": {
+                "bytes": 606,
+                "characters": 606,
+                "sha256": "dd96eba2c74430a2bb90418d024e9dfb21cc36d0e6ad62ad23fdc65a14e19d37"
+              }
+            },
+            "explicit_bytes": 3822,
+            "raw_prompt_retained": false
+          },
+          "tool_activity": {
+            "command_items": 30,
+            "command_actions": 30,
+            "action_types": {
+              "read": 9,
+              "listFiles": 3,
+              "unknown": 18
+            },
+            "temple_md_attempts": 0,
+            "context_resolve_attempts": 0,
+            "temple_md_reads": 0,
+            "context_resolve_calls": 0,
+            "context_sequence": [],
+            "reported_output_bytes": 45001
+          },
+          "retry_count": 0,
+          "fallback_count": 0,
+          "raw_prompt_retained": false,
+          "raw_response_retained": false,
+          "hidden_reasoning_retained": false,
+          "status": "completed",
+          "stop_scope": null,
+          "stop_reason": null,
+          "completion": {
+            "contract_version": "OrderPlaced/v2",
+            "rollout_order": [
+              "notifications",
+              "orders-catalog",
+              "gateway"
+            ],
+            "slices": [
+              {
+                "id": "notifications",
+                "repositories": [
+                  "notifications"
+                ],
+                "responsibility": "Prepare the consumer before v2 publication. In the recorded owned path `src/consumer.mjs`, validate `OrderPlaced` v1 flat events and v2 nested events before deduplication; reject malformed or unsupported events; derive the order ID from `orderId` for v1 or `order.id` for v2; and retain event-ID-keyed idempotency. Run `npm test`, commit the accepted change, and record the exact accepted revision, results, and unresolved issues in `organization/HANDOFF.md`."
+              },
+              {
+                "id": "orders-catalog",
+                "repositories": [
+                  "catalog",
+                  "orders"
+                ],
+                "responsibility": "After the notifications handoff, update only the recorded owned paths. Catalog must return its stored `inventoryRevision` for known SKUs while preserving unknown-SKU behavior. Deploy/accept Catalog first; then make Orders publish only the specified v2 envelope, copying the Catalog revision, locale, and occurrence time and nesting order fields. Run `npm test` independently in both repositories, commit each accepted change, and write separate handoffs with exact revisions and unresolved issues."
+              },
+              {
+                "id": "gateway",
+                "repositories": [
+                  "gateway"
+                ],
+                "responsibility": "After producer publication, update the recorded owned path `src/checkout-response.mjs` so the response retains `orderId` and `status` unchanged and adds `eventVersion` from `event.version`. Run the Gateway `npm test`; after all predecessor revisions are pinned, run the Coordinator public integration test without making Coordinator writable. Commit the accepted Gateway change and record its revision, test evidence, and unresolved issues in `organization/HANDOFF.md`."
+              }
+            ],
+            "risks": [
+              "All current service public tests fail at the inspected baselines: Catalog omits `inventoryRevision`; Orders still emits a flat v1 event; Notifications rejects v2; and Gateway omits `eventVersion`. Each run reported 0 passed and 1 failed.",
+              "Coordinator revision d13171c828dfc99c85173561aa3bcaeafad5705b also fails its public integration test at the first assertion (`v1` versus `v2`), so downstream propagation, notification, and Gateway assertions were not exercised by that run.",
+              "Notifications' public test covers v2 acceptance and duplicate handling only; retained-v1 acceptance plus malformed and unsupported-event rejection require explicit verification before handoff.",
+              "The requirement does not fully define malformed-field policy. The design assumes required identifiers and strings must be non-empty, quantity must be a positive integer, v2 must contain a valid nested order and required metadata, and additional fields remain tolerable for rolling compatibility.",
+              "No deployment or external compatibility evidence exists; the repositories identify themselves as synthetic local repositories."
+            ],
+            "assumptions": [
+              "The exclusive writable repository sets are `{notifications}`, `{catalog, orders}`, and `{gateway}`; Coordinator remains read-only acceptance scope.",
+              "The retained v1 contract is the currently emitted flat shape: `type`, `version`, `id`, `orderId`, `sku`, and `quantity`. Idempotency is shared across accepted versions solely by event ID and validation occurs before duplicate lookup.",
+              "Inspected clean baseline revisions are Catalog 490bb75496c715770d2585a18c7a6ddd8c8b67c9, Orders 21b595ddeaf29c43c77ee6b980c8820c499bef67, Notifications 01c716dc842e22b8b241eeb19707d69bf57f9598, and Gateway b650f0713776851c609659d5f6872d60e67742fe.",
+              "No files were modified during this design attempt."
+            ]
+          },
+          "design_revision": "eb730fa541b2884aea87ce5583d51eaaf0002371"
+        },
+        "builds": [
+          {
+            "id": "minimal-responsible-orders-catalog",
+            "stage": "build",
+            "started_at": "2026-09-03T15:53:09.834Z",
+            "completed_at": "2026-09-03T15:55:15.582Z",
+            "elapsed_ms": 125748,
+            "session_setup_ms": 227,
+            "turn_elapsed_ms": 125521,
+            "time_to_first_activity_ms": 3306,
+            "time_to_first_command_ms": 7087,
+            "effective_output_tokens_per_second": 25.757,
+            "thread_id": "01a067f9-5a05-7de0-ae31-4c0acc705819",
+            "turn_id": "01a067f9-5aaf-7db0-8a09-122ed7151251",
+            "requested_model": "gpt-5.6-terra",
+            "acknowledged_model": "gpt-5.6-terra",
+            "requested_reasoning_effort": "medium",
+            "observed_thread_reasoning_effort": "high",
+            "effective_turn_reasoning_effort": null,
+            "usage": {
+              "input_tokens": 687042,
+              "cached_input_tokens": 642304,
+              "output_tokens": 3233,
+              "reasoning_output_tokens": 468,
+              "total_tokens": 690275
+            },
+            "operational_tokens": 47971,
+            "prompt_metrics": {
+              "components": {
+                "base_instructions": {
+                  "bytes": 168,
+                  "characters": 168,
+                  "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+                },
+                "developer_instructions": {
+                  "bytes": 1175,
+                  "characters": 1175,
+                  "sha256": "2d6ffef8823ca937641e7fcc76edce08f14e4f3b4a11fbf05edbd9f41bf1fed3"
+                },
+                "user_input": {
+                  "bytes": 655,
+                  "characters": 655,
+                  "sha256": "164e62afcd111c37d237c0a81688991029bc91d06a8b893c4e42f7ef612f44de"
+                },
+                "output_schema": {
+                  "bytes": 350,
+                  "characters": 350,
+                  "sha256": "c29cae9d81c3749e9869f21c25e39961641415e0e8bac39b09d166c7e4afae91"
+                }
+              },
+              "explicit_bytes": 2348,
+              "raw_prompt_retained": false
+            },
+            "tool_activity": {
+              "command_items": 26,
+              "command_actions": 26,
+              "action_types": {
+                "read": 13,
+                "listFiles": 4,
+                "unknown": 9
+              },
+              "temple_md_attempts": 0,
+              "context_resolve_attempts": 0,
+              "temple_md_reads": 0,
+              "context_resolve_calls": 0,
+              "context_sequence": [],
+              "reported_output_bytes": 14938
+            },
+            "retry_count": 0,
+            "fallback_count": 0,
+            "raw_prompt_retained": false,
+            "raw_response_retained": false,
+            "hidden_reasoning_retained": false,
+            "status": "completed",
+            "stop_scope": null,
+            "stop_reason": null,
+            "completion": {
+              "summary": "Implemented the orders-catalog v2 slice. Catalog exposes stored inventoryRevision for known SKUs while retaining unknown-SKU output; Orders emits only the exact nested OrderPlaced v2 envelope. No commits or handoff files were created per instruction.",
+              "changed_paths": [
+                "catalog/src/catalog.mjs",
+                "orders/src/order-event.mjs"
+              ],
+              "test_command": "(cd catalog && npm test) && (cd orders && npm test)",
+              "test_result": "Passed separately: catalog 1/1; orders 1/1. Baselines remain uncommitted: catalog 490bb75496c715770d2585a18c7a6ddd8c8b67c9; orders 21b595ddeaf29c43c77ee6b980c8820c499bef67.",
+              "unresolved": [
+                "No organization/HANDOFF.md existed in either assigned repository; it was not created because only declared service source files were allowed to change."
+              ]
+            },
+            "repositories": {
+              "orders": {
+                "launch_revision": "21b595ddeaf29c43c77ee6b980c8820c499bef67",
+                "product_revision": "c13e1dd2c179060f303ca479d0e052f202d795f9",
+                "handoff_revision": "e6d3e08d77832faefefe3f71392f57becaf2c83f",
+                "changed_paths": [
+                  "src/order-event.mjs"
+                ],
+                "changed_lines": 13,
+                "public_test_exit_code": 0,
+                "public_test_output_sha256": "62ee793d48910b9ced10c39c184d8bd7a46f8c902e410ed40649874702e1acde"
+              },
+              "catalog": {
+                "launch_revision": "490bb75496c715770d2585a18c7a6ddd8c8b67c9",
+                "product_revision": "e67e1d03f9394c75758f1ece3b3907e76377d622",
+                "handoff_revision": "81702d69281fcb7cbe9de1bb5b28112593b032cf",
+                "changed_paths": [
+                  "src/catalog.mjs"
+                ],
+                "changed_lines": 3,
+                "public_test_exit_code": 0,
+                "public_test_output_sha256": "fe24efaf5870af8b33119ba43784dead0d8f757e0422fe5d0a4d40241378278a"
+              }
+            }
+          },
+          {
+            "id": "minimal-responsible-notifications",
+            "stage": "build",
+            "started_at": "2026-09-03T15:53:09.833Z",
+            "completed_at": "2026-09-03T15:54:13.837Z",
+            "elapsed_ms": 64004,
+            "session_setup_ms": 181,
+            "turn_elapsed_ms": 63823,
+            "time_to_first_activity_ms": 4862,
+            "time_to_first_command_ms": 7916,
+            "effective_output_tokens_per_second": 32.903,
+            "thread_id": "01a067f9-59f3-7a21-bf0a-1ccbdecc7ff7",
+            "turn_id": "01a067f9-5a7f-7793-85b8-6d94dda83f39",
+            "requested_model": "gpt-5.6-terra",
+            "acknowledged_model": "gpt-5.6-terra",
+            "requested_reasoning_effort": "medium",
+            "observed_thread_reasoning_effort": "high",
+            "effective_turn_reasoning_effort": null,
+            "usage": {
+              "input_tokens": 332944,
+              "cached_input_tokens": 299520,
+              "output_tokens": 2100,
+              "reasoning_output_tokens": 487,
+              "total_tokens": 335044
+            },
+            "operational_tokens": 35524,
+            "prompt_metrics": {
+              "components": {
+                "base_instructions": {
+                  "bytes": 168,
+                  "characters": 168,
+                  "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+                },
+                "developer_instructions": {
+                  "bytes": 1175,
+                  "characters": 1175,
+                  "sha256": "2d6ffef8823ca937641e7fcc76edce08f14e4f3b4a11fbf05edbd9f41bf1fed3"
+                },
+                "user_input": {
+                  "bytes": 650,
+                  "characters": 650,
+                  "sha256": "6f0453ebff7d44f975cf3f521c5edb792aafacc26e46663d29874dcdbd4dd992"
+                },
+                "output_schema": {
+                  "bytes": 350,
+                  "characters": 350,
+                  "sha256": "c29cae9d81c3749e9869f21c25e39961641415e0e8bac39b09d166c7e4afae91"
+                }
+              },
+              "explicit_bytes": 2343,
+              "raw_prompt_retained": false
+            },
+            "tool_activity": {
+              "command_items": 13,
+              "command_actions": 13,
+              "action_types": {
+                "unknown": 7,
+                "read": 6
+              },
+              "temple_md_attempts": 0,
+              "context_resolve_attempts": 0,
+              "temple_md_reads": 0,
+              "context_resolve_calls": 0,
+              "context_sequence": [],
+              "reported_output_bytes": 7079
+            },
+            "retry_count": 0,
+            "fallback_count": 0,
+            "raw_prompt_retained": false,
+            "raw_response_retained": false,
+            "hidden_reasoning_retained": false,
+            "status": "completed",
+            "stop_scope": null,
+            "stop_reason": null,
+            "completion": {
+              "summary": "Updated Notifications consumer for validated v1 flat and v2 nested OrderPlaced events, with validation before event-ID deduplication and normalized order ID delivery records.",
+              "changed_paths": [
+                "notifications/src/consumer.mjs"
+              ],
+              "test_command": "cd notifications && npm test",
+              "test_result": "Passed: 1 test, 0 failures.",
+              "unresolved": [
+                "Retained-v1 and malformed/unsupported paths are implemented per the Coordinator design record but are not covered by the repository's public test.",
+                "Change remains uncommitted as requested."
+              ]
+            },
+            "repositories": {
+              "notifications": {
+                "launch_revision": "01c716dc842e22b8b241eeb19707d69bf57f9598",
+                "product_revision": "5581d19a42a4a0344e60f174541c7ffddb5c22b3",
+                "handoff_revision": "9c172471bbf995de904c9a346c8a0ac25b35e8b6",
+                "changed_paths": [
+                  "src/consumer.mjs"
+                ],
+                "changed_lines": 45,
+                "public_test_exit_code": 0,
+                "public_test_output_sha256": "d6e90b0a15df2dc4a27dfe5bbc3237166387f63152a41ed4b233a7e6cae00f07"
+              }
+            }
+          },
+          {
+            "id": "minimal-responsible-gateway",
+            "stage": "build",
+            "started_at": "2026-09-03T15:53:09.831Z",
+            "completed_at": "2026-09-03T15:54:39.575Z",
+            "elapsed_ms": 89743,
+            "session_setup_ms": 172,
+            "turn_elapsed_ms": 89571,
+            "time_to_first_activity_ms": 3572,
+            "time_to_first_command_ms": 7755,
+            "effective_output_tokens_per_second": 21.592,
+            "thread_id": "01a067f9-59f3-73a3-8d74-6d836e96fe33",
+            "turn_id": "01a067f9-5a74-7401-8f67-11bc8364478f",
+            "requested_model": "gpt-5.6-terra",
+            "acknowledged_model": "gpt-5.6-terra",
+            "requested_reasoning_effort": "medium",
+            "observed_thread_reasoning_effort": "high",
+            "effective_turn_reasoning_effort": null,
+            "usage": {
+              "input_tokens": 402809,
+              "cached_input_tokens": 368384,
+              "output_tokens": 1934,
+              "reasoning_output_tokens": 529,
+              "total_tokens": 404743
+            },
+            "operational_tokens": 36359,
+            "prompt_metrics": {
+              "components": {
+                "base_instructions": {
+                  "bytes": 168,
+                  "characters": 168,
+                  "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+                },
+                "developer_instructions": {
+                  "bytes": 1175,
+                  "characters": 1175,
+                  "sha256": "2d6ffef8823ca937641e7fcc76edce08f14e4f3b4a11fbf05edbd9f41bf1fed3"
+                },
+                "user_input": {
+                  "bytes": 632,
+                  "characters": 632,
+                  "sha256": "737a148c88ed1918bac82be25f3d47bb0e213ebe1d91a9eeb53cb8bb3733d23f"
+                },
+                "output_schema": {
+                  "bytes": 350,
+                  "characters": 350,
+                  "sha256": "c29cae9d81c3749e9869f21c25e39961641415e0e8bac39b09d166c7e4afae91"
+                }
+              },
+              "explicit_bytes": 2325,
+              "raw_prompt_retained": false
+            },
+            "tool_activity": {
+              "command_items": 16,
+              "command_actions": 16,
+              "action_types": {
+                "unknown": 8,
+                "read": 8
+              },
+              "temple_md_attempts": 0,
+              "context_resolve_attempts": 0,
+              "temple_md_reads": 0,
+              "context_resolve_calls": 0,
+              "context_sequence": [],
+              "reported_output_bytes": 7170
+            },
+            "retry_count": 0,
+            "fallback_count": 0,
+            "raw_prompt_retained": false,
+            "raw_response_retained": false,
+            "hidden_reasoning_retained": false,
+            "status": "completed",
+            "stop_scope": null,
+            "stop_reason": null,
+            "completion": {
+              "summary": "Gateway response now retains orderId/status and exposes eventVersion from event.version.",
+              "changed_paths": [
+                "gateway/src/checkout-response.mjs"
+              ],
+              "test_command": "cd gateway && npm test",
+              "test_result": "PASS: 1 passed, 0 failed.",
+              "unresolved": [
+                "No commit or organization handoff was created per instruction; gateway baseline revision remains b650f0713776851c609659d5f6872d60e67742fe. Coordinator integration test was not run because gateway is the only assigned repository."
+              ]
+            },
+            "repositories": {
+              "gateway": {
+                "launch_revision": "b650f0713776851c609659d5f6872d60e67742fe",
+                "product_revision": "3dd0a545aa888ffd04bd54410ff34a6a8f1ef5b9",
+                "handoff_revision": "038efa548bdcc25f9008c10109ec39263d8defc8",
+                "changed_paths": [
+                  "src/checkout-response.mjs"
+                ],
+                "changed_lines": 3,
+                "public_test_exit_code": 0,
+                "public_test_output_sha256": "6b0ae1de1e1932fcf001149a49ea3c0b5e493b635e84ec133301db525d98438d"
+              }
+            }
+          }
+        ],
+        "integration": {
+          "id": "minimal-responsible-integration",
+          "stage": "integration",
+          "started_at": "2026-09-03T15:55:16.149Z",
+          "completed_at": "2026-09-03T15:58:04.720Z",
+          "elapsed_ms": 168571,
+          "session_setup_ms": 152,
+          "turn_elapsed_ms": 168419,
+          "time_to_first_activity_ms": 3649,
+          "time_to_first_command_ms": 12900,
+          "effective_output_tokens_per_second": 22.379,
+          "thread_id": "01a067fb-4760-7893-8a0c-936d187890c2",
+          "turn_id": "01a067fb-47cd-7ff3-921e-7ef6cac364b6",
+          "requested_model": "gpt-5.6-terra",
+          "acknowledged_model": "gpt-5.6-terra",
+          "requested_reasoning_effort": "medium",
+          "observed_thread_reasoning_effort": "high",
+          "effective_turn_reasoning_effort": null,
+          "usage": {
+            "input_tokens": 850453,
+            "cached_input_tokens": 795904,
+            "output_tokens": 3769,
+            "reasoning_output_tokens": 916,
+            "total_tokens": 854222
+          },
+          "operational_tokens": 58318,
+          "prompt_metrics": {
+            "components": {
+              "base_instructions": {
+                "bytes": 168,
+                "characters": 168,
+                "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+              },
+              "developer_instructions": {
+                "bytes": 1175,
+                "characters": 1175,
+                "sha256": "2d6ffef8823ca937641e7fcc76edce08f14e4f3b4a11fbf05edbd9f41bf1fed3"
+              },
+              "user_input": {
+                "bytes": 741,
+                "characters": 741,
+                "sha256": "8cbec0e27effe7d0221e73a22750cd99bca9926ba91e9085cf09fe6876c18cd1"
+              },
+              "output_schema": {
+                "bytes": 684,
+                "characters": 684,
+                "sha256": "677d13bd2fdf4025cd2071f30e3a0745f23b15e2e0be3884086004dff33152f1"
+              }
+            },
+            "explicit_bytes": 2768,
+            "raw_prompt_retained": false
+          },
+          "tool_activity": {
+            "command_items": 31,
+            "command_actions": 31,
+            "action_types": {
+              "read": 13,
+              "unknown": 14,
+              "listFiles": 3,
+              "search": 1
+            },
+            "temple_md_attempts": 0,
+            "context_resolve_attempts": 0,
+            "temple_md_reads": 0,
+            "context_resolve_calls": 0,
+            "context_sequence": [],
+            "reported_output_bytes": 29857
+          },
+          "retry_count": 0,
+          "fallback_count": 0,
+          "raw_prompt_retained": false,
+          "raw_response_retained": false,
+          "hidden_reasoning_retained": false,
+          "status": "completed",
+          "stop_scope": null,
+          "stop_reason": null,
+          "completion": {
+            "recovered_revisions": [
+              {
+                "repository": "gateway",
+                "revision": "038efa548bdcc25f9008c10109ec39263d8defc8"
+              },
+              {
+                "repository": "catalog",
+                "revision": "81702d69281fcb7cbe9de1bb5b28112593b032cf"
+              },
+              {
+                "repository": "orders",
+                "revision": "e6d3e08d77832faefefe3f71392f57becaf2c83f"
+              },
+              {
+                "repository": "notifications",
+                "revision": "9c172471bbf995de904c9a346c8a0ac25b35e8b6"
+              }
+            ],
+            "governing_contract": "OrderPlaced/v2 rolling compatibility: Catalog exposes known-SKU inventoryRevision; Orders publishes the specified nested v2 envelope; Notifications accepts validated retained v1 and v2 with event-ID idempotency; Gateway retains orderId/status and adds eventVersion; checkout propagates Catalog inventoryRevision.",
+            "completed_slices": [
+              "notifications",
+              "orders-catalog",
+              "gateway"
+            ],
+            "unresolved": [
+              "Coordinator public integration acceptance has not been run after all four service revisions were pinned.",
+              "Notifications retained-v1 and malformed/unsupported rejection paths are implemented but not covered by its public test."
+            ],
+            "safe_next_action": "Run the Coordinator public integration test read-only against the pinned service revisions; record its result without changing any repository.",
+            "summary": "All four service worktrees are clean. Their current HEAD revisions include the recorded candidate implementations and handoffs."
+          },
+          "product_revision": "e82f50f9d3d22281235f648fa9b1e06a890df94e",
+          "expected_revisions": {
+            "gateway": "038efa548bdcc25f9008c10109ec39263d8defc8",
+            "catalog": "81702d69281fcb7cbe9de1bb5b28112593b032cf",
+            "orders": "e6d3e08d77832faefefe3f71392f57becaf2c83f",
+            "notifications": "9c172471bbf995de904c9a346c8a0ac25b35e8b6"
+          },
+          "recovery": {
+            "exact_revision_count": 4,
+            "exact_revision_total": 4,
+            "governing_contract_named": true,
+            "completed_slice_count": 3,
+            "completed_slice_total": 3,
+            "unresolved_reported": true,
+            "safe_next_action_bounded": true
+          },
+          "objective_tests": {
+            "services": {
+              "gateway": {
+                "exit_code": 0,
+                "output_sha256": "669deecd9d95d0cd6b15fff775e21ab8d3c335feafec8ea1e2a4ae55df1c2058"
+              },
+              "catalog": {
+                "exit_code": 0,
+                "output_sha256": "e3ab1bcbe3426e93a527619c665ee44d8f44d2d0f1ade313fa5e27f90a4a3d97"
+              },
+              "orders": {
+                "exit_code": 0,
+                "output_sha256": "bdb9e913a111de3ce1d3ef122406dc871930fce2b7597724210f418eb774f594"
+              },
+              "notifications": {
+                "exit_code": 0,
+                "output_sha256": "c6fdca8b5bb31e1410b4ecd6a7a102362be1145b79cb0661233b461de2be260f"
+              }
+            },
+            "public_integration": {
+              "exit_code": 0,
+              "output_sha256": "9042dd359de110ad19c4e3c08c4f681b3bf76845ae25aa259f5f196a4578eb6e"
+            },
+            "held_out": {
+              "exit_code": 0,
+              "output_sha256": "9ff10c7663eef79777e3972dce6d3276f86014b8bc53b66e31aecdf1b55317ff"
+            },
+            "pass": true
+          }
+        },
+        "artifact_bytes": 223378,
+        "boundary_violations": [],
+        "retry_count": 0,
+        "fallback_count": 0
+      },
+      "blind": {
+        "package_id": "package-806a86971b3a017f",
+        "objective_tests": {
+          "services": {
+            "gateway": {
+              "exit_code": 0,
+              "output_sha256": "669deecd9d95d0cd6b15fff775e21ab8d3c335feafec8ea1e2a4ae55df1c2058"
+            },
+            "catalog": {
+              "exit_code": 0,
+              "output_sha256": "e3ab1bcbe3426e93a527619c665ee44d8f44d2d0f1ade313fa5e27f90a4a3d97"
+            },
+            "orders": {
+              "exit_code": 0,
+              "output_sha256": "bdb9e913a111de3ce1d3ef122406dc871930fce2b7597724210f418eb774f594"
+            },
+            "notifications": {
+              "exit_code": 0,
+              "output_sha256": "c6fdca8b5bb31e1410b4ecd6a7a102362be1145b79cb0661233b461de2be260f"
+            }
+          },
+          "public_integration": {
+            "exit_code": 0,
+            "output_sha256": "9042dd359de110ad19c4e3c08c4f681b3bf76845ae25aa259f5f196a4578eb6e"
+          },
+          "held_out": {
+            "exit_code": 0,
+            "output_sha256": "9ff10c7663eef79777e3972dce6d3276f86014b8bc53b66e31aecdf1b55317ff"
+          },
+          "pass": true
+        },
+        "design_record": {
+          "contract_version": "OrderPlaced/v2",
+          "rollout_order": [
+            "notifications",
+            "orders-catalog",
+            "gateway"
+          ],
+          "slices": [
+            {
+              "id": "notifications",
+              "repositories": [
+                "notifications"
+              ],
+              "responsibility": "Prepare the consumer before v2 publication. In the recorded owned path `src/consumer.mjs`, validate `OrderPlaced` v1 flat events and v2 nested events before deduplication; reject malformed or unsupported events; derive the order ID from `orderId` for v1 or `order.id` for v2; and retain event-ID-keyed idempotency. Run `npm test`, commit the accepted change, and record the exact accepted revision, results, and unresolved issues in `organization/HANDOFF.md`."
+            },
+            {
+              "id": "orders-catalog",
+              "repositories": [
+                "catalog",
+                "orders"
+              ],
+              "responsibility": "After the notifications handoff, update only the recorded owned paths. Catalog must return its stored `inventoryRevision` for known SKUs while preserving unknown-SKU behavior. Deploy/accept Catalog first; then make Orders publish only the specified v2 envelope, copying the Catalog revision, locale, and occurrence time and nesting order fields. Run `npm test` independently in both repositories, commit each accepted change, and write separate handoffs with exact revisions and unresolved issues."
+            },
+            {
+              "id": "gateway",
+              "repositories": [
+                "gateway"
+              ],
+              "responsibility": "After producer publication, update the recorded owned path `src/checkout-response.mjs` so the response retains `orderId` and `status` unchanged and adds `eventVersion` from `event.version`. Run the Gateway `npm test`; after all predecessor revisions are pinned, run the Coordinator public integration test without making Coordinator writable. Commit the accepted Gateway change and record its revision, test evidence, and unresolved issues in `organization/HANDOFF.md`."
+            }
+          ]
+        },
+        "build_evidence": [
+          {
+            "slice_id": "orders-catalog",
+            "repositories": {
+              "orders": {
+                "changed_paths": [
+                  "src/order-event.mjs"
+                ],
+                "changed_lines": 13,
+                "public_test_exit_code": 0
+              },
+              "catalog": {
+                "changed_paths": [
+                  "src/catalog.mjs"
+                ],
+                "changed_lines": 3,
+                "public_test_exit_code": 0
+              }
+            }
+          },
+          {
+            "slice_id": "notifications",
+            "repositories": {
+              "notifications": {
+                "changed_paths": [
+                  "src/consumer.mjs"
+                ],
+                "changed_lines": 45,
+                "public_test_exit_code": 0
+              }
+            }
+          },
+          {
+            "slice_id": "gateway",
+            "repositories": {
+              "gateway": {
+                "changed_paths": [
+                  "src/checkout-response.mjs"
+                ],
+                "changed_lines": 3,
+                "public_test_exit_code": 0
+              }
+            }
+          }
+        ],
+        "recovery": {
+          "exact_revision_count": 4,
+          "exact_revision_total": 4,
+          "governing_contract_named": true,
+          "completed_slice_count": 3,
+          "completed_slice_total": 3,
+          "unresolved_reported": true,
+          "safe_next_action_bounded": true
+        },
+        "integration_record": {
+          "recovered_revisions": [
+            {
+              "repository": "gateway",
+              "revision": "038efa548bdcc25f9008c10109ec39263d8defc8"
+            },
+            {
+              "repository": "catalog",
+              "revision": "81702d69281fcb7cbe9de1bb5b28112593b032cf"
+            },
+            {
+              "repository": "orders",
+              "revision": "e6d3e08d77832faefefe3f71392f57becaf2c83f"
+            },
+            {
+              "repository": "notifications",
+              "revision": "9c172471bbf995de904c9a346c8a0ac25b35e8b6"
+            }
+          ],
+          "governing_contract": "OrderPlaced/v2 rolling compatibility: Catalog exposes known-SKU inventoryRevision; Orders publishes the specified nested v2 envelope; Notifications accepts validated retained v1 and v2 with event-ID idempotency; Gateway retains orderId/status and adds eventVersion; checkout propagates Catalog inventoryRevision.",
+          "completed_slices": [
+            "notifications",
+            "orders-catalog",
+            "gateway"
+          ],
+          "unresolved": [
+            "Coordinator public integration acceptance has not been run after all four service revisions were pinned.",
+            "Notifications retained-v1 and malformed/unsupported rejection paths are implemented but not covered by its public test."
+          ],
+          "safe_next_action": "Run the Coordinator public integration test read-only against the pinned service revisions; record its result without changing any repository.",
+          "summary": "All four service worktrees are clean. Their current HEAD revisions include the recorded candidate implementations and handoffs."
+        },
+        "boundary_violations": [],
+        "exact_revision_evidence_present": true,
+        "retry_count": 0,
+        "fallback_count": 0
+      }
+    }
+  ],
+  "active_arm": {
+    "arm_id": "temple",
+    "design": null,
+    "builds": [],
+    "portfolio_revision": null,
+    "integration": null
+  },
+  "candidate_operational_tokens": 335914,
+  "reason": "temple-design:design-operational-token-limit",
+  "retry_count": 0,
+  "fallback_count": 0,
+  "model_generation_performed": true
+}

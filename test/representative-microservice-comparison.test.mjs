@@ -14,6 +14,7 @@ import {
   protocolDigest,
   representativeStoppedRun,
   statusPaths,
+  stoppedStageObservation,
   successfulContextActionLabels,
   templeRoutedContextInstruction,
   validateAblationApproval,
@@ -46,11 +47,13 @@ test("the representative microservice protocol is frozen but generation-disabled
   assert.equal(protocol.execution.fallback_count, 0);
   assert.equal(protocol.execution.candidate_turns, 10);
   assert.equal(protocol.execution.evaluator_turns, 1);
-  assert.equal(protocol.protocol_revision, 4);
-  assert.equal(protocol.execution.combined_operational_token_limit, 625000);
+  assert.equal(protocol.protocol_revision, 5);
+  assert.equal(protocol.execution.design_operational_token_limit, 150000);
+  assert.equal(protocol.execution.candidate_aggregate_operational_token_limit, 650000);
+  assert.equal(protocol.execution.combined_operational_token_limit, 750000);
   assert.deepEqual(protocol.context_policy.temple_md_fallback_when_missing, ["authority", "current-state", "safe-next-action"]);
-  assert.equal(protocol.predecessor.disposition, "stopped-harness-path-parsing-failure");
-  assert.equal(protocol.stopped_evidence_policy, "completed-and-active-stage-observations");
+  assert.equal(protocol.predecessor.disposition, "stopped-temple-design-operational-token-limit");
+  assert.equal(protocol.stopped_evidence_policy, "completed-and-active-stage-observations-v2");
 });
 
 test("protocol validation rejects product drift, reroute, retry, and digest rewriting", async () => {
@@ -216,6 +219,20 @@ test("a stopped main run retains completed and active stage evidence", () => {
   assert.equal(stopped.active_arm.design.id, "temple-design");
   assert.deepEqual(stopped.active_arm.builds.map((entry) => entry.id), ["temple-gateway", "temple-orders-catalog"]);
   assert.equal(stopped.candidate_operational_tokens, 123);
+});
+
+test("a stage Token stop retains partial telemetry before the main run fails closed", () => {
+  const stopped = stoppedStageObservation({
+    id: "temple-design",
+    stage: "design",
+    operational_tokens: 101815,
+    usage: { input_tokens: 1, cached_input_tokens: 0, output_tokens: 1, reasoning_output_tokens: 0, total_tokens: 2 }
+  }, "design-operational-token-limit", true);
+  assert.equal(stopped.status, "censored");
+  assert.equal(stopped.stop_scope, "condition");
+  assert.equal(stopped.stop_reason, "design-operational-token-limit");
+  assert.equal(stopped.operational_tokens, 101815);
+  assert.equal(stopped.completion, null);
 });
 
 test("integration completion schema and recovery evaluator require the same exact slice IDs", () => {

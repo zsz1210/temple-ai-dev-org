@@ -1,0 +1,216 @@
+{
+  "schema_version": "temple.representative-microservice-preflight/v1",
+  "work_item_id": "WI-0136",
+  "observed_at": "2026-09-03T15:49:49.353Z",
+  "local_fixture_ready": true,
+  "protocol_sha256": "b01f96b48bb585e4b24390fa0b0c322d2abfc03d8f99650fa9b07a3da4932c71",
+  "provider_handshake_performed": true,
+  "provider_contract_matches": true,
+  "provider_handshake": {
+    "pass": true,
+    "codex_cli_version": "codex-cli 0.153.0-alpha.5",
+    "schema_digests": {
+      "ThreadStartParams.json": "792e2f32e37cece971bd616664ea2053741acbed4e9c92e9d1766427718f2ecd",
+      "TurnStartParams.json": "a3835e8c1e942e4b358e1a670939b89918b16c4d13105a579899892b7ade6dea",
+      "ThreadStartResponse.json": "656f8fd0fe91f533126cbfdb9369cfab550927a229e48dd46460f6f015d2b186",
+      "TurnStartResponse.json": "6fc49c3e5d0ce11a3a109ae194619b04d6e3ff98fa29bac683fdb754608958be",
+      "ItemStartedNotification.json": "c4c34f47db6326cd4841bae428f23d08eb285077ffad35be9772b928c65bb912",
+      "TurnCompletedNotification.json": "78af2a37391e8e669a4020cb58593e4d3e378756ced79d5fec72374fa69fb94b",
+      "ItemCompletedNotification.json": "69aba3fe5f72f38bf5c541e7e2c09de40778abe65ff969d9fc73372037812091",
+      "ThreadTokenUsageUpdatedNotification.json": "aba4f6c7e4a19b2b842c08ee793b57000c07dafd57b922ad0d8e7c76609108c2",
+      "ModelReroutedNotification.json": "37cd3c1b3a3560b85b01d4061a07d830fc9ed93b80e4663f975f9197cdb501ef",
+      "TurnInterruptParams.json": "6dff382dae73d1dbc58406ed045605f647e7a49660e2540fbd2c6c24d60c5f2b"
+    },
+    "required_models": [
+      {
+        "model": "gpt-5.6-sol",
+        "reasoning_efforts": [
+          "xhigh"
+        ]
+      },
+      {
+        "model": "gpt-5.6-terra",
+        "reasoning_efforts": [
+          "medium"
+        ]
+      }
+    ],
+    "model_checks": [
+      {
+        "model": "gpt-5.6-sol",
+        "reasoning_efforts": [
+          "xhigh"
+        ],
+        "available": true,
+        "observed_reasoning_efforts": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max",
+          "ultra"
+        ]
+      },
+      {
+        "model": "gpt-5.6-terra",
+        "reasoning_efforts": [
+          "medium"
+        ],
+        "available": true,
+        "observed_reasoning_efforts": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max",
+          "ultra"
+        ]
+      }
+    ],
+    "model_generation_performed": false
+  },
+  "temple_lifecycle_rehearsal": {
+    "pass": true,
+    "states": {
+      "gateway": "test",
+      "catalog": "test",
+      "orders": "test",
+      "notifications": "test",
+      "coordinator": "test"
+    },
+    "doctor_pass": true,
+    "objective_pass": true,
+    "model_generation_performed": false
+  },
+  "exact_approval_present": true,
+  "approval_errors": [],
+  "generation_ready": true,
+  "blockers": [],
+  "checks": [
+    {
+      "id": "protocol-valid",
+      "pass": true
+    },
+    {
+      "id": "manifest-digest",
+      "pass": true
+    },
+    {
+      "id": "protocol-manifest",
+      "pass": true
+    },
+    {
+      "id": "product-revisions-matched",
+      "pass": true
+    },
+    {
+      "id": "fixture-current",
+      "pass": true
+    },
+    {
+      "id": "golden-acceptance-pass",
+      "pass": true
+    },
+    {
+      "id": "runtime-tool-policy-matched",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:gateway:revision",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:gateway:clean",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:catalog:revision",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:catalog:clean",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:orders:revision",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:orders:clean",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:notifications:revision",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:notifications:clean",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:coordinator:revision",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:coordinator:clean",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:seeded-public-failure",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:seeded-held-out-failure",
+      "pass": true
+    },
+    {
+      "id": "temple:gateway:revision",
+      "pass": true
+    },
+    {
+      "id": "temple:gateway:clean",
+      "pass": true
+    },
+    {
+      "id": "temple:catalog:revision",
+      "pass": true
+    },
+    {
+      "id": "temple:catalog:clean",
+      "pass": true
+    },
+    {
+      "id": "temple:orders:revision",
+      "pass": true
+    },
+    {
+      "id": "temple:orders:clean",
+      "pass": true
+    },
+    {
+      "id": "temple:notifications:revision",
+      "pass": true
+    },
+    {
+      "id": "temple:notifications:clean",
+      "pass": true
+    },
+    {
+      "id": "temple:coordinator:revision",
+      "pass": true
+    },
+    {
+      "id": "temple:coordinator:clean",
+      "pass": true
+    },
+    {
+      "id": "temple:seeded-public-failure",
+      "pass": true
+    },
+    {
+      "id": "temple:seeded-held-out-failure",
+      "pass": true
+    }
+  ],
+  "model_generation_performed": false
+}
