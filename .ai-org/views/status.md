@@ -183,7 +183,7 @@
 | WI-0133 | Reduce Lean context overhead and harden effectiveness measurement | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1df92590` | 0 | 20 | 0 |
 | WI-0134 | Repair invalid historical evidence records | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ad1f06a5` | 0 | 18 | 0 |
 | WI-0135 | Run optimized Terra process confirmation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `00ea3a47` | 0 | 24 | 0 |
-| WI-0136 | Execute representative multi-Agent microservice comparison | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903144953-d38e6072 | `f76d2e7b` | 0 | 13 | 1 |
+| WI-0136 | Execute representative multi-Agent microservice comparison | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903144953-d38e6072 | `f76d2e7b` | 0 | 13 | 0 |
 
 ## Codex task registry
 
@@ -325,14 +325,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-03T14:52:06.169Z | work_item_unresolved_updated | WI-0136 | agent-lulu |
+| 2026-09-03T14:51:59.347Z | evidence_recorded | WI-0136 | human |
 | 2026-09-03T14:49:53.967Z | work_item_claimed | WI-0136 | human |
 | 2026-09-03T14:49:22.433Z | work_item_transitioned | WI-0136 | agent-rikku |
 | 2026-09-03T14:49:18.375Z | handoff_created | WI-0136 | agent-rikku |
 | 2026-09-03T14:49:12.820Z | evidence_recorded | WI-0136 | human |
 | 2026-09-03T12:09:44.571Z | evidence_recorded | WI-0136 | human |
 | 2026-09-03T11:28:59.755Z | evidence_recorded | WI-0136 | human |
-| 2026-09-03T11:28:59.485Z | evidence_invalidated | WI-0136 | human |
-| 2026-09-03T11:27:34.647Z | evidence_recorded | WI-0136 | human |
 
 ## Assignments
 

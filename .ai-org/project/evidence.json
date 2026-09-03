@@ -21235,6 +21235,71 @@
         "dirty_scope": "clean",
         "affected_paths_dirty": []
       }
+    },
+    {
+      "id": "EVID-20260903T145159Z-ED958FA9",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T14:51:59.347Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0136 v10 independent quality verification",
+      "outcome": "pass",
+      "scope_revision": "5b224ddeae83181b7322a39b3a0d3b3cdcd51aec",
+      "observed_at": "2026-09-03T14:51:27.000Z",
+      "summary": "Quality Evaluator independently reproduced the analysis, confirmed the full-load revision truncation, and passed all 378 repository tests; this qualifies routed context only and does not complete the main comparison.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-quality-test.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-quality-test.json",
+          "sha256": "7c992b1b27fdab5594049960f7dd0a4fc50684c0e5256bc4fb99751ffd117d38"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-quality-evaluation.md",
+          "sha256": "11f70d0ecdeb10e5048d5b6661f6493e9e253002e01711280b7081977b24c189"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-report.md",
+          "sha256": "7cc8ecee49fd1f290a540e564317100c19c74504bddc2727846e81c6e4c99aac"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-run.json",
+          "sha256": "4a074d4796ca075a8347e6ecdd3894ff82664b63c31f279971ccb14936e3eb29"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-analysis.json",
+          "sha256": "80b953d039726cf47804ded75841142418d9bb9a18ccf35c101f0674b03238d1"
+        },
+        {
+          "path": "scripts/run-representative-microservice-comparison.mjs",
+          "sha256": "fd7f5e6fcd6ce77a6fcd2993705fc0a5b0e0e15aad77328d71585c09ef6575ef"
+        },
+        {
+          "path": "test/representative-microservice-comparison.test.mjs",
+          "sha256": "c20e0eb43e58ca886c8c9dbc60ad36a43d806be6a22ba2af14ff1725e2685f07"
+        },
+        {
+          "path": "docs/validation/representative-microservice-comparison.md",
+          "sha256": "101792ca8f923df48c262bc1cba9739911f1699cfdbeffdc585e7746082b701a"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T14:50:18.000Z"
+      }
     }
   ]
 }
