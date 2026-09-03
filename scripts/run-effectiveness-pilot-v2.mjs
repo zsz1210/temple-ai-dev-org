@@ -268,7 +268,6 @@ async function prepareTempleCandidate({ root, caseDefinition, condition, contrac
   await fs.writeFile(path.join(artifact, "approved-scope.md"), "# Approved scope\n\nOnly src/ and test/ may change. Network, dependencies, retries, fallback models, deployment, and external actions are prohibited.\n");
   await fs.writeFile(path.join(artifact, "technical-design.md"), "# Technical design\n\nPreserve public contracts, make the smallest maintainable change, add focused tests, and run npm test.\n");
   await fs.writeFile(path.join(artifact, "risk-review.md"), "# Risk and profile review\n\nThe case is local, reversible, low-risk, and bounded. Protect every dimension in ACCEPTANCE-CONTRACT.json.\n");
-  await writeJson(path.join(artifact, "execution-request.json"), executionRequest(condition));
   const baseRevision = await initializeGit(root, "Initialize native Lean Temple candidate");
   await pinnedTemple(snapshotRoot, root, ["work-item", "configure", "--work-item", "WI-0001", "--agent-id", "agent-rikku", "--base-revision", baseRevision, "--parallel-mode", "sequential"]);
   await pinnedTemple(snapshotRoot, root, ["transition", "--work-item", "WI-0001", "--to", "build",
@@ -279,10 +278,13 @@ async function prepareTempleCandidate({ root, caseDefinition, condition, contrac
     "--satisfy", "risk_review=.ai-org/artifacts/WI-0001/risk-review.md",
     "--satisfy", "profile_eligibility=.ai-org/artifacts/WI-0001/risk-review.md"
   ]);
+  const requestPath = path.join(artifact, "execution-request.json");
+  await writeJson(requestPath, executionRequest(condition), { exclusive: true });
+  const routeResult = await pinnedTemple(snapshotRoot, root, ["execution", "resolve", "--request", ".ai-org/artifacts/WI-0001/execution-request.json", "--json"]);
+  await fs.rm(requestPath);
   await pinnedTemple(snapshotRoot, root, ["work-item", "claim", "--work-item", "WI-0001", "--agent-id", "agent-rikku", "--principal-id", "human", "--base-revision", baseRevision, "--branch", "main", "--worktree", root]);
   await git(root, ["add", "-A"]);
   await git(root, ["commit", "-m", "Prepare native Lean Developer work"]);
-  const routeResult = await pinnedTemple(snapshotRoot, root, ["execution", "resolve", "--request", ".ai-org/artifacts/WI-0001/execution-request.json", "--json"]);
   const capsuleResult = await pinnedTemple(snapshotRoot, root, ["context", "resolve", "--work-item", "WI-0001", "--position", "developer", "--no-write", "--json"]);
   return { route: JSON.parse(routeResult), capsule: normalizedCapsule(JSON.parse(capsuleResult)), contract };
 }
@@ -402,8 +404,10 @@ async function preflight(protocol, labRoot, approvalPath) {
     if (candidate.condition === "temple") {
       const item = await readJson(path.join(candidate.root, ".ai-org/work-items/WI-0001.json"));
       const route = routeSummary(candidate.route);
+      const routeRequestRetained = await fs.access(path.join(candidate.root, ".ai-org/artifacts/WI-0001/execution-request.json")).then(() => true).catch(() => false);
       checks.push({ id: `native-lean:${candidate.id}`, pass: matchesNativeLeanCandidate(item), observed: { workflow_profile: item.workflow_profile, scope_class: item.profile_assessment?.scope_class, risk_tier: item.risk_tier, state: item.state } });
       checks.push({ id: `route:${candidate.id}`, pass: route.status === "resolved" && route.profile_id === candidate.expected_profile_id && route.model === candidate.model && route.reasoning_effort === candidate.reasoning_effort && route.provider_contact === false && route.automatic_execution === false, observed: route });
+      checks.push({ id: `route-treatment-hidden:${candidate.id}`, pass: routeRequestRetained === false });
     }
   }
   for (const caseDefinition of protocol.cases) {
