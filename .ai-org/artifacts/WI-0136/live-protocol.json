@@ -1,12 +1,12 @@
 {
   "schema_version": "temple.representative-microservice-comparison/v3",
-  "protocol_revision": 11,
+  "protocol_revision": 12,
   "work_item_id": "WI-0136",
   "status": "generation-disabled",
-  "protocol_sha256": "d729c503d8e8a9d35e0eb6367fda51fa76dbf34e7db45a5ef0a0408166283040",
+  "protocol_sha256": "94fb522ec92b9f76694d2a1a0d457d9da0e2422ef33d40d0c5463e5ef962dbd0",
   "fixture": {
     "fixture_sha256": "b10ff626ef465686909aaab6d858b087f0c2aaad7a8c484f9955ed0a8465822c",
-    "runner_sha256": "12dcbf38a07589c03098b048269dcee8e92ead53e78a690512d39409a12a3802",
+    "runner_sha256": "32dff8ed071ee1d2583baa9b955f4d99a41b6ff3f1f7eb3779c267b5a35ff52f",
     "analyzer_sha256": "5e614a7879a8fbdb7655d6780dcf0c7e693e7326259fa166d7fe3231f1151c5c",
     "task_sha256": "5dfd10dce99196f282f0560a25aaffd359b7af2119a62d943e465f19ae46369c",
     "public_tests_sha256": "8809e165ee024f5606a48c38bb0f6065e3b943fcd00d05fda5fdd6099e0f41f9",
@@ -14,7 +14,7 @@
     "tool_policy_sha256": "18f5bef25f7b8a4efc220252818e642b75f5c342dd8d316e79a1254652801913",
     "rubric_sha256": "364d20a3102ddd78131fd2566b8579957b14df2d6638efd3ef1e97e94faeaf3f"
   },
-  "lab_manifest_sha256": "56a04ba9bd3bfb2596bf071420c51b283f07ee8dffa2405b056500bba55e2f7b",
+  "lab_manifest_sha256": "ac9e7c27733f9e0a438ee4fca49d614bbf328b2812fe02f70934d369e0b35f95",
   "arms": [
     {
       "id": "minimal-responsible",
@@ -30,7 +30,7 @@
         "catalog": "490bb75496c715770d2585a18c7a6ddd8c8b67c9",
         "orders": "21b595ddeaf29c43c77ee6b980c8820c499bef67",
         "notifications": "01c716dc842e22b8b241eeb19707d69bf57f9598",
-        "coordinator": "9cca4a59fb9d333433d6fb86fa5503a358733d04"
+        "coordinator": "2bc8a92d46acd3993560b1b5aebb8a94f8307f37"
       }
     },
     {
@@ -43,11 +43,11 @@
         "coordinator": "e3ce9dcde7e25d57df6a310bb850a4977921114f"
       },
       "organization_revisions": {
-        "gateway": "83fe0c16ca9380c408061be84ddb08086573a83f",
-        "catalog": "cb70098521b551f07a8534133f9518adc4975718",
-        "orders": "bfbfcf3925c70f494297ba3089fc009d6453c0a0",
-        "notifications": "80d0538a58d0d6b84ac39ff574ae3c2769620062",
-        "coordinator": "e171f15e33e76ad0f84180f0e0bb6266ec04b527"
+        "gateway": "d61139aff9dc394ad0dde2d6772fe9da110b1664",
+        "catalog": "440f20af28c63db25c2073158af7dcd77154cd68",
+        "orders": "6f082401a8cf055acf0471d25a694269442530b8",
+        "notifications": "8d40e21e4e53a5d8ce1a48bbcb9107eb4f7b0279",
+        "coordinator": "07a428fde09ed7e4ed96ef4a3cd84e3aa0c01fc0"
       }
     }
   ],
@@ -102,18 +102,19 @@
     "new_unknown_recovery_start": "temple-md-first"
   },
   "predecessor": {
-    "protocol_sha256": "16591db95bde29d6becd273ce6df3cd39569f016ebdd03c5fd2fb2c21d9253e0",
-    "disposition": "stopped-candidate-equivalent-temporary-path-unrecognized",
-    "stopped_run": ".ai-org/artifacts/WI-0136/representative-main-v10-stopped-run.json",
-    "stop_report": ".ai-org/artifacts/WI-0136/representative-main-v10-stop-report.md"
+    "protocol_sha256": "d729c503d8e8a9d35e0eb6367fda51fa76dbf34e7db45a5ef0a0408166283040",
+    "disposition": "stopped-candidate-code-mode-command-cwd-presentation-mismatch",
+    "stopped_run": ".ai-org/artifacts/WI-0136/representative-main-v11-stopped-run.json",
+    "stop_report": ".ai-org/artifacts/WI-0136/representative-main-v11-stop-report.md"
   },
   "stopped_evidence_policy": "completed-active-and-settled-sibling-observations-v3",
   "runner_safety": {
-    "relative_git_target_policy": "provider-relative-cwd-canonicalized-against-arm-root-to-exact-canonical-fixture-repository-root",
+    "relative_git_target_policy": "exact-fixture-repository-id-plus-installed-provider-turn-sandbox",
     "parallel_failure_policy": "interrupt-and-await-all-siblings-before-stop-record",
     "build_command_policy": "arm-root-repository-ids-without-candidate-git-self-check",
     "provider_shell_wrapper_policy": "unwrap-one-exact-zsh-lc-single-quoted-layer-then-reapply-full-policy",
-    "provider_cwd_policy": "canonicalize-existing-filesystem-aliases-before-containment-and-exact-target-checks",
+    "provider_cwd_policy": "diagnostic-only-for-nested-code-mode-command-items",
+    "turn_sandbox_policy": "installed-provider-arm-write-boundary-network-disabled-plus-command-and-explicit-path-gates",
     "harness_readiness_policy": "production-orchestration-with-injected-generation-free-provider-v1",
     "readiness_required_before_exact_approval": true
   },
@@ -163,7 +164,12 @@
           "medium"
         ]
       }
-    ]
+    ],
+    "turn_sandbox_capabilities": {
+      "restricted_read_access_supported": false,
+      "workspace_write_roots_supported": true,
+      "network_access_toggle_supported": true
+    }
   },
   "limit_basis": {
     "design": {

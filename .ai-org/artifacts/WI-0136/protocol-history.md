@@ -293,4 +293,19 @@ The exact-approved v10 attempt completed Minimal Responsible Design, then stoppe
 - Readiness coverage: adds the exact lexical-versus-canonical temporary-path event shape that stopped v10
 - Protocol SHA-256: `d729c503d8e8a9d35e0eb6367fda51fa76dbf34e7db45a5ef0a0408166283040`
 - Readiness result: all thirteen checks pass with zero Operational Tokens and no model generation
+- Status: stopped after one exact-approved run; no retry or fallback
+
+The v11 run completed Minimal Responsible Design at 86,096 Operational Tokens. During the three-way Build wave, the gateway command item presented an allowed repository-discovery action with a cwd outside the arm even though local runtime evidence bound both the turn and nested Code Mode `exec_command.workdir` to the exact arm root. The runner stopped fail-closed at 108,271 candidate Operational Tokens, settled the sibling turns, kept all ten repositories clean, and did not start the Temple arm or evaluator. The client-facing command-item cwd is therefore retained as diagnostic evidence rather than used alone as an authorization boundary.
+
+## Representative comparison v12
+
+- Predecessor: stopped representative v11 protocol `d729c503d8e8a9d35e0eb6367fda51fa76dbf34e7db45a5ef0a0408166283040`
+- Resource envelope, task, models, efforts, context treatment, objective tests, retry policy, fallback policy, and network boundary: unchanged from v11
+- Command policy: exact allowlisted command prefixes and fixture repository IDs; reject parent traversal, unsupported shell wrappers, and every explicit command or action path outside the arm
+- Provider cwd policy: diagnostic for nested Code Mode command items; the frozen turn cwd remains the execution authority
+- Installed sandbox contract: arm-only `writableRoots` and `networkAccess: false`; restricted-read roots are unavailable in the pinned Provider schema and are not claimed
+- Readiness coverage: fifteen end-to-end checks, including the v11 cwd presentation, explicit-path escape rejection, and exact installed sandbox schema
+- Protocol SHA-256: `94fb522ec92b9f76694d2a1a0d457d9da0e2422ef33d40d0c5463e5ef962dbd0`
+- Readiness result: all fifteen checks pass with zero Operational Tokens and no model generation
+- Preflight result: fixture, Provider contract, lifecycle, readiness, and repository checks pass; exact v12 approval is the only blocker
 - Status: frozen and generation-disabled pending separate exact approval

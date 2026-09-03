@@ -54,7 +54,9 @@ const harnessReadinessCheckIds = Object.freeze([
   "analysis-completed",
   "all-generated-repositories-clean",
   "provider-command-event-replay",
-  "provider-cwd-canonicalization-replay",
+  "nested-code-mode-cwd-advisory-replay",
+  "explicit-path-escape-replay",
+  "installed-provider-sandbox-schema-replay",
   "zero-operational-tokens",
   "no-model-generation"
 ]);
@@ -89,10 +91,17 @@ function pathIsWithin(root, candidate) {
 
 function canonicalProviderPath(candidate) {
   const resolved = path.resolve(candidate);
-  try {
-    return realpathSync.native(resolved);
-  } catch {
-    return resolved;
+  let cursor = resolved;
+  const missing = [];
+  while (true) {
+    try {
+      return path.join(realpathSync.native(cursor), ...missing.toReversed());
+    } catch {
+      const parent = path.dirname(cursor);
+      if (parent === cursor) return resolved;
+      missing.push(path.basename(cursor));
+      cursor = parent;
+    }
   }
 }
 
@@ -110,17 +119,81 @@ function resolveProviderCwd(cwd, armRoot) {
   return path.isAbsolute(candidate) ? path.resolve(candidate) : path.resolve(armRoot, candidate);
 }
 
-function fixtureScopedRelativeGitReadAllowed(commandValue, cwd, armRoot) {
+function fixtureScopedRelativeGitReadAllowed(commandValue) {
   if (!commandTextAllowed(commandValue, [["git"]])) return false;
   const match = commandValue.trim().match(/^git\s+-C\s+(\S+)\s+(status|diff|rev-parse|log|ls-tree)(?:\s|$)/);
   if (!match) return false;
-  const resolvedArmRoot = canonicalProviderPath(armRoot);
-  const providerCwd = resolveProviderCwd(cwd, resolvedArmRoot);
-  if (providerCwd === null) return false;
-  const resolvedCwd = canonicalProviderPath(providerCwd);
-  if (!pathIsWithin(resolvedArmRoot, resolvedCwd)) return false;
-  const resolvedTarget = canonicalProviderPath(path.resolve(resolvedCwd, match[1]));
-  return repositories.some((repositoryId) => resolvedTarget === canonicalProviderPath(path.join(resolvedArmRoot, repositoryId)));
+  return repositories.includes(match[1]);
+}
+
+function commandTokens(value) {
+  const tokens = [];
+  let current = "";
+  let quote = null;
+  let escaped = false;
+  for (const character of value) {
+    if (escaped) {
+      current += character;
+      escaped = false;
+      continue;
+    }
+    if (quote === "single") {
+      if (character === "'") quote = null;
+      else current += character;
+      continue;
+    }
+    if (quote === "double") {
+      if (character === '"') quote = null;
+      else if (character === "\\") escaped = true;
+      else current += character;
+      continue;
+    }
+    if (character === "'") quote = "single";
+    else if (character === '"') quote = "double";
+    else if (character === "\\") escaped = true;
+    else if (/\s/.test(character)) {
+      if (current) tokens.push(current);
+      current = "";
+    } else current += character;
+  }
+  if (quote !== null || escaped) return null;
+  if (current) tokens.push(current);
+  return tokens;
+}
+
+function explicitPathCandidate(token) {
+  if (token.startsWith("file://") || token.startsWith("/") || token === "~" || token.startsWith("~/")) return token;
+  const equals = token.indexOf("=");
+  if (equals >= 0) {
+    const value = token.slice(equals + 1);
+    if (value.startsWith("file://") || value.startsWith("/") || value === "~" || value.startsWith("~/")) return value;
+  }
+  return null;
+}
+
+function explicitPathWithinArm(value, armRoot) {
+  if (value === "~" || value.startsWith("~/")) return false;
+  const candidate = resolveProviderCwd(value, canonicalProviderPath(armRoot));
+  return candidate !== null && pathIsWithin(canonicalProviderPath(armRoot), canonicalProviderPath(candidate));
+}
+
+function actionPathsWithinArm(action, armRoot) {
+  if (action.path === null || action.path === undefined) return true;
+  if (typeof action.path !== "string" || /(?:^|[\\/])\.\.(?:[\\/]|$)/.test(action.path)) return false;
+  const explicit = explicitPathCandidate(action.path);
+  return explicit === null || explicitPathWithinArm(explicit, armRoot);
+}
+
+export function representativeTurnSandboxPolicy(cwd, sandbox = "workspace-write") {
+  return sandbox === "read-only"
+    ? { type: "readOnly", networkAccess: false }
+    : { type: "workspaceWrite", writableRoots: [cwd], networkAccess: false };
+}
+
+function providerCwdDiagnostic(cwd, armRoot) {
+  const providerCwd = typeof cwd === "string" ? resolveProviderCwd(cwd, canonicalProviderPath(armRoot)) : null;
+  if (providerCwd === null) return "invalid";
+  return pathIsWithin(canonicalProviderPath(armRoot), canonicalProviderPath(providerCwd)) ? "within-arm" : "outside-arm";
 }
 
 export function normalizeProviderCommandText(value) {
@@ -140,19 +213,24 @@ export function representativeCommandItemDecision(item, armRoot) {
     item.commandActions.length === 0 ||
     item.commandActions.length > 32
   ) return { allowed: false, reason: "malformed-command-item" };
-  const resolvedArmRoot = canonicalProviderPath(armRoot);
-  const providerCwd = resolveProviderCwd(item.cwd, resolvedArmRoot);
-  if (providerCwd === null) return { allowed: false, reason: "invalid-command-cwd" };
-  const resolvedCwd = canonicalProviderPath(providerCwd);
-  if (!pathIsWithin(resolvedArmRoot, resolvedCwd)) return { allowed: false, reason: "command-cwd-outside-arm" };
+  const cwdDiagnostic = providerCwdDiagnostic(item.cwd, armRoot);
   for (const action of item.commandActions) {
     if (action === null || typeof action !== "object" || typeof action.command !== "string") {
       return { allowed: false, reason: "malformed-command-action" };
     }
     const commandValue = normalizeProviderCommandText(action.command);
     if (commandValue === null) return { allowed: false, reason: "unsupported-provider-shell-wrapper" };
+    if (!actionPathsWithinArm(action, armRoot)) return { allowed: false, reason: "explicit-action-path-outside-arm" };
+    const tokens = commandTokens(commandValue);
+    if (tokens === null) return { allowed: false, reason: "malformed-command-tokenization" };
+    for (const token of tokens) {
+      const explicit = explicitPathCandidate(token);
+      if (explicit !== null && !explicitPathWithinArm(explicit, armRoot)) {
+        return { allowed: false, reason: "explicit-command-path-outside-arm" };
+      }
+    }
     if (/^git\s+-C(?:\s|$)/.test(commandValue)) {
-      if (!fixtureScopedRelativeGitReadAllowed(commandValue, item.cwd, armRoot)) {
+      if (!fixtureScopedRelativeGitReadAllowed(commandValue)) {
         return { allowed: false, reason: "git-target-outside-exact-fixture-root" };
       }
       continue;
@@ -162,7 +240,7 @@ export function representativeCommandItemDecision(item, armRoot) {
       return { allowed: false, reason: "command-prefix-or-shell-control" };
     }
   }
-  return { allowed: true, reason: null };
+  return { allowed: true, reason: null, provider_cwd_diagnostic: cwdDiagnostic };
 }
 
 export function representativeCommandItemAllowed(item, armRoot) {
@@ -717,7 +795,7 @@ async function sourceDigests() {
 function buildProtocol(manifest) {
   const protocol = {
     schema_version: "temple.representative-microservice-comparison/v3",
-    protocol_revision: 11,
+    protocol_revision: 12,
     work_item_id: "WI-0136",
     status: "generation-disabled",
     protocol_sha256: null,
@@ -760,18 +838,19 @@ function buildProtocol(manifest) {
       new_unknown_recovery_start: "temple-md-first"
     },
     predecessor: {
-      protocol_sha256: "16591db95bde29d6becd273ce6df3cd39569f016ebdd03c5fd2fb2c21d9253e0",
-      disposition: "stopped-candidate-equivalent-temporary-path-unrecognized",
-      stopped_run: ".ai-org/artifacts/WI-0136/representative-main-v10-stopped-run.json",
-      stop_report: ".ai-org/artifacts/WI-0136/representative-main-v10-stop-report.md"
+      protocol_sha256: "d729c503d8e8a9d35e0eb6367fda51fa76dbf34e7db45a5ef0a0408166283040",
+      disposition: "stopped-candidate-code-mode-command-cwd-presentation-mismatch",
+      stopped_run: ".ai-org/artifacts/WI-0136/representative-main-v11-stopped-run.json",
+      stop_report: ".ai-org/artifacts/WI-0136/representative-main-v11-stop-report.md"
     },
     stopped_evidence_policy: "completed-active-and-settled-sibling-observations-v3",
     runner_safety: {
-      relative_git_target_policy: "provider-relative-cwd-canonicalized-against-arm-root-to-exact-canonical-fixture-repository-root",
+      relative_git_target_policy: "exact-fixture-repository-id-plus-installed-provider-turn-sandbox",
       parallel_failure_policy: "interrupt-and-await-all-siblings-before-stop-record",
       build_command_policy: "arm-root-repository-ids-without-candidate-git-self-check",
       provider_shell_wrapper_policy: "unwrap-one-exact-zsh-lc-single-quoted-layer-then-reapply-full-policy",
-      provider_cwd_policy: "canonicalize-existing-filesystem-aliases-before-containment-and-exact-target-checks",
+      provider_cwd_policy: "diagnostic-only-for-nested-code-mode-command-items",
+      turn_sandbox_policy: "installed-provider-arm-write-boundary-network-disabled-plus-command-and-explicit-path-gates",
       harness_readiness_policy: "production-orchestration-with-injected-generation-free-provider-v1",
       readiness_required_before_exact_approval: true
     },
@@ -802,7 +881,7 @@ function buildProtocol(manifest) {
 export function validateRepresentativeProtocol(protocol) {
   const errors = [];
   if (protocol?.schema_version !== "temple.representative-microservice-comparison/v3") errors.push("unsupported schema");
-  if (protocol?.protocol_revision !== 11) errors.push("unexpected protocol revision");
+  if (protocol?.protocol_revision !== 12) errors.push("unexpected protocol revision");
   if (protocol?.work_item_id !== "WI-0136") errors.push("unexpected work item");
   if (protocol?.status !== "generation-disabled") errors.push("protocol status must remain generation-disabled before exact approval");
   if (protocol?.protocol_sha256 !== protocolDigest(protocol)) errors.push("protocol digest mismatch");
@@ -833,16 +912,17 @@ export function validateRepresentativeProtocol(protocol) {
       contextPolicy.new_unknown_recovery_start !== "temple-md-first") {
     errors.push("context policy mismatch");
   }
-  if (protocol?.predecessor?.protocol_sha256 !== "16591db95bde29d6becd273ce6df3cd39569f016ebdd03c5fd2fb2c21d9253e0" ||
-      protocol?.predecessor?.disposition !== "stopped-candidate-equivalent-temporary-path-unrecognized" ||
-      protocol?.predecessor?.stopped_run !== ".ai-org/artifacts/WI-0136/representative-main-v10-stopped-run.json" ||
-      protocol?.predecessor?.stop_report !== ".ai-org/artifacts/WI-0136/representative-main-v10-stop-report.md" ||
+  if (protocol?.predecessor?.protocol_sha256 !== "d729c503d8e8a9d35e0eb6367fda51fa76dbf34e7db45a5ef0a0408166283040" ||
+      protocol?.predecessor?.disposition !== "stopped-candidate-code-mode-command-cwd-presentation-mismatch" ||
+      protocol?.predecessor?.stopped_run !== ".ai-org/artifacts/WI-0136/representative-main-v11-stopped-run.json" ||
+      protocol?.predecessor?.stop_report !== ".ai-org/artifacts/WI-0136/representative-main-v11-stop-report.md" ||
       protocol?.stopped_evidence_policy !== "completed-active-and-settled-sibling-observations-v3" ||
-      protocol?.runner_safety?.relative_git_target_policy !== "provider-relative-cwd-canonicalized-against-arm-root-to-exact-canonical-fixture-repository-root" ||
+      protocol?.runner_safety?.relative_git_target_policy !== "exact-fixture-repository-id-plus-installed-provider-turn-sandbox" ||
       protocol?.runner_safety?.parallel_failure_policy !== "interrupt-and-await-all-siblings-before-stop-record" ||
       protocol?.runner_safety?.build_command_policy !== "arm-root-repository-ids-without-candidate-git-self-check" ||
       protocol?.runner_safety?.provider_shell_wrapper_policy !== "unwrap-one-exact-zsh-lc-single-quoted-layer-then-reapply-full-policy" ||
-      protocol?.runner_safety?.provider_cwd_policy !== "canonicalize-existing-filesystem-aliases-before-containment-and-exact-target-checks" ||
+      protocol?.runner_safety?.provider_cwd_policy !== "diagnostic-only-for-nested-code-mode-command-items" ||
+      protocol?.runner_safety?.turn_sandbox_policy !== "installed-provider-arm-write-boundary-network-disabled-plus-command-and-explicit-path-gates" ||
       protocol?.runner_safety?.harness_readiness_policy !== "production-orchestration-with-injected-generation-free-provider-v1" ||
       protocol?.runner_safety?.readiness_required_before_exact_approval !== true) {
     errors.push("successor provenance mismatch");
@@ -865,7 +945,15 @@ export function validateRepresentativeProtocol(protocol) {
     if (execution.combined_operational_token_limit !== execution.candidate_aggregate_operational_token_limit + execution.evaluator_operational_token_limit) {
       errors.push("combined Token limit must equal candidate plus evaluator limits");
     }
-    if (!protocol?.provider_contract?.codex_cli_version || !protocol?.provider_contract?.schema_digests) errors.push("frozen protocol requires a Provider contract");
+    if (!protocol?.provider_contract?.codex_cli_version || !protocol?.provider_contract?.schema_digests) {
+      errors.push("frozen protocol requires a Provider contract");
+    }
+    const sandboxCapabilities = protocol?.provider_contract?.turn_sandbox_capabilities;
+    if (sandboxCapabilities?.restricted_read_access_supported !== false ||
+        sandboxCapabilities?.workspace_write_roots_supported !== true ||
+        sandboxCapabilities?.network_access_toggle_supported !== true) {
+      errors.push("installed Provider sandbox capability contract mismatch");
+    }
   }
   return { valid: errors.length === 0, errors };
 }
@@ -976,10 +1064,14 @@ async function providerHandshake() {
     "TurnInterruptParams.json"
   ];
   const schemaDigests = {};
+  const schemaTexts = {};
   let connection;
   try {
     await checked("codex", ["app-server", "generate-json-schema", "--out", schemaRoot]);
-    for (const name of names) schemaDigests[name] = sha256(await fs.readFile(path.join(schemaRoot, "v2", name)));
+    for (const name of names) {
+      schemaTexts[name] = await fs.readFile(path.join(schemaRoot, "v2", name), "utf8");
+      schemaDigests[name] = sha256(schemaTexts[name]);
+    }
     connection = createJsonRpcProcess("codex", ["app-server", "--stdio"], {
       cwd: repositoryRoot,
       env: isolateWave5CodexEnvironment(process.env)
@@ -1007,6 +1099,12 @@ async function providerHandshake() {
       pass: checks.every((entry) => entry.available),
       codex_cli_version: cli,
       schema_digests: schemaDigests,
+      turn_sandbox_capabilities: {
+        restricted_read_access_supported: schemaTexts["TurnStartParams.json"].includes('"readOnlyAccess"') &&
+          schemaTexts["TurnStartParams.json"].includes('"readableRoots"'),
+        workspace_write_roots_supported: schemaTexts["TurnStartParams.json"].includes('"writableRoots"'),
+        network_access_toggle_supported: schemaTexts["TurnStartParams.json"].includes('"networkAccess"')
+      },
       required_models: required,
       model_checks: checks,
       model_generation_performed: false
@@ -1022,7 +1120,8 @@ function freezeLimits(protocol, handshake) {
   next.provider_contract = {
     codex_cli_version: handshake.codex_cli_version,
     schema_digests: handshake.schema_digests,
-    required_models: handshake.required_models
+    required_models: handshake.required_models,
+    turn_sandbox_capabilities: handshake.turn_sandbox_capabilities
   };
   Object.assign(next.execution, {
     design_operational_token_limit: 150000,
@@ -1156,7 +1255,8 @@ async function preflight(labRoot, protocolPath, approvalPath) {
     ? await rehearseTempleLifecycle(labRoot)
     : { pass: false, reason: "local fixture invalid" };
   const providerMatch = handshake.pass && protocol?.provider_contract?.codex_cli_version === handshake.codex_cli_version &&
-    JSON.stringify(protocol?.provider_contract?.schema_digests) === JSON.stringify(handshake.schema_digests);
+    JSON.stringify(protocol?.provider_contract?.schema_digests) === JSON.stringify(handshake.schema_digests) &&
+    JSON.stringify(protocol?.provider_contract?.turn_sandbox_capabilities) === JSON.stringify(handshake.turn_sandbox_capabilities);
   const approval = approvalPath && await exists(approvalPath) ? validateRepresentativeApproval(await readJson(approvalPath), protocol) : { accepted: false, errors: ["exact approval missing"] };
   const readinessPath = path.join(labRoot, "harness-readiness.json");
   const readiness = await exists(readinessPath) ? await readJson(readinessPath) : null;
@@ -1502,6 +1602,12 @@ function summarizeToolActivity(item, activity, includeActions = true) {
   }
 }
 
+function summarizeProviderCwd(item, activity, armRoot) {
+  if (item?.type !== "commandExecution") return;
+  const diagnostic = providerCwdDiagnostic(item.cwd, armRoot);
+  activity.provider_cwd_diagnostics[diagnostic] = (activity.provider_cwd_diagnostics[diagnostic] ?? 0) + 1;
+}
+
 export function successfulContextActionLabels(item, fallbackActions = []) {
   if (item?.type !== "commandExecution" || item.exitCode !== 0) return [];
   const actions = Array.isArray(item.commandActions) && item.commandActions.length > 0
@@ -1560,7 +1666,8 @@ async function launchModelTurn({
     temple_md_reads: 0,
     context_resolve_calls: 0,
     context_sequence: [],
-    reported_output_bytes: 0
+    reported_output_bytes: 0,
+    provider_cwd_diagnostics: {}
   };
   const observedCommandItems = new Set();
   const successfulContextItems = new Set();
@@ -1623,6 +1730,7 @@ async function launchModelTurn({
           observedCommandItems.add(key);
           commandActionsByItem.set(key, params.item.commandActions ?? []);
           summarizeToolActivity(params.item, toolActivity, true);
+          summarizeProviderCwd(params.item, toolActivity, cwd);
         }
       }
       if (message.method === "item/completed" && (!turnId || params.turnId === turnId) && params.item?.type === "agentMessage") {
@@ -1685,9 +1793,7 @@ async function launchModelTurn({
       turnTrigger: "user",
       cwd,
       approvalPolicy: "never",
-      sandboxPolicy: sandbox === "read-only"
-        ? { type: "readOnly", networkAccess: false }
-        : { type: "workspaceWrite", writableRoots: [cwd], networkAccess: false },
+      sandboxPolicy: representativeTurnSandboxPolicy(cwd, sandbox),
       model: route.model,
       effort: route.reasoning_effort,
       outputSchema
@@ -3572,14 +3678,14 @@ export async function runRepresentativeHarnessReadiness(labRoot, protocolPath) {
         }, { turnId: "readiness-turn", armRoot: path.join(readinessRoot, "arms", "temple") }) === null
       },
       {
-        id: "provider-cwd-canonicalization-replay",
+        id: "nested-code-mode-cwd-advisory-replay",
         pass: representativeProtocolViolationForMessage({
           method: "item/started",
           params: {
             turnId: "readiness-turn",
             item: {
               type: "commandExecution",
-              cwd: path.join(`${resolvedLab}-readiness`, "arms", "temple", "notifications"),
+              cwd: repositoryRoot,
               command: "/bin/zsh -lc \"rg --files -g 'WORK_ITEM.md' -g 'TASK.md' -g 'design-record.json' -g 'AGENTS.md'\"",
               commandActions: [{
                 type: "listFiles",
@@ -3588,6 +3694,32 @@ export async function runRepresentativeHarnessReadiness(labRoot, protocolPath) {
             }
           }
         }, { turnId: "readiness-turn", armRoot: path.join(readinessRoot, "arms", "temple") }) === null
+      },
+      {
+        id: "explicit-path-escape-replay",
+        pass: representativeProtocolViolationForMessage({
+          method: "item/started",
+          params: {
+            turnId: "readiness-turn",
+            item: {
+              type: "commandExecution",
+              cwd: repositoryRoot,
+              command: "sed -n '1,20p' /tmp/outside/secret",
+              commandActions: [{ type: "read", command: "sed -n '1,20p' /tmp/outside/secret", path: "/tmp/outside/secret" }]
+            }
+          }
+        }, { turnId: "readiness-turn", armRoot: path.join(readinessRoot, "arms", "temple") })?.message.includes("explicit-action-path-outside-arm") === true
+      },
+      {
+        id: "installed-provider-sandbox-schema-replay",
+        pass: protocol.provider_contract?.turn_sandbox_capabilities?.restricted_read_access_supported === false &&
+          protocol.provider_contract?.turn_sandbox_capabilities?.workspace_write_roots_supported === true &&
+          protocol.provider_contract?.turn_sandbox_capabilities?.network_access_toggle_supported === true &&
+          JSON.stringify(representativeTurnSandboxPolicy(path.join(readinessRoot, "arms", "temple"))) === JSON.stringify({
+            type: "workspaceWrite",
+            writableRoots: [path.join(readinessRoot, "arms", "temple")],
+            networkAccess: false
+          })
       },
       { id: "zero-operational-tokens", pass: evaluator.combined_operational_tokens === 0 },
       { id: "no-model-generation", pass: run.model_generation_performed === false && evaluator.model_generation_performed === false }

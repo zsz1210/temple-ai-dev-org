@@ -1,11 +1,11 @@
 {
   "schema_version": "temple.representative-harness-readiness/v1",
   "work_item_id": "WI-0136",
-  "protocol_sha256": "d729c503d8e8a9d35e0eb6367fda51fa76dbf34e7db45a5ef0a0408166283040",
-  "completed_at": "2026-09-03T17:53:25.385Z",
+  "protocol_sha256": "94fb522ec92b9f76694d2a1a0d457d9da0e2422ef33d40d0c5463e5ef962dbd0",
+  "completed_at": "2026-09-03T18:23:53.686Z",
   "pass": true,
-  "source_lab": "/tmp/temple-wi0136-representative-microservice-v11-final",
-  "readiness_lab": "/private/tmp/temple-wi0136-representative-microservice-v11-final-readiness",
+  "source_lab": "/tmp/temple-wi0136-representative-microservice-v12-final-r2",
+  "readiness_lab": "/private/tmp/temple-wi0136-representative-microservice-v12-final-r2-readiness",
   "candidate_turn_count": 10,
   "evaluator_turn_count": 1,
   "checks": [
@@ -50,7 +50,15 @@
       "pass": true
     },
     {
-      "id": "provider-cwd-canonicalization-replay",
+      "id": "nested-code-mode-cwd-advisory-replay",
+      "pass": true
+    },
+    {
+      "id": "explicit-path-escape-replay",
+      "pass": true
+    },
+    {
+      "id": "installed-provider-sandbox-schema-replay",
       "pass": true
     },
     {

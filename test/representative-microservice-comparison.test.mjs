@@ -17,6 +17,7 @@ import {
   protocolDigest,
   representativeCommandItemAllowed,
   representativeProtocolViolationForMessage,
+  representativeTurnSandboxPolicy,
   representativeStoppedRun,
   settleFailClosedParallel,
   statusPaths,
@@ -55,21 +56,27 @@ test("the representative microservice protocol is frozen but generation-disabled
   assert.equal(protocol.execution.fallback_count, 0);
   assert.equal(protocol.execution.candidate_turns, 10);
   assert.equal(protocol.execution.evaluator_turns, 1);
-  assert.equal(protocol.protocol_revision, 11);
+  assert.equal(protocol.protocol_revision, 12);
   assert.equal(protocol.execution.design_operational_token_limit, 150000);
   assert.equal(protocol.execution.candidate_aggregate_operational_token_limit, 650000);
   assert.equal(protocol.execution.combined_operational_token_limit, 750000);
   assert.deepEqual(protocol.context_policy.temple_md_fallback_when_missing, ["authority", "current-state", "safe-next-action"]);
-  assert.equal(protocol.predecessor.disposition, "stopped-candidate-equivalent-temporary-path-unrecognized");
-  assert.equal(protocol.predecessor.stopped_run, ".ai-org/artifacts/WI-0136/representative-main-v10-stopped-run.json");
+  assert.equal(protocol.predecessor.disposition, "stopped-candidate-code-mode-command-cwd-presentation-mismatch");
+  assert.equal(protocol.predecessor.stopped_run, ".ai-org/artifacts/WI-0136/representative-main-v11-stopped-run.json");
   assert.equal(protocol.stopped_evidence_policy, "completed-active-and-settled-sibling-observations-v3");
-  assert.equal(protocol.runner_safety.relative_git_target_policy, "provider-relative-cwd-canonicalized-against-arm-root-to-exact-canonical-fixture-repository-root");
+  assert.equal(protocol.runner_safety.relative_git_target_policy, "exact-fixture-repository-id-plus-installed-provider-turn-sandbox");
   assert.equal(protocol.runner_safety.parallel_failure_policy, "interrupt-and-await-all-siblings-before-stop-record");
   assert.equal(protocol.runner_safety.build_command_policy, "arm-root-repository-ids-without-candidate-git-self-check");
   assert.equal(protocol.runner_safety.provider_shell_wrapper_policy, "unwrap-one-exact-zsh-lc-single-quoted-layer-then-reapply-full-policy");
-  assert.equal(protocol.runner_safety.provider_cwd_policy, "canonicalize-existing-filesystem-aliases-before-containment-and-exact-target-checks");
+  assert.equal(protocol.runner_safety.provider_cwd_policy, "diagnostic-only-for-nested-code-mode-command-items");
+  assert.equal(protocol.runner_safety.turn_sandbox_policy, "installed-provider-arm-write-boundary-network-disabled-plus-command-and-explicit-path-gates");
   assert.equal(protocol.runner_safety.harness_readiness_policy, "production-orchestration-with-injected-generation-free-provider-v1");
   assert.equal(protocol.runner_safety.readiness_required_before_exact_approval, true);
+  assert.deepEqual(protocol.provider_contract.turn_sandbox_capabilities, {
+    restricted_read_access_supported: false,
+    workspace_write_roots_supported: true,
+    network_access_toggle_supported: true
+  });
 });
 
 test("protocol validation rejects product drift, reroute, retry, and digest rewriting", async () => {
@@ -227,7 +234,7 @@ test("comparison command policy permits only fixture-scoped git -C reads", () =>
   assert.equal(commandTextAllowed("git -C gateway config core.sshCommand exploit", comparisonAllowedCommandPrefixes), false);
 });
 
-test("representative command policy resolves relative Git targets from Provider-reported cwd", () => {
+test("representative command policy permits only exact fixture repository IDs for Git reads", () => {
   const armRoot = "/tmp/temple-arm";
   const item = (cwd, command) => ({
     type: "commandExecution",
@@ -235,27 +242,15 @@ test("representative command policy resolves relative Git targets from Provider-
     commandActions: [{ type: "read", command }]
   });
   assert.equal(
-    representativeCommandItemAllowed(item(`${armRoot}/catalog/src`, "git -C ../../orders status --short"), armRoot),
+    representativeCommandItemAllowed(item(armRoot, "git -C orders status --short"), armRoot),
     true
   );
   assert.equal(
-    representativeCommandItemAllowed(item(`${armRoot}/catalog/src`, "git -C ../../../outside status --short"), armRoot),
+    representativeCommandItemAllowed(item(armRoot, "git -C ../orders status --short"), armRoot),
     false
   );
   assert.equal(
-    representativeCommandItemAllowed(item("/tmp/outside", "git -C ../temple-arm/orders status --short"), armRoot),
-    false
-  );
-  assert.equal(
-    representativeCommandItemAllowed(item("/tmp/outside", "rg OrderPlaced"), armRoot),
-    false
-  );
-  assert.equal(
-    representativeCommandItemAllowed(item(`${armRoot}/catalog/src`, "git -C orders status --short"), armRoot),
-    false
-  );
-  assert.equal(
-    representativeCommandItemAllowed(item(`${armRoot}/catalog/src`, "git -C ../../orders config core.sshCommand exploit"), armRoot),
+    representativeCommandItemAllowed(item(armRoot, "git -C orders config core.sshCommand exploit"), armRoot),
     false
   );
   assert.equal(
@@ -264,19 +259,33 @@ test("representative command policy resolves relative Git targets from Provider-
   );
 });
 
-test("representative command policy resolves Provider-relative cwd from the arm root", () => {
+test("nested Code Mode Provider cwd is diagnostic while explicit paths remain bounded", () => {
   const armRoot = "/tmp/temple-arm";
-  const item = (cwd, command) => ({
+  const item = (cwd, command, action = {}) => ({
     type: "commandExecution",
     cwd,
-    commandActions: [{ type: "read", command }]
+    commandActions: [{ type: "read", command, ...action }]
   });
   assert.equal(representativeCommandItemAllowed(item("notifications", "rg --files coordinator"), armRoot), true);
-  assert.equal(representativeCommandItemAllowed(item("notifications", "rg OrderPlaced src"), armRoot), true);
-  assert.equal(representativeCommandItemAllowed(item("file:///tmp/temple-arm/notifications", "rg OrderPlaced src"), armRoot), true);
-  assert.equal(representativeCommandItemAllowed(item("../outside", "rg OrderPlaced"), armRoot), false);
-  assert.equal(representativeCommandItemAllowed(item("file:///tmp/outside", "rg OrderPlaced"), armRoot), false);
-  assert.equal(representativeCommandItemAllowed(item("https://example.invalid/notifications", "rg OrderPlaced"), armRoot), false);
+  assert.equal(representativeCommandItemAllowed(item("/tmp/provider-presentation-root", "rg --files"), armRoot), true);
+  assert.equal(representativeCommandItemAllowed(item("https://example.invalid/notifications", "rg --files"), armRoot), true);
+  assert.equal(representativeCommandItemAllowed(item("/tmp/provider-presentation-root", "sed -n '1,20p' /tmp/outside/secret"), armRoot), false);
+  assert.equal(representativeCommandItemAllowed(item("/tmp/provider-presentation-root", "sed -n '1,20p' source.mjs", { path: "/tmp/outside/secret" }), armRoot), false);
+  assert.equal(representativeCommandItemAllowed(item("/tmp/provider-presentation-root", "sed -n '1,20p' source.mjs", { path: "/tmp/temple-arm/gateway/source.mjs" }), armRoot), true);
+  assert.equal(representativeCommandItemAllowed(item("/tmp/provider-presentation-root", "rg OrderPlaced ../outside"), armRoot), false);
+});
+
+test("turn sandbox uses only fields supported by the pinned installed Provider contract", () => {
+  const root = "/tmp/temple-arm";
+  assert.deepEqual(representativeTurnSandboxPolicy(root, "read-only"), {
+    type: "readOnly",
+    networkAccess: false
+  });
+  assert.deepEqual(representativeTurnSandboxPolicy(root, "workspace-write"), {
+    type: "workspaceWrite",
+    writableRoots: [root],
+    networkAccess: false
+  });
 });
 
 test("historical Provider command events are classified by normalized scope rather than display wrapper", () => {
@@ -300,16 +309,17 @@ test("historical Provider command events are classified by normalized scope rath
     "notifications",
     "/bin/zsh -lc 'node coordinator/templew.mjs context resolve coordinator --work-item WI-0001 --position developer --no-write --json'"
   )), null);
-  assert.equal(classify(event(`${armRoot}/catalog/src`, "git -C ../../orders status --short")), null);
-  assert.match(classify(event(`${armRoot}/catalog/src`, "git -C ../../../notifications status --short")).message, /command policy rejected/);
+  assert.equal(classify(event(`${armRoot}/catalog/src`, "git -C orders status --short")), null);
+  assert.match(classify(event(`${armRoot}/catalog/src`, "git -C ../notifications status --short")).message, /command policy rejected/);
   assert.match(classify(event("notifications", "curl https://example.invalid")).message, /command policy rejected/);
   assert.match(classify(event("notifications", "/bin/zsh -lc 'node coordinator/templew.mjs; curl https://example.invalid'")).message, /command policy rejected/);
   assert.match(classify(event("notifications", "/bin/zsh -lc \"node coordinator/templew.mjs context resolve coordinator\"")).message, /command policy rejected/);
-  assert.match(classify(event("../outside", "rg OrderPlaced")).message, /command policy rejected/);
+  assert.equal(classify(event("../outside", "rg OrderPlaced")), null);
+  assert.match(classify(event("../outside", "rg OrderPlaced /tmp/outside")).message, /command policy rejected/);
   assert.equal(classify({ ...event("notifications", "rg OrderPlaced"), params: { ...event("notifications", "rg OrderPlaced").params, turnId: "other" } }), null);
 });
 
-test("representative command policy canonicalizes filesystem aliases and rejects symlink escapes", async () => {
+test("representative command policy canonicalizes explicit paths and rejects symlink escapes", async () => {
   const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-command-cwd-"));
   const armRoot = path.join(temporaryRoot, "arm");
   const aliasRoot = path.join(temporaryRoot, "arm-alias");
@@ -318,14 +328,14 @@ test("representative command policy canonicalizes filesystem aliases and rejects
   await fs.mkdir(outsideRoot, { recursive: true });
   await fs.symlink(armRoot, aliasRoot, "dir");
   await fs.symlink(outsideRoot, path.join(armRoot, "escape"), "dir");
-  const item = (cwd) => ({
+  const item = (path_) => ({
     type: "commandExecution",
-    cwd,
-    commandActions: [{ type: "listFiles", command: "rg --files" }]
+    cwd: "/tmp/provider-presentation-root",
+    commandActions: [{ type: "read", command: "sed -n '1,20p' source.mjs", path: path_ }]
   });
   try {
-    assert.equal(representativeCommandItemAllowed(item(path.join(aliasRoot, "notifications")), armRoot), true);
-    assert.equal(representativeCommandItemAllowed(item(path.join(armRoot, "escape")), armRoot), false);
+    assert.equal(representativeCommandItemAllowed(item(path.join(aliasRoot, "notifications", "source.mjs")), armRoot), true);
+    assert.equal(representativeCommandItemAllowed(item(path.join(armRoot, "escape", "secret")), armRoot), false);
   } finally {
     await fs.rm(temporaryRoot, { recursive: true, force: true });
   }
