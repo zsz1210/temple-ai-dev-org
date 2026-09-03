@@ -171,7 +171,7 @@
 | WI-0121 | Close remaining Execution Route validation bypasses | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a8eea7c3` | 0 | 17 | 0 |
 | WI-0122 | Reconcile pinned Route reason precedence | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3c35ddf8` | 0 | 17 | 0 |
 | WI-0123 | Close Execution resolver input domain | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `4263bc7d` | 0 | 17 | 0 |
-| WI-0124 | Seal Execution Request projection boundaries | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903041816-2f4b8e72 | `0e32149b` | 0 | 13 | 0 |
+| WI-0124 | Seal Execution Request projection boundaries | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903041959-41790f98 | `0e32149b` | 0 | 16 | 0 |
 
 ## Codex task registry
 
@@ -317,14 +317,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-03T04:19:59.800Z | work_item_claimed | WI-0124 | human |
+| 2026-09-03T04:19:59.540Z | work_item_transitioned | WI-0124 | agent-lulu |
+| 2026-09-03T04:19:59.291Z | handoff_created | WI-0124 | agent-lulu |
+| 2026-09-03T04:19:59.017Z | work_item_transitioned | WI-0124 | agent-lulu |
+| 2026-09-03T04:19:58.813Z | evidence_recorded | WI-0124 | human |
 | 2026-09-03T04:18:16.784Z | work_item_claimed | WI-0124 | human |
 | 2026-09-03T04:18:16.524Z | work_item_transitioned | WI-0124 | agent-rikku |
 | 2026-09-03T04:18:16.252Z | handoff_created | WI-0124 | agent-rikku |
-| 2026-09-03T04:18:16.047Z | evidence_recorded | WI-0124 | human |
-| 2026-09-03T04:18:15.809Z | evidence_recorded | WI-0124 | human |
-| 2026-09-03T04:14:27.052Z | work_item_claimed | WI-0124 | human |
-| 2026-09-03T04:14:26.804Z | work_item_transitioned | WI-0124 | agent-tidus |
-| 2026-09-03T04:14:26.569Z | handoff_created | WI-0124 | agent-tidus |
 
 ## Assignments
 
