@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0123",
   "title": "Close Execution resolver input domain",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-03T04:00:42.622Z",
-  "updated_at": "2026-09-03T04:01:14.843Z",
+  "updated_at": "2026-09-03T04:05:47.532Z",
   "scope": [
     "Align Execution Request capability identifiers, resolver option validation, and total Route semantic validation so every accepted resolver input produces a valid Route."
   ],
@@ -56,7 +56,7 @@
   ],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "3c35ddf",
+  "base_revision": "4263bc7d533be072191e39bd6f959eebb77f271d",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -69,14 +69,14 @@
     "WI-0086 retains public-release qualification; WI-0123 changes only local validation code, the managed Request schema, tests, and self-host digest metadata."
   ],
   "claim": {
-    "id": "claim-20260903040114-2a07aaad",
+    "id": "claim-20260903040547-cc750d19",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "3c35ddf",
+    "agent_id": "agent-lulu",
+    "base_revision": "4263bc7d533be072191e39bd6f959eebb77f271d",
     "branch": "codex/wi-0120-harden-execution-route-schema",
     "worktree": null,
-    "claimed_at": "2026-09-03T04:01:14.843Z",
+    "claimed_at": "2026-09-03T04:05:47.532Z",
     "released_at": null
   },
   "claims": [
@@ -118,13 +118,25 @@
     },
     {
       "id": "claim-20260903040114-2a07aaad",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "3c35ddf",
       "branch": "codex/wi-0120-harden-execution-route-schema",
       "worktree": null,
       "claimed_at": "2026-09-03T04:01:14.843Z",
+      "released_at": "2026-09-03T04:05:47.266Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903040547-cc750d19",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "4263bc7d533be072191e39bd6f959eebb77f271d",
+      "branch": "codex/wi-0120-harden-execution-route-schema",
+      "worktree": null,
+      "claimed_at": "2026-09-03T04:05:47.532Z",
       "released_at": null
     }
   ],
@@ -143,6 +155,20 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0123/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0123/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0123/developer-report.md",
+      ".ai-org/artifacts/WI-0123/developer-test-observation.json",
+      ".ai-org/artifacts/WI-0122/independent-qa-attempt-1.md"
+    ],
+    "implementation_revision": [
+      "4263bc7d533be072191e39bd6f959eebb77f271d"
+    ],
+    "developer_test": [
+      ".ai-org/artifacts/WI-0123/developer-test-observation.json"
     ]
   },
   "evidence": [
@@ -154,7 +180,11 @@
     ".ai-org/artifacts/WI-0123/product-spec.md",
     ".ai-org/artifacts/WI-0123/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0123/technical-design.md",
-    ".ai-org/artifacts/WI-0123/risk-review.md"
+    ".ai-org/artifacts/WI-0123/risk-review.md",
+    ".ai-org/artifacts/WI-0123/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0123/developer-report.md",
+    ".ai-org/artifacts/WI-0123/developer-test-observation.json",
+    "4263bc7d533be072191e39bd6f959eebb77f271d"
   ],
   "unresolved": [],
   "next_position": "quality_evaluator",
@@ -179,6 +209,14 @@
       "input_revision": "3c35ddf",
       "artifact": ".ai-org/artifacts/WI-0123/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-03T04:01:14.347Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "4263bc7d533be072191e39bd6f959eebb77f271d",
+      "artifact": ".ai-org/artifacts/WI-0123/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-03T04:05:46.787Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "4263bc7d533be072191e39bd6f959eebb77f271d"
 }

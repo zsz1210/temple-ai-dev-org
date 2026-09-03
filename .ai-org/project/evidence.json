@@ -18917,6 +18917,89 @@
         "status": "open",
         "mitigation": "Close the public resolver input domain and restore total semantic validation before another Independent QA pass."
       }
+    },
+    {
+      "id": "EVID-20260903T040546Z-A14088DE",
+      "work_item_id": "WI-0123",
+      "recorded_at": "2026-09-03T04:05:46.347Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Execution resolver input closure candidate",
+      "outcome": "verified",
+      "scope_revision": "4263bc7d533be072191e39bd6f959eebb77f271d",
+      "observed_at": "2026-09-03T04:05:46.347Z",
+      "summary": "Exact candidate revision for Request-to-Route closure and total validation.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "4263bc7d533be072191e39bd6f959eebb77f271d"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "4263bc7d533be072191e39bd6f959eebb77f271d",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260903T040546Z-873D3875",
+      "work_item_id": "WI-0123",
+      "recorded_at": "2026-09-03T04:05:46.582Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer full verification",
+      "outcome": "pass",
+      "scope_revision": "4263bc7d533be072191e39bd6f959eebb77f271d",
+      "observed_at": "2026-09-03T04:05:24.585Z",
+      "summary": "All repository checks and 330 tests passed on the exact candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0123/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0123/developer-test-observation.json",
+          "sha256": "738aaca547b91181b31ec62d63324a6dfe003de28ad0bd8aeca95f6aee90d8ec"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0123/developer-report.md",
+          "sha256": "4472e42232fefc6f54a9827e8f063bac293b0aa5642ad7a7c4a58c911283a3b2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0122/independent-qa-attempt-1.md",
+          "sha256": "c0386644a84403ec2e3453be3026a54e8b4bb990dc7b3da24f9086d016801bf1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0123/product-spec.md",
+          "sha256": "4886bddb70cc5ef7df6b88748682d32d8fe771e94acab3487e6cc5e45a914e21"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0123/technical-design.md",
+          "sha256": "907e29b8d8e32c63bf80d4ad46e9cd52a4cdb932e644d34c37f4346748fe2394"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T04:04:13.381Z"
+      }
     }
   ]
 }

@@ -170,7 +170,7 @@
 | WI-0120 | Harden the Execution Route validation boundary | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `486c64df` | 0 | 18 | 0 |
 | WI-0121 | Close remaining Execution Route validation bypasses | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a8eea7c3` | 0 | 17 | 0 |
 | WI-0122 | Reconcile pinned Route reason precedence | blocked | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3c35ddf8` | 0 | 17 | 0 |
-| WI-0123 | Close Execution resolver input domain | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903040114-2a07aaad | `—` | 0 | 9 | 0 |
+| WI-0123 | Close Execution resolver input domain | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260903040547-cc750d19 | `4263bc7d` | 0 | 13 | 0 |
 
 ## Codex task registry
 
@@ -315,14 +315,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-03T04:05:47.532Z | work_item_claimed | WI-0123 | human |
+| 2026-09-03T04:05:47.266Z | work_item_transitioned | WI-0123 | agent-rikku |
+| 2026-09-03T04:05:46.787Z | handoff_created | WI-0123 | agent-rikku |
+| 2026-09-03T04:05:46.582Z | evidence_recorded | WI-0123 | human |
+| 2026-09-03T04:05:46.347Z | evidence_recorded | WI-0123 | human |
 | 2026-09-03T04:01:14.843Z | work_item_claimed | WI-0123 | human |
 | 2026-09-03T04:01:14.586Z | work_item_transitioned | WI-0123 | agent-tidus |
 | 2026-09-03T04:01:14.347Z | handoff_created | WI-0123 | agent-tidus |
-| 2026-09-03T04:01:14.112Z | work_item_claimed | WI-0123 | human |
-| 2026-09-03T04:01:13.845Z | work_item_transitioned | WI-0123 | agent-yuna |
-| 2026-09-03T04:01:13.606Z | handoff_created | WI-0123 | agent-yuna |
-| 2026-09-03T04:01:13.384Z | work_item_claimed | WI-0123 | human |
-| 2026-09-03T04:01:13.135Z | work_item_transitioned | WI-0123 | agent-mog |
 
 ## Assignments
 
