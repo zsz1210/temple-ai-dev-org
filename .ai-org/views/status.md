@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 139 total, 6 active
+- Work items: 140 total, 6 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -186,7 +186,8 @@
 | WI-0136 | Execute representative multi-Agent microservice comparison | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f76d2e7b` | 0 | 20 | 0 |
 | WI-0137 | Make context routing stage-aware and measurement-ready | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `94d8ceb9` | 0 | 16 | 0 |
 | WI-0138 | Measure stage-aware Context Capsule effectiveness | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `87d0f8e2` | 0 | 16 | 1 |
-| WI-0139 | Repair Context Capsule evaluation contract | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `498c7dfd` | 0 | 16 | 2 |
+| WI-0139 | Repair Context Capsule evaluation contract | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f787f8a` | 0 | 17 | 0 |
+| WI-0140 | Measure and enforce Context Capsule route adherence | intake | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
 
 ## Codex task registry
 
@@ -328,14 +329,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-04T02:18:17.077Z | work_item_unresolved_updated | WI-0139 | agent-mog |
+| 2026-09-04T02:18:09.734Z | work_item_closed | WI-0139 | agent-mog |
+| 2026-09-04T02:18:09.734Z | release_gate_completed | WI-0139 | agent-mog |
+| 2026-09-04T02:18:09.458Z | work_item_unresolved_updated | WI-0139 | agent-mog |
+| 2026-09-04T02:17:43.020Z | work_item_created | WI-0140 | agent-mog |
 | 2026-09-04T02:11:37.334Z | work_item_transitioned | WI-0139 | agent-lulu |
 | 2026-09-04T02:11:37.060Z | handoff_created | WI-0139 | agent-lulu |
 | 2026-09-04T02:11:27.459Z | work_item_claim_released | WI-0139 | principal-owner |
-| 2026-09-04T02:11:13.414Z | evidence_recorded | WI-0139 | agent-lulu |
-| 2026-09-04T02:07:28.362Z | work_item_claimed | WI-0139 | principal-owner |
-| 2026-09-04T02:07:20.839Z | work_item_transitioned | WI-0139 | agent-lulu |
-| 2026-09-04T02:07:20.526Z | handoff_created | WI-0139 | agent-lulu |
-| 2026-09-04T02:06:57.671Z | evidence_recorded | WI-0139 | agent-lulu |
 
 ## Assignments
 

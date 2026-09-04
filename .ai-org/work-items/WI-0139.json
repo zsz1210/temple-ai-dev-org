@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0139",
   "title": "Repair Context Capsule evaluation contract",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-04T01:28:56.515Z",
-  "updated_at": "2026-09-04T02:11:37.334Z",
+  "updated_at": "2026-09-04T02:18:17.077Z",
   "scope": [
     "Replace prose-equality scoring with canonical typed facts and identifiers for the single-repository and coordinator multi-repository recovery scenarios.",
     "Prove the evaluator against retained WI-0138 outputs without changing or rescoring the historical WI-0138 result.",
@@ -181,6 +181,18 @@
     ],
     "independent_qa_pass": [
       "EVID-20260904T021113Z-FF02EC27"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0139/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0139/independent-qa.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0139/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -199,13 +211,11 @@
     "EVID-20260904T020657Z-9A79B899",
     ".ai-org/artifacts/WI-0139/handoff-005-independent_qa-to-release_manager.md",
     ".ai-org/artifacts/WI-0139/independent-qa.md",
-    "EVID-20260904T021113Z-FF02EC27"
+    "EVID-20260904T021113Z-FF02EC27",
+    ".ai-org/artifacts/WI-0139/release-record.md"
   ],
-  "unresolved": [
-    "A successor experiment must measure post-route context acquisition and remove the 40,000-token single-repository censoring confounder before another live run.",
-    "A successor experiment needs path-only post-route acquisition evidence, route-adherence scoring, a non-censoring single-repository ceiling, counterbalanced order, and new approval."
-  ],
-  "next_position": "engineering_manager",
+  "unresolved": [],
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "product_manager",
@@ -243,5 +253,11 @@
       "created_at": "2026-09-04T02:11:37.060Z"
     }
   ],
-  "developer_candidate_revision": "498c7dfdcd0e4abb547a3e3e829311185ddfa96c"
+  "developer_candidate_revision": "498c7dfdcd0e4abb547a3e3e829311185ddfa96c",
+  "tested_revision": "f787f8a",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }
