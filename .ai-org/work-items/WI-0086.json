@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0086",
   "title": "Prepare the first public Alpha release candidate",
-  "state": "blocked",
+  "state": "cancelled",
   "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-01T14:24:44.818Z",
-  "updated_at": "2026-09-03T00:35:23.856Z",
+  "updated_at": "2026-09-04T09:33:20.902Z",
   "scope": [
     "Select and prepare one versioned GitHub Release candidate while npm distribution remains deferred.",
     "Reconcile the pushed Node.js 22 and 24 hosted-CI result, package boundary, security review, release notes, rollback plan, and public-readiness record at one exact candidate revision.",
@@ -260,6 +260,9 @@
     ],
     "resolution_evidence": [
       ".ai-org/artifacts/WI-0087/release-record.md"
+    ],
+    "cancellation_reason": [
+      ".ai-org/artifacts/WI-0151/reconciliation.md"
     ]
   },
   "evidence": [
@@ -280,7 +283,8 @@
     ".ai-org/artifacts/WI-0086/evaluation-report.md",
     ".ai-org/artifacts/WI-0086/hosted-ci-failure.md",
     ".ai-org/artifacts/WI-0087/release-record.md",
-    ".ai-org/artifacts/WI-0086/public-release-blockers.md"
+    ".ai-org/artifacts/WI-0086/public-release-blockers.md",
+    ".ai-org/artifacts/WI-0151/reconciliation.md"
   ],
   "unresolved": [],
   "next_position": null,

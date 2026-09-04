@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 150 total, 5 active
+- Work items: 151 total, 0 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 13
+- Attention signals: 12
 
 ## Collaboration
 
@@ -80,7 +80,7 @@
 | WI-0030 | Prevent complete command retention | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `ba066d73` | 0 | 13 | 2 |
 | WI-0031 | Harden Temple before the next release | cancelled | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 | WI-0032 | Sandbox federation participant Git inspection | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `024af612` | 0 | 15 | 0 |
-| WI-0033 | Establish operator-owned provider trust | spec | Product Manager | Yuna | blocked | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 1 |
+| WI-0033 | Establish operator-owned provider trust | cancelled | Engineering Manager | Mog | blocked | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 1 |
 | WI-0034 | Make Dashboard current-state interaction trustworthy | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `7a528964` | 0 | 12 | 0 |
 | WI-0035 | Reduce CI cost without hiding behavioral results | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5db98cf2` | 0 | 15 | 1 |
 | WI-0036 | Add a private read-only Dashboard viewer | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | code-first | 0 | 0 | 0 | — | `f68186ba` | 0 | 12 | 0 |
@@ -133,7 +133,7 @@
 | WI-0083 | Add matched model evaluation and advisory recommendations | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a0be19c7` | 0 | 23 | 0 |
 | WI-0084 | Reconcile release truth and refresh the public roadmap | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `dbfa2b7c` | 0 | 21 | 0 |
 | WI-0085 | Harden Temple for the first public alpha | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `31eb1707` | 0 | 22 | 0 |
-| WI-0086 | Prepare the first public Alpha release candidate | blocked | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `fe9f7d98` | 0 | 18 | 0 |
+| WI-0086 | Prepare the first public Alpha release candidate | cancelled | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `fe9f7d98` | 0 | 19 | 0 |
 | WI-0087 | Stabilize Linux temporary Git cleanup for Alpha.29 | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `680230f0` | 0 | 17 | 0 |
 | WI-0088 | Add real-browser Management Console regression coverage | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1a82106c` | 0 | 23 | 0 |
 | WI-0089 | Make Codex task titles outcome-first and refreshable | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `86b0cdf4` | 0 | 23 | 0 |
@@ -183,9 +183,9 @@
 | WI-0133 | Reduce Lean context overhead and harden effectiveness measurement | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1df92590` | 0 | 20 | 0 |
 | WI-0134 | Repair invalid historical evidence records | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ad1f06a5` | 0 | 18 | 0 |
 | WI-0135 | Run optimized Terra process confirmation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `00ea3a47` | 0 | 24 | 0 |
-| WI-0136 | Execute representative multi-Agent microservice comparison | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f76d2e7b` | 0 | 20 | 0 |
-| WI-0137 | Make context routing stage-aware and measurement-ready | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `94d8ceb9` | 0 | 16 | 0 |
-| WI-0138 | Measure stage-aware Context Capsule effectiveness | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `87d0f8e2` | 0 | 16 | 1 |
+| WI-0136 | Execute representative multi-Agent microservice comparison | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6a7abb6c` | 0 | 21 | 0 |
+| WI-0137 | Make context routing stage-aware and measurement-ready | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `94d8ceb9` | 0 | 17 | 0 |
+| WI-0138 | Measure stage-aware Context Capsule effectiveness | concluded | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `87d0f8e2` | 0 | 17 | 1 |
 | WI-0139 | Repair Context Capsule evaluation contract | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f787f8a` | 0 | 17 | 0 |
 | WI-0140 | Measure and enforce Context Capsule route adherence | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1216896f` | 0 | 16 | 0 |
 | WI-0141 | Run the live Context Capsule route-adherence comparison | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e0d7f37d` | 0 | 16 | 0 |
@@ -198,6 +198,7 @@
 | WI-0148 | Generalize README concept and Work Item diagrams | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `32a5a3c5` | 0 | 6 | 0 |
 | WI-0149 | Refresh current Alpha release readiness | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `8d2b1135` | 0 | 6 | 0 |
 | WI-0150 | Replace external novice gate with clean-room rehearsal | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f01cafc6` | 0 | 6 | 0 |
+| WI-0151 | Reconcile historical nonterminal Work Items | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `7e2ed6a2` | 0 | 6 | 0 |
 
 ## Codex task registry
 
@@ -247,7 +248,6 @@
 
 ## Attention
 
-- WI-0086 is blocked
 - task-0001 can be archived
 - task-0002 can be archived
 - task-0003 can be archived
@@ -339,14 +339,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-04T09:18:55.995Z | work_item_closed | WI-0150 | agent-lulu |
-| 2026-09-04T09:18:55.995Z | work_item_transitioned | WI-0150 | agent-lulu |
-| 2026-09-04T09:18:41.008Z | evidence_recorded | WI-0150 | human |
-| 2026-09-04T09:17:57.291Z | work_item_transitioned | WI-0150 | agent-rikku |
-| 2026-09-04T09:17:56.977Z | handoff_created | WI-0150 | agent-rikku |
-| 2026-09-04T09:17:48.292Z | evidence_recorded | WI-0150 | human |
-| 2026-09-04T09:17:48.033Z | evidence_recorded | WI-0150 | human |
-| 2026-09-04T09:15:04.449Z | work_item_claimed | WI-0150 | human |
+| 2026-09-04T09:38:14.981Z | work_item_closed | WI-0151 | agent-lulu |
+| 2026-09-04T09:38:14.981Z | work_item_transitioned | WI-0151 | agent-lulu |
+| 2026-09-04T09:38:14.772Z | evidence_recorded | WI-0151 | human |
+| 2026-09-04T09:37:04.828Z | work_item_transitioned | WI-0151 | agent-rikku |
+| 2026-09-04T09:37:04.552Z | handoff_created | WI-0151 | agent-rikku |
+| 2026-09-04T09:36:54.968Z | evidence_recorded | WI-0151 | human |
+| 2026-09-04T09:36:54.733Z | evidence_recorded | WI-0151 | human |
+| 2026-09-04T09:33:57.804Z | work_item_concluded | WI-0138 | agent-mog |
 
 ## Assignments
 

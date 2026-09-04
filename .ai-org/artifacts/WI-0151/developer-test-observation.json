@@ -1,0 +1,37 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "7e2ed6a2cbc62132857c5a7a8d4d371824018c6f",
+  "command": [
+    "Exact tested-revision existence and main-ancestry checks",
+    "Temple lifecycle status inspection for WI-0033, WI-0086, WI-0136, WI-0137, WI-0138, and WI-0151",
+    "git diff --check",
+    "npm run verify",
+    "node ./templew.mjs doctor . --json"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T09:32:40Z",
+  "completed_at": "2026-09-04T09:36:20Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0151/reconciliation.md",
+    ".ai-org/artifacts/WI-0151/developer-verification.md",
+    ".ai-org/artifacts/WI-0136/release-record.md",
+    ".ai-org/artifacts/WI-0137/release-record.md",
+    ".ai-org/artifacts/WI-0138/release-record.md"
+  ],
+  "summary": {
+    "full_tests_passed": 422,
+    "tests_failed": 0,
+    "doctor_passed": 36,
+    "doctor_warned": 1,
+    "doctor_failed": 0,
+    "known_stale_plan_warning_only": true,
+    "target_items_terminal": 5,
+    "target_items_accepted": 2,
+    "target_items_cancelled": 2,
+    "target_items_inconclusive": 1,
+    "historical_evidence_deleted": false,
+    "external_release_performed": false,
+    "provider_execution_performed": false
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0151",
+  "title": "Reconcile historical nonterminal Work Items",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-04T09:32:09.323Z",
+  "updated_at": "2026-09-04T09:38:14.981Z",
+  "scope": [
+    "Close or cancel WI-0033, WI-0086, WI-0136, WI-0137, and WI-0138 according to their retained evidence without changing product behavior or release state."
+  ],
+  "acceptance_criteria": [
+    "Completed implementation and experiment scopes close as accepted only when Independent QA supports them.",
+    "Superseded or deliberately deferred scopes end as cancelled, and the failed effectiveness question ends as inconclusive rather than accepted or blocked.",
+    "The final status contains no historical Spec, Blocked, or Release Gate item from this five-item set, while all evidence and residual limits remain discoverable."
+  ],
+  "affected_paths": [
+    ".ai-org/work-items/WI-0033.json",
+    ".ai-org/work-items/WI-0086.json",
+    ".ai-org/work-items/WI-0136.json",
+    ".ai-org/work-items/WI-0137.json",
+    ".ai-org/work-items/WI-0138.json"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "Repository-local lifecycle reconciliation uses retained evidence and performs no code, Provider, publication, or external mutation.",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-04T09:32:09.323Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "17e65083ecbd3063703807c2b4b361ab4e7e80e1",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260904093310-ba5d302e",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "17e65083ecbd3063703807c2b4b361ab4e7e80e1",
+    "branch": "codex/wi-0151-reconcile-historical-work",
+    "worktree": null,
+    "claimed_at": "2026-09-04T09:33:10.875Z",
+    "released_at": "2026-09-04T09:37:04.828Z",
+    "release_reason": "position_transition"
+  },
+  "claims": [
+    {
+      "id": "claim-20260904093310-ba5d302e",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "17e65083ecbd3063703807c2b4b361ab4e7e80e1",
+      "branch": "codex/wi-0151-reconcile-historical-work",
+      "worktree": null,
+      "claimed_at": "2026-09-04T09:33:10.875Z",
+      "released_at": "2026-09-04T09:37:04.828Z",
+      "release_reason": "position_transition"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0151/reconciliation.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0151/reconciliation.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0151/reconciliation.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0151/reconciliation.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0151/reconciliation.md"
+    ],
+    "profile_eligibility": [
+      ".ai-org/artifacts/WI-0151/reconciliation.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0151/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260904T093654Z-DBEC1EDD",
+      "EVID-20260904T093654Z-5B6CA595"
+    ],
+    "implementation": [
+      "EVID-20260904T093654Z-DBEC1EDD"
+    ],
+    "test_evidence": [
+      "EVID-20260904T093654Z-5B6CA595",
+      ".ai-org/artifacts/WI-0151/quality-test-observation.json"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0151/quality-evaluation.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0151/reconciliation.md",
+    ".ai-org/artifacts/WI-0151/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260904T093654Z-DBEC1EDD",
+    "EVID-20260904T093654Z-5B6CA595",
+    ".ai-org/artifacts/WI-0151/quality-test-observation.json",
+    ".ai-org/artifacts/WI-0151/quality-evaluation.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "7e2ed6a2cbc62132857c5a7a8d4d371824018c6f",
+      "artifact": ".ai-org/artifacts/WI-0151/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T09:37:04.552Z"
+    }
+  ],
+  "developer_candidate_revision": "7e2ed6a2cbc62132857c5a7a8d4d371824018c6f",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
+}

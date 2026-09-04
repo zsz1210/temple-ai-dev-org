@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0136",
   "title": "Execute representative multi-Agent microservice comparison",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-03T10:47:38.923Z",
-  "updated_at": "2026-09-03T23:33:51.755Z",
+  "updated_at": "2026-09-04T09:33:38.223Z",
   "scope": [
     "Turn the locally rehearsed WI-0118 protocol into a deterministic four-repository fixture and fail-closed experiment runner, then execute the frozen matched comparison only after exact Provider and account approval.",
     "Compare Temple with a competent minimal responsible workflow under identical repositories, task input, tests, tools, and model routes; measure organizational outcomes rather than pass counts.",
@@ -146,6 +146,18 @@
     ],
     "independent_qa_pass": [
       "EVID-20260903T233315Z-05887961"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0136/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      "EVID-20260903T233315Z-05887961"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0136/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0136/representative-main-v15-evaluator-approval.json"
     ]
   },
   "evidence": [
@@ -168,10 +180,11 @@
     ".ai-org/artifacts/WI-0136/representative-main-v16-findings.md",
     ".ai-org/artifacts/WI-0136/handoff-006-independent_qa-to-release_manager.md",
     "EVID-20260903T233315Z-05887961",
-    ".ai-org/artifacts/WI-0136/representative-main-v16-independent-qa.md"
+    ".ai-org/artifacts/WI-0136/representative-main-v16-independent-qa.md",
+    ".ai-org/artifacts/WI-0136/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -216,5 +229,11 @@
       "created_at": "2026-09-03T23:33:31.628Z"
     }
   ],
-  "developer_candidate_revision": "f76d2e7be336e96c1e89a5c9b0d06fb6ab6ec0a9"
+  "developer_candidate_revision": "f76d2e7be336e96c1e89a5c9b0d06fb6ab6ec0a9",
+  "tested_revision": "6a7abb6c3e86e78c3e638a35d6e1f9d28843adda",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0136/representative-main-v15-evaluator-approval.json"
 }
