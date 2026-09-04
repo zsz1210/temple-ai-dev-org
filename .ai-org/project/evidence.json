@@ -23506,6 +23506,293 @@
         "exit_code": 0,
         "started_at": "2026-09-04T06:09:58Z"
       }
+    },
+    {
+      "id": "EVID-20260904T070457Z-A564E866",
+      "work_item_id": "WI-0146",
+      "recorded_at": "2026-09-04T07:04:57.549Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0146 documentation candidate",
+      "outcome": "verified",
+      "scope_revision": "101a981a8f5a05a31bc2acec74c15df6192cabca",
+      "observed_at": "2026-09-04T07:04:57.549Z",
+      "summary": "Trilingual README layer narrative and architecture routing diagrams.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "101a981a8f5a05a31bc2acec74c15df6192cabca"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "101a981a8f5a05a31bc2acec74c15df6192cabca",
+        "working_tree_dirty": true,
+        "dirty_path_count": 2,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T070457Z-0CECB3AA",
+      "work_item_id": "WI-0146",
+      "recorded_at": "2026-09-04T07:04:57.798Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0146 developer verification",
+      "outcome": "pass",
+      "scope_revision": "101a981a8f5a05a31bc2acec74c15df6192cabca",
+      "observed_at": "2026-09-04T07:03:52Z",
+      "summary": "Full repository verification passed 422 tests; seven SVG variants validated and measured without text clipping.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0146/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0146/developer-test-observation.json",
+          "sha256": "76a6ae0421c02e90b29184aeae99b29451a725a64353bc89a63ba04730d19448"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0146/developer-verification.md",
+          "sha256": "fe986e75139fdb00fe13c6fbb91ecad3abbb75271e7d2f5d3222cc072e17b882"
+        },
+        {
+          "path": "README.md",
+          "sha256": "6546337f67e978fd4a0d59fb25e2f6df744df68a72f4c7abaf31dad75ffd690d"
+        },
+        {
+          "path": "README.ja.md",
+          "sha256": "b8bc8f9c6e224a6f07b4a4d9e0cb736416fcd430097fa3a10a00a968686d1f1f"
+        },
+        {
+          "path": "README.zh-TW.md",
+          "sha256": "7f8347c1d835f233eff06e36c6417846ce3f0591961ab28c99eb143124a980ce"
+        },
+        {
+          "path": "docs/concepts/architecture.md",
+          "sha256": "f02d06119447280fa2e034908caab7a53d02d748472b40d37f483b4594d9f04f"
+        },
+        {
+          "path": "docs/assets/temple-layers.en.svg",
+          "sha256": "b39a91036df7de7db571defcf70415e0efa761452a21ddcd9c64e9141085faa9"
+        },
+        {
+          "path": "docs/assets/temple-layers-mobile.en.svg",
+          "sha256": "8d8133770a61ed013eff739a1619f5a0eae7fce81727c8c238545ed3ea186350"
+        },
+        {
+          "path": "docs/assets/temple-routing-separation.en.svg",
+          "sha256": "2744aac62d55f3f6d792cfabf88c184bd22b8d2983b83e322bd0be37d6de1d75"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify:fast",
+          "npm run verify",
+          "git diff --check",
+          "xmllint --noout docs/assets/temple-layers*.svg docs/assets/temple-routing-separation.en.svg",
+          "Browser bounding-box inspection at 1200 px and 720 px"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T06:49:20Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T070828Z-1C10412D",
+      "work_item_id": "WI-0146",
+      "recorded_at": "2026-09-04T07:08:28.644Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0146 detached quality verification",
+      "outcome": "pass",
+      "scope_revision": "101a981a8f5a05a31bc2acec74c15df6192cabca",
+      "observed_at": "2026-09-04T07:07:51Z",
+      "summary": "Exact candidate passed repository checks, 30 focused tests, SVG validation, and clean-worktree verification.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0146/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0146/quality-test-observation.json",
+          "sha256": "064268364bbdd07f31d1bfd2dcfe291f99e9eb8eb20a45032064a7fee5b5319d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0146/quality-evaluation.md",
+          "sha256": "6889ea23b71870007ce3d2c45e9921ea64e5f0294c0e2e5554bc2760946d6e5f"
+        },
+        {
+          "path": "README.md",
+          "sha256": "6546337f67e978fd4a0d59fb25e2f6df744df68a72f4c7abaf31dad75ffd690d"
+        },
+        {
+          "path": "README.ja.md",
+          "sha256": "b8bc8f9c6e224a6f07b4a4d9e0cb736416fcd430097fa3a10a00a968686d1f1f"
+        },
+        {
+          "path": "README.zh-TW.md",
+          "sha256": "7f8347c1d835f233eff06e36c6417846ce3f0591961ab28c99eb143124a980ce"
+        },
+        {
+          "path": "docs/concepts/architecture.md",
+          "sha256": "f02d06119447280fa2e034908caab7a53d02d748472b40d37f483b4594d9f04f"
+        }
+      ],
+      "details": {
+        "command": [
+          "git worktree add --detach <temporary>/checkout 101a981a8f5a05a31bc2acec74c15df6192cabca",
+          "npm ci --ignore-scripts",
+          "npm run check",
+          "node --test test/doc-links.test.mjs test/execution-routing.test.mjs test/model-onboarding.test.mjs",
+          "xmllint --noout docs/assets/temple-layers*.svg docs/assets/temple-routing-separation.en.svg",
+          "git status --short --branch"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T07:05:34Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T072901Z-57ED2BD8",
+      "work_item_id": "WI-0147",
+      "recorded_at": "2026-09-04T07:29:01.563Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0147 implementation revision",
+      "outcome": "verified",
+      "scope_revision": "aca402e2ebf61f2babb83337f4182c5810492903",
+      "observed_at": "2026-09-04T07:29:01.563Z",
+      "summary": "Bounded CI timeout and lockfile-keyed npm cache configuration.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "aca402e2ebf61f2babb83337f4182c5810492903"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "aca402e2ebf61f2babb83337f4182c5810492903",
+        "working_tree_dirty": true,
+        "dirty_path_count": 1,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T072901Z-41935138",
+      "work_item_id": "WI-0147",
+      "recorded_at": "2026-09-04T07:29:01.818Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0147 developer verification",
+      "outcome": "pass",
+      "scope_revision": "aca402e2ebf61f2babb83337f4182c5810492903",
+      "observed_at": "2026-09-04T07:28:40Z",
+      "summary": "Repository checks and 25 bounded CI contract tests passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0147/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0147/developer-test-observation.json",
+          "sha256": "62c5fd160748da7a7a9ee9fc8eccbbfe121aa9be3d4724e88e6c559e6f5e9c38"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0147/work-order.md",
+          "sha256": "6f9bbeaa738622ad17754e050efa7ffc23eaeebcba7d8312b6afe970be251db1"
+        },
+        {
+          "path": ".github/workflows/ci.yml",
+          "sha256": "6503c3d0cc2dd5609fbf68396256d4c2fefeb5c790a93d0793e5f58c4519a0d3"
+        },
+        {
+          "path": "test/ci-scope.test.mjs",
+          "sha256": "42bcfbc823704e18da7ef209d20329d52bd38aac0b1e9756bbc63bd129613e6c"
+        }
+      ],
+      "details": {
+        "command": [
+          "git diff --check",
+          "npm run verify:fast"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T07:27:30Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T073559Z-3D085DC1",
+      "work_item_id": "WI-0147",
+      "recorded_at": "2026-09-04T07:35:59.344Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0147 hosted CI verification",
+      "outcome": "pass",
+      "scope_revision": "aca402e2ebf61f2babb83337f4182c5810492903",
+      "observed_at": "2026-09-04T07:35:13Z",
+      "summary": "Hosted Node.js 24 gate completed successfully within the revised bounded timeout.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0147/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0147/quality-test-observation.json",
+          "sha256": "331112d4a2926170d1f106fb5bcbe640adfda9cd910928f9e83171f93aa45948"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0147/work-order.md",
+          "sha256": "6f9bbeaa738622ad17754e050efa7ffc23eaeebcba7d8312b6afe970be251db1"
+        },
+        {
+          "path": ".github/workflows/ci.yml",
+          "sha256": "6503c3d0cc2dd5609fbf68396256d4c2fefeb5c790a93d0793e5f58c4519a0d3"
+        },
+        {
+          "path": "test/ci-scope.test.mjs",
+          "sha256": "42bcfbc823704e18da7ef209d20329d52bd38aac0b1e9756bbc63bd129613e6c"
+        }
+      ],
+      "details": {
+        "command": [
+          "GitHub Actions run 33848978027: Verify (Node.js 24)",
+          "npm run verify:fast"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T07:29:44Z"
+      }
     }
   ]
 }

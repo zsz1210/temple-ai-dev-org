@@ -32,11 +32,23 @@ Temple 不是應用程式框架、任務追蹤工具，也不是會自行發號�
 
 > **產品要怎麼做，由你的專案決定；工作如何分配、驗證與留下紀錄，則由 Temple 協助整理。**
 
+## Temple 放進版本庫裡的是一套組織
+
+<picture>
+  <source media="(max-width: 640px)" srcset="docs/assets/temple-layers-mobile.zh-TW.svg">
+  <img alt="Temple 把人類方向放在最上層，依序連接責任、有邊界的工作、資料與執行引導、協作、保證、記憶與學習，並由版本庫中的組織記憶支撐所有分層。" src="docs/assets/temple-layers.zh-TW.svg">
+</picture>
+
+Temple 是一套分層的運作模式，不是一段巨大的 prompt，也不是一個全權自主的 Agent。人類方向位於最上層，版本庫中可長期保存的狀態則是底層基礎；中間各層把責任、核准的工作、方法、協作、驗證與學習連接起來，同時避免把它們混成同一件事。
+
+引導層刻意保留兩種不同的路由。**Context Routing** 回答目前的 Position 與步驟該讀什麼；**Adaptive Execution Routing** 則依據 Task Shape、所需能力、限制與專案方針，回答這個有邊界的步驟該怎麼執行。目前的 Alpha 只會產生可解釋的建議設定，不會啟動 Provider，也不會在背後自行切換模型。詳情請看[系統架構（英文）](docs/concepts/architecture.md#three-routes-three-decisions)與[模型路由指南（英文）](docs/getting-started/model-routing.md)。
+
 ## Temple 為專案補上什麼
 
 - **穩定的職責：** Position 定義長期存在的責任與權限，不會綁死在某一個人或 AI 身上。
 - **有邊界的工作：** 每項變更都成為 Work Item，清楚記錄範圍、相依關係、驗收條件與狀態。
-- **只提供需要的資料：** 依照目前的 Position 與工作，把規格、決策、Skill 與驗證紀錄導向正確的執行者。
+- **只提供需要的資料：** Context Routing 依照目前的 Position 與步驟，把規格、決策、Skill 與驗證紀錄導向正確的執行者。
+- **能解釋的執行選擇：** Adaptive Execution Routing 依據步驟所需能力，挑出符合條件且由專案管理的 execution profile；不會把 Position 綁死在特定模型上。
 - **有證據才能前進：** 實作、評估、Independent QA 與發布準備是不同結論，不能互相取代。
 - **安全的平行開發：** 互不依賴的工作可以同時進行；可能互相影響的工作，必須先協調並指定整合負責者。
 - **經得起驗證的學習：** Lesson 會先被重新驗證，再由人決定是否升級成 Practice 或 Skill，不會因為一次成功就自動變成規則。
@@ -88,7 +100,7 @@ Temple 會安裝到每個產品專案裡；不必為每個產品各自 fork 一�
 
 本版本庫根目錄的 `.ai-org/` 是 Temple 管理自身開發工作的紀錄。保留並公開這些內容，是為了讓人可以查核框架如何記錄決策、分工與驗證。這份 self-host 紀錄不會進入發行套件，也不會被帶進其他產品專案；每個完成初始化的專案都會建立並管理自己的狀態。
 
-## 同一套模式，可以用在不同規模
+## 同一套運作模式，可以用在不同規模
 
 - **Solo** — 由一個人主導 AI 輔助開發。少數 Agent Identity 可以兼任多個 Position，但 Developer 與 Independent QA 必須分開。
 - **Collaborative** — 多位成員各自使用 AI。專案會明確記錄人類授權、可承接工作的成員、共享資源、claim 與整合責任。
@@ -108,8 +120,8 @@ Skill 不會授予權限、核准依賴套件，也不能跳過交付階段。�
 
 Temple 目前是 **Early Alpha**，適合在有人監督的情況下，用於低風險的本機專案與範圍明確的試行。
 
-- **現在可以使用：** 以版本庫為核心的 Solo 流程、穩定的 Position、Work Item、可重現的資料與 Capability 導引、受到管理的 Skill 與學習、生命週期證據、本機狀態以及升級界線。
-- **仍屬實驗或有限驗證：** Collaborative 與 High-Assurance 契約、平行開發規劃、Provider 觀測、本機 Control Plane、外部追蹤工具協調，以及逐 Work Item 的使用量歸屬。
+- **現在可以使用：** 以版本庫為核心的 Solo 流程、穩定的 Position、Work Item、可重現的資料與 Capability 導引、可解釋且不會直接執行 Provider 的 Adaptive Execution Routing、受到管理的 Skill 與學習、生命週期證據、本機狀態以及升級界線。
+- **仍屬實驗或有限驗證：** Collaborative 與 High-Assurance 契約、平行開發規劃、Provider 觀測與校準、本機 Control Plane、外部追蹤工具協調，以及逐 Work Item 的使用量歸屬。
 - **尚未宣稱完成：** 大型多人與多台電腦的充分驗證、正式環境監測或修復、無人值守的外部寫入、自動模型路由、受法規管制環境的驗收，以及對所有專案都成立的時間或 Token 節省數據。
 
 Temple 會保留尚未解決的驗證缺口，不會把一次本機測試通過包裝成企業級證明。

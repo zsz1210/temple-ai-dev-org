@@ -1,0 +1,188 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0146",
+  "title": "Clarify Temple README and layered architecture",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-04T06:47:01.713Z",
+  "updated_at": "2026-09-04T07:08:38.463Z",
+  "scope": [
+    "Rework the human-facing README narrative and diagrams so Temple's distinctive layers, authority boundaries, context routing, and adaptive execution routing are visible without overstating automation or validation."
+  ],
+  "acceptance_criteria": [
+    "README remains concise and understandable to individual developers, small teams, and enterprise readers.",
+    "A compact localized layer diagram explains Temple's distinctive system and includes adaptive execution routing.",
+    "Detailed English architecture documentation distinguishes responsibility, context, and execution routing.",
+    "English, Japanese, and Traditional Chinese README structure remains aligned.",
+    "Responsive diagram rendering and repository verification pass."
+  ],
+  "affected_paths": [
+    "README.md",
+    "README.ja.md",
+    "README.zh-TW.md",
+    "docs/concepts/architecture.md",
+    "docs/assets/temple-layers.en.svg",
+    "docs/assets/temple-layers.ja.svg",
+    "docs/assets/temple-layers.zh-TW.svg",
+    "docs/assets/temple-layers-mobile.en.svg",
+    "docs/assets/temple-layers-mobile.ja.svg",
+    "docs/assets/temple-layers-mobile.zh-TW.svg",
+    "docs/assets/temple-routing-separation.en.svg"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "Documentation-only, reversible repository change with no runtime, external publication, or product behavior impact.",
+    "evidence_refs": [
+      "User-approved README and architecture-diagram scope in the current task"
+    ],
+    "evaluated_at": "2026-09-04T06:47:01.713Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {
+    "build": {
+      "disciplines": [
+        "general-development"
+      ],
+      "resources": []
+    },
+    "test": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "101a981a8f5a05a31bc2acec74c15df6192cabca",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0086 remains the blocked future public-release candidate; WI-0146 owns only the requested private README and architecture clarification, and WI-0086 must requalify any later public candidate.",
+    "WI-0137 implementation is already integrated on main; WI-0146 documents its context-routing contract without changing WI-0137 runtime behavior or evidence."
+  ],
+  "claim": {
+    "id": "claim-20260904070534-46d62b93",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-lulu",
+    "base_revision": "101a981a8f5a05a31bc2acec74c15df6192cabca",
+    "branch": "codex/wi-0146-readme-layers",
+    "worktree": "/tmp/temple-wi0146-qa.7SEnyh/checkout",
+    "claimed_at": "2026-09-04T07:05:34.747Z",
+    "released_at": "2026-09-04T07:08:38.170Z",
+    "release_reason": [
+      "Detached exact-candidate quality verification passed."
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260904064919-2026cd0e",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "f0be3bbfea331daa5c119e4f219e3e6175a9d91d",
+      "branch": "codex/wi-0146-readme-layers",
+      "worktree": null,
+      "claimed_at": "2026-09-04T06:49:19.474Z",
+      "released_at": "2026-09-04T07:05:10.400Z",
+      "release_reason": [
+        "Developer candidate handed off for independent quality evaluation."
+      ]
+    },
+    {
+      "id": "claim-20260904070534-46d62b93",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "101a981a8f5a05a31bc2acec74c15df6192cabca",
+      "branch": "codex/wi-0146-readme-layers",
+      "worktree": "/tmp/temple-wi0146-qa.7SEnyh/checkout",
+      "claimed_at": "2026-09-04T07:05:34.747Z",
+      "released_at": "2026-09-04T07:08:38.170Z",
+      "release_reason": [
+        "Detached exact-candidate quality verification passed."
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0146/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0146/work-order.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0146.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0146/documentation-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0146/documentation-design.md"
+    ],
+    "profile_eligibility": [
+      ".ai-org/work-items/WI-0146.json"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0146/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260904T070457Z-A564E866",
+      "EVID-20260904T070457Z-0CECB3AA",
+      ".ai-org/artifacts/WI-0146/developer-verification.md"
+    ],
+    "test_evidence": [
+      "EVID-20260904T070828Z-1C10412D"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0146/quality-evaluation.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0146/work-order.md",
+    ".ai-org/work-items/WI-0146.json",
+    ".ai-org/artifacts/WI-0146/documentation-design.md",
+    ".ai-org/artifacts/WI-0146/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260904T070457Z-A564E866",
+    "EVID-20260904T070457Z-0CECB3AA",
+    ".ai-org/artifacts/WI-0146/developer-verification.md",
+    "EVID-20260904T070828Z-1C10412D",
+    ".ai-org/artifacts/WI-0146/quality-evaluation.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "101a981a8f5a05a31bc2acec74c15df6192cabca",
+      "artifact": ".ai-org/artifacts/WI-0146/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T07:05:10.111Z"
+    }
+  ],
+  "developer_candidate_revision": "101a981a8f5a05a31bc2acec74c15df6192cabca",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
+}
