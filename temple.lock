@@ -11,11 +11,13 @@
       "launcher": "templew.mjs",
       "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.29",
       "repository_spec": null,
-      "source_revision": "7f4c7b038c629f6b45b30b2103f7205ae433cc21",
+      "source_revision": "88254fa84a9c070d2576f51a8fab28e700d8d2e6",
       "source_clean": false,
       "invocation": "node ./templew.mjs <command> ."
     },
-    "installed_at": "2026-08-30T02:28:18.355Z"
+    "installed_at": "2026-08-30T02:28:18.355Z",
+    "upgraded_at": "2026-09-04T06:04:07.828Z",
+    "upgraded_from": "0.1.0-alpha.29"
   },
   "installation": {
     "mode": "toolkit-self-host",
@@ -171,7 +173,8 @@
     "read_only_portfolio": true,
     "checksum_upgrade": true,
     "optional_packs": true,
-    "toolkit_self_hosting": true
+    "toolkit_self_hosting": true,
+    "read_only_model_onboarding": true
   },
   "optional_packs": [],
   "managed_files": [
@@ -188,12 +191,12 @@
       "sha256": "fa366000d024dd67734974b909ed581fab236d266b4106cd6aa4e28f23bd0728"
     },
     {
-      "path": ".agents/skills/skill-authoring/references/authoring-contract.md",
-      "sha256": "11fb7d3a8aa9284e3c863b11c618ab3d5524e9304d1644d95b7ac09507959997"
-    },
-    {
       "path": ".agents/skills/skill-authoring/SKILL.md",
       "sha256": "218e2d02c86859eaf43a7d82eecbd220eef337781704bed4011ec4d5033e1da9"
+    },
+    {
+      "path": ".agents/skills/skill-authoring/references/authoring-contract.md",
+      "sha256": "11fb7d3a8aa9284e3c863b11c618ab3d5524e9304d1644d95b7ac09507959997"
     },
     {
       "path": ".agents/skills/temple-init/SKILL.md",
@@ -304,6 +307,14 @@
       "sha256": "c8628071cdf854e727b486bb83d2fb76d4f66fbda25b422206b487781dea6a9b"
     },
     {
+      "path": ".ai-org/core/schemas/model-onboarding-input.schema.json",
+      "sha256": "82b1d1efba9ddbf5166ae1494f7ac422abb259d4a56aa6efd34433b057f462a4"
+    },
+    {
+      "path": ".ai-org/core/schemas/model-onboarding-plan.schema.json",
+      "sha256": "fd097947949a0847e0e9b5deb8f47794d33082355e6cd2de3aaae7175074c8b5"
+    },
+    {
       "path": ".ai-org/core/schemas/parallel-plan.schema.json",
       "sha256": "f67ef14f4d6fce1470d299943ce7f2a70065a514e6836eb5d596cd8d87432927"
     },
@@ -341,7 +352,7 @@
     },
     {
       "path": ".ai-org/core/schemas/schema-catalog.json",
-      "sha256": "7e8c0f4548a97e0d43dcb1fe034bd706b203a3a0bd7260f2d82f7efb03f16321"
+      "sha256": "ac260cde27d0236bc2f54f10fa05282babe835ed0bef3d55ca836e7a9b18f0c7"
     },
     {
       "path": ".ai-org/core/schemas/spec-index.schema.json",

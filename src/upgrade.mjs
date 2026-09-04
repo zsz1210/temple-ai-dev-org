@@ -370,6 +370,7 @@ export async function planUpgrade(target) {
     lock.capabilities?.usage_qualification !== true ||
     lock.capabilities?.progressive_usage_calibration !== true ||
     lock.capabilities?.matched_model_advisory !== true ||
+    lock.capabilities?.read_only_model_onboarding !== true ||
     lock.capabilities?.exception_only_autonomy !== true ||
     lock.capabilities?.provider_attach_outcomes !== true ||
     lock.capabilities?.repository_federation !== true ||
@@ -666,6 +667,7 @@ export async function executeUpgrade(plan) {
         progressive_usage_calibration: true,
         matched_model_advisory: true,
         adaptive_execution_routing: true,
+        read_only_model_onboarding: true,
         typed_resource_observations: true,
         non_executing_route_resolution: true,
         exception_only_autonomy: true,

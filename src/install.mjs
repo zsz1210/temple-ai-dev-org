@@ -455,6 +455,7 @@ export async function executeInit(plan) {
         progressive_usage_calibration: true,
         matched_model_advisory: true,
         adaptive_execution_routing: true,
+        read_only_model_onboarding: true,
         typed_resource_observations: true,
         non_executing_route_resolution: true,
         exception_only_autonomy: true,
