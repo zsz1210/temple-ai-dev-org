@@ -23793,6 +23793,184 @@
         "exit_code": 0,
         "started_at": "2026-09-04T07:29:44Z"
       }
+    },
+    {
+      "id": "EVID-20260904T082307Z-65F18D51",
+      "work_item_id": "WI-0148",
+      "recorded_at": "2026-09-04T08:23:07.299Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "README diagram candidate",
+      "outcome": "verified",
+      "scope_revision": "32a5a3c5a10789d46e86387dacd5df5b3f00bd46",
+      "observed_at": "2026-09-04T08:23:07.299Z",
+      "summary": "Exact candidate revision containing the localized Concept Layers and domain-neutral Work Item flow.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "32a5a3c5a10789d46e86387dacd5df5b3f00bd46"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "32a5a3c5a10789d46e86387dacd5df5b3f00bd46",
+        "working_tree_dirty": true,
+        "dirty_path_count": 2,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T082307Z-2ACC4F52",
+      "work_item_id": "WI-0148",
+      "recorded_at": "2026-09-04T08:23:07.531Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer verification",
+      "outcome": "pass",
+      "scope_revision": "32a5a3c5a10789d46e86387dacd5df5b3f00bd46",
+      "observed_at": "2026-09-04T08:22:23Z",
+      "summary": "25 focused and 422 full tests passed; 12 SVGs parsed; four real-browser render variants passed without clipping, overlap, or ambiguous sequence.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0148/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0148/developer-test-observation.json",
+          "sha256": "6eafe8d80f5e9aa360857d566666b5e6915310af6c13a23fa52f88204d2316e9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0148/developer-verification.md",
+          "sha256": "073043dc9a7903c702b47d1e0d62c257c49b6c0b268174bb34bdb900022b63b7"
+        },
+        {
+          "path": "README.md",
+          "sha256": "2732401a846d91a9a4904b97772bf7843c3457ac7c0bc8b6da0279658bd3603a"
+        },
+        {
+          "path": "README.ja.md",
+          "sha256": "e750cc701fcbead0a230f3df2c29a4091b0e64332de8c715b94d160ffac98ad7"
+        },
+        {
+          "path": "README.zh-TW.md",
+          "sha256": "a2cc7ca7189c3369774574fe9c89ae559df6561dcdd3b2260dcf1113645bd6d0"
+        },
+        {
+          "path": "docs/assets/temple-layers.en.svg",
+          "sha256": "65b8263803fafb8d02a757c35d14dbdb6aed446aeb19fca7c481b5f5439f9ce5"
+        },
+        {
+          "path": "docs/assets/temple-layers-mobile.en.svg",
+          "sha256": "07a0148265a4d027f29563c93eff17b47c37c01250674a21be7f531e15d0ebc7"
+        },
+        {
+          "path": "docs/assets/temple-delivery-path.en.svg",
+          "sha256": "953ae651ed8e23c46f38cba13a6495dac87c44bea6ac661a7fb4c6432fc89335"
+        },
+        {
+          "path": "docs/assets/temple-delivery-path.en-mobile.svg",
+          "sha256": "2bc797eb00640e75c7da1582141a4dc430e1954468b5ddffdae79379e6817fd7"
+        },
+        {
+          "path": "docs/assets/temple-delivery-path.ja.svg",
+          "sha256": "3c3c4daa82349c137d52a916160eb2275f68aa7d59354747c6aec9e4731ddc68"
+        },
+        {
+          "path": "docs/assets/temple-delivery-path.zh-TW-mobile.svg",
+          "sha256": "28100f8034fbb71860c994464b71dd88c4bce6ef56a707e5856eb907f3c34cc3"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify:fast",
+          "npm run verify",
+          "git diff --check",
+          "xmllint --noout docs/assets/temple-layers*.svg docs/assets/temple-delivery-path*.svg",
+          "Browser render review of English and Japanese desktop, Traditional Chinese narrow, and Concept Layers variants"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T08:14:00Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T082954Z-01DBBE31",
+      "work_item_id": "WI-0148",
+      "recorded_at": "2026-09-04T08:29:54.216Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent quality evaluation",
+      "outcome": "pass",
+      "scope_revision": "32a5a3c5a10789d46e86387dacd5df5b3f00bd46",
+      "observed_at": "2026-09-04T08:29:10Z",
+      "summary": "Lulu independently rebuilt and checked the exact candidate; 25 focused tests, 12 SVG parses, terminology review, and exact-candidate browser renders passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0148/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0148/quality-test-observation.json",
+          "sha256": "68b588bc372415d55425ed9bf595761bc2d6efa261628b73457377b69918b13c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0148/quality-evaluation.md",
+          "sha256": "8baed7dea4662251367c98198fd6810d13e4a772e53cc3774b7fb52b5ff442ce"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0148/developer-verification.md",
+          "sha256": "073043dc9a7903c702b47d1e0d62c257c49b6c0b268174bb34bdb900022b63b7"
+        },
+        {
+          "path": "README.md",
+          "sha256": "2732401a846d91a9a4904b97772bf7843c3457ac7c0bc8b6da0279658bd3603a"
+        },
+        {
+          "path": "README.ja.md",
+          "sha256": "e750cc701fcbead0a230f3df2c29a4091b0e64332de8c715b94d160ffac98ad7"
+        },
+        {
+          "path": "README.zh-TW.md",
+          "sha256": "a2cc7ca7189c3369774574fe9c89ae559df6561dcdd3b2260dcf1113645bd6d0"
+        },
+        {
+          "path": "docs/assets/temple-delivery-path.en.svg",
+          "sha256": "953ae651ed8e23c46f38cba13a6495dac87c44bea6ac661a7fb4c6432fc89335"
+        },
+        {
+          "path": "docs/assets/temple-delivery-path.zh-TW-mobile.svg",
+          "sha256": "28100f8034fbb71860c994464b71dd88c4bce6ef56a707e5856eb907f3c34cc3"
+        }
+      ],
+      "details": {
+        "command": [
+          "Clean detached worktree at the exact candidate revision",
+          "npm ci --ignore-scripts",
+          "npm run check",
+          "npm run test:fast",
+          "xmllint --noout docs/assets/temple-layers*.svg docs/assets/temple-delivery-path*.svg",
+          "Three-language terminology and current-versus-planned boundary inspection",
+          "Real-browser render review of exact-candidate English desktop and Traditional Chinese narrow diagrams"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T08:23:15Z"
+      }
     }
   ]
 }

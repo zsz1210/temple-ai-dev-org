@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" role="img" aria-labelledby="title desc">
-  <title id="title">Temple's conceptual layers</title>
+  <title id="title">Temple Concept Layers</title>
   <desc id="desc">Human direction sits above six connected concerns: responsibility, work, guidance, coordination, assurance, and memory and learning. Repository-backed organizational memory supports every layer. Context routing and adaptive execution routing are separate parts of guidance.</desc>
   <style>
     text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", sans-serif; }
@@ -12,8 +12,8 @@
     .index { fill: #5eead4; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
   </style>
   <rect width="1200" height="650" rx="18" fill="#0b0f14"/>
-  <text x="48" y="48" class="title">Temple organizes the work around your product</text>
-  <text x="48" y="74" class="subtitle">Each layer answers a different question. No single Agent, Skill, workflow, or model is the organization.</text>
+  <text x="48" y="48" class="title">Temple Concept Layers</text>
+  <text x="48" y="74" class="subtitle">The organization Temple puts in your repository. Each layer answers a different question.</text>
 
   <rect x="48" y="100" width="1104" height="66" rx="12" fill="#142033" stroke="#60a5fa"/>
   <text x="72" y="126" class="eyebrow">HUMAN DIRECTION &amp; AUTHORITY</text>

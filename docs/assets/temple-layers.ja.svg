@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" role="img" aria-labelledby="title desc">
-  <title id="title">Temple の概念レイヤー</title>
+  <title id="title">Temple Concept Layers</title>
   <desc id="desc">人の方針と権限の下に、責任、作業、ガイダンス、連携、保証、記憶と学習の六つの関心事があります。リポジトリに残る組織の記憶が全レイヤーを支えます。コンテキストルーティングと適応型実行ルーティングは別々の判断です。</desc>
   <style>
     text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP", sans-serif; }
@@ -12,8 +12,8 @@
     .index { fill: #5eead4; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
   </style>
   <rect width="1200" height="650" rx="18" fill="#0b0f14"/>
-  <text x="48" y="48" class="title">Temple はプロダクトの周りに仕事の仕組みをつくる</text>
-  <text x="48" y="74" class="subtitle">各レイヤーは別の問いに答えます。Agent、Skill、工程、モデルのどれか一つが組織なのではありません。</text>
+  <text x="48" y="48" class="title">Temple Concept Layers</text>
+  <text x="48" y="74" class="subtitle">Temple がリポジトリに置く組織の構造。各レイヤーは別の問いに答えます。</text>
   <rect x="48" y="100" width="1104" height="66" rx="12" fill="#142033" stroke="#60a5fa"/>
   <text x="72" y="126" class="eyebrow">人の方針と権限</text>
   <text x="72" y="150" class="question">目標 · 優先順位 · 事業上の事実 · 承認の境界</text>

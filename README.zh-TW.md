@@ -32,7 +32,7 @@ Temple 不是應用程式框架、任務追蹤工具，也不是會自行發號�
 
 > **產品要怎麼做，由你的專案決定；工作如何分配、驗證與留下紀錄，則由 Temple 協助整理。**
 
-## Temple 放進版本庫裡的是一套組織
+## Temple Concept Layers
 
 <picture>
   <source media="(max-width: 640px)" srcset="docs/assets/temple-layers-mobile.zh-TW.svg">
@@ -55,14 +55,16 @@ Temple 是一套分層的運作模式，不是一段巨大的 prompt，也不是
 
 這些約定都和程式碼放在一起。Jira、GitHub Projects、Figma、既有規格與公司文件仍然可以管理它們原本負責的資訊，不必全部轉換成 Temple 格式。
 
-## 一項變更如何通過 Temple
+## 一項 Work Item 如何通過 Temple
 
 <picture>
   <source media="(max-width: 640px)" srcset="docs/assets/temple-delivery-path.zh-TW-mobile.svg">
-  <img alt="一項 Work Item 依序通過人類決策、設計、實作、測試與評估、獨立 QA 及發布審查，並把決策與驗證紀錄累積在專案版本庫。" src="docs/assets/temple-delivery-path.zh-TW.svg">
+  <img alt="一項 Work Item 從核准的成果出發，經過作法規劃、成果產出、評估、符合風險程度的獨立審查與結案。每個階段會分別解析負責的 Position、所需 Context 與符合條件的 Execution Route，並持續在版本庫累積依據。" src="docs/assets/temple-delivery-path.zh-TW.svg">
 </picture>
 
-Work Item 只有在下一階段需要的依據都準備好之後，才會繼續前進。決策與驗證紀錄從工作開始後就持續留在版本庫裡；Release Gate 不是最後才補出一套看似完整的專案事實。
+Work Item 只有在下一階段需要的依據都準備好之後，才會繼續前進。Workflow Profile 與風險會決定需要多深的獨立審查與發布準備。Temple 會在每個階段分別解析負責的 Position、所需 Context，以及符合條件的 Execution Route。
+
+這些階段描述的是責任，不是固定職稱。Temple 目前提供的是核心開發 Position；自訂 Position 與 Workflow 仍在規劃中。未來不同領域可以改由其他 Position 負責，而不必更換整套運作模型。
 
 ## 從一個專案開始
 
