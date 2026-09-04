@@ -1,0 +1,43 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "32a5a3c5a10789d46e86387dacd5df5b3f00bd46",
+  "command": [
+    "Clean detached worktree at the exact candidate revision",
+    "npm ci --ignore-scripts",
+    "npm run check",
+    "npm run test:fast",
+    "xmllint --noout docs/assets/temple-layers*.svg docs/assets/temple-delivery-path*.svg",
+    "Three-language terminology and current-versus-planned boundary inspection",
+    "Real-browser render review of exact-candidate English desktop and Traditional Chinese narrow diagrams"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T08:23:15Z",
+  "completed_at": "2026-09-04T08:29:10Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0148/quality-evaluation.md",
+    ".ai-org/artifacts/WI-0148/developer-verification.md",
+    "README.md",
+    "README.ja.md",
+    "README.zh-TW.md",
+    "docs/assets/temple-delivery-path.en.svg",
+    "docs/assets/temple-delivery-path.zh-TW-mobile.svg"
+  ],
+  "summary": {
+    "focused_tests_passed": 25,
+    "tests_failed": 0,
+    "svg_files_validated": 12,
+    "browser_render_variants_checked": 2,
+    "browser_text_clipping_detected": 0,
+    "ambiguous_arrow_sequences_detected": 0,
+    "language_variants_checked": 3,
+    "clean_dependency_install_passed": true,
+    "repository_checks_passed": true,
+    "documentation_links_passed": true,
+    "package_boundary_passed": true,
+    "provider_contact_performed": false,
+    "model_execution_performed": false,
+    "policy_mutation_performed": false,
+    "external_publication_performed": false
+  }
+}

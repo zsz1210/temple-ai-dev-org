@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0148",
   "title": "Generalize README concept and Work Item diagrams",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-04T08:12:24.650Z",
-  "updated_at": "2026-09-04T08:13:18.279Z",
+  "updated_at": "2026-09-04T08:30:00.840Z",
   "scope": [
     "Rename the primary layered model to Temple Concept Layers and revise the README delivery diagram so it describes a domain-neutral Work Item rather than a fixed software-development staffing model."
   ],
@@ -75,26 +75,28 @@
   ],
   "claim": {
     "id": "claim-20260904081318-92bba74b",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "base_revision": "d81fa6a3c74a0df095e2a280370c1512759bbd76",
     "branch": "codex/wi-0148-generalize-readme-flow",
     "worktree": null,
     "claimed_at": "2026-09-04T08:13:18.279Z",
-    "released_at": null
+    "released_at": "2026-09-04T08:23:24.045Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
       "id": "claim-20260904081318-92bba74b",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "d81fa6a3c74a0df095e2a280370c1512759bbd76",
       "branch": "codex/wi-0148-generalize-readme-flow",
       "worktree": null,
       "claimed_at": "2026-09-04T08:13:18.279Z",
-      "released_at": null
+      "released_at": "2026-09-04T08:23:24.045Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -115,11 +117,42 @@
     ],
     "profile_eligibility": [
       ".ai-org/artifacts/WI-0148/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0148/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260904T082307Z-65F18D51",
+      "EVID-20260904T082307Z-2ACC4F52"
+    ],
+    "test_evidence": [
+      "EVID-20260904T082954Z-01DBBE31"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0148/quality-evaluation.md"
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0148/work-order.md"
+    ".ai-org/artifacts/WI-0148/work-order.md",
+    ".ai-org/artifacts/WI-0148/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260904T082307Z-65F18D51",
+    "EVID-20260904T082307Z-2ACC4F52",
+    "EVID-20260904T082954Z-01DBBE31",
+    ".ai-org/artifacts/WI-0148/quality-evaluation.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "32a5a3c5a10789d46e86387dacd5df5b3f00bd46",
+      "artifact": ".ai-org/artifacts/WI-0148/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T08:23:17.180Z"
+    }
+  ],
+  "developer_candidate_revision": "32a5a3c5a10789d46e86387dacd5df5b3f00bd46",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
 }
