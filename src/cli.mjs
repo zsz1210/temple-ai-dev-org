@@ -78,6 +78,7 @@ import { evaluateRetrieval, readRetrievalConfig } from "./retrieval.mjs";
 import { evaluatePolicy } from "./policy-evaluation.mjs";
 import { buildUsageBaseline, buildUsagePreflight, evaluateMatchedModelFixture } from "./usage-attribution.mjs";
 import { resolveExecutionRequestFile } from "./execution-routing.mjs";
+import { buildModelOnboardingPlanFile } from "./model-onboarding.mjs";
 import { installArchifyAdapter, inspectArchifyAdapter } from "./archify-adapter.mjs";
 import { listTasks, refreshTaskTitles, registerTask, updateTask } from "./tasks.mjs";
 import {
@@ -216,6 +217,7 @@ Usage:
   temple usage evaluate [target] --fixture .ai-org/evaluations/model/name.json [--no-write] [--json]
   temple usage collect [target] [--state-dir path] [--codex-command absolute-path] [--observation-mode on-demand|managed-local]
   temple execution resolve [target] --request path [--json]
+  temple execution onboarding-plan [target] --input path [--json]
   temple adapter archify-status [target] [--json]
   temple adapter archify-install [target] --source local-git-checkout [--json]
   temple handoff [target] --work-item WI-0001 --to position --input-revision ref --completed text --evidence ref
@@ -348,6 +350,7 @@ const VALUE_FLAGS = new Set([
   "--pack",
   "--query",
   "--request",
+  "--input",
   "--limit",
   "--max-workers",
   "--scope",
@@ -1908,6 +1911,27 @@ async function runUsage(parsed) {
 
 async function runExecution(parsed) {
   const target = await assertSafeTarget(parsed.target);
+  if (parsed.action === "onboarding-plan") {
+    if (!parsed.options["--input"]) throw new Error("execution onboarding-plan requires --input");
+    const plan = await buildModelOnboardingPlanFile(target, parsed.options["--input"]);
+    if (parsed.flags.has("--json")) console.log(JSON.stringify(plan, null, 2));
+    else {
+      console.log(`Model onboarding plan: ${plan.summary.proposed} proposed, ${plan.summary.already_adopted} already adopted, ${plan.summary.unresolved} unresolved`);
+      for (const profile of plan.profiles) {
+        const candidate = profile.recommendation?.candidate;
+        const mapping = candidate
+          ? `${candidate.provider_id}/${candidate.model}/${candidate.reasoning_effort}`
+          : profile.status;
+        console.log(`${profile.profile_id}: ${mapping}${profile.recommendation ? ` (${profile.recommendation.basis})` : ""}`);
+        for (const reason of profile.unresolved_reasons) console.log(`  Reason: ${reason}`);
+      }
+      console.log("Provider contact: not performed");
+      console.log("Policy mutation: not performed");
+      console.log("Model execution: not performed");
+      console.log("Automatic adoption: disabled");
+    }
+    return plan.summary.unresolved > 0 ? 2 : 0;
+  }
   if (parsed.action !== "resolve") throw new Error(`Unknown execution action: ${parsed.action}`);
   if (!parsed.options["--request"]) throw new Error("execution resolve requires --request");
   const route = await resolveExecutionRequestFile(target, parsed.options["--request"]);

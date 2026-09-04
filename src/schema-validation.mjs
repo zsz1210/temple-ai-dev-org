@@ -12,6 +12,10 @@ import {
   validateExecutionRoute
 } from "./execution-routing.mjs";
 import { validateLearningRepository } from "./learning.mjs";
+import {
+  validateModelOnboardingInput,
+  validateModelOnboardingPlan
+} from "./model-onboarding.mjs";
 
 export const SCHEMA_VALIDATION_SCHEMA = "temple.schema-validation/v1";
 export const SCHEMA_CATALOG_RELATIVE_PATH = ".ai-org/core/schemas/schema-catalog.json";
@@ -80,6 +84,11 @@ export async function validateProjectSchemas(target) {
             semantic = validateExecutionRequest(document, executionPolicy);
           }
           else if (entry.id === "execution-routes") semantic = validateExecutionRoute(document);
+          else if (entry.id === "model-onboarding-inputs") {
+            executionPolicy ??= (await readExecutionPolicy(target)).policy;
+            semantic = validateModelOnboardingInput(document, executionPolicy);
+          }
+          else if (entry.id === "model-onboarding-plan") semantic = validateModelOnboardingPlan(document);
         }
         const valid = jsonSchemaValid && semantic.valid;
         checked.push({ document: documentPath, schema: schemaPath, valid });

@@ -43,6 +43,7 @@ const phase4Capabilities = [
   "progressive_usage_calibration",
   "matched_model_advisory",
   "adaptive_execution_routing",
+  "read_only_model_onboarding",
   "typed_resource_observations",
   "non_executing_route_resolution",
   "exception_only_autonomy",

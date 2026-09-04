@@ -52,6 +52,25 @@ For example, one project may choose:
 
 Another project may leave the same profile unmapped, use a local model, or add a specialized profile. Concrete mappings are project-owned and are never written back into Temple's framework overlay.
 
+Temple can build the first proposal deterministically from a normalized local input:
+
+```bash
+node ./templew.mjs execution onboarding-plan . \
+  --input .ai-org/evaluations/model-onboarding/initial.json \
+  --json
+```
+
+The input combines four deliberately separate sources:
+
+- a timestamped Provider catalog observation;
+- compatibility assessments with evidence and eligible abstract profiles;
+- optional explicit project preferences; and
+- optional aggregate usage history with `raw_content_included: false`.
+
+For each unmapped profile, the planner prefers a compatible explicit preference, then a uniquely most-observed compatible historical configuration, and then a sole compatible candidate. A history-based result is labeled as a low-confidence **familiarity prior**. It does not claim that the familiar model is better, cheaper, safer, or more efficient. Ties, incompatible preferences, catalog-only models, and missing compatibility evidence stay unresolved.
+
+The command reads only the supplied repository file and current execution policy. It does not call `model/list`, read past conversations, modify the policy, start a model, or retain its output. Provider discovery remains a preceding integration step; policy adoption remains a later reviewed step.
+
 ### 4. Review and adopt
 
 Adopt the proposal through the project's normal repository review. Keep these states distinct:
