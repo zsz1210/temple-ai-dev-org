@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0155",
   "title": "Run fresh-session clean-room release rehearsal",
-  "state": "test",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-04T12:24:59.626Z",
-  "updated_at": "2026-09-04T12:42:22.482Z",
+  "updated_at": "2026-09-04T12:48:09.825Z",
   "scope": [
     "Freeze the merged Temple revision, initialize one disposable new project through a fresh Codex task, complete one bounded Work Item, recover it from a second independent task, and record timing, errors, interventions, documentation gaps, and truthful usage availability without publishing or releasing."
   ],
@@ -50,7 +50,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "779ba588f4c7315871c4ff0eaeb1df76bfca669a",
+  "base_revision": "b20b529e7d14783b7acd160a63e4dd87e4181de2",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -58,15 +58,15 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260904122655-56bc7abf",
+    "id": "claim-20260904124754-7e0c62f4",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "779ba588f4c7315871c4ff0eaeb1df76bfca669a",
+    "agent_id": "agent-lulu",
+    "base_revision": "b20b529e7d14783b7acd160a63e4dd87e4181de2",
     "branch": "codex/wi-0155-clean-room-rehearsal",
     "worktree": null,
-    "claimed_at": "2026-09-04T12:26:55.761Z",
-    "released_at": "2026-09-04T12:42:22.482Z",
+    "claimed_at": "2026-09-04T12:47:54.684Z",
+    "released_at": "2026-09-04T12:48:09.825Z",
     "release_reason": "position_transition"
   },
   "claims": [
@@ -80,6 +80,18 @@
       "worktree": null,
       "claimed_at": "2026-09-04T12:26:55.761Z",
       "released_at": "2026-09-04T12:42:22.482Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904124754-7e0c62f4",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "b20b529e7d14783b7acd160a63e4dd87e4181de2",
+      "branch": "codex/wi-0155-clean-room-rehearsal",
+      "worktree": null,
+      "claimed_at": "2026-09-04T12:47:54.684Z",
+      "released_at": "2026-09-04T12:48:09.825Z",
       "release_reason": "position_transition"
     }
   ],
@@ -111,6 +123,12 @@
       "docs/validation/fresh-session-clean-room-rehearsal.md",
       "EVID-20260904T124140Z-D9FEF490",
       "EVID-20260904T124140Z-9741C1FA"
+    ],
+    "test_evidence": [
+      "EVID-20260904T124803Z-8289E69D"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0155/quality-evaluation.md"
     ]
   },
   "evidence": [
@@ -120,10 +138,12 @@
     ".ai-org/artifacts/WI-0155/developer-test-observation.json",
     "docs/validation/fresh-session-clean-room-rehearsal.md",
     "EVID-20260904T124140Z-D9FEF490",
-    "EVID-20260904T124140Z-9741C1FA"
+    "EVID-20260904T124140Z-9741C1FA",
+    "EVID-20260904T124803Z-8289E69D",
+    ".ai-org/artifacts/WI-0155/quality-evaluation.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -133,5 +153,8 @@
       "created_at": "2026-09-04T12:42:05.442Z"
     }
   ],
-  "developer_candidate_revision": "9d1d42b6aa86c7b25a572165703543bf1525e13e"
+  "developer_candidate_revision": "9d1d42b6aa86c7b25a572165703543bf1525e13e",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
 }

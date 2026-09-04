@@ -24932,6 +24932,65 @@
         "exit_code": 0,
         "started_at": "2026-09-04T12:40:57.000Z"
       }
+    },
+    {
+      "id": "EVID-20260904T124803Z-8289E69D",
+      "work_item_id": "WI-0155",
+      "recorded_at": "2026-09-04T12:48:03.231Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Clean-room exact-candidate quality verification",
+      "outcome": "pass",
+      "scope_revision": "b20b529e7d14783b7acd160a63e4dd87e4181de2",
+      "observed_at": "2026-09-04T12:47:07.000Z",
+      "summary": "Full source gate, source Doctor, target tests and Doctor, and cold recovery passed within the stated boundary.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0155/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0155/quality-test-observation.json",
+          "sha256": "0da23d3f590df1aef8b2d81a4de23dd0c9d543eed2bfc66c9e4a066981f4bd1d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0155/work-order.md",
+          "sha256": "6ecdb78355d628506a71674f547f187ec46dfaa91e48908eb4ea6b51d2d09a17"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0155/clean-room-result.json",
+          "sha256": "cfbef6a58f7124789ec973cb381c4f281a6b63355a4c7f0048a74e070db4e885"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0155/developer-verification.md",
+          "sha256": "b5b82ce5bfb30291e41d14a595565dec804c8ca7c0db1e031878340625864d2f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0155/handoff-001-developer-to-quality_evaluator.md",
+          "sha256": "fcfb175a53b45afcfaf1afb22a253818f2016e4c0ba6e128e150b0e0fa37128d"
+        },
+        {
+          "path": "docs/validation/fresh-session-clean-room-rehearsal.md",
+          "sha256": "24790e196aba4b61166890948c7b86a597572f7b4177f7b07bca88e491d4a586"
+        }
+      ],
+      "details": {
+        "command": [
+          "source repository exact candidate: npm run verify",
+          "source repository exact candidate: node ./templew.mjs doctor . --json",
+          "independent cold-recovery task: recover target state from repository evidence",
+          "disposable QueueKeep repository: npm test",
+          "disposable QueueKeep repository: node ./templew.mjs doctor . --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T12:42:38.000Z"
+      }
     }
   ]
 }
