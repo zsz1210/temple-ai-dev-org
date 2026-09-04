@@ -1,0 +1,142 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0149",
+  "title": "Refresh current Alpha release readiness",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-04T08:56:52.664Z",
+  "updated_at": "2026-09-04T09:06:21.068Z",
+  "scope": [
+    "Replace the stale Alpha.29 publication checklist with a concise human-facing snapshot of current GitHub, package, npm, validation, and decision gates without performing any release action."
+  ],
+  "acceptance_criteria": [
+    "The document distinguishes the historical private alpha.5 prerelease, latest version tag, current package metadata, proposed next public candidate, and unpublished npm state without calling any of them a current public release.",
+    "Completed safeguards, missing candidate evidence, Human decisions, and deferred npm or enterprise qualification are visibly separated and backed by current repository or hosting observations.",
+    "No package version, repository visibility, permission, tag, GitHub Release, npm state, or external announcement changes."
+  ],
+  "affected_paths": [
+    "docs/planning/release-readiness.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "A reversible, evidence-backed planning-document refresh with no package or external release mutation.",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-04T08:56:52.662Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "79defd22aa4084720bfd92747211347e3bfa26de",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0086 remains the blocked historical public-Alpha candidate; WI-0149 only refreshes current readiness truth and does not reopen publication or reuse WI-0086 evidence as current qualification."
+  ],
+  "claim": {
+    "id": "claim-20260904085803-652a8e73",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "79defd22aa4084720bfd92747211347e3bfa26de",
+    "branch": "codex/wi-0149-refresh-alpha-readiness",
+    "worktree": null,
+    "claimed_at": "2026-09-04T08:58:03.924Z",
+    "released_at": "2026-09-04T09:04:59.295Z",
+    "release_reason": "position_transition"
+  },
+  "claims": [
+    {
+      "id": "claim-20260904085803-652a8e73",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "79defd22aa4084720bfd92747211347e3bfa26de",
+      "branch": "codex/wi-0149-refresh-alpha-readiness",
+      "worktree": null,
+      "claimed_at": "2026-09-04T08:58:03.924Z",
+      "released_at": "2026-09-04T09:04:59.295Z",
+      "release_reason": "position_transition"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0149/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0149/work-order.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0149/work-order.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0149/work-order.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0149/work-order.md"
+    ],
+    "profile_eligibility": [
+      ".ai-org/artifacts/WI-0149/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0149/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260904T090448Z-50379ABF",
+      "EVID-20260904T090448Z-41235089"
+    ],
+    "implementation": [
+      "EVID-20260904T090448Z-50379ABF"
+    ],
+    "test_evidence": [
+      "EVID-20260904T090448Z-41235089",
+      "EVID-20260904T090614Z-C432FBE8"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0149/quality-evaluation.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0149/work-order.md",
+    ".ai-org/artifacts/WI-0149/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260904T090448Z-50379ABF",
+    "EVID-20260904T090448Z-41235089",
+    "EVID-20260904T090614Z-C432FBE8",
+    ".ai-org/artifacts/WI-0149/quality-evaluation.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "8d2b11352d05ef945365dd3d5befe696c905409e",
+      "artifact": ".ai-org/artifacts/WI-0149/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T09:04:58.998Z"
+    }
+  ],
+  "developer_candidate_revision": "8d2b11352d05ef945365dd3d5befe696c905409e",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
+}

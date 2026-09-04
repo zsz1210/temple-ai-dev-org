@@ -23971,6 +23971,140 @@
         "exit_code": 0,
         "started_at": "2026-09-04T08:23:15Z"
       }
+    },
+    {
+      "id": "EVID-20260904T090448Z-50379ABF",
+      "work_item_id": "WI-0149",
+      "recorded_at": "2026-09-04T09:04:48.080Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Alpha readiness document candidate",
+      "outcome": "verified",
+      "scope_revision": "8d2b11352d05ef945365dd3d5befe696c905409e",
+      "observed_at": "2026-09-04T09:04:48.080Z",
+      "summary": "Human-facing readiness truth refreshed without a release-state mutation.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "8d2b11352d05ef945365dd3d5befe696c905409e"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "8d2b11352d05ef945365dd3d5befe696c905409e",
+        "working_tree_dirty": true,
+        "dirty_path_count": 2,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T090448Z-41235089",
+      "work_item_id": "WI-0149",
+      "recorded_at": "2026-09-04T09:04:48.318Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer verification",
+      "outcome": "pass",
+      "scope_revision": "8d2b11352d05ef945365dd3d5befe696c905409e",
+      "observed_at": "2026-09-04T09:04:15Z",
+      "summary": "Repository, 25 focused, 422 full, package boundary, dry-run pack, and production audit checks passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0149/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0149/developer-test-observation.json",
+          "sha256": "d97c2655aa01dee06cac80c42a0d55093fb5ecc888085e974eead63a136059fa"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0149/developer-verification.md",
+          "sha256": "0b970caf5cd327300387ca883fef9e5039806d0f1862595380bfd7747b49aab7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0149/work-order.md",
+          "sha256": "fc5d2745d5456ac687badad9260fde40b70ea0082dc2a401fe0ab6542f36b8cc"
+        },
+        {
+          "path": "docs/planning/release-readiness.md",
+          "sha256": "94e1ba8c1b689bfcfa2fe23184de14a3257ad769d607c997901261c78b5bf6de"
+        }
+      ],
+      "details": {
+        "command": [
+          "git diff --check",
+          "npm run verify:fast",
+          "npm run verify",
+          "npm pack --dry-run --json --ignore-scripts",
+          "npm audit --omit=dev --json",
+          "Human review of current-versus-historical release claims and approval boundaries"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T09:01:11Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T090614Z-C432FBE8",
+      "work_item_id": "WI-0149",
+      "recorded_at": "2026-09-04T09:06:14.619Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent readiness review",
+      "outcome": "pass",
+      "scope_revision": "8d2b11352d05ef945365dd3d5befe696c905409e",
+      "observed_at": "2026-09-04T09:05:42Z",
+      "summary": "Exact-revision checks and live read-only GitHub/npm claim verification passed without release actions.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0149/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0149/quality-test-observation.json",
+          "sha256": "315e15b59097d04d35bfb560a8e152357e2ea179418f85d5cf7d85c75bc9a9b4"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0149/quality-evaluation.md",
+          "sha256": "a5722fc75d74769f51ddac913bf174a07bf49964061fef82cd27dc15ccf8e11b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0149/developer-verification.md",
+          "sha256": "0b970caf5cd327300387ca883fef9e5039806d0f1862595380bfd7747b49aab7"
+        },
+        {
+          "path": "docs/planning/release-readiness.md",
+          "sha256": "94e1ba8c1b689bfcfa2fe23184de14a3257ad769d607c997901261c78b5bf6de"
+        }
+      ],
+      "details": {
+        "command": [
+          "Detached exact-revision reconstruction with lockfile-matched dependency tree",
+          "npm run check",
+          "npm run test:fast",
+          "Live read-only GitHub visibility, Release, tag, branch-protection, and Actions inspection",
+          "Live read-only npm package lookup",
+          "Independent current-versus-historical claim and decision-boundary review"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T09:04:50Z"
+      }
     }
   ]
 }

@@ -1,0 +1,39 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "8d2b11352d05ef945365dd3d5befe696c905409e",
+  "command": [
+    "Detached exact-revision reconstruction with lockfile-matched dependency tree",
+    "npm run check",
+    "npm run test:fast",
+    "Live read-only GitHub visibility, Release, tag, branch-protection, and Actions inspection",
+    "Live read-only npm package lookup",
+    "Independent current-versus-historical claim and decision-boundary review"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T09:04:50Z",
+  "completed_at": "2026-09-04T09:05:42Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0149/quality-evaluation.md",
+    ".ai-org/artifacts/WI-0149/developer-verification.md",
+    "docs/planning/release-readiness.md"
+  ],
+  "summary": {
+    "focused_tests_passed": 25,
+    "tests_failed": 0,
+    "repository_checks_passed": true,
+    "documentation_links_passed": true,
+    "package_boundary_passed": true,
+    "live_repository_visibility": "private",
+    "github_releases_observed": 1,
+    "historical_prerelease_tag": "v0.1.0-alpha.5",
+    "latest_version_tag": "v0.1.0-alpha.27",
+    "public_npm_package_observed": false,
+    "clean_dependency_install_performed": false,
+    "clean_consumer_qualification_claimed": false,
+    "repository_visibility_changed": false,
+    "tag_created": false,
+    "github_release_created": false,
+    "npm_publication_performed": false
+  }
+}
