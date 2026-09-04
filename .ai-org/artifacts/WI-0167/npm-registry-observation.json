@@ -1,0 +1,41 @@
+{
+  "schema_version": "temple.external-publication-observation/v1",
+  "observed_at": "2026-09-04T23:48:27.567Z",
+  "release_revision": "d2b2a5142c7e9b8d98e9474e0fe1cc8bdbf10324",
+  "github": {
+    "repository": "https://github.com/zsz1210/temple-ai-dev-org",
+    "release": "https://github.com/zsz1210/temple-ai-dev-org/releases/tag/v0.1.0-alpha.30",
+    "tag": "v0.1.0-alpha.30",
+    "prerelease": true,
+    "draft": false,
+    "asset": "zsz1210-temple-ai-dev-org-0.1.0-alpha.30.tgz"
+  },
+  "npm": {
+    "registry": "https://registry.npmjs.org/",
+    "package": "@zsz1210/temple-ai-dev-org",
+    "version": "0.1.0-alpha.30",
+    "access": "public",
+    "requested_dist_tag": "next",
+    "observed_dist_tags": {
+      "next": "0.1.0-alpha.30",
+      "latest": "0.1.0-alpha.30"
+    },
+    "shasum": "4549715c32b545812806f16a0d9977ecce033d52",
+    "integrity": "sha512-Anrdxd+mNgMUjf7C9aLoIOe3onUZcQts/DF1HePDsOjeLulE6GyAEACnAAJ90MU2TlEOvHtPXEULvnQtciHCFw==",
+    "tarball_sha256": "6b4ab4f1a0bbbe3d8eae532dcec8a04c92797f4254fc992b2c5b9f8d91efda88",
+    "tarball": "https://registry.npmjs.org/@zsz1210/temple-ai-dev-org/-/temple-ai-dev-org-0.1.0-alpha.30.tgz",
+    "availability_delay": {
+      "result": "cleared",
+      "behavior": "The new version returned 404 while npm publish-time malware scanning was pending, then became publicly resolvable without another publish."
+    },
+    "latest_exception": {
+      "status": "owner_decision_required",
+      "behavior": "The public npm registry automatically created latest as well as the requested next tag for the first version of this new package.",
+      "removal_attempts": 2,
+      "removal_result": "Both completed interactive 2FA attempts were rejected by the registry with HTTP 400; latest remains present.",
+      "supporting_reference": "https://github.com/npm/cli/issues/8490",
+      "safe_install_reference": "@zsz1210/temple-ai-dev-org@next"
+    }
+  },
+  "result": "published_with_platform_exception"
+}

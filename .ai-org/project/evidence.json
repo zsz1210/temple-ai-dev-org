@@ -26290,6 +26290,55 @@
         "exit_code": 0,
         "started_at": "2026-09-04T18:49:45.000Z"
       }
+    },
+    {
+      "id": "EVID-20260904T235124Z-4A5B18E0",
+      "work_item_id": "WI-0167",
+      "recorded_at": "2026-09-04T23:51:24.056Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Public npm next installation passed",
+      "outcome": "pass",
+      "scope_revision": "d2b2a5142c7e9b8d98e9474e0fe1cc8bdbf10324",
+      "observed_at": "2026-09-04T23:48:27.567Z",
+      "summary": "A clean Node 24 consumer installed the public next tag and passed version, init, idempotent reinit, launcher, status, and Doctor checks.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0167/registry-smoke-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0167/registry-smoke-observation.json",
+          "sha256": "244051b7ac6251d6121b0182f1c9aba92e4cd9334e3932dec7a4cc5448cac396"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0167/npm-registry-observation.json",
+          "sha256": "5d4c7ccdd28978acbe64c66b12fd9d5992d5a04c6153d6875ab1972c56929e39"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0167/public-release-report.md",
+          "sha256": "cf543ba1f4c8f0b1503b421cc520d18e965bbd60a8b77bf0902afc23f5dcf19a"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm install --ignore-scripts --no-audit --no-fund --package-lock=false @zsz1210/temple-ai-dev-org@next in a new temporary project",
+          "installed temple --version",
+          "installed temple init with a confirmed five-identity configuration",
+          "idempotent installed temple init",
+          "installed project launcher --version",
+          "installed project status --no-write --json",
+          "installed project Doctor --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T23:48:24.000Z"
+      }
     }
   ]
 }
