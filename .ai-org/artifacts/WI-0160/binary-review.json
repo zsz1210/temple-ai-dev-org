@@ -1,0 +1,1184 @@
+{
+  "schema_version": "temple.publication-binary-review/v1",
+  "work_item_id": "WI-0160",
+  "review_basis_revision": "e8b8d1aa3b47dbff719f198586d962cdd378e659",
+  "recognized_text_retained": false,
+  "review_method": [
+    "visual inspection of five ordered contact sheets covering every tracked PNG",
+    "original-size inspection of representative dense command, configuration, and workflow views",
+    "Apple Vision accurate OCR with privacy-pattern classification",
+    "PNG chunk inspection for embedded text or EXIF payloads"
+  ],
+  "summary": {
+    "tracked_pngs": 68,
+    "total_bytes": 15455256,
+    "visual_pass": 68,
+    "ocr_privacy_pass": 68,
+    "files_with_generic_credential_warning_copy": 5,
+    "files_with_text_or_exif_chunks": 0,
+    "retain_current_binary": 68
+  },
+  "records": [
+    {
+      "path": ".ai-org/artifacts/WI-0047/runtime-1440-dark.png",
+      "sha256": "a095607ca33b334f4b964a596f461bf61ca93b910fffb56d1b96e6fcb9b742a9",
+      "bytes": 220129,
+      "width": 1440,
+      "height": 1000,
+      "content_group": "retained-validation-screenshot",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0047/runtime-1440-light.png",
+      "sha256": "e3a0a367f928b088fe31ad37e5e69695acf6dfbbcaf6bacce00788429cf71a0b",
+      "bytes": 236233,
+      "width": 1440,
+      "height": 1000,
+      "content_group": "retained-validation-screenshot",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0047/runtime-2560-dark.png",
+      "sha256": "edf60f7bd6ff588f1703eab3f2405af539d00203cf246362ddbb4f5ea40d3474",
+      "bytes": 268958,
+      "width": 2560,
+      "height": 1080,
+      "content_group": "retained-validation-screenshot",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0047/runtime-390-drawer-dark.png",
+      "sha256": "546ca333d476fa2a53aebcfd1113f197353d591e72113a41d9117e4f84199cd1",
+      "bytes": 29681,
+      "width": 390,
+      "height": 844,
+      "content_group": "retained-validation-screenshot",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0060/team-mobile-model-card.png",
+      "sha256": "1563dc116716f179651d70d300749eadf8f7e2c26f6802172fba1dac470af349",
+      "bytes": 19435,
+      "width": 328,
+      "height": 290,
+      "content_group": "retained-validation-screenshot",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0060/team-mobile.png",
+      "sha256": "104df9576cc4fedc7c96bd077cda67dbfcb03b845923034a134997a26c7d35cf",
+      "bytes": 51511,
+      "width": 390,
+      "height": 844,
+      "content_group": "retained-validation-screenshot",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0060/team-tablet.png",
+      "sha256": "e72ad92b8a2e5e04a5bc2be9d722b66799cd3b470b0d0905a1538a7dc508a7c0",
+      "bytes": 115764,
+      "width": 1024,
+      "height": 900,
+      "content_group": "retained-validation-screenshot",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0060/team-wide.png",
+      "sha256": "d8ac30dcfb7801ffa02c5f8f99657233ee74f0f11268ba75d3f008f28d1f0cc6",
+      "bytes": 193031,
+      "width": 1720,
+      "height": 980,
+      "content_group": "retained-validation-screenshot",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0076/screenshots/team-authority-1440.png",
+      "sha256": "67d8b59cb99deb6f2ea3213dac9fc9273a6fa8a3cab6013bd951f6a0164fc5fc",
+      "bytes": 125990,
+      "width": 1440,
+      "height": 1000,
+      "content_group": "retained-validation-screenshot",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0076/screenshots/team-authority-390.png",
+      "sha256": "037b76d397dd4c23c7afcd408a9274fef2adad7db5213f5bfec15db9cf320326",
+      "bytes": 52757,
+      "width": 390,
+      "height": 844,
+      "content_group": "retained-validation-screenshot",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0076/screenshots/team-people-agents-390.png",
+      "sha256": "9c69e776a8a43a3216c9cf8cce566e1c089139ee9a49be2e79c296117e82ad23",
+      "bytes": 55300,
+      "width": 390,
+      "height": 844,
+      "content_group": "retained-validation-screenshot",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0076/screenshots/team-responsibilities-1440.png",
+      "sha256": "85555c4be8d890ce84748d572812f9c5c91182fb8cd35f87e9b4d2685b1c50f7",
+      "bytes": 142129,
+      "width": 1440,
+      "height": 1000,
+      "content_group": "retained-validation-screenshot",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0076/screenshots/team-responsibilities-390.png",
+      "sha256": "bfa8af9a038417396883791baf8018d3cf7fb3a64f7c120f27e682df68ebf19e",
+      "bytes": 52323,
+      "width": 390,
+      "height": 844,
+      "content_group": "retained-validation-screenshot",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0079/temple-engineering.390x844.dark.png",
+      "sha256": "209acd7b57fa93a09b3787ac9ec11828f4158c22be29e8c2a053e82f48bbb2e7",
+      "bytes": 62592,
+      "width": 390,
+      "height": 844,
+      "content_group": "readme-and-concept-visual",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0079/temple-engineering.390x844.light.png",
+      "sha256": "a5edce41ee33b9136200a97a4238245b0460fa41dd1781459a3cef8f995f3176",
+      "bytes": 72905,
+      "width": 390,
+      "height": 844,
+      "content_group": "readme-and-concept-visual",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0079/temple-engineering.visual-check.1440x900.dark.png",
+      "sha256": "94474a0bf3144114d628a79606142571ca8cd0a56601a98606fd5c715904d4db",
+      "bytes": 158970,
+      "width": 1440,
+      "height": 900,
+      "content_group": "readme-and-concept-visual",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0079/temple-engineering.visual-check.1440x900.light.png",
+      "sha256": "a1e347592577814a0a9577e40abb3fa1d6daa51073816ae9c34b905368e469da",
+      "bytes": 168309,
+      "width": 1440,
+      "height": 900,
+      "content_group": "readme-and-concept-visual",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0079/temple-engineering.visual-check.2048x1320.dark.png",
+      "sha256": "4854c285c974caf015a795a4660659cf3605c31a2a70bb9e01eecbaa254953d5",
+      "bytes": 214509,
+      "width": 2048,
+      "height": 1320,
+      "content_group": "readme-and-concept-visual",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0079/temple-engineering.visual-check.2048x1320.light.png",
+      "sha256": "418b98032140aa4c0add3319b4d67ea19b423b13178c3babd81a97c7aa81aac2",
+      "bytes": 228699,
+      "width": 2048,
+      "height": 1320,
+      "content_group": "readme-and-concept-visual",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0101/console-desktop.png",
+      "sha256": "be7777d6d953edaf4c85248741cd09a19309daf8f957439effee6eb21ffe58f0",
+      "bytes": 186143,
+      "width": 1200,
+      "height": 794,
+      "content_group": "retained-validation-screenshot",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0101/console-mobile.png",
+      "sha256": "18c86c26f157e20da96dd4fe9a0f30b95ee6b9a20ff575c7f0e570895e92afb0",
+      "bytes": 87694,
+      "width": 390,
+      "height": 844,
+      "content_group": "retained-validation-screenshot",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/WI-0065-team-narrow.png",
+      "sha256": "6d0791be8004ebea96d1ba9adc23084f7f276dc8fe1595a0eff684d249f11389",
+      "bytes": 181584,
+      "width": 375,
+      "height": 2729,
+      "content_group": "team-view-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/WI-0065-team-wide.png",
+      "sha256": "969b969de7851c6be68d5aae25f8c5dfdd10cd46f660f99f3aac6e5b30aafb45",
+      "bytes": 206451,
+      "width": 1705,
+      "height": 1099,
+      "content_group": "team-view-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0029-command-history-desktop.png",
+      "sha256": "84d28b0fddc4832f89d2f7d824997566650dc647334e60fa3edaab0fc2ca1ba7",
+      "bytes": 915804,
+      "width": 1440,
+      "height": 2636,
+      "content_group": "command-gateway-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 2,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0029-command-history-narrow.png",
+      "sha256": "f0c84ca6797d8a41e4f26d85031560b97c8913aedf949a32459d932945fc0828",
+      "bytes": 640699,
+      "width": 420,
+      "height": 4236,
+      "content_group": "command-gateway-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0029-confirmed-preview.png",
+      "sha256": "052e848e19ee0bbb33d630c629d81de0efed38f58de270f7fbd8a59d8a84167e",
+      "bytes": 53949,
+      "width": 593,
+      "height": 594,
+      "content_group": "command-gateway-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 1,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0029-disabled-desktop.png",
+      "sha256": "022d51d7c0c40ff9b626cf1a9082fb1580364cd7fa0eb7086325d804fe2da962",
+      "bytes": 877923,
+      "width": 1440,
+      "height": 2543,
+      "content_group": "command-gateway-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0029-idle-desktop.png",
+      "sha256": "a8b4e853027ccc09067fa49689a589e375519c2c4ad3bceebcbba2abefacb2c0",
+      "bytes": 740542,
+      "width": 1185,
+      "height": 2571,
+      "content_group": "command-gateway-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 1,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0029-quality-command-history-desktop.png",
+      "sha256": "f463973676e5b0201477c786f4c7c9018bb8ce2582093f15401cd75b17072d18",
+      "bytes": 869206,
+      "width": 1425,
+      "height": 2581,
+      "content_group": "command-gateway-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 2,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0029-quality-command-history-narrow.png",
+      "sha256": "55fbd661e7531233a587dd05ca7fe4c458e34455c63ba6e446e6525dbd46deb3",
+      "bytes": 620685,
+      "width": 405,
+      "height": 4244,
+      "content_group": "command-gateway-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0029-quality-confirmed-preview.png",
+      "sha256": "824277a536116fdb04b58ad072a7d038a309531c0857e7cd5cd0a9e89796a8b6",
+      "bytes": 725556,
+      "width": 1425,
+      "height": 2400,
+      "content_group": "command-gateway-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 1,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0029-quality-disabled-desktop.png",
+      "sha256": "27aae830c346d9f5cc013f2df07d5ca3bec0088641518a6a69bffd9fefb73d28",
+      "bytes": 683011,
+      "width": 1425,
+      "height": 1955,
+      "content_group": "command-gateway-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/activity-wide.png",
+      "sha256": "4bc9d72660478441c86cdbd583caaad9ff677f09c0078849ed8fef9bc4eb13d6",
+      "bytes": 152304,
+      "width": 2560,
+      "height": 1080,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/controlled-comparison/baseline-mobile.png",
+      "sha256": "8d3479c17b81ba124c7ec96d57a383380acc90591e4a229dc10d0530e96d596c",
+      "bytes": 139229,
+      "width": 375,
+      "height": 1734,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/controlled-comparison/baseline-overview.png",
+      "sha256": "f43d6401561b3553d1aec536df0b8ab50167844581c134f678a71d2b7c519a1c",
+      "bytes": 207543,
+      "width": 1425,
+      "height": 1181,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/controlled-comparison/proposal-mobile.png",
+      "sha256": "2f9a7917999f8ffe52af043621d658dbddb54b2d46b6a00f124febd51a4603c2",
+      "bytes": 213968,
+      "width": 375,
+      "height": 2410,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/controlled-comparison/proposal-overview.png",
+      "sha256": "0b75bc1b707d5cc645bcbad25483b28eb28386ca5ebd448189444bc7240bf686",
+      "bytes": 302924,
+      "width": 1425,
+      "height": 1380,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/health-wide.png",
+      "sha256": "3bb4551b94c5fc75cb454b529ec3badbc9ae86dbceedfedfb6773180a71347a4",
+      "bytes": 180493,
+      "width": 2560,
+      "height": 1080,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/overview-tablet.png",
+      "sha256": "03b6e6b20a4b299b1e1351facdf64ffdbe28d9c2e49446d60ced8c4453a43fbd",
+      "bytes": 187459,
+      "width": 1024,
+      "height": 1331,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/overview-wide.png",
+      "sha256": "4d1a4939f4744d5762ce0775c75603011e9798d1969384ec6dd360b73dcd8521",
+      "bytes": 252174,
+      "width": 2560,
+      "height": 1080,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/private-overview-tablet.png",
+      "sha256": "5d496149ee1be8decabdaf3a6149b0e373f30c73708b35cb9442938518a35e9c",
+      "bytes": 186599,
+      "width": 1024,
+      "height": 1331,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/proposed-overview-running-wide.png",
+      "sha256": "0794f2e2f05af637650efc2f0a948f9728045e81d704289fdde21bc025e01173",
+      "bytes": 308559,
+      "width": 2560,
+      "height": 1080,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/proposed-overview-tablet.png",
+      "sha256": "bd725f8c12a461bf51fb0fdce1fc9f22bc294891c7f6bf88df0c35a6b4ec3457",
+      "bytes": 200595,
+      "width": 1024,
+      "height": 1701,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/proposed-overview-wide.png",
+      "sha256": "6e8d3c99703db9163b857f48d169e5e59521c3aed24d04e0362621917b5d0016",
+      "bytes": 235835,
+      "width": 2560,
+      "height": 1080,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/proposed-system-configuration-320.png",
+      "sha256": "3205768486382f8d7780c5706c1d20c9229173670ab3e8bd0362100b20497508",
+      "bytes": 149602,
+      "width": 320,
+      "height": 2334,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/proposed-system-configuration-mobile.png",
+      "sha256": "7a120af8e4521dee92ae87a1a2bc0418a6b7e3fb5ac04eb1d462dc8a2767625a",
+      "bytes": 151172,
+      "width": 390,
+      "height": 2286,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/proposed-system-configuration-tablet.png",
+      "sha256": "6d12f63362cb9494b2eddb6d59417ec37b81ace8da1431dec18e30fa478cd2eb",
+      "bytes": 170930,
+      "width": 1024,
+      "height": 1222,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/proposed-system-configuration-wide.png",
+      "sha256": "b50425cf41f9dc0082e363ceaa33f5373283ac3d5012f1abad450bcaf5973bc0",
+      "bytes": 184688,
+      "width": 2560,
+      "height": 1080,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/proposed-team-tablet.png",
+      "sha256": "7dfaf8780b043e0c9b30e776722a6dfea84fa7fca5c5ce92883b787438602314",
+      "bytes": 153401,
+      "width": 1024,
+      "height": 1356,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/proposed-team-wide.png",
+      "sha256": "6d4dfa1cb77229a98e335d73b711a504c1053a3269f5f5da42af5984abcd3552",
+      "bytes": 181541,
+      "width": 2560,
+      "height": 1080,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/proposed-usage-wide.png",
+      "sha256": "f60f9d0113b34deda1bad370e9fb3134326d8962b55d7f417ae6b3b0e69b10a6",
+      "bytes": 151702,
+      "width": 2560,
+      "height": 1080,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/proposed-work-320.png",
+      "sha256": "47bdd9ae6ba43afb6a93f1cd1b922add49ac0bb43c5b7fc9ffc4068bf721cd00",
+      "bytes": 89100,
+      "width": 320,
+      "height": 1395,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/proposed-work-mobile.png",
+      "sha256": "f8cdc47f8448a4e36e3dda27f74bdf9a3ee73fed704eb06e425eb24a6bb027c6",
+      "bytes": 92850,
+      "width": 390,
+      "height": 1366,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/proposed-work-wide.png",
+      "sha256": "338c5c6797aad3418ea3768c201e90a83ba23199382613ddfc6bdf6aa7fb3324",
+      "bytes": 152222,
+      "width": 2560,
+      "height": 1080,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/team-tablet.png",
+      "sha256": "b85c71ec5728abb93b9c78ebaeabde8bebb083f61e66fa9a73bbbe434f22f2d7",
+      "bytes": 118505,
+      "width": 1024,
+      "height": 1000,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/team-wide.png",
+      "sha256": "f96a000405197abdf455a4a3d81fe42507ddd9e2e886af9b33b291fe34d6e69b",
+      "bytes": 146571,
+      "width": 2560,
+      "height": 1080,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/usability-rehearsal/baseline-activity.png",
+      "sha256": "b254b608aa0eb0ddb0d93862ec6e0dd84d472b294ab0e02920021a19a9339d6d",
+      "bytes": 120034,
+      "width": 1440,
+      "height": 900,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/usability-rehearsal/baseline-health.png",
+      "sha256": "fdbfcdd77ca79b4217cbedd72214bd8bd48db6f74f411e0974a3d9066ae6565c",
+      "bytes": 195486,
+      "width": 1440,
+      "height": 1168,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/usability-rehearsal/baseline-overview.png",
+      "sha256": "baae80286560a3c6f8685df464e0dcff0c6db80b129f65165ec47f0de6a1e29d",
+      "bytes": 221799,
+      "width": 1440,
+      "height": 1181,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/usability-rehearsal/baseline-work-detail.png",
+      "sha256": "c8c7c9b999eede4e37685931ca8d443ab45deef0be619168b6df08aff58a7a99",
+      "bytes": 198121,
+      "width": 1440,
+      "height": 1667,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/usability-rehearsal/preview-history.png",
+      "sha256": "c5ad9166a38cc8da71116830f1e8f568a79b952ff7b3db1baa740f3f070e7a4f",
+      "bytes": 109897,
+      "width": 1440,
+      "height": 900,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/usability-rehearsal/preview-overview.png",
+      "sha256": "7c33154e43e37ebbec3df0a874ba7c018414cceb2ffaeef9aaaf62be8c4bd837",
+      "bytes": 225568,
+      "width": 1440,
+      "height": 1209,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/usability-rehearsal/preview-system-status.png",
+      "sha256": "f7bbda937d612a104554fd45d337524880dd2b9f798d842045c04cc8229c6b66",
+      "bytes": 106324,
+      "width": 1440,
+      "height": 900,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/usability-rehearsal/preview-usage.png",
+      "sha256": "378ce1fe99bf735bf7bf8b36d87b5c7130cf2712b2161151f276d7990122a08f",
+      "bytes": 146109,
+      "width": 1440,
+      "height": 1085,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/usability-rehearsal/preview-work.png",
+      "sha256": "f349bb6b7881e1d2a6620cc0ee2588beb38a024be0456e54632a8ea371139cce",
+      "bytes": 152414,
+      "width": 1440,
+      "height": 1066,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/usage-wide.png",
+      "sha256": "fb1806b8c4932a2d8000ff103a6b39633e300f3cfd30cfab4757ae197e97f76f",
+      "bytes": 139651,
+      "width": 2560,
+      "height": 1080,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/work-mobile.png",
+      "sha256": "08645bcbd414d90cfc368199e3d954b99d868f0a2fe52b79963e43834632ba0c",
+      "bytes": 127471,
+      "width": 390,
+      "height": 2049,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    },
+    {
+      "path": "output/playwright/wi-0077/work-wide.png",
+      "sha256": "939d1a55ce7bca8150b78125b54021548082502b3892ccaa96cd714102ca2e50",
+      "bytes": 143944,
+      "width": 2560,
+      "height": 1080,
+      "content_group": "management-console-browser-evidence",
+      "review": {
+        "visual": "pass",
+        "ocr_privacy": "pass",
+        "ocr_restricted_value_matches": 0,
+        "ocr_live_account_state_matches": 0,
+        "generic_credential_warning_copy_matches": 0,
+        "png_text_or_exif_chunks": [],
+        "disposition": "retain-current-binary"
+      }
+    }
+  ],
+  "limits": [
+    "OCR and visual review support the current digest only; changed image bytes require review again.",
+    "Generic credential-warning copy is interface guidance, not a retained credential value.",
+    "This review does not classify non-PNG binaries because the audit found none in the tracked repository surface."
+  ]
+}

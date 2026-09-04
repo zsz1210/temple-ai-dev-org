@@ -1,0 +1,3431 @@
+{
+  "schema_version": "temple.publication-text-review/v1",
+  "work_item_id": "WI-0160",
+  "profile": "public",
+  "surface": "repository",
+  "review_basis_revision": "e8b8d1aa3b47dbff719f198586d962cdd378e659",
+  "matched_values_retained": false,
+  "summary": {
+    "finding_records": 330,
+    "occurrences": 334,
+    "unique_files": 112,
+    "by_rule": {
+      "maintainer-home-path-posix": {
+        "finding_records": 279,
+        "occurrences": 279,
+        "unique_files": 84
+      },
+      "private-ipv4": {
+        "finding_records": 45,
+        "occurrences": 49,
+        "unique_files": 26
+      },
+      "private-tailnet-hostname": {
+        "finding_records": 6,
+        "occurrences": 6,
+        "unique_files": 4
+      }
+    },
+    "by_area_and_rule": {
+      "canonical-work-items:maintainer-home-path-posix": {
+        "finding_records": 228,
+        "occurrences": 228,
+        "unique_files": 47
+      },
+      "first-party-tests:maintainer-home-path-posix": {
+        "finding_records": 6,
+        "occurrences": 6,
+        "unique_files": 1
+      },
+      "first-party-tests:private-ipv4": {
+        "finding_records": 5,
+        "occurrences": 9,
+        "unique_files": 1
+      },
+      "first-party-tests:private-tailnet-hostname": {
+        "finding_records": 3,
+        "occurrences": 3,
+        "unique_files": 1
+      },
+      "project-registries:maintainer-home-path-posix": {
+        "finding_records": 6,
+        "occurrences": 6,
+        "unique_files": 3
+      },
+      "project-registries:private-ipv4": {
+        "finding_records": 11,
+        "occurrences": 11,
+        "unique_files": 1
+      },
+      "retained-artifacts:maintainer-home-path-posix": {
+        "finding_records": 39,
+        "occurrences": 39,
+        "unique_files": 33
+      },
+      "retained-artifacts:private-ipv4": {
+        "finding_records": 28,
+        "occurrences": 28,
+        "unique_files": 23
+      },
+      "retained-artifacts:private-tailnet-hostname": {
+        "finding_records": 3,
+        "occurrences": 3,
+        "unique_files": 3
+      },
+      "vendored-adapter-tests:private-ipv4": {
+        "finding_records": 1,
+        "occurrences": 1,
+        "unique_files": 1
+      }
+    },
+    "by_disposition": {
+      "normalize-through-canonical-migration": {
+        "finding_records": 245,
+        "occurrences": 245,
+        "unique_files": 50
+      },
+      "normalize-with-provenance": {
+        "finding_records": 70,
+        "occurrences": 70,
+        "unique_files": 59
+      },
+      "replace-first-party-fixture": {
+        "finding_records": 14,
+        "occurrences": 18,
+        "unique_files": 2
+      },
+      "review-vendored-fixture": {
+        "finding_records": 1,
+        "occurrences": 1,
+        "unique_files": 1
+      }
+    }
+  },
+  "records": [
+    {
+      "path": ".ai-org/artifacts/WI-0051/pilot-result.md",
+      "line": 13,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0051/product-spec.md",
+      "line": 11,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0051/technical-design.md",
+      "line": 7,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0051/technical-design.md",
+      "line": 11,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0051/work-order.md",
+      "line": 11,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0061/human-approval.md",
+      "line": 4,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0061/pilot-proposal.md",
+      "line": 9,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0061/pilot-proposal.md",
+      "line": 10,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0062/human-approval.md",
+      "line": 6,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0062/one-shot-runner.mjs",
+      "line": 19,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0064/one-shot-runner.mjs",
+      "line": 20,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0064/work-order.md",
+      "line": 9,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0067/live-commerce-runner.mjs",
+      "line": 33,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0067/live-commerce-runner.mjs",
+      "line": 34,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0067/live-program-result.json",
+      "line": 19,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0067/live-program-result.json",
+      "line": 20,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0067/rollback-plan.md",
+      "line": 3,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0067/setup-commerce-rehearsal.mjs",
+      "line": 11,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0067/work-order.md",
+      "line": 4,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0079/temple-engineering.visual-check.json",
+      "line": 8,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0091/one-shot-runner.mjs",
+      "line": 20,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0107/run-wave-5a.mjs",
+      "line": 40,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0107/setup-wave-5a.mjs",
+      "line": 11,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0108/approved-scope.md",
+      "line": 6,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0108/developer-report.md",
+      "line": 5,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0110/approved-scope.md",
+      "line": 5,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0112/approved-scope.md",
+      "line": 5,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0113/developer-test-observation.json",
+      "line": 7,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0113/experiment-result.json",
+      "line": 5,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0117/evaluator-live-preflight.json",
+      "line": 7,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0117/evaluator-preflight.json",
+      "line": 7,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0117/evaluator-replacement-preflight.json",
+      "line": 10,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0117/offline-preparation-report.md",
+      "line": 8,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0117/offline-preparation-report.md",
+      "line": 10,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0130/live-experiment-observation.json",
+      "line": 5,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0130/offline-preflight-observation.json",
+      "line": 5,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0136/representative-main-v12-stop-report.md",
+      "line": 16,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0136/representative-main-v12-stopped-run.json",
+      "line": 295,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0136/representative-main-v12-stopped-run.json",
+      "line": 381,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/project/evidence.json",
+      "line": 17186,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "project-registries",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/project/runtime-workers.json",
+      "line": 640,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "project-registries",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/project/runtime-workers.json",
+      "line": 670,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "project-registries",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/project/runtime-workers.json",
+      "line": 701,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "project-registries",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/project/runtime-workers.json",
+      "line": 732,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "project-registries",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/project/tasks.json",
+      "line": 88,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "project-registries",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0019.json",
+      "line": 76,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0019.json",
+      "line": 91,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0029.json",
+      "line": 61,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0029.json",
+      "line": 76,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0029.json",
+      "line": 88,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0030.json",
+      "line": 56,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0030.json",
+      "line": 69,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0030.json",
+      "line": 81,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0030.json",
+      "line": 93,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0032.json",
+      "line": 53,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0032.json",
+      "line": 66,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0032.json",
+      "line": 78,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0032.json",
+      "line": 90,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0035.json",
+      "line": 64,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0043.json",
+      "line": 97,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0043.json",
+      "line": 122,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0043.json",
+      "line": 136,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0043.json",
+      "line": 150,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0043.json",
+      "line": 164,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0043.json",
+      "line": 178,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0043.json",
+      "line": 192,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0052.json",
+      "line": 95,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0062.json",
+      "line": 11,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0065.json",
+      "line": 77,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0065.json",
+      "line": 92,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0066.json",
+      "line": 69,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0066.json",
+      "line": 84,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0067.json",
+      "line": 54,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0067.json",
+      "line": 69,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0068.json",
+      "line": 51,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0068.json",
+      "line": 66,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0071.json",
+      "line": 117,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0071.json",
+      "line": 130,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0071.json",
+      "line": 142,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0071.json",
+      "line": 154,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0071.json",
+      "line": 166,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0071.json",
+      "line": 178,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0071.json",
+      "line": 190,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0071.json",
+      "line": 202,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0076.json",
+      "line": 111,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0076.json",
+      "line": 124,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0076.json",
+      "line": 138,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0076.json",
+      "line": 152,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0076.json",
+      "line": 166,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0076.json",
+      "line": 180,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0076.json",
+      "line": 194,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0076.json",
+      "line": 208,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0077.json",
+      "line": 74,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0077.json",
+      "line": 91,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0077.json",
+      "line": 105,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0077.json",
+      "line": 119,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0077.json",
+      "line": 133,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0077.json",
+      "line": 147,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0078.json",
+      "line": 59,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0078.json",
+      "line": 72,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0078.json",
+      "line": 86,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0078.json",
+      "line": 100,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0078.json",
+      "line": 114,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0078.json",
+      "line": 128,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0078.json",
+      "line": 142,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0078.json",
+      "line": 156,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0079.json",
+      "line": 66,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0079.json",
+      "line": 81,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0079.json",
+      "line": 93,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0079.json",
+      "line": 105,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0080.json",
+      "line": 57,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0080.json",
+      "line": 138,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0081.json",
+      "line": 88,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0081.json",
+      "line": 102,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0081.json",
+      "line": 116,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0082.json",
+      "line": 78,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0082.json",
+      "line": 92,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0082.json",
+      "line": 106,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0082.json",
+      "line": 120,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0082.json",
+      "line": 134,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0082.json",
+      "line": 148,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0082.json",
+      "line": 162,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0082.json",
+      "line": 176,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0083.json",
+      "line": 103,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0083.json",
+      "line": 116,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0083.json",
+      "line": 130,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0083.json",
+      "line": 144,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0083.json",
+      "line": 158,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0083.json",
+      "line": 170,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0083.json",
+      "line": 182,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0083.json",
+      "line": 194,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0092.json",
+      "line": 129,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0092.json",
+      "line": 143,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0092.json",
+      "line": 157,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0092.json",
+      "line": 171,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0092.json",
+      "line": 185,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0092.json",
+      "line": 199,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0094.json",
+      "line": 54,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0094.json",
+      "line": 67,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0094.json",
+      "line": 79,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0094.json",
+      "line": 91,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0094.json",
+      "line": 103,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0094.json",
+      "line": 115,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0094.json",
+      "line": 127,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0094.json",
+      "line": 139,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0100.json",
+      "line": 71,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0100.json",
+      "line": 84,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0100.json",
+      "line": 96,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0100.json",
+      "line": 108,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0100.json",
+      "line": 120,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0100.json",
+      "line": 156,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0101.json",
+      "line": 54,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0101.json",
+      "line": 67,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0101.json",
+      "line": 79,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0101.json",
+      "line": 91,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0101.json",
+      "line": 103,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0101.json",
+      "line": 139,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0102.json",
+      "line": 59,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0102.json",
+      "line": 72,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0102.json",
+      "line": 84,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0102.json",
+      "line": 96,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0102.json",
+      "line": 108,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0102.json",
+      "line": 120,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0102.json",
+      "line": 132,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0102.json",
+      "line": 144,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0103.json",
+      "line": 61,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0103.json",
+      "line": 74,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0103.json",
+      "line": 86,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0103.json",
+      "line": 98,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0103.json",
+      "line": 110,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0103.json",
+      "line": 122,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0103.json",
+      "line": 134,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0103.json",
+      "line": 146,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0104.json",
+      "line": 62,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0104.json",
+      "line": 75,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0104.json",
+      "line": 87,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0104.json",
+      "line": 99,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0104.json",
+      "line": 111,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0104.json",
+      "line": 123,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0104.json",
+      "line": 135,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0104.json",
+      "line": 147,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0105.json",
+      "line": 62,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0105.json",
+      "line": 75,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0105.json",
+      "line": 87,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0105.json",
+      "line": 99,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0105.json",
+      "line": 111,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0105.json",
+      "line": 123,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0105.json",
+      "line": 135,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0105.json",
+      "line": 147,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0106.json",
+      "line": 57,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0106.json",
+      "line": 70,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0106.json",
+      "line": 82,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0106.json",
+      "line": 94,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0106.json",
+      "line": 106,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0106.json",
+      "line": 118,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0106.json",
+      "line": 130,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0106.json",
+      "line": 144,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0106.json",
+      "line": 156,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0107.json",
+      "line": 55,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0107.json",
+      "line": 68,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0107.json",
+      "line": 80,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0108.json",
+      "line": 52,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0108.json",
+      "line": 65,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0108.json",
+      "line": 77,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0109.json",
+      "line": 54,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0109.json",
+      "line": 67,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0109.json",
+      "line": 79,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0110.json",
+      "line": 55,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0110.json",
+      "line": 68,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0111.json",
+      "line": 74,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0111.json",
+      "line": 87,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0111.json",
+      "line": 99,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0112.json",
+      "line": 70,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0112.json",
+      "line": 83,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0113.json",
+      "line": 64,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0113.json",
+      "line": 77,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0114.json",
+      "line": 57,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0114.json",
+      "line": 70,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0114.json",
+      "line": 84,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0114.json",
+      "line": 98,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0114.json",
+      "line": 112,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0114.json",
+      "line": 126,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0114.json",
+      "line": 140,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0114.json",
+      "line": 154,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0115.json",
+      "line": 59,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0115.json",
+      "line": 72,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0115.json",
+      "line": 86,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0115.json",
+      "line": 100,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0115.json",
+      "line": 114,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0115.json",
+      "line": 128,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0115.json",
+      "line": 142,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0115.json",
+      "line": 156,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0116.json",
+      "line": 65,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0116.json",
+      "line": 78,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0116.json",
+      "line": 92,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0116.json",
+      "line": 106,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0116.json",
+      "line": 120,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0116.json",
+      "line": 134,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0116.json",
+      "line": 148,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0116.json",
+      "line": 162,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0117.json",
+      "line": 67,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0117.json",
+      "line": 80,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0117.json",
+      "line": 94,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0117.json",
+      "line": 108,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0117.json",
+      "line": 122,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0117.json",
+      "line": 148,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0117.json",
+      "line": 160,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0117.json",
+      "line": 172,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0126.json",
+      "line": 71,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0126.json",
+      "line": 84,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0126.json",
+      "line": 96,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0126.json",
+      "line": 108,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0126.json",
+      "line": 120,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0126.json",
+      "line": 132,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0126.json",
+      "line": 144,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0126.json",
+      "line": 156,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0127.json",
+      "line": 69,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0127.json",
+      "line": 82,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0127.json",
+      "line": 94,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0127.json",
+      "line": 106,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0127.json",
+      "line": 118,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0127.json",
+      "line": 130,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0127.json",
+      "line": 142,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0127.json",
+      "line": 154,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0130.json",
+      "line": 85,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0132.json",
+      "line": 68,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0132.json",
+      "line": 83,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0135.json",
+      "line": 65,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0135.json",
+      "line": 80,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0136.json",
+      "line": 71,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0136.json",
+      "line": 84,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0136.json",
+      "line": 96,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/work-items/WI-0136.json",
+      "line": 110,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "canonical-work-items",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": "test/audit-export.test.mjs",
+      "line": 60,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "first-party-tests",
+      "recommended_disposition": "replace-first-party-fixture"
+    },
+    {
+      "path": "test/audit-export.test.mjs",
+      "line": 63,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "first-party-tests",
+      "recommended_disposition": "replace-first-party-fixture"
+    },
+    {
+      "path": "test/audit-export.test.mjs",
+      "line": 115,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "first-party-tests",
+      "recommended_disposition": "replace-first-party-fixture"
+    },
+    {
+      "path": "test/audit-export.test.mjs",
+      "line": 164,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "first-party-tests",
+      "recommended_disposition": "replace-first-party-fixture"
+    },
+    {
+      "path": "test/audit-export.test.mjs",
+      "line": 178,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "first-party-tests",
+      "recommended_disposition": "replace-first-party-fixture"
+    },
+    {
+      "path": "test/audit-export.test.mjs",
+      "line": 205,
+      "rule_id": "maintainer-home-path-posix",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "first-party-tests",
+      "recommended_disposition": "replace-first-party-fixture"
+    },
+    {
+      "path": ".ai-org/adapters/archify/v2.15.0/archify/test/brand-marks.test.mjs",
+      "line": 387,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "vendored-adapter-tests",
+      "recommended_disposition": "review-vendored-fixture"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0042/developer-report.md",
+      "line": 17,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0042/developer-report.md",
+      "line": 21,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0042/evaluation-report.md",
+      "line": 9,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0042/evaluation-report.md",
+      "line": 19,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0042/independent-qa-report.md",
+      "line": 17,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0042/runtime-observation.json",
+      "line": 4,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0044/runtime-observation.json",
+      "line": 4,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0045/runtime-observation.json",
+      "line": 4,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0046/developer-test-observation.json",
+      "line": 8,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0047/runtime-observation.json",
+      "line": 4,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0048/browser-review.md",
+      "line": 6,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0048/runtime-observation.json",
+      "line": 4,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0049/browser-review.md",
+      "line": 6,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0049/runtime-observation.json",
+      "line": 4,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0054/live-proof-result.md",
+      "line": 52,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0054/runtime-observation.json",
+      "line": 33,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0056/live-proof-result.md",
+      "line": 47,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0056/runtime-observation.json",
+      "line": 4,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0056/runtime-observation.json",
+      "line": 79,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0057/runtime-observation.json",
+      "line": 4,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0057/runtime-observation.json",
+      "line": 24,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0058/runtime-observation.json",
+      "line": 4,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0058/runtime-observation.json",
+      "line": 15,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0060/browser-review.md",
+      "line": 6,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0060/runtime-observation.json",
+      "line": 4,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0081/runtime-visual-review.md",
+      "line": 5,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0092/live-managed-observation.md",
+      "line": 12,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0093/live-runtime-observation.json",
+      "line": 5,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/project/evidence.json",
+      "line": 5267,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "project-registries",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/project/evidence.json",
+      "line": 5532,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "project-registries",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/project/evidence.json",
+      "line": 5753,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "project-registries",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/project/evidence.json",
+      "line": 6094,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "project-registries",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/project/evidence.json",
+      "line": 6350,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "project-registries",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/project/evidence.json",
+      "line": 6632,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "project-registries",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/project/evidence.json",
+      "line": 7311,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "project-registries",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/project/evidence.json",
+      "line": 7505,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "project-registries",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/project/evidence.json",
+      "line": 7722,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "project-registries",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/project/evidence.json",
+      "line": 8129,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "project-registries",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": ".ai-org/project/evidence.json",
+      "line": 13175,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "project-registries",
+      "recommended_disposition": "normalize-through-canonical-migration"
+    },
+    {
+      "path": "test/control-plane-private-viewer.test.mjs",
+      "line": 221,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 2,
+      "source_disposition": "retained-legacy",
+      "review_area": "first-party-tests",
+      "recommended_disposition": "replace-first-party-fixture"
+    },
+    {
+      "path": "test/control-plane-private-viewer.test.mjs",
+      "line": 222,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 2,
+      "source_disposition": "retained-legacy",
+      "review_area": "first-party-tests",
+      "recommended_disposition": "replace-first-party-fixture"
+    },
+    {
+      "path": "test/control-plane-private-viewer.test.mjs",
+      "line": 223,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 2,
+      "source_disposition": "retained-legacy",
+      "review_area": "first-party-tests",
+      "recommended_disposition": "replace-first-party-fixture"
+    },
+    {
+      "path": "test/control-plane-private-viewer.test.mjs",
+      "line": 224,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 2,
+      "source_disposition": "retained-legacy",
+      "review_area": "first-party-tests",
+      "recommended_disposition": "replace-first-party-fixture"
+    },
+    {
+      "path": "test/control-plane-private-viewer.test.mjs",
+      "line": 237,
+      "rule_id": "private-ipv4",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "first-party-tests",
+      "recommended_disposition": "replace-first-party-fixture"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0036/developer-verification.md",
+      "line": 30,
+      "rule_id": "private-tailnet-hostname",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0036/quality-test-report.md",
+      "line": 11,
+      "rule_id": "private-tailnet-hostname",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0037/developer-verification.md",
+      "line": 32,
+      "rule_id": "private-tailnet-hostname",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "retained-artifacts",
+      "recommended_disposition": "normalize-with-provenance"
+    },
+    {
+      "path": "test/control-plane-private-viewer.test.mjs",
+      "line": 23,
+      "rule_id": "private-tailnet-hostname",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "first-party-tests",
+      "recommended_disposition": "replace-first-party-fixture"
+    },
+    {
+      "path": "test/control-plane-private-viewer.test.mjs",
+      "line": 167,
+      "rule_id": "private-tailnet-hostname",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "first-party-tests",
+      "recommended_disposition": "replace-first-party-fixture"
+    },
+    {
+      "path": "test/control-plane-private-viewer.test.mjs",
+      "line": 357,
+      "rule_id": "private-tailnet-hostname",
+      "evidence_class": "local-environment",
+      "count": 1,
+      "source_disposition": "retained-legacy",
+      "review_area": "first-party-tests",
+      "recommended_disposition": "replace-first-party-fixture"
+    }
+  ],
+  "exclusions": [
+    "matched values",
+    "source-line content",
+    "credentials",
+    "raw prompts and responses",
+    "live account state"
+  ],
+  "decision_boundary": {
+    "safe_to_automate": [
+      "regenerate this value-redacted inventory",
+      "verify counts, paths, line numbers, and rule classes",
+      "verify current binary digests and PNG metadata"
+    ],
+    "separate_implementation_required": [
+      "canonical Work Item and registry path minimization",
+      "revision-pinned retained-artifact normalization",
+      "first-party fixture replacement",
+      "vendored fixture exception or pinned upstream update"
+    ],
+    "human_decision_required": [
+      "historical Git-object treatment",
+      "repository visibility",
+      "release version, tag, GitHub Release, npm publication, and announcement"
+    ]
+  }
+}

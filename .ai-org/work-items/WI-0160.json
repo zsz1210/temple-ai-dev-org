@@ -1,0 +1,231 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0160",
+  "title": "Review retained public evidence and binary artifacts",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-04T15:06:37.935Z",
+  "updated_at": "2026-09-04T15:21:40.393Z",
+  "scope": [
+    "Reconcile the current public-profile audit into a human-reviewable inventory of retained legacy text findings and all tracked binary files without retaining matched private values in the report.",
+    "Classify actual maintainer environment data, synthetic test fixtures, vendored fixtures, and visual artifacts; inspect every tracked PNG for publishability and record digest-bound dispositions.",
+    "Recommend the smallest provenance-preserving remediation sequence while keeping Git-history rewriting, repository visibility, version, tag, GitHub Release, npm publication, and announcement outside this Work Item."
+  ],
+  "acceptance_criteria": [
+    "The report reconciles the audit totals, rule classes, occurrence counts, unique files, and binary inventory without exposing matched private values.",
+    "Every text class has a risk explanation and recommended disposition, including terminal Work Item worktrees, retained artifacts, Evidence details, test fixtures, and vendored fixtures.",
+    "Every tracked binary has a SHA-256-bound visual review result or an explicit unresolved reason; aggregate results distinguish safe retention from required regeneration or removal.",
+    "The report identifies what Temple can safely automate and isolates only genuinely consequential Human decisions.",
+    "Repository verification and Independent QA pass at an exact candidate; no publication or destructive history action occurs."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0160",
+    ".ai-org/work-items/WI-0160.json",
+    "docs/validation/publication-evidence-review.md",
+    "docs/validation/README.md",
+    "docs/planning/release-readiness.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [
+      "independent-assurance-required"
+    ],
+    "rationale": "Publication evidence review is repository-only and read-mostly, but its dispositions affect privacy and release readiness and therefore require explicit evidence plus Independent QA.",
+    "evidence_refs": [
+      "docs/operations/auditable-self-hosting.md"
+    ],
+    "evaluated_at": "2026-09-04T15:06:37.935Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "407bf7508429f7e2d8339f742cc3e81698ebc230",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260904152114-87e24c5b",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "407bf7508429f7e2d8339f742cc3e81698ebc230",
+    "branch": "codex/wi-0160-public-evidence-review",
+    "worktree": null,
+    "claimed_at": "2026-09-04T15:21:14.607Z",
+    "released_at": "2026-09-04T15:21:40.393Z",
+    "release_reason": "work_item_closed"
+  },
+  "claims": [
+    {
+      "id": "claim-20260904150638-4383910d",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "e8b8d1aa3b47dbff719f198586d962cdd378e659",
+      "branch": "codex/wi-0160-public-evidence-review",
+      "worktree": null,
+      "claimed_at": "2026-09-04T15:06:38.733Z",
+      "released_at": "2026-09-04T15:13:32.774Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904151333-a7760c01",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "e8b8d1aa3b47dbff719f198586d962cdd378e659",
+      "branch": "codex/wi-0160-public-evidence-review",
+      "worktree": null,
+      "claimed_at": "2026-09-04T15:13:33.124Z",
+      "released_at": "2026-09-04T15:13:33.402Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904151333-a9de7af1",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "e8b8d1aa3b47dbff719f198586d962cdd378e659",
+      "branch": "codex/wi-0160-public-evidence-review",
+      "worktree": null,
+      "claimed_at": "2026-09-04T15:13:33.709Z",
+      "released_at": "2026-09-04T15:13:33.976Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904151334-7300d97a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "e8b8d1aa3b47dbff719f198586d962cdd378e659",
+      "branch": "codex/wi-0160-public-evidence-review",
+      "worktree": null,
+      "claimed_at": "2026-09-04T15:13:34.280Z",
+      "released_at": "2026-09-04T15:18:19.165Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904151819-b59a292d",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "407bf7508429f7e2d8339f742cc3e81698ebc230",
+      "branch": "codex/wi-0160-public-evidence-review",
+      "worktree": null,
+      "claimed_at": "2026-09-04T15:18:19.496Z",
+      "released_at": "2026-09-04T15:21:13.795Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904152114-f9ea1c83",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "407bf7508429f7e2d8339f742cc3e81698ebc230",
+      "branch": "codex/wi-0160-public-evidence-review",
+      "worktree": null,
+      "claimed_at": "2026-09-04T15:21:14.080Z",
+      "released_at": "2026-09-04T15:21:14.333Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904152114-87e24c5b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "407bf7508429f7e2d8339f742cc3e81698ebc230",
+      "branch": "codex/wi-0160-public-evidence-review",
+      "worktree": null,
+      "claimed_at": "2026-09-04T15:21:14.607Z",
+      "released_at": "2026-09-04T15:21:40.393Z",
+      "release_reason": "work_item_closed"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0160/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0160/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0160/work-order.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0160/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0160/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0160/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0160/developer-verification.md",
+      ".ai-org/artifacts/WI-0160/text-inventory.json",
+      ".ai-org/artifacts/WI-0160/binary-review.json"
+    ],
+    "test_evidence": [
+      "EVID-20260904T152102Z-1A842631"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0160/quality-evaluation.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260904T152102Z-1A842631"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0160/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0160/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0160/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0160/work-order.md",
+    ".ai-org/artifacts/WI-0160/approved-scope.md",
+    ".ai-org/artifacts/WI-0160/technical-design.md",
+    ".ai-org/artifacts/WI-0160/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0160/developer-verification.md",
+    ".ai-org/artifacts/WI-0160/text-inventory.json",
+    ".ai-org/artifacts/WI-0160/binary-review.json",
+    "EVID-20260904T152102Z-1A842631",
+    ".ai-org/artifacts/WI-0160/quality-evaluation.md",
+    ".ai-org/artifacts/WI-0160/release-record.md",
+    ".ai-org/artifacts/WI-0160/independent-qa-report.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "tested_revision": "407bf7508429f7e2d8339f742cc3e81698ebc230",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "407bf7508429f7e2d8339f742cc3e81698ebc230",
+  "command": [
+    "sh",
+    "-c",
+    "npm ci --ignore-scripts && node ./.ai-org/artifacts/WI-0160/verify-review.mjs && npm run verify"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T15:18:23Z",
+  "completed_at": "2026-09-04T15:20:05Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0160/text-inventory.json",
+    ".ai-org/artifacts/WI-0160/binary-review.json",
+    ".ai-org/artifacts/WI-0160/verify-review.mjs",
+    "docs/validation/publication-evidence-review.md",
+    "docs/planning/release-readiness.md"
+  ]
+}
