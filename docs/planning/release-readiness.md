@@ -71,7 +71,7 @@ Exact file bytes, digests, audit results, test counts, and hosting state must be
 | Clean consumer | Must be repeated | Install the real tarball in a clean Node.js 24 environment; run version, init, re-init, project launcher, status, and Doctor |
 | Upgrade safety | Prior Alpha.28-to-.29 rehearsal passed | Reconcile whether the candidate changes managed files or migration behavior; repeat only the affected upgrade path |
 | Dependency and secret review | Current dependency audit is clean; hosting controls not fully qualified | Repeat the locked audit and tracked-content review; verify hosting security controls after visibility changes |
-| New-user path | Not run | A person without Temple development history follows only the public instructions and reaches a healthy initialized project without maintainer coaching |
+| Fresh-session clean-room path | Not run | A new AI session with no Temple chat history uses only repository-visible instructions in a disposable new project, completes one bounded Work Item, recovers it from a second cold session, and reaches healthy Status and Doctor results without maintainer coaching |
 | Rollback | Earlier procedure exists | Bind withdrawal or superseding-release instructions to the approved immutable tag |
 | Publication authority | Not granted | Separate Human approval for visibility, tag, GitHub Release, and any later npm publication |
 
@@ -91,12 +91,17 @@ Approval of one item does not approve the later items.
 
 ## Recommended preparation sequence
 
-### Step 1 — validate the user path while private
+### Step 1 — rehearse the AI-assisted path in a clean room
 
-- Give a trusted reader read-only access.
-- Ask them to follow only the README and Core Path in a new repository.
-- Record where they hesitate, what they misunderstand, and whether a fresh Agent can continue from repository state without chat history.
-- Correct the documentation or flow before freezing a release candidate.
+- Start from a disposable new repository and a frozen Temple revision while the source repository remains private.
+- Open a fresh AI session with no prior Temple conversation, hidden fixture answer, or maintainer-only instruction.
+- Give that session only the repository-visible README, Core Path, and files it discovers through the normal Temple bootstrap and context flow.
+- Let the AI initialize the project and complete one bounded Work Item through closeout; using AI to read and execute the documentation is the supported path, not a test exception.
+- Start a second cold session and require it to recover the project, Position, Work Item result, evidence, and next safe action from repository state.
+- Retain completion, elapsed time, errors, rework, Human interventions, and documentation gaps. Token observation is optional, and unavailable values remain unknown.
+- Correct any hidden dependency or broken path before freezing a release candidate.
+
+This rehearsal validates the AI-assisted operating path. It does not establish that an unaided first-time human finds every document intuitive, and the first Alpha must not make that stronger usability claim. An external human study may be run later when broader adoption evidence is useful; it is not a publication gate.
 
 ### Step 2 — freeze one candidate
 
