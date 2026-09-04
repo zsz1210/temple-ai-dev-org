@@ -24852,6 +24852,86 @@
         "exit_code": 0,
         "started_at": "2026-09-04T11:59:40.000Z"
       }
+    },
+    {
+      "id": "EVID-20260904T124140Z-D9FEF490",
+      "work_item_id": "WI-0155",
+      "recorded_at": "2026-09-04T12:41:40.583Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Clean-room report candidate",
+      "outcome": "verified",
+      "scope_revision": "9d1d42b6aa86c7b25a572165703543bf1525e13e",
+      "observed_at": "2026-09-04T12:41:40.583Z",
+      "summary": "Bounded clean-room result and human-facing report recorded.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "9d1d42b6aa86c7b25a572165703543bf1525e13e"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "9d1d42b6aa86c7b25a572165703543bf1525e13e",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T124140Z-9741C1FA",
+      "work_item_id": "WI-0155",
+      "recorded_at": "2026-09-04T12:41:40.834Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Clean-room developer verification",
+      "outcome": "pass",
+      "scope_revision": "9d1d42b6aa86c7b25a572165703543bf1525e13e",
+      "observed_at": "2026-09-04T12:40:59.000Z",
+      "summary": "Source fast gate and disposable target tests, Doctor, and clean-state checks passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0155/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0155/developer-test-observation.json",
+          "sha256": "27e4e1135f09b63d126fe502fe43862861ce30452c27a0e02dc38743b655dda2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0155/work-order.md",
+          "sha256": "6ecdb78355d628506a71674f547f187ec46dfaa91e48908eb4ea6b51d2d09a17"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0155/clean-room-result.json",
+          "sha256": "cfbef6a58f7124789ec973cb381c4f281a6b63355a4c7f0048a74e070db4e885"
+        },
+        {
+          "path": "docs/validation/fresh-session-clean-room-rehearsal.md",
+          "sha256": "24790e196aba4b61166890948c7b86a597572f7b4177f7b07bca88e491d4a586"
+        }
+      ],
+      "details": {
+        "command": [
+          "source repository: npm run verify:fast",
+          "disposable QueueKeep repository: npm test",
+          "disposable QueueKeep repository: node ./templew.mjs doctor . --json",
+          "disposable QueueKeep repository: git status --porcelain"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T12:40:57.000Z"
+      }
     }
   ]
 }

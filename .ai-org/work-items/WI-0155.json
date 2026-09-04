@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0155",
   "title": "Run fresh-session clean-room release rehearsal",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-04T12:24:59.626Z",
-  "updated_at": "2026-09-04T12:26:55.761Z",
+  "updated_at": "2026-09-04T12:42:22.482Z",
   "scope": [
     "Freeze the merged Temple revision, initialize one disposable new project through a fresh Codex task, complete one bounded Work Item, recover it from a second independent task, and record timing, errors, interventions, documentation gaps, and truthful usage availability without publishing or releasing."
   ],
@@ -59,26 +59,28 @@
   "overlap_resolution": [],
   "claim": {
     "id": "claim-20260904122655-56bc7abf",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "base_revision": "779ba588f4c7315871c4ff0eaeb1df76bfca669a",
     "branch": "codex/wi-0155-clean-room-rehearsal",
     "worktree": null,
     "claimed_at": "2026-09-04T12:26:55.761Z",
-    "released_at": null
+    "released_at": "2026-09-04T12:42:22.482Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
       "id": "claim-20260904122655-56bc7abf",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "779ba588f4c7315871c4ff0eaeb1df76bfca669a",
       "branch": "codex/wi-0155-clean-room-rehearsal",
       "worktree": null,
       "claimed_at": "2026-09-04T12:26:55.761Z",
-      "released_at": null
+      "released_at": "2026-09-04T12:42:22.482Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -99,11 +101,37 @@
     ],
     "profile_eligibility": [
       ".ai-org/artifacts/WI-0155/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0155/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0155/developer-verification.md",
+      ".ai-org/artifacts/WI-0155/developer-test-observation.json",
+      "docs/validation/fresh-session-clean-room-rehearsal.md",
+      "EVID-20260904T124140Z-D9FEF490",
+      "EVID-20260904T124140Z-9741C1FA"
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0155/work-order.md"
+    ".ai-org/artifacts/WI-0155/work-order.md",
+    ".ai-org/artifacts/WI-0155/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0155/developer-verification.md",
+    ".ai-org/artifacts/WI-0155/developer-test-observation.json",
+    "docs/validation/fresh-session-clean-room-rehearsal.md",
+    "EVID-20260904T124140Z-D9FEF490",
+    "EVID-20260904T124140Z-9741C1FA"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "engineering_manager",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "9d1d42b6aa86c7b25a572165703543bf1525e13e",
+      "artifact": ".ai-org/artifacts/WI-0155/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T12:42:05.442Z"
+    }
+  ],
+  "developer_candidate_revision": "9d1d42b6aa86c7b25a572165703543bf1525e13e"
 }
