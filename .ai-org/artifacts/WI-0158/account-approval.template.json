@@ -1,0 +1,24 @@
+{
+  "schema_version": "temple.final-clean-room-approval/v1",
+  "work_item_id": "WI-0158",
+  "protocol_sha256": "45aab90fa45b9502df0d886cf24bfb42a265a8cb684a9de70e143c6bdf6881e3",
+  "approved_by": "repository-owner",
+  "approved_at": "REPLACE_WITH_ISO_TIMESTAMP",
+  "included_pro_allowance_accepted": false,
+  "approved_model": "gpt-5.6-terra",
+  "approved_reasoning_effort": "medium",
+  "approved_task_count": 2,
+  "approved_task_order": [
+    "delivery",
+    "cold_recovery"
+  ],
+  "approved_max_wall_clock_ms_per_task": 720000,
+  "approved_max_program_wall_clock_ms": 1440000,
+  "operational_token_ceiling": "unavailable_on_create_thread",
+  "max_retries": 0,
+  "fallback_allowed": false,
+  "automatic_credit_reload_disabled": true,
+  "purchased_credits_authorized": false,
+  "usage_reset_authorized": false,
+  "publication_authorized": false
+}

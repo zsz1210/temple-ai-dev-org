@@ -1,0 +1,224 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0158",
+  "title": "Run final pre-Alpha clean-room rehearsal",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-04T14:03:37.719Z",
+  "updated_at": "2026-09-04T14:31:57.697Z",
+  "scope": [
+    "Freeze an exact post-WI-0157 Temple package and neutral QueueKeep participant brief without publication.",
+    "Run one fresh Terra medium delivery task and one separate Terra medium cold-recovery task with no inherited Temple conversation or maintainer coaching.",
+    "Record elapsed time, errors, retries, rework, Human interventions, application tests, Status, Doctor, and reliable or unknown Token data; compare only with the bounded WI-0155 and WI-0156 observations.",
+    "Reconcile the validation index and Alpha release-readiness record while keeping version, visibility, tag, GitHub Release, npm, and announcement decisions separate."
+  ],
+  "acceptance_criteria": [
+    "A clean exact-source package digest and inventory are frozen before any Provider task starts.",
+    "The delivery task either closes one bounded local Work Item with distinct Developer and Independent QA identities or retains its exact stop condition without coaching.",
+    "A second neutral cold task recovers the target repository state and next safe action from repository-visible evidence only, without coordinator Work Item contamination.",
+    "The final report states measured outcomes and limits, preserves unavailable Token data as unknown, and does not claim general speed, quality, or cost improvement from one run.",
+    "Exact-candidate repository verification, distinct Independent QA, and hosted CI pass before integration; no public release action occurs."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0158",
+    ".ai-org/work-items/WI-0158.json",
+    "docs/validation/final-pre-alpha-clean-room.md",
+    "docs/validation/README.md",
+    "docs/planning/release-readiness.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [
+      "independent-assurance-required"
+    ],
+    "rationale": "Provider-backed release qualification needs explicit evidence, independent review, and a retained stop boundary.",
+    "evidence_refs": [
+      "docs/planning/release-readiness.md"
+    ],
+    "evaluated_at": "2026-09-04T14:03:37.719Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "3ffd987c9a487783f1c8fbeed735af94f19dbc80",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260904143157-2bb66a98",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "3ffd987c9a487783f1c8fbeed735af94f19dbc80",
+    "branch": "codex/wi-0158-final-clean-room",
+    "worktree": null,
+    "claimed_at": "2026-09-04T14:31:57.427Z",
+    "released_at": "2026-09-04T14:31:57.697Z",
+    "release_reason": "work_item_closed"
+  },
+  "claims": [
+    {
+      "id": "claim-20260904141045-541457b1",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "54d14f4e94a930719ca7674ebf1ad74be89de7ac",
+      "branch": "codex/wi-0158-final-clean-room",
+      "worktree": null,
+      "claimed_at": "2026-09-04T14:10:45.611Z",
+      "released_at": "2026-09-04T14:27:42.423Z",
+      "release_reason": [
+        "Developer evidence handed to Quality & Evaluation"
+      ]
+    },
+    {
+      "id": "claim-20260904142756-08440e9b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "3ffd987c9a487783f1c8fbeed735af94f19dbc80",
+      "branch": "codex/wi-0158-final-clean-room",
+      "worktree": null,
+      "claimed_at": "2026-09-04T14:27:56.636Z",
+      "released_at": "2026-09-04T14:31:17.980Z",
+      "release_reason": [
+        "Exact-candidate test Evidence recorded"
+      ]
+    },
+    {
+      "id": "claim-20260904143118-7bb9eb1a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "3ffd987c9a487783f1c8fbeed735af94f19dbc80",
+      "branch": "codex/wi-0158-final-clean-room",
+      "worktree": null,
+      "claimed_at": "2026-09-04T14:31:18.589Z",
+      "released_at": "2026-09-04T14:31:18.843Z",
+      "release_reason": [
+        "Quality evaluation recorded"
+      ]
+    },
+    {
+      "id": "claim-20260904143119-e44f652d",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "3ffd987c9a487783f1c8fbeed735af94f19dbc80",
+      "branch": "codex/wi-0158-final-clean-room",
+      "worktree": null,
+      "claimed_at": "2026-09-04T14:31:19.406Z",
+      "released_at": "2026-09-04T14:31:56.866Z",
+      "release_reason": [
+        "Independent QA pass recorded"
+      ]
+    },
+    {
+      "id": "claim-20260904143157-2bb66a98",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "3ffd987c9a487783f1c8fbeed735af94f19dbc80",
+      "branch": "codex/wi-0158-final-clean-room",
+      "worktree": null,
+      "claimed_at": "2026-09-04T14:31:57.427Z",
+      "released_at": "2026-09-04T14:31:57.697Z",
+      "release_reason": "work_item_closed"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0158/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0158/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0158/approved-scope.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0158/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0158/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0158/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0158/developer-verification.md",
+      ".ai-org/artifacts/WI-0158/final-clean-room-result.json"
+    ],
+    "test_evidence": [
+      "EVID-20260904T143102Z-E2501EFF"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0158/quality-evaluation.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0158/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0158/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0158/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0158/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0158/work-order.md",
+    ".ai-org/artifacts/WI-0158/approved-scope.md",
+    ".ai-org/artifacts/WI-0158/technical-design.md",
+    ".ai-org/artifacts/WI-0158/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0158/developer-verification.md",
+    ".ai-org/artifacts/WI-0158/final-clean-room-result.json",
+    "EVID-20260904T143102Z-E2501EFF",
+    ".ai-org/artifacts/WI-0158/quality-evaluation.md",
+    ".ai-org/artifacts/WI-0158/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0158/release-record.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "3ffd987c9a487783f1c8fbeed735af94f19dbc80",
+      "artifact": ".ai-org/artifacts/WI-0158/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T14:27:42.155Z"
+    }
+  ],
+  "developer_candidate_revision": "3ffd987c9a487783f1c8fbeed735af94f19dbc80",
+  "tested_revision": "3ffd987c9a487783f1c8fbeed735af94f19dbc80",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
+}

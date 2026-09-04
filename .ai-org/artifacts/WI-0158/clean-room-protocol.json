@@ -1,0 +1,64 @@
+{
+  "schema_version": "temple.final-clean-room-protocol/v1",
+  "work_item_id": "WI-0158",
+  "created_at": "2026-09-04T14:06:34Z",
+  "purpose": "Final pre-Alpha clean-room delivery and repository-only recovery rehearsal",
+  "source": {
+    "revision": "54d14f4e94a930719ca7674ebf1ad74be89de7ac",
+    "package": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.29",
+    "tarball_sha256": "43cefd40bcb5d21a3159419eb89d31d691f0ac81a9489a38a4b4824ad5cf2f0b",
+    "tarball_sha1": "7067f97e2b6b27fcb155ab1ccbd6f8b998c3d135",
+    "tarball_bytes": 804392,
+    "unpacked_bytes": 3192729,
+    "archive_entries": 374,
+    "npm_integrity": "sha512-0iY03IxJ/TX2FKzHU0tI3+kPNBsffIdH9taS9ElPmmEH4Qd4mbMiwsoxFgadQpiX5QvliPoL+ZD/AAuHfLXCsA==",
+    "published": false
+  },
+  "scenario": {
+    "product": "QueueKeep",
+    "delivery_request": "Build a local CLI that adds short text items, lists pending items, marks one item complete, persists state between invocations, and includes deterministic automated tests.",
+    "target_start": "empty disposable local directory",
+    "target_remote": false
+  },
+  "provider": {
+    "execution_origin": "codex-host-owned",
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "medium",
+    "service_allowance": "ChatGPT Pro included allowance only",
+    "task_count": 2,
+    "order": [
+      "delivery",
+      "cold_recovery"
+    ],
+    "max_wall_clock_ms_per_task": 720000,
+    "max_program_wall_clock_ms": 1440000,
+    "operational_token_ceiling": "unavailable_on_create_thread",
+    "max_retries": 0,
+    "fallback_allowed": false,
+    "usage_reset_authorized": false,
+    "purchased_credits_authorized": false,
+    "automatic_credit_reload_allowed": false
+  },
+  "task_isolation": {
+    "fresh_tasks": true,
+    "shared_conversation": false,
+    "maintainer_coaching": false,
+    "recovery_receives_delivery_output": false,
+    "recovery_receives_coordinator_work_item_id": false,
+    "recovery_mutation_allowed": false
+  },
+  "external_actions": {
+    "network_required_by_product": false,
+    "push": false,
+    "deployment": false,
+    "repository_visibility_change": false,
+    "tag": false,
+    "github_release": false,
+    "npm_publication": false,
+    "announcement": false
+  },
+  "comparison_refs": [
+    ".ai-org/artifacts/WI-0155/clean-room-result.json",
+    ".ai-org/artifacts/WI-0156/clean-room-comparison.json"
+  ]
+}

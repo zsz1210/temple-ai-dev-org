@@ -5,8 +5,8 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 157 total, 0 active
-- Codex tasks: 10 registered, 10 archive-ready
+- Work items: 158 total, 0 active
+- Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 16
+- Attention signals: 18
 
 ## Collaboration
 
@@ -205,6 +205,7 @@
 | WI-0155 | Run fresh-session clean-room release rehearsal | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9d1d42b6` | 2 | 9 | 0 |
 | WI-0156 | Reduce fresh-session onboarding friction | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `336bd945` | 2 | 11 | 0 |
 | WI-0157 | Harden lifecycle evidence guidance | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0155149d` | 0 | 10 | 0 |
+| WI-0158 | Run final pre-Alpha clean-room rehearsal | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3ffd987c` | 2 | 10 | 0 |
 
 ## Codex task registry
 
@@ -220,6 +221,8 @@
 | task-0008 | WI-0155 | WI-0155 · Run fresh-session clean… · Independent QA (Lulu) | Independent QA / Lulu | human | codex/wi-0155-clean-room-rehearsal | completed | `—` | ready |
 | task-0009 | WI-0156 | WI-0156 · Reduce fresh-session onboar… · Developer (Rikku) | Developer / Rikku | human | codex/wi-0156-onboarding-hardening | completed | `—` | ready |
 | task-0010 | WI-0156 | WI-0156 · Reduce fresh-session on… · Independent QA (Lulu) | Independent QA / Lulu | human | codex/wi-0156-onboarding-hardening | completed | `—` | ready |
+| task-0011 | WI-0158 | WI-0158 · Run final pre-Alpha clean-r… · Developer (Rikku) | Developer / Rikku | human | codex/wi-0158-final-clean-room | completed | `—` | ready |
+| task-0012 | WI-0158 | WI-0158 · Run final pre-Alpha cle… · Independent QA (Lulu) | Independent QA / Lulu | human | codex/wi-0158-final-clean-room | completed | `—` | ready |
 
 ## Runtime workers and shared resources
 
@@ -268,6 +271,8 @@
 - task-0008 can be archived
 - task-0009 can be archived
 - task-0010 can be archived
+- task-0011 can be archived
+- task-0012 can be archived
 - worker-20260830090102-322fa6b7 is failed
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
@@ -353,14 +358,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-04T13:54:51.840Z | work_item_closed | WI-0157 | agent-mog |
-| 2026-09-04T13:54:51.840Z | release_gate_completed | WI-0157 | agent-mog |
-| 2026-09-04T13:54:38.584Z | work_item_transitioned | WI-0157 | agent-lulu |
-| 2026-09-04T13:53:57.983Z | work_item_transitioned | WI-0157 | agent-lulu |
-| 2026-09-04T13:53:37.544Z | work_item_transitioned | WI-0157 | agent-lulu |
-| 2026-09-04T13:53:22.381Z | evidence_recorded | WI-0157 | agent-lulu |
-| 2026-09-04T13:53:14.017Z | work_item_transitioned | WI-0157 | agent-rikku |
-| 2026-09-04T13:53:07.707Z | handoff_created | WI-0157 | agent-rikku |
+| 2026-09-04T14:31:57.697Z | work_item_closed | WI-0158 | agent-mog |
+| 2026-09-04T14:31:57.697Z | release_gate_completed | WI-0158 | agent-mog |
+| 2026-09-04T14:31:57.427Z | work_item_claimed | WI-0158 | human |
+| 2026-09-04T14:31:57.138Z | work_item_transitioned | WI-0158 | agent-lulu |
+| 2026-09-04T14:31:56.866Z | work_item_claim_released | WI-0158 | human |
+| 2026-09-04T14:31:19.406Z | work_item_claimed | WI-0158 | human |
+| 2026-09-04T14:31:19.116Z | work_item_transitioned | WI-0158 | agent-lulu |
+| 2026-09-04T14:31:18.843Z | work_item_claim_released | WI-0158 | human |
 
 ## Assignments
 
