@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0141",
   "title": "Run the live Context Capsule route-adherence comparison",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-04T03:05:47.013Z",
-  "updated_at": "2026-09-04T03:34:24.219Z",
+  "updated_at": "2026-09-04T03:35:18.766Z",
   "scope": [
     "Freeze and execute a bounded live comparison that measures whether stage-aware Context Capsules reduce off-route source acquisition without reducing task correctness, using the accepted WI-0140 instrumentation design.",
     "Keep WI-0140 evidence immutable and create all new protocol, approval, observation, analysis, and report artifacts under WI-0141.",
@@ -123,6 +123,18 @@
     ],
     "independent_qa_pass": [
       "EVID-20260904T033413Z-4DD12191"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0141/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0141/independent-qa.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0141/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0141/account-approval.json"
     ]
   },
   "evidence": [
@@ -140,10 +152,11 @@
     ".ai-org/artifacts/WI-0141/quality-evaluation.md",
     ".ai-org/artifacts/WI-0141/handoff-005-independent_qa-to-release_manager.md",
     "EVID-20260904T033413Z-4DD12191",
-    ".ai-org/artifacts/WI-0141/independent-qa.md"
+    ".ai-org/artifacts/WI-0141/independent-qa.md",
+    ".ai-org/artifacts/WI-0141/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "product_manager",
@@ -181,5 +194,11 @@
       "created_at": "2026-09-04T03:34:23.938Z"
     }
   ],
-  "developer_candidate_revision": "cd3d43c52f002b3a9efad09fd1a099c367a661b1"
+  "developer_candidate_revision": "cd3d43c52f002b3a9efad09fd1a099c367a661b1",
+  "tested_revision": "e0d7f37da79ccaa3ce7f6a0f51167e261b2c2af9",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0141/account-approval.json"
 }
