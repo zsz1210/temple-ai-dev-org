@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0150",
   "title": "Replace external novice gate with clean-room rehearsal",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-04T09:14:25.095Z",
-  "updated_at": "2026-09-04T09:15:04.449Z",
+  "updated_at": "2026-09-04T09:18:55.995Z",
   "scope": [
     "Replace the mandatory friend-run new-user Alpha gate with a reproducible fresh-session, new-project rehearsal that uses only repository-visible instructions and permits AI assistance.",
     "Preserve the honest boundary that this does not prove unaided human documentation usability, and perform no release or publication action."
@@ -55,26 +55,28 @@
   "overlap_resolution": [],
   "claim": {
     "id": "claim-20260904091504-d88779cc",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "base_revision": "bcdba618ef8c8ab3399b40cb9928f3e05e0311f6",
     "branch": "codex/wi-0150-clean-room-release-rehearsal",
     "worktree": null,
     "claimed_at": "2026-09-04T09:15:04.449Z",
-    "released_at": null
+    "released_at": "2026-09-04T09:17:57.291Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
       "id": "claim-20260904091504-d88779cc",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "bcdba618ef8c8ab3399b40cb9928f3e05e0311f6",
       "branch": "codex/wi-0150-clean-room-release-rehearsal",
       "worktree": null,
       "claimed_at": "2026-09-04T09:15:04.449Z",
-      "released_at": null
+      "released_at": "2026-09-04T09:17:57.291Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -95,11 +97,46 @@
     ],
     "profile_eligibility": [
       ".ai-org/artifacts/WI-0150/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0150/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260904T091748Z-E0E51483",
+      "EVID-20260904T091748Z-F512CC4A"
+    ],
+    "implementation": [
+      "EVID-20260904T091748Z-E0E51483"
+    ],
+    "test_evidence": [
+      "EVID-20260904T091748Z-F512CC4A",
+      "EVID-20260904T091841Z-0C051949"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0150/quality-evaluation.md"
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0150/work-order.md"
+    ".ai-org/artifacts/WI-0150/work-order.md",
+    ".ai-org/artifacts/WI-0150/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260904T091748Z-E0E51483",
+    "EVID-20260904T091748Z-F512CC4A",
+    "EVID-20260904T091841Z-0C051949",
+    ".ai-org/artifacts/WI-0150/quality-evaluation.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "f01cafc6611ce387760fb822e11b202775767615",
+      "artifact": ".ai-org/artifacts/WI-0150/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T09:17:56.977Z"
+    }
+  ],
+  "developer_candidate_revision": "f01cafc6611ce387760fb822e11b202775767615",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
 }

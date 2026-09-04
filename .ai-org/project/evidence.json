@@ -24105,6 +24105,145 @@
         "exit_code": 0,
         "started_at": "2026-09-04T09:04:50Z"
       }
+    },
+    {
+      "id": "EVID-20260904T091748Z-E0E51483",
+      "work_item_id": "WI-0150",
+      "recorded_at": "2026-09-04T09:17:48.033Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Clean-room rehearsal planning candidate",
+      "outcome": "verified",
+      "scope_revision": "f01cafc6611ce387760fb822e11b202775767615",
+      "observed_at": "2026-09-04T09:17:48.033Z",
+      "summary": "Current planning replaces the external novice gate with an AI-assisted fresh-session rehearsal.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "f01cafc6611ce387760fb822e11b202775767615"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "f01cafc6611ce387760fb822e11b202775767615",
+        "working_tree_dirty": true,
+        "dirty_path_count": 2,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T091748Z-F512CC4A",
+      "work_item_id": "WI-0150",
+      "recorded_at": "2026-09-04T09:17:48.292Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer verification",
+      "outcome": "pass",
+      "scope_revision": "f01cafc6611ce387760fb822e11b202775767615",
+      "observed_at": "2026-09-04T09:17:22Z",
+      "summary": "Planning alignment, 25 focused tests, and 422 full tests passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0150/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0150/developer-test-observation.json",
+          "sha256": "8845c5fa41b70a71ac4c99ba06cb235b18ee44c665830e568c067ba8150d6c16"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0150/developer-verification.md",
+          "sha256": "dfbfd58465315c3de37b38112084d1884d82365d21ff176175e6ad6c81e84e29"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0150/work-order.md",
+          "sha256": "1d70238fa43f6095a824f7de03550d86f3ebe7f741b4ebc7d60cb1f4b776159e"
+        },
+        {
+          "path": "docs/planning/release-readiness.md",
+          "sha256": "ba14dc322908af1800c4012e2f469f87bd76b8aaff934348f5efbe640d12a4db"
+        },
+        {
+          "path": "docs/planning/roadmap.md",
+          "sha256": "f8c27a1cd7fa3dd484da0b137f7f4366876d05a395e28c8203b4e1e220cca273"
+        }
+      ],
+      "details": {
+        "command": [
+          "git diff --check",
+          "npm run verify:fast",
+          "npm run verify",
+          "Current planning terminology and claim-boundary review"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T09:15:20Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T091841Z-0C051949",
+      "work_item_id": "WI-0150",
+      "recorded_at": "2026-09-04T09:18:41.008Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent clean-room gate review",
+      "outcome": "pass",
+      "scope_revision": "f01cafc6611ce387760fb822e11b202775767615",
+      "observed_at": "2026-09-04T09:18:14Z",
+      "summary": "Exact-revision planning alignment and claim-boundary review passed; the rehearsal itself remains pending.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0150/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0150/quality-test-observation.json",
+          "sha256": "b97e16701e8d5d0d4b90dc28cb103f6387a2ff9c42b7757bc39e4f464579e944"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0150/quality-evaluation.md",
+          "sha256": "84093d696ee3e6879310b5fdc35753ce62dad29d7d347bd6e191455707fe7952"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0150/developer-verification.md",
+          "sha256": "dfbfd58465315c3de37b38112084d1884d82365d21ff176175e6ad6c81e84e29"
+        },
+        {
+          "path": "docs/planning/release-readiness.md",
+          "sha256": "ba14dc322908af1800c4012e2f469f87bd76b8aaff934348f5efbe640d12a4db"
+        },
+        {
+          "path": "docs/planning/roadmap.md",
+          "sha256": "f8c27a1cd7fa3dd484da0b137f7f4366876d05a395e28c8203b4e1e220cca273"
+        }
+      ],
+      "details": {
+        "command": [
+          "Detached exact-revision reconstruction with unchanged lockfile-matched dependencies",
+          "npm run check",
+          "npm run test:fast",
+          "Roadmap and Alpha readiness gate alignment inspection",
+          "Historical WI-0086 no-change verification"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T09:17:50Z"
+      }
     }
   ]
 }
