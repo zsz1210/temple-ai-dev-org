@@ -1,0 +1,35 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "e02ab92ca845858fb519c0ca0daafadc2c63a8b9",
+  "command": [
+    "npm run verify"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T05:01:17Z",
+  "completed_at": "2026-09-04T05:02:29Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0143/live-protocol.json",
+    ".ai-org/artifacts/WI-0143/live-observation.json",
+    ".ai-org/artifacts/WI-0143/effectiveness-analysis.json",
+    ".ai-org/artifacts/WI-0143/effectiveness-report.md"
+  ],
+  "summary": {
+    "full_tests_passed": 413,
+    "full_tests_failed": 0,
+    "candidate_turns_completed": 8,
+    "candidate_turns_failed": 0,
+    "objective_correctness_passed": 8,
+    "acquisition_coverage_complete": true,
+    "unknown_acquisition_records": 0,
+    "off_route_acquisition_records": 0,
+    "total_operational_tokens": 233040,
+    "approved_operational_token_limit": 524000,
+    "retry_count": 0,
+    "fallback_count": 0,
+    "human_intervention_count": 0,
+    "rework_count": 0,
+    "causal_efficiency_claim": false,
+    "external_write_performed": false
+  }
+}

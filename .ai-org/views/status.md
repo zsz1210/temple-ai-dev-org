@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
 - Work items: 143 total, 6 active
 - Codex tasks: 6 registered, 6 archive-ready
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -190,7 +190,7 @@
 | WI-0140 | Measure and enforce Context Capsule route adherence | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1216896f` | 0 | 16 | 0 |
 | WI-0141 | Run the live Context Capsule route-adherence comparison | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e0d7f37d` | 0 | 16 | 0 |
 | WI-0142 | Harden reusable model and process evaluation controls | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f6a007da` | 0 | 18 | 0 |
-| WI-0143 | Validate cache-controlled Context Capsule effectiveness | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260904044158-a12d98b1 | `—` | 0 | 7 | 0 |
+| WI-0143 | Validate cache-controlled Context Capsule effectiveness | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e02ab92c` | 0 | 18 | 3 |
 
 ## Codex task registry
 
@@ -332,14 +332,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-04T04:41:58.072Z | work_item_claimed | WI-0143 | human |
-| 2026-09-04T04:41:57.788Z | work_item_coordination_configured | WI-0143 | agent-rikku |
-| 2026-09-04T04:41:57.533Z | work_item_transitioned | WI-0143 | agent-tidus |
-| 2026-09-04T04:41:57.282Z | handoff_created | WI-0143 | agent-tidus |
-| 2026-09-04T04:41:48.627Z | work_item_transitioned | WI-0143 | agent-yuna |
-| 2026-09-04T04:41:48.367Z | handoff_created | WI-0143 | agent-yuna |
-| 2026-09-04T04:41:41.448Z | work_item_transitioned | WI-0143 | agent-mog |
-| 2026-09-04T04:41:41.166Z | handoff_created | WI-0143 | agent-mog |
+| 2026-09-04T05:06:05.441Z | work_item_transitioned | WI-0143 | agent-lulu |
+| 2026-09-04T05:06:05.150Z | handoff_created | WI-0143 | agent-lulu |
+| 2026-09-04T05:06:04.953Z | evidence_recorded | WI-0143 | human |
+| 2026-09-04T05:04:54.769Z | work_item_transitioned | WI-0143 | agent-lulu |
+| 2026-09-04T05:04:54.529Z | handoff_created | WI-0143 | agent-lulu |
+| 2026-09-04T05:04:44.087Z | work_item_transitioned | WI-0143 | agent-lulu |
+| 2026-09-04T05:04:43.887Z | evidence_recorded | WI-0143 | human |
+| 2026-09-04T05:03:35.032Z | work_item_transitioned | WI-0143 | agent-rikku |
 
 ## Assignments
 

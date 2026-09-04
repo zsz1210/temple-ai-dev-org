@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0143",
   "title": "Validate cache-controlled Context Capsule effectiveness",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-04T04:37:02.048Z",
-  "updated_at": "2026-09-04T04:41:58.072Z",
+  "updated_at": "2026-09-04T05:06:05.441Z",
   "scope": [
     "Run one bounded live process-only comparison of Routed Context versus Full-load Context using the same approved model and reasoning effort across matched task shapes.",
     "Freeze assignment order, cache-control rule, acquisition classification, quality rubric, Provider contract, privacy boundary, operational Token ceiling, wall-clock ceiling, zero retry, and zero fallback before generation.",
@@ -56,7 +56,7 @@
   "base_revision": "3b75297762230f1d0d6d71972d6a1c8b811567ab",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
-  "planned_agent_id": "agent-rikku",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [
@@ -64,26 +64,32 @@
   ],
   "claim": {
     "id": "claim-20260904044158-a12d98b1",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "base_revision": "3b75297762230f1d0d6d71972d6a1c8b811567ab",
     "branch": "codex/wi-0143-cache-controlled-context-experiment",
     "worktree": null,
     "claimed_at": "2026-09-04T04:41:58.072Z",
-    "released_at": null
+    "released_at": "2026-09-04T05:03:34.794Z",
+    "release_reason": [
+      "Developer handoff to Quality Evaluator completed."
+    ]
   },
   "claims": [
     {
       "id": "claim-20260904044158-a12d98b1",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "3b75297762230f1d0d6d71972d6a1c8b811567ab",
       "branch": "codex/wi-0143-cache-controlled-context-experiment",
       "worktree": null,
       "claimed_at": "2026-09-04T04:41:58.072Z",
-      "released_at": null
+      "released_at": "2026-09-04T05:03:34.794Z",
+      "release_reason": [
+        "Developer handoff to Quality Evaluator completed."
+      ]
     }
   ],
   "gate_evidence": {
@@ -101,6 +107,23 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0143/technical-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0143/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0143/live-observation.json",
+      ".ai-org/artifacts/WI-0143/effectiveness-analysis.json",
+      "EVID-20260904T050323Z-F4585C73"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0143/quality-test-observation.json"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0143/quality-evaluation.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0143/independent-qa-report.md"
     ]
   },
   "evidence": [
@@ -110,10 +133,25 @@
     ".ai-org/artifacts/WI-0143/approved-scope.md",
     ".ai-org/work-items/WI-0143.json",
     ".ai-org/artifacts/WI-0143/handoff-003-tech_lead-to-developer.md",
-    ".ai-org/artifacts/WI-0143/technical-design.md"
+    ".ai-org/artifacts/WI-0143/technical-design.md",
+    ".ai-org/artifacts/WI-0143/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0143/live-observation.json",
+    ".ai-org/artifacts/WI-0143/effectiveness-analysis.json",
+    "EVID-20260904T050323Z-F4585C73",
+    ".ai-org/artifacts/WI-0143/quality-test-observation.json",
+    ".ai-org/artifacts/WI-0143/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0143/quality-evaluation.md",
+    "EVID-20260904T050443Z-31430DC1",
+    ".ai-org/artifacts/WI-0143/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0143/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0143/independent-qa-test-observation.json"
   ],
-  "unresolved": [],
-  "next_position": "quality_evaluator",
+  "unresolved": [
+    "Causal efficiency remains blocked because cache-share balance exceeded the frozen two-point threshold in one pair for each project shape.",
+    "No universal routing-efficiency claim is supported; multi-repository cache variance requires a separately designed successor experiment.",
+    "Integration may retain the experiment and method, but no routing-policy or public efficiency claim follows from this result."
+  ],
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -135,6 +173,28 @@
       "input_revision": "3b75297762230f1d0d6d71972d6a1c8b811567ab",
       "artifact": ".ai-org/artifacts/WI-0143/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-04T04:41:57.282Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "e02ab92ca845858fb519c0ca0daafadc2c63a8b9",
+      "artifact": ".ai-org/artifacts/WI-0143/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T05:03:34.507Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "e02ab92ca845858fb519c0ca0daafadc2c63a8b9",
+      "artifact": ".ai-org/artifacts/WI-0143/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-04T05:04:54.529Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "e02ab92ca845858fb519c0ca0daafadc2c63a8b9",
+      "artifact": ".ai-org/artifacts/WI-0143/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-04T05:06:05.150Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "e02ab92ca845858fb519c0ca0daafadc2c63a8b9"
 }
