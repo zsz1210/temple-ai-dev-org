@@ -3,7 +3,7 @@
 - Candidate revision: `c2ebaa1d7e5da8c43bf7d382ddeaae2d8ff61c99`
 - Position: Developer
 - Agent Identity: Rikku (`agent-rikku`)
-- Result: generation-free preparation and bounded live execution completed; registered effectiveness outcome is inconclusive
+- Result: generation-free preparation passed; live generation remains blocked by exact approval
 
 ## Implemented
 
@@ -34,15 +34,6 @@
 
 Both pairs use identical repository manifests. These deterministic byte reductions qualify the fixture for a live comparison; they are not Token, latency, quality, cost, or population-wide savings claims.
 
-## Live execution
-
-- Four of four Terra candidate turns completed once in the frozen order.
-- Observed use: 106,300 Operational Tokens.
-- Retry, fallback, and reroute: 0.
-- Both context treatments recovered the exact revisions and operational facts.
-- Exact-string correctness rejected a trailing period in the single-repository result and explanatory text after the exact contract identifier in the multi-repository result for both treatments.
-- Requested effort was `medium`; Provider telemetry observed thread effort as `high` and left effective turn effort unavailable.
-
 ## Remaining boundary
 
-The frozen protocol therefore remains inconclusive and must not be rescored after observing its outputs. The required successor repair is a typed-fact evaluator proven against retained outputs without generation. Any further Provider run requires a new protocol and separate approval. The current result authorizes no release, publication, automatic routing, or general efficiency claim.
+No live candidate has run. The project usage policy requires exact approval of the frozen protocol before four Provider turns may start. The implementation does not authorize Credits purchase, automatic refill, reset use, retry, fallback, reroute, release, or publication.
