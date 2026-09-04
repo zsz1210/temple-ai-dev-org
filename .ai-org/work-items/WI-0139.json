@@ -6,7 +6,7 @@
   "owner_position": "product_manager",
   "assigned_agent_id": "agent-yuna",
   "created_at": "2026-09-04T01:28:56.515Z",
-  "updated_at": "2026-09-04T01:29:51.363Z",
+  "updated_at": "2026-09-04T01:30:11.566Z",
   "scope": [
     "Replace prose-equality scoring with canonical typed facts and identifiers for the single-repository and coordinator multi-repository recovery scenarios.",
     "Prove the evaluator against retained WI-0138 outputs without changing or rescoring the historical WI-0138 result.",
@@ -50,7 +50,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "b766d670a42744f192e19e2189694db5ea1809bd",
+  "base_revision": "dba104c",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -60,16 +60,15 @@
     "WI-0138: historical artifacts and result remain frozen; WI-0139 alone may evolve the current harness and test contract for a new protocol."
   ],
   "claim": {
-    "id": "claim-20260904012918-2f593af5",
-    "status": "released",
+    "id": "claim-20260904013011-dd63c552",
+    "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-mog",
-    "base_revision": "b766d670a42744f192e19e2189694db5ea1809bd",
+    "agent_id": "agent-yuna",
+    "base_revision": "dba104c",
     "branch": "codex/wi-0139-typed-context-evaluator",
     "worktree": null,
-    "claimed_at": "2026-09-04T01:29:18.148Z",
-    "released_at": "2026-09-04T01:29:51.363Z",
-    "release_reason": "position_transition"
+    "claimed_at": "2026-09-04T01:30:11.566Z",
+    "released_at": null
   },
   "claims": [
     {
@@ -83,6 +82,17 @@
       "claimed_at": "2026-09-04T01:29:18.148Z",
       "released_at": "2026-09-04T01:29:51.363Z",
       "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904013011-dd63c552",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "dba104c",
+      "branch": "codex/wi-0139-typed-context-evaluator",
+      "worktree": null,
+      "claimed_at": "2026-09-04T01:30:11.566Z",
+      "released_at": null
     }
   ],
   "gate_evidence": {
