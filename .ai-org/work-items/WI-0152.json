@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0152",
   "title": "Add auditable self-hosting evidence profiles",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-04T10:48:07.802Z",
-  "updated_at": "2026-09-04T10:53:32.375Z",
+  "updated_at": "2026-09-04T11:23:57.594Z",
   "scope": [
     "Define and implement auditable self-hosting evidence profiles that preserve useful repository evidence, normalize local environment identifiers, keep credentials and raw runtime data local, audit public readiness, clean package-facing examples, and document the capability. Excludes changing GitHub visibility, rewriting Git history, changing collaborator permissions, publishing npm, or creating a formal release."
   ],
@@ -86,7 +86,7 @@
       "resources": []
     }
   },
-  "base_revision": "03a523758b040bac931826deb36f5029f94d46bc",
+  "base_revision": "b7e1706f01d343738d63594cba79e3b48728b87b",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -94,15 +94,16 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260904105332-e6929fb7",
-    "status": "active",
+    "id": "claim-20260904112346-77aeda13",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "03a523758b040bac931826deb36f5029f94d46bc",
+    "agent_id": "agent-mog",
+    "base_revision": "b7e1706f01d343738d63594cba79e3b48728b87b",
     "branch": "codex/wi-0152-public-evidence-profile",
     "worktree": null,
-    "claimed_at": "2026-09-04T10:53:32.375Z",
-    "released_at": null
+    "claimed_at": "2026-09-04T11:23:46.092Z",
+    "released_at": "2026-09-04T11:23:57.594Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -149,14 +150,53 @@
     },
     {
       "id": "claim-20260904105332-e6929fb7",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "03a523758b040bac931826deb36f5029f94d46bc",
       "branch": "codex/wi-0152-public-evidence-profile",
       "worktree": null,
       "claimed_at": "2026-09-04T10:53:32.375Z",
-      "released_at": null
+      "released_at": "2026-09-04T11:17:47.071Z",
+      "release_reason": [
+        "Exact candidate and developer verification handed to Quality Evaluator"
+      ]
+    },
+    {
+      "id": "claim-20260904111759-18f6436a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "b7e1706f01d343738d63594cba79e3b48728b87b",
+      "branch": "codex/wi-0152-public-evidence-profile",
+      "worktree": null,
+      "claimed_at": "2026-09-04T11:17:59.895Z",
+      "released_at": "2026-09-04T11:22:04.868Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904112250-0696c3f0",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "b7e1706f01d343738d63594cba79e3b48728b87b",
+      "branch": "codex/wi-0152-public-evidence-profile",
+      "worktree": null,
+      "claimed_at": "2026-09-04T11:22:50.298Z",
+      "released_at": "2026-09-04T11:23:33.748Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904112346-77aeda13",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "b7e1706f01d343738d63594cba79e3b48728b87b",
+      "branch": "codex/wi-0152-public-evidence-profile",
+      "worktree": null,
+      "claimed_at": "2026-09-04T11:23:46.092Z",
+      "released_at": "2026-09-04T11:23:57.594Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -174,6 +214,35 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0152/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0152/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260904T111638Z-8B72A2E2",
+      "EVID-20260904T111733Z-D4E0F110",
+      ".ai-org/artifacts/WI-0152/developer-verification.md"
+    ],
+    "test_evidence": [
+      "EVID-20260904T112158Z-0F29D944"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0152/quality-evaluation.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260904T112323Z-9F78C213"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0152/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0152/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0152/release-record.md"
+    ],
+    "required_human_approval": [
+      "Human approved implementation of the bounded WI-0152 scope in the current Codex task on 2026-09-04; this is not approval to publish the repository or package."
     ]
   },
   "evidence": [
@@ -184,10 +253,20 @@
     ".ai-org/artifacts/WI-0152/handoff-003-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0152/technical-design.md",
     ".ai-org/artifacts/WI-0152/risk-review.md",
-    "docs/adr/0048-auditable-self-hosting-evidence-profiles.md"
+    "docs/adr/0048-auditable-self-hosting-evidence-profiles.md",
+    ".ai-org/artifacts/WI-0152/handoff-004-developer-to-quality_evaluator.md",
+    "EVID-20260904T111638Z-8B72A2E2",
+    "EVID-20260904T111733Z-D4E0F110",
+    ".ai-org/artifacts/WI-0152/developer-verification.md",
+    "EVID-20260904T112158Z-0F29D944",
+    ".ai-org/artifacts/WI-0152/quality-evaluation.md",
+    ".ai-org/artifacts/WI-0152/handoff-005-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0152/independent-qa-report.md",
+    "EVID-20260904T112323Z-9F78C213",
+    ".ai-org/artifacts/WI-0152/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -209,6 +288,27 @@
       "input_revision": "HEAD",
       "artifact": ".ai-org/artifacts/WI-0152/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-04T10:53:31.495Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "b7e1706f01d343738d63594cba79e3b48728b87b",
+      "artifact": ".ai-org/artifacts/WI-0152/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T11:17:46.764Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "b7e1706f01d343738d63594cba79e3b48728b87b",
+      "artifact": ".ai-org/artifacts/WI-0152/handoff-005-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-04T11:23:33.455Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "b7e1706f01d343738d63594cba79e3b48728b87b",
+  "tested_revision": "b7e1706f01d343738d63594cba79e3b48728b87b",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "Human approved implementation of the bounded WI-0152 scope in the current Codex task on 2026-09-04; this is not approval to publish the repository or package."
 }

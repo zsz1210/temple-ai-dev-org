@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 152 total, 1 active
+- Work items: 152 total, 0 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -199,7 +199,7 @@
 | WI-0149 | Refresh current Alpha release readiness | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `8d2b1135` | 0 | 6 | 0 |
 | WI-0150 | Replace external novice gate with clean-room rehearsal | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f01cafc6` | 0 | 6 | 0 |
 | WI-0151 | Reconcile historical nonterminal Work Items | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `7e2ed6a2` | 0 | 6 | 0 |
-| WI-0152 | Add auditable self-hosting evidence profiles | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260904105332-e6929fb7 | `—` | 0 | 8 | 0 |
+| WI-0152 | Add auditable self-hosting evidence profiles | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b7e1706f` | 0 | 18 | 0 |
 
 ## Codex task registry
 
@@ -340,14 +340,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-04T10:53:32.375Z | work_item_claimed | WI-0152 | human |
-| 2026-09-04T10:53:32.114Z | work_item_transitioned | WI-0152 | agent-tidus |
-| 2026-09-04T10:53:31.855Z | work_item_claim_released | WI-0152 | human |
-| 2026-09-04T10:53:31.495Z | handoff_created | WI-0152 | agent-tidus |
-| 2026-09-04T10:51:38.638Z | work_item_claimed | WI-0152 | human |
-| 2026-09-04T10:51:38.366Z | work_item_transitioned | WI-0152 | agent-yuna |
-| 2026-09-04T10:51:38.094Z | work_item_claim_released | WI-0152 | human |
-| 2026-09-04T10:51:37.817Z | handoff_created | WI-0152 | agent-yuna |
+| 2026-09-04T11:23:57.594Z | work_item_closed | WI-0152 | agent-mog |
+| 2026-09-04T11:23:57.594Z | release_gate_completed | WI-0152 | agent-mog |
+| 2026-09-04T11:23:46.092Z | work_item_claimed | WI-0152 | human |
+| 2026-09-04T11:23:33.748Z | work_item_transitioned | WI-0152 | agent-lulu |
+| 2026-09-04T11:23:33.455Z | handoff_created | WI-0152 | agent-lulu |
+| 2026-09-04T11:23:23.044Z | evidence_recorded | WI-0152 | human |
+| 2026-09-04T11:22:50.298Z | work_item_claimed | WI-0152 | human |
+| 2026-09-04T11:22:04.868Z | work_item_transitioned | WI-0152 | agent-lulu |
 
 ## Assignments
 

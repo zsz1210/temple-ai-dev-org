@@ -24398,6 +24398,191 @@
         "exit_code": 0,
         "started_at": "2026-09-04T09:36:55Z"
       }
+    },
+    {
+      "id": "EVID-20260904T111638Z-8B72A2E2",
+      "work_item_id": "WI-0152",
+      "recorded_at": "2026-09-04T11:16:38.733Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Auditable Self-Hosting implementation candidate",
+      "outcome": "verified",
+      "scope_revision": "b7e1706f01d343738d63594cba79e3b48728b87b",
+      "observed_at": "2026-09-04T11:16:38.733Z",
+      "summary": "Exact candidate implements project-owned Evidence Profiles, value-redacted repository and package publication audit, legacy-baseline migration, package enforcement, documentation, and tests.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "b7e1706f01d343738d63594cba79e3b48728b87b"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "b7e1706f01d343738d63594cba79e3b48728b87b",
+        "working_tree_dirty": true,
+        "dirty_path_count": 2,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T111733Z-D4E0F110",
+      "work_item_id": "WI-0152",
+      "recorded_at": "2026-09-04T11:17:33.346Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer full verification",
+      "outcome": "pass",
+      "scope_revision": "b7e1706f01d343738d63594cba79e3b48728b87b",
+      "observed_at": "2026-09-04T11:16:22.000Z",
+      "summary": "427 tests, schema validation, Doctor, and public repository/package audits passed their bounded gates with no new blocker.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0152/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0152/developer-test-observation.json",
+          "sha256": "b064e4c7c6ea9edf8dbb97d7c30ef481f7fd3edca52df9b50f115b7e0e956678"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0152/developer-verification.md",
+          "sha256": "e910f5b5296438824f8bfcd20d1c8900f5c07b1dcc30e70efcba1a0330f9d2c1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0152/approved-scope.md",
+          "sha256": "a1b47a6356bb5a4a1158e075cbdddd8dd3a6346033c4c58b4bff125a77fc1bc0"
+        },
+        {
+          "path": "docs/operations/auditable-self-hosting.md",
+          "sha256": "7e6ca3b8e4b35bf7d5a27621bda603cc666540619fe9b845317ca5b6ceebed4a"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T11:14:18.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T112158Z-0F29D944",
+      "work_item_id": "WI-0152",
+      "recorded_at": "2026-09-04T11:21:58.159Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Fresh detached quality verification",
+      "outcome": "pass",
+      "scope_revision": "b7e1706f01d343738d63594cba79e3b48728b87b",
+      "observed_at": "2026-09-04T11:20:31.000Z",
+      "summary": "Exact candidate passed 30 fast tests, Doctor had zero failures, repository audit had zero blockers, and the npm package audit was clean.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0152/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0152/quality-test-observation.json",
+          "sha256": "80d9343b177092571ddc93337046ec7fe966a980c7fe9351ecceec05e897848d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0152/developer-verification.md",
+          "sha256": "e910f5b5296438824f8bfcd20d1c8900f5c07b1dcc30e70efcba1a0330f9d2c1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0152/approved-scope.md",
+          "sha256": "a1b47a6356bb5a4a1158e075cbdddd8dd3a6346033c4c58b4bff125a77fc1bc0"
+        },
+        {
+          "path": "docs/operations/auditable-self-hosting.md",
+          "sha256": "7e6ca3b8e4b35bf7d5a27621bda603cc666540619fe9b845317ca5b6ceebed4a"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached exact candidate: npm ci --ignore-scripts --no-audit --no-fund",
+          "fresh detached exact candidate: npm run verify:fast",
+          "fresh detached exact candidate: node ./templew.mjs doctor . --no-write --json",
+          "fresh detached exact candidate: node ./templew.mjs publication audit . --profile public --surface both --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T11:19:50.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T112323Z-9F78C213",
+      "work_item_id": "WI-0152",
+      "recorded_at": "2026-09-04T11:23:23.044Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent publication-boundary verification",
+      "outcome": "pass",
+      "scope_revision": "b7e1706f01d343738d63594cba79e3b48728b87b",
+      "observed_at": "2026-09-04T11:22:31.000Z",
+      "summary": "Independent QA reproduced the exact candidate in a detached worktree, challenged baseline and package isolation, and found no blocker.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0152/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0152/independent-qa-test-observation.json",
+          "sha256": "4ce39163abf33f0459350db9335dd914f9df3dd2a69411862dc3b77fa09c5d09"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0152/approved-scope.md",
+          "sha256": "a1b47a6356bb5a4a1158e075cbdddd8dd3a6346033c4c58b4bff125a77fc1bc0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0152/technical-design.md",
+          "sha256": "50c7b9441fd2b8b14da5c0bb2dbe46bae361ffd4ec36f3acf0edccf3a847e4bc"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0152/quality-evaluation.md",
+          "sha256": "aceb3053781b3286acd879242e5beac479bea0b426bf35215e7d5506144778b0"
+        },
+        {
+          "path": "docs/operations/auditable-self-hosting.md",
+          "sha256": "7e6ca3b8e4b35bf7d5a27621bda603cc666540619fe9b845317ca5b6ceebed4a"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached exact candidate: npm run verify:fast",
+          "fresh detached exact candidate: node --test test/publication-audit.test.mjs test/phase4-installation.test.mjs",
+          "fresh detached exact candidate: node ./templew.mjs doctor . --no-write --json",
+          "fresh detached exact candidate: node ./templew.mjs publication audit . --profile public --surface both --json",
+          "fresh detached exact candidate: node ./templew.mjs publication audit . --profile public --surface package --json",
+          "fresh detached exact candidate: git status --porcelain"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T11:19:50.000Z"
+      }
     }
   ]
 }

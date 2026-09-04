@@ -1,0 +1,37 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "b7e1706f01d343738d63594cba79e3b48728b87b",
+  "command": [
+    "fresh detached exact candidate: npm ci --ignore-scripts --no-audit --no-fund",
+    "fresh detached exact candidate: npm run verify:fast",
+    "fresh detached exact candidate: node ./templew.mjs doctor . --no-write --json",
+    "fresh detached exact candidate: node ./templew.mjs publication audit . --profile public --surface both --json"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T11:19:50.000Z",
+  "completed_at": "2026-09-04T11:20:31.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0152/developer-verification.md",
+    ".ai-org/artifacts/WI-0152/approved-scope.md",
+    "docs/operations/auditable-self-hosting.md"
+  ],
+  "summary": {
+    "repository_checks": "pass",
+    "documentation_links": "pass",
+    "package_boundary": "pass",
+    "tests_passed": 30,
+    "tests_failed": 0,
+    "doctor_pass": 36,
+    "doctor_warn": 1,
+    "doctor_fail": 0,
+    "repository_blocked_findings": 0,
+    "repository_review_required_findings": 402,
+    "retained_legacy_environment_occurrences": 334,
+    "binary_files_requiring_review": 68,
+    "package_files": 370,
+    "package_blocked_findings": 0,
+    "package_review_required_findings": 0,
+    "external_action_performed": false
+  }
+}
