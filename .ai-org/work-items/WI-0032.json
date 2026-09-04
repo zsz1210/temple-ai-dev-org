@@ -50,7 +50,7 @@
     "agent_id": "agent-lulu",
     "base_revision": "68d4cf448df8f76ba08ce9b64ddf2c27967a39a0",
     "branch": "review/independent-qa-wi-0032-federation",
-    "worktree": "/Users/zsz1210/.codex/worktrees/temple-independent-qa-wi-0032-federation",
+    "worktree": null,
     "claimed_at": "2026-08-30T14:24:54.795Z",
     "released_at": "2026-08-30T14:31:45.695Z",
     "release_reason": "position_transition"
@@ -63,7 +63,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "68d4cf448df8f76ba08ce9b64ddf2c27967a39a0",
       "branch": "review/wi-0032-federation-sandbox",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0032-federation",
+      "worktree": null,
       "claimed_at": "2026-08-30T13:58:29.106Z",
       "released_at": "2026-08-30T14:08:42.307Z",
       "release_reason": "position_transition"
@@ -75,7 +75,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "68d4cf448df8f76ba08ce9b64ddf2c27967a39a0",
       "branch": "review/qa-wi-0032-federation",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-qa-wi-0032-federation",
+      "worktree": null,
       "claimed_at": "2026-08-30T14:13:22.204Z",
       "released_at": "2026-08-30T14:20:48.847Z",
       "release_reason": "position_transition"
@@ -87,7 +87,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "68d4cf448df8f76ba08ce9b64ddf2c27967a39a0",
       "branch": "review/independent-qa-wi-0032-federation",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-independent-qa-wi-0032-federation",
+      "worktree": null,
       "claimed_at": "2026-08-30T14:24:54.795Z",
       "released_at": "2026-08-30T14:31:45.695Z",
       "release_reason": "position_transition"

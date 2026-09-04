@@ -126,7 +126,7 @@
       "agent_id": "agent-mog",
       "base_revision": "cefba7394a498f0a64af8b0a117bc9b4da1e1897",
       "branch": "codex/wi-0092-observer",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0092-observer",
+      "worktree": null,
       "claimed_at": "2026-09-02T00:31:40.958Z",
       "released_at": "2026-09-02T00:32:13.629Z",
       "release_reason": [
@@ -140,7 +140,7 @@
       "agent_id": "agent-yuna",
       "base_revision": "cefba7394a498f0a64af8b0a117bc9b4da1e1897",
       "branch": "codex/wi-0092-observer",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0092-observer",
+      "worktree": null,
       "claimed_at": "2026-09-02T00:32:30.371Z",
       "released_at": "2026-09-02T00:33:22.031Z",
       "release_reason": [
@@ -154,7 +154,7 @@
       "agent_id": "agent-tidus",
       "base_revision": "cefba7394a498f0a64af8b0a117bc9b4da1e1897",
       "branch": "codex/wi-0092-observer",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0092-observer",
+      "worktree": null,
       "claimed_at": "2026-09-02T00:33:22.687Z",
       "released_at": "2026-09-02T00:35:53.196Z",
       "release_reason": [
@@ -168,7 +168,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "cefba7394a498f0a64af8b0a117bc9b4da1e1897",
       "branch": "codex/wi-0092-observer",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0092-observer",
+      "worktree": null,
       "claimed_at": "2026-09-02T00:36:04.030Z",
       "released_at": "2026-09-02T00:52:11.945Z",
       "release_reason": [
@@ -182,7 +182,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "5e74864527cb2422aac67804efda3583194e6a58",
       "branch": "codex/wi-0092-observer",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0092-observer",
+      "worktree": null,
       "claimed_at": "2026-09-02T00:52:18.498Z",
       "released_at": "2026-09-02T00:55:55.914Z",
       "release_reason": [
@@ -196,7 +196,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "5e74864527cb2422aac67804efda3583194e6a58",
       "branch": "codex/wi-0092-observer",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0092-observer",
+      "worktree": null,
       "claimed_at": "2026-09-02T00:55:56.588Z",
       "released_at": "2026-09-02T01:37:47.203Z",
       "release_reason": "position_transition"

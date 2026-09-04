@@ -71,7 +71,7 @@
     "agent_id": "agent-rikku",
     "base_revision": "30d90808b0a136ddd12ec28dbf621b8210d756b5",
     "branch": "codex/wi-0111-quote-aware-command-policy",
-    "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0111",
+    "worktree": null,
     "claimed_at": "2026-09-02T15:08:06.322Z",
     "released_at": "2026-09-02T15:15:45.233Z",
     "release_reason": "position_transition"
@@ -84,7 +84,7 @@
       "agent_id": "agent-mog",
       "base_revision": "30d90808b0a136ddd12ec28dbf621b8210d756b5",
       "branch": "codex/wi-0111-quote-aware-command-policy",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0111",
+      "worktree": null,
       "claimed_at": "2026-09-02T15:08:04.600Z",
       "released_at": "2026-09-02T15:08:05.078Z",
       "release_reason": "position_transition"
@@ -96,7 +96,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "30d90808b0a136ddd12ec28dbf621b8210d756b5",
       "branch": "codex/wi-0111-quote-aware-command-policy",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0111",
+      "worktree": null,
       "claimed_at": "2026-09-02T15:08:06.322Z",
       "released_at": "2026-09-02T15:15:45.233Z",
       "release_reason": "position_transition"

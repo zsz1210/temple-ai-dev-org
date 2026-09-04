@@ -105,6 +105,10 @@ import {
 } from "./recovery.mjs";
 import { writeAuditExport } from "./audit-export.mjs";
 import { buildPublicationAudit } from "./publication-audit.mjs";
+import {
+  applyPublicationNormalization,
+  buildPublicationNormalizationPlan
+} from "./publication-normalization.mjs";
 import { buildFederatedPortfolio, readFederationRegistry, validateFederationRegistry } from "./federation.mjs";
 import {
   buildCrossRepositoryUsageReport,
@@ -143,6 +147,8 @@ Usage:
   temple restore recover [target] [--json]
   temple audit export [target] --output file [--work-item WI-ID] [--event-type type] [--redact-key key] [--max-events number] [--max-recovery-transactions number] [--max-event-bytes number] [--json]
   temple publication audit [target] [--profile private|public|restricted] [--surface repository|package|both] [--json]
+  temple publication normalize-plan [target] [--json]
+  temple publication normalize-apply [target] --work-item WI-ID --expected-plan sha256 --confirm-normalization [--actor id] [--json]
   temple federation validate [target] [--json]
   temple portfolio build [target] [--allowed-root directory] [--no-write] [--json]
   temple experiment inspect [target] --manifest path --allowed-root directory [--json]
@@ -252,7 +258,7 @@ Core commands:
   backup      Create and verify a transparent, content-addressed backup of project-owned Temple state.
   restore     Preview, apply, or safely recover an interrupted project-owned-state restore.
   audit       Export a bounded privacy-filtered audit record to an exclusive output file.
-  publication Audit tracked repository and package surfaces against a project Evidence Profile.
+  publication Audit publication surfaces or safely minimize machine-local details in terminal canonical state.
   federation  Validate coordinator-owned multi-repository federation configuration.
   portfolio   Build a read-only federated portfolio and optionally write its coordinator view.
   experiment  Inspect a bounded validation manifest or aggregate qualified participant usage.
@@ -316,7 +322,8 @@ const BOOLEAN_FLAGS = new Set([
   "--allow-replace",
   "--confirm-delete",
   "--activate",
-  "--confirm-replace"
+  "--confirm-replace",
+  "--confirm-normalization"
 ]);
 const VALUE_FLAGS = new Set([
   "--config",
@@ -1155,24 +1162,55 @@ async function runAudit(parsed) {
 
 async function runPublication(parsed) {
   const target = await assertSafeTarget(parsed.target);
-  if (parsed.action !== "audit") throw new Error(`Unknown publication action: ${parsed.action}`);
-  const result = await buildPublicationAudit(target, {
-    profileId: parsed.options["--profile"],
-    surface: parsed.options["--surface"]
-  });
-  printResult(parsed, result, [
-    `Publication audit: ${result.status}`,
-    `Profile / surface: ${result.profile} / ${result.requested_surface}`,
-    `Blocked / review required: ${result.summary.blocked} / ${result.summary.review_required}`,
-    `Files / binary review: ${result.summary.files} / ${result.summary.binary_files_requiring_review}`,
-    result.legacy_baseline
-      ? `Reviewed legacy baseline: ${result.legacy_baseline.revision}`
-      : "Reviewed legacy baseline: none",
-    "Matched values printed: no",
-    "Canonical state changed: no",
-    "Publication authorized: no"
-  ]);
-  return result.status === "blocked" ? 1 : 0;
+  if (parsed.action === "audit") {
+    const result = await buildPublicationAudit(target, {
+      profileId: parsed.options["--profile"],
+      surface: parsed.options["--surface"]
+    });
+    printResult(parsed, result, [
+      `Publication audit: ${result.status}`,
+      `Profile / surface: ${result.profile} / ${result.requested_surface}`,
+      `Blocked / review required: ${result.summary.blocked} / ${result.summary.review_required}`,
+      `Files / binary review: ${result.summary.files} / ${result.summary.binary_files_requiring_review}`,
+      result.legacy_baseline
+        ? `Reviewed legacy baseline: ${result.legacy_baseline.revision}`
+        : "Reviewed legacy baseline: none",
+      "Matched values printed: no",
+      "Canonical state changed: no",
+      "Publication authorized: no"
+    ]);
+    return result.status === "blocked" ? 1 : 0;
+  }
+  if (parsed.action === "normalize-plan") {
+    const result = await buildPublicationNormalizationPlan(target);
+    printResult(parsed, result, [
+      `Canonical normalization plan: ${result.status}`,
+      `Changed files / fields: ${result.summary.changed_files} / ${result.summary.change_count}`,
+      `Retained active coordinates: ${result.summary.retained_active_coordinates}`,
+      `Plan digest: ${result.plan_digest}`,
+      "Matched values printed: no",
+      "Canonical state changed: no",
+      "Publication authorized: no"
+    ]);
+    return 0;
+  }
+  if (parsed.action === "normalize-apply") {
+    const result = await withProjectMutationLock(target, () => applyPublicationNormalization(target, {
+      workItemId: parsed.options["--work-item"],
+      expectedPlan: parsed.options["--expected-plan"],
+      confirmNormalization: parsed.flags.has("--confirm-normalization"),
+      actor: parsed.options["--actor"]
+    }));
+    printResult(parsed, result, [
+      result.applied ? "Canonical normalization applied." : "Canonical state already minimized; no changes applied.",
+      `Changed files / fields: ${result.changed_files} / ${result.change_count}`,
+      `Plan digest: ${result.plan_digest}`,
+      `Audit event recorded: ${result.event_recorded ? "yes" : "no"}`,
+      "Publication authorized: no"
+    ]);
+    return 0;
+  }
+  throw new Error(`Unknown publication action: ${parsed.action}`);
 }
 
 async function runFederation(parsed) {

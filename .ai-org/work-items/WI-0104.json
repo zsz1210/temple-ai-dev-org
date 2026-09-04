@@ -59,7 +59,7 @@
     "agent_id": "agent-mog",
     "base_revision": "6385b89d077e3507d7220d3ff935ffa26119369c",
     "branch": "codex/wi-0104-local-microservices",
-    "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
+    "worktree": null,
     "claimed_at": "2026-09-02T09:40:00.433Z",
     "released_at": "2026-09-02T09:46:11.489Z",
     "release_reason": "work_item_closed"
@@ -72,7 +72,7 @@
       "agent_id": "agent-mog",
       "base_revision": "52071f2b9ebfdf3ff2bbfee05191746085d36ba0",
       "branch": "codex/wi-0104-local-microservices",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
+      "worktree": null,
       "claimed_at": "2026-09-02T08:56:57.647Z",
       "released_at": "2026-09-02T08:58:05.992Z",
       "release_reason": "position_transition"
@@ -84,7 +84,7 @@
       "agent_id": "agent-yuna",
       "base_revision": "52071f2b9ebfdf3ff2bbfee05191746085d36ba0",
       "branch": "codex/wi-0104-local-microservices",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
+      "worktree": null,
       "claimed_at": "2026-09-02T08:58:06.280Z",
       "released_at": "2026-09-02T08:58:45.355Z",
       "release_reason": "position_transition"
@@ -96,7 +96,7 @@
       "agent_id": "agent-tidus",
       "base_revision": "52071f2b9ebfdf3ff2bbfee05191746085d36ba0",
       "branch": "codex/wi-0104-local-microservices",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
+      "worktree": null,
       "claimed_at": "2026-09-02T08:58:45.627Z",
       "released_at": "2026-09-02T09:06:35.259Z",
       "release_reason": "position_transition"
@@ -108,7 +108,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "52071f2b9ebfdf3ff2bbfee05191746085d36ba0",
       "branch": "codex/wi-0104-local-microservices",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
+      "worktree": null,
       "claimed_at": "2026-09-02T09:06:35.536Z",
       "released_at": "2026-09-02T09:27:27.563Z",
       "release_reason": "position_transition"
@@ -120,7 +120,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
       "branch": "codex/wi-0104-local-microservices",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
+      "worktree": null,
       "claimed_at": "2026-09-02T09:27:27.806Z",
       "released_at": "2026-09-02T09:30:00.567Z",
       "release_reason": "position_transition"
@@ -132,7 +132,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "7d4c3dc9d2c82d137e80936a3e8e7f196ad8dbb3",
       "branch": "codex/wi-0104-local-microservices",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
+      "worktree": null,
       "claimed_at": "2026-09-02T09:30:00.806Z",
       "released_at": "2026-09-02T09:40:00.145Z",
       "release_reason": "position_transition"
@@ -144,7 +144,7 @@
       "agent_id": "agent-mog",
       "base_revision": "6385b89d077e3507d7220d3ff935ffa26119369c",
       "branch": "codex/wi-0104-local-microservices",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0104",
+      "worktree": null,
       "claimed_at": "2026-09-02T09:40:00.433Z",
       "released_at": "2026-09-02T09:46:11.489Z",
       "release_reason": "work_item_closed"

@@ -5264,7 +5264,7 @@
         }
       ],
       "details": {
-        "environment": "Temple self-host repository on the Mac Mini, live loopback Control Plane with Codex observation, exact 192.168.79.5 LAN listener, Tailscale Serve tailnet-only HTTPS, curl, socket inspection, and fresh Chromium through the LAN address",
+        "environment": "Temple self-host repository on the Mac Mini, live loopback Control Plane with Codex observation, exact <PRIVATE_IPV4> LAN listener, Tailscale Serve tailnet-only HTTPS, curl, socket inspection, and fresh Chromium through the LAN address",
         "scenario": "Start loopback, private-LAN, and Tailscale viewers concurrently; inspect exact listening sockets; fetch the redacted LAN snapshot; reject LAN Inbox and Agent Command access; load Tailscale; and render the LAN Dashboard at 1440 by 1000 and 420 by 900",
         "provenance": "live"
       }
@@ -5529,7 +5529,7 @@
         }
       ],
       "details": {
-        "environment": "Temple self-host repository on the Mac Mini, live loopback Control Plane with Codex observation, exact 192.168.79.5 home-LAN read-only listener, and fresh Chromium sessions",
+        "environment": "Temple self-host repository on the Mac Mini, live loopback Control Plane with Codex observation, exact <PRIVATE_IPV4> home-LAN read-only listener, and fresh Chromium sessions",
         "scenario": "Render and navigate the redesigned Dashboard on loopback desktop at 1440 by 1000, loopback mobile at 420 by 900, and home-LAN private tablet at 1024 by 1366; inspect responsibility and work-item counts, canonical ownership, private-viewer redaction, snapshot wording, console output, and horizontal overflow",
         "provenance": "live"
       }
@@ -5750,7 +5750,7 @@
         }
       ],
       "details": {
-        "environment": "Temple self-host repository on the Mac Mini, live exact 192.168.79.5 home-LAN read-only listener, and fresh Chromium sessions",
+        "environment": "Temple self-host repository on the Mac Mini, live exact <PRIVATE_IPV4> home-LAN read-only listener, and fresh Chromium sessions",
         "scenario": "Render Dashboard Now on a private tablet viewport at 1024 by 1366 and mobile viewport at 420 by 900; verify grouped recovery priority and count, bounded attention, System navigation, underlying condition visibility, private-viewer redaction, console output, and horizontal overflow",
         "provenance": "live"
       }
@@ -6091,7 +6091,7 @@
         }
       ],
       "details": {
-        "environment": "Temple self-host repository on the Mac Mini, live loopback Control Plane with Codex observation, exact 192.168.79.5 home-LAN read-only listener, Tailscale Serve private viewer, and fresh headed Chromium",
+        "environment": "Temple self-host repository on the Mac Mini, live loopback Control Plane with Codex observation, exact <PRIVATE_IPV4> home-LAN read-only listener, Tailscale Serve private viewer, and fresh headed Chromium",
         "scenario": "Render and navigate Temple Workspace at 3440 by 1440, 2560 by 1080, 1440 by 1000, 1024 by 1366, 768 by 1024, and 390 by 844; inspect fluid content width, sidebar modes, mobile drawer accessibility, light and dark persistence, Team modes, legacy route normalization, private-viewer boundaries, console output, and horizontal overflow",
         "provenance": "live"
       }
@@ -6347,7 +6347,7 @@
         }
       ],
       "details": {
-        "environment": "Temple self-host repository on the Mac Mini, live Control Plane with Codex observation, exact 192.168.79.5 home-LAN read-only listener, and fresh headed Chromium",
+        "environment": "Temple self-host repository on the Mac Mini, live Control Plane with Codex observation, exact <PRIVATE_IPV4> home-LAN read-only listener, and fresh headed Chromium",
         "scenario": "Render and interact with Team Structure and Teammates at 3440, 2560, 390, and 320 CSS-pixel widths; verify dark default, stored light preference, all 10 Position nodes, Agent highlighting, assurance labels, keyboard tab operation, private-viewer redaction, console output, and horizontal overflow",
         "provenance": "live"
       }
@@ -6629,7 +6629,7 @@
         }
       ],
       "details": {
-        "environment": "Temple self-host repository on the Mac Mini, live Control Plane with Codex observation, exact 192.168.79.5 home-LAN read-only listener, and a fresh headed Chromium session",
+        "environment": "Temple self-host repository on the Mac Mini, live Control Plane with Codex observation, exact <PRIVATE_IPV4> home-LAN read-only listener, and a fresh headed Chromium session",
         "scenario": "Render Work at 3440, 1440, 1024, and 390 CSS-pixel widths; expand WI-0049; verify human status labels, View details and Hide details, nested technical details, one quiet Last updated timestamp, private-viewer redaction, browser console output, and horizontal overflow",
         "provenance": "live"
       }
@@ -7308,7 +7308,7 @@
         }
       ],
       "details": {
-        "environment": "Temple self-host repository on the Mac Mini, real local Codex App Server, loopback Control Plane, exact 192.168.79.5 home-LAN read-only Dashboard, and signed-in Codex account",
+        "environment": "Temple self-host repository on the Mac Mini, real local Codex App Server, loopback Control Plane, exact <PRIVATE_IPV4> home-LAN read-only Dashboard, and signed-in Codex account",
         "scenario": "Validate installed thread/start and turn/start contracts, then execute exactly one Provider-owned Luna Max read-only and network-disabled turn, verify its fixed output and detailed Token usage, and restore the normal Dashboard without retry",
         "provenance": "live"
       }
@@ -7502,7 +7502,7 @@
         }
       ],
       "details": {
-        "environment": "Temple self-host repository on the Mac Mini, corrected loopback Control Plane with real Codex App Server observation, and exact 192.168.79.5 home-LAN read-only Dashboard",
+        "environment": "Temple self-host repository on the Mac Mini, corrected loopback Control Plane with real Codex App Server observation, and exact <PRIVATE_IPV4> home-LAN read-only Dashboard",
         "scenario": "Archive a second journal corrupted by the pre-fix live process, rebuild canonical events, start the corrected Control Plane through a real startup notification burst, stop it cleanly, reopen the same journal, and verify strict cursors plus Dashboard health",
         "provenance": "live"
       }
@@ -7719,7 +7719,7 @@
         }
       ],
       "details": {
-        "environment": "Temple self-host repository on the Mac Mini, loopback Control Plane with real Codex App Server observation, and 192.168.79.5 home-LAN read-only Temple Workspace",
+        "environment": "Temple self-host repository on the Mac Mini, loopback Control Plane with real Codex App Server observation, and <PRIVATE_IPV4> home-LAN read-only Temple Workspace",
         "scenario": "Start the exact archive-aware candidate without another model turn, read the preserved WI-0056 Provider usage from immutable local archives, verify the loopback and LAN snapshots, and visually review Usage at wide and tablet widths",
         "provenance": "live"
       }
@@ -8126,7 +8126,7 @@
         }
       ],
       "details": {
-        "environment": "Temple self-host repository on the Mac Mini, live Control Plane with Codex observation, exact 192.168.79.5 home-LAN read-only listener, and headed Chromium through Playwright",
+        "environment": "Temple self-host repository on the Mac Mini, live Control Plane with Codex observation, exact <PRIVATE_IPV4> home-LAN read-only listener, and headed Chromium through Playwright",
         "scenario": "Open Team, switch to Teammates, verify truthful model states and provenance at 1720x980, 1024x900, and 390x844, inspect the mobile Rikku card, check the browser console, and confirm the LAN mutation route returns HTTP 405",
         "provenance": "live"
       }
@@ -13172,7 +13172,7 @@
         }
       ],
       "details": {
-        "environment": "Managed-local macOS LaunchAgent with loopback 127.0.0.1:8766 and private home-LAN viewer 192.168.79.5:41741",
+        "environment": "Managed-local macOS LaunchAgent with loopback 127.0.0.1:8766 and private home-LAN viewer <PRIVATE_IPV4>:41741",
         "scenario": "Restart the installed Observer from the exact candidate; compare home-LAN and loopback Usage snapshots; scan the private response for local-path markers; attempt a private-viewer POST",
         "provenance": "live"
       }
@@ -17183,7 +17183,7 @@
         "command": [
           "npm run verify",
           "node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
-          "node .ai-org/artifacts/WI-0107/run-wave-5a.mjs --work-item-id WI-0113 --approval-path .ai-org/artifacts/WI-0113/account-approval.json --preflight-output .ai-org/artifacts/WI-0113/preflight-observation.json --lab-root /Users/zsz1210/Documents/ChatGPT/temple-wave-5a-lab-r8",
+          "node .ai-org/artifacts/WI-0107/run-wave-5a.mjs --work-item-id WI-0113 --approval-path .ai-org/artifacts/WI-0113/account-approval.json --preflight-output .ai-org/artifacts/WI-0113/preflight-observation.json --lab-root <LOCAL_HOME>/Documents/ChatGPT/temple-wave-5a-lab-r8",
           "re-run public and hidden acceptance suites against all four exact candidate revisions",
           "assert every candidate repository is clean"
         ],
@@ -25330,6 +25330,60 @@
         ],
         "exit_code": 0,
         "started_at": "2026-09-04T15:18:23Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T155335Z-E25932B8",
+      "work_item_id": "WI-0161",
+      "recorded_at": "2026-09-04T15:53:35.806Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0161 exact-candidate clean-worktree verification",
+      "outcome": "pass",
+      "scope_revision": "0b289921efdb93ef58bbfd2c17de6d0c4faef3fa",
+      "observed_at": "2026-09-04T15:52:55.000Z",
+      "summary": "Exact candidate passed canonical normalization proof, public audit with zero blockers, repository checks, and all 438 tests",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0161/test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0161/test-observation.json",
+          "sha256": "58a0705479bdd5b3bfd950e1c6fbaaf03261d4c9828ff611576ec98b2c52eed2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0161/canonical-plan.json",
+          "sha256": "4b3a3c8357efc47eb3909c152f34ae95c549ede47f0fa7c9921b26e32d877332"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0161/canonical-correction-plan.json",
+          "sha256": "4fbb9cd7ef1bcd24833c3a5e7f83a746480a2eed04a6ad82bf659197e2ad466f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0161/dogfood-result.json",
+          "sha256": "f1b733996452f5ce7e2b08d624b523bc9f45564c643ce994a57adaa8d5d0dda4"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0161/verify-canonical-normalization.mjs",
+          "sha256": "06ec55543c0b86ecca9c55139328cf696009ddc5eae9c7fdddbe7c92ce221684"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm ci --ignore-scripts",
+          "node ./.ai-org/artifacts/WI-0161/verify-canonical-normalization.mjs",
+          "node ./templew.mjs publication audit . --profile public --surface both --json",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T15:51:20.000Z"
       }
     }
   ]

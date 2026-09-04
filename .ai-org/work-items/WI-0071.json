@@ -114,7 +114,7 @@
     "agent_id": "agent-mog",
     "base_revision": "406bc213d7b4d0345c4a6f90f5895cc77de4aa7a",
     "branch": "codex/wi-0071-skill-promotion",
-    "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0070-skill-promotion",
+    "worktree": null,
     "claimed_at": "2026-08-31T14:16:08.361Z",
     "released_at": "2026-08-31T14:16:08.664Z",
     "release_reason": "work_item_closed"
@@ -127,7 +127,7 @@
       "agent_id": "agent-mog",
       "base_revision": "bceb01ecf3af3c333fd843065646de11f1b39813",
       "branch": "codex/wi-0071-skill-promotion",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0070-skill-promotion",
+      "worktree": null,
       "claimed_at": "2026-08-31T13:45:22.007Z",
       "released_at": "2026-08-31T13:45:38.885Z",
       "release_reason": "position_transition"
@@ -139,7 +139,7 @@
       "agent_id": "agent-yuna",
       "base_revision": "bceb01ecf3af3c333fd843065646de11f1b39813",
       "branch": "codex/wi-0071-skill-promotion",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0070-skill-promotion",
+      "worktree": null,
       "claimed_at": "2026-08-31T13:45:49.717Z",
       "released_at": "2026-08-31T13:47:59.572Z",
       "release_reason": "position_transition"
@@ -151,7 +151,7 @@
       "agent_id": "agent-tidus",
       "base_revision": "bceb01ecf3af3c333fd843065646de11f1b39813",
       "branch": "codex/wi-0071-skill-promotion",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0070-skill-promotion",
+      "worktree": null,
       "claimed_at": "2026-08-31T13:48:00.186Z",
       "released_at": "2026-08-31T13:51:52.575Z",
       "release_reason": "position_transition"
@@ -163,7 +163,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "bceb01ecf3af3c333fd843065646de11f1b39813",
       "branch": "codex/wi-0071-skill-promotion",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0070-skill-promotion",
+      "worktree": null,
       "claimed_at": "2026-08-31T13:51:53.210Z",
       "released_at": "2026-08-31T14:12:56.742Z",
       "release_reason": "position_transition"
@@ -175,7 +175,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "406bc213d7b4d0345c4a6f90f5895cc77de4aa7a",
       "branch": "codex/wi-0071-skill-promotion",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0070-skill-promotion",
+      "worktree": null,
       "claimed_at": "2026-08-31T14:13:27.872Z",
       "released_at": "2026-08-31T14:14:02.659Z",
       "release_reason": "position_transition"
@@ -187,7 +187,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "406bc213d7b4d0345c4a6f90f5895cc77de4aa7a",
       "branch": "codex/wi-0071-skill-promotion",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0070-skill-promotion",
+      "worktree": null,
       "claimed_at": "2026-08-31T14:14:16.499Z",
       "released_at": "2026-08-31T14:15:40.489Z",
       "release_reason": "position_transition"
@@ -199,7 +199,7 @@
       "agent_id": "agent-mog",
       "base_revision": "406bc213d7b4d0345c4a6f90f5895cc77de4aa7a",
       "branch": "codex/wi-0071-skill-promotion",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0070-skill-promotion",
+      "worktree": null,
       "claimed_at": "2026-08-31T14:16:08.361Z",
       "released_at": "2026-08-31T14:16:08.664Z",
       "release_reason": "work_item_closed"

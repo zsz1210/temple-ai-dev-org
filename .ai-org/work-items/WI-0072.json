@@ -187,7 +187,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "5913ea0c3b1e68fdce21da93299e9e440fc52a39",
       "branch": "codex/wi-0072-independent-qa",
-      "worktree": "/tmp/temple-wi-0072-iqa.qMe6hO/candidate",
+      "worktree": null,
       "claimed_at": "2026-08-31T15:40:24.983Z",
       "released_at": "2026-08-31T15:41:30.786Z",
       "release_reason": [

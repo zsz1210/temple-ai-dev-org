@@ -61,7 +61,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "68d4cf448df8f76ba08ce9b64ddf2c27967a39a0",
       "branch": "review/wi-0035-ci-signal",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0035-ci",
+      "worktree": null,
       "claimed_at": "2026-08-30T13:58:29.374Z",
       "released_at": "2026-08-30T14:16:56.050Z",
       "release_reason": "position_transition"

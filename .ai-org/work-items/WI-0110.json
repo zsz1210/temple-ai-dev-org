@@ -52,7 +52,7 @@
     "agent_id": "agent-rikku",
     "base_revision": "8a9b1058db5444e5ac060f83eee7baf6e8e5d395",
     "branch": "codex/wi-0110-wave-5a-controlled-rerun",
-    "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0110",
+    "worktree": null,
     "claimed_at": "2026-09-02T14:51:58.265Z",
     "released_at": "2026-09-02T14:57:24.012Z",
     "release_reason": "position_transition"
@@ -65,7 +65,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "8a9b1058db5444e5ac060f83eee7baf6e8e5d395",
       "branch": "codex/wi-0110-wave-5a-controlled-rerun",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0110",
+      "worktree": null,
       "claimed_at": "2026-09-02T14:51:58.265Z",
       "released_at": "2026-09-02T14:57:24.012Z",
       "release_reason": "position_transition"

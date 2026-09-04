@@ -1,0 +1,33 @@
+{
+  "schema_version": "temple.publication-normalization-dogfood/v1",
+  "work_item_id": "WI-0161",
+  "matched_values_retained": false,
+  "plan_digest": "385f5f02cb46cc40e750c395d8b7481d164f5ecdd145061423a4709d50f4582e",
+  "status": "changes-pending",
+  "summary": {
+    "changed_files": 64,
+    "change_count": 314,
+    "retained_active_coordinates": 0,
+    "changes": {
+      "maintainer-home-path-posix": 1,
+      "private-ipv4": 11,
+      "released-claim-worktree": 275,
+      "terminal-task-worktree": 1,
+      "terminal-worker-worktree": 26
+    }
+  },
+  "public_audit_before": {
+    "canonical_finding_records": 245,
+    "canonical_occurrences": 245
+  },
+  "preserved_evidence_invariants": {
+    "entries": 571,
+    "artifact_refs": 1750,
+    "sha256": "26d2ae1538e624d515d878e079610902c848a7a84a70cff1120a22728ff12b2a"
+  },
+  "authority": {
+    "canonical_state_changed_by_preview": false,
+    "publication_authorized": false
+  }
+}
+

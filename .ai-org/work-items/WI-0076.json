@@ -108,7 +108,7 @@
     "agent_id": "agent-mog",
     "base_revision": "006ef1123d7d00560f56e0d03477737ea0ab9d10",
     "branch": "codex/wi-0076-multi-human-governance",
-    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "worktree": null,
     "claimed_at": "2026-08-31T18:59:21.579Z",
     "released_at": "2026-08-31T18:59:54.264Z",
     "release_reason": "work_item_closed"
@@ -121,7 +121,7 @@
       "agent_id": "agent-mog",
       "base_revision": "8d41f2bbe2d68e2540a7a000f733bcc3c44a3a50",
       "branch": "codex/wi-0076-multi-human-governance",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-08-31T18:14:49.413Z",
       "released_at": "2026-08-31T18:15:08.911Z",
       "release_reason": [
@@ -135,7 +135,7 @@
       "agent_id": "agent-yuna",
       "base_revision": "8d41f2bbe2d68e2540a7a000f733bcc3c44a3a50",
       "branch": "codex/wi-0076-multi-human-governance",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-08-31T18:15:09.499Z",
       "released_at": "2026-08-31T18:16:46.942Z",
       "release_reason": [
@@ -149,7 +149,7 @@
       "agent_id": "agent-tidus",
       "base_revision": "8d41f2bbe2d68e2540a7a000f733bcc3c44a3a50",
       "branch": "codex/wi-0076-multi-human-governance",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-08-31T18:16:47.507Z",
       "released_at": "2026-08-31T18:18:20.766Z",
       "release_reason": [
@@ -163,7 +163,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "8d41f2bbe2d68e2540a7a000f733bcc3c44a3a50",
       "branch": "codex/wi-0076-multi-human-governance",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-08-31T18:18:21.382Z",
       "released_at": "2026-08-31T18:56:48.453Z",
       "release_reason": [
@@ -177,7 +177,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "006ef1123d7d00560f56e0d03477737ea0ab9d10",
       "branch": "codex/wi-0076-multi-human-governance",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-08-31T18:56:57.568Z",
       "released_at": "2026-08-31T18:57:15.134Z",
       "release_reason": [
@@ -191,7 +191,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "006ef1123d7d00560f56e0d03477737ea0ab9d10",
       "branch": "codex/wi-0076-multi-human-governance",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-08-31T18:57:20.549Z",
       "released_at": "2026-08-31T18:59:15.950Z",
       "release_reason": [
@@ -205,7 +205,7 @@
       "agent_id": "agent-mog",
       "base_revision": "006ef1123d7d00560f56e0d03477737ea0ab9d10",
       "branch": "codex/wi-0076-multi-human-governance",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-08-31T18:59:21.579Z",
       "released_at": "2026-08-31T18:59:54.264Z",
       "release_reason": "work_item_closed"

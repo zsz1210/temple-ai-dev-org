@@ -51,7 +51,7 @@
     "agent_id": "agent-mog",
     "base_revision": "d2e2e8ed9ec8fd9476a529cfc1f37790220341d7",
     "branch": "codex/wi-0094-usage-performance",
-    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "worktree": null,
     "claimed_at": "2026-09-02T07:31:40.174Z",
     "released_at": "2026-09-02T07:31:55.126Z",
     "release_reason": "work_item_closed"
@@ -64,7 +64,7 @@
       "agent_id": "agent-mog",
       "base_revision": "d29fa5a",
       "branch": "codex/wi-0094-usage-performance",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-02T06:56:19.390Z",
       "released_at": "2026-09-02T07:06:42.026Z",
       "release_reason": "position_transition"
@@ -76,7 +76,7 @@
       "agent_id": "agent-yuna",
       "base_revision": "d29fa5a",
       "branch": "codex/wi-0094-usage-performance",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-02T07:06:42.279Z",
       "released_at": "2026-09-02T07:06:42.491Z",
       "release_reason": "position_transition"
@@ -88,7 +88,7 @@
       "agent_id": "agent-tidus",
       "base_revision": "d29fa5a",
       "branch": "codex/wi-0094-usage-performance",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-02T07:06:42.736Z",
       "released_at": "2026-09-02T07:06:42.956Z",
       "release_reason": "position_transition"
@@ -100,7 +100,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "d29fa5a",
       "branch": "codex/wi-0094-usage-performance",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-02T07:06:43.196Z",
       "released_at": "2026-09-02T07:15:53.698Z",
       "release_reason": "position_transition"
@@ -112,7 +112,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "d2e2e8ed9ec8fd9476a529cfc1f37790220341d7",
       "branch": "codex/wi-0094-usage-performance",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-02T07:15:53.977Z",
       "released_at": "2026-09-02T07:31:12.047Z",
       "release_reason": "position_transition"
@@ -124,7 +124,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "d2e2e8ed9ec8fd9476a529cfc1f37790220341d7",
       "branch": "codex/wi-0094-usage-performance",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-02T07:31:12.297Z",
       "released_at": "2026-09-02T07:31:39.935Z",
       "release_reason": "position_transition"
@@ -136,7 +136,7 @@
       "agent_id": "agent-mog",
       "base_revision": "d2e2e8ed9ec8fd9476a529cfc1f37790220341d7",
       "branch": "codex/wi-0094-usage-performance",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-02T07:31:40.174Z",
       "released_at": "2026-09-02T07:31:55.126Z",
       "release_reason": "work_item_closed"

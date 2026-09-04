@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 160 total, 0 active
+- Work items: 161 total, 0 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -208,6 +208,7 @@
 | WI-0158 | Run final pre-Alpha clean-room rehearsal | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3ffd987c` | 2 | 10 | 0 |
 | WI-0159 | Normalize public evidence paths without erasing provenance | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `fea56220` | 0 | 10 | 0 |
 | WI-0160 | Review retained public evidence and binary artifacts | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `407bf750` | 0 | 11 | 0 |
+| WI-0161 | Minimize local paths in canonical state | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0b289921` | 0 | 9 | 0 |
 
 ## Codex task registry
 
@@ -287,7 +288,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 35
+- Team-visible Work Items: 36
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -360,14 +361,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-04T15:21:40.393Z | work_item_closed | WI-0160 | agent-mog |
-| 2026-09-04T15:21:40.393Z | release_gate_completed | WI-0160 | agent-mog |
-| 2026-09-04T15:21:14.607Z | work_item_claimed | WI-0160 | human |
-| 2026-09-04T15:21:14.333Z | work_item_transitioned | WI-0160 | agent-lulu |
-| 2026-09-04T15:21:14.080Z | work_item_claimed | WI-0160 | human |
-| 2026-09-04T15:21:13.795Z | work_item_transitioned | WI-0160 | agent-lulu |
-| 2026-09-04T15:21:13.492Z | work_item_transitioned | WI-0160 | agent-lulu |
-| 2026-09-04T15:21:02.351Z | evidence_recorded | WI-0160 | human |
+| 2026-09-04T15:55:53.910Z | work_item_closed | WI-0161 | agent-mog |
+| 2026-09-04T15:55:53.910Z | release_gate_completed | WI-0161 | agent-mog |
+| 2026-09-04T15:55:12.392Z | work_item_claimed | WI-0161 | human |
+| 2026-09-04T15:55:12.114Z | work_item_transitioned | WI-0161 | agent-lulu |
+| 2026-09-04T15:55:11.823Z | work_item_transitioned | WI-0161 | agent-lulu |
+| 2026-09-04T15:54:37.637Z | work_item_transitioned | WI-0161 | agent-lulu |
+| 2026-09-04T15:53:35.806Z | evidence_recorded | WI-0161 | agent-lulu |
+| 2026-09-04T15:49:15.891Z | work_item_claimed | WI-0161 | human |
 
 ## Assignments
 

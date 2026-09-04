@@ -59,7 +59,7 @@
     "agent_id": "agent-mog",
     "base_revision": "43100b5ef602c8f3eb3b5d564cb06e9146ee4004",
     "branch": "codex/wi-0105-wave-4-boundaries",
-    "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0105",
+    "worktree": null,
     "claimed_at": "2026-09-02T10:44:18.863Z",
     "released_at": "2026-09-02T10:45:58.050Z",
     "release_reason": "work_item_closed"
@@ -72,7 +72,7 @@
       "agent_id": "agent-mog",
       "base_revision": "3b2e23ab0bc10a353d95b095e1f3eda5060c12b0",
       "branch": "codex/wi-0105-wave-4-boundaries",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0105",
+      "worktree": null,
       "claimed_at": "2026-09-02T09:51:34.948Z",
       "released_at": "2026-09-02T09:52:24.430Z",
       "release_reason": "position_transition"
@@ -84,7 +84,7 @@
       "agent_id": "agent-yuna",
       "base_revision": "3b2e23ab0bc10a353d95b095e1f3eda5060c12b0",
       "branch": "codex/wi-0105-wave-4-boundaries",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0105",
+      "worktree": null,
       "claimed_at": "2026-09-02T09:52:24.745Z",
       "released_at": "2026-09-02T10:01:59.868Z",
       "release_reason": "position_transition"
@@ -96,7 +96,7 @@
       "agent_id": "agent-tidus",
       "base_revision": "3b2e23ab0bc10a353d95b095e1f3eda5060c12b0",
       "branch": "codex/wi-0105-wave-4-boundaries",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0105",
+      "worktree": null,
       "claimed_at": "2026-09-02T10:02:00.120Z",
       "released_at": "2026-09-02T10:03:02.846Z",
       "release_reason": "position_transition"
@@ -108,7 +108,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "3b2e23ab0bc10a353d95b095e1f3eda5060c12b0",
       "branch": "codex/wi-0105-wave-4-boundaries",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0105",
+      "worktree": null,
       "claimed_at": "2026-09-02T10:03:03.111Z",
       "released_at": "2026-09-02T10:17:36.249Z",
       "release_reason": "position_transition"
@@ -120,7 +120,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "aedb344b5e531fc11092d352650d9c90f6763e54",
       "branch": "codex/wi-0105-wave-4-boundaries",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0105",
+      "worktree": null,
       "claimed_at": "2026-09-02T10:17:36.510Z",
       "released_at": "2026-09-02T10:19:44.740Z",
       "release_reason": "position_transition"
@@ -132,7 +132,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "76bd063ce212fb696e8fccfef0857ce2c391f98d",
       "branch": "codex/wi-0105-wave-4-boundaries",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0105",
+      "worktree": null,
       "claimed_at": "2026-09-02T10:19:45.056Z",
       "released_at": "2026-09-02T10:44:18.629Z",
       "release_reason": "position_transition"
@@ -144,7 +144,7 @@
       "agent_id": "agent-mog",
       "base_revision": "43100b5ef602c8f3eb3b5d564cb06e9146ee4004",
       "branch": "codex/wi-0105-wave-4-boundaries",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0105",
+      "worktree": null,
       "claimed_at": "2026-09-02T10:44:18.863Z",
       "released_at": "2026-09-02T10:45:58.050Z",
       "release_reason": "work_item_closed"

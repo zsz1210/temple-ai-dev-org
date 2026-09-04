@@ -54,7 +54,7 @@
     "agent_id": "agent-mog",
     "base_revision": "de841e94a1ec987230f767cfb5c8d5d90da7521f",
     "branch": "main",
-    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "worktree": null,
     "claimed_at": "2026-09-01T05:06:19.916Z",
     "released_at": "2026-09-01T05:06:20.216Z",
     "release_reason": "work_item_closed"
@@ -135,7 +135,7 @@
       "agent_id": "agent-mog",
       "base_revision": "de841e94a1ec987230f767cfb5c8d5d90da7521f",
       "branch": "main",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-01T05:06:19.916Z",
       "released_at": "2026-09-01T05:06:20.216Z",
       "release_reason": "work_item_closed"

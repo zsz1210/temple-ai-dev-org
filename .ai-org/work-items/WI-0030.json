@@ -53,7 +53,7 @@
     "agent_id": "agent-lulu",
     "base_revision": "ba066d73900ba2cba70366aeb65af11ec6b944d3",
     "branch": "main",
-    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "worktree": null,
     "claimed_at": "2026-08-30T13:14:10.031Z",
     "released_at": "2026-08-30T13:14:27.420Z",
     "release_reason": "position_transition"
@@ -66,7 +66,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "cfefd8a3e64757688ca85a34f6d47bbd45418409",
       "branch": "main",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-08-30T12:34:40.183Z",
       "released_at": "2026-08-30T12:54:34.795Z",
       "release_reason": "position_transition"
@@ -78,7 +78,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "ba066d73900ba2cba70366aeb65af11ec6b944d3",
       "branch": "main",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-08-30T12:56:04.996Z",
       "released_at": "2026-08-30T13:07:13.381Z",
       "release_reason": "position_transition"
@@ -90,7 +90,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "ba066d73900ba2cba70366aeb65af11ec6b944d3",
       "branch": "main",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-08-30T13:14:10.031Z",
       "released_at": "2026-08-30T13:14:27.420Z",
       "release_reason": "position_transition"

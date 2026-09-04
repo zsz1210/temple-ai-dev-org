@@ -73,7 +73,7 @@
     "agent_id": "agent-rikku",
     "base_revision": "7dda4c6b3e1fc9fd16b1fcc55b794e1f1c5d5de5",
     "branch": "main",
-    "worktree": "/Users/zsz1210/Documents/Codex/2026-08-29/new-chat/ai-development-org-template",
+    "worktree": null,
     "claimed_at": "2026-08-30T09:07:31.560Z",
     "released_at": "2026-08-30T09:11:09.129Z",
     "release_reason": [
@@ -88,7 +88,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "7dda4c6b3e1fc9fd16b1fcc55b794e1f1c5d5de5",
       "branch": "main",
-      "worktree": "/Users/zsz1210/Documents/Codex/2026-08-29/new-chat/ai-development-org-template",
+      "worktree": null,
       "claimed_at": "2026-08-30T09:07:31.560Z",
       "released_at": "2026-08-30T09:11:09.129Z",
       "release_reason": [

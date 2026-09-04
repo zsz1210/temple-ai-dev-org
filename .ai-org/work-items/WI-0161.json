@@ -1,0 +1,220 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0161",
+  "title": "Minimize local paths in canonical state",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-04T15:30:13.873Z",
+  "updated_at": "2026-09-04T15:55:53.910Z",
+  "scope": [
+    "Add a deterministic, stale-safe publication command that previews and applies field-aware minimization of machine-local paths and private network identifiers in canonical Work Items, terminal runtime workers, completed tasks, and Evidence details without exposing matched values.",
+    "Dogfood the command on Temple's current canonical state and record a value-redacted manifest that preserves lifecycle, Evidence identity, revision, artifact digest, and audit history.",
+    "Keep retained artifact normalization, first-party and vendored fixture cleanup, historical Git rewriting, visibility, version, tag, Release, npm, and announcement outside this Work Item."
+  ],
+  "acceptance_criteria": [
+    "Preview is read-only, value-redacted, stable for unchanged inputs, and bound to a plan digest; apply requires the exact current plan and explicit confirmation.",
+    "Only released Work Item claims, terminal runtime workers, terminal tasks, and allowlisted local-environment fields in Evidence details are minimized; active execution coordinates and evidence artifact paths are never changed.",
+    "Apply is atomic, idempotent, schema-valid, audit-event bearing, and reduces the canonical-state publication findings from 245 occurrences to zero without changing Evidence IDs or artifact digests.",
+    "Full verification and Independent QA pass at an exact candidate; no publication or history rewrite occurs."
+  ],
+  "affected_paths": [
+    "src/publication-normalization.mjs",
+    "src/cli.mjs",
+    "test/publication-normalization.test.mjs",
+    "docs/operations/auditable-self-hosting.md",
+    ".ai-org/work-items",
+    ".ai-org/project/evidence.json",
+    ".ai-org/project/runtime-workers.json",
+    ".ai-org/project/tasks.json",
+    ".ai-org/artifacts/WI-0161",
+    "docs/validation/publication-evidence-review.md",
+    "docs/planning/release-readiness.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [
+      "independent-assurance-required"
+    ],
+    "rationale": "Canonical privacy minimization changes durable lifecycle and Evidence records, so it requires a stale-safe plan, rollback, exact-candidate tests, and Independent QA.",
+    "evidence_refs": [
+      "docs/validation/publication-evidence-review.md"
+    ],
+    "evaluated_at": "2026-09-04T15:30:13.872Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "0b289921efdb93ef58bbfd2c17de6d0c4faef3fa",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260904155512-36f9b726",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "0b289921efdb93ef58bbfd2c17de6d0c4faef3fa",
+    "branch": "codex/wi-0161-canonical-path-minimization",
+    "worktree": null,
+    "claimed_at": "2026-09-04T15:55:12.392Z",
+    "released_at": "2026-09-04T15:55:53.910Z",
+    "release_reason": "work_item_closed"
+  },
+  "claims": [
+    {
+      "id": "claim-20260904153014-ccf3bb2b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "f27816a8fecdc6cde3a2ca4cc47000a544433c70",
+      "branch": "codex/wi-0161-canonical-path-minimization",
+      "worktree": null,
+      "claimed_at": "2026-09-04T15:30:14.521Z",
+      "released_at": "2026-09-04T15:34:55.546Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904153456-509573ff",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "f27816a8fecdc6cde3a2ca4cc47000a544433c70",
+      "branch": "codex/wi-0161-canonical-path-minimization",
+      "worktree": null,
+      "claimed_at": "2026-09-04T15:34:56.099Z",
+      "released_at": "2026-09-04T15:34:56.406Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904153456-e89c2261",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "f27816a8fecdc6cde3a2ca4cc47000a544433c70",
+      "branch": "codex/wi-0161-canonical-path-minimization",
+      "worktree": null,
+      "claimed_at": "2026-09-04T15:34:56.907Z",
+      "released_at": "2026-09-04T15:34:57.182Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904153457-afeaebcd",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "f27816a8fecdc6cde3a2ca4cc47000a544433c70",
+      "branch": "codex/wi-0161-canonical-path-minimization",
+      "worktree": null,
+      "claimed_at": "2026-09-04T15:34:57.702Z",
+      "released_at": "2026-09-04T15:49:15.581Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904154915-c06cbc10",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "cbeeb0f20f8f8b432526a87aab75beb49b5d85c9",
+      "branch": "codex/wi-0161-canonical-path-minimization",
+      "worktree": null,
+      "claimed_at": "2026-09-04T15:49:15.891Z",
+      "released_at": "2026-09-04T15:55:11.823Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904155512-36f9b726",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "0b289921efdb93ef58bbfd2c17de6d0c4faef3fa",
+      "branch": "codex/wi-0161-canonical-path-minimization",
+      "worktree": null,
+      "claimed_at": "2026-09-04T15:55:12.392Z",
+      "released_at": "2026-09-04T15:55:53.910Z",
+      "release_reason": "work_item_closed"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0161/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0161/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0161/work-order.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0161/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0161/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0161/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0161/developer-verification.md"
+    ],
+    "test_evidence": [
+      "EVID-20260904T155335Z-E25932B8"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0161/quality-evaluation.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260904T155335Z-E25932B8"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0161/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0161/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0161/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0161/work-order.md",
+    ".ai-org/artifacts/WI-0161/approved-scope.md",
+    ".ai-org/artifacts/WI-0161/technical-design.md",
+    ".ai-org/artifacts/WI-0161/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0161/developer-verification.md",
+    "EVID-20260904T155335Z-E25932B8",
+    ".ai-org/artifacts/WI-0161/quality-evaluation.md",
+    ".ai-org/artifacts/WI-0161/release-record.md",
+    ".ai-org/artifacts/WI-0161/independent-qa-report.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "tested_revision": "0b289921efdb93ef58bbfd2c17de6d0c4faef3fa",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
+}

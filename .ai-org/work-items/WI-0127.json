@@ -66,7 +66,7 @@
     "agent_id": "agent-mog",
     "base_revision": "2edf130bb658bd7aa2fcde1785b4abfa52fc140a",
     "branch": "codex/wi-0127-core-path-audit",
-    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "worktree": null,
     "claimed_at": "2026-09-03T05:37:14.565Z",
     "released_at": "2026-09-03T05:37:14.839Z",
     "release_reason": "work_item_closed"
@@ -79,7 +79,7 @@
       "agent_id": "agent-mog",
       "base_revision": "5a790acf8a39a47b8ddd8ed8b5247b4f10beea16",
       "branch": "codex/wi-0127-core-path-audit",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-03T05:31:33.088Z",
       "released_at": "2026-09-03T05:33:24.916Z",
       "release_reason": "position_transition"
@@ -91,7 +91,7 @@
       "agent_id": "agent-yuna",
       "base_revision": "5a790acf8a39a47b8ddd8ed8b5247b4f10beea16",
       "branch": "codex/wi-0127-core-path-audit",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-03T05:33:25.174Z",
       "released_at": "2026-09-03T05:33:25.674Z",
       "release_reason": "position_transition"
@@ -103,7 +103,7 @@
       "agent_id": "agent-tidus",
       "base_revision": "5a790acf8a39a47b8ddd8ed8b5247b4f10beea16",
       "branch": "codex/wi-0127-core-path-audit",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-03T05:33:25.924Z",
       "released_at": "2026-09-03T05:33:26.398Z",
       "release_reason": "position_transition"
@@ -115,7 +115,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "5a790acf8a39a47b8ddd8ed8b5247b4f10beea16",
       "branch": "codex/wi-0127-core-path-audit",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-03T05:33:26.672Z",
       "released_at": "2026-09-03T05:34:53.810Z",
       "release_reason": "position_transition"
@@ -127,7 +127,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "2edf130bb658bd7aa2fcde1785b4abfa52fc140a",
       "branch": "codex/wi-0127-core-path-audit",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-03T05:34:54.072Z",
       "released_at": "2026-09-03T05:36:22.786Z",
       "release_reason": "position_transition"
@@ -139,7 +139,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "2edf130bb658bd7aa2fcde1785b4abfa52fc140a",
       "branch": "codex/wi-0127-core-path-audit",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-03T05:36:23.056Z",
       "released_at": "2026-09-03T05:37:14.303Z",
       "release_reason": "position_transition"
@@ -151,7 +151,7 @@
       "agent_id": "agent-mog",
       "base_revision": "2edf130bb658bd7aa2fcde1785b4abfa52fc140a",
       "branch": "codex/wi-0127-core-path-audit",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-03T05:37:14.565Z",
       "released_at": "2026-09-03T05:37:14.839Z",
       "release_reason": "work_item_closed"
