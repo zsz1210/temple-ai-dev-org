@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 137 total, 4 active
+- Work items: 138 total, 5 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -185,6 +185,7 @@
 | WI-0135 | Run optimized Terra process confirmation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `00ea3a47` | 0 | 24 | 0 |
 | WI-0136 | Execute representative multi-Agent microservice comparison | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f76d2e7b` | 0 | 20 | 0 |
 | WI-0137 | Make context routing stage-aware and measurement-ready | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `94d8ceb9` | 0 | 16 | 0 |
+| WI-0138 | Measure stage-aware Context Capsule effectiveness | intake | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260904003203-1c078142 | `—` | 0 | 0 | 0 |
 
 ## Codex task registry
 
@@ -253,7 +254,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 32
+- Team-visible Work Items: 33
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -326,14 +327,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-04T00:32:03.661Z | work_item_claimed | WI-0138 | human |
+| 2026-09-04T00:31:57.590Z | work_item_created | WI-0138 | agent-mog |
 | 2026-09-04T00:26:42.408Z | work_item_transitioned | WI-0137 | agent-lulu |
 | 2026-09-04T00:26:41.953Z | handoff_created | WI-0137 | agent-lulu |
 | 2026-09-04T00:26:20.346Z | evidence_recorded | WI-0137 | human |
 | 2026-09-04T00:25:20.445Z | work_item_transitioned | WI-0137 | agent-lulu |
 | 2026-09-04T00:25:20.129Z | work_item_transitioned | WI-0137 | agent-lulu |
 | 2026-09-04T00:25:14.216Z | evidence_recorded | WI-0137 | human |
-| 2026-09-04T00:16:00.330Z | work_item_claimed | WI-0137 | human |
-| 2026-09-04T00:16:00.073Z | work_item_coordination_configured | WI-0137 | agent-lulu |
 
 ## Assignments
 

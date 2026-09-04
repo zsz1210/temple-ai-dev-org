@@ -1,0 +1,90 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0138",
+  "title": "Measure stage-aware Context Capsule effectiveness",
+  "state": "intake",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-04T00:31:57.590Z",
+  "updated_at": "2026-09-04T00:32:03.661Z",
+  "scope": [
+    "Build a generation-free, fail-closed A/B harness comparing legacy-expanded and stage-aware context on matched single-repository and coordinator-led multi-repository cold handoffs.",
+    "Retain source bytes, selection digests, correctness, Provider Token categories, latency, tool output, human intervention, and rework without retaining prompts or hidden reasoning.",
+    "Freeze an exact live protocol and require exact human approval before any Provider generation."
+  ],
+  "acceptance_criteria": [
+    "The protocol isolates context treatment while holding task, repository revisions, model, effort, retry, fallback, and evaluator rules constant.",
+    "Generation-free rehearsal proves matched fixtures, route differences, output schemas, command policy, cleanup, and stopped-run preservation before approval can unlock generation.",
+    "The analyzer reports single-repository and multi-repository results separately and never turns one sample per condition into a general savings claim.",
+    "Independent QA reproduces the exact candidate and verifies all published calculations."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0138/**",
+    "scripts/run-context-capsule-ablation.mjs",
+    "test/context-capsule-ablation.test.mjs",
+    "docs/validation/context-capsule-v2-ablation.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [
+      "cross-repository-contract"
+    ],
+    "rationale": "A bounded local experiment with an external Provider gate; standard workflow preserves evaluation and independent QA.",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-04T00:31:57.589Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "2bfb99f",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260904003203-1c078142",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "2bfb99f",
+    "branch": "codex/wi-0138-context-capsule-ablation",
+    "worktree": null,
+    "claimed_at": "2026-09-04T00:32:03.661Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260904003203-1c078142",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "2bfb99f",
+      "branch": "codex/wi-0138-context-capsule-ablation",
+      "worktree": null,
+      "claimed_at": "2026-09-04T00:32:03.661Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {},
+  "evidence": [],
+  "unresolved": [],
+  "next_position": "product_manager"
+}
