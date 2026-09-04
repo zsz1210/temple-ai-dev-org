@@ -32,11 +32,23 @@ Temple is not an application framework, issue tracker, or autonomous manager. Yo
 
 > **Your project decides how the product is built. Temple defines how the work is organized, verified, and remembered.**
 
+## The organization Temple puts in your repository
+
+<picture>
+  <source media="(max-width: 640px)" srcset="docs/assets/temple-layers-mobile.en.svg">
+  <img alt="Temple places human direction above six connected concerns: responsibility, bounded work, context and execution guidance, coordination, assurance, and memory and learning. Repository-backed organizational memory supports every layer." src="docs/assets/temple-layers.en.svg">
+</picture>
+
+Temple is a layered operating model, not one large prompt or one autonomous Agent. Human direction remains above the system; durable repository state sits below it. The layers in between keep ownership, approved work, methods, coordination, verification, and learning connected without treating them as the same thing.
+
+The Guidance layer deliberately contains two different routes. **Context Routing** answers what the current Position and step should read. **Adaptive Execution Routing** answers how that bounded step should be attempted, using its Task Shape, required capabilities, constraints, and project policy. The current Alpha produces explainable requested settings; it does not launch a Provider or silently switch the model. See the [architecture](docs/concepts/architecture.md#three-routes-three-decisions) and [model-routing guide](docs/getting-started/model-routing.md).
+
 ## What Temple adds to a project
 
 - **Stable responsibilities:** Positions define ownership and authority without tying them permanently to one person or AI.
 - **Bounded work:** every change becomes a Work Item with scope, dependencies, acceptance criteria, and a durable state.
-- **Relevant context:** routing points each Position to the specifications, decisions, Skills, and evidence needed for the current task.
+- **Relevant context:** Context Routing points each Position to the specifications, decisions, Skills, and evidence needed for the current step.
+- **Explainable execution choices:** Adaptive Execution Routing selects an eligible project-owned execution profile from the step's needs; responsibility never hard-codes a model.
 - **Evidence-gated delivery:** implementation, evaluation, Independent QA, and release readiness remain separate claims.
 - **Safe parallel work:** independent tasks can run together; overlapping work waits for coordination and an explicit integration owner.
 - **Learning that earns trust:** Lessons can be captured, revalidated, and deliberately promoted into Practices or Skills instead of silently becoming rules.
@@ -88,7 +100,7 @@ You install Temple into each project; you do not fork the framework for every pr
 
 The root `.ai-org/` in this repository is Temple's own auditable self-hosting record. It remains visible so readers can inspect how the framework manages its own development. This self-host state is excluded from the release package and is not copied into another product project; each initialized project creates and owns its own state.
 
-## One model, different scales
+## One operating model, different scales
 
 - **Solo** — one person directs AI-assisted development. A small set of Agent Identities can cover several Positions, while Developer and Independent QA stay separate.
 - **Collaborative** — several people operate their own agents. Sponsorship, eligible responsibility pools, shared resources, claims, and integration ownership become explicit.
@@ -108,8 +120,8 @@ See the [Capability catalog](docs/extensions/capability-catalog.md), [Skill auth
 
 Temple is an **Early Alpha** intended for human-supervised, low-risk local projects and bounded pilots.
 
-- **Available now:** repository-native Solo workflow, stable Positions, Work Items, deterministic context and capability routing, governed Skills and learning, lifecycle evidence, local status, and upgrade boundaries.
-- **Experimental or bounded:** collaborative and high-assurance contracts, parallel planning, provider observation, local control-plane views, tracker coordination, and per-Work-Item usage attribution.
+- **Available now:** repository-native Solo workflow, stable Positions, Work Items, deterministic context and capability routing, explainable non-executing Adaptive Execution Routing, governed Skills and learning, lifecycle evidence, local status, and upgrade boundaries.
+- **Experimental or bounded:** collaborative and high-assurance contracts, parallel planning, Provider observation and calibration, local control-plane views, tracker coordination, and per-Work-Item usage attribution.
 - **Not yet claimed:** broad multi-human and multi-machine qualification, production monitoring or remediation, unattended external writes, automatic model routing, regulated acceptance, or measured universal time and Token savings.
 
 The framework reports retained gaps instead of treating a passing local test as enterprise proof.

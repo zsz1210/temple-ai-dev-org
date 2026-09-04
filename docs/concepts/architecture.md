@@ -40,6 +40,24 @@ flowchart LR
 
 Solid arrows show governed project flow. Dotted arrows are deliberately weaker: an external tracker or Provider may contribute an observation, and the routing layer may describe requested execution settings, but neither completes a Work Item, satisfies QA, grants release authority, or launches work. Temple Workspace reads generated projections; canonical changes still pass through the local CLI and repository evidence.
 
+## Three routes, three decisions
+
+![Temple separates responsibility, context, and execution routing. An approved Work Item feeds three routes that meet at bounded Agent execution; later Provider observations may inform reviewed calibration without silently changing policy.](../assets/temple-routing-separation.en.svg)
+
+Temple routes three different decisions after human direction and Work Item scope are known:
+
+The README's compact diagram groups engineering methods and execution adaptation together as **Guidance**. The more detailed product taxonomy keeps them as separate layers in the [vision](vision.md#the-seven-framework-layers); this is a difference in presentation depth, not two competing architectures.
+
+| Route | Question | Primary input | Output | It does not |
+|---|---|---|---|---|
+| Responsibility Route | Who may own this step? | Position, Assignment or Membership, Discipline, authority boundary | Responsible Position and eligible Agent Identity | Grant authority from capability, Skill, model, or company title |
+| Context Route | What should that Position read now? | Work Item, Position, lifecycle stage, purpose, Context Map, Learning, Capability Registry | Bounded source selection and body-free manifest | Copy source authority, expand scope, or estimate Tokens |
+| Adaptive Execution Route | How should this bounded step be attempted? | Task Shape, required capabilities, constraints, observations, project Execution Policy | Eligible execution profile, requested model and reasoning settings, rejection reasons | Launch a Provider, guarantee the effective model, or advance lifecycle state |
+
+This separation prevents a role name from becoming an accidental model policy. A Developer may perform a mechanical edit, a complex refactor, or a visual review; those steps can need different execution capabilities even though responsibility stays with the same Position. Conversely, the same execution profile can support several Positions without granting any of them new authority.
+
+Provider-reported effective settings, latency, Token counts, and outcomes may later become evidence for **Model Calibration**. Calibration is a reviewed project-policy change, not an automatic feedback loop. Historical familiarity can inform onboarding and preference only when the evidence is compatible with current capability and policy constraints. See [Adaptive execution routing](adaptive-execution-routing.md), [Model routing](../getting-started/model-routing.md), and [ADR-0046](../adr/0046-separate-adaptive-execution-routing.md).
+
 ## Identity and collaboration model
 
 ```text

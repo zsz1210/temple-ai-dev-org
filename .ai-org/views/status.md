@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 145 total, 5 active
+- Work items: 146 total, 6 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -193,6 +193,7 @@
 | WI-0143 | Validate cache-controlled Context Capsule effectiveness | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e02ab92c` | 0 | 19 | 0 |
 | WI-0144 | Design portable model onboarding and successor context evaluations | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `edf772de` | 0 | 17 | 0 |
 | WI-0145 | Implement read-only model onboarding plan | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `277be9e8` | 0 | 17 | 0 |
+| WI-0146 | Clarify Temple README and layered architecture | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260904064919-2026cd0e | `—` | 0 | 3 | 0 |
 
 ## Codex task registry
 
@@ -334,14 +335,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-04T06:49:19.474Z | work_item_claimed | WI-0146 | human |
+| 2026-09-04T06:49:10.686Z | work_item_transitioned | WI-0146 | agent-mog |
+| 2026-09-04T06:48:05.211Z | work_item_coordination_configured | WI-0146 | agent-mog |
+| 2026-09-04T06:47:54.997Z | work_item_coordination_configured | WI-0146 | agent-mog |
+| 2026-09-04T06:47:01.713Z | work_item_created | WI-0146 | agent-mog |
 | 2026-09-04T06:12:10.541Z | work_item_closed | WI-0145 | agent-mog |
 | 2026-09-04T06:12:10.541Z | release_gate_completed | WI-0145 | agent-mog |
 | 2026-09-04T06:10:50.027Z | work_item_transitioned | WI-0145 | agent-lulu |
-| 2026-09-04T06:10:49.724Z | work_item_claim_released | WI-0145 | human |
-| 2026-09-04T06:10:49.286Z | handoff_created | WI-0145 | agent-lulu |
-| 2026-09-04T06:10:49.075Z | evidence_recorded | WI-0145 | human |
-| 2026-09-04T06:09:58.755Z | work_item_claimed | WI-0145 | human |
-| 2026-09-04T06:09:42.586Z | work_item_transitioned | WI-0145 | agent-lulu |
 
 ## Assignments
 
