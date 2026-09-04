@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0167",
   "title": "Remediate Archify alerts and publish Alpha.30",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-04T18:36:14.342Z",
-  "updated_at": "2026-09-04T23:51:24.245Z",
+  "updated_at": "2026-09-04T23:58:25.166Z",
   "scope": [
     "Upgrade the optional Archify adapter to v2.16.0 with a transparent reviewed fast-uri 3.1.7 downstream security patch",
     "Requalify the exact Alpha.30 package, create a GitHub prerelease, and publish the same tarball to npm under the next dist-tag",
@@ -68,14 +68,15 @@
   "overlap_resolution": [],
   "claim": {
     "id": "claim-20260904235123-10e527f8",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-mog",
     "base_revision": "d2b2a5142c7e9b8d98e9474e0fe1cc8bdbf10324",
     "branch": "codex/wi-0167-release-closeout",
     "worktree": null,
     "claimed_at": "2026-09-04T23:51:23.809Z",
-    "released_at": null
+    "released_at": "2026-09-04T23:58:25.166Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -122,14 +123,15 @@
     },
     {
       "id": "claim-20260904235123-10e527f8",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-mog",
       "base_revision": "d2b2a5142c7e9b8d98e9474e0fe1cc8bdbf10324",
       "branch": "codex/wi-0167-release-closeout",
       "worktree": null,
       "claimed_at": "2026-09-04T23:51:23.809Z",
-      "released_at": null
+      "released_at": "2026-09-04T23:58:25.166Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -157,13 +159,26 @@
       ".ai-org/artifacts/WI-0167/release-qualification-result.json"
     ],
     "test_evidence": [
-      "EVID-20260904T184857Z-1917CC10"
+      "EVID-20260904T184857Z-1917CC10",
+      "EVID-20260904T235124Z-4A5B18E0"
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0167/quality-evaluation.md"
     ],
     "independent_qa_pass": [
       ".ai-org/artifacts/WI-0167/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0167/owner-exception-approval.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0167/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0167/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0167/owner-exception-approval.md"
     ]
   },
   "evidence": [
@@ -184,12 +199,13 @@
     ".ai-org/artifacts/WI-0167/handoff-006-independent_qa-to-release_manager.md",
     ".ai-org/artifacts/WI-0167/independent-qa-report.md",
     ".ai-org/artifacts/WI-0167/independent-qa-observation.json",
-    ".ai-org/artifacts/WI-0167/independent-release-qualification-result.json"
+    ".ai-org/artifacts/WI-0167/independent-release-qualification-result.json",
+    ".ai-org/artifacts/WI-0167/release-record.md",
+    ".ai-org/artifacts/WI-0167/owner-exception-approval.md",
+    "EVID-20260904T235124Z-4A5B18E0"
   ],
-  "unresolved": [
-    "npm forced latest onto the first published version and rejected two authenticated removal attempts with HTTP 400; owner must accept the temporary first-version alias or authorize destructive withdrawal"
-  ],
-  "next_position": "engineering_manager",
+  "unresolved": [],
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -234,5 +250,11 @@
       "created_at": "2026-09-04T18:52:40.883Z"
     }
   ],
-  "developer_candidate_revision": "6a8760f9669c58085b069e91776b89d0a857fc83"
+  "developer_candidate_revision": "6a8760f9669c58085b069e91776b89d0a857fc83",
+  "tested_revision": "d2b2a5142c7e9b8d98e9474e0fe1cc8bdbf10324",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0167/owner-exception-approval.md"
 }
