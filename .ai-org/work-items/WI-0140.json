@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0140",
   "title": "Measure and enforce Context Capsule route adherence",
-  "state": "test",
-  "owner_position": "quality_evaluator",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-04T02:17:43.020Z",
-  "updated_at": "2026-09-04T02:38:48.035Z",
+  "updated_at": "2026-09-04T02:41:39.571Z",
   "scope": [
     "Retain a bounded path-only manifest of successful context reads after routing without storing raw prompts, outputs, hidden reasoning, credentials, or temporary repository content.",
     "Measure total context acquisition and route adherence separately from initial package size, Provider Tokens, latency, and command counts for single-repository and coordinator multi-repository recovery.",
@@ -112,6 +112,12 @@
       "EVID-20260904T023820Z-9B033B1C",
       "EVID-20260904T023820Z-0005EAB2",
       ".ai-org/artifacts/WI-0140/developer-verification.md"
+    ],
+    "test_evidence": [
+      "EVID-20260904T024119Z-B6646DAF"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0140/quality-evaluation.md"
     ]
   },
   "evidence": [
@@ -123,10 +129,13 @@
     ".ai-org/artifacts/WI-0140/handoff-003-developer-to-quality_evaluator.md",
     "EVID-20260904T023820Z-9B033B1C",
     "EVID-20260904T023820Z-0005EAB2",
-    ".ai-org/artifacts/WI-0140/developer-verification.md"
+    ".ai-org/artifacts/WI-0140/developer-verification.md",
+    "EVID-20260904T024119Z-B6646DAF",
+    ".ai-org/artifacts/WI-0140/handoff-004-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0140/quality-evaluation.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "release_manager",
   "handoffs": [
     {
       "from_position": "product_manager",
@@ -148,6 +157,13 @@
       "input_revision": "70a98b4a8d07bb27f1c2f91fa1cbbea06113adef",
       "artifact": ".ai-org/artifacts/WI-0140/handoff-003-developer-to-quality_evaluator.md",
       "created_at": "2026-09-04T02:38:41.617Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "c84a31eb9d4c46a22f189640d86ad2488ea1e919",
+      "artifact": ".ai-org/artifacts/WI-0140/handoff-004-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-04T02:41:39.284Z"
     }
   ],
   "developer_candidate_revision": "70a98b4a8d07bb27f1c2f91fa1cbbea06113adef"

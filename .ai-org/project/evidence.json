@@ -22384,6 +22384,58 @@
         "exit_code": 0,
         "started_at": "2026-09-04T02:37:36Z"
       }
+    },
+    {
+      "id": "EVID-20260904T024119Z-B6646DAF",
+      "work_item_id": "WI-0140",
+      "recorded_at": "2026-09-04T02:41:19.161Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0140 generation-free quality evaluation",
+      "outcome": "pass",
+      "scope_revision": "4a59131b8a2b2112752dc1a92bd450e880e72de7",
+      "observed_at": "2026-09-04T02:39:14Z",
+      "summary": "Quality evaluation passed 8 focused tests, 30 frozen-lab checks, 52 readiness checks, and adversarial path and protocol counterexamples; no Provider candidate generation occurred.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0140/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0140/quality-test-observation.json",
+          "sha256": "4a4ac44ed2f5ab83864a66b80c63549bd07b0417d78140858c66ad79552c580e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0140/live-protocol.json",
+          "sha256": "9f4e648f386c63c2c89c5efad07635960ee16a7c20c4a35b0c0a6afebcd895aa"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0140/harness-readiness.json",
+          "sha256": "ea1ab794ba5c6d81f955a3d8a5c5683db4b6b3944366dc95c06545185c5c8c97"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0140/preapproval-preflight.json",
+          "sha256": "73fbc46444a24425d6f7d04e30dbda8c9b4bc69adcc43d19c4bbe8f404073ecd"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0140/quality-evaluation.md",
+          "sha256": "3fe5564cb57f530a804dbd59d5a92cfc0ea306a3381b55bebd7f4d4f65b8cb53"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/context-capsule-ablation.test.mjs",
+          "node scripts/run-context-capsule-ablation.mjs inspect"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T02:39:14Z"
+      }
     }
   ]
 }

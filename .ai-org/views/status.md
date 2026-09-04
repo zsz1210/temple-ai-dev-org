@@ -187,7 +187,7 @@
 | WI-0137 | Make context routing stage-aware and measurement-ready | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `94d8ceb9` | 0 | 16 | 0 |
 | WI-0138 | Measure stage-aware Context Capsule effectiveness | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `87d0f8e2` | 0 | 16 | 1 |
 | WI-0139 | Repair Context Capsule evaluation contract | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f787f8a` | 0 | 17 | 0 |
-| WI-0140 | Measure and enforce Context Capsule route adherence | test | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `70a98b4a` | 0 | 9 | 0 |
+| WI-0140 | Measure and enforce Context Capsule route adherence | independent_qa | Independent QA | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `70a98b4a` | 0 | 12 | 0 |
 
 ## Codex task registry
 
@@ -329,14 +329,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-04T02:41:39.571Z | work_item_transitioned | WI-0140 | agent-lulu |
+| 2026-09-04T02:41:39.284Z | handoff_created | WI-0140 | agent-lulu |
+| 2026-09-04T02:41:38.925Z | work_item_transitioned | WI-0140 | agent-lulu |
+| 2026-09-04T02:41:19.161Z | evidence_recorded | WI-0140 | human |
 | 2026-09-04T02:38:48.035Z | work_item_transitioned | WI-0140 | agent-rikku |
 | 2026-09-04T02:38:41.905Z | work_item_claim_released | WI-0140 | principal-owner |
 | 2026-09-04T02:38:41.617Z | handoff_created | WI-0140 | agent-rikku |
 | 2026-09-04T02:38:20.843Z | evidence_recorded | WI-0140 | human |
-| 2026-09-04T02:38:20.607Z | evidence_recorded | WI-0140 | human |
-| 2026-09-04T02:20:58.573Z | work_item_claimed | WI-0140 | principal-owner |
-| 2026-09-04T02:20:52.737Z | work_item_transitioned | WI-0140 | agent-tidus |
-| 2026-09-04T02:20:52.488Z | handoff_created | WI-0140 | agent-tidus |
 
 ## Assignments
 
