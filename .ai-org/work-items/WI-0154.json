@@ -1,0 +1,106 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0154",
+  "title": "Review retained evidence for public readiness",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-04T11:49:17.297Z",
+  "updated_at": "2026-09-04T11:49:42.553Z",
+  "scope": [
+    "Account for every current public-profile review obligation, classify retained environment evidence and binary artifacts without copying sensitive values, and produce a bounded remediation and Human-decision report. Do not rewrite history, delete evidence, change GitHub settings, publish npm, or create a release."
+  ],
+  "acceptance_criteria": [
+    "The report reconciles exactly to the publication audit totals and groups all retained environment findings by rule and repository path.",
+    "Every binary review obligation is inventoried and categorized, with any item needing direct Human inspection called out explicitly.",
+    "Recommendations distinguish current-tree normalization, accepted historical exposure, future automated gates, and external publication authority."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0154/public-evidence-review.md",
+    ".ai-org/artifacts/WI-0154/publication-audit-summary.json"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "A read-only evidence classification and report with no publication, deletion, credential access, or history rewrite.",
+    "evidence_refs": [
+      "WI-0152 public Evidence Profile and the user-authorized next step on 2026-09-04"
+    ],
+    "evaluated_at": "2026-09-04T11:49:17.296Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "053013348225d6a0e81e592ad92ac13804428aa9",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260904114942-78731fc8",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "053013348225d6a0e81e592ad92ac13804428aa9",
+    "branch": "codex/wi-0154-public-evidence-review",
+    "worktree": null,
+    "claimed_at": "2026-09-04T11:49:42.553Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260904114942-78731fc8",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "053013348225d6a0e81e592ad92ac13804428aa9",
+      "branch": "codex/wi-0154-public-evidence-review",
+      "worktree": null,
+      "claimed_at": "2026-09-04T11:49:42.553Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0154/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0154/work-order.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0154/work-order.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0154/work-order.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0154/work-order.md"
+    ],
+    "profile_eligibility": [
+      ".ai-org/artifacts/WI-0154/work-order.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0154/work-order.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

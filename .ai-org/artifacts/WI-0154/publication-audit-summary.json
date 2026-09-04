@@ -1,0 +1,1158 @@
+{
+  "report_version": "1",
+  "work_item_id": "WI-0154",
+  "reviewed_revision": "053013348225d6a0e81e592ad92ac13804428aa9",
+  "evidence_profile": "public",
+  "outcome": "review-required-with-no-blockers",
+  "repository": {
+    "tracked_files": 3577,
+    "text_files": 3509,
+    "binary_files": 68,
+    "blocked_findings": 0,
+    "review_required_occurrences": 402,
+    "unique_flagged_files": 180,
+    "rule_totals": {
+      "binary-review": {
+        "occurrences": 68,
+        "paths": 68
+      },
+      "maintainer-home-path-posix": {
+        "occurrences": 279,
+        "paths": 84
+      },
+      "private-ipv4": {
+        "occurrences": 49,
+        "paths": 26
+      },
+      "private-tailnet-hostname": {
+        "occurrences": 6,
+        "paths": 4
+      }
+    }
+  },
+  "package": {
+    "files": 370,
+    "outcome": "clean",
+    "blocked_findings": 0,
+    "review_required_occurrences": 0
+  },
+  "binary_review": {
+    "files": 68,
+    "format": "PNG",
+    "categories": {
+      "retained-artifacts": 21,
+      "retained-output": 47
+    },
+    "contact_sheet_pages": 8,
+    "visual_outcome": "no-obvious-private-data-or-credentials",
+    "png_text_or_exif_metadata_files": 0,
+    "embedded_string_scan": {
+      "candidate_files": 2,
+      "manual_original_review": "cleared-as-non-visible-byte-pattern-false-positives"
+    },
+    "limitations": [
+      "Visual review can clear obvious rendered content but is not a semantic guarantee about every compressed byte.",
+      "No OCR engine was available; contact sheets plus original-resolution review were used."
+    ]
+  },
+  "interpretation": {
+    "review_counts_are_not_vulnerability_counts": true,
+    "legacy_environment_occurrences_are_retained_evidence": true,
+    "history_rewrite_performed": false,
+    "publication_performed": false
+  },
+  "path_manifest": [
+    {
+      "rule_id": "binary-review",
+      "path": ".ai-org/artifacts/WI-0047/runtime-1440-dark.png",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": ".ai-org/artifacts/WI-0047/runtime-1440-light.png",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": ".ai-org/artifacts/WI-0047/runtime-2560-dark.png",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": ".ai-org/artifacts/WI-0047/runtime-390-drawer-dark.png",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": ".ai-org/artifacts/WI-0060/team-mobile-model-card.png",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": ".ai-org/artifacts/WI-0060/team-mobile.png",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": ".ai-org/artifacts/WI-0060/team-tablet.png",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": ".ai-org/artifacts/WI-0060/team-wide.png",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": ".ai-org/artifacts/WI-0076/screenshots/team-authority-1440.png",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": ".ai-org/artifacts/WI-0076/screenshots/team-authority-390.png",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": ".ai-org/artifacts/WI-0076/screenshots/team-people-agents-390.png",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": ".ai-org/artifacts/WI-0076/screenshots/team-responsibilities-1440.png",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": ".ai-org/artifacts/WI-0076/screenshots/team-responsibilities-390.png",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": ".ai-org/artifacts/WI-0079/temple-engineering.390x844.dark.png",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": ".ai-org/artifacts/WI-0079/temple-engineering.390x844.light.png",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": ".ai-org/artifacts/WI-0079/temple-engineering.visual-check.1440x900.dark.png",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": ".ai-org/artifacts/WI-0079/temple-engineering.visual-check.1440x900.light.png",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": ".ai-org/artifacts/WI-0079/temple-engineering.visual-check.2048x1320.dark.png",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": ".ai-org/artifacts/WI-0079/temple-engineering.visual-check.2048x1320.light.png",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": ".ai-org/artifacts/WI-0101/console-desktop.png",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": ".ai-org/artifacts/WI-0101/console-mobile.png",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0029-command-history-desktop.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0029-command-history-narrow.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0029-confirmed-preview.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0029-disabled-desktop.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0029-idle-desktop.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0029-quality-command-history-desktop.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0029-quality-command-history-narrow.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0029-quality-confirmed-preview.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0029-quality-disabled-desktop.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/WI-0065-team-narrow.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/WI-0065-team-wide.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/activity-wide.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/controlled-comparison/baseline-mobile.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/controlled-comparison/baseline-overview.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/controlled-comparison/proposal-mobile.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/controlled-comparison/proposal-overview.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/health-wide.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/overview-tablet.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/overview-wide.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/private-overview-tablet.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/proposed-overview-running-wide.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/proposed-overview-tablet.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/proposed-overview-wide.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/proposed-system-configuration-320.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/proposed-system-configuration-mobile.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/proposed-system-configuration-tablet.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/proposed-system-configuration-wide.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/proposed-team-tablet.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/proposed-team-wide.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/proposed-usage-wide.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/proposed-work-320.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/proposed-work-mobile.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/proposed-work-wide.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/team-tablet.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/team-wide.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/usability-rehearsal/baseline-activity.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/usability-rehearsal/baseline-health.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/usability-rehearsal/baseline-overview.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/usability-rehearsal/baseline-work-detail.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/usability-rehearsal/preview-history.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/usability-rehearsal/preview-overview.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/usability-rehearsal/preview-system-status.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/usability-rehearsal/preview-usage.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/usability-rehearsal/preview-work.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/usage-wide.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/work-mobile.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "binary-review",
+      "path": "output/playwright/wi-0077/work-wide.png",
+      "category": "retained-output",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0051/pilot-result.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0051/product-spec.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0051/technical-design.md",
+      "category": "retained-artifacts",
+      "occurrences": 2
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0051/work-order.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0061/human-approval.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0061/pilot-proposal.md",
+      "category": "retained-artifacts",
+      "occurrences": 2
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0062/human-approval.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0062/one-shot-runner.mjs",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0064/one-shot-runner.mjs",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0064/work-order.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0067/live-commerce-runner.mjs",
+      "category": "retained-artifacts",
+      "occurrences": 2
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0067/live-program-result.json",
+      "category": "retained-artifacts",
+      "occurrences": 2
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0067/rollback-plan.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0067/setup-commerce-rehearsal.mjs",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0067/work-order.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0079/temple-engineering.visual-check.json",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0091/one-shot-runner.mjs",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0107/run-wave-5a.mjs",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0107/setup-wave-5a.mjs",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0108/approved-scope.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0108/developer-report.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0110/approved-scope.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0112/approved-scope.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0113/developer-test-observation.json",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0113/experiment-result.json",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0117/evaluator-live-preflight.json",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0117/evaluator-preflight.json",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0117/evaluator-replacement-preflight.json",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0117/offline-preparation-report.md",
+      "category": "retained-artifacts",
+      "occurrences": 2
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0130/live-experiment-observation.json",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0130/offline-preflight-observation.json",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0136/representative-main-v12-stop-report.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/artifacts/WI-0136/representative-main-v12-stopped-run.json",
+      "category": "retained-artifacts",
+      "occurrences": 2
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/project/evidence.json",
+      "category": "project-registries",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/project/runtime-workers.json",
+      "category": "project-registries",
+      "occurrences": 4
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/project/tasks.json",
+      "category": "project-registries",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0019.json",
+      "category": "work-item-ledger",
+      "occurrences": 2
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0029.json",
+      "category": "work-item-ledger",
+      "occurrences": 3
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0030.json",
+      "category": "work-item-ledger",
+      "occurrences": 4
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0032.json",
+      "category": "work-item-ledger",
+      "occurrences": 4
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0035.json",
+      "category": "work-item-ledger",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0043.json",
+      "category": "work-item-ledger",
+      "occurrences": 7
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0052.json",
+      "category": "work-item-ledger",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0062.json",
+      "category": "work-item-ledger",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0065.json",
+      "category": "work-item-ledger",
+      "occurrences": 2
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0066.json",
+      "category": "work-item-ledger",
+      "occurrences": 2
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0067.json",
+      "category": "work-item-ledger",
+      "occurrences": 2
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0068.json",
+      "category": "work-item-ledger",
+      "occurrences": 2
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0071.json",
+      "category": "work-item-ledger",
+      "occurrences": 8
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0076.json",
+      "category": "work-item-ledger",
+      "occurrences": 8
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0077.json",
+      "category": "work-item-ledger",
+      "occurrences": 6
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0078.json",
+      "category": "work-item-ledger",
+      "occurrences": 8
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0079.json",
+      "category": "work-item-ledger",
+      "occurrences": 4
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0080.json",
+      "category": "work-item-ledger",
+      "occurrences": 2
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0081.json",
+      "category": "work-item-ledger",
+      "occurrences": 3
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0082.json",
+      "category": "work-item-ledger",
+      "occurrences": 8
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0083.json",
+      "category": "work-item-ledger",
+      "occurrences": 8
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0092.json",
+      "category": "work-item-ledger",
+      "occurrences": 6
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0094.json",
+      "category": "work-item-ledger",
+      "occurrences": 8
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0100.json",
+      "category": "work-item-ledger",
+      "occurrences": 6
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0101.json",
+      "category": "work-item-ledger",
+      "occurrences": 6
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0102.json",
+      "category": "work-item-ledger",
+      "occurrences": 8
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0103.json",
+      "category": "work-item-ledger",
+      "occurrences": 8
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0104.json",
+      "category": "work-item-ledger",
+      "occurrences": 8
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0105.json",
+      "category": "work-item-ledger",
+      "occurrences": 8
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0106.json",
+      "category": "work-item-ledger",
+      "occurrences": 9
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0107.json",
+      "category": "work-item-ledger",
+      "occurrences": 3
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0108.json",
+      "category": "work-item-ledger",
+      "occurrences": 3
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0109.json",
+      "category": "work-item-ledger",
+      "occurrences": 3
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0110.json",
+      "category": "work-item-ledger",
+      "occurrences": 2
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0111.json",
+      "category": "work-item-ledger",
+      "occurrences": 3
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0112.json",
+      "category": "work-item-ledger",
+      "occurrences": 2
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0113.json",
+      "category": "work-item-ledger",
+      "occurrences": 2
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0114.json",
+      "category": "work-item-ledger",
+      "occurrences": 8
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0115.json",
+      "category": "work-item-ledger",
+      "occurrences": 8
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0116.json",
+      "category": "work-item-ledger",
+      "occurrences": 8
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0117.json",
+      "category": "work-item-ledger",
+      "occurrences": 8
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0126.json",
+      "category": "work-item-ledger",
+      "occurrences": 8
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0127.json",
+      "category": "work-item-ledger",
+      "occurrences": 8
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0130.json",
+      "category": "work-item-ledger",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0132.json",
+      "category": "work-item-ledger",
+      "occurrences": 2
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0135.json",
+      "category": "work-item-ledger",
+      "occurrences": 2
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": ".ai-org/work-items/WI-0136.json",
+      "category": "work-item-ledger",
+      "occurrences": 4
+    },
+    {
+      "rule_id": "maintainer-home-path-posix",
+      "path": "test/audit-export.test.mjs",
+      "category": "tests-and-fixtures",
+      "occurrences": 6
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/adapters/archify/v2.15.0/archify/test/brand-marks.test.mjs",
+      "category": "other",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0042/developer-report.md",
+      "category": "retained-artifacts",
+      "occurrences": 2
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0042/evaluation-report.md",
+      "category": "retained-artifacts",
+      "occurrences": 2
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0042/independent-qa-report.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0042/runtime-observation.json",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0044/runtime-observation.json",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0045/runtime-observation.json",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0046/developer-test-observation.json",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0047/runtime-observation.json",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0048/browser-review.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0048/runtime-observation.json",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0049/browser-review.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0049/runtime-observation.json",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0054/live-proof-result.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0054/runtime-observation.json",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0056/live-proof-result.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0056/runtime-observation.json",
+      "category": "retained-artifacts",
+      "occurrences": 2
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0057/runtime-observation.json",
+      "category": "retained-artifacts",
+      "occurrences": 2
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0058/runtime-observation.json",
+      "category": "retained-artifacts",
+      "occurrences": 2
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0060/browser-review.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0060/runtime-observation.json",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0081/runtime-visual-review.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0092/live-managed-observation.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/artifacts/WI-0093/live-runtime-observation.json",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": ".ai-org/project/evidence.json",
+      "category": "project-registries",
+      "occurrences": 11
+    },
+    {
+      "rule_id": "private-ipv4",
+      "path": "test/control-plane-private-viewer.test.mjs",
+      "category": "tests-and-fixtures",
+      "occurrences": 9
+    },
+    {
+      "rule_id": "private-tailnet-hostname",
+      "path": ".ai-org/artifacts/WI-0036/developer-verification.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "private-tailnet-hostname",
+      "path": ".ai-org/artifacts/WI-0036/quality-test-report.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "private-tailnet-hostname",
+      "path": ".ai-org/artifacts/WI-0037/developer-verification.md",
+      "category": "retained-artifacts",
+      "occurrences": 1
+    },
+    {
+      "rule_id": "private-tailnet-hostname",
+      "path": "test/control-plane-private-viewer.test.mjs",
+      "category": "tests-and-fixtures",
+      "occurrences": 3
+    }
+  ]
+}
