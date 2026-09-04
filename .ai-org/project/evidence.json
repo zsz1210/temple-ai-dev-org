@@ -26094,6 +26094,59 @@
         "exit_code": 0,
         "started_at": "2026-09-04T18:19:16.000Z"
       }
+    },
+    {
+      "id": "EVID-20260904T182743Z-5E3EBA49",
+      "work_item_id": "WI-0166",
+      "recorded_at": "2026-09-04T18:27:43.707Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0166 public repository verification",
+      "outcome": "pass",
+      "scope_revision": "879bcd6e8c4068e1e83954fe8ce36b944eb87ae2",
+      "observed_at": "2026-09-04T18:27:31.000Z",
+      "summary": "Anonymous Git/API/README/License access and protected main were verified after publication; secret alerts are zero; npm and tagged Alpha remain unpublished.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0166/public-state-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0166/public-state-observation.json",
+          "sha256": "7e68465038534b8c85016a72486117aba3c8bd64a03f9eb9e194080cb78fe009"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0166/public-state-report.md",
+          "sha256": "e463bf1eef65e15b75a8c2f625be2fe187a1c2a419c44c2d39df0398d81fa590"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0166/owner-approval.md",
+          "sha256": "80688a81ad3603323b9b088d17b26fe764a44bc4da69a767775665dfe41384ae"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0166/actions-log-audit.json",
+          "sha256": "55b7b7d8beef1a5f4baa34b5a8788c41ad923f451f3e6d3deb8a3ed6904736f3"
+        }
+      ],
+      "details": {
+        "command": [
+          "query authenticated GitHub repository metadata",
+          "query anonymous GitHub repository metadata",
+          "fetch README.md and LICENSE anonymously",
+          "git ls-remote public repository HEAD and refs/heads/main",
+          "query main branch protection",
+          "query private vulnerability reporting, secret-scanning alerts, and Dependabot alerts",
+          "confirm package.json remains private and the public npm package remains absent"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T18:27:27.000Z"
+      }
     }
   ]
 }

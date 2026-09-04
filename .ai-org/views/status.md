@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 166 total, 1 active
+- Work items: 166 total, 0 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -40,7 +40,7 @@
 - Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 1 / 0
+- Active / sequential / blocked: 0 / 0 / 0
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -213,7 +213,7 @@
 | WI-0163 | Freeze the Alpha.30 candidate scope and identity | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a6849519` | 0 | 12 | 0 |
 | WI-0164 | Qualify the exact Alpha.30 package | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a6849519` | 0 | 13 | 0 |
 | WI-0165 | Audit public Git history text exposure | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `df20f2be` | 0 | 13 | 0 |
-| WI-0166 | Publish the repository as a public Alpha surface | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `149076c6` | 0 | 16 | 0 |
+| WI-0166 | Publish the repository as a public Alpha surface | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `879bcd6e` | 0 | 18 | 0 |
 
 ## Codex task registry
 
@@ -364,14 +364,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-04T18:27:50.932Z | work_item_closed | WI-0166 | agent-mog |
+| 2026-09-04T18:27:50.932Z | release_gate_completed | WI-0166 | agent-mog |
+| 2026-09-04T18:27:43.707Z | evidence_recorded | WI-0166 | human |
+| 2026-09-04T18:26:18.181Z | work_item_claimed | WI-0166 | human |
 | 2026-09-04T18:21:47.424Z | work_item_transitioned | WI-0166 | agent-lulu |
 | 2026-09-04T18:21:47.177Z | work_item_claim_released | WI-0166 | human |
 | 2026-09-04T18:21:46.930Z | handoff_created | WI-0166 | agent-lulu |
 | 2026-09-04T18:21:46.703Z | work_item_claimed | WI-0166 | human |
-| 2026-09-04T18:21:46.442Z | work_item_transitioned | WI-0166 | agent-lulu |
-| 2026-09-04T18:21:46.202Z | work_item_claim_released | WI-0166 | human |
-| 2026-09-04T18:21:45.961Z | handoff_created | WI-0166 | agent-lulu |
-| 2026-09-04T18:21:45.721Z | work_item_transitioned | WI-0166 | agent-lulu |
 
 ## Assignments
 

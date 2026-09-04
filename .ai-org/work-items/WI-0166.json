@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0166",
   "title": "Publish the repository as a public Alpha surface",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-04T18:12:48.299Z",
-  "updated_at": "2026-09-04T18:21:47.424Z",
+  "updated_at": "2026-09-04T18:27:50.932Z",
   "scope": [
     "Audit available GitHub Actions log text, preserve the owner decision accepting existing Git history, make the current repository public, and verify public access and repository protection; exclude images and media content; do not create a tag, GitHub Release, npm publication, deployment, or announcement."
   ],
@@ -47,7 +47,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "149076c69d7ecc2af3ede76e1f3b8d7a88285334",
+  "base_revision": "879bcd6e8c4068e1e83954fe8ce36b944eb87ae2",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -55,18 +55,16 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260904182146-d19938ba",
+    "id": "claim-20260904182618-816f613f",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-lulu",
-    "base_revision": "149076c69d7ecc2af3ede76e1f3b8d7a88285334",
-    "branch": "codex/wi-0166-public-alpha-rollout",
+    "agent_id": "agent-mog",
+    "base_revision": "879bcd6e8c4068e1e83954fe8ce36b944eb87ae2",
+    "branch": "codex/wi-0166-public-closeout",
     "worktree": null,
-    "claimed_at": "2026-09-04T18:21:46.703Z",
-    "released_at": "2026-09-04T18:21:47.177Z",
-    "release_reason": [
-      "position-transition"
-    ]
+    "claimed_at": "2026-09-04T18:26:18.181Z",
+    "released_at": "2026-09-04T18:27:50.932Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -152,6 +150,18 @@
       "release_reason": [
         "position-transition"
       ]
+    },
+    {
+      "id": "claim-20260904182618-816f613f",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "879bcd6e8c4068e1e83954fe8ce36b944eb87ae2",
+      "branch": "codex/wi-0166-public-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-04T18:26:18.181Z",
+      "released_at": "2026-09-04T18:27:50.932Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -179,13 +189,26 @@
       ".ai-org/artifacts/WI-0166/actions-log-review.md"
     ],
     "test_evidence": [
-      "EVID-20260904T182134Z-5D8EB44A"
+      "EVID-20260904T182134Z-5D8EB44A",
+      "EVID-20260904T182743Z-5E3EBA49"
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0166/quality-evaluation.md"
     ],
     "independent_qa_pass": [
       "EVID-20260904T182134Z-5D8EB44A"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0166/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0166/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0166/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0166/owner-approval.md"
     ]
   },
   "evidence": [
@@ -204,10 +227,12 @@
     ".ai-org/artifacts/WI-0166/handoff-005-quality_evaluator-to-independent_qa.md",
     ".ai-org/artifacts/WI-0166/quality-evaluation.md",
     ".ai-org/artifacts/WI-0166/handoff-006-independent_qa-to-release_manager.md",
-    ".ai-org/artifacts/WI-0166/independent-qa-report.md"
+    ".ai-org/artifacts/WI-0166/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0166/release-record.md",
+    "EVID-20260904T182743Z-5E3EBA49"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -252,5 +277,11 @@
       "created_at": "2026-09-04T18:21:46.930Z"
     }
   ],
-  "developer_candidate_revision": "149076c69d7ecc2af3ede76e1f3b8d7a88285334"
+  "developer_candidate_revision": "149076c69d7ecc2af3ede76e1f3b8d7a88285334",
+  "tested_revision": "879bcd6e8c4068e1e83954fe8ce36b944eb87ae2",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0166/owner-approval.md"
 }
