@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 141 total, 5 active
+- Work items: 142 total, 6 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -189,6 +189,7 @@
 | WI-0139 | Repair Context Capsule evaluation contract | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f787f8a` | 0 | 17 | 0 |
 | WI-0140 | Measure and enforce Context Capsule route adherence | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1216896f` | 0 | 16 | 0 |
 | WI-0141 | Run the live Context Capsule route-adherence comparison | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e0d7f37d` | 0 | 16 | 0 |
+| WI-0142 | Harden reusable model and process evaluation controls | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260904035125-fe64ee00 | `—` | 0 | 6 | 0 |
 
 ## Codex task registry
 
@@ -330,14 +331,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-04T03:35:18.766Z | work_item_closed | WI-0141 | agent-mog |
-| 2026-09-04T03:35:18.766Z | release_gate_completed | WI-0141 | agent-mog |
-| 2026-09-04T03:34:24.219Z | work_item_transitioned | WI-0141 | agent-lulu |
-| 2026-09-04T03:34:23.938Z | handoff_created | WI-0141 | agent-lulu |
-| 2026-09-04T03:34:13.682Z | evidence_recorded | WI-0141 | human |
-| 2026-09-04T03:32:07.144Z | work_item_transitioned | WI-0141 | agent-lulu |
-| 2026-09-04T03:32:06.893Z | handoff_created | WI-0141 | agent-lulu |
-| 2026-09-04T03:32:06.623Z | work_item_transitioned | WI-0141 | agent-lulu |
+| 2026-09-04T03:51:25.391Z | work_item_claimed | WI-0142 | principal-owner |
+| 2026-09-04T03:51:25.129Z | work_item_transitioned | WI-0142 | agent-tidus |
+| 2026-09-04T03:51:24.886Z | handoff_created | WI-0142 | agent-tidus |
+| 2026-09-04T03:51:24.412Z | work_item_transitioned | WI-0142 | agent-yuna |
+| 2026-09-04T03:51:24.127Z | handoff_created | WI-0142 | agent-yuna |
+| 2026-09-04T03:51:11.636Z | work_item_transitioned | WI-0142 | agent-mog |
+| 2026-09-04T03:51:11.384Z | handoff_created | WI-0142 | agent-mog |
+| 2026-09-04T03:51:11.080Z | work_item_coordination_configured | WI-0142 | agent-mog |
 
 ## Assignments
 

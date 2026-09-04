@@ -68,7 +68,7 @@ export const CONTEXT_ABLATION_SCHEMA = "temple.context-capsule-ablation/v4";
 export const CONTEXT_ABLATION_APPROVAL_SCHEMA = "temple.context-capsule-ablation-approval/v4";
 export const CONTEXT_PACKAGE_SCHEMA = "temple.context-treatment-package/v1";
 export const CONTEXT_ABLATION_OBSERVATION_SCHEMA = "temple.context-capsule-ablation-observation/v4";
-export const CONTEXT_ABLATION_ANALYSIS_SCHEMA = "temple.context-capsule-ablation-analysis/v4";
+export const CONTEXT_ABLATION_ANALYSIS_SCHEMA = "temple.context-capsule-ablation-analysis/v5";
 
 export const acquisitionLimits = Object.freeze({
   maximum_entries: 64,
@@ -1943,6 +1943,15 @@ function strictSedPath(commandText) {
   return match ? match[1] ?? match[2] ?? match[3] : null;
 }
 
+function strictCatPath(commandText) {
+  const match = /^cat\s+(?:"([^"]+)"|'([^']+)'|([^\s'"]+))$/.exec(commandText ?? "");
+  return match ? match[1] ?? match[2] ?? match[3] : null;
+}
+
+function strictReadPath(commandText) {
+  return strictSedPath(commandText) ?? strictCatPath(commandText);
+}
+
 function gitAcquisition(commandText) {
   const match = /^git\s+-C\s+(coordinator|gateway|catalog|orders|notifications)\s+(rev-parse\s+HEAD|status\s+--short)$/.exec(commandText ?? "");
   if (!match) return null;
@@ -1970,6 +1979,15 @@ async function repositoryRootForCwd(itemCwd, conditionRoot, repositoryRoots) {
   return null;
 }
 
+async function cwdIsConditionRoot(itemCwd, conditionRoot) {
+  if (typeof itemCwd !== "string" || itemCwd.trim() === "" || !path.isAbsolute(itemCwd)) return false;
+  try {
+    return await fs.realpath(itemCwd) === conditionRoot;
+  } catch {
+    return false;
+  }
+}
+
 function safeRelativePath(value) {
   if (typeof value !== "string" || value.trim() === "" || value.includes("\0")) return null;
   const normalized = value.replaceAll("\\", "/").replace(/^\.\//, "");
@@ -1983,9 +2001,11 @@ async function normalizeAcquisitionAction({ action, item, conditionRoot, reposit
   const gitEntry = gitAcquisition(commandText);
   if (gitEntry) return gitEntry;
   const accessKind = action?.type === "read" ? "read" : action?.type === "search" ? "search" : "unknown";
-  let candidate = typeof action?.path === "string" ? action.path : strictSedPath(commandText);
+  let candidate = typeof action?.path === "string" ? action.path : strictReadPath(commandText);
   if (candidate === "CONTEXT_PACKAGE.json" || candidate === "./CONTEXT_PACKAGE.json") {
-    return { repository_id: null, path: "CONTEXT_PACKAGE.json", access_kind: accessKind, classification: "control" };
+    return await cwdIsConditionRoot(item?.cwd, conditionRoot)
+      ? { repository_id: null, path: "CONTEXT_PACKAGE.json", access_kind: accessKind, classification: "control" }
+      : { repository_id: null, path: null, access_kind: accessKind, classification: "unknown" };
   }
   if (typeof candidate !== "string") {
     return { repository_id: null, path: null, access_kind: accessKind, classification: "unknown" };
@@ -2000,6 +2020,10 @@ async function normalizeAcquisitionAction({ action, item, conditionRoot, reposit
       canonical = await fs.realpath(candidate);
     } catch {
       return { repository_id: null, path: null, access_kind: accessKind, classification: "unknown" };
+    }
+    const controlPath = await fs.realpath(path.join(conditionRoot, "CONTEXT_PACKAGE.json")).catch(() => null);
+    if (controlPath !== null && canonical === controlPath) {
+      return { repository_id: null, path: "CONTEXT_PACKAGE.json", access_kind: accessKind, classification: "control" };
     }
     for (const [id, root] of repositoryRoots) {
       if (pathWithin(root, canonical)) {
@@ -2391,6 +2415,14 @@ function cacheShare(condition) {
     : null;
 }
 
+function nonCachedInputTokens(condition) {
+  const input = condition.usage?.input_tokens;
+  const cached = condition.usage?.cached_input_tokens;
+  return Number.isFinite(input) && Number.isFinite(cached) && cached >= 0 && cached <= input
+    ? input - cached
+    : null;
+}
+
 function metricPair(legacy, stage, selector) {
   const legacyValue = legacy ? selector(legacy) : null;
   const stageValue = stage ? selector(stage) : null;
@@ -2399,6 +2431,46 @@ function metricPair(legacy, stage, selector) {
     stage_aware: stageValue,
     delta: Number.isFinite(legacyValue) && Number.isFinite(stageValue) ? delta(legacyValue, stageValue) : null
   };
+}
+
+function cacheControlAssessment(protocol, conditions, repetitionPairs) {
+  const declared = protocol?.cache_control;
+  const method = typeof declared?.method === "string" ? declared.method : "not-declared";
+  const pairDeltas = repetitionPairs.map((pair) => {
+    const legacy = pair.cache_share_percent.legacy;
+    const stage = pair.cache_share_percent.stage_aware;
+    return Number.isFinite(legacy) && Number.isFinite(stage) ? round(Math.abs(stage - legacy)) : null;
+  });
+  const observed = {
+    pair_cache_share_delta_percentage_points: pairDeltas,
+    maximum_pair_cache_share_delta_percentage_points: pairDeltas.every(Number.isFinite) && pairDeltas.length > 0
+      ? Math.max(...pairDeltas)
+      : null
+  };
+  const blocked = (status, reasonCodes) => ({
+    status,
+    method,
+    causal_efficiency_claim: "blocked",
+    reason_codes: reasonCodes,
+    observed
+  });
+  if (method === "not-declared") return blocked("insufficient", ["protocol-cache-control-not-declared"]);
+  if (method === "uncontrolled") return blocked("insufficient", ["cache-state-uncontrolled"]);
+  if (declared?.predeclared !== true) return blocked("insufficient", ["cache-control-not-predeclared"]);
+  if (method === "provider-cache-disabled") {
+    if (declared?.provider_acknowledged !== true) return blocked("insufficient", ["provider-cache-control-not-acknowledged"]);
+    const cachedValues = conditions.map((entry) => entry.usage?.cached_input_tokens);
+    if (!cachedValues.every((value) => value === 0)) return blocked("failed", ["cached-input-observed-while-disabled"]);
+    return { status: "sufficient", method, causal_efficiency_claim: "eligible", reason_codes: [], observed };
+  }
+  if (method === "matched-cache-share") {
+    const maximum = declared?.maximum_pair_delta_percentage_points;
+    if (!Number.isFinite(maximum) || maximum < 0) return blocked("insufficient", ["predeclared-cache-balance-limit-missing"]);
+    if (!pairDeltas.every(Number.isFinite)) return blocked("failed", ["cache-share-observation-incomplete"]);
+    if (pairDeltas.some((value) => value > maximum)) return blocked("failed", ["cache-share-balance-limit-exceeded"]);
+    return { status: "sufficient", method, causal_efficiency_claim: "eligible", reason_codes: [], observed };
+  }
+  return blocked("insufficient", ["cache-control-method-unsupported-by-analysis"]);
 }
 
 function aggregateAcquisition(conditions) {
@@ -2461,6 +2533,8 @@ function shapeComparison(shape, protocol, conditions) {
   const stageCachedTokens = mean(stage.map((entry) => entry.usage?.cached_input_tokens));
   const legacyOutputTokens = mean(legacy.map((entry) => entry.usage?.output_tokens));
   const stageOutputTokens = mean(stage.map((entry) => entry.usage?.output_tokens));
+  const legacyNonCachedTokens = mean(legacy.map(nonCachedInputTokens));
+  const stageNonCachedTokens = mean(stage.map(nonCachedInputTokens));
   const tokens = completed ? delta(legacyTokens, stageTokens) : null;
   const latency = completed ? delta(legacyLatency, stageLatency) : null;
   let outcome = "inconclusive";
@@ -2502,9 +2576,12 @@ function shapeComparison(shape, protocol, conditions) {
       latency_ms: metricPair(legacyEntry, stageEntry, (entry) => entry.turn_elapsed_ms),
       provider_input_tokens: metricPair(legacyEntry, stageEntry, (entry) => entry.usage?.input_tokens),
       cached_input_tokens: metricPair(legacyEntry, stageEntry, (entry) => entry.usage?.cached_input_tokens),
+      non_cached_input_tokens: metricPair(legacyEntry, stageEntry, nonCachedInputTokens),
+      output_tokens: metricPair(legacyEntry, stageEntry, (entry) => entry.usage?.output_tokens),
       cache_share_percent: metricPair(legacyEntry, stageEntry, cacheShare)
     };
   });
+  const cacheControl = cacheControlAssessment(protocol, [...legacy, ...stage], repetitionPairs);
   return {
     shape,
     outcome,
@@ -2530,11 +2607,20 @@ function shapeComparison(shape, protocol, conditions) {
     provider_usage: {
       input_tokens: { legacy_mean: legacyInputTokens, stage_aware_mean: stageInputTokens, delta: completed ? delta(legacyInputTokens, stageInputTokens) : null },
       cached_input_tokens: { legacy_mean: legacyCachedTokens, stage_aware_mean: stageCachedTokens, delta: completed ? delta(legacyCachedTokens, stageCachedTokens) : null },
+      non_cached_input_tokens: { legacy_mean: legacyNonCachedTokens, stage_aware_mean: stageNonCachedTokens, delta: completed ? delta(legacyNonCachedTokens, stageNonCachedTokens) : null },
       output_tokens: { legacy_mean: legacyOutputTokens, stage_aware_mean: stageOutputTokens, delta: completed ? delta(legacyOutputTokens, stageOutputTokens) : null },
       cache_share_percent: {
         legacy_mean: Number.isFinite(mean(legacy.map(cacheShare))) ? round(mean(legacy.map(cacheShare))) : null,
         stage_aware_mean: Number.isFinite(mean(stage.map(cacheShare))) ? round(mean(stage.map(cacheShare))) : null
       }
+    },
+    cache_control: cacheControl,
+    causal_efficiency_claim: {
+      status: bothPass && cacheControl.causal_efficiency_claim === "eligible" ? "eligible" : "blocked",
+      reason_codes: [
+        ...(bothPass ? [] : ["correctness-gate-not-satisfied"]),
+        ...cacheControl.reason_codes
+      ]
     },
     latency_ms: {
       legacy_mean: legacyLatency,
@@ -2576,7 +2662,13 @@ export function analyzeContextAblation({ protocol, observation, generatedAt = ne
   const legacyConditions = (observation.conditions ?? []).filter((entry) => entry.strategy === "legacy-expanded");
   const stageConditions = (observation.conditions ?? []).filter((entry) => entry.strategy === "stage-aware");
   const sum = (values, selector) => values.reduce((total, entry) => total + selector(entry), 0);
-  const aggregate = usageKnown ? {
+  const providerUsageKnown = usageKnown && observation.conditions.every((entry) =>
+    Number.isFinite(entry.usage?.input_tokens) &&
+    Number.isFinite(entry.usage?.cached_input_tokens) &&
+    Number.isFinite(entry.usage?.output_tokens) &&
+    Number.isFinite(nonCachedInputTokens(entry))
+  );
+  const aggregate = providerUsageKnown ? {
     legacy_operational_tokens: sum(legacyConditions, (entry) => entry.operational_tokens),
     stage_aware_operational_tokens: sum(stageConditions, (entry) => entry.operational_tokens),
     operational_tokens_delta: delta(sum(legacyConditions, (entry) => entry.operational_tokens), sum(stageConditions, (entry) => entry.operational_tokens)),
@@ -2586,6 +2678,12 @@ export function analyzeContextAblation({ protocol, observation, generatedAt = ne
     legacy_cached_input_tokens: sum(legacyConditions, (entry) => entry.usage.cached_input_tokens),
     stage_aware_cached_input_tokens: sum(stageConditions, (entry) => entry.usage.cached_input_tokens),
     cached_input_tokens_delta: delta(sum(legacyConditions, (entry) => entry.usage.cached_input_tokens), sum(stageConditions, (entry) => entry.usage.cached_input_tokens)),
+    legacy_non_cached_input_tokens: sum(legacyConditions, nonCachedInputTokens),
+    stage_aware_non_cached_input_tokens: sum(stageConditions, nonCachedInputTokens),
+    non_cached_input_tokens_delta: delta(sum(legacyConditions, nonCachedInputTokens), sum(stageConditions, nonCachedInputTokens)),
+    legacy_output_tokens: sum(legacyConditions, (entry) => entry.usage.output_tokens),
+    stage_aware_output_tokens: sum(stageConditions, (entry) => entry.usage.output_tokens),
+    output_tokens_delta: delta(sum(legacyConditions, (entry) => entry.usage.output_tokens), sum(stageConditions, (entry) => entry.usage.output_tokens)),
     legacy_latency_ms: sum(legacyConditions, (entry) => entry.turn_elapsed_ms),
     stage_aware_latency_ms: sum(stageConditions, (entry) => entry.turn_elapsed_ms),
     latency_delta: delta(sum(legacyConditions, (entry) => entry.turn_elapsed_ms), sum(stageConditions, (entry) => entry.turn_elapsed_ms))
@@ -2607,6 +2705,8 @@ export function analyzeContextAblation({ protocol, observation, generatedAt = ne
       sample_per_condition: 2,
       statistical_claim: false,
       monetary_claim: false,
+      cache_control_required_for_causal_efficiency: true,
+      causal_efficiency_claim: comparisons.every((entry) => entry.causal_efficiency_claim.status === "eligible"),
       automatic_routing_authority: false
     }
   };
@@ -2623,8 +2723,8 @@ function reportMarkdown(protocol, observation, analysis) {
     "",
     "## Results by project shape",
     "",
-    "| Shape | Correctness (legacy / stage-aware) | Source bytes delta | Operational Tokens delta | Latency delta | Route evidence | Efficiency outcome |",
-    "|---|---:|---:|---:|---:|---|---|"
+    "| Shape | Correctness (legacy / stage-aware) | Source bytes delta | Operational Tokens delta | Latency delta | Route evidence | Diagnostic outcome | Causal efficiency |",
+    "|---|---:|---:|---:|---:|---|---|---|"
   ];
   for (const comparison of analysis.comparisons) {
     const tokenDelta = comparison.operational_tokens.delta ? `${comparison.operational_tokens.delta.percent}%` : "unknown";
@@ -2634,7 +2734,7 @@ function reportMarkdown(protocol, observation, analysis) {
     const stageAcquisition = comparison.context_acquisition.stage_aware;
     const unknownReads = `${legacyAcquisition.counts?.unknown ?? "unknown"} / ${stageAcquisition.counts?.unknown ?? "unknown"}`;
     const routeEvidence = `${comparison.context_acquisition.conclusion}; unknown reads ${unknownReads}`;
-    lines.push(`| ${comparison.shape} | ${comparison.correctness.legacy_pass ?? "unknown"} / ${comparison.correctness.stage_aware_pass ?? "unknown"} | ${sourceDelta} | ${tokenDelta} | ${latencyDelta} | ${routeEvidence} | ${comparison.outcome} |`);
+    lines.push(`| ${comparison.shape} | ${comparison.correctness.legacy_pass ?? "unknown"} / ${comparison.correctness.stage_aware_pass ?? "unknown"} | ${sourceDelta} | ${tokenDelta} | ${latencyDelta} | ${routeEvidence} | ${comparison.outcome} | ${comparison.causal_efficiency_claim.status} |`);
   }
   lines.push(
     "",
@@ -2652,11 +2752,24 @@ function reportMarkdown(protocol, observation, analysis) {
   }
   lines.push(
     "",
+    "## Provider usage and cache control",
+    "",
+    "| Shape | Gross input (legacy / stage-aware) | Cached input | Non-cached input | Output | Cache share % | Cache-control validity |",
+    "|---|---:|---:|---:|---:|---:|---|"
+  );
+  for (const comparison of analysis.comparisons) {
+    const usage = comparison.provider_usage;
+    lines.push(`| ${comparison.shape} | ${usage.input_tokens.legacy_mean} / ${usage.input_tokens.stage_aware_mean} | ${usage.cached_input_tokens.legacy_mean} / ${usage.cached_input_tokens.stage_aware_mean} | ${usage.non_cached_input_tokens.legacy_mean} / ${usage.non_cached_input_tokens.stage_aware_mean} | ${usage.output_tokens.legacy_mean} / ${usage.output_tokens.stage_aware_mean} | ${usage.cache_share_percent.legacy_mean} / ${usage.cache_share_percent.stage_aware_mean} | ${comparison.cache_control.status} (${comparison.cache_control.method}) |`);
+  }
+  lines.push(
+    "",
     "## Interpretation limits",
     "",
     "Correctness is evaluated from canonical typed facts and gates every efficiency interpretation. Initial source bytes, bounded post-route acquisition, Provider Tokens, latency, and tool-output bytes are separate measurements. Two counterbalanced repetitions per condition remain diagnostic evidence and do not establish statistical, monetary, or automatic-routing claims.",
     "",
-    "Known classifiable reads showed no off-route access, but every live condition retained one unknown read. Coverage is therefore incomplete and this run does not prove full route adherence. Repetition-level Operational Token and cache-share values are shown because cache variation can dominate the net Operational Token calculation; averages alone are not a stable causal estimate.",
+    "This analyzer keeps unknown acquisition records fail-closed. A successor sanitized regression recognizes exact single-file control-package reads, but the sealed historical observation is not rewritten and its unknown records are not retroactively relabelled.",
+    "",
+    "Gross input, cached input, non-cached input, output, Operational Tokens, and cache share are reported together. The WI-0141 protocol did not predeclare a verifiable cache-control method, so causal efficiency remains blocked even where a diagnostic average is favorable.",
     "",
     "The route is described as requested-and-thread-configured Terra medium. The installed App Server does not expose per-turn execution-effort telemetry, so effective execution effort remains unknown rather than inferred.",
     "",

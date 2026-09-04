@@ -1,0 +1,143 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0142",
+  "title": "Harden reusable model and process evaluation controls",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-04T03:48:51.822Z",
+  "updated_at": "2026-09-04T03:51:25.391Z",
+  "scope": [
+    "Classify privacy-safe control-package reads from supported sanitized Codex App Server action shapes without retaining raw commands or output.",
+    "Make cache sensitivity and cache-control validity first-class in deterministic comparison analysis, so routing or model claims fail closed when cache imbalance can dominate the result.",
+    "Retain a reusable, versioned evaluation method and protocol template for later Temple workflow changes and newly released models without authorizing a live Provider run."
+  ],
+  "acceptance_criteria": [
+    "Sanitized regression fixtures recognize supported control reads, preserve unsafe or ambiguous reads as unknown, and retain no raw command or output content.",
+    "Reports expose gross input, cached input, non-cached input, output, Operational Tokens, cache share, repetition spread, and an explicit cache-control validity result; causal efficiency claims remain blocked when validity is insufficient.",
+    "A human-facing guide and copyable protocol template define hypotheses, factors, counterbalancing, cache strategy, quality gates, budgets, stop conditions, privacy, approval, and reporting for process and model comparisons.",
+    "WI-0141 retained artifacts remain byte-identical and this Work Item performs no model generation, external write, release, or publication."
+  ],
+  "affected_paths": [
+    "scripts/run-context-capsule-ablation.mjs",
+    "test/context-capsule-ablation.test.mjs",
+    "docs/operations/model-and-process-evaluation.md",
+    "docs/operations/validation-programs.md",
+    "docs/README.md",
+    ".ai-org/templates/model-process-evaluation-protocol.json",
+    ".ai-org/artifacts/WI-0142"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "Measurement logic and reusable evaluation contracts can change how later live evidence is interpreted, so design, tests, independent QA, and closeout are proportionate even though this slice is local-only and generation-free.",
+    "evidence_refs": [
+      ".ai-org/artifacts/WI-0141/release-record.md"
+    ],
+    "evaluated_at": "2026-09-04T03:48:51.822Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [
+    "general-development"
+  ],
+  "stage_requirements": {},
+  "base_revision": "496a9490ea05462ddc738b4320554c8f11a949ac",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0138 has no active claim and is retained as immutable predecessor evidence; WI-0142 owns successor-only edits to the shared harness and tests."
+  ],
+  "claim": {
+    "id": "claim-20260904035125-fe64ee00",
+    "status": "active",
+    "principal_id": "principal-owner",
+    "agent_id": "agent-rikku",
+    "base_revision": "496a9490ea05462ddc738b4320554c8f11a949ac",
+    "branch": "codex/wi-0142-evaluation-controls",
+    "worktree": null,
+    "claimed_at": "2026-09-04T03:51:25.391Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260904035125-fe64ee00",
+      "status": "active",
+      "principal_id": "principal-owner",
+      "agent_id": "agent-rikku",
+      "base_revision": "496a9490ea05462ddc738b4320554c8f11a949ac",
+      "branch": "codex/wi-0142-evaluation-controls",
+      "worktree": null,
+      "claimed_at": "2026-09-04T03:51:25.391Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0142/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0142/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0142/approved-scope.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0142/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0142/technical-design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0142/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0142/work-order.md",
+    ".ai-org/artifacts/WI-0142/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0142/approved-scope.md",
+    ".ai-org/artifacts/WI-0142/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0142/technical-design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "496a9490ea05462ddc738b4320554c8f11a949ac",
+      "artifact": ".ai-org/artifacts/WI-0142/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-04T03:51:11.384Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "496a9490ea05462ddc738b4320554c8f11a949ac",
+      "artifact": ".ai-org/artifacts/WI-0142/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-04T03:51:24.127Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "496a9490ea05462ddc738b4320554c8f11a949ac",
+      "artifact": ".ai-org/artifacts/WI-0142/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-04T03:51:24.886Z"
+    }
+  ]
+}

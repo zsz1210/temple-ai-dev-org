@@ -2,6 +2,8 @@
 
 Use a validation program when a local experiment spans several authoritative repositories and model turns must stay inside a predeclared resource envelope. It is an experiment control, not a general task queue or remote-command gateway.
 
+This document controls **how a reviewed multi-repository program executes**. Use [Model and process evaluation](model-and-process-evaluation.md) first to define the comparison question, causal factor, cache strategy, quality gate, metrics, and interpretation boundary. The two contracts are complementary: an evaluation protocol decides what evidence would answer the question; a validation program bounds the repositories, turns, writes, and runtime resources used to collect it.
+
 ## What the program controls
 
 A `temple.validation-program/v1` manifest declares:

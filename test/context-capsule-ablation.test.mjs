@@ -300,6 +300,29 @@ test("bounded acquisition evidence classifies safe reads without retaining comma
   });
   const items = [
     successful("CONTEXT_PACKAGE.json", "package-body"),
+    successful("ignored", "provider-control-body", [{
+      type: "read",
+      command: "/bin/zsh -lc 'cat CONTEXT_PACKAGE.json'",
+      name: "CONTEXT_PACKAGE.json"
+    }]),
+    successful("ignored", "absolute-control-body", [{
+      type: "read",
+      command: `cat ${path.join(conditionRoot, "CONTEXT_PACKAGE.json")}`,
+      path: path.join(conditionRoot, "CONTEXT_PACKAGE.json")
+    }]),
+    successful("ignored", "ambiguous-control-body", [{
+      type: "read",
+      command: "cat CONTEXT_PACKAGE.json coordinator/docs/product/idempotency.md"
+    }]),
+    {
+      item: {
+        type: "commandExecution",
+        cwd: path.join(conditionRoot, "coordinator"),
+        exitCode: 0,
+        aggregatedOutput: "wrong-cwd-control-body",
+        commandActions: [{ type: "read", command: "cat CONTEXT_PACKAGE.json" }]
+      }
+    },
     successful(routedPath, "routed-body"),
     successful(offRoutePath, "off-route-body"),
     successful("coordinator/docs/product/escaped-link", "outside-body"),
@@ -317,15 +340,15 @@ test("bounded acquisition evidence classifies safe reads without retaining comma
   assert.equal(observation.entry_count, acquisitionLimits.maximum_entries);
   assert.ok(observation.overflow_count > 0);
   assert.equal(observation.failed_command_items, 1);
-  assert.ok(observation.counts.control >= 1);
+  assert.ok(observation.counts.control >= 3);
   assert.ok(observation.counts.routed >= 1);
   assert.ok(observation.counts["off-route"] >= 1);
-  assert.ok(observation.counts.unknown >= 4);
+  assert.ok(observation.counts.unknown >= 6);
   assert.equal(observation.coverage_complete, false);
   assert.equal(observation.adherence_pass, false);
   assert.equal(observation.entries.filter((entry) => entry.reported_output_bytes === null).length >= 2, true);
   const retainedText = JSON.stringify(observation);
-  assert.doesNotMatch(retainedText, /sed -n|package-body|routed-body|off-route-body|outside-body|traversal-body|absolute-body|oversized-body|failed-secret|multiple-body/);
+  assert.doesNotMatch(retainedText, /sed -n|cat CONTEXT|package-body|provider-control-body|absolute-control-body|ambiguous-control-body|wrong-cwd-control-body|routed-body|off-route-body|outside-body|traversal-body|absolute-body|oversized-body|failed-secret|multiple-body/);
   assert.equal(observation.raw_commands_retained, false);
   assert.equal(observation.raw_output_retained, false);
 });
@@ -333,6 +356,11 @@ test("bounded acquisition evidence classifies safe reads without retaining comma
 test("analysis keeps shapes separate and makes correctness primary", () => {
   const protocol = {
     protocol_sha256: "c".repeat(64),
+    cache_control: {
+      method: "provider-cache-disabled",
+      predeclared: true,
+      provider_acknowledged: true
+    },
     conditions: conditionDefinitions.map((definition) => ({
       ...definition,
       treatment: {
@@ -375,7 +403,11 @@ test("analysis keeps shapes separate and makes correctness primary", () => {
   assert.equal(analysis.comparisons.every((entry) => entry.context_acquisition.conclusion === "no-off-route-observed-with-complete-coverage"), true);
   assert.equal(analysis.comparisons.every((entry) => entry.repetition_pairs.length === 2), true);
   assert.equal(analysis.comparisons[0].provider_usage.cache_share_percent.legacy_mean, 0);
+  assert.equal(analysis.comparisons[0].provider_usage.non_cached_input_tokens.legacy_mean, 900);
+  assert.equal(analysis.comparisons.every((entry) => entry.cache_control.status === "sufficient"), true);
+  assert.equal(analysis.comparisons.every((entry) => entry.causal_efficiency_claim.status === "eligible"), true);
   assert.equal(analysis.diagnostic_aggregate.operational_tokens_delta.percent, -20);
+  assert.equal(analysis.diagnostic_aggregate.non_cached_input_tokens_delta.percent, -21.43);
   const regressed = structuredClone(conditions);
   regressed.find((entry) => entry.id === "single-stage-aware-a").objective.pass = false;
   const regression = analyzeContextAblation({ protocol, observation: { conditions: regressed } });
@@ -387,6 +419,63 @@ test("analysis keeps shapes separate and makes correctness primary", () => {
   }
   const tradeoff = analyzeContextAblation({ protocol, observation: { conditions: tradeoffConditions } });
   assert.equal(tradeoff.comparisons.find((entry) => entry.shape === "coordinator-multi-repository").outcome, "tradeoff");
+});
+
+test("analysis blocks causal efficiency when cache control was not predeclared", () => {
+  const protocol = {
+    protocol_sha256: "e".repeat(64),
+    conditions: conditionDefinitions.map((definition) => ({
+      ...definition,
+      treatment: {
+        measured_source_bytes: definition.strategy === "legacy-expanded" ? 10000 : 5000,
+        selected_source_count: definition.strategy === "legacy-expanded" ? 8 : 4
+      }
+    }))
+  };
+  const expectedByShape = {
+    "single-repository": {
+      requirement_id: "REQ-ONE", duplicate_request_effect: "return-original", decision_id: "ADR-0042",
+      repository_revision: "a".repeat(40), public_tests_passed: 18, public_tests_failed: 0,
+      unresolved_risk_id: "RISK-ONE", safe_next_action_id: "ACTION-ONE", authority_source: "source"
+    },
+    "coordinator-multi-repository": {
+      contract_id: "Event/v2", compatibility_policy_id: "COMPAT-V1",
+      component_revisions: Object.fromEntries(["gateway", "catalog", "orders", "notifications"].map((id) => [id, "b".repeat(40)])),
+      completed_slice_ids: ["one"], unresolved_risk_id: "RISK-ONE",
+      authority_owner_id: "coordinator", safe_next_action_id: "ACTION-ONE"
+    }
+  };
+  const conditions = conditionDefinitions.map((definition) => syntheticCondition(
+    definition,
+    expectedByShape[definition.shape],
+    definition.strategy === "legacy-expanded" ? 1000 : 800,
+    1000,
+    100
+  ));
+  conditions.find((entry) => entry.id === "single-stage-aware-b").usage = {
+    input_tokens: 1900,
+    cached_input_tokens: 1200,
+    output_tokens: 100,
+    reasoning_output_tokens: 0,
+    total_tokens: 2000
+  };
+  const analysis = analyzeContextAblation({ protocol, observation: { conditions } });
+  assert.equal(analysis.comparisons.every((entry) => entry.cache_control.status === "insufficient"), true);
+  assert.equal(analysis.comparisons.every((entry) => entry.causal_efficiency_claim.status === "blocked"), true);
+  assert.equal(analysis.interpretation_boundary.causal_efficiency_claim, false);
+  assert.equal(analysis.comparisons[0].repetition_pairs[1].non_cached_input_tokens.stage_aware, 700);
+  assert.deepEqual(analysis.comparisons[0].cache_control.reason_codes, ["protocol-cache-control-not-declared"]);
+});
+
+test("the reusable model and process evaluation template is non-executable until frozen", async () => {
+  const template = JSON.parse(await fs.readFile(path.resolve(".ai-org/templates/model-process-evaluation-protocol.json"), "utf8"));
+  assert.equal(template.schema_version, "temple.model-process-evaluation-protocol/v1");
+  assert.equal(template.status, "draft-template");
+  assert.equal(template.approval.approved, false);
+  assert.equal(template.execution.model_generation_authorized, false);
+  assert.equal(template.cache_control.method, "select-before-freeze");
+  assert.equal(template.analysis.allow_causal_efficiency_claim, false);
+  assert.equal(template.authority.external_spend, false);
 });
 
 test("analysis preserves unknown usage instead of inventing a savings delta", () => {
