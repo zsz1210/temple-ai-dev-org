@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 143 total, 6 active
+- Work items: 143 total, 5 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -190,7 +190,7 @@
 | WI-0140 | Measure and enforce Context Capsule route adherence | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1216896f` | 0 | 16 | 0 |
 | WI-0141 | Run the live Context Capsule route-adherence comparison | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e0d7f37d` | 0 | 16 | 0 |
 | WI-0142 | Harden reusable model and process evaluation controls | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f6a007da` | 0 | 18 | 0 |
-| WI-0143 | Validate cache-controlled Context Capsule effectiveness | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e02ab92c` | 0 | 18 | 3 |
+| WI-0143 | Validate cache-controlled Context Capsule effectiveness | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e02ab92c` | 0 | 19 | 0 |
 
 ## Codex task registry
 
@@ -332,14 +332,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-04T05:12:03.302Z | work_item_closed | WI-0143 | agent-mog |
+| 2026-09-04T05:12:03.302Z | release_gate_completed | WI-0143 | agent-mog |
+| 2026-09-04T05:11:37.345Z | work_item_unresolved_updated | WI-0143 | agent-mog |
 | 2026-09-04T05:06:05.441Z | work_item_transitioned | WI-0143 | agent-lulu |
 | 2026-09-04T05:06:05.150Z | handoff_created | WI-0143 | agent-lulu |
 | 2026-09-04T05:06:04.953Z | evidence_recorded | WI-0143 | human |
 | 2026-09-04T05:04:54.769Z | work_item_transitioned | WI-0143 | agent-lulu |
 | 2026-09-04T05:04:54.529Z | handoff_created | WI-0143 | agent-lulu |
-| 2026-09-04T05:04:44.087Z | work_item_transitioned | WI-0143 | agent-lulu |
-| 2026-09-04T05:04:43.887Z | evidence_recorded | WI-0143 | human |
-| 2026-09-04T05:03:35.032Z | work_item_transitioned | WI-0143 | agent-rikku |
 
 ## Assignments
 
