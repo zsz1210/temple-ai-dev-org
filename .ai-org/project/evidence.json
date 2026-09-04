@@ -22803,6 +22803,137 @@
         "exit_code": 0,
         "started_at": "2026-09-04T03:31:56Z"
       }
+    },
+    {
+      "id": "EVID-20260904T040357Z-A12FCBF4",
+      "work_item_id": "WI-0142",
+      "recorded_at": "2026-09-04T04:03:57.632Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0142 evaluation controls candidate",
+      "outcome": "verified",
+      "scope_revision": "5197e7a3b513ab0d4f06e31163f29549a0103f43",
+      "observed_at": "2026-09-04T04:03:57.632Z",
+      "summary": "Exact committed candidate with acquisition normalization, cache-aware causal gating, reusable guide, protocol template, and developer verification.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "5197e7a"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "5197e7a",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T040357Z-903481F2",
+      "work_item_id": "WI-0142",
+      "recorded_at": "2026-09-04T04:03:57.872Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0142 developer verification",
+      "outcome": "pass",
+      "scope_revision": "250abc73c0b1ddfb56e0d6d9853fe200f74c3c2d",
+      "observed_at": "2026-09-04T04:02:31.000Z",
+      "summary": "Focused acquisition and cache regressions, repository checks, documentation links, package boundary, and the final 411-test suite passed without model generation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0142/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0142/developer-test-observation.json",
+          "sha256": "2e6dae90f743b75578841445b302ee8ea0175c7c5b032fdeeef656ffc2813af4"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0142/developer-verification.md",
+          "sha256": "efda574e13b422f77e91d1febc9e46ef1a2d33e3b5416205972660c6037abe97"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0142/measurement-repair-result.md",
+          "sha256": "1550989ec3bc64beb935086065ed8fe0cb19609463641705342820090d2ebddc"
+        },
+        {
+          "path": "docs/operations/model-and-process-evaluation.md",
+          "sha256": "2821a6773e92ea18bd64acc5b5f790ff56b6ff55221fd334d7fd7c404d04cb7c"
+        },
+        {
+          "path": ".ai-org/templates/model-process-evaluation-protocol.json",
+          "sha256": "95bfdb8d8214828c1f984b9697e2cccd3d98adcaeba076976f4d41763d8dd139"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/context-capsule-ablation.test.mjs",
+          "npm run check",
+          "npm run verify",
+          "git diff --check",
+          "git diff --name-only 496a949 -- .ai-org/artifacts/WI-0141"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T04:01:18.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T040519Z-6F6737A5",
+      "work_item_id": "WI-0142",
+      "recorded_at": "2026-09-04T04:05:19.703Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0142 quality evaluation",
+      "outcome": "pass",
+      "scope_revision": "5197e7a3b513ab0d4f06e31163f29549a0103f43",
+      "observed_at": "2026-09-04T04:04:39.000Z",
+      "summary": "Quality evaluation passed focused regressions, documentation links, retained-data projection, cache claim gating, and predecessor immutability without model generation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0142/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0142/quality-test-observation.json",
+          "sha256": "d2efe45db1955de5ef3d0680692767e6d28adf78af1086f260dccd1653b95b03"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0142/quality-evaluation.md",
+          "sha256": "a9d1b961bdbcd04d2fe7a40aa82612e91bb8c50d1b9629ef32a22883275df888"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0142/measurement-repair-result.md",
+          "sha256": "1550989ec3bc64beb935086065ed8fe0cb19609463641705342820090d2ebddc"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/context-capsule-ablation.test.mjs",
+          "node scripts/check-doc-links.mjs",
+          "deterministic WI-0141 analysis v5 projection assertion",
+          "git diff --name-only 496a949 -- .ai-org/artifacts/WI-0141"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T04:04:27.000Z"
+      }
     }
   ]
 }
