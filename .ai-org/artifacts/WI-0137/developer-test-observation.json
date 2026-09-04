@@ -1,0 +1,25 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d",
+  "command": [
+    "node --test test/context.test.mjs test/representative-microservice-comparison.test.mjs"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T00:14:48.000Z",
+  "completed_at": "2026-09-04T00:14:54.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0137/developer-verification.md",
+    ".ai-org/artifacts/WI-0137/technical-design.md",
+    "docs/adr/0047-bind-context-capsules-to-stage-purpose-and-source-manifests.md"
+  ],
+  "summary": {
+    "focused_tests_passed": 51,
+    "focused_tests_failed": 0,
+    "full_tests_passed": 400,
+    "full_tests_failed": 0,
+    "doctor_failures": 0,
+    "external_action_performed": false,
+    "model_invocation_performed": false
+  }
+}
