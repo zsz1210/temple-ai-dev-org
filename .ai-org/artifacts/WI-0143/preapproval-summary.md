@@ -27,4 +27,4 @@
 
 ## Exact approval text
 
-> 批准 WI-0143：依 protocol 084e7ac3ae67c1c4a093fe832cd23728d03c440ddeca95a74fbf45bbb062536b，執行 8 個 Terra medium 候選回合，最多 524,000 Operational Tokens、80 分鐘，只使用 Pro 內含額度，不購買 Credits、不自動補充、不使用 reset、零重試、零 fallback；採 2 個百分點 matched-cache-share 門檻，若品質、acquisition coverage 或 cache control 未通過，只保留描述性結果，不作因果效率宣稱。
+> Approve WI-0143 under protocol 084e7ac3ae67c1c4a093fe832cd23728d03c440ddeca95a74fbf45bbb062536b for eight Terra medium candidate turns, at most 524,000 Operational Tokens and 80 minutes, using only the included Pro allowance, with no Credits purchase, automatic refill, usage reset, retry, or fallback. Use the two-percentage-point matched-cache-share threshold; if quality, acquisition coverage, or cache control fails, retain descriptive results only and make no causal efficiency claim.
