@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0147",
   "title": "Keep bounded CI within its declared runtime",
-  "state": "test",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-04T07:26:12.616Z",
-  "updated_at": "2026-09-04T07:29:23.941Z",
+  "updated_at": "2026-09-04T07:36:13.798Z",
   "scope": [
     "Prevent successful CI checks from being cancelled during runner cleanup when dependency installation is slow."
   ],
@@ -101,16 +101,24 @@
     "developer_evidence": [
       "EVID-20260904T072901Z-57ED2BD8",
       "EVID-20260904T072901Z-41935138"
+    ],
+    "test_evidence": [
+      "EVID-20260904T073559Z-3D085DC1"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0147/quality-evaluation.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0147/work-order.md",
     ".ai-org/artifacts/WI-0147/handoff-001-developer-to-quality_evaluator.md",
     "EVID-20260904T072901Z-57ED2BD8",
-    "EVID-20260904T072901Z-41935138"
+    "EVID-20260904T072901Z-41935138",
+    "EVID-20260904T073559Z-3D085DC1",
+    ".ai-org/artifacts/WI-0147/quality-evaluation.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -120,5 +128,8 @@
       "created_at": "2026-09-04T07:29:16.681Z"
     }
   ],
-  "developer_candidate_revision": "aca402e2ebf61f2babb83337f4182c5810492903"
+  "developer_candidate_revision": "aca402e2ebf61f2babb83337f4182c5810492903",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
 }

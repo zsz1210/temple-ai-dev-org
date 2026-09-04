@@ -23745,6 +23745,54 @@
         "exit_code": 0,
         "started_at": "2026-09-04T07:27:30Z"
       }
+    },
+    {
+      "id": "EVID-20260904T073559Z-3D085DC1",
+      "work_item_id": "WI-0147",
+      "recorded_at": "2026-09-04T07:35:59.344Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0147 hosted CI verification",
+      "outcome": "pass",
+      "scope_revision": "aca402e2ebf61f2babb83337f4182c5810492903",
+      "observed_at": "2026-09-04T07:35:13Z",
+      "summary": "Hosted Node.js 24 gate completed successfully within the revised bounded timeout.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0147/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0147/quality-test-observation.json",
+          "sha256": "331112d4a2926170d1f106fb5bcbe640adfda9cd910928f9e83171f93aa45948"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0147/work-order.md",
+          "sha256": "6f9bbeaa738622ad17754e050efa7ffc23eaeebcba7d8312b6afe970be251db1"
+        },
+        {
+          "path": ".github/workflows/ci.yml",
+          "sha256": "6503c3d0cc2dd5609fbf68396256d4c2fefeb5c790a93d0793e5f58c4519a0d3"
+        },
+        {
+          "path": "test/ci-scope.test.mjs",
+          "sha256": "42bcfbc823704e18da7ef209d20329d52bd38aac0b1e9756bbc63bd129613e6c"
+        }
+      ],
+      "details": {
+        "command": [
+          "GitHub Actions run 33848978027: Verify (Node.js 24)",
+          "npm run verify:fast"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T07:29:44Z"
+      }
     }
   ]
 }
