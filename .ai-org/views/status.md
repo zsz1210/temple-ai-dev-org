@@ -185,7 +185,7 @@
 | WI-0135 | Run optimized Terra process confirmation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `00ea3a47` | 0 | 24 | 0 |
 | WI-0136 | Execute representative multi-Agent microservice comparison | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f76d2e7b` | 0 | 20 | 0 |
 | WI-0137 | Make context routing stage-aware and measurement-ready | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `94d8ceb9` | 0 | 16 | 0 |
-| WI-0138 | Measure stage-aware Context Capsule effectiveness | intake | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260904003203-1c078142 | `—` | 0 | 0 | 0 |
+| WI-0138 | Measure stage-aware Context Capsule effectiveness | spec | Product Manager | Yuna | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260904003253-2eae9b97 | `—` | 0 | 2 | 0 |
 
 ## Codex task registry
 
@@ -327,14 +327,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-04T00:32:53.098Z | work_item_claimed | WI-0138 | human |
+| 2026-09-04T00:32:52.852Z | work_item_transitioned | WI-0138 | agent-mog |
+| 2026-09-04T00:32:52.582Z | handoff_created | WI-0138 | agent-mog |
 | 2026-09-04T00:32:03.661Z | work_item_claimed | WI-0138 | human |
 | 2026-09-04T00:31:57.590Z | work_item_created | WI-0138 | agent-mog |
 | 2026-09-04T00:26:42.408Z | work_item_transitioned | WI-0137 | agent-lulu |
 | 2026-09-04T00:26:41.953Z | handoff_created | WI-0137 | agent-lulu |
 | 2026-09-04T00:26:20.346Z | evidence_recorded | WI-0137 | human |
-| 2026-09-04T00:25:20.445Z | work_item_transitioned | WI-0137 | agent-lulu |
-| 2026-09-04T00:25:20.129Z | work_item_transitioned | WI-0137 | agent-lulu |
-| 2026-09-04T00:25:14.216Z | evidence_recorded | WI-0137 | human |
 
 ## Assignments
 

@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0138",
   "title": "Measure stage-aware Context Capsule effectiveness",
-  "state": "intake",
-  "owner_position": "engineering_manager",
-  "assigned_agent_id": "agent-mog",
+  "state": "spec",
+  "owner_position": "product_manager",
+  "assigned_agent_id": "agent-yuna",
   "created_at": "2026-09-04T00:31:57.590Z",
-  "updated_at": "2026-09-04T00:32:03.661Z",
+  "updated_at": "2026-09-04T00:32:53.098Z",
   "scope": [
     "Build a generation-free, fail-closed A/B harness comparing legacy-expanded and stage-aware context on matched single-repository and coordinator-led multi-repository cold handoffs.",
     "Retain source bytes, selection digests, correctness, Provider Token categories, latency, tool output, human intervention, and rework without retaining prompts or hidden reasoning.",
@@ -52,7 +52,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "2bfb99f",
+  "base_revision": "79f42ec29b5ee7aedf3eaa85891ea2f142ff304d",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -60,31 +60,59 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260904003203-1c078142",
+    "id": "claim-20260904003253-2eae9b97",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-mog",
-    "base_revision": "2bfb99f",
+    "agent_id": "agent-yuna",
+    "base_revision": "79f42ec29b5ee7aedf3eaa85891ea2f142ff304d",
     "branch": "codex/wi-0138-context-capsule-ablation",
     "worktree": null,
-    "claimed_at": "2026-09-04T00:32:03.661Z",
+    "claimed_at": "2026-09-04T00:32:53.098Z",
     "released_at": null
   },
   "claims": [
     {
       "id": "claim-20260904003203-1c078142",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-mog",
       "base_revision": "2bfb99f",
       "branch": "codex/wi-0138-context-capsule-ablation",
       "worktree": null,
       "claimed_at": "2026-09-04T00:32:03.661Z",
+      "released_at": "2026-09-04T00:32:52.852Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904003253-2eae9b97",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "79f42ec29b5ee7aedf3eaa85891ea2f142ff304d",
+      "branch": "codex/wi-0138-context-capsule-ablation",
+      "worktree": null,
+      "claimed_at": "2026-09-04T00:32:53.098Z",
       "released_at": null
     }
   ],
-  "gate_evidence": {},
-  "evidence": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0138/work-order.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0138/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0138/work-order.md"
+  ],
   "unresolved": [],
-  "next_position": "product_manager"
+  "next_position": "tech_lead",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "79f42ec29b5ee7aedf3eaa85891ea2f142ff304d",
+      "artifact": ".ai-org/artifacts/WI-0138/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-04T00:32:52.582Z"
+    }
+  ]
 }
