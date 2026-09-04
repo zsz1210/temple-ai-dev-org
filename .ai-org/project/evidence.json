@@ -25160,6 +25160,55 @@
         "exit_code": 0,
         "started_at": "2026-09-04T13:51:14.000Z"
       }
+    },
+    {
+      "id": "EVID-20260904T143102Z-E2501EFF",
+      "work_item_id": "WI-0158",
+      "recorded_at": "2026-09-04T14:31:02.386Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0158 exact-candidate full verification",
+      "outcome": "pass",
+      "scope_revision": "3ffd987c9a487783f1c8fbeed735af94f19dbc80",
+      "observed_at": "2026-09-04T14:30:22.000Z",
+      "summary": "Detached candidate passed repository, documentation, package, and 434 Node tests.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0158/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0158/quality-test-observation.json",
+          "sha256": "141db4bccb6ebb7a74b5d20091c059ebc5ee0370e1d4285dd46ed7675e65b59a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0158/developer-verification.md",
+          "sha256": "ba1a2e7e0ea0e75aebfbc0e6324acc09fade8116c08040d22e9aff05b0339745"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0158/final-clean-room-result.json",
+          "sha256": "5dbe7003fa72f4a3d74ca78daa74e0cb4a9e7bd700c480a9dcd3507d903794b2"
+        },
+        {
+          "path": "docs/validation/final-pre-alpha-clean-room.md",
+          "sha256": "248e3670841f386a3d6d537d1a43b298d5e60a7cb5bf94850332fc39d7bdee28"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T14:28:51.000Z"
+      }
     }
   ]
 }
