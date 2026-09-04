@@ -36,6 +36,17 @@ async function fixture(context) {
     ]
   }, null, 2)}\n`);
   assert.equal(run(["init", target, "--config", configPath]).status, 0);
+  for (const relativePath of [
+    "docs/design.md",
+    "docs/eval.md",
+    "docs/risk.md",
+    "docs/spec.md",
+    "docs/work-order.md"
+  ]) {
+    const absolutePath = path.join(target, relativePath);
+    await fs.mkdir(path.dirname(absolutePath), { recursive: true });
+    await fs.writeFile(absolutePath, `Fixture evidence for ${relativePath}\n`);
+  }
   assert.equal(git(target, ["init", "-q"]).status, 0);
   assert.equal(git(target, ["config", "user.email", "temple-tests@example.invalid"]).status, 0);
   assert.equal(git(target, ["config", "user.name", "Temple Tests"]).status, 0);

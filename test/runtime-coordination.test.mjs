@@ -110,6 +110,20 @@ async function fixture(context) {
   await fs.writeFile(configPath, `${JSON.stringify(initConfig(), null, 2)}\n`);
   const initialized = run(["init", target, "--config", configPath]);
   assert.equal(initialized.status, 0, initialized.stderr || initialized.stdout);
+  for (const relativePath of [
+    ".ai-org/artifacts/handoff.md",
+    ".ai-org/evidence/build.json",
+    ".ai-org/evidence/internal.json",
+    "docs/design.md",
+    "docs/developer-evidence.md",
+    "docs/handoff.md",
+    "docs/spec.md",
+    "docs/work-order.md"
+  ]) {
+    const absolutePath = path.join(target, relativePath);
+    await fs.mkdir(path.dirname(absolutePath), { recursive: true });
+    await fs.writeFile(absolutePath, `Fixture evidence for ${relativePath}\n`);
+  }
   return { temporaryRoot, target };
 }
 

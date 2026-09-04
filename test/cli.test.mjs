@@ -85,6 +85,15 @@ test("version is available without dependencies", () => {
   assert.match(result.stdout, /^0\.1\.0-alpha\.29/m);
 });
 
+test("close help names every Standard release-gate evidence key", () => {
+  const result = run(["--help"]);
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.match(
+    result.stdout,
+    /temple close .*--satisfy accepted_scope=ref --satisfy test_evidence=ref --satisfy evaluation_report=ref --satisfy independent_qa_report=ref/
+  );
+});
+
 test("package-visible init example is valid and non-interactive failure points to it", async (context) => {
   const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-init-example-"));
   const target = path.join(temporaryRoot, "sample-product");
@@ -509,15 +518,23 @@ test("init, doctor, status, and idempotent re-init succeed", async (context) => 
     defaultRepositoryIntegration()
   );
 
+  const capabilityViewPath = path.join(target, ".ai-org/views/capabilities.json");
+  const capabilityViewBeforeReadOnlyChecks = await fs.readFile(capabilityViewPath);
   const doctor = run(["doctor", target, "--json"]);
   assert.equal(doctor.status, 0, doctor.stderr || doctor.stdout);
   const doctorResult = JSON.parse(doctor.stdout);
   assert.equal(doctorResult.summary.fail, 0);
   assert.equal(doctorResult.checks.find((check) => check.id === "repository_integration").status, "warn");
+  assert.deepEqual(await fs.readFile(capabilityViewPath), capabilityViewBeforeReadOnlyChecks);
+
+  const readOnlyStatus = run(["status", target, "--json", "--no-write"]);
+  assert.equal(readOnlyStatus.status, 0, readOnlyStatus.stderr || readOnlyStatus.stdout);
+  assert.deepEqual(await fs.readFile(capabilityViewPath), capabilityViewBeforeReadOnlyChecks);
 
   const status = run(["status", target, "--json"]);
   assert.equal(status.status, 0, status.stderr);
   const statusResult = JSON.parse(status.stdout);
+  assert.notDeepEqual(await fs.readFile(capabilityViewPath), capabilityViewBeforeReadOnlyChecks);
   assert.equal(statusResult.assignments.length, 10);
   assert.equal(statusResult.schema_version, "temple.status/v9");
   assert.equal(statusResult.learning.total, 0);

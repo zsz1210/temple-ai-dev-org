@@ -990,6 +990,65 @@ function normalizeSatisfiedRequirements(satisfied = {}) {
   return output;
 }
 
+const REPOSITORY_ARTIFACT_EXTENSIONS = new Set([
+  ".cjs",
+  ".html",
+  ".jpeg",
+  ".jpg",
+  ".js",
+  ".json",
+  ".jsonl",
+  ".jsx",
+  ".log",
+  ".md",
+  ".mjs",
+  ".pdf",
+  ".png",
+  ".svg",
+  ".toml",
+  ".ts",
+  ".tsx",
+  ".txt",
+  ".xml",
+  ".yaml",
+  ".yml"
+]);
+
+function looksLikeRepositoryArtifactReference(reference) {
+  const value = String(reference ?? "").trim();
+  if (!value || value.startsWith("EVID-") || value.startsWith("git:")) return false;
+  if (/^[a-z][a-z0-9+.-]*:\/\//i.test(value)) return false;
+  return value.includes("/") || value.includes("\\") || REPOSITORY_ARTIFACT_EXTENSIONS.has(path.extname(value).toLowerCase());
+}
+
+async function assertRepositoryGateEvidencePaths(target, gateEvidence) {
+  const references = uniqueStrings(Object.values(gateEvidence).flat()).filter(looksLikeRepositoryArtifactReference);
+  if (references.length === 0) return;
+
+  const realTarget = await fs.realpath(target);
+  for (const reference of references) {
+    if (!isSafeRepositoryPath(reference)) {
+      throw new Error(`Gate evidence artifact path is unsafe: ${reference}`);
+    }
+    const artifactPath = path.resolve(target, reference);
+    let stats;
+    try {
+      stats = await fs.lstat(artifactPath);
+    } catch (error) {
+      if (error?.code === "ENOENT") throw new Error(`Gate evidence artifact is missing: ${reference}`);
+      throw error;
+    }
+    if (stats.isSymbolicLink()) throw new Error(`Gate evidence artifact must not be a symbolic link: ${reference}`);
+    if (!stats.isFile()) throw new Error(`Gate evidence artifact is not a regular file: ${reference}`);
+
+    const realArtifactPath = await fs.realpath(artifactPath);
+    const relativeRealPath = path.relative(realTarget, realArtifactPath);
+    if (relativeRealPath === ".." || relativeRealPath.startsWith(`..${path.sep}`) || path.isAbsolute(relativeRealPath)) {
+      throw new Error(`Gate evidence artifact resolves outside the repository: ${reference}`);
+    }
+  }
+}
+
 async function assertNormalizedGateEvidence(target, item, gateEvidence) {
   const normalizedReferences = Object.entries(gateEvidence).flatMap(([requirement, references]) =>
     (references ?? [])
@@ -1063,6 +1122,7 @@ export async function transitionWorkItem(target, options) {
   const additions = normalizeSatisfiedRequirements(options.satisfied);
   const mergedGates = mergeGateEvidence(item, additions);
   await assertNormalizedGateEvidence(target, item, mergedGates);
+  await assertRepositoryGateEvidencePaths(target, mergedGates);
   if (toState === "build") await assertUiEvidence(target, item, mergedGates, "prebuild");
   await assertHighAssuranceTransition(target, context, item, toState, mergedGates);
   const missing = (transition.requires ?? []).filter((requirement) => !(mergedGates[requirement]?.length > 0));
@@ -1279,6 +1339,8 @@ export async function closeWorkItem(target, options) {
   const actor = resolveActor(context, "release_manager", options.actor);
   const satisfied = normalizeSatisfiedRequirements(options.satisfied);
   const gateEvidence = mergeGateEvidence(item, satisfied);
+  await assertNormalizedGateEvidence(target, item, gateEvidence);
+  await assertRepositoryGateEvidencePaths(target, gateEvidence);
   if (options.decision === "go") await assertUiEvidence(target, item, gateEvidence, "close");
   const required = (context.policies.release_gate?.requires ?? []).filter((requirement) => requirement !== "rollback_plan");
   const missing = required.filter((requirement) => !(gateEvidence[requirement]?.length > 0));
