@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0149",
   "title": "Refresh current Alpha release readiness",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-04T08:56:52.664Z",
-  "updated_at": "2026-09-04T08:58:03.924Z",
+  "updated_at": "2026-09-04T09:06:21.068Z",
   "scope": [
     "Replace the stale Alpha.29 publication checklist with a concise human-facing snapshot of current GitHub, package, npm, validation, and decision gates without performing any release action."
   ],
@@ -55,26 +55,28 @@
   ],
   "claim": {
     "id": "claim-20260904085803-652a8e73",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "base_revision": "79defd22aa4084720bfd92747211347e3bfa26de",
     "branch": "codex/wi-0149-refresh-alpha-readiness",
     "worktree": null,
     "claimed_at": "2026-09-04T08:58:03.924Z",
-    "released_at": null
+    "released_at": "2026-09-04T09:04:59.295Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
       "id": "claim-20260904085803-652a8e73",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "79defd22aa4084720bfd92747211347e3bfa26de",
       "branch": "codex/wi-0149-refresh-alpha-readiness",
       "worktree": null,
       "claimed_at": "2026-09-04T08:58:03.924Z",
-      "released_at": null
+      "released_at": "2026-09-04T09:04:59.295Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -95,11 +97,46 @@
     ],
     "profile_eligibility": [
       ".ai-org/artifacts/WI-0149/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0149/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260904T090448Z-50379ABF",
+      "EVID-20260904T090448Z-41235089"
+    ],
+    "implementation": [
+      "EVID-20260904T090448Z-50379ABF"
+    ],
+    "test_evidence": [
+      "EVID-20260904T090448Z-41235089",
+      "EVID-20260904T090614Z-C432FBE8"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0149/quality-evaluation.md"
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0149/work-order.md"
+    ".ai-org/artifacts/WI-0149/work-order.md",
+    ".ai-org/artifacts/WI-0149/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260904T090448Z-50379ABF",
+    "EVID-20260904T090448Z-41235089",
+    "EVID-20260904T090614Z-C432FBE8",
+    ".ai-org/artifacts/WI-0149/quality-evaluation.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "8d2b11352d05ef945365dd3d5befe696c905409e",
+      "artifact": ".ai-org/artifacts/WI-0149/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T09:04:58.998Z"
+    }
+  ],
+  "developer_candidate_revision": "8d2b11352d05ef945365dd3d5befe696c905409e",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
 }
