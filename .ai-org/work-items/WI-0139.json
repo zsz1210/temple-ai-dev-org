@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0139",
   "title": "Repair Context Capsule evaluation contract",
-  "state": "independent_qa",
-  "owner_position": "independent_qa",
-  "assigned_agent_id": "agent-lulu",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-04T01:28:56.515Z",
-  "updated_at": "2026-09-04T02:07:28.362Z",
+  "updated_at": "2026-09-04T02:11:37.334Z",
   "scope": [
     "Replace prose-equality scoring with canonical typed facts and identifiers for the single-repository and coordinator multi-repository recovery scenarios.",
     "Prove the evaluator against retained WI-0138 outputs without changing or rescoring the historical WI-0138 result.",
@@ -61,14 +61,17 @@
   ],
   "claim": {
     "id": "claim-20260904020728-2ce0e6e1",
-    "status": "active",
+    "status": "released",
     "principal_id": "principal-owner",
     "agent_id": "agent-lulu",
     "base_revision": "bf63442ef23ceccc58fef8b9eddfa61e12c7697f",
     "branch": "codex/wi-0139-typed-context-evaluator",
     "worktree": null,
     "claimed_at": "2026-09-04T02:07:28.362Z",
-    "released_at": null
+    "released_at": "2026-09-04T02:11:27.459Z",
+    "release_reason": [
+      "Independent QA reproduced the analysis and recorded passing test evidence."
+    ]
   },
   "claims": [
     {
@@ -133,14 +136,17 @@
     },
     {
       "id": "claim-20260904020728-2ce0e6e1",
-      "status": "active",
+      "status": "released",
       "principal_id": "principal-owner",
       "agent_id": "agent-lulu",
       "base_revision": "bf63442ef23ceccc58fef8b9eddfa61e12c7697f",
       "branch": "codex/wi-0139-typed-context-evaluator",
       "worktree": null,
       "claimed_at": "2026-09-04T02:07:28.362Z",
-      "released_at": null
+      "released_at": "2026-09-04T02:11:27.459Z",
+      "release_reason": [
+        "Independent QA reproduced the analysis and recorded passing test evidence."
+      ]
     }
   ],
   "gate_evidence": {
@@ -172,6 +178,9 @@
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0139/live-evaluation.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260904T021113Z-FF02EC27"
     ]
   },
   "evidence": [
@@ -187,12 +196,16 @@
     "EVID-20260904T015121Z-06E69C46",
     ".ai-org/artifacts/WI-0139/handoff-004-quality_evaluator-to-independent_qa.md",
     ".ai-org/artifacts/WI-0139/live-evaluation.md",
-    "EVID-20260904T020657Z-9A79B899"
+    "EVID-20260904T020657Z-9A79B899",
+    ".ai-org/artifacts/WI-0139/handoff-005-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0139/independent-qa.md",
+    "EVID-20260904T021113Z-FF02EC27"
   ],
   "unresolved": [
-    "A successor experiment must measure post-route context acquisition and remove the 40,000-token single-repository censoring confounder before another live run."
+    "A successor experiment must measure post-route context acquisition and remove the 40,000-token single-repository censoring confounder before another live run.",
+    "A successor experiment needs path-only post-route acquisition evidence, route-adherence scoring, a non-censoring single-repository ceiling, counterbalanced order, and new approval."
   ],
-  "next_position": "release_manager",
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "product_manager",
@@ -221,6 +234,13 @@
       "input_revision": "afdd14f6899ea6cb3e9b7ece30c59350f9d681f7",
       "artifact": ".ai-org/artifacts/WI-0139/handoff-004-quality_evaluator-to-independent_qa.md",
       "created_at": "2026-09-04T02:07:20.526Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "a88ddf1d81431da5e38fea97be31f50eeb8f439c",
+      "artifact": ".ai-org/artifacts/WI-0139/handoff-005-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-04T02:11:37.060Z"
     }
   ],
   "developer_candidate_revision": "498c7dfdcd0e4abb547a3e3e829311185ddfa96c"

@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
 - Work items: 139 total, 6 active
 - Codex tasks: 6 registered, 6 archive-ready
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -186,7 +186,7 @@
 | WI-0136 | Execute representative multi-Agent microservice comparison | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f76d2e7b` | 0 | 20 | 0 |
 | WI-0137 | Make context routing stage-aware and measurement-ready | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `94d8ceb9` | 0 | 16 | 0 |
 | WI-0138 | Measure stage-aware Context Capsule effectiveness | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `87d0f8e2` | 0 | 16 | 1 |
-| WI-0139 | Repair Context Capsule evaluation contract | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260904020728-2ce0e6e1 | `498c7dfd` | 0 | 13 | 1 |
+| WI-0139 | Repair Context Capsule evaluation contract | release_gate | Release Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `498c7dfd` | 0 | 16 | 2 |
 
 ## Codex task registry
 
@@ -328,14 +328,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-04T02:11:37.334Z | work_item_transitioned | WI-0139 | agent-lulu |
+| 2026-09-04T02:11:37.060Z | handoff_created | WI-0139 | agent-lulu |
+| 2026-09-04T02:11:27.459Z | work_item_claim_released | WI-0139 | principal-owner |
+| 2026-09-04T02:11:13.414Z | evidence_recorded | WI-0139 | agent-lulu |
 | 2026-09-04T02:07:28.362Z | work_item_claimed | WI-0139 | principal-owner |
 | 2026-09-04T02:07:20.839Z | work_item_transitioned | WI-0139 | agent-lulu |
 | 2026-09-04T02:07:20.526Z | handoff_created | WI-0139 | agent-lulu |
 | 2026-09-04T02:06:57.671Z | evidence_recorded | WI-0139 | agent-lulu |
-| 2026-09-04T01:51:30.593Z | work_item_transitioned | WI-0139 | agent-lulu |
-| 2026-09-04T01:51:21.841Z | evidence_recorded | WI-0139 | human |
-| 2026-09-04T01:48:51.236Z | work_item_claimed | WI-0139 | human |
-| 2026-09-04T01:48:38.188Z | work_item_transitioned | WI-0139 | agent-rikku |
 
 ## Assignments
 
