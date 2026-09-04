@@ -10,7 +10,8 @@ const workers = JSON.parse(fs.readFileSync(".ai-org/project/runtime-workers.json
 const tasks = JSON.parse(fs.readFileSync(".ai-org/project/tasks.json", "utf8"));
 const events = fs.readFileSync(".ai-org/events/events.jsonl", "utf8").trim().split("\n").map(JSON.parse);
 
-const evidencePayload = evidence.entries.map((entry) => ({
+const preservedEvidence = evidence.entries.filter((entry) => entry.work_item_id !== "WI-0161");
+const evidencePayload = preservedEvidence.map((entry) => ({
   id: entry.id,
   work_item_id: entry.work_item_id,
   kind: entry.kind,
@@ -18,7 +19,7 @@ const evidencePayload = evidence.entries.map((entry) => ({
   artifacts: entry.artifacts
 }));
 const evidenceDigest = crypto.createHash("sha256").update(JSON.stringify(evidencePayload)).digest("hex");
-assert.equal(evidence.entries.length, planEvidence.preserved_evidence_invariants.entries);
+assert.equal(preservedEvidence.length, planEvidence.preserved_evidence_invariants.entries);
 assert.equal(evidencePayload.reduce((total, entry) => total + entry.artifacts.length, 0), planEvidence.preserved_evidence_invariants.artifact_refs);
 assert.equal(evidenceDigest, planEvidence.preserved_evidence_invariants.sha256);
 
@@ -73,7 +74,7 @@ console.log(JSON.stringify({
   changed_files: planEvidence.summary.changed_files,
   canonical_audit_occurrences_before: planEvidence.public_audit_before.canonical_occurrences,
   canonical_audit_occurrences_after: 0,
-  evidence_entries_preserved: evidence.entries.length,
+  evidence_entries_preserved: preservedEvidence.length,
   artifact_refs_preserved: planEvidence.preserved_evidence_invariants.artifact_refs,
   idempotent: true,
   publication_authorized: false

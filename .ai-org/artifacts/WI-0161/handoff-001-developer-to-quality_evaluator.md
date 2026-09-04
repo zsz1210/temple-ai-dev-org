@@ -2,7 +2,7 @@
 
 ## Exact candidate
 
-`cbeeb0f20f8f8b432526a87aab75beb49b5d85c9`
+`0b289921efdb93ef58bbfd2c17de6d0c4faef3fa`
 
 ## Completed
 
@@ -14,7 +14,7 @@
 ## Evaluation focus
 
 - Reproduce stale-plan, confirmation, authorization, active-coordinate, rollback, and idempotence tests.
-- Recompute the value-redacted dogfood proof and public audit at `cbeeb0f20f8f8b432526a87aab75beb49b5d85c9`.
+- Recompute the value-redacted dogfood proof and public audit at `0b289921efdb93ef58bbfd2c17de6d0c4faef3fa`.
 - Confirm the operation cannot alter Work Item refs, Evidence IDs, revisions, artifact paths, or artifact digests.
 - Confirm no publication or history-rewrite authority was inferred.
 

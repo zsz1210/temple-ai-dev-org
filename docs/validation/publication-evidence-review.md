@@ -1,6 +1,6 @@
 # Publication evidence review
 
-Status: review complete; canonical-state normalization implemented and dogfooded, exact-candidate assurance pending
+Status: review complete; canonical-state normalization implemented, dogfooded, and independently verified
 
 Work Item: `WI-0160`
 
@@ -48,11 +48,10 @@ The images may remain at their current digests. Any changed image bytes require 
 
 ## What remains separate
 
-1. Complete exact-candidate Independent QA for `WI-0161`.
-2. Normalize retained artifacts with provenance manifests.
-3. Replace first-party maintainer-shaped fixtures and document the pinned vendored fixture's disposition.
-4. Repeat the public audit at the frozen candidate.
-5. Let the repository owner decide whether already-shared historical Git objects are acceptable and, separately, whether repository visibility may change.
+1. Normalize retained artifacts with provenance manifests.
+2. Replace first-party maintainer-shaped fixtures and document the pinned vendored fixture's disposition.
+3. Repeat the public audit at the frozen candidate.
+4. Let the repository owner decide whether already-shared historical Git objects are acceptable and, separately, whether repository visibility may change.
 
 No version, tag, GitHub Release, npm publication, announcement, visibility change, or Git-history rewrite was authorized or performed by this review.
 
