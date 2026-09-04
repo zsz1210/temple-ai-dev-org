@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0-alpha.30
+
+- Added staged Context Capsules and explainable advisory execution routing that keep context selection, model guidance, Position authority, and actual execution as separate decisions. Temple still does not launch Providers or switch models automatically.
+- Added deterministic evaluation controls and retained matched comparisons for routing, context acquisition, and representative multi-repository work. Results remain bounded and mixed; this release makes no universal Token, latency, cost, or productivity claim.
+- Expanded repository federation, portfolio views, and multi-repository coordination evidence while keeping each repository authoritative for its own lifecycle and retaining real multi-machine and enterprise qualification as future work.
+- Hardened the AI-assisted Core Path, cold recovery, lifecycle evidence, exact-revision checks, and branch/provenance boundaries through clean-room rehearsals and Independent QA.
+- Added project-owned Evidence Profiles and a value-redacted publication audit, then normalized current self-host evidence while preserving historical proof and an explicit binary-review boundary.
+- Prepared a narrow, source-first GitHub Alpha candidate. npm remains deferred, `private: true` remains enabled, and repository visibility, tag, GitHub Release, deployment, and announcement still require separate Human approval.
+
 ## 0.1.0-alpha.29
 
 - Added adaptive first-run repository integration onboarding: AI-assisted initialization inspects existing policy, asks only about consequential gaps, records a project-owned vendor-neutral routing summary, and never imposes GitHub Flow or mutates hosting settings.

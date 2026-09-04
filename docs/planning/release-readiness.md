@@ -2,7 +2,7 @@
 
 > **Preparation only — no publication is authorized.** This page records what is ready, what must be repeated at a frozen candidate, and which external actions still require the repository owner's explicit decision.
 
-Last refreshed: 2026-09-04
+Last refreshed: 2026-09-05
 
 Current roadmap stage: [Real-world qualification](roadmap.md#4-real-world-qualification--current)
 
@@ -15,11 +15,11 @@ Temple does **not** have a current public Alpha or an npm release.
 - The repository remains private.
 - A historical private GitHub prerelease, `v0.1.0-alpha.5`, exists. It is not the current recommended build.
 - The latest ordinary semantic version tag is `v0.1.0-alpha.27`.
-- `package.json` currently says `0.1.0-alpha.29`, but there is no matching `v0.1.0-alpha.29` tag or GitHub Release.
+- `package.json` and the self-host lock now identify the internal `0.1.0-alpha.30` candidate, but there is no matching tag or GitHub Release.
 - `@zsz1210/temple-ai-dev-org` does not exist in the public npm registry, and `private: true` prevents accidental publication.
-- No exact revision is currently frozen as the next release candidate. Revision `54d14f4e94a930719ca7674ebf1ad74be89de7ac` passed the pre-freeze clean-room rehearsal, but the later evidence reconciliation means it is not being declared the release commit.
+- `WI-0163` freezes the claim and version boundary and names its implementation commit as the exact technical candidate. `WI-0164` must still qualify the archive built from that commit before it can be considered releasable.
 
-Because Temple has changed materially since the Alpha.29 candidate evidence was recorded, `v0.1.0-alpha.30` is the recommended next public candidate. This is a proposal, not an approved version change.
+The approved internal candidate version is `v0.1.0-alpha.30`. That version decision does not authorize repository visibility, a tag, a GitHub Release, npm publication, deployment, or announcement.
 
 ## Release surfaces
 
@@ -28,7 +28,7 @@ Because Temple has changed materially since the Alpha.29 candidate evidence was 
 | GitHub repository | Private | Keep private while the candidate and new-user path are tested |
 | Branch protection | Strict required Node.js 24 check, one approval, Code Owner review, last-push approval, stale-review dismissal, and resolved conversations are configured | Recheck after any visibility change |
 | GitHub Release | Historical private `v0.1.0-alpha.5` prerelease only | Decide how to label that history, then create a new Release only after the exact tag is approved |
-| Package metadata | `@zsz1210/temple-ai-dev-org@0.1.0-alpha.29`, `private: true` | Choose and apply the next candidate version only when scope freezes |
+| Package metadata | `@zsz1210/temple-ai-dev-org@0.1.0-alpha.30`, `private: true` | Keep private and qualify the exact archive in `WI-0164` |
 | npm | Package lookup returns `E404`; nothing has been published | Keep deferred until after the GitHub Alpha is exercised |
 | Announcement | None | Treat as a separate decision after the Release exists |
 
@@ -64,9 +64,9 @@ Exact file bytes, digests, audit results, test counts, and hosting state must be
 
 | Gate | Status now | Evidence required at the frozen candidate |
 | --- | --- | --- |
-| Release scope | Not frozen | One explicit feature and claim boundary; no unreviewed follow-up work in the candidate |
-| Version identity | Human decision pending | Package metadata, changelog, validation record, tag, and Release notes name the same approved version |
-| Exact revision | Not selected | One immutable commit is named by every candidate-specific check |
+| Release scope | Frozen internally by `WI-0163` | Preserve the supported claim and explicit non-claims during package qualification |
+| Version identity | `0.1.0-alpha.30` applied to current candidate files | Confirm the archive reports the same version; any later tag and Release must match it |
+| Exact revision | Resolved by the `WI-0163` implementation commit | Use that immutable commit for every `WI-0164` candidate-specific check |
 | Repository checks | Current private `main` is green | `npm run check`, schema validation, and Doctor pass at the exact candidate |
 | Full behavior suite | WI-0162 exact candidate passed 443 tests | Repeat after the final release candidate is frozen if later bytes differ |
 | Browser presentation | Prior revision passed | Repeat the responsive README and Management Console gate at the exact candidate |
@@ -83,13 +83,11 @@ Exact file bytes, digests, audit results, test counts, and hosting state must be
 
 The following choices cannot be inferred from passing tests:
 
-1. Whether the next candidate should be `v0.1.0-alpha.30`.
-2. When the feature and documentation scope is stable enough to freeze.
-3. Whether the historical `v0.1.0-alpha.5` prerelease should remain as-is or be relabeled as an early internal preview.
-4. When the repository may become public.
-5. Whether the exact tag and GitHub Release may be created.
-6. Whether and when npm distribution may be enabled.
-7. Whether an announcement should be made and what claims it may contain.
+1. Whether the historical `v0.1.0-alpha.5` prerelease should remain as-is or be relabeled as an early internal preview.
+2. When the repository may become public.
+3. Whether the exact tag and GitHub Release may be created.
+4. Whether and when npm distribution may be enabled.
+5. Whether an announcement should be made and what claims it may contain.
 
 Approval of one item does not approve the later items.
 
@@ -111,9 +109,8 @@ This rehearsal validates the AI-assisted operating path. It does not establish t
 
 ### Step 2 — freeze one candidate
 
-- Decide the version and supported claim boundary.
-- Update version-bearing files and release notes together.
-- Name one exact commit and stop unrelated changes from entering its evidence set.
+- `WI-0163` selected `0.1.0-alpha.30`, froze the supported claim and non-claims, and aligned the version-bearing files and release notes.
+- Its implementation commit is the exact technical candidate; unrelated changes must not enter its qualification evidence set.
 
 ### Step 3 — qualify the exact package
 

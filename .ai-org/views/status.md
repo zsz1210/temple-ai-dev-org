@@ -1,11 +1,11 @@
 # Temple AI Development Organization Framework — AI development organization status
 
 - Project ID: `temple`
-- Organization system version: `0.1.0-alpha.29`
+- Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 162 total, 0 active
+- Work items: 163 total, 0 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -210,6 +210,7 @@
 | WI-0160 | Review retained public evidence and binary artifacts | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `407bf750` | 0 | 11 | 0 |
 | WI-0161 | Minimize local paths in canonical state | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0b289921` | 0 | 9 | 0 |
 | WI-0162 | Normalize retained publication evidence and fixtures | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9012ece9` | 0 | 11 | 0 |
+| WI-0163 | Freeze the Alpha.30 candidate scope and identity | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a6849519` | 0 | 12 | 0 |
 
 ## Codex task registry
 
@@ -360,14 +361,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-04T16:46:09.527Z | work_item_closed | WI-0162 | agent-mog |
-| 2026-09-04T16:46:09.527Z | release_gate_completed | WI-0162 | agent-mog |
-| 2026-09-04T16:46:09.233Z | work_item_claimed | WI-0162 | principal-zsz1210 |
-| 2026-09-04T16:45:56.652Z | work_item_transitioned | WI-0162 | agent-lulu |
-| 2026-09-04T16:45:48.763Z | evidence_recorded | WI-0162 | agent-lulu |
-| 2026-09-04T16:42:18.564Z | work_item_claimed | WI-0162 | principal-zsz1210 |
-| 2026-09-04T16:42:18.249Z | work_item_transitioned | WI-0162 | agent-lulu |
-| 2026-09-04T16:41:55.175Z | work_item_transitioned | WI-0162 | agent-lulu |
+| 2026-09-04T17:10:27.320Z | work_item_closed | WI-0163 | agent-mog |
+| 2026-09-04T17:10:27.320Z | release_gate_completed | WI-0163 | agent-mog |
+| 2026-09-04T17:10:26.839Z | work_item_claimed | WI-0163 | principal-zsz1210 |
+| 2026-09-04T17:10:11.631Z | work_item_transitioned | WI-0163 | agent-lulu |
+| 2026-09-04T17:10:05.369Z | evidence_recorded | WI-0163 | human |
+| 2026-09-04T17:09:43.836Z | work_item_transitioned | WI-0163 | agent-lulu |
+| 2026-09-04T17:09:23.071Z | work_item_transitioned | WI-0163 | agent-lulu |
+| 2026-09-04T17:09:17.586Z | work_item_claimed | WI-0163 | principal-zsz1210 |
 
 ## Assignments
 
