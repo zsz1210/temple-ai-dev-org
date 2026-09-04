@@ -6,7 +6,7 @@
   "owner_position": "release_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-04T18:36:14.342Z",
-  "updated_at": "2026-09-04T18:52:41.377Z",
+  "updated_at": "2026-09-04T23:51:24.245Z",
   "scope": [
     "Upgrade the optional Archify adapter to v2.16.0 with a transparent reviewed fast-uri 3.1.7 downstream security patch",
     "Requalify the exact Alpha.30 package, create a GitHub prerelease, and publish the same tarball to npm under the next dist-tag",
@@ -59,7 +59,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "bec787e47a581214e54bc20bddf841101fbeb72c",
+  "base_revision": "d2b2a5142c7e9b8d98e9474e0fe1cc8bdbf10324",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -67,18 +67,15 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260904185240-a77cc3fc",
-    "status": "released",
+    "id": "claim-20260904235123-10e527f8",
+    "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-lulu",
-    "base_revision": "bec787e47a581214e54bc20bddf841101fbeb72c",
-    "branch": "codex/wi-0167-alpha30-release",
+    "agent_id": "agent-mog",
+    "base_revision": "d2b2a5142c7e9b8d98e9474e0fe1cc8bdbf10324",
+    "branch": "codex/wi-0167-release-closeout",
     "worktree": null,
-    "claimed_at": "2026-09-04T18:52:40.462Z",
-    "released_at": "2026-09-04T18:52:41.125Z",
-    "release_reason": [
-      "Independent qualification and Release Manager handoff recorded"
-    ]
+    "claimed_at": "2026-09-04T23:51:23.809Z",
+    "released_at": null
   },
   "claims": [
     {
@@ -122,6 +119,17 @@
       "release_reason": [
         "Independent qualification and Release Manager handoff recorded"
       ]
+    },
+    {
+      "id": "claim-20260904235123-10e527f8",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "d2b2a5142c7e9b8d98e9474e0fe1cc8bdbf10324",
+      "branch": "codex/wi-0167-release-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-04T23:51:23.809Z",
+      "released_at": null
     }
   ],
   "gate_evidence": {
@@ -178,7 +186,9 @@
     ".ai-org/artifacts/WI-0167/independent-qa-observation.json",
     ".ai-org/artifacts/WI-0167/independent-release-qualification-result.json"
   ],
-  "unresolved": [],
+  "unresolved": [
+    "npm forced latest onto the first published version and rejected two authenticated removal attempts with HTTP 400; owner must accept the temporary first-version alias or authorize destructive withdrawal"
+  ],
   "next_position": "engineering_manager",
   "handoffs": [
     {
