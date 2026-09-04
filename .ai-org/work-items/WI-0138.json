@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0138",
   "title": "Measure stage-aware Context Capsule effectiveness",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "concluded",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-04T00:31:57.590Z",
-  "updated_at": "2026-09-04T01:14:39.239Z",
+  "updated_at": "2026-09-04T09:33:57.804Z",
   "scope": [
     "Build a generation-free, fail-closed A/B harness comparing legacy-expanded and stage-aware context on matched single-repository and coordinator-led multi-repository cold handoffs.",
     "Retain source bytes, selection digests, correctness, Provider Token categories, latency, tool output, human intervention, and rework without retaining prompts or hidden reasoning.",
@@ -166,6 +166,18 @@
     ],
     "independent_qa_pass": [
       "EVID-20260904T011418Z-57A7CF5D"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0138/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      "EVID-20260904T011418Z-57A7CF5D"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0138/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0138/account-approval.json"
     ]
   },
   "evidence": [
@@ -184,12 +196,13 @@
     ".ai-org/artifacts/WI-0138/quality-evaluation.md",
     ".ai-org/artifacts/WI-0138/handoff-005-independent_qa-to-release_manager.md",
     "EVID-20260904T011418Z-57A7CF5D",
-    ".ai-org/artifacts/WI-0138/independent-qa.md"
+    ".ai-org/artifacts/WI-0138/independent-qa.md",
+    ".ai-org/artifacts/WI-0138/release-record.md"
   ],
   "unresolved": [
     "A successor typed-fact evaluator must be proven generation-free before any new live comparison."
   ],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -227,5 +240,13 @@
       "created_at": "2026-09-04T01:14:38.960Z"
     }
   ],
-  "developer_candidate_revision": "87d0f8e2c4d1ab62e646a3bd76c8ee4409aed3c2"
+  "developer_candidate_revision": "87d0f8e2c4d1ab62e646a3bd76c8ee4409aed3c2",
+  "tested_revision": "87d0f8e2c4d1ab62e646a3bd76c8ee4409aed3c2",
+  "release_gate_result": "no-go",
+  "lifecycle_outcome": "inconclusive",
+  "closeout_reasons": [
+    "The diagnostic completed reproducibly, but byte-exact narrative fields made both correctness gates false and the observed Token and latency differences do not establish effectiveness."
+  ],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0138/account-approval.json"
 }

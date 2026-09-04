@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0137",
   "title": "Make context routing stage-aware and measurement-ready",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-03T23:55:06.667Z",
-  "updated_at": "2026-09-04T00:26:42.408Z",
+  "updated_at": "2026-09-04T09:33:47.246Z",
   "scope": [
     "Add stage- and purpose-bound Context Capsules that route only relevant sources without copying source bodies or expanding authority.",
     "Expose content-addressed source size and category measurements so context, cached-input, latency, and storage trade-offs can be analyzed without guessing.",
@@ -185,6 +185,18 @@
     ],
     "independent_qa_pass": [
       "EVID-20260904T002620Z-DDECACBD"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0137/product-scope.md"
+    ],
+    "independent_qa_report": [
+      "EVID-20260904T002620Z-DDECACBD"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0137/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -203,10 +215,11 @@
     ".ai-org/artifacts/WI-0137/quality-evaluation.md",
     ".ai-org/artifacts/WI-0137/handoff-004-independent_qa-to-release_manager.md",
     "EVID-20260904T002620Z-DDECACBD",
-    ".ai-org/artifacts/WI-0137/independent-qa.md"
+    ".ai-org/artifacts/WI-0137/independent-qa.md",
+    ".ai-org/artifacts/WI-0137/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "product_manager",
@@ -237,5 +250,11 @@
       "created_at": "2026-09-04T00:26:41.953Z"
     }
   ],
-  "developer_candidate_revision": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d"
+  "developer_candidate_revision": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d",
+  "tested_revision": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }
