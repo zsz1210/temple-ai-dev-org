@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.context-capsule-ablation-preflight/v1",
   "work_item_id": "WI-0139",
-  "observed_at": "2026-09-04T01:43:58.233Z",
+  "observed_at": "2026-09-04T01:51:52.209Z",
   "protocol_sha256": "ef5c9608f83fb7a70793f64d400f0c2434a8c1f1ccf8f37a7cbea9dc665ea81b",
   "generation_ready": false,
   "checks": [
