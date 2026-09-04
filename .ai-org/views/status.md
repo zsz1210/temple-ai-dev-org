@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 138 total, 5 active
+- Work items: 139 total, 6 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -186,6 +186,7 @@
 | WI-0136 | Execute representative multi-Agent microservice comparison | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f76d2e7b` | 0 | 20 | 0 |
 | WI-0137 | Make context routing stage-aware and measurement-ready | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `94d8ceb9` | 0 | 16 | 0 |
 | WI-0138 | Measure stage-aware Context Capsule effectiveness | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `87d0f8e2` | 0 | 16 | 1 |
+| WI-0139 | Repair Context Capsule evaluation contract | intake | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260904012918-2f593af5 | `—` | 0 | 0 | 0 |
 
 ## Codex task registry
 
@@ -327,14 +328,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-04T01:29:18.148Z | work_item_claimed | WI-0139 | human |
+| 2026-09-04T01:29:03.986Z | work_item_coordination_configured | WI-0139 | agent-mog |
+| 2026-09-04T01:28:56.515Z | work_item_created | WI-0139 | agent-mog |
 | 2026-09-04T01:14:39.239Z | work_item_transitioned | WI-0138 | agent-lulu |
 | 2026-09-04T01:14:38.960Z | handoff_created | WI-0138 | agent-lulu |
 | 2026-09-04T01:14:18.717Z | evidence_recorded | WI-0138 | human |
 | 2026-09-04T01:12:40.634Z | work_item_transitioned | WI-0138 | agent-lulu |
 | 2026-09-04T01:12:40.322Z | work_item_transitioned | WI-0138 | agent-lulu |
-| 2026-09-04T01:12:11.424Z | evidence_recorded | WI-0138 | human |
-| 2026-09-04T01:10:31.254Z | work_item_claimed | WI-0138 | human |
-| 2026-09-04T01:10:30.926Z | work_item_transitioned | WI-0138 | agent-rikku |
 
 ## Assignments
 
