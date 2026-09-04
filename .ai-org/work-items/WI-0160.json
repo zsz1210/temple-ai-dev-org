@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0160",
   "title": "Review retained public evidence and binary artifacts",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-04T15:06:37.935Z",
-  "updated_at": "2026-09-04T15:13:34.280Z",
+  "updated_at": "2026-09-04T15:21:40.393Z",
   "scope": [
     "Reconcile the current public-profile audit into a human-reviewable inventory of retained legacy text findings and all tracked binary files without retaining matched private values in the report.",
     "Classify actual maintainer environment data, synthetic test fixtures, vendored fixtures, and visual artifacts; inspect every tracked PNG for publishability and record digest-bound dispositions.",
@@ -56,7 +56,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "e8b8d1aa3b47dbff719f198586d962cdd378e659",
+  "base_revision": "407bf7508429f7e2d8339f742cc3e81698ebc230",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -64,15 +64,16 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260904151334-7300d97a",
-    "status": "active",
+    "id": "claim-20260904152114-87e24c5b",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "e8b8d1aa3b47dbff719f198586d962cdd378e659",
+    "agent_id": "agent-mog",
+    "base_revision": "407bf7508429f7e2d8339f742cc3e81698ebc230",
     "branch": "codex/wi-0160-public-evidence-review",
     "worktree": null,
-    "claimed_at": "2026-09-04T15:13:34.280Z",
-    "released_at": null
+    "claimed_at": "2026-09-04T15:21:14.607Z",
+    "released_at": "2026-09-04T15:21:40.393Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -113,14 +114,51 @@
     },
     {
       "id": "claim-20260904151334-7300d97a",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "e8b8d1aa3b47dbff719f198586d962cdd378e659",
       "branch": "codex/wi-0160-public-evidence-review",
       "worktree": null,
       "claimed_at": "2026-09-04T15:13:34.280Z",
-      "released_at": null
+      "released_at": "2026-09-04T15:18:19.165Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904151819-b59a292d",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "407bf7508429f7e2d8339f742cc3e81698ebc230",
+      "branch": "codex/wi-0160-public-evidence-review",
+      "worktree": null,
+      "claimed_at": "2026-09-04T15:18:19.496Z",
+      "released_at": "2026-09-04T15:21:13.795Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904152114-f9ea1c83",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "407bf7508429f7e2d8339f742cc3e81698ebc230",
+      "branch": "codex/wi-0160-public-evidence-review",
+      "worktree": null,
+      "claimed_at": "2026-09-04T15:21:14.080Z",
+      "released_at": "2026-09-04T15:21:14.333Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904152114-87e24c5b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "407bf7508429f7e2d8339f742cc3e81698ebc230",
+      "branch": "codex/wi-0160-public-evidence-review",
+      "worktree": null,
+      "claimed_at": "2026-09-04T15:21:14.607Z",
+      "released_at": "2026-09-04T15:21:40.393Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -138,13 +176,56 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0160/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0160/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0160/developer-verification.md",
+      ".ai-org/artifacts/WI-0160/text-inventory.json",
+      ".ai-org/artifacts/WI-0160/binary-review.json"
+    ],
+    "test_evidence": [
+      "EVID-20260904T152102Z-1A842631"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0160/quality-evaluation.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260904T152102Z-1A842631"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0160/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0160/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0160/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0160/work-order.md",
     ".ai-org/artifacts/WI-0160/approved-scope.md",
-    ".ai-org/artifacts/WI-0160/technical-design.md"
+    ".ai-org/artifacts/WI-0160/technical-design.md",
+    ".ai-org/artifacts/WI-0160/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0160/developer-verification.md",
+    ".ai-org/artifacts/WI-0160/text-inventory.json",
+    ".ai-org/artifacts/WI-0160/binary-review.json",
+    "EVID-20260904T152102Z-1A842631",
+    ".ai-org/artifacts/WI-0160/quality-evaluation.md",
+    ".ai-org/artifacts/WI-0160/release-record.md",
+    ".ai-org/artifacts/WI-0160/independent-qa-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "tested_revision": "407bf7508429f7e2d8339f742cc3e81698ebc230",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

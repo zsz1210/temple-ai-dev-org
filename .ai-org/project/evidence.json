@@ -25274,6 +25274,63 @@
         "exit_code": 0,
         "started_at": "2026-09-04T14:51:03.914Z"
       }
+    },
+    {
+      "id": "EVID-20260904T152102Z-1A842631",
+      "work_item_id": "WI-0160",
+      "recorded_at": "2026-09-04T15:21:02.351Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0160 exact-candidate review verification",
+      "outcome": "pass",
+      "scope_revision": "407bf7508429f7e2d8339f742cc3e81698ebc230",
+      "observed_at": "2026-09-04T15:20:05Z",
+      "summary": "Clean detached worktree reproduced the value-redacted text inventory, digest-bound PNG review, package checks, and all 434 tests.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0160/test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0160/test-observation.json",
+          "sha256": "39db01047d27424f1e876aec99c2ef3a6352c5a1c997158f97875ee9c1ee40db"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0160/text-inventory.json",
+          "sha256": "2204a1a7a536468f5d68b39dc01fe76c9f2874fbc139a5d55617a5fc37683ab2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0160/binary-review.json",
+          "sha256": "1ed755844ba4a99567c6a6ff1de4dcbe37346f1a6234cd5c608384e44da5c29a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0160/verify-review.mjs",
+          "sha256": "7a1f2729249430efa7bb9512c37160723739d9e9fda5f94229c66f41d9e41c58"
+        },
+        {
+          "path": "docs/validation/publication-evidence-review.md",
+          "sha256": "49ecc8039aa8dd67e31be9af08f4e2fea1a117e26a6909faa9c8e78a209c8d8c"
+        },
+        {
+          "path": "docs/planning/release-readiness.md",
+          "sha256": "fd3ce6feb7a0887626b8467304b9d77b1543115a864d658f744ebe594703fe4b"
+        }
+      ],
+      "details": {
+        "command": [
+          "sh",
+          "-c",
+          "npm ci --ignore-scripts && node ./.ai-org/artifacts/WI-0160/verify-review.mjs && npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T15:18:23Z"
+      }
     }
   ]
 }
