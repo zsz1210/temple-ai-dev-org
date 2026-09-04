@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0140",
   "title": "Measure and enforce Context Capsule route adherence",
-  "state": "intake",
-  "owner_position": "engineering_manager",
-  "assigned_agent_id": "agent-mog",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-04T02:17:43.020Z",
-  "updated_at": "2026-09-04T02:17:43.020Z",
+  "updated_at": "2026-09-04T02:20:52.737Z",
   "scope": [
     "Retain a bounded path-only manifest of successful context reads after routing without storing raw prompts, outputs, hidden reasoning, credentials, or temporary repository content.",
     "Measure total context acquisition and route adherence separately from initial package size, Provider Tokens, latency, and command counts for single-repository and coordinator multi-repository recovery.",
@@ -61,8 +61,46 @@
   "overlap_resolution": [],
   "claim": null,
   "claims": [],
-  "gate_evidence": {},
-  "evidence": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0140/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0140/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0140/approved-scope.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0140/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0140/technical-design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0140/work-order.md",
+    ".ai-org/artifacts/WI-0140/handoff-001-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0140/approved-scope.md",
+    ".ai-org/artifacts/WI-0140/handoff-002-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0140/technical-design.md"
+  ],
   "unresolved": [],
-  "next_position": "product_manager"
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "1461cf6",
+      "artifact": ".ai-org/artifacts/WI-0140/handoff-001-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-04T02:20:52.003Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "1461cf6",
+      "artifact": ".ai-org/artifacts/WI-0140/handoff-002-tech_lead-to-developer.md",
+      "created_at": "2026-09-04T02:20:52.488Z"
+    }
+  ]
 }
