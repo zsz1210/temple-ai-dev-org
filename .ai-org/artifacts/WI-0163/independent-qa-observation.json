@@ -1,0 +1,18 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "a6849519c6067b2f73ca1a44d556faf7a5168b1d",
+  "command": [
+    "npm ci --ignore-scripts",
+    "npm run verify",
+    "node ./templew.mjs doctor . --json",
+    "node ./templew.mjs publication audit . --profile public --surface repository --json"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T17:06:00.000Z",
+  "completed_at": "2026-09-04T17:08:20.000Z",
+  "artifact_refs": [
+    "docs/validation/alpha-30-candidate-freeze.md",
+    ".ai-org/artifacts/WI-0163/quality-evaluation.md"
+  ]
+}

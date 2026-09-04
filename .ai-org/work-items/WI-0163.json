@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0163",
   "title": "Freeze the Alpha.30 candidate scope and identity",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-04T16:58:10.321Z",
-  "updated_at": "2026-09-04T16:59:18.410Z",
+  "updated_at": "2026-09-04T17:10:27.320Z",
   "scope": [
     "Define a narrow source-first public Alpha candidate, align version-bearing metadata and human-facing release records, and freeze one immutable technical candidate without publishing it."
   ],
@@ -53,7 +53,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "a3a28e7216652b04cfdc690e68bcb64b08fd5046",
+  "base_revision": "a6849519c6067b2f73ca1a44d556faf7a5168b1d",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -61,15 +61,16 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260904165918-27a54071",
-    "status": "active",
+    "id": "claim-20260904171026-645d9b98",
+    "status": "released",
     "principal_id": "principal-zsz1210",
-    "agent_id": "agent-rikku",
-    "base_revision": "a3a28e7216652b04cfdc690e68bcb64b08fd5046",
+    "agent_id": "agent-mog",
+    "base_revision": "a6849519c6067b2f73ca1a44d556faf7a5168b1d",
     "branch": "codex/wi-0163-alpha30-candidate-freeze",
     "worktree": null,
-    "claimed_at": "2026-09-04T16:59:18.410Z",
-    "released_at": null
+    "claimed_at": "2026-09-04T17:10:26.839Z",
+    "released_at": "2026-09-04T17:10:27.320Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -110,14 +111,39 @@
     },
     {
       "id": "claim-20260904165918-27a54071",
-      "status": "active",
+      "status": "released",
       "principal_id": "principal-zsz1210",
       "agent_id": "agent-rikku",
       "base_revision": "a3a28e7216652b04cfdc690e68bcb64b08fd5046",
       "branch": "codex/wi-0163-alpha30-candidate-freeze",
       "worktree": null,
       "claimed_at": "2026-09-04T16:59:18.410Z",
-      "released_at": null
+      "released_at": "2026-09-04T17:09:10.252Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904170917-8daac9d1",
+      "status": "released",
+      "principal_id": "principal-zsz1210",
+      "agent_id": "agent-lulu",
+      "base_revision": "a6849519c6067b2f73ca1a44d556faf7a5168b1d",
+      "branch": "codex/wi-0163-alpha30-candidate-freeze",
+      "worktree": null,
+      "claimed_at": "2026-09-04T17:09:17.586Z",
+      "released_at": "2026-09-04T17:09:43.836Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904171026-645d9b98",
+      "status": "released",
+      "principal_id": "principal-zsz1210",
+      "agent_id": "agent-mog",
+      "base_revision": "a6849519c6067b2f73ca1a44d556faf7a5168b1d",
+      "branch": "codex/wi-0163-alpha30-candidate-freeze",
+      "worktree": null,
+      "claimed_at": "2026-09-04T17:10:26.839Z",
+      "released_at": "2026-09-04T17:10:27.320Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -135,13 +161,71 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0163/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0163/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0163/developer-verification.md",
+      "EVID-20260904T170852Z-CF39C25E",
+      "EVID-20260904T170852Z-A39887BF"
+    ],
+    "test_evidence": [
+      "EVID-20260904T170852Z-A39887BF",
+      "EVID-20260904T171005Z-23AA64AD"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0163/quality-evaluation.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0163/independent-qa-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260904T171005Z-23AA64AD"
+    ],
+    "exact_candidate": [
+      "a6849519c6067b2f73ca1a44d556faf7a5168b1d"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0163/approved-scope.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0163/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0163/work-order.md",
     ".ai-org/artifacts/WI-0163/approved-scope.md",
-    ".ai-org/artifacts/WI-0163/technical-design.md"
+    ".ai-org/artifacts/WI-0163/technical-design.md",
+    ".ai-org/artifacts/WI-0163/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0163/developer-verification.md",
+    "EVID-20260904T170852Z-CF39C25E",
+    "EVID-20260904T170852Z-A39887BF",
+    ".ai-org/artifacts/WI-0163/quality-evaluation.md",
+    ".ai-org/artifacts/WI-0163/independent-qa-report.md",
+    "EVID-20260904T171005Z-23AA64AD",
+    "a6849519c6067b2f73ca1a44d556faf7a5168b1d",
+    ".ai-org/artifacts/WI-0163/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "a6849519c6067b2f73ca1a44d556faf7a5168b1d",
+      "artifact": ".ai-org/artifacts/WI-0163/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T17:09:02.444Z"
+    }
+  ],
+  "developer_candidate_revision": "a6849519c6067b2f73ca1a44d556faf7a5168b1d",
+  "tested_revision": "a6849519c6067b2f73ca1a44d556faf7a5168b1d",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

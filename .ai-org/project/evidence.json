@@ -25580,6 +25580,128 @@
         "exit_code": 0,
         "started_at": "2026-09-04T16:42:40.000Z"
       }
+    },
+    {
+      "id": "EVID-20260904T170852Z-CF39C25E",
+      "work_item_id": "WI-0163",
+      "recorded_at": "2026-09-04T17:08:52.782Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Alpha.30 technical candidate",
+      "outcome": "verified",
+      "scope_revision": "a6849519c6067b2f73ca1a44d556faf7a5168b1d",
+      "observed_at": "2026-09-04T17:08:52.782Z",
+      "summary": "Exact implementation commit containing the frozen Alpha.30 version and claim boundary.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "a6849519c6067b2f73ca1a44d556faf7a5168b1d"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "a6849519c6067b2f73ca1a44d556faf7a5168b1d",
+        "working_tree_dirty": true,
+        "dirty_path_count": 2,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T170852Z-A39887BF",
+      "work_item_id": "WI-0163",
+      "recorded_at": "2026-09-04T17:08:52.886Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Alpha.30 candidate verification",
+      "outcome": "pass",
+      "scope_revision": "a6849519c6067b2f73ca1a44d556faf7a5168b1d",
+      "observed_at": "2026-09-04T17:08:20.000Z",
+      "summary": "Working-tree and clean exact-revision verification passed 443 tests with zero Doctor failures.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0163/test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0163/test-observation.json",
+          "sha256": "2476a3987b4674a4d1ec88ca5487b58f4a673bad1c7921b4c63dc15cac647038"
+        },
+        {
+          "path": "docs/validation/alpha-30-candidate-freeze.md",
+          "sha256": "5a825883a61544b50a7175c9f7a9dd1b224db1c8fbd8b74806ee8a018ab70919"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0163/developer-verification.md",
+          "sha256": "17443b1921240b231de9822037d248dc3f422abe59460eb3be86e5b83297ee45"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm ci --ignore-scripts",
+          "npm run verify",
+          "node ./templew.mjs doctor . --json",
+          "node ./templew.mjs publication audit . --profile public --surface repository --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T17:06:00.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T171005Z-23AA64AD",
+      "work_item_id": "WI-0163",
+      "recorded_at": "2026-09-04T17:10:05.369Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent Alpha.30 candidate verification",
+      "outcome": "pass",
+      "scope_revision": "a6849519c6067b2f73ca1a44d556faf7a5168b1d",
+      "observed_at": "2026-09-04T17:08:20.000Z",
+      "summary": "Independent QA reproduced the clean exact-revision 443-test pass, zero Doctor failures, and zero public repository audit blockers.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0163/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0163/independent-qa-observation.json",
+          "sha256": "233bb2d4c7c177d80fe0dd6d9749152fafc8dd4f7ce3e5a3c88b5af482a21663"
+        },
+        {
+          "path": "docs/validation/alpha-30-candidate-freeze.md",
+          "sha256": "5a825883a61544b50a7175c9f7a9dd1b224db1c8fbd8b74806ee8a018ab70919"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0163/quality-evaluation.md",
+          "sha256": "600bef2292d54b673d7ee25457f3c6a86c3ed629bf9d49b58d75b949ae026415"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm ci --ignore-scripts",
+          "npm run verify",
+          "node ./templew.mjs doctor . --json",
+          "node ./templew.mjs publication audit . --profile public --surface repository --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T17:06:00.000Z"
+      }
     }
   ]
 }
