@@ -25872,6 +25872,176 @@
         "dirty_scope": "clean",
         "affected_paths_dirty": []
       }
+    },
+    {
+      "id": "EVID-20260904T180054Z-3720C0FC",
+      "work_item_id": "WI-0165",
+      "recorded_at": "2026-09-04T18:00:54.012Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": "2026-09-04T18:03:28.765Z",
+      "invalidated_by": "agent-lulu",
+      "invalidation_reason": "The observation path was updated after recording, so its digest no longer matched the exact candidate; replacement uses a new immutable observation path.",
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Clean exact-candidate Git history review verification",
+      "outcome": "pass",
+      "scope_revision": "df20f2beddb25f6ceac682dfc5ae8aabc28502f2",
+      "observed_at": "2026-09-04T18:00:21.000Z",
+      "summary": "Exact detached candidate passed 28 audit checks, current publication audit, package and documentation checks, and all 443 tests; media content remained excluded.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0165/test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0165/test-observation.json",
+          "sha256": "0b223fe8825aa4a71b7f40f5dbc0c295b79801d20298e39d97c226fc38aff3cc"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0165/git-history-text-audit.json",
+          "sha256": "2a74f7de342ee4afe5c0a825ad11a9612385021b606857f7d72f4aaf93de8460"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0165/reviewed-secret-fixtures.json",
+          "sha256": "3823342ed4b4b59254c9efebe6d98ad94437f9fa14d4c30beb21cd4fc0e01b11"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0165/review-verification-result.json",
+          "sha256": "e686d5ddf3aaf89776efaabb600129d89c6cba1e9a8e97dc3cd85410f8e2dc98"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0165/verify-review.mjs",
+          "sha256": "b1f912e8e4d2d35cc6d8250ad9e1b140e910ac3339c30c3f6b84edb674090e9e"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm ci --ignore-scripts",
+          "node ./.ai-org/artifacts/WI-0165/verify-review.mjs",
+          "node ./templew.mjs publication audit . --profile public --surface both --json",
+          "git diff --check",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T17:58:00.000Z",
+        "invalidation": {
+          "replacement_evidence_id": "EVID-20260904T180328Z-97D4D7F0"
+        }
+      }
+    },
+    {
+      "id": "EVID-20260904T180116Z-09E4D6D4",
+      "work_item_id": "WI-0165",
+      "recorded_at": "2026-09-04T18:01:16.326Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent exact-candidate history exposure verification",
+      "outcome": "pass",
+      "scope_revision": "df20f2beddb25f6ceac682dfc5ae8aabc28502f2",
+      "observed_at": "2026-09-04T18:00:21.000Z",
+      "summary": "Independent QA reproduced 28 review checks, zero current blockers, and all 443 tests in a clean detached worktree; image content was not reviewed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0165/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0165/independent-qa-observation.json",
+          "sha256": "1ee8be6c3e9f1cdf832fb4ce0552240319e44d9ca86f83cdedc7888c61006d12"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0165/git-history-text-audit.json",
+          "sha256": "2a74f7de342ee4afe5c0a825ad11a9612385021b606857f7d72f4aaf93de8460"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0165/reviewed-secret-fixtures.json",
+          "sha256": "3823342ed4b4b59254c9efebe6d98ad94437f9fa14d4c30beb21cd4fc0e01b11"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0165/review-verification-result.json",
+          "sha256": "e686d5ddf3aaf89776efaabb600129d89c6cba1e9a8e97dc3cd85410f8e2dc98"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0165/verify-review.mjs",
+          "sha256": "b1f912e8e4d2d35cc6d8250ad9e1b140e910ac3339c30c3f6b84edb674090e9e"
+        }
+      ],
+      "details": {
+        "command": [
+          "git worktree add --detach <temporary-path> df20f2beddb25f6ceac682dfc5ae8aabc28502f2",
+          "npm ci --ignore-scripts",
+          "node ./.ai-org/artifacts/WI-0165/verify-review.mjs",
+          "node ./templew.mjs publication audit . --profile public --surface both --json",
+          "npm run verify",
+          "git worktree remove --force <temporary-path>"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T17:58:00.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T180328Z-97D4D7F0",
+      "work_item_id": "WI-0165",
+      "recorded_at": "2026-09-04T18:03:28.567Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Replacement exact-candidate quality verification",
+      "outcome": "pass",
+      "scope_revision": "df20f2beddb25f6ceac682dfc5ae8aabc28502f2",
+      "observed_at": "2026-09-04T18:00:21.000Z",
+      "summary": "Clean detached candidate passed 28 audit checks, current publication audit, package and documentation checks, and all 443 tests; this replaces a digest-drifted observation path.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0165/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0165/quality-test-observation.json",
+          "sha256": "1ee8be6c3e9f1cdf832fb4ce0552240319e44d9ca86f83cdedc7888c61006d12"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0165/git-history-text-audit.json",
+          "sha256": "2a74f7de342ee4afe5c0a825ad11a9612385021b606857f7d72f4aaf93de8460"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0165/reviewed-secret-fixtures.json",
+          "sha256": "3823342ed4b4b59254c9efebe6d98ad94437f9fa14d4c30beb21cd4fc0e01b11"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0165/review-verification-result.json",
+          "sha256": "e686d5ddf3aaf89776efaabb600129d89c6cba1e9a8e97dc3cd85410f8e2dc98"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0165/verify-review.mjs",
+          "sha256": "b1f912e8e4d2d35cc6d8250ad9e1b140e910ac3339c30c3f6b84edb674090e9e"
+        }
+      ],
+      "details": {
+        "command": [
+          "git worktree add --detach <temporary-path> df20f2beddb25f6ceac682dfc5ae8aabc28502f2",
+          "npm ci --ignore-scripts",
+          "node ./.ai-org/artifacts/WI-0165/verify-review.mjs",
+          "node ./templew.mjs publication audit . --profile public --surface both --json",
+          "npm run verify",
+          "git worktree remove --force <temporary-path>"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T17:58:00.000Z"
+      }
     }
   ]
 }

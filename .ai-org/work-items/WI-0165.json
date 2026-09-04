@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0165",
   "title": "Audit public Git history text exposure",
-  "state": "test",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-04T17:41:19.958Z",
-  "updated_at": "2026-09-04T17:57:54.015Z",
+  "updated_at": "2026-09-04T18:01:53.090Z",
   "scope": [
     "Review text reachable through public Git repository refs and GitHub pull-request head refs before any visibility change; exclude images and other media content; retain only value-redacted findings; make no history rewrite or publication change."
   ],
@@ -49,23 +49,24 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "839e467af093d8e46b9b042442852868e71c1f30",
+  "base_revision": "df20f2beddb25f6ceac682dfc5ae8aabc28502f2",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
-  "planned_agent_id": "agent-lulu",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260904175754-754c43e4",
-    "status": "active",
+    "id": "claim-20260904180117-f7aa2de2",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-lulu",
-    "base_revision": "839e467af093d8e46b9b042442852868e71c1f30",
+    "agent_id": "agent-mog",
+    "base_revision": "df20f2beddb25f6ceac682dfc5ae8aabc28502f2",
     "branch": "codex/wi-0165-history-exposure-audit",
     "worktree": null,
-    "claimed_at": "2026-09-04T17:57:54.015Z",
-    "released_at": null
+    "claimed_at": "2026-09-04T18:01:17.053Z",
+    "released_at": "2026-09-04T18:01:53.090Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -118,14 +119,39 @@
     },
     {
       "id": "claim-20260904175754-754c43e4",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-lulu",
       "base_revision": "839e467af093d8e46b9b042442852868e71c1f30",
       "branch": "codex/wi-0165-history-exposure-audit",
       "worktree": null,
       "claimed_at": "2026-09-04T17:57:54.015Z",
-      "released_at": null
+      "released_at": "2026-09-04T18:01:01.151Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904180101-fd84ddc8",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "df20f2beddb25f6ceac682dfc5ae8aabc28502f2",
+      "branch": "codex/wi-0165-history-exposure-audit",
+      "worktree": null,
+      "claimed_at": "2026-09-04T18:01:01.681Z",
+      "released_at": "2026-09-04T18:01:16.535Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904180117-f7aa2de2",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "df20f2beddb25f6ceac682dfc5ae8aabc28502f2",
+      "branch": "codex/wi-0165-history-exposure-audit",
+      "worktree": null,
+      "claimed_at": "2026-09-04T18:01:17.053Z",
+      "released_at": "2026-09-04T18:01:53.090Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -152,6 +178,27 @@
       ".ai-org/artifacts/WI-0165/developer-verification.md",
       ".ai-org/artifacts/WI-0165/git-history-text-audit.json",
       ".ai-org/artifacts/WI-0165/test-observation.json"
+    ],
+    "test_evidence": [
+      "EVID-20260904T180054Z-3720C0FC"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0165/quality-evaluation.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260904T180116Z-09E4D6D4"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0165/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0165/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0165/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -162,13 +209,15 @@
     ".ai-org/artifacts/WI-0165/developer-verification.md",
     ".ai-org/artifacts/WI-0165/git-history-text-audit.json",
     ".ai-org/artifacts/WI-0165/test-observation.json",
-    ".ai-org/artifacts/WI-0165/handoff-001-developer-to-quality_evaluator.md"
+    ".ai-org/artifacts/WI-0165/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260904T180054Z-3720C0FC",
+    ".ai-org/artifacts/WI-0165/quality-evaluation.md",
+    "EVID-20260904T180116Z-09E4D6D4",
+    ".ai-org/artifacts/WI-0165/release-record.md",
+    ".ai-org/artifacts/WI-0165/independent-qa-report.md"
   ],
-  "unresolved": [
-    "Owner must choose historical-metadata acceptance or a clean public distribution repository before visibility changes.",
-    "GitHub Actions history and logs remain outside this Git-object review."
-  ],
-  "next_position": "quality_evaluator",
+  "unresolved": [],
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -178,5 +227,11 @@
       "created_at": "2026-09-04T17:57:53.229Z"
     }
   ],
-  "developer_candidate_revision": "839e467af093d8e46b9b042442852868e71c1f30"
+  "developer_candidate_revision": "839e467af093d8e46b9b042442852868e71c1f30",
+  "tested_revision": "df20f2beddb25f6ceac682dfc5ae8aabc28502f2",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

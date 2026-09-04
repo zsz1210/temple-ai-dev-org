@@ -2,11 +2,12 @@
   "schema_version": "temple.test-observation/v1",
   "revision": "df20f2beddb25f6ceac682dfc5ae8aabc28502f2",
   "command": [
+    "git worktree add --detach <temporary-path> df20f2beddb25f6ceac682dfc5ae8aabc28502f2",
     "npm ci --ignore-scripts",
     "node ./.ai-org/artifacts/WI-0165/verify-review.mjs",
     "node ./templew.mjs publication audit . --profile public --surface both --json",
-    "git diff --check",
-    "npm run verify"
+    "npm run verify",
+    "git worktree remove --force <temporary-path>"
   ],
   "result": "pass",
   "exit_code": 0,
