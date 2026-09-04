@@ -47,7 +47,7 @@
     "agent_id": "agent-lulu",
     "base_revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
     "branch": "phase4/qa-wi-0021",
-    "worktree": "/tmp/temple-phase4.slCwlE/qa-wi-0021",
+    "worktree": null,
     "claimed_at": "2026-08-30T08:14:15.751Z",
     "released_at": "2026-08-30T08:19:55.870Z",
     "release_reason": [
@@ -62,7 +62,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "b34c8b8efa3e59d0cc44bb1864f19a45596ef0fa",
       "branch": "phase4/fix-wi-0021",
-      "worktree": "/tmp/temple-phase4.slCwlE/fix-wi-0021",
+      "worktree": null,
       "claimed_at": "2026-08-30T08:02:54.925Z",
       "released_at": "2026-08-30T08:07:12.422Z",
       "release_reason": [
@@ -76,7 +76,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "5733bb25202d8acc2de31ec8e0501787557962cb",
       "branch": "phase4/qa-wi-0021",
-      "worktree": "/tmp/temple-phase4.slCwlE/qa-wi-0021",
+      "worktree": null,
       "claimed_at": "2026-08-30T08:14:15.751Z",
       "released_at": "2026-08-30T08:19:55.870Z",
       "release_reason": [

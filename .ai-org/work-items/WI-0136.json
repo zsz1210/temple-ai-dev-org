@@ -68,7 +68,7 @@
     "agent_id": "agent-lulu",
     "base_revision": "71a4ce0",
     "branch": "codex/wi-0136-representative-microservice-comparison",
-    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "worktree": null,
     "claimed_at": "2026-09-03T16:32:48.677Z",
     "released_at": "2026-09-03T23:29:59.623Z",
     "release_reason": "position_transition"
@@ -81,7 +81,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "4c4e149debe87bb459ffa241aa659777e23ca7f4",
       "branch": "codex/wi-0136-representative-microservice-comparison",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-03T10:51:58.546Z",
       "released_at": "2026-09-03T14:49:22.433Z",
       "release_reason": "position_transition"
@@ -93,7 +93,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "0b906a643ad1f86391dfca428b36c903a1f38744",
       "branch": "codex/wi-0136-representative-microservice-comparison",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-03T14:49:53.967Z",
       "released_at": "2026-09-03T14:52:36.299Z",
       "release_reason": [
@@ -107,7 +107,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "71a4ce0",
       "branch": "codex/wi-0136-representative-microservice-comparison",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-03T16:32:48.677Z",
       "released_at": "2026-09-03T23:29:59.623Z",
       "release_reason": "position_transition"

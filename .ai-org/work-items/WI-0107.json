@@ -52,7 +52,7 @@
     "agent_id": "agent-rikku",
     "base_revision": "b6847d537e6963c5cee40fdd8fedd4800e6c67fd",
     "branch": "codex/wi-0107-wave-5a-execution",
-    "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0107",
+    "worktree": null,
     "claimed_at": "2026-09-02T12:20:00.379Z",
     "released_at": "2026-09-02T12:42:07.099Z",
     "release_reason": "position_transition"
@@ -65,7 +65,7 @@
       "agent_id": "agent-mog",
       "base_revision": "b6847d537e6963c5cee40fdd8fedd4800e6c67fd",
       "branch": "codex/wi-0107-wave-5a-execution",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0107",
+      "worktree": null,
       "claimed_at": "2026-09-02T12:10:30.064Z",
       "released_at": "2026-09-02T12:19:59.218Z",
       "release_reason": "position_transition"
@@ -77,7 +77,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "b6847d537e6963c5cee40fdd8fedd4800e6c67fd",
       "branch": "codex/wi-0107-wave-5a-execution",
-      "worktree": "/Users/zsz1210/.codex/worktrees/temple-wi-0107",
+      "worktree": null,
       "claimed_at": "2026-09-02T12:20:00.379Z",
       "released_at": "2026-09-02T12:42:07.099Z",
       "release_reason": "position_transition"

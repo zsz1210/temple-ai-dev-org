@@ -62,7 +62,7 @@
     "agent_id": "agent-rikku",
     "base_revision": "4f9da0499ab8d9e61c97417c86ba57bc7867a8e6",
     "branch": "codex/wi-0135-optimized-terra-confirmation",
-    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "worktree": null,
     "claimed_at": "2026-09-03T10:19:31.893Z",
     "released_at": "2026-09-03T10:33:21.139Z",
     "release_reason": [
@@ -77,7 +77,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "4f9da0499ab8d9e61c97417c86ba57bc7867a8e6",
       "branch": "codex/wi-0135-optimized-terra-confirmation",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-03T10:19:31.893Z",
       "released_at": "2026-09-03T10:33:21.139Z",
       "release_reason": [

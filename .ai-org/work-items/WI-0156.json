@@ -101,7 +101,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "336bd945b49e80a3e6d9459a8d093790d1200f9b",
       "branch": "codex/wi-0156-onboarding-hardening",
-      "worktree": "/private/tmp/temple-wi0156-qa.1GPGdc",
+      "worktree": null,
       "claimed_at": "2026-09-04T13:25:14.272Z",
       "released_at": "2026-09-04T13:27:31.928Z",
       "release_reason": [
@@ -115,7 +115,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "336bd945b49e80a3e6d9459a8d093790d1200f9b",
       "branch": "codex/wi-0156-onboarding-hardening",
-      "worktree": "/private/tmp/temple-wi0156-qa.1GPGdc",
+      "worktree": null,
       "claimed_at": "2026-09-04T13:27:40.926Z",
       "released_at": "2026-09-04T13:27:41.182Z",
       "release_reason": [
@@ -129,7 +129,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "336bd945b49e80a3e6d9459a8d093790d1200f9b",
       "branch": "codex/wi-0156-onboarding-hardening",
-      "worktree": "/private/tmp/temple-wi0156-qa.1GPGdc",
+      "worktree": null,
       "claimed_at": "2026-09-04T13:28:08.408Z",
       "released_at": "2026-09-04T13:28:08.674Z",
       "release_reason": [

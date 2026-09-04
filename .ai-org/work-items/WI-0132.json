@@ -65,7 +65,7 @@
     "agent_id": "agent-rikku",
     "base_revision": "926d982db34f116f5998005cfcda21b99f0bd5b5",
     "branch": "codex/wi-0132-live-routing-effectiveness",
-    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "worktree": null,
     "claimed_at": "2026-09-03T08:26:07.618Z",
     "released_at": "2026-09-03T08:33:40.189Z",
     "release_reason": [
@@ -80,7 +80,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "926d982db34f116f5998005cfcda21b99f0bd5b5",
       "branch": "codex/wi-0132-live-routing-effectiveness",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-03T08:26:07.618Z",
       "released_at": "2026-09-03T08:33:40.189Z",
       "release_reason": [

@@ -88,7 +88,7 @@
     "agent_id": "agent-lulu",
     "base_revision": "101a981a8f5a05a31bc2acec74c15df6192cabca",
     "branch": "codex/wi-0146-readme-layers",
-    "worktree": "/tmp/temple-wi0146-qa.7SEnyh/checkout",
+    "worktree": null,
     "claimed_at": "2026-09-04T07:05:34.747Z",
     "released_at": "2026-09-04T07:08:38.170Z",
     "release_reason": [
@@ -117,7 +117,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "101a981a8f5a05a31bc2acec74c15df6192cabca",
       "branch": "codex/wi-0146-readme-layers",
-      "worktree": "/tmp/temple-wi0146-qa.7SEnyh/checkout",
+      "worktree": null,
       "claimed_at": "2026-09-04T07:05:34.747Z",
       "released_at": "2026-09-04T07:08:38.170Z",
       "release_reason": [

@@ -92,7 +92,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "68ee5a7",
       "branch": "main",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-08-31T06:14:07.694Z",
       "released_at": "2026-08-31T06:51:29.619Z",
       "release_reason": "position_transition"

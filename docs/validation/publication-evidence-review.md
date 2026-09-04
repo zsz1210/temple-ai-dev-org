@@ -1,6 +1,6 @@
 # Publication evidence review
 
-Status: review complete; text normalization remains
+Status: review complete; canonical-state normalization implemented and dogfooded, exact-candidate assurance pending
 
 Work Item: `WI-0160`
 
@@ -8,12 +8,12 @@ This review answers a narrow question: what remains in Temple's current tracked 
 
 ## Result
 
-The public-profile audit reports zero blocked findings on both repository and package surfaces. The remaining repository queue consists of:
+The public-profile audit reports zero blocked findings on both repository and package surfaces. `WI-0161` reduced the canonical-state queue from 245 occurrences to zero through a stale-safe, field-aware operation. The remaining repository queue consists of:
 
-- 330 retained-legacy text finding records, representing 334 matched occurrences across 112 files;
+- 85 retained-legacy text finding records, representing 89 matched occurrences outside canonical state;
 - 68 PNG files requiring content review.
 
-All 68 PNGs passed this review at their recorded SHA-256 digests. The text findings are now fully classified, but 334 occurrences still need bounded normalization or an explicit fixture disposition. The repository is therefore better understood, not yet declared ready for publication.
+All 68 PNGs passed this review at their recorded SHA-256 digests. The remaining text findings still need retained-artifact normalization or an explicit fixture disposition. The repository is therefore better understood, not yet declared ready for publication.
 
 ## Text findings
 
@@ -24,6 +24,8 @@ All 68 PNGs passed this review at their recorded SHA-256 digests. The text findi
 | First-party test fixtures | 14 | 18 | 2 | Replace maintainer-shaped values with unmistakably synthetic fixtures |
 | Pinned Archify test fixture | 1 | 1 | 1 | Record a vendored-fixture disposition or update the pinned dependency; do not patch vendored code casually |
 | **Total** | **330** | **334** | **112** | |
+
+The first row is now resolved in the current tree by `WI-0161`; it remains in the table as the original review baseline. The implemented command normalized 315 fields across two exact plans: released claim worktrees, terminal worker and task worktrees, twelve Evidence-detail values, and one allowlisted Work Item description. Evidence IDs, revisions, artifact paths, and artifact digests remained unchanged.
 
 By rule, the queue contains 279 home-path occurrences, 49 private-address occurrences, and six private-Tailnet-host occurrences. The new inventory retains paths, line numbers, rule classes, and counts, but never copies the matched value or source-line text.
 
@@ -46,7 +48,7 @@ The images may remain at their current digests. Any changed image bytes require 
 
 ## What remains separate
 
-1. Implement canonical lifecycle and registry path minimization.
+1. Complete exact-candidate Independent QA for `WI-0161`.
 2. Normalize retained artifacts with provenance manifests.
 3. Replace first-party maintainer-shaped fixtures and document the pinned vendored fixture's disposition.
 4. Repeat the public audit at the frozen candidate.
@@ -59,6 +61,7 @@ No version, tag, GitHub Release, npm publication, announcement, visibility chang
 ```bash
 node ./templew.mjs publication audit . --profile public --surface both --json
 node ./.ai-org/artifacts/WI-0160/verify-review.mjs
+node ./.ai-org/artifacts/WI-0161/verify-canonical-normalization.mjs
 npm run verify
 ```
 

@@ -1,0 +1,32 @@
+{
+  "schema_version": "temple.publication-normalization-result/v1",
+  "work_item_id": "WI-0161",
+  "applications": [
+    {
+      "plan_digest": "385f5f02cb46cc40e750c395d8b7481d164f5ecdd145061423a4709d50f4582e",
+      "changed_files": 64,
+      "change_count": 314
+    },
+    {
+      "plan_digest": "f250388209ec954573e6699b31e47bc0e95b21b053f76707606a53d2ae0fe665",
+      "changed_files": 1,
+      "change_count": 1,
+      "reason": "Dogfood exposed one previously omitted allowlisted Work Item description field."
+    }
+  ],
+  "summary": {
+    "unique_changed_files": 64,
+    "change_count": 315,
+    "canonical_audit_occurrences_before": 245,
+    "canonical_audit_occurrences_after": 0,
+    "evidence_entries_preserved": 571,
+    "artifact_refs_preserved": 1750,
+    "idempotent": true,
+    "schema_valid": true,
+    "full_repository_tests": 438,
+    "full_repository_test_failures": 0,
+    "remaining_public_audit_review_occurrences": 157
+  },
+  "matched_values_retained": false,
+  "publication_authorized": false
+}

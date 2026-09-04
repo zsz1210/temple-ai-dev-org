@@ -1,0 +1,20 @@
+{
+  "schema_version": "temple.publication-normalization-dogfood/v1",
+  "work_item_id": "WI-0161",
+  "reason": "The first dogfood run exposed one allowlisted Work Item description field that the initial implementation did not cover.",
+  "matched_values_retained": false,
+  "plan_digest": "f250388209ec954573e6699b31e47bc0e95b21b053f76707606a53d2ae0fe665",
+  "status": "changes-pending",
+  "summary": {
+    "changed_files": 1,
+    "change_count": 1,
+    "retained_active_coordinates": 0,
+    "changes": {
+      "maintainer-home-path-posix": 1
+    }
+  },
+  "authority": {
+    "canonical_state_changed_by_preview": false,
+    "publication_authorized": false
+  }
+}

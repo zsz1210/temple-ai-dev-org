@@ -8,7 +8,7 @@
   "created_at": "2026-08-31T09:53:13.745Z",
   "updated_at": "2026-08-31T10:13:14.729Z",
   "scope": [
-    "Use the retained synthetic repository at /Users/zsz1210/Documents/ChatGPT/temple-effectiveness-lab/instrumentation-pilot without deleting or rewriting its prior pilot history.",
+    "Use the retained synthetic repository at <LOCAL_HOME>/Documents/ChatGPT/temple-effectiveness-lab/instrumentation-pilot without deleting or rewriting its prior pilot history.",
     "Create one new synthetic Work Item and run exactly one Provider-owned Codex task with gpt-5.6-luna max, one launch attempt, one turn, zero retries, network disabled, and the approved resource and stop limits.",
     "Record pass, partial, or fail evidence for Work Item, task, Position, Agent, revision, model, reasoning, outcome, Provider Token usage, time, provenance, repository state, and cleanup; leave unavailable fields unknown.",
     "Keep GitHub, hosted CI, paid API credentials, usage reset, company data, additional machines, push, deployment, publication, public release, automatic routing, fallback, retry, and four-repository execution outside scope."

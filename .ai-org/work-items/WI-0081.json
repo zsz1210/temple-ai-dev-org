@@ -85,7 +85,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
       "branch": "main",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-01T05:21:52.320Z",
       "released_at": "2026-09-01T05:29:55.408Z",
       "release_reason": [
@@ -99,7 +99,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
       "branch": "main",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-01T05:59:39.152Z",
       "released_at": "2026-09-01T06:13:23.607Z",
       "release_reason": [
@@ -113,7 +113,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "8a7afd309e408c9257680f339d1c26cfc3ac6f88",
       "branch": "main",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-01T06:14:13.607Z",
       "released_at": "2026-09-01T06:17:04.792Z",
       "release_reason": [

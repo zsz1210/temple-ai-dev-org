@@ -85,7 +85,7 @@
       "claim_id": "claim-20260830114307-26207596",
       "base_revision": "4d441b31b6ecd684bb51af8c96d535b6d25486d0",
       "branch": "codex/wi-0029-agent-command-gateway",
-      "worktree": "/Users/zsz1210/.codex/worktrees/5e74/temple-ai-dev-org",
+      "worktree": null,
       "worker_id": null,
       "created_at": "2026-08-30T11:43:08.052Z",
       "updated_at": "2026-08-30T12:07:19.585Z",

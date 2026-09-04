@@ -72,6 +72,28 @@ The baseline is intentionally narrow:
 
 This is a migration mechanism, not an assertion that historical material is risk-free. Review the selected revision before recording it. Temple does not rewrite old commits or pull requests.
 
+## Minimize completed canonical records
+
+Completed lifecycle records can retain machine-local worktree locations and Evidence descriptions even after execution has ended. Do not mass-edit those JSON files. Temple can prepare a field-aware, value-redacted plan instead:
+
+```bash
+node ./templew.mjs publication normalize-plan .
+```
+
+The preview lists affected canonical files, field classes, counts, before/after digests, and a deterministic plan digest. It never prints a matched local value or changes project state. Review the plan, then apply that exact digest through an actively claimed Work Item:
+
+```bash
+node ./templew.mjs publication normalize-apply . \
+  --work-item WI-0001 \
+  --expected-plan <plan-digest> \
+  --confirm-normalization \
+  --actor <claim-agent-id>
+```
+
+The operation clears worktree fields only for released claims and terminal workers or tasks. It also replaces local values in Work Item `scope`, `acceptance_criteria`, and `unresolved` descriptions and in strings below Evidence `details` with typed placeholders. It does not change active execution coordinates, Work Item path/ref fields, Evidence IDs, revisions, artifact paths, or artifact digests. A sensitive active coordinate, stale plan, failed schema check, or incomplete write stops the operation and leaves the pre-apply files in place.
+
+Run `normalize-plan` again after success; `no-changes` is the idempotence check. The recorded audit event proves that a bounded canonical migration occurred, but does not authorize publication.
+
 ## Binary, history, and hosted-log review
 
 The command identifies binary files but does not OCR screenshots or claim their contents are safe. Review rendered images, archives, and other binaries separately.

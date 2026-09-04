@@ -82,7 +82,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "8b3dc75c839bb8345d79ec000b5cfe21dabae091",
       "branch": "codex/wi-0130-effectiveness-pilot",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "worktree": null,
       "claimed_at": "2026-09-03T06:31:15.788Z",
       "released_at": "2026-09-03T07:08:39.389Z",
       "release_reason": "position_transition"

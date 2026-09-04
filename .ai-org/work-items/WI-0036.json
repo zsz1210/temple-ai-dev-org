@@ -59,7 +59,7 @@
     "agent_id": "agent-lulu",
     "base_revision": "f68186ba2c5ae20657847cbc651b3969b986db90",
     "branch": "detached/f68186b",
-    "worktree": "/tmp/temple-wi-0036-iqa.6PcRn1",
+    "worktree": null,
     "claimed_at": "2026-08-30T15:40:49.628Z",
     "released_at": "2026-08-30T15:42:32.993Z",
     "release_reason": "position_transition"
@@ -132,7 +132,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "f68186ba2c5ae20657847cbc651b3969b986db90",
       "branch": "detached/f68186b",
-      "worktree": "/tmp/temple-wi-0036-iqa.6PcRn1",
+      "worktree": null,
       "claimed_at": "2026-08-30T15:40:49.628Z",
       "released_at": "2026-08-30T15:42:32.993Z",
       "release_reason": "position_transition"
