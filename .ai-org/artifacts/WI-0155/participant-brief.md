@@ -4,9 +4,9 @@ You are operating a clean-room release rehearsal. You have no prior Temple conve
 
 ## Inputs
 
-- Frozen Temple package: `/private/tmp/wi0155-package.TwBetl/zsz1210-temple-ai-dev-org-0.1.0-alpha.29.tgz`
+- Frozen Temple package: `<FROZEN_TARBALL>`
 - Expected package SHA-256: `fb910bce72b6560cffdd973fa3fda2735a060c39f083b0328c57c092034aeb69`
-- Empty disposable project directory: `/Users/zsz1210/Documents/ChatGPT/temple-clean-room-wi-0155.QXrZ4y`
+- Empty disposable project directory: `<DISPOSABLE_PROJECT>`
 - Runtime: Node.js 24 or another version permitted by the package's declared engine
 
 Before installation, verify the archive digest. Do not fetch or substitute another Temple version.

@@ -25209,6 +25209,71 @@
         "exit_code": 0,
         "started_at": "2026-09-04T14:28:51.000Z"
       }
+    },
+    {
+      "id": "EVID-20260904T145521Z-0FE623F7",
+      "work_item_id": "WI-0159",
+      "recorded_at": "2026-09-04T14:55:21.533Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Exact-candidate privacy normalization verification",
+      "outcome": "pass",
+      "scope_revision": "fea56220c4ac4f921eb23779c3ee50cc2a29c328",
+      "observed_at": "2026-09-04T14:52:29.000Z",
+      "summary": "Repository, documentation, package, and 434 Node tests passed at fea56220; Doctor remained healthy and the public audit reported zero blocked findings.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0159/test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0159/test-observation.json",
+          "sha256": "8cf24fe20736aac2e7724840272be6ebb882cf7ad9e2b07a27a8469ea029b542"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0155/clean-room-result.json",
+          "sha256": "3ffdf5ca88158dd90bd361c90890060daf3d5dce3a5546fcf9be96b93bdfbcf2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0155/participant-brief.md",
+          "sha256": "5843805c92ed3ed49953e6bceaba7fa41a42910cd37a15eedab625c58f5d814f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0155/work-order.md",
+          "sha256": "a31eafd9544754e95e4d6d726399962bf8d1f50a0a7dd4d41943cbc08a64fe6d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0156/clean-room-comparison.json",
+          "sha256": "9fba2c389f2c3bd68bad292a1dff0d57ed50e058503aff58ed209369708af53e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0159/redaction-manifest.json",
+          "sha256": "5ee6628a418ef57911666caa290d5a729f387c88c9e139715fe16e4b0d1111e3"
+        },
+        {
+          "path": "docs/planning/release-readiness.md",
+          "sha256": "c8ed163ba62130905ff663d866401ef54e9bf4a68f4e4307137339300c6094f4"
+        },
+        {
+          "path": "docs/validation/final-pre-alpha-clean-room.md",
+          "sha256": "c401e2b09bb6a45233852a83bb69ffc73978c88e508f89da44de21aa21b4c685"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T14:51:03.914Z"
+      }
     }
   ]
 }

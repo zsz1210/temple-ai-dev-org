@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 158 total, 0 active
+- Work items: 159 total, 0 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -206,6 +206,7 @@
 | WI-0156 | Reduce fresh-session onboarding friction | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `336bd945` | 2 | 11 | 0 |
 | WI-0157 | Harden lifecycle evidence guidance | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0155149d` | 0 | 10 | 0 |
 | WI-0158 | Run final pre-Alpha clean-room rehearsal | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3ffd987c` | 2 | 10 | 0 |
+| WI-0159 | Normalize public evidence paths without erasing provenance | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `fea56220` | 0 | 10 | 0 |
 
 ## Codex task registry
 
@@ -358,14 +359,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-04T14:31:57.697Z | work_item_closed | WI-0158 | agent-mog |
-| 2026-09-04T14:31:57.697Z | release_gate_completed | WI-0158 | agent-mog |
-| 2026-09-04T14:31:57.427Z | work_item_claimed | WI-0158 | human |
-| 2026-09-04T14:31:57.138Z | work_item_transitioned | WI-0158 | agent-lulu |
-| 2026-09-04T14:31:56.866Z | work_item_claim_released | WI-0158 | human |
-| 2026-09-04T14:31:19.406Z | work_item_claimed | WI-0158 | human |
-| 2026-09-04T14:31:19.116Z | work_item_transitioned | WI-0158 | agent-lulu |
-| 2026-09-04T14:31:18.843Z | work_item_claim_released | WI-0158 | human |
+| 2026-09-04T14:56:22.061Z | work_item_closed | WI-0159 | agent-mog |
+| 2026-09-04T14:56:22.061Z | release_gate_completed | WI-0159 | agent-mog |
+| 2026-09-04T14:56:03.462Z | work_item_claimed | WI-0159 | human |
+| 2026-09-04T14:56:03.172Z | work_item_transitioned | WI-0159 | agent-lulu |
+| 2026-09-04T14:56:02.903Z | work_item_claimed | WI-0159 | human |
+| 2026-09-04T14:56:02.603Z | work_item_transitioned | WI-0159 | agent-lulu |
+| 2026-09-04T14:56:02.090Z | work_item_transitioned | WI-0159 | agent-lulu |
+| 2026-09-04T14:55:21.533Z | evidence_recorded | WI-0159 | agent-lulu |
 
 ## Assignments
 
