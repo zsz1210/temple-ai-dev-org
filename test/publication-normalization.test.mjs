@@ -19,6 +19,11 @@ const cli = path.join(repositoryRoot, "bin/temple.mjs");
 const revision = "a".repeat(40);
 const digest = "b".repeat(64);
 const timestamp = "2026-09-04T00:00:00.000Z";
+const fixtureHome = ["", "Users", "maintainer"].join("/");
+const fixtureOtherHome = ["", "home", "other"].join("/");
+const fixtureWindowsHome = ["C:", "Users", "maintainer"].join("\\");
+const fixturePrivateIp = ["192", "168", "7", "9"].join(".");
+const fixtureTailnetHost = ["mac", "tailnet", "ts", "net"].join(".");
 
 function configDocument(projectId) {
   return {
@@ -66,7 +71,7 @@ async function fixture(context, projectId = "publication-normalization") {
 
   const workItemPath = `.ai-org/work-items/${created.item.id}.json`;
   const workItem = JSON.parse(await fs.readFile(path.join(target, workItemPath), "utf8"));
-  workItem.scope.push("Inspect /Users/maintainer/legacy-project without changing it");
+  workItem.scope.push(`Inspect ${fixtureHome}/legacy-project without changing it`);
   workItem.claims.unshift({
     id: "claim-released-fixture",
     status: "released",
@@ -74,7 +79,7 @@ async function fixture(context, projectId = "publication-normalization") {
     agent_id: workItem.assigned_agent_id,
     base_revision: revision,
     branch: "codex/released",
-    worktree: "/Users/maintainer/.codex/worktrees/released/project",
+    worktree: `${fixtureHome}/.codex/worktrees/released/project`,
     claimed_at: timestamp,
     released_at: timestamp,
     release_reason: "completed"
@@ -118,7 +123,7 @@ async function fixture(context, projectId = "publication-normalization") {
     agent_id: workItem.assigned_agent_id,
     suggested_title: "Fixture task",
     status: "completed",
-    worktree: "C:\\Users\\maintainer\\project"
+    worktree: `${fixtureWindowsHome}\\project`
   });
   await writeJson(target, ".ai-org/project/tasks.json", tasks);
 
@@ -140,10 +145,10 @@ async function fixture(context, projectId = "publication-normalization") {
     observed_at: timestamp,
     summary: "Fixture evidence",
     adapter: { id: "fixture", version: "1" },
-    artifacts: [{ path: "/Users/maintainer/evidence/result.json", sha256: digest }],
+    artifacts: [{ path: `${fixtureHome}/evidence/result.json`, sha256: digest }],
     details: {
-      environment: "Run from /Users/maintainer/project through 192.168.7.9 and mac.tailnet.ts.net",
-      command: ["inspect /home/other/project"],
+      environment: `Run from ${fixtureHome}/project through ${fixturePrivateIp} and ${fixtureTailnetHost}`,
+      command: [`inspect ${fixtureOtherHome}/project`],
       cidr: "Allow 10.0.0.0/8"
     }
   });
@@ -174,7 +179,7 @@ test("normalization plan is deterministic and never retains matched values", asy
     "terminal-worker-worktree": 1
   });
   const serialized = JSON.stringify(first);
-  for (const prohibited of ["/Users/maintainer", "192.168.7.9", "mac.tailnet.ts.net", "/tmp/temple-fixture"]) {
+  for (const prohibited of [fixtureHome, fixturePrivateIp, fixtureTailnetHost, "/tmp/temple-fixture"]) {
     assert.equal(serialized.includes(prohibited), false);
   }
 });
@@ -255,7 +260,7 @@ test("normalization refuses active coordinates and rolls back a failed write", a
     agent_id: state.actor,
     suggested_title: "Active fixture task",
     status: "active",
-    worktree: "/Users/maintainer/active"
+    worktree: `${fixtureHome}/active`
   });
   await fs.writeFile(taskPath, formatJson(tasks));
   const blocked = await buildPublicationNormalizationPlan(state.target);

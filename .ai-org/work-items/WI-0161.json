@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0161",
   "title": "Minimize local paths in canonical state",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-04T15:30:13.873Z",
-  "updated_at": "2026-09-04T15:34:57.702Z",
+  "updated_at": "2026-09-04T15:49:15.891Z",
   "scope": [
     "Add a deterministic, stale-safe publication command that previews and applies field-aware minimization of machine-local paths and private network identifiers in canonical Work Items, terminal runtime workers, completed tasks, and Evidence details without exposing matched values.",
     "Dogfood the command on Temple's current canonical state and record a value-redacted manifest that preserves lifecycle, Evidence identity, revision, artifact digest, and audit history.",
@@ -61,7 +61,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "f27816a8fecdc6cde3a2ca4cc47000a544433c70",
+  "base_revision": "cbeeb0f20f8f8b432526a87aab75beb49b5d85c9",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -69,14 +69,14 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260904153457-afeaebcd",
+    "id": "claim-20260904154915-c06cbc10",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "f27816a8fecdc6cde3a2ca4cc47000a544433c70",
+    "agent_id": "agent-lulu",
+    "base_revision": "cbeeb0f20f8f8b432526a87aab75beb49b5d85c9",
     "branch": "codex/wi-0161-canonical-path-minimization",
     "worktree": null,
-    "claimed_at": "2026-09-04T15:34:57.702Z",
+    "claimed_at": "2026-09-04T15:49:15.891Z",
     "released_at": null
   },
   "claims": [
@@ -118,13 +118,25 @@
     },
     {
       "id": "claim-20260904153457-afeaebcd",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "f27816a8fecdc6cde3a2ca4cc47000a544433c70",
       "branch": "codex/wi-0161-canonical-path-minimization",
       "worktree": null,
       "claimed_at": "2026-09-04T15:34:57.702Z",
+      "released_at": "2026-09-04T15:49:15.581Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904154915-c06cbc10",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "cbeeb0f20f8f8b432526a87aab75beb49b5d85c9",
+      "branch": "codex/wi-0161-canonical-path-minimization",
+      "worktree": null,
+      "claimed_at": "2026-09-04T15:49:15.891Z",
       "released_at": null
     }
   ],
@@ -143,12 +155,20 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0161/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0161/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0161/developer-verification.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0161/work-order.md",
     ".ai-org/artifacts/WI-0161/approved-scope.md",
-    ".ai-org/artifacts/WI-0161/technical-design.md"
+    ".ai-org/artifacts/WI-0161/technical-design.md",
+    ".ai-org/artifacts/WI-0161/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0161/developer-verification.md"
   ],
   "unresolved": [],
   "next_position": "quality_evaluator"
