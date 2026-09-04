@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0142",
   "title": "Harden reusable model and process evaluation controls",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-04T03:48:51.822Z",
-  "updated_at": "2026-09-04T03:51:25.391Z",
+  "updated_at": "2026-09-04T04:04:11.412Z",
   "scope": [
     "Classify privacy-safe control-package reads from supported sanitized Codex App Server action shapes without retaining raw commands or output.",
     "Make cache sensitivity and cache-control validity first-class in deterministic comparison analysis, so routing or model claims fail closed when cache imbalance can dominate the result.",
@@ -68,26 +68,32 @@
   ],
   "claim": {
     "id": "claim-20260904035125-fe64ee00",
-    "status": "active",
+    "status": "released",
     "principal_id": "principal-owner",
     "agent_id": "agent-rikku",
     "base_revision": "496a9490ea05462ddc738b4320554c8f11a949ac",
     "branch": "codex/wi-0142-evaluation-controls",
     "worktree": null,
     "claimed_at": "2026-09-04T03:51:25.391Z",
-    "released_at": null
+    "released_at": "2026-09-04T04:04:11.171Z",
+    "release_reason": [
+      "Developer implementation and evidence handed to Quality Evaluator."
+    ]
   },
   "claims": [
     {
       "id": "claim-20260904035125-fe64ee00",
-      "status": "active",
+      "status": "released",
       "principal_id": "principal-owner",
       "agent_id": "agent-rikku",
       "base_revision": "496a9490ea05462ddc738b4320554c8f11a949ac",
       "branch": "codex/wi-0142-evaluation-controls",
       "worktree": null,
       "claimed_at": "2026-09-04T03:51:25.391Z",
-      "released_at": null
+      "released_at": "2026-09-04T04:04:11.171Z",
+      "release_reason": [
+        "Developer implementation and evidence handed to Quality Evaluator."
+      ]
     }
   ],
   "gate_evidence": {
@@ -105,6 +111,15 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0142/technical-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0142/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260904T040357Z-A12FCBF4",
+      "EVID-20260904T040357Z-903481F2",
+      ".ai-org/artifacts/WI-0142/developer-verification.md",
+      ".ai-org/artifacts/WI-0142/measurement-repair-result.md"
     ]
   },
   "evidence": [
@@ -113,7 +128,12 @@
     ".ai-org/artifacts/WI-0142/handoff-002-product_manager-to-tech_lead.md",
     ".ai-org/artifacts/WI-0142/approved-scope.md",
     ".ai-org/artifacts/WI-0142/handoff-003-tech_lead-to-developer.md",
-    ".ai-org/artifacts/WI-0142/technical-design.md"
+    ".ai-org/artifacts/WI-0142/technical-design.md",
+    ".ai-org/artifacts/WI-0142/handoff-004-developer-to-quality_evaluator.md",
+    "EVID-20260904T040357Z-A12FCBF4",
+    "EVID-20260904T040357Z-903481F2",
+    ".ai-org/artifacts/WI-0142/developer-verification.md",
+    ".ai-org/artifacts/WI-0142/measurement-repair-result.md"
   ],
   "unresolved": [],
   "next_position": "quality_evaluator",
@@ -138,6 +158,14 @@
       "input_revision": "496a9490ea05462ddc738b4320554c8f11a949ac",
       "artifact": ".ai-org/artifacts/WI-0142/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-04T03:51:24.886Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "5197e7a3b513ab0d4f06e31163f29549a0103f43",
+      "artifact": ".ai-org/artifacts/WI-0142/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T04:04:10.895Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "5197e7a3b513ab0d4f06e31163f29549a0103f43"
 }
