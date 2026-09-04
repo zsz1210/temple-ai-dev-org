@@ -362,14 +362,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-04T16:14:47.184Z | work_item_claimed | WI-0162 | human |
-| 2026-09-04T16:14:46.878Z | work_item_transitioned | WI-0162 | agent-tidus |
-| 2026-09-04T16:14:31.669Z | work_item_claimed | WI-0162 | human |
-| 2026-09-04T16:13:17.910Z | work_item_transitioned | WI-0162 | agent-yuna |
-| 2026-09-04T16:13:17.339Z | work_item_claimed | WI-0162 | human |
-| 2026-09-04T16:13:16.980Z | work_item_transitioned | WI-0162 | agent-mog |
-| 2026-09-04T16:11:23.457Z | work_item_claimed | WI-0162 | human |
-| 2026-09-04T16:11:23.071Z | work_item_coordination_configured | WI-0162 | agent-mog |
+| 2026-09-04T16:37:44.910Z | evidence_invalidated | WI-0092 | agent-rikku |
+| 2026-09-04T16:37:44.610Z | evidence_invalidated | WI-0093 | agent-rikku |
+| 2026-09-04T16:37:44.330Z | evidence_invalidated | WI-0093 | agent-rikku |
+| 2026-09-04T16:37:44.042Z | evidence_invalidated | WI-0060 | agent-rikku |
+| 2026-09-04T16:37:43.737Z | evidence_invalidated | WI-0058 | agent-rikku |
+| 2026-09-04T16:37:43.452Z | evidence_invalidated | WI-0058 | agent-rikku |
+| 2026-09-04T16:37:43.164Z | evidence_invalidated | WI-0058 | agent-rikku |
+| 2026-09-04T16:37:42.871Z | evidence_invalidated | WI-0057 | agent-rikku |
 
 ## Assignments
 

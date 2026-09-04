@@ -6,6 +6,8 @@
 
 `temple publication artifact-apply` requires an active claimed Work Item, the exact plan digest, and explicit confirmation. It recomputes the plan, refuses stale input, snapshots every candidate, writes atomically, validates changed JSON and JavaScript, appends one value-redacted event, and restores all writes if any validation or event write fails. Re-running the plan after success must return `no-changes`.
 
+The plan also lists active evidence records whose current artifact digests would be changed. Apply fails closed while any such record remains active. The operator must explicitly invalidate it or record a same-Work-Item replacement through the Evidence CLI first, so privacy cleanup cannot silently corrupt the evidence registry.
+
 The reviewed plan and apply result are retained under the governing Work Item. Together they preserve current-tree provenance without copying the matched values.
 
 ## First-party fixtures

@@ -11,6 +11,7 @@ import {
   rollbackFileChanges,
   sha256
 } from "./files.mjs";
+import { EVIDENCE_REGISTRY_RELATIVE_PATH, readEvidenceRegistry } from "./evidence.mjs";
 import { normalizePublicationLocalText } from "./publication-normalization.mjs";
 
 const execFileAsync = promisify(execFile);
@@ -96,6 +97,34 @@ async function buildCandidates(target) {
   return candidates;
 }
 
+async function historicalArtifactMatches(target, entry, artifact) {
+  if (!entry.scope_revision) return false;
+  try {
+    const content = await git(target, ["show", `${entry.scope_revision}:${artifact.path}`]);
+    return sha256(content) === artifact.sha256;
+  } catch {
+    return false;
+  }
+}
+
+async function activeEvidenceImpacts(target, changed) {
+  if (!(await pathExists(path.join(target, EVIDENCE_REGISTRY_RELATIVE_PATH)))) return [];
+  const registry = await readEvidenceRegistry(target);
+  const changedPaths = new Set(changed.map((entry) => entry.relativePath));
+  const impacts = [];
+  for (const entry of registry.entries ?? []) {
+    if (entry.invalidated_at) continue;
+    for (const artifact of entry.artifacts ?? []) {
+      if (!changedPaths.has(artifact.path)) continue;
+      if (await historicalArtifactMatches(target, entry, artifact)) continue;
+      impacts.push({ evidence_id: entry.id, work_item_id: entry.work_item_id, path: artifact.path });
+    }
+  }
+  return impacts.sort((left, right) =>
+    left.evidence_id.localeCompare(right.evidence_id) || left.path.localeCompare(right.path)
+  );
+}
+
 function planDigest(plan) {
   return sha256(formatJson(plan));
 }
@@ -104,6 +133,7 @@ export async function buildPublicationArtifactNormalizationPlan(target) {
   const revision = await repositoryRevision(target);
   const candidates = await buildCandidates(target);
   const changed = candidates.filter((entry) => entry.changed);
+  const evidenceImpacts = await activeEvidenceImpacts(target, changed);
   const changes = {};
   for (const entry of changed) mergeCounts(changes, entry.counts);
   const changeCount = Object.values(changes).reduce((total, count) => total + count, 0);
@@ -119,6 +149,7 @@ export async function buildPublicationArtifactNormalizationPlan(target) {
       change_count: Object.values(entry.counts).reduce((total, count) => total + count, 0),
       changes: entry.counts
     })),
+    active_evidence_impacts: evidenceImpacts,
     summary: {
       tracked_artifact_files: candidates.length,
       text_files: candidates.filter((entry) => entry.kind === "text").length,
@@ -126,6 +157,8 @@ export async function buildPublicationArtifactNormalizationPlan(target) {
       oversize_files_skipped: candidates.filter((entry) => entry.kind === "oversize").length,
       changed_files: changed.length,
       change_count: changeCount,
+      active_evidence_records_affected: new Set(evidenceImpacts.map((entry) => entry.evidence_id)).size,
+      active_evidence_artifacts_affected: evidenceImpacts.length,
       changes: Object.fromEntries(Object.entries(changes).sort(([left], [right]) => left.localeCompare(right)))
     },
     authority: {
@@ -175,6 +208,12 @@ export async function applyPublicationArtifactNormalization(target, options = {}
   const actor = await assertGoverningWorkItem(target, options);
   const plan = await buildPublicationArtifactNormalizationPlan(target);
   if (plan.plan_digest !== options.expectedPlan) throw new Error("Artifact normalization plan is stale; create and review a new plan");
+  if (plan.summary.active_evidence_records_affected > 0) {
+    const evidenceIds = [...new Set(plan.active_evidence_impacts.map((entry) => entry.evidence_id))];
+    throw new Error(
+      `Artifact normalization would change ${evidenceIds.length} active evidence record(s); invalidate or replace them first: ${evidenceIds.join(", ")}`
+    );
+  }
   if (plan.summary.change_count === 0) {
     return {
       schema_version: PUBLICATION_ARTIFACT_RESULT_SCHEMA,

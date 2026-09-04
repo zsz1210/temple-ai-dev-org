@@ -4021,9 +4021,9 @@
       "recorded_at": "2026-08-30T15:40:16.655Z",
       "recorded_by": "agent-lulu",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:37.421Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "runtime",
       "title": "WI-0036 live private-network tablet verification",
@@ -4049,7 +4049,10 @@
       "details": {
         "environment": "Temple self-host repository on macOS, Tailscale Serve 1.98.8 tailnet-only HTTPS proxy, account owner's tailnet-connected tablet, and a headed Chromium viewport at 420 by 900 pixels",
         "scenario": "Load the private read-only Dashboard across the real tailnet, confirm tablet access, and independently inspect responsive rendering, redacted snapshot and refresh behavior, absent Inbox and Agent Command surfaces, rejected mutation requests, and non-public Serve configuration",
-        "provenance": "live"
+        "provenance": "live",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -4128,9 +4131,9 @@
       "recorded_at": "2026-08-30T16:05:45.407Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:37.819Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "test",
       "title": "Developer verification",
@@ -4159,7 +4162,10 @@
           "npm run verify"
         ],
         "exit_code": 0,
-        "started_at": "2026-08-30T16:04:22Z"
+        "started_at": "2026-08-30T16:04:22Z",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -4168,9 +4174,9 @@
       "recorded_at": "2026-08-30T16:05:45.675Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:38.082Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "runtime",
       "title": "Live Tailscale shutdown cleanup",
@@ -4196,7 +4202,10 @@
       "details": {
         "environment": "Temple self-host repository on macOS with the version-pinned project launcher, Tailscale CLI 1.98.8, and tailnet-only HTTPS Serve",
         "scenario": "Start the real Control Plane through templew.mjs with --codex --tailscale-viewer, send Ctrl-C to the PTY, wait for process completion, then inspect Serve state and the former loopback port",
-        "provenance": "live"
+        "provenance": "live",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -5182,9 +5191,9 @@
       "recorded_at": "2026-08-30T23:27:46.600Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:38.341Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "test",
       "title": "Developer verification",
@@ -5225,7 +5234,10 @@
           "npm run verify"
         ],
         "exit_code": 0,
-        "started_at": "2026-08-30T23:25:19Z"
+        "started_at": "2026-08-30T23:25:19Z",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -5234,9 +5246,9 @@
       "recorded_at": "2026-08-30T23:27:46.870Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:38.592Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "runtime",
       "title": "Live LAN and Tailscale verification",
@@ -5266,7 +5278,10 @@
       "details": {
         "environment": "Temple self-host repository on the Mac Mini, live loopback Control Plane with Codex observation, exact <PRIVATE_IPV4> LAN listener, Tailscale Serve tailnet-only HTTPS, curl, socket inspection, and fresh Chromium through the LAN address",
         "scenario": "Start loopback, private-LAN, and Tailscale viewers concurrently; inspect exact listening sockets; fetch the redacted LAN snapshot; reject LAN Inbox and Agent Command access; load Tailscale; and render the LAN Dashboard at 1440 by 1000 and 420 by 900",
-        "provenance": "live"
+        "provenance": "live",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -5323,9 +5338,9 @@
       "recorded_at": "2026-08-30T23:31:21.552Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:38.844Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "test",
       "title": "Independent QA exact-candidate tests",
@@ -5361,7 +5376,10 @@
           "node --test test/control-plane-private-viewer.test.mjs"
         ],
         "exit_code": 0,
-        "started_at": "2026-08-30T23:30:54Z"
+        "started_at": "2026-08-30T23:30:54Z",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -5370,9 +5388,9 @@
       "recorded_at": "2026-08-30T23:31:21.820Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:39.098Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "runtime",
       "title": "Independent QA live private-network boundary",
@@ -5402,7 +5420,10 @@
       "details": {
         "environment": "Independent QA detached candidate worktree plus the live Mac Mini process on loopback, exact private LAN, and tailnet-only Tailscale Serve",
         "scenario": "Reproduce the focused listener contract from the exact candidate, then independently fetch the LAN snapshot, reject Inbox and Agent Command requests, inspect both listening sockets, and inspect Tailscale Funnel status",
-        "provenance": "live"
+        "provenance": "live",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -5495,9 +5516,9 @@
       "recorded_at": "2026-08-31T00:06:13.337Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:39.354Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "runtime",
       "title": "Responsive Dashboard runtime",
@@ -5531,7 +5552,10 @@
       "details": {
         "environment": "Temple self-host repository on the Mac Mini, live loopback Control Plane with Codex observation, exact <PRIVATE_IPV4> home-LAN read-only listener, and fresh Chromium sessions",
         "scenario": "Render and navigate the redesigned Dashboard on loopback desktop at 1440 by 1000, loopback mobile at 420 by 900, and home-LAN private tablet at 1024 by 1366; inspect responsibility and work-item counts, canonical ownership, private-viewer redaction, snapshot wording, console output, and horizontal overflow",
-        "provenance": "live"
+        "provenance": "live",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -5720,9 +5744,9 @@
       "recorded_at": "2026-08-31T00:24:25.831Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:39.622Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "runtime",
       "title": "Private Dashboard browser verification",
@@ -5752,7 +5776,10 @@
       "details": {
         "environment": "Temple self-host repository on the Mac Mini, live exact <PRIVATE_IPV4> home-LAN read-only listener, and fresh Chromium sessions",
         "scenario": "Render Dashboard Now on a private tablet viewport at 1024 by 1366 and mobile viewport at 420 by 900; verify grouped recovery priority and count, bounded attention, System navigation, underlying condition visibility, private-viewer redaction, console output, and horizontal overflow",
-        "provenance": "live"
+        "provenance": "live",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -6049,9 +6076,9 @@
       "recorded_at": "2026-08-31T02:24:10.295Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:39.877Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "runtime",
       "title": "Temple Workspace browser evaluation",
@@ -6093,7 +6120,10 @@
       "details": {
         "environment": "Temple self-host repository on the Mac Mini, live loopback Control Plane with Codex observation, exact <PRIVATE_IPV4> home-LAN read-only listener, Tailscale Serve private viewer, and fresh headed Chromium",
         "scenario": "Render and navigate Temple Workspace at 3440 by 1440, 2560 by 1080, 1440 by 1000, 1024 by 1366, 768 by 1024, and 390 by 844; inspect fluid content width, sidebar modes, mobile drawer accessibility, light and dark persistence, Team modes, legacy route normalization, private-viewer boundaries, console output, and horizontal overflow",
-        "provenance": "live"
+        "provenance": "live",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -6309,9 +6339,9 @@
       "recorded_at": "2026-08-31T03:21:05.749Z",
       "recorded_by": "agent-rikku",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:40.131Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "runtime",
       "title": "Responsive private Workspace browser review",
@@ -6349,7 +6379,10 @@
       "details": {
         "environment": "Temple self-host repository on the Mac Mini, live Control Plane with Codex observation, exact <PRIVATE_IPV4> home-LAN read-only listener, and fresh headed Chromium",
         "scenario": "Render and interact with Team Structure and Teammates at 3440, 2560, 390, and 320 CSS-pixel widths; verify dark default, stored light preference, all 10 Position nodes, Agent highlighting, assurance labels, keyboard tab operation, private-viewer redaction, console output, and horizontal overflow",
-        "provenance": "live"
+        "provenance": "live",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -6595,9 +6628,9 @@
       "recorded_at": "2026-08-31T04:09:25.748Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:40.390Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "runtime",
       "title": "Developer browser review",
@@ -6631,7 +6664,10 @@
       "details": {
         "environment": "Temple self-host repository on the Mac Mini, live Control Plane with Codex observation, exact <PRIVATE_IPV4> home-LAN read-only listener, and a fresh headed Chromium session",
         "scenario": "Render Work at 3440, 1440, 1024, and 390 CSS-pixel widths; expand WI-0049; verify human status labels, View details and Hide details, nested technical details, one quiet Last updated timestamp, private-viewer redaction, browser console output, and horizontal overflow",
-        "provenance": "live"
+        "provenance": "live",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -6640,9 +6676,9 @@
       "recorded_at": "2026-08-31T04:10:49.407Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:40.643Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "test",
       "title": "Quality evaluation",
@@ -6690,7 +6726,10 @@
           "node --test test/control-plane-foundation.test.mjs test/control-plane-inbox.test.mjs test/control-plane-private-viewer.test.mjs"
         ],
         "exit_code": 0,
-        "started_at": "2026-08-31T04:10:10Z"
+        "started_at": "2026-08-31T04:10:10Z",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -6751,9 +6790,9 @@
       "recorded_at": "2026-08-31T04:14:24.059Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:40.915Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "runtime",
       "title": "Independent QA browser review",
@@ -6787,7 +6826,10 @@
       "details": {
         "environment": "Fresh headed Chromium session against the private home-LAN viewer, with served dashboard source and focused tests confirmed byte-identical to the exact candidate revision",
         "scenario": "At 390 CSS pixels, verify no horizontal overflow, exactly one Last updated status, absence of Snapshot current and healthy Live updates messages, private read-only boundary, Enter expansion to Hide details, Space collapse to View details, retained focus, and browser console output",
-        "provenance": "live"
+        "provenance": "live",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -7028,9 +7070,9 @@
       "recorded_at": "2026-08-31T07:14:07.600Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:41.224Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "test",
       "title": "Quality verification of failed one-shot live proof",
@@ -7073,7 +7115,10 @@
           "compare live request encoding with src/codex-app-server-provider.mjs and its mock expectations"
         ],
         "exit_code": 0,
-        "started_at": "2026-08-31T07:12:36Z"
+        "started_at": "2026-08-31T07:12:36Z",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -7082,9 +7127,9 @@
       "recorded_at": "2026-08-31T07:15:40.608Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:41.512Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "test",
       "title": "Independent QA of failed one-shot live proof",
@@ -7129,7 +7174,10 @@
           "review WI-0054 result evidence without repeating thread/start"
         ],
         "exit_code": 0,
-        "started_at": "2026-08-31T07:14:24Z"
+        "started_at": "2026-08-31T07:14:24Z",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -7274,9 +7322,9 @@
       "recorded_at": "2026-08-31T07:49:03.581Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:41.771Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "runtime",
       "title": "Corrected provider-owned live Token proof passed",
@@ -7310,7 +7358,10 @@
       "details": {
         "environment": "Temple self-host repository on the Mac Mini, real local Codex App Server, loopback Control Plane, exact <PRIVATE_IPV4> home-LAN read-only Dashboard, and signed-in Codex account",
         "scenario": "Validate installed thread/start and turn/start contracts, then execute exactly one Provider-owned Luna Max read-only and network-disabled turn, verify its fixed output and detailed Token usage, and restore the normal Dashboard without retry",
-        "provenance": "live"
+        "provenance": "live",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -7423,9 +7474,9 @@
       "recorded_at": "2026-08-31T07:59:37.202Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:42.042Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "test",
       "title": "Telemetry append concurrency red-green verification",
@@ -7463,7 +7514,10 @@
           "npm run verify on the corrected candidate"
         ],
         "exit_code": 0,
-        "started_at": "2026-08-31T07:55:35.000Z"
+        "started_at": "2026-08-31T07:55:35.000Z",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -7472,9 +7526,9 @@
       "recorded_at": "2026-08-31T07:59:37.475Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:42.307Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "runtime",
       "title": "Corrected live journal restart verification",
@@ -7504,7 +7558,10 @@
       "details": {
         "environment": "Temple self-host repository on the Mac Mini, corrected loopback Control Plane with real Codex App Server observation, and exact <PRIVATE_IPV4> home-LAN read-only Dashboard",
         "scenario": "Archive a second journal corrupted by the pre-fix live process, rebuild canonical events, start the corrected Control Plane through a real startup notification burst, stop it cleanly, reopen the same journal, and verify strict cursors plus Dashboard health",
-        "provenance": "live"
+        "provenance": "live",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -7513,9 +7570,9 @@
       "recorded_at": "2026-08-31T08:00:51.704Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:42.556Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "test",
       "title": "Fresh telemetry concurrency quality verification",
@@ -7554,7 +7611,10 @@
           "inspect the live corrected journal and private Dashboard"
         ],
         "exit_code": 0,
-        "started_at": "2026-08-31T08:00:05.000Z"
+        "started_at": "2026-08-31T08:00:05.000Z",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -7563,9 +7623,9 @@
       "recorded_at": "2026-08-31T08:02:36.977Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:42.871Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "test",
       "title": "Independent telemetry serialization verification",
@@ -7607,7 +7667,10 @@
           "inspect the growing live corrected journal and private Dashboard"
         ],
         "exit_code": 0,
-        "started_at": "2026-08-31T08:01:10.000Z"
+        "started_at": "2026-08-31T08:01:10.000Z",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -7689,9 +7752,9 @@
       "recorded_at": "2026-08-31T08:33:08.249Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:43.164Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "runtime",
       "title": "Live historical Token restoration and visual review",
@@ -7721,7 +7784,10 @@
       "details": {
         "environment": "Temple self-host repository on the Mac Mini, loopback Control Plane with real Codex App Server observation, and <PRIVATE_IPV4> home-LAN read-only Temple Workspace",
         "scenario": "Start the exact archive-aware candidate without another model turn, read the preserved WI-0056 Provider usage from immutable local archives, verify the loopback and LAN snapshots, and visually review Usage at wide and tablet widths",
-        "provenance": "live"
+        "provenance": "live",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -7730,9 +7796,9 @@
       "recorded_at": "2026-08-31T08:33:54.128Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:43.452Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "test",
       "title": "Archive-aware Token history quality verification",
@@ -7776,7 +7842,10 @@
           "inspect loopback and private-LAN snapshots and rehash both immutable archives"
         ],
         "exit_code": 0,
-        "started_at": "2026-08-31T08:26:03.000Z"
+        "started_at": "2026-08-31T08:26:03.000Z",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -7785,9 +7854,9 @@
       "recorded_at": "2026-08-31T08:34:38.338Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:43.737Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "test",
       "title": "Archive-aware Token history Independent QA",
@@ -7828,7 +7897,10 @@
           "use Playwright CLI against the private-LAN Usage view at 1024x768"
         ],
         "exit_code": 0,
-        "started_at": "2026-08-31T08:27:25.000Z"
+        "started_at": "2026-08-31T08:27:25.000Z",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -8084,9 +8156,9 @@
       "recorded_at": "2026-08-31T09:23:42.278Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:44.042Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "runtime",
       "title": "WI-0060 Team browser review",
@@ -8128,7 +8200,10 @@
       "details": {
         "environment": "Temple self-host repository on the Mac Mini, live Control Plane with Codex observation, exact <PRIVATE_IPV4> home-LAN read-only listener, and headed Chromium through Playwright",
         "scenario": "Open Team, switch to Teammates, verify truthful model states and provenance at 1720x980, 1024x900, and 390x844, inspect the mobile Rikku card, check the browser console, and confirm the LAN mutation route returns HTTP 405",
-        "provenance": "live"
+        "provenance": "live",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -13146,9 +13221,9 @@
       "recorded_at": "2026-09-02T01:32:33.255Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:44.330Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "runtime",
       "title": "WI-0093 managed-local privacy rehearsal",
@@ -13174,7 +13249,10 @@
       "details": {
         "environment": "Managed-local macOS LaunchAgent with loopback 127.0.0.1:8766 and private home-LAN viewer <PRIVATE_IPV4>:41741",
         "scenario": "Restart the installed Observer from the exact candidate; compare home-LAN and loopback Usage snapshots; scan the private response for local-path markers; attempt a private-viewer POST",
-        "provenance": "live"
+        "provenance": "live",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -13230,9 +13308,9 @@
       "recorded_at": "2026-09-02T01:36:02.892Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:44.610Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "test",
       "title": "WI-0093 independent exact-candidate verification",
@@ -13275,7 +13353,10 @@
           "git status --short"
         ],
         "exit_code": 0,
-        "started_at": "2026-09-02T01:34:00.000Z"
+        "started_at": "2026-09-02T01:34:00.000Z",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
@@ -13334,9 +13415,9 @@
       "recorded_at": "2026-09-02T01:37:38.294Z",
       "recorded_by": "human",
       "expires_at": null,
-      "invalidated_at": null,
-      "invalidated_by": null,
-      "invalidation_reason": null,
+      "invalidated_at": "2026-09-04T16:37:44.910Z",
+      "invalidated_by": "agent-rikku",
+      "invalidation_reason": "Current artifact copy was intentionally normalized by WI-0162; original evidence remains in Git history, but this record no longer certifies the current bytes.",
       "external_action_performed": false,
       "kind": "runtime",
       "title": "WI-0092 live managed-local rehearsal",
@@ -13370,7 +13451,10 @@
       "details": {
         "environment": "Installed macOS managed-local LaunchAgent with loopback and explicit RFC1918 home-LAN viewer",
         "scenario": "Plan, apply, activate, inspect status, restart from the corrected candidate, read loopback and private snapshots, scan the private response, and attempt a private mutation",
-        "provenance": "live"
+        "provenance": "live",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
       }
     },
     {
