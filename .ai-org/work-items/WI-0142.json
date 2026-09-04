@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0142",
   "title": "Harden reusable model and process evaluation controls",
-  "state": "independent_qa",
-  "owner_position": "independent_qa",
-  "assigned_agent_id": "agent-lulu",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-04T03:48:51.822Z",
-  "updated_at": "2026-09-04T04:07:00.424Z",
+  "updated_at": "2026-09-04T04:10:12.780Z",
   "scope": [
     "Classify privacy-safe control-package reads from supported sanitized Codex App Server action shapes without retaining raw commands or output.",
     "Make cache sensitivity and cache-control validity first-class in deterministic comparison analysis, so routing or model claims fail closed when cache imbalance can dominate the result.",
@@ -68,14 +68,17 @@
   ],
   "claim": {
     "id": "claim-20260904040700-878912d1",
-    "status": "active",
+    "status": "released",
     "principal_id": "principal-owner",
     "agent_id": "agent-lulu",
     "base_revision": "567da1996df5d47a10cb66677b4fa467c41060f3",
     "branch": "codex/wi-0142-evaluation-controls",
     "worktree": null,
     "claimed_at": "2026-09-04T04:07:00.424Z",
-    "released_at": null
+    "released_at": "2026-09-04T04:10:12.528Z",
+    "release_reason": [
+      "Independent QA passed and handed the candidate to the Release Manager."
+    ]
   },
   "claims": [
     {
@@ -94,14 +97,17 @@
     },
     {
       "id": "claim-20260904040700-878912d1",
-      "status": "active",
+      "status": "released",
       "principal_id": "principal-owner",
       "agent_id": "agent-lulu",
       "base_revision": "567da1996df5d47a10cb66677b4fa467c41060f3",
       "branch": "codex/wi-0142-evaluation-controls",
       "worktree": null,
       "claimed_at": "2026-09-04T04:07:00.424Z",
-      "released_at": null
+      "released_at": "2026-09-04T04:10:12.528Z",
+      "release_reason": [
+        "Independent QA passed and handed the candidate to the Release Manager."
+      ]
     }
   ],
   "gate_evidence": {
@@ -135,6 +141,9 @@
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0142/quality-evaluation.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260904T040959Z-A131A6A3"
     ]
   },
   "evidence": [
@@ -151,10 +160,13 @@
     ".ai-org/artifacts/WI-0142/measurement-repair-result.md",
     ".ai-org/artifacts/WI-0142/quality-test-observation.json",
     ".ai-org/artifacts/WI-0142/handoff-005-quality_evaluator-to-independent_qa.md",
-    ".ai-org/artifacts/WI-0142/quality-evaluation.md"
+    ".ai-org/artifacts/WI-0142/quality-evaluation.md",
+    ".ai-org/artifacts/WI-0142/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0142/independent-qa-report.md",
+    "EVID-20260904T040959Z-A131A6A3"
   ],
   "unresolved": [],
-  "next_position": "release_manager",
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -190,6 +202,13 @@
       "input_revision": "bde0a3ab7d0e7fce43826a99b92929ebd94e27ac",
       "artifact": ".ai-org/artifacts/WI-0142/handoff-005-quality_evaluator-to-independent_qa.md",
       "created_at": "2026-09-04T04:05:20.192Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "529682f927ff2ce932f645903717352d6d6a1ddc",
+      "artifact": ".ai-org/artifacts/WI-0142/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-04T04:10:12.227Z"
     }
   ],
   "developer_candidate_revision": "5197e7a3b513ab0d4f06e31163f29549a0103f43"

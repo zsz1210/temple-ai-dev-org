@@ -22934,6 +22934,59 @@
         "exit_code": 0,
         "started_at": "2026-09-04T04:04:27.000Z"
       }
+    },
+    {
+      "id": "EVID-20260904T040959Z-A131A6A3",
+      "work_item_id": "WI-0142",
+      "recorded_at": "2026-09-04T04:09:59.922Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0142 independent QA",
+      "outcome": "pass",
+      "scope_revision": "567da1996df5d47a10cb66677b4fa467c41060f3",
+      "observed_at": "2026-09-04T04:08:53.000Z",
+      "summary": "Detached exact-revision verification passed 11 focused and 411 complete tests; WI-0141 artifacts remained unchanged; no model generation or external action.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0142/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0142/independent-qa-test-observation.json",
+          "sha256": "db666d8115aafd85163ff57d5d9166c496b86fd6f238c3386fef55c4fe8d1580"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0142/independent-qa-report.md",
+          "sha256": "d9467974d49909c1713b66aa2b740f9525b35356e71796ad6b771dc8fd4b42eb"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0142/measurement-repair-result.md",
+          "sha256": "1550989ec3bc64beb935086065ed8fe0cb19609463641705342820090d2ebddc"
+        },
+        {
+          "path": "docs/operations/model-and-process-evaluation.md",
+          "sha256": "2821a6773e92ea18bd64acc5b5f790ff56b6ff55221fd334d7fd7c404d04cb7c"
+        },
+        {
+          "path": ".ai-org/templates/model-process-evaluation-protocol.json",
+          "sha256": "95bfdb8d8214828c1f984b9697e2cccd3d98adcaeba076976f4d41763d8dd139"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/context-capsule-ablation.test.mjs",
+          "npm run verify",
+          "git diff --name-only 496a9490ea05462ddc738b4320554c8f11a949ac -- .ai-org/artifacts/WI-0141"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T04:07:16.000Z"
+      }
     }
   ]
 }
