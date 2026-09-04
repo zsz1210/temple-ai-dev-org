@@ -22745,6 +22745,64 @@
         "exit_code": 0,
         "started_at": "2026-09-04T03:31:15Z"
       }
+    },
+    {
+      "id": "EVID-20260904T033413Z-4DD12191",
+      "work_item_id": "WI-0141",
+      "recorded_at": "2026-09-04T03:34:13.682Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0141 independent QA",
+      "outcome": "pass",
+      "scope_revision": "7bc2d55580e1d90e950ae390f328d6b8cae25d03",
+      "observed_at": "2026-09-04T03:33:00Z",
+      "summary": "Independent QA reproduced the bounded live result, limitations, sealed evidence, and accepted interpretation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0141/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0141/independent-qa-test-observation.json",
+          "sha256": "c4ac1583c7d324590c7bd4e32ffa304b595e6468d0ba298d383d808014c3c091"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-protocol.json",
+          "sha256": "06c59452edc531eb108ea55d3e9783f33ea16ac2650085fc21e395f742439b25"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-observation.json",
+          "sha256": "ee48dd876e72d4e5806afbd971fe483b99cabc59575f5a9087bb33930a43e2ee"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/effectiveness-analysis.json",
+          "sha256": "5c5259915f8be717657098f164a41600192fb01826d671d7991f3b9464f55e07"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-evaluation.md",
+          "sha256": "cde6c76ed4327aa9c5d4029641b86c5bc7c851e3f62eb3feab06b73aa52943f3"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/independent-qa.md",
+          "sha256": "6d4ee4c011fba5e202dcea5cc08b20833121d96e2e839b9c9ebb303ce1e943b3"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/context-capsule-ablation.test.mjs",
+          "node inline WI-0141 independent artifact recomputation",
+          "git diff --quiet 25b846d -- .ai-org/artifacts/WI-0140",
+          "node ./templew.mjs doctor . --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T03:31:56Z"
+      }
     }
   ]
 }
