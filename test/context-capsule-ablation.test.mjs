@@ -13,11 +13,13 @@ import {
   contextAblationProtocolDigest,
   contextAblationTestProviderContract,
   evaluateContextAblationOutput,
+  evaluateRetainedFalseNegativeRegression,
   multiOutputSchema,
   prepareContextAblationLab,
   preflightContextAblation,
   rehearseContextAblation,
   singleOutputSchema,
+  validateAnswerFreeOutputSchema,
   validateContextAblationApproval,
   validateContextAblationProtocol
 } from "../scripts/run-context-capsule-ablation.mjs";
@@ -33,8 +35,9 @@ function syntheticCondition(definition, expected, operationalTokens, latencyMs, 
     requested_model: definition.model,
     acknowledged_model: definition.model,
     requested_reasoning_effort: definition.reasoning_effort,
-    observed_thread_reasoning_effort: "medium",
+    acknowledged_configured_reasoning_effort: "medium",
     effective_turn_reasoning_effort: null,
+    reasoning_effort_evidence_kind: "requested-and-thread-configured-not-per-turn-execution-telemetry",
     usage: {
       input_tokens: operationalTokens - 100,
       cached_input_tokens: 0,
@@ -75,40 +78,68 @@ test("Context Capsule ablation schemas and instructions reveal no frozen answers
   assert.equal(conditionDefinitions.every((entry) => entry.model === "gpt-5.6-terra" && entry.reasoning_effort === "medium"), true);
   assert.equal(singleOutputSchema.additionalProperties, false);
   assert.equal(multiOutputSchema.additionalProperties, false);
+  assert.equal(validateAnswerFreeOutputSchema(singleOutputSchema).pass, true);
+  assert.equal(validateAnswerFreeOutputSchema(multiOutputSchema).pass, true);
+  assert.equal(validateAnswerFreeOutputSchema({ type: "string", enum: ["leaked"] }).pass, false);
   for (const shape of ["single-repository", "coordinator-multi-repository"]) {
     const instruction = candidateInstruction(shape);
     assert.match(instruction, /CONTEXT_PACKAGE\.json/);
     assert.doesNotMatch(instruction, /Crash recovery after fsync/);
     assert.doesNotMatch(instruction, /Coordinator persistence coverage/);
+    assert.doesNotMatch(instruction, /REQ-IDEMPOTENCY-001|ADR-0042|OrderPlaced\/v2|ACTION-INDEPENDENT-CRASH-QA/);
   }
 });
 
 test("objective evaluation is exact and fails partial or duplicated recovery", () => {
   const single = {
-    governing_requirement: "requirement",
-    governing_decision: "ADR-0042",
+    requirement_id: "REQ-IDEMPOTENCY-001",
+    duplicate_request_effect: "return-original-receipt",
+    decision_id: "ADR-0042",
     repository_revision: "a".repeat(40),
-    public_test_status: "18 passed",
-    unresolved_risk: "risk",
-    safe_next_action: "next",
+    public_tests_passed: 18,
+    public_tests_failed: 0,
+    unresolved_risk_id: "RISK-CRASH-RECOVERY",
+    safe_next_action_id: "ACTION-INDEPENDENT-CRASH-QA",
     authority_source: "docs/product/idempotency.md"
   };
   assert.equal(evaluateContextAblationOutput("single-repository", single, single).pass, true);
-  assert.equal(evaluateContextAblationOutput("single-repository", { ...single, repository_revision: "a".repeat(39) }, single).pass, false);
+  const shortRevision = evaluateContextAblationOutput("single-repository", { ...single, repository_revision: "a".repeat(39) }, single);
+  assert.equal(shortRevision.pass, false);
+  assert.equal(shortRevision.typed_fact_pass, false);
+  assert.equal(evaluateContextAblationOutput("single-repository", { ...single, public_tests_failed: -1 }, single).pass, false);
+  assert.equal(evaluateContextAblationOutput("single-repository", { ...single, authority_source: "/tmp/authority" }, single).pass, false);
   const multi = {
-    governing_contract: "OrderPlaced/v2",
+    contract_id: "OrderPlaced/v2",
+    compatibility_policy_id: "COMPAT-V1-CONSUMERS",
     component_revisions: Object.fromEntries(["gateway", "catalog", "orders", "notifications"].map((id) => [id, "b".repeat(40)])),
-    completed_slices: ["orders-catalog", "notifications", "gateway"],
-    unresolved_risk: "risk",
-    authority_owner: "coordinator",
-    safe_next_action: "next"
+    completed_slice_ids: ["orders-catalog", "notifications", "gateway"],
+    unresolved_risk_id: "RISK-COORDINATOR-PERSISTENCE",
+    authority_owner_id: "coordinator",
+    safe_next_action_id: "ACTION-BOUNDED-INTEGRATION-TEST"
   };
   assert.equal(evaluateContextAblationOutput("coordinator-multi-repository", multi, multi).pass, true);
-  assert.equal(evaluateContextAblationOutput("coordinator-multi-repository", { ...multi, completed_slices: [...multi.completed_slices, "gateway"] }, multi).pass, false);
+  assert.equal(evaluateContextAblationOutput("coordinator-multi-repository", { ...multi, completed_slice_ids: [...multi.completed_slice_ids, "gateway"] }, multi).pass, false);
+  assert.equal(evaluateContextAblationOutput("coordinator-multi-repository", { ...multi, contract_id: "OrderPlaced version 2" }, multi).pass, false);
+  assert.equal(evaluateContextAblationOutput("coordinator-multi-repository", { ...multi, authority_owner_id: "Coordinator Team" }, multi).pass, false);
+});
+
+test("retained WI-0138 display variants project to the same typed facts without rescoring history", async () => {
+  const retained = JSON.parse(await fs.readFile(path.resolve(".ai-org/artifacts/WI-0138/live-observation.json"), "utf8"));
+  const result = evaluateRetainedFalseNegativeRegression(retained);
+  assert.equal(result.pass, true);
+  assert.equal(result.historical_result_changed, false);
+  assert.deepEqual(result.single.map((entry) => entry.facts), [
+    { public_tests_passed: 18, public_tests_failed: 0 },
+    { public_tests_passed: 18, public_tests_failed: 0 }
+  ]);
+  assert.deepEqual(result.multi.map((entry) => entry.facts), [
+    { contract_id: "OrderPlaced/v2" },
+    { contract_id: "OrderPlaced/v2" }
+  ]);
 });
 
 test("generation-free preparation produces matched repositories and smaller stage-aware packages", async (context) => {
-  const labRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0138-test-"));
+  const labRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0139-test-"));
   await fs.rm(labRoot, { recursive: true, force: true });
   context.after(() => fs.rm(labRoot, { recursive: true, force: true }));
   const prepared = await prepareContextAblationLab(labRoot, {
@@ -173,13 +204,15 @@ test("analysis keeps shapes separate and makes correctness primary", () => {
   };
   const expectedByShape = {
     "single-repository": {
-      governing_requirement: "requirement", governing_decision: "ADR", repository_revision: "a".repeat(40),
-      public_test_status: "pass", unresolved_risk: "risk", safe_next_action: "next", authority_source: "source"
+      requirement_id: "REQ-ONE", duplicate_request_effect: "return-original", decision_id: "ADR-0042",
+      repository_revision: "a".repeat(40), public_tests_passed: 18, public_tests_failed: 0,
+      unresolved_risk_id: "RISK-ONE", safe_next_action_id: "ACTION-ONE", authority_source: "source"
     },
     "coordinator-multi-repository": {
-      governing_contract: "v2",
+      contract_id: "Event/v2", compatibility_policy_id: "COMPAT-V1",
       component_revisions: Object.fromEntries(["gateway", "catalog", "orders", "notifications"].map((id) => [id, "b".repeat(40)])),
-      completed_slices: ["one"], unresolved_risk: "risk", authority_owner: "coordinator", safe_next_action: "next"
+      completed_slice_ids: ["one"], unresolved_risk_id: "RISK-ONE",
+      authority_owner_id: "coordinator", safe_next_action_id: "ACTION-ONE"
     }
   };
   const observations = {

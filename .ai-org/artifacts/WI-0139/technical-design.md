@@ -32,7 +32,7 @@ Evolve the existing Context Capsule ablation harness in place as protocol v2. Hi
 | `authority_owner_id` | stable owner ID | lifecycle authority |
 | `safe_next_action_id` | stable ID | bounded next action |
 
-Schemas constrain shape and format only. They contain no `const`, answer-bearing `enum`, defaults, examples, or descriptions that disclose frozen values. Evaluator-only expected facts are generated from the fixture before treatment packages are assembled.
+Provider-facing schemas constrain object shape and primitive types because the supported Structured Outputs subset rejects string patterns, numeric minima, and array uniqueness. A separate deterministic typed-fact validator enforces ID formats, non-negative totals, exact SHA lengths, relative paths, and unique slice IDs before exact comparison. Neither layer contains `const`, answer-bearing `enum`, defaults, examples, or descriptions that disclose frozen values. Evaluator-only expected facts are generated from the fixture before treatment packages are assembled.
 
 Arrays compare as unique sets. Every other typed fact compares exactly. Prose is excluded from the scored contract.
 
@@ -81,4 +81,3 @@ Only after these checks pass may the harness write a WI-0139 live protocol and u
 - **False semantic tolerance:** normalize only the two known legacy display forms; score new candidates directly as typed values.
 - **Reasoning overclaim:** keep `effective_turn_reasoning_effort` null until directly observed.
 - **Accidental spend:** this implementation slice does not call `turn/start`; a separate exact WI-0139 approval is required for a live run.
-

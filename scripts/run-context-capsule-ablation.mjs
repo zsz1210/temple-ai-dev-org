@@ -35,8 +35,8 @@ import {
 
 const execFile = promisify(execFileCallback);
 const repositoryRoot = path.resolve(import.meta.dirname, "..");
-const artifactRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0138");
-const defaultLabRoot = path.join(os.tmpdir(), "temple-wi0138-context-capsule-ablation");
+const artifactRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0139");
+const defaultLabRoot = path.join(os.tmpdir(), "temple-wi0139-context-capsule-ablation");
 const defaultProtocolPath = path.join(artifactRoot, "live-protocol.json");
 const defaultApprovalTemplatePath = path.join(artifactRoot, "account-approval.template.json");
 const defaultApprovalPath = path.join(artifactRoot, "account-approval.json");
@@ -47,6 +47,7 @@ const defaultStoppedObservationPath = path.join(artifactRoot, "stopped-observati
 const defaultAnalysisPath = path.join(artifactRoot, "effectiveness-analysis.json");
 const defaultReportPath = path.join(artifactRoot, "effectiveness-report.md");
 const harnessPath = path.join(repositoryRoot, "scripts/run-context-capsule-ablation.mjs");
+const retainedPredecessorObservationPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0138/live-observation.json");
 
 const fixedGitEnvironment = Object.freeze({
   GIT_AUTHOR_NAME: "Temple Fixture",
@@ -58,11 +59,11 @@ const fixedGitEnvironment = Object.freeze({
   GIT_CONFIG_NOSYSTEM: "1"
 });
 
-export const CONTEXT_ABLATION_SCHEMA = "temple.context-capsule-ablation/v1";
-export const CONTEXT_ABLATION_APPROVAL_SCHEMA = "temple.context-capsule-ablation-approval/v1";
+export const CONTEXT_ABLATION_SCHEMA = "temple.context-capsule-ablation/v2";
+export const CONTEXT_ABLATION_APPROVAL_SCHEMA = "temple.context-capsule-ablation-approval/v2";
 export const CONTEXT_PACKAGE_SCHEMA = "temple.context-treatment-package/v1";
-export const CONTEXT_ABLATION_OBSERVATION_SCHEMA = "temple.context-capsule-ablation-observation/v1";
-export const CONTEXT_ABLATION_ANALYSIS_SCHEMA = "temple.context-capsule-ablation-analysis/v1";
+export const CONTEXT_ABLATION_OBSERVATION_SCHEMA = "temple.context-capsule-ablation-observation/v2";
+export const CONTEXT_ABLATION_ANALYSIS_SCHEMA = "temple.context-capsule-ablation-analysis/v2";
 
 export const conditionDefinitions = Object.freeze([
   Object.freeze({
@@ -115,21 +116,25 @@ export const singleOutputSchema = Object.freeze({
   type: "object",
   additionalProperties: false,
   required: [
-    "governing_requirement",
-    "governing_decision",
+    "requirement_id",
+    "duplicate_request_effect",
+    "decision_id",
     "repository_revision",
-    "public_test_status",
-    "unresolved_risk",
-    "safe_next_action",
+    "public_tests_passed",
+    "public_tests_failed",
+    "unresolved_risk_id",
+    "safe_next_action_id",
     "authority_source"
   ],
   properties: {
-    governing_requirement: { type: "string" },
-    governing_decision: { type: "string" },
+    requirement_id: { type: "string" },
+    duplicate_request_effect: { type: "string" },
+    decision_id: { type: "string" },
     repository_revision: { type: "string" },
-    public_test_status: { type: "string" },
-    unresolved_risk: { type: "string" },
-    safe_next_action: { type: "string" },
+    public_tests_passed: { type: "integer" },
+    public_tests_failed: { type: "integer" },
+    unresolved_risk_id: { type: "string" },
+    safe_next_action_id: { type: "string" },
     authority_source: { type: "string" }
   }
 });
@@ -138,25 +143,27 @@ export const multiOutputSchema = Object.freeze({
   type: "object",
   additionalProperties: false,
   required: [
-    "governing_contract",
+    "contract_id",
+    "compatibility_policy_id",
     "component_revisions",
-    "completed_slices",
-    "unresolved_risk",
-    "authority_owner",
-    "safe_next_action"
+    "completed_slice_ids",
+    "unresolved_risk_id",
+    "authority_owner_id",
+    "safe_next_action_id"
   ],
   properties: {
-    governing_contract: { type: "string" },
+    contract_id: { type: "string" },
+    compatibility_policy_id: { type: "string" },
     component_revisions: {
       type: "object",
       additionalProperties: false,
       required: [...componentRepositoryIds],
       properties: Object.fromEntries(componentRepositoryIds.map((id) => [id, { type: "string" }]))
     },
-    completed_slices: { type: "array", items: { type: "string" } },
-    unresolved_risk: { type: "string" },
-    authority_owner: { type: "string" },
-    safe_next_action: { type: "string" }
+    completed_slice_ids: { type: "array", items: { type: "string" } },
+    unresolved_risk_id: { type: "string" },
+    authority_owner_id: { type: "string" },
+    safe_next_action_id: { type: "string" }
   }
 });
 
@@ -174,6 +181,25 @@ function stable(value) {
 
 function stableText(value) {
   return JSON.stringify(stable(value));
+}
+
+export function validateAnswerFreeOutputSchema(schema) {
+  const forbidden = new Set(["const", "enum", "default", "examples"]);
+  const findings = [];
+  const visit = (value, location) => {
+    if (Array.isArray(value)) {
+      value.forEach((entry, index) => visit(entry, `${location}[${index}]`));
+      return;
+    }
+    if (!value || typeof value !== "object") return;
+    for (const [key, entry] of Object.entries(value)) {
+      const next = `${location}.${key}`;
+      if (forbidden.has(key)) findings.push(next);
+      visit(entry, next);
+    }
+  };
+  visit(schema, "$");
+  return { pass: findings.length === 0, forbidden_keywords: findings };
 }
 
 export function contextAblationProtocolDigest(protocol) {
@@ -272,9 +298,9 @@ function assertSafeLabRoot(value) {
     relative === ".." ||
     relative.startsWith(`..${path.sep}`) ||
     path.isAbsolute(relative) ||
-    !path.basename(resolved).startsWith("temple-wi0138-")
+    !path.basename(resolved).startsWith("temple-wi0139-")
   ) {
-    throw new Error("Lab root must be a specific temple-wi0138-* directory below the system temporary directory");
+    throw new Error("Lab root must be a specific temple-wi0139-* directory below the system temporary directory");
   }
   return resolved;
 }
@@ -296,7 +322,7 @@ function initConfig(projectId, projectName) {
 
 async function initializeGitRepository(root, name) {
   await fs.mkdir(root, { recursive: true });
-  await writeText(path.join(root, "README.md"), `# ${name}\n\nSynthetic local WI-0138 fixture. No production or external authority.\n`);
+  await writeText(path.join(root, "README.md"), `# ${name}\n\nSynthetic local WI-0139 fixture. No production or external authority.\n`);
   await checked("git", ["init", "-b", "main", root], { env: { ...process.env, ...fixedGitEnvironment } });
   await git(root, ["add", "-A"]);
   await git(root, ["commit", "-m", `Create ${name} fixture`]);
@@ -467,6 +493,8 @@ async function createSingleSource(labRoot) {
   await writeText(path.join(root, "docs/product/idempotency.md"), [
     "# Idempotency requirement", "",
     "Authority: approved product requirement.",
+    "Requirement ID: REQ-IDEMPOTENCY-001.",
+    "Duplicate request effect: return-original-receipt.",
     "Entries with the same request_id return the original receipt without duplicate ledger records.", ""
   ].join("\n"));
   await writeText(path.join(root, "docs/adr/0042-reuse-original-receipt.md"), [
@@ -474,15 +502,18 @@ async function createSingleSource(labRoot) {
     "Duplicate requests return the first committed receipt and never append a second ledger entry.", ""
   ].join("\n"));
   await writeText(path.join(root, "docs/handoffs/developer.md"), [
-    "# Developer handoff", "", "Public tests: 18 passed.",
+    "# Developer handoff", "", "Public tests passed: 18.",
+    "Public tests failed: 0.",
+    "Unresolved risk ID: RISK-CRASH-RECOVERY.",
     "Unresolved risk: Crash recovery after fsync remains unverified.",
+    "Safe next action ID: ACTION-INDEPENDENT-CRASH-QA.",
     "Safe next action: Run independent crash-recovery QA without changing the candidate.", ""
   ].join("\n"));
   await writeText(path.join(root, "docs/discovery/subscriptions.md"), "# Subscription discovery\n\nFuture billing tiers remain unapproved.\n".repeat(40));
   await writeText(path.join(root, "docs/ui/dashboard.md"), "# Dashboard exploration\n\nArchived layout variants are not part of WI-0001.\n".repeat(36));
   await writeText(path.join(root, "docs/operations/deploy.md"), "# Deployment runbook\n\nProduction steps are outside this local verification.\n".repeat(44));
   await writeText(path.join(root, "docs/history/incident-2024.md"), "# Archived incident\n\nHistorical narrative has no authority over the candidate.\n".repeat(48));
-  await installTemple(root, path.join(labRoot, "configs/single.json"), "wi0138-single", "WI-0138 Single Fixture");
+  await installTemple(root, path.join(labRoot, "configs/single.json"), "wi0139-single", "WI-0139 Single Fixture");
   await createTempleWorkItem(root, {
     title: "Recover the idempotent receipt candidate",
     scope: "Recover the exact requirement, accepted decision, revision, tests, residual risk, and next action.",
@@ -502,12 +533,14 @@ async function createSingleSource(labRoot) {
     position: "quality_evaluator",
     repositories: { coordinator: { revision, tree } },
     expected: {
-      governing_requirement: "Entries with the same request_id return the original receipt without duplicate ledger records.",
-      governing_decision: "ADR-0042",
+      requirement_id: "REQ-IDEMPOTENCY-001",
+      duplicate_request_effect: "return-original-receipt",
+      decision_id: "ADR-0042",
       repository_revision: revision,
-      public_test_status: "18 passed",
-      unresolved_risk: "Crash recovery after fsync remains unverified.",
-      safe_next_action: "Run independent crash-recovery QA without changing the candidate.",
+      public_tests_passed: 18,
+      public_tests_failed: 0,
+      unresolved_risk_id: "RISK-CRASH-RECOVERY",
+      safe_next_action_id: "ACTION-INDEPENDENT-CRASH-QA",
       authority_source: "docs/product/idempotency.md"
     }
   };
@@ -541,7 +574,10 @@ async function createMultiSource(labRoot) {
   const root = path.join(shapeRoot, "coordinator");
   await initializeGitRepository(root, "coordinator");
   await writeText(path.join(root, "docs/contracts/order-placed-v2.md"), [
-    "# OrderPlaced/v2", "", "Authority: coordinator-owned contract.",
+    "# OrderPlaced/v2", "", "Contract ID: OrderPlaced/v2.",
+    "Compatibility policy ID: COMPAT-V1-CONSUMERS.",
+    "Authority owner ID: coordinator.",
+    "Authority: coordinator-owned contract.",
     "Consumers accept the legacy flat v1 event while producers add the v2 envelope.", ""
   ].join("\n"));
   await writeText(path.join(root, "docs/integration/portfolio.md"), [
@@ -550,14 +586,16 @@ async function createMultiSource(labRoot) {
   ].join("\n"));
   await writeText(path.join(root, "docs/handoffs/components.md"), [
     "# Completed component handoffs", "",
-    "Completed slices: orders-catalog, notifications, gateway.",
+    "Completed slice IDs: orders-catalog, notifications, gateway.",
+    "Unresolved risk ID: RISK-COORDINATOR-PERSISTENCE.",
     "Unresolved risk: Coordinator persistence coverage remains unverified.",
+    "Safe next action ID: ACTION-BOUNDED-INTEGRATION-TEST.",
     "Safe next action: Run the bounded coordinator integration test.", ""
   ].join("\n"));
   await writeText(path.join(root, "docs/discovery/marketplace.md"), "# Marketplace discovery\n\nFuture scope remains unapproved.\n".repeat(42));
   await writeText(path.join(root, "docs/operations/release.md"), "# Release plan\n\nProduction rollout is excluded from WI-0001.\n".repeat(46));
   await writeText(path.join(root, "docs/history/queue-incident.md"), "# Queue incident archive\n\nHistorical details do not govern the current contract.\n".repeat(50));
-  await installTemple(root, path.join(labRoot, "configs/multi.json"), "wi0138-multi", "WI-0138 Multi Fixture");
+  await installTemple(root, path.join(labRoot, "configs/multi.json"), "wi0139-multi", "WI-0139 Multi Fixture");
   await createTempleWorkItem(root, {
     title: "Recover the OrderPlaced v2 integration handoff",
     scope: "Recover the exact contract, component revisions, completed slices, residual risk, authority, and next action.",
@@ -580,12 +618,13 @@ async function createMultiSource(labRoot) {
     position: "developer",
     repositories,
     expected: {
-      governing_contract: "OrderPlaced/v2",
+      contract_id: "OrderPlaced/v2",
+      compatibility_policy_id: "COMPAT-V1-CONSUMERS",
       component_revisions: Object.fromEntries(componentRepositoryIds.map((id) => [id, repositories[id].revision])),
-      completed_slices: ["orders-catalog", "notifications", "gateway"],
-      unresolved_risk: "Coordinator persistence coverage remains unverified.",
-      authority_owner: "coordinator",
-      safe_next_action: "Run the bounded coordinator integration test."
+      completed_slice_ids: ["orders-catalog", "notifications", "gateway"],
+      unresolved_risk_id: "RISK-COORDINATOR-PERSISTENCE",
+      authority_owner_id: "coordinator",
+      safe_next_action_id: "ACTION-BOUNDED-INTEGRATION-TEST"
     }
   };
 }
@@ -694,12 +733,12 @@ export function candidateInstruction(shape) {
   ];
   if (shape === "single-repository") {
     return [...common,
-      "Return the exact governing requirement sentence, governing ADR ID, current coordinator revision, public-test status, unresolved risk, safe next action, and repository-relative authority source."
+      "Return the governing requirement ID, duplicate-request effect token, governing ADR ID, current coordinator revision, passed and failed public-test integer totals, unresolved risk ID, safe next action ID, and repository-relative authority source."
     ].join("\n\n");
   }
   return [...common,
     "The exact component repository IDs are gateway, catalog, orders, and notifications.",
-    "Return the governing contract, exact component revisions, completed slice IDs, unresolved risk, lifecycle authority owner, and safe next action."
+    "Return the governing contract ID, compatibility policy ID, exact component revisions, completed slice IDs, unresolved risk ID, lifecycle authority owner ID, and safe next action ID."
   ].join("\n\n");
 }
 
@@ -739,10 +778,12 @@ async function conditionRepositoryManifest(conditionRoot) {
 function threadStartParams({ id, cwd, route }) {
   return {
     model: route.model,
+    config: { model_reasoning_effort: route.reasoning_effort },
     cwd,
     approvalPolicy: "never",
     sandbox: "read-only",
-    serviceName: `temple-wi0138-${id}`,
+    ephemeral: true,
+    serviceName: `temple-wi0139-${id}`,
     developerInstructions,
     ...wave5ThreadIsolation(cwd),
     baseInstructions
@@ -752,7 +793,7 @@ function threadStartParams({ id, cwd, route }) {
 function turnStartParams({ id, threadId, cwd, route, instruction, outputSchema }) {
   return {
     threadId,
-    clientUserMessageId: `wi0138-${id}`,
+    clientUserMessageId: `wi0139-${id}`,
     input: [{ type: "text", text: instruction }],
     turnTrigger: "user",
     cwd,
@@ -792,7 +833,7 @@ function validateGeneratedWireRequest(schemaText, params) {
 
 export async function contextAblationProviderHandshake() {
   const cliVersion = await checked("codex", ["--version"]);
-  const schemaRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0138-schema-"));
+  const schemaRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0139-schema-"));
   const schemaNames = [
     "ThreadStartParams.json",
     "TurnStartParams.json",
@@ -816,7 +857,7 @@ export async function contextAblationProviderHandshake() {
       env: isolateWave5CodexEnvironment(process.env)
     });
     await connection.request("initialize", {
-      clientInfo: { name: "temple-wi0138-preflight", title: "Temple WI-0138 Preflight", version: "1" },
+      clientInfo: { name: "temple-wi0139-preflight", title: "Temple WI-0139 Preflight", version: "2" },
       capabilities: { experimentalApi: false }
     });
     connection.notify("initialized", {});
@@ -833,24 +874,48 @@ export async function contextAblationProviderHandshake() {
     const terra = models.find((entry) => modelId(entry) === "gpt-5.6-terra");
     const efforts = modelEfforts(terra);
     const routeAvailable = Boolean(terra) && efforts.includes("medium");
-    const sampleRoot = path.join(os.tmpdir(), "temple-wi0138-wire-sample");
+    const sampleRoot = path.join(os.tmpdir(), "temple-wi0139-wire-sample");
     const sampleRoute = { model: "gpt-5.6-terra", reasoning_effort: "medium" };
     const wireRequests = {
       thread_start: validateGeneratedWireRequest(schemaTexts["ThreadStartParams.json"], threadStartParams({ id: "wire-sample", cwd: sampleRoot, route: sampleRoute })),
       turn_start: validateGeneratedWireRequest(schemaTexts["TurnStartParams.json"], turnStartParams({
-        id: "wire-sample", threadId: "wi0138-wire-sample", cwd: sampleRoot, route: sampleRoute,
+        id: "wire-sample", threadId: "wi0139-wire-sample", cwd: sampleRoot, route: sampleRoute,
         instruction: candidateInstruction("single-repository"), outputSchema: singleOutputSchema
       }))
     };
-    const schemaChecks = [singleOutputSchema, multiOutputSchema].map((schema) => validateProviderOutputSchema(schema, { portable: true }));
+    const schemaChecks = [singleOutputSchema, multiOutputSchema].map((schema) => ({
+      ...validateProviderOutputSchema(schema, { portable: true }),
+      answer_free: validateAnswerFreeOutputSchema(schema)
+    }));
+    const acknowledgementResponse = await connection.request("thread/start", threadStartParams({
+      id: "configuration-acknowledgement",
+      cwd: repositoryRoot,
+      route: sampleRoute
+    }));
+    const configurationAcknowledgement = {
+      requested_model: sampleRoute.model,
+      acknowledged_model: acknowledgementResponse?.model ?? null,
+      requested_reasoning_effort: sampleRoute.reasoning_effort,
+      acknowledged_configured_reasoning_effort: acknowledgementResponse?.reasoningEffort ?? null,
+      evidence_kind: "thread-configured-state-not-per-turn-execution-telemetry",
+      pass: acknowledgementResponse?.model === sampleRoute.model && acknowledgementResponse?.reasoningEffort === sampleRoute.reasoning_effort
+    };
     return {
-      pass: routeAvailable && memoryIsolation.pass && wireRequests.thread_start.pass && wireRequests.turn_start.pass && schemaChecks.every((entry) => entry.supported),
+      pass: routeAvailable && memoryIsolation.pass && wireRequests.thread_start.pass && wireRequests.turn_start.pass &&
+        schemaChecks.every((entry) => entry.supported && entry.answer_free.pass) && configurationAcknowledgement.pass,
       codex_cli_version: cliVersion,
       schema_digests: schemaDigests,
       model_route: { model: "gpt-5.6-terra", reasoning_effort: "medium", available: routeAvailable, observed_efforts: efforts },
       memory_isolation: memoryIsolation,
+      configuration_acknowledgement: configurationAcknowledgement,
       wire_requests: wireRequests,
-      structured_output_schemas: schemaChecks.map((entry) => ({ profile: entry.profile, schema_sha256: entry.schema_sha256, supported: entry.supported })),
+      structured_output_schemas: schemaChecks.map((entry) => ({
+        profile: entry.profile,
+        schema_sha256: entry.schema_sha256,
+        supported: entry.supported,
+        answer_free: entry.answer_free.pass,
+        forbidden_keywords: entry.answer_free.forbidden_keywords
+      })),
       model_generation_performed: false
     };
   } finally {
@@ -866,10 +931,25 @@ export function contextAblationTestProviderContract() {
     schema_digests: { fixture: "0".repeat(64) },
     model_route: { model: "gpt-5.6-terra", reasoning_effort: "medium", available: true, observed_efforts: ["medium"] },
     memory_isolation: { use_memories: false, generate_memories: false, feature_enabled: false, arguments_sha256: sha256(JSON.stringify(representativeAppServerArguments)), pass: true },
+    configuration_acknowledgement: {
+      requested_model: "gpt-5.6-terra",
+      acknowledged_model: "gpt-5.6-terra",
+      requested_reasoning_effort: "medium",
+      acknowledged_configured_reasoning_effort: "medium",
+      evidence_kind: "thread-configured-state-not-per-turn-execution-telemetry",
+      pass: true
+    },
     wire_requests: { thread_start: { pass: true, request_sha256: "1".repeat(64), errors: [] }, turn_start: { pass: true, request_sha256: "2".repeat(64), errors: [] } },
     structured_output_schemas: [singleOutputSchema, multiOutputSchema].map((schema) => {
       const result = validateProviderOutputSchema(schema, { portable: true });
-      return { profile: result.profile, schema_sha256: result.schema_sha256, supported: result.supported };
+      const answerFree = validateAnswerFreeOutputSchema(schema);
+      return {
+        profile: result.profile,
+        schema_sha256: result.schema_sha256,
+        supported: result.supported,
+        answer_free: answerFree.pass,
+        forbidden_keywords: answerFree.forbidden_keywords
+      };
     }),
     model_generation_performed: false
   };
@@ -878,7 +958,7 @@ export function contextAblationTestProviderContract() {
 export function contextAblationApprovalTemplate(protocol) {
   return {
     schema_version: CONTEXT_ABLATION_APPROVAL_SCHEMA,
-    work_item_id: "WI-0138",
+    work_item_id: "WI-0139",
     protocol_sha256: protocol.protocol_sha256,
     approved: false,
     authorization_source: null,
@@ -919,7 +999,7 @@ export function validateContextAblationApproval(approval, protocol) {
   return { accepted: errors.length === 0, errors };
 }
 
-function protocolFromLab({ labManifest, packages, providerContract, sourceRevision, harnessSha256 }) {
+function protocolFromLab({ labManifest, packages, providerContract, sourceRevision, harnessSha256, historicalRegression }) {
   const conditions = conditionDefinitions.map((definition) => {
     const package_ = packages[definition.id];
     const conditionRoot = path.join(labManifest.lab_root, "conditions", definition.id);
@@ -940,7 +1020,7 @@ function protocolFromLab({ labManifest, packages, providerContract, sourceRevisi
   });
   const protocol = {
     schema_version: CONTEXT_ABLATION_SCHEMA,
-    work_item_id: "WI-0138",
+    work_item_id: "WI-0139",
     status: "generation-disabled",
     protocol_sha256: null,
     source_revision: sourceRevision,
@@ -962,6 +1042,7 @@ function protocolFromLab({ labManifest, packages, providerContract, sourceRevisi
       program_wall_clock_limit_ms: 2400000
     },
     provider_contract: providerContract,
+    historical_regression: historicalRegression,
     privacy: {
       raw_prompts_retained: false,
       raw_responses_retained: false,
@@ -973,6 +1054,8 @@ function protocolFromLab({ labManifest, packages, providerContract, sourceRevisi
       primary_metric: "objective-correctness",
       per_shape_reporting_required: true,
       sample_per_condition: 1,
+      reasoning_effort_claim: "requested-and-thread-configured",
+      effective_turn_reasoning_effort_observable: false,
       statistical_claim_authorized: false,
       monetary_claim_authorized: false,
       routing_authority_granted: false
@@ -980,7 +1063,8 @@ function protocolFromLab({ labManifest, packages, providerContract, sourceRevisi
     predecessors: [
       { work_item_id: "WI-0135", evidence: ".ai-org/artifacts/WI-0135/live-experiment-observation.json" },
       { work_item_id: "WI-0136", evidence: ".ai-org/artifacts/WI-0136/representative-main-v16-findings.md" },
-      { work_item_id: "WI-0137", evidence: ".ai-org/artifacts/WI-0137/independent-qa.md" }
+      { work_item_id: "WI-0137", evidence: ".ai-org/artifacts/WI-0137/independent-qa.md" },
+      { work_item_id: "WI-0138", evidence: ".ai-org/artifacts/WI-0138/evidence-backed-findings.md" }
     ],
     limit_basis: {
       single_repository: {
@@ -1003,7 +1087,7 @@ function protocolFromLab({ labManifest, packages, providerContract, sourceRevisi
 export function validateContextAblationProtocol(protocol) {
   const errors = [];
   if (protocol?.schema_version !== CONTEXT_ABLATION_SCHEMA) errors.push("unsupported protocol schema");
-  if (protocol?.work_item_id !== "WI-0138" || protocol?.status !== "generation-disabled") errors.push("protocol identity or status mismatch");
+  if (protocol?.work_item_id !== "WI-0139" || protocol?.status !== "generation-disabled") errors.push("protocol identity or status mismatch");
   if (protocol?.protocol_sha256 !== contextAblationProtocolDigest(protocol)) errors.push("protocol digest mismatch");
   if (!/^[a-f0-9]{40}$/.test(protocol?.source_revision ?? "")) errors.push("exact source revision missing");
   if (!/^[a-f0-9]{64}$/.test(protocol?.harness_sha256 ?? "")) errors.push("harness digest missing");
@@ -1025,12 +1109,26 @@ export function validateContextAblationProtocol(protocol) {
       execution.program_wall_clock_limit_ms !== 2400000) errors.push("execution boundary mismatch");
   if (stableText(execution.condition_order) !== stableText(conditionIds)) errors.push("execution order mismatch");
   if (protocol?.provider_contract?.pass !== true || protocol?.provider_contract?.model_route?.model !== "gpt-5.6-terra" ||
-      protocol?.provider_contract?.model_route?.reasoning_effort !== "medium" || protocol?.provider_contract?.model_generation_performed !== false) {
+      protocol?.provider_contract?.model_route?.reasoning_effort !== "medium" ||
+      protocol?.provider_contract?.configuration_acknowledgement?.acknowledged_model !== "gpt-5.6-terra" ||
+      protocol?.provider_contract?.configuration_acknowledgement?.acknowledged_configured_reasoning_effort !== "medium" ||
+      protocol?.provider_contract?.configuration_acknowledgement?.pass !== true ||
+      protocol?.provider_contract?.structured_output_schemas?.some((entry) => entry.answer_free !== true) ||
+      protocol?.provider_contract?.model_generation_performed !== false) {
     errors.push("Provider contract mismatch");
   }
   if (protocol?.privacy?.raw_prompts_retained !== false || protocol?.privacy?.raw_responses_retained !== false ||
       protocol?.privacy?.hidden_reasoning_retained !== false) errors.push("privacy boundary mismatch");
-  if (protocol?.interpretation?.statistical_claim_authorized !== false || protocol?.interpretation?.monetary_claim_authorized !== false ||
+  if (protocol?.historical_regression?.source_path !== ".ai-org/artifacts/WI-0138/live-observation.json" ||
+      !/^[a-f0-9]{64}$/.test(protocol?.historical_regression?.source_sha256 ?? "") ||
+      protocol?.historical_regression?.result?.pass !== true ||
+      protocol?.historical_regression?.result?.historical_result_changed !== false ||
+      protocol?.historical_regression?.model_generation_performed !== false) {
+    errors.push("historical regression boundary mismatch");
+  }
+  if (protocol?.interpretation?.reasoning_effort_claim !== "requested-and-thread-configured" ||
+      protocol?.interpretation?.effective_turn_reasoning_effort_observable !== false ||
+      protocol?.interpretation?.statistical_claim_authorized !== false || protocol?.interpretation?.monetary_claim_authorized !== false ||
       protocol?.interpretation?.routing_authority_granted !== false) errors.push("interpretation boundary mismatch");
   return { valid: errors.length === 0, errors };
 }
@@ -1057,7 +1155,7 @@ export async function prepareContextAblationLab(labRoot = defaultLabRoot, option
   }
   const labManifest = {
     schema_version: "temple.context-capsule-ablation-lab/v1",
-    work_item_id: "WI-0138",
+    work_item_id: "WI-0139",
     lab_root: resolvedLab,
     shapes: Object.fromEntries(Object.entries(sources).map(([shape, source]) => [shape, {
       stage: source.stage,
@@ -1082,7 +1180,16 @@ export async function prepareContextAblationLab(labRoot = defaultLabRoot, option
   if (!providerContract.pass) throw new Error("Provider compatibility handshake failed before protocol freeze");
   const sourceRevision = options.sourceRevision ?? await git(repositoryRoot, ["rev-parse", "HEAD"]);
   const harnessSha256 = sha256(await fs.readFile(harnessPath, "utf8"));
-  const protocol = protocolFromLab({ labManifest, packages, providerContract, sourceRevision, harnessSha256 });
+  const predecessorObservationText = await fs.readFile(retainedPredecessorObservationPath, "utf8");
+  const historicalResult = evaluateRetainedFalseNegativeRegression(JSON.parse(predecessorObservationText));
+  if (!historicalResult.pass) throw new Error("Retained WI-0138 false-negative regression failed before protocol freeze");
+  const historicalRegression = {
+    source_path: path.relative(repositoryRoot, retainedPredecessorObservationPath),
+    source_sha256: sha256(predecessorObservationText),
+    result: historicalResult,
+    model_generation_performed: false
+  };
+  const protocol = protocolFromLab({ labManifest, packages, providerContract, sourceRevision, harnessSha256, historicalRegression });
   const validation = validateContextAblationProtocol(protocol);
   if (!validation.valid) throw new Error(`Prepared protocol is invalid: ${validation.errors.join(", ")}`);
   if (options.writeArtifacts !== false) {
@@ -1111,20 +1218,108 @@ function validateStructuredOutput(output, schema) {
   };
 }
 
+function typedFactFieldErrors(shape, output) {
+  const stableId = /^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)+$/;
+  const kebab = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
+  const revision = /^[0-9a-f]{40}$/;
+  const errors = {};
+  const require = (field, pass, message) => {
+    if (!pass) errors[field] = message;
+  };
+  if (shape === "single-repository") {
+    require("requirement_id", stableId.test(output?.requirement_id ?? ""), "must be a stable uppercase requirement ID");
+    require("duplicate_request_effect", kebab.test(output?.duplicate_request_effect ?? ""), "must be a kebab-case behavior token");
+    require("decision_id", /^ADR-\d{4}$/.test(output?.decision_id ?? ""), "must be an ADR ID");
+    require("repository_revision", revision.test(output?.repository_revision ?? ""), "must be an exact 40-character Git revision");
+    require("public_tests_passed", Number.isSafeInteger(output?.public_tests_passed) && output.public_tests_passed >= 0, "must be a non-negative integer");
+    require("public_tests_failed", Number.isSafeInteger(output?.public_tests_failed) && output.public_tests_failed >= 0, "must be a non-negative integer");
+    require("unresolved_risk_id", /^RISK-[A-Z0-9]+(?:-[A-Z0-9]+)*$/.test(output?.unresolved_risk_id ?? ""), "must be a stable risk ID");
+    require("safe_next_action_id", /^ACTION-[A-Z0-9]+(?:-[A-Z0-9]+)*$/.test(output?.safe_next_action_id ?? ""), "must be a stable action ID");
+    const authority = output?.authority_source ?? "";
+    require("authority_source", typeof authority === "string" && authority.length > 0 && !path.isAbsolute(authority) && !authority.split("/").includes(".."), "must be a repository-relative path");
+    return errors;
+  }
+  if (shape === "coordinator-multi-repository") {
+    require("contract_id", /^[A-Za-z][A-Za-z0-9-]*\/v\d+$/.test(output?.contract_id ?? ""), "must be a versioned contract ID");
+    require("compatibility_policy_id", /^COMPAT-[A-Z0-9]+(?:-[A-Z0-9]+)*$/.test(output?.compatibility_policy_id ?? ""), "must be a stable compatibility policy ID");
+    const componentRevisions = output?.component_revisions;
+    require("component_revisions", componentRevisions && typeof componentRevisions === "object" &&
+      componentRepositoryIds.every((id) => revision.test(componentRevisions[id] ?? "")), "must contain exact revisions for every component");
+    const slices = output?.completed_slice_ids;
+    require("completed_slice_ids", Array.isArray(slices) && slices.length > 0 && new Set(slices).size === slices.length && slices.every((entry) => kebab.test(entry)), "must be a non-empty unique list of slice IDs");
+    require("unresolved_risk_id", /^RISK-[A-Z0-9]+(?:-[A-Z0-9]+)*$/.test(output?.unresolved_risk_id ?? ""), "must be a stable risk ID");
+    require("authority_owner_id", kebab.test(output?.authority_owner_id ?? ""), "must be a stable authority owner ID");
+    require("safe_next_action_id", /^ACTION-[A-Z0-9]+(?:-[A-Z0-9]+)*$/.test(output?.safe_next_action_id ?? ""), "must be a stable action ID");
+    return errors;
+  }
+  throw new Error(`Unknown project shape: ${shape}`);
+}
+
+export function validateTypedFactSemantics(shape, output) {
+  const fieldErrors = typedFactFieldErrors(shape, output);
+  return {
+    pass: Object.keys(fieldErrors).length === 0,
+    field_errors: fieldErrors
+  };
+}
+
 export function evaluateContextAblationOutput(shape, output, expected) {
   const schema = outputSchemaForShape(shape);
   const schemaResult = validateStructuredOutput(output, schema);
+  const typedFacts = validateTypedFactSemantics(shape, output);
   const fields = Object.keys(schema.properties).map((id) => ({
     id,
-    pass: schemaResult.pass && valuesEqual(output?.[id], expected?.[id])
+    pass: schemaResult.pass && typedFacts.field_errors[id] === undefined && valuesEqual(output?.[id], expected?.[id])
   }));
   return {
-    pass: schemaResult.pass && fields.every((entry) => entry.pass),
+    pass: schemaResult.pass && typedFacts.pass && fields.every((entry) => entry.pass),
     schema_pass: schemaResult.pass,
     schema_errors: schemaResult.errors,
+    typed_fact_pass: typedFacts.pass,
+    typed_fact_errors: typedFacts.field_errors,
     fields,
     passed_fields: fields.filter((entry) => entry.pass).length,
     total_fields: fields.length
+  };
+}
+
+export function projectLegacyFalseNegativeFacts(shape, completion) {
+  if (shape === "single-repository") {
+    const match = /^\s*(\d+)\s+passed\.?\s*$/i.exec(completion?.public_test_status ?? "");
+    if (!match) return null;
+    return {
+      public_tests_passed: Number(match[1]),
+      public_tests_failed: 0
+    };
+  }
+  if (shape === "coordinator-multi-repository") {
+    const match = /^\s*([A-Za-z][A-Za-z0-9-]*\/v\d+)(?=\s|:|—|-|$)/.exec(completion?.governing_contract ?? "");
+    if (!match) return null;
+    return { contract_id: match[1] };
+  }
+  throw new Error(`Unknown project shape: ${shape}`);
+}
+
+export function evaluateRetainedFalseNegativeRegression(observation) {
+  const conditions = observation?.conditions ?? [];
+  const single = conditions
+    .filter((entry) => entry.shape === "single-repository")
+    .map((entry) => ({ id: entry.id, facts: projectLegacyFalseNegativeFacts(entry.shape, entry.completion) }));
+  const multi = conditions
+    .filter((entry) => entry.shape === "coordinator-multi-repository")
+    .map((entry) => ({ id: entry.id, facts: projectLegacyFalseNegativeFacts(entry.shape, entry.completion) }));
+  const expectedSingle = { public_tests_passed: 18, public_tests_failed: 0 };
+  const expectedMulti = { contract_id: "OrderPlaced/v2" };
+  const pass = single.length === 2 && multi.length === 2 &&
+    single.every((entry) => stableText(entry.facts) === stableText(expectedSingle)) &&
+    multi.every((entry) => stableText(entry.facts) === stableText(expectedMulti));
+  return {
+    pass,
+    source_work_item_id: "WI-0138",
+    scope: "known-display-false-negatives-only",
+    historical_result_changed: false,
+    single,
+    multi
   };
 }
 
@@ -1186,8 +1381,9 @@ function simulatedTurn(definition, completion) {
     requested_model: definition.model,
     acknowledged_model: definition.model,
     requested_reasoning_effort: definition.reasoning_effort,
-    observed_thread_reasoning_effort: "unknown-in-rehearsal",
+    acknowledged_configured_reasoning_effort: definition.reasoning_effort,
     effective_turn_reasoning_effort: null,
+    reasoning_effort_evidence_kind: "requested-and-thread-configured-not-per-turn-execution-telemetry",
     usage: null,
     operational_tokens: null,
     elapsed_ms: 0,
@@ -1223,7 +1419,7 @@ export async function rehearseContextAblation(labRoot = defaultLabRoot, protocol
       objective: evaluateContextAblationOutput(definition.shape, turn.completion, expected)
     };
   });
-  const malformedSingle = evaluateContextAblationOutput("single-repository", { governing_requirement: "partial" }, labManifest.shapes["single-repository"].expected);
+  const malformedSingle = evaluateContextAblationOutput("single-repository", { requirement_id: "partial" }, labManifest.shapes["single-repository"].expected);
   const safeRoot = path.join(assertSafeLabRoot(labRoot), "conditions", "single-stage-aware");
   const safeCommand = representativeProtocolViolationForMessage({
     method: "item/started",
@@ -1258,11 +1454,17 @@ export async function rehearseContextAblation(labRoot = defaultLabRoot, protocol
   const outputSchemasPortable = [singleOutputSchema, multiOutputSchema]
     .map((schema) => validateProviderOutputSchema(schema, { portable: true }))
     .every((entry) => entry.supported);
+  const outputSchemasAnswerFree = [singleOutputSchema, multiOutputSchema]
+    .every((schema) => validateAnswerFreeOutputSchema(schema).pass);
+  const historicalRegression = protocol.historical_regression?.result;
   const checks = [
     ...inspection.checks,
     { id: "all-injected-candidates-objectively-pass", pass: conditions.every((entry) => entry.objective.pass) },
     { id: "malformed-output-fails-closed", pass: malformedSingle.pass === false },
     { id: "output-schemas-portable", pass: outputSchemasPortable },
+    { id: "output-schemas-answer-free", pass: outputSchemasAnswerFree },
+    { id: "retained-false-negatives-project-to-typed-facts", pass: historicalRegression?.pass === true && historicalRegression?.historical_result_changed === false },
+    { id: "configured-route-acknowledged-before-generation", pass: protocol.provider_contract?.configuration_acknowledgement?.pass === true },
     { id: "safe-package-read-accepted", pass: safeCommand === null },
     { id: "path-escape-rejected", pass: escapedCommand?.code === "command-policy-violation" },
     { id: "model-reroute-rejected", pass: reroute !== null },
@@ -1272,7 +1474,7 @@ export async function rehearseContextAblation(labRoot = defaultLabRoot, protocol
   ];
   const rehearsalObservation = {
     schema_version: CONTEXT_ABLATION_OBSERVATION_SCHEMA,
-    work_item_id: "WI-0138",
+    work_item_id: "WI-0139",
     protocol_sha256: protocol.protocol_sha256,
     kind: "generation-free-rehearsal",
     status: checks.every((entry) => entry.pass) ? "completed" : "failed",
@@ -1286,13 +1488,14 @@ export async function rehearseContextAblation(labRoot = defaultLabRoot, protocol
   checks.push({ id: "analysis-path-completed", pass: analysis.schema_version === CONTEXT_ABLATION_ANALYSIS_SCHEMA });
   const readiness = {
     schema_version: "temple.context-capsule-ablation-readiness/v1",
-    work_item_id: "WI-0138",
+    work_item_id: "WI-0139",
     protocol_sha256: protocol.protocol_sha256,
     completed_at: options.completedAt ?? new Date().toISOString(),
     pass: checks.every((entry) => entry.pass),
     lab_root_id: path.basename(assertSafeLabRoot(labRoot)),
     checks,
-    candidate_turn_count: 4,
+    candidate_turn_count: 0,
+    simulated_condition_count: 4,
     evaluator_turn_count: 0,
     retry_count: 0,
     fallback_count: 0,
@@ -1306,7 +1509,15 @@ export async function rehearseContextAblation(labRoot = defaultLabRoot, protocol
 }
 
 function providerContractMatches(frozen, observed) {
-  const keys = ["codex_cli_version", "schema_digests", "model_route", "memory_isolation", "wire_requests", "structured_output_schemas"];
+  const keys = [
+    "codex_cli_version",
+    "schema_digests",
+    "model_route",
+    "memory_isolation",
+    "configuration_acknowledgement",
+    "wire_requests",
+    "structured_output_schemas"
+  ];
   return frozen?.pass === true && observed?.pass === true && keys.every((key) => stableText(frozen[key]) === stableText(observed[key]));
 }
 
@@ -1330,7 +1541,7 @@ export async function preflightContextAblation(labRoot = defaultLabRoot, protoco
   const blockers = checks.filter((entry) => !entry.pass).map((entry) => entry.id);
   const preflight = {
     schema_version: "temple.context-capsule-ablation-preflight/v1",
-    work_item_id: "WI-0138",
+    work_item_id: "WI-0139",
     observed_at: options.observedAt ?? new Date().toISOString(),
     protocol_sha256: protocol?.protocol_sha256 ?? null,
     generation_ready: blockers.length === 0,
@@ -1498,7 +1709,7 @@ async function launchCandidateTurn({ definition, cwd, protocol, budget, deadline
   }, Math.max(1, deadline - Date.now()));
   try {
     await connection.request("initialize", {
-      clientInfo: { name: "temple-wi0138", title: "Temple WI-0138 Context Capsule Ablation", version: "1" },
+      clientInfo: { name: "temple-wi0139", title: "Temple WI-0139 Typed Context Capsule Ablation", version: "2" },
       capabilities: { experimentalApi: false }
     });
     connection.notify("initialized", {});
@@ -1506,6 +1717,9 @@ async function launchCandidateTurn({ definition, cwd, protocol, budget, deadline
     const thread = await connection.request("thread/start", threadStartParams({ id: definition.id, cwd, route }));
     threadId = thread?.thread?.id;
     if (!threadId || thread.model !== definition.model) throw new Error(`${definition.id}: requested model was not acknowledged`);
+    if (thread.reasoningEffort !== definition.reasoning_effort) {
+      throw new Error(`${definition.id}: requested reasoning effort was not acknowledged before generation`);
+    }
     turnRequestedMs = Date.now();
     const turn = await connection.request("turn/start", turnStartParams({
       id: definition.id,
@@ -1537,8 +1751,9 @@ async function launchCandidateTurn({ definition, cwd, protocol, budget, deadline
       requested_model: definition.model,
       acknowledged_model: thread.model,
       requested_reasoning_effort: definition.reasoning_effort,
-      observed_thread_reasoning_effort: thread.reasoningEffort ?? null,
+      acknowledged_configured_reasoning_effort: thread.reasoningEffort ?? null,
       effective_turn_reasoning_effort: null,
+      reasoning_effort_evidence_kind: "requested-and-thread-configured-not-per-turn-execution-telemetry",
       usage: latestUsage,
       operational_tokens: tokens,
       tool_activity: activity,
@@ -1662,7 +1877,7 @@ export function analyzeContextAblation({ protocol, observation, generatedAt = ne
   } : null;
   return {
     schema_version: CONTEXT_ABLATION_ANALYSIS_SCHEMA,
-    work_item_id: "WI-0138",
+    work_item_id: "WI-0139",
     protocol_sha256: protocol.protocol_sha256,
     generated_at: generatedAt,
     status: allCompleted && usageKnown ? "complete" : "inconclusive",
@@ -1684,7 +1899,7 @@ export function analyzeContextAblation({ protocol, observation, generatedAt = ne
 
 function reportMarkdown(protocol, observation, analysis) {
   const lines = [
-    "# WI-0138 Context Capsule v2 effectiveness report",
+    "# WI-0139 typed Context Capsule effectiveness report",
     "",
     `- Protocol: \`${protocol.protocol_sha256}\``,
     `- Candidate turns: ${observation.conditions.length} of 4 retained`,
@@ -1705,7 +1920,9 @@ function reportMarkdown(protocol, observation, analysis) {
     "",
     "## Interpretation",
     "",
-    "Correctness gates every efficiency interpretation. Repository source bytes, Provider Tokens, latency, and tool-output bytes are separate measurements. One matched pair per shape is diagnostic evidence only and does not establish statistical, monetary, or automatic-routing claims.",
+    "Correctness is evaluated from canonical typed facts and gates every efficiency interpretation. Repository source bytes, Provider Tokens, latency, and tool-output bytes are separate measurements. One matched pair per shape is diagnostic evidence only and does not establish statistical, monetary, or automatic-routing claims.",
+    "",
+    "The route is described as requested-and-thread-configured Terra medium. The installed App Server does not expose per-turn execution-effort telemetry, so effective execution effort remains unknown rather than inferred.",
     "",
     "Raw prompts, raw responses, hidden reasoning, credentials, and temporary repositories were not retained in Git.",
     ""
@@ -1715,7 +1932,7 @@ function reportMarkdown(protocol, observation, analysis) {
 
 export async function runContextAblation(labRoot = defaultLabRoot, protocolPath = defaultProtocolPath, approvalPath = defaultApprovalPath) {
   if (await pathExists(defaultObservationPath) || await pathExists(defaultStoppedObservationPath)) {
-    throw new Error("A retained WI-0138 run already exists; this protocol authorizes no retry");
+    throw new Error("A retained WI-0139 run already exists; this protocol authorizes no retry");
   }
   const preflight = await preflightContextAblation(labRoot, protocolPath, approvalPath);
   if (!preflight.generation_ready) throw new Error(`Generation is blocked: ${preflight.blockers.join(", ")}`);
@@ -1743,7 +1960,7 @@ export async function runContextAblation(labRoot = defaultLabRoot, protocolPath 
     }
     const observation = {
       schema_version: CONTEXT_ABLATION_OBSERVATION_SCHEMA,
-      work_item_id: "WI-0138",
+      work_item_id: "WI-0139",
       protocol_sha256: protocol.protocol_sha256,
       kind: "live-provider-run",
       status: conditions.every((entry) => entry.status === "completed") ? "completed" : "completed-with-censored-condition",
@@ -1763,7 +1980,7 @@ export async function runContextAblation(labRoot = defaultLabRoot, protocolPath 
   } catch (error) {
     const stopped = {
       schema_version: CONTEXT_ABLATION_OBSERVATION_SCHEMA,
-      work_item_id: "WI-0138",
+      work_item_id: "WI-0139",
       protocol_sha256: protocol.protocol_sha256,
       kind: "live-provider-run",
       status: "stopped",
@@ -1819,7 +2036,7 @@ async function main() {
     const result = await prepareContextAblationLab(args.labRoot);
     output = {
       schema_version: "temple.context-capsule-ablation-prepare/v1",
-      work_item_id: "WI-0138",
+      work_item_id: "WI-0139",
       protocol_sha256: result.protocol.protocol_sha256,
       conditions: conditionIds,
       lab_root_id: path.basename(result.labRoot),
