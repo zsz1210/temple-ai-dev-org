@@ -1,0 +1,19 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "a6849519c6067b2f73ca1a44d556faf7a5168b1d",
+  "command": [
+    "independent exact invocation of run-package-qualification.mjs",
+    "byte-for-byte package identity and complete-manifest comparison",
+    "normalized repository, browser, dependency, publication, consumer, and upgrade result comparison"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T17:28:00.000Z",
+  "completed_at": "2026-09-04T17:30:25.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0164/package-qualification-result.json",
+    ".ai-org/artifacts/WI-0164/independent-package-qualification-result.json",
+    ".ai-org/artifacts/WI-0164/run-package-qualification.mjs",
+    ".ai-org/artifacts/WI-0164/quality-evaluation.md"
+  ]
+}

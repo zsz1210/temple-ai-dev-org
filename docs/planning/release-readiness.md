@@ -120,7 +120,7 @@ This rehearsal validates the AI-assisted operating path. It does not establish t
 - WI-0164 ran repository, schema, Doctor, complete behavior, browser, dependency, and publication-surface checks at the exact technical candidate.
 - It produced and retained the exact tarball identity and complete manifest without committing the archive.
 - A clean Node.js 24 consumer reproduced installation and the deterministic Core Path; the Alpha.29 comparison upgraded lock-only without changing sampled project-owned bytes.
-- Independent QA remains part of the WI-0164 closeout before this page may call the organizational gate complete.
+- Independent QA independently reproduced the same package digest, complete manifest, browser result, clean consumer, and upgrade boundary before organizational closeout.
 
 ### Step 4 — make publication decisions separately
 
