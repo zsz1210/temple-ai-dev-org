@@ -1,0 +1,225 @@
+{
+  "schema_version": "temple.context-capsule-ablation-readiness/v1",
+  "work_item_id": "WI-0143",
+  "protocol_sha256": "084e7ac3ae67c1c4a093fe832cd23728d03c440ddeca95a74fbf45bbb062536b",
+  "completed_at": "2026-09-04T04:49:22.524Z",
+  "pass": true,
+  "lab_root_id": "temple-wi0143-context-capsule-ablation",
+  "checks": [
+    {
+      "id": "protocol-valid",
+      "pass": true
+    },
+    {
+      "id": "lab-manifest-digest",
+      "pass": true
+    },
+    {
+      "id": "single-stage-aware-a-package-present",
+      "pass": true
+    },
+    {
+      "id": "single-stage-aware-a-package-digest",
+      "pass": true
+    },
+    {
+      "id": "single-stage-aware-a-repository-parity",
+      "pass": true
+    },
+    {
+      "id": "single-legacy-expanded-a-package-present",
+      "pass": true
+    },
+    {
+      "id": "single-legacy-expanded-a-package-digest",
+      "pass": true
+    },
+    {
+      "id": "single-legacy-expanded-a-repository-parity",
+      "pass": true
+    },
+    {
+      "id": "multi-legacy-expanded-a-package-present",
+      "pass": true
+    },
+    {
+      "id": "multi-legacy-expanded-a-package-digest",
+      "pass": true
+    },
+    {
+      "id": "multi-legacy-expanded-a-repository-parity",
+      "pass": true
+    },
+    {
+      "id": "multi-stage-aware-a-package-present",
+      "pass": true
+    },
+    {
+      "id": "multi-stage-aware-a-package-digest",
+      "pass": true
+    },
+    {
+      "id": "multi-stage-aware-a-repository-parity",
+      "pass": true
+    },
+    {
+      "id": "single-legacy-expanded-b-package-present",
+      "pass": true
+    },
+    {
+      "id": "single-legacy-expanded-b-package-digest",
+      "pass": true
+    },
+    {
+      "id": "single-legacy-expanded-b-repository-parity",
+      "pass": true
+    },
+    {
+      "id": "single-stage-aware-b-package-present",
+      "pass": true
+    },
+    {
+      "id": "single-stage-aware-b-package-digest",
+      "pass": true
+    },
+    {
+      "id": "single-stage-aware-b-repository-parity",
+      "pass": true
+    },
+    {
+      "id": "multi-stage-aware-b-package-present",
+      "pass": true
+    },
+    {
+      "id": "multi-stage-aware-b-package-digest",
+      "pass": true
+    },
+    {
+      "id": "multi-stage-aware-b-repository-parity",
+      "pass": true
+    },
+    {
+      "id": "multi-legacy-expanded-b-package-present",
+      "pass": true
+    },
+    {
+      "id": "multi-legacy-expanded-b-package-digest",
+      "pass": true
+    },
+    {
+      "id": "multi-legacy-expanded-b-repository-parity",
+      "pass": true
+    },
+    {
+      "id": "single-repository-repetition-parity",
+      "pass": true
+    },
+    {
+      "id": "single-repository-treatment-difference",
+      "pass": true
+    },
+    {
+      "id": "coordinator-multi-repository-repetition-parity",
+      "pass": true
+    },
+    {
+      "id": "coordinator-multi-repository-treatment-difference",
+      "pass": true
+    },
+    {
+      "id": "all-injected-candidates-objectively-pass",
+      "pass": true
+    },
+    {
+      "id": "malformed-output-fails-closed",
+      "pass": true
+    },
+    {
+      "id": "output-schemas-portable",
+      "pass": true
+    },
+    {
+      "id": "output-schemas-answer-free",
+      "pass": true
+    },
+    {
+      "id": "retained-false-negatives-project-to-typed-facts",
+      "pass": true
+    },
+    {
+      "id": "retained-diagnostic-regression-reproduced",
+      "pass": true
+    },
+    {
+      "id": "predecessor-artifacts-unchanged",
+      "pass": true
+    },
+    {
+      "id": "data-derived-limit-valid",
+      "pass": true
+    },
+    {
+      "id": "condition-order-counterbalanced",
+      "pass": true
+    },
+    {
+      "id": "acquisition-routed-read-classified",
+      "pass": true
+    },
+    {
+      "id": "acquisition-off-route-read-visible",
+      "pass": true
+    },
+    {
+      "id": "acquisition-unknown-reduces-coverage",
+      "pass": true
+    },
+    {
+      "id": "acquisition-failed-read-excluded",
+      "pass": true
+    },
+    {
+      "id": "acquisition-retains-no-raw-command-or-output",
+      "pass": true
+    },
+    {
+      "id": "configured-route-acknowledged-before-generation",
+      "pass": true
+    },
+    {
+      "id": "safe-package-read-accepted",
+      "pass": true
+    },
+    {
+      "id": "path-escape-rejected",
+      "pass": true
+    },
+    {
+      "id": "model-reroute-rejected",
+      "pass": true
+    },
+    {
+      "id": "zero-retry",
+      "pass": true
+    },
+    {
+      "id": "zero-fallback",
+      "pass": true
+    },
+    {
+      "id": "zero-provider-generation",
+      "pass": true
+    },
+    {
+      "id": "analysis-path-completed",
+      "pass": true
+    }
+  ],
+  "candidate_turn_count": 0,
+  "simulated_condition_count": 8,
+  "evaluator_turn_count": 0,
+  "retry_count": 0,
+  "fallback_count": 0,
+  "operational_tokens": 0,
+  "model_generation_performed": false
+}
