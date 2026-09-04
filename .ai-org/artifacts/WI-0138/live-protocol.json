@@ -1,0 +1,365 @@
+{
+  "schema_version": "temple.context-capsule-ablation/v1",
+  "work_item_id": "WI-0138",
+  "status": "generation-disabled",
+  "protocol_sha256": "45717b859f2f88a4dd182d4bb7c7968839eb154e0f3ad9671e4d53e3986ad382",
+  "source_revision": "c2ebaa1d7e5da8c43bf7d382ddeaae2d8ff61c99",
+  "harness_sha256": "2878c9594374757ec9593a15c9997aa807ee61264e9cc024652ef65891a80d80",
+  "lab_manifest_sha256": "8d23f52aa387511bef32e25b0c1ae055db5ddf1f32cb642789a4a72b83b26b00",
+  "conditions": [
+    {
+      "id": "single-stage-aware",
+      "shape": "single-repository",
+      "strategy": "stage-aware",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "operational_token_limit": 40000,
+      "repository_manifest": {
+        "coordinator": {
+          "revision": "067158f86cb2bfc05f6b77651bc3b7af4cfea767",
+          "tree": "81521086156471f75f28c5ebbcb0d60a328163db",
+          "clean": true
+        }
+      },
+      "treatment": {
+        "package_sha256": "cafbf3a961bed3a81759773a25b1d6e3c834bcb2b9a5b40f648e8e13fa87ad52",
+        "selection_digest": "sha256:0c330b8e20ad309937dd140dca40b6349f04089e9a2738eeb7fa5ca9ec6e0531",
+        "resolver_selection_digest": "sha256:ff5d7212c48811b49e0657278f2efadb6bdc9391713e0c9a8a80915702aa4595",
+        "selected_source_count": 7,
+        "measured_source_bytes": 14389
+      },
+      "prompt_contract": {
+        "components": {
+          "base_instructions": {
+            "utf8_bytes": 150,
+            "sha256": "871b58cd8ab5da18f9678e220a1eede56d465a25118026cbe7303e129c4957d2"
+          },
+          "developer_instructions": {
+            "utf8_bytes": 614,
+            "sha256": "70ab0f135a5af84170a7a2505383eda2c1a1a3ad00d7d6b70dcfefab1828f511"
+          },
+          "user_input": {
+            "utf8_bytes": 760,
+            "sha256": "f9350b0d32ac419764e095f45ed628f97f9a940d31282286c305b19245cd72e0"
+          },
+          "output_schema": {
+            "utf8_bytes": 488,
+            "sha256": "bfdf8435b2e0e1938affd8f6ef5c19fdf70d63ce18fe6c1e44f0d5b812f2e8a4"
+          }
+        },
+        "explicit_prompt_bytes": 2012,
+        "raw_prompt_retained": false
+      },
+      "output_schema_sha256": "bfdf8435b2e0e1938affd8f6ef5c19fdf70d63ce18fe6c1e44f0d5b812f2e8a4",
+      "condition_root_id": "single-stage-aware"
+    },
+    {
+      "id": "multi-legacy-expanded",
+      "shape": "coordinator-multi-repository",
+      "strategy": "legacy-expanded",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "operational_token_limit": 80000,
+      "repository_manifest": {
+        "coordinator": {
+          "revision": "e79619658bd7fe15aaf4c8cb845c057e2b99f4cb",
+          "tree": "433836d17363f30124423855d9f34319ea4e4c2d",
+          "clean": true
+        },
+        "gateway": {
+          "revision": "9099d57f36da5836e85d127905488a9a46a33c90",
+          "tree": "1f9a0635961760265bb6eda21fdf600180d92886",
+          "clean": true
+        },
+        "catalog": {
+          "revision": "15b872845ba5a69042f7c952843e54495555a988",
+          "tree": "4517da3f492da61b6447ea916acd61ef9147973e",
+          "clean": true
+        },
+        "orders": {
+          "revision": "b2e7d5d830e96ecbf758bc8577407f578db02484",
+          "tree": "9bfaf128e2438d7aeff205c06b728ca2b8748c87",
+          "clean": true
+        },
+        "notifications": {
+          "revision": "ee7547772cd0e97e82d288c1476bd65a31945b53",
+          "tree": "79376958cb22dccb3fb9326dbdcbf333d47d3100",
+          "clean": true
+        }
+      },
+      "treatment": {
+        "package_sha256": "a394acb0531c80e3a9888a1897753442177e4a8252b66615f23c5ae5efc6f356",
+        "selection_digest": "sha256:2ef0270f1c5a25f90da60dfdfe6d2af4c5ff2219fa4f5a7a1aba44beba3569fd",
+        "resolver_selection_digest": "sha256:60df8ddae9b782b64acc7d4439afd474abe111f215cd7b444367e0b2af2dfdfe",
+        "selected_source_count": 10,
+        "measured_source_bytes": 34164
+      },
+      "prompt_contract": {
+        "components": {
+          "base_instructions": {
+            "utf8_bytes": 150,
+            "sha256": "871b58cd8ab5da18f9678e220a1eede56d465a25118026cbe7303e129c4957d2"
+          },
+          "developer_instructions": {
+            "utf8_bytes": 614,
+            "sha256": "70ab0f135a5af84170a7a2505383eda2c1a1a3ad00d7d6b70dcfefab1828f511"
+          },
+          "user_input": {
+            "utf8_bytes": 796,
+            "sha256": "3065011c08002d747b8bd0d38643f7231b0b314b0eb3082876dcd0814b8090cc"
+          },
+          "output_schema": {
+            "utf8_bytes": 660,
+            "sha256": "4f1102421fd72b5d53bdb2d984c112d9eac2e55ba9e13baf43a77087bf090c61"
+          }
+        },
+        "explicit_prompt_bytes": 2220,
+        "raw_prompt_retained": false
+      },
+      "output_schema_sha256": "4f1102421fd72b5d53bdb2d984c112d9eac2e55ba9e13baf43a77087bf090c61",
+      "condition_root_id": "multi-legacy-expanded"
+    },
+    {
+      "id": "single-legacy-expanded",
+      "shape": "single-repository",
+      "strategy": "legacy-expanded",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "operational_token_limit": 40000,
+      "repository_manifest": {
+        "coordinator": {
+          "revision": "067158f86cb2bfc05f6b77651bc3b7af4cfea767",
+          "tree": "81521086156471f75f28c5ebbcb0d60a328163db",
+          "clean": true
+        }
+      },
+      "treatment": {
+        "package_sha256": "8fdbb46c09dc235cec45727e9d9f789ef854d38c18915939ec7779457fc2b471",
+        "selection_digest": "sha256:828424973e7211e0b374e68cecd259426c617bee46d467cee3cf6f84feb47eeb",
+        "resolver_selection_digest": "sha256:2365dcfcc8ba148c2e08c71f55befe6fc269bb53e1d4347d94810bf1c67090c8",
+        "selected_source_count": 12,
+        "measured_source_bytes": 40093
+      },
+      "prompt_contract": {
+        "components": {
+          "base_instructions": {
+            "utf8_bytes": 150,
+            "sha256": "871b58cd8ab5da18f9678e220a1eede56d465a25118026cbe7303e129c4957d2"
+          },
+          "developer_instructions": {
+            "utf8_bytes": 614,
+            "sha256": "70ab0f135a5af84170a7a2505383eda2c1a1a3ad00d7d6b70dcfefab1828f511"
+          },
+          "user_input": {
+            "utf8_bytes": 760,
+            "sha256": "f9350b0d32ac419764e095f45ed628f97f9a940d31282286c305b19245cd72e0"
+          },
+          "output_schema": {
+            "utf8_bytes": 488,
+            "sha256": "bfdf8435b2e0e1938affd8f6ef5c19fdf70d63ce18fe6c1e44f0d5b812f2e8a4"
+          }
+        },
+        "explicit_prompt_bytes": 2012,
+        "raw_prompt_retained": false
+      },
+      "output_schema_sha256": "bfdf8435b2e0e1938affd8f6ef5c19fdf70d63ce18fe6c1e44f0d5b812f2e8a4",
+      "condition_root_id": "single-legacy-expanded"
+    },
+    {
+      "id": "multi-stage-aware",
+      "shape": "coordinator-multi-repository",
+      "strategy": "stage-aware",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "operational_token_limit": 80000,
+      "repository_manifest": {
+        "coordinator": {
+          "revision": "e79619658bd7fe15aaf4c8cb845c057e2b99f4cb",
+          "tree": "433836d17363f30124423855d9f34319ea4e4c2d",
+          "clean": true
+        },
+        "gateway": {
+          "revision": "9099d57f36da5836e85d127905488a9a46a33c90",
+          "tree": "1f9a0635961760265bb6eda21fdf600180d92886",
+          "clean": true
+        },
+        "catalog": {
+          "revision": "15b872845ba5a69042f7c952843e54495555a988",
+          "tree": "4517da3f492da61b6447ea916acd61ef9147973e",
+          "clean": true
+        },
+        "orders": {
+          "revision": "b2e7d5d830e96ecbf758bc8577407f578db02484",
+          "tree": "9bfaf128e2438d7aeff205c06b728ca2b8748c87",
+          "clean": true
+        },
+        "notifications": {
+          "revision": "ee7547772cd0e97e82d288c1476bd65a31945b53",
+          "tree": "79376958cb22dccb3fb9326dbdcbf333d47d3100",
+          "clean": true
+        }
+      },
+      "treatment": {
+        "package_sha256": "4cda8c92fdc4c66a7f05588b536fe2dbbf67ec4d98b34c9b924c3405f9533751",
+        "selection_digest": "sha256:fcd180b13dcb65e440325a9e9ca19f0a752b3901710d3b91a3d1b5b22e6ccc43",
+        "resolver_selection_digest": "sha256:0e3a60b9c90a3ad299001787f67737706e37dfc8141739bc034a9c1ebbe3d80e",
+        "selected_source_count": 6,
+        "measured_source_bytes": 11644
+      },
+      "prompt_contract": {
+        "components": {
+          "base_instructions": {
+            "utf8_bytes": 150,
+            "sha256": "871b58cd8ab5da18f9678e220a1eede56d465a25118026cbe7303e129c4957d2"
+          },
+          "developer_instructions": {
+            "utf8_bytes": 614,
+            "sha256": "70ab0f135a5af84170a7a2505383eda2c1a1a3ad00d7d6b70dcfefab1828f511"
+          },
+          "user_input": {
+            "utf8_bytes": 796,
+            "sha256": "3065011c08002d747b8bd0d38643f7231b0b314b0eb3082876dcd0814b8090cc"
+          },
+          "output_schema": {
+            "utf8_bytes": 660,
+            "sha256": "4f1102421fd72b5d53bdb2d984c112d9eac2e55ba9e13baf43a77087bf090c61"
+          }
+        },
+        "explicit_prompt_bytes": 2220,
+        "raw_prompt_retained": false
+      },
+      "output_schema_sha256": "4f1102421fd72b5d53bdb2d984c112d9eac2e55ba9e13baf43a77087bf090c61",
+      "condition_root_id": "multi-stage-aware"
+    }
+  ],
+  "execution": {
+    "condition_order": [
+      "single-stage-aware",
+      "multi-legacy-expanded",
+      "single-legacy-expanded",
+      "multi-stage-aware"
+    ],
+    "candidate_turns": 4,
+    "evaluator_turns": 0,
+    "retry_count": 0,
+    "fallback_count": 0,
+    "network_access": false,
+    "external_writes": false,
+    "generation_ready": false,
+    "exact_approval_required": true,
+    "condition_operational_token_limits": {
+      "single-stage-aware": 40000,
+      "multi-legacy-expanded": 80000,
+      "single-legacy-expanded": 40000,
+      "multi-stage-aware": 80000
+    },
+    "aggregate_operational_token_limit": 240000,
+    "program_wall_clock_limit_ms": 2400000
+  },
+  "provider_contract": {
+    "pass": true,
+    "codex_cli_version": "codex-cli 0.153.0-alpha.5",
+    "schema_digests": {
+      "ThreadStartParams.json": "792e2f32e37cece971bd616664ea2053741acbed4e9c92e9d1766427718f2ecd",
+      "TurnStartParams.json": "a3835e8c1e942e4b358e1a670939b89918b16c4d13105a579899892b7ade6dea",
+      "ItemStartedNotification.json": "c4c34f47db6326cd4841bae428f23d08eb285077ffad35be9772b928c65bb912",
+      "ItemCompletedNotification.json": "69aba3fe5f72f38bf5c541e7e2c09de40778abe65ff969d9fc73372037812091",
+      "TurnCompletedNotification.json": "78af2a37391e8e669a4020cb58593e4d3e378756ced79d5fec72374fa69fb94b",
+      "ThreadTokenUsageUpdatedNotification.json": "aba4f6c7e4a19b2b842c08ee793b57000c07dafd57b922ad0d8e7c76609108c2",
+      "ModelReroutedNotification.json": "37cd3c1b3a3560b85b01d4061a07d830fc9ed93b80e4663f975f9197cdb501ef"
+    },
+    "model_route": {
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "available": true,
+      "observed_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ]
+    },
+    "memory_isolation": {
+      "use_memories": false,
+      "generate_memories": false,
+      "feature_enabled": false,
+      "arguments_sha256": "e5d3c3be08c8191bc85c61fa4ba79436ae8fedcdb480cba347f2b85f494567ab",
+      "pass": true
+    },
+    "wire_requests": {
+      "thread_start": {
+        "pass": true,
+        "request_sha256": "400495b21f96ec17df0967c4695ed3dc40a2bbf6de24c827c4153368ba952a27",
+        "errors": []
+      },
+      "turn_start": {
+        "pass": true,
+        "request_sha256": "86690df3679a9f0933fd83d13839c1be19a6286ae7b6599bf73094b1e835c2b0",
+        "errors": []
+      }
+    },
+    "structured_output_schemas": [
+      {
+        "profile": "openai-structured-outputs-portable-subset/2026-09-04",
+        "schema_sha256": "bfdf8435b2e0e1938affd8f6ef5c19fdf70d63ce18fe6c1e44f0d5b812f2e8a4",
+        "supported": true
+      },
+      {
+        "profile": "openai-structured-outputs-portable-subset/2026-09-04",
+        "schema_sha256": "4f1102421fd72b5d53bdb2d984c112d9eac2e55ba9e13baf43a77087bf090c61",
+        "supported": true
+      }
+    ],
+    "model_generation_performed": false
+  },
+  "privacy": {
+    "raw_prompts_retained": false,
+    "raw_responses_retained": false,
+    "hidden_reasoning_retained": false,
+    "normalized_structured_completion_retained": true,
+    "temporary_repositories_retained_in_git": false
+  },
+  "interpretation": {
+    "primary_metric": "objective-correctness",
+    "per_shape_reporting_required": true,
+    "sample_per_condition": 1,
+    "statistical_claim_authorized": false,
+    "monetary_claim_authorized": false,
+    "routing_authority_granted": false
+  },
+  "predecessors": [
+    {
+      "work_item_id": "WI-0135",
+      "evidence": ".ai-org/artifacts/WI-0135/live-experiment-observation.json"
+    },
+    {
+      "work_item_id": "WI-0136",
+      "evidence": ".ai-org/artifacts/WI-0136/representative-main-v16-findings.md"
+    },
+    {
+      "work_item_id": "WI-0137",
+      "evidence": ".ai-org/artifacts/WI-0137/independent-qa.md"
+    }
+  ],
+  "limit_basis": {
+    "single_repository": {
+      "source": ".ai-org/artifacts/WI-0135/live-experiment-observation.json",
+      "observed_terra_candidate_range": [
+        30974,
+        32271
+      ],
+      "frozen_limit": 40000
+    },
+    "coordinator_multi_repository": {
+      "source": ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-run.json",
+      "observed_terra_condition_range": [
+        57296,
+        70743
+      ],
+      "frozen_limit": 80000
+    },
+    "meaning": "Safety ceilings above retained matched observations; not expected use, price, or a statistical estimate."
+  }
+}
