@@ -21797,6 +21797,91 @@
         "exit_code": 0,
         "started_at": "2026-09-04T00:25:32.000Z"
       }
+    },
+    {
+      "id": "EVID-20260904T005936Z-CEE25D8F",
+      "work_item_id": "WI-0138",
+      "recorded_at": "2026-09-04T00:59:36.485Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Context Capsule ablation harness candidate",
+      "outcome": "verified",
+      "scope_revision": "c2ebaa1d7e5da8c43bf7d382ddeaae2d8ff61c99",
+      "observed_at": "2026-09-04T00:59:36.485Z",
+      "summary": "Generation-free comparison harness, fixtures, schemas, and human documentation at the exact protocol source revision.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "c2ebaa1d7e5da8c43bf7d382ddeaae2d8ff61c99"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "c2ebaa1d7e5da8c43bf7d382ddeaae2d8ff61c99",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T005936Z-CFDDB54F",
+      "work_item_id": "WI-0138",
+      "recorded_at": "2026-09-04T00:59:36.762Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0138 Developer generation-free verification",
+      "outcome": "pass",
+      "scope_revision": "c2ebaa1d7e5da8c43bf7d382ddeaae2d8ff61c99",
+      "observed_at": "2026-09-04T00:58:40.000Z",
+      "summary": "405 full tests, 56 focused regressions, and 26 readiness checks passed with zero Provider generation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0138/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0138/developer-test-observation.json",
+          "sha256": "05c83384fef0f64f771bac3f702c0111c2a3103ee6a61f6430d6cb3f6c98e91b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/developer-verification.md",
+          "sha256": "fb9fb76e04141c44c9413c157cd1ef70fd01b3e30f1636605818991b84374eac"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/harness-readiness.json",
+          "sha256": "768814c0f0e31765837ddecfca2bbdcf664365ef6612fafa43225e46f9afd94c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/preapproval-preflight.json",
+          "sha256": "5f8f30923da85f87991616c3315aaa0fb2e55dc6e7a59345fd6aecd54fa323ac"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/live-protocol.json",
+          "sha256": "76cee4d6e1e2f32250895c7b9d4a60e8a8996540bd1e953a3ca8fa23dbe53da5"
+        },
+        {
+          "path": "docs/validation/context-capsule-v2-ablation.md",
+          "sha256": "b800329a039c1912692a43d486faf757c4c1df1bdf38c15101805dcc9923dd23"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T00:57:00.000Z"
+      }
     }
   ]
 }
