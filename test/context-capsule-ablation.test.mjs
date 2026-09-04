@@ -181,7 +181,7 @@ test("retained WI-0139 result reproduces the censoring diagnosis and derives the
 });
 
 test("generation-free preparation produces matched repositories and smaller stage-aware packages", async (context) => {
-  const labRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0140-test-"));
+  const labRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0141-test-"));
   await fs.rm(labRoot, { recursive: true, force: true });
   context.after(() => fs.rm(labRoot, { recursive: true, force: true }));
   const prepared = await prepareContextAblationLab(labRoot, {
@@ -191,6 +191,10 @@ test("generation-free preparation produces matched repositories and smaller stag
   });
   const validation = validateContextAblationProtocol(prepared.protocol);
   assert.equal(validation.valid, true, validation.errors.join("\n"));
+  assert.equal(prepared.protocol.work_item_id, "WI-0141");
+  assert.equal(prepared.protocol.predecessor_integrity.work_item_id, "WI-0140");
+  assert.equal(prepared.protocol.predecessor_integrity.artifact_root, ".ai-org/artifacts/WI-0140");
+  assert.equal(prepared.protocol.predecessor_integrity.pass, true);
   assert.equal(prepared.protocol.protocol_sha256, contextAblationProtocolDigest(prepared.protocol));
   for (const shape of ["single-repository", "coordinator-multi-repository"]) {
     const stage = prepared.protocol.conditions.filter((entry) => entry.shape === shape && entry.strategy === "stage-aware");
@@ -271,7 +275,7 @@ test("generation-free preparation produces matched repositories and smaller stag
 });
 
 test("bounded acquisition evidence classifies safe reads without retaining commands or output", async (context) => {
-  const labRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0140-acquisition-"));
+  const labRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0141-acquisition-"));
   await fs.rm(labRoot, { recursive: true, force: true });
   context.after(() => fs.rm(labRoot, { recursive: true, force: true }));
   await prepareContextAblationLab(labRoot, {

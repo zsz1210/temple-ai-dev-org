@@ -36,8 +36,8 @@ import {
 
 const execFile = promisify(execFileCallback);
 const repositoryRoot = path.resolve(import.meta.dirname, "..");
-const artifactRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0140");
-const defaultLabRoot = path.join(os.tmpdir(), "temple-wi0140-context-capsule-ablation");
+const artifactRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0141");
+const defaultLabRoot = path.join(os.tmpdir(), "temple-wi0141-context-capsule-ablation");
 const defaultProtocolPath = path.join(artifactRoot, "live-protocol.json");
 const defaultApprovalTemplatePath = path.join(artifactRoot, "account-approval.template.json");
 const defaultApprovalPath = path.join(artifactRoot, "account-approval.json");
@@ -50,8 +50,9 @@ const defaultReportPath = path.join(artifactRoot, "effectiveness-report.md");
 const harnessPath = path.join(repositoryRoot, "scripts/run-context-capsule-ablation.mjs");
 const retainedFalseNegativeObservationPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0138/live-observation.json");
 const retainedDiagnosticObservationPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0139/live-observation.json");
-const retainedDiagnosticRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0139");
-const diagnosticBaselineRevision = "1461cf6";
+const retainedRouteAdherenceRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0140");
+const retainedRouteAdherenceProtocolPath = path.join(retainedRouteAdherenceRoot, "live-protocol.json");
+const routeAdherenceBaselineRevision = "25b846d";
 
 const fixedGitEnvironment = Object.freeze({
   GIT_AUTHOR_NAME: "Temple Fixture",
@@ -63,11 +64,11 @@ const fixedGitEnvironment = Object.freeze({
   GIT_CONFIG_NOSYSTEM: "1"
 });
 
-export const CONTEXT_ABLATION_SCHEMA = "temple.context-capsule-ablation/v3";
-export const CONTEXT_ABLATION_APPROVAL_SCHEMA = "temple.context-capsule-ablation-approval/v3";
+export const CONTEXT_ABLATION_SCHEMA = "temple.context-capsule-ablation/v4";
+export const CONTEXT_ABLATION_APPROVAL_SCHEMA = "temple.context-capsule-ablation-approval/v4";
 export const CONTEXT_PACKAGE_SCHEMA = "temple.context-treatment-package/v1";
-export const CONTEXT_ABLATION_OBSERVATION_SCHEMA = "temple.context-capsule-ablation-observation/v3";
-export const CONTEXT_ABLATION_ANALYSIS_SCHEMA = "temple.context-capsule-ablation-analysis/v3";
+export const CONTEXT_ABLATION_OBSERVATION_SCHEMA = "temple.context-capsule-ablation-observation/v4";
+export const CONTEXT_ABLATION_ANALYSIS_SCHEMA = "temple.context-capsule-ablation-analysis/v4";
 
 export const acquisitionLimits = Object.freeze({
   maximum_entries: 64,
@@ -357,9 +358,9 @@ function assertSafeLabRoot(value) {
     relative === ".." ||
     relative.startsWith(`..${path.sep}`) ||
     path.isAbsolute(relative) ||
-    !path.basename(resolved).startsWith("temple-wi0140-")
+    !path.basename(resolved).startsWith("temple-wi0141-")
   ) {
-    throw new Error("Lab root must be a specific temple-wi0140-* directory below the system temporary directory");
+    throw new Error("Lab root must be a specific temple-wi0141-* directory below the system temporary directory");
   }
   return resolved;
 }
@@ -381,7 +382,7 @@ function initConfig(projectId, projectName) {
 
 async function initializeGitRepository(root, name) {
   await fs.mkdir(root, { recursive: true });
-  await writeText(path.join(root, "README.md"), `# ${name}\n\nSynthetic local WI-0140 fixture. No production or external authority.\n`);
+  await writeText(path.join(root, "README.md"), `# ${name}\n\nSynthetic local WI-0141 fixture. No production or external authority.\n`);
   await checked("git", ["init", "-b", "main", root], { env: { ...process.env, ...fixedGitEnvironment } });
   await git(root, ["add", "-A"]);
   await git(root, ["commit", "-m", `Create ${name} fixture`]);
@@ -572,7 +573,7 @@ async function createSingleSource(labRoot) {
   await writeText(path.join(root, "docs/ui/dashboard.md"), "# Dashboard exploration\n\nArchived layout variants are not part of WI-0001.\n".repeat(36));
   await writeText(path.join(root, "docs/operations/deploy.md"), "# Deployment runbook\n\nProduction steps are outside this local verification.\n".repeat(44));
   await writeText(path.join(root, "docs/history/incident-2024.md"), "# Archived incident\n\nHistorical narrative has no authority over the candidate.\n".repeat(48));
-  await installTemple(root, path.join(labRoot, "configs/single.json"), "wi0140-single", "WI-0140 Single Fixture");
+  await installTemple(root, path.join(labRoot, "configs/single.json"), "wi0141-single", "WI-0141 Single Fixture");
   await createTempleWorkItem(root, {
     title: "Recover the idempotent receipt candidate",
     scope: "Recover the exact requirement, accepted decision, revision, tests, residual risk, and next action.",
@@ -654,7 +655,7 @@ async function createMultiSource(labRoot) {
   await writeText(path.join(root, "docs/discovery/marketplace.md"), "# Marketplace discovery\n\nFuture scope remains unapproved.\n".repeat(42));
   await writeText(path.join(root, "docs/operations/release.md"), "# Release plan\n\nProduction rollout is excluded from WI-0001.\n".repeat(46));
   await writeText(path.join(root, "docs/history/queue-incident.md"), "# Queue incident archive\n\nHistorical details do not govern the current contract.\n".repeat(50));
-  await installTemple(root, path.join(labRoot, "configs/multi.json"), "wi0140-multi", "WI-0140 Multi Fixture");
+  await installTemple(root, path.join(labRoot, "configs/multi.json"), "wi0141-multi", "WI-0141 Multi Fixture");
   await createTempleWorkItem(root, {
     title: "Recover the OrderPlaced v2 integration handoff",
     scope: "Recover the exact contract, component revisions, completed slices, residual risk, authority, and next action.",
@@ -842,7 +843,7 @@ function threadStartParams({ id, cwd, route }) {
     approvalPolicy: "never",
     sandbox: "read-only",
     ephemeral: true,
-    serviceName: `temple-wi0140-${id}`,
+    serviceName: `temple-wi0141-${id}`,
     developerInstructions,
     ...wave5ThreadIsolation(cwd),
     baseInstructions
@@ -852,7 +853,7 @@ function threadStartParams({ id, cwd, route }) {
 function turnStartParams({ id, threadId, cwd, route, instruction, outputSchema }) {
   return {
     threadId,
-    clientUserMessageId: `wi0140-${id}`,
+    clientUserMessageId: `wi0141-${id}`,
     input: [{ type: "text", text: instruction }],
     turnTrigger: "user",
     cwd,
@@ -892,7 +893,7 @@ function validateGeneratedWireRequest(schemaText, params) {
 
 export async function contextAblationProviderHandshake() {
   const cliVersion = await checked("codex", ["--version"]);
-  const schemaRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0140-schema-"));
+  const schemaRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0141-schema-"));
   const schemaNames = [
     "ThreadStartParams.json",
     "TurnStartParams.json",
@@ -916,7 +917,7 @@ export async function contextAblationProviderHandshake() {
       env: isolateWave5CodexEnvironment(process.env)
     });
     await connection.request("initialize", {
-      clientInfo: { name: "temple-wi0140-preflight", title: "Temple WI-0140 Preflight", version: "3" },
+      clientInfo: { name: "temple-wi0141-preflight", title: "Temple WI-0141 Preflight", version: "4" },
       capabilities: { experimentalApi: false }
     });
     connection.notify("initialized", {});
@@ -933,12 +934,12 @@ export async function contextAblationProviderHandshake() {
     const terra = models.find((entry) => modelId(entry) === "gpt-5.6-terra");
     const efforts = modelEfforts(terra);
     const routeAvailable = Boolean(terra) && efforts.includes("medium");
-    const sampleRoot = path.join(os.tmpdir(), "temple-wi0140-wire-sample");
+    const sampleRoot = path.join(os.tmpdir(), "temple-wi0141-wire-sample");
     const sampleRoute = { model: "gpt-5.6-terra", reasoning_effort: "medium" };
     const wireRequests = {
       thread_start: validateGeneratedWireRequest(schemaTexts["ThreadStartParams.json"], threadStartParams({ id: "wire-sample", cwd: sampleRoot, route: sampleRoute })),
       turn_start: validateGeneratedWireRequest(schemaTexts["TurnStartParams.json"], turnStartParams({
-        id: "wire-sample", threadId: "wi0140-wire-sample", cwd: sampleRoot, route: sampleRoute,
+        id: "wire-sample", threadId: "wi0141-wire-sample", cwd: sampleRoot, route: sampleRoute,
         instruction: candidateInstruction("single-repository"), outputSchema: singleOutputSchema
       }))
     };
@@ -1017,7 +1018,7 @@ export function contextAblationTestProviderContract() {
 export function contextAblationApprovalTemplate(protocol) {
   return {
     schema_version: CONTEXT_ABLATION_APPROVAL_SCHEMA,
-    work_item_id: "WI-0140",
+    work_item_id: "WI-0141",
     protocol_sha256: protocol.protocol_sha256,
     approved: false,
     authorization_source: null,
@@ -1089,7 +1090,7 @@ function protocolFromLab({
   });
   const protocol = {
     schema_version: CONTEXT_ABLATION_SCHEMA,
-    work_item_id: "WI-0140",
+    work_item_id: "WI-0141",
     status: "generation-disabled",
     protocol_sha256: null,
     source_revision: sourceRevision,
@@ -1142,7 +1143,8 @@ function protocolFromLab({
       { work_item_id: "WI-0136", evidence: ".ai-org/artifacts/WI-0136/representative-main-v16-findings.md" },
       { work_item_id: "WI-0137", evidence: ".ai-org/artifacts/WI-0137/independent-qa.md" },
       { work_item_id: "WI-0138", evidence: ".ai-org/artifacts/WI-0138/evidence-backed-findings.md" },
-      { work_item_id: "WI-0139", evidence: ".ai-org/artifacts/WI-0139/live-evaluation.md" }
+      { work_item_id: "WI-0139", evidence: ".ai-org/artifacts/WI-0139/live-evaluation.md" },
+      { work_item_id: "WI-0140", evidence: ".ai-org/artifacts/WI-0140/release-record.md" }
     ],
     limit_basis: limitBasis
   };
@@ -1153,7 +1155,7 @@ function protocolFromLab({
 export function validateContextAblationProtocol(protocol) {
   const errors = [];
   if (protocol?.schema_version !== CONTEXT_ABLATION_SCHEMA) errors.push("unsupported protocol schema");
-  if (protocol?.work_item_id !== "WI-0140" || protocol?.status !== "generation-disabled") errors.push("protocol identity or status mismatch");
+  if (protocol?.work_item_id !== "WI-0141" || protocol?.status !== "generation-disabled") errors.push("protocol identity or status mismatch");
   if (protocol?.protocol_sha256 !== contextAblationProtocolDigest(protocol)) errors.push("protocol digest mismatch");
   if (!/^[a-f0-9]{40}$/.test(protocol?.source_revision ?? "")) errors.push("exact source revision missing");
   if (!/^[a-f0-9]{64}$/.test(protocol?.harness_sha256 ?? "")) errors.push("harness digest missing");
@@ -1222,8 +1224,11 @@ export function validateContextAblationProtocol(protocol) {
       protocol?.diagnostic_regression?.model_generation_performed !== false) {
     errors.push("diagnostic regression boundary mismatch");
   }
-  if (protocol?.predecessor_integrity?.work_item_id !== "WI-0139" ||
+  if (protocol?.predecessor_integrity?.work_item_id !== "WI-0140" ||
       !/^[a-f0-9]{40}$/.test(protocol?.predecessor_integrity?.baseline_revision ?? "") ||
+      protocol?.predecessor_integrity?.artifact_root !== ".ai-org/artifacts/WI-0140" ||
+      protocol?.predecessor_integrity?.source_path !== ".ai-org/artifacts/WI-0140/live-protocol.json" ||
+      !/^[a-f0-9]{64}$/.test(protocol?.predecessor_integrity?.source_sha256 ?? "") ||
       protocol?.predecessor_integrity?.tracked_diff !== false || protocol?.predecessor_integrity?.working_tree_diff !== false ||
       protocol?.predecessor_integrity?.pass !== true || protocol?.predecessor_integrity?.model_generation_performed !== false) {
     errors.push("predecessor integrity mismatch");
@@ -1265,7 +1270,7 @@ export async function prepareContextAblationLab(labRoot = defaultLabRoot, option
   }
   const labManifest = {
     schema_version: "temple.context-capsule-ablation-lab/v1",
-    work_item_id: "WI-0140",
+    work_item_id: "WI-0141",
     lab_root: resolvedLab,
     shapes: Object.fromEntries(Object.entries(sources).map(([shape, source]) => [shape, {
       stage: source.stage,
@@ -1305,8 +1310,8 @@ export async function prepareContextAblationLab(labRoot = defaultLabRoot, option
   if (!diagnosticResult.pass) throw new Error("Retained WI-0139 diagnostic regression failed before protocol freeze");
   const limitBasis = deriveSuccessorLimitBasis(diagnosticObservation);
   if (!limitBasis.pass) throw new Error("WI-0139 evidence cannot derive the successor single-repository limit");
-  const predecessorIntegrity = await retainedDiagnosticIntegrity(diagnosticObservationText);
-  if (!predecessorIntegrity.pass) throw new Error("WI-0139 artifacts changed before successor protocol freeze");
+  const predecessorIntegrity = await retainedRouteAdherenceIntegrity();
+  if (!predecessorIntegrity.pass) throw new Error("WI-0140 artifacts changed before live protocol freeze");
   const diagnosticRegression = {
     source_path: path.relative(repositoryRoot, retainedDiagnosticObservationPath),
     source_sha256: sha256(diagnosticObservationText),
@@ -1517,21 +1522,21 @@ export function evaluateRetainedDiagnosticRegression(observation) {
   };
 }
 
-async function retainedDiagnosticIntegrity(observationText = null) {
-  const sourceText = observationText ?? await fs.readFile(retainedDiagnosticObservationPath, "utf8");
-  const exactDiagnosticRevision = await git(repositoryRoot, ["rev-parse", diagnosticBaselineRevision]);
-  const artifactRootPath = path.relative(repositoryRoot, retainedDiagnosticRoot);
-  const changedDiagnosticPaths = await git(repositoryRoot, ["status", "--porcelain", "--", artifactRootPath]);
-  const diagnosticDiff = await command("git", ["-C", repositoryRoot, "diff", "--quiet", exactDiagnosticRevision, "--", artifactRootPath]);
+async function retainedRouteAdherenceIntegrity() {
+  const sourceText = await fs.readFile(retainedRouteAdherenceProtocolPath, "utf8");
+  const exactRouteAdherenceRevision = await git(repositoryRoot, ["rev-parse", routeAdherenceBaselineRevision]);
+  const artifactRootPath = path.relative(repositoryRoot, retainedRouteAdherenceRoot);
+  const changedArtifactPaths = await git(repositoryRoot, ["status", "--porcelain", "--", artifactRootPath]);
+  const artifactDiff = await command("git", ["-C", repositoryRoot, "diff", "--quiet", exactRouteAdherenceRevision, "--", artifactRootPath]);
   return {
-    work_item_id: "WI-0139",
-    baseline_revision: exactDiagnosticRevision,
+    work_item_id: "WI-0140",
+    baseline_revision: exactRouteAdherenceRevision,
     artifact_root: artifactRootPath,
-    source_path: path.relative(repositoryRoot, retainedDiagnosticObservationPath),
+    source_path: path.relative(repositoryRoot, retainedRouteAdherenceProtocolPath),
     source_sha256: sha256(sourceText),
-    tracked_diff: diagnosticDiff.status !== 0,
-    working_tree_diff: changedDiagnosticPaths !== "",
-    pass: diagnosticDiff.status === 0 && changedDiagnosticPaths === "",
+    tracked_diff: artifactDiff.status !== 0,
+    working_tree_diff: changedArtifactPaths !== "",
+    pass: artifactDiff.status === 0 && changedArtifactPaths === "",
     model_generation_performed: false
   };
 }
@@ -1780,7 +1785,7 @@ export async function rehearseContextAblation(labRoot = defaultLabRoot, protocol
   ];
   const rehearsalObservation = {
     schema_version: CONTEXT_ABLATION_OBSERVATION_SCHEMA,
-    work_item_id: "WI-0140",
+    work_item_id: "WI-0141",
     protocol_sha256: protocol.protocol_sha256,
     kind: "generation-free-rehearsal",
     status: checks.every((entry) => entry.pass) ? "completed" : "failed",
@@ -1794,7 +1799,7 @@ export async function rehearseContextAblation(labRoot = defaultLabRoot, protocol
   checks.push({ id: "analysis-path-completed", pass: analysis.schema_version === CONTEXT_ABLATION_ANALYSIS_SCHEMA });
   const readiness = {
     schema_version: "temple.context-capsule-ablation-readiness/v1",
-    work_item_id: "WI-0140",
+    work_item_id: "WI-0141",
     protocol_sha256: protocol.protocol_sha256,
     completed_at: options.completedAt ?? new Date().toISOString(),
     pass: checks.every((entry) => entry.pass),
@@ -1833,7 +1838,7 @@ export async function preflightContextAblation(labRoot = defaultLabRoot, protoco
   const readinessPath = path.join(assertSafeLabRoot(labRoot), "harness-readiness.json");
   const readiness = await pathExists(readinessPath) ? await readJson(readinessPath) : null;
   const provider = options.providerContract ?? await contextAblationProviderHandshake();
-  const currentPredecessorIntegrity = await retainedDiagnosticIntegrity();
+  const currentPredecessorIntegrity = await retainedRouteAdherenceIntegrity();
   const approval = await pathExists(approvalPath)
     ? validateContextAblationApproval(await readJson(approvalPath), protocol)
     : { accepted: false, errors: ["exact approval missing"] };
@@ -1849,7 +1854,7 @@ export async function preflightContextAblation(labRoot = defaultLabRoot, protoco
   const blockers = checks.filter((entry) => !entry.pass).map((entry) => entry.id);
   const preflight = {
     schema_version: "temple.context-capsule-ablation-preflight/v1",
-    work_item_id: "WI-0140",
+    work_item_id: "WI-0141",
     observed_at: options.observedAt ?? new Date().toISOString(),
     protocol_sha256: protocol?.protocol_sha256 ?? null,
     generation_ready: blockers.length === 0,
@@ -2241,7 +2246,7 @@ async function launchCandidateTurn({ definition, cwd, protocol, budget, deadline
   }, Math.max(1, deadline - Date.now()));
   try {
     await connection.request("initialize", {
-      clientInfo: { name: "temple-wi0140", title: "Temple WI-0140 Context Acquisition Ablation", version: "3" },
+      clientInfo: { name: "temple-wi0141", title: "Temple WI-0141 Context Acquisition Ablation", version: "4" },
       capabilities: { experimentalApi: false }
     });
     connection.notify("initialized", {});
@@ -2484,7 +2489,7 @@ export function analyzeContextAblation({ protocol, observation, generatedAt = ne
   } : null;
   return {
     schema_version: CONTEXT_ABLATION_ANALYSIS_SCHEMA,
-    work_item_id: "WI-0140",
+    work_item_id: "WI-0141",
     protocol_sha256: protocol.protocol_sha256,
     generated_at: generatedAt,
     status: allCompleted && usageKnown ? "complete" : "inconclusive",
@@ -2506,7 +2511,7 @@ export function analyzeContextAblation({ protocol, observation, generatedAt = ne
 
 function reportMarkdown(protocol, observation, analysis) {
   const lines = [
-    "# WI-0140 Context Capsule route-adherence effectiveness report",
+    "# WI-0141 Context Capsule route-adherence effectiveness report",
     "",
     `- Protocol: \`${protocol.protocol_sha256}\``,
     `- Candidate turns: ${observation.conditions.length} of ${conditionDefinitions.length} retained`,
@@ -2544,7 +2549,7 @@ function reportMarkdown(protocol, observation, analysis) {
 
 export async function runContextAblation(labRoot = defaultLabRoot, protocolPath = defaultProtocolPath, approvalPath = defaultApprovalPath) {
   if (await pathExists(defaultObservationPath) || await pathExists(defaultStoppedObservationPath)) {
-    throw new Error("A retained WI-0140 run already exists; this protocol authorizes no retry");
+    throw new Error("A retained WI-0141 run already exists; this protocol authorizes no retry");
   }
   const preflight = await preflightContextAblation(labRoot, protocolPath, approvalPath);
   if (!preflight.generation_ready) throw new Error(`Generation is blocked: ${preflight.blockers.join(", ")}`);
@@ -2572,7 +2577,7 @@ export async function runContextAblation(labRoot = defaultLabRoot, protocolPath 
     }
     const observation = {
       schema_version: CONTEXT_ABLATION_OBSERVATION_SCHEMA,
-      work_item_id: "WI-0140",
+      work_item_id: "WI-0141",
       protocol_sha256: protocol.protocol_sha256,
       kind: "live-provider-run",
       status: conditions.every((entry) => entry.status === "completed") ? "completed" : "completed-with-censored-condition",
@@ -2592,7 +2597,7 @@ export async function runContextAblation(labRoot = defaultLabRoot, protocolPath 
   } catch (error) {
     const stopped = {
       schema_version: CONTEXT_ABLATION_OBSERVATION_SCHEMA,
-      work_item_id: "WI-0140",
+      work_item_id: "WI-0141",
       protocol_sha256: protocol.protocol_sha256,
       kind: "live-provider-run",
       status: "stopped",
@@ -2648,7 +2653,7 @@ async function main() {
     const result = await prepareContextAblationLab(args.labRoot);
     output = {
       schema_version: "temple.context-capsule-ablation-prepare/v1",
-      work_item_id: "WI-0140",
+      work_item_id: "WI-0141",
       protocol_sha256: result.protocol.protocol_sha256,
       conditions: conditionIds,
       lab_root_id: path.basename(result.labRoot),

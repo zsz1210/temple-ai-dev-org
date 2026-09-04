@@ -1,0 +1,130 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0141",
+  "title": "Run the live Context Capsule route-adherence comparison",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-04T03:05:47.013Z",
+  "updated_at": "2026-09-04T03:07:50.067Z",
+  "scope": [
+    "Freeze and execute a bounded live comparison that measures whether stage-aware Context Capsules reduce off-route source acquisition without reducing task correctness, using the accepted WI-0140 instrumentation design.",
+    "Keep WI-0140 evidence immutable and create all new protocol, approval, observation, analysis, and report artifacts under WI-0141.",
+    "Compare single-repository and coordinator-led multi-repository fixtures with two repetitions per strategy using the counterbalanced eight-turn order and Terra medium route accepted in WI-0140."
+  ],
+  "acceptance_criteria": [
+    "Generation-free preparation, rehearsal, and preflight bind exact model, reasoning effort, condition order, per-condition limits, aggregate limit, wall-clock limit, privacy boundary, and zero-retry/fallback policy before any Provider generation.",
+    "The live command cannot start without an exact affirmative approval record matching the frozen protocol digest and account-impact boundary.",
+    "The final analysis reports correctness, route adherence, Operational Tokens, latency, and bounded acquisition diagnostics separately for each repository shape, with censored or partial evidence labelled and no statistical, monetary, or automatic-routing claim.",
+    "The WI-0140 artifact subtree remains byte-identical to its accepted closeout revision throughout preparation and execution."
+  ],
+  "affected_paths": [
+    "scripts/run-context-capsule-ablation.mjs",
+    "test/context-capsule-ablation.test.mjs",
+    ".ai-org/artifacts/WI-0141",
+    "docs/validation/context-capsule-route-adherence.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "A bounded Provider comparison needs explicit approval, reproducible evidence, independent evaluation, and release-gate closeout.",
+    "evidence_refs": [
+      ".ai-org/artifacts/WI-0140/release-record.md"
+    ],
+    "evaluated_at": "2026-09-04T03:05:47.013Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [
+    "general-development"
+  ],
+  "stage_requirements": {},
+  "base_revision": "25b846dd3f2756fe813e44cbe026adfc2d2eb258",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260904030750-48b4d93c",
+    "status": "active",
+    "principal_id": "principal-owner",
+    "agent_id": "agent-rikku",
+    "base_revision": "25b846dd3f2756fe813e44cbe026adfc2d2eb258",
+    "branch": "codex/wi-0141-live-route-adherence",
+    "worktree": null,
+    "claimed_at": "2026-09-04T03:07:50.067Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260904030750-48b4d93c",
+      "status": "active",
+      "principal_id": "principal-owner",
+      "agent_id": "agent-rikku",
+      "base_revision": "25b846dd3f2756fe813e44cbe026adfc2d2eb258",
+      "branch": "codex/wi-0141-live-route-adherence",
+      "worktree": null,
+      "claimed_at": "2026-09-04T03:07:50.067Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0141/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0141/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0141/approved-scope.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0141/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0141/technical-design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0141/work-order.md",
+    ".ai-org/artifacts/WI-0141/handoff-001-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0141/approved-scope.md",
+    ".ai-org/artifacts/WI-0141/handoff-002-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0141/technical-design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "25b846dd3f2756fe813e44cbe026adfc2d2eb258",
+      "artifact": ".ai-org/artifacts/WI-0141/handoff-001-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-04T03:07:49.031Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "25b846dd3f2756fe813e44cbe026adfc2d2eb258",
+      "artifact": ".ai-org/artifacts/WI-0141/handoff-002-tech_lead-to-developer.md",
+      "created_at": "2026-09-04T03:07:49.568Z"
+    }
+  ]
+}
