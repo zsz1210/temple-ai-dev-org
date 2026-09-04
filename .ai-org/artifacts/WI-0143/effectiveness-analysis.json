@@ -1,0 +1,754 @@
+{
+  "schema_version": "temple.context-capsule-ablation-analysis/v5",
+  "work_item_id": "WI-0143",
+  "protocol_sha256": "084e7ac3ae67c1c4a093fe832cd23728d03c440ddeca95a74fbf45bbb062536b",
+  "generated_at": "2026-09-04T05:00:30.278Z",
+  "status": "complete",
+  "correctness_primary": true,
+  "all_candidates_completed": true,
+  "all_candidates_correct": true,
+  "comparisons": [
+    {
+      "shape": "single-repository",
+      "outcome": "supported",
+      "repetitions": {
+        "legacy": 2,
+        "stage_aware": 2
+      },
+      "correctness": {
+        "legacy_pass": true,
+        "stage_aware_pass": true,
+        "legacy_by_repetition": [
+          {
+            "repetition": "a",
+            "pass": true
+          },
+          {
+            "repetition": "b",
+            "pass": true
+          }
+        ],
+        "stage_aware_by_repetition": [
+          {
+            "repetition": "a",
+            "pass": true
+          },
+          {
+            "repetition": "b",
+            "pass": true
+          }
+        ]
+      },
+      "source_selection": {
+        "legacy_bytes": 40296,
+        "stage_aware_bytes": 14592,
+        "bytes_delta": {
+          "absolute": -25704,
+          "percent": -63.79
+        },
+        "legacy_source_count": 12,
+        "stage_aware_source_count": 7
+      },
+      "operational_tokens": {
+        "legacy_mean": 27239.5,
+        "stage_aware_mean": 23622.5,
+        "delta": {
+          "absolute": -3617,
+          "percent": -13.28
+        }
+      },
+      "provider_usage": {
+        "input_tokens": {
+          "legacy_mean": 141920,
+          "stage_aware_mean": 126810,
+          "delta": {
+            "absolute": -15110,
+            "percent": -10.65
+          }
+        },
+        "cached_input_tokens": {
+          "legacy_mean": 115584,
+          "stage_aware_mean": 103936,
+          "delta": {
+            "absolute": -11648,
+            "percent": -10.08
+          }
+        },
+        "non_cached_input_tokens": {
+          "legacy_mean": 26336,
+          "stage_aware_mean": 22874,
+          "delta": {
+            "absolute": -3462,
+            "percent": -13.15
+          }
+        },
+        "output_tokens": {
+          "legacy_mean": 903.5,
+          "stage_aware_mean": 748.5,
+          "delta": {
+            "absolute": -155,
+            "percent": -17.16
+          }
+        },
+        "cache_share_percent": {
+          "legacy_mean": 81.33,
+          "stage_aware_mean": 81.97
+        }
+      },
+      "cache_control": {
+        "status": "failed",
+        "method": "matched-cache-share",
+        "causal_efficiency_claim": "blocked",
+        "reason_codes": [
+          "cache-share-balance-limit-exceeded"
+        ],
+        "observed": {
+          "pair_cache_share_delta_percentage_points": [
+            2.31,
+            1.03
+          ],
+          "maximum_pair_cache_share_delta_percentage_points": 2.31
+        }
+      },
+      "causal_efficiency_claim": {
+        "status": "blocked",
+        "reason_codes": [
+          "cache-share-balance-limit-exceeded"
+        ]
+      },
+      "latency_ms": {
+        "legacy_mean": 43817,
+        "stage_aware_mean": 36690,
+        "delta": {
+          "absolute": -7127,
+          "percent": -16.27
+        }
+      },
+      "tool_output_bytes": {
+        "legacy_mean": 14966,
+        "stage_aware_mean": 7165,
+        "delta": {
+          "absolute": -7801,
+          "percent": -52.12
+        }
+      },
+      "context_acquisition": {
+        "legacy": {
+          "available": true,
+          "coverage_complete": true,
+          "overflow_count": 0,
+          "counts": {
+            "control": 2,
+            "required-evidence": 2,
+            "routed": 9,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 0
+          },
+          "classifiable_context_reads": 9,
+          "policy_adherent_reads": 9,
+          "known_policy_adherence_percent": 100,
+          "routed_share_percent": 100,
+          "reported_output_bytes_by_classification": {
+            "control": 7982,
+            "required-evidence": 1870,
+            "routed": 20080,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 0
+          }
+        },
+        "stage_aware": {
+          "available": true,
+          "coverage_complete": true,
+          "overflow_count": 0,
+          "counts": {
+            "control": 2,
+            "required-evidence": 2,
+            "routed": 8,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 0
+          },
+          "classifiable_context_reads": 8,
+          "policy_adherent_reads": 8,
+          "known_policy_adherence_percent": 100,
+          "routed_share_percent": 100,
+          "reported_output_bytes_by_classification": {
+            "control": 5608,
+            "required-evidence": 1870,
+            "routed": 6852,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 0
+          }
+        },
+        "coverage_complete": true,
+        "observed_off_route_count": 0,
+        "conclusion": "no-off-route-observed-with-complete-coverage"
+      },
+      "repetition_pairs": [
+        {
+          "repetition": "a",
+          "operational_tokens": {
+            "legacy": 27020,
+            "stage_aware": 23084,
+            "delta": {
+              "absolute": -3936,
+              "percent": -14.57
+            }
+          },
+          "latency_ms": {
+            "legacy": 43809,
+            "stage_aware": 35907,
+            "delta": {
+              "absolute": -7902,
+              "percent": -18.04
+            }
+          },
+          "provider_input_tokens": {
+            "legacy": 130034,
+            "stage_aware": 126387,
+            "delta": {
+              "absolute": -3647,
+              "percent": -2.8
+            }
+          },
+          "cached_input_tokens": {
+            "legacy": 103936,
+            "stage_aware": 103936,
+            "delta": {
+              "absolute": 0,
+              "percent": 0
+            }
+          },
+          "non_cached_input_tokens": {
+            "legacy": 26098,
+            "stage_aware": 22451,
+            "delta": {
+              "absolute": -3647,
+              "percent": -13.97
+            }
+          },
+          "output_tokens": {
+            "legacy": 922,
+            "stage_aware": 633,
+            "delta": {
+              "absolute": -289,
+              "percent": -31.34
+            }
+          },
+          "cache_share_percent": {
+            "legacy": 79.93,
+            "stage_aware": 82.24,
+            "delta": {
+              "absolute": 2.31,
+              "percent": 2.89
+            }
+          }
+        },
+        {
+          "repetition": "b",
+          "operational_tokens": {
+            "legacy": 27459,
+            "stage_aware": 24161,
+            "delta": {
+              "absolute": -3298,
+              "percent": -12.01
+            }
+          },
+          "latency_ms": {
+            "legacy": 43825,
+            "stage_aware": 37473,
+            "delta": {
+              "absolute": -6352,
+              "percent": -14.49
+            }
+          },
+          "provider_input_tokens": {
+            "legacy": 153806,
+            "stage_aware": 127233,
+            "delta": {
+              "absolute": -26573,
+              "percent": -17.28
+            }
+          },
+          "cached_input_tokens": {
+            "legacy": 127232,
+            "stage_aware": 103936,
+            "delta": {
+              "absolute": -23296,
+              "percent": -18.31
+            }
+          },
+          "non_cached_input_tokens": {
+            "legacy": 26574,
+            "stage_aware": 23297,
+            "delta": {
+              "absolute": -3277,
+              "percent": -12.33
+            }
+          },
+          "output_tokens": {
+            "legacy": 885,
+            "stage_aware": 864,
+            "delta": {
+              "absolute": -21,
+              "percent": -2.37
+            }
+          },
+          "cache_share_percent": {
+            "legacy": 82.72,
+            "stage_aware": 81.69,
+            "delta": {
+              "absolute": -1.03,
+              "percent": -1.25
+            }
+          }
+        }
+      ],
+      "repetition_spread": {
+        "operational_tokens": {
+          "legacy": {
+            "values": [
+              27020,
+              27459
+            ],
+            "minimum": 27020,
+            "maximum": 27459,
+            "absolute": 439,
+            "percent_of_minimum": 1.62
+          },
+          "stage_aware": {
+            "values": [
+              23084,
+              24161
+            ],
+            "minimum": 23084,
+            "maximum": 24161,
+            "absolute": 1077,
+            "percent_of_minimum": 4.67
+          }
+        },
+        "cache_share_percent": {
+          "legacy": {
+            "values": [
+              79.93,
+              82.72
+            ],
+            "minimum": 79.93,
+            "maximum": 82.72,
+            "absolute": 2.789999999999992,
+            "percent_of_minimum": 3.49
+          },
+          "stage_aware": {
+            "values": [
+              82.24,
+              81.69
+            ],
+            "minimum": 81.69,
+            "maximum": 82.24,
+            "absolute": 0.5499999999999972,
+            "percent_of_minimum": 0.67
+          }
+        }
+      }
+    },
+    {
+      "shape": "coordinator-multi-repository",
+      "outcome": "overhead-regression",
+      "repetitions": {
+        "legacy": 2,
+        "stage_aware": 2
+      },
+      "correctness": {
+        "legacy_pass": true,
+        "stage_aware_pass": true,
+        "legacy_by_repetition": [
+          {
+            "repetition": "a",
+            "pass": true
+          },
+          {
+            "repetition": "b",
+            "pass": true
+          }
+        ],
+        "stage_aware_by_repetition": [
+          {
+            "repetition": "a",
+            "pass": true
+          },
+          {
+            "repetition": "b",
+            "pass": true
+          }
+        ]
+      },
+      "source_selection": {
+        "legacy_bytes": 34379,
+        "stage_aware_bytes": 11859,
+        "bytes_delta": {
+          "absolute": -22520,
+          "percent": -65.51
+        },
+        "legacy_source_count": 10,
+        "stage_aware_source_count": 6
+      },
+      "operational_tokens": {
+        "legacy_mean": 28422.5,
+        "stage_aware_mean": 37235.5,
+        "delta": {
+          "absolute": 8813,
+          "percent": 31.01
+        }
+      },
+      "provider_usage": {
+        "input_tokens": {
+          "legacy_mean": 211529,
+          "stage_aware_mean": 198963,
+          "delta": {
+            "absolute": -12566,
+            "percent": -5.94
+          }
+        },
+        "cached_input_tokens": {
+          "legacy_mean": 184320,
+          "stage_aware_mean": 163072,
+          "delta": {
+            "absolute": -21248,
+            "percent": -11.53
+          }
+        },
+        "non_cached_input_tokens": {
+          "legacy_mean": 27209,
+          "stage_aware_mean": 35891,
+          "delta": {
+            "absolute": 8682,
+            "percent": 31.91
+          }
+        },
+        "output_tokens": {
+          "legacy_mean": 1213.5,
+          "stage_aware_mean": 1344.5,
+          "delta": {
+            "absolute": 131,
+            "percent": 10.8
+          }
+        },
+        "cache_share_percent": {
+          "legacy_mean": 87.14,
+          "stage_aware_mean": 81.69
+        }
+      },
+      "cache_control": {
+        "status": "failed",
+        "method": "matched-cache-share",
+        "causal_efficiency_claim": "blocked",
+        "reason_codes": [
+          "cache-share-balance-limit-exceeded"
+        ],
+        "observed": {
+          "pair_cache_share_delta_percentage_points": [
+            0.26,
+            11.15
+          ],
+          "maximum_pair_cache_share_delta_percentage_points": 11.15
+        }
+      },
+      "causal_efficiency_claim": {
+        "status": "blocked",
+        "reason_codes": [
+          "cache-share-balance-limit-exceeded"
+        ]
+      },
+      "latency_ms": {
+        "legacy_mean": 59149,
+        "stage_aware_mean": 60152,
+        "delta": {
+          "absolute": 1003,
+          "percent": 1.7
+        }
+      },
+      "tool_output_bytes": {
+        "legacy_mean": 11458,
+        "stage_aware_mean": 10371.5,
+        "delta": {
+          "absolute": -1086.5,
+          "percent": -9.48
+        }
+      },
+      "context_acquisition": {
+        "legacy": {
+          "available": true,
+          "coverage_complete": true,
+          "overflow_count": 0,
+          "counts": {
+            "control": 2,
+            "required-evidence": 10,
+            "routed": 8,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 0
+          },
+          "classifiable_context_reads": 8,
+          "policy_adherent_reads": 8,
+          "known_policy_adherence_percent": 100,
+          "routed_share_percent": 100,
+          "reported_output_bytes_by_classification": {
+            "control": 6940,
+            "required-evidence": 9350,
+            "routed": 6626,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 0
+          }
+        },
+        "stage_aware": {
+          "available": true,
+          "coverage_complete": true,
+          "overflow_count": 0,
+          "counts": {
+            "control": 2,
+            "required-evidence": 10,
+            "routed": 7,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 0
+          },
+          "classifiable_context_reads": 7,
+          "policy_adherent_reads": 7,
+          "known_policy_adherence_percent": 100,
+          "routed_share_percent": 100,
+          "reported_output_bytes_by_classification": {
+            "control": 5038,
+            "required-evidence": 9350,
+            "routed": 6355,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 0
+          }
+        },
+        "coverage_complete": true,
+        "observed_off_route_count": 0,
+        "conclusion": "no-off-route-observed-with-complete-coverage"
+      },
+      "repetition_pairs": [
+        {
+          "repetition": "a",
+          "operational_tokens": {
+            "legacy": 29563,
+            "stage_aware": 28357,
+            "delta": {
+              "absolute": -1206,
+              "percent": -4.08
+            }
+          },
+          "latency_ms": {
+            "legacy": 63245,
+            "stage_aware": 62875,
+            "delta": {
+              "absolute": -370,
+              "percent": -0.59
+            }
+          },
+          "provider_input_tokens": {
+            "legacy": 212951,
+            "stage_aware": 208776,
+            "delta": {
+              "absolute": -4175,
+              "percent": -1.96
+            }
+          },
+          "cached_input_tokens": {
+            "legacy": 184832,
+            "stage_aware": 181760,
+            "delta": {
+              "absolute": -3072,
+              "percent": -1.66
+            }
+          },
+          "non_cached_input_tokens": {
+            "legacy": 28119,
+            "stage_aware": 27016,
+            "delta": {
+              "absolute": -1103,
+              "percent": -3.92
+            }
+          },
+          "output_tokens": {
+            "legacy": 1444,
+            "stage_aware": 1341,
+            "delta": {
+              "absolute": -103,
+              "percent": -7.13
+            }
+          },
+          "cache_share_percent": {
+            "legacy": 86.8,
+            "stage_aware": 87.06,
+            "delta": {
+              "absolute": 0.26,
+              "percent": 0.3
+            }
+          }
+        },
+        {
+          "repetition": "b",
+          "operational_tokens": {
+            "legacy": 27282,
+            "stage_aware": 46114,
+            "delta": {
+              "absolute": 18832,
+              "percent": 69.03
+            }
+          },
+          "latency_ms": {
+            "legacy": 55053,
+            "stage_aware": 57429,
+            "delta": {
+              "absolute": 2376,
+              "percent": 4.32
+            }
+          },
+          "provider_input_tokens": {
+            "legacy": 210107,
+            "stage_aware": 189150,
+            "delta": {
+              "absolute": -20957,
+              "percent": -9.97
+            }
+          },
+          "cached_input_tokens": {
+            "legacy": 183808,
+            "stage_aware": 144384,
+            "delta": {
+              "absolute": -39424,
+              "percent": -21.45
+            }
+          },
+          "non_cached_input_tokens": {
+            "legacy": 26299,
+            "stage_aware": 44766,
+            "delta": {
+              "absolute": 18467,
+              "percent": 70.22
+            }
+          },
+          "output_tokens": {
+            "legacy": 983,
+            "stage_aware": 1348,
+            "delta": {
+              "absolute": 365,
+              "percent": 37.13
+            }
+          },
+          "cache_share_percent": {
+            "legacy": 87.48,
+            "stage_aware": 76.33,
+            "delta": {
+              "absolute": -11.15,
+              "percent": -12.75
+            }
+          }
+        }
+      ],
+      "repetition_spread": {
+        "operational_tokens": {
+          "legacy": {
+            "values": [
+              29563,
+              27282
+            ],
+            "minimum": 27282,
+            "maximum": 29563,
+            "absolute": 2281,
+            "percent_of_minimum": 8.36
+          },
+          "stage_aware": {
+            "values": [
+              28357,
+              46114
+            ],
+            "minimum": 28357,
+            "maximum": 46114,
+            "absolute": 17757,
+            "percent_of_minimum": 62.62
+          }
+        },
+        "cache_share_percent": {
+          "legacy": {
+            "values": [
+              86.8,
+              87.48
+            ],
+            "minimum": 86.8,
+            "maximum": 87.48,
+            "absolute": 0.6800000000000068,
+            "percent_of_minimum": 0.78
+          },
+          "stage_aware": {
+            "values": [
+              87.06,
+              76.33
+            ],
+            "minimum": 76.33,
+            "maximum": 87.06,
+            "absolute": 10.730000000000004,
+            "percent_of_minimum": 14.06
+          }
+        }
+      }
+    }
+  ],
+  "diagnostic_aggregate": {
+    "legacy_operational_tokens": 111324,
+    "stage_aware_operational_tokens": 121716,
+    "operational_tokens_delta": {
+      "absolute": 10392,
+      "percent": 9.33
+    },
+    "legacy_provider_input_tokens": 706898,
+    "stage_aware_provider_input_tokens": 651546,
+    "provider_input_tokens_delta": {
+      "absolute": -55352,
+      "percent": -7.83
+    },
+    "legacy_cached_input_tokens": 599808,
+    "stage_aware_cached_input_tokens": 534016,
+    "cached_input_tokens_delta": {
+      "absolute": -65792,
+      "percent": -10.97
+    },
+    "legacy_non_cached_input_tokens": 107090,
+    "stage_aware_non_cached_input_tokens": 117530,
+    "non_cached_input_tokens_delta": {
+      "absolute": 10440,
+      "percent": 9.75
+    },
+    "legacy_output_tokens": 4234,
+    "stage_aware_output_tokens": 4186,
+    "output_tokens_delta": {
+      "absolute": -48,
+      "percent": -1.13
+    },
+    "legacy_latency_ms": 205932,
+    "stage_aware_latency_ms": 193684,
+    "latency_delta": {
+      "absolute": -12248,
+      "percent": -5.95
+    }
+  },
+  "human_intervention_count": 0,
+  "rework_count": 0,
+  "retry_count": 0,
+  "fallback_count": 0,
+  "interpretation_boundary": {
+    "sample_per_condition": 2,
+    "statistical_claim": false,
+    "monetary_claim": false,
+    "cache_control_required_for_causal_efficiency": true,
+    "causal_efficiency_claim": false,
+    "automatic_routing_authority": false
+  }
+}
