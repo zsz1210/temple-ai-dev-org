@@ -167,8 +167,25 @@ test("generation-free preparation produces matched repositories and smaller stag
     writeArtifacts: false
   });
   assert.equal(readiness.pass, true);
+  assert.equal(readiness.candidate_turn_count, 0);
+  assert.equal(readiness.simulated_condition_count, 4);
   assert.equal(readiness.operational_tokens, 0);
   assert.equal(readiness.model_generation_performed, false);
+
+  const unapprovedPreflight = await preflightContextAblation(
+    labRoot,
+    path.join(labRoot, "live-protocol.json"),
+    path.join(labRoot, "missing-approval.json"),
+    { providerContract: contextAblationTestProviderContract(), writeArtifacts: false, observedAt: "2026-01-01T00:00:00.000Z" }
+  );
+  assert.equal(unapprovedPreflight.generation_ready, false);
+  assert.deepEqual(unapprovedPreflight.blockers, ["exact-approval"]);
+
+  const mismatchedRoute = structuredClone(prepared.protocol);
+  mismatchedRoute.provider_contract.configuration_acknowledgement.acknowledged_configured_reasoning_effort = "high";
+  const mismatchValidation = validateContextAblationProtocol(mismatchedRoute);
+  assert.equal(mismatchValidation.valid, false);
+  assert.ok(mismatchValidation.errors.includes("Provider contract mismatch"));
 
   const template = contextAblationApprovalTemplate(prepared.protocol);
   assert.equal(validateContextAblationApproval(template, prepared.protocol).accepted, false);
