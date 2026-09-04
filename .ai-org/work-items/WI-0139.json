@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0139",
   "title": "Repair Context Capsule evaluation contract",
-  "state": "intake",
-  "owner_position": "engineering_manager",
-  "assigned_agent_id": "agent-mog",
+  "state": "spec",
+  "owner_position": "product_manager",
+  "assigned_agent_id": "agent-yuna",
   "created_at": "2026-09-04T01:28:56.515Z",
-  "updated_at": "2026-09-04T01:29:18.148Z",
+  "updated_at": "2026-09-04T01:29:51.363Z",
   "scope": [
     "Replace prose-equality scoring with canonical typed facts and identifiers for the single-repository and coordinator multi-repository recovery scenarios.",
     "Prove the evaluator against retained WI-0138 outputs without changing or rescoring the historical WI-0138 result.",
@@ -61,30 +61,38 @@
   ],
   "claim": {
     "id": "claim-20260904012918-2f593af5",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-mog",
     "base_revision": "b766d670a42744f192e19e2189694db5ea1809bd",
     "branch": "codex/wi-0139-typed-context-evaluator",
     "worktree": null,
     "claimed_at": "2026-09-04T01:29:18.148Z",
-    "released_at": null
+    "released_at": "2026-09-04T01:29:51.363Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
       "id": "claim-20260904012918-2f593af5",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-mog",
       "base_revision": "b766d670a42744f192e19e2189694db5ea1809bd",
       "branch": "codex/wi-0139-typed-context-evaluator",
       "worktree": null,
       "claimed_at": "2026-09-04T01:29:18.148Z",
-      "released_at": null
+      "released_at": "2026-09-04T01:29:51.363Z",
+      "release_reason": "position_transition"
     }
   ],
-  "gate_evidence": {},
-  "evidence": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0139/work-order.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0139/work-order.md"
+  ],
   "unresolved": [],
-  "next_position": "product_manager"
+  "next_position": "tech_lead"
 }
