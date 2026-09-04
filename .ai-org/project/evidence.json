@@ -24583,6 +24583,141 @@
         "exit_code": 0,
         "started_at": "2026-09-04T11:19:50.000Z"
       }
+    },
+    {
+      "id": "EVID-20260904T114339Z-71C7DAB4",
+      "work_item_id": "WI-0153",
+      "recorded_at": "2026-09-04T11:43:39.586Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Explicit Concept Layer labels",
+      "outcome": "verified",
+      "scope_revision": "543c5cb8ad5552195f7e64ef37f336c52e9e86b5",
+      "observed_at": "2026-09-04T11:43:39.586Z",
+      "summary": "The exact candidate changes all localized responsive diagram markers from 01-06 to L1-L6 and adds a regression test.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "543c5cb8ad5552195f7e64ef37f336c52e9e86b5"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "543c5cb8ad5552195f7e64ef37f336c52e9e86b5",
+        "working_tree_dirty": true,
+        "dirty_path_count": 7,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T114339Z-999B47FE",
+      "work_item_id": "WI-0153",
+      "recorded_at": "2026-09-04T11:43:39.817Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Layer label verification",
+      "outcome": "pass",
+      "scope_revision": "543c5cb8ad5552195f7e64ef37f336c52e9e86b5",
+      "observed_at": "2026-09-04T11:43:12.000Z",
+      "summary": "Six SVGs parsed, focused and fast tests passed, and desktop/mobile browser renders were visually checked.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0153/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0153/developer-test-observation.json",
+          "sha256": "bd4015f982a86b73b1fc3a3b07a5bd722542671c2b694394696f0543dcf929f5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0153/work-order.md",
+          "sha256": "d64228247310ff53ff0aa43aa9d4b408c49b96c17da71f944a28ace109f862c0"
+        },
+        {
+          "path": "docs/assets/temple-layers.zh-TW.svg",
+          "sha256": "83250f1e1d1c90b596beadf90a257cd4d9fe5500d3b2a2d74e7595cb0ead9919"
+        },
+        {
+          "path": "docs/assets/temple-layers-mobile.zh-TW.svg",
+          "sha256": "72c645e1a3adce3fdabb62b8dbb4cd8416d9aa949b690c36dc18ad9f9e1b4484"
+        },
+        {
+          "path": "test/doc-links.test.mjs",
+          "sha256": "457ecd46393287376ec4e8faf30e111e4b6d49391792aba73b81bfad3c222b23"
+        }
+      ],
+      "details": {
+        "command": [
+          "xmllint --noout on six localized desktop and mobile SVG assets",
+          "node --test test/doc-links.test.mjs",
+          "npm run verify:fast",
+          "Playwright CLI desktop render at 1200x700",
+          "Playwright CLI mobile render at 720x900"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T11:33:20.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T114454Z-0AB151D9",
+      "work_item_id": "WI-0153",
+      "recorded_at": "2026-09-04T11:44:54.814Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Detached layer-label quality verification",
+      "outcome": "pass",
+      "scope_revision": "543c5cb8ad5552195f7e64ef37f336c52e9e86b5",
+      "observed_at": "2026-09-04T11:44:20.000Z",
+      "summary": "Quality Evaluator reproduced the exact candidate, passed 31 fast tests, parsed six SVGs, and confirmed a clean worktree.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0153/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0153/quality-test-observation.json",
+          "sha256": "bde4352a23e6f929654da536b1703053f5b1f62c5ed983ed409b0e51a71578d2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0153/work-order.md",
+          "sha256": "d64228247310ff53ff0aa43aa9d4b408c49b96c17da71f944a28ace109f862c0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0153/developer-verification.md",
+          "sha256": "0f7e56d16d3a6eb3de3fb24c49ea484b800970df8b63ff954f8bbd8680148a39"
+        },
+        {
+          "path": "test/doc-links.test.mjs",
+          "sha256": "457ecd46393287376ec4e8faf30e111e4b6d49391792aba73b81bfad3c222b23"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached exact candidate: npm ci --ignore-scripts --no-audit --no-fund",
+          "fresh detached exact candidate: npm run verify:fast",
+          "fresh detached exact candidate: xmllint --noout on six SVG assets",
+          "fresh detached exact candidate: git status --porcelain"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T11:44:00.000Z"
+      }
     }
   ]
 }
