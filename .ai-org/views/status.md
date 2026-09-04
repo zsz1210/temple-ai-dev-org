@@ -186,7 +186,7 @@
 | WI-0136 | Execute representative multi-Agent microservice comparison | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f76d2e7b` | 0 | 20 | 0 |
 | WI-0137 | Make context routing stage-aware and measurement-ready | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `94d8ceb9` | 0 | 16 | 0 |
 | WI-0138 | Measure stage-aware Context Capsule effectiveness | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `87d0f8e2` | 0 | 16 | 1 |
-| WI-0139 | Repair Context Capsule evaluation contract | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260904014851-a95bc413 | `498c7dfd` | 0 | 9 | 0 |
+| WI-0139 | Repair Context Capsule evaluation contract | eval | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260904014851-a95bc413 | `498c7dfd` | 0 | 10 | 0 |
 
 ## Codex task registry
 
@@ -328,14 +328,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-04T01:51:30.593Z | work_item_transitioned | WI-0139 | agent-lulu |
+| 2026-09-04T01:51:21.841Z | evidence_recorded | WI-0139 | human |
 | 2026-09-04T01:48:51.236Z | work_item_claimed | WI-0139 | human |
 | 2026-09-04T01:48:38.188Z | work_item_transitioned | WI-0139 | agent-rikku |
 | 2026-09-04T01:48:31.083Z | handoff_created | WI-0139 | agent-rikku |
 | 2026-09-04T01:48:14.634Z | evidence_recorded | WI-0139 | human |
 | 2026-09-04T01:48:14.176Z | evidence_recorded | WI-0139 | human |
 | 2026-09-04T01:32:36.160Z | work_item_claimed | WI-0139 | human |
-| 2026-09-04T01:32:12.608Z | work_item_transitioned | WI-0139 | agent-tidus |
-| 2026-09-04T01:32:05.522Z | handoff_created | WI-0139 | agent-tidus |
 
 ## Assignments
 

@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0139",
   "title": "Repair Context Capsule evaluation contract",
-  "state": "test",
+  "state": "eval",
   "owner_position": "quality_evaluator",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-04T01:28:56.515Z",
-  "updated_at": "2026-09-04T01:48:51.236Z",
+  "updated_at": "2026-09-04T01:51:30.593Z",
   "scope": [
     "Replace prose-equality scoring with canonical typed facts and identifiers for the single-repository and coordinator multi-repository recovery scenarios.",
     "Prove the evaluator against retained WI-0138 outputs without changing or rescoring the historical WI-0138 result.",
@@ -154,6 +154,9 @@
       "EVID-20260904T014814Z-BED21DC8",
       "EVID-20260904T014814Z-A48DFA0F",
       ".ai-org/artifacts/WI-0139/developer-verification.md"
+    ],
+    "test_evidence": [
+      "EVID-20260904T015121Z-06E69C46"
     ]
   },
   "evidence": [
@@ -165,10 +168,11 @@
     ".ai-org/artifacts/WI-0139/handoff-003-developer-to-quality_evaluator.md",
     "EVID-20260904T014814Z-BED21DC8",
     "EVID-20260904T014814Z-A48DFA0F",
-    ".ai-org/artifacts/WI-0139/developer-verification.md"
+    ".ai-org/artifacts/WI-0139/developer-verification.md",
+    "EVID-20260904T015121Z-06E69C46"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "independent_qa",
   "handoffs": [
     {
       "from_position": "product_manager",

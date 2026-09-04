@@ -22126,6 +22126,54 @@
         "exit_code": 0,
         "started_at": "2026-09-04T01:44:30Z"
       }
+    },
+    {
+      "id": "EVID-20260904T015121Z-06E69C46",
+      "work_item_id": "WI-0139",
+      "recorded_at": "2026-09-04T01:51:21.841Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0139 independent quality readiness check",
+      "outcome": "pass",
+      "scope_revision": "0969566f770ad1a9a8df01901195edfea56f5268",
+      "observed_at": "2026-09-04T01:49:52Z",
+      "summary": "Focused typed-fact tests and exact protocol inspection passed without Provider generation; only exact approval remains.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0139/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0139/quality-test-observation.json",
+          "sha256": "7bea5fa55a78cb1f5272b9af246d818c95d2fda463f23db9f8b3d03c146e089e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/live-protocol.json",
+          "sha256": "1dab5e0e09a9c49b8b5bffb6c39e133a1c6e8c416bb19c1f8b03b4bfc8f21641"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/harness-readiness.json",
+          "sha256": "626e5d0a15f9c05ab8bab73d6de54bb258c8c228715c535638c4ac453cb8392b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/preapproval-preflight.json",
+          "sha256": "912b10e57cc2c5a5529ee11e097d22aa34dec399e32e1cb13ae6e653eda19e9e"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/context-capsule-ablation.test.mjs",
+          "node scripts/run-context-capsule-ablation.mjs inspect"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T01:49:43Z"
+      }
     }
   ]
 }
