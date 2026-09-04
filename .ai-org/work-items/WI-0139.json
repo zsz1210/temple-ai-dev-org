@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0139",
   "title": "Repair Context Capsule evaluation contract",
-  "state": "eval",
-  "owner_position": "quality_evaluator",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-04T01:28:56.515Z",
-  "updated_at": "2026-09-04T01:51:30.593Z",
+  "updated_at": "2026-09-04T02:07:20.839Z",
   "scope": [
     "Replace prose-equality scoring with canonical typed facts and identifiers for the single-repository and coordinator multi-repository recovery scenarios.",
     "Prove the evaluator against retained WI-0138 outputs without changing or rescoring the historical WI-0138 result.",
@@ -61,14 +61,15 @@
   ],
   "claim": {
     "id": "claim-20260904014851-a95bc413",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-lulu",
     "base_revision": "0969566",
     "branch": "codex/wi-0139-typed-context-evaluator",
     "worktree": null,
     "claimed_at": "2026-09-04T01:48:51.236Z",
-    "released_at": null
+    "released_at": "2026-09-04T02:07:20.839Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
@@ -121,14 +122,15 @@
     },
     {
       "id": "claim-20260904014851-a95bc413",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-lulu",
       "base_revision": "0969566",
       "branch": "codex/wi-0139-typed-context-evaluator",
       "worktree": null,
       "claimed_at": "2026-09-04T01:48:51.236Z",
-      "released_at": null
+      "released_at": "2026-09-04T02:07:20.839Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -157,6 +159,9 @@
     ],
     "test_evidence": [
       "EVID-20260904T015121Z-06E69C46"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0139/live-evaluation.md"
     ]
   },
   "evidence": [
@@ -169,10 +174,15 @@
     "EVID-20260904T014814Z-BED21DC8",
     "EVID-20260904T014814Z-A48DFA0F",
     ".ai-org/artifacts/WI-0139/developer-verification.md",
-    "EVID-20260904T015121Z-06E69C46"
+    "EVID-20260904T015121Z-06E69C46",
+    ".ai-org/artifacts/WI-0139/handoff-004-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0139/live-evaluation.md",
+    "EVID-20260904T020657Z-9A79B899"
   ],
-  "unresolved": [],
-  "next_position": "independent_qa",
+  "unresolved": [
+    "A successor experiment must measure post-route context acquisition and remove the 40,000-token single-repository censoring confounder before another live run."
+  ],
+  "next_position": "release_manager",
   "handoffs": [
     {
       "from_position": "product_manager",
@@ -194,6 +204,13 @@
       "input_revision": "498c7dfdcd0e4abb547a3e3e829311185ddfa96c",
       "artifact": ".ai-org/artifacts/WI-0139/handoff-003-developer-to-quality_evaluator.md",
       "created_at": "2026-09-04T01:48:31.083Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "afdd14f6899ea6cb3e9b7ece30c59350f9d681f7",
+      "artifact": ".ai-org/artifacts/WI-0139/handoff-004-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-04T02:07:20.526Z"
     }
   ],
   "developer_candidate_revision": "498c7dfdcd0e4abb547a3e3e829311185ddfa96c"
