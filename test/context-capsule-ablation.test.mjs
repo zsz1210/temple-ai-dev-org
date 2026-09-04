@@ -372,11 +372,21 @@ test("analysis keeps shapes separate and makes correctness primary", () => {
   assert.equal(analysis.schema_version, CONTEXT_ABLATION_ANALYSIS_SCHEMA);
   assert.equal(analysis.all_candidates_correct, true);
   assert.deepEqual(analysis.comparisons.map((entry) => entry.outcome), ["supported", "supported"]);
+  assert.equal(analysis.comparisons.every((entry) => entry.context_acquisition.conclusion === "no-off-route-observed-with-complete-coverage"), true);
+  assert.equal(analysis.comparisons.every((entry) => entry.repetition_pairs.length === 2), true);
+  assert.equal(analysis.comparisons[0].provider_usage.cache_share_percent.legacy_mean, 0);
   assert.equal(analysis.diagnostic_aggregate.operational_tokens_delta.percent, -20);
   const regressed = structuredClone(conditions);
   regressed.find((entry) => entry.id === "single-stage-aware-a").objective.pass = false;
   const regression = analyzeContextAblation({ protocol, observation: { conditions: regressed } });
   assert.equal(regression.comparisons.find((entry) => entry.shape === "single-repository").outcome, "quality-regression");
+  const tradeoffConditions = structuredClone(conditions);
+  for (const entry of tradeoffConditions.filter((candidate) => candidate.shape === "coordinator-multi-repository")) {
+    entry.operational_tokens = entry.strategy === "stage-aware" ? 3000 : 2000;
+    entry.turn_elapsed_ms = entry.strategy === "stage-aware" ? 1000 : 2000;
+  }
+  const tradeoff = analyzeContextAblation({ protocol, observation: { conditions: tradeoffConditions } });
+  assert.equal(tradeoff.comparisons.find((entry) => entry.shape === "coordinator-multi-repository").outcome, "tradeoff");
 });
 
 test("analysis preserves unknown usage instead of inventing a savings delta", () => {
@@ -399,4 +409,14 @@ test("analysis preserves unknown usage instead of inventing a savings delta", ()
   assert.equal(analysis.status, "inconclusive");
   assert.equal(analysis.diagnostic_aggregate, null);
   assert.equal(analysis.comparisons.every((entry) => entry.operational_tokens.delta === null), true);
+});
+
+test("the retained WI-0141 live run seals mutable protocol preparation", async () => {
+  await assert.rejects(
+    prepareContextAblationLab(undefined, {
+      providerContract: contextAblationTestProviderContract(),
+      sourceRevision: "a".repeat(40)
+    }),
+    /retained WI-0141 run is sealed/
+  );
 });

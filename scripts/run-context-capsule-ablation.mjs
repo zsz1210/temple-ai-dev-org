@@ -1249,6 +1249,9 @@ export function validateContextAblationProtocol(protocol) {
 }
 
 export async function prepareContextAblationLab(labRoot = defaultLabRoot, options = {}) {
+  if (options.writeArtifacts !== false && (await pathExists(defaultObservationPath) || await pathExists(defaultStoppedObservationPath))) {
+    throw new Error("The retained WI-0141 run is sealed; preparation cannot replace its frozen protocol or readiness evidence");
+  }
   const resolvedLab = assertSafeLabRoot(labRoot);
   await fs.rm(resolvedLab, { recursive: true, force: true });
   await fs.mkdir(resolvedLab, { recursive: true });
@@ -1672,6 +1675,9 @@ function simulatedTurn(definition, completion) {
 }
 
 export async function rehearseContextAblation(labRoot = defaultLabRoot, protocolPath = defaultProtocolPath, options = {}) {
+  if (options.writeArtifacts !== false && (await pathExists(defaultObservationPath) || await pathExists(defaultStoppedObservationPath))) {
+    throw new Error("The retained WI-0141 run is sealed; rehearsal cannot replace its readiness evidence");
+  }
   const inspection = await inspectLab(labRoot, protocolPath);
   if (!inspection.valid) throw new Error(`Lab inspection failed: ${inspection.errors.join(", ")}`);
   const { protocol, labManifest } = inspection;
@@ -1833,6 +1839,9 @@ function providerContractMatches(frozen, observed) {
 }
 
 export async function preflightContextAblation(labRoot = defaultLabRoot, protocolPath = defaultProtocolPath, approvalPath = defaultApprovalPath, options = {}) {
+  if (options.writeArtifacts !== false && (await pathExists(defaultObservationPath) || await pathExists(defaultStoppedObservationPath))) {
+    throw new Error("The retained WI-0141 run is sealed; preflight cannot replace its approval evidence");
+  }
   const inspection = await inspectLab(labRoot, protocolPath);
   const protocol = inspection.protocol ?? (await pathExists(protocolPath) ? await readJson(protocolPath) : null);
   const readinessPath = path.join(assertSafeLabRoot(labRoot), "harness-readiness.json");
@@ -2344,7 +2353,7 @@ function round(value, digits = 2) {
 function delta(baseline, treatment) {
   if (!Number.isFinite(baseline) || !Number.isFinite(treatment) || baseline === 0) return null;
   return {
-    absolute: treatment - baseline,
+    absolute: round(treatment - baseline),
     percent: round(((treatment - baseline) / baseline) * 100)
   };
 }
@@ -2359,6 +2368,37 @@ function mean(values) {
   return values.length > 0 && values.every(Number.isFinite)
     ? values.reduce((sum, value) => sum + value, 0) / values.length
     : null;
+}
+
+function spread(values) {
+  if (values.length === 0 || !values.every(Number.isFinite)) return null;
+  const minimum = Math.min(...values);
+  const maximum = Math.max(...values);
+  return {
+    values,
+    minimum,
+    maximum,
+    absolute: maximum - minimum,
+    percent_of_minimum: minimum === 0 ? null : round(((maximum - minimum) / minimum) * 100)
+  };
+}
+
+function cacheShare(condition) {
+  const input = condition.usage?.input_tokens;
+  const cached = condition.usage?.cached_input_tokens;
+  return Number.isFinite(input) && input > 0 && Number.isFinite(cached)
+    ? round((cached / input) * 100)
+    : null;
+}
+
+function metricPair(legacy, stage, selector) {
+  const legacyValue = legacy ? selector(legacy) : null;
+  const stageValue = stage ? selector(stage) : null;
+  return {
+    legacy: legacyValue,
+    stage_aware: stageValue,
+    delta: Number.isFinite(legacyValue) && Number.isFinite(stageValue) ? delta(legacyValue, stageValue) : null
+  };
 }
 
 function aggregateAcquisition(conditions) {
@@ -2415,13 +2455,24 @@ function shapeComparison(shape, protocol, conditions) {
   const stageLatency = mean(stage.map((entry) => observedMetric(entry, "latency_ms")));
   const legacyToolBytes = mean(legacy.map((entry) => observedMetric(entry, "tool_output_bytes")));
   const stageToolBytes = mean(stage.map((entry) => observedMetric(entry, "tool_output_bytes")));
+  const legacyInputTokens = mean(legacy.map((entry) => entry.usage?.input_tokens));
+  const stageInputTokens = mean(stage.map((entry) => entry.usage?.input_tokens));
+  const legacyCachedTokens = mean(legacy.map((entry) => entry.usage?.cached_input_tokens));
+  const stageCachedTokens = mean(stage.map((entry) => entry.usage?.cached_input_tokens));
+  const legacyOutputTokens = mean(legacy.map((entry) => entry.usage?.output_tokens));
+  const stageOutputTokens = mean(stage.map((entry) => entry.usage?.output_tokens));
   const tokens = completed ? delta(legacyTokens, stageTokens) : null;
   const latency = completed ? delta(legacyLatency, stageLatency) : null;
   let outcome = "inconclusive";
   if (completed && legacyPass === true && stagePass === false) outcome = "quality-regression";
   else if (bothPass && tokens && latency) {
-    if ((tokens.percent < 0 || latency.percent < 0) && tokens.percent <= 5 && latency.percent <= 5) outcome = "supported";
-    else if ((tokens.percent > 5 && latency.percent >= 0) || (latency.percent > 5 && tokens.percent >= 0)) outcome = "overhead-regression";
+    const tokensBetter = tokens.percent < -5;
+    const tokensWorse = tokens.percent > 5;
+    const latencyBetter = latency.percent < -5;
+    const latencyWorse = latency.percent > 5;
+    if ((tokensBetter && latencyWorse) || (tokensWorse && latencyBetter)) outcome = "tradeoff";
+    else if ((tokensBetter || latencyBetter) && !tokensWorse && !latencyWorse) outcome = "supported";
+    else if ((tokensWorse || latencyWorse) && !tokensBetter && !latencyBetter) outcome = "overhead-regression";
     else outcome = "neutral";
   }
   const sourceValue = (entries, key) => entries.length === 2 && entries[0]?.treatment?.[key] === entries[1]?.treatment?.[key]
@@ -2431,6 +2482,29 @@ function shapeComparison(shape, protocol, conditions) {
   const stageSourceBytes = sourceValue(protocolStage, "measured_source_bytes");
   const legacySourceCount = sourceValue(protocolLegacy, "selected_source_count");
   const stageSourceCount = sourceValue(protocolStage, "selected_source_count");
+  const legacyAcquisition = aggregateAcquisition(legacy);
+  const stageAcquisition = aggregateAcquisition(stage);
+  const acquisitionCoverageComplete = legacyAcquisition.coverage_complete === true && stageAcquisition.coverage_complete === true;
+  const observedOffRoute = (legacyAcquisition.counts?.["off-route"] ?? 0) + (stageAcquisition.counts?.["off-route"] ?? 0);
+  const routeAdherenceConclusion = !legacyAcquisition.available || !stageAcquisition.available
+    ? "unavailable"
+    : !acquisitionCoverageComplete
+      ? "inconclusive-incomplete-coverage"
+      : observedOffRoute > 0
+        ? "off-route-observed"
+        : "no-off-route-observed-with-complete-coverage";
+  const repetitionPairs = ["a", "b"].map((repetition) => {
+    const legacyEntry = legacy.find((entry) => entry.repetition === repetition);
+    const stageEntry = stage.find((entry) => entry.repetition === repetition);
+    return {
+      repetition,
+      operational_tokens: metricPair(legacyEntry, stageEntry, (entry) => entry.operational_tokens),
+      latency_ms: metricPair(legacyEntry, stageEntry, (entry) => entry.turn_elapsed_ms),
+      provider_input_tokens: metricPair(legacyEntry, stageEntry, (entry) => entry.usage?.input_tokens),
+      cached_input_tokens: metricPair(legacyEntry, stageEntry, (entry) => entry.usage?.cached_input_tokens),
+      cache_share_percent: metricPair(legacyEntry, stageEntry, cacheShare)
+    };
+  });
   return {
     shape,
     outcome,
@@ -2453,6 +2527,15 @@ function shapeComparison(shape, protocol, conditions) {
       stage_aware_mean: stageTokens,
       delta: tokens
     },
+    provider_usage: {
+      input_tokens: { legacy_mean: legacyInputTokens, stage_aware_mean: stageInputTokens, delta: completed ? delta(legacyInputTokens, stageInputTokens) : null },
+      cached_input_tokens: { legacy_mean: legacyCachedTokens, stage_aware_mean: stageCachedTokens, delta: completed ? delta(legacyCachedTokens, stageCachedTokens) : null },
+      output_tokens: { legacy_mean: legacyOutputTokens, stage_aware_mean: stageOutputTokens, delta: completed ? delta(legacyOutputTokens, stageOutputTokens) : null },
+      cache_share_percent: {
+        legacy_mean: Number.isFinite(mean(legacy.map(cacheShare))) ? round(mean(legacy.map(cacheShare))) : null,
+        stage_aware_mean: Number.isFinite(mean(stage.map(cacheShare))) ? round(mean(stage.map(cacheShare))) : null
+      }
+    },
     latency_ms: {
       legacy_mean: legacyLatency,
       stage_aware_mean: stageLatency,
@@ -2464,8 +2547,22 @@ function shapeComparison(shape, protocol, conditions) {
       delta: completed ? delta(legacyToolBytes, stageToolBytes) : null
     },
     context_acquisition: {
-      legacy: aggregateAcquisition(legacy),
-      stage_aware: aggregateAcquisition(stage)
+      legacy: legacyAcquisition,
+      stage_aware: stageAcquisition,
+      coverage_complete: acquisitionCoverageComplete,
+      observed_off_route_count: observedOffRoute,
+      conclusion: routeAdherenceConclusion
+    },
+    repetition_pairs: repetitionPairs,
+    repetition_spread: {
+      operational_tokens: {
+        legacy: spread(legacy.map((entry) => entry.operational_tokens)),
+        stage_aware: spread(stage.map((entry) => entry.operational_tokens))
+      },
+      cache_share_percent: {
+        legacy: spread(legacy.map(cacheShare)),
+        stage_aware: spread(stage.map(cacheShare))
+      }
     }
   };
 }
@@ -2483,6 +2580,12 @@ export function analyzeContextAblation({ protocol, observation, generatedAt = ne
     legacy_operational_tokens: sum(legacyConditions, (entry) => entry.operational_tokens),
     stage_aware_operational_tokens: sum(stageConditions, (entry) => entry.operational_tokens),
     operational_tokens_delta: delta(sum(legacyConditions, (entry) => entry.operational_tokens), sum(stageConditions, (entry) => entry.operational_tokens)),
+    legacy_provider_input_tokens: sum(legacyConditions, (entry) => entry.usage.input_tokens),
+    stage_aware_provider_input_tokens: sum(stageConditions, (entry) => entry.usage.input_tokens),
+    provider_input_tokens_delta: delta(sum(legacyConditions, (entry) => entry.usage.input_tokens), sum(stageConditions, (entry) => entry.usage.input_tokens)),
+    legacy_cached_input_tokens: sum(legacyConditions, (entry) => entry.usage.cached_input_tokens),
+    stage_aware_cached_input_tokens: sum(stageConditions, (entry) => entry.usage.cached_input_tokens),
+    cached_input_tokens_delta: delta(sum(legacyConditions, (entry) => entry.usage.cached_input_tokens), sum(stageConditions, (entry) => entry.usage.cached_input_tokens)),
     legacy_latency_ms: sum(legacyConditions, (entry) => entry.turn_elapsed_ms),
     stage_aware_latency_ms: sum(stageConditions, (entry) => entry.turn_elapsed_ms),
     latency_delta: delta(sum(legacyConditions, (entry) => entry.turn_elapsed_ms), sum(stageConditions, (entry) => entry.turn_elapsed_ms))
@@ -2520,24 +2623,40 @@ function reportMarkdown(protocol, observation, analysis) {
     "",
     "## Results by project shape",
     "",
-    "| Shape | Correctness (legacy / stage-aware) | Source bytes (legacy / stage-aware) | Known adherence (legacy / stage-aware) | Off-route reads (legacy / stage-aware) | Operational Tokens delta | Latency delta | Outcome |",
-    "|---|---:|---:|---:|---:|---:|---:|---|"
+    "| Shape | Correctness (legacy / stage-aware) | Source bytes delta | Operational Tokens delta | Latency delta | Route evidence | Efficiency outcome |",
+    "|---|---:|---:|---:|---:|---|---|"
   ];
   for (const comparison of analysis.comparisons) {
     const tokenDelta = comparison.operational_tokens.delta ? `${comparison.operational_tokens.delta.percent}%` : "unknown";
     const latencyDelta = comparison.latency_ms.delta ? `${comparison.latency_ms.delta.percent}%` : "unknown";
+    const sourceDelta = comparison.source_selection.bytes_delta ? `${comparison.source_selection.bytes_delta.percent}%` : "unknown";
     const legacyAcquisition = comparison.context_acquisition.legacy;
     const stageAcquisition = comparison.context_acquisition.stage_aware;
-    const formatPercent = (value) => Number.isFinite(value) ? `${value}%` : "unknown";
-    const adherence = `${formatPercent(legacyAcquisition.known_policy_adherence_percent)} / ${formatPercent(stageAcquisition.known_policy_adherence_percent)}`;
-    const offRoute = `${legacyAcquisition.counts?.["off-route"] ?? "unknown"} / ${stageAcquisition.counts?.["off-route"] ?? "unknown"}`;
-    lines.push(`| ${comparison.shape} | ${comparison.correctness.legacy_pass ?? "unknown"} / ${comparison.correctness.stage_aware_pass ?? "unknown"} | ${comparison.source_selection.legacy_bytes} / ${comparison.source_selection.stage_aware_bytes} | ${adherence} | ${offRoute} | ${tokenDelta} | ${latencyDelta} | ${comparison.outcome} |`);
+    const unknownReads = `${legacyAcquisition.counts?.unknown ?? "unknown"} / ${stageAcquisition.counts?.unknown ?? "unknown"}`;
+    const routeEvidence = `${comparison.context_acquisition.conclusion}; unknown reads ${unknownReads}`;
+    lines.push(`| ${comparison.shape} | ${comparison.correctness.legacy_pass ?? "unknown"} / ${comparison.correctness.stage_aware_pass ?? "unknown"} | ${sourceDelta} | ${tokenDelta} | ${latencyDelta} | ${routeEvidence} | ${comparison.outcome} |`);
   }
   lines.push(
     "",
-    "## Interpretation",
+    "## Repetition and cache detail",
+    "",
+    "| Shape | Repetition | Operational Tokens (legacy / stage-aware) | Token delta | Latency ms (legacy / stage-aware) | Latency delta | Cache share % (legacy / stage-aware) |",
+    "|---|---|---:|---:|---:|---:|---:|"
+  );
+  for (const comparison of analysis.comparisons) {
+    for (const pair of comparison.repetition_pairs) {
+      const tokenDelta = pair.operational_tokens.delta ? `${pair.operational_tokens.delta.percent}%` : "unknown";
+      const latencyDelta = pair.latency_ms.delta ? `${pair.latency_ms.delta.percent}%` : "unknown";
+      lines.push(`| ${comparison.shape} | ${pair.repetition} | ${pair.operational_tokens.legacy} / ${pair.operational_tokens.stage_aware} | ${tokenDelta} | ${pair.latency_ms.legacy} / ${pair.latency_ms.stage_aware} | ${latencyDelta} | ${pair.cache_share_percent.legacy} / ${pair.cache_share_percent.stage_aware} |`);
+    }
+  }
+  lines.push(
+    "",
+    "## Interpretation limits",
     "",
     "Correctness is evaluated from canonical typed facts and gates every efficiency interpretation. Initial source bytes, bounded post-route acquisition, Provider Tokens, latency, and tool-output bytes are separate measurements. Two counterbalanced repetitions per condition remain diagnostic evidence and do not establish statistical, monetary, or automatic-routing claims.",
+    "",
+    "Known classifiable reads showed no off-route access, but every live condition retained one unknown read. Coverage is therefore incomplete and this run does not prove full route adherence. Repetition-level Operational Token and cache-share values are shown because cache variation can dominate the net Operational Token calculation; averages alone are not a stable causal estimate.",
     "",
     "The route is described as requested-and-thread-configured Terra medium. The installed App Server does not expose per-turn execution-effort telemetry, so effective execution effort remains unknown rather than inferred.",
     "",

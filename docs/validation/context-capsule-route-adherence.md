@@ -1,31 +1,16 @@
 # Context Capsule route-adherence evaluation
 
-- Status: implementation and generation-free rehearsal complete; live Provider run not yet approved or executed
-- Work Item: `WI-0140`
+- Status: bounded WI-0141 live comparison complete; follow-up measurement repairs required
+- Design Work Item: `WI-0140`
+- Live Work Item: `WI-0141`
 - Question: after receiving a smaller Context Capsule, does an Agent actually stay on the routed evidence path?
 - Scope: isolated single-repository and coordinator-led multi-repository fixtures
 
-## Why the measurement changed
+## Why Temple measures acquisition separately
 
-The WI-0139 run showed that a smaller initial source package did not automatically produce lower total Token use or latency. Stage-aware routing selected 63.79% to 65.51% fewer source bytes, while the completed multi-repository stage-aware turn used 6.38% more Operational Tokens and took 8.01% longer. Both single-repository turns reached the previous 40,000-Token ceiling before completing.
+WI-0139 showed that a smaller initial source package did not automatically reduce total Token use or latency. WI-0140 therefore added a privacy-bounded acquisition observation: it records which repository-relative paths an Agent reads after routing without retaining prompts, responses, hidden reasoning, raw commands, command output, credentials, absolute paths, or disposable repositories.
 
-Initial package size therefore answers only **what Temple selected**, not **what the Agent acquired afterward**. WI-0140 adds a separate acquisition observation so the next comparison can distinguish route quality from Agent reading behavior.
-
-## What is retained
-
-For each successful command, the harness records only bounded metadata:
-
-```json
-{
-  "repository_id": "coordinator",
-  "path": "docs/product/idempotency.md",
-  "access_kind": "read",
-  "classification": "routed",
-  "reported_output_bytes": 812
-}
-```
-
-The classification is one of:
+Each safe observation is classified as:
 
 | Classification | Meaning |
 |---|---|
@@ -36,57 +21,57 @@ The classification is one of:
 | `off-route` | A safe repository path outside the route and fallback |
 | `unknown` | No safe and unambiguous repository path can be derived |
 
-Failed commands are excluded from adherence. Unknown and overflowed observations reduce coverage and can never raise the adherence score. Output bytes are attributed only when a completed command contains one unambiguous action.
+Unknown and overflowed observations reduce coverage and cannot raise adherence. Failed commands are excluded. Output bytes are attributed only when one completed action has an unambiguous source.
 
-Raw commands, search text, command output, prompts, responses, hidden reasoning, credentials, absolute paths, and temporary repository roots are not retained.
+## Live design
 
-## Successor comparison
-
-The frozen design contains eight candidate turns: two repetitions of each strategy for each project shape. Repetition B reverses the within-shape strategy order used in repetition A.
+WI-0141 executed two repetitions of each strategy for each project shape, with the within-shape order reversed in repetition B. Every turn requested `gpt-5.6-terra` with `medium` reasoning and allowed no retry or fallback.
 
 | Project shape | Strategies | Repetitions | Per-turn ceiling |
 |---|---|---:|---:|
 | Single repository | Legacy expanded and stage aware | 2 each | 51,000 Operational Tokens |
 | Coordinator-led multi-repository | Legacy expanded and stage aware | 2 each | 80,000 Operational Tokens |
 
-The aggregate ceiling is 524,000 Operational Tokens and the wall-clock ceiling is 80 minutes. Every turn uses `gpt-5.6-terra` with requested `medium` reasoning, zero retry, and zero fallback.
+The aggregate ceiling was 524,000 Operational Tokens and the wall-clock ceiling was 80 minutes. The actual run completed in 6 minutes 39 seconds and used 197,367 Operational Tokens.
 
-The single-repository ceiling is derived from retained evidence rather than an expected-cost guess: the highest censored WI-0139 observation was 40,460 Operational Tokens; one declared 10,000-Token headroom band and rounding to the next 1,000 produce 51,000. The multi-repository ceiling retains the prior non-censoring value. These are stop limits, not usage forecasts or optimal budgets.
+## Results
 
-## How results will be interpreted
+All eight candidates completed correctly.
 
-Correctness remains the first gate. Token, latency, and route-adherence comparisons are not treated as positive outcomes unless both repetitions of both strategies complete correctly for that project shape.
+| Shape | Selected source bytes | Mean Operational Tokens | Mean latency | Diagnostic outcome |
+|---|---:|---:|---:|---|
+| Single repository | `-63.79%` | `-32.51%` | `+4.45%` | Supported, with high repetition sensitivity |
+| Coordinator multi-repository | `-65.51%` | `+74.90%` | `-11.81%` | Trade-off |
 
-The report keeps these measurements separate:
+The aggregate stage-aware conditions had 0.87% more gross Provider input, 1.96% fewer cached input Tokens, 18.44% more Operational Tokens, and 5.57% lower latency. Cache variation materially affected the net Operational Token result, so the observed deltas cannot be attributed to routing strategy alone.
 
-- selected source count and bytes;
-- observed routed, fallback, off-route, and unknown reads;
-- known route-adherence percentage and measurement coverage;
-- Operational Tokens and latency;
-- tool-output bytes where attribution is unambiguous.
+Among 31 classifiable context reads, no off-route read was observed. Each of the eight turns also retained one unknown read, so coverage was incomplete. The run therefore does not prove full route adherence.
 
-Two repetitions reduce obvious order dependence but remain diagnostic evidence. They do not prove statistical significance, monetary savings, universal model behavior, or automatic routing authority.
+## Decision boundary
 
-## Generation-free verification
+The comparison supports keeping stage-aware Context Capsules as a correctness-preserving authority and context-selection mechanism. It does not support a universal Token-saving claim, a shared policy for single- and multi-repository work, or automatic routing authority.
 
-Run the preparation in a disposable system-temporary directory:
+No additional candidate turns should run with this harness. Before a larger comparison:
+
+1. classify the repeated unknown control-read shape with a sanitized regression fixture;
+2. report gross input, cached input, non-cached input, output, and Operational Tokens together;
+3. isolate or explicitly balance cache state across comparison blocks;
+4. score correctness, route adherence, and efficiency as separate hypotheses;
+5. preserve an explicit `tradeoff` outcome instead of hiding opposing material deltas as neutral.
+
+## Reproducing analysis without another model run
+
+The retained observation is sealed. Recompute only the deterministic analysis and Markdown projection with:
 
 ```bash
-lab_root="$(node -e 'console.log(require("node:os").tmpdir())')/temple-wi0140-context-capsule-ablation"
-
-node scripts/run-context-capsule-ablation.mjs prepare --lab-root "$lab_root"
-node scripts/run-context-capsule-ablation.mjs rehearse --lab-root "$lab_root"
-node scripts/run-context-capsule-ablation.mjs preflight --lab-root "$lab_root"
+node scripts/run-context-capsule-ablation.mjs analyze
 ```
 
-Before a matching approval record exists, preflight stops with `exact-approval`. Preparation, rehearsal, and preflight perform no candidate generation. The runner also rechecks that the retained WI-0139 artifact subtree still matches commit `1461cf6` before allowing a live run.
+`prepare`, `rehearse`, `preflight`, and `run` refuse to replace the sealed live evidence. No new Provider comparison is authorized by this document.
 
-The live command is intentionally not authorized by this document. A new approval must bind the exact protocol digest, eight condition IDs, model, reasoning effort, per-condition limits, aggregate limit, wall-clock limit, and zero-retry/fallback policy.
+## Evidence
 
-## Related evidence
-
+- [Detailed WI-0141 evaluation](../../.ai-org/artifacts/WI-0141/live-evaluation.md)
+- [Generated effectiveness report](../../.ai-org/artifacts/WI-0141/effectiveness-report.md)
 - [Context Capsule v2 effectiveness experiment](context-capsule-v2-ablation.md)
 - [Context Capsule typed evaluator](context-capsule-typed-evaluator.md)
-- `.ai-org/artifacts/WI-0139/live-evaluation.md`
-- `.ai-org/artifacts/WI-0140/technical-design.md`
-
