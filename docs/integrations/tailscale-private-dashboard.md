@@ -56,7 +56,7 @@ To keep the home Wi-Fi and away-from-home links active in one process:
 ```bash
 node ./templew.mjs control-plane start . \
   --codex \
-  --lan-viewer-host 192.168.79.5 \
+  --lan-viewer-host "$TEMPLE_LAN_IP" \
   --tailscale-viewer
 ```
 

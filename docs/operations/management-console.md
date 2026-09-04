@@ -17,8 +17,9 @@ The command prints a loopback URL and runs until `Ctrl-C`. The page identifies i
 For one exact trusted home-LAN address:
 
 ```bash
+TEMPLE_LAN_IP="$(ipconfig getifaddr en1)"
 node ./templew.mjs console start . \
-  --lan-viewer-host 192.168.1.25 \
+  --lan-viewer-host "$TEMPLE_LAN_IP" \
   --lan-viewer-port 41741
 ```
 

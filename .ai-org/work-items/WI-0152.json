@@ -1,0 +1,214 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0152",
+  "title": "Add auditable self-hosting evidence profiles",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-04T10:48:07.802Z",
+  "updated_at": "2026-09-04T10:53:32.375Z",
+  "scope": [
+    "Define and implement auditable self-hosting evidence profiles that preserve useful repository evidence, normalize local environment identifiers, keep credentials and raw runtime data local, audit public readiness, clean package-facing examples, and document the capability. Excludes changing GitHub visibility, rewriting Git history, changing collaborator permissions, publishing npm, or creating a formal release."
+  ],
+  "acceptance_criteria": [
+    "Private, public, and restricted evidence profiles have versioned project-owned policy and schema contracts with a safe default.",
+    "A deterministic read-only public-readiness audit classifies blocked, review-required, and allowed evidence without echoing detected secret values.",
+    "Public evidence retains lifecycle, QA, release, model-routing, token-budget, Credits, reset, and experiment-approval facts while current and future machine paths, private endpoints, credentials, live account snapshots, and raw runtime telemetry follow explicit normalization or local-only rules.",
+    "Current package-facing documentation no longer contains maintainer-specific absolute paths, LAN addresses, or Tailnet hostnames; Git history is not rewritten.",
+    "Human-facing English documentation explains Auditable Self-Hosting and Public Evidence Profile, with concise aligned README treatment in English, Japanese, and Traditional Chinese.",
+    "Automated tests, schema validation, Doctor, package inspection, and full repository verification pass; Independent QA is performed by an Agent Identity distinct from the Developer."
+  ],
+  "affected_paths": [
+    "src",
+    "project-overlay/.ai-org/core",
+    "project-overlay/.ai-org/project",
+    ".ai-org/core",
+    ".ai-org/project",
+    "scripts",
+    "test",
+    "docs",
+    "README.md",
+    "README.ja.md",
+    "README.zh-TW.md",
+    "package.json",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "This changes repository privacy and evidence publication policy, so Standard preserves explicit design, independent QA, and release-gate evidence without High-Assurance production controls.",
+    "evidence_refs": [
+      "Human approval in the current control task on 2026-09-04"
+    ],
+    "evaluated_at": "2026-09-04T10:48:07.801Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {
+    "build": {
+      "disciplines": [
+        "general-development"
+      ],
+      "resources": []
+    },
+    "design": {
+      "disciplines": [
+        "architecture"
+      ],
+      "resources": []
+    },
+    "independent_qa": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "test": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "03a523758b040bac931826deb36f5029f94d46bc",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260904105332-e6929fb7",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "03a523758b040bac931826deb36f5029f94d46bc",
+    "branch": "codex/wi-0152-public-evidence-profile",
+    "worktree": null,
+    "claimed_at": "2026-09-04T10:53:32.375Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260904105035-85a78756",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "03a523758b040bac931826deb36f5029f94d46bc",
+      "branch": "codex/wi-0152-public-evidence-profile",
+      "worktree": null,
+      "claimed_at": "2026-09-04T10:50:35.455Z",
+      "released_at": "2026-09-04T10:51:00.507Z",
+      "release_reason": [
+        "Work order recorded and handed to Product Manager"
+      ]
+    },
+    {
+      "id": "claim-20260904105106-ee93d471",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "03a523758b040bac931826deb36f5029f94d46bc",
+      "branch": "codex/wi-0152-public-evidence-profile",
+      "worktree": null,
+      "claimed_at": "2026-09-04T10:51:06.375Z",
+      "released_at": "2026-09-04T10:51:38.094Z",
+      "release_reason": [
+        "Approved scope recorded and handed to Tech Lead"
+      ]
+    },
+    {
+      "id": "claim-20260904105138-4a4744db",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "03a523758b040bac931826deb36f5029f94d46bc",
+      "branch": "codex/wi-0152-public-evidence-profile",
+      "worktree": null,
+      "claimed_at": "2026-09-04T10:51:38.638Z",
+      "released_at": "2026-09-04T10:53:31.855Z",
+      "release_reason": [
+        "Technical design and risk review recorded and handed to Developer"
+      ]
+    },
+    {
+      "id": "claim-20260904105332-e6929fb7",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "03a523758b040bac931826deb36f5029f94d46bc",
+      "branch": "codex/wi-0152-public-evidence-profile",
+      "worktree": null,
+      "claimed_at": "2026-09-04T10:53:32.375Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0152/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0152/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0152/approved-scope.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0152/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0152/risk-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0152/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0152/work-order.md",
+    ".ai-org/artifacts/WI-0152/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0152/approved-scope.md",
+    ".ai-org/artifacts/WI-0152/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0152/technical-design.md",
+    ".ai-org/artifacts/WI-0152/risk-review.md",
+    "docs/adr/0048-auditable-self-hosting-evidence-profiles.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "HEAD",
+      "artifact": ".ai-org/artifacts/WI-0152/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-04T10:51:00.218Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "HEAD",
+      "artifact": ".ai-org/artifacts/WI-0152/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-04T10:51:37.817Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "HEAD",
+      "artifact": ".ai-org/artifacts/WI-0152/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-04T10:53:31.495Z"
+    }
+  ]
+}

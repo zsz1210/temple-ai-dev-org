@@ -32,6 +32,11 @@ import {
   REPOSITORY_INTEGRATION_RELATIVE_PATH,
   validateRepositoryIntegration
 } from "../src/repository-integration.mjs";
+import {
+  defaultEvidenceProfiles,
+  EVIDENCE_PROFILES_RELATIVE_PATH,
+  validateEvidenceProfiles
+} from "../src/evidence-profiles.mjs";
 import { runAgentLedOnboardingValidation } from "../scripts/validate-agent-led-onboarding.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -50,7 +55,10 @@ const phase4Capabilities = [
   "provider_attach_outcomes",
   "repository_federation",
   "read_only_portfolio",
-  "repository_integration_contract"
+  "repository_integration_contract",
+  "auditable_self_hosting",
+  "evidence_profiles",
+  "publication_audit"
 ];
 
 function configDocument(projectId) {
@@ -163,6 +171,7 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
   assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/execution-policy.schema.json"));
   assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/execution-request.schema.json"));
   assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/execution-route.schema.json"));
+  assert.ok(lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/evidence-profiles.schema.json"));
   assert.ok(
     lock.managed_files.some((entry) => entry.path === ".ai-org/core/schemas/repository-integration.schema.json")
   );
@@ -172,6 +181,7 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
   assert.equal(lock.managed_files.some((entry) => entry.path === USAGE_POLICY_RELATIVE_PATH), false);
   assert.equal(lock.managed_files.some((entry) => entry.path === EXECUTION_POLICY_RELATIVE_PATH), false);
   assert.equal(lock.managed_files.some((entry) => entry.path === REPOSITORY_INTEGRATION_RELATIVE_PATH), false);
+  assert.equal(lock.managed_files.some((entry) => entry.path === EVIDENCE_PROFILES_RELATIVE_PATH), false);
 
   const repositoryIntegration = await readJson(path.join(target, REPOSITORY_INTEGRATION_RELATIVE_PATH));
   assert.deepEqual(repositoryIntegration, defaultRepositoryIntegration());
@@ -188,6 +198,9 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
   const executionPolicy = await readJson(path.join(target, EXECUTION_POLICY_RELATIVE_PATH));
   assert.deepEqual(executionPolicy, defaultExecutionPolicy());
   assert.deepEqual(validateExecutionPolicy(executionPolicy), { valid: true, errors: [] });
+  const evidenceProfiles = await readJson(path.join(target, EVIDENCE_PROFILES_RELATIVE_PATH));
+  assert.deepEqual(evidenceProfiles, defaultEvidenceProfiles());
+  assert.deepEqual(validateEvidenceProfiles(evidenceProfiles), { valid: true, errors: [] });
 
   const packageDocument = await readJson(path.join(root, "package.json"));
   const packageLock = await readJson(path.join(root, "package-lock.json"));
@@ -242,6 +255,16 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
       id: "repository-integration",
       path: REPOSITORY_INTEGRATION_RELATIVE_PATH,
       schema: "repository-integration.schema.json",
+      required: true,
+      ownership: "project"
+    }
+  );
+  assert.deepEqual(
+    catalog.documents.find((entry) => entry.id === "evidence-profiles"),
+    {
+      id: "evidence-profiles",
+      path: EVIDENCE_PROFILES_RELATIVE_PATH,
+      schema: "evidence-profiles.schema.json",
       required: true,
       ownership: "project"
     }
@@ -347,6 +370,7 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
   assert.ok(validSchemas.checked.some((entry) => entry.document === ".ai-org/views/portfolio.json" && entry.valid));
   assert.ok(validSchemas.checked.some((entry) => entry.document === ".ai-org/project/validation-program.json" && entry.valid));
   assert.ok(validSchemas.checked.some((entry) => entry.document === USAGE_POLICY_RELATIVE_PATH && entry.valid));
+  assert.ok(validSchemas.checked.some((entry) => entry.document === EVIDENCE_PROFILES_RELATIVE_PATH && entry.valid));
   assert.ok(validSchemas.checked.some((entry) => entry.document === executionRequestPath && entry.valid));
   assert.ok(validSchemas.checked.some((entry) => entry.document === executionRoutePath && entry.valid));
 
@@ -418,12 +442,14 @@ test("upgrade creates a missing federation registry without adopting it as manag
   await fs.unlink(path.join(target, FEDERATION_REGISTRY_RELATIVE_PATH));
   await fs.unlink(path.join(target, USAGE_POLICY_RELATIVE_PATH));
   await fs.unlink(path.join(target, EXECUTION_POLICY_RELATIVE_PATH));
+  await fs.unlink(path.join(target, EVIDENCE_PROFILES_RELATIVE_PATH));
 
   const plan = await planUpgrade(target);
   assert.deepEqual(plan.conflicts, []);
   assert.ok(plan.actions.some((entry) => entry.type === "create-federation-registry"));
   assert.ok(plan.actions.some((entry) => entry.type === "create-usage-policy"));
   assert.ok(plan.actions.some((entry) => entry.type === "create-execution-policy"));
+  assert.ok(plan.actions.some((entry) => entry.type === "create-evidence-profiles"));
   const lock = await executeUpgrade(plan);
 
   assert.equal(lock.template.version, releaseVersion);
@@ -431,12 +457,14 @@ test("upgrade creates a missing federation registry without adopting it as manag
   assert.equal(lock.managed_files.some((entry) => entry.path === FEDERATION_REGISTRY_RELATIVE_PATH), false);
   assert.equal(lock.managed_files.some((entry) => entry.path === USAGE_POLICY_RELATIVE_PATH), false);
   assert.equal(lock.managed_files.some((entry) => entry.path === EXECUTION_POLICY_RELATIVE_PATH), false);
+  assert.equal(lock.managed_files.some((entry) => entry.path === EVIDENCE_PROFILES_RELATIVE_PATH), false);
   assert.deepEqual(validateFederationRegistry(await readJson(path.join(target, FEDERATION_REGISTRY_RELATIVE_PATH))), {
     valid: true,
     errors: []
   });
   assert.deepEqual(await readJson(path.join(target, USAGE_POLICY_RELATIVE_PATH)), defaultUsagePolicy());
   assert.deepEqual(await readJson(path.join(target, EXECUTION_POLICY_RELATIVE_PATH)), defaultExecutionPolicy());
+  assert.deepEqual(await readJson(path.join(target, EVIDENCE_PROFILES_RELATIVE_PATH)), defaultEvidenceProfiles());
 });
 
 test("upgrade preserves an existing federation registry byte for byte", async (testContext) => {
@@ -469,18 +497,26 @@ test("upgrade preserves an existing federation registry byte for byte", async (t
   customExecutionPolicy.authority.default_selection_mode = "shadow";
   const executionPolicyBytes = `${JSON.stringify(customExecutionPolicy)}\n\n`;
   await fs.writeFile(executionPolicyPath, executionPolicyBytes);
+  const evidenceProfilesPath = path.join(target, EVIDENCE_PROFILES_RELATIVE_PATH);
+  const customEvidenceProfiles = defaultEvidenceProfiles();
+  customEvidenceProfiles.active_profile = "restricted";
+  const evidenceProfilesBytes = `${JSON.stringify(customEvidenceProfiles)}\n\n`;
+  await fs.writeFile(evidenceProfilesPath, evidenceProfilesBytes);
 
   const plan = await planUpgrade(target);
   assert.deepEqual(plan.conflicts, []);
   assert.ok(plan.actions.some((entry) => entry.type === "skip-federation-registry"));
   assert.ok(plan.actions.some((entry) => entry.type === "skip-usage-policy"));
   assert.ok(plan.actions.some((entry) => entry.type === "skip-execution-policy"));
+  assert.ok(plan.actions.some((entry) => entry.type === "skip-evidence-profiles"));
   const lock = await executeUpgrade(plan);
 
   assert.equal(await fs.readFile(registryPath, "utf8"), projectOwnedBytes);
   assert.equal(await fs.readFile(usagePolicyPath, "utf8"), usagePolicyBytes);
   assert.equal(await fs.readFile(executionPolicyPath, "utf8"), executionPolicyBytes);
+  assert.equal(await fs.readFile(evidenceProfilesPath, "utf8"), evidenceProfilesBytes);
   assert.equal(lock.managed_files.some((entry) => entry.path === FEDERATION_REGISTRY_RELATIVE_PATH), false);
   assert.equal(lock.managed_files.some((entry) => entry.path === USAGE_POLICY_RELATIVE_PATH), false);
   assert.equal(lock.managed_files.some((entry) => entry.path === EXECUTION_POLICY_RELATIVE_PATH), false);
+  assert.equal(lock.managed_files.some((entry) => entry.path === EVIDENCE_PROFILES_RELATIVE_PATH), false);
 });

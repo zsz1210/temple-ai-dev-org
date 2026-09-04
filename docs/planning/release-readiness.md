@@ -40,6 +40,7 @@ The package version, a Git tag, a GitHub Release, repository visibility, and npm
 - MIT License, contribution rules, governance, Code of Conduct, security guidance, ownership, issue templates, and pull-request templates.
 - A protected `main` branch with required CI and review controls.
 - An explicit package inclusion allowlist that excludes root self-hosting state, tests, examples, local output, integrations, and development scripts from npm contents.
+- Project-owned Evidence Profiles and a value-redacted publication audit that separates useful self-host evidence from blocked or local-only data without changing repository visibility.
 - Repository-native Work Items, evidence, Independent QA separation, recovery, learning, context routing, and advisory execution routing.
 - A local real-browser Management Console regression gate.
 - A private reporting route previously tested by the Human Principal.
@@ -71,6 +72,7 @@ Exact file bytes, digests, audit results, test counts, and hosting state must be
 | Clean consumer | Must be repeated | Install the real tarball in a clean Node.js 24 environment; run version, init, re-init, project launcher, status, and Doctor |
 | Upgrade safety | Prior Alpha.28-to-.29 rehearsal passed | Reconcile whether the candidate changes managed files or migration behavior; repeat only the affected upgrade path |
 | Dependency and secret review | Current dependency audit is clean; hosting controls not fully qualified | Repeat the locked audit and tracked-content review; verify hosting security controls after visibility changes |
+| Evidence publication boundary | Public profile implemented; retained legacy and binary evidence still require review | Run `publication audit` for repository and package at the exact candidate, review every retained-legacy and binary item, then record the Human disposition |
 | Fresh-session clean-room path | Not run | A new AI session with no Temple chat history uses only repository-visible instructions in a disposable new project, completes one bounded Work Item, recovers it from a second cold session, and reaches healthy Status and Doctor results without maintainer coaching |
 | Rollback | Earlier procedure exists | Bind withdrawal or superseding-release instructions to the approved immutable tag |
 | Publication authority | Not granted | Separate Human approval for visibility, tag, GitHub Release, and any later npm publication |

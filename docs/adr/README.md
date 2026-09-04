@@ -47,5 +47,6 @@
 - [ADR-0045: Match delivery controls to risk and keep concluded work out of the blocked queue](0045-adaptive-workflow-profiles.md)
 - [ADR-0046: Separate adaptive execution routing from responsibility and calibration](0046-separate-adaptive-execution-routing.md)
 - [ADR-0047: Bind Context Capsules to stage, purpose, and measured source manifests](0047-bind-context-capsules-to-stage-purpose-and-source-manifests.md)
+- [ADR-0048: Govern auditable self-hosting with Evidence Profiles](0048-auditable-self-hosting-evidence-profiles.md)
 
 An ADR is an Architecture Decision Record. It preserves the context, decision, rationale, and consequences of an important technical or organizational choice so that later Agents do not have to infer why it was made from chat memory.

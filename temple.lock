@@ -11,12 +11,12 @@
       "launcher": "templew.mjs",
       "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.29",
       "repository_spec": null,
-      "source_revision": "88254fa84a9c070d2576f51a8fab28e700d8d2e6",
+      "source_revision": "03a523758b040bac931826deb36f5029f94d46bc",
       "source_clean": false,
       "invocation": "node ./templew.mjs <command> ."
     },
     "installed_at": "2026-08-30T02:28:18.355Z",
-    "upgraded_at": "2026-09-04T06:04:07.828Z",
+    "upgraded_at": "2026-09-04T11:08:37.810Z",
     "upgraded_from": "0.1.0-alpha.29"
   },
   "installation": {
@@ -174,7 +174,10 @@
     "checksum_upgrade": true,
     "optional_packs": true,
     "toolkit_self_hosting": true,
-    "read_only_model_onboarding": true
+    "read_only_model_onboarding": true,
+    "auditable_self_hosting": true,
+    "evidence_profiles": true,
+    "publication_audit": true
   },
   "optional_packs": [],
   "managed_files": [
@@ -267,6 +270,10 @@
       "sha256": "9ce04d164812ed3af28dcb14d24e343f7e142e72573c0c8a144f18d8d12fa519"
     },
     {
+      "path": ".ai-org/core/schemas/evidence-profiles.schema.json",
+      "sha256": "95e568bf29816b6fd80978ad18c885e5d9d8169511055e7a6ff9f10966f65130"
+    },
+    {
       "path": ".ai-org/core/schemas/evidence-registry.schema.json",
       "sha256": "e8d9b9505cda1d5398ff80ea616b9551ffd6407bffd3e1aad4330f64966a4890"
     },
@@ -352,7 +359,7 @@
     },
     {
       "path": ".ai-org/core/schemas/schema-catalog.json",
-      "sha256": "ac260cde27d0236bc2f54f10fa05282babe835ed0bef3d55ca836e7a9b18f0c7"
+      "sha256": "50f8fa12db5b83e4caac0e29fe42d370936af8f2d8b279ff0eada3f702f82513"
     },
     {
       "path": ".ai-org/core/schemas/spec-index.schema.json",

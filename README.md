@@ -100,7 +100,7 @@ node ./templew.mjs observe .
 
 You install Temple into each project; you do not fork the framework for every product.
 
-The root `.ai-org/` in this repository is Temple's own auditable self-hosting record. It remains visible so readers can inspect how the framework manages its own development. This self-host state is excluded from the release package and is not copied into another product project; each initialized project creates and owns its own state.
+The root `.ai-org/` is Temple's own development record: readers can inspect its scope, handoffs, evaluation, and review instead of taking the framework's claims on trust. Temple calls this **Auditable Self-Hosting**. A project-owned **Evidence Profile** keeps useful governance evidence separate from credentials, raw runtime data, live account state, and machine-specific details. This record is excluded from the npm package and is never copied into another project. See [Auditable Self-Hosting and Evidence Profiles](docs/operations/auditable-self-hosting.md).
 
 ## One operating model, different scales
 
@@ -122,7 +122,7 @@ See the [Capability catalog](docs/extensions/capability-catalog.md), [Skill auth
 
 Temple is an **Early Alpha** intended for human-supervised, low-risk local projects and bounded pilots.
 
-- **Available now:** repository-native Solo workflow, stable Positions, Work Items, deterministic context and capability routing, explainable non-executing Adaptive Execution Routing, governed Skills and learning, lifecycle evidence, local status, and upgrade boundaries.
+- **Available now:** repository-native Solo workflow, stable Positions, Work Items, deterministic context and capability routing, explainable non-executing Adaptive Execution Routing, governed Skills and learning, lifecycle evidence, Auditable Self-Hosting profiles, local status, and upgrade boundaries.
 - **Experimental or bounded:** collaborative and high-assurance contracts, parallel planning, Provider observation and calibration, local control-plane views, tracker coordination, and per-Work-Item usage attribution.
 - **Not yet claimed:** broad multi-human and multi-machine qualification, production monitoring or remediation, unattended external writes, automatic model routing, regulated acceptance, or measured universal time and Token savings.
 

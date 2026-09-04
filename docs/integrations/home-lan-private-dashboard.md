@@ -33,18 +33,19 @@ Replace `en1` with the interface printed by the first command. Temple accepts on
 
 ## Start
 
-From the project repository, substitute the Mac's current private address:
+From the project repository, store the Mac's current private address in a task-specific shell variable, then start the listener:
 
 ```bash
+TEMPLE_LAN_IP="$(ipconfig getifaddr en1)"
 node ./templew.mjs control-plane start . \
-  --lan-viewer-host 192.168.79.5
+  --lan-viewer-host "$TEMPLE_LAN_IP"
 ```
 
 The LAN listener uses port `41741` by default. Choose another available port when necessary:
 
 ```bash
 node ./templew.mjs control-plane start . \
-  --lan-viewer-host 192.168.79.5 \
+  --lan-viewer-host "$TEMPLE_LAN_IP" \
   --lan-viewer-port 41742
 ```
 
@@ -53,7 +54,7 @@ Add live Codex observation and the away-from-home Tailscale viewer independently
 ```bash
 node ./templew.mjs control-plane start . \
   --codex \
-  --lan-viewer-host 192.168.79.5 \
+  --lan-viewer-host "$TEMPLE_LAN_IP" \
   --tailscale-viewer
 ```
 

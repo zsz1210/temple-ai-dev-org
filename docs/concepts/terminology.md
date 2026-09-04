@@ -148,6 +148,18 @@ Several humans and their Agents share the project. Sponsorship, eligible Positio
 
 A stricter profile for higher-risk work. It scales identity separation, revision-matched evidence, rollback readiness, and distinct human approvals by risk tier. It does not claim regulatory certification or authorize production action by itself.
 
+<a id="evidence-profile"></a>
+
+### Evidence Profile
+
+A project-owned publication policy named `private`, `public`, or `restricted`. It separates evidence that can explain the work from data that must be normalized, reviewed, or kept local. It is not a Workflow Profile, Execution Profile, repository-visibility setting, or release approval.
+
+<a id="auditable-self-hosting"></a>
+
+### Auditable Self-Hosting
+
+Using Temple's repository-backed operating model to develop the framework or project that provides it, while preserving enough evidence for another person to inspect how changes were governed. An Evidence Profile defines its publication boundary; self-hosting does not mean publishing every runtime detail.
+
 ## Learning and reusable methods
 
 <a id="lesson"></a>

@@ -128,6 +128,7 @@ The framework uses Git-friendly JSON and Markdown:
 - `context-map.json`: compact project-owned routes to important Specs, ADRs, domain sources, runbooks, tests, and documentation; it contains paths and retrieval metadata, not copied source bodies.
 - `retrieval.json`: selected deterministic provider and the unconfigured local-hybrid privacy and fallback boundary.
 - `execution-policy.json`: project-owned capabilities, execution profiles, policy constraints, preference rules, typed resource measures, and the non-executing authority boundary.
+- `evidence-profiles.json`: project-owned `private`, `public`, and `restricted` publication boundaries plus any explicitly reviewed legacy-evidence baseline; it never changes repository visibility.
 - `evidence.json`: normalized exact-revision and content-addressed evidence entries.
 - `learning/index.json`: compact retrieval metadata for Lessons and Practices.
 - `learning/lessons/*.md` and `learning/practices/*.md`: full project evidence, applicability, guidance, and validation history.

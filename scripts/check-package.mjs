@@ -3,6 +3,7 @@ import path from "node:path";
 import process from "node:process";
 import { promisify } from "node:util";
 import { fileURLToPath } from "node:url";
+import { buildPublicationAudit } from "../src/publication-audit.mjs";
 
 const execFileAsync = promisify(execFile);
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -100,6 +101,16 @@ export async function inspectPackageDryRun(packageRoot = root) {
 export async function checkPackageBoundary(packageRoot = root) {
   const pack = await inspectPackageDryRun(packageRoot);
   const failures = validatePackageDryRun(pack);
+  const publication = await buildPublicationAudit(packageRoot, {
+    profileId: "public",
+    surface: "package",
+    filesBySurface: { package: pack.files.map((entry) => entry.path) }
+  });
+  if (publication.status === "blocked") {
+    for (const finding of publication.surfaces[0].findings.filter((entry) => entry.classification === "blocked")) {
+      failures.push(`public package evidence is blocked by ${finding.rule_id}: ${finding.path}:${finding.line}`);
+    }
+  }
   if (failures.length > 0) throw new Error(`Package boundary check failed:\n- ${failures.join("\n- ")}`);
   return pack;
 }

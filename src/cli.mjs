@@ -104,6 +104,7 @@ import {
   recoverRestore
 } from "./recovery.mjs";
 import { writeAuditExport } from "./audit-export.mjs";
+import { buildPublicationAudit } from "./publication-audit.mjs";
 import { buildFederatedPortfolio, readFederationRegistry, validateFederationRegistry } from "./federation.mjs";
 import {
   buildCrossRepositoryUsageReport,
@@ -141,6 +142,7 @@ Usage:
   temple restore apply [target] --backup directory --expected-plan sha256 [--allow-replace] [--json]
   temple restore recover [target] [--json]
   temple audit export [target] --output file [--work-item WI-ID] [--event-type type] [--redact-key key] [--max-events number] [--max-recovery-transactions number] [--max-event-bytes number] [--json]
+  temple publication audit [target] [--profile private|public|restricted] [--surface repository|package|both] [--json]
   temple federation validate [target] [--json]
   temple portfolio build [target] [--allowed-root directory] [--no-write] [--json]
   temple experiment inspect [target] --manifest path --allowed-root directory [--json]
@@ -250,6 +252,7 @@ Core commands:
   backup      Create and verify a transparent, content-addressed backup of project-owned Temple state.
   restore     Preview, apply, or safely recover an interrupted project-owned-state restore.
   audit       Export a bounded privacy-filtered audit record to an exclusive output file.
+  publication Audit tracked repository and package surfaces against a project Evidence Profile.
   federation  Validate coordinator-owned multi-repository federation configuration.
   portfolio   Build a read-only federated portfolio and optionally write its coordinator view.
   experiment  Inspect a bounded validation manifest or aggregate qualified participant usage.
@@ -377,6 +380,7 @@ const VALUE_FLAGS = new Set([
   "--profile-rationale",
   "--profile-evidence",
   "--profile",
+  "--surface",
   "--principal-id",
   "--verification-class",
   "--provider-subject",
@@ -519,7 +523,7 @@ const REPEATABLE_FLAGS = new Set([
   "--participant-principal",
   "--environment"
 ]);
-const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence", "schema", "migration", "learning", "retrieval", "evaluation", "usage", "execution", "adapter", "control-plane", "console", "backup", "restore", "audit", "federation", "portfolio", "experiment"]);
+const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence", "schema", "migration", "learning", "retrieval", "evaluation", "usage", "execution", "adapter", "control-plane", "console", "backup", "restore", "audit", "publication", "federation", "portfolio", "experiment"]);
 
 function parseCommand(argv) {
   if (argv.length === 0 || argv[0] === "--help" || argv[0] === "-h") {
@@ -1147,6 +1151,28 @@ async function runAudit(parsed) {
     "Canonical state changed: no"
   ]);
   return 0;
+}
+
+async function runPublication(parsed) {
+  const target = await assertSafeTarget(parsed.target);
+  if (parsed.action !== "audit") throw new Error(`Unknown publication action: ${parsed.action}`);
+  const result = await buildPublicationAudit(target, {
+    profileId: parsed.options["--profile"],
+    surface: parsed.options["--surface"]
+  });
+  printResult(parsed, result, [
+    `Publication audit: ${result.status}`,
+    `Profile / surface: ${result.profile} / ${result.requested_surface}`,
+    `Blocked / review required: ${result.summary.blocked} / ${result.summary.review_required}`,
+    `Files / binary review: ${result.summary.files} / ${result.summary.binary_files_requiring_review}`,
+    result.legacy_baseline
+      ? `Reviewed legacy baseline: ${result.legacy_baseline.revision}`
+      : "Reviewed legacy baseline: none",
+    "Matched values printed: no",
+    "Canonical state changed: no",
+    "Publication authorized: no"
+  ]);
+  return result.status === "blocked" ? 1 : 0;
 }
 
 async function runFederation(parsed) {
@@ -2912,6 +2938,7 @@ export async function main(argv) {
   if (parsed.command === "backup") return runBackup(parsed);
   if (parsed.command === "restore") return runRestore(parsed);
   if (parsed.command === "audit") return runAudit(parsed);
+  if (parsed.command === "publication") return runPublication(parsed);
   if (parsed.command === "federation") return runFederation(parsed);
   if (parsed.command === "portfolio") return runPortfolio(parsed);
   if (parsed.command === "experiment") return runExperiment(parsed);

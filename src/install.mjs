@@ -462,6 +462,9 @@ export async function executeInit(plan) {
         provider_attach_outcomes: true,
         repository_federation: true,
         read_only_portfolio: true,
+        auditable_self_hosting: true,
+        evidence_profiles: true,
+        publication_audit: true,
         checksum_upgrade: true,
         optional_packs: true,
         toolkit_self_hosting: true

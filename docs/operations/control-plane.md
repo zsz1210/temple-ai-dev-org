@@ -53,8 +53,9 @@ This command acquires the telemetry writer lease and starts the repository provi
 Expose a separate redacted read-only Temple Workspace on one exact trusted home-LAN address:
 
 ```bash
+TEMPLE_LAN_IP="$(ipconfig getifaddr en1)"
 node ./templew.mjs control-plane start . \
-  --lan-viewer-host 192.168.79.5
+  --lan-viewer-host "$TEMPLE_LAN_IP"
 ```
 
 The LAN listener defaults to port `41741`. It accepts only an RFC1918 IPv4 address and never turns the loopback mutation gateway into a network listener. See [Home-LAN private Temple Workspace](../integrations/home-lan-private-dashboard.md).
@@ -78,7 +79,7 @@ To observe Codex while also serving the home-LAN read-only viewer, enable both e
 ```bash
 node ./templew.mjs control-plane start . \
   --codex \
-  --lan-viewer-host 192.168.79.5
+  --lan-viewer-host "$TEMPLE_LAN_IP"
 ```
 
 `--lan-viewer-host` alone serves repository and retained telemetry, but it does not start Codex observation. This separation prevents a network-viewing choice from silently enabling a Provider process.
