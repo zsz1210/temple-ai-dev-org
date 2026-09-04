@@ -1,0 +1,23 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "336bd945b49e80a3e6d9459a8d093790d1200f9b",
+  "command": [
+    "detached exact-candidate worktree: npm run verify"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T13:25:14.000Z",
+  "completed_at": "2026-09-04T13:26:47.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0156/clean-room-comparison.json",
+    "docs/validation/fresh-session-clean-room-rehearsal-v2.md"
+  ],
+  "summary": {
+    "tests_passed": 431,
+    "tests_failed": 0,
+    "repository_checks": "pass",
+    "documentation_links": "pass",
+    "package_boundary": "pass",
+    "detached_revision_clean_after_dependency_link_removal": true
+  }
+}

@@ -3,10 +3,10 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 156 total, 1 active
-- Codex tasks: 10 registered, 8 archive-ready
+- Work items: 156 total, 0 active
+- Codex tasks: 10 registered, 10 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 14
+- Attention signals: 16
 
 ## Collaboration
 
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -203,7 +203,7 @@
 | WI-0153 | Label Temple Concept Layers as L1 through L6 | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `543c5cb8` | 0 | 7 | 0 |
 | WI-0154 | Review retained evidence for public readiness | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `d1434761` | 0 | 8 | 0 |
 | WI-0155 | Run fresh-session clean-room release rehearsal | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9d1d42b6` | 2 | 9 | 0 |
-| WI-0156 | Reduce fresh-session onboarding friction | build | Developer | Rikku | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260904130100-d8c8a8ec | `—` | 2 | 3 | 0 |
+| WI-0156 | Reduce fresh-session onboarding friction | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `336bd945` | 2 | 11 | 0 |
 
 ## Codex task registry
 
@@ -217,8 +217,8 @@
 | task-0006 | WI-0091 | WI-0091 · Make Usage capture health t… · Developer (Rikku) | Developer / Rikku | human | main | completed | `c60a2d27` | ready |
 | task-0007 | WI-0155 | WI-0155 · Run fresh-session clean-roo… · Developer (Rikku) | Developer / Rikku | human | codex/wi-0155-clean-room-rehearsal | completed | `—` | ready |
 | task-0008 | WI-0155 | WI-0155 · Run fresh-session clean… · Independent QA (Lulu) | Independent QA / Lulu | human | codex/wi-0155-clean-room-rehearsal | completed | `—` | ready |
-| task-0009 | WI-0156 | WI-0156 · Reduce fresh-session onboar… · Developer (Rikku) | Developer / Rikku | human | codex/wi-0156-onboarding-hardening | completed | `—` | — |
-| task-0010 | WI-0156 | WI-0156 · Reduce fresh-session on… · Independent QA (Lulu) | Independent QA / Lulu | human | codex/wi-0156-onboarding-hardening | completed | `—` | — |
+| task-0009 | WI-0156 | WI-0156 · Reduce fresh-session onboar… · Developer (Rikku) | Developer / Rikku | human | codex/wi-0156-onboarding-hardening | completed | `—` | ready |
+| task-0010 | WI-0156 | WI-0156 · Reduce fresh-session on… · Independent QA (Lulu) | Independent QA / Lulu | human | codex/wi-0156-onboarding-hardening | completed | `—` | ready |
 
 ## Runtime workers and shared resources
 
@@ -265,6 +265,8 @@
 - task-0006 can be archived
 - task-0007 can be archived
 - task-0008 can be archived
+- task-0009 can be archived
+- task-0010 can be archived
 - worker-20260830090102-322fa6b7 is failed
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
@@ -350,14 +352,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-04T13:20:32.427Z | task_status_changed | WI-0156 | agent-lulu |
-| 2026-09-04T13:17:06.824Z | task_registered | WI-0156 | agent-mog |
-| 2026-09-04T13:17:06.428Z | task_status_changed | WI-0156 | agent-rikku |
-| 2026-09-04T13:09:42.703Z | task_registered | WI-0156 | agent-mog |
-| 2026-09-04T13:01:00.705Z | work_item_claimed | WI-0156 | human |
-| 2026-09-04T13:01:00.425Z | work_item_transitioned | WI-0156 | agent-tidus |
-| 2026-09-04T13:01:00.164Z | work_item_transitioned | WI-0156 | agent-yuna |
-| 2026-09-04T13:00:59.863Z | work_item_transitioned | WI-0156 | agent-mog |
+| 2026-09-04T13:28:22.052Z | work_item_closed | WI-0156 | agent-mog |
+| 2026-09-04T13:28:22.052Z | release_gate_completed | WI-0156 | agent-mog |
+| 2026-09-04T13:28:21.783Z | work_item_claimed | WI-0156 | human |
+| 2026-09-04T13:28:08.935Z | work_item_transitioned | WI-0156 | agent-lulu |
+| 2026-09-04T13:28:08.674Z | work_item_claim_released | WI-0156 | human |
+| 2026-09-04T13:28:08.408Z | work_item_claimed | WI-0156 | human |
+| 2026-09-04T13:27:41.444Z | work_item_transitioned | WI-0156 | agent-lulu |
+| 2026-09-04T13:27:41.182Z | work_item_claim_released | WI-0156 | human |
 
 ## Assignments
 

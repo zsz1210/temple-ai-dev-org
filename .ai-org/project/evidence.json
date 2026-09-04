@@ -24991,6 +24991,130 @@
         "exit_code": 0,
         "started_at": "2026-09-04T12:42:38.000Z"
       }
+    },
+    {
+      "id": "EVID-20260904T132430Z-33204CFA",
+      "work_item_id": "WI-0156",
+      "recorded_at": "2026-09-04T13:24:30.768Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0156 implementation candidate",
+      "outcome": "verified",
+      "scope_revision": "336bd945b49e80a3e6d9459a8d093790d1200f9b",
+      "observed_at": "2026-09-04T13:24:30.768Z",
+      "summary": "Focused onboarding corrections and retained clean-room comparison.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "336bd945b49e80a3e6d9459a8d093790d1200f9b"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "336bd945b49e80a3e6d9459a8d093790d1200f9b",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T132431Z-E88215DA",
+      "work_item_id": "WI-0156",
+      "recorded_at": "2026-09-04T13:24:31.021Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0156 developer verification",
+      "outcome": "pass",
+      "scope_revision": "336bd945b49e80a3e6d9459a8d093790d1200f9b",
+      "observed_at": "2026-09-04T13:23:40.000Z",
+      "summary": "Full source gate and matched QueueKeep clean-room verification passed with explicit follow-up findings.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0156/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0156/developer-test-observation.json",
+          "sha256": "719fd441b30b7677fe5465c931e50dc31f41be5dab25227cff140605f7cffa33"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0156/work-order.md",
+          "sha256": "fb79ec37b34e348c232bf56fb2eb075038cc2501233221bc36f5f92f162e2b49"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0156/clean-room-comparison.json",
+          "sha256": "5713932028094c6674bb4dfd20e20fc21b2af0c0de4c0cd72f3717425a2b298a"
+        },
+        {
+          "path": "docs/validation/fresh-session-clean-room-rehearsal-v2.md",
+          "sha256": "9ded74f4dbd9b1c29ba8dca4c9043b380481f8feae019a51457eade492960b71"
+        }
+      ],
+      "details": {
+        "command": [
+          "source repository: npm run verify",
+          "disposable QueueKeep repository: npm test",
+          "disposable QueueKeep repository: node ./templew.mjs status . --no-write --json",
+          "disposable QueueKeep repository: node ./templew.mjs doctor . --json",
+          "separate Codex task: repository-backed cold recovery"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T13:22:20.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T132724Z-3A5A2F08",
+      "work_item_id": "WI-0156",
+      "recorded_at": "2026-09-04T13:27:24.270Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0156 exact-candidate quality gate",
+      "outcome": "pass",
+      "scope_revision": "336bd945b49e80a3e6d9459a8d093790d1200f9b",
+      "observed_at": "2026-09-04T13:26:47.000Z",
+      "summary": "Detached exact-candidate verification passed 431 tests and all repository checks.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0156/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0156/quality-test-observation.json",
+          "sha256": "adfc7027b0e9eae8cb0a23ada54885aebb6a273fbb120fc57a63b158fd8ed6e7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0156/clean-room-comparison.json",
+          "sha256": "5713932028094c6674bb4dfd20e20fc21b2af0c0de4c0cd72f3717425a2b298a"
+        },
+        {
+          "path": "docs/validation/fresh-session-clean-room-rehearsal-v2.md",
+          "sha256": "9ded74f4dbd9b1c29ba8dca4c9043b380481f8feae019a51457eade492960b71"
+        }
+      ],
+      "details": {
+        "command": [
+          "detached exact-candidate worktree: npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T13:25:14.000Z"
+      }
     }
   ]
 }
