@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0159",
   "title": "Normalize public evidence paths without erasing provenance",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-04T14:42:17.409Z",
-  "updated_at": "2026-09-04T14:46:05.420Z",
+  "updated_at": "2026-09-04T14:56:22.061Z",
   "scope": [
     "Replace the four current-tree maintainer home-path occurrences in WI-0155 and WI-0156 retained artifacts with non-identifying placeholders.",
     "Preserve the original evidence through its existing revision-pinned Git digests and add a current redaction manifest that records affected artifacts, source revisions, digests, replacements, and limitations without repeating the private path.",
@@ -59,7 +59,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "ff439cc5529a61b866e92da7da7450389a19b3c4",
+  "base_revision": "fea56220c4ac4f921eb23779c3ee50cc2a29c328",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -67,15 +67,16 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260904144605-71cc1322",
-    "status": "active",
+    "id": "claim-20260904145603-b2a91271",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "ff439cc5529a61b866e92da7da7450389a19b3c4",
+    "agent_id": "agent-mog",
+    "base_revision": "fea56220c4ac4f921eb23779c3ee50cc2a29c328",
     "branch": "codex/wi-0159-public-evidence-paths",
     "worktree": null,
-    "claimed_at": "2026-09-04T14:46:05.420Z",
-    "released_at": null
+    "claimed_at": "2026-09-04T14:56:03.462Z",
+    "released_at": "2026-09-04T14:56:22.061Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -116,14 +117,51 @@
     },
     {
       "id": "claim-20260904144605-71cc1322",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "ff439cc5529a61b866e92da7da7450389a19b3c4",
       "branch": "codex/wi-0159-public-evidence-paths",
       "worktree": null,
       "claimed_at": "2026-09-04T14:46:05.420Z",
-      "released_at": null
+      "released_at": "2026-09-04T14:55:20.980Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904145521-7091cb9f",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "fea56220c4ac4f921eb23779c3ee50cc2a29c328",
+      "branch": "codex/wi-0159-public-evidence-paths",
+      "worktree": null,
+      "claimed_at": "2026-09-04T14:55:21.275Z",
+      "released_at": "2026-09-04T14:56:02.603Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904145602-0f35e65c",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "fea56220c4ac4f921eb23779c3ee50cc2a29c328",
+      "branch": "codex/wi-0159-public-evidence-paths",
+      "worktree": null,
+      "claimed_at": "2026-09-04T14:56:02.903Z",
+      "released_at": "2026-09-04T14:56:03.172Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904145603-b2a91271",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "fea56220c4ac4f921eb23779c3ee50cc2a29c328",
+      "branch": "codex/wi-0159-public-evidence-paths",
+      "worktree": null,
+      "claimed_at": "2026-09-04T14:56:03.462Z",
+      "released_at": "2026-09-04T14:56:22.061Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -141,13 +179,64 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0159/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0159/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0159/developer-verification.md",
+      ".ai-org/artifacts/WI-0159/redaction-manifest.json"
+    ],
+    "test_evidence": [
+      "EVID-20260904T145521Z-0FE623F7"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0159/quality-evaluation.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260904T145521Z-0FE623F7"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0159/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0159/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0159/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0159/work-order.md",
     ".ai-org/artifacts/WI-0159/approved-scope.md",
-    ".ai-org/artifacts/WI-0159/technical-design.md"
+    ".ai-org/artifacts/WI-0159/technical-design.md",
+    ".ai-org/artifacts/WI-0159/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0159/developer-verification.md",
+    ".ai-org/artifacts/WI-0159/redaction-manifest.json",
+    "EVID-20260904T145521Z-0FE623F7",
+    ".ai-org/artifacts/WI-0159/quality-evaluation.md",
+    ".ai-org/artifacts/WI-0159/release-record.md",
+    ".ai-org/artifacts/WI-0159/independent-qa-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "fea56220c4ac4f921eb23779c3ee50cc2a29c328",
+      "artifact": ".ai-org/artifacts/WI-0159/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T14:55:11.312Z"
+    }
+  ],
+  "developer_candidate_revision": "fea56220c4ac4f921eb23779c3ee50cc2a29c328",
+  "tested_revision": "fea56220c4ac4f921eb23779c3ee50cc2a29c328",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

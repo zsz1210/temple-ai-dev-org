@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 159 total, 1 active
+- Work items: 159 total, 0 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -206,7 +206,7 @@
 | WI-0156 | Reduce fresh-session onboarding friction | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `336bd945` | 2 | 11 | 0 |
 | WI-0157 | Harden lifecycle evidence guidance | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0155149d` | 0 | 10 | 0 |
 | WI-0158 | Run final pre-Alpha clean-room rehearsal | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3ffd987c` | 2 | 10 | 0 |
-| WI-0159 | Normalize public evidence paths without erasing provenance | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260904144605-71cc1322 | `—` | 0 | 3 | 0 |
+| WI-0159 | Normalize public evidence paths without erasing provenance | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `fea56220` | 0 | 10 | 0 |
 
 ## Codex task registry
 
@@ -359,14 +359,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-04T14:46:05.420Z | work_item_claimed | WI-0159 | human |
-| 2026-09-04T14:46:04.878Z | work_item_transitioned | WI-0159 | agent-tidus |
-| 2026-09-04T14:46:04.596Z | work_item_claimed | WI-0159 | human |
-| 2026-09-04T14:46:04.020Z | work_item_transitioned | WI-0159 | agent-yuna |
-| 2026-09-04T14:46:03.711Z | work_item_claimed | WI-0159 | human |
-| 2026-09-04T14:46:03.101Z | work_item_transitioned | WI-0159 | agent-mog |
-| 2026-09-04T14:42:35.903Z | work_item_claimed | WI-0159 | human |
-| 2026-09-04T14:42:35.474Z | work_item_coordination_configured | WI-0159 | agent-mog |
+| 2026-09-04T14:56:22.061Z | work_item_closed | WI-0159 | agent-mog |
+| 2026-09-04T14:56:22.061Z | release_gate_completed | WI-0159 | agent-mog |
+| 2026-09-04T14:56:03.462Z | work_item_claimed | WI-0159 | human |
+| 2026-09-04T14:56:03.172Z | work_item_transitioned | WI-0159 | agent-lulu |
+| 2026-09-04T14:56:02.903Z | work_item_claimed | WI-0159 | human |
+| 2026-09-04T14:56:02.603Z | work_item_transitioned | WI-0159 | agent-lulu |
+| 2026-09-04T14:56:02.090Z | work_item_transitioned | WI-0159 | agent-lulu |
+| 2026-09-04T14:55:21.533Z | evidence_recorded | WI-0159 | agent-lulu |
 
 ## Assignments
 
