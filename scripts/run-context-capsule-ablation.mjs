@@ -36,8 +36,55 @@ import {
 
 const execFile = promisify(execFileCallback);
 const repositoryRoot = path.resolve(import.meta.dirname, "..");
-const artifactRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0141");
-const defaultLabRoot = path.join(os.tmpdir(), "temple-wi0141-context-capsule-ablation");
+
+function requestedExperimentWorkItem(argv) {
+  const index = argv.indexOf("--work-item");
+  return index === -1 ? "WI-0141" : argv[index + 1];
+}
+
+const experimentProfiles = Object.freeze({
+  "WI-0141": Object.freeze({
+    condition_order: [
+      "single-stage-aware-a",
+      "multi-legacy-expanded-a",
+      "single-legacy-expanded-a",
+      "multi-stage-aware-a",
+      "single-legacy-expanded-b",
+      "multi-stage-aware-b",
+      "single-stage-aware-b",
+      "multi-legacy-expanded-b"
+    ],
+    cache_control: null
+  }),
+  "WI-0143": Object.freeze({
+    condition_order: [
+      "single-stage-aware-a",
+      "single-legacy-expanded-a",
+      "multi-legacy-expanded-a",
+      "multi-stage-aware-a",
+      "single-legacy-expanded-b",
+      "single-stage-aware-b",
+      "multi-stage-aware-b",
+      "multi-legacy-expanded-b"
+    ],
+    cache_control: Object.freeze({
+      method: "matched-cache-share",
+      predeclared: true,
+      maximum_pair_delta_percentage_points: 2,
+      pairing: "adjacent-task-shape-and-repetition-blocks",
+      threshold_kind: "diagnostic-engineering-tolerance-not-statistical-estimate"
+    })
+  })
+});
+
+const experimentWorkItemId = requestedExperimentWorkItem(process.argv.slice(2));
+if (!experimentProfiles[experimentWorkItemId]) {
+  throw new Error(`Unsupported Context Capsule experiment Work Item: ${experimentWorkItemId ?? "missing"}`);
+}
+const experimentProfile = experimentProfiles[experimentWorkItemId];
+const experimentSlug = experimentWorkItemId.toLowerCase().replaceAll("-", "");
+const artifactRoot = path.join(repositoryRoot, `.ai-org/artifacts/${experimentWorkItemId}`);
+const defaultLabRoot = path.join(os.tmpdir(), `temple-${experimentSlug}-context-capsule-ablation`);
 const defaultProtocolPath = path.join(artifactRoot, "live-protocol.json");
 const defaultApprovalTemplatePath = path.join(artifactRoot, "account-approval.template.json");
 const defaultApprovalPath = path.join(artifactRoot, "account-approval.json");
@@ -52,6 +99,7 @@ const retainedFalseNegativeObservationPath = path.join(repositoryRoot, ".ai-org/
 const retainedDiagnosticObservationPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0139/live-observation.json");
 const retainedRouteAdherenceRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0140");
 const retainedRouteAdherenceProtocolPath = path.join(retainedRouteAdherenceRoot, "live-protocol.json");
+const retainedCachePilotPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0141/live-observation.json");
 const routeAdherenceBaselineRevision = "25b846d";
 
 const fixedGitEnvironment = Object.freeze({
@@ -83,7 +131,7 @@ export const successorLimitBasis = Object.freeze({
   coordinator_multi_repository_limit: 80000
 });
 
-export const conditionDefinitions = Object.freeze([
+const conditionDefinitionById = Object.freeze(Object.fromEntries([
   Object.freeze({
     id: "single-stage-aware-a",
     shape: "single-repository",
@@ -156,7 +204,9 @@ export const conditionDefinitions = Object.freeze([
     reasoning_effort: "medium",
     operational_token_limit: successorLimitBasis.coordinator_multi_repository_limit
   })
-]);
+].map((entry) => [entry.id, entry])));
+
+export const conditionDefinitions = Object.freeze(experimentProfile.condition_order.map((id) => conditionDefinitionById[id]));
 
 const conditionIds = Object.freeze(conditionDefinitions.map((entry) => entry.id));
 const aggregateOperationalTokenLimit = conditionDefinitions.reduce((sum, entry) => sum + entry.operational_token_limit, 0);
@@ -358,9 +408,9 @@ function assertSafeLabRoot(value) {
     relative === ".." ||
     relative.startsWith(`..${path.sep}`) ||
     path.isAbsolute(relative) ||
-    !path.basename(resolved).startsWith("temple-wi0141-")
+    !path.basename(resolved).startsWith(`temple-${experimentSlug}-`)
   ) {
-    throw new Error("Lab root must be a specific temple-wi0141-* directory below the system temporary directory");
+    throw new Error(`Lab root must be a specific temple-${experimentSlug}-* directory below the system temporary directory`);
   }
   return resolved;
 }
@@ -382,7 +432,7 @@ function initConfig(projectId, projectName) {
 
 async function initializeGitRepository(root, name) {
   await fs.mkdir(root, { recursive: true });
-  await writeText(path.join(root, "README.md"), `# ${name}\n\nSynthetic local WI-0141 fixture. No production or external authority.\n`);
+  await writeText(path.join(root, "README.md"), `# ${name}\n\nSynthetic local ${experimentWorkItemId} fixture. No production or external authority.\n`);
   await checked("git", ["init", "-b", "main", root], { env: { ...process.env, ...fixedGitEnvironment } });
   await git(root, ["add", "-A"]);
   await git(root, ["commit", "-m", `Create ${name} fixture`]);
@@ -573,7 +623,7 @@ async function createSingleSource(labRoot) {
   await writeText(path.join(root, "docs/ui/dashboard.md"), "# Dashboard exploration\n\nArchived layout variants are not part of WI-0001.\n".repeat(36));
   await writeText(path.join(root, "docs/operations/deploy.md"), "# Deployment runbook\n\nProduction steps are outside this local verification.\n".repeat(44));
   await writeText(path.join(root, "docs/history/incident-2024.md"), "# Archived incident\n\nHistorical narrative has no authority over the candidate.\n".repeat(48));
-  await installTemple(root, path.join(labRoot, "configs/single.json"), "wi0141-single", "WI-0141 Single Fixture");
+  await installTemple(root, path.join(labRoot, "configs/single.json"), `${experimentSlug}-single`, `${experimentWorkItemId} Single Fixture`);
   await createTempleWorkItem(root, {
     title: "Recover the idempotent receipt candidate",
     scope: "Recover the exact requirement, accepted decision, revision, tests, residual risk, and next action.",
@@ -655,7 +705,7 @@ async function createMultiSource(labRoot) {
   await writeText(path.join(root, "docs/discovery/marketplace.md"), "# Marketplace discovery\n\nFuture scope remains unapproved.\n".repeat(42));
   await writeText(path.join(root, "docs/operations/release.md"), "# Release plan\n\nProduction rollout is excluded from WI-0001.\n".repeat(46));
   await writeText(path.join(root, "docs/history/queue-incident.md"), "# Queue incident archive\n\nHistorical details do not govern the current contract.\n".repeat(50));
-  await installTemple(root, path.join(labRoot, "configs/multi.json"), "wi0141-multi", "WI-0141 Multi Fixture");
+  await installTemple(root, path.join(labRoot, "configs/multi.json"), `${experimentSlug}-multi`, `${experimentWorkItemId} Multi Fixture`);
   await createTempleWorkItem(root, {
     title: "Recover the OrderPlaced v2 integration handoff",
     scope: "Recover the exact contract, component revisions, completed slices, residual risk, authority, and next action.",
@@ -843,7 +893,7 @@ function threadStartParams({ id, cwd, route }) {
     approvalPolicy: "never",
     sandbox: "read-only",
     ephemeral: true,
-    serviceName: `temple-wi0141-${id}`,
+    serviceName: `temple-${experimentSlug}-${id}`,
     developerInstructions,
     ...wave5ThreadIsolation(cwd),
     baseInstructions
@@ -853,7 +903,7 @@ function threadStartParams({ id, cwd, route }) {
 function turnStartParams({ id, threadId, cwd, route, instruction, outputSchema }) {
   return {
     threadId,
-    clientUserMessageId: `wi0141-${id}`,
+    clientUserMessageId: `${experimentSlug}-${id}`,
     input: [{ type: "text", text: instruction }],
     turnTrigger: "user",
     cwd,
@@ -893,7 +943,7 @@ function validateGeneratedWireRequest(schemaText, params) {
 
 export async function contextAblationProviderHandshake() {
   const cliVersion = await checked("codex", ["--version"]);
-  const schemaRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0141-schema-"));
+  const schemaRoot = await fs.mkdtemp(path.join(os.tmpdir(), `temple-${experimentSlug}-schema-`));
   const schemaNames = [
     "ThreadStartParams.json",
     "TurnStartParams.json",
@@ -917,7 +967,7 @@ export async function contextAblationProviderHandshake() {
       env: isolateWave5CodexEnvironment(process.env)
     });
     await connection.request("initialize", {
-      clientInfo: { name: "temple-wi0141-preflight", title: "Temple WI-0141 Preflight", version: "4" },
+      clientInfo: { name: `temple-${experimentSlug}-preflight`, title: `Temple ${experimentWorkItemId} Preflight`, version: "4" },
       capabilities: { experimentalApi: false }
     });
     connection.notify("initialized", {});
@@ -934,12 +984,12 @@ export async function contextAblationProviderHandshake() {
     const terra = models.find((entry) => modelId(entry) === "gpt-5.6-terra");
     const efforts = modelEfforts(terra);
     const routeAvailable = Boolean(terra) && efforts.includes("medium");
-    const sampleRoot = path.join(os.tmpdir(), "temple-wi0141-wire-sample");
+    const sampleRoot = path.join(os.tmpdir(), `temple-${experimentSlug}-wire-sample`);
     const sampleRoute = { model: "gpt-5.6-terra", reasoning_effort: "medium" };
     const wireRequests = {
       thread_start: validateGeneratedWireRequest(schemaTexts["ThreadStartParams.json"], threadStartParams({ id: "wire-sample", cwd: sampleRoot, route: sampleRoute })),
       turn_start: validateGeneratedWireRequest(schemaTexts["TurnStartParams.json"], turnStartParams({
-        id: "wire-sample", threadId: "wi0141-wire-sample", cwd: sampleRoot, route: sampleRoute,
+        id: "wire-sample", threadId: `${experimentSlug}-wire-sample`, cwd: sampleRoot, route: sampleRoute,
         instruction: candidateInstruction("single-repository"), outputSchema: singleOutputSchema
       }))
     };
@@ -1018,7 +1068,7 @@ export function contextAblationTestProviderContract() {
 export function contextAblationApprovalTemplate(protocol) {
   return {
     schema_version: CONTEXT_ABLATION_APPROVAL_SCHEMA,
-    work_item_id: "WI-0141",
+    work_item_id: experimentWorkItemId,
     protocol_sha256: protocol.protocol_sha256,
     approved: false,
     authorization_source: null,
@@ -1026,6 +1076,7 @@ export function contextAblationApprovalTemplate(protocol) {
     approved_candidate_turns: conditionDefinitions.length,
     approved_model: "gpt-5.6-terra",
     approved_reasoning_effort: "medium",
+    approved_cache_control: protocol.cache_control,
     approved_condition_operational_token_limits: Object.fromEntries(conditionDefinitions.map((entry) => [entry.id, entry.operational_token_limit])),
     approved_aggregate_operational_tokens: aggregateOperationalTokenLimit,
     approved_program_wall_clock_ms: programWallClockLimitMs,
@@ -1036,6 +1087,37 @@ export function contextAblationApprovalTemplate(protocol) {
     retry_count: 0,
     fallback_count: 0,
     approved_at: null
+  };
+}
+
+export function deriveMatchedCacheControl(pilotObservationText) {
+  if (experimentProfile.cache_control === null) return null;
+  const observation = JSON.parse(pilotObservationText);
+  const pairDeltas = ["single-repository", "coordinator-multi-repository"].map((shape) => {
+    const pair = observation.conditions?.filter((entry) => entry.shape === shape && entry.repetition === "a") ?? [];
+    const legacy = pair.find((entry) => entry.strategy === "legacy-expanded");
+    const stage = pair.find((entry) => entry.strategy === "stage-aware");
+    const legacyShare = cacheShare(legacy);
+    const stageShare = cacheShare(stage);
+    if (!Number.isFinite(legacyShare) || !Number.isFinite(stageShare)) {
+      throw new Error(`WI-0141 cache pilot is missing the ${shape} repetition-a pair`);
+    }
+    return {
+      shape,
+      repetition: "a",
+      observed_pair_delta_percentage_points: round(Math.abs(stageShare - legacyShare))
+    };
+  });
+  return {
+    ...experimentProfile.cache_control,
+    pilot_basis: {
+      source_path: path.relative(repositoryRoot, retainedCachePilotPath),
+      source_sha256: sha256(pilotObservationText),
+      selected_pairs: pairDeltas,
+      maximum_selected_pair_delta_percentage_points: Math.max(...pairDeltas.map((entry) => entry.observed_pair_delta_percentage_points)),
+      margin_rule: "four-times-pilot-maximum-rounded-up-to-two-percentage-points",
+      statistical_claim: false
+    }
   };
 }
 
@@ -1050,7 +1132,7 @@ export function validateContextAblationApproval(approval, protocol) {
   ]) {
     if (approval?.[key] !== expected[key]) errors.push(`${key} does not match the frozen protocol`);
   }
-  for (const key of ["approved_conditions", "approved_condition_operational_token_limits"]) {
+  for (const key of ["approved_conditions", "approved_condition_operational_token_limits", "approved_cache_control"]) {
     if (stableText(approval?.[key]) !== stableText(expected[key])) errors.push(`${key} does not match the frozen protocol`);
   }
   if (approval?.approved !== true || typeof approval?.authorization_source !== "string" || approval.authorization_source.trim() === "" || !approval?.approved_at) {
@@ -1068,7 +1150,8 @@ function protocolFromLab({
   historicalRegression,
   diagnosticRegression,
   predecessorIntegrity,
-  limitBasis
+  limitBasis,
+  cacheControl
 }) {
   const conditions = conditionDefinitions.map((definition) => {
     const package_ = packages[definition.id];
@@ -1090,13 +1173,14 @@ function protocolFromLab({
   });
   const protocol = {
     schema_version: CONTEXT_ABLATION_SCHEMA,
-    work_item_id: "WI-0141",
+    work_item_id: experimentWorkItemId,
     status: "generation-disabled",
     protocol_sha256: null,
     source_revision: sourceRevision,
     harness_sha256: harnessSha256,
     lab_manifest_sha256: labManifest.lab_manifest_sha256,
     conditions,
+    cache_control: cacheControl,
     execution: {
       condition_order: [...conditionIds],
       candidate_turns: conditionDefinitions.length,
@@ -1144,7 +1228,10 @@ function protocolFromLab({
       { work_item_id: "WI-0137", evidence: ".ai-org/artifacts/WI-0137/independent-qa.md" },
       { work_item_id: "WI-0138", evidence: ".ai-org/artifacts/WI-0138/evidence-backed-findings.md" },
       { work_item_id: "WI-0139", evidence: ".ai-org/artifacts/WI-0139/live-evaluation.md" },
-      { work_item_id: "WI-0140", evidence: ".ai-org/artifacts/WI-0140/release-record.md" }
+      { work_item_id: "WI-0140", evidence: ".ai-org/artifacts/WI-0140/release-record.md" },
+      ...(experimentWorkItemId === "WI-0143"
+        ? [{ work_item_id: "WI-0141", evidence: ".ai-org/artifacts/WI-0141/effectiveness-analysis.json" }]
+        : [])
     ],
     limit_basis: limitBasis
   };
@@ -1155,7 +1242,7 @@ function protocolFromLab({
 export function validateContextAblationProtocol(protocol) {
   const errors = [];
   if (protocol?.schema_version !== CONTEXT_ABLATION_SCHEMA) errors.push("unsupported protocol schema");
-  if (protocol?.work_item_id !== "WI-0141" || protocol?.status !== "generation-disabled") errors.push("protocol identity or status mismatch");
+  if (protocol?.work_item_id !== experimentWorkItemId || protocol?.status !== "generation-disabled") errors.push("protocol identity or status mismatch");
   if (protocol?.protocol_sha256 !== contextAblationProtocolDigest(protocol)) errors.push("protocol digest mismatch");
   if (!/^[a-f0-9]{40}$/.test(protocol?.source_revision ?? "")) errors.push("exact source revision missing");
   if (!/^[a-f0-9]{64}$/.test(protocol?.harness_sha256 ?? "")) errors.push("harness digest missing");
@@ -1185,6 +1272,28 @@ export function validateContextAblationProtocol(protocol) {
     position("multi-legacy-expanded-a") < position("multi-stage-aware-a") &&
     position("multi-stage-aware-b") < position("multi-legacy-expanded-b");
   if (!counterbalanced) errors.push("condition order is not counterbalanced");
+  if (experimentWorkItemId === "WI-0143") {
+    const adjacent = [
+      ["single-stage-aware-a", "single-legacy-expanded-a"],
+      ["multi-legacy-expanded-a", "multi-stage-aware-a"],
+      ["single-legacy-expanded-b", "single-stage-aware-b"],
+      ["multi-stage-aware-b", "multi-legacy-expanded-b"]
+    ].every(([first, second]) => position(second) === position(first) + 1);
+    if (!adjacent) errors.push("WI-0143 matched cache blocks are not adjacent");
+    const cache = protocol?.cache_control;
+    if (cache?.method !== "matched-cache-share" || cache?.predeclared !== true ||
+        cache?.maximum_pair_delta_percentage_points !== 2 ||
+        cache?.pairing !== "adjacent-task-shape-and-repetition-blocks" ||
+        cache?.threshold_kind !== "diagnostic-engineering-tolerance-not-statistical-estimate" ||
+        cache?.pilot_basis?.source_path !== ".ai-org/artifacts/WI-0141/live-observation.json" ||
+        !/^[a-f0-9]{64}$/.test(cache?.pilot_basis?.source_sha256 ?? "") ||
+        cache?.pilot_basis?.maximum_selected_pair_delta_percentage_points !== 0.5 ||
+        cache?.pilot_basis?.statistical_claim !== false) {
+      errors.push("WI-0143 cache-control boundary mismatch");
+    }
+  } else if (protocol?.cache_control !== null) {
+    errors.push("WI-0141 cache-control history must remain undeclared");
+  }
   for (const shape of ["single-repository", "coordinator-multi-repository"]) {
     for (const strategy of ["legacy-expanded", "stage-aware"]) {
       const repetitions = conditions.filter((entry) => entry.shape === shape && entry.strategy === strategy);
@@ -1250,7 +1359,7 @@ export function validateContextAblationProtocol(protocol) {
 
 export async function prepareContextAblationLab(labRoot = defaultLabRoot, options = {}) {
   if (options.writeArtifacts !== false && (await pathExists(defaultObservationPath) || await pathExists(defaultStoppedObservationPath))) {
-    throw new Error("The retained WI-0141 run is sealed; preparation cannot replace its frozen protocol or readiness evidence");
+    throw new Error(`The retained ${experimentWorkItemId} run is sealed; preparation cannot replace its frozen protocol or readiness evidence`);
   }
   const resolvedLab = assertSafeLabRoot(labRoot);
   await fs.rm(resolvedLab, { recursive: true, force: true });
@@ -1273,7 +1382,7 @@ export async function prepareContextAblationLab(labRoot = defaultLabRoot, option
   }
   const labManifest = {
     schema_version: "temple.context-capsule-ablation-lab/v1",
-    work_item_id: "WI-0141",
+    work_item_id: experimentWorkItemId,
     lab_root: resolvedLab,
     shapes: Object.fromEntries(Object.entries(sources).map(([shape, source]) => [shape, {
       stage: source.stage,
@@ -1321,6 +1430,9 @@ export async function prepareContextAblationLab(labRoot = defaultLabRoot, option
     result: diagnosticResult,
     model_generation_performed: false
   };
+  const cacheControl = experimentProfile.cache_control === null
+    ? null
+    : deriveMatchedCacheControl(await fs.readFile(retainedCachePilotPath, "utf8"));
   const protocol = protocolFromLab({
     labManifest,
     packages,
@@ -1330,7 +1442,8 @@ export async function prepareContextAblationLab(labRoot = defaultLabRoot, option
     historicalRegression,
     diagnosticRegression,
     predecessorIntegrity,
-    limitBasis
+    limitBasis,
+    cacheControl
   });
   const validation = validateContextAblationProtocol(protocol);
   if (!validation.valid) throw new Error(`Prepared protocol is invalid: ${validation.errors.join(", ")}`);
@@ -1676,7 +1789,7 @@ function simulatedTurn(definition, completion) {
 
 export async function rehearseContextAblation(labRoot = defaultLabRoot, protocolPath = defaultProtocolPath, options = {}) {
   if (options.writeArtifacts !== false && (await pathExists(defaultObservationPath) || await pathExists(defaultStoppedObservationPath))) {
-    throw new Error("The retained WI-0141 run is sealed; rehearsal cannot replace its readiness evidence");
+    throw new Error(`The retained ${experimentWorkItemId} run is sealed; rehearsal cannot replace its readiness evidence`);
   }
   const inspection = await inspectLab(labRoot, protocolPath);
   if (!inspection.valid) throw new Error(`Lab inspection failed: ${inspection.errors.join(", ")}`);
@@ -1791,7 +1904,7 @@ export async function rehearseContextAblation(labRoot = defaultLabRoot, protocol
   ];
   const rehearsalObservation = {
     schema_version: CONTEXT_ABLATION_OBSERVATION_SCHEMA,
-    work_item_id: "WI-0141",
+    work_item_id: experimentWorkItemId,
     protocol_sha256: protocol.protocol_sha256,
     kind: "generation-free-rehearsal",
     status: checks.every((entry) => entry.pass) ? "completed" : "failed",
@@ -1805,7 +1918,7 @@ export async function rehearseContextAblation(labRoot = defaultLabRoot, protocol
   checks.push({ id: "analysis-path-completed", pass: analysis.schema_version === CONTEXT_ABLATION_ANALYSIS_SCHEMA });
   const readiness = {
     schema_version: "temple.context-capsule-ablation-readiness/v1",
-    work_item_id: "WI-0141",
+    work_item_id: experimentWorkItemId,
     protocol_sha256: protocol.protocol_sha256,
     completed_at: options.completedAt ?? new Date().toISOString(),
     pass: checks.every((entry) => entry.pass),
@@ -1840,7 +1953,7 @@ function providerContractMatches(frozen, observed) {
 
 export async function preflightContextAblation(labRoot = defaultLabRoot, protocolPath = defaultProtocolPath, approvalPath = defaultApprovalPath, options = {}) {
   if (options.writeArtifacts !== false && (await pathExists(defaultObservationPath) || await pathExists(defaultStoppedObservationPath))) {
-    throw new Error("The retained WI-0141 run is sealed; preflight cannot replace its approval evidence");
+    throw new Error(`The retained ${experimentWorkItemId} run is sealed; preflight cannot replace its approval evidence`);
   }
   const inspection = await inspectLab(labRoot, protocolPath);
   const protocol = inspection.protocol ?? (await pathExists(protocolPath) ? await readJson(protocolPath) : null);
@@ -1863,7 +1976,7 @@ export async function preflightContextAblation(labRoot = defaultLabRoot, protoco
   const blockers = checks.filter((entry) => !entry.pass).map((entry) => entry.id);
   const preflight = {
     schema_version: "temple.context-capsule-ablation-preflight/v1",
-    work_item_id: "WI-0141",
+    work_item_id: experimentWorkItemId,
     observed_at: options.observedAt ?? new Date().toISOString(),
     protocol_sha256: protocol?.protocol_sha256 ?? null,
     generation_ready: blockers.length === 0,
@@ -2279,7 +2392,7 @@ async function launchCandidateTurn({ definition, cwd, protocol, budget, deadline
   }, Math.max(1, deadline - Date.now()));
   try {
     await connection.request("initialize", {
-      clientInfo: { name: "temple-wi0141", title: "Temple WI-0141 Context Acquisition Ablation", version: "4" },
+      clientInfo: { name: `temple-${experimentSlug}`, title: `Temple ${experimentWorkItemId} Context Acquisition Ablation`, version: "4" },
       capabilities: { experimentalApi: false }
     });
     connection.notify("initialized", {});
@@ -2690,7 +2803,7 @@ export function analyzeContextAblation({ protocol, observation, generatedAt = ne
   } : null;
   return {
     schema_version: CONTEXT_ABLATION_ANALYSIS_SCHEMA,
-    work_item_id: "WI-0141",
+    work_item_id: experimentWorkItemId,
     protocol_sha256: protocol.protocol_sha256,
     generated_at: generatedAt,
     status: allCompleted && usageKnown ? "complete" : "inconclusive",
@@ -2699,6 +2812,8 @@ export function analyzeContextAblation({ protocol, observation, generatedAt = ne
     all_candidates_correct: allCorrect,
     comparisons,
     diagnostic_aggregate: aggregate,
+    human_intervention_count: observation.human_intervention_count ?? 0,
+    rework_count: observation.rework_count ?? ((observation.retry_count ?? 0) + (observation.fallback_count ?? 0)),
     retry_count: observation.retry_count ?? 0,
     fallback_count: observation.fallback_count ?? 0,
     interpretation_boundary: {
@@ -2714,11 +2829,12 @@ export function analyzeContextAblation({ protocol, observation, generatedAt = ne
 
 function reportMarkdown(protocol, observation, analysis) {
   const lines = [
-    "# WI-0141 Context Capsule route-adherence effectiveness report",
+    `# ${experimentWorkItemId} Context Capsule route-adherence effectiveness report`,
     "",
     `- Protocol: \`${protocol.protocol_sha256}\``,
     `- Candidate turns: ${observation.conditions.length} of ${conditionDefinitions.length} retained`,
     `- Retry: ${observation.retry_count}; fallback: ${observation.fallback_count}`,
+    `- Human intervention during run: ${analysis.human_intervention_count}; rework turns: ${analysis.rework_count}`,
     `- Analysis status: \`${analysis.status}\``,
     "",
     "## Results by project shape",
@@ -2769,7 +2885,9 @@ function reportMarkdown(protocol, observation, analysis) {
     "",
     "This analyzer keeps unknown acquisition records fail-closed. A successor sanitized regression recognizes exact single-file control-package reads, but the sealed historical observation is not rewritten and its unknown records are not retroactively relabelled.",
     "",
-    "Gross input, cached input, non-cached input, output, Operational Tokens, and cache share are reported together. The WI-0141 protocol did not predeclare a verifiable cache-control method, so causal efficiency remains blocked even where a diagnostic average is favorable.",
+    protocol.cache_control
+      ? `Gross input, cached input, non-cached input, output, Operational Tokens, and cache share are reported together. Causal efficiency is eligible only when every matched pair satisfies the frozen ${protocol.cache_control.maximum_pair_delta_percentage_points}-percentage-point cache-share tolerance and both treatments pass correctness.`
+      : `Gross input, cached input, non-cached input, output, Operational Tokens, and cache share are reported together. The ${experimentWorkItemId} protocol did not predeclare a verifiable cache-control method, so causal efficiency remains blocked even where a diagnostic average is favorable.`,
     "",
     "The route is described as requested-and-thread-configured Terra medium. The installed App Server does not expose per-turn execution-effort telemetry, so effective execution effort remains unknown rather than inferred.",
     "",
@@ -2781,7 +2899,7 @@ function reportMarkdown(protocol, observation, analysis) {
 
 export async function runContextAblation(labRoot = defaultLabRoot, protocolPath = defaultProtocolPath, approvalPath = defaultApprovalPath) {
   if (await pathExists(defaultObservationPath) || await pathExists(defaultStoppedObservationPath)) {
-    throw new Error("A retained WI-0141 run already exists; this protocol authorizes no retry");
+    throw new Error(`A retained ${experimentWorkItemId} run already exists; this protocol authorizes no retry`);
   }
   const preflight = await preflightContextAblation(labRoot, protocolPath, approvalPath);
   if (!preflight.generation_ready) throw new Error(`Generation is blocked: ${preflight.blockers.join(", ")}`);
@@ -2809,7 +2927,7 @@ export async function runContextAblation(labRoot = defaultLabRoot, protocolPath 
     }
     const observation = {
       schema_version: CONTEXT_ABLATION_OBSERVATION_SCHEMA,
-      work_item_id: "WI-0141",
+      work_item_id: experimentWorkItemId,
       protocol_sha256: protocol.protocol_sha256,
       kind: "live-provider-run",
       status: conditions.every((entry) => entry.status === "completed") ? "completed" : "completed-with-censored-condition",
@@ -2817,6 +2935,8 @@ export async function runContextAblation(labRoot = defaultLabRoot, protocolPath 
       completed_at: new Date().toISOString(),
       conditions,
       total_operational_tokens: budget.total(),
+      human_intervention_count: 0,
+      rework_count: 0,
       retry_count: 0,
       fallback_count: 0,
       model_generation_performed: true
@@ -2829,7 +2949,7 @@ export async function runContextAblation(labRoot = defaultLabRoot, protocolPath 
   } catch (error) {
     const stopped = {
       schema_version: CONTEXT_ABLATION_OBSERVATION_SCHEMA,
-      work_item_id: "WI-0141",
+      work_item_id: experimentWorkItemId,
       protocol_sha256: protocol.protocol_sha256,
       kind: "live-provider-run",
       status: "stopped",
@@ -2839,6 +2959,8 @@ export async function runContextAblation(labRoot = defaultLabRoot, protocolPath 
       active_condition: error.condition ?? conditionDefinitions[conditions.length]?.id ?? null,
       conditions,
       total_operational_tokens: budget.total(),
+      human_intervention_count: 0,
+      rework_count: 0,
       retry_count: 0,
       fallback_count: 0,
       model_generation_performed: conditions.length > 0 || budget.total() > 0
@@ -2868,7 +2990,10 @@ function parseArguments(argv) {
   for (let index = 1; index < argv.length; index += 1) {
     const key = argv[index];
     const value = argv[index + 1];
-    if (key === "--lab-root") result.labRoot = value;
+    if (key === "--work-item") {
+      result.workItemId = value;
+      if (value !== experimentWorkItemId) throw new Error("Work Item selection changed after experiment initialization");
+    } else if (key === "--lab-root") result.labRoot = value;
     else if (key === "--protocol") result.protocolPath = path.resolve(value);
     else if (key === "--approval") result.approvalPath = path.resolve(value);
     else if (key === "--observation") result.observationPath = path.resolve(value);
@@ -2885,7 +3010,7 @@ async function main() {
     const result = await prepareContextAblationLab(args.labRoot);
     output = {
       schema_version: "temple.context-capsule-ablation-prepare/v1",
-      work_item_id: "WI-0141",
+      work_item_id: experimentWorkItemId,
       protocol_sha256: result.protocol.protocol_sha256,
       conditions: conditionIds,
       lab_root_id: path.basename(result.labRoot),
