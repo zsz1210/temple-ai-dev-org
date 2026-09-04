@@ -1,0 +1,30 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "edf772dedf72eaa1db748ae7f9cb3ae0f31a9286",
+  "command": [
+    "npm run check",
+    "node --test test/execution-routing.test.mjs test/context-capsule-ablation.test.mjs",
+    "git diff --check"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T05:28:00Z",
+  "completed_at": "2026-09-04T05:29:00Z",
+  "artifact_refs": [
+    "docs/getting-started/model-routing.md",
+    "docs/concepts/adaptive-execution-routing.md",
+    "docs/operations/execution-routing.md",
+    "docs/validation/context-capsule-successor-evaluations.md"
+  ],
+  "summary": {
+    "focused_tests_passed": 32,
+    "focused_tests_failed": 0,
+    "repository_checks_passed": true,
+    "documentation_links_passed": true,
+    "package_boundary_passed": true,
+    "fresh_overlay_concrete_mappings": 0,
+    "provider_generation_performed": false,
+    "automatic_execution_enabled": false,
+    "external_write_performed": false
+  }
+}

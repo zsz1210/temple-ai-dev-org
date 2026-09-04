@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0144",
   "title": "Design portable model onboarding and successor context evaluations",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-04T05:25:33.938Z",
-  "updated_at": "2026-09-04T05:27:20.840Z",
+  "updated_at": "2026-09-04T05:35:09.619Z",
   "scope": [
     "Define how a newly initialized project maps Provider-neutral execution profiles to its own available models without chat memory, and freeze separate no-generation successor designs for single-repository maturation and multi-repository cache isolation."
   ],
@@ -63,37 +63,89 @@
         "architecture"
       ],
       "resources": []
+    },
+    "eval": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "independent_qa": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "test": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
     }
   },
-  "base_revision": "b392c118897b0460907d2266ef46c391a4ae7aff",
+  "base_revision": "edf772dedf72eaa1db748ae7f9cb3ae0f31a9286",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
-  "planned_agent_id": "agent-rikku",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260904052720-f2f9e7d0",
-    "status": "active",
+    "id": "claim-20260904053421-10e26d30",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "b392c118897b0460907d2266ef46c391a4ae7aff",
+    "agent_id": "agent-lulu",
+    "base_revision": "edf772dedf72eaa1db748ae7f9cb3ae0f31a9286",
     "branch": "codex/wi-0144-portable-routing-onboarding",
     "worktree": null,
-    "claimed_at": "2026-09-04T05:27:20.840Z",
-    "released_at": null
+    "claimed_at": "2026-09-04T05:34:21.327Z",
+    "released_at": "2026-09-04T05:34:22.008Z",
+    "release_reason": [
+      "Independent QA complete and Release Manager handoff recorded"
+    ]
   },
   "claims": [
     {
       "id": "claim-20260904052720-f2f9e7d0",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "b392c118897b0460907d2266ef46c391a4ae7aff",
       "branch": "codex/wi-0144-portable-routing-onboarding",
       "worktree": null,
       "claimed_at": "2026-09-04T05:27:20.840Z",
-      "released_at": null
+      "released_at": "2026-09-04T05:30:23.936Z",
+      "release_reason": [
+        "Developer handoff and focused evidence recorded"
+      ]
+    },
+    {
+      "id": "claim-20260904053045-10c19083",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "edf772dedf72eaa1db748ae7f9cb3ae0f31a9286",
+      "branch": "codex/wi-0144-portable-routing-onboarding",
+      "worktree": null,
+      "claimed_at": "2026-09-04T05:30:45.668Z",
+      "released_at": "2026-09-04T05:32:55.661Z",
+      "release_reason": [
+        "Quality evaluation completed and Independent QA handoff recorded"
+      ]
+    },
+    {
+      "id": "claim-20260904053421-10e26d30",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "edf772dedf72eaa1db748ae7f9cb3ae0f31a9286",
+      "branch": "codex/wi-0144-portable-routing-onboarding",
+      "worktree": null,
+      "claimed_at": "2026-09-04T05:34:21.327Z",
+      "released_at": "2026-09-04T05:34:22.008Z",
+      "release_reason": [
+        "Independent QA complete and Release Manager handoff recorded"
+      ]
     }
   ],
   "gate_evidence": {
@@ -111,6 +163,34 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0144/technical-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0144/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0144/developer-verification.md",
+      ".ai-org/artifacts/WI-0144/developer-test-observation.json"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0144/quality-test-observation.json"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0144/quality-evaluation.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0144/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0144/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0144/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0144/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -120,10 +200,20 @@
     ".ai-org/artifacts/WI-0144/approved-scope.md",
     ".ai-org/work-items/WI-0144.json",
     ".ai-org/artifacts/WI-0144/handoff-003-tech_lead-to-developer.md",
-    ".ai-org/artifacts/WI-0144/technical-design.md"
+    ".ai-org/artifacts/WI-0144/technical-design.md",
+    ".ai-org/artifacts/WI-0144/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0144/developer-verification.md",
+    ".ai-org/artifacts/WI-0144/developer-test-observation.json",
+    ".ai-org/artifacts/WI-0144/quality-test-observation.json",
+    ".ai-org/artifacts/WI-0144/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0144/quality-evaluation.md",
+    ".ai-org/artifacts/WI-0144/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0144/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0144/independent-qa-test-observation.json",
+    ".ai-org/artifacts/WI-0144/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -145,6 +235,34 @@
       "input_revision": "b392c118897b0460907d2266ef46c391a4ae7aff",
       "artifact": ".ai-org/artifacts/WI-0144/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-04T05:27:11.801Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "edf772dedf72eaa1db748ae7f9cb3ae0f31a9286",
+      "artifact": ".ai-org/artifacts/WI-0144/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T05:30:23.652Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "edf772dedf72eaa1db748ae7f9cb3ae0f31a9286",
+      "artifact": ".ai-org/artifacts/WI-0144/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-04T05:32:55.394Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "edf772dedf72eaa1db748ae7f9cb3ae0f31a9286",
+      "artifact": ".ai-org/artifacts/WI-0144/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-04T05:34:21.765Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "edf772dedf72eaa1db748ae7f9cb3ae0f31a9286",
+  "tested_revision": "edf772dedf72eaa1db748ae7f9cb3ae0f31a9286",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }
