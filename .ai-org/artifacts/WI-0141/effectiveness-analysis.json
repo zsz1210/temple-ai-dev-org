@@ -1,0 +1,270 @@
+{
+  "schema_version": "temple.context-capsule-ablation-analysis/v4",
+  "work_item_id": "WI-0141",
+  "protocol_sha256": "3e51faf3bb6962d0f998003839a113a0fe789aaf22d0ad6d8b737672aff8edbd",
+  "generated_at": "2026-09-04T03:22:12.086Z",
+  "status": "complete",
+  "correctness_primary": true,
+  "all_candidates_completed": true,
+  "all_candidates_correct": true,
+  "comparisons": [
+    {
+      "shape": "single-repository",
+      "outcome": "supported",
+      "repetitions": {
+        "legacy": 2,
+        "stage_aware": 2
+      },
+      "correctness": {
+        "legacy_pass": true,
+        "stage_aware_pass": true,
+        "legacy_by_repetition": [
+          {
+            "repetition": "a",
+            "pass": true
+          },
+          {
+            "repetition": "b",
+            "pass": true
+          }
+        ],
+        "stage_aware_by_repetition": [
+          {
+            "repetition": "a",
+            "pass": true
+          },
+          {
+            "repetition": "b",
+            "pass": true
+          }
+        ]
+      },
+      "source_selection": {
+        "legacy_bytes": 40296,
+        "stage_aware_bytes": 14592,
+        "bytes_delta": {
+          "absolute": -25704,
+          "percent": -63.79
+        },
+        "legacy_source_count": 12,
+        "stage_aware_source_count": 7
+      },
+      "operational_tokens": {
+        "legacy_mean": 23751.5,
+        "stage_aware_mean": 16031,
+        "delta": {
+          "absolute": -7720.5,
+          "percent": -32.51
+        }
+      },
+      "latency_ms": {
+        "legacy_mean": 39200.5,
+        "stage_aware_mean": 40944.5,
+        "delta": {
+          "absolute": 1744,
+          "percent": 4.45
+        }
+      },
+      "tool_output_bytes": {
+        "legacy_mean": 8352,
+        "stage_aware_mean": 7165,
+        "delta": {
+          "absolute": -1187,
+          "percent": -14.21
+        }
+      },
+      "context_acquisition": {
+        "legacy": {
+          "available": true,
+          "coverage_complete": false,
+          "overflow_count": 0,
+          "counts": {
+            "control": 0,
+            "required-evidence": 2,
+            "routed": 8,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 2
+          },
+          "classifiable_context_reads": 8,
+          "policy_adherent_reads": 8,
+          "known_policy_adherence_percent": 100,
+          "routed_share_percent": 100,
+          "reported_output_bytes_by_classification": {
+            "control": 0,
+            "required-evidence": 1870,
+            "routed": 6852,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 7982
+          }
+        },
+        "stage_aware": {
+          "available": true,
+          "coverage_complete": false,
+          "overflow_count": 0,
+          "counts": {
+            "control": 0,
+            "required-evidence": 2,
+            "routed": 8,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 2
+          },
+          "classifiable_context_reads": 8,
+          "policy_adherent_reads": 8,
+          "known_policy_adherence_percent": 100,
+          "routed_share_percent": 100,
+          "reported_output_bytes_by_classification": {
+            "control": 0,
+            "required-evidence": 1870,
+            "routed": 6852,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 5608
+          }
+        }
+      }
+    },
+    {
+      "shape": "coordinator-multi-repository",
+      "outcome": "neutral",
+      "repetitions": {
+        "legacy": 2,
+        "stage_aware": 2
+      },
+      "correctness": {
+        "legacy_pass": true,
+        "stage_aware_pass": true,
+        "legacy_by_repetition": [
+          {
+            "repetition": "a",
+            "pass": true
+          },
+          {
+            "repetition": "b",
+            "pass": true
+          }
+        ],
+        "stage_aware_by_repetition": [
+          {
+            "repetition": "a",
+            "pass": true
+          },
+          {
+            "repetition": "b",
+            "pass": true
+          }
+        ]
+      },
+      "source_selection": {
+        "legacy_bytes": 34379,
+        "stage_aware_bytes": 11859,
+        "bytes_delta": {
+          "absolute": -22520,
+          "percent": -65.51
+        },
+        "legacy_source_count": 10,
+        "stage_aware_source_count": 6
+      },
+      "operational_tokens": {
+        "legacy_mean": 21426,
+        "stage_aware_mean": 37475,
+        "delta": {
+          "absolute": 16049,
+          "percent": 74.9
+        }
+      },
+      "latency_ms": {
+        "legacy_mean": 62900,
+        "stage_aware_mean": 55470,
+        "delta": {
+          "absolute": -7430,
+          "percent": -11.81
+        }
+      },
+      "tool_output_bytes": {
+        "legacy_mean": 11322.5,
+        "stage_aware_mean": 10507,
+        "delta": {
+          "absolute": -815.5,
+          "percent": -7.2
+        }
+      },
+      "context_acquisition": {
+        "legacy": {
+          "available": true,
+          "coverage_complete": false,
+          "overflow_count": 0,
+          "counts": {
+            "control": 0,
+            "required-evidence": 10,
+            "routed": 7,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 2
+          },
+          "classifiable_context_reads": 7,
+          "policy_adherent_reads": 7,
+          "known_policy_adherence_percent": 100,
+          "routed_share_percent": 100,
+          "reported_output_bytes_by_classification": {
+            "control": 0,
+            "required-evidence": 9350,
+            "routed": 6355,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 6940
+          }
+        },
+        "stage_aware": {
+          "available": true,
+          "coverage_complete": false,
+          "overflow_count": 0,
+          "counts": {
+            "control": 0,
+            "required-evidence": 10,
+            "routed": 8,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 2
+          },
+          "classifiable_context_reads": 8,
+          "policy_adherent_reads": 8,
+          "known_policy_adherence_percent": 100,
+          "routed_share_percent": 100,
+          "reported_output_bytes_by_classification": {
+            "control": 0,
+            "required-evidence": 9350,
+            "routed": 6626,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 5038
+          }
+        }
+      }
+    }
+  ],
+  "diagnostic_aggregate": {
+    "legacy_operational_tokens": 90355,
+    "stage_aware_operational_tokens": 107012,
+    "operational_tokens_delta": {
+      "absolute": 16657,
+      "percent": 18.44
+    },
+    "legacy_latency_ms": 204201,
+    "stage_aware_latency_ms": 192829,
+    "latency_delta": {
+      "absolute": -11372,
+      "percent": -5.57
+    }
+  },
+  "retry_count": 0,
+  "fallback_count": 0,
+  "interpretation_boundary": {
+    "sample_per_condition": 2,
+    "statistical_claim": false,
+    "monetary_claim": false,
+    "automatic_routing_authority": false
+  }
+}
