@@ -31,6 +31,7 @@ Validation records preserve bounded evidence for framework capabilities. They id
 - [Closeout-0A release integrity — passed with retained limits](closeout-0a-release-integrity.md)
 - [Closeout-0B live integration and data-bearing upgrade — passed with retained limits](closeout-0b-live-and-upgrade.md)
 - [Greenfield cold-task recovery — passed with limits](greenfield-cold-task-recovery-result.md) ([test plan](greenfield-cold-task-recovery-test-plan.md))
+- [Fresh-session clean-room rehearsal v2 — onboarding friction improved; follow-up findings retained](fresh-session-clean-room-rehearsal-v2.md)
 - [Greenfield agent-led onboarding — deterministic path passed with provider limits](greenfield-agent-led-onboarding.md)
 - [Console-free core operating path audit — mechanics passed; human golden path needs consolidation](core-operating-path-audit.md)
 - [Wave 1 adoption evidence — local greenfield, cold-task, brownfield, and recovery baseline passed with limits](wave-1-adoption-evidence.md)

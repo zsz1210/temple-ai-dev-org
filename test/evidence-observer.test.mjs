@@ -249,6 +249,10 @@ test("test and runtime observations are content-addressed and never auto-satisfy
   for (const [kind, observation] of [["test", testPath], ["runtime", runtimePath]]) {
     const result = run(["evidence", kind, target, "--work-item", workItemId, "--observation", observation, "--actor", "agent-fixture-hollis"]);
     assert.equal(result.status, 0, result.stderr || result.stdout);
+    const evidenceId = /Recorded (EVID-[A-Z0-9-]+):/.exec(result.stdout)?.[1];
+    assert.ok(evidenceId, result.stdout);
+    assert.match(result.stdout, new RegExp(`Reusable gate reference \\(copy exactly\\): ${evidenceId}`));
+    assert.match(result.stdout, /Lifecycle gate satisfied: no/);
   }
   const registry = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/evidence.json"), "utf8"));
   assert.deepEqual(registry.entries.map((entry) => entry.kind), ["test", "runtime"]);
@@ -256,6 +260,27 @@ test("test and runtime observations are content-addressed and never auto-satisfy
   const item = JSON.parse(await fs.readFile(path.join(target, `.ai-org/work-items/${workItemId}.json`), "utf8"));
   assert.deepEqual(item.gate_evidence, {});
   assert.deepEqual(item.evidence, []);
+});
+
+test("malformed observation guidance points to the installed JSON template without recording evidence", async (context) => {
+  const { target } = await fixture(context);
+  const workItemId = createWorkItem(target);
+  const reportPath = ".ai-org/artifacts/test-report.md";
+  await fs.mkdir(path.dirname(path.join(target, reportPath)), { recursive: true });
+  await fs.writeFile(path.join(target, reportPath), "# Tests\n\nAll tests passed.\n");
+
+  const result = run([
+    "evidence", "test", target,
+    "--work-item", workItemId,
+    "--observation", reportPath,
+    "--actor", "agent-fixture-hollis"
+  ]);
+  assert.equal(result.status, 1, result.stdout);
+  assert.match(result.stderr, /Test observation must be valid JSON/);
+  assert.match(result.stderr, /\.ai-org\/templates\/test-observation\.json/);
+
+  const registry = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/evidence.json"), "utf8"));
+  assert.deepEqual(registry.entries, []);
 });
 
 test("unverified claims, high risks, and failed observations become Observer attention", async (context) => {

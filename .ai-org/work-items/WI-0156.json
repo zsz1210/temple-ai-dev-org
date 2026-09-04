@@ -1,0 +1,229 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0156",
+  "title": "Reduce fresh-session onboarding friction",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-04T12:59:35.150Z",
+  "updated_at": "2026-09-04T13:28:22.052Z",
+  "scope": [
+    "Clarify non-interactive initialization, structured Evidence capture, exact Evidence ID reuse, and cross-repository recovery-title isolation.",
+    "Add deterministic regression coverage and rerun one bounded fresh-session clean-room delivery and cold recovery comparison against WI-0155.",
+    "Preserve unknown Token semantics; perform no publication, release, visibility change, purchase, reset, retry, or fallback."
+  ],
+  "acceptance_criteria": [
+    "A package-visible guide provides a copyable valid temple.init/v1 configuration and explicitly lists repository integration source values.",
+    "Evidence guidance provides a minimal temple.test-observation/v1 JSON example, and CLI errors/output direct the user to the template and exact reusable Evidence ID.",
+    "The reusable cold-recovery protocol prevents coordinator Work Item IDs from contaminating the target repository namespace.",
+    "Automated regression tests pass and missing Token telemetry remains unknown rather than zero or estimated.",
+    "A second fresh-session clean-room run records errors, interventions, rework, elapsed time, and available or unknown Token data, then compares only the matched bounded observations."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0156",
+    ".ai-org/work-items/WI-0156.json",
+    "src/cli.mjs",
+    "src/evidence.mjs",
+    "test/cli.test.mjs",
+    "test/evidence-observer.test.mjs",
+    "docs/getting-started/usage.md",
+    "docs/operations/evidence-and-observer.md",
+    "docs/validation/greenfield-cold-task-recovery-test-plan.md",
+    "docs/validation/fresh-session-clean-room-rehearsal-v2.md",
+    "docs/validation/README.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "Bounded local documentation and CLI ergonomics correction with deterministic tests and a no-publication clean-room rehearsal.",
+    "evidence_refs": [
+      "docs/validation/fresh-session-clean-room-rehearsal.md"
+    ],
+    "evaluated_at": "2026-09-04T12:59:35.150Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "336bd945b49e80a3e6d9459a8d093790d1200f9b",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260904132821-45f078cf",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "336bd945b49e80a3e6d9459a8d093790d1200f9b",
+    "branch": "codex/wi-0156-onboarding-hardening",
+    "worktree": null,
+    "claimed_at": "2026-09-04T13:28:21.783Z",
+    "released_at": "2026-09-04T13:28:22.052Z",
+    "release_reason": "work_item_closed"
+  },
+  "claims": [
+    {
+      "id": "claim-20260904130100-d8c8a8ec",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "6e1a6689631af0ab0a6c7fed0da98953d40e0fe1",
+      "branch": "codex/wi-0156-onboarding-hardening",
+      "worktree": null,
+      "claimed_at": "2026-09-04T13:01:00.705Z",
+      "released_at": "2026-09-04T13:24:40.327Z",
+      "release_reason": [
+        "Developer candidate and clean-room evidence handed to Quality Evaluation"
+      ]
+    },
+    {
+      "id": "claim-20260904132514-4cac400d",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "336bd945b49e80a3e6d9459a8d093790d1200f9b",
+      "branch": "codex/wi-0156-onboarding-hardening",
+      "worktree": "/private/tmp/temple-wi0156-qa.1GPGdc",
+      "claimed_at": "2026-09-04T13:25:14.272Z",
+      "released_at": "2026-09-04T13:27:31.928Z",
+      "release_reason": [
+        "Exact-candidate quality test evidence recorded"
+      ]
+    },
+    {
+      "id": "claim-20260904132740-c6e4cd7b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "336bd945b49e80a3e6d9459a8d093790d1200f9b",
+      "branch": "codex/wi-0156-onboarding-hardening",
+      "worktree": "/private/tmp/temple-wi0156-qa.1GPGdc",
+      "claimed_at": "2026-09-04T13:27:40.926Z",
+      "released_at": "2026-09-04T13:27:41.182Z",
+      "release_reason": [
+        "Acceptance comparison and claim boundaries evaluated"
+      ]
+    },
+    {
+      "id": "claim-20260904132808-b5ae5ad5",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "336bd945b49e80a3e6d9459a8d093790d1200f9b",
+      "branch": "codex/wi-0156-onboarding-hardening",
+      "worktree": "/private/tmp/temple-wi0156-qa.1GPGdc",
+      "claimed_at": "2026-09-04T13:28:08.408Z",
+      "released_at": "2026-09-04T13:28:08.674Z",
+      "release_reason": [
+        "Independent QA reproduced the exact candidate and retained bounded findings"
+      ]
+    },
+    {
+      "id": "claim-20260904132821-45f078cf",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "336bd945b49e80a3e6d9459a8d093790d1200f9b",
+      "branch": "codex/wi-0156-onboarding-hardening",
+      "worktree": null,
+      "claimed_at": "2026-09-04T13:28:21.783Z",
+      "released_at": "2026-09-04T13:28:22.052Z",
+      "release_reason": "work_item_closed"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0156/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0156/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0156/approved-scope.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0156/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0156/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0156/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260904T132430Z-33204CFA",
+      "EVID-20260904T132431Z-E88215DA",
+      ".ai-org/artifacts/WI-0156/developer-verification.md"
+    ],
+    "test_evidence": [
+      "EVID-20260904T132724Z-3A5A2F08"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0156/quality-evaluation.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0156/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0156/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0156/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0156/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0156/work-order.md",
+    ".ai-org/artifacts/WI-0156/approved-scope.md",
+    ".ai-org/artifacts/WI-0156/technical-design.md",
+    ".ai-org/artifacts/WI-0156/handoff-001-developer-to-quality_evaluator.md",
+    "EVID-20260904T132430Z-33204CFA",
+    "EVID-20260904T132431Z-E88215DA",
+    ".ai-org/artifacts/WI-0156/developer-verification.md",
+    "EVID-20260904T132724Z-3A5A2F08",
+    ".ai-org/artifacts/WI-0156/quality-evaluation.md",
+    ".ai-org/artifacts/WI-0156/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0156/release-record.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "336bd945b49e80a3e6d9459a8d093790d1200f9b",
+      "artifact": ".ai-org/artifacts/WI-0156/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T13:24:40.027Z"
+    }
+  ],
+  "developer_candidate_revision": "336bd945b49e80a3e6d9459a8d093790d1200f9b",
+  "tested_revision": "336bd945b49e80a3e6d9459a8d093790d1200f9b",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
+}

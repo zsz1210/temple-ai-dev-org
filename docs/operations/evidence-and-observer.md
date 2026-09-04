@@ -47,7 +47,22 @@ A fresh clone or CI checkout must resolve the original revision. Do not rewrite 
 
 ## Capture examples
 
-Copy the managed observation templates into a project-owned artifact path and replace every placeholder with facts from the actual run.
+Copy the managed observation templates into a project-owned artifact path and replace every placeholder with facts from the actual run. A test observation is JSON, not the Markdown Developer or QA report. This is the minimum valid shape:
+
+```json
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "HEAD",
+  "command": ["npm test"],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T00:00:00.000Z",
+  "completed_at": "2026-09-04T00:00:01.000Z",
+  "artifact_refs": []
+}
+```
+
+Save the JSON below the Work Item, for example `.ai-org/artifacts/WI-0001/test-observation.json`. Keep the human explanation in a separate Markdown report and add its repository-relative path to `artifact_refs` when it should be content-addressed with the observation.
 
 ```bash
 node ./templew.mjs evidence git . \
@@ -63,6 +78,25 @@ node ./templew.mjs evidence runtime . \
   --work-item WI-0001 \
   --observation .ai-org/artifacts/WI-0001/runtime-observation.json
 ```
+
+Successful capture prints two different references:
+
+```text
+Recorded EVID-20260904T000001Z-1234ABCD: test (pass)
+Reusable gate reference (copy exactly): EVID-20260904T000001Z-1234ABCD
+Lifecycle gate satisfied: no
+```
+
+The JSON path identifies what Temple inspected and hashed. The complete `EVID-...` value identifies the normalized record. Copy that value exactly when a later lifecycle requirement calls for normalized Evidence:
+
+```bash
+node ./templew.mjs transition . \
+  --work-item WI-0001 \
+  --to independent_qa \
+  --satisfy evaluation_report=EVID-20260904T000001Z-1234ABCD
+```
+
+The example only demonstrates reference flow; the Evidence kind and responsible Position must still match the actual workflow requirement. Never shorten the ID, substitute the observation path when normalized Evidence is required, or assume that capture advanced the Work Item.
 
 Git evidence capture inspects staged, unstaged, and untracked paths. It refuses capture when a declared Work Item `affected_path` is dirty because the exact commit would not contain the implementation being described. Unrelated or governance-only changes remain allowed and are classified in evidence metadata as `outside-affected-scope`; this keeps post-candidate handoff artifacts from being confused with uncommitted implementation.
 
@@ -93,6 +127,6 @@ For terminal Work Items, `tested_revision` is the current exact-revision authori
 
 ## Gate use
 
-After the responsible Position reviews a registry entry and its source, it may deliberately cite the entry ID or artifact path through the normal `transition --satisfy requirement=reference` command. Recording evidence alone never changes the Work Item.
+After the responsible Position reviews a registry entry and its source, it may deliberately cite the complete entry ID or an artifact path when that workflow requirement permits it through the normal `transition --satisfy requirement=reference` command. Recording evidence alone never changes the Work Item.
 
 `doctor` validates the registry structure, Work Item references, revision durability, and captured artifact digests. It does not claim that a local preservation tag was pushed, that a supplied observation is truthful, or that an external environment was actually exercised; a fresh-clone check and Independent QA must still reproduce the required behavior.

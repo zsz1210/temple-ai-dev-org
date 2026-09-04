@@ -30,20 +30,33 @@ After installation, the target repository receives `$temple-init`, `$temple-work
 
 ### Manual configuration
 
-Create a JSON file that does not need to be committed to Git:
+Start with the package-visible [minimal configuration](temple-init.example.json). From the Temple source or unpacked package root:
+
+```bash
+cp docs/getting-started/temple-init.example.json /tmp/temple-init.json
+```
+
+Edit the project ID, project name, and five English display names. Keep every Position assigned and keep Developer separate from Independent QA. The example intentionally omits `repository_integration`; Temple will write an honest `unconfirmed` record instead of making the user or Agent guess a branch, review, or integration policy.
+
+Preview and apply it to the target repository:
+
+```bash
+temple init /absolute/path/to/target --config /tmp/temple-init.json --dry-run
+temple init /absolute/path/to/target --config /tmp/temple-init.json
+```
+
+Add `repository_integration` only after its source has actually been inspected or confirmed. Its `source` accepts exactly these values:
+
+| `source` | Use it when |
+| --- | --- |
+| `not-inspected` | No policy source has been inspected. This is valid only with `status: "unconfirmed"` and is the default when the field is omitted. |
+| `repository-policy` | Repository files such as `CONTRIBUTING.md` define the integration policy. Cite them in `policy_refs`. |
+| `human-confirmed` | A Human Principal explicitly supplied or confirmed the integration decision. |
+
+For example, append this object only when the cited repository policy was reviewed:
 
 ```json
 {
-  "schema_version": "temple.init/v1",
-  "project": { "id": "product-id", "name": "Product Name" },
-  "naming_mode": "manual",
-  "agents": [
-    { "display_name": "Name One", "positions": ["engineering_manager", "release_manager", "observer"] },
-    { "display_name": "Name Two", "positions": ["product_manager", "ux_designer", "ui_designer"] },
-    { "display_name": "Name Three", "positions": ["tech_lead"] },
-    { "display_name": "Name Four", "positions": ["developer"] },
-    { "display_name": "Name Five", "positions": ["quality_evaluator", "independent_qa"] }
-  ],
   "repository_integration": {
     "schema_version": "temple.repository-integration/v1",
     "status": "confirmed",
@@ -60,14 +73,7 @@ Create a JSON file that does not need to be committed to Git:
 }
 ```
 
-The example describes one project; it is not Temple's default workflow. `policy_refs` points to the authoritative repository documents, while `summary` gives Agents a short routing hint. Omit `repository_integration` when using the CLI without assisted discovery: initialization then writes an `unconfirmed` record, `doctor` reports a warning rather than inventing a workflow, and an Agent asks only when the missing decision affects later work. Use `deferred` only when the user intentionally postpones the choice and the summary states when it must be revisited.
-
-Preview and apply:
-
-```bash
-temple init . --config /path/to/config.json --dry-run
-temple init . --config /path/to/config.json
-```
+This object describes one project; it is not Temple's default workflow. `policy_refs` points to the authoritative repository documents, while `summary` gives Agents a short routing hint. Use `deferred` only when the user intentionally postpones the choice and the summary states when it must be revisited.
 
 After a successful init, the CLI prints directly copyable `doctor` and `status` commands through the target repository's `templew.mjs` launcher. It also emits the versioned `TEMPLE_BOOTSTRAP_REQUIRED` result described below. Pass `--json` when another program needs one parseable `temple.init-result/v1` document instead of the human plan and report. The launcher reads `temple.cli-bootstrap/v1` from `temple.lock`, pins the installed framework version, and rejects a development override with a different version. An ordinary project recovers the CLI from the exact Git revision recorded by a clean framework source or from the version-pinned package source. It does not depend on a Temple source checkout beside the project.
 

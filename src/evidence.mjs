@@ -259,6 +259,16 @@ async function observationArtifacts(target, observationPath, artifactRefs) {
   return Promise.all(refs.map((reference) => repositoryArtifact(target, reference)));
 }
 
+async function readObservationJson(target, observationPath, label, templatePath) {
+  try {
+    return await readJson(path.join(target, observationPath));
+  } catch (error) {
+    throw new Error(
+      `${label} observation must be valid JSON. Copy ${templatePath} to a project-owned artifact path and replace its placeholders. ${error.message}`
+    );
+  }
+}
+
 function assertObservationTimes(startedAt, completedAt) {
   if (!validTimestamp(startedAt) || !validTimestamp(completedAt)) throw new Error("Observation timestamps are invalid");
   if (Date.parse(completedAt) < Date.parse(startedAt)) throw new Error("Observation completed_at precedes started_at");
@@ -267,8 +277,15 @@ function assertObservationTimes(startedAt, completedAt) {
 async function buildTestEvidence(target, options, base) {
   const observationPath = String(options.observation ?? "").trim();
   if (!isSafeRepositoryPath(observationPath)) throw new Error("--observation must be a safe repository-relative path");
-  const observation = await readJson(path.join(target, observationPath));
-  if (observation.schema_version !== "temple.test-observation/v1") throw new Error("Invalid test observation schema_version");
+  const observation = await readObservationJson(
+    target,
+    observationPath,
+    "Test",
+    ".ai-org/templates/test-observation.json"
+  );
+  if (observation.schema_version !== "temple.test-observation/v1") {
+    throw new Error("Invalid test observation schema_version; start with .ai-org/templates/test-observation.json");
+  }
   if (!Array.isArray(observation.command) || observation.command.length === 0 || !observation.command.every(nonEmpty)) {
     throw new Error("Test observation command must be a non-empty string array");
   }
@@ -297,8 +314,15 @@ async function buildTestEvidence(target, options, base) {
 async function buildRuntimeEvidence(target, options, base) {
   const observationPath = String(options.observation ?? "").trim();
   if (!isSafeRepositoryPath(observationPath)) throw new Error("--observation must be a safe repository-relative path");
-  const observation = await readJson(path.join(target, observationPath));
-  if (observation.schema_version !== "temple.runtime-observation/v1") throw new Error("Invalid runtime observation schema_version");
+  const observation = await readObservationJson(
+    target,
+    observationPath,
+    "Runtime",
+    ".ai-org/templates/runtime-observation.json"
+  );
+  if (observation.schema_version !== "temple.runtime-observation/v1") {
+    throw new Error("Invalid runtime observation schema_version; start with .ai-org/templates/runtime-observation.json");
+  }
   if (!nonEmpty(observation.environment) || !nonEmpty(observation.scenario)) throw new Error("Runtime environment and scenario are required");
   if (!["pass", "fail"].includes(observation.result)) throw new Error("Runtime result must be pass or fail");
   if (!RUNTIME_PROVENANCE.includes(observation.provenance)) throw new Error("Runtime provenance is invalid");

@@ -42,3 +42,16 @@ test("localized Temple Concept Layers assets use explicit L1 through L6 labels",
     assert.deepEqual(labels, expected, assetName);
   }
 });
+
+test("fresh-session guidance keeps recovery titles neutral and unavailable usage unknown", async () => {
+  const recoveryPlan = await fs.readFile(
+    new URL("../docs/validation/greenfield-cold-task-recovery-test-plan.md", import.meta.url),
+    "utf8"
+  );
+  const usageGuide = await fs.readFile(new URL("../docs/getting-started/usage.md", import.meta.url), "utf8");
+
+  assert.match(recoveryPlan, /Keep the pre-recovery task title neutral/);
+  assert.match(recoveryPlan, /Do not place the coordinator's Work Item ID/);
+  assert.match(recoveryPlan, /After repository inspection discovers the target Work Item/);
+  assert.match(usageGuide, /missing usage is reported as unknown, never zero/);
+});

@@ -1,0 +1,119 @@
+{
+  "report_version": "wi-0156-clean-room-comparison/v1",
+  "work_item_id": "WI-0156",
+  "result": "pass_with_follow_up_findings",
+  "observed_at": "2026-09-04",
+  "baseline": {
+    "work_item_id": "WI-0155",
+    "delivery_elapsed_ms": 434800,
+    "cold_recovery_elapsed_ms": 85823,
+    "combined_elapsed_ms": 520623
+  },
+  "source": {
+    "revision": "bcda3975efd11368e633b241a505efc6f72931e4",
+    "package": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.29",
+    "tarball_sha256": "b063fbb4728209c60bf5d324f4adfce87a1188d6d42b4471430856cf410b1024",
+    "published": false
+  },
+  "target": {
+    "project_name": "QueueKeep",
+    "path": "/Users/zsz1210/Documents/ChatGPT/temple-clean-room-v2.Mmf2WR",
+    "work_item_id": "WI-0001",
+    "lifecycle_outcome": "accepted",
+    "implementation_revision": "411410751a941e2e34576bfb6fd1fc5f6546ec65",
+    "tested_revision": "411410751a941e2e34576bfb6fd1fc5f6546ec65",
+    "head_revision": "293b23d6cfdd8d18443ab48c4c8523a6d622482f",
+    "git_clean_after_delivery": true,
+    "git_clean_after_recovery": false,
+    "recovery_generated_view_change": ".ai-org/views/capabilities.json generated_at only",
+    "remote_configured": false,
+    "application_tests": {
+      "passed": 2,
+      "failed": 0
+    },
+    "doctor": {
+      "passed": 36,
+      "warnings": 1,
+      "failed": 0,
+      "warning": "Repository integration remains intentionally unconfirmed in the minimal init example."
+    },
+    "developer_identity": {
+      "agent_id": "agent-devon",
+      "display_name": "Devon"
+    },
+    "independent_qa_identity": {
+      "agent_id": "agent-emery",
+      "display_name": "Emery"
+    }
+  },
+  "sessions": [
+    {
+      "name": "delivery",
+      "thread_id": "01a06c89-a22b-7751-9ee4-e37fa50437e5",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "elapsed_ms": 436937,
+      "completed": true,
+      "human_interventions": 0,
+      "product_rework_after_first_verification": 0,
+      "encountered_errors": 2,
+      "model_retries": 0,
+      "token_usage": "unknown"
+    },
+    {
+      "name": "cold_recovery",
+      "thread_id": "01a06c90-b0c1-77e2-a017-7407d6247f1d",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "elapsed_ms": 104683,
+      "completed": true,
+      "human_interventions": 0,
+      "encountered_command_errors": 2,
+      "model_retries": 0,
+      "token_usage": "unknown"
+    }
+  ],
+  "combined_elapsed_ms": 541620,
+  "matched_delta": {
+    "delivery_elapsed_ms": 2137,
+    "delivery_elapsed_percent": 0.49,
+    "cold_recovery_elapsed_ms": 18860,
+    "cold_recovery_elapsed_percent": 21.98,
+    "combined_elapsed_ms": 20997,
+    "combined_elapsed_percent": 4.03,
+    "interpretation": "No speed improvement was observed; elapsed differences from one run are descriptive, not causal."
+  },
+  "remediation_observations": {
+    "valid_minimal_init_example": "exercised_without_correction",
+    "repository_source_guidance": "exercised_without_correction",
+    "structured_evidence_and_exact_id_guidance": "covered_by_deterministic_regression_but_not_invoked_by_the_clean_room_task",
+    "neutral_recovery_title": "exercised_without_namespace_collision",
+    "unknown_token_semantics": "preserved"
+  },
+  "acceptance": {
+    "fresh_delivery_task": true,
+    "repository_visible_inputs_only": true,
+    "project_specific_identities": true,
+    "bounded_work_item_accepted": true,
+    "healthy_status_and_doctor": true,
+    "separate_cold_recovery_task": true,
+    "neutral_recovery_title": true,
+    "read_only_recovery_preserved": false,
+    "publication_or_external_release_performed": false
+  },
+  "follow_up_findings": [
+    "Document the required closeout gate references in temple close --help.",
+    "Reject nonexistent local artifact paths when lifecycle gates record repository evidence.",
+    "Provide a read-only Doctor mode or prevent Doctor from rewriting generated timestamps during recovery.",
+    "Make valid Position identifiers easier to discover before context resolve.",
+    "Retain unknown rather than estimated Token data when compatible telemetry is unavailable."
+  ],
+  "claim_boundaries": [
+    "One bounded local product and one machine were observed.",
+    "The clean-room run did not invoke normalized evidence capture, so that remediation is supported by deterministic regression rather than this end-to-end observation.",
+    "A single matched rerun does not establish speed, quality, or Token savings.",
+    "The recovery task recovered the correct target namespace but exposed a generated-view write side effect.",
+    "Delivery identity separation occurred within one Codex task; cold recovery used a separate task."
+  ],
+  "external_action_performed": false
+}
