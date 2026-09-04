@@ -23313,6 +23313,199 @@
         "exit_code": 0,
         "started_at": "2026-09-04T05:33:20Z"
       }
+    },
+    {
+      "id": "EVID-20260904T060841Z-A3AA4DA7",
+      "work_item_id": "WI-0145",
+      "recorded_at": "2026-09-04T06:08:41.486Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Read-only model onboarding planner candidate",
+      "outcome": "verified",
+      "scope_revision": "277be9e870f24989641e4f908201937685665d8b",
+      "observed_at": "2026-09-04T06:08:41.486Z",
+      "summary": "Candidate implements deterministic, non-mutating model-profile proposals from bounded Provider evidence and aggregate history.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "277be9e870f24989641e4f908201937685665d8b"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "277be9e870f24989641e4f908201937685665d8b",
+        "working_tree_dirty": true,
+        "dirty_path_count": 2,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T060841Z-4BBBEEFB",
+      "work_item_id": "WI-0145",
+      "recorded_at": "2026-09-04T06:08:41.759Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer model onboarding verification",
+      "outcome": "pass",
+      "scope_revision": "277be9e870f24989641e4f908201937685665d8b",
+      "observed_at": "2026-09-04T06:07:51Z",
+      "summary": "Focused 63/63 and full 422/422 checks passed at the exact candidate revision.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0145/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0145/developer-test-observation.json",
+          "sha256": "47a065c1db8b232156b12903502c5f01d77a6e898e0d475c07fa411a20afc626"
+        },
+        {
+          "path": "src/model-onboarding.mjs",
+          "sha256": "2b6b860fa76cf58e94599611a9d64348aac57ca7c240669bac01a9c0df41825e"
+        },
+        {
+          "path": "src/cli.mjs",
+          "sha256": "18608d262d0677dcc1278b176eac6881d8d1f5e4f2a1c72d077269e52adf9ae3"
+        },
+        {
+          "path": "src/schema-validation.mjs",
+          "sha256": "6086824e1ec4c45afc366cf5a472b81b081ebec2bca370a4a354ef17d189d678"
+        },
+        {
+          "path": "project-overlay/.ai-org/core/schemas/model-onboarding-input.schema.json",
+          "sha256": "82b1d1efba9ddbf5166ae1494f7ac422abb259d4a56aa6efd34433b057f462a4"
+        },
+        {
+          "path": "project-overlay/.ai-org/core/schemas/model-onboarding-plan.schema.json",
+          "sha256": "fd097947949a0847e0e9b5deb8f47794d33082355e6cd2de3aaae7175074c8b5"
+        },
+        {
+          "path": "docs/getting-started/model-routing.md",
+          "sha256": "d7b4d4652f878f96999d3f3372b371a21ec710ad9cef03673a2ac9902b4f85f4"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/model-onboarding.test.mjs",
+          "node --test test/model-onboarding.test.mjs test/execution-routing.test.mjs test/phase4-installation.test.mjs test/cli.test.mjs",
+          "npm run verify",
+          "git diff --check",
+          "node ./templew.mjs doctor . --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T06:01:00Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T060941Z-EEA2CDC3",
+      "work_item_id": "WI-0145",
+      "recorded_at": "2026-09-04T06:09:41.614Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Quality evaluation of model onboarding planner",
+      "outcome": "pass",
+      "scope_revision": "277be9e870f24989641e4f908201937685665d8b",
+      "observed_at": "2026-09-04T06:09:00Z",
+      "summary": "Quality confirmed deterministic precedence, fail-closed states, schema integration, and non-mutation at the exact candidate revision.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0145/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0145/quality-test-observation.json",
+          "sha256": "6f5b156fef5b6226f09df79b77b0a2d40f1e73071143fd88fe672d977be72287"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0145/quality-evaluation.md",
+          "sha256": "66334a6e109c1c9b2f72db2b5b2eb81c11d33abf0c1a752b03fe7bff76b5e728"
+        },
+        {
+          "path": "test/model-onboarding.test.mjs",
+          "sha256": "49176954c89493f5e2acc337182f45fab18d63984ce12c49c2a3b2b2502a619f"
+        },
+        {
+          "path": "test/execution-routing.test.mjs",
+          "sha256": "9aa41261ddf9718e183122eede589bf62cfc96a534580b3de15f60449f10d5f7"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/model-onboarding.test.mjs test/execution-routing.test.mjs",
+          "node ./templew.mjs schema validate . --json",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T06:08:53Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T061049Z-B2A0BE0B",
+      "work_item_id": "WI-0145",
+      "recorded_at": "2026-09-04T06:10:49.075Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent reproduction of model onboarding planner",
+      "outcome": "pass",
+      "scope_revision": "277be9e870f24989641e4f908201937685665d8b",
+      "observed_at": "2026-09-04T06:10:18Z",
+      "summary": "Independent QA reproduced repository checks, 28 focused tests, and 35-schema validation from a detached exact-revision worktree.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0145/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0145/independent-qa-test-observation.json",
+          "sha256": "6b5a00815917c9c503b25e3701b110d4f3b1f29e4d3981c81cdc93b8ab9ff0ac"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0145/independent-qa-report.md",
+          "sha256": "c8256a38aefff38536b3ed8fae5b5a522efe12ec664f55b601776d434f5c5f73"
+        },
+        {
+          "path": "test/model-onboarding.test.mjs",
+          "sha256": "49176954c89493f5e2acc337182f45fab18d63984ce12c49c2a3b2b2502a619f"
+        },
+        {
+          "path": "test/execution-routing.test.mjs",
+          "sha256": "9aa41261ddf9718e183122eede589bf62cfc96a534580b3de15f60449f10d5f7"
+        }
+      ],
+      "details": {
+        "command": [
+          "git worktree add --detach <temporary>/checkout 277be9e870f24989641e4f908201937685665d8b",
+          "npm run check",
+          "node --test test/model-onboarding.test.mjs test/execution-routing.test.mjs",
+          "node ./templew.mjs schema validate . --json",
+          "git status --short --branch"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T06:09:58Z"
+      }
     }
   ]
 }

@@ -1,0 +1,39 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "277be9e870f24989641e4f908201937685665d8b",
+  "command": [
+    "node --test test/model-onboarding.test.mjs",
+    "node --test test/model-onboarding.test.mjs test/execution-routing.test.mjs test/phase4-installation.test.mjs test/cli.test.mjs",
+    "npm run verify",
+    "git diff --check",
+    "node ./templew.mjs doctor . --json"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T06:01:00Z",
+  "completed_at": "2026-09-04T06:07:51Z",
+  "artifact_refs": [
+    "src/model-onboarding.mjs",
+    "src/cli.mjs",
+    "src/schema-validation.mjs",
+    "project-overlay/.ai-org/core/schemas/model-onboarding-input.schema.json",
+    "project-overlay/.ai-org/core/schemas/model-onboarding-plan.schema.json",
+    "docs/getting-started/model-routing.md"
+  ],
+  "summary": {
+    "focused_tests_passed": 63,
+    "full_tests_passed": 422,
+    "tests_failed": 0,
+    "repository_checks_passed": true,
+    "documentation_links_passed": true,
+    "package_boundary_passed": true,
+    "fresh_installation_covered": true,
+    "upgrade_path_covered": true,
+    "provider_contact_performed": false,
+    "raw_conversation_read": false,
+    "model_execution_performed": false,
+    "policy_mutation_performed": false,
+    "automatic_adoption_enabled": false,
+    "external_write_performed": false
+  }
+}

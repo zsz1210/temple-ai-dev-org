@@ -1,0 +1,28 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "277be9e870f24989641e4f908201937685665d8b",
+  "command": [
+    "node --test test/model-onboarding.test.mjs test/execution-routing.test.mjs",
+    "node ./templew.mjs schema validate . --json",
+    "git diff --check"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T06:08:53Z",
+  "completed_at": "2026-09-04T06:09:00Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0145/quality-evaluation.md",
+    "test/model-onboarding.test.mjs",
+    "test/execution-routing.test.mjs"
+  ],
+  "summary": {
+    "focused_tests_passed": 28,
+    "tests_failed": 0,
+    "documents_validated": 169,
+    "schemas_validated": 35,
+    "provider_contact_performed": false,
+    "model_execution_performed": false,
+    "policy_mutation_performed": false,
+    "external_write_performed": false
+  }
+}
