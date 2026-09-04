@@ -1,6 +1,6 @@
 # Alpha release readiness
 
-> **Preparation only — no publication is authorized.** This page records what is ready, what must be repeated at a frozen candidate, and which external actions still require the repository owner's explicit decision.
+> **The source repository is public.** A tagged GitHub Alpha, npm package, deployment, and announcement remain separate release surfaces that still require their own gates.
 
 Last refreshed: 2026-09-05
 
@@ -10,9 +10,9 @@ Release target: a narrowly described public Alpha, not `1.0` or production quali
 
 ## Current answer
 
-Temple does **not** have a current public Alpha or an npm release.
+Temple now has a public source repository, but it does **not** yet have a tagged current Alpha or an npm release.
 
-- The repository remains private.
+- The existing repository became public after the owner explicitly accepted the historical metadata quantified by WI-0165 and WI-0166 verified all available GitHub Actions logs.
 - A historical private GitHub prerelease, `v0.1.0-alpha.5`, exists. It is not the current recommended build.
 - The latest ordinary semantic version tag is `v0.1.0-alpha.27`.
 - `package.json` and the self-host lock now identify the internal `0.1.0-alpha.30` candidate, but there is no matching tag or GitHub Release.
@@ -25,10 +25,10 @@ The approved internal candidate version is `v0.1.0-alpha.30`. That version decis
 
 | Surface | Current truth | Next action |
 | --- | --- | --- |
-| GitHub repository | Private | Keep private while the candidate and new-user path are tested |
-| Branch protection | Strict required Node.js 24 check, one approval, Code Owner review, last-push approval, stale-review dismissal, and resolved conversations are configured | Recheck after any visibility change |
+| GitHub repository | Public at `879bcd6e`; anonymous API, Git, README, and License access verified | Keep public and observe the source surface |
+| Branch protection | Reverified after publication: strict required Node.js 24 check, one approval, Code Owner review, last-push approval, stale-review dismissal, and resolved conversations | Keep enabled and monitor public contributions |
 | GitHub Release | Historical private `v0.1.0-alpha.5` prerelease only | Decide how to label that history, then create a new Release only after the exact tag is approved |
-| Package metadata | `@zsz1210/temple-ai-dev-org@0.1.0-alpha.30`, `private: true`; exact local archive qualified | Keep private until a separate publication decision |
+| Package metadata | `@zsz1210/temple-ai-dev-org@0.1.0-alpha.30`, `private: true`; the earlier exact archive is retained evidence, but public-state documentation changed the package bytes | Build and requalify one new exact npm candidate before publication |
 | npm | Package lookup returns `E404`; nothing has been published | Keep deferred until after the GitHub Alpha is exercised |
 | Announcement | None | Treat as a separate decision after the Release exists |
 
@@ -49,7 +49,7 @@ These foundations reduce release risk. They do not replace exact-candidate verif
 
 ## Current diagnostic observations
 
-These observations describe the private repository before this refresh. They are useful preparation evidence, but they are not a frozen release record.
+These observations span the private qualification work and the later public-source verification. Each result remains bound to its named revision and release surface.
 
 - Required `main` CI run [`33854507459`](https://github.com/zsz1210/temple-ai-dev-org/actions/runs/33854507459) passed the Node.js 24 repository gate.
 - The unpublished archive built from `54d14f4e94a930719ca7674ebf1ad74be89de7ac` contained 374 entries, 804,392 packed bytes, and 3,192,729 unpacked bytes; its SHA-256 was `43cefd40bcb5d21a3159419eb89d31d691f0ac81a9489a38a4b4824ad5cf2f0b`.
@@ -57,7 +57,8 @@ These observations describe the private repository before this refresh. They are
 - The WI-0158 fresh-session delivery and separate cold recovery completed without Human intervention. QueueKeep reached accepted closeout with distinct Developer and Independent QA identities, two passing application tests, Doctor 37/0/0, and a clean read-only recovery. Token totals remained unavailable.
 - WI-0159 privacy-normalized the current copies of the affected WI-0155 and WI-0156 artifacts while retaining their original revision-pinned Git evidence. WI-0160 reviewed all 68 PNGs at their current digests and found no restricted values or embedded text/EXIF payloads; it also classified 334 text occurrences. WI-0161 reduced the 245 canonical-state occurrences to zero while preserving Evidence identity and artifact references. WI-0162 resolved the remaining 89 current-tree text occurrences: 70 retained-artifact values were normalized through a revision-bound plan, 18 first-party fixture literals were replaced without removing behavior coverage, and the unchanged Archify security fixture is allowed only at its installed-manifest digest. Clean-worktree Independent QA passed all 443 tests at exact candidate `9012ece9e1ff3871f8e24bfc68ec79f77060d5a8`. WI-0165 subsequently quantified the remaining historical-Git privacy decision.
 - WI-0164 built `zsz1210-temple-ai-dev-org-0.1.0-alpha.30.tgz` from exact candidate `a6849519c6067b2f73ca1a44d556faf7a5168b1d`. It contained 380 files, 819,744 packed bytes, and 3,254,381 unpacked bytes; SHA-256 was `8f93462cdea25068920279740450a72977f1a82b375fbf82bb26dac54aa36c95`.
-- WI-0165 scanned all 7,870 text blobs reachable from `main`, nine tags, and 42 GitHub pull-request heads. It found no credible credential exposure or inspection failure. It did find 3,745 historical local-environment and email occurrences across 738 blobs and 158 paths, all already reachable from `main`; 114 PNG/SVG blobs were explicitly excluded from content review. The evidence favors a clean public distribution repository unless the owner accepts those historical values. GitHub Actions history and logs remain a separate hosting-surface review before visibility changes.
+- WI-0165 scanned all 7,870 text blobs reachable from `main`, nine tags, and 42 GitHub pull-request heads. It found no credible credential exposure or inspection failure. It did find 3,745 historical local-environment and email occurrences across 738 blobs and 158 paths, all already reachable from `main`; 114 PNG/SVG blobs were explicitly excluded from content review. The owner accepted that history. WI-0166 then scanned all 167 available Actions-run archives, 464 log files, and 16,486,283 log bytes without finding a credential, email, home path, private IP, Tailnet hostname, binary log, or read failure.
+- After publication, Secret Scanning and Push Protection reported zero alerts; private vulnerability reporting and Dependabot security updates are enabled. Dependabot identified six high-severity advisories for `fast-uri` in the development lockfile of the pinned optional Archify adapter. That adapter is outside the npm package, but the alerts require an upstream-compatible update or evidence-backed disposition before the tagged Alpha and npm publication.
 - The exact candidate passed all 443 tests, 188-document schema validation, the installed-Chrome browser gate, dependency audits with zero known vulnerabilities, and the public repository/package audit with zero blockers. Its one Doctor warning was the expected stale generated parallel plan at the historical Work Item revision.
 - A clean Node.js `v24.20.0` consumer installed the exact local tarball and passed version, first init, idempotent re-init, installed launcher, status, and Doctor. A separate Alpha.29 fixture upgraded lock-only while 15 sampled project-owned digests remained unchanged.
 - The historical Alpha.29 work and its earlier package, installation, browser, upgrade, and hosted observations remain available in `WI-0086`. They are history, not qualification for this candidate.
@@ -77,21 +78,20 @@ The exact local package bytes, manifest, consumer result, audits, test count, an
 | Package boundary | Exact 380-file manifest, sizes, integrity, and SHA-256 recorded | Preserve the archive identity in any later tag or Release review |
 | Clean consumer | Node.js 24 exact-tarball path passed | Public registry recovery remains unavailable until separately published |
 | Upgrade safety | Alpha.29-to-.30 lock-only upgrade passed; 15 project-owned digests unchanged | Repeat only if the candidate or migration boundary changes |
-| Dependency and secret review | Dependency audits have zero known vulnerabilities; public repository/package audit has zero blockers | Verify hosting security controls after any visibility change |
-| Evidence publication boundary | Candidate repository and package surfaces have zero blockers; the historical Git text scan found no credible credential but quantified 3,745 privacy-review occurrences already in `main`; media was explicitly excluded | Choose between accepting that historical metadata and using a clean public distribution repository; separately review GitHub Actions history and logs |
+| Dependency and secret review | Secret alerts are zero; six high Dependabot alerts affect the optional Archify development lockfile outside the npm package | Update the pinned adapter or record an evidence-backed disposition before tag/npm release |
+| Evidence publication boundary | Existing history accepted; all available Actions logs reviewed; public anonymous access verified; media remained explicitly excluded | Preserve the recorded limits and review any new publication surface independently |
 | Fresh-session clean-room path | Passed at the pre-freeze revision | WI-0158 completed one bounded Work Item and a separate repository-only recovery without maintainer coaching; repeat only if later candidate changes affect the Core Path |
 | Rollback | Earlier procedure exists | Bind withdrawal or superseding-release instructions to the approved immutable tag |
-| Publication authority | Not granted | Separate Human approval for visibility, tag, GitHub Release, and any later npm publication |
+| Publication authority | Repository visibility granted and exercised | Separate Human approval remains required for the immutable tag, GitHub Release, and npm publication |
 
 ## Decisions reserved for the repository owner
 
 The following choices cannot be inferred from passing tests:
 
 1. Whether the historical `v0.1.0-alpha.5` prerelease should remain as-is or be relabeled as an early internal preview.
-2. When the repository may become public.
-3. Whether the exact tag and GitHub Release may be created.
-4. Whether and when npm distribution may be enabled.
-5. Whether an announcement should be made and what claims it may contain.
+2. Whether the exact tag and GitHub Release may be created after the current dependency alerts are dispositioned.
+3. Whether and when npm distribution may be enabled.
+4. Whether an announcement should be made and what claims it may contain.
 
 Approval of one item does not approve the later items.
 
@@ -125,10 +125,10 @@ This rehearsal validates the AI-assisted operating path. It does not establish t
 
 ### Step 4 — make publication decisions separately
 
-- Resolve the historical-metadata distribution choice recorded by WI-0165.
-- Review existing GitHub Actions history and logs, which become public with the repository.
-- Explicitly authorize repository visibility.
-- Verify required CI, review rules, vulnerability reporting, secret scanning, and push protection in the public state.
+- The owner accepted the existing history recorded by WI-0165.
+- WI-0166 reviewed every available GitHub Actions log, then published the repository and verified anonymous access.
+- Required CI, review rules, vulnerability reporting, secret scanning, push protection, and Dependabot security updates are enabled in the public state.
+- Resolve or formally disposition the six optional-adapter development alerts.
 - Review the final evidence and separately authorize the immutable tag and GitHub Release.
 - Observe the first users before deciding whether npm is needed.
 
@@ -140,6 +140,8 @@ Before any npm publication:
 
 - confirm the final scoped package name;
 - remove `private: true` only in an explicitly approved publication candidate;
+- rebuild and requalify the archive because the public-state documentation changed package bytes after WI-0164;
+- update the pinned optional Archify adapter or record an evidence-backed disposition for its six `fast-uri` alerts;
 - configure public scoped-package access and maintainer account protection;
 - repeat the exact tarball and clean-consumer checks;
 - verify README, license, repository metadata, executable entrypoints, and provenance;
