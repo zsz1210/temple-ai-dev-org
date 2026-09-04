@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0139",
   "title": "Repair Context Capsule evaluation contract",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-04T01:28:56.515Z",
-  "updated_at": "2026-09-04T01:32:36.160Z",
+  "updated_at": "2026-09-04T01:48:38.188Z",
   "scope": [
     "Replace prose-equality scoring with canonical typed facts and identifiers for the single-repository and coordinator multi-repository recovery scenarios.",
     "Prove the evaluator against retained WI-0138 outputs without changing or rescoring the historical WI-0138 result.",
@@ -61,14 +61,15 @@
   ],
   "claim": {
     "id": "claim-20260904013236-aaf47809",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "base_revision": "b3fcf0c",
     "branch": "codex/wi-0139-typed-context-evaluator",
     "worktree": null,
     "claimed_at": "2026-09-04T01:32:36.160Z",
-    "released_at": null
+    "released_at": "2026-09-04T01:48:38.188Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
@@ -109,14 +110,15 @@
     },
     {
       "id": "claim-20260904013236-aaf47809",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "b3fcf0c",
       "branch": "codex/wi-0139-typed-context-evaluator",
       "worktree": null,
       "claimed_at": "2026-09-04T01:32:36.160Z",
-      "released_at": null
+      "released_at": "2026-09-04T01:48:38.188Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -134,6 +136,14 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0139/technical-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0139/handoff-003-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260904T014814Z-BED21DC8",
+      "EVID-20260904T014814Z-A48DFA0F",
+      ".ai-org/artifacts/WI-0139/developer-verification.md"
     ]
   },
   "evidence": [
@@ -141,7 +151,11 @@
     ".ai-org/artifacts/WI-0139/handoff-001-product_manager-to-tech_lead.md",
     ".ai-org/artifacts/WI-0139/approved-scope.md",
     ".ai-org/artifacts/WI-0139/handoff-002-tech_lead-to-developer.md",
-    ".ai-org/artifacts/WI-0139/technical-design.md"
+    ".ai-org/artifacts/WI-0139/technical-design.md",
+    ".ai-org/artifacts/WI-0139/handoff-003-developer-to-quality_evaluator.md",
+    "EVID-20260904T014814Z-BED21DC8",
+    "EVID-20260904T014814Z-A48DFA0F",
+    ".ai-org/artifacts/WI-0139/developer-verification.md"
   ],
   "unresolved": [],
   "next_position": "quality_evaluator",
@@ -159,6 +173,14 @@
       "input_revision": "11094d4",
       "artifact": ".ai-org/artifacts/WI-0139/handoff-002-tech_lead-to-developer.md",
       "created_at": "2026-09-04T01:32:05.522Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "498c7dfdcd0e4abb547a3e3e829311185ddfa96c",
+      "artifact": ".ai-org/artifacts/WI-0139/handoff-003-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T01:48:31.083Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "498c7dfdcd0e4abb547a3e3e829311185ddfa96c"
 }
