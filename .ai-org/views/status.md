@@ -214,7 +214,7 @@
 | task-0004 | WI-0029 | WI-0029 · Prototype local Agent Comma… · Developer (Rikku) | Developer / Rikku | human | codex/wi-0029-agent-command-gateway | completed | `38a185eb` | ready |
 | task-0005 | WI-0056 | WI-0056 · Run the corrected provider-… · Developer (Rikku) | Developer / Rikku | human | main | completed | `247a7815` | ready |
 | task-0006 | WI-0091 | WI-0091 · Make Usage capture health t… · Developer (Rikku) | Developer / Rikku | human | main | completed | `c60a2d27` | ready |
-| task-0007 | WI-0155 | WI-0155 · Run fresh-session clean-roo… · Developer (Rikku) | Developer / Rikku | human | codex/wi-0155-clean-room-rehearsal | active | `—` | — |
+| task-0007 | WI-0155 | WI-0155 · Run fresh-session clean-roo… · Developer (Rikku) | Developer / Rikku | human | codex/wi-0155-clean-room-rehearsal | completed | `—` | — |
 
 ## Runtime workers and shared resources
 
@@ -344,6 +344,7 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-04T12:34:55.595Z | task_status_changed | WI-0155 | agent-rikku |
 | 2026-09-04T12:30:37.363Z | task_registered | WI-0155 | agent-mog |
 | 2026-09-04T12:26:55.761Z | work_item_claimed | WI-0155 | human |
 | 2026-09-04T12:26:55.494Z | work_item_transitioned | WI-0155 | agent-mog |
@@ -351,7 +352,6 @@
 | 2026-09-04T12:24:59.626Z | work_item_created | WI-0155 | agent-mog |
 | 2026-09-04T12:00:24.793Z | work_item_closed | WI-0154 | agent-lulu |
 | 2026-09-04T12:00:24.793Z | work_item_transitioned | WI-0154 | agent-lulu |
-| 2026-09-04T12:00:24.572Z | work_item_claimed | WI-0154 | human |
 
 ## Assignments
 
