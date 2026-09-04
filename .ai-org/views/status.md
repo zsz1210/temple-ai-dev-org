@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
 - Work items: 142 total, 6 active
 - Codex tasks: 6 registered, 6 archive-ready
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -189,7 +189,7 @@
 | WI-0139 | Repair Context Capsule evaluation contract | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f787f8a` | 0 | 17 | 0 |
 | WI-0140 | Measure and enforce Context Capsule route adherence | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1216896f` | 0 | 16 | 0 |
 | WI-0141 | Run the live Context Capsule route-adherence comparison | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e0d7f37d` | 0 | 16 | 0 |
-| WI-0142 | Harden reusable model and process evaluation controls | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5197e7a3` | 0 | 14 | 0 |
+| WI-0142 | Harden reusable model and process evaluation controls | independent_qa | Independent QA | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260904040700-878912d1 | `5197e7a3` | 0 | 14 | 0 |
 
 ## Codex task registry
 
@@ -331,6 +331,7 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-04T04:07:00.424Z | work_item_claimed | WI-0142 | principal-owner |
 | 2026-09-04T04:05:20.440Z | work_item_transitioned | WI-0142 | agent-lulu |
 | 2026-09-04T04:05:20.192Z | handoff_created | WI-0142 | agent-lulu |
 | 2026-09-04T04:05:19.922Z | work_item_transitioned | WI-0142 | agent-lulu |
@@ -338,7 +339,6 @@
 | 2026-09-04T04:04:11.412Z | work_item_transitioned | WI-0142 | agent-rikku |
 | 2026-09-04T04:04:11.171Z | work_item_claim_released | WI-0142 | principal-owner |
 | 2026-09-04T04:04:10.895Z | handoff_created | WI-0142 | agent-rikku |
-| 2026-09-04T04:03:57.872Z | evidence_recorded | WI-0142 | human |
 
 ## Assignments
 

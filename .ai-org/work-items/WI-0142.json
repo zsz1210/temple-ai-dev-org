@@ -6,7 +6,7 @@
   "owner_position": "independent_qa",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-04T03:48:51.822Z",
-  "updated_at": "2026-09-04T04:05:20.440Z",
+  "updated_at": "2026-09-04T04:07:00.424Z",
   "scope": [
     "Classify privacy-safe control-package reads from supported sanitized Codex App Server action shapes without retaining raw commands or output.",
     "Make cache sensitivity and cache-control validity first-class in deterministic comparison analysis, so routing or model claims fail closed when cache imbalance can dominate the result.",
@@ -57,7 +57,7 @@
     "general-development"
   ],
   "stage_requirements": {},
-  "base_revision": "496a9490ea05462ddc738b4320554c8f11a949ac",
+  "base_revision": "567da1996df5d47a10cb66677b4fa467c41060f3",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -67,18 +67,15 @@
     "WI-0138 has no active claim and is retained as immutable predecessor evidence; WI-0142 owns successor-only edits to the shared harness and tests."
   ],
   "claim": {
-    "id": "claim-20260904035125-fe64ee00",
-    "status": "released",
+    "id": "claim-20260904040700-878912d1",
+    "status": "active",
     "principal_id": "principal-owner",
-    "agent_id": "agent-rikku",
-    "base_revision": "496a9490ea05462ddc738b4320554c8f11a949ac",
+    "agent_id": "agent-lulu",
+    "base_revision": "567da1996df5d47a10cb66677b4fa467c41060f3",
     "branch": "codex/wi-0142-evaluation-controls",
     "worktree": null,
-    "claimed_at": "2026-09-04T03:51:25.391Z",
-    "released_at": "2026-09-04T04:04:11.171Z",
-    "release_reason": [
-      "Developer implementation and evidence handed to Quality Evaluator."
-    ]
+    "claimed_at": "2026-09-04T04:07:00.424Z",
+    "released_at": null
   },
   "claims": [
     {
@@ -94,6 +91,17 @@
       "release_reason": [
         "Developer implementation and evidence handed to Quality Evaluator."
       ]
+    },
+    {
+      "id": "claim-20260904040700-878912d1",
+      "status": "active",
+      "principal_id": "principal-owner",
+      "agent_id": "agent-lulu",
+      "base_revision": "567da1996df5d47a10cb66677b4fa467c41060f3",
+      "branch": "codex/wi-0142-evaluation-controls",
+      "worktree": null,
+      "claimed_at": "2026-09-04T04:07:00.424Z",
+      "released_at": null
     }
   ],
   "gate_evidence": {
