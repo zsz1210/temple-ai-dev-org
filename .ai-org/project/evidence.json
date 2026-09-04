@@ -21984,6 +21984,63 @@
         "exit_code": 0,
         "started_at": "2026-09-04T01:11:20.000Z"
       }
+    },
+    {
+      "id": "EVID-20260904T011418Z-57A7CF5D",
+      "work_item_id": "WI-0138",
+      "recorded_at": "2026-09-04T01:14:18.717Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0138 Independent QA reproduction",
+      "outcome": "pass",
+      "scope_revision": "87d0f8e2c4d1ab62e646a3bd76c8ee4409aed3c2",
+      "observed_at": "2026-09-04T01:13:48.000Z",
+      "summary": "Exact detached candidate reproduced all calculations and retained the effectiveness outcome as inconclusive.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0138/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0138/independent-qa-test-observation.json",
+          "sha256": "65b78e9d6088f1314c93f9e75a90afcc7cfb10027253c7afb3984b92d27957d7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/independent-qa.md",
+          "sha256": "84a6d51f8d54b2cf6d827d69a56f5733fbb96cf7907df1965ba5f7796cac3394"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/quality-evaluation.md",
+          "sha256": "e54c629825c6b99ee771b9e627151201c3013967e46cf395956eae13f6f8e8be"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/live-observation.json",
+          "sha256": "89aca34b3ad2e9037c1aa44d2e1c32db1775e4fd9814010cb77a59c340ea79e0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/effectiveness-analysis.json",
+          "sha256": "9365083aad48917df484f1b7982c25eff4cd770898d6199ae8ff78fe109b65e2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/evidence-backed-findings.md",
+          "sha256": "f8392a1487e4987da06622559e33a959fb897eb00f874794f07d1c2175808908"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run check",
+          "node --test test/context-capsule-ablation.test.mjs",
+          "recompute analyzeContextAblation from frozen protocol and observation"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T01:13:35.000Z"
+      }
     }
   ]
 }
