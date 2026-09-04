@@ -81,8 +81,11 @@
     "claude_md": "installed",
     "archify": {
       "status": "available_not_enabled",
-      "pinned_tag": "v2.15.0",
-      "pinned_commit": "e1ac748f19cf805e44bf74fb93c796662152e273"
+      "pinned_tag": "v2.16.0",
+      "pinned_commit": "c826e6c3a7abad19c0f3cd1ca57207d54b1ad8de",
+      "downstream_patch_ids": [
+        "fast-uri-3.1.7-security-override"
+      ]
     }
   },
   "capabilities": {

@@ -1,6 +1,6 @@
 # Alpha release readiness
 
-> **The source repository is public.** A tagged GitHub Alpha, npm package, deployment, and announcement remain separate release surfaces that still require their own gates.
+> **The source repository is public.** The owner has approved the exact Alpha.30 GitHub prerelease and npm `next` package through WI-0167. Deployment, npm `latest`, and any announcement remain separate decisions.
 
 Last refreshed: 2026-09-05
 
@@ -10,16 +10,16 @@ Release target: a narrowly described public Alpha, not `1.0` or production quali
 
 ## Current answer
 
-Temple now has a public source repository, but it does **not** yet have a tagged current Alpha or an npm release.
+Temple has a public source repository and an owner-approved `v0.1.0-alpha.30` release path. WI-0167 is the authoritative record for the exact GitHub and npm publication outcome; the public services remain the observable source for whether each external action completed.
 
 - The existing repository became public after the owner explicitly accepted the historical metadata quantified by WI-0165 and WI-0166 verified all available GitHub Actions logs.
-- A historical private GitHub prerelease, `v0.1.0-alpha.5`, exists. It is not the current recommended build.
-- The latest ordinary semantic version tag is `v0.1.0-alpha.27`.
-- `package.json` and the self-host lock now identify the internal `0.1.0-alpha.30` candidate, but there is no matching tag or GitHub Release.
-- `@zsz1210/temple-ai-dev-org` does not exist in the public npm registry, and `private: true` prevents accidental publication.
-- `WI-0163` froze the claim and version boundary at technical candidate `a6849519c6067b2f73ca1a44d556faf7a5168b1d`. `WI-0164` built and qualified the exact archive from that commit; publication decisions remain open.
+- The historical `v0.1.0-alpha.5` prerelease remains release history, not the current recommended build.
+- `WI-0163` and WI-0164 froze and qualified an earlier Alpha.30 candidate; later public-state documentation and dependency remediation deliberately replaced those exact package bytes.
+- WI-0167 upgrades the optional Archify adapter to upstream `v2.16.0`, applies one disclosed deterministic `fast-uri` `3.1.7` downstream security patch, and requires fresh exact-package qualification.
+- `package.json` permits public scoped publication only with the prerelease dist-tag `next`; this release does not assign `latest`.
+- GitHub prerelease and npm publication are authorized only for the exact WI-0167 candidate. A login or second-factor prompt remains a Human Principal identity boundary.
 
-The approved internal candidate version is `v0.1.0-alpha.30`. That version decision does not authorize repository visibility, a tag, a GitHub Release, npm publication, deployment, or announcement.
+The approved version is `v0.1.0-alpha.30`. Its release approval does not authorize deployment, npm `latest`, an announcement, or stronger product and performance claims.
 
 ## Release surfaces
 
@@ -27,9 +27,9 @@ The approved internal candidate version is `v0.1.0-alpha.30`. That version decis
 | --- | --- | --- |
 | GitHub repository | Public at `879bcd6e`; anonymous API, Git, README, and License access verified | Keep public and observe the source surface |
 | Branch protection | Reverified after publication: strict required Node.js 24 check, one approval, Code Owner review, last-push approval, stale-review dismissal, and resolved conversations | Keep enabled and monitor public contributions |
-| GitHub Release | Historical private `v0.1.0-alpha.5` prerelease only | Decide how to label that history, then create a new Release only after the exact tag is approved |
-| Package metadata | `@zsz1210/temple-ai-dev-org@0.1.0-alpha.30`, `private: true`; the earlier exact archive is retained evidence, but public-state documentation changed the package bytes | Build and requalify one new exact npm candidate before publication |
-| npm | Package lookup returns `E404`; nothing has been published | Keep deferred until after the GitHub Alpha is exercised |
+| GitHub Release | Alpha.30 publication is approved through WI-0167 | Verify the tag, prerelease flag, target revision, and release notes against the exact candidate |
+| Package metadata | `@zsz1210/temple-ai-dev-org@0.1.0-alpha.30`; public access and `next` are explicit | Build and requalify one exact archive from the final release revision |
+| npm | Alpha.30 publication under `next` is approved through WI-0167 | Verify registry integrity and confirm that `latest` remains unset |
 | Announcement | None | Treat as a separate decision after the Release exists |
 
 The package version, a Git tag, a GitHub Release, repository visibility, and npm publication are different states. One never proves or authorizes another.
@@ -58,7 +58,7 @@ These observations span the private qualification work and the later public-sour
 - WI-0159 privacy-normalized the current copies of the affected WI-0155 and WI-0156 artifacts while retaining their original revision-pinned Git evidence. WI-0160 reviewed all 68 PNGs at their current digests and found no restricted values or embedded text/EXIF payloads; it also classified 334 text occurrences. WI-0161 reduced the 245 canonical-state occurrences to zero while preserving Evidence identity and artifact references. WI-0162 resolved the remaining 89 current-tree text occurrences: 70 retained-artifact values were normalized through a revision-bound plan, 18 first-party fixture literals were replaced without removing behavior coverage, and the unchanged Archify security fixture is allowed only at its installed-manifest digest. Clean-worktree Independent QA passed all 443 tests at exact candidate `9012ece9e1ff3871f8e24bfc68ec79f77060d5a8`. WI-0165 subsequently quantified the remaining historical-Git privacy decision.
 - WI-0164 built `zsz1210-temple-ai-dev-org-0.1.0-alpha.30.tgz` from exact candidate `a6849519c6067b2f73ca1a44d556faf7a5168b1d`. It contained 380 files, 819,744 packed bytes, and 3,254,381 unpacked bytes; SHA-256 was `8f93462cdea25068920279740450a72977f1a82b375fbf82bb26dac54aa36c95`.
 - WI-0165 scanned all 7,870 text blobs reachable from `main`, nine tags, and 42 GitHub pull-request heads. It found no credible credential exposure or inspection failure. It did find 3,745 historical local-environment and email occurrences across 738 blobs and 158 paths, all already reachable from `main`; 114 PNG/SVG blobs were explicitly excluded from content review. The owner accepted that history. WI-0166 then scanned all 167 available Actions-run archives, 464 log files, and 16,486,283 log bytes without finding a credential, email, home path, private IP, Tailnet hostname, binary log, or read failure.
-- After publication, Secret Scanning and Push Protection reported zero alerts; private vulnerability reporting and Dependabot security updates are enabled. Dependabot identified six high-severity advisories for `fast-uri` in the development lockfile of the pinned optional Archify adapter. That adapter is outside the npm package, but the alerts require an upstream-compatible update or evidence-backed disposition before the tagged Alpha and npm publication.
+- After repository publication, Secret Scanning and Push Protection reported zero alerts; private vulnerability reporting and Dependabot security updates are enabled. WI-0167 replaces the alerted Archify `v2.15.0` development lockfile with upstream `v2.16.0` plus a deterministic `fast-uri` `3.1.7` override. The resulting lock is byte-identical to npm's package-lock-only resolution and reports zero known vulnerabilities.
 - The exact candidate passed all 443 tests, 188-document schema validation, the installed-Chrome browser gate, dependency audits with zero known vulnerabilities, and the public repository/package audit with zero blockers. Its one Doctor warning was the expected stale generated parallel plan at the historical Work Item revision.
 - A clean Node.js `v24.20.0` consumer installed the exact local tarball and passed version, first init, idempotent re-init, installed launcher, status, and Doctor. A separate Alpha.29 fixture upgraded lock-only while 15 sampled project-owned digests remained unchanged.
 - The historical Alpha.29 work and its earlier package, installation, browser, upgrade, and hosted observations remain available in `WI-0086`. They are history, not qualification for this candidate.
@@ -78,7 +78,7 @@ The exact local package bytes, manifest, consumer result, audits, test count, an
 | Package boundary | Exact 380-file manifest, sizes, integrity, and SHA-256 recorded | Preserve the archive identity in any later tag or Release review |
 | Clean consumer | Node.js 24 exact-tarball path passed | Public registry recovery remains unavailable until separately published |
 | Upgrade safety | Alpha.29-to-.30 lock-only upgrade passed; 15 project-owned digests unchanged | Repeat only if the candidate or migration boundary changes |
-| Dependency and secret review | Secret alerts are zero; six high Dependabot alerts affect the optional Archify development lockfile outside the npm package | Update the pinned adapter or record an evidence-backed disposition before tag/npm release |
+| Dependency and secret review | Secret alerts are zero; WI-0167 contains the reviewed optional-adapter replacement | Confirm GitHub closes the six obsolete alerts after merge and retain the zero-vulnerability audits |
 | Evidence publication boundary | Existing history accepted; all available Actions logs reviewed; public anonymous access verified; media remained explicitly excluded | Preserve the recorded limits and review any new publication surface independently |
 | Fresh-session clean-room path | Passed at the pre-freeze revision | WI-0158 completed one bounded Work Item and a separate repository-only recovery without maintainer coaching; repeat only if later candidate changes affect the Core Path |
 | Rollback | Earlier procedure exists | Bind withdrawal or superseding-release instructions to the approved immutable tag |
@@ -89,9 +89,9 @@ The exact local package bytes, manifest, consumer result, audits, test count, an
 The following choices cannot be inferred from passing tests:
 
 1. Whether the historical `v0.1.0-alpha.5` prerelease should remain as-is or be relabeled as an early internal preview.
-2. Whether the exact tag and GitHub Release may be created after the current dependency alerts are dispositioned.
-3. Whether and when npm distribution may be enabled.
-4. Whether an announcement should be made and what claims it may contain.
+2. Whether an announcement should be made and what claims it may contain.
+3. Whether a future stable version may receive npm `latest`.
+4. Whether deployment or hosted services should ever be part of a later release.
 
 Approval of one item does not approve the later items.
 
@@ -123,29 +123,30 @@ This rehearsal validates the AI-assisted operating path. It does not establish t
 - A clean Node.js 24 consumer reproduced installation and the deterministic Core Path; the Alpha.29 comparison upgraded lock-only without changing sampled project-owned bytes.
 - Independent QA independently reproduced the same package digest, complete manifest, browser result, clean consumer, and upgrade boundary before organizational closeout.
 
-### Step 4 — make publication decisions separately
+### Step 4 — publish the exact prerelease surfaces
 
 - The owner accepted the existing history recorded by WI-0165.
 - WI-0166 reviewed every available GitHub Actions log, then published the repository and verified anonymous access.
 - Required CI, review rules, vulnerability reporting, secret scanning, push protection, and Dependabot security updates are enabled in the public state.
-- Resolve or formally disposition the six optional-adapter development alerts.
-- Review the final evidence and separately authorize the immutable tag and GitHub Release.
-- Observe the first users before deciding whether npm is needed.
+- WI-0167 replaces the alerted optional adapter through a reviewed upstream pin and deterministic downstream security patch.
+- The owner separately authorized the exact immutable tag, GitHub prerelease, and npm `next` package.
+- Build, verify, and publish the same archive bytes; stop at any authentication or integrity mismatch.
+- Observe early use before considering npm `latest`, deployment, or announcement.
 
-## npm remains a later distribution decision
+## npm prerelease boundary
 
-The first public Alpha can be source-first through GitHub. npm adds a second identity, access, authentication, provenance, package-content, and rollback surface, so it should not be coupled to the first GitHub Release by default.
+The npm package is a second identity, access, authentication, provenance, package-content, and rollback surface. WI-0167 approves only `0.1.0-alpha.30` with public access under dist-tag `next`.
 
 Before any npm publication:
 
 - confirm the final scoped package name;
-- remove `private: true` only in an explicitly approved publication candidate;
+- keep public access and the `next` dist-tag explicit in the approved publication candidate;
 - rebuild and requalify the archive because the public-state documentation changed package bytes after WI-0164;
-- update the pinned optional Archify adapter or record an evidence-backed disposition for its six `fast-uri` alerts;
+- verify the pinned Archify remediation and the resulting GitHub alert state;
 - configure public scoped-package access and maintainer account protection;
 - repeat the exact tarball and clean-consumer checks;
 - verify README, license, repository metadata, executable entrypoints, and provenance;
-- approve the exact version and publish command separately.
+- bind the publish command to the already qualified tarball and verify the registry digest afterward.
 
 ## Not required for a narrowly labeled first Alpha
 

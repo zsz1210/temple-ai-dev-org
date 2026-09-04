@@ -39,10 +39,11 @@ Temple commits independently authored Mermaid source and the resulting static SV
 
 - Project: <https://github.com/tt-a1i/archify>
 - License: MIT
-- Pinned release for the optional adapter contract: `v2.15.0`
-- Resolved commit: `e1ac748f19cf805e44bf74fb93c796662152e273`
+- Pinned upstream release for the optional adapter contract: `v2.16.0`
+- Resolved upstream commit: `c826e6c3a7abad19c0f3cd1ca57207d54b1ad8de`
+- Reviewed downstream security patch: `fast-uri-3.1.7-security-override`
 
-Archify is not vendored, installed, downloaded, or executed by default. An operator may explicitly copy an exact local checkout into a project-owned isolated directory; that installed copy retains Archify's MIT license, pinned source provenance, and per-file digests. The adapter remains replaceable and cannot become the source of truth.
+Archify is not vendored, installed, downloaded, or executed by default. An operator may explicitly copy an exact local checkout into a project-owned isolated directory. During that copy, Temple deterministically changes Archify's declared `fast-uri` override and matching lock entry from `3.1.5` to `3.1.7`; it executes no package manager or upstream code. The installed copy records the clean upstream base, the complete downstream patch descriptor, Archify's MIT license, the dependency's BSD-3-Clause license, and every resulting file digest. The adapter remains replaceable and cannot become the source of truth.
 
 ## Matt Pocock Skills inspiration
 

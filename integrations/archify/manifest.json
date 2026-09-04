@@ -7,14 +7,24 @@
   "license": "MIT",
   "installation": {
     "source": "local-exact-git-checkout",
-    "isolation_root": ".ai-org/adapters/archify/v2.15.0",
+    "isolation_root": ".ai-org/adapters/archify/v2.16.0",
     "automatic_network_access": false,
     "automatic_execution": false
   },
   "pin": {
-    "tag": "v2.15.0",
-    "commit": "e1ac748f19cf805e44bf74fb93c796662152e273"
+    "tag": "v2.16.0",
+    "commit": "c826e6c3a7abad19c0f3cd1ca57207d54b1ad8de"
   },
+  "downstream_patches": [
+    {
+      "id": "fast-uri-3.1.7-security-override",
+      "kind": "npm-lock-override",
+      "package": "fast-uri",
+      "from": "3.1.5",
+      "to": "3.1.7",
+      "reason": "Replace the vulnerable transitive development dependency while preserving a reproducible exact upstream base."
+    }
+  ],
   "permissions": {
     "read": ["selected architecture and workflow inputs"],
     "write": ["generated artifacts only"],

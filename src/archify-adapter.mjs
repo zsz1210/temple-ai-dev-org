@@ -4,10 +4,28 @@ import { spawnSync } from "node:child_process";
 import { formatJson, pathExists, readJson, sha256File } from "./files.mjs";
 
 export const ARCHIFY_CONTRACT = Object.freeze({
-  tag: "v2.15.0",
-  commit: "e1ac748f19cf805e44bf74fb93c796662152e273",
+  tag: "v2.16.0",
+  commit: "c826e6c3a7abad19c0f3cd1ca57207d54b1ad8de",
   repository: "tt-a1i/archify",
-  license: "MIT"
+  license: "MIT",
+  downstream_patches: Object.freeze([
+    Object.freeze({
+      id: "fast-uri-3.1.7-security-override",
+      kind: "npm-lock-override",
+      package: "fast-uri",
+      from: "3.1.5",
+      to: "3.1.7",
+      package_json: "archify/package.json",
+      lockfile: "archify/package-lock.json",
+      lock_entry_from: "node_modules/ajv/node_modules/fast-uri",
+      lock_entry_to: "node_modules/fast-uri",
+      expected_resolved: "https://registry.npmjs.org/fast-uri/-/fast-uri-3.1.5.tgz",
+      expected_integrity: "sha512-gHwA1O9LDIcKunMKhObS/HimwtehO1nPUECKAu5TpKgaO19fcWEl4bliWe1jWxVFvIXztJjjQ4L8XQ1EU9f7Jw==",
+      resolved: "https://registry.npmjs.org/fast-uri/-/fast-uri-3.1.7.tgz",
+      integrity: "sha512-dOvZVzjdZdz7phd9v6jCbwxrBW3fK6n8Rc0CtdmM4bumzMnxywBYhuph6J819RRw/ku+rLbelwfMunktuzVVHg==",
+      license: "BSD-3-Clause"
+    })
+  ])
 });
 
 const STATUS_SCHEMA = "temple.archify-adapter-status/v1";
@@ -70,6 +88,51 @@ function notInstalled() {
   };
 }
 
+function contractPatches(contract) {
+  return contract.downstream_patches ?? [];
+}
+
+async function applyDownstreamPatches(staging, contract) {
+  for (const patch of contractPatches(contract)) {
+    if (patch.kind !== "npm-lock-override") throw new Error(`Unsupported Archify downstream patch kind: ${patch.kind}`);
+    if (patch.package_json !== "archify/package.json" || patch.lockfile !== "archify/package-lock.json") {
+      throw new Error(`Archify downstream patch ${patch.id} targets an unsupported file`);
+    }
+
+    const packagePath = path.join(staging, ...patch.package_json.split("/"));
+    const packageDocument = await readJson(packagePath);
+    if (packageDocument.overrides?.[patch.package] !== patch.from) {
+      throw new Error(`Archify downstream patch ${patch.id} package override precondition failed`);
+    }
+    packageDocument.overrides[patch.package] = patch.to;
+    await fs.writeFile(packagePath, formatJson(packageDocument));
+
+    const lockPath = path.join(staging, ...patch.lockfile.split("/"));
+    const lockDocument = await readJson(lockPath);
+    const lockEntry = lockDocument.packages?.[patch.lock_entry_from];
+    if (
+      lockEntry?.version !== patch.from ||
+      lockEntry?.license !== patch.license ||
+      lockEntry?.resolved !== patch.expected_resolved ||
+      lockEntry?.integrity !== patch.expected_integrity
+    ) {
+      throw new Error(`Archify downstream patch ${patch.id} lockfile precondition failed`);
+    }
+    if (patch.lock_entry_from !== patch.lock_entry_to && lockDocument.packages?.[patch.lock_entry_to] !== undefined) {
+      throw new Error(`Archify downstream patch ${patch.id} lockfile destination already exists`);
+    }
+    lockEntry.version = patch.to;
+    lockEntry.resolved = patch.resolved;
+    lockEntry.integrity = patch.integrity;
+    delete lockDocument.packages[patch.lock_entry_from];
+    lockDocument.packages[patch.lock_entry_to] = lockEntry;
+    lockDocument.packages = Object.fromEntries(
+      Object.entries(lockDocument.packages).sort(([left], [right]) => left.localeCompare(right))
+    );
+    await fs.writeFile(lockPath, formatJson(lockDocument));
+  }
+}
+
 export async function installArchifyAdapter(target, source, { contract = ARCHIFY_CONTRACT } = {}) {
   const sourceRoot = path.resolve(source);
   if (!(await pathExists(sourceRoot))) throw new Error(`Archify source does not exist: ${sourceRoot}`);
@@ -96,6 +159,7 @@ export async function installArchifyAdapter(target, source, { contract = ARCHIFY
     await fs.mkdir(staging);
     await fs.copyFile(path.join(sourceRoot, "LICENSE"), path.join(staging, "LICENSE"));
     await fs.cp(path.join(sourceRoot, "archify"), path.join(staging, "archify"), { recursive: true, dereference: false, errorOnExist: true });
+    await applyDownstreamPatches(staging, contract);
     const relativeFiles = await collectRegularFiles(staging);
     const files = await Promise.all(relativeFiles.map(async (relativePath) => ({
       path: `.ai-org/adapters/archify/${contract.tag}/${relativePath}`,
@@ -111,7 +175,10 @@ export async function installArchifyAdapter(target, source, { contract = ARCHIFY
         tag: contract.tag,
         commit: contract.commit,
         license: contract.license,
-        source_kind: "local-exact-git-checkout"
+        source_kind: contractPatches(contract).length > 0
+          ? "local-exact-git-checkout-with-reviewed-downstream-patches"
+          : "local-exact-git-checkout",
+        downstream_patches: contractPatches(contract)
       },
       installed_at: installedAt,
       files,
@@ -150,6 +217,9 @@ export async function inspectArchifyAdapter(target, { contract = ARCHIFY_CONTRAC
   }
   for (const key of ["repository", "tag", "commit", "license"]) {
     if (manifest.provenance?.[key] !== contract[key]) return invalid(`provenance ${key} does not match the pinned contract`);
+  }
+  if (JSON.stringify(manifest.provenance?.downstream_patches ?? []) !== JSON.stringify(contractPatches(contract))) {
+    return invalid("provenance downstream patches do not match the pinned contract");
   }
   const expectedPrefix = `.ai-org/adapters/archify/${contract.tag}/`;
   if (new Set(manifest.files.map((file) => file.path)).size !== manifest.files.length) return invalid("manifest contains duplicate file entries");

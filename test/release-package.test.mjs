@@ -18,7 +18,8 @@ test("package and installed bootstrap expose the same qualified Node.js LTS rang
   const bootstrap = await buildCliBootstrapMetadata();
   assert.equal(packageDocument.engines.node, SUPPORTED_NODE_RANGE);
   assert.equal(bootstrap.node, SUPPORTED_NODE_RANGE);
-  assert.equal(packageDocument.private, true, "npm publication remains a separate release action");
+  assert.equal(packageDocument.private, undefined, "the approved Alpha package must be publishable");
+  assert.deepEqual(packageDocument.publishConfig, { access: "public", tag: "next" });
 });
 
 test("npm dry-run package is allowlisted and excludes development state", async () => {

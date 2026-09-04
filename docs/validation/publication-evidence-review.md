@@ -21,7 +21,7 @@ Independent QA reproduced the final result in a clean detached worktree at `9012
 | Canonical Work Items and project registries | 245 | 245 | 50 | Resolved by the stale-safe, field-aware WI-0161 operation |
 | Retained self-host artifacts | 70 | 70 | 59 | Resolved by the revision-bound WI-0162 artifact plan/apply operation |
 | First-party test fixtures | 14 | 18 | 2 | Runtime behavior preserved; audit-shaped literals removed from tracked source |
-| Pinned Archify test fixture | 1 | 1 | 1 | Allowed only at the exact source and installed-manifest digest; vendored bytes unchanged |
+| Pinned Archify test fixture | 1 | 1 | 1 | Allowed only at the exact source and installed-manifest digest; the fixture bytes remain unchanged in the reviewed v2.16.0 base |
 | **Total** | **330** | **334** | **112** | |
 
 The table preserves the original WI-0160 review baseline. The WI-0161 command normalized 315 fields across two exact plans: released claim worktrees, terminal worker and task worktrees, twelve Evidence-detail values, and one allowlisted Work Item description. Evidence IDs, revisions, artifact paths, and artifact digests remained unchanged.
