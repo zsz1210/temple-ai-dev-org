@@ -38,7 +38,7 @@ Both treatment arms must project to the same values. The adapter does not create
 
 ## Reasoning-effort evidence
 
-OpenAI's model guidance recommends setting reasoning effort intentionally and comparing configurations on representative tasks. The installed App Server accepts an `effort` override at turn start. Its thread `reasoningEffort` response is configured or persisted state and explicitly is not per-turn execution telemetry.
+[OpenAI's model guidance](https://developers.openai.com/api/docs/guides/latest-model) recommends setting reasoning effort intentionally and comparing configurations on representative tasks. The installed App Server accepts an `effort` override at turn start. Its thread `reasoningEffort` response is configured or persisted state and explicitly is not per-turn execution telemetry.
 
 The successor protocol therefore distinguishes:
 
@@ -62,4 +62,3 @@ node scripts/run-context-capsule-ablation.mjs preflight
 ## Live-run boundary
 
 A later Provider comparison requires the exact WI-0139 protocol digest, its matching approval template, explicit human approval, and another successful preflight. The WI-0138 approval cannot authorize WI-0139. Preparation and rehearsal do not permit retries, fallback, Credits purchase, automatic refill, reset use, merge, release, or publication.
-
