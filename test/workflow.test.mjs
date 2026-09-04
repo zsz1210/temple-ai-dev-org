@@ -39,6 +39,33 @@ async function fixture() {
   await fs.writeFile(configPath, `${JSON.stringify(configDocument(), null, 2)}\n`);
   const initialized = run(["init", target, "--config", configPath]);
   assert.equal(initialized.status, 0, initialized.stderr || initialized.stdout);
+  const fixtureArtifacts = [
+    "docs/brief.md",
+    "docs/design.md",
+    "docs/developer-test.md",
+    "docs/eval.md",
+    "docs/handoff.md",
+    "docs/qa.md",
+    "docs/spec.md",
+    "docs/test.md",
+    "docs/ui-brief.md",
+    "docs/ui-preview.png",
+    "docs/ui-review.md",
+    "docs/ui-runtime.md",
+    "docs/ui-states.md",
+    "docs/work-order.md",
+    "artifacts/closeout.md",
+    "artifacts/developer-test.md",
+    "artifacts/evaluation.md",
+    "artifacts/handoff.md",
+    "artifacts/qa.md",
+    "artifacts/test.md"
+  ];
+  for (const relativePath of fixtureArtifacts) {
+    const absolutePath = path.join(target, relativePath);
+    await fs.mkdir(path.dirname(absolutePath), { recursive: true });
+    await fs.writeFile(absolutePath, `Fixture evidence for ${relativePath}\n`);
+  }
   return { temporaryRoot, target, configPath };
 }
 
@@ -590,6 +617,100 @@ test("transition refuses missing named gate evidence without changing state", as
   assert.equal(rejected.status, 1);
   assert.match(rejected.stderr, /missing gate evidence: work_order/);
   assert.equal((await readJson(path.join(target, ".ai-org/work-items/WI-0001.json"))).state, "intake");
+});
+
+test("transition rejects invalid repository artifacts without changing canonical state", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  assert.equal(run(["work-item", "create", target, "--title", "Validate local artifacts"]).status, 0);
+
+  const itemPath = path.join(target, ".ai-org/work-items/WI-0001.json");
+  const eventsPath = path.join(target, ".ai-org/events/events.jsonl");
+  await fs.symlink(path.join(target, "docs/work-order.md"), path.join(target, "docs/work-order-link.md"));
+
+  for (const [reference, message] of [
+    ["docs/missing.md", /Gate evidence artifact is missing/],
+    ["../outside.md", /Gate evidence artifact path is unsafe/],
+    ["docs/", /Gate evidence artifact is not a regular file/],
+    ["docs/work-order-link.md", /must not be a symbolic link/]
+  ]) {
+    const beforeItem = await fs.readFile(itemPath, "utf8");
+    const beforeEvents = await fs.readFile(eventsPath, "utf8");
+    const rejected = run([
+      "transition",
+      target,
+      "--work-item",
+      "WI-0001",
+      "--to",
+      "spec",
+      "--satisfy",
+      `work_order=${reference}`
+    ]);
+    assert.equal(rejected.status, 1, rejected.stderr || rejected.stdout);
+    assert.match(rejected.stderr, message);
+    assert.equal(await fs.readFile(itemPath, "utf8"), beforeItem);
+    assert.equal(await fs.readFile(eventsPath, "utf8"), beforeEvents);
+  }
+
+  const gitRevision = "1fd6136b7a483eac7d984701cb7097d623b916d5";
+  const accepted = run([
+    "transition",
+    target,
+    "--work-item",
+    "WI-0001",
+    "--to",
+    "spec",
+    "--satisfy",
+    `work_order=${gitRevision}`
+  ]);
+  assert.equal(accepted.status, 0, accepted.stderr || accepted.stdout);
+  assert.deepEqual((await readJson(itemPath)).gate_evidence.work_order, [gitRevision]);
+});
+
+test("close rejects a missing repository artifact without writing closeout state", async (context) => {
+  const { temporaryRoot, target } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  assert.equal(
+    run(["work-item", "create", target, "--title", "Guard closeout evidence", "--ui-mode", "not-applicable"]).status,
+    0
+  );
+  const itemPath = path.join(target, ".ai-org/work-items/WI-0001.json");
+  const eventsPath = path.join(target, ".ai-org/events/events.jsonl");
+  const item = await readJson(itemPath);
+  item.state = "release_gate";
+  item.owner_position = "release_manager";
+  item.assigned_agent_id = "agent-fixture-rowan";
+  await fs.writeFile(itemPath, `${JSON.stringify(item, null, 2)}\n`);
+  const beforeItem = await fs.readFile(itemPath, "utf8");
+  const beforeEvents = await fs.readFile(eventsPath, "utf8");
+
+  const rejected = run([
+    "close",
+    target,
+    "--work-item",
+    "WI-0001",
+    "--decision",
+    "go",
+    "--tested-revision",
+    "candidate-1",
+    "--approval",
+    "not-required",
+    "--rollback",
+    "git revert candidate-1",
+    "--satisfy",
+    "accepted_scope=docs/missing-closeout.md",
+    "--satisfy",
+    "test_evidence=docs/test.md",
+    "--satisfy",
+    "evaluation_report=docs/eval.md",
+    "--satisfy",
+    "independent_qa_report=docs/qa.md"
+  ]);
+  assert.equal(rejected.status, 1, rejected.stderr || rejected.stdout);
+  assert.match(rejected.stderr, /Gate evidence artifact is missing: docs\/missing-closeout\.md/);
+  assert.equal(await fs.readFile(itemPath, "utf8"), beforeItem);
+  assert.equal(await fs.readFile(eventsPath, "utf8"), beforeEvents);
+  await assert.rejects(fs.access(path.join(target, ".ai-org/artifacts/WI-0001/release-record.md")));
 });
 
 test("transition validates normalized gate evidence before mutating canonical state", async (context) => {

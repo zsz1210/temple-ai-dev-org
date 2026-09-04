@@ -25115,6 +25115,51 @@
         "exit_code": 0,
         "started_at": "2026-09-04T13:25:14.000Z"
       }
+    },
+    {
+      "id": "EVID-20260904T135322Z-DFABCB67",
+      "work_item_id": "WI-0157",
+      "recorded_at": "2026-09-04T13:53:22.381Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Exact-candidate repository verification",
+      "outcome": "pass",
+      "scope_revision": "0155149dbcb6f5ee250b01b5f0d3078dc81c72fb",
+      "observed_at": "2026-09-04T13:52:36.000Z",
+      "summary": "Isolated candidate passed repository checks, documentation links, package boundary, and 434 Node tests",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0157/test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0157/test-observation.json",
+          "sha256": "de90c4dc3ab0496bca6110bd21aea41ccbaba5bfe1b5e5819260c27235981b79"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0157/developer-evidence.md",
+          "sha256": "7b3dd017dfd6c70cb61f235c6d48e7fed70ab24fd857253acbf4dcb389bd1d8f"
+        },
+        {
+          "path": "docs/validation/fresh-session-clean-room-rehearsal-v2-erratum.md",
+          "sha256": "28a675396010ded9e16c4b5ecc6f5cf9cb085c83f04b6966e629ceebeb0a42c7"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T13:51:14.000Z"
+      }
     }
   ]
 }

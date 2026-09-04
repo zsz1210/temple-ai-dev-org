@@ -1,0 +1,169 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0157",
+  "title": "Harden lifecycle evidence guidance",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-04T13:38:21.268Z",
+  "updated_at": "2026-09-04T13:54:51.840Z",
+  "scope": [
+    "Expose the named release-gate --satisfy references in CLI help.",
+    "Reject missing, unsafe, or non-file repository artifact references before lifecycle transitions mutate canonical state while preserving normalized Evidence IDs and explicit non-path literals.",
+    "Publish an append-only erratum for the WI-0156 generated-view attribution and add a regression proving doctor and status --no-write do not change generated view bytes.",
+    "Run deterministic exact-candidate verification and Independent QA; perform no clean-room model rerun, publication, release, visibility change, purchase, reset, retry, or fallback."
+  ],
+  "acceptance_criteria": [
+    "The close command help shows every named release-gate evidence requirement and a copyable --satisfy form.",
+    "Transition and close reject a nonexistent or unsafe repository artifact reference without changing the Work Item or event stream.",
+    "Existing normalized Evidence IDs, Git revision references, and explicit non-path lifecycle reasons remain compatible.",
+    "An append-only erratum correctly attributes the timestamp write to status without --no-write and preserves sealed WI-0156 evidence artifacts.",
+    "Automated regression proves doctor and status --no-write preserve generated capability-view bytes, and the full repository gate plus distinct Independent QA pass."
+  ],
+  "affected_paths": [
+    "src/cli.mjs",
+    "src/work-items.mjs",
+    "test/cli.test.mjs",
+    "test/workflow.test.mjs",
+    "docs/validation/README.md",
+    "docs/validation/fresh-session-clean-room-rehearsal-v2-erratum.md",
+    ".ai-org/artifacts/WI-0157",
+    ".ai-org/work-items/WI-0157.json"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "Bounded local CLI guardrail, regression, and append-only evidence correction with no external release or model generation.",
+    "evidence_refs": [
+      "docs/validation/fresh-session-clean-room-rehearsal-v2.md"
+    ],
+    "evaluated_at": "2026-09-04T13:38:21.268Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "1fd6136b7a483eac7d984701cb7097d623b916d5",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260904134046-25290947",
+    "status": "released",
+    "principal_id": "human-maintainer",
+    "agent_id": "agent-rikku",
+    "base_revision": "1fd6136b7a483eac7d984701cb7097d623b916d5",
+    "branch": "codex/wi-0157-lifecycle-evidence-guardrails",
+    "worktree": null,
+    "claimed_at": "2026-09-04T13:40:46.064Z",
+    "released_at": "2026-09-04T13:53:14.017Z",
+    "release_reason": "position_transition"
+  },
+  "claims": [
+    {
+      "id": "claim-20260904134046-25290947",
+      "status": "released",
+      "principal_id": "human-maintainer",
+      "agent_id": "agent-rikku",
+      "base_revision": "1fd6136b7a483eac7d984701cb7097d623b916d5",
+      "branch": "codex/wi-0157-lifecycle-evidence-guardrails",
+      "worktree": null,
+      "claimed_at": "2026-09-04T13:40:46.064Z",
+      "released_at": "2026-09-04T13:53:14.017Z",
+      "release_reason": "position_transition"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0157/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0157/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0157/work-order.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0157/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0157/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0157/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0157/developer-evidence.md",
+      ".ai-org/artifacts/WI-0157/test-observation.json"
+    ],
+    "test_evidence": [
+      "EVID-20260904T135322Z-DFABCB67"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0157/evaluation-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260904T135322Z-DFABCB67"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0157/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0157/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0157/release-record.md"
+    ],
+    "required_human_approval": [
+      "User approved the WI-0157 improvement scope on 2026-09-04"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0157/work-order.md",
+    ".ai-org/artifacts/WI-0157/approved-scope.md",
+    ".ai-org/artifacts/WI-0157/technical-design.md",
+    ".ai-org/artifacts/WI-0157/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0157/developer-evidence.md",
+    ".ai-org/artifacts/WI-0157/test-observation.json",
+    "EVID-20260904T135322Z-DFABCB67",
+    ".ai-org/artifacts/WI-0157/evaluation-report.md",
+    ".ai-org/artifacts/WI-0157/release-record.md",
+    ".ai-org/artifacts/WI-0157/independent-qa-report.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "0155149dbcb6f5ee250b01b5f0d3078dc81c72fb",
+      "artifact": ".ai-org/artifacts/WI-0157/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T13:53:07.707Z"
+    }
+  ],
+  "developer_candidate_revision": "0155149dbcb6f5ee250b01b5f0d3078dc81c72fb",
+  "tested_revision": "0155149dbcb6f5ee250b01b5f0d3078dc81c72fb",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "User approved the WI-0157 improvement scope on 2026-09-04"
+}

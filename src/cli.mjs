@@ -224,7 +224,7 @@ Usage:
   temple adapter archify-install [target] --source local-git-checkout [--json]
   temple handoff [target] --work-item WI-0001 --to position --input-revision ref --completed text --evidence ref
   temple transition [target] --work-item WI-0001 --to state --satisfy requirement=reference
-  temple close [target] --work-item WI-0001 --decision go|no-go --tested-revision ref --rollback text --approval record
+  temple close [target] --work-item WI-0001 --decision go|no-go --tested-revision ref --rollback text --approval record --satisfy accepted_scope=ref --satisfy test_evidence=ref --satisfy evaluation_report=ref --satisfy independent_qa_report=ref
   temple task register [target] --work-item WI-0001 --position developer --thread-id id [--worker-id worker-id] [--execution-origin codex-host-owned|temple-provider-owned] [--provider-id id] [--requested-model model] [--effective-model model] [--requested-reasoning-effort effort] [--observed-thread-reasoning-effort effort] [--effective-turn-reasoning-effort effort] [--reasoning-effort effort] [--reasoning-effort-source source] [--service-tier tier] [--launch-revision ref]
   temple task update [target] --task-id task-0001 --status completed [--effective-model model] [--requested-reasoning-effort effort] [--observed-thread-reasoning-effort effort] [--effective-turn-reasoning-effort effort] [--reasoning-effort effort] [--reasoning-effort-source source] [--service-tier tier]
   temple task refresh-titles [target] [--task-id task-0001] [--json]

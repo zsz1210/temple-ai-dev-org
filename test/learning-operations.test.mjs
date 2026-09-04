@@ -34,6 +34,11 @@ async function fixture(context) {
   }, null, 2)}\n`);
   const initialized = run(["init", target, "--config", configPath]);
   assert.equal(initialized.status, 0, initialized.stderr || initialized.stdout);
+  for (const relativePath of ["docs/spec.md", "docs/work-order.md"]) {
+    const absolutePath = path.join(target, relativePath);
+    await fs.mkdir(path.dirname(absolutePath), { recursive: true });
+    await fs.writeFile(absolutePath, `Fixture evidence for ${relativePath}\n`);
+  }
   return { target };
 }
 
