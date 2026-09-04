@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 154 total, 0 active
+- Work items: 155 total, 1 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -202,6 +202,7 @@
 | WI-0152 | Add auditable self-hosting evidence profiles | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b7e1706f` | 0 | 18 | 0 |
 | WI-0153 | Label Temple Concept Layers as L1 through L6 | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `543c5cb8` | 0 | 7 | 0 |
 | WI-0154 | Review retained evidence for public readiness | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `d1434761` | 0 | 8 | 0 |
+| WI-0155 | Run fresh-session clean-room release rehearsal | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260904122655-56bc7abf | `—` | 0 | 1 | 0 |
 
 ## Codex task registry
 
@@ -342,14 +343,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-04T12:26:55.761Z | work_item_claimed | WI-0155 | human |
+| 2026-09-04T12:26:55.494Z | work_item_transitioned | WI-0155 | agent-mog |
+| 2026-09-04T12:26:55.175Z | work_item_coordination_configured | WI-0155 | agent-mog |
+| 2026-09-04T12:24:59.626Z | work_item_created | WI-0155 | agent-mog |
 | 2026-09-04T12:00:24.793Z | work_item_closed | WI-0154 | agent-lulu |
 | 2026-09-04T12:00:24.793Z | work_item_transitioned | WI-0154 | agent-lulu |
 | 2026-09-04T12:00:24.572Z | work_item_claimed | WI-0154 | human |
 | 2026-09-04T12:00:24.261Z | work_item_transitioned | WI-0154 | agent-rikku |
-| 2026-09-04T12:00:11.388Z | evidence_recorded | WI-0154 | human |
-| 2026-09-04T11:58:47.365Z | evidence_recorded | WI-0154 | human |
-| 2026-09-04T11:58:01.981Z | handoff_created | WI-0154 | agent-rikku |
-| 2026-09-04T11:58:01.561Z | evidence_recorded | WI-0154 | human |
 
 ## Assignments
 
