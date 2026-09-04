@@ -214,7 +214,7 @@
 | WI-0164 | Qualify the exact Alpha.30 package | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a6849519` | 0 | 13 | 0 |
 | WI-0165 | Audit public Git history text exposure | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `df20f2be` | 0 | 13 | 0 |
 | WI-0166 | Publish the repository as a public Alpha surface | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `879bcd6e` | 0 | 18 | 0 |
-| WI-0167 | Remediate Archify alerts and publish Alpha.30 | test | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6a8760f9` | 0 | 11 | 0 |
+| WI-0167 | Remediate Archify alerts and publish Alpha.30 | release_gate | Release Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6a8760f9` | 0 | 18 | 0 |
 
 ## Codex task registry
 
@@ -366,14 +366,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-04T18:48:58.322Z | work_item_transitioned | WI-0167 | agent-rikku |
-| 2026-09-04T18:48:58.083Z | work_item_claim_released | WI-0167 | human |
-| 2026-09-04T18:48:57.815Z | handoff_created | WI-0167 | agent-rikku |
-| 2026-09-04T18:48:57.585Z | evidence_recorded | WI-0167 | human |
-| 2026-09-04T18:48:57.394Z | evidence_recorded | WI-0167 | human |
-| 2026-09-04T18:37:16.052Z | work_item_claimed | WI-0167 | human |
-| 2026-09-04T18:37:15.788Z | work_item_transitioned | WI-0167 | agent-tidus |
-| 2026-09-04T18:37:15.556Z | handoff_created | WI-0167 | agent-tidus |
+| 2026-09-04T18:52:41.377Z | work_item_transitioned | WI-0167 | agent-lulu |
+| 2026-09-04T18:52:41.125Z | work_item_claim_released | WI-0167 | human |
+| 2026-09-04T18:52:40.883Z | handoff_created | WI-0167 | agent-lulu |
+| 2026-09-04T18:52:40.690Z | evidence_recorded | WI-0167 | human |
+| 2026-09-04T18:52:40.462Z | work_item_claimed | WI-0167 | human |
+| 2026-09-04T18:49:26.553Z | work_item_transitioned | WI-0167 | agent-lulu |
+| 2026-09-04T18:49:26.311Z | work_item_claim_released | WI-0167 | human |
+| 2026-09-04T18:49:26.071Z | handoff_created | WI-0167 | agent-lulu |
 
 ## Assignments
 

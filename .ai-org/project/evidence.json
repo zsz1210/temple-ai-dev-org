@@ -26236,6 +26236,60 @@
         "dirty_scope": "outside-affected-scope",
         "affected_paths_dirty": []
       }
+    },
+    {
+      "id": "EVID-20260904T185240Z-CEE9D8CB",
+      "work_item_id": "WI-0167",
+      "recorded_at": "2026-09-04T18:52:40.690Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent Alpha.30 release qualification",
+      "outcome": "pass",
+      "scope_revision": "6a8760f9669c58085b069e91776b89d0a857fc83",
+      "observed_at": "2026-09-04T18:52:09.483Z",
+      "summary": "Independent QA reproduced the exact 382-file archive, digest, complete checks, clean consumer, upgrade result, and patched adapter identity.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0167/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0167/independent-qa-observation.json",
+          "sha256": "c9d1d782800da2a64f36103118a1d9dbb4980ab799957582b5b0b10d49a461b9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0167/release-qualification-result.json",
+          "sha256": "6f802c328134b989eabc0a14accfecd129165896f70679dc43cdb33480bdd47d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0167/independent-release-qualification-result.json",
+          "sha256": "c7ad68a289f778796caafedeb6c9d2bafbf8ffcb6a68a49db12c655fe3737c48"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0167/run-release-qualification.mjs",
+          "sha256": "260f3de957816cabdf33b34854db9e68ae9b9224973937015ced498929692c6e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0167/quality-evaluation.md",
+          "sha256": "083471e8ce9108211e21f2d0d07f64c022631fa3cf878575aa987d385f7a3e42"
+        }
+      ],
+      "details": {
+        "command": [
+          "independent exact invocation of run-release-qualification.mjs",
+          "byte-for-byte package identity and complete 382-entry manifest comparison",
+          "independent repository, browser, dependency, publication, consumer, and upgrade result comparison",
+          "independent verification of Archify v2.16.0 patched lock identity"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T18:49:45.000Z"
+      }
     }
   ]
 }

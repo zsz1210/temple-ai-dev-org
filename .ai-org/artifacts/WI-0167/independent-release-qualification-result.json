@@ -1,0 +1,2069 @@
+{
+  "schema_version": "temple.alpha30-release-qualification/v1",
+  "generated_at": "2026-09-04T18:52:09.483Z",
+  "status": "pass",
+  "candidate": {
+    "revision": "6a8760f9669c58085b069e91776b89d0a857fc83",
+    "version": "0.1.0-alpha.30",
+    "source_clean": true
+  },
+  "package": {
+    "name": "@zsz1210/temple-ai-dev-org",
+    "version": "0.1.0-alpha.30",
+    "filename": "zsz1210-temple-ai-dev-org-0.1.0-alpha.30.tgz",
+    "sha256": "6b4ab4f1a0bbbe3d8eae532dcec8a04c92797f4254fc992b2c5b9f8d91efda88",
+    "shasum": "4549715c32b545812806f16a0d9977ecce033d52",
+    "integrity": "sha512-Anrdxd+mNgMUjf7C9aLoIOe3onUZcQts/DF1HePDsOjeLulE6GyAEACnAAJ90MU2TlEOvHtPXEULvnQtciHCFw==",
+    "file_count": 382,
+    "packed_size_bytes": 826084,
+    "unpacked_size_bytes": 3273284,
+    "license": "MIT",
+    "publish_config": {
+      "access": "public",
+      "tag": "next"
+    },
+    "files": [
+      {
+        "path": "CHANGELOG.md",
+        "size": 38222,
+        "mode": 420
+      },
+      {
+        "path": "CONTRIBUTING.md",
+        "size": 3607,
+        "mode": 420
+      },
+      {
+        "path": "GOVERNANCE.md",
+        "size": 1421,
+        "mode": 420
+      },
+      {
+        "path": "LICENSE",
+        "size": 1064,
+        "mode": 420
+      },
+      {
+        "path": "README.ja.md",
+        "size": 13510,
+        "mode": 420
+      },
+      {
+        "path": "README.md",
+        "size": 10942,
+        "mode": 420
+      },
+      {
+        "path": "README.zh-TW.md",
+        "size": 11081,
+        "mode": 420
+      },
+      {
+        "path": "SECURITY.md",
+        "size": 3137,
+        "mode": 420
+      },
+      {
+        "path": "THIRD_PARTY_NOTICES.md",
+        "size": 4723,
+        "mode": 420
+      },
+      {
+        "path": "bin/temple.mjs",
+        "size": 286,
+        "mode": 493
+      },
+      {
+        "path": "docs/adr/0001-init-not-fork.md",
+        "size": 721,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0002-position-identity-assignment.md",
+        "size": 706,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0003-canonical-state-outside-chat.md",
+        "size": 585,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0004-file-ownership-boundaries.md",
+        "size": 598,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0005-third-party-adapters.md",
+        "size": 1807,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0006-lifecycle-cli-and-task-registry.md",
+        "size": 1816,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0007-tool-name-project-identity.md",
+        "size": 1688,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0008-capability-distribution-and-open-source.md",
+        "size": 1785,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0009-single-decision-interview-and-skill-authority.md",
+        "size": 2031,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0010-first-development-skill-pack.md",
+        "size": 2853,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0011-pilot-stop-boundary.md",
+        "size": 2186,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0012-documentation-language-policy.md",
+        "size": 2512,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0013-governed-skill-extensions.md",
+        "size": 4159,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0014-framework-category-and-layers.md",
+        "size": 2337,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0015-engineering-learning-loop.md",
+        "size": 3587,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0016-ui-design-position-and-delivery-modes.md",
+        "size": 3378,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0017-progressive-context-routing.md",
+        "size": 3102,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0018-collaborative-position-pools-and-work-claims.md",
+        "size": 2497,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0019-product-specification-and-external-source-contracts.md",
+        "size": 7149,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0020-external-tracker-coordination.md",
+        "size": 3187,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0021-safe-group-parallel-orchestration.md",
+        "size": 3880,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0022-recoverable-runtime-dispatch.md",
+        "size": 4290,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0023-evidence-registry-and-observer-projection.md",
+        "size": 2408,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0024-version-extension-contracts-and-migrations.md",
+        "size": 2002,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0025-measure-learning-retrieval-before-semantic-defaults.md",
+        "size": 1803,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0026-high-assurance-is-a-risk-contract.md",
+        "size": 1876,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0027-separate-canonical-state-runtime-telemetry-and-views.md",
+        "size": 2724,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0028-negotiate-provider-capabilities-and-reconcile-replay.md",
+        "size": 2598,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0029-separate-human-inbox-authority.md",
+        "size": 2419,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0030-self-host-the-toolkit-with-explicit-boundaries.md",
+        "size": 3098,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0031-durable-recovery-before-persistence-growth.md",
+        "size": 1868,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0032-evaluate-policy-with-adversarial-evidence.md",
+        "size": 1610,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0033-federate-project-authority-with-read-only-portfolios.md",
+        "size": 1869,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0034-attribute-usage-before-routing-models.md",
+        "size": 2861,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0035-private-read-only-dashboard.md",
+        "size": 2952,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0036-dedicated-private-lan-dashboard-listener.md",
+        "size": 2223,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0037-human-approved-skill-promotion.md",
+        "size": 2301,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0038-multi-human-team-governance.md",
+        "size": 4025,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0039-public-alpha-distribution-and-node-lts.md",
+        "size": 2932,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0040-real-browser-console-regression.md",
+        "size": 2844,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0041-outcome-first-codex-task-titles.md",
+        "size": 3111,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0042-adaptive-repository-integration-onboarding.md",
+        "size": 3745,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0043-node-24-local-first-ci.md",
+        "size": 3816,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0044-optional-management-console-and-usage-collector.md",
+        "size": 4678,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0045-adaptive-workflow-profiles.md",
+        "size": 3814,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0046-separate-adaptive-execution-routing.md",
+        "size": 4366,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0047-bind-context-capsules-to-stage-purpose-and-source-manifests.md",
+        "size": 3866,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0048-auditable-self-hosting-evidence-profiles.md",
+        "size": 2882,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/0049-bind-reviewed-adapter-fixtures-to-provenance.md",
+        "size": 2097,
+        "mode": 420
+      },
+      {
+        "path": "docs/adr/README.md",
+        "size": 5793,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/README.md",
+        "size": 988,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/temple-delivery-path.en-mobile.mmd",
+        "size": 1461,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/temple-delivery-path.en-mobile.svg",
+        "size": 23922,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/temple-delivery-path.en.mmd",
+        "size": 1566,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/temple-delivery-path.en.svg",
+        "size": 23875,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/temple-delivery-path.ja-mobile.mmd",
+        "size": 1516,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/temple-delivery-path.ja-mobile.svg",
+        "size": 23951,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/temple-delivery-path.ja.mmd",
+        "size": 1643,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/temple-delivery-path.ja.svg",
+        "size": 24011,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/temple-delivery-path.zh-TW-mobile.mmd",
+        "size": 1458,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/temple-delivery-path.zh-TW-mobile.svg",
+        "size": 23888,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/temple-delivery-path.zh-TW.mmd",
+        "size": 1582,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/temple-delivery-path.zh-TW.svg",
+        "size": 23972,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/temple-layers-mobile.en.svg",
+        "size": 3713,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/temple-layers-mobile.ja.svg",
+        "size": 3760,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/temple-layers-mobile.zh-TW.svg",
+        "size": 3649,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/temple-layers.en.svg",
+        "size": 5038,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/temple-layers.ja.svg",
+        "size": 4930,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/temple-layers.zh-TW.svg",
+        "size": 4656,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/temple-overview.en.svg",
+        "size": 7711,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/temple-overview.ja.svg",
+        "size": 7975,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/temple-overview.zh-TW.svg",
+        "size": 7761,
+        "mode": 420
+      },
+      {
+        "path": "docs/assets/temple-routing-separation.en.svg",
+        "size": 4949,
+        "mode": 420
+      },
+      {
+        "path": "docs/concepts/adaptive-execution-routing.md",
+        "size": 6286,
+        "mode": 420
+      },
+      {
+        "path": "docs/concepts/architecture.md",
+        "size": 33898,
+        "mode": 420
+      },
+      {
+        "path": "docs/concepts/product-specifications.md",
+        "size": 10349,
+        "mode": 420
+      },
+      {
+        "path": "docs/concepts/terminology.md",
+        "size": 10848,
+        "mode": 420
+      },
+      {
+        "path": "docs/concepts/ui-design.md",
+        "size": 4509,
+        "mode": 420
+      },
+      {
+        "path": "docs/concepts/ui-interaction-contracts.md",
+        "size": 7515,
+        "mode": 420
+      },
+      {
+        "path": "docs/concepts/vision.md",
+        "size": 11547,
+        "mode": 420
+      },
+      {
+        "path": "docs/concepts/workflow-profiles.md",
+        "size": 5181,
+        "mode": 420
+      },
+      {
+        "path": "docs/extensions/archify-adapter.md",
+        "size": 2041,
+        "mode": 420
+      },
+      {
+        "path": "docs/extensions/capability-catalog.md",
+        "size": 17021,
+        "mode": 420
+      },
+      {
+        "path": "docs/extensions/context-routing.md",
+        "size": 9939,
+        "mode": 420
+      },
+      {
+        "path": "docs/extensions/engineering-learning.md",
+        "size": 9171,
+        "mode": 420
+      },
+      {
+        "path": "docs/extensions/extension-and-migrations.md",
+        "size": 3015,
+        "mode": 420
+      },
+      {
+        "path": "docs/extensions/skill-authoring.md",
+        "size": 7192,
+        "mode": 420
+      },
+      {
+        "path": "docs/extensions/skill-design.md",
+        "size": 4031,
+        "mode": 420
+      },
+      {
+        "path": "docs/extensions/skill-scenarios.md",
+        "size": 5942,
+        "mode": 420
+      },
+      {
+        "path": "docs/getting-started/core-path.md",
+        "size": 6661,
+        "mode": 420
+      },
+      {
+        "path": "docs/getting-started/core-skills.md",
+        "size": 9437,
+        "mode": 420
+      },
+      {
+        "path": "docs/getting-started/enterprise-document-adoption.md",
+        "size": 6798,
+        "mode": 420
+      },
+      {
+        "path": "docs/getting-started/model-routing.md",
+        "size": 6796,
+        "mode": 420
+      },
+      {
+        "path": "docs/getting-started/temple-init.example.json",
+        "size": 653,
+        "mode": 420
+      },
+      {
+        "path": "docs/getting-started/testing.md",
+        "size": 4244,
+        "mode": 420
+      },
+      {
+        "path": "docs/getting-started/usage.md",
+        "size": 52181,
+        "mode": 420
+      },
+      {
+        "path": "docs/integrations/home-lan-private-dashboard.md",
+        "size": 3329,
+        "mode": 420
+      },
+      {
+        "path": "docs/integrations/tailscale-private-dashboard.md",
+        "size": 4811,
+        "mode": 420
+      },
+      {
+        "path": "docs/operations/auditable-self-hosting.md",
+        "size": 9366,
+        "mode": 420
+      },
+      {
+        "path": "docs/operations/backup-and-recovery.md",
+        "size": 11154,
+        "mode": 420
+      },
+      {
+        "path": "docs/operations/collaboration.md",
+        "size": 16788,
+        "mode": 420
+      },
+      {
+        "path": "docs/operations/control-plane.md",
+        "size": 26738,
+        "mode": 420
+      },
+      {
+        "path": "docs/operations/evidence-and-observer.md",
+        "size": 7594,
+        "mode": 420
+      },
+      {
+        "path": "docs/operations/execution-routing.md",
+        "size": 5663,
+        "mode": 420
+      },
+      {
+        "path": "docs/operations/high-assurance.md",
+        "size": 4055,
+        "mode": 420
+      },
+      {
+        "path": "docs/operations/management-console.md",
+        "size": 3450,
+        "mode": 420
+      },
+      {
+        "path": "docs/operations/model-and-process-evaluation.md",
+        "size": 7034,
+        "mode": 420
+      },
+      {
+        "path": "docs/operations/multi-repository-federation.md",
+        "size": 8049,
+        "mode": 420
+      },
+      {
+        "path": "docs/operations/parallel-orchestration.md",
+        "size": 11376,
+        "mode": 420
+      },
+      {
+        "path": "docs/operations/policy-evaluation.md",
+        "size": 3124,
+        "mode": 420
+      },
+      {
+        "path": "docs/operations/runtime-coordination.md",
+        "size": 5791,
+        "mode": 420
+      },
+      {
+        "path": "docs/operations/task-and-tracker-coordination.md",
+        "size": 10639,
+        "mode": 420
+      },
+      {
+        "path": "docs/operations/token-efficiency-and-model-routing.md",
+        "size": 35503,
+        "mode": 420
+      },
+      {
+        "path": "docs/operations/usage-observation.md",
+        "size": 5799,
+        "mode": 420
+      },
+      {
+        "path": "docs/operations/validation-programs.md",
+        "size": 7910,
+        "mode": 420
+      },
+      {
+        "path": "docs/pilots/flowdeck-greenfield-retrospective.md",
+        "size": 5960,
+        "mode": 420
+      },
+      {
+        "path": "docs/pilots/README.md",
+        "size": 464,
+        "mode": 420
+      },
+      {
+        "path": "docs/planning/phase-1.md",
+        "size": 7206,
+        "mode": 420
+      },
+      {
+        "path": "docs/planning/phase-3-control-plane.md",
+        "size": 13883,
+        "mode": 420
+      },
+      {
+        "path": "docs/planning/phase-3-work-items.md",
+        "size": 7249,
+        "mode": 420
+      },
+      {
+        "path": "docs/planning/phase-4.md",
+        "size": 9954,
+        "mode": 420
+      },
+      {
+        "path": "docs/planning/pre-phase-4-closeout-review.md",
+        "size": 21674,
+        "mode": 420
+      },
+      {
+        "path": "docs/planning/pre-release-hardening.md",
+        "size": 2189,
+        "mode": 420
+      },
+      {
+        "path": "docs/planning/release-readiness.md",
+        "size": 16838,
+        "mode": 420
+      },
+      {
+        "path": "docs/planning/roadmap.ja.md",
+        "size": 6264,
+        "mode": 420
+      },
+      {
+        "path": "docs/planning/roadmap.md",
+        "size": 5940,
+        "mode": 420
+      },
+      {
+        "path": "docs/planning/roadmap.zh-TW.md",
+        "size": 5026,
+        "mode": 420
+      },
+      {
+        "path": "docs/planning/temple-effectiveness-and-microservice-validation.md",
+        "size": 15654,
+        "mode": 420
+      },
+      {
+        "path": "docs/README.md",
+        "size": 13673,
+        "mode": 420
+      },
+      {
+        "path": "docs/research/official-sources.md",
+        "size": 2421,
+        "mode": 420
+      },
+      {
+        "path": "docs/research/phase-3-control-plane-research.md",
+        "size": 7825,
+        "mode": 420
+      },
+      {
+        "path": "docs/research/README.md",
+        "size": 537,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/adaptive-execution-routing-experiment.md",
+        "size": 8022,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-12-progressive-context-routing.md",
+        "size": 4008,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-13-collaborative-foundation.md",
+        "size": 3183,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-14-product-specification-contracts.md",
+        "size": 4158,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-15-task-and-tracker-coordination.md",
+        "size": 4190,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-16-safe-group-parallel-orchestration.md",
+        "size": 5332,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-17-recoverable-runtime-coordination.md",
+        "size": 5382,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-18-evidence-observer.md",
+        "size": 1349,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-19-extension-and-retrieval-maturity.md",
+        "size": 4250,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-20-control-plane-event-spine.md",
+        "size": 2590,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-21-live-control-plane.md",
+        "size": 3429,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-22-human-inbox-github-evidence.md",
+        "size": 4698,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-23-temple-self-host-dogfood.md",
+        "size": 3802,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-24-aipet-recovery.md",
+        "size": 4733,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-24-backup-recovery.md",
+        "size": 2737,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-25-policy-evaluation-usage-attribution.md",
+        "size": 2832,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-26-history-visibility-stabilization.md",
+        "size": 2796,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-26-self-host-worktree-bootstrap.md",
+        "size": 2839,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-26-usage-telemetry-preflight.md",
+        "size": 3279,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-27-release-checkpoint.md",
+        "size": 3385,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-28-multi-human-governance.md",
+        "size": 2249,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-29-public-release-candidate.md",
+        "size": 11316,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-30-candidate-freeze.md",
+        "size": 2920,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/alpha-30-package-qualification.md",
+        "size": 3662,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/bounded-four-repository-commerce-rehearsal.md",
+        "size": 4397,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/closeout-0a-release-integrity.md",
+        "size": 4191,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/closeout-0b-live-and-upgrade.md",
+        "size": 8864,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/collaborative-large-scale-test-plan.md",
+        "size": 4078,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/context-capsule-cache-controlled-evaluation.md",
+        "size": 4558,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/context-capsule-route-adherence.md",
+        "size": 4634,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/context-capsule-successor-evaluations.md",
+        "size": 5008,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/context-capsule-typed-evaluator.md",
+        "size": 3875,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/context-capsule-v2-ablation.md",
+        "size": 8253,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/core-operating-path-audit.md",
+        "size": 10262,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/dashboard-reliability-dogfood.md",
+        "size": 1839,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/evidence-driven-lean-mode.md",
+        "size": 5999,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/final-pre-alpha-clean-room.md",
+        "size": 5745,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/fresh-session-clean-room-rehearsal-v2-erratum.md",
+        "size": 2169,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/fresh-session-clean-room-rehearsal-v2.md",
+        "size": 5393,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/fresh-session-clean-room-rehearsal.md",
+        "size": 5301,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/git-history-exposure-review.md",
+        "size": 5993,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/greenfield-agent-led-onboarding.md",
+        "size": 2086,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/greenfield-cold-task-recovery-result.md",
+        "size": 7962,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/greenfield-cold-task-recovery-test-plan.md",
+        "size": 9746,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/lean-routing-effectiveness-plan.md",
+        "size": 4262,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/lean-routing-effectiveness-result.md",
+        "size": 14224,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/phase-4-local-completion.md",
+        "size": 6357,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/phase-4a-aipet-digest-rehearsal.md",
+        "size": 2207,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/phase-4a-completion.md",
+        "size": 5113,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/phase-4b-completion.md",
+        "size": 4231,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/phase-4c-completion.md",
+        "size": 3023,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/publication-evidence-review.md",
+        "size": 5456,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/README.md",
+        "size": 6763,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/representative-microservice-comparison.md",
+        "size": 27192,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/temple-effectiveness-pilot-result.md",
+        "size": 7584,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/wave-1-adoption-evidence.md",
+        "size": 6253,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/wave-2-coordination-evidence.md",
+        "size": 9240,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/wave-3-local-microservice-evidence.md",
+        "size": 6632,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/wave-4-operating-boundaries.md",
+        "size": 6468,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/wave-5-controlled-comparison-plan.md",
+        "size": 14175,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/wave-5a-overhead-analysis.md",
+        "size": 3752,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/wi-0014-active-task-usage-baseline.md",
+        "size": 3402,
+        "mode": 420
+      },
+      {
+        "path": "docs/validation/wi-0083-matched-model-advisory.md",
+        "size": 3406,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 1441,
+        "mode": 420
+      },
+      {
+        "path": "packs/build-quality/.agents/skills/diagnosing-bugs/SKILL.md",
+        "size": 2573,
+        "mode": 420
+      },
+      {
+        "path": "packs/build-quality/.agents/skills/tdd/assets/test-observation.example.json",
+        "size": 256,
+        "mode": 420
+      },
+      {
+        "path": "packs/build-quality/.agents/skills/tdd/references/evidence-contract.md",
+        "size": 691,
+        "mode": 420
+      },
+      {
+        "path": "packs/build-quality/.agents/skills/tdd/scripts/validate-test-observation.mjs",
+        "size": 1313,
+        "mode": 420
+      },
+      {
+        "path": "packs/build-quality/.agents/skills/tdd/SKILL.md",
+        "size": 2762,
+        "mode": 420
+      },
+      {
+        "path": "packs/build-quality/manifest.json",
+        "size": 1287,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.agents/skills/decision-interview/SKILL.md",
+        "size": 3358,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.agents/skills/domain-modeling/SKILL.md",
+        "size": 2504,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.agents/skills/project-documentation/SKILL.md",
+        "size": 3293,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.agents/skills/skill-authoring/references/authoring-contract.md",
+        "size": 10422,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.agents/skills/skill-authoring/SKILL.md",
+        "size": 3242,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.agents/skills/temple-init/SKILL.md",
+        "size": 5242,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.agents/skills/temple-work/SKILL.md",
+        "size": 5304,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/artifacts/README.md",
+        "size": 465,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/adversarial-scenarios.json",
+        "size": 4918,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/collaboration-profiles.json",
+        "size": 945,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/high-assurance.json",
+        "size": 1896,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/migrations.json",
+        "size": 1303,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/policies.json",
+        "size": 2416,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/positions.json",
+        "size": 4293,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/adversarial-scenarios.schema.json",
+        "size": 2621,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/agents.schema.json",
+        "size": 746,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/approval.schema.json",
+        "size": 1107,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/assignments.schema.json",
+        "size": 614,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/capability-registry.schema.json",
+        "size": 989,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/collaboration.schema.json",
+        "size": 9694,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/context-capsule.schema.json",
+        "size": 4051,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/context-map.schema.json",
+        "size": 3514,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/control-plane-config.schema.json",
+        "size": 5082,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/evidence-profiles.schema.json",
+        "size": 3695,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/evidence-registry.schema.json",
+        "size": 2181,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/execution-policy.schema.json",
+        "size": 5102,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/execution-request.schema.json",
+        "size": 4419,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/execution-route.schema.json",
+        "size": 12562,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/federated-portfolio.schema.json",
+        "size": 11278,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/federation.schema.json",
+        "size": 5428,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/high-assurance.schema.json",
+        "size": 5201,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/init.schema.json",
+        "size": 3808,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/learning-index.schema.json",
+        "size": 5633,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/matched-model-evaluation.schema.json",
+        "size": 5718,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/model-onboarding-input.schema.json",
+        "size": 5301,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/model-onboarding-plan.schema.json",
+        "size": 7311,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/parallel-plan.schema.json",
+        "size": 9114,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/parallel-readiness.schema.json",
+        "size": 728,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/policy-evaluation-result.schema.json",
+        "size": 1862,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/project.schema.json",
+        "size": 475,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/repository-integration.schema.json",
+        "size": 2583,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/resource-registry.schema.json",
+        "size": 1699,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/retrieval-config.schema.json",
+        "size": 1433,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/retrieval-provider.schema.json",
+        "size": 693,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/runtime-worker-registry.schema.json",
+        "size": 2612,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/schema-catalog.json",
+        "size": 5890,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/spec-index.schema.json",
+        "size": 5188,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/task-registry.schema.json",
+        "size": 2138,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/tracker.schema.json",
+        "size": 1925,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/usage-baseline.schema.json",
+        "size": 2399,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/usage-policy.schema.json",
+        "size": 7257,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/validation-program-report.schema.json",
+        "size": 6872,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/validation-program.schema.json",
+        "size": 5690,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/work-item.schema.json",
+        "size": 8332,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/workflow.schema.json",
+        "size": 2792,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/ui-design.json",
+        "size": 2290,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/core/workflow.json",
+        "size": 4468,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/decisions/README.md",
+        "size": 192,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/events/README.md",
+        "size": 236,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/learning/index.json",
+        "size": 68,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/project/context-map.json",
+        "size": 64,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/project/control-plane.json",
+        "size": 743,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/project/evidence-profiles.json",
+        "size": 1178,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/project/evidence.json",
+        "size": 62,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/project/execution-policy.json",
+        "size": 4839,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/project/federation.json",
+        "size": 198,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/project/resources.json",
+        "size": 87,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/project/retrieval.json",
+        "size": 532,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/project/runtime-workers.json",
+        "size": 69,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/project/spec-index.json",
+        "size": 146,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/project/tracker.json",
+        "size": 647,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/project/usage-policy.json",
+        "size": 4150,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/collaborative-large-scale-test-plan.md",
+        "size": 1730,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/decision-ledger.md",
+        "size": 492,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/domain-glossary.md",
+        "size": 539,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/feature-spec.md",
+        "size": 2346,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/handoff.md",
+        "size": 156,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/high-assurance-approval.example.json",
+        "size": 368,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/independent-qa-report.md",
+        "size": 255,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/legacy-document-audit.md",
+        "size": 2524,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/lesson.md",
+        "size": 1170,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/manager-closeout.md",
+        "size": 233,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/policy-evaluation-fixture.json",
+        "size": 2256,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/practice.md",
+        "size": 1007,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/product-charter.md",
+        "size": 1491,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/product-requirements.md",
+        "size": 1865,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/release-record.md",
+        "size": 595,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/runtime-observation.json",
+        "size": 300,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/task-registry.json",
+        "size": 57,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/test-observation.json",
+        "size": 288,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/ui-design-brief.md",
+        "size": 1334,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/ui-interaction-contract.md",
+        "size": 3224,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/validation-program.json",
+        "size": 2169,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/work-item.json",
+        "size": 1019,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/views/README.md",
+        "size": 397,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.ai-org/work-items/README.md",
+        "size": 245,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.codex/agents/developer.toml",
+        "size": 560,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.codex/agents/engineering-manager.toml",
+        "size": 1752,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.codex/agents/independent-qa.toml",
+        "size": 626,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.codex/agents/observer.toml",
+        "size": 906,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.codex/agents/product-manager.toml",
+        "size": 670,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.codex/agents/quality-evaluator.toml",
+        "size": 548,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.codex/agents/release-manager.toml",
+        "size": 682,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.codex/agents/tech-lead.toml",
+        "size": 895,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.codex/agents/ui-designer.toml",
+        "size": 921,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/.codex/agents/ux-designer.toml",
+        "size": 415,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/AGENTS.md",
+        "size": 6206,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/CLAUDE.md",
+        "size": 11,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/TEMPLE.md",
+        "size": 13228,
+        "mode": 420
+      },
+      {
+        "path": "project-overlay/templew.mjs",
+        "size": 5743,
+        "mode": 420
+      },
+      {
+        "path": "src/app-server-protocol-replay.mjs",
+        "size": 8934,
+        "mode": 420
+      },
+      {
+        "path": "src/archify-adapter.mjs",
+        "size": 11720,
+        "mode": 420
+      },
+      {
+        "path": "src/assurance.mjs",
+        "size": 15359,
+        "mode": 420
+      },
+      {
+        "path": "src/audit-export.mjs",
+        "size": 21543,
+        "mode": 420
+      },
+      {
+        "path": "src/bootstrap.mjs",
+        "size": 3407,
+        "mode": 420
+      },
+      {
+        "path": "src/cli.mjs",
+        "size": 140298,
+        "mode": 420
+      },
+      {
+        "path": "src/codex-app-server-provider.mjs",
+        "size": 69866,
+        "mode": 420
+      },
+      {
+        "path": "src/collaboration.mjs",
+        "size": 46296,
+        "mode": 420
+      },
+      {
+        "path": "src/constants.mjs",
+        "size": 2654,
+        "mode": 420
+      },
+      {
+        "path": "src/context.mjs",
+        "size": 43527,
+        "mode": 420
+      },
+      {
+        "path": "src/control-plane-conditions.mjs",
+        "size": 15784,
+        "mode": 420
+      },
+      {
+        "path": "src/control-plane-config.mjs",
+        "size": 10673,
+        "mode": 420
+      },
+      {
+        "path": "src/control-plane-dashboard.mjs",
+        "size": 183441,
+        "mode": 420
+      },
+      {
+        "path": "src/control-plane-inbox.mjs",
+        "size": 41057,
+        "mode": 420
+      },
+      {
+        "path": "src/control-plane-providers.mjs",
+        "size": 8502,
+        "mode": 420
+      },
+      {
+        "path": "src/control-plane-server.mjs",
+        "size": 28851,
+        "mode": 420
+      },
+      {
+        "path": "src/doctor.mjs",
+        "size": 42634,
+        "mode": 420
+      },
+      {
+        "path": "src/evidence-profiles.mjs",
+        "size": 8821,
+        "mode": 420
+      },
+      {
+        "path": "src/evidence.mjs",
+        "size": 28154,
+        "mode": 420
+      },
+      {
+        "path": "src/execution-routing.mjs",
+        "size": 40439,
+        "mode": 420
+      },
+      {
+        "path": "src/federation.mjs",
+        "size": 39978,
+        "mode": 420
+      },
+      {
+        "path": "src/files.mjs",
+        "size": 6156,
+        "mode": 420
+      },
+      {
+        "path": "src/github-control-plane-provider.mjs",
+        "size": 18198,
+        "mode": 420
+      },
+      {
+        "path": "src/ids.mjs",
+        "size": 750,
+        "mode": 420
+      },
+      {
+        "path": "src/install.mjs",
+        "size": 20919,
+        "mode": 420
+      },
+      {
+        "path": "src/learning.mjs",
+        "size": 45741,
+        "mode": 420
+      },
+      {
+        "path": "src/live-observer.mjs",
+        "size": 10542,
+        "mode": 420
+      },
+      {
+        "path": "src/local-identity.mjs",
+        "size": 7464,
+        "mode": 420
+      },
+      {
+        "path": "src/local-observer-service.mjs",
+        "size": 15505,
+        "mode": 420
+      },
+      {
+        "path": "src/management-console-server.mjs",
+        "size": 11390,
+        "mode": 420
+      },
+      {
+        "path": "src/migrations.mjs",
+        "size": 3196,
+        "mode": 420
+      },
+      {
+        "path": "src/model-onboarding.mjs",
+        "size": 21962,
+        "mode": 420
+      },
+      {
+        "path": "src/model.mjs",
+        "size": 9302,
+        "mode": 420
+      },
+      {
+        "path": "src/observer.mjs",
+        "size": 23655,
+        "mode": 420
+      },
+      {
+        "path": "src/orchestration.mjs",
+        "size": 29322,
+        "mode": 420
+      },
+      {
+        "path": "src/packs.mjs",
+        "size": 16311,
+        "mode": 420
+      },
+      {
+        "path": "src/policy-evaluation.mjs",
+        "size": 10785,
+        "mode": 420
+      },
+      {
+        "path": "src/private-network-viewer.mjs",
+        "size": 6276,
+        "mode": 420
+      },
+      {
+        "path": "src/project.mjs",
+        "size": 6948,
+        "mode": 420
+      },
+      {
+        "path": "src/publication-artifact-normalization.mjs",
+        "size": 13149,
+        "mode": 420
+      },
+      {
+        "path": "src/publication-audit.mjs",
+        "size": 18952,
+        "mode": 420
+      },
+      {
+        "path": "src/publication-normalization.mjs",
+        "size": 13757,
+        "mode": 420
+      },
+      {
+        "path": "src/recovery.mjs",
+        "size": 42423,
+        "mode": 420
+      },
+      {
+        "path": "src/repository-integration.mjs",
+        "size": 6501,
+        "mode": 420
+      },
+      {
+        "path": "src/resources.mjs",
+        "size": 10097,
+        "mode": 420
+      },
+      {
+        "path": "src/retrieval.mjs",
+        "size": 6388,
+        "mode": 420
+      },
+      {
+        "path": "src/schema-validation.mjs",
+        "size": 6029,
+        "mode": 420
+      },
+      {
+        "path": "src/specifications.mjs",
+        "size": 18248,
+        "mode": 420
+      },
+      {
+        "path": "src/status.mjs",
+        "size": 38412,
+        "mode": 420
+      },
+      {
+        "path": "src/tasks.mjs",
+        "size": 15385,
+        "mode": 420
+      },
+      {
+        "path": "src/telemetry.mjs",
+        "size": 14391,
+        "mode": 420
+      },
+      {
+        "path": "src/tracker.mjs",
+        "size": 53788,
+        "mode": 420
+      },
+      {
+        "path": "src/upgrade.mjs",
+        "size": 32751,
+        "mode": 420
+      },
+      {
+        "path": "src/usage-attribution.mjs",
+        "size": 80366,
+        "mode": 420
+      },
+      {
+        "path": "src/usage-collector.mjs",
+        "size": 4236,
+        "mode": 420
+      },
+      {
+        "path": "src/usage-policy.mjs",
+        "size": 14199,
+        "mode": 420
+      },
+      {
+        "path": "src/validation-program.mjs",
+        "size": 49970,
+        "mode": 420
+      },
+      {
+        "path": "src/work-items.mjs",
+        "size": 66547,
+        "mode": 420
+      },
+      {
+        "path": "src/workers.mjs",
+        "size": 19242,
+        "mode": 420
+      },
+      {
+        "path": "src/workflow.mjs",
+        "size": 8418,
+        "mode": 420
+      }
+    ]
+  },
+  "candidate_checks": {
+    "verify": {
+      "tests": 444,
+      "pass": 444,
+      "fail": 0,
+      "skipped": 0
+    },
+    "browser": {
+      "status": "pass",
+      "elapsed_ms": 44832
+    },
+    "schema": {
+      "valid": true,
+      "documents_checked": 192,
+      "schemas_checked": 36
+    },
+    "doctor": {
+      "pass": 36,
+      "warn": 1,
+      "fail": 0
+    },
+    "production_dependency_audit": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "dependencies": {
+        "prod": 7,
+        "dev": 1,
+        "optional": 0,
+        "peer": 0,
+        "peerOptional": 0,
+        "total": 7
+      }
+    },
+    "complete_dependency_audit": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "dependencies": {
+        "prod": 7,
+        "dev": 1,
+        "optional": 0,
+        "peer": 0,
+        "peerOptional": 0,
+        "total": 7
+      }
+    },
+    "publication_audit": {
+      "blocked": 0,
+      "review_required": 68,
+      "reviewed_adapter_fixtures": 1,
+      "allowed_files": 4125,
+      "files": 4193,
+      "text_files": 4125,
+      "binary_files_requiring_review": 68
+    }
+  },
+  "clean_consumer": {
+    "node": "v24.20.0",
+    "installed_offline_from_exact_tarball": true,
+    "version": "0.1.0-alpha.30",
+    "first_init_status": "initialized",
+    "second_init_status": "initialized",
+    "launcher_version": "0.1.0-alpha.30",
+    "status_project_id": "alpha30-consumer",
+    "doctor": {
+      "pass": 36,
+      "warn": 1,
+      "fail": 0
+    }
+  },
+  "alpha29_upgrade": {
+    "source_revision": "a3a28e7216652b04cfdc690e68bcb64b08fd5046",
+    "source_version": "0.1.0-alpha.29",
+    "target_version": "0.1.0-alpha.30",
+    "plan": "lock-only; no managed-file replacement or project-data creation",
+    "project_owned_files_compared": 15,
+    "project_owned_digests_unchanged": true,
+    "doctor": {
+      "pass": 36,
+      "warn": 1,
+      "fail": 0
+    }
+  },
+  "timeline": [
+    {
+      "step": "candidate-install",
+      "status": "passed",
+      "elapsed_ms": 346
+    },
+    {
+      "step": "candidate-verify",
+      "status": "passed",
+      "elapsed_ms": 75360
+    },
+    {
+      "step": "candidate-browser",
+      "status": "passed",
+      "elapsed_ms": 44832
+    },
+    {
+      "step": "consumer-install",
+      "status": "passed",
+      "elapsed_ms": 346
+    }
+  ],
+  "authority": {
+    "candidate_source_changed": false,
+    "repository_visibility_changed": false,
+    "tag_created": false,
+    "github_release_created": false,
+    "npm_published": false,
+    "deployed": false,
+    "announced": false
+  },
+  "retained_limits": [
+    "The clean consumer uses the exact prepublication tarball so registry state cannot change the qualification input.",
+    "Browser success covers the installed-Chrome Management Console gate at the candidate revision; it is not a universal device or accessibility study.",
+    "Package correctness and deterministic setup do not establish universal efficiency, automatic routing safety, or enterprise qualification.",
+    "Publication is authorized only for this exact version, GitHub prerelease, public npm access, and the next dist-tag."
+  ]
+}
