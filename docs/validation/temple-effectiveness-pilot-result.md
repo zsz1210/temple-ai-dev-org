@@ -90,7 +90,7 @@ The App Server acknowledged the requested model for every turn. It retained the 
 
 - Canonical observation: `.ai-org/artifacts/WI-0130/live-experiment-observation.json`
 - Registered protocol: `.ai-org/artifacts/WI-0130/pilot-protocol.json`
-- Frozen local lab: `/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-pilot-wi0130`
+- Frozen local lab: `/path/to/temple-effectiveness-pilot-wi0130`
 - Candidate evidence digest: `d06e92781b7f2dc4543e43d411eb81f738f671adfb4978022be9d6d39206926d`
 - Final analysis digest: `421855b4aeff407ed3f450a90f63d48613a85950db4709f13f00f1cfd20b377c`
 - Frozen score digest: `67650a866f8d05b563a2cf7a0c3e232e8196e2eccd452dad2a84d2f980fe8078`

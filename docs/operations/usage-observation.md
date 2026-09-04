@@ -38,8 +38,9 @@ node ./templew.mjs usage collect .
 This process opens no HTTP listener. If a person also wants the Console, start it separately:
 
 ```bash
+TEMPLE_LAN_IP="$(ipconfig getifaddr en1)"
 node ./templew.mjs console start . \
-  --lan-viewer-host 192.168.1.25 \
+  --lan-viewer-host "$TEMPLE_LAN_IP" \
   --lan-viewer-port 41741
 ```
 

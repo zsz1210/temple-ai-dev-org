@@ -116,6 +116,8 @@ The root `.ai-org/` then describes work on Temple itself. `project-overlay/` rem
 
 In this maintainer-only mode, `node ./templew.mjs ...` executes the current worktree's own `bin/temple.mjs`. This keeps a detached candidate worktree from silently using another same-version checkout through `npm link` or a global package. The launcher canonicalizes the local path, requires it to remain inside the toolkit worktree, and checks its version before execution. A missing, escaping, or version-mismatched local CLI stops bootstrap instead of falling back. `TEMPLE_CLI_PATH` remains an explicit compatible-version override for diagnostics, but normal self-host work no longer requires it. See [ADR-0030](../adr/0030-self-host-the-toolkit-with-explicit-boundaries.md).
 
+Before exposing a self-host repository or package, select and review its project-owned Evidence Profile, then run `node ./templew.mjs publication audit . --profile public --surface both`. The audit does not change visibility or publish anything. See [Auditable Self-Hosting and Evidence Profiles](../operations/auditable-self-hosting.md).
+
 ### Move from Solo to Collaborative
 
 Initialization starts in the backward-compatible Solo profile. When several people will operate their own Agents, register the accountable Human Principals and additional Agent Identities before selecting Collaborative:

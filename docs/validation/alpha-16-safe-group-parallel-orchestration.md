@@ -20,7 +20,7 @@ node --check src/context.mjs
 node --check src/doctor.mjs
 node --test test/orchestration.test.mjs
 npm run verify
-uv run --with pyyaml python /Users/zsz1210/.codex/skills/.system/skill-creator/scripts/quick_validate.py project-overlay/.agents/skills/temple-work
+uv run --with pyyaml python /path/to/codex/skills/.system/skill-creator/scripts/quick_validate.py project-overlay/.agents/skills/temple-work
 npm pack --dry-run --json
 git diff --check
 ```

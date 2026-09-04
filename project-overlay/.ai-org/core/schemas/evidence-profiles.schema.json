@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "temple.evidence-profiles/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "active_profile",
+    "profiles",
+    "reviewed_legacy_baseline",
+    "public_evidence",
+    "local_only_evidence",
+    "synthetic_usernames",
+    "max_text_file_bytes",
+    "binary_review"
+  ],
+  "properties": {
+    "schema_version": { "const": "temple.evidence-profiles/v1" },
+    "active_profile": { "enum": ["private", "public", "restricted"] },
+    "profiles": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "local_environment", "retained_legacy_repository"],
+        "properties": {
+          "id": { "enum": ["private", "public", "restricted"] },
+          "local_environment": { "enum": ["blocked", "review-required"] },
+          "retained_legacy_repository": { "enum": ["blocked", "review-required"] }
+        }
+      }
+    },
+    "reviewed_legacy_baseline": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["revision", "approved_by", "approved_at", "rationale"],
+          "properties": {
+            "revision": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+            "approved_by": { "type": "string", "minLength": 1 },
+            "approved_at": { "type": "string", "format": "date-time" },
+            "rationale": { "type": "string", "minLength": 1 }
+          }
+        }
+      ]
+    },
+    "public_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "local_only_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "synthetic_usernames": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1, "pattern": "^[A-Za-z0-9._-]+$" }
+    },
+    "max_text_file_bytes": { "type": "integer", "minimum": 16384, "maximum": 8388608 },
+    "binary_review": { "const": "required" }
+  }
+}

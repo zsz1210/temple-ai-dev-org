@@ -1,0 +1,74 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "work_item_id": "WI-0152",
+  "revision": "b7e1706f01d343738d63594cba79e3b48728b87b",
+  "command": ["npm", "run", "verify"],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T11:14:18.000Z",
+  "completed_at": "2026-09-04T11:16:22.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0152/developer-verification.md",
+    ".ai-org/artifacts/WI-0152/approved-scope.md",
+    "docs/operations/auditable-self-hosting.md"
+  ],
+  "summary": {
+    "full_tests_passed": 427,
+    "tests_failed": 0,
+    "tests_cancelled": 0,
+    "tests_skipped": 0,
+    "schema_valid": true,
+    "schema_documents_checked": 177,
+    "schemas_checked": 36,
+    "public_package_status": "allowed",
+    "public_package_files": 370,
+    "public_package_blocked": 0,
+    "public_package_review_required": 0,
+    "public_repository_status": "review-required",
+    "public_repository_files": 3561,
+    "public_repository_blocked": 0,
+    "public_repository_review_required": 402,
+    "retained_legacy_environment_occurrences": 334,
+    "binary_files_requiring_review": 68,
+    "repository_visibility_changed": false,
+    "history_rewritten": false,
+    "npm_published": false,
+    "release_created": false
+  },
+  "details": {
+    "tests": {
+      "passed": 427,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "schema_validation": {
+      "valid": true,
+      "documents_checked": 177,
+      "schemas_checked": 36
+    },
+    "publication_audit": {
+      "profile": "public",
+    "package": {
+      "status": "allowed",
+      "files": 370,
+      "blocked": 0,
+      "review_required": 0
+    },
+    "repository": {
+      "status": "review-required",
+      "files": 3561,
+      "blocked": 0,
+      "review_required": 402,
+      "retained_legacy_environment_occurrences": 334,
+      "binary_files_requiring_review": 68
+    }
+    },
+    "external_actions": {
+      "repository_visibility_changed": false,
+    "history_rewritten": false,
+    "npm_published": false,
+    "release_created": false
+    }
+  }
+}

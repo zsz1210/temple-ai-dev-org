@@ -5,6 +5,7 @@ import addFormats from "ajv-formats";
 import { pathExists, readJson } from "./files.mjs";
 import { validateValidationProgramManifest } from "./validation-program.mjs";
 import { validateUsagePolicy } from "./usage-policy.mjs";
+import { validateEvidenceProfiles } from "./evidence-profiles.mjs";
 import {
   readExecutionPolicy,
   validateExecutionPolicy,
@@ -78,6 +79,7 @@ export async function validateProjectSchemas(target) {
         if (jsonSchemaValid) {
           if (entry.id === "validation-program") semantic = validateValidationProgramManifest(document);
           else if (entry.id === "usage-policy") semantic = validateUsagePolicy(document);
+          else if (entry.id === "evidence-profiles") semantic = validateEvidenceProfiles(document);
           else if (entry.id === "execution-policy") semantic = validateExecutionPolicy(document);
           else if (entry.id === "execution-requests") {
             executionPolicy ??= (await readExecutionPolicy(target)).policy;

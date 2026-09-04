@@ -47,6 +47,7 @@ import { ensureFederationRegistry, FEDERATION_REGISTRY_RELATIVE_PATH } from "./f
 import { ensureUsagePolicy, USAGE_POLICY_RELATIVE_PATH } from "./usage-policy.mjs";
 import { ensureExecutionPolicy, EXECUTION_POLICY_RELATIVE_PATH } from "./execution-routing.mjs";
 import { ensureRepositoryIntegration } from "./repository-integration.mjs";
+import { ensureEvidenceProfiles, EVIDENCE_PROFILES_RELATIVE_PATH } from "./evidence-profiles.mjs";
 
 function isManaged(relativePath) {
   return MANAGED_EXACT_PATHS.has(relativePath) || MANAGED_SOURCE_PREFIXES.some((prefix) => relativePath.startsWith(prefix));
@@ -247,6 +248,11 @@ export async function planUpgrade(target) {
     type: hasExecutionPolicy ? "skip-execution-policy" : "create-execution-policy",
     path: EXECUTION_POLICY_RELATIVE_PATH
   });
+  const hasEvidenceProfiles = await pathExists(path.join(target, EVIDENCE_PROFILES_RELATIVE_PATH));
+  actions.push({
+    type: hasEvidenceProfiles ? "skip-evidence-profiles" : "create-evidence-profiles",
+    path: EVIDENCE_PROFILES_RELATIVE_PATH
+  });
   const assignmentMigration = await planUiAssignmentMigration(target, conflicts);
   actions.push({
     type: assignmentMigration ? "add-ui-assignment" : "skip-ui-assignment",
@@ -374,7 +380,10 @@ export async function planUpgrade(target) {
     lock.capabilities?.exception_only_autonomy !== true ||
     lock.capabilities?.provider_attach_outcomes !== true ||
     lock.capabilities?.repository_federation !== true ||
-    lock.capabilities?.read_only_portfolio !== true;
+    lock.capabilities?.read_only_portfolio !== true ||
+    lock.capabilities?.auditable_self_hosting !== true ||
+    lock.capabilities?.evidence_profiles !== true ||
+    lock.capabilities?.publication_audit !== true;
   if (packMetadataChanges) actions.push({ type: "update-pack-metadata", path: "temple.lock" });
   if (capabilityChanges || collaborationCapabilityChanges) actions.push({ type: "update-capabilities", path: "temple.lock" });
   if (migrationPlan.pending.length > 0) actions.push({ type: "record-migrations", path: "temple.lock" });
@@ -400,6 +409,7 @@ export async function planUpgrade(target) {
       hasControlPlaneConfig &&
       hasFederationRegistry &&
       hasUsagePolicy &&
+      hasEvidenceProfiles &&
       migrationPlan.pending.length === 0
         ? "skip-current-lock"
         : "update-lock",
@@ -509,6 +519,10 @@ export async function executeUpgrade(plan) {
     const executionPolicy = await ensureExecutionPolicy(plan.target);
     if (executionPolicy.created) {
       changes.push({ path: executionPolicy.path, before: null, afterHash: executionPolicy.afterHash });
+    }
+    const evidenceProfiles = await ensureEvidenceProfiles(plan.target);
+    if (evidenceProfiles.created) {
+      changes.push({ path: evidenceProfiles.path, before: null, afterHash: evidenceProfiles.afterHash });
     }
     const repositoryIntegration = await ensureRepositoryIntegration(plan.target);
     if (repositoryIntegration.created) {
@@ -674,6 +688,9 @@ export async function executeUpgrade(plan) {
         provider_attach_outcomes: true,
         repository_federation: true,
         read_only_portfolio: true,
+        auditable_self_hosting: true,
+        evidence_profiles: true,
+        publication_audit: true,
         checksum_upgrade: true,
         optional_packs: true,
         toolkit_self_hosting: true

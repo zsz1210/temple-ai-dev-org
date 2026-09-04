@@ -1,0 +1,32 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "543c5cb8ad5552195f7e64ef37f336c52e9e86b5",
+  "command": [
+    "xmllint --noout on six localized desktop and mobile SVG assets",
+    "node --test test/doc-links.test.mjs",
+    "npm run verify:fast",
+    "Playwright CLI desktop render at 1200x700",
+    "Playwright CLI mobile render at 720x900"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T11:33:20.000Z",
+  "completed_at": "2026-09-04T11:43:12.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0153/work-order.md",
+    "docs/assets/temple-layers.zh-TW.svg",
+    "docs/assets/temple-layers-mobile.zh-TW.svg",
+    "test/doc-links.test.mjs"
+  ],
+  "summary": {
+    "svg_files_checked": 6,
+    "labels_per_file": 6,
+    "former_numeric_markers": 0,
+    "focused_tests_passed": 3,
+    "fast_tests_passed": 31,
+    "tests_failed": 0,
+    "desktop_visual_review": "pass",
+    "mobile_visual_review": "pass",
+    "external_action_performed": false
+  }
+}

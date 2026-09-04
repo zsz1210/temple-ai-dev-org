@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 151 total, 0 active
+- Work items: 154 total, 0 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -199,6 +199,9 @@
 | WI-0149 | Refresh current Alpha release readiness | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `8d2b1135` | 0 | 6 | 0 |
 | WI-0150 | Replace external novice gate with clean-room rehearsal | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f01cafc6` | 0 | 6 | 0 |
 | WI-0151 | Reconcile historical nonterminal Work Items | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `7e2ed6a2` | 0 | 6 | 0 |
+| WI-0152 | Add auditable self-hosting evidence profiles | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b7e1706f` | 0 | 18 | 0 |
+| WI-0153 | Label Temple Concept Layers as L1 through L6 | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `543c5cb8` | 0 | 7 | 0 |
+| WI-0154 | Review retained evidence for public readiness | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `d1434761` | 0 | 8 | 0 |
 
 ## Codex task registry
 
@@ -266,7 +269,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 34
+- Team-visible Work Items: 35
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -339,14 +342,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-04T09:38:14.981Z | work_item_closed | WI-0151 | agent-lulu |
-| 2026-09-04T09:38:14.981Z | work_item_transitioned | WI-0151 | agent-lulu |
-| 2026-09-04T09:38:14.772Z | evidence_recorded | WI-0151 | human |
-| 2026-09-04T09:37:04.828Z | work_item_transitioned | WI-0151 | agent-rikku |
-| 2026-09-04T09:37:04.552Z | handoff_created | WI-0151 | agent-rikku |
-| 2026-09-04T09:36:54.968Z | evidence_recorded | WI-0151 | human |
-| 2026-09-04T09:36:54.733Z | evidence_recorded | WI-0151 | human |
-| 2026-09-04T09:33:57.804Z | work_item_concluded | WI-0138 | agent-mog |
+| 2026-09-04T12:00:24.793Z | work_item_closed | WI-0154 | agent-lulu |
+| 2026-09-04T12:00:24.793Z | work_item_transitioned | WI-0154 | agent-lulu |
+| 2026-09-04T12:00:24.572Z | work_item_claimed | WI-0154 | human |
+| 2026-09-04T12:00:24.261Z | work_item_transitioned | WI-0154 | agent-rikku |
+| 2026-09-04T12:00:11.388Z | evidence_recorded | WI-0154 | human |
+| 2026-09-04T11:58:47.365Z | evidence_recorded | WI-0154 | human |
+| 2026-09-04T11:58:01.981Z | handoff_created | WI-0154 | agent-rikku |
+| 2026-09-04T11:58:01.561Z | evidence_recorded | WI-0154 | human |
 
 ## Assignments
 

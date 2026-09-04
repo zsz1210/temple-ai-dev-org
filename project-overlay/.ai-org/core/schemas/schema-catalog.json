@@ -20,6 +20,7 @@
     { "id": "specifications", "path": ".ai-org/project/spec-index.json", "schema": "spec-index.schema.json", "required": true, "ownership": "project" },
     { "id": "tasks", "path": ".ai-org/project/tasks.json", "schema": "task-registry.schema.json", "required": true, "ownership": "project" },
     { "id": "tracker", "path": ".ai-org/project/tracker.json", "schema": "tracker.schema.json", "required": true, "ownership": "project" },
+    { "id": "evidence-profiles", "path": ".ai-org/project/evidence-profiles.json", "schema": "evidence-profiles.schema.json", "required": true, "ownership": "project" },
     { "id": "usage-policy", "path": ".ai-org/project/usage-policy.json", "schema": "usage-policy.schema.json", "required": true, "ownership": "project" },
     { "id": "execution-policy", "path": ".ai-org/project/execution-policy.json", "schema": "execution-policy.schema.json", "required": true, "ownership": "project" },
     { "id": "execution-requests", "path": ".ai-org/evaluations/execution/*.json", "schema": "execution-request.schema.json", "required": false, "ownership": "project" },

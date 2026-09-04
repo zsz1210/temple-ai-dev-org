@@ -1,0 +1,157 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0153",
+  "title": "Label Temple Concept Layers as L1 through L6",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-04T11:32:47.675Z",
+  "updated_at": "2026-09-04T11:45:01.333Z",
+  "scope": [
+    "Replace the visible 01 through 06 markers in every English, Japanese, and Traditional Chinese desktop and mobile Temple Concept Layers asset with L1 through L6, preserving all other diagram structure and wording."
+  ],
+  "acceptance_criteria": [
+    "All six responsive localized SVG assets display L1 through L6 in the correct order and contain no 01 through 06 layer markers.",
+    "The English, Japanese, and Traditional Chinese README image references remain valid and structurally aligned.",
+    "SVG parsing, documentation checks, focused verification, and visual inspection pass without clipping or overlap."
+  ],
+  "affected_paths": [
+    "docs/assets/temple-layers.en.svg",
+    "docs/assets/temple-layers.ja.svg",
+    "docs/assets/temple-layers.zh-TW.svg",
+    "docs/assets/temple-layers-mobile.en.svg",
+    "docs/assets/temple-layers-mobile.ja.svg",
+    "docs/assets/temple-layers-mobile.zh-TW.svg"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "A bounded reversible documentation correction with explicit labels and no runtime behavior change.",
+    "evidence_refs": [
+      "User request in the current Codex task on 2026-09-04"
+    ],
+    "evaluated_at": "2026-09-04T11:32:47.674Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "543c5cb8ad5552195f7e64ef37f336c52e9e86b5",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260904114426-c61859a4",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-lulu",
+    "base_revision": "543c5cb8ad5552195f7e64ef37f336c52e9e86b5",
+    "branch": "codex/wi-0153-layer-labels",
+    "worktree": null,
+    "claimed_at": "2026-09-04T11:44:26.713Z",
+    "released_at": "2026-09-04T11:45:01.333Z",
+    "release_reason": "position_transition"
+  },
+  "claims": [
+    {
+      "id": "claim-20260904113320-44e17f1b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "7fca1b438b866fb4f3525a322af63e7f83a69e76",
+      "branch": "codex/wi-0153-layer-labels",
+      "worktree": null,
+      "claimed_at": "2026-09-04T11:33:20.680Z",
+      "released_at": "2026-09-04T11:43:50.443Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904114426-c61859a4",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "543c5cb8ad5552195f7e64ef37f336c52e9e86b5",
+      "branch": "codex/wi-0153-layer-labels",
+      "worktree": null,
+      "claimed_at": "2026-09-04T11:44:26.713Z",
+      "released_at": "2026-09-04T11:45:01.333Z",
+      "release_reason": "position_transition"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0153/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0153/work-order.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0153/work-order.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0153/work-order.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0153/work-order.md"
+    ],
+    "profile_eligibility": [
+      ".ai-org/artifacts/WI-0153/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0153/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0153/developer-verification.md",
+      "EVID-20260904T114339Z-71C7DAB4",
+      "EVID-20260904T114339Z-999B47FE"
+    ],
+    "test_evidence": [
+      "EVID-20260904T114454Z-0AB151D9"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0153/quality-evaluation.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0153/work-order.md",
+    ".ai-org/artifacts/WI-0153/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0153/developer-verification.md",
+    "EVID-20260904T114339Z-71C7DAB4",
+    "EVID-20260904T114339Z-999B47FE",
+    "EVID-20260904T114454Z-0AB151D9",
+    ".ai-org/artifacts/WI-0153/quality-evaluation.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "543c5cb8ad5552195f7e64ef37f336c52e9e86b5",
+      "artifact": ".ai-org/artifacts/WI-0153/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T11:43:50.153Z"
+    }
+  ],
+  "developer_candidate_revision": "543c5cb8ad5552195f7e64ef37f336c52e9e86b5",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
+}

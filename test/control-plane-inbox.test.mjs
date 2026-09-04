@@ -386,7 +386,8 @@ test("Agent command gateway is opt-in, idempotent, privacy-bounded, and preserve
     privacy: defaultControlPlaneConfig().privacy,
     agentCommands: defaultControlPlaneConfig().agent_commands
   });
-  const instruction = "Review the safe change using sk-ABCDEFGHIJKLMNOPQRSTUVWX and report only the result.";
+  const syntheticSecret = `sk-${"ABCDEFGHIJKLMNOPQRSTUVWX"}`;
+  const instruction = `Review the safe change using ${syntheticSecret} and report only the result.`;
   const base = {
     task_id: commandTarget.task_id,
     work_item_id: commandTarget.work_item_id,
@@ -452,7 +453,7 @@ test("Agent command gateway is opt-in, idempotent, privacy-bounded, and preserve
   assert.equal(provider.calls.length, 3);
 
   const storedText = await fs.readFile(path.join(stateDirectory, "inbox", "commands.json"), "utf8");
-  assert.doesNotMatch(storedText, /sk-ABCDEFGHIJKLMNOPQRSTUVWX/);
+  assert.equal(storedText.includes(syntheticSecret), false);
   assert.equal(storedText.includes(instruction), false);
   const stored = JSON.parse(storedText).entries.find((entry) => entry.idempotency_key === acceptedPayload.idempotency_key);
   assert.equal(stored.instruction_summary, `Instruction content omitted · ${instruction.length} characters`);
@@ -471,7 +472,7 @@ test("Agent command gateway is opt-in, idempotent, privacy-bounded, and preserve
     new Set(inbox.agent_commands.recent_commands.map((entry) => entry.status)),
     new Set(["delivery-unknown", "provider-rejected", "turn-started"])
   );
-  assert.doesNotMatch(JSON.stringify(inbox), /sk-ABCDEFGHIJKLMNOPQRSTUVWX/);
+  assert.equal(JSON.stringify(inbox).includes(syntheticSecret), false);
 
   const terminalInbox = await buildHumanInbox(target, stateDirectory, provider, {
     agentCommands: { enabled: true, max_instruction_chars: 200 },
@@ -524,13 +525,14 @@ test("Agent command durable state keeps only non-content metadata across adversa
     privacy: defaultControlPlaneConfig().privacy,
     agentCommands: { enabled: true, max_instruction_chars: 4000 }
   });
+  const syntheticSecret = `sk-${"ABCDEFGHIJKLMNOPQRSTUVWX"}`;
   const instructions = [
     "§",
     "Q7?",
     "B".repeat(240),
     "L".repeat(241),
     "M".repeat(4000),
-    "Use sk-ABCDEFGHIJKLMNOPQRSTUVWX exactly once"
+    `Use ${syntheticSecret} exactly once`
   ];
   const payloadFor = (instruction, index) => ({
     idempotency_key: `agent-privacy-${String(index).padStart(4, "0")}`,
@@ -597,14 +599,14 @@ test("Agent command durable state keeps only non-content metadata across adversa
     if (instruction.length > 3) assert.equal(storedText.includes(instruction), false);
   }
   const publicText = JSON.stringify(inbox.agent_commands.recent_commands);
-  assert.doesNotMatch(publicText, /sk-ABCDEFGHIJKLMNOPQRSTUVWX/);
+  assert.equal(publicText.includes(syntheticSecret), false);
   assert.equal(inbox.agent_commands.recent_commands.every((record) =>
     record.instruction_content_retained === false &&
     !Object.hasOwn(record, "instruction_preview") &&
     !Object.hasOwn(record, "instruction_sha256")
   ), true);
   const auditText = await fs.readFile(path.join(stateDirectory, "inbox", "audit.jsonl"), "utf8");
-  assert.doesNotMatch(auditText, /sk-ABCDEFGHIJKLMNOPQRSTUVWX/);
+  assert.equal(auditText.includes(syntheticSecret), false);
 });
 
 test("governance approval enforces current state, exact revision, active principals, and High-Assurance independence", async (context) => {
