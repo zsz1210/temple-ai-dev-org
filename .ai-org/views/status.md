@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=true
-- Work items: 163 total, 0 active
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Parallel plan: 0 wave(s), fresh=false
+- Work items: 164 total, 1 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 16
+- Attention signals: 17
 
 ## Collaboration
 
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -37,7 +37,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: yes
+- Fresh: no
 - Safe waves: 0
 - Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 0 / 0
@@ -211,6 +211,7 @@
 | WI-0161 | Minimize local paths in canonical state | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0b289921` | 0 | 9 | 0 |
 | WI-0162 | Normalize retained publication evidence and fixtures | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9012ece9` | 0 | 11 | 0 |
 | WI-0163 | Freeze the Alpha.30 candidate scope and identity | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a6849519` | 0 | 12 | 0 |
+| WI-0164 | Qualify the exact Alpha.30 package | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260904172159-76bb4d6f | `—` | 0 | 3 | 0 |
 
 ## Codex task registry
 
@@ -282,6 +283,7 @@
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
+- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
@@ -361,14 +363,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-04T17:10:27.320Z | work_item_closed | WI-0163 | agent-mog |
-| 2026-09-04T17:10:27.320Z | release_gate_completed | WI-0163 | agent-mog |
-| 2026-09-04T17:10:26.839Z | work_item_claimed | WI-0163 | principal-zsz1210 |
-| 2026-09-04T17:10:11.631Z | work_item_transitioned | WI-0163 | agent-lulu |
-| 2026-09-04T17:10:05.369Z | evidence_recorded | WI-0163 | human |
-| 2026-09-04T17:09:43.836Z | work_item_transitioned | WI-0163 | agent-lulu |
-| 2026-09-04T17:09:23.071Z | work_item_transitioned | WI-0163 | agent-lulu |
-| 2026-09-04T17:09:17.586Z | work_item_claimed | WI-0163 | principal-zsz1210 |
+| 2026-09-04T17:21:59.583Z | work_item_claimed | WI-0164 | principal-zsz1210 |
+| 2026-09-04T17:21:59.318Z | work_item_coordination_configured | WI-0164 | agent-rikku |
+| 2026-09-04T17:21:34.695Z | work_item_coordination_configured | WI-0164 | agent-rikku |
+| 2026-09-04T17:21:25.281Z | work_item_transitioned | WI-0164 | agent-tidus |
+| 2026-09-04T17:19:04.365Z | work_item_claimed | WI-0164 | principal-zsz1210 |
+| 2026-09-04T17:19:04.083Z | work_item_transitioned | WI-0164 | agent-yuna |
+| 2026-09-04T17:18:48.594Z | work_item_claimed | WI-0164 | principal-zsz1210 |
+| 2026-09-04T17:18:48.307Z | work_item_transitioned | WI-0164 | agent-mog |
 
 ## Assignments
 

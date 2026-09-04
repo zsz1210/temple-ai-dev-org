@@ -17,7 +17,7 @@ Temple does **not** have a current public Alpha or an npm release.
 - The latest ordinary semantic version tag is `v0.1.0-alpha.27`.
 - `package.json` and the self-host lock now identify the internal `0.1.0-alpha.30` candidate, but there is no matching tag or GitHub Release.
 - `@zsz1210/temple-ai-dev-org` does not exist in the public npm registry, and `private: true` prevents accidental publication.
-- `WI-0163` freezes the claim and version boundary and names its implementation commit as the exact technical candidate. `WI-0164` must still qualify the archive built from that commit before it can be considered releasable.
+- `WI-0163` froze the claim and version boundary at technical candidate `a6849519c6067b2f73ca1a44d556faf7a5168b1d`. `WI-0164` built and qualified the exact archive from that commit; publication decisions remain open.
 
 The approved internal candidate version is `v0.1.0-alpha.30`. That version decision does not authorize repository visibility, a tag, a GitHub Release, npm publication, deployment, or announcement.
 
@@ -28,7 +28,7 @@ The approved internal candidate version is `v0.1.0-alpha.30`. That version decis
 | GitHub repository | Private | Keep private while the candidate and new-user path are tested |
 | Branch protection | Strict required Node.js 24 check, one approval, Code Owner review, last-push approval, stale-review dismissal, and resolved conversations are configured | Recheck after any visibility change |
 | GitHub Release | Historical private `v0.1.0-alpha.5` prerelease only | Decide how to label that history, then create a new Release only after the exact tag is approved |
-| Package metadata | `@zsz1210/temple-ai-dev-org@0.1.0-alpha.30`, `private: true` | Keep private and qualify the exact archive in `WI-0164` |
+| Package metadata | `@zsz1210/temple-ai-dev-org@0.1.0-alpha.30`, `private: true`; exact local archive qualified | Keep private until a separate publication decision |
 | npm | Package lookup returns `E404`; nothing has been published | Keep deferred until after the GitHub Alpha is exercised |
 | Announcement | None | Treat as a separate decision after the Release exists |
 
@@ -56,9 +56,12 @@ These observations describe the private repository before this refresh. They are
 - `npm audit --omit=dev --json` reported zero known vulnerabilities across all severities.
 - The WI-0158 fresh-session delivery and separate cold recovery completed without Human intervention. QueueKeep reached accepted closeout with distinct Developer and Independent QA identities, two passing application tests, Doctor 37/0/0, and a clean read-only recovery. Token totals remained unavailable.
 - WI-0159 privacy-normalized the current copies of the affected WI-0155 and WI-0156 artifacts while retaining their original revision-pinned Git evidence. WI-0160 reviewed all 68 PNGs at their current digests and found no restricted values or embedded text/EXIF payloads; it also classified 334 text occurrences. WI-0161 reduced the 245 canonical-state occurrences to zero while preserving Evidence identity and artifact references. WI-0162 resolved the remaining 89 current-tree text occurrences: 70 retained-artifact values were normalized through a revision-bound plan, 18 first-party fixture literals were replaced without removing behavior coverage, and the unchanged Archify security fixture is allowed only at its installed-manifest digest. Clean-worktree Independent QA passed all 443 tests at exact candidate `9012ece9e1ff3871f8e24bfc68ec79f77060d5a8`. The separate historical-Git exposure decision remains.
-- The historical Alpha.29 work and its earlier package, installation, browser, upgrade, and hosted observations remain available in `WI-0086`. They are history, not qualification for a later candidate.
+- WI-0164 built `zsz1210-temple-ai-dev-org-0.1.0-alpha.30.tgz` from exact candidate `a6849519c6067b2f73ca1a44d556faf7a5168b1d`. It contained 380 files, 819,744 packed bytes, and 3,254,381 unpacked bytes; SHA-256 was `8f93462cdea25068920279740450a72977f1a82b375fbf82bb26dac54aa36c95`.
+- The exact candidate passed all 443 tests, 188-document schema validation, the installed-Chrome browser gate, dependency audits with zero known vulnerabilities, and the public repository/package audit with zero blockers. Its one Doctor warning was the expected stale generated parallel plan at the historical Work Item revision.
+- A clean Node.js `v24.20.0` consumer installed the exact local tarball and passed version, first init, idempotent re-init, installed launcher, status, and Doctor. A separate Alpha.29 fixture upgraded lock-only while 15 sampled project-owned digests remained unchanged.
+- The historical Alpha.29 work and its earlier package, installation, browser, upgrade, and hosted observations remain available in `WI-0086`. They are history, not qualification for this candidate.
 
-Exact file bytes, digests, audit results, test counts, and hosting state must be captured again after the candidate revision is frozen.
+The exact local package bytes, manifest, consumer result, audits, test count, and browser result are now captured. Public-hosting controls must still be checked after any separately approved visibility change.
 
 ## Gates for the next public Alpha
 
@@ -66,15 +69,15 @@ Exact file bytes, digests, audit results, test counts, and hosting state must be
 | --- | --- | --- |
 | Release scope | Frozen internally by `WI-0163` | Preserve the supported claim and explicit non-claims during package qualification |
 | Version identity | `0.1.0-alpha.30` applied to current candidate files | Confirm the archive reports the same version; any later tag and Release must match it |
-| Exact revision | Resolved by the `WI-0163` implementation commit | Use that immutable commit for every `WI-0164` candidate-specific check |
-| Repository checks | Current private `main` is green | `npm run check`, schema validation, and Doctor pass at the exact candidate |
-| Full behavior suite | WI-0162 exact candidate passed 443 tests | Repeat after the final release candidate is frozen if later bytes differ |
-| Browser presentation | Prior revision passed | Repeat the responsive README and Management Console gate at the exact candidate |
-| Package boundary | Current diagnostic dry run passes | Freeze the exact `npm pack` manifest, size, digest, license, and provenance inventory |
-| Clean consumer | Must be repeated | Install the real tarball in a clean Node.js 24 environment; run version, init, re-init, project launcher, status, and Doctor |
-| Upgrade safety | Prior Alpha.28-to-.29 rehearsal passed | Reconcile whether the candidate changes managed files or migration behavior; repeat only the affected upgrade path |
-| Dependency and secret review | Current dependency audit is clean; hosting controls not fully qualified | Repeat the locked audit and tracked-content review; verify hosting security controls after visibility changes |
-| Evidence publication boundary | Current repository and package surfaces have zero blocked text findings and zero unresolved text review findings; one reviewed adapter fixture is allowed at its exact provenance digest; all 68 PNGs passed separate digest-bound review | Repeat at the frozen candidate, decide how to treat already-shared historical Git objects, and record the Human disposition |
+| Exact revision | Qualified at `a6849519c6067b2f73ca1a44d556faf7a5168b1d` | Reject rather than silently repoint if later source changes are required |
+| Repository checks | Passed at the exact candidate | Repeat only if the candidate is replaced |
+| Full behavior suite | Passed all 443 tests at the exact candidate | Repeat only if the candidate is replaced |
+| Browser presentation | Installed-Chrome gate passed at the exact candidate | Retain the bounded platform and usability limits |
+| Package boundary | Exact 380-file manifest, sizes, integrity, and SHA-256 recorded | Preserve the archive identity in any later tag or Release review |
+| Clean consumer | Node.js 24 exact-tarball path passed | Public registry recovery remains unavailable until separately published |
+| Upgrade safety | Alpha.29-to-.30 lock-only upgrade passed; 15 project-owned digests unchanged | Repeat only if the candidate or migration boundary changes |
+| Dependency and secret review | Dependency audits have zero known vulnerabilities; public repository/package audit has zero blockers | Verify hosting security controls after any visibility change |
+| Evidence publication boundary | Candidate repository and package surfaces have zero blockers; one reviewed adapter fixture remains provenance-bound; all 68 PNGs retain separate digest-bound review | Decide how to treat already-shared historical Git objects and record the Human disposition |
 | Fresh-session clean-room path | Passed at the pre-freeze revision | WI-0158 completed one bounded Work Item and a separate repository-only recovery without maintainer coaching; repeat only if later candidate changes affect the Core Path |
 | Rollback | Earlier procedure exists | Bind withdrawal or superseding-release instructions to the approved immutable tag |
 | Publication authority | Not granted | Separate Human approval for visibility, tag, GitHub Release, and any later npm publication |
@@ -112,12 +115,12 @@ This rehearsal validates the AI-assisted operating path. It does not establish t
 - `WI-0163` selected `0.1.0-alpha.30`, froze the supported claim and non-claims, and aligned the version-bearing files and release notes.
 - Its implementation commit is the exact technical candidate; unrelated changes must not enter its qualification evidence set.
 
-### Step 3 — qualify the exact package
+### Step 3 — qualify the exact package — completed
 
-- Run repository, schema, Doctor, complete behavior, and browser checks.
-- Produce the exact tarball and manifest.
-- Reproduce installation and the Core Path in a clean Node.js 24 consumer.
-- Perform Independent QA against that exact revision and package.
+- WI-0164 ran repository, schema, Doctor, complete behavior, browser, dependency, and publication-surface checks at the exact technical candidate.
+- It produced and retained the exact tarball identity and complete manifest without committing the archive.
+- A clean Node.js 24 consumer reproduced installation and the deterministic Core Path; the Alpha.29 comparison upgraded lock-only without changing sampled project-owned bytes.
+- Independent QA remains part of the WI-0164 closeout before this page may call the organizational gate complete.
 
 ### Step 4 — make publication decisions separately
 

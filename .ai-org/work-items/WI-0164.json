@@ -1,0 +1,179 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0164",
+  "title": "Qualify the exact Alpha.30 package",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-04T17:18:10.523Z",
+  "updated_at": "2026-09-04T17:21:59.583Z",
+  "scope": [
+    "Build one tarball from technical candidate a6849519c6067b2f73ca1a44d556faf7a5168b1d, verify its manifest, digest, browser presentation, public surfaces, clean Node.js 24 consumer path, and source-only Alpha.29-to-Alpha.30 lock upgrade without changing candidate source or publishing."
+  ],
+  "acceptance_criteria": [
+    "One exact tarball is bound to candidate a6849519c6067b2f73ca1a44d556faf7a5168b1d by filename, SHA-256, file count, packed size, unpacked size, and complete package manifest.",
+    "A clean Node.js 24 consumer installs that tarball and passes version, init, idempotent re-init, installed-package launcher override, status, and Doctor.",
+    "Repository, complete behavior, browser, dependency, license, provenance, and public repository/package surface checks are recorded against the same candidate; any required source change rejects rather than patches the candidate.",
+    "Qualification changes no repository visibility, tag, GitHub Release, npm publication, deployment, or announcement state."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0164",
+    ".ai-org/work-items/WI-0164.json",
+    ".ai-org/project/evidence.json",
+    ".ai-org/events/events.jsonl",
+    ".ai-org/views",
+    "docs/validation",
+    "docs/planning/release-readiness.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "Exact package qualification crosses repository, archive, consumer, and browser evidence gates but performs no external release.",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-04T17:18:10.523Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {
+    "build": {
+      "disciplines": [
+        "general-development"
+      ],
+      "resources": []
+    },
+    "eval": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "independent_qa": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    },
+    "release_gate": {
+      "disciplines": [
+        "release"
+      ],
+      "resources": []
+    },
+    "test": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "520d2a1ceacf2d628d9e88c3f9db159d9d328e78",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260904172159-76bb4d6f",
+    "status": "active",
+    "principal_id": "principal-zsz1210",
+    "agent_id": "agent-rikku",
+    "base_revision": "520d2a1ceacf2d628d9e88c3f9db159d9d328e78",
+    "branch": "codex/wi-0164-alpha30-package-qualification",
+    "worktree": null,
+    "claimed_at": "2026-09-04T17:21:59.583Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260904171819-4c08034f",
+      "status": "released",
+      "principal_id": "principal-zsz1210",
+      "agent_id": "agent-mog",
+      "base_revision": "520d2a1ceacf2d628d9e88c3f9db159d9d328e78",
+      "branch": "codex/wi-0164-alpha30-package-qualification",
+      "worktree": null,
+      "claimed_at": "2026-09-04T17:18:19.702Z",
+      "released_at": "2026-09-04T17:18:48.307Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904171848-26889687",
+      "status": "released",
+      "principal_id": "principal-zsz1210",
+      "agent_id": "agent-yuna",
+      "base_revision": "520d2a1ceacf2d628d9e88c3f9db159d9d328e78",
+      "branch": "codex/wi-0164-alpha30-package-qualification",
+      "worktree": null,
+      "claimed_at": "2026-09-04T17:18:48.594Z",
+      "released_at": "2026-09-04T17:19:04.083Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904171904-18729960",
+      "status": "released",
+      "principal_id": "principal-zsz1210",
+      "agent_id": "agent-tidus",
+      "base_revision": "520d2a1ceacf2d628d9e88c3f9db159d9d328e78",
+      "branch": "codex/wi-0164-alpha30-package-qualification",
+      "worktree": null,
+      "claimed_at": "2026-09-04T17:19:04.365Z",
+      "released_at": "2026-09-04T17:21:25.281Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904172159-76bb4d6f",
+      "status": "active",
+      "principal_id": "principal-zsz1210",
+      "agent_id": "agent-rikku",
+      "base_revision": "520d2a1ceacf2d628d9e88c3f9db159d9d328e78",
+      "branch": "codex/wi-0164-alpha30-package-qualification",
+      "worktree": null,
+      "claimed_at": "2026-09-04T17:21:59.583Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0164/work-order.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0164/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0164/approved-scope.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0164/approved-scope.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0164/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0164/work-order.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0164/work-order.md",
+    ".ai-org/artifacts/WI-0164/approved-scope.md",
+    ".ai-org/artifacts/WI-0164/technical-design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
