@@ -1,0 +1,43 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "work_item_id": "WI-0141",
+  "observed_at": "2026-09-04T03:11:39Z",
+  "tested_revision": "091f9264889e78209194d5aabc55bcb3f52f028c",
+  "commands": [
+    {
+      "command": "node --test test/context-capsule-ablation.test.mjs",
+      "exit_code": 0,
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "command": "node scripts/run-context-capsule-ablation.mjs prepare",
+      "exit_code": 0,
+      "candidate_turn_count": 0,
+      "operational_tokens": 0
+    },
+    {
+      "command": "node scripts/run-context-capsule-ablation.mjs rehearse",
+      "exit_code": 0,
+      "readiness_pass": true,
+      "candidate_turn_count": 0,
+      "operational_tokens": 0
+    },
+    {
+      "command": "node scripts/run-context-capsule-ablation.mjs preflight",
+      "exit_code": 0,
+      "generation_ready": false,
+      "blockers": [
+        "exact-approval"
+      ]
+    },
+    {
+      "command": "npm run verify",
+      "exit_code": 0
+    }
+  ],
+  "protocol_sha256": "3e51faf3bb6962d0f998003839a113a0fe789aaf22d0ad6d8b737672aff8edbd",
+  "wi_0140_commit_diff": false,
+  "wi_0140_working_tree_diff": false,
+  "model_generation_performed": false
+}
