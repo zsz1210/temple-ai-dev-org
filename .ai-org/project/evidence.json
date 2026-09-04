@@ -25469,6 +25469,117 @@
         "exit_code": 0,
         "started_at": "2026-09-04T15:51:20.000Z"
       }
+    },
+    {
+      "id": "EVID-20260904T164148Z-D6F535F0",
+      "work_item_id": "WI-0162",
+      "recorded_at": "2026-09-04T16:41:48.080Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0162 exact-candidate developer verification",
+      "outcome": "pass",
+      "scope_revision": "9012ece9e1ff3871f8e24bfc68ec79f77060d5a8",
+      "observed_at": "2026-09-04T16:40:39.000Z",
+      "summary": "All 443 tests passed; public text findings resolved; evidence integrity and pinned adapter checks passed",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0162/test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0162/test-observation.json",
+          "sha256": "c21235f3908dea0f730d039cb2b935fec1547496534200f39145ba1031c4ff4b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0162/artifact-normalization-plan.json",
+          "sha256": "b0a58c5ff0abe255d0015d714f968e6fa76ec59ca3f7d634897d02daa92b1654"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0162/artifact-normalization-result.json",
+          "sha256": "88a3482ec5cffb091b2cf84dc934c8a339c7c1710208a745dd207b9818bb6c77"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0162/evidence-impact-review.md",
+          "sha256": "d78fb3fd151f9f14996224ae13efc7d4b91e6c76384670859e6367be47da47d3"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0162/verify-current-publication.mjs",
+          "sha256": "02a581221a6f0ae041a8d530013a6df4449a2a57578c7bad06577607ec97b424"
+        }
+      ],
+      "details": {
+        "command": [
+          "node ./.ai-org/artifacts/WI-0162/verify-current-publication.mjs",
+          "node ./templew.mjs publication audit . --profile public --surface both --json",
+          "node ./templew.mjs adapter archify-status . --json",
+          "node ./templew.mjs doctor . --json",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T16:35:00.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T164548Z-E2273DBF",
+      "work_item_id": "WI-0162",
+      "recorded_at": "2026-09-04T16:45:48.763Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0162 independent exact-candidate verification",
+      "outcome": "pass",
+      "scope_revision": "9012ece9e1ff3871f8e24bfc68ec79f77060d5a8",
+      "observed_at": "2026-09-04T16:45:05.000Z",
+      "summary": "Independent clean-worktree verification passed all 443 tests and reproduced publication, evidence, binary-digest, and adapter checks",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0162/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0162/independent-qa-observation.json",
+          "sha256": "4e57b5f11a90658d7ab6d1431cb3f8e9219de38ef88e9efd9245b9371a02934d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0162/artifact-normalization-plan.json",
+          "sha256": "b0a58c5ff0abe255d0015d714f968e6fa76ec59ca3f7d634897d02daa92b1654"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0162/artifact-normalization-result.json",
+          "sha256": "88a3482ec5cffb091b2cf84dc934c8a339c7c1710208a745dd207b9818bb6c77"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0162/evidence-impact-review.md",
+          "sha256": "d78fb3fd151f9f14996224ae13efc7d4b91e6c76384670859e6367be47da47d3"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0162/verify-current-publication.mjs",
+          "sha256": "02a581221a6f0ae041a8d530013a6df4449a2a57578c7bad06577607ec97b424"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm ci --ignore-scripts",
+          "node ./.ai-org/artifacts/WI-0162/verify-current-publication.mjs",
+          "node ./templew.mjs publication audit . --profile public --surface both --json",
+          "node ./templew.mjs adapter archify-status . --json",
+          "node ./templew.mjs doctor . --json",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T16:42:40.000Z"
+      }
     }
   ]
 }

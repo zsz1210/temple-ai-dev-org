@@ -1,8 +1,8 @@
 # Publication evidence review
 
-Status: current-tree text remediation complete at the WI-0162 candidate; exact-candidate Independent QA pending
+Status: current-tree text remediation and exact-candidate Independent QA complete for WI-0162
 
-Work Item: `WI-0160`
+Work Items: `WI-0160` through `WI-0162`
 
 This review answers a narrow question: what remains in Temple's current tracked evidence surface after blocked private values were removed, and what must happen before the repository owner considers public visibility?
 
@@ -11,6 +11,8 @@ This review answers a narrow question: what remains in Temple's current tracked 
 The public-profile audit reports zero blockers on both repository and package surfaces. `WI-0161` reduced the canonical-state queue from 245 occurrences to zero. `WI-0162` then normalized 70 retained-artifact occurrences across 59 files, replaced 18 literal first-party fixture occurrences, and recorded one provenance-bound allowed disposition for the unchanged pinned Archify fixture.
 
 No unresolved text finding remains. The audit still reports `review-required` for 68 PNGs because text inspection deliberately cannot certify binary content. All 68 PNGs passed the separate digest-bound review below; changing any image bytes invalidates that evidence. This is current-tree preparation evidence, not publication authority.
+
+Independent QA reproduced the final result in a clean detached worktree at `9012ece9e1ff3871f8e24bfc68ec79f77060d5a8`, including all 443 tests, Doctor with zero failures, exact adapter provenance, and the retained binary digests.
 
 ## Text findings
 
