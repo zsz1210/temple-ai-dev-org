@@ -1,0 +1,85 @@
+{
+  "schema_version": "temple.github-actions-log-audit/v1",
+  "generated_at": "2026-09-04T18:15:29.767Z",
+  "repository": "zsz1210/temple-ai-dev-org",
+  "boundary": {
+    "workflow_runs_listed": 167,
+    "workflow_runs_with_logs": 167,
+    "log_files": 464,
+    "log_bytes": 16486283,
+    "aggregate_sha256": "73b02c722e83be5aac8e51f76eb7886d1372dcae75eb40fa50a20c7c1c8d52cb"
+  },
+  "exclusions": {
+    "images_or_media_reviewed": false,
+    "actions_artifact_contents_reviewed": false
+  },
+  "inspection": {
+    "binary_files_skipped": 0,
+    "read_failures": 0,
+    "masked_value_markers": 573
+  },
+  "findings": {
+    "private_key": {
+      "severity": "blocker",
+      "occurrences": 0,
+      "file_count": 0
+    },
+    "github_token": {
+      "severity": "blocker",
+      "occurrences": 0,
+      "file_count": 0
+    },
+    "npm_token": {
+      "severity": "blocker",
+      "occurrences": 0,
+      "file_count": 0
+    },
+    "openai_key": {
+      "severity": "blocker",
+      "occurrences": 0,
+      "file_count": 0
+    },
+    "aws_access_key": {
+      "severity": "blocker",
+      "occurrences": 0,
+      "file_count": 0
+    },
+    "slack_token": {
+      "severity": "blocker",
+      "occurrences": 0,
+      "file_count": 0
+    },
+    "gitlab_token": {
+      "severity": "blocker",
+      "occurrences": 0,
+      "file_count": 0
+    },
+    "google_api_key": {
+      "severity": "blocker",
+      "occurrences": 0,
+      "file_count": 0
+    },
+    "email": {
+      "severity": "review",
+      "occurrences": 0,
+      "file_count": 0
+    },
+    "mac_home_path": {
+      "severity": "review",
+      "occurrences": 0,
+      "file_count": 0
+    },
+    "private_ipv4": {
+      "severity": "review",
+      "occurrences": 0,
+      "file_count": 0
+    },
+    "tailscale_hostname": {
+      "severity": "review",
+      "occurrences": 0,
+      "file_count": 0
+    }
+  },
+  "conclusion": "pass",
+  "retained_values": false
+}
