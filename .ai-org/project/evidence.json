@@ -24718,6 +24718,140 @@
         "exit_code": 0,
         "started_at": "2026-09-04T11:44:00.000Z"
       }
+    },
+    {
+      "id": "EVID-20260904T115801Z-EB2BBEC6",
+      "work_item_id": "WI-0154",
+      "recorded_at": "2026-09-04T11:58:01.561Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Public evidence review candidate",
+      "outcome": "verified",
+      "scope_revision": "d14347616ddeaa0ee6df0dae5c34470f4d07b05a",
+      "observed_at": "2026-09-04T11:58:01.561Z",
+      "summary": "Redacted report reconciles all 402 review-required occurrences with zero blockers and a clean package surface.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "d14347616ddeaa0ee6df0dae5c34470f4d07b05a"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "d14347616ddeaa0ee6df0dae5c34470f4d07b05a",
+        "working_tree_dirty": true,
+        "dirty_path_count": 2,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T115847Z-1F6B5D21",
+      "work_item_id": "WI-0154",
+      "recorded_at": "2026-09-04T11:58:47.365Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Public audit and fast verification",
+      "outcome": "pass",
+      "scope_revision": "d14347616ddeaa0ee6df0dae5c34470f4d07b05a",
+      "observed_at": "2026-09-04T11:57:30.000Z",
+      "summary": "Fast verification passed 31/31 and candidate audit retained zero blockers with no new occurrence.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0154/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0154/developer-test-observation.json",
+          "sha256": "deeee7cf603e94ac50ed8ab241decd54a873eeeac1a2a03eb8dbbc3b8bc8819a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0154/public-evidence-review.md",
+          "sha256": "88b33aa97ca1b927b68ad921284b6fc10b7bb89ab24e369c33e27a1ff2262ab0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0154/publication-audit-summary.json",
+          "sha256": "9aee0a3abf25ab3994946bda345071138d6fba6bf4777f789ad0f352fc40c83f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0154/developer-verification.md",
+          "sha256": "02c4621e781e0f7077e2a8129e1691b0801816cbfbd32c0955ae459067bcaf1a"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify:fast",
+          "node ./templew.mjs publication audit . --profile public --surface both --json",
+          "redacted manifest reconciliation",
+          "visual review of 68 PNG files through eight contact sheets and selected original-resolution images"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T11:49:00.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T120011Z-513B7815",
+      "work_item_id": "WI-0154",
+      "recorded_at": "2026-09-04T12:00:11.388Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent public audit reproduction",
+      "outcome": "pass",
+      "scope_revision": "d14347616ddeaa0ee6df0dae5c34470f4d07b05a",
+      "observed_at": "2026-09-04T12:00:15.000Z",
+      "summary": "Exact candidate passed 31/31 and reproduced zero blockers, 402 review occurrences, and a clean package surface.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0154/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0154/quality-test-observation.json",
+          "sha256": "11a343c9fc4c1eb85289d78894f328cd656e04c26a4106e9c38c7f06b156b202"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0154/work-order.md",
+          "sha256": "11192c8559946715a990fd98ea6bf6b0441ecd4eb85ebdf66e2fb135acffc45c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0154/public-evidence-review.md",
+          "sha256": "88b33aa97ca1b927b68ad921284b6fc10b7bb89ab24e369c33e27a1ff2262ab0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0154/publication-audit-summary.json",
+          "sha256": "9aee0a3abf25ab3994946bda345071138d6fba6bf4777f789ad0f352fc40c83f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0154/developer-verification.md",
+          "sha256": "02c4621e781e0f7077e2a8129e1691b0801816cbfbd32c0955ae459067bcaf1a"
+        }
+      ],
+      "details": {
+        "command": [
+          "fresh detached exact candidate: npm ci --ignore-scripts --no-audit --no-fund",
+          "fresh detached exact candidate: npm run verify:fast",
+          "fresh detached exact candidate: node ./templew.mjs publication audit . --profile public --surface both --json",
+          "fresh detached exact candidate: git status --porcelain"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T11:59:40.000Z"
+      }
     }
   ]
 }
