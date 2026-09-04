@@ -22041,6 +22041,91 @@
         "exit_code": 0,
         "started_at": "2026-09-04T01:13:35.000Z"
       }
+    },
+    {
+      "id": "EVID-20260904T014814Z-BED21DC8",
+      "work_item_id": "WI-0139",
+      "recorded_at": "2026-09-04T01:48:14.176Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0139 typed evaluator candidate",
+      "outcome": "verified",
+      "scope_revision": "498c7dfdcd0e4abb547a3e3e829311185ddfa96c",
+      "observed_at": "2026-09-04T01:48:14.176Z",
+      "summary": "Typed-fact scoring, answer-free schemas, historical false-negative projection, route acknowledgement, frozen protocol, and generation-free readiness.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "498c7dfdcd0e4abb547a3e3e829311185ddfa96c"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "498c7dfdcd0e4abb547a3e3e829311185ddfa96c",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T014814Z-A48DFA0F",
+      "work_item_id": "WI-0139",
+      "recorded_at": "2026-09-04T01:48:14.634Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0139 full local verification",
+      "outcome": "pass",
+      "scope_revision": "498c7dfdcd0e4abb547a3e3e829311185ddfa96c",
+      "observed_at": "2026-09-04T01:47:31Z",
+      "summary": "All 406 repository tests and 29 generation-free readiness checks passed with zero candidate turns and zero Operational Tokens.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0139/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0139/developer-test-observation.json",
+          "sha256": "7a8ef1062647940244b43b550d99e632187b6805ae3f12d34ab3b0aa1c5ea554"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/developer-verification.md",
+          "sha256": "5f1d94e0dfb6f555aca52257054b0ebbf94efaf2c9ce350015d010266ebd8012"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/harness-readiness.json",
+          "sha256": "626e5d0a15f9c05ab8bab73d6de54bb258c8c228715c535638c4ac453cb8392b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/preapproval-preflight.json",
+          "sha256": "912b10e57cc2c5a5529ee11e097d22aa34dec399e32e1cb13ae6e653eda19e9e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/live-protocol.json",
+          "sha256": "1dab5e0e09a9c49b8b5bffb6c39e133a1c6e8c416bb19c1f8b03b4bfc8f21641"
+        },
+        {
+          "path": "docs/validation/context-capsule-typed-evaluator.md",
+          "sha256": "45b4af23aa40bdc9e3874f066b59a2ed604faca5a3a10f3502af32740b201087"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T01:44:30Z"
+      }
     }
   ]
 }
