@@ -24244,6 +24244,160 @@
         "exit_code": 0,
         "started_at": "2026-09-04T09:17:50Z"
       }
+    },
+    {
+      "id": "EVID-20260904T093654Z-DBEC1EDD",
+      "work_item_id": "WI-0151",
+      "recorded_at": "2026-09-04T09:36:54.733Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Historical lifecycle reconciliation",
+      "outcome": "verified",
+      "scope_revision": "7e2ed6a2cbc62132857c5a7a8d4d371824018c6f",
+      "observed_at": "2026-09-04T09:36:54.733Z",
+      "summary": "Five stale nonterminal Work Items now retain evidence-matched terminal outcomes without product or release mutation.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "7e2ed6a2cbc62132857c5a7a8d4d371824018c6f"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "7e2ed6a2cbc62132857c5a7a8d4d371824018c6f",
+        "working_tree_dirty": true,
+        "dirty_path_count": 2,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T093654Z-5B6CA595",
+      "work_item_id": "WI-0151",
+      "recorded_at": "2026-09-04T09:36:54.968Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer lifecycle verification",
+      "outcome": "pass",
+      "scope_revision": "7e2ed6a2cbc62132857c5a7a8d4d371824018c6f",
+      "observed_at": "2026-09-04T09:36:20Z",
+      "summary": "All target outcomes, exact revisions, 422 tests, and Doctor health passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0151/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0151/developer-test-observation.json",
+          "sha256": "0ae55f4ef21dab9cb46ab6acfc8b98c058e6681c1537cb4a67e8a9aabea2f144"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0151/reconciliation.md",
+          "sha256": "79ae3b70a8ce0123b39d50e51f32a38bea3b8142a9a90ebe4a0b332f272f2e8b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0151/developer-verification.md",
+          "sha256": "cd232fd3d93b80b9bfc235b6580acde012ceb363f3a215f2626211ba2513b2e1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/release-record.md",
+          "sha256": "ff8e46b14aed72e329afa8b5d74ad634c04bd1b5d9fd413f3200db3ff4454928"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0137/release-record.md",
+          "sha256": "c06663e4f5f0532486df3e0ece65a791ba231d5fd13a27cf76b264e8693d1390"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/release-record.md",
+          "sha256": "0e7f69941368b7b8b590ca3e149cffa0cee7d9b18b40370377a1b2ea3dcff526"
+        }
+      ],
+      "details": {
+        "command": [
+          "Exact tested-revision existence and main-ancestry checks",
+          "Temple lifecycle status inspection for WI-0033, WI-0086, WI-0136, WI-0137, WI-0138, and WI-0151",
+          "git diff --check",
+          "npm run verify",
+          "node ./templew.mjs doctor . --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T09:32:40Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T093814Z-FEA5EFEF",
+      "work_item_id": "WI-0151",
+      "recorded_at": "2026-09-04T09:38:14.772Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent lifecycle reconciliation",
+      "outcome": "pass",
+      "scope_revision": "7e2ed6a2cbc62132857c5a7a8d4d371824018c6f",
+      "observed_at": "2026-09-04T09:37:38Z",
+      "summary": "Five terminal outcomes, retained history, exact revisions, and focused checks passed; one bounded temp cleanup was completed without repeating verification.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0151/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0151/quality-test-observation.json",
+          "sha256": "3484223ecd7797cc22e2101882515d0021bb92784c4cebfb9bd00d68ddf9e934"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0151/quality-evaluation.md",
+          "sha256": "660276c25cd11460db9fe39f550201e72eff05e08704be0e1727cc1ee91e0eec"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0151/developer-verification.md",
+          "sha256": "cd232fd3d93b80b9bfc235b6580acde012ceb363f3a215f2626211ba2513b2e1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0151/reconciliation.md",
+          "sha256": "79ae3b70a8ce0123b39d50e51f32a38bea3b8142a9a90ebe4a0b332f272f2e8b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/release-record.md",
+          "sha256": "ff8e46b14aed72e329afa8b5d74ad634c04bd1b5d9fd413f3200db3ff4454928"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0137/release-record.md",
+          "sha256": "c06663e4f5f0532486df3e0ece65a791ba231d5fd13a27cf76b264e8693d1390"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/release-record.md",
+          "sha256": "0e7f69941368b7b8b590ca3e149cffa0cee7d9b18b40370377a1b2ea3dcff526"
+        }
+      ],
+      "details": {
+        "command": [
+          "Detached exact-revision reconstruction with unchanged lockfile-matched dependencies",
+          "npm run check",
+          "npm run test:fast",
+          "Read-only lifecycle projection and exact five-outcome assertion",
+          "Tested-revision Git object checks",
+          "Base-to-candidate deletion check",
+          "Bounded removal of one generated temporary status file after initial rmdir refusal"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T09:36:55Z"
+      }
     }
   ]
 }
