@@ -22235,6 +22235,67 @@
         "scenario": "Execute the approved four-condition typed Context Capsule comparison with fixed model, effort, token, retry, and fallback boundaries",
         "provenance": "live"
       }
+    },
+    {
+      "id": "EVID-20260904T021113Z-FF02EC27",
+      "work_item_id": "WI-0139",
+      "recorded_at": "2026-09-04T02:11:13.414Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0139 independent QA",
+      "outcome": "pass",
+      "scope_revision": "bf63442ef23ceccc58fef8b9eddfa61e12c7697f",
+      "observed_at": "2026-09-04T02:10:33Z",
+      "summary": "Independent QA reproduced the typed live analysis, confirmed protocol and approval integrity, and passed 6 focused plus 406 repository tests. The evaluator repair passes; treatment effectiveness remains inconclusive.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0139/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0139/independent-qa-test-observation.json",
+          "sha256": "850b2b6f1febd1e3f248ddec54897b63d37456e8204903fcfa3fd0321f10db2b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/live-protocol.json",
+          "sha256": "1dab5e0e09a9c49b8b5bffb6c39e133a1c6e8c416bb19c1f8b03b4bfc8f21641"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/account-approval.json",
+          "sha256": "edca68d8333d3ed2b6e08390082a00f686f0cf6cc7e7ea5d54a9ff66e83ec58a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/live-observation.json",
+          "sha256": "61f1688e23d7b9b4dd1ce6292202f3572b135d1afc77a3e891fcbedd38109927"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/effectiveness-analysis.json",
+          "sha256": "3cac1e6250a7d80ca25eca999cb3eeeb138341dce5f3128598944db9c431922f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/live-evaluation.md",
+          "sha256": "c92caa7960ec124719bdcf46c0eb17b3c14b764a33ebe460be8a95987d89b81b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/independent-qa.md",
+          "sha256": "79492b1ebed3c344508f31af77d95dfd86f0b4352c16502a6aa942e20ee05132"
+        }
+      ],
+      "details": {
+        "command": [
+          "recompute retained WI-0139 analysis from the frozen protocol and live observation",
+          "node --test test/context-capsule-ablation.test.mjs",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T02:09:18Z"
+      }
     }
   ]
 }

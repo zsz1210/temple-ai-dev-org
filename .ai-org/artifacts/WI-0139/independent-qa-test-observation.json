@@ -1,0 +1,35 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "bf63442ef23ceccc58fef8b9eddfa61e12c7697f",
+  "command": [
+    "recompute retained WI-0139 analysis from the frozen protocol and live observation",
+    "node --test test/context-capsule-ablation.test.mjs",
+    "npm run verify"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T02:09:18Z",
+  "completed_at": "2026-09-04T02:10:33Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0139/live-protocol.json",
+    ".ai-org/artifacts/WI-0139/account-approval.json",
+    ".ai-org/artifacts/WI-0139/live-observation.json",
+    ".ai-org/artifacts/WI-0139/effectiveness-analysis.json",
+    ".ai-org/artifacts/WI-0139/live-evaluation.md",
+    ".ai-org/artifacts/WI-0139/independent-qa.md"
+  ],
+  "summary": {
+    "analysis_reproduced": true,
+    "focused_tests_passed": 6,
+    "focused_tests_failed": 0,
+    "repository_tests_passed": 406,
+    "repository_tests_failed": 0,
+    "live_conditions_completed": 2,
+    "live_conditions_censored": 2,
+    "live_conditions_stopped": 0,
+    "operational_tokens": 136851,
+    "retry_count": 0,
+    "fallback_count": 0,
+    "treatment_effectiveness": "inconclusive"
+  }
+}
