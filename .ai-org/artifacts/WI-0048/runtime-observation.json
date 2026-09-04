@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.runtime-observation/v1",
   "revision": "784951987786988c81bb4b7a5997c8d776838852",
-  "environment": "Temple self-host repository on the Mac Mini, live Control Plane with Codex observation, exact 192.168.79.5 home-LAN read-only listener, and fresh headed Chromium",
+  "environment": "Temple self-host repository on the Mac Mini, live Control Plane with Codex observation, exact <PRIVATE_IPV4> home-LAN read-only listener, and fresh headed Chromium",
   "scenario": "Render and interact with Team Structure and Teammates at 3440, 2560, 390, and 320 CSS-pixel widths; verify dark default, stored light preference, all 10 Position nodes, Agent highlighting, assurance labels, keyboard tab operation, private-viewer redaction, console output, and horizontal overflow",
   "result": "pass",
   "provenance": "live",

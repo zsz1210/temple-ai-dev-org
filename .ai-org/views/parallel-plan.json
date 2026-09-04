@@ -1,66 +1,26 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-03T10:37:36.510Z",
-  "source_fingerprint": "14043d24823203dbe06b09d7ff2a61311ad7e1eb09799cf072a7ff0a2452547d",
+  "generated_at": "2026-09-04T16:46:53.440Z",
+  "source_fingerprint": "4b0737f7abf2eea0782efacdb1038d23d3e3ecea895aae9d7582227adcf08792",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
-    "selected_work_item_ids": [
-      "WI-0033",
-      "WI-0086"
-    ]
+    "selected_work_item_ids": []
   },
   "max_workers": 3,
   "summary": {
-    "selected": 2,
+    "selected": 0,
     "dispatchable": 0,
     "active": 0,
-    "sequential": 1,
-    "blocked": 1,
+    "sequential": 0,
+    "blocked": 0,
     "waves": 0
   },
   "waves": [],
   "active": [],
-  "sequential": [
-    {
-      "work_item_id": "WI-0086",
-      "title": "Prepare the first public Alpha release candidate",
-      "disposition": "sequential",
-      "position_id": "engineering_manager",
-      "agent_id": "agent-mog",
-      "integration_owner_agent_id": "agent-mog",
-      "reasons": [
-        "requested_mode_sequential"
-      ]
-    }
-  ],
-  "blocked": [
-    {
-      "work_item_id": "WI-0033",
-      "title": "Establish operator-owned provider trust",
-      "disposition": "blocked",
-      "position_id": "product_manager",
-      "agent_id": "agent-yuna",
-      "integration_owner_agent_id": "agent-mog",
-      "reasons": [
-        "requested_mode_blocked"
-      ]
-    }
-  ],
-  "conflicts": [
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0033",
-      "right_work_item_id": "WI-0086",
-      "paths": [
-        {
-          "left_path": "SECURITY.md",
-          "right_path": "SECURITY.md"
-        }
-      ],
-      "resolution": "separate-waves"
-    }
-  ],
+  "sequential": [],
+  "blocked": [],
+  "conflicts": [],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
     "runtime_capacity_limit": 3,

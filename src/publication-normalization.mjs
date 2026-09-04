@@ -62,6 +62,15 @@ function replaceDetailString(value, counts) {
   return output;
 }
 
+export function normalizePublicationLocalText(value) {
+  const counts = {};
+  const text = replaceDetailString(value, counts);
+  return {
+    text,
+    counts: Object.fromEntries(Object.entries(counts).sort(([left], [right]) => left.localeCompare(right)))
+  };
+}
+
 function normalizeDetails(value, counts) {
   if (typeof value === "string") return replaceDetailString(value, counts);
   if (Array.isArray(value)) return value.map((entry) => normalizeDetails(entry, counts));

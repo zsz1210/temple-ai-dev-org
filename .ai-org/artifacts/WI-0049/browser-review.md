@@ -3,7 +3,7 @@
 - Reviewer during Build: Rikku (`agent-rikku`)
 - Date: 2026-08-31
 - Surface: home-LAN read-only Temple Workspace
-- URL boundary: `http://192.168.79.5:41741/#work`
+- URL boundary: `http://<PRIVATE_IPV4>:41741/#work`
 - Candidate revision: `6acb200dbe5090dea7d1e10b212bcff5b8079938`
 
 ## Results

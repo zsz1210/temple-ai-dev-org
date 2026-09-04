@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.runtime-observation/v1",
   "revision": "247a78155d23c02485ad005dbf775d22e7c590c7",
-  "environment": "Temple self-host repository on the Mac Mini, real local Codex App Server, loopback Control Plane, exact 192.168.79.5 home-LAN read-only Dashboard, and signed-in Codex account",
+  "environment": "Temple self-host repository on the Mac Mini, real local Codex App Server, loopback Control Plane, exact <PRIVATE_IPV4> home-LAN read-only Dashboard, and signed-in Codex account",
   "scenario": "Validate installed thread/start and turn/start contracts, then execute exactly one Provider-owned Luna Max read-only and network-disabled turn, verify its fixed output and detailed Token usage, and restore the normal Dashboard without retry",
   "result": "pass",
   "provenance": "live",
@@ -76,7 +76,7 @@
   },
   "dashboard_recovery": {
     "restored": true,
-    "lan_url": "http://192.168.79.5:41741/",
+    "lan_url": "http://<PRIVATE_IPV4>:41741/",
     "provider_status_after_restart": "ready",
     "journal_rebuild_required": true,
     "archived_journal": ".git/temple/control-plane/archive/events-2026-08-31T07-45-54-118Z.jsonl",

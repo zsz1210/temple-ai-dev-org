@@ -9,7 +9,7 @@
 - LaunchAgent label: `dev.temple.observer.10567c0c355a`
 - Installed plan digest: `sha256:6510b76a105d7d5353648bc9bd30b4e8567fa671e3b8b097983f8dc6bb6c0e7e`
 - Loopback: `127.0.0.1:8766`
-- Private home-LAN viewer: `192.168.79.5:41741`
+- Private home-LAN viewer: `<PRIVATE_IPV4>:41741`
 - Status after candidate restart: `running`
 
 ## Runtime results

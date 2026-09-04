@@ -72,6 +72,12 @@ The baseline is intentionally narrow:
 
 This is a migration mechanism, not an assertion that historical material is risk-free. Review the selected revision before recording it. Temple does not rewrite old commits or pull requests.
 
+## Keep a reviewed adapter fixture without patching its source
+
+A pinned installed adapter can contain a deliberate local-environment fixture that tests a security boundary. Do not weaken the scanner or edit the vendored copy merely to clear the report. A project may instead add one `reviewed_adapter_fixtures` entry to its Evidence Profile with the exact source path, rule, line, occurrence count, SHA-256 digest, installed-adapter manifest, approver, time, and rationale.
+
+The repository audit accepts that occurrence only while the current file digest and the digest recorded by the adapter manifest both match. Drift, excess occurrences, missing provenance, unsafe paths, and unsupported rule classes are blocked. The disposition never applies to package contents, credentials, local-only data, inspection failures, first-party files, or binaries, and the allowed occurrence remains visible in the report.
+
 ## Minimize completed canonical records
 
 Completed lifecycle records can retain machine-local worktree locations and Evidence descriptions even after execution has ended. Do not mass-edit those JSON files. Temple can prepare a field-aware, value-redacted plan instead:
@@ -94,6 +100,26 @@ The operation clears worktree fields only for released claims and terminal worke
 
 Run `normalize-plan` again after success; `no-changes` is the idempotence check. The recorded audit event proves that a bounded canonical migration occurred, but does not authorize publication.
 
+## Normalize retained current-tree artifacts
+
+Retained reports and observations below `.ai-org/artifacts/` are evidence, not canonical lifecycle state, but their current-tree copies can still contain obsolete machine-local details. Preview a Git-tracked-only normalization plan:
+
+```bash
+node ./templew.mjs publication artifact-plan .
+```
+
+The plan shows paths, rule counts, the current Git revision, before/after digests, and a deterministic plan digest without printing matched values. Apply the exact reviewed plan through an active Work Item:
+
+```bash
+node ./templew.mjs publication artifact-apply . \
+  --work-item WI-0001 \
+  --expected-plan <plan-digest> \
+  --confirm-normalization \
+  --actor <claim-agent-id>
+```
+
+The operation changes only tracked regular text files below `.ai-org/artifacts/`, validates changed JSON and JavaScript, records a value-redacted event, and rolls back partial failure. It does not rewrite Git history, alter canonical Work Items, touch source or test fixtures, review binaries, or authorize publication. Re-run `artifact-plan`; `no-changes` confirms idempotence.
+
 ## Binary, history, and hosted-log review
 
 The command identifies binary files but does not OCR screenshots or claim their contents are safe. Review rendered images, archives, and other binaries separately.
@@ -110,5 +136,6 @@ It also does not scan every historical commit or hosted CI log during an ordinar
 | Raw runtime or account snapshot | Keep it in the configured local state directory and out of Git |
 | Credential shape | Remove it, rotate it, and inspect history and hosted logs before publishing |
 | Binary file | Open/render it and record a separate human or visual review |
+| Deliberate pinned-adapter fixture | Bind the exact finding and file digest to its installed provenance manifest; never use a broad path allowlist |
 
-See [ADR-0048](../adr/0048-auditable-self-hosting-evidence-profiles.md) for the design rationale and [Release readiness](../planning/release-readiness.md) for the broader publication gate.
+See [ADR-0048](../adr/0048-auditable-self-hosting-evidence-profiles.md) and [ADR-0049](../adr/0049-bind-reviewed-adapter-fixtures-to-provenance.md) for the design rationale, and [Release readiness](../planning/release-readiness.md) for the broader publication gate.

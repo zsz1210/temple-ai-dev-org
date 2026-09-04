@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.runtime-observation/v1",
   "revision": "50765844f6123025a78004eb4498a0a8752ffcdf",
-  "environment": "Temple self-host repository on the Mac Mini, corrected loopback Control Plane with real Codex App Server observation, and exact 192.168.79.5 home-LAN read-only Dashboard",
+  "environment": "Temple self-host repository on the Mac Mini, corrected loopback Control Plane with real Codex App Server observation, and exact <PRIVATE_IPV4> home-LAN read-only Dashboard",
   "scenario": "Archive a second journal corrupted by the pre-fix live process, rebuild canonical events, start the corrected Control Plane through a real startup notification burst, stop it cleanly, reopen the same journal, and verify strict cursors plus Dashboard health",
   "result": "pass",
   "provenance": "live",
@@ -21,7 +21,7 @@
     "initial_start_succeeded": true,
     "clean_stop_succeeded": true,
     "same_journal_reopen_succeeded": true,
-    "dashboard_url": "http://192.168.79.5:41741/",
+    "dashboard_url": "http://<PRIVATE_IPV4>:41741/",
     "dashboard_read_only": true,
     "provider_status": "ready",
     "active_journal_records": 1514,

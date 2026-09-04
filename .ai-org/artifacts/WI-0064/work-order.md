@@ -6,7 +6,7 @@ Revalidate the corrected Provider-observed model attribution path with exactly o
 
 ## Authorized boundary
 
-- Existing target: `/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-lab/instrumentation-pilot`
+- Existing target: `<LOCAL_HOME>/Documents/ChatGPT/temple-effectiveness-lab/instrumentation-pilot`
 - Model request: `gpt-5.6-luna`
 - Reasoning request: `max`
 - Approval policy: `never`

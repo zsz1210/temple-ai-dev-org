@@ -179,6 +179,7 @@ function metadataFinding(ruleId, evidenceClass, relativePath, remediation) {
 async function scanCurrentSurface(target, surface, files, policy) {
   const findings = [];
   const binaryPaths = [];
+  const fileDigests = new Map();
   let textFiles = 0;
   for (const relativePath of files) {
     if (isSensitiveDotenv(relativePath)) {
@@ -207,9 +208,50 @@ async function scanCurrentSurface(target, surface, files, policy) {
       continue;
     }
     textFiles += 1;
+    fileDigests.set(relativePath, crypto.createHash("sha256").update(read.buffer).digest("hex"));
     findings.push(...scanText(read.buffer.toString("utf8"), relativePath, new Set(policy.synthetic_usernames.map((entry) => entry.toLowerCase()))));
   }
-  return { surface, files: files.length, textFiles, binaryPaths, findings };
+  return { surface, files: files.length, textFiles, binaryPaths, fileDigests, findings };
+}
+
+function reviewedFixtureKey(pathname, ruleId, line) {
+  return [pathname, ruleId, line].join("\0");
+}
+
+async function reviewedAdapterFixtureState(target, repository, policy) {
+  const state = new Map();
+  const blockers = [];
+  for (const entry of policy.reviewed_adapter_fixtures ?? []) {
+    const drift = (reason) => blockers.push(metadataFinding(
+      "reviewed-adapter-fixture-drift",
+      "inspection-failure",
+      entry.path,
+      `Re-review the adapter fixture before publication: ${reason}.`
+    ));
+    if (repository.fileDigests.get(entry.path) !== entry.source_sha256) {
+      drift("the tracked source digest no longer matches the reviewed digest");
+      continue;
+    }
+    let manifest;
+    try {
+      manifest = JSON.parse(await fs.readFile(path.join(target, ...entry.manifest_path.split("/")), "utf8"));
+    } catch {
+      drift("the provenance manifest is missing or unreadable");
+      continue;
+    }
+    const recorded = Array.isArray(manifest?.files)
+      ? manifest.files.find((file) => file?.path === entry.path)
+      : null;
+    if (recorded?.sha256 !== entry.source_sha256) {
+      drift("the provenance manifest does not record the reviewed source digest");
+      continue;
+    }
+    state.set(reviewedFixtureKey(entry.path, entry.rule_id, entry.line), {
+      remaining: entry.occurrence_count,
+      entry
+    });
+  }
+  return { state, blockers };
 }
 
 async function resolveBaselineRevision(target, configuredRevision) {
@@ -241,12 +283,22 @@ async function baselineCounts(target, revision, currentFindings, policy) {
   return counts;
 }
 
-function classifyFinding(finding, profile, surface, legacyCounts) {
+function classifyFinding(finding, profile, surface, legacyCounts, reviewedFixtures) {
   if (["secret-material", "local-only-data", "inspection-failure"].includes(finding.evidence_class)) {
     return { classification: "blocked", disposition: "must-not-publish" };
   }
   if (finding.evidence_class !== "local-environment") {
     return { classification: "review-required", disposition: "manual-review" };
+  }
+  if (surface === "repository") {
+    const reviewed = reviewedFixtures.get(reviewedFixtureKey(finding.path, finding.rule_id, finding.line));
+    if (reviewed) {
+      if (reviewed.remaining > 0) {
+        reviewed.remaining -= 1;
+        return { classification: "allowed", disposition: "reviewed-adapter-fixture" };
+      }
+      return { classification: "blocked", disposition: "reviewed-adapter-fixture-excess" };
+    }
   }
   const remaining = surface === "repository" && finding.fingerprint ? legacyCounts.get(finding.fingerprint) ?? 0 : 0;
   if (remaining > 0) {
@@ -296,7 +348,8 @@ function summarize(surfaces) {
   return {
     blocked: allFindings.filter((entry) => entry.classification === "blocked").reduce((sum, entry) => sum + entry.count, 0),
     review_required: allFindings.filter((entry) => entry.classification === "review-required").reduce((sum, entry) => sum + entry.count, 0),
-    allowed_files: surfaces.reduce((sum, surface) => sum + Math.max(0, surface.files - new Set(surface.findings.map((entry) => entry.path)).size), 0),
+    reviewed_adapter_fixtures: allFindings.filter((entry) => entry.disposition === "reviewed-adapter-fixture").reduce((sum, entry) => sum + entry.count, 0),
+    allowed_files: surfaces.reduce((sum, surface) => sum + Math.max(0, surface.files - new Set(surface.findings.filter((entry) => entry.classification !== "allowed").map((entry) => entry.path)).size), 0),
     files: surfaces.reduce((sum, surface) => sum + surface.files, 0),
     text_files: surfaces.reduce((sum, surface) => sum + surface.text_files, 0),
     binary_files_requiring_review: surfaces.reduce((sum, surface) => sum + surface.binary_files_requiring_review, 0)
@@ -321,8 +374,27 @@ export async function buildPublicationAudit(target, options = {}) {
   const configuredBaseline = profile.id === "private" ? null : policy.reviewed_legacy_baseline?.revision ?? null;
   const resolvedBaseline = repository ? await resolveBaselineRevision(target, configuredBaseline) : null;
   const legacy = repository ? await baselineCounts(target, resolvedBaseline, repository.findings, policy) : new Map();
+  const reviewedAdapterFixtures = repository
+    ? await reviewedAdapterFixtureState(target, repository, policy)
+    : { state: new Map(), blockers: [] };
   const surfaces = scanned.map((surface) => {
-    const classified = surface.findings.map((finding) => publicFinding(finding, classifyFinding(finding, profile, surface.surface, legacy)));
+    const classified = surface.findings.map((finding) => publicFinding(
+      finding,
+      classifyFinding(finding, profile, surface.surface, legacy, reviewedAdapterFixtures.state)
+    ));
+    const exceptionBlockers = surface.surface === "repository" ? reviewedAdapterFixtures.blockers : [];
+    if (surface.surface === "repository") {
+      for (const reviewed of reviewedAdapterFixtures.state.values()) {
+        if (reviewed.remaining > 0) {
+          exceptionBlockers.push(metadataFinding(
+            "reviewed-adapter-fixture-count-mismatch",
+            "inspection-failure",
+            reviewed.entry.path,
+            "Re-review the adapter fixture because the approved occurrence count was not found."
+          ));
+        }
+      }
+    }
     const binaryFindings = surface.binaryPaths.map((relativePath) => ({
       rule_id: "binary-review",
       evidence_class: "binary-content",
@@ -338,7 +410,11 @@ export async function buildPublicationAudit(target, options = {}) {
       files: surface.files,
       text_files: surface.textFiles,
       binary_files_requiring_review: surface.binaryPaths.length,
-      findings: aggregateFindings([...classified, ...binaryFindings])
+      findings: aggregateFindings([
+        ...classified,
+        ...exceptionBlockers.map((finding) => publicFinding(finding, { classification: "blocked", disposition: "must-not-publish" })),
+        ...binaryFindings
+      ])
     };
   });
   const summary = summarize(surfaces);

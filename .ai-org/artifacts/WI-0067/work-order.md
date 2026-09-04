@@ -1,7 +1,7 @@
 # WI-0067 work order
 
 - Outcome: run the retained four-repository commerce rehearsal through the verified bounded runner and report only revision-bound local evidence.
-- Experiment root: `/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-lab`.
+- Experiment root: `<LOCAL_HOME>/Documents/ChatGPT/temple-effectiveness-lab`.
 - Participants: `commerce-coordinator`, `commerce-catalog`, `commerce-orders`, and `commerce-notifications`.
 - Execution ceiling: ten model turns and ten launch attempts, zero retries, no fallback, at most two concurrent turns.
 - Model policy: every live turn requests `gpt-5.6-luna` with `max` reasoning.

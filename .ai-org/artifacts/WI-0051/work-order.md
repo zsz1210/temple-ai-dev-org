@@ -8,7 +8,7 @@ The pilot may conclude `observed`, `partial`, or `unavailable`. It must not conc
 
 ## Proposed local target
 
-`/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-lab/instrumentation-pilot`
+`<LOCAL_HOME>/Documents/ChatGPT/temple-effectiveness-lab/instrumentation-pilot`
 
 This will be a new local Git repository containing synthetic data only. It will not have a GitHub remote.
 

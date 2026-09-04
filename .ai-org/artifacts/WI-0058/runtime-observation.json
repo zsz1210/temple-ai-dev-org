@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.runtime-observation/v1",
   "revision": "31c78a2d7a523de6991c50de19db59235bc78166",
-  "environment": "Temple self-host repository on the Mac Mini, loopback Control Plane with real Codex App Server observation, and 192.168.79.5 home-LAN read-only Temple Workspace",
+  "environment": "Temple self-host repository on the Mac Mini, loopback Control Plane with real Codex App Server observation, and <PRIVATE_IPV4> home-LAN read-only Temple Workspace",
   "scenario": "Start the exact archive-aware candidate without another model turn, read the preserved WI-0056 Provider usage from immutable local archives, verify the loopback and LAN snapshots, and visually review Usage at wide and tablet widths",
   "result": "pass",
   "provenance": "live",
@@ -12,7 +12,7 @@
   ],
   "control_plane": {
     "loopback_url": "http://127.0.0.1:54357/",
-    "home_lan_url": "http://192.168.79.5:41741/",
+    "home_lan_url": "http://<PRIVATE_IPV4>:41741/",
     "repository_provider_status": "ready",
     "codex_provider_status": "ready",
     "lan_read_only": true,

@@ -28,6 +28,12 @@ const REQUIRED_LOCAL_ONLY_EVIDENCE = [
 ];
 
 const SYNTHETIC_USERNAMES = ["demo", "example", "fixture", "sample", "test", "tester"];
+const REVIEWABLE_ADAPTER_RULES = new Set([
+  "maintainer-home-path-posix",
+  "maintainer-home-path-windows",
+  "private-ipv4",
+  "private-tailnet-hostname"
+]);
 
 export function defaultEvidenceProfiles() {
   return {
@@ -35,6 +41,7 @@ export function defaultEvidenceProfiles() {
     active_profile: "private",
     profiles: EVIDENCE_PROFILE_IDS.map((id) => ({ id, ...PROFILE_FLOORS[id] })),
     reviewed_legacy_baseline: null,
+    reviewed_adapter_fixtures: [],
     public_evidence: [...REQUIRED_PUBLIC_EVIDENCE],
     local_only_evidence: [...REQUIRED_LOCAL_ONLY_EVIDENCE],
     synthetic_usernames: [...SYNTHETIC_USERNAMES],
@@ -76,6 +83,39 @@ export function validateEvidenceProfiles(document) {
     if (typeof baseline?.approved_by !== "string" || !baseline.approved_by.trim()) errors.push("reviewed_legacy_baseline.approved_by is required");
     if (typeof baseline?.approved_at !== "string" || Number.isNaN(Date.parse(baseline.approved_at))) errors.push("reviewed_legacy_baseline.approved_at must be an ISO date-time");
     if (typeof baseline?.rationale !== "string" || !baseline.rationale.trim()) errors.push("reviewed_legacy_baseline.rationale is required");
+  }
+  const reviewedFixtures = document?.reviewed_adapter_fixtures ?? [];
+  if (!Array.isArray(reviewedFixtures)) {
+    errors.push("reviewed_adapter_fixtures must be an array");
+  } else {
+    const keys = new Set();
+    for (const [index, entry] of reviewedFixtures.entries()) {
+      const prefix = `reviewed_adapter_fixtures[${index}]`;
+      const sourcePath = entry?.path;
+      const manifestPath = entry?.manifest_path;
+      if (typeof sourcePath !== "string" || !/^\.ai-org\/adapters\/[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+\/.+/.test(sourcePath) ||
+          sourcePath.includes("\\") || path.posix.normalize(sourcePath) !== sourcePath) {
+        errors.push(`${prefix}.path must be a safe installed-adapter path`);
+      }
+      if (typeof manifestPath !== "string" || !/^\.ai-org\/adapters\/[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+\/manifest\.json$/.test(manifestPath) ||
+          manifestPath.includes("\\") || path.posix.normalize(manifestPath) !== manifestPath) {
+        errors.push(`${prefix}.manifest_path must name an installed-adapter manifest`);
+      } else if (typeof sourcePath === "string" && !sourcePath.startsWith(`${path.posix.dirname(manifestPath)}/`)) {
+        errors.push(`${prefix}.path must be below its manifest root`);
+      }
+      if (!REVIEWABLE_ADAPTER_RULES.has(entry?.rule_id)) errors.push(`${prefix}.rule_id is not a reviewable local-environment rule`);
+      if (!Number.isInteger(entry?.line) || entry.line < 1) errors.push(`${prefix}.line must be a positive integer`);
+      if (!Number.isInteger(entry?.occurrence_count) || entry.occurrence_count < 1 || entry.occurrence_count > 100) {
+        errors.push(`${prefix}.occurrence_count must be an integer from 1 to 100`);
+      }
+      if (!/^[0-9a-f]{64}$/.test(entry?.source_sha256 ?? "")) errors.push(`${prefix}.source_sha256 must be a SHA-256 digest`);
+      if (typeof entry?.approved_by !== "string" || !entry.approved_by.trim()) errors.push(`${prefix}.approved_by is required`);
+      if (typeof entry?.approved_at !== "string" || Number.isNaN(Date.parse(entry.approved_at))) errors.push(`${prefix}.approved_at must be an ISO date-time`);
+      if (typeof entry?.rationale !== "string" || !entry.rationale.trim()) errors.push(`${prefix}.rationale is required`);
+      const key = [sourcePath, entry?.rule_id, entry?.line].join("\0");
+      if (keys.has(key)) errors.push(`${prefix} duplicates an earlier reviewed fixture`);
+      keys.add(key);
+    }
   }
   if (!uniqueNonEmptyStrings(document?.public_evidence)) errors.push("public_evidence must contain unique non-empty values");
   else for (const entry of REQUIRED_PUBLIC_EVIDENCE) if (!document.public_evidence.includes(entry)) errors.push(`public_evidence is missing ${entry}`);

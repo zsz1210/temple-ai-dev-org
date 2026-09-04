@@ -10,7 +10,7 @@ No Token, cost, quality, routing, or savings claim is supported by this run.
 
 ## Local target
 
-- Repository: `/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-lab/instrumentation-pilot`
+- Repository: `<LOCAL_HOME>/Documents/ChatGPT/temple-effectiveness-lab/instrumentation-pilot`
 - Project ID: `temple-instrumentation-pilot`
 - Initialized Temple version: `0.1.0-alpha.27`
 - Governance-ready task launch revision: `abb54194d1c1d53c8d3561005615b9ebabe19d40`

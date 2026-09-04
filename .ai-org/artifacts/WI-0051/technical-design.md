@@ -4,11 +4,11 @@
 
 The Temple toolkit remains at:
 
-`/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org`
+`<LOCAL_HOME>/Documents/ChatGPT/temple-ai-dev-org`
 
 The ordinary target repository is separate:
 
-`/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-lab/instrumentation-pilot`
+`<LOCAL_HOME>/Documents/ChatGPT/temple-effectiveness-lab/instrumentation-pilot`
 
 The target receives its own project ID, Agent identities, Work Item, task registry, evidence, generated views, and Git history. No target identity is copied into the toolkit's `project-overlay/`.
 

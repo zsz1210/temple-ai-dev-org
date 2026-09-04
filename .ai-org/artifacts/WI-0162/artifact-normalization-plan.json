@@ -1,0 +1,558 @@
+{
+  "schema_version": "temple.publication-artifact-normalization-plan/v1",
+  "status": "changes-pending",
+  "source_revision": "07159bdf0b5feb03b1ab072692b4e9b44d354488",
+  "matched_values_retained": false,
+  "files": [
+    {
+      "path": ".ai-org/artifacts/WI-0036/developer-verification.md",
+      "before_sha256": "c2c36a21ce0fad8ea988e6f35fa3df0d92569a5bf48048f5d021d265004dc7c6",
+      "after_sha256": "63d5b8ea68421271d5fb548dbacbd5edc491bbc5f1cc50423a661c032ac73885",
+      "change_count": 1,
+      "changes": {
+        "private-tailnet-hostname": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0036/quality-test-report.md",
+      "before_sha256": "62614af1e838013980710a5548700be6b7856fb2e0e31633d4f346732e8cc4cc",
+      "after_sha256": "a4cdafeae92b781e4abee718798bce3dbf7e9d4f85f2a557c230e474da354b8f",
+      "change_count": 1,
+      "changes": {
+        "private-tailnet-hostname": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0037/developer-verification.md",
+      "before_sha256": "665fe026080e9b960cdc78d3a9bb38f7907121a91c413d12b4c7b73f18166215",
+      "after_sha256": "2abf0aac97cb32fa6e781814fef1daa037b19a8629114fd2c05cdaf57fd7676a",
+      "change_count": 1,
+      "changes": {
+        "private-tailnet-hostname": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0042/developer-report.md",
+      "before_sha256": "c807d8eff6a01e678af093a198ce7a5be5251ed41c5567bc753f9424fc8d2ecc",
+      "after_sha256": "fe4ab80cecf98e214347f41b15d8d87a58a82ee3ffdab030278887df9e325d63",
+      "change_count": 2,
+      "changes": {
+        "private-ipv4": 2
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0042/evaluation-report.md",
+      "before_sha256": "7e8def2ebdf5d68083dc453f6eab8d3c44c888194748ef1d8a650d540418f425",
+      "after_sha256": "7791f52e250de79db115a29f9f349ee3dd98acb2e56c7f6b033a476672c845d7",
+      "change_count": 2,
+      "changes": {
+        "private-ipv4": 2
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0042/independent-qa-report.md",
+      "before_sha256": "9337ec2c84c383a8135c899d78bb401afeef6a1a3545b8d4518b7b25e92c2af2",
+      "after_sha256": "dc8238ccbc2ab1a4ce3dfe3e71fc07f4bb83dda2456544e0f61a5367c788a2fc",
+      "change_count": 1,
+      "changes": {
+        "private-ipv4": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0042/runtime-observation.json",
+      "before_sha256": "982f50e527f07ea5c21331161fbbeee5722093c791a68c0aa83093a253ec61d8",
+      "after_sha256": "d5cb7eaa8aaa3cee7882476f98e93586c93cee899609711c4a315882b2173c76",
+      "change_count": 1,
+      "changes": {
+        "private-ipv4": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0044/runtime-observation.json",
+      "before_sha256": "1a2fd3a2c192cbbbd033536af9f963517f7bcdf43c0c37e148be4aa5dc13b079",
+      "after_sha256": "3049944e170100ea7696e7ed60d28d0a722f24ed1ebe09601a01d75a6e64bd40",
+      "change_count": 1,
+      "changes": {
+        "private-ipv4": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0045/runtime-observation.json",
+      "before_sha256": "7606b06bbd25b844f13facd92202fa1780d0f6cb9d870aaa499940cccdb0fcda",
+      "after_sha256": "b08cad165b9bb35f37eb0f3d2ddebe1eb37b03df43dfbdec18a2d88a8d60e10c",
+      "change_count": 1,
+      "changes": {
+        "private-ipv4": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0046/developer-test-observation.json",
+      "before_sha256": "89155132d01b459c31c056ecc761727f10c6b2488c07252c96680d5d7995579e",
+      "after_sha256": "02c9859a1ce6b9405c996b118ffd5997b85d147857f274b76f4e055b6697e1c5",
+      "change_count": 1,
+      "changes": {
+        "private-ipv4": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0047/runtime-observation.json",
+      "before_sha256": "5eeaa062c152f6b6f2725e393e98a0c12103d6626278aa1cfe0f26f1b15c8635",
+      "after_sha256": "cf262bc9f62705f5fe7221d0aa33e48564c2207e0081bc783ced2c54ed0e212f",
+      "change_count": 1,
+      "changes": {
+        "private-ipv4": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0048/browser-review.md",
+      "before_sha256": "5da2f36bc37dd83ce299b9de05acd643a3c472d3b5818c0dee9e0e41b3611725",
+      "after_sha256": "81d38845015c2431063e504749d1a8e20116f5d8c3c16c69779ad42009a8c5d7",
+      "change_count": 1,
+      "changes": {
+        "private-ipv4": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0048/runtime-observation.json",
+      "before_sha256": "2d997671fb6dc61e705342b0c79990cb42b2734324b9294ad98d39d98d2210fe",
+      "after_sha256": "c9165307914d7861a3336427d4102b961897e84505223caad6f8c915e857a113",
+      "change_count": 1,
+      "changes": {
+        "private-ipv4": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0049/browser-review.md",
+      "before_sha256": "845d6c286dfeeb77a47ea734f8b30a83f714f229315733a2da9361378ebcdf7d",
+      "after_sha256": "7eaacc500323bcfe9952585fb0be66b5af8835aae5a84d12251e2efd090c0c7e",
+      "change_count": 1,
+      "changes": {
+        "private-ipv4": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0049/runtime-observation.json",
+      "before_sha256": "41a98df0cd129aba138bb2a9fb7b1ab78591e6c8e8d2eed3a7295750208e0a0b",
+      "after_sha256": "a07b67ad1b31b6672753c25f0d35b56a9c9cb64a6b2e2fcacbb3a9d0880a851f",
+      "change_count": 1,
+      "changes": {
+        "private-ipv4": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0051/pilot-result.md",
+      "before_sha256": "f6193a3a7a4ebf627cc91ce3ac880ab871fb57720d36bc3074232e29a1850b5d",
+      "after_sha256": "19e0268a4953c36dfe8287ff07dc1d899dc0b5aad622b341f41911811c856090",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0051/product-spec.md",
+      "before_sha256": "e31033e3e847da7b78fcaa2678873ae55977c7224d718347dae2f365de7785d4",
+      "after_sha256": "840ef45064300e5e3ab522bc2f9110cf4233496f06682d746db1a757f056665c",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0051/technical-design.md",
+      "before_sha256": "7d82828aab4027bf1ebab6983ce8318c814afac11a38b251a7db1d83e3061c42",
+      "after_sha256": "1eb4684312ceaa58c5a98de502a47579ca609e54770e75f08578e87dae784ab6",
+      "change_count": 2,
+      "changes": {
+        "maintainer-home-path-posix": 2
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0051/work-order.md",
+      "before_sha256": "c05cb496ff9b4014cbc921130cd9b91ee42bccc25f0370b498cd646f01761971",
+      "after_sha256": "4b53d21a111d888efcd48ada04ce3cda2d3704c3194b68c83058a0f1cd41f698",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0054/live-proof-result.md",
+      "before_sha256": "800ed77ddd0ece30d87bd1c0a73081100933bfa3edab46f7b72aedcd28d3c752",
+      "after_sha256": "76b35f3c951a8318e81509973e731f01cb45395961a6d990f6605417c980af70",
+      "change_count": 1,
+      "changes": {
+        "private-ipv4": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0054/runtime-observation.json",
+      "before_sha256": "14a95421153a73192fcdf1d1d3b01ed2d5117489c890853e476f2adf5cf13e33",
+      "after_sha256": "4ac48a66c92b527c598e3a806eacc86f82ded7d5efd3fcdd0942476dd7a9a1f1",
+      "change_count": 1,
+      "changes": {
+        "private-ipv4": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0056/live-proof-result.md",
+      "before_sha256": "c303200327472306be6df90ee1a54898ec2ebcdf1681a8febc94c6b58e7d7527",
+      "after_sha256": "0cc859a6898ee88e69a7fa9b6bd31f89de463e1c5d06fc882c80dfc61c60594f",
+      "change_count": 1,
+      "changes": {
+        "private-ipv4": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0056/runtime-observation.json",
+      "before_sha256": "3741a739fcd714bfb7fb3e1e04a9b5655d326d2454f821d1ce7f4d267ca29f94",
+      "after_sha256": "48182903e869dff1bc60821a2825ae761cc130c20b99cf15137d750b0cae5b7d",
+      "change_count": 2,
+      "changes": {
+        "private-ipv4": 2
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0057/runtime-observation.json",
+      "before_sha256": "d1b2e57ce37500b1a41f5196bce9d83b1731901b6dd83c42737a5808995d5fc0",
+      "after_sha256": "491015c94c2eb3832070d646f32649e3ead1643c5d66aac1b857ec16a9181d60",
+      "change_count": 2,
+      "changes": {
+        "private-ipv4": 2
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0058/runtime-observation.json",
+      "before_sha256": "9279e8f981f5567f58beaf30b83c2034d0d014b1485d7bd53ddbd1cc367dbac4",
+      "after_sha256": "3eba5a54d1f3aa2facfdd83730811a00eea8ebc9e59fddb4735a3a1a85b4aa56",
+      "change_count": 2,
+      "changes": {
+        "private-ipv4": 2
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0060/browser-review.md",
+      "before_sha256": "7c6e5263d81c62096228080a25593461335e89e0af4ae3ca2b88246dfdcc8daf",
+      "after_sha256": "164a106442a38638f25fa5686c0d8ce906e549f837d4e4727c870aefa7b98a2d",
+      "change_count": 1,
+      "changes": {
+        "private-ipv4": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0060/runtime-observation.json",
+      "before_sha256": "f10649d89a5599e62b2910d60cc4e5cd043bd7735184f59e744afbf3ec7275a9",
+      "after_sha256": "acd4a0af60e2e2bbff7a70eb6e0027a8842b45c72f68fa2245208d3249532bfd",
+      "change_count": 1,
+      "changes": {
+        "private-ipv4": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0061/human-approval.md",
+      "before_sha256": "159e0036c7bc751b73e80aa61b623e68a07c3cdab42f6b5fa73d7b0ec5dab801",
+      "after_sha256": "a7ca94a014444efc613ed0db08447ad8b2a76dcab354f6cbce2e19551faaf5b0",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0061/pilot-proposal.md",
+      "before_sha256": "4ebadf5e8f475f0053c9d2000bb7b08dfe30bead78c5d6868225e55e8dc2a299",
+      "after_sha256": "fb7d05269831a3a885db204436e22336614c33b8dc16a41f2e5e5384f84f2040",
+      "change_count": 2,
+      "changes": {
+        "maintainer-home-path-posix": 2
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0062/human-approval.md",
+      "before_sha256": "3f267a36c88bfb2d9b5f2003281dc4f887c143d6dca05e1bb04c2aa6a8e51338",
+      "after_sha256": "7e7a98d1bac92d2deb03554b88e33243422a6f042765f7a0cbdc4cf5f4e14f37",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0062/one-shot-runner.mjs",
+      "before_sha256": "8eadf4ff2ad664b09c2408923f372e1d79beac953ea362f1fb418971342ce632",
+      "after_sha256": "45476dc8445654e450055c2397f64e6739edf7be66ee82b1316e842c17febf17",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0064/one-shot-runner.mjs",
+      "before_sha256": "66d55cf9fc5dc864461fc6c69544c54fee2a1fdb1bb920914c548f9879cd1aa9",
+      "after_sha256": "36e3f34081e83ee8ed295154e3b7f1324453a6fef11329b42e2aa0caf8d0da15",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0064/work-order.md",
+      "before_sha256": "968e5c9f08ca03eb0884b296f9d75749ea07e6e7719894bdb234e610c923a9ca",
+      "after_sha256": "cb51291ce35ef0bec69775a1f86a774c54261ebd81c1ff5e349dec6faa0b9b8e",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0067/live-commerce-runner.mjs",
+      "before_sha256": "3ca5ffe28a169801f1e54f69ab054157128f92818c8afcc16b5cbaceadf2f75a",
+      "after_sha256": "b49c2caff18cb0be112aebddd9b81f0896c3e73589136146fb562da594d09ebe",
+      "change_count": 2,
+      "changes": {
+        "maintainer-home-path-posix": 2
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0067/live-program-result.json",
+      "before_sha256": "b2afbb66a226deab1d5320698eb6ade2237fc22f8702eeff8e50c5a86ee9ccf1",
+      "after_sha256": "c075a85b23be658a5eb4a28a60c56b4282199a27a3c75bc46b18195a939c7419",
+      "change_count": 2,
+      "changes": {
+        "maintainer-home-path-posix": 2
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0067/rollback-plan.md",
+      "before_sha256": "bc70958378eb4e8473a0f9dc7341965b313c362c5801903c52a34a8a866d62f4",
+      "after_sha256": "084a0da3cae76309a2796e54684d2854f80a422bb6839efe91c0a2a5801eafc0",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0067/setup-commerce-rehearsal.mjs",
+      "before_sha256": "f4d57ad4ce01c33dc151fa640adb68cee4c9fa86a2b947f7e83a413bb4954c0f",
+      "after_sha256": "f05620f00ed4fbd0599f1d960f4f79be9be091173f3588403fedf0366ada4a51",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0067/work-order.md",
+      "before_sha256": "f66b9f97bab6edf707f25c333dc7683f9d23cc5fe44e15ae91489804e2cd4e0e",
+      "after_sha256": "87e85ff8d479a704e250f2a6afa7765267ee7ffc8a5f6429c03ce2b1b88c6624",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0079/temple-engineering.visual-check.json",
+      "before_sha256": "0f3f4ba740a64983c7a2db17502955543980c11dddbb0b352172a57e66b49dbe",
+      "after_sha256": "81422882544c79ba8550f29d60f505e6288721642307db2dc60e99635468de74",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0081/runtime-visual-review.md",
+      "before_sha256": "a2b4b330ed4f77813169167a19cffde33060a1b62abaf34d154f683556322596",
+      "after_sha256": "bced4956d352f8c7958bfd50ed50c0c257890654ae676d1aaefd3dc5f9dd0213",
+      "change_count": 1,
+      "changes": {
+        "private-ipv4": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0091/one-shot-runner.mjs",
+      "before_sha256": "143f904179503d032689ab95c88e126fb53987b6fb52e0f86f0ec8235bdb7036",
+      "after_sha256": "ad76ec20664e5b865a9e025d05b0b3a99559d889d63c352dab36535517f4f5a8",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0092/live-managed-observation.md",
+      "before_sha256": "690428ba46df290f93ed2157ea50b8c2dbf24e93e6c61d48aa5aa78f74c9aab6",
+      "after_sha256": "e84b38eeebc56b731b04466b415ac18ff7e0d0097b94926182331adf7340351c",
+      "change_count": 1,
+      "changes": {
+        "private-ipv4": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0093/live-runtime-observation.json",
+      "before_sha256": "7fe60b101e05ce110237a4a9f8cc9a12b01e6018a1ea4629b1c3945d33949d5e",
+      "after_sha256": "3f40bcc7a77ce26b43c9b540119324b62b622f41900ac814a7af5305565dea32",
+      "change_count": 1,
+      "changes": {
+        "private-ipv4": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0107/run-wave-5a.mjs",
+      "before_sha256": "32abe35555685db30901864f3a4de3dc8233b3fd4fc59f472391c0ac99a06dc6",
+      "after_sha256": "6b8d7cabd70c5e375d6510b590ce68e944a5b82e3cccbf8965e212f9d8e5f809",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0107/setup-wave-5a.mjs",
+      "before_sha256": "e481e22e199abf410703c7209b3f8abd46066051234b1ec7929d8376d6f36346",
+      "after_sha256": "f69834d034bea17f625d3247e58fa1e0735f6abb1bda9a16b9b871e01a2a4aef",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0108/approved-scope.md",
+      "before_sha256": "f6c18822a1a69b4523b8a974211cfc669e0d435ecb5e2c8d9149aa96d06b75f2",
+      "after_sha256": "9ca48ac709648b58a716381403910877d81c4b8cc9e6cf4cbefb3e925c4e8683",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0108/developer-report.md",
+      "before_sha256": "397b3ef988f01a023f1ddaad820514897502f9b7c1fcde63749f15e465a1625d",
+      "after_sha256": "e16a497f9022c5d5a90716d1e004dd80dbc1385ed65b70071ba94b847bbb8472",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0110/approved-scope.md",
+      "before_sha256": "1d2714c3484db67d36c585d6330e23bf75fdd71143581fab5d3e30f3646907c8",
+      "after_sha256": "4dbe4adce6dbb30db63c32221c24006f0ce716a52bf3f6a53904ba3a5fa2d549",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0112/approved-scope.md",
+      "before_sha256": "b8b2692457d3f9ce2314899f997e4a1192ae64d844023e96ec899e56bb660df8",
+      "after_sha256": "68a39fef9c6f5642dc49f7e4c486557c3aef9fbb7c68da131ced162e9d9dcdfe",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0113/developer-test-observation.json",
+      "before_sha256": "d66aecf66ae2ce9df1b569cc9bb26272e0411b5388fa16121446e014bf068632",
+      "after_sha256": "1031d2505f472487ee2a0596a4df74fd8d154e6405f5647660170f7a24bf7789",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0113/experiment-result.json",
+      "before_sha256": "14c377df3fd1691e555c10701b243a0c17961b39e683122ff4415b653ef4b543",
+      "after_sha256": "bcc4a3d4a2e2c06adcb0fa57a87c3f77628c747490ac9fba6aef428f0ad70a49",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0117/evaluator-live-preflight.json",
+      "before_sha256": "f21958707955771e8729f9fd72d1b51d90ed362fdb846d91bfb991f75ea87bd2",
+      "after_sha256": "bebb8aa85d8c3eadd657ed6ad13b48418b69d96f96dd7d7654b8d6c48827df00",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0117/evaluator-preflight.json",
+      "before_sha256": "cd038a492e5f971e152f1feb116f9fb8db7b64c24ad70586b0cfc1c2e6e8d302",
+      "after_sha256": "5dbd99554f039587f75b3510db7258026ffd5622ad5cc817c233df439bfa93cb",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0117/evaluator-replacement-preflight.json",
+      "before_sha256": "73e8708ecb9e23202a57c4ddadba0d7d284d0901e29f70d837023b6c650e67fb",
+      "after_sha256": "65a2c22daa5abead9b13f8dff553535e4f434f487626598fda41cc475bb39c8e",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0117/offline-preparation-report.md",
+      "before_sha256": "2b9fd6c44786ad0fad4838003c9ccda2712d1a2358ab782d45b48744023c534e",
+      "after_sha256": "a2814768bf5099a87550da118f72ff229225da920b7bacda82cb6c376d7e1151",
+      "change_count": 2,
+      "changes": {
+        "maintainer-home-path-posix": 2
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0130/live-experiment-observation.json",
+      "before_sha256": "353316327fda87bedf54f1a5d93eb85a0060842c549359eac04428ab90bceb73",
+      "after_sha256": "2b5143a8ba99e27fe31117d1f0e81154e4bdb9b5d9422a65fe7ca253a34cddf1",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0130/offline-preflight-observation.json",
+      "before_sha256": "f086e7682253d23236a42a425bd47d29872e2f231c2e36cc6b9b495871d5ecbd",
+      "after_sha256": "12be865bed20df0eccafb14e515786a95015ad7326c6e6be2d1ef61a47ca9585",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0136/representative-main-v12-stop-report.md",
+      "before_sha256": "68dbec97ef93b29dd2a8ad994233e273f145693c51db6806b2db40d8c4913c3e",
+      "after_sha256": "cc0eb53e41eebf0dab12ccf513e0797abbb10b360527e7fc0a0d1b48d4cfcfeb",
+      "change_count": 1,
+      "changes": {
+        "maintainer-home-path-posix": 1
+      }
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0136/representative-main-v12-stopped-run.json",
+      "before_sha256": "bf93ae5dfed81e3ff4348114ec7e26b980dd2628e899a3c5385f62d2c34e0d42",
+      "after_sha256": "fe58ef9075e2821628e533340683108e8446aacfc5e6641205358ac6427ceb2d",
+      "change_count": 2,
+      "changes": {
+        "maintainer-home-path-posix": 2
+      }
+    }
+  ],
+  "summary": {
+    "tracked_artifact_files": 2721,
+    "text_files": 2700,
+    "binary_files_skipped": 21,
+    "oversize_files_skipped": 0,
+    "changed_files": 59,
+    "change_count": 70,
+    "changes": {
+      "maintainer-home-path-posix": 39,
+      "private-ipv4": 28,
+      "private-tailnet-hostname": 3
+    }
+  },
+  "authority": {
+    "git_history_changed": false,
+    "canonical_state_changed": false,
+    "publication_authorized": false
+  },
+  "plan_digest": "5e91db01a2bbe505d7d8adec0d629ad74115fdfbd04af7527cce14e2576ddebf"
+}

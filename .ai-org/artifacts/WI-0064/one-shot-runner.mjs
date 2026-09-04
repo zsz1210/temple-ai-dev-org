@@ -17,7 +17,7 @@ import { readJson } from "../../../src/files.mjs";
 import { openTelemetryJournal } from "../../../src/telemetry.mjs";
 import { updateTask } from "../../../src/tasks.mjs";
 
-const target = "/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-lab/instrumentation-pilot";
+const target = "<LOCAL_HOME>/Documents/ChatGPT/temple-effectiveness-lab/instrumentation-pilot";
 const projectId = "temple-instrumentation-pilot";
 const coordinatorWorkItemId = "WI-0064";
 const targetWorkItemId = "WI-0003";

@@ -3,7 +3,7 @@
 - Reviewer during Build: Rikku (`agent-rikku`)
 - Date: 2026-08-31
 - Surface: home-LAN read-only Temple Workspace
-- URL: `http://192.168.79.5:41741/#team`
+- URL: `http://<PRIVATE_IPV4>:41741/#team`
 - UI mode: `code-first`
 - Governing UI contract: `UI-0002@ui-1`
 

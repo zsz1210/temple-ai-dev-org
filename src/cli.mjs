@@ -109,6 +109,11 @@ import {
   applyPublicationNormalization,
   buildPublicationNormalizationPlan
 } from "./publication-normalization.mjs";
+import {
+  applyPublicationArtifactNormalization,
+  buildPublicationArtifactNormalizationPlan,
+  writePublicationArtifactNormalizationPlan
+} from "./publication-artifact-normalization.mjs";
 import { buildFederatedPortfolio, readFederationRegistry, validateFederationRegistry } from "./federation.mjs";
 import {
   buildCrossRepositoryUsageReport,
@@ -149,6 +154,8 @@ Usage:
   temple publication audit [target] [--profile private|public|restricted] [--surface repository|package|both] [--json]
   temple publication normalize-plan [target] [--json]
   temple publication normalize-apply [target] --work-item WI-ID --expected-plan sha256 --confirm-normalization [--actor id] [--json]
+  temple publication artifact-plan [target] [--output path] [--json]
+  temple publication artifact-apply [target] --work-item WI-ID --expected-plan sha256 --confirm-normalization [--actor id] [--output path] [--json]
   temple federation validate [target] [--json]
   temple portfolio build [target] [--allowed-root directory] [--no-write] [--json]
   temple experiment inspect [target] --manifest path --allowed-root directory [--json]
@@ -1206,6 +1213,39 @@ async function runPublication(parsed) {
       `Changed files / fields: ${result.changed_files} / ${result.change_count}`,
       `Plan digest: ${result.plan_digest}`,
       `Audit event recorded: ${result.event_recorded ? "yes" : "no"}`,
+      "Publication authorized: no"
+    ]);
+    return 0;
+  }
+  if (parsed.action === "artifact-plan") {
+    const result = parsed.options["--output"]
+      ? await writePublicationArtifactNormalizationPlan(target, parsed.options["--output"])
+      : await buildPublicationArtifactNormalizationPlan(target);
+    printResult(parsed, result, [
+      `Retained-artifact normalization plan: ${result.status}`,
+      `Changed files / values: ${result.summary.changed_files} / ${result.summary.change_count}`,
+      `Plan digest: ${result.plan_digest}`,
+      "Matched values printed: no",
+      "Git history changed: no",
+      "Canonical state changed: no",
+      "Publication authorized: no"
+    ]);
+    return 0;
+  }
+  if (parsed.action === "artifact-apply") {
+    const result = await withProjectMutationLock(target, () => applyPublicationArtifactNormalization(target, {
+      workItemId: parsed.options["--work-item"],
+      expectedPlan: parsed.options["--expected-plan"],
+      confirmNormalization: parsed.flags.has("--confirm-normalization"),
+      actor: parsed.options["--actor"],
+      output: parsed.options["--output"]
+    }));
+    printResult(parsed, result, [
+      result.applied ? "Retained-artifact normalization applied." : "Retained artifacts already minimized; no changes applied.",
+      `Changed files / values: ${result.changed_files} / ${result.change_count}`,
+      `Plan digest: ${result.plan_digest}`,
+      `Audit event recorded: ${result.event_recorded ? "yes" : "no"}`,
+      "Git history changed: no",
       "Publication authorized: no"
     ]);
     return 0;

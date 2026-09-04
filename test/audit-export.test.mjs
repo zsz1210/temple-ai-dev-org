@@ -7,6 +7,10 @@ import { buildAuditExport, writeAuditExport } from "../src/audit-export.mjs";
 import { formatJson } from "../src/files.mjs";
 import { RECOVERY_LEDGER_SCHEMA, resolveRecoveryStateDirectory } from "../src/recovery.mjs";
 
+function fixtureHomePath(...segments) {
+  return ["", "Users", "fixture-account", ...segments].join("/");
+}
+
 async function fixture(projectId = "audit-fixture") {
   const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-audit-test-"));
   const target = path.join(temporaryRoot, "project");
@@ -41,6 +45,9 @@ async function writeRecoveryLedger(target, transactionId, ledger) {
 test("audit export is deterministic, bounded, filtered, and recursively redacted", async (context) => {
   const state = await fixture();
   context.after(() => fs.rm(state.temporaryRoot, { recursive: true, force: true }));
+  const privateProviderPath = fixtureHomePath("private", "provider-body.json");
+  const anotherPrivateFile = fixtureHomePath("another-private-file");
+  const privatePathPrefix = fixtureHomePath("private");
   await writeEvents(state.target, [
     {
       timestamp: "2026-08-01T00:00:00.000Z",
@@ -57,10 +64,10 @@ test("audit export is deterministic, bounded, filtered, and recursively redacted
       result: "password-marker-123456789",
       refs: [
         ".ai-org/artifacts/evidence.json",
-        "/Users/alice/private/provider-body.json",
+        privateProviderPath,
         "../outside",
         "https://user:password@example.test/evidence?token=provider-secret#private",
-        "File:///Users/alice/another-private-file",
+        `File://${anotherPrivateFile}`,
         "artifact?token=relative-secret",
         { innocent_key: "raw provider body" }
       ],
@@ -112,7 +119,7 @@ test("audit export is deterministic, bounded, filtered, and recursively redacted
     "PROMPT-CONTENT-LEAK",
     "RESPONSE-CONTENT-LEAK",
     "metadata-password",
-    "/Users/alice/private",
+    privatePathPrefix,
     "provider-secret",
     "relative-secret",
     "approval-secret",
@@ -154,6 +161,8 @@ test("audit export emits only bounded recovery metadata, never recovery payloads
   const state = await fixture("audit-recovery");
   context.after(() => fs.rm(state.temporaryRoot, { recursive: true, force: true }));
   await writeEvents(state.target, []);
+  const privateProjectPath = fixtureHomePath("private-project");
+  const privateRecoveryPath = fixtureHomePath("private");
   const baseLedger = {
     schema_version: RECOVERY_LEDGER_SCHEMA,
     status: "completed",
@@ -161,7 +170,7 @@ test("audit export emits only bounded recovery metadata, never recovery payloads
     created_at: "2026-08-01T00:00:00.000Z",
     plan_digest: "a".repeat(64),
     backup_manifest_digest: "b".repeat(64),
-    target: "/Users/alice/private-project",
+    target: privateProjectPath,
     backup: "/Volumes/private/backup",
     actions: [
       {
@@ -175,7 +184,7 @@ test("audit export emits only bounded recovery metadata, never recovery payloads
         state: "provider business body hidden in state"
       }
     ],
-    recovery_failures: [{ path: "/Users/alice/private", error: "password=private" }]
+    recovery_failures: [{ path: privateRecoveryPath, error: "password=private" }]
   };
   const recoveryRoot = await writeRecoveryLedger(state.target, "tx-older", {
     ...baseLedger,
@@ -202,7 +211,7 @@ test("audit export emits only bounded recovery metadata, never recovery payloads
   assert.equal(document.recovery.transactions[0].recovery_failure_count, 1);
   const encoded = JSON.stringify(document);
   for (const forbidden of [
-    "/Users/alice/private-project",
+    privateProjectPath,
     "/Volumes/private/backup",
     ".ai-org/project/project.json",
     "before/private-project.json",

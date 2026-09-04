@@ -2,7 +2,7 @@
 
 ## Prepared and verified
 
-- Created a new exclusive lab at `/Users/zsz1210/Documents/ChatGPT/temple-wave-5a-lab-r2`; the retained WI-0107 lab was not modified.
+- Created a new exclusive lab at `<LOCAL_HOME>/Documents/ChatGPT/temple-wave-5a-lab-r2`; the retained WI-0107 lab was not modified.
 - Materialized four fresh candidate repositories from the pinned WI-0106 fixtures. All four started and remain clean; both minimal candidates contain no `.ai-org` directory.
 - Bound the runner to the explicit WI-0108 approval and preflight paths so it cannot reuse or overwrite WI-0107 authority evidence.
 - Passed the no-generation preflight for exact CLI/schema digests, supported structured output, Luna Max availability, manifest semantics, owner approval, candidate revisions, and treatment isolation.

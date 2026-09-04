@@ -1,7 +1,7 @@
 # Human approval — WI-0061
 
 - Approval source: the user explicitly approved the WI-0061 proposal in the current Codex conversation on 2026-08-31.
-- Approved local path: `/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-lab/instrumentation-pilot`
+- Approved local path: `<LOCAL_HOME>/Documents/ChatGPT/temple-effectiveness-lab/instrumentation-pilot`
 - Approved model profile: `gpt-5.6-luna` with `max` reasoning
 - Approved execution: one Provider-owned Codex task, one launch attempt, one model turn, and zero retries
 - Approved Token boundaries: warning at 40,000 and stop at 60,000 Provider-reported total Tokens when observable

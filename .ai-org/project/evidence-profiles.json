@@ -24,6 +24,19 @@
     "approved_at": "2026-09-04T10:48:07.802Z",
     "rationale": "The repository owner reviewed and accepted the retained pre-WI-0152 development history without authorizing new machine-specific evidence."
   },
+  "reviewed_adapter_fixtures": [
+    {
+      "path": ".ai-org/adapters/archify/v2.15.0/archify/test/brand-marks.test.mjs",
+      "manifest_path": ".ai-org/adapters/archify/v2.15.0/manifest.json",
+      "rule_id": "private-ipv4",
+      "line": 387,
+      "occurrence_count": 1,
+      "source_sha256": "ab4afa7ee7ef0c8a788befa93340425ef6464e96431d85881b0dbcbfe5ddbbc8",
+      "approved_by": "human",
+      "approved_at": "2026-09-04T16:16:33Z",
+      "rationale": "The exact pinned Archify fixture tests rejection of an IPv4-embedded IPv6 private destination; retain the provenance-verified source unchanged."
+    }
+  ],
   "public_evidence": [
     "lifecycle-and-handoffs",
     "quality-and-release-gates",

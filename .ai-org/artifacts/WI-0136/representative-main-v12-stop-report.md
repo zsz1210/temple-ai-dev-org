@@ -13,7 +13,7 @@ The exact-approved v12 run stopped fail-closed during the first arm's parallel B
 
 ## Observed stop
 
-Minimal Responsible Design completed with 50,602 Operational Tokens. During the three-way Terra Build wave, Notifications followed an ambient Codex Memory instruction and requested a read from `/Users/zsz1210/.codex/memories/MEMORY.md`. The experiment runner rejected the absolute path because it is outside the generated arm, interrupted and awaited the sibling turns, and retained their partial telemetry before stopping.
+Minimal Responsible Design completed with 50,602 Operational Tokens. During the three-way Terra Build wave, Notifications followed an ambient Codex Memory instruction and requested a read from `<LOCAL_HOME>/.codex/memories/MEMORY.md`. The experiment runner rejected the absolute path because it is outside the generated arm, interrupted and awaited the sibling turns, and retained their partial telemetry before stopping.
 
 This is not a Temple-versus-Minimal result. Allowing that read would expose project and prior WI-0136 history outside the matched fixture, creating uncontrolled context contamination between the experiment and the user's long-lived Codex environment.
 

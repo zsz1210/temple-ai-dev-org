@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.runtime-observation/v1",
   "revision": "5b622e242f71d8d45e606d23e34e511697aa8686",
-  "environment": "Temple self-host repository on the Mac Mini, live loopback Control Plane with Codex observation, exact 192.168.79.5 LAN listener, Tailscale Serve tailnet-only HTTPS, curl, socket inspection, and fresh Chromium through the LAN address",
+  "environment": "Temple self-host repository on the Mac Mini, live loopback Control Plane with Codex observation, exact <PRIVATE_IPV4> LAN listener, Tailscale Serve tailnet-only HTTPS, curl, socket inspection, and fresh Chromium through the LAN address",
   "scenario": "Start loopback, private-LAN, and Tailscale viewers concurrently; inspect exact listening sockets; fetch the redacted LAN snapshot; reject LAN Inbox and Agent Command access; load Tailscale; and render the LAN Dashboard at 1440 by 1000 and 420 by 900",
   "result": "pass",
   "provenance": "live",

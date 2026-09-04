@@ -2,7 +2,7 @@
   "schema_version": "temple.effectiveness-pilot-live-observation/v1",
   "work_item_id": "WI-0130",
   "observed_at": "2026-09-03T07:00:43Z",
-  "lab_root": "/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-pilot-wi0130",
+  "lab_root": "<LOCAL_HOME>/Documents/ChatGPT/temple-effectiveness-pilot-wi0130",
   "source_digests": {
     "effectiveness_evidence_sha256": "d06e92781b7f2dc4543e43d411eb81f738f671adfb4978022be9d6d39206926d",
     "effectiveness_analysis_sha256": "421855b4aeff407ed3f450a90f63d48613a85950db4709f13f00f1cfd20b377c",

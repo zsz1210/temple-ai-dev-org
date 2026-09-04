@@ -4,7 +4,7 @@
   "command": [
     "npm run verify",
     "node --test test/app-server-protocol-replay.test.mjs test/validation-program.test.mjs",
-    "node .ai-org/artifacts/WI-0107/run-wave-5a.mjs --work-item-id WI-0113 --approval-path .ai-org/artifacts/WI-0113/account-approval.json --preflight-output .ai-org/artifacts/WI-0113/preflight-observation.json --lab-root /Users/zsz1210/Documents/ChatGPT/temple-wave-5a-lab-r8",
+    "node .ai-org/artifacts/WI-0107/run-wave-5a.mjs --work-item-id WI-0113 --approval-path .ai-org/artifacts/WI-0113/account-approval.json --preflight-output .ai-org/artifacts/WI-0113/preflight-observation.json --lab-root <LOCAL_HOME>/Documents/ChatGPT/temple-wave-5a-lab-r8",
     "re-run public and hidden acceptance suites against all four exact candidate revisions",
     "assert every candidate repository is clean"
   ],

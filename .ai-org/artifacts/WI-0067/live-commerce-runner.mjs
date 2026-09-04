@@ -30,8 +30,8 @@ import {
 const execFile = promisify(execFileCallback);
 const frameworkRoot = path.resolve(import.meta.dirname, "../../..");
 const templeCli = path.join(frameworkRoot, "bin/temple.mjs");
-const coordinatorRoot = "/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-lab/commerce-coordinator";
-const allowedRoot = "/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-lab";
+const coordinatorRoot = "<LOCAL_HOME>/Documents/ChatGPT/temple-effectiveness-lab/commerce-coordinator";
+const allowedRoot = "<LOCAL_HOME>/Documents/ChatGPT/temple-effectiveness-lab";
 const manifestPath = ".ai-org/project/validation-program.json";
 const expectedCliVersion = "codex-cli 0.151.0-alpha.7.2";
 const expectedSchemaDigests = Object.freeze({
