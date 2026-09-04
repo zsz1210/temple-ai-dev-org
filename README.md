@@ -32,7 +32,7 @@ Temple is not an application framework, issue tracker, or autonomous manager. Yo
 
 > **Your project decides how the product is built. Temple defines how the work is organized, verified, and remembered.**
 
-## The organization Temple puts in your repository
+## Temple Concept Layers
 
 <picture>
   <source media="(max-width: 640px)" srcset="docs/assets/temple-layers-mobile.en.svg">
@@ -55,14 +55,16 @@ The Guidance layer deliberately contains two different routes. **Context Routing
 
 Temple stores these contracts beside the code. Jira, GitHub Projects, Figma, existing specifications, and company documents can remain authoritative for the subjects they already own.
 
-## One change through Temple
+## One Work Item through Temple
 
 <picture>
   <source media="(max-width: 640px)" srcset="docs/assets/temple-delivery-path.en-mobile.svg">
-  <img alt="A Temple Work Item moves from human direction through design, build, evaluation, Independent QA, and a Release Gate while evidence accumulates in the project repository." src="docs/assets/temple-delivery-path.en.svg">
+  <img alt="A Temple Work Item moves from an approved outcome through approach, production, evaluation, proportionate independent review, and closeout. Every step separately resolves its responsible Position, relevant context, and eligible execution route while repository evidence accumulates." src="docs/assets/temple-delivery-path.en.svg">
 </picture>
 
-A Work Item advances only when the next stage has the evidence it requires. Repository records accumulate throughout the change; the Release Gate does not create project truth after the fact.
+A Work Item advances only when the next stage has the evidence it requires. Its workflow profile and risk determine how much independent review and release readiness are required. At every step, Temple separately resolves the responsible Position, relevant context, and eligible execution route.
+
+The stages describe responsibilities, not fixed job titles. Temple currently ships its core development Positions; custom Positions and workflows remain planned, so a future domain-specific configuration may assign different Positions without replacing this operating model.
 
 ## Start with one project
 

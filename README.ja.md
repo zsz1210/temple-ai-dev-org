@@ -32,7 +32,7 @@ Temple はアプリケーションフレームワークでも、課題管理ツ�
 
 > **プロダクトをどう作るかは、プロジェクトが決めます。仕事をどう組織し、検証し、次へ残すかを Temple が整えます。**
 
-## Temple がリポジトリに置く組織
+## Temple Concept Layers
 
 <picture>
   <source media="(max-width: 640px)" srcset="docs/assets/temple-layers-mobile.ja.svg">
@@ -55,14 +55,16 @@ Temple は巨大な一つのプロンプトでも、自律的な一体の Agent 
 
 これらの約束はコードと同じリポジトリに残ります。Jira、GitHub Projects、Figma、既存の仕様書、社内文書は、それぞれが管理してきた情報の正式な保管場所であり続けられます。
 
-## 一つの変更が Temple を通る流れ
+## 一つの Work Item が Temple を通る流れ
 
 <picture>
   <source media="(max-width: 640px)" srcset="docs/assets/temple-delivery-path.ja-mobile.svg">
-  <img alt="一つの Work Item が、人の判断、設計、実装、テストと評価、独立 QA、リリース判定を通り、プロジェクトのリポジトリへ判断と検証記録を残す流れ。" src="docs/assets/temple-delivery-path.ja.svg">
+  <img alt="一つの Work Item が、承認された目的から、進め方、成果物の作成、評価、リスクに応じた独立レビュー、完了判断へ進む流れ。各段階では、担当 Position、必要な Context、条件に合う Execution Route を別々に決め、リポジトリへ根拠を蓄積します。" src="docs/assets/temple-delivery-path.ja.svg">
 </picture>
 
-Work Item は、次の段階に必要な根拠がそろったときだけ先へ進みます。判断と検証結果は作業中からリポジトリに蓄積され、Release Gate で後から都合のよい事実を作るわけではありません。
+Work Item は、次の段階に必要な根拠がそろったときだけ先へ進みます。独立レビューとリリース準備の深さは、Workflow Profile とリスクに応じて変わります。各段階で Temple は、担当 Position、必要な Context、条件に合う Execution Route を別々に決めます。
+
+各段階が示すのは責任であり、固定された職種名ではありません。現在の Temple が提供するのは開発向けの Core Position です。Custom Position と Workflow はまだ計画段階ですが、将来の分野別構成でも、この運用モデルを変えずに別の Position を割り当てられます。
 
 ## 一つのプロジェクトから始める
 

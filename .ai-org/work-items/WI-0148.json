@@ -1,0 +1,125 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0148",
+  "title": "Generalize README concept and Work Item diagrams",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-04T08:12:24.650Z",
+  "updated_at": "2026-09-04T08:13:18.279Z",
+  "scope": [
+    "Rename the primary layered model to Temple Concept Layers and revise the README delivery diagram so it describes a domain-neutral Work Item rather than a fixed software-development staffing model."
+  ],
+  "acceptance_criteria": [
+    "English, Japanese, and Traditional Chinese README headings, explanations, image alternatives, and responsive diagrams remain structurally aligned and natural in each language.",
+    "The Work Item diagram preserves the canonical Temple lifecycle terms while making Position assignment dynamic, showing per-step responsibility, context, and execution routing, and avoiding a claim that every workflow requires the same Release Gate.",
+    "Current fixed core Positions and planned custom Position or workflow extensibility remain accurately distinguished."
+  ],
+  "affected_paths": [
+    "README.md",
+    "README.ja.md",
+    "README.zh-TW.md",
+    "docs/assets/temple-layers.en.svg",
+    "docs/assets/temple-layers-mobile.en.svg",
+    "docs/assets/temple-layers.ja.svg",
+    "docs/assets/temple-layers-mobile.ja.svg",
+    "docs/assets/temple-layers.zh-TW.svg",
+    "docs/assets/temple-layers-mobile.zh-TW.svg",
+    "docs/assets/temple-delivery-path.en.mmd",
+    "docs/assets/temple-delivery-path.en.svg",
+    "docs/assets/temple-delivery-path.en-mobile.mmd",
+    "docs/assets/temple-delivery-path.en-mobile.svg",
+    "docs/assets/temple-delivery-path.ja.mmd",
+    "docs/assets/temple-delivery-path.ja.svg",
+    "docs/assets/temple-delivery-path.ja-mobile.mmd",
+    "docs/assets/temple-delivery-path.ja-mobile.svg",
+    "docs/assets/temple-delivery-path.zh-TW.mmd",
+    "docs/assets/temple-delivery-path.zh-TW.svg",
+    "docs/assets/temple-delivery-path.zh-TW-mobile.mmd",
+    "docs/assets/temple-delivery-path.zh-TW-mobile.svg"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "A reversible human-facing documentation and diagram clarification with no product runtime change.",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-04T08:12:24.650Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "d81fa6a3c74a0df095e2a280370c1512759bbd76",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0086 remains the blocked future public-release candidate; WI-0148 owns only the requested private README diagram clarification, and WI-0086 must requalify any later public candidate."
+  ],
+  "claim": {
+    "id": "claim-20260904081318-92bba74b",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "d81fa6a3c74a0df095e2a280370c1512759bbd76",
+    "branch": "codex/wi-0148-generalize-readme-flow",
+    "worktree": null,
+    "claimed_at": "2026-09-04T08:13:18.279Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260904081318-92bba74b",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "d81fa6a3c74a0df095e2a280370c1512759bbd76",
+      "branch": "codex/wi-0148-generalize-readme-flow",
+      "worktree": null,
+      "claimed_at": "2026-09-04T08:13:18.279Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0148/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0148/work-order.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0148/work-order.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0148/work-order.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0148/work-order.md"
+    ],
+    "profile_eligibility": [
+      ".ai-org/artifacts/WI-0148/work-order.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0148/work-order.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
