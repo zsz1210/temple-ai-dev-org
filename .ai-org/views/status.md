@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 164 total, 0 active
+- Work items: 165 total, 0 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -212,6 +212,7 @@
 | WI-0162 | Normalize retained publication evidence and fixtures | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9012ece9` | 0 | 11 | 0 |
 | WI-0163 | Freeze the Alpha.30 candidate scope and identity | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a6849519` | 0 | 12 | 0 |
 | WI-0164 | Qualify the exact Alpha.30 package | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a6849519` | 0 | 13 | 0 |
+| WI-0165 | Audit public Git history text exposure | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `df20f2be` | 0 | 13 | 0 |
 
 ## Codex task registry
 
@@ -362,14 +363,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-04T17:31:45.629Z | work_item_closed | WI-0164 | agent-mog |
-| 2026-09-04T17:31:45.629Z | release_gate_completed | WI-0164 | agent-mog |
-| 2026-09-04T17:31:36.493Z | work_item_claimed | WI-0164 | principal-zsz1210 |
-| 2026-09-04T17:31:36.205Z | work_item_transitioned | WI-0164 | agent-lulu |
-| 2026-09-04T17:31:20.038Z | evidence_recorded | WI-0164 | human |
-| 2026-09-04T17:28:04.835Z | work_item_transitioned | WI-0164 | agent-lulu |
-| 2026-09-04T17:27:45.837Z | work_item_transitioned | WI-0164 | agent-lulu |
-| 2026-09-04T17:27:45.390Z | work_item_claimed | WI-0164 | principal-zsz1210 |
+| 2026-09-04T18:03:28.765Z | evidence_invalidated | WI-0165 | agent-lulu |
+| 2026-09-04T18:03:28.567Z | evidence_recorded | WI-0165 | human |
+| 2026-09-04T18:01:53.090Z | work_item_closed | WI-0165 | agent-mog |
+| 2026-09-04T18:01:53.090Z | release_gate_completed | WI-0165 | agent-mog |
+| 2026-09-04T18:01:35.771Z | work_item_unresolved_updated | WI-0165 | agent-mog |
+| 2026-09-04T18:01:17.053Z | work_item_claimed | WI-0165 | human |
+| 2026-09-04T18:01:16.774Z | work_item_coordination_configured | WI-0165 | agent-mog |
+| 2026-09-04T18:01:16.535Z | work_item_transitioned | WI-0165 | agent-lulu |
 
 ## Assignments
 

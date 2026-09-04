@@ -1,0 +1,11 @@
+{
+  "schema_version": "temple.git-history-text-review-verification/v1",
+  "result": "pass",
+  "checks": 28,
+  "audit_sha256": "2a74f7de342ee4afe5c0a825ad11a9612385021b606857f7d72f4aaf93de8460",
+  "tested_public_boundary": "06a88d84e12a7a2a23538d67749701c18c093343",
+  "remote_write_performed": false,
+  "history_rewrite_performed": false,
+  "publication_performed": false,
+  "media_content_reviewed": false
+}
