@@ -1,43 +1,36 @@
 {
   "schema_version": "temple.test-observation/v1",
-  "work_item_id": "WI-0141",
-  "observed_at": "2026-09-04T03:11:39Z",
-  "tested_revision": "091f9264889e78209194d5aabc55bcb3f52f028c",
-  "commands": [
-    {
-      "command": "node --test test/context-capsule-ablation.test.mjs",
-      "exit_code": 0,
-      "passed": 8,
-      "failed": 0
-    },
-    {
-      "command": "node scripts/run-context-capsule-ablation.mjs prepare",
-      "exit_code": 0,
-      "candidate_turn_count": 0,
-      "operational_tokens": 0
-    },
-    {
-      "command": "node scripts/run-context-capsule-ablation.mjs rehearse",
-      "exit_code": 0,
-      "readiness_pass": true,
-      "candidate_turn_count": 0,
-      "operational_tokens": 0
-    },
-    {
-      "command": "node scripts/run-context-capsule-ablation.mjs preflight",
-      "exit_code": 0,
-      "generation_ready": false,
-      "blockers": [
-        "exact-approval"
-      ]
-    },
-    {
-      "command": "npm run verify",
-      "exit_code": 0
-    }
+  "revision": "091f9264889e78209194d5aabc55bcb3f52f028c",
+  "command": [
+    "node --test test/context-capsule-ablation.test.mjs",
+    "node scripts/run-context-capsule-ablation.mjs prepare",
+    "node scripts/run-context-capsule-ablation.mjs rehearse",
+    "node scripts/run-context-capsule-ablation.mjs preflight",
+    "npm run verify"
   ],
-  "protocol_sha256": "3e51faf3bb6962d0f998003839a113a0fe789aaf22d0ad6d8b737672aff8edbd",
-  "wi_0140_commit_diff": false,
-  "wi_0140_working_tree_diff": false,
-  "model_generation_performed": false
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T03:10:00Z",
+  "completed_at": "2026-09-04T03:11:39Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0141/developer-verification.md",
+    ".ai-org/artifacts/WI-0141/harness-readiness.json",
+    ".ai-org/artifacts/WI-0141/preapproval-preflight.json",
+    ".ai-org/artifacts/WI-0141/live-protocol.json"
+  ],
+  "summary": {
+    "full_verification_exit_code": 0,
+    "focused_regression_tests_passed": 8,
+    "focused_regression_tests_failed": 0,
+    "readiness_checks_failed": 0,
+    "candidate_turns": 0,
+    "operational_tokens": 0,
+    "preapproval_blockers": [
+      "exact-approval"
+    ],
+    "wi_0140_commit_diff": false,
+    "wi_0140_working_tree_diff": false,
+    "external_action_performed": false,
+    "model_invocation_performed": false
+  }
 }
