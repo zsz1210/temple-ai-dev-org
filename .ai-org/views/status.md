@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
 - Work items: 147 total, 6 active
 - Codex tasks: 6 registered, 6 archive-ready
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -194,7 +194,7 @@
 | WI-0144 | Design portable model onboarding and successor context evaluations | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `edf772de` | 0 | 17 | 0 |
 | WI-0145 | Implement read-only model onboarding plan | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `277be9e8` | 0 | 17 | 0 |
 | WI-0146 | Clarify Temple README and layered architecture | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `101a981a` | 0 | 9 | 0 |
-| WI-0147 | Keep bounded CI within its declared runtime | build | Developer | Rikku | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260904072700-0ff86815 | `—` | 0 | 1 | 0 |
+| WI-0147 | Keep bounded CI within its declared runtime | test | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `aca402e2` | 0 | 4 | 0 |
 
 ## Codex task registry
 
@@ -336,14 +336,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-04T07:29:23.941Z | work_item_transitioned | WI-0147 | agent-rikku |
+| 2026-09-04T07:29:16.681Z | handoff_created | WI-0147 | agent-rikku |
+| 2026-09-04T07:29:01.818Z | evidence_recorded | WI-0147 | human |
+| 2026-09-04T07:29:01.563Z | evidence_recorded | WI-0147 | human |
 | 2026-09-04T07:27:00.649Z | work_item_claimed | WI-0147 | human |
 | 2026-09-04T07:26:49.370Z | work_item_transitioned | WI-0147 | agent-mog |
 | 2026-09-04T07:26:12.616Z | work_item_created | WI-0147 | agent-mog |
 | 2026-09-04T07:08:38.463Z | work_item_closed | WI-0146 | agent-lulu |
-| 2026-09-04T07:08:38.463Z | work_item_transitioned | WI-0146 | agent-lulu |
-| 2026-09-04T07:08:38.170Z | work_item_claim_released | WI-0146 | human |
-| 2026-09-04T07:08:28.644Z | evidence_recorded | WI-0146 | human |
-| 2026-09-04T07:05:34.747Z | work_item_claimed | WI-0146 | human |
 
 ## Assignments
 
