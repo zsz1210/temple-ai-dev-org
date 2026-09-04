@@ -1,0 +1,85 @@
+{
+  "report_version": "wi-0155-clean-room-result/v1",
+  "work_item_id": "WI-0155",
+  "result": "pass_with_follow_up_findings",
+  "observed_at": "2026-09-04",
+  "source": {
+    "revision": "779ba588f4c7315871c4ff0eaeb1df76bfca669a",
+    "package": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.29",
+    "tarball_sha256": "fb910bce72b6560cffdd973fa3fda2735a060c39f083b0328c57c092034aeb69",
+    "published": false
+  },
+  "target": {
+    "project_name": "QueueKeep",
+    "path": "/Users/zsz1210/Documents/ChatGPT/temple-clean-room-wi-0155.QXrZ4y",
+    "work_item_id": "WI-0001",
+    "lifecycle_outcome": "accepted",
+    "tested_revision": "ad46bc77eae6caf3b8d6bf2a61595feaa2aa8a10",
+    "head_revision": "db4fd2a2ec13b2e89e47eef7a3bf07c1a01d4187",
+    "git_clean": true,
+    "remote_configured": false,
+    "application_tests": {
+      "passed": 2,
+      "failed": 0
+    },
+    "doctor": {
+      "passed": 37,
+      "warnings": 0,
+      "failed": 0
+    },
+    "developer_identity": {
+      "agent_id": "agent-theo",
+      "display_name": "Theo"
+    },
+    "independent_qa_identity": {
+      "agent_id": "agent-priya",
+      "display_name": "Priya"
+    }
+  },
+  "sessions": [
+    {
+      "name": "delivery",
+      "thread_id": "01a06c63-5f4a-7d03-81d7-ae7f72034bae",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "elapsed_ms": 434800,
+      "completed": true,
+      "human_interventions": 0,
+      "product_rework_after_first_verification": 0,
+      "token_usage": "unknown"
+    },
+    {
+      "name": "cold_recovery",
+      "thread_id": "01a06c6a-726e-7720-8c20-d665fb04b744",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "elapsed_ms": 85823,
+      "completed": true,
+      "human_interventions": 0,
+      "token_usage": "unknown"
+    }
+  ],
+  "combined_elapsed_ms": 520623,
+  "acceptance": {
+    "fresh_delivery_task": true,
+    "repository_visible_inputs_only": true,
+    "project_specific_identities": true,
+    "bounded_work_item_accepted": true,
+    "healthy_status_and_doctor": true,
+    "separate_cold_recovery_task": true,
+    "publication_or_external_release_performed": false
+  },
+  "follow_up_findings": [
+    "Clarify the non-interactive init configuration and accepted repository-source values.",
+    "Provide a minimal structured test-observation example and exact Evidence ID guidance.",
+    "Use a neutral cold-recovery task title that does not expose the coordinator Work Item ID.",
+    "Retain unknown rather than estimated Token data when compatible telemetry is unavailable."
+  ],
+  "claim_boundaries": [
+    "One bounded local product and one machine were observed.",
+    "Unaided human documentation usability was not tested.",
+    "General speed, quality, and Token savings were not established.",
+    "Delivery identity separation occurred within one Codex task; cold recovery used a separate task."
+  ],
+  "external_action_performed": false
+}

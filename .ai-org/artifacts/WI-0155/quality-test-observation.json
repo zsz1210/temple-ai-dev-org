@@ -1,0 +1,39 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "b20b529e7d14783b7acd160a63e4dd87e4181de2",
+  "command": [
+    "source repository exact candidate: npm run verify",
+    "source repository exact candidate: node ./templew.mjs doctor . --json",
+    "independent cold-recovery task: recover target state from repository evidence",
+    "disposable QueueKeep repository: npm test",
+    "disposable QueueKeep repository: node ./templew.mjs doctor . --json"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T12:42:38.000Z",
+  "completed_at": "2026-09-04T12:47:07.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0155/work-order.md",
+    ".ai-org/artifacts/WI-0155/clean-room-result.json",
+    ".ai-org/artifacts/WI-0155/developer-verification.md",
+    ".ai-org/artifacts/WI-0155/handoff-001-developer-to-quality_evaluator.md",
+    "docs/validation/fresh-session-clean-room-rehearsal.md"
+  ],
+  "summary": {
+    "source_full_tests_passed": 428,
+    "source_full_tests_failed": 0,
+    "source_doctor_passed": 36,
+    "source_doctor_warnings": 1,
+    "source_doctor_failed": 0,
+    "source_doctor_warning": "Generated parallel plan is stale and must be rebuilt before dispatch.",
+    "target_application_tests_passed": 2,
+    "target_application_tests_failed": 0,
+    "target_doctor_passed": 37,
+    "target_doctor_warnings": 0,
+    "target_doctor_failed": 0,
+    "cold_recovery_completed": true,
+    "cold_recovery_human_interventions": 0,
+    "external_action_performed": false
+  }
+}
+

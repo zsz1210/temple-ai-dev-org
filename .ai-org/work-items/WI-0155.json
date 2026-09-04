@@ -1,0 +1,160 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0155",
+  "title": "Run fresh-session clean-room release rehearsal",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-04T12:24:59.626Z",
+  "updated_at": "2026-09-04T12:48:09.825Z",
+  "scope": [
+    "Freeze the merged Temple revision, initialize one disposable new project through a fresh Codex task, complete one bounded Work Item, recover it from a second independent task, and record timing, errors, interventions, documentation gaps, and truthful usage availability without publishing or releasing."
+  ],
+  "acceptance_criteria": [
+    "The first participant starts with no prior Temple conversation and uses only repository-visible instructions plus the frozen product brief.",
+    "A disposable project is initialized with project-specific identities, completes one bounded Work Item through accepted closeout, and ends with healthy Status and Doctor evidence.",
+    "A second independent Codex task recovers the project state, responsible Position, completed outcome, evidence, and next safe action without receiving the first task conversation.",
+    "The final report records elapsed time, errors, rework, Human interventions, documentation gaps, and available or unknown Token data without generalizing beyond this run.",
+    "No repository visibility, package version, npm state, tag, GitHub Release, announcement, purchase, reset, or automatic fallback changes."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0155",
+    ".ai-org/work-items/WI-0155.json",
+    "docs/validation/fresh-session-clean-room-rehearsal.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "This is a bounded, reversible, local-only release-path rehearsal with a fixed stop condition and no publication authority.",
+    "evidence_refs": [
+      "docs/planning/release-readiness.md"
+    ],
+    "evaluated_at": "2026-09-04T12:24:59.626Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "b20b529e7d14783b7acd160a63e4dd87e4181de2",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260904124754-7e0c62f4",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-lulu",
+    "base_revision": "b20b529e7d14783b7acd160a63e4dd87e4181de2",
+    "branch": "codex/wi-0155-clean-room-rehearsal",
+    "worktree": null,
+    "claimed_at": "2026-09-04T12:47:54.684Z",
+    "released_at": "2026-09-04T12:48:09.825Z",
+    "release_reason": "position_transition"
+  },
+  "claims": [
+    {
+      "id": "claim-20260904122655-56bc7abf",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "779ba588f4c7315871c4ff0eaeb1df76bfca669a",
+      "branch": "codex/wi-0155-clean-room-rehearsal",
+      "worktree": null,
+      "claimed_at": "2026-09-04T12:26:55.761Z",
+      "released_at": "2026-09-04T12:42:22.482Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904124754-7e0c62f4",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "b20b529e7d14783b7acd160a63e4dd87e4181de2",
+      "branch": "codex/wi-0155-clean-room-rehearsal",
+      "worktree": null,
+      "claimed_at": "2026-09-04T12:47:54.684Z",
+      "released_at": "2026-09-04T12:48:09.825Z",
+      "release_reason": "position_transition"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0155/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0155/work-order.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0155/work-order.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0155/work-order.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0155/work-order.md"
+    ],
+    "profile_eligibility": [
+      ".ai-org/artifacts/WI-0155/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0155/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0155/developer-verification.md",
+      ".ai-org/artifacts/WI-0155/developer-test-observation.json",
+      "docs/validation/fresh-session-clean-room-rehearsal.md",
+      "EVID-20260904T124140Z-D9FEF490",
+      "EVID-20260904T124140Z-9741C1FA"
+    ],
+    "test_evidence": [
+      "EVID-20260904T124803Z-8289E69D"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0155/quality-evaluation.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0155/work-order.md",
+    ".ai-org/artifacts/WI-0155/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0155/developer-verification.md",
+    ".ai-org/artifacts/WI-0155/developer-test-observation.json",
+    "docs/validation/fresh-session-clean-room-rehearsal.md",
+    "EVID-20260904T124140Z-D9FEF490",
+    "EVID-20260904T124140Z-9741C1FA",
+    "EVID-20260904T124803Z-8289E69D",
+    ".ai-org/artifacts/WI-0155/quality-evaluation.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "9d1d42b6aa86c7b25a572165703543bf1525e13e",
+      "artifact": ".ai-org/artifacts/WI-0155/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T12:42:05.442Z"
+    }
+  ],
+  "developer_candidate_revision": "9d1d42b6aa86c7b25a572165703543bf1525e13e",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
+}
