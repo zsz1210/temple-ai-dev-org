@@ -22688,6 +22688,63 @@
         "exit_code": 0,
         "started_at": "2026-09-04T03:25:19Z"
       }
+    },
+    {
+      "id": "EVID-20260904T033155Z-337E0A23",
+      "work_item_id": "WI-0141",
+      "recorded_at": "2026-09-04T03:31:55.573Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0141 quality evaluation",
+      "outcome": "pass",
+      "scope_revision": "5afa1858c19cff8ea1e220738730008d0f51f199",
+      "observed_at": "2026-09-04T03:31:28Z",
+      "summary": "Quality evaluation reproduced the live evidence totals, interpretation boundaries, sealed-run guard, and repository checks.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0141/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0141/quality-test-observation.json",
+          "sha256": "b49f371443c3570fb901032704dc36b0eed3e36f229c549441f41cf48f98f139"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-protocol.json",
+          "sha256": "06c59452edc531eb108ea55d3e9783f33ea16ac2650085fc21e395f742439b25"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-observation.json",
+          "sha256": "ee48dd876e72d4e5806afbd971fe483b99cabc59575f5a9087bb33930a43e2ee"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/effectiveness-analysis.json",
+          "sha256": "5c5259915f8be717657098f164a41600192fb01826d671d7991f3b9464f55e07"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-evaluation.md",
+          "sha256": "cde6c76ed4327aa9c5d4029641b86c5bc7c851e3f62eb3feab06b73aa52943f3"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/quality-evaluation.md",
+          "sha256": "9b0e6ef870eb32405604971b4034da8da7f01627218a87700cb1a32ef67ed056"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/context-capsule-ablation.test.mjs",
+          "npm run check",
+          "node inline WI-0141 protocol-observation-analysis consistency check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T03:31:15Z"
+      }
     }
   ]
 }

@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0141",
   "title": "Run the live Context Capsule route-adherence comparison",
-  "state": "test",
-  "owner_position": "quality_evaluator",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-04T03:05:47.013Z",
-  "updated_at": "2026-09-04T03:30:39.542Z",
+  "updated_at": "2026-09-04T03:32:07.144Z",
   "scope": [
     "Freeze and execute a bounded live comparison that measures whether stage-aware Context Capsules reduce off-route source acquisition without reducing task correctness, using the accepted WI-0140 instrumentation design.",
     "Keep WI-0140 evidence immutable and create all new protocol, approval, observation, analysis, and report artifacts under WI-0141.",
@@ -114,6 +114,12 @@
       "EVID-20260904T033025Z-0D21A3F9",
       "EVID-20260904T033026Z-43F15CE8",
       ".ai-org/artifacts/WI-0141/live-evaluation.md"
+    ],
+    "test_evidence": [
+      "EVID-20260904T033155Z-337E0A23"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0141/quality-evaluation.md"
     ]
   },
   "evidence": [
@@ -125,10 +131,13 @@
     ".ai-org/artifacts/WI-0141/handoff-003-developer-to-quality_evaluator.md",
     "EVID-20260904T033025Z-0D21A3F9",
     "EVID-20260904T033026Z-43F15CE8",
-    ".ai-org/artifacts/WI-0141/live-evaluation.md"
+    ".ai-org/artifacts/WI-0141/live-evaluation.md",
+    "EVID-20260904T033155Z-337E0A23",
+    ".ai-org/artifacts/WI-0141/handoff-004-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0141/quality-evaluation.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "release_manager",
   "handoffs": [
     {
       "from_position": "product_manager",
@@ -150,6 +159,13 @@
       "input_revision": "cd3d43c52f002b3a9efad09fd1a099c367a661b1",
       "artifact": ".ai-org/artifacts/WI-0141/handoff-003-developer-to-quality_evaluator.md",
       "created_at": "2026-09-04T03:30:39.001Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "5afa1858c19cff8ea1e220738730008d0f51f199",
+      "artifact": ".ai-org/artifacts/WI-0141/handoff-004-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-04T03:32:06.893Z"
     }
   ],
   "developer_candidate_revision": "cd3d43c52f002b3a9efad09fd1a099c367a661b1"
