@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -54,6 +55,19 @@ test("Evidence Profiles default safely and reject weakened profile floors", asyn
   const bypass = structuredClone(policy);
   bypass.synthetic_usernames.push("maintainer");
   assert.equal(validateEvidenceProfiles(bypass).valid, false);
+  const unsafeFixture = structuredClone(policy);
+  unsafeFixture.reviewed_adapter_fixtures.push({
+    path: "test/example.mjs",
+    manifest_path: ".ai-org/adapters/example/v1/manifest.json",
+    rule_id: "private-key-header",
+    line: 1,
+    occurrence_count: 1,
+    source_sha256: "a".repeat(64),
+    approved_by: "human",
+    approved_at: "2026-09-04T00:00:00Z",
+    rationale: "Unsafe test entry"
+  });
+  assert.equal(validateEvidenceProfiles(unsafeFixture).valid, false);
 
   const results = await Promise.all(Array.from({ length: 6 }, () => ensureEvidenceProfiles(target)));
   assert.equal(results.filter((entry) => entry.created).length, 1);
@@ -130,6 +144,80 @@ test("package surface never inherits a repository legacy exception", async (cont
   assert.equal(result.status, "blocked");
   assert.equal(result.legacy_baseline, null);
   assert.ok(result.surfaces[0].findings.some((entry) => entry.rule_id === "private-ipv4" && entry.disposition === "new"));
+});
+
+test("reviewed adapter fixture requires exact installed provenance and remains repository-only", async (context) => {
+  const { target, policyPath, policy } = await repositoryFixture(context, "adapter-fixture");
+  const adapterRoot = ".ai-org/adapters/example/v1";
+  const sourcePath = `${adapterRoot}/example/test/security.test.mjs`;
+  const manifestPath = `${adapterRoot}/manifest.json`;
+  const privateIp = [192, 168, 4, 9].join(".");
+  const source = `const blockedFixture = "${privateIp}";\n`;
+  const digest = crypto.createHash("sha256").update(source).digest("hex");
+  await fs.mkdir(path.join(target, adapterRoot, "example", "test"), { recursive: true });
+  await fs.writeFile(path.join(target, sourcePath), source);
+  await fs.writeFile(path.join(target, manifestPath), `${JSON.stringify({ files: [{ path: sourcePath, sha256: digest }] }, null, 2)}\n`);
+  policy.reviewed_adapter_fixtures = [{
+    path: sourcePath,
+    manifest_path: manifestPath,
+    rule_id: "private-ipv4",
+    line: 1,
+    occurrence_count: 1,
+    source_sha256: digest,
+    approved_by: "human",
+    approved_at: "2026-09-04T00:00:00Z",
+    rationale: "Exact private-address rejection fixture"
+  }];
+  await fs.writeFile(policyPath, `${JSON.stringify(policy, null, 2)}\n`);
+  git(target, ["add", "."]);
+
+  const repository = await buildPublicationAudit(target, { surface: "repository" });
+  assert.equal(repository.status, "allowed");
+  assert.equal(repository.summary.reviewed_adapter_fixtures, 1);
+  assert.ok(repository.surfaces[0].findings.some((entry) =>
+    entry.path === sourcePath && entry.classification === "allowed" && entry.disposition === "reviewed-adapter-fixture"
+  ));
+
+  const packageResult = await buildPublicationAudit(target, {
+    surface: "package",
+    filesBySurface: { package: [sourcePath] }
+  });
+  assert.equal(packageResult.status, "blocked");
+  assert.equal(packageResult.summary.reviewed_adapter_fixtures, 0);
+
+  await fs.appendFile(path.join(target, sourcePath), "// drift\n");
+  const drifted = await buildPublicationAudit(target, { surface: "repository" });
+  assert.equal(drifted.status, "blocked");
+  assert.ok(drifted.surfaces[0].findings.some((entry) => entry.rule_id === "reviewed-adapter-fixture-drift"));
+});
+
+test("reviewed adapter fixture never excuses secret material", async (context) => {
+  const { target, policyPath, policy } = await repositoryFixture(context, "adapter-secret");
+  const adapterRoot = ".ai-org/adapters/example/v1";
+  const sourcePath = `${adapterRoot}/example/test/security.test.mjs`;
+  const manifestPath = `${adapterRoot}/manifest.json`;
+  const source = `const values = ["${[10, 2, 3, 4].join(".")}", "sk-${"S".repeat(24)}"];\n`;
+  const digest = crypto.createHash("sha256").update(source).digest("hex");
+  await fs.mkdir(path.join(target, adapterRoot, "example", "test"), { recursive: true });
+  await fs.writeFile(path.join(target, sourcePath), source);
+  await fs.writeFile(path.join(target, manifestPath), `${JSON.stringify({ files: [{ path: sourcePath, sha256: digest }] }, null, 2)}\n`);
+  policy.reviewed_adapter_fixtures = [{
+    path: sourcePath,
+    manifest_path: manifestPath,
+    rule_id: "private-ipv4",
+    line: 1,
+    occurrence_count: 1,
+    source_sha256: digest,
+    approved_by: "human",
+    approved_at: "2026-09-04T00:00:00Z",
+    rationale: "Exact private-address rejection fixture"
+  }];
+  await fs.writeFile(policyPath, `${JSON.stringify(policy, null, 2)}\n`);
+  git(target, ["add", "."]);
+
+  const result = await buildPublicationAudit(target, { surface: "repository" });
+  assert.equal(result.status, "blocked");
+  assert.ok(result.surfaces[0].findings.some((entry) => entry.rule_id === "openai-api-key" && entry.classification === "blocked"));
 });
 
 test("publication CLI is read-only and rejects an unknown surface", async (context) => {

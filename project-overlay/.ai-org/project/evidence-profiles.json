@@ -19,6 +19,7 @@
     }
   ],
   "reviewed_legacy_baseline": null,
+  "reviewed_adapter_fixtures": [],
   "public_evidence": [
     "lifecycle-and-handoffs",
     "quality-and-release-gates",

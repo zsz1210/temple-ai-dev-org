@@ -1,0 +1,156 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0162",
+  "title": "Normalize retained publication evidence and fixtures",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-04T16:11:11.706Z",
+  "updated_at": "2026-09-04T16:14:47.184Z",
+  "scope": [
+    "Remove the remaining current-tree local-environment text findings from retained self-host artifacts and first-party fixtures without rewriting Git history or breaking pinned adapter provenance; record an exact-digest reviewed disposition for the single vendored Archify fixture."
+  ],
+  "acceptance_criteria": [
+    "A deterministic stale-safe operation normalizes only inventoried retained artifacts, retains no matched values, records before and after digests, and is idempotent.",
+    "First-party fixtures keep their security-test semantics without literal maintainer-shaped paths, private IPv4 addresses, or private Tailnet hostnames.",
+    "The pinned Archify source remains byte-for-byte intact and usable while the exact reviewed fixture disposition is independently auditable and cannot excuse credentials or unrelated paths.",
+    "The public repository and package audit report zero blocked text findings and zero unresolved text review findings; reviewed binary files remain an explicit separate review boundary."
+  ],
+  "affected_paths": [
+    "src/publication-artifact-normalization.mjs",
+    "src/publication-audit.mjs",
+    "src/evidence-profiles.mjs",
+    "src/cli.mjs",
+    "test/publication-artifact-normalization.test.mjs",
+    "test/publication-audit.test.mjs",
+    "test/audit-export.test.mjs",
+    "test/control-plane-private-viewer.test.mjs",
+    ".ai-org/project/evidence-profiles.json",
+    ".ai-org/core/schemas/evidence-profiles.schema.json",
+    ".ai-org/artifacts",
+    "docs/operations/auditable-self-hosting.md",
+    "docs/validation/publication-evidence-review.md",
+    "docs/adr"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [
+      "independent-assurance-required"
+    ],
+    "rationale": "The change is bounded and reversible but modifies publication policy enforcement, retained evidence copies, and security-sensitive fixtures, so it requires Standard workflow and Independent QA.",
+    "evidence_refs": [
+      "docs/validation/publication-evidence-review.md"
+    ],
+    "evaluated_at": "2026-09-04T16:11:11.705Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "3002a938ffa6001d1dcbb9896563adae5a7809a2",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260904161447-23ec43bc",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "3002a938ffa6001d1dcbb9896563adae5a7809a2",
+    "branch": "codex/wi-0162-publication-artifacts",
+    "worktree": null,
+    "claimed_at": "2026-09-04T16:14:47.184Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260904161123-4fda2fd3",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "3002a938ffa6001d1dcbb9896563adae5a7809a2",
+      "branch": "codex/wi-0162-publication-artifacts",
+      "worktree": null,
+      "claimed_at": "2026-09-04T16:11:23.457Z",
+      "released_at": "2026-09-04T16:13:16.980Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904161317-1548cf63",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "3002a938ffa6001d1dcbb9896563adae5a7809a2",
+      "branch": "codex/wi-0162-publication-artifacts",
+      "worktree": null,
+      "claimed_at": "2026-09-04T16:13:17.339Z",
+      "released_at": "2026-09-04T16:13:17.910Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904161431-c10a6a7b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "3002a938ffa6001d1dcbb9896563adae5a7809a2",
+      "branch": "codex/wi-0162-publication-artifacts",
+      "worktree": null,
+      "claimed_at": "2026-09-04T16:14:31.669Z",
+      "released_at": "2026-09-04T16:14:46.878Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904161447-23ec43bc",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "3002a938ffa6001d1dcbb9896563adae5a7809a2",
+      "branch": "codex/wi-0162-publication-artifacts",
+      "worktree": null,
+      "claimed_at": "2026-09-04T16:14:47.184Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0162/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0162/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0162/work-order.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0162/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0162/work-order.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0162/work-order.md",
+    ".ai-org/artifacts/WI-0162/approved-scope.md",
+    ".ai-org/artifacts/WI-0162/technical-design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

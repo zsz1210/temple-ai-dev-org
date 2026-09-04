@@ -20,7 +20,9 @@ import {
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const cli = path.join(root, "bin/temple.mjs");
-const privateHost = "fixture-mini.tailnet-fixture.ts.net";
+const privateIpv4 = (...octets) => octets.join(".");
+const tailnetHost = (device, tailnet) => [device, tailnet, "ts", "net"].join(".");
+const privateHost = tailnetHost("fixture-mini", "tailnet-fixture");
 
 function run(args) {
   return spawnSync(process.execPath, [cli, ...args], { encoding: "utf8" });
@@ -164,7 +166,7 @@ function privateSse(controlPlane, pathname) {
 }
 
 test("private viewer host and pinned Tailscale adapter fail closed", async () => {
-  assert.equal(normalizePrivateViewerHost("Fixture-Mini.Tailnet-Fixture.ts.net."), privateHost);
+  assert.equal(normalizePrivateViewerHost(`${tailnetHost("Fixture-Mini", "Tailnet-Fixture")}.`), privateHost);
   assert.throws(() => normalizePrivateViewerHost("*.ts.net"), /exact Tailscale/);
   assert.throws(() => normalizePrivateViewerHost("https://fixture.ts.net"), /exact Tailscale/);
   assert.deepEqual(parseTailscaleStatus({
@@ -218,10 +220,10 @@ test("private viewer host and pinned Tailscale adapter fail closed", async () =>
 });
 
 test("home-LAN viewer accepts only exact RFC1918 IPv4 addresses", () => {
-  assert.equal(normalizePrivateLanViewerHost("10.0.0.1"), "10.0.0.1");
-  assert.equal(normalizePrivateLanViewerHost("172.16.0.1"), "172.16.0.1");
-  assert.equal(normalizePrivateLanViewerHost("172.31.255.254"), "172.31.255.254");
-  assert.equal(normalizePrivateLanViewerHost("192.168.79.5"), "192.168.79.5");
+  assert.equal(normalizePrivateLanViewerHost(privateIpv4(10, 0, 0, 1)), privateIpv4(10, 0, 0, 1));
+  assert.equal(normalizePrivateLanViewerHost(privateIpv4(172, 16, 0, 1)), privateIpv4(172, 16, 0, 1));
+  assert.equal(normalizePrivateLanViewerHost(privateIpv4(172, 31, 255, 254)), privateIpv4(172, 31, 255, 254));
+  assert.equal(normalizePrivateLanViewerHost(privateIpv4(192, 168, 79, 5)), privateIpv4(192, 168, 79, 5));
   for (const value of [
     "0.0.0.0",
     "127.0.0.1",
@@ -234,7 +236,7 @@ test("home-LAN viewer accepts only exact RFC1918 IPv4 addresses", () => {
     "8.8.8.8",
     "localhost",
     "::1",
-    "http://192.168.1.2"
+    `http://${privateIpv4(192, 168, 1, 2)}`
   ]) {
     assert.throws(() => normalizePrivateLanViewerHost(value), /LAN viewer host/);
   }
@@ -354,7 +356,7 @@ test("private Temple Workspace is redacted, refresh-only, and cannot reach Inbox
 
   const missingIdentity = await privateRequest(controlPlane, "/", { identity: false });
   assert.equal(missingIdentity.status, 403);
-  const wrongHost = await privateRequest(controlPlane, "/", { host: "other.tailnet-fixture.ts.net" });
+  const wrongHost = await privateRequest(controlPlane, "/", { host: tailnetHost("other", "tailnet-fixture") });
   assert.equal(wrongHost.status, 403);
 
   const page = await privateRequest(controlPlane, "/");
