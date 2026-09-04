@@ -22578,6 +22578,116 @@
         "exit_code": 0,
         "started_at": "2026-09-04T03:10:00Z"
       }
+    },
+    {
+      "id": "EVID-20260904T033025Z-0D21A3F9",
+      "work_item_id": "WI-0141",
+      "recorded_at": "2026-09-04T03:30:25.852Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "WI-0141 live eight-turn comparison",
+      "outcome": "pass",
+      "scope_revision": "091f9264889e78209194d5aabc55bcb3f52f028c",
+      "observed_at": "2026-09-04T03:22:12.085Z",
+      "summary": "All eight approved Terra-medium candidates completed correctly with zero retry and zero fallback.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0141/live-runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-runtime-observation.json",
+          "sha256": "1bab8665b95fde1a3113b50a466da8fb703e7e22f8cd9b555f0c921fe7e2db0e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/account-approval.json",
+          "sha256": "a90fb3bad1f97df1aa92e6a8d514fd5b1ff0d9dfa464a77f7e277f337a3a0a20"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/approved-preflight.json",
+          "sha256": "2392f45e005a6860556881663b78707a1b047ca3b0166ca900b01068728212c9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-protocol.json",
+          "sha256": "06c59452edc531eb108ea55d3e9783f33ea16ac2650085fc21e395f742439b25"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-observation.json",
+          "sha256": "ee48dd876e72d4e5806afbd971fe483b99cabc59575f5a9087bb33930a43e2ee"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/effectiveness-analysis.json",
+          "sha256": "5c5259915f8be717657098f164a41600192fb01826d671d7991f3b9464f55e07"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-evaluation.md",
+          "sha256": "cde6c76ed4327aa9c5d4029641b86c5bc7c851e3f62eb3feab06b73aa52943f3"
+        }
+      ],
+      "details": {
+        "environment": "Local Codex App Server with isolated disposable Git repositories",
+        "scenario": "Eight-turn Terra-medium Context Capsule route-adherence comparison",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260904T033026Z-43F15CE8",
+      "work_item_id": "WI-0141",
+      "recorded_at": "2026-09-04T03:30:26.057Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0141 analysis and repository verification",
+      "outcome": "pass",
+      "scope_revision": "cd3d43c52f002b3a9efad09fd1a099c367a661b1",
+      "observed_at": "2026-09-04T03:29:24Z",
+      "summary": "Analysis regression tests and the full repository verification passed on the retained live observation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0141/live-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-test-observation.json",
+          "sha256": "df0e0672a4f3f169458c796746deb1525c6fec9e23216a4b2acb17ecb21451b4"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/effectiveness-analysis.json",
+          "sha256": "5c5259915f8be717657098f164a41600192fb01826d671d7991f3b9464f55e07"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/effectiveness-report.md",
+          "sha256": "33d867d008ee36520ecca43c7dd916d571687047631de166c2589a660414b0f6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-evaluation.md",
+          "sha256": "cde6c76ed4327aa9c5d4029641b86c5bc7c851e3f62eb3feab06b73aa52943f3"
+        },
+        {
+          "path": "docs/validation/context-capsule-route-adherence.md",
+          "sha256": "3a76f1ce97dd011f9d6d6e52412cddce70976a7e6c7d01be977938161943f6e8"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/context-capsule-ablation.test.mjs",
+          "node scripts/run-context-capsule-ablation.mjs analyze",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T03:25:19Z"
+      }
     }
   ]
 }

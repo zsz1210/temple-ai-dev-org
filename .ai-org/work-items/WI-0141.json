@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0141",
   "title": "Run the live Context Capsule route-adherence comparison",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-04T03:05:47.013Z",
-  "updated_at": "2026-09-04T03:07:50.067Z",
+  "updated_at": "2026-09-04T03:30:39.542Z",
   "scope": [
     "Freeze and execute a bounded live comparison that measures whether stage-aware Context Capsules reduce off-route source acquisition without reducing task correctness, using the accepted WI-0140 instrumentation design.",
     "Keep WI-0140 evidence immutable and create all new protocol, approval, observation, analysis, and report artifacts under WI-0141.",
@@ -63,26 +63,32 @@
   "overlap_resolution": [],
   "claim": {
     "id": "claim-20260904030750-48b4d93c",
-    "status": "active",
+    "status": "released",
     "principal_id": "principal-owner",
     "agent_id": "agent-rikku",
     "base_revision": "25b846dd3f2756fe813e44cbe026adfc2d2eb258",
     "branch": "codex/wi-0141-live-route-adherence",
     "worktree": null,
     "claimed_at": "2026-09-04T03:07:50.067Z",
-    "released_at": null
+    "released_at": "2026-09-04T03:30:39.283Z",
+    "release_reason": [
+      "Developer implementation and live evidence handed to Quality Evaluator."
+    ]
   },
   "claims": [
     {
       "id": "claim-20260904030750-48b4d93c",
-      "status": "active",
+      "status": "released",
       "principal_id": "principal-owner",
       "agent_id": "agent-rikku",
       "base_revision": "25b846dd3f2756fe813e44cbe026adfc2d2eb258",
       "branch": "codex/wi-0141-live-route-adherence",
       "worktree": null,
       "claimed_at": "2026-09-04T03:07:50.067Z",
-      "released_at": null
+      "released_at": "2026-09-04T03:30:39.283Z",
+      "release_reason": [
+        "Developer implementation and live evidence handed to Quality Evaluator."
+      ]
     }
   ],
   "gate_evidence": {
@@ -100,6 +106,14 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0141/technical-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0141/handoff-003-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260904T033025Z-0D21A3F9",
+      "EVID-20260904T033026Z-43F15CE8",
+      ".ai-org/artifacts/WI-0141/live-evaluation.md"
     ]
   },
   "evidence": [
@@ -107,7 +121,11 @@
     ".ai-org/artifacts/WI-0141/handoff-001-product_manager-to-tech_lead.md",
     ".ai-org/artifacts/WI-0141/approved-scope.md",
     ".ai-org/artifacts/WI-0141/handoff-002-tech_lead-to-developer.md",
-    ".ai-org/artifacts/WI-0141/technical-design.md"
+    ".ai-org/artifacts/WI-0141/technical-design.md",
+    ".ai-org/artifacts/WI-0141/handoff-003-developer-to-quality_evaluator.md",
+    "EVID-20260904T033025Z-0D21A3F9",
+    "EVID-20260904T033026Z-43F15CE8",
+    ".ai-org/artifacts/WI-0141/live-evaluation.md"
   ],
   "unresolved": [],
   "next_position": "quality_evaluator",
@@ -125,6 +143,14 @@
       "input_revision": "25b846dd3f2756fe813e44cbe026adfc2d2eb258",
       "artifact": ".ai-org/artifacts/WI-0141/handoff-002-tech_lead-to-developer.md",
       "created_at": "2026-09-04T03:07:49.568Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "cd3d43c52f002b3a9efad09fd1a099c367a661b1",
+      "artifact": ".ai-org/artifacts/WI-0141/handoff-003-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T03:30:39.001Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "cd3d43c52f002b3a9efad09fd1a099c367a661b1"
 }
