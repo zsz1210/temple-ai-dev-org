@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0142",
   "title": "Harden reusable model and process evaluation controls",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-04T03:48:51.822Z",
-  "updated_at": "2026-09-04T04:10:12.780Z",
+  "updated_at": "2026-09-04T04:14:41.909Z",
   "scope": [
     "Classify privacy-safe control-package reads from supported sanitized Codex App Server action shapes without retaining raw commands or output.",
     "Make cache sensitivity and cache-control validity first-class in deterministic comparison analysis, so routing or model claims fail closed when cache imbalance can dominate the result.",
@@ -144,6 +144,18 @@
     ],
     "independent_qa_pass": [
       "EVID-20260904T040959Z-A131A6A3"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0142/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0142/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0142/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -163,10 +175,11 @@
     ".ai-org/artifacts/WI-0142/quality-evaluation.md",
     ".ai-org/artifacts/WI-0142/handoff-006-independent_qa-to-release_manager.md",
     ".ai-org/artifacts/WI-0142/independent-qa-report.md",
-    "EVID-20260904T040959Z-A131A6A3"
+    "EVID-20260904T040959Z-A131A6A3",
+    ".ai-org/artifacts/WI-0142/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -211,5 +224,11 @@
       "created_at": "2026-09-04T04:10:12.227Z"
     }
   ],
-  "developer_candidate_revision": "5197e7a3b513ab0d4f06e31163f29549a0103f43"
+  "developer_candidate_revision": "5197e7a3b513ab0d4f06e31163f29549a0103f43",
+  "tested_revision": "f6a007dad75ac99c5dc13d3a88d748ff22454f50",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }
