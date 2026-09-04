@@ -21662,6 +21662,141 @@
         "exit_code": 0,
         "started_at": "2026-09-04T00:14:48.000Z"
       }
+    },
+    {
+      "id": "EVID-20260904T002514Z-F37EECEE",
+      "work_item_id": "WI-0137",
+      "recorded_at": "2026-09-04T00:25:14.216Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Stage-aware context capsule quality verification",
+      "outcome": "pass",
+      "scope_revision": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d",
+      "observed_at": "2026-09-04T00:24:37.000Z",
+      "summary": "Detached candidate verification passed all repository checks and 400 tests.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0137/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0137/quality-test-observation.json",
+          "sha256": "d11a98a6ecf3cb5462c6401dc06802732a4bb17725d0e82f006a65b46237473b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0137/quality-evaluation.md",
+          "sha256": "7966d1f6018bd7ee03b8ab916bf8beac26d153cd4f6c3e1ee29373dcc4d028b4"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0137/product-scope.md",
+          "sha256": "80b5e9758b489b6377cbe75da8f839213443fe80a3fe8a26e612506f90e07d6c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0137/technical-design.md",
+          "sha256": "9c19ce3527291a07f34cb2bce3d26b535e8558f1159ffc78b793b965aa15663d"
+        },
+        {
+          "path": "docs/adr/0047-bind-context-capsules-to-stage-purpose-and-source-manifests.md",
+          "sha256": "b65f77da73fea0ab0049ab97fdd7cfbd42ede6156f7ff4f627de037d8e604f98"
+        },
+        {
+          "path": "docs/extensions/context-routing.md",
+          "sha256": "e917a893f2355d012b8b4ff3020daaa3bc77da4bd5469becc4e9899f90fd3c92"
+        },
+        {
+          "path": "src/context.mjs",
+          "sha256": "a06ad64b830b3c4212fc92819d5862897c7f29222f8ac958640913fc92370e3b"
+        },
+        {
+          "path": "src/cli.mjs",
+          "sha256": "91d0d00d95cf5501f9e00e5b1a47872dbc610cdaf3eaf3bd3c66a4603ab24411"
+        },
+        {
+          "path": "test/context.test.mjs",
+          "sha256": "3022dd32d662cac14c8994a009e94a1894af4cc45bb3657281d0b48df18c4a7f"
+        },
+        {
+          "path": "test/representative-microservice-comparison.test.mjs",
+          "sha256": "5f5d4e4dc6098b2dd4fdd440818198e17e9d7b0e4e1a9c7e591c583fee8775f6"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T00:23:32.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T002620Z-DDECACBD",
+      "work_item_id": "WI-0137",
+      "recorded_at": "2026-09-04T00:26:20.346Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Stage-aware context capsule independent QA",
+      "outcome": "pass",
+      "scope_revision": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d",
+      "observed_at": "2026-09-04T00:25:39.000Z",
+      "summary": "Independent QA reproduced the affected routing and comparison suite: 51 tests passed at the exact candidate revision.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0137/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0137/independent-qa-test-observation.json",
+          "sha256": "1109530d364875fdc089cd7dd1ed4bcf61b030b876ed2ff060937de0427c944a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0137/independent-qa.md",
+          "sha256": "9e22418ca4874510dc5eecd01ad054464eba8bccca96166412c9cf9d7e5aabaa"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0137/quality-evaluation.md",
+          "sha256": "7966d1f6018bd7ee03b8ab916bf8beac26d153cd4f6c3e1ee29373dcc4d028b4"
+        },
+        {
+          "path": "docs/adr/0047-bind-context-capsules-to-stage-purpose-and-source-manifests.md",
+          "sha256": "b65f77da73fea0ab0049ab97fdd7cfbd42ede6156f7ff4f627de037d8e604f98"
+        },
+        {
+          "path": "src/context.mjs",
+          "sha256": "a06ad64b830b3c4212fc92819d5862897c7f29222f8ac958640913fc92370e3b"
+        },
+        {
+          "path": "test/context.test.mjs",
+          "sha256": "3022dd32d662cac14c8994a009e94a1894af4cc45bb3657281d0b48df18c4a7f"
+        },
+        {
+          "path": "test/representative-microservice-comparison.test.mjs",
+          "sha256": "5f5d4e4dc6098b2dd4fdd440818198e17e9d7b0e4e1a9c7e591c583fee8775f6"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/context.test.mjs",
+          "test/representative-microservice-comparison.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T00:25:32.000Z"
+      }
     }
   ]
 }
