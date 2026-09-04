@@ -6,19 +6,24 @@ import test from "node:test";
 
 import {
   CONTEXT_ABLATION_ANALYSIS_SCHEMA,
+  acquisitionLimits,
   analyzeContextAblation,
+  buildAcquisitionObservation,
   candidateInstruction,
   conditionDefinitions,
   contextAblationApprovalTemplate,
   contextAblationProtocolDigest,
   contextAblationTestProviderContract,
   evaluateContextAblationOutput,
+  evaluateRetainedDiagnosticRegression,
   evaluateRetainedFalseNegativeRegression,
+  deriveSuccessorLimitBasis,
   multiOutputSchema,
   prepareContextAblationLab,
   preflightContextAblation,
   rehearseContextAblation,
   singleOutputSchema,
+  successorLimitBasis,
   validateAnswerFreeOutputSchema,
   validateContextAblationApproval,
   validateContextAblationProtocol
@@ -29,6 +34,7 @@ function syntheticCondition(definition, expected, operationalTokens, latencyMs, 
     id: definition.id,
     shape: definition.shape,
     strategy: definition.strategy,
+    repetition: definition.repetition,
     status: "completed",
     stop_scope: null,
     stop_reason: null,
@@ -57,6 +63,25 @@ function syntheticCondition(definition, expected, operationalTokens, latencyMs, 
       reported_output_bytes: toolBytes,
       item_types: { commandExecution: 2, agentMessage: 1 }
     },
+    context_acquisition: {
+      schema_version: "temple.context-acquisition/v1",
+      limits: acquisitionLimits,
+      entries: [],
+      entry_count: 0,
+      unique_path_count: 0,
+      overflow_count: 0,
+      failed_command_items: 0,
+      counts: { control: 1, "required-evidence": 0, routed: 2, "permitted-fallback": 0, "off-route": 0, unknown: 0 },
+      reported_output_bytes_by_classification: { control: 20, "required-evidence": 0, routed: toolBytes, "permitted-fallback": 0, "off-route": 0, unknown: 0 },
+      classifiable_context_reads: 2,
+      policy_adherent_reads: 2,
+      known_policy_adherence_percent: 100,
+      routed_share_percent: 100,
+      coverage_complete: true,
+      adherence_pass: true,
+      raw_commands_retained: false,
+      raw_output_retained: false
+    },
     completion: structuredClone(expected),
     objective: evaluateContextAblationOutput(definition.shape, expected, expected),
     retry_count: 0,
@@ -70,10 +95,14 @@ function syntheticCondition(definition, expected, operationalTokens, latencyMs, 
 
 test("Context Capsule ablation schemas and instructions reveal no frozen answers", () => {
   assert.deepEqual(conditionDefinitions.map((entry) => entry.id), [
-    "single-stage-aware",
-    "multi-legacy-expanded",
-    "single-legacy-expanded",
-    "multi-stage-aware"
+    "single-stage-aware-a",
+    "multi-legacy-expanded-a",
+    "single-legacy-expanded-a",
+    "multi-stage-aware-a",
+    "single-legacy-expanded-b",
+    "multi-stage-aware-b",
+    "single-stage-aware-b",
+    "multi-legacy-expanded-b"
   ]);
   assert.equal(conditionDefinitions.every((entry) => entry.model === "gpt-5.6-terra" && entry.reasoning_effort === "medium"), true);
   assert.equal(singleOutputSchema.additionalProperties, false);
@@ -138,8 +167,21 @@ test("retained WI-0138 display variants project to the same typed facts without 
   ]);
 });
 
+test("retained WI-0139 result reproduces the censoring diagnosis and derives the successor ceiling", async () => {
+  const retained = JSON.parse(await fs.readFile(path.resolve(".ai-org/artifacts/WI-0139/live-observation.json"), "utf8"));
+  const regression = evaluateRetainedDiagnosticRegression(retained);
+  assert.equal(regression.pass, true);
+  assert.equal(regression.total_operational_tokens, 136851);
+  assert.equal(regression.coordinator_multi_repository.operational_tokens_delta_percent, 6.38);
+  assert.equal(regression.coordinator_multi_repository.latency_delta_percent, 8.01);
+  const basis = deriveSuccessorLimitBasis(retained);
+  assert.equal(basis.pass, true);
+  assert.equal(basis.observed_single_repository_lower_bound, 40460);
+  assert.equal(basis.derived_single_repository_limit, successorLimitBasis.single_repository_limit);
+});
+
 test("generation-free preparation produces matched repositories and smaller stage-aware packages", async (context) => {
-  const labRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0139-test-"));
+  const labRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0140-test-"));
   await fs.rm(labRoot, { recursive: true, force: true });
   context.after(() => fs.rm(labRoot, { recursive: true, force: true }));
   const prepared = await prepareContextAblationLab(labRoot, {
@@ -151,15 +193,21 @@ test("generation-free preparation produces matched repositories and smaller stag
   assert.equal(validation.valid, true, validation.errors.join("\n"));
   assert.equal(prepared.protocol.protocol_sha256, contextAblationProtocolDigest(prepared.protocol));
   for (const shape of ["single-repository", "coordinator-multi-repository"]) {
-    const stage = prepared.protocol.conditions.find((entry) => entry.shape === shape && entry.strategy === "stage-aware");
-    const legacy = prepared.protocol.conditions.find((entry) => entry.shape === shape && entry.strategy === "legacy-expanded");
-    assert.ok(stage.treatment.measured_source_bytes < legacy.treatment.measured_source_bytes);
-    assert.ok(stage.treatment.selected_source_count < legacy.treatment.selected_source_count);
-    assert.notEqual(stage.treatment.selection_digest, legacy.treatment.selection_digest);
-    assert.deepEqual(stage.repository_manifest, legacy.repository_manifest);
+    const stage = prepared.protocol.conditions.filter((entry) => entry.shape === shape && entry.strategy === "stage-aware");
+    const legacy = prepared.protocol.conditions.filter((entry) => entry.shape === shape && entry.strategy === "legacy-expanded");
+    assert.equal(stage.length, 2);
+    assert.equal(legacy.length, 2);
+    for (const key of ["selection_digest", "resolver_selection_digest", "selected_source_count", "measured_source_bytes"]) {
+      assert.equal(stage[0].treatment[key], stage[1].treatment[key]);
+      assert.equal(legacy[0].treatment[key], legacy[1].treatment[key]);
+    }
+    assert.ok(stage[0].treatment.measured_source_bytes < legacy[0].treatment.measured_source_bytes);
+    assert.ok(stage[0].treatment.selected_source_count < legacy[0].treatment.selected_source_count);
+    assert.notEqual(stage[0].treatment.selection_digest, legacy[0].treatment.selection_digest);
+    assert.deepEqual(stage[0].repository_manifest, legacy[0].repository_manifest);
   }
-  const legacyPackage = JSON.parse(await fs.readFile(path.join(labRoot, "conditions/single-legacy-expanded/CONTEXT_PACKAGE.json"), "utf8"));
-  const stagePackage = JSON.parse(await fs.readFile(path.join(labRoot, "conditions/single-stage-aware/CONTEXT_PACKAGE.json"), "utf8"));
+  const legacyPackage = JSON.parse(await fs.readFile(path.join(labRoot, "conditions/single-legacy-expanded-a/CONTEXT_PACKAGE.json"), "utf8"));
+  const stagePackage = JSON.parse(await fs.readFile(path.join(labRoot, "conditions/single-stage-aware-a/CONTEXT_PACKAGE.json"), "utf8"));
   assert.equal(legacyPackage.sources.some((entry) => entry.path === "coordinator/TEMPLE.md"), true);
   assert.equal(stagePackage.sources.some((entry) => entry.path === "coordinator/TEMPLE.md"), false);
   const readiness = await rehearseContextAblation(labRoot, path.join(labRoot, "live-protocol.json"), {
@@ -168,7 +216,7 @@ test("generation-free preparation produces matched repositories and smaller stag
   });
   assert.equal(readiness.pass, true);
   assert.equal(readiness.candidate_turn_count, 0);
-  assert.equal(readiness.simulated_condition_count, 4);
+  assert.equal(readiness.simulated_condition_count, 8);
   assert.equal(readiness.operational_tokens, 0);
   assert.equal(readiness.model_generation_performed, false);
 
@@ -208,6 +256,59 @@ test("generation-free preparation produces matched repositories and smaller stag
   assert.equal(preflight.generation_ready, true, preflight.blockers.join(", "));
 });
 
+test("bounded acquisition evidence classifies safe reads without retaining commands or output", async (context) => {
+  const labRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0140-acquisition-"));
+  await fs.rm(labRoot, { recursive: true, force: true });
+  context.after(() => fs.rm(labRoot, { recursive: true, force: true }));
+  await prepareContextAblationLab(labRoot, {
+    providerContract: contextAblationTestProviderContract(),
+    sourceRevision: "a".repeat(40),
+    writeArtifacts: false
+  });
+  const conditionRoot = path.join(labRoot, "conditions/single-stage-aware-a");
+  const package_ = JSON.parse(await fs.readFile(path.join(conditionRoot, "CONTEXT_PACKAGE.json"), "utf8"));
+  const routedPath = package_.sources[0].path;
+  const offRoutePath = "coordinator/docs/discovery/subscriptions.md";
+  const symlinkPath = path.join(conditionRoot, "coordinator/docs/product/escaped-link");
+  await fs.symlink("/tmp", symlinkPath);
+  const successful = (path_, output, actions = null) => ({
+    item: {
+      type: "commandExecution",
+      cwd: conditionRoot,
+      exitCode: 0,
+      aggregatedOutput: output,
+      commandActions: actions ?? [{ type: "read", command: `sed -n '1,20p' ${path_}`, path: path_ }]
+    }
+  });
+  const items = [
+    successful("CONTEXT_PACKAGE.json", "package-body"),
+    successful(routedPath, "routed-body"),
+    successful(offRoutePath, "off-route-body"),
+    successful("coordinator/docs/product/escaped-link", "outside-body"),
+    successful(routedPath, "multiple-body", [
+      { type: "read", command: `sed -n '1,20p' ${routedPath}`, path: routedPath },
+      { type: "read", command: `sed -n '1,20p' ${offRoutePath}`, path: offRoutePath }
+    ]),
+    { item: { type: "commandExecution", cwd: conditionRoot, exitCode: 1, aggregatedOutput: "failed-secret", commandActions: [{ type: "read", command: `sed -n '1,20p' ${routedPath}`, path: routedPath }] } },
+    ...Array.from({ length: acquisitionLimits.maximum_entries }, () => successful(routedPath, "bounded"))
+  ];
+  const observation = await buildAcquisitionObservation({ items, conditionRoot, treatmentPackage: package_ });
+  assert.equal(observation.entry_count, acquisitionLimits.maximum_entries);
+  assert.ok(observation.overflow_count > 0);
+  assert.equal(observation.failed_command_items, 1);
+  assert.ok(observation.counts.control >= 1);
+  assert.ok(observation.counts.routed >= 1);
+  assert.ok(observation.counts["off-route"] >= 1);
+  assert.ok(observation.counts.unknown >= 1);
+  assert.equal(observation.coverage_complete, false);
+  assert.equal(observation.adherence_pass, false);
+  assert.equal(observation.entries.filter((entry) => entry.reported_output_bytes === null).length >= 2, true);
+  const retainedText = JSON.stringify(observation);
+  assert.doesNotMatch(retainedText, /sed -n|package-body|routed-body|off-route-body|outside-body|failed-secret|multiple-body/);
+  assert.equal(observation.raw_commands_retained, false);
+  assert.equal(observation.raw_output_retained, false);
+});
+
 test("analysis keeps shapes separate and makes correctness primary", () => {
   const protocol = {
     protocol_sha256: "c".repeat(64),
@@ -233,13 +334,13 @@ test("analysis keeps shapes separate and makes correctness primary", () => {
     }
   };
   const observations = {
-    "single-stage-aware": [800, 800, 800],
-    "single-legacy-expanded": [1000, 1000, 1000],
-    "multi-stage-aware": [1600, 1600, 1600],
-    "multi-legacy-expanded": [2000, 2000, 2000]
+    "single-repository:stage-aware": [800, 800, 800],
+    "single-repository:legacy-expanded": [1000, 1000, 1000],
+    "coordinator-multi-repository:stage-aware": [1600, 1600, 1600],
+    "coordinator-multi-repository:legacy-expanded": [2000, 2000, 2000]
   };
   const conditions = conditionDefinitions.map((definition) => {
-    const [tokens, latency, bytes] = observations[definition.id];
+    const [tokens, latency, bytes] = observations[`${definition.shape}:${definition.strategy}`];
     return syntheticCondition(definition, expectedByShape[definition.shape], tokens, latency, bytes);
   });
   const analysis = analyzeContextAblation({
@@ -252,7 +353,7 @@ test("analysis keeps shapes separate and makes correctness primary", () => {
   assert.deepEqual(analysis.comparisons.map((entry) => entry.outcome), ["supported", "supported"]);
   assert.equal(analysis.diagnostic_aggregate.operational_tokens_delta.percent, -20);
   const regressed = structuredClone(conditions);
-  regressed.find((entry) => entry.id === "single-stage-aware").objective.pass = false;
+  regressed.find((entry) => entry.id === "single-stage-aware-a").objective.pass = false;
   const regression = analyzeContextAblation({ protocol, observation: { conditions: regressed } });
   assert.equal(regression.comparisons.find((entry) => entry.shape === "single-repository").outcome, "quality-regression");
 });
@@ -269,7 +370,7 @@ test("analysis preserves unknown usage instead of inventing a savings delta", ()
     protocol,
     observation: {
       conditions: conditionDefinitions.map((definition) => ({
-        id: definition.id, shape: definition.shape, strategy: definition.strategy,
+        id: definition.id, shape: definition.shape, strategy: definition.strategy, repetition: definition.repetition,
         status: "stopped", operational_tokens: null, turn_elapsed_ms: null, objective: null
       }))
     }

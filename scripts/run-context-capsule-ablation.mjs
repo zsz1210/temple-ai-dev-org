@@ -27,6 +27,7 @@ import {
 import {
   modelTurnItemPolicyViolation,
   modelTurnStopReason,
+  normalizeProviderCommandText,
   representativeAppServerArguments,
   representativeProtocolViolationForMessage,
   representativeTurnSandboxPolicy,
@@ -35,8 +36,8 @@ import {
 
 const execFile = promisify(execFileCallback);
 const repositoryRoot = path.resolve(import.meta.dirname, "..");
-const artifactRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0139");
-const defaultLabRoot = path.join(os.tmpdir(), "temple-wi0139-context-capsule-ablation");
+const artifactRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0140");
+const defaultLabRoot = path.join(os.tmpdir(), "temple-wi0140-context-capsule-ablation");
 const defaultProtocolPath = path.join(artifactRoot, "live-protocol.json");
 const defaultApprovalTemplatePath = path.join(artifactRoot, "account-approval.template.json");
 const defaultApprovalPath = path.join(artifactRoot, "account-approval.json");
@@ -47,7 +48,10 @@ const defaultStoppedObservationPath = path.join(artifactRoot, "stopped-observati
 const defaultAnalysisPath = path.join(artifactRoot, "effectiveness-analysis.json");
 const defaultReportPath = path.join(artifactRoot, "effectiveness-report.md");
 const harnessPath = path.join(repositoryRoot, "scripts/run-context-capsule-ablation.mjs");
-const retainedPredecessorObservationPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0138/live-observation.json");
+const retainedFalseNegativeObservationPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0138/live-observation.json");
+const retainedDiagnosticObservationPath = path.join(repositoryRoot, ".ai-org/artifacts/WI-0139/live-observation.json");
+const retainedDiagnosticRoot = path.join(repositoryRoot, ".ai-org/artifacts/WI-0139");
+const diagnosticBaselineRevision = "1461cf6";
 
 const fixedGitEnvironment = Object.freeze({
   GIT_AUTHOR_NAME: "Temple Fixture",
@@ -59,48 +63,103 @@ const fixedGitEnvironment = Object.freeze({
   GIT_CONFIG_NOSYSTEM: "1"
 });
 
-export const CONTEXT_ABLATION_SCHEMA = "temple.context-capsule-ablation/v2";
-export const CONTEXT_ABLATION_APPROVAL_SCHEMA = "temple.context-capsule-ablation-approval/v2";
+export const CONTEXT_ABLATION_SCHEMA = "temple.context-capsule-ablation/v3";
+export const CONTEXT_ABLATION_APPROVAL_SCHEMA = "temple.context-capsule-ablation-approval/v3";
 export const CONTEXT_PACKAGE_SCHEMA = "temple.context-treatment-package/v1";
-export const CONTEXT_ABLATION_OBSERVATION_SCHEMA = "temple.context-capsule-ablation-observation/v2";
-export const CONTEXT_ABLATION_ANALYSIS_SCHEMA = "temple.context-capsule-ablation-analysis/v2";
+export const CONTEXT_ABLATION_OBSERVATION_SCHEMA = "temple.context-capsule-ablation-observation/v3";
+export const CONTEXT_ABLATION_ANALYSIS_SCHEMA = "temple.context-capsule-ablation-analysis/v3";
+
+export const acquisitionLimits = Object.freeze({
+  maximum_entries: 64,
+  maximum_path_bytes: 240
+});
+
+export const successorLimitBasis = Object.freeze({
+  observed_single_repository_lower_bound: 40460,
+  headroom_band: 10000,
+  rounding_band: 1000,
+  single_repository_limit: 51000,
+  coordinator_multi_repository_limit: 80000
+});
 
 export const conditionDefinitions = Object.freeze([
   Object.freeze({
-    id: "single-stage-aware",
+    id: "single-stage-aware-a",
     shape: "single-repository",
     strategy: "stage-aware",
+    repetition: "a",
     model: "gpt-5.6-terra",
     reasoning_effort: "medium",
-    operational_token_limit: 40000
+    operational_token_limit: successorLimitBasis.single_repository_limit
   }),
   Object.freeze({
-    id: "multi-legacy-expanded",
+    id: "multi-legacy-expanded-a",
     shape: "coordinator-multi-repository",
     strategy: "legacy-expanded",
+    repetition: "a",
     model: "gpt-5.6-terra",
     reasoning_effort: "medium",
-    operational_token_limit: 80000
+    operational_token_limit: successorLimitBasis.coordinator_multi_repository_limit
   }),
   Object.freeze({
-    id: "single-legacy-expanded",
+    id: "single-legacy-expanded-a",
     shape: "single-repository",
     strategy: "legacy-expanded",
+    repetition: "a",
     model: "gpt-5.6-terra",
     reasoning_effort: "medium",
-    operational_token_limit: 40000
+    operational_token_limit: successorLimitBasis.single_repository_limit
   }),
   Object.freeze({
-    id: "multi-stage-aware",
+    id: "multi-stage-aware-a",
     shape: "coordinator-multi-repository",
     strategy: "stage-aware",
+    repetition: "a",
     model: "gpt-5.6-terra",
     reasoning_effort: "medium",
-    operational_token_limit: 80000
+    operational_token_limit: successorLimitBasis.coordinator_multi_repository_limit
+  }),
+  Object.freeze({
+    id: "single-legacy-expanded-b",
+    shape: "single-repository",
+    strategy: "legacy-expanded",
+    repetition: "b",
+    model: "gpt-5.6-terra",
+    reasoning_effort: "medium",
+    operational_token_limit: successorLimitBasis.single_repository_limit
+  }),
+  Object.freeze({
+    id: "multi-stage-aware-b",
+    shape: "coordinator-multi-repository",
+    strategy: "stage-aware",
+    repetition: "b",
+    model: "gpt-5.6-terra",
+    reasoning_effort: "medium",
+    operational_token_limit: successorLimitBasis.coordinator_multi_repository_limit
+  }),
+  Object.freeze({
+    id: "single-stage-aware-b",
+    shape: "single-repository",
+    strategy: "stage-aware",
+    repetition: "b",
+    model: "gpt-5.6-terra",
+    reasoning_effort: "medium",
+    operational_token_limit: successorLimitBasis.single_repository_limit
+  }),
+  Object.freeze({
+    id: "multi-legacy-expanded-b",
+    shape: "coordinator-multi-repository",
+    strategy: "legacy-expanded",
+    repetition: "b",
+    model: "gpt-5.6-terra",
+    reasoning_effort: "medium",
+    operational_token_limit: successorLimitBasis.coordinator_multi_repository_limit
   })
 ]);
 
 const conditionIds = Object.freeze(conditionDefinitions.map((entry) => entry.id));
+const aggregateOperationalTokenLimit = conditionDefinitions.reduce((sum, entry) => sum + entry.operational_token_limit, 0);
+const programWallClockLimitMs = 4800000;
 const componentRepositoryIds = Object.freeze(["gateway", "catalog", "orders", "notifications"]);
 
 const baseInstructions = "You are a bounded cold-handoff recovery worker. Use only the supplied local repository evidence and return the requested structured completion record.";
@@ -298,9 +357,9 @@ function assertSafeLabRoot(value) {
     relative === ".." ||
     relative.startsWith(`..${path.sep}`) ||
     path.isAbsolute(relative) ||
-    !path.basename(resolved).startsWith("temple-wi0139-")
+    !path.basename(resolved).startsWith("temple-wi0140-")
   ) {
-    throw new Error("Lab root must be a specific temple-wi0139-* directory below the system temporary directory");
+    throw new Error("Lab root must be a specific temple-wi0140-* directory below the system temporary directory");
   }
   return resolved;
 }
@@ -322,7 +381,7 @@ function initConfig(projectId, projectName) {
 
 async function initializeGitRepository(root, name) {
   await fs.mkdir(root, { recursive: true });
-  await writeText(path.join(root, "README.md"), `# ${name}\n\nSynthetic local WI-0139 fixture. No production or external authority.\n`);
+  await writeText(path.join(root, "README.md"), `# ${name}\n\nSynthetic local WI-0140 fixture. No production or external authority.\n`);
   await checked("git", ["init", "-b", "main", root], { env: { ...process.env, ...fixedGitEnvironment } });
   await git(root, ["add", "-A"]);
   await git(root, ["commit", "-m", `Create ${name} fixture`]);
@@ -513,7 +572,7 @@ async function createSingleSource(labRoot) {
   await writeText(path.join(root, "docs/ui/dashboard.md"), "# Dashboard exploration\n\nArchived layout variants are not part of WI-0001.\n".repeat(36));
   await writeText(path.join(root, "docs/operations/deploy.md"), "# Deployment runbook\n\nProduction steps are outside this local verification.\n".repeat(44));
   await writeText(path.join(root, "docs/history/incident-2024.md"), "# Archived incident\n\nHistorical narrative has no authority over the candidate.\n".repeat(48));
-  await installTemple(root, path.join(labRoot, "configs/single.json"), "wi0139-single", "WI-0139 Single Fixture");
+  await installTemple(root, path.join(labRoot, "configs/single.json"), "wi0140-single", "WI-0140 Single Fixture");
   await createTempleWorkItem(root, {
     title: "Recover the idempotent receipt candidate",
     scope: "Recover the exact requirement, accepted decision, revision, tests, residual risk, and next action.",
@@ -595,7 +654,7 @@ async function createMultiSource(labRoot) {
   await writeText(path.join(root, "docs/discovery/marketplace.md"), "# Marketplace discovery\n\nFuture scope remains unapproved.\n".repeat(42));
   await writeText(path.join(root, "docs/operations/release.md"), "# Release plan\n\nProduction rollout is excluded from WI-0001.\n".repeat(46));
   await writeText(path.join(root, "docs/history/queue-incident.md"), "# Queue incident archive\n\nHistorical details do not govern the current contract.\n".repeat(50));
-  await installTemple(root, path.join(labRoot, "configs/multi.json"), "wi0139-multi", "WI-0139 Multi Fixture");
+  await installTemple(root, path.join(labRoot, "configs/multi.json"), "wi0140-multi", "WI-0140 Multi Fixture");
   await createTempleWorkItem(root, {
     title: "Recover the OrderPlaced v2 integration handoff",
     scope: "Recover the exact contract, component revisions, completed slices, residual risk, authority, and next action.",
@@ -783,7 +842,7 @@ function threadStartParams({ id, cwd, route }) {
     approvalPolicy: "never",
     sandbox: "read-only",
     ephemeral: true,
-    serviceName: `temple-wi0139-${id}`,
+    serviceName: `temple-wi0140-${id}`,
     developerInstructions,
     ...wave5ThreadIsolation(cwd),
     baseInstructions
@@ -793,7 +852,7 @@ function threadStartParams({ id, cwd, route }) {
 function turnStartParams({ id, threadId, cwd, route, instruction, outputSchema }) {
   return {
     threadId,
-    clientUserMessageId: `wi0139-${id}`,
+    clientUserMessageId: `wi0140-${id}`,
     input: [{ type: "text", text: instruction }],
     turnTrigger: "user",
     cwd,
@@ -833,7 +892,7 @@ function validateGeneratedWireRequest(schemaText, params) {
 
 export async function contextAblationProviderHandshake() {
   const cliVersion = await checked("codex", ["--version"]);
-  const schemaRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0139-schema-"));
+  const schemaRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0140-schema-"));
   const schemaNames = [
     "ThreadStartParams.json",
     "TurnStartParams.json",
@@ -857,7 +916,7 @@ export async function contextAblationProviderHandshake() {
       env: isolateWave5CodexEnvironment(process.env)
     });
     await connection.request("initialize", {
-      clientInfo: { name: "temple-wi0139-preflight", title: "Temple WI-0139 Preflight", version: "2" },
+      clientInfo: { name: "temple-wi0140-preflight", title: "Temple WI-0140 Preflight", version: "3" },
       capabilities: { experimentalApi: false }
     });
     connection.notify("initialized", {});
@@ -874,12 +933,12 @@ export async function contextAblationProviderHandshake() {
     const terra = models.find((entry) => modelId(entry) === "gpt-5.6-terra");
     const efforts = modelEfforts(terra);
     const routeAvailable = Boolean(terra) && efforts.includes("medium");
-    const sampleRoot = path.join(os.tmpdir(), "temple-wi0139-wire-sample");
+    const sampleRoot = path.join(os.tmpdir(), "temple-wi0140-wire-sample");
     const sampleRoute = { model: "gpt-5.6-terra", reasoning_effort: "medium" };
     const wireRequests = {
       thread_start: validateGeneratedWireRequest(schemaTexts["ThreadStartParams.json"], threadStartParams({ id: "wire-sample", cwd: sampleRoot, route: sampleRoute })),
       turn_start: validateGeneratedWireRequest(schemaTexts["TurnStartParams.json"], turnStartParams({
-        id: "wire-sample", threadId: "wi0139-wire-sample", cwd: sampleRoot, route: sampleRoute,
+        id: "wire-sample", threadId: "wi0140-wire-sample", cwd: sampleRoot, route: sampleRoute,
         instruction: candidateInstruction("single-repository"), outputSchema: singleOutputSchema
       }))
     };
@@ -958,17 +1017,17 @@ export function contextAblationTestProviderContract() {
 export function contextAblationApprovalTemplate(protocol) {
   return {
     schema_version: CONTEXT_ABLATION_APPROVAL_SCHEMA,
-    work_item_id: "WI-0139",
+    work_item_id: "WI-0140",
     protocol_sha256: protocol.protocol_sha256,
     approved: false,
     authorization_source: null,
     approved_conditions: [...conditionIds],
-    approved_candidate_turns: 4,
+    approved_candidate_turns: conditionDefinitions.length,
     approved_model: "gpt-5.6-terra",
     approved_reasoning_effort: "medium",
     approved_condition_operational_token_limits: Object.fromEntries(conditionDefinitions.map((entry) => [entry.id, entry.operational_token_limit])),
-    approved_aggregate_operational_tokens: 240000,
-    approved_program_wall_clock_ms: 2400000,
+    approved_aggregate_operational_tokens: aggregateOperationalTokenLimit,
+    approved_program_wall_clock_ms: programWallClockLimitMs,
     pro_included_allowance_only: true,
     credits_purchase_authorized: false,
     automatic_refill_authorized: false,
@@ -999,7 +1058,17 @@ export function validateContextAblationApproval(approval, protocol) {
   return { accepted: errors.length === 0, errors };
 }
 
-function protocolFromLab({ labManifest, packages, providerContract, sourceRevision, harnessSha256, historicalRegression }) {
+function protocolFromLab({
+  labManifest,
+  packages,
+  providerContract,
+  sourceRevision,
+  harnessSha256,
+  historicalRegression,
+  diagnosticRegression,
+  predecessorIntegrity,
+  limitBasis
+}) {
   const conditions = conditionDefinitions.map((definition) => {
     const package_ = packages[definition.id];
     const conditionRoot = path.join(labManifest.lab_root, "conditions", definition.id);
@@ -1020,7 +1089,7 @@ function protocolFromLab({ labManifest, packages, providerContract, sourceRevisi
   });
   const protocol = {
     schema_version: CONTEXT_ABLATION_SCHEMA,
-    work_item_id: "WI-0139",
+    work_item_id: "WI-0140",
     status: "generation-disabled",
     protocol_sha256: null,
     source_revision: sourceRevision,
@@ -1029,7 +1098,7 @@ function protocolFromLab({ labManifest, packages, providerContract, sourceRevisi
     conditions,
     execution: {
       condition_order: [...conditionIds],
-      candidate_turns: 4,
+      candidate_turns: conditionDefinitions.length,
       evaluator_turns: 0,
       retry_count: 0,
       fallback_count: 0,
@@ -1038,22 +1107,30 @@ function protocolFromLab({ labManifest, packages, providerContract, sourceRevisi
       generation_ready: false,
       exact_approval_required: true,
       condition_operational_token_limits: Object.fromEntries(conditionDefinitions.map((entry) => [entry.id, entry.operational_token_limit])),
-      aggregate_operational_token_limit: 240000,
-      program_wall_clock_limit_ms: 2400000
+      aggregate_operational_token_limit: aggregateOperationalTokenLimit,
+      program_wall_clock_limit_ms: programWallClockLimitMs
     },
     provider_contract: providerContract,
     historical_regression: historicalRegression,
+    diagnostic_regression: diagnosticRegression,
+    predecessor_integrity: predecessorIntegrity,
     privacy: {
       raw_prompts_retained: false,
       raw_responses_retained: false,
       hidden_reasoning_retained: false,
       normalized_structured_completion_retained: true,
-      temporary_repositories_retained_in_git: false
+      temporary_repositories_retained_in_git: false,
+      raw_commands_retained: false,
+      raw_command_outputs_retained: false,
+      acquisition_manifest: "bounded-path-only",
+      acquisition_limits: acquisitionLimits
     },
     interpretation: {
       primary_metric: "objective-correctness",
       per_shape_reporting_required: true,
-      sample_per_condition: 1,
+      sample_per_condition: 2,
+      counterbalanced_order: true,
+      acquisition_is_primary_diagnostic: true,
       reasoning_effort_claim: "requested-and-thread-configured",
       effective_turn_reasoning_effort_observable: false,
       statistical_claim_authorized: false,
@@ -1064,21 +1141,10 @@ function protocolFromLab({ labManifest, packages, providerContract, sourceRevisi
       { work_item_id: "WI-0135", evidence: ".ai-org/artifacts/WI-0135/live-experiment-observation.json" },
       { work_item_id: "WI-0136", evidence: ".ai-org/artifacts/WI-0136/representative-main-v16-findings.md" },
       { work_item_id: "WI-0137", evidence: ".ai-org/artifacts/WI-0137/independent-qa.md" },
-      { work_item_id: "WI-0138", evidence: ".ai-org/artifacts/WI-0138/evidence-backed-findings.md" }
+      { work_item_id: "WI-0138", evidence: ".ai-org/artifacts/WI-0138/evidence-backed-findings.md" },
+      { work_item_id: "WI-0139", evidence: ".ai-org/artifacts/WI-0139/live-evaluation.md" }
     ],
-    limit_basis: {
-      single_repository: {
-        source: ".ai-org/artifacts/WI-0135/live-experiment-observation.json",
-        observed_terra_candidate_range: [30974, 32271],
-        frozen_limit: 40000
-      },
-      coordinator_multi_repository: {
-        source: ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-run.json",
-        observed_terra_condition_range: [57296, 70743],
-        frozen_limit: 80000
-      },
-      meaning: "Safety ceilings above retained matched observations; not expected use, price, or a statistical estimate."
-    }
+    limit_basis: limitBasis
   };
   protocol.protocol_sha256 = contextAblationProtocolDigest(protocol);
   return protocol;
@@ -1087,7 +1153,7 @@ function protocolFromLab({ labManifest, packages, providerContract, sourceRevisi
 export function validateContextAblationProtocol(protocol) {
   const errors = [];
   if (protocol?.schema_version !== CONTEXT_ABLATION_SCHEMA) errors.push("unsupported protocol schema");
-  if (protocol?.work_item_id !== "WI-0139" || protocol?.status !== "generation-disabled") errors.push("protocol identity or status mismatch");
+  if (protocol?.work_item_id !== "WI-0140" || protocol?.status !== "generation-disabled") errors.push("protocol identity or status mismatch");
   if (protocol?.protocol_sha256 !== contextAblationProtocolDigest(protocol)) errors.push("protocol digest mismatch");
   if (!/^[a-f0-9]{40}$/.test(protocol?.source_revision ?? "")) errors.push("exact source revision missing");
   if (!/^[a-f0-9]{64}$/.test(protocol?.harness_sha256 ?? "")) errors.push("harness digest missing");
@@ -1095,7 +1161,7 @@ export function validateContextAblationProtocol(protocol) {
   if (stableText(conditions.map((entry) => entry.id)) !== stableText(conditionIds)) errors.push("condition order mismatch");
   for (const definition of conditionDefinitions) {
     const condition = conditions.find((entry) => entry.id === definition.id);
-    for (const key of ["shape", "strategy", "model", "reasoning_effort", "operational_token_limit"]) {
+    for (const key of ["shape", "strategy", "repetition", "model", "reasoning_effort", "operational_token_limit"]) {
       if (condition?.[key] !== definition[key]) errors.push(`${definition.id}.${key} mismatch`);
     }
     if (!/^[a-f0-9]{64}$/.test(condition?.treatment?.package_sha256 ?? "")) errors.push(`${definition.id} treatment digest missing`);
@@ -1103,11 +1169,32 @@ export function validateContextAblationProtocol(protocol) {
     if (condition?.prompt_contract?.raw_prompt_retained !== false) errors.push(`${definition.id} prompt retention mismatch`);
   }
   const execution = protocol?.execution ?? {};
-  if (execution.candidate_turns !== 4 || execution.evaluator_turns !== 0 || execution.retry_count !== 0 || execution.fallback_count !== 0 ||
+  if (execution.candidate_turns !== conditionDefinitions.length || execution.evaluator_turns !== 0 || execution.retry_count !== 0 || execution.fallback_count !== 0 ||
       execution.network_access !== false || execution.external_writes !== false || execution.generation_ready !== false ||
-      execution.exact_approval_required !== true || execution.aggregate_operational_token_limit !== 240000 ||
-      execution.program_wall_clock_limit_ms !== 2400000) errors.push("execution boundary mismatch");
+      execution.exact_approval_required !== true || execution.aggregate_operational_token_limit !== aggregateOperationalTokenLimit ||
+      execution.program_wall_clock_limit_ms !== programWallClockLimitMs) errors.push("execution boundary mismatch");
   if (stableText(execution.condition_order) !== stableText(conditionIds)) errors.push("execution order mismatch");
+  const expectedLimits = Object.fromEntries(conditionDefinitions.map((entry) => [entry.id, entry.operational_token_limit]));
+  if (stableText(execution.condition_operational_token_limits) !== stableText(expectedLimits)) errors.push("condition token limits mismatch");
+  const position = (id) => execution.condition_order?.indexOf(id) ?? -1;
+  const counterbalanced =
+    position("single-stage-aware-a") < position("single-legacy-expanded-a") &&
+    position("single-legacy-expanded-b") < position("single-stage-aware-b") &&
+    position("multi-legacy-expanded-a") < position("multi-stage-aware-a") &&
+    position("multi-stage-aware-b") < position("multi-legacy-expanded-b");
+  if (!counterbalanced) errors.push("condition order is not counterbalanced");
+  for (const shape of ["single-repository", "coordinator-multi-repository"]) {
+    for (const strategy of ["legacy-expanded", "stage-aware"]) {
+      const repetitions = conditions.filter((entry) => entry.shape === shape && entry.strategy === strategy);
+      const matched = repetitions.length === 2 &&
+        repetitions[0].treatment?.selection_digest === repetitions[1].treatment?.selection_digest &&
+        repetitions[0].treatment?.resolver_selection_digest === repetitions[1].treatment?.resolver_selection_digest &&
+        repetitions[0].treatment?.selected_source_count === repetitions[1].treatment?.selected_source_count &&
+        repetitions[0].treatment?.measured_source_bytes === repetitions[1].treatment?.measured_source_bytes &&
+        stableText(repetitions[0].repository_manifest) === stableText(repetitions[1].repository_manifest);
+      if (!matched) errors.push(`${shape}.${strategy} repetitions do not match`);
+    }
+  }
   if (protocol?.provider_contract?.pass !== true || protocol?.provider_contract?.model_route?.model !== "gpt-5.6-terra" ||
       protocol?.provider_contract?.model_route?.reasoning_effort !== "medium" ||
       protocol?.provider_contract?.configuration_acknowledgement?.acknowledged_model !== "gpt-5.6-terra" ||
@@ -1118,7 +1205,9 @@ export function validateContextAblationProtocol(protocol) {
     errors.push("Provider contract mismatch");
   }
   if (protocol?.privacy?.raw_prompts_retained !== false || protocol?.privacy?.raw_responses_retained !== false ||
-      protocol?.privacy?.hidden_reasoning_retained !== false) errors.push("privacy boundary mismatch");
+      protocol?.privacy?.hidden_reasoning_retained !== false || protocol?.privacy?.raw_commands_retained !== false ||
+      protocol?.privacy?.raw_command_outputs_retained !== false || protocol?.privacy?.acquisition_manifest !== "bounded-path-only" ||
+      stableText(protocol?.privacy?.acquisition_limits) !== stableText(acquisitionLimits)) errors.push("privacy boundary mismatch");
   if (protocol?.historical_regression?.source_path !== ".ai-org/artifacts/WI-0138/live-observation.json" ||
       !/^[a-f0-9]{64}$/.test(protocol?.historical_regression?.source_sha256 ?? "") ||
       protocol?.historical_regression?.result?.pass !== true ||
@@ -1126,8 +1215,29 @@ export function validateContextAblationProtocol(protocol) {
       protocol?.historical_regression?.model_generation_performed !== false) {
     errors.push("historical regression boundary mismatch");
   }
+  if (protocol?.diagnostic_regression?.source_path !== ".ai-org/artifacts/WI-0139/live-observation.json" ||
+      !/^[a-f0-9]{64}$/.test(protocol?.diagnostic_regression?.source_sha256 ?? "") ||
+      protocol?.diagnostic_regression?.result?.pass !== true ||
+      protocol?.diagnostic_regression?.result?.historical_result_changed !== false ||
+      protocol?.diagnostic_regression?.model_generation_performed !== false) {
+    errors.push("diagnostic regression boundary mismatch");
+  }
+  if (protocol?.predecessor_integrity?.work_item_id !== "WI-0139" ||
+      !/^[a-f0-9]{40}$/.test(protocol?.predecessor_integrity?.baseline_revision ?? "") ||
+      protocol?.predecessor_integrity?.tracked_diff !== false || protocol?.predecessor_integrity?.working_tree_diff !== false ||
+      protocol?.predecessor_integrity?.pass !== true || protocol?.predecessor_integrity?.model_generation_performed !== false) {
+    errors.push("predecessor integrity mismatch");
+  }
+  if (protocol?.limit_basis?.pass !== true ||
+      protocol?.limit_basis?.observed_single_repository_lower_bound !== successorLimitBasis.observed_single_repository_lower_bound ||
+      protocol?.limit_basis?.derived_single_repository_limit !== successorLimitBasis.single_repository_limit ||
+      protocol?.limit_basis?.coordinator_multi_repository_limit !== successorLimitBasis.coordinator_multi_repository_limit) {
+    errors.push("limit derivation mismatch");
+  }
   if (protocol?.interpretation?.reasoning_effort_claim !== "requested-and-thread-configured" ||
       protocol?.interpretation?.effective_turn_reasoning_effort_observable !== false ||
+      protocol?.interpretation?.sample_per_condition !== 2 || protocol?.interpretation?.counterbalanced_order !== true ||
+      protocol?.interpretation?.acquisition_is_primary_diagnostic !== true ||
       protocol?.interpretation?.statistical_claim_authorized !== false || protocol?.interpretation?.monetary_claim_authorized !== false ||
       protocol?.interpretation?.routing_authority_granted !== false) errors.push("interpretation boundary mismatch");
   return { valid: errors.length === 0, errors };
@@ -1155,7 +1265,7 @@ export async function prepareContextAblationLab(labRoot = defaultLabRoot, option
   }
   const labManifest = {
     schema_version: "temple.context-capsule-ablation-lab/v1",
-    work_item_id: "WI-0139",
+    work_item_id: "WI-0140",
     lab_root: resolvedLab,
     shapes: Object.fromEntries(Object.entries(sources).map(([shape, source]) => [shape, {
       stage: source.stage,
@@ -1180,16 +1290,40 @@ export async function prepareContextAblationLab(labRoot = defaultLabRoot, option
   if (!providerContract.pass) throw new Error("Provider compatibility handshake failed before protocol freeze");
   const sourceRevision = options.sourceRevision ?? await git(repositoryRoot, ["rev-parse", "HEAD"]);
   const harnessSha256 = sha256(await fs.readFile(harnessPath, "utf8"));
-  const predecessorObservationText = await fs.readFile(retainedPredecessorObservationPath, "utf8");
-  const historicalResult = evaluateRetainedFalseNegativeRegression(JSON.parse(predecessorObservationText));
+  const falseNegativeObservationText = await fs.readFile(retainedFalseNegativeObservationPath, "utf8");
+  const historicalResult = evaluateRetainedFalseNegativeRegression(JSON.parse(falseNegativeObservationText));
   if (!historicalResult.pass) throw new Error("Retained WI-0138 false-negative regression failed before protocol freeze");
   const historicalRegression = {
-    source_path: path.relative(repositoryRoot, retainedPredecessorObservationPath),
-    source_sha256: sha256(predecessorObservationText),
+    source_path: path.relative(repositoryRoot, retainedFalseNegativeObservationPath),
+    source_sha256: sha256(falseNegativeObservationText),
     result: historicalResult,
     model_generation_performed: false
   };
-  const protocol = protocolFromLab({ labManifest, packages, providerContract, sourceRevision, harnessSha256, historicalRegression });
+  const diagnosticObservationText = await fs.readFile(retainedDiagnosticObservationPath, "utf8");
+  const diagnosticObservation = JSON.parse(diagnosticObservationText);
+  const diagnosticResult = evaluateRetainedDiagnosticRegression(diagnosticObservation);
+  if (!diagnosticResult.pass) throw new Error("Retained WI-0139 diagnostic regression failed before protocol freeze");
+  const limitBasis = deriveSuccessorLimitBasis(diagnosticObservation);
+  if (!limitBasis.pass) throw new Error("WI-0139 evidence cannot derive the successor single-repository limit");
+  const predecessorIntegrity = await retainedDiagnosticIntegrity(diagnosticObservationText);
+  if (!predecessorIntegrity.pass) throw new Error("WI-0139 artifacts changed before successor protocol freeze");
+  const diagnosticRegression = {
+    source_path: path.relative(repositoryRoot, retainedDiagnosticObservationPath),
+    source_sha256: sha256(diagnosticObservationText),
+    result: diagnosticResult,
+    model_generation_performed: false
+  };
+  const protocol = protocolFromLab({
+    labManifest,
+    packages,
+    providerContract,
+    sourceRevision,
+    harnessSha256,
+    historicalRegression,
+    diagnosticRegression,
+    predecessorIntegrity,
+    limitBasis
+  });
   const validation = validateContextAblationProtocol(protocol);
   if (!validation.valid) throw new Error(`Prepared protocol is invalid: ${validation.errors.join(", ")}`);
   if (options.writeArtifacts !== false) {
@@ -1323,6 +1457,85 @@ export function evaluateRetainedFalseNegativeRegression(observation) {
   };
 }
 
+export function deriveSuccessorLimitBasis(observation) {
+  const singleCensored = (observation?.conditions ?? []).filter((entry) =>
+    entry.shape === "single-repository" &&
+    entry.status === "censored" &&
+    entry.stop_reason === "condition-operational-token-limit" &&
+    Number.isSafeInteger(entry.operational_tokens)
+  );
+  const observed = singleCensored.length === 0
+    ? null
+    : Math.max(...singleCensored.map((entry) => entry.operational_tokens));
+  const derived = observed === null
+    ? null
+    : Math.ceil((observed + successorLimitBasis.headroom_band) / successorLimitBasis.rounding_band) * successorLimitBasis.rounding_band;
+  return {
+    pass: singleCensored.length === 2 &&
+      observed === successorLimitBasis.observed_single_repository_lower_bound &&
+      derived === successorLimitBasis.single_repository_limit,
+    source_work_item_id: "WI-0139",
+    observed_single_repository_lower_bound: observed,
+    headroom_band: successorLimitBasis.headroom_band,
+    rounding_band: successorLimitBasis.rounding_band,
+    derived_single_repository_limit: derived,
+    coordinator_multi_repository_limit: successorLimitBasis.coordinator_multi_repository_limit,
+    meaning: "A fixed safety ceiling derived from retained censoring evidence; not expected use, price, or an optimal budget."
+  };
+}
+
+export function evaluateRetainedDiagnosticRegression(observation) {
+  const conditions = observation?.conditions ?? [];
+  const single = conditions.filter((entry) => entry.shape === "single-repository");
+  const multiLegacy = conditions.find((entry) => entry.id === "multi-legacy-expanded");
+  const multiStage = conditions.find((entry) => entry.id === "multi-stage-aware");
+  const total = conditions.reduce((sum, entry) => sum + (Number.isSafeInteger(entry.operational_tokens) ? entry.operational_tokens : 0), 0);
+  const tokenDelta = multiLegacy && multiStage
+    ? round(((multiStage.operational_tokens - multiLegacy.operational_tokens) / multiLegacy.operational_tokens) * 100)
+    : null;
+  const latencyDelta = multiLegacy && multiStage
+    ? round(((multiStage.turn_elapsed_ms - multiLegacy.turn_elapsed_ms) / multiLegacy.turn_elapsed_ms) * 100)
+    : null;
+  const pass = conditions.length === 4 &&
+    single.length === 2 &&
+    single.every((entry) => entry.status === "censored" && entry.stop_reason === "condition-operational-token-limit") &&
+    multiLegacy?.status === "completed" && multiLegacy?.objective?.pass === true &&
+    multiStage?.status === "completed" && multiStage?.objective?.pass === true &&
+    total === 136851 && tokenDelta === 6.38 && latencyDelta === 8.01;
+  return {
+    pass,
+    source_work_item_id: "WI-0139",
+    single_repository_censored_conditions: single.map((entry) => entry.id),
+    coordinator_multi_repository: {
+      legacy_correct: multiLegacy?.objective?.pass ?? null,
+      stage_aware_correct: multiStage?.objective?.pass ?? null,
+      operational_tokens_delta_percent: tokenDelta,
+      latency_delta_percent: latencyDelta
+    },
+    total_operational_tokens: total,
+    historical_result_changed: false
+  };
+}
+
+async function retainedDiagnosticIntegrity(observationText = null) {
+  const sourceText = observationText ?? await fs.readFile(retainedDiagnosticObservationPath, "utf8");
+  const exactDiagnosticRevision = await git(repositoryRoot, ["rev-parse", diagnosticBaselineRevision]);
+  const artifactRootPath = path.relative(repositoryRoot, retainedDiagnosticRoot);
+  const changedDiagnosticPaths = await git(repositoryRoot, ["status", "--porcelain", "--", artifactRootPath]);
+  const diagnosticDiff = await command("git", ["-C", repositoryRoot, "diff", "--quiet", exactDiagnosticRevision, "--", artifactRootPath]);
+  return {
+    work_item_id: "WI-0139",
+    baseline_revision: exactDiagnosticRevision,
+    artifact_root: artifactRootPath,
+    source_path: path.relative(repositoryRoot, retainedDiagnosticObservationPath),
+    source_sha256: sha256(sourceText),
+    tracked_diff: diagnosticDiff.status !== 0,
+    working_tree_diff: changedDiagnosticPaths !== "",
+    pass: diagnosticDiff.status === 0 && changedDiagnosticPaths === "",
+    model_generation_performed: false
+  };
+}
+
 async function inspectLab(labRoot, protocolPath = defaultProtocolPath) {
   const resolvedLab = assertSafeLabRoot(labRoot);
   const errors = [];
@@ -1358,13 +1571,25 @@ async function inspectLab(labRoot, protocolPath = defaultProtocolPath) {
     if (!repositoriesMatch) errors.push(`${definition.id} repository identity or cleanliness mismatch`);
   }
   for (const shape of ["single-repository", "coordinator-multi-repository"]) {
-    const stage = protocol.conditions.find((entry) => entry.shape === shape && entry.strategy === "stage-aware");
-    const legacy = protocol.conditions.find((entry) => entry.shape === shape && entry.strategy === "legacy-expanded");
-    const different = Boolean(stage && legacy) &&
-      stage.treatment.selection_digest !== legacy.treatment.selection_digest &&
-      stage.treatment.measured_source_bytes < legacy.treatment.measured_source_bytes &&
-      stage.treatment.selected_source_count < legacy.treatment.selected_source_count;
+    const stage = protocol.conditions.filter((entry) => entry.shape === shape && entry.strategy === "stage-aware");
+    const legacy = protocol.conditions.filter((entry) => entry.shape === shape && entry.strategy === "legacy-expanded");
+    const comparableTreatment = (entry) => ({
+      selection_digest: entry?.treatment?.selection_digest,
+      resolver_selection_digest: entry?.treatment?.resolver_selection_digest,
+      selected_source_count: entry?.treatment?.selected_source_count,
+      measured_source_bytes: entry?.treatment?.measured_source_bytes
+    });
+    const stageMatched = stage.length === 2 && stableText(comparableTreatment(stage[0])) === stableText(comparableTreatment(stage[1])) &&
+      stableText(stage[0].repository_manifest) === stableText(stage[1].repository_manifest);
+    const legacyMatched = legacy.length === 2 && stableText(comparableTreatment(legacy[0])) === stableText(comparableTreatment(legacy[1])) &&
+      stableText(legacy[0].repository_manifest) === stableText(legacy[1].repository_manifest);
+    const different = stageMatched && legacyMatched &&
+      stage[0].treatment.selection_digest !== legacy[0].treatment.selection_digest &&
+      stage[0].treatment.measured_source_bytes < legacy[0].treatment.measured_source_bytes &&
+      stage[0].treatment.selected_source_count < legacy[0].treatment.selected_source_count;
+    checks.push({ id: `${shape}-repetition-parity`, pass: stageMatched && legacyMatched });
     checks.push({ id: `${shape}-treatment-difference`, pass: different });
+    if (!stageMatched || !legacyMatched) errors.push(`${shape} repetitions do not retain matched treatments and repositories`);
     if (!different) errors.push(`${shape} does not retain a smaller stage-aware treatment`);
   }
   return { valid: errors.length === 0, errors, checks, protocol, labManifest };
@@ -1375,6 +1600,7 @@ function simulatedTurn(definition, completion) {
     id: definition.id,
     shape: definition.shape,
     strategy: definition.strategy,
+    repetition: definition.repetition,
     status: "completed",
     stop_scope: null,
     stop_reason: null,
@@ -1396,6 +1622,39 @@ function simulatedTurn(definition, completion) {
       context_package_reads: 0,
       reported_output_bytes: 0,
       item_types: {}
+    },
+    context_acquisition: {
+      schema_version: "temple.context-acquisition/v1",
+      limits: acquisitionLimits,
+      entries: [],
+      entry_count: 0,
+      unique_path_count: 0,
+      overflow_count: 0,
+      failed_command_items: 0,
+      counts: {
+        control: 0,
+        "required-evidence": 0,
+        routed: 1,
+        "permitted-fallback": 0,
+        "off-route": 0,
+        unknown: 0
+      },
+      reported_output_bytes_by_classification: {
+        control: 0,
+        "required-evidence": 0,
+        routed: 0,
+        "permitted-fallback": 0,
+        "off-route": 0,
+        unknown: 0
+      },
+      classifiable_context_reads: 1,
+      policy_adherent_reads: 1,
+      known_policy_adherence_percent: 100,
+      routed_share_percent: 100,
+      coverage_complete: true,
+      adherence_pass: true,
+      raw_commands_retained: false,
+      raw_output_retained: false
     },
     completion,
     retry_count: 0,
@@ -1420,7 +1679,45 @@ export async function rehearseContextAblation(labRoot = defaultLabRoot, protocol
     };
   });
   const malformedSingle = evaluateContextAblationOutput("single-repository", { requirement_id: "partial" }, labManifest.shapes["single-repository"].expected);
-  const safeRoot = path.join(assertSafeLabRoot(labRoot), "conditions", "single-stage-aware");
+  const safeRoot = path.join(assertSafeLabRoot(labRoot), "conditions", "single-stage-aware-a");
+  const safePackage = await readJson(path.join(safeRoot, "CONTEXT_PACKAGE.json"));
+  const routedPath = safePackage.sources[0].path;
+  const acquisitionRehearsal = await buildAcquisitionObservation({
+    conditionRoot: safeRoot,
+    treatmentPackage: safePackage,
+    items: [
+      {
+        item: {
+          type: "commandExecution", cwd: safeRoot, exitCode: 0, aggregatedOutput: "package",
+          commandActions: [{ type: "read", command: "sed -n '1,260p' CONTEXT_PACKAGE.json", path: "CONTEXT_PACKAGE.json" }]
+        }
+      },
+      {
+        item: {
+          type: "commandExecution", cwd: safeRoot, exitCode: 0, aggregatedOutput: "routed",
+          commandActions: [{ type: "read", command: `sed -n '1,40p' ${routedPath}`, path: routedPath }]
+        }
+      },
+      {
+        item: {
+          type: "commandExecution", cwd: safeRoot, exitCode: 0, aggregatedOutput: "off-route",
+          commandActions: [{ type: "read", command: "sed -n '1,40p' coordinator/docs/discovery/subscriptions.md", path: "coordinator/docs/discovery/subscriptions.md" }]
+        }
+      },
+      {
+        item: {
+          type: "commandExecution", cwd: safeRoot, exitCode: 0, aggregatedOutput: "never-retain",
+          commandActions: [{ type: "read", command: "sed -n '1,20p' /tmp/outside-secret", path: "/tmp/outside-secret" }]
+        }
+      },
+      {
+        item: {
+          type: "commandExecution", cwd: safeRoot, exitCode: 1, aggregatedOutput: "failed",
+          commandActions: [{ type: "read", command: `sed -n '1,40p' ${routedPath}`, path: routedPath }]
+        }
+      }
+    ]
+  });
   const safeCommand = representativeProtocolViolationForMessage({
     method: "item/started",
     params: {
@@ -1464,6 +1761,15 @@ export async function rehearseContextAblation(labRoot = defaultLabRoot, protocol
     { id: "output-schemas-portable", pass: outputSchemasPortable },
     { id: "output-schemas-answer-free", pass: outputSchemasAnswerFree },
     { id: "retained-false-negatives-project-to-typed-facts", pass: historicalRegression?.pass === true && historicalRegression?.historical_result_changed === false },
+    { id: "retained-diagnostic-regression-reproduced", pass: protocol.diagnostic_regression?.result?.pass === true },
+    { id: "predecessor-artifacts-unchanged", pass: protocol.predecessor_integrity?.pass === true },
+    { id: "data-derived-limit-valid", pass: protocol.limit_basis?.pass === true && protocol.limit_basis.derived_single_repository_limit === successorLimitBasis.single_repository_limit },
+    { id: "condition-order-counterbalanced", pass: protocol.interpretation?.counterbalanced_order === true },
+    { id: "acquisition-routed-read-classified", pass: acquisitionRehearsal.counts.routed === 1 },
+    { id: "acquisition-off-route-read-visible", pass: acquisitionRehearsal.counts["off-route"] === 1 && acquisitionRehearsal.adherence_pass === false },
+    { id: "acquisition-unknown-reduces-coverage", pass: acquisitionRehearsal.counts.unknown === 1 && acquisitionRehearsal.coverage_complete === false },
+    { id: "acquisition-failed-read-excluded", pass: acquisitionRehearsal.failed_command_items === 1 && acquisitionRehearsal.entry_count === 4 },
+    { id: "acquisition-retains-no-raw-command-or-output", pass: !JSON.stringify(acquisitionRehearsal).includes("sed -n") && !JSON.stringify(acquisitionRehearsal).includes("never-retain") },
     { id: "configured-route-acknowledged-before-generation", pass: protocol.provider_contract?.configuration_acknowledgement?.pass === true },
     { id: "safe-package-read-accepted", pass: safeCommand === null },
     { id: "path-escape-rejected", pass: escapedCommand?.code === "command-policy-violation" },
@@ -1474,7 +1780,7 @@ export async function rehearseContextAblation(labRoot = defaultLabRoot, protocol
   ];
   const rehearsalObservation = {
     schema_version: CONTEXT_ABLATION_OBSERVATION_SCHEMA,
-    work_item_id: "WI-0139",
+    work_item_id: "WI-0140",
     protocol_sha256: protocol.protocol_sha256,
     kind: "generation-free-rehearsal",
     status: checks.every((entry) => entry.pass) ? "completed" : "failed",
@@ -1488,14 +1794,14 @@ export async function rehearseContextAblation(labRoot = defaultLabRoot, protocol
   checks.push({ id: "analysis-path-completed", pass: analysis.schema_version === CONTEXT_ABLATION_ANALYSIS_SCHEMA });
   const readiness = {
     schema_version: "temple.context-capsule-ablation-readiness/v1",
-    work_item_id: "WI-0139",
+    work_item_id: "WI-0140",
     protocol_sha256: protocol.protocol_sha256,
     completed_at: options.completedAt ?? new Date().toISOString(),
     pass: checks.every((entry) => entry.pass),
     lab_root_id: path.basename(assertSafeLabRoot(labRoot)),
     checks,
     candidate_turn_count: 0,
-    simulated_condition_count: 4,
+    simulated_condition_count: conditionDefinitions.length,
     evaluator_turn_count: 0,
     retry_count: 0,
     fallback_count: 0,
@@ -1527,6 +1833,7 @@ export async function preflightContextAblation(labRoot = defaultLabRoot, protoco
   const readinessPath = path.join(assertSafeLabRoot(labRoot), "harness-readiness.json");
   const readiness = await pathExists(readinessPath) ? await readJson(readinessPath) : null;
   const provider = options.providerContract ?? await contextAblationProviderHandshake();
+  const currentPredecessorIntegrity = await retainedDiagnosticIntegrity();
   const approval = await pathExists(approvalPath)
     ? validateContextAblationApproval(await readJson(approvalPath), protocol)
     : { accepted: false, errors: ["exact approval missing"] };
@@ -1535,13 +1842,14 @@ export async function preflightContextAblation(labRoot = defaultLabRoot, protoco
     { id: "lab-valid", pass: inspection.valid },
     { id: "harness-source-bound", pass: protocol?.harness_sha256 === currentHarnessDigest },
     { id: "provider-contract-matches", pass: providerContractMatches(protocol?.provider_contract, provider) },
+    { id: "predecessor-artifacts-still-unchanged", pass: currentPredecessorIntegrity.pass === true && stableText(currentPredecessorIntegrity) === stableText(protocol?.predecessor_integrity) },
     { id: "readiness-present-and-passing", pass: readiness?.pass === true && readiness?.protocol_sha256 === protocol?.protocol_sha256 },
     { id: "exact-approval", pass: approval.accepted }
   ];
   const blockers = checks.filter((entry) => !entry.pass).map((entry) => entry.id);
   const preflight = {
     schema_version: "temple.context-capsule-ablation-preflight/v1",
-    work_item_id: "WI-0139",
+    work_item_id: "WI-0140",
     observed_at: options.observedAt ?? new Date().toISOString(),
     protocol_sha256: protocol?.protocol_sha256 ?? null,
     generation_ready: blockers.length === 0,
@@ -1604,6 +1912,220 @@ function emptyToolActivity() {
   };
 }
 
+function pathWithin(root, candidate) {
+  const relative = path.relative(root, candidate);
+  return relative === "" || (!relative.startsWith(`..${path.sep}`) && relative !== ".." && !path.isAbsolute(relative));
+}
+
+function retainedOutputBytes(item) {
+  for (const key of ["aggregatedOutput", "output", "formattedOutput"]) {
+    if (typeof item?.[key] === "string") return Buffer.byteLength(item[key]);
+  }
+  return null;
+}
+
+function strictSedPath(commandText) {
+  const match = /^sed\s+-n\s+(?:'[^']+'|"[^"]+"|\S+)\s+(?:"([^"]+)"|'([^']+)'|(\S+))$/.exec(commandText ?? "");
+  return match ? match[1] ?? match[2] ?? match[3] : null;
+}
+
+function gitAcquisition(commandText) {
+  const match = /^git\s+-C\s+(coordinator|gateway|catalog|orders|notifications)\s+(rev-parse\s+HEAD|status\s+--short)$/.exec(commandText ?? "");
+  if (!match) return null;
+  return {
+    repository_id: match[1],
+    path: match[2].startsWith("rev-parse") ? "@git/HEAD" : "@git/status",
+    access_kind: "git",
+    classification: "required-evidence"
+  };
+}
+
+async function repositoryRootForCwd(itemCwd, conditionRoot, repositoryRoots) {
+  if (typeof itemCwd !== "string" || itemCwd.trim() === "") return null;
+  if (repositoryRoots.has(itemCwd)) return { id: itemCwd, root: repositoryRoots.get(itemCwd) };
+  if (!path.isAbsolute(itemCwd)) return null;
+  let canonical;
+  try {
+    canonical = await fs.realpath(itemCwd);
+  } catch {
+    return null;
+  }
+  for (const [id, root] of repositoryRoots) {
+    if (pathWithin(root, canonical)) return { id, root };
+  }
+  return null;
+}
+
+function safeRelativePath(value) {
+  if (typeof value !== "string" || value.trim() === "" || value.includes("\0")) return null;
+  const normalized = value.replaceAll("\\", "/").replace(/^\.\//, "");
+  if (Buffer.byteLength(normalized) > acquisitionLimits.maximum_path_bytes) return null;
+  if (path.isAbsolute(normalized) || normalized === ".." || normalized.startsWith("../") || normalized.split("/").includes("..")) return null;
+  return normalized;
+}
+
+async function normalizeAcquisitionAction({ action, item, conditionRoot, repositoryRoots, routedSources, fallbackSource }) {
+  const commandText = normalizeProviderCommandText(action?.command);
+  const gitEntry = gitAcquisition(commandText);
+  if (gitEntry) return gitEntry;
+  const accessKind = action?.type === "read" ? "read" : action?.type === "search" ? "search" : "unknown";
+  let candidate = typeof action?.path === "string" ? action.path : strictSedPath(commandText);
+  if (candidate === "CONTEXT_PACKAGE.json" || candidate === "./CONTEXT_PACKAGE.json") {
+    return { repository_id: null, path: "CONTEXT_PACKAGE.json", access_kind: accessKind, classification: "control" };
+  }
+  if (typeof candidate !== "string") {
+    return { repository_id: null, path: null, access_kind: accessKind, classification: "unknown" };
+  }
+
+  let repositoryId = null;
+  let repositoryRoot = null;
+  let relativePath = null;
+  if (path.isAbsolute(candidate)) {
+    let canonical;
+    try {
+      canonical = await fs.realpath(candidate);
+    } catch {
+      return { repository_id: null, path: null, access_kind: accessKind, classification: "unknown" };
+    }
+    for (const [id, root] of repositoryRoots) {
+      if (pathWithin(root, canonical)) {
+        repositoryId = id;
+        repositoryRoot = root;
+        relativePath = path.relative(root, canonical).split(path.sep).join("/");
+        break;
+      }
+    }
+  } else {
+    const safe = safeRelativePath(candidate);
+    if (safe === null) return { repository_id: null, path: null, access_kind: accessKind, classification: "unknown" };
+    const [first, ...rest] = safe.split("/");
+    if (repositoryRoots.has(first) && rest.length > 0) {
+      repositoryId = first;
+      repositoryRoot = repositoryRoots.get(first);
+      relativePath = rest.join("/");
+    } else {
+      const inferred = await repositoryRootForCwd(item?.cwd, conditionRoot, repositoryRoots);
+      if (inferred) {
+        repositoryId = inferred.id;
+        repositoryRoot = inferred.root;
+        relativePath = safe;
+      }
+    }
+  }
+  if (!repositoryId || !repositoryRoot || !relativePath || Buffer.byteLength(relativePath) > acquisitionLimits.maximum_path_bytes) {
+    return { repository_id: null, path: null, access_kind: accessKind, classification: "unknown" };
+  }
+
+  const candidatePath = path.join(repositoryRoot, ...relativePath.split("/"));
+  let canonicalCandidate;
+  let stat;
+  try {
+    canonicalCandidate = await fs.realpath(candidatePath);
+    stat = await fs.stat(canonicalCandidate);
+  } catch {
+    return { repository_id: null, path: null, access_kind: accessKind, classification: "unknown" };
+  }
+  if (!pathWithin(repositoryRoot, canonicalCandidate)) {
+    return { repository_id: null, path: null, access_kind: accessKind, classification: "unknown" };
+  }
+  relativePath = path.relative(repositoryRoot, canonicalCandidate).split(path.sep).join("/");
+  const fullPath = `${repositoryId}/${relativePath}`;
+  let classification = "off-route";
+  if (stat.isDirectory() && accessKind === "search") classification = "unknown";
+  else if (routedSources.some((source) => fullPath === source || fullPath.startsWith(`${source}/`))) classification = "routed";
+  else if (fallbackSource !== null && fullPath === fallbackSource) classification = "permitted-fallback";
+  return {
+    repository_id: repositoryId,
+    path: relativePath,
+    access_kind: accessKind,
+    classification
+  };
+}
+
+export async function buildAcquisitionObservation({ items, conditionRoot, treatmentPackage }) {
+  const canonicalConditionRoot = await fs.realpath(conditionRoot);
+  const repositoryRoots = new Map();
+  for (const repositoryId of ["coordinator", ...componentRepositoryIds]) {
+    const candidate = path.join(canonicalConditionRoot, repositoryId);
+    if (await pathExists(candidate)) repositoryRoots.set(repositoryId, await fs.realpath(candidate));
+  }
+  const routedSources = (treatmentPackage?.sources ?? [])
+    .map((entry) => safeRelativePath(entry?.path))
+    .filter(Boolean);
+  const fallbackPath = safeRelativePath(treatmentPackage?.route?.fallback?.path);
+  const fallbackSource = fallbackPath === null ? null : `coordinator/${fallbackPath}`;
+  const entries = [];
+  let overflowCount = 0;
+  let failedCommandItems = 0;
+
+  for (const record of items ?? []) {
+    const item = record?.item ?? record;
+    if (item?.type !== "commandExecution" || item.exitCode !== 0) {
+      if (item?.type === "commandExecution") failedCommandItems += 1;
+      continue;
+    }
+    const actions = Array.isArray(item.commandActions) && item.commandActions.length > 0
+      ? item.commandActions
+      : record?.fallbackActions ?? [];
+    const outputBytes = actions.length === 1 ? retainedOutputBytes(item) : null;
+    for (const action of actions) {
+      const normalized = await normalizeAcquisitionAction({
+        action,
+        item,
+        conditionRoot: canonicalConditionRoot,
+        repositoryRoots,
+        routedSources,
+        fallbackSource
+      });
+      const entry = {
+        repository_id: normalized.repository_id,
+        path: normalized.path,
+        access_kind: normalized.access_kind,
+        classification: normalized.classification,
+        reported_output_bytes: outputBytes
+      };
+      if (entries.length < acquisitionLimits.maximum_entries) entries.push(entry);
+      else overflowCount += 1;
+    }
+  }
+
+  const classifications = ["control", "required-evidence", "routed", "permitted-fallback", "off-route", "unknown"];
+  const counts = Object.fromEntries(classifications.map((classification) => [
+    classification,
+    entries.filter((entry) => entry.classification === classification).length
+  ]));
+  const bytesByClassification = Object.fromEntries(classifications.map((classification) => [
+    classification,
+    entries.filter((entry) => entry.classification === classification && Number.isSafeInteger(entry.reported_output_bytes))
+      .reduce((sum, entry) => sum + entry.reported_output_bytes, 0)
+  ]));
+  const classifiableContextReads = counts.routed + counts["permitted-fallback"] + counts["off-route"];
+  const policyAdherentReads = counts.routed + counts["permitted-fallback"];
+  const uniquePaths = new Set(entries
+    .filter((entry) => entry.path !== null)
+    .map((entry) => `${entry.repository_id ?? "control"}:${entry.path}`));
+  const unknownCount = counts.unknown + overflowCount;
+  return {
+    schema_version: "temple.context-acquisition/v1",
+    limits: acquisitionLimits,
+    entries,
+    entry_count: entries.length,
+    unique_path_count: uniquePaths.size,
+    overflow_count: overflowCount,
+    failed_command_items: failedCommandItems,
+    counts,
+    reported_output_bytes_by_classification: bytesByClassification,
+    classifiable_context_reads: classifiableContextReads,
+    policy_adherent_reads: policyAdherentReads,
+    known_policy_adherence_percent: classifiableContextReads === 0 ? null : round((policyAdherentReads / classifiableContextReads) * 100),
+    routed_share_percent: classifiableContextReads === 0 ? null : round((counts.routed / classifiableContextReads) * 100),
+    coverage_complete: unknownCount === 0,
+    adherence_pass: unknownCount === 0 && counts["off-route"] === 0,
+    raw_commands_retained: false,
+    raw_output_retained: false
+  };
+}
+
 function summarizeCommandItem(item, activity, completed = false) {
   if (item?.type !== "commandExecution") return;
   if (!completed) {
@@ -1630,6 +2152,8 @@ async function launchCandidateTurn({ definition, cwd, protocol, budget, deadline
   let violation = null;
   let processFailure = null;
   const activity = emptyToolActivity();
+  const commandActionsByItem = new Map();
+  const completedCommandItems = [];
   const startedAt = new Date().toISOString();
   const startedMs = Date.now();
   let turnRequestedMs = null;
@@ -1674,12 +2198,20 @@ async function launchCandidateTurn({ definition, cwd, protocol, budget, deadline
         if (itemViolation) void interrupt(`disallowed-item:${itemViolation}`);
         if (item.type === "commandExecution" && !startedCommandIds.has(item.id)) {
           startedCommandIds.add(item.id);
+          commandActionsByItem.set(item.id, item.commandActions ?? []);
           summarizeCommandItem(item, activity, false);
         }
       }
       if (message.method === "item/completed" && matchingTurn) {
         const item = params.item ?? {};
-        if (item.type === "commandExecution") summarizeCommandItem(item, activity, true);
+        if (item.type === "commandExecution") {
+          const fallbackActions = commandActionsByItem.get(item.id) ?? [];
+          const completedItem = Array.isArray(item.commandActions) && item.commandActions.length > 0
+            ? item
+            : { ...item, commandActions: fallbackActions };
+          summarizeCommandItem(completedItem, activity, true);
+          completedCommandItems.push({ item: completedItem, fallbackActions });
+        }
         if (item.type === "agentMessage") completionText = item.text;
       }
       if (message.method === "turn/completed" && matchingTurn) {
@@ -1709,7 +2241,7 @@ async function launchCandidateTurn({ definition, cwd, protocol, budget, deadline
   }, Math.max(1, deadline - Date.now()));
   try {
     await connection.request("initialize", {
-      clientInfo: { name: "temple-wi0139", title: "Temple WI-0139 Typed Context Capsule Ablation", version: "2" },
+      clientInfo: { name: "temple-wi0140", title: "Temple WI-0140 Context Acquisition Ablation", version: "3" },
       capabilities: { experimentalApi: false }
     });
     connection.notify("initialized", {});
@@ -1739,10 +2271,17 @@ async function launchCandidateTurn({ definition, cwd, protocol, budget, deadline
     const completedMs = Date.now();
     const tokens = operationalTokens(latestUsage);
     if (tokens !== null) budget.settle(definition.id, tokens);
+    const treatmentPackage = await readJson(path.join(cwd, "CONTEXT_PACKAGE.json"));
+    const contextAcquisition = await buildAcquisitionObservation({
+      items: completedCommandItems,
+      conditionRoot: cwd,
+      treatmentPackage
+    });
     const retained = {
       id: definition.id,
       shape: definition.shape,
       strategy: definition.strategy,
+      repetition: definition.repetition,
       started_at: startedAt,
       completed_at: new Date().toISOString(),
       elapsed_ms: completedMs - startedMs,
@@ -1757,6 +2296,7 @@ async function launchCandidateTurn({ definition, cwd, protocol, budget, deadline
       usage: latestUsage,
       operational_tokens: tokens,
       tool_activity: activity,
+      context_acquisition: contextAcquisition,
       retry_count: 0,
       fallback_count: 0,
       raw_prompt_retained: false,
@@ -1810,50 +2350,117 @@ function observedMetric(condition, key) {
   return condition[key];
 }
 
+function mean(values) {
+  return values.length > 0 && values.every(Number.isFinite)
+    ? values.reduce((sum, value) => sum + value, 0) / values.length
+    : null;
+}
+
+function aggregateAcquisition(conditions) {
+  const observations = conditions.map((entry) => entry.context_acquisition).filter(Boolean);
+  if (observations.length !== conditions.length || observations.length === 0) {
+    return {
+      available: false,
+      coverage_complete: false,
+      counts: null,
+      classifiable_context_reads: null,
+      policy_adherent_reads: null,
+      known_policy_adherence_percent: null,
+      routed_share_percent: null,
+      reported_output_bytes_by_classification: null
+    };
+  }
+  const classifications = ["control", "required-evidence", "routed", "permitted-fallback", "off-route", "unknown"];
+  const counts = Object.fromEntries(classifications.map((classification) => [
+    classification,
+    observations.reduce((sum, entry) => sum + (entry.counts?.[classification] ?? 0), 0)
+  ]));
+  const bytes = Object.fromEntries(classifications.map((classification) => [
+    classification,
+    observations.reduce((sum, entry) => sum + (entry.reported_output_bytes_by_classification?.[classification] ?? 0), 0)
+  ]));
+  const overflow = observations.reduce((sum, entry) => sum + (entry.overflow_count ?? 0), 0);
+  const classifiable = counts.routed + counts["permitted-fallback"] + counts["off-route"];
+  const adherent = counts.routed + counts["permitted-fallback"];
+  return {
+    available: true,
+    coverage_complete: observations.every((entry) => entry.coverage_complete === true) && overflow === 0,
+    overflow_count: overflow,
+    counts,
+    classifiable_context_reads: classifiable,
+    policy_adherent_reads: adherent,
+    known_policy_adherence_percent: classifiable === 0 ? null : round((adherent / classifiable) * 100),
+    routed_share_percent: classifiable === 0 ? null : round((counts.routed / classifiable) * 100),
+    reported_output_bytes_by_classification: bytes
+  };
+}
+
 function shapeComparison(shape, protocol, conditions) {
-  const legacy = conditions.find((entry) => entry.shape === shape && entry.strategy === "legacy-expanded");
-  const stage = conditions.find((entry) => entry.shape === shape && entry.strategy === "stage-aware");
-  const protocolLegacy = protocol.conditions.find((entry) => entry.shape === shape && entry.strategy === "legacy-expanded");
-  const protocolStage = protocol.conditions.find((entry) => entry.shape === shape && entry.strategy === "stage-aware");
-  const completed = legacy?.status === "completed" && stage?.status === "completed";
-  const bothPass = completed && legacy.objective?.pass === true && stage.objective?.pass === true;
-  const tokens = completed ? delta(observedMetric(legacy, "operational_tokens"), observedMetric(stage, "operational_tokens")) : null;
-  const latency = completed ? delta(observedMetric(legacy, "latency_ms"), observedMetric(stage, "latency_ms")) : null;
+  const legacy = conditions.filter((entry) => entry.shape === shape && entry.strategy === "legacy-expanded");
+  const stage = conditions.filter((entry) => entry.shape === shape && entry.strategy === "stage-aware");
+  const protocolLegacy = protocol.conditions.filter((entry) => entry.shape === shape && entry.strategy === "legacy-expanded");
+  const protocolStage = protocol.conditions.filter((entry) => entry.shape === shape && entry.strategy === "stage-aware");
+  const completed = legacy.length === 2 && stage.length === 2 && [...legacy, ...stage].every((entry) => entry.status === "completed");
+  const legacyPass = completed ? legacy.every((entry) => entry.objective?.pass === true) : null;
+  const stagePass = completed ? stage.every((entry) => entry.objective?.pass === true) : null;
+  const bothPass = completed && legacyPass === true && stagePass === true;
+  const legacyTokens = mean(legacy.map((entry) => observedMetric(entry, "operational_tokens")));
+  const stageTokens = mean(stage.map((entry) => observedMetric(entry, "operational_tokens")));
+  const legacyLatency = mean(legacy.map((entry) => observedMetric(entry, "latency_ms")));
+  const stageLatency = mean(stage.map((entry) => observedMetric(entry, "latency_ms")));
+  const legacyToolBytes = mean(legacy.map((entry) => observedMetric(entry, "tool_output_bytes")));
+  const stageToolBytes = mean(stage.map((entry) => observedMetric(entry, "tool_output_bytes")));
+  const tokens = completed ? delta(legacyTokens, stageTokens) : null;
+  const latency = completed ? delta(legacyLatency, stageLatency) : null;
   let outcome = "inconclusive";
-  if (completed && legacy.objective?.pass === true && stage.objective?.pass === false) outcome = "quality-regression";
+  if (completed && legacyPass === true && stagePass === false) outcome = "quality-regression";
   else if (bothPass && tokens && latency) {
     if ((tokens.percent < 0 || latency.percent < 0) && tokens.percent <= 5 && latency.percent <= 5) outcome = "supported";
     else if ((tokens.percent > 5 && latency.percent >= 0) || (latency.percent > 5 && tokens.percent >= 0)) outcome = "overhead-regression";
     else outcome = "neutral";
   }
+  const sourceValue = (entries, key) => entries.length === 2 && entries[0]?.treatment?.[key] === entries[1]?.treatment?.[key]
+    ? entries[0].treatment[key]
+    : null;
+  const legacySourceBytes = sourceValue(protocolLegacy, "measured_source_bytes");
+  const stageSourceBytes = sourceValue(protocolStage, "measured_source_bytes");
+  const legacySourceCount = sourceValue(protocolLegacy, "selected_source_count");
+  const stageSourceCount = sourceValue(protocolStage, "selected_source_count");
   return {
     shape,
     outcome,
+    repetitions: { legacy: legacy.length, stage_aware: stage.length },
     correctness: {
-      legacy_pass: legacy?.objective?.pass ?? null,
-      stage_aware_pass: stage?.objective?.pass ?? null
+      legacy_pass: legacyPass,
+      stage_aware_pass: stagePass,
+      legacy_by_repetition: legacy.map((entry) => ({ repetition: entry.repetition, pass: entry.objective?.pass ?? null })),
+      stage_aware_by_repetition: stage.map((entry) => ({ repetition: entry.repetition, pass: entry.objective?.pass ?? null }))
     },
     source_selection: {
-      legacy_bytes: protocolLegacy?.treatment?.measured_source_bytes ?? null,
-      stage_aware_bytes: protocolStage?.treatment?.measured_source_bytes ?? null,
-      bytes_delta: delta(protocolLegacy?.treatment?.measured_source_bytes, protocolStage?.treatment?.measured_source_bytes),
-      legacy_source_count: protocolLegacy?.treatment?.selected_source_count ?? null,
-      stage_aware_source_count: protocolStage?.treatment?.selected_source_count ?? null
+      legacy_bytes: legacySourceBytes,
+      stage_aware_bytes: stageSourceBytes,
+      bytes_delta: delta(legacySourceBytes, stageSourceBytes),
+      legacy_source_count: legacySourceCount,
+      stage_aware_source_count: stageSourceCount
     },
     operational_tokens: {
-      legacy: legacy?.operational_tokens ?? null,
-      stage_aware: stage?.operational_tokens ?? null,
+      legacy_mean: legacyTokens,
+      stage_aware_mean: stageTokens,
       delta: tokens
     },
     latency_ms: {
-      legacy: legacy?.turn_elapsed_ms ?? null,
-      stage_aware: stage?.turn_elapsed_ms ?? null,
+      legacy_mean: legacyLatency,
+      stage_aware_mean: stageLatency,
       delta: latency
     },
     tool_output_bytes: {
-      legacy: legacy?.tool_activity?.reported_output_bytes ?? null,
-      stage_aware: stage?.tool_activity?.reported_output_bytes ?? null,
-      delta: completed ? delta(legacy?.tool_activity?.reported_output_bytes, stage?.tool_activity?.reported_output_bytes) : null
+      legacy_mean: legacyToolBytes,
+      stage_aware_mean: stageToolBytes,
+      delta: completed ? delta(legacyToolBytes, stageToolBytes) : null
+    },
+    context_acquisition: {
+      legacy: aggregateAcquisition(legacy),
+      stage_aware: aggregateAcquisition(stage)
     }
   };
 }
@@ -1861,7 +2468,7 @@ function shapeComparison(shape, protocol, conditions) {
 export function analyzeContextAblation({ protocol, observation, generatedAt = new Date().toISOString() }) {
   const comparisons = ["single-repository", "coordinator-multi-repository"]
     .map((shape) => shapeComparison(shape, protocol, observation.conditions ?? []));
-  const allCompleted = (observation.conditions ?? []).length === 4 && observation.conditions.every((entry) => entry.status === "completed");
+  const allCompleted = (observation.conditions ?? []).length === conditionDefinitions.length && observation.conditions.every((entry) => entry.status === "completed");
   const allCorrect = allCompleted && observation.conditions.every((entry) => entry.objective?.pass === true);
   const usageKnown = allCompleted && observation.conditions.every((entry) => Number.isFinite(entry.operational_tokens) && Number.isFinite(entry.turn_elapsed_ms));
   const legacyConditions = (observation.conditions ?? []).filter((entry) => entry.strategy === "legacy-expanded");
@@ -1877,7 +2484,7 @@ export function analyzeContextAblation({ protocol, observation, generatedAt = ne
   } : null;
   return {
     schema_version: CONTEXT_ABLATION_ANALYSIS_SCHEMA,
-    work_item_id: "WI-0139",
+    work_item_id: "WI-0140",
     protocol_sha256: protocol.protocol_sha256,
     generated_at: generatedAt,
     status: allCompleted && usageKnown ? "complete" : "inconclusive",
@@ -1889,7 +2496,7 @@ export function analyzeContextAblation({ protocol, observation, generatedAt = ne
     retry_count: observation.retry_count ?? 0,
     fallback_count: observation.fallback_count ?? 0,
     interpretation_boundary: {
-      sample_per_condition: 1,
+      sample_per_condition: 2,
       statistical_claim: false,
       monetary_claim: false,
       automatic_routing_authority: false
@@ -1899,32 +2506,37 @@ export function analyzeContextAblation({ protocol, observation, generatedAt = ne
 
 function reportMarkdown(protocol, observation, analysis) {
   const lines = [
-    "# WI-0139 typed Context Capsule effectiveness report",
+    "# WI-0140 Context Capsule route-adherence effectiveness report",
     "",
     `- Protocol: \`${protocol.protocol_sha256}\``,
-    `- Candidate turns: ${observation.conditions.length} of 4 retained`,
+    `- Candidate turns: ${observation.conditions.length} of ${conditionDefinitions.length} retained`,
     `- Retry: ${observation.retry_count}; fallback: ${observation.fallback_count}`,
     `- Analysis status: \`${analysis.status}\``,
     "",
     "## Results by project shape",
     "",
-    "| Shape | Correctness (legacy / stage-aware) | Source bytes (legacy / stage-aware) | Operational Tokens delta | Latency delta | Outcome |",
-    "|---|---:|---:|---:|---:|---|"
+    "| Shape | Correctness (legacy / stage-aware) | Source bytes (legacy / stage-aware) | Known adherence (legacy / stage-aware) | Off-route reads (legacy / stage-aware) | Operational Tokens delta | Latency delta | Outcome |",
+    "|---|---:|---:|---:|---:|---:|---:|---|"
   ];
   for (const comparison of analysis.comparisons) {
     const tokenDelta = comparison.operational_tokens.delta ? `${comparison.operational_tokens.delta.percent}%` : "unknown";
     const latencyDelta = comparison.latency_ms.delta ? `${comparison.latency_ms.delta.percent}%` : "unknown";
-    lines.push(`| ${comparison.shape} | ${comparison.correctness.legacy_pass ?? "unknown"} / ${comparison.correctness.stage_aware_pass ?? "unknown"} | ${comparison.source_selection.legacy_bytes} / ${comparison.source_selection.stage_aware_bytes} | ${tokenDelta} | ${latencyDelta} | ${comparison.outcome} |`);
+    const legacyAcquisition = comparison.context_acquisition.legacy;
+    const stageAcquisition = comparison.context_acquisition.stage_aware;
+    const formatPercent = (value) => Number.isFinite(value) ? `${value}%` : "unknown";
+    const adherence = `${formatPercent(legacyAcquisition.known_policy_adherence_percent)} / ${formatPercent(stageAcquisition.known_policy_adherence_percent)}`;
+    const offRoute = `${legacyAcquisition.counts?.["off-route"] ?? "unknown"} / ${stageAcquisition.counts?.["off-route"] ?? "unknown"}`;
+    lines.push(`| ${comparison.shape} | ${comparison.correctness.legacy_pass ?? "unknown"} / ${comparison.correctness.stage_aware_pass ?? "unknown"} | ${comparison.source_selection.legacy_bytes} / ${comparison.source_selection.stage_aware_bytes} | ${adherence} | ${offRoute} | ${tokenDelta} | ${latencyDelta} | ${comparison.outcome} |`);
   }
   lines.push(
     "",
     "## Interpretation",
     "",
-    "Correctness is evaluated from canonical typed facts and gates every efficiency interpretation. Repository source bytes, Provider Tokens, latency, and tool-output bytes are separate measurements. One matched pair per shape is diagnostic evidence only and does not establish statistical, monetary, or automatic-routing claims.",
+    "Correctness is evaluated from canonical typed facts and gates every efficiency interpretation. Initial source bytes, bounded post-route acquisition, Provider Tokens, latency, and tool-output bytes are separate measurements. Two counterbalanced repetitions per condition remain diagnostic evidence and do not establish statistical, monetary, or automatic-routing claims.",
     "",
     "The route is described as requested-and-thread-configured Terra medium. The installed App Server does not expose per-turn execution-effort telemetry, so effective execution effort remains unknown rather than inferred.",
     "",
-    "Raw prompts, raw responses, hidden reasoning, credentials, and temporary repositories were not retained in Git.",
+    "Raw commands, command output content, prompts, responses, hidden reasoning, credentials, and temporary repositories were not retained in Git.",
     ""
   );
   return lines.join("\n");
@@ -1932,7 +2544,7 @@ function reportMarkdown(protocol, observation, analysis) {
 
 export async function runContextAblation(labRoot = defaultLabRoot, protocolPath = defaultProtocolPath, approvalPath = defaultApprovalPath) {
   if (await pathExists(defaultObservationPath) || await pathExists(defaultStoppedObservationPath)) {
-    throw new Error("A retained WI-0139 run already exists; this protocol authorizes no retry");
+    throw new Error("A retained WI-0140 run already exists; this protocol authorizes no retry");
   }
   const preflight = await preflightContextAblation(labRoot, protocolPath, approvalPath);
   if (!preflight.generation_ready) throw new Error(`Generation is blocked: ${preflight.blockers.join(", ")}`);
@@ -1960,7 +2572,7 @@ export async function runContextAblation(labRoot = defaultLabRoot, protocolPath 
     }
     const observation = {
       schema_version: CONTEXT_ABLATION_OBSERVATION_SCHEMA,
-      work_item_id: "WI-0139",
+      work_item_id: "WI-0140",
       protocol_sha256: protocol.protocol_sha256,
       kind: "live-provider-run",
       status: conditions.every((entry) => entry.status === "completed") ? "completed" : "completed-with-censored-condition",
@@ -1980,7 +2592,7 @@ export async function runContextAblation(labRoot = defaultLabRoot, protocolPath 
   } catch (error) {
     const stopped = {
       schema_version: CONTEXT_ABLATION_OBSERVATION_SCHEMA,
-      work_item_id: "WI-0139",
+      work_item_id: "WI-0140",
       protocol_sha256: protocol.protocol_sha256,
       kind: "live-provider-run",
       status: "stopped",
@@ -2036,7 +2648,7 @@ async function main() {
     const result = await prepareContextAblationLab(args.labRoot);
     output = {
       schema_version: "temple.context-capsule-ablation-prepare/v1",
-      work_item_id: "WI-0139",
+      work_item_id: "WI-0140",
       protocol_sha256: result.protocol.protocol_sha256,
       conditions: conditionIds,
       lab_root_id: path.basename(result.labRoot),

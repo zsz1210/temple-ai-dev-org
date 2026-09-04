@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
 - Work items: 140 total, 6 active
 - Codex tasks: 6 registered, 6 archive-ready
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -187,7 +187,7 @@
 | WI-0137 | Make context routing stage-aware and measurement-ready | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `94d8ceb9` | 0 | 16 | 0 |
 | WI-0138 | Measure stage-aware Context Capsule effectiveness | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `87d0f8e2` | 0 | 16 | 1 |
 | WI-0139 | Repair Context Capsule evaluation contract | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f787f8a` | 0 | 17 | 0 |
-| WI-0140 | Measure and enforce Context Capsule route adherence | build | Developer | Rikku | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 5 | 0 |
+| WI-0140 | Measure and enforce Context Capsule route adherence | build | Developer | Rikku | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260904022058-90276bb9 | `—` | 0 | 5 | 0 |
 
 ## Codex task registry
 
@@ -329,6 +329,7 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-04T02:20:58.573Z | work_item_claimed | WI-0140 | principal-owner |
 | 2026-09-04T02:20:52.737Z | work_item_transitioned | WI-0140 | agent-tidus |
 | 2026-09-04T02:20:52.488Z | handoff_created | WI-0140 | agent-tidus |
 | 2026-09-04T02:20:52.257Z | work_item_transitioned | WI-0140 | agent-yuna |
@@ -336,7 +337,6 @@
 | 2026-09-04T02:20:38.671Z | work_item_transitioned | WI-0140 | agent-mog |
 | 2026-09-04T02:18:17.077Z | work_item_unresolved_updated | WI-0139 | agent-mog |
 | 2026-09-04T02:18:09.734Z | work_item_closed | WI-0139 | agent-mog |
-| 2026-09-04T02:18:09.734Z | release_gate_completed | WI-0139 | agent-mog |
 
 ## Assignments
 

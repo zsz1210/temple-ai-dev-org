@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-04T02:17:43.020Z",
-  "updated_at": "2026-09-04T02:20:52.737Z",
+  "updated_at": "2026-09-04T02:20:58.573Z",
   "scope": [
     "Retain a bounded path-only manifest of successful context reads after routing without storing raw prompts, outputs, hidden reasoning, credentials, or temporary repository content.",
     "Measure total context acquisition and route adherence separately from initial package size, Provider Tokens, latency, and command counts for single-repository and coordinator multi-repository recovery.",
@@ -52,15 +52,37 @@
     "general-development"
   ],
   "stage_requirements": {},
-  "base_revision": null,
+  "base_revision": "8c1d792a27c1a2386dc3d5f753b2ab7f4f7bcb8e",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
-  "claim": null,
-  "claims": [],
+  "claim": {
+    "id": "claim-20260904022058-90276bb9",
+    "status": "active",
+    "principal_id": "principal-owner",
+    "agent_id": "agent-rikku",
+    "base_revision": "8c1d792a27c1a2386dc3d5f753b2ab7f4f7bcb8e",
+    "branch": "codex/wi-0140-context-route-adherence",
+    "worktree": null,
+    "claimed_at": "2026-09-04T02:20:58.573Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260904022058-90276bb9",
+      "status": "active",
+      "principal_id": "principal-owner",
+      "agent_id": "agent-rikku",
+      "base_revision": "8c1d792a27c1a2386dc3d5f753b2ab7f4f7bcb8e",
+      "branch": "codex/wi-0140-context-route-adherence",
+      "worktree": null,
+      "claimed_at": "2026-09-04T02:20:58.573Z",
+      "released_at": null
+    }
+  ],
   "gate_evidence": {
     "work_order": [
       ".ai-org/artifacts/WI-0140/work-order.md"
