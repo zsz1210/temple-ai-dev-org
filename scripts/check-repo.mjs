@@ -270,10 +270,14 @@ for (const file of (await walkFiles(root)).filter(
 const archify = await readJson(path.join(root, "integrations/archify/manifest.json"));
 check(archify.enabled_by_default === false, "Archify must remain opt-in");
 check(archify.status === "opt-in-isolated", "Archify status must describe the opt-in isolated adapter");
-check(archify.pin.tag === "v2.15.0", "Archify tag pin changed without review");
+check(archify.pin.tag === "v2.16.0", "Archify tag pin changed without review");
 check(
-  archify.pin.commit === "e1ac748f19cf805e44bf74fb93c796662152e273",
+  archify.pin.commit === "c826e6c3a7abad19c0f3cd1ca57207d54b1ad8de",
   "Archify resolved commit changed without review"
+);
+check(
+  archify.downstream_patches?.some((patch) => patch.id === "fast-uri-3.1.7-security-override" && patch.to === "3.1.7"),
+  "Archify security patch contract changed without review"
 );
 
 if (failures.length > 0) {

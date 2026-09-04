@@ -277,4 +277,4 @@ Archify is responsible only for turning selected architecture or process data in
 Canonical files → read-only adapter → Archify input → HTML/artifact
 ```
 
-The output must identify its source revision and generation time. Archify must not create work items, approve releases, or change Agent Assignments. Alpha.19 can copy an explicitly supplied local checkout only when it matches the pinned commit and MIT license; the adapter is isolated and content-addressed. The framework does not download or execute it. See [Archify adapter](../extensions/archify-adapter.md).
+The output must identify its source revision and generation time. Archify must not create work items, approve releases, or change Agent Assignments. Temple can copy an explicitly supplied local checkout only when it matches the pinned commit and MIT license. Any reviewed downstream security patch is deterministic, separately recorded from upstream provenance, and protected by exact preconditions and resulting file digests. The adapter remains isolated and content-addressed; the framework does not download or execute it. See [Archify adapter](../extensions/archify-adapter.md).

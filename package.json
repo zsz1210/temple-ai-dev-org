@@ -2,7 +2,6 @@
   "name": "@zsz1210/temple-ai-dev-org",
   "version": "0.1.0-alpha.30",
   "description": "A repository-native, extensible AI development organization framework for Codex projects.",
-  "private": true,
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -29,6 +28,10 @@
   },
   "engines": {
     "node": ">=24.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "next"
   },
   "scripts": {
     "check": "node scripts/check-repo.mjs && node scripts/check-doc-links.mjs && node scripts/check-package.mjs",

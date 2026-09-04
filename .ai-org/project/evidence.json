@@ -26147,6 +26147,149 @@
         "exit_code": 0,
         "started_at": "2026-09-04T18:27:27.000Z"
       }
+    },
+    {
+      "id": "EVID-20260904T184857Z-1917CC10",
+      "work_item_id": "WI-0167",
+      "recorded_at": "2026-09-04T18:48:57.394Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Alpha.30 security and exact-package qualification",
+      "outcome": "pass",
+      "scope_revision": "6a8760f9669c58085b069e91776b89d0a857fc83",
+      "observed_at": "2026-09-04T18:48:15.027Z",
+      "summary": "Archify remediation, all 444 Temple tests, browser, schema, dependency, publication, exact package, clean consumer, and lock-only upgrade checks passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0167/test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0167/test-observation.json",
+          "sha256": "4f2743729c6d55cdecb8c21f5056800882a6700227f1e3b2619fb6fab39f80b0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0167/release-qualification-result.json",
+          "sha256": "6f802c328134b989eabc0a14accfecd129165896f70679dc43cdb33480bdd47d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0167/run-release-qualification.mjs",
+          "sha256": "260f3de957816cabdf33b34854db9e68ae9b9224973937015ced498929692c6e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0167/developer-verification.md",
+          "sha256": "eb7bf68f9c90045e24ea5f10664f006eb78275ca126287d5f9cefa97ab77bcd1"
+        }
+      ],
+      "details": {
+        "command": [
+          "Archify v2.16.0 clean checkout plus deterministic package-lock-only comparison",
+          "Archify npm ci, complete test suite, and complete dependency audit",
+          "npm ci --ignore-scripts in a clean detached Temple worktree",
+          "npm run verify",
+          "npm run test:browser",
+          "node ./templew.mjs schema validate . --json",
+          "node ./templew.mjs doctor . --json",
+          "npm audit --omit=dev --json",
+          "npm audit --json",
+          "node ./templew.mjs publication audit . --profile public --surface both --json",
+          "npm pack --ignore-scripts --json",
+          "Node.js 24 exact-tarball clean consumer",
+          "Alpha.29 to Alpha.30 lock-only upgrade comparison"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T18:45:30.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T184857Z-9D0534A5",
+      "work_item_id": "WI-0167",
+      "recorded_at": "2026-09-04T18:48:57.585Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Alpha.30 release source",
+      "outcome": "verified",
+      "scope_revision": "6a8760f9669c58085b069e91776b89d0a857fc83",
+      "observed_at": "2026-09-04T18:48:57.585Z",
+      "summary": "Exact source revision used to build the qualified prerelease tarball.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "6a8760f9669c58085b069e91776b89d0a857fc83"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "6a8760f9669c58085b069e91776b89d0a857fc83",
+        "working_tree_dirty": true,
+        "dirty_path_count": 6,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T185240Z-CEE9D8CB",
+      "work_item_id": "WI-0167",
+      "recorded_at": "2026-09-04T18:52:40.690Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent Alpha.30 release qualification",
+      "outcome": "pass",
+      "scope_revision": "6a8760f9669c58085b069e91776b89d0a857fc83",
+      "observed_at": "2026-09-04T18:52:09.483Z",
+      "summary": "Independent QA reproduced the exact 382-file archive, digest, complete checks, clean consumer, upgrade result, and patched adapter identity.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0167/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0167/independent-qa-observation.json",
+          "sha256": "c9d1d782800da2a64f36103118a1d9dbb4980ab799957582b5b0b10d49a461b9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0167/release-qualification-result.json",
+          "sha256": "6f802c328134b989eabc0a14accfecd129165896f70679dc43cdb33480bdd47d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0167/independent-release-qualification-result.json",
+          "sha256": "c7ad68a289f778796caafedeb6c9d2bafbf8ffcb6a68a49db12c655fe3737c48"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0167/run-release-qualification.mjs",
+          "sha256": "260f3de957816cabdf33b34854db9e68ae9b9224973937015ced498929692c6e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0167/quality-evaluation.md",
+          "sha256": "083471e8ce9108211e21f2d0d07f64c022631fa3cf878575aa987d385f7a3e42"
+        }
+      ],
+      "details": {
+        "command": [
+          "independent exact invocation of run-release-qualification.mjs",
+          "byte-for-byte package identity and complete 382-entry manifest comparison",
+          "independent repository, browser, dependency, publication, consumer, and upgrade result comparison",
+          "independent verification of Archify v2.16.0 patched lock identity"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T18:49:45.000Z"
+      }
     }
   ]
 }

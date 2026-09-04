@@ -30,7 +30,7 @@ async function projectFixture(context) {
   return { temporaryRoot, target };
 }
 
-async function fakeArchifySource(temporaryRoot) {
+async function fakeArchifySource(temporaryRoot, { securityOverride = false } = {}) {
   const source = path.join(temporaryRoot, "archify-source");
   await fs.mkdir(path.join(source, "archify/bin"), { recursive: true });
   await fs.mkdir(path.join(source, "archify/schemas"), { recursive: true });
@@ -38,6 +38,28 @@ async function fakeArchifySource(temporaryRoot) {
   await fs.writeFile(path.join(source, "archify/SKILL.md"), "---\nname: archify\ndescription: Test fixture.\n---\n");
   await fs.writeFile(path.join(source, "archify/bin/archify.mjs"), "console.log('fixture archify');\n");
   await fs.writeFile(path.join(source, "archify/schemas/architecture.schema.json"), "{}\n");
+  if (securityOverride) {
+    await fs.writeFile(path.join(source, "archify/package.json"), `${JSON.stringify({
+      name: "archify-fixture",
+      version: "1.0.0",
+      overrides: { "fast-uri": "3.1.5" }
+    }, null, 2)}\n`);
+    await fs.writeFile(path.join(source, "archify/package-lock.json"), `${JSON.stringify({
+      name: "archify-fixture",
+      version: "1.0.0",
+      lockfileVersion: 3,
+      packages: {
+        "": { name: "archify-fixture", version: "1.0.0" },
+        "node_modules/ajv/node_modules/fast-uri": {
+          version: "3.1.5",
+          resolved: "https://registry.npmjs.org/fast-uri/-/fast-uri-3.1.5.tgz",
+          integrity: "sha512-old",
+          dev: true,
+          license: "BSD-3-Clause"
+        }
+      }
+    }, null, 2)}\n`);
+  }
   const git = (args) => spawnSync("git", ["-C", source, ...args], { encoding: "utf8" });
   assert.equal(git(["init", "-q"]).status, 0);
   assert.equal(git(["config", "user.email", "fixture@example.invalid"]).status, 0);
@@ -58,6 +80,53 @@ test("Archify status degrades safely when the opt-in adapter is absent", async (
     reason: "optional adapter is not installed",
     external_action_performed: false
   });
+});
+
+test("Archify applies and records an exact reviewed downstream security patch", async (context) => {
+  const { temporaryRoot, target } = await projectFixture(context);
+  const { source, revision } = await fakeArchifySource(temporaryRoot, { securityOverride: true });
+  const downstreamPatch = {
+    id: "fixture-fast-uri-security-override",
+    kind: "npm-lock-override",
+    package: "fast-uri",
+    from: "3.1.5",
+    to: "3.1.7",
+    package_json: "archify/package.json",
+    lockfile: "archify/package-lock.json",
+    lock_entry_from: "node_modules/ajv/node_modules/fast-uri",
+    lock_entry_to: "node_modules/fast-uri",
+    expected_resolved: "https://registry.npmjs.org/fast-uri/-/fast-uri-3.1.5.tgz",
+    expected_integrity: "sha512-old",
+    resolved: "https://registry.npmjs.org/fast-uri/-/fast-uri-3.1.7.tgz",
+    integrity: "sha512-new",
+    license: "BSD-3-Clause"
+  };
+  const contract = {
+    tag: "v-patched",
+    commit: revision,
+    repository: "fixture/archify",
+    license: "MIT",
+    downstream_patches: [downstreamPatch]
+  };
+
+  const installed = await installArchifyAdapter(target, source, { contract });
+  assert.equal(installed.provenance.source_kind, "local-exact-git-checkout-with-reviewed-downstream-patches");
+  assert.deepEqual(installed.provenance.downstream_patches, [downstreamPatch]);
+  const packageDocument = JSON.parse(await fs.readFile(path.join(target, ".ai-org/adapters/archify/v-patched/archify/package.json"), "utf8"));
+  const lockDocument = JSON.parse(await fs.readFile(path.join(target, ".ai-org/adapters/archify/v-patched/archify/package-lock.json"), "utf8"));
+  assert.equal(packageDocument.overrides["fast-uri"], "3.1.7");
+  assert.equal(lockDocument.packages[downstreamPatch.lock_entry_from], undefined);
+  assert.equal(lockDocument.packages[downstreamPatch.lock_entry_to].version, "3.1.7");
+  assert.equal((await inspectArchifyAdapter(target, { contract })).usable, true);
+
+  const mismatched = { ...contract, downstream_patches: [{ ...downstreamPatch, expected_integrity: "sha512-wrong" }] };
+  const secondTarget = path.join(temporaryRoot, "mismatched-product");
+  const configPath = path.join(temporaryRoot, "init.json");
+  assert.equal(run(["init", secondTarget, "--config", configPath]).status, 0);
+  await assert.rejects(
+    installArchifyAdapter(secondTarget, source, { contract: mismatched }),
+    /lockfile precondition failed/
+  );
 });
 
 test("isolated Archify installation records exact provenance and file digests", async (context) => {

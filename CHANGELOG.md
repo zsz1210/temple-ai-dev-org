@@ -7,7 +7,8 @@
 - Expanded repository federation, portfolio views, and multi-repository coordination evidence while keeping each repository authoritative for its own lifecycle and retaining real multi-machine and enterprise qualification as future work.
 - Hardened the AI-assisted Core Path, cold recovery, lifecycle evidence, exact-revision checks, and branch/provenance boundaries through clean-room rehearsals and Independent QA.
 - Added project-owned Evidence Profiles and a value-redacted publication audit, then normalized current self-host evidence while preserving historical proof and an explicit binary-review boundary.
-- Prepared a narrow, source-first GitHub Alpha candidate. npm remains deferred, `private: true` remains enabled, and repository visibility, tag, GitHub Release, deployment, and announcement still require separate Human approval.
+- Published a narrow public Alpha with an exact GitHub prerelease and npm `next` package boundary; production deployment, npm `latest`, and broad performance claims remain outside this release.
+- Updated the optional Archify adapter to upstream `v2.16.0` and disclosed a deterministic downstream `fast-uri` `3.1.7` security override while preserving clean-source, license, per-file digest, and no-automatic-execution guarantees.
 
 ## 0.1.0-alpha.29
 

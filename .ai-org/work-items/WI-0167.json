@@ -1,0 +1,228 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0167",
+  "title": "Remediate Archify alerts and publish Alpha.30",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-04T18:36:14.342Z",
+  "updated_at": "2026-09-04T18:52:41.377Z",
+  "scope": [
+    "Upgrade the optional Archify adapter to v2.16.0 with a transparent reviewed fast-uri 3.1.7 downstream security patch",
+    "Requalify the exact Alpha.30 package, create a GitHub prerelease, and publish the same tarball to npm under the next dist-tag",
+    "No latest dist-tag, deployment, broad announcement, or unrelated product change"
+  ],
+  "acceptance_criteria": [
+    "GitHub Dependabot reports no open alerts attributable to the installed Archify adapter and the adapter provenance remains reproducible",
+    "All repository verification, Doctor, public package audit, and clean consumer checks pass at the exact release revision",
+    "GitHub exposes v0.1.0-alpha.30 as a prerelease and npm exposes @zsz1210/temple-ai-dev-org@0.1.0-alpha.30 under next, not latest"
+  ],
+  "affected_paths": [
+    "src/archify-adapter.mjs",
+    "test/archify-adapter.test.mjs",
+    "scripts/check-repo.mjs",
+    "integrations/archify/manifest.json",
+    ".ai-org/adapters/archify/**",
+    "docs/adr/0005-third-party-adapters.md",
+    "docs/extensions/archify-adapter.md",
+    "docs/planning/release-readiness.md",
+    "package.json",
+    "package-lock.json"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "cross-system",
+    "escalation_triggers": [
+      "independent-assurance-required"
+    ],
+    "rationale": "Supply-chain remediation plus two explicitly authorized public release surfaces requires independent QA and release evidence",
+    "evidence_refs": [
+      "User approval on 2026-09-05"
+    ],
+    "evaluated_at": "2026-09-04T18:36:14.342Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "bec787e47a581214e54bc20bddf841101fbeb72c",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260904185240-a77cc3fc",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-lulu",
+    "base_revision": "bec787e47a581214e54bc20bddf841101fbeb72c",
+    "branch": "codex/wi-0167-alpha30-release",
+    "worktree": null,
+    "claimed_at": "2026-09-04T18:52:40.462Z",
+    "released_at": "2026-09-04T18:52:41.125Z",
+    "release_reason": [
+      "Independent qualification and Release Manager handoff recorded"
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260904183716-09efe11f",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "dfbb56fa3a61b7d71514a0f12e91111dbacb2677",
+      "branch": "codex/wi-0167-alpha30-release",
+      "worktree": null,
+      "claimed_at": "2026-09-04T18:37:16.052Z",
+      "released_at": "2026-09-04T18:48:58.083Z",
+      "release_reason": [
+        "Developer handoff and exact qualification evidence recorded"
+      ]
+    },
+    {
+      "id": "claim-20260904184925-c8f45816",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "bec787e47a581214e54bc20bddf841101fbeb72c",
+      "branch": "codex/wi-0167-alpha30-release",
+      "worktree": null,
+      "claimed_at": "2026-09-04T18:49:25.601Z",
+      "released_at": "2026-09-04T18:49:26.311Z",
+      "release_reason": [
+        "Quality evaluation and Independent QA handoff recorded"
+      ]
+    },
+    {
+      "id": "claim-20260904185240-a77cc3fc",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "bec787e47a581214e54bc20bddf841101fbeb72c",
+      "branch": "codex/wi-0167-alpha30-release",
+      "worktree": null,
+      "claimed_at": "2026-09-04T18:52:40.462Z",
+      "released_at": "2026-09-04T18:52:41.125Z",
+      "release_reason": [
+        "Independent qualification and Release Manager handoff recorded"
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0167/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0167/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0167/work-order.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0167/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0167/technical-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0167/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0167/developer-verification.md",
+      ".ai-org/artifacts/WI-0167/test-observation.json",
+      ".ai-org/artifacts/WI-0167/release-qualification-result.json"
+    ],
+    "test_evidence": [
+      "EVID-20260904T184857Z-1917CC10"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0167/quality-evaluation.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0167/independent-qa-report.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0167/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0167/work-order.md",
+    ".ai-org/artifacts/WI-0167/owner-approval.md",
+    ".ai-org/artifacts/WI-0167/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0167/approved-scope.md",
+    ".ai-org/artifacts/WI-0167/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0167/technical-design.md",
+    ".ai-org/artifacts/WI-0167/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0167/developer-verification.md",
+    ".ai-org/artifacts/WI-0167/test-observation.json",
+    ".ai-org/artifacts/WI-0167/release-qualification-result.json",
+    "EVID-20260904T184857Z-1917CC10",
+    ".ai-org/artifacts/WI-0167/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0167/quality-evaluation.md",
+    ".ai-org/artifacts/WI-0167/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0167/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0167/independent-qa-observation.json",
+    ".ai-org/artifacts/WI-0167/independent-release-qualification-result.json"
+  ],
+  "unresolved": [],
+  "next_position": "engineering_manager",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "dfbb56fa3a61b7d71514a0f12e91111dbacb2677",
+      "artifact": ".ai-org/artifacts/WI-0167/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-04T18:37:14.570Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "dfbb56fa3a61b7d71514a0f12e91111dbacb2677",
+      "artifact": ".ai-org/artifacts/WI-0167/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-04T18:37:15.049Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "dfbb56fa3a61b7d71514a0f12e91111dbacb2677",
+      "artifact": ".ai-org/artifacts/WI-0167/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-04T18:37:15.556Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "6a8760f9669c58085b069e91776b89d0a857fc83",
+      "artifact": ".ai-org/artifacts/WI-0167/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T18:48:57.815Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "6a8760f9669c58085b069e91776b89d0a857fc83",
+      "artifact": ".ai-org/artifacts/WI-0167/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-04T18:49:26.071Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "6a8760f9669c58085b069e91776b89d0a857fc83",
+      "artifact": ".ai-org/artifacts/WI-0167/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-04T18:52:40.883Z"
+    }
+  ],
+  "developer_candidate_revision": "6a8760f9669c58085b069e91776b89d0a857fc83"
+}
