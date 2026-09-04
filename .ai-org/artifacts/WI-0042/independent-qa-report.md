@@ -14,7 +14,7 @@ QA then independently inspected the live candidate process:
 - the LAN snapshot reported `private-lan`, read-only, and mutations unavailable;
 - Inbox, daemon metadata, and recent raw events were absent;
 - LAN Inbox returned `403` and Agent Command POST returned `405`;
-- the process listened only on exact `127.0.0.1:56635` and `192.168.79.5:41741` sockets;
+- the process listened only on exact `127.0.0.1:56635` and `<PRIVATE_IPV4>:41741` sockets;
 - Tailscale Funnel status reported the HTTPS endpoint as `tailnet only`, proxying only to the loopback port.
 
 The separate Quality exact-candidate run passed repository checks, documentation links, and all 221 automated tests. A fresh Quality browser session also reproduced the private read-only label, current live stream, absence of Inbox and Agent Command headings, no horizontal overflow, and 0 console errors or warnings at 420 × 900.

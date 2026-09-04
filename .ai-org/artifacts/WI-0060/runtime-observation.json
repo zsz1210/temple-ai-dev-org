@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.runtime-observation/v1",
   "revision": "d47e50f792b6a39c4e980cad634e7574d6da52b8",
-  "environment": "Temple self-host repository on the Mac Mini, live Control Plane with Codex observation, exact 192.168.79.5 home-LAN read-only listener, and headed Chromium through Playwright",
+  "environment": "Temple self-host repository on the Mac Mini, live Control Plane with Codex observation, exact <PRIVATE_IPV4> home-LAN read-only listener, and headed Chromium through Playwright",
   "scenario": "Open Team, switch to Teammates, verify truthful model states and provenance at 1720x980, 1024x900, and 390x844, inspect the mobile Rikku card, check the browser console, and confirm the LAN mutation route returns HTTP 405",
   "result": "pass",
   "provenance": "live",

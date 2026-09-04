@@ -8,7 +8,7 @@ import { validateInitConfig } from "../../../src/model.mjs";
 
 const execFile = promisify(execFileCallback);
 const frameworkRoot = path.resolve(import.meta.dirname, "../../..");
-const experimentRoot = "/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-lab";
+const experimentRoot = "<LOCAL_HOME>/Documents/ChatGPT/temple-effectiveness-lab";
 const templeCli = path.join(frameworkRoot, "bin/temple.mjs");
 const gitIdentity = Object.freeze({ name: "Temple Validation", email: "temple-validation@localhost" });
 

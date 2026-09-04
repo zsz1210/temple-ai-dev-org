@@ -2,7 +2,7 @@
   "schema_version": "temple.wave-5a-experiment-result/v1",
   "work_item_id": "WI-0113",
   "program_id": "wave-5a-process-feasibility",
-  "run_root": "/Users/zsz1210/Documents/ChatGPT/temple-wave-5a-lab-r8",
+  "run_root": "<LOCAL_HOME>/Documents/ChatGPT/temple-wave-5a-lab-r8",
   "status": "completed",
   "turns_started": 4,
   "turns_completed": 4,

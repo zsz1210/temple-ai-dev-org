@@ -30,7 +30,7 @@
     "repository_diff_before": "clean",
     "repository_diff_after": "clean",
     "dashboard_restored": true,
-    "dashboard_url": "http://192.168.79.5:41741/"
+    "dashboard_url": "http://<PRIVATE_IPV4>:41741/"
   },
   "usage": {
     "detailed_observation_received": false,

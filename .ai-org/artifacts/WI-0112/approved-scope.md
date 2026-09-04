@@ -2,7 +2,7 @@
 
 ## Included
 
-- Re-run the existing frozen Wave 5A protocol in a new exclusive lab at `/Users/zsz1210/Documents/ChatGPT/temple-wave-5a-lab-r4`.
+- Re-run the existing frozen Wave 5A protocol in a new exclusive lab at `<LOCAL_HOME>/Documents/ChatGPT/temple-wave-5a-lab-r4`.
 - Run the deterministic WI-0111 quote-aware replay suite and the live runner's no-generation preflight first.
 - If both pass, launch at most four sequential GPT-5.6 Luna Max candidate turns.
 - Retain bounded correlated usage, timing, revisions, test outcomes, changed paths, stop state, and blinded evaluation packages.

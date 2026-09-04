@@ -1,0 +1,17 @@
+{
+  "schema_version": "temple.publication-artifact-normalization-result/v1",
+  "applied": true,
+  "plan_digest": "5e91db01a2bbe505d7d8adec0d629ad74115fdfbd04af7527cce14e2576ddebf",
+  "source_revision": "07159bdf0b5feb03b1ab072692b4e9b44d354488",
+  "work_item_id": "WI-0162",
+  "changed_files": 59,
+  "change_count": 70,
+  "changes": {
+    "maintainer-home-path-posix": 39,
+    "private-ipv4": 28,
+    "private-tailnet-hostname": 3
+  },
+  "event_recorded": true,
+  "git_history_changed": false,
+  "publication_authorized": false
+}

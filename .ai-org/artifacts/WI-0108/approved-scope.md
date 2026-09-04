@@ -3,7 +3,7 @@
 ## Included
 
 - Generalize the corrected WI-0107 runner only enough to bind a supplied Work Item ID, approval record, and preflight output path.
-- Materialize a new lab at `/Users/zsz1210/Documents/ChatGPT/temple-wave-5a-lab-r2` without replacing or modifying the retained WI-0107 lab.
+- Materialize a new lab at `<LOCAL_HOME>/Documents/ChatGPT/temple-wave-5a-lab-r2` without replacing or modifying the retained WI-0107 lab.
 - Run one no-generation preflight, followed by at most four sequential Luna Max candidate turns.
 - Capture correlated Token totals, timing, revisions, changed paths, objective tests, blind packages, and a sealed coordinator mapping.
 - Stop immediately on an interrupted, uncorrelated, out-of-scope, over-limit, rerouted, or otherwise invalid attempt, with no retry.

@@ -2,7 +2,7 @@
 
 Date: 2026-09-01
 Surface: Home-LAN read-only Management Console
-URL: `http://192.168.79.5:41741/`
+URL: `http://<PRIVATE_IPV4>:41741/`
 
 ## Observations
 

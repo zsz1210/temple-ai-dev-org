@@ -292,7 +292,7 @@
         "hidden_reasoning_retained": false,
         "status": "stopped",
         "stop_scope": "run",
-        "stop_reason": "command-policy-violation:command policy rejected (explicit-command-path-outside-arm): /bin/zsh -lc 'rg -n -i \"WI-0136|representative microservice|notifications\" /Users/zsz1210/.codex/memories/MEMORY.md'",
+        "stop_reason": "command-policy-violation:command policy rejected (explicit-command-path-outside-arm): /bin/zsh -lc 'rg -n -i \"WI-0136|representative microservice|notifications\" <LOCAL_HOME>/.codex/memories/MEMORY.md'",
         "completion": null
       },
       {
@@ -378,7 +378,7 @@
     "integration": null
   },
   "candidate_operational_tokens": 119084,
-  "reason": "minimal-responsible-notifications:command-policy-violation:command policy rejected (explicit-command-path-outside-arm): /bin/zsh -lc 'rg -n -i \"WI-0136|representative microservice|notifications\" /Users/zsz1210/.codex/memories/MEMORY.md'",
+  "reason": "minimal-responsible-notifications:command-policy-violation:command policy rejected (explicit-command-path-outside-arm): /bin/zsh -lc 'rg -n -i \"WI-0136|representative microservice|notifications\" <LOCAL_HOME>/.codex/memories/MEMORY.md'",
   "retry_count": 0,
   "fallback_count": 0,
   "model_generation_performed": true

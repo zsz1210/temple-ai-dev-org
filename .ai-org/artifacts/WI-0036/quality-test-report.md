@@ -8,7 +8,7 @@
 
 ## Live private-network result
 
-The account owner enabled Tailscale Serve and confirmed that the Dashboard opened successfully from a tablet connected to the same tailnet at `https://mac-mini.tail54c6fc.ts.net`. The live Serve configuration was tailnet-only and proxied `/` to the loopback listener at `127.0.0.1:64172`; Funnel was not enabled.
+The account owner enabled Tailscale Serve and confirmed that the Dashboard opened successfully from a tablet connected to the same tailnet at `https://<PRIVATE_TAILNET_HOST>`. The live Serve configuration was tailnet-only and proxied `/` to the loopback listener at `127.0.0.1:64172`; Funnel was not enabled.
 
 A separate headed 420 by 900 pixel inspection confirmed that the private page rendered without a visible horizontal overflow, refreshed through cursor-only Server-Sent Events, exposed the redacted read-only snapshot, omitted Human Inbox and Agent Command controls, retained no raw event payload, and returned HTTP 405 for a mutation request.
 

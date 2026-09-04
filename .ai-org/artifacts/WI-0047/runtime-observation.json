@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.runtime-observation/v1",
   "revision": "b6bbe09e430d4f40c98dd0a581a25b2e2c6b6e88",
-  "environment": "Temple self-host repository on the Mac Mini, live loopback Control Plane with Codex observation, exact 192.168.79.5 home-LAN read-only listener, Tailscale Serve private viewer, and fresh headed Chromium",
+  "environment": "Temple self-host repository on the Mac Mini, live loopback Control Plane with Codex observation, exact <PRIVATE_IPV4> home-LAN read-only listener, Tailscale Serve private viewer, and fresh headed Chromium",
   "scenario": "Render and navigate Temple Workspace at 3440 by 1440, 2560 by 1080, 1440 by 1000, 1024 by 1366, 768 by 1024, and 390 by 844; inspect fluid content width, sidebar modes, mobile drawer accessibility, light and dark persistence, Team modes, legacy route normalization, private-viewer boundaries, console output, and horizontal overflow",
   "result": "pass",
   "provenance": "live",

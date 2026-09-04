@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.runtime-observation/v1",
   "revision": "6acb200dbe5090dea7d1e10b212bcff5b8079938",
-  "environment": "Temple self-host repository on the Mac Mini, live Control Plane with Codex observation, exact 192.168.79.5 home-LAN read-only listener, and a fresh headed Chromium session",
+  "environment": "Temple self-host repository on the Mac Mini, live Control Plane with Codex observation, exact <PRIVATE_IPV4> home-LAN read-only listener, and a fresh headed Chromium session",
   "scenario": "Render Work at 3440, 1440, 1024, and 390 CSS-pixel widths; expand WI-0049; verify human status labels, View details and Hide details, nested technical details, one quiet Last updated timestamp, private-viewer redaction, browser console output, and horizontal overflow",
   "result": "pass",
   "provenance": "live",

@@ -1,6 +1,6 @@
 # Publication evidence review
 
-Status: review complete; canonical-state normalization implemented, dogfooded, and independently verified
+Status: current-tree text remediation complete at the WI-0162 candidate; exact-candidate Independent QA pending
 
 Work Item: `WI-0160`
 
@@ -8,28 +8,25 @@ This review answers a narrow question: what remains in Temple's current tracked 
 
 ## Result
 
-The public-profile audit reports zero blocked findings on both repository and package surfaces. `WI-0161` reduced the canonical-state queue from 245 occurrences to zero through a stale-safe, field-aware operation. The remaining repository queue consists of:
+The public-profile audit reports zero blockers on both repository and package surfaces. `WI-0161` reduced the canonical-state queue from 245 occurrences to zero. `WI-0162` then normalized 70 retained-artifact occurrences across 59 files, replaced 18 literal first-party fixture occurrences, and recorded one provenance-bound allowed disposition for the unchanged pinned Archify fixture.
 
-- 85 retained-legacy text finding records, representing 89 matched occurrences outside canonical state;
-- 68 PNG files requiring content review.
-
-All 68 PNGs passed this review at their recorded SHA-256 digests. The remaining text findings still need retained-artifact normalization or an explicit fixture disposition. The repository is therefore better understood, not yet declared ready for publication.
+No unresolved text finding remains. The audit still reports `review-required` for 68 PNGs because text inspection deliberately cannot certify binary content. All 68 PNGs passed the separate digest-bound review below; changing any image bytes invalidates that evidence. This is current-tree preparation evidence, not publication authority.
 
 ## Text findings
 
-| Area | Finding records | Occurrences | Files | Recommended treatment |
+| Area | Original finding records | Original occurrences | Files | Current result |
 | --- | ---: | ---: | ---: | --- |
-| Canonical Work Items and project registries | 245 | 245 | 50 | Add a supported Temple migration; do not hand-edit canonical JSON |
-| Retained self-host artifacts | 70 | 70 | 59 | Normalize current-tree copies with revision-pinned provenance |
-| First-party test fixtures | 14 | 18 | 2 | Replace maintainer-shaped values with unmistakably synthetic fixtures |
-| Pinned Archify test fixture | 1 | 1 | 1 | Record a vendored-fixture disposition or update the pinned dependency; do not patch vendored code casually |
+| Canonical Work Items and project registries | 245 | 245 | 50 | Resolved by the stale-safe, field-aware WI-0161 operation |
+| Retained self-host artifacts | 70 | 70 | 59 | Resolved by the revision-bound WI-0162 artifact plan/apply operation |
+| First-party test fixtures | 14 | 18 | 2 | Runtime behavior preserved; audit-shaped literals removed from tracked source |
+| Pinned Archify test fixture | 1 | 1 | 1 | Allowed only at the exact source and installed-manifest digest; vendored bytes unchanged |
 | **Total** | **330** | **334** | **112** | |
 
-The first row is now resolved in the current tree by `WI-0161`; it remains in the table as the original review baseline. The implemented command normalized 315 fields across two exact plans: released claim worktrees, terminal worker and task worktrees, twelve Evidence-detail values, and one allowlisted Work Item description. Evidence IDs, revisions, artifact paths, and artifact digests remained unchanged.
+The table preserves the original WI-0160 review baseline. The WI-0161 command normalized 315 fields across two exact plans: released claim worktrees, terminal worker and task worktrees, twelve Evidence-detail values, and one allowlisted Work Item description. Evidence IDs, revisions, artifact paths, and artifact digests remained unchanged.
 
 By rule, the queue contains 279 home-path occurrences, 49 private-address occurrences, and six private-Tailnet-host occurrences. The new inventory retains paths, line numbers, rule classes, and counts, but never copies the matched value or source-line text.
 
-The largest cluster is durable lifecycle history: 187 values occur in historical claim entries and 40 in the current claim field of terminal Work Items. That is why a mass search-and-replace would be the wrong fix. Temple needs a schema-aware maintenance operation that preserves claim identity, branch, revision, timestamps, and release history while minimizing machine-local location data.
+The largest original cluster was durable lifecycle history: 187 values occurred in historical claim entries and 40 in the current claim field of terminal Work Items. That is why WI-0161 used a schema-aware operation instead of mass replacement. Retained artifacts then used a separate plan that records file-level before/after digests while leaving Git history intact.
 
 ## Binary review
 
@@ -39,19 +36,20 @@ Every image was included in an ordered contact-sheet inspection. Dense command, 
 
 The images may remain at their current digests. Any changed image bytes require a new review.
 
-## What Temple can automate safely
+## What Temple automates safely
 
 - Rebuild the value-redacted finding inventory.
 - Verify audit totals, file paths, line numbers, rules, binary digests, dimensions, and metadata.
 - Detect drift when a reviewed binary changes.
-- Apply a future schema-aware canonical-data migration after that behavior has its own tests and review.
+- Apply schema-aware canonical-state normalization through an exact reviewed plan.
+- Apply tracked retained-artifact normalization through a separate exact reviewed plan.
+- Accept one reviewed adapter fixture only while the current source digest matches its installed provenance manifest.
 
 ## What remains separate
 
-1. Normalize retained artifacts with provenance manifests.
-2. Replace first-party maintainer-shaped fixtures and document the pinned vendored fixture's disposition.
-3. Repeat the public audit at the frozen candidate.
-4. Let the repository owner decide whether already-shared historical Git objects are acceptable and, separately, whether repository visibility may change.
+1. Repeat the public audit and full verification at the frozen release candidate.
+2. Let the repository owner decide whether already-shared historical Git objects are acceptable.
+3. Separately decide whether repository visibility, version, tag, Release, or npm state may change.
 
 No version, tag, GitHub Release, npm publication, announcement, visibility change, or Git-history rewrite was authorized or performed by this review.
 
@@ -59,8 +57,9 @@ No version, tag, GitHub Release, npm publication, announcement, visibility chang
 
 ```bash
 node ./templew.mjs publication audit . --profile public --surface both --json
-node ./.ai-org/artifacts/WI-0160/verify-review.mjs
 node ./.ai-org/artifacts/WI-0161/verify-canonical-normalization.mjs
+node ./.ai-org/artifacts/WI-0162/verify-current-publication.mjs
+node ./templew.mjs publication artifact-plan . --json
 npm run verify
 ```
 
@@ -68,3 +67,5 @@ Machine-readable evidence:
 
 - [Text inventory](../../.ai-org/artifacts/WI-0160/text-inventory.json)
 - [Binary review](../../.ai-org/artifacts/WI-0160/binary-review.json)
+- [Retained-artifact normalization plan](../../.ai-org/artifacts/WI-0162/artifact-normalization-plan.json)
+- [Retained-artifact normalization result](../../.ai-org/artifacts/WI-0162/artifact-normalization-result.json)

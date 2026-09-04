@@ -14,11 +14,11 @@ The LAN listener assigns read-only authority from the socket that accepted the r
 
 - Focused private-viewer tests: 5/5 pass.
 - Full repository verification: 221/221 pass, with repository and documentation checks passing.
-- Live socket inspection: `127.0.0.1:56635` and exact `192.168.79.5:41741`; no wildcard listener.
+- Live socket inspection: `127.0.0.1:56635` and exact `<PRIVATE_IPV4>:41741`; no wildcard listener.
 - Live LAN snapshot: `private-lan`, read-only, mutations unavailable, and no Inbox, daemon metadata, or recent raw events.
 - LAN Inbox request: `403`; LAN Agent Command POST: `405`.
 - Tailscale page: HTTP `200`; Serve and Funnel status both report `tailnet only` and proxy only to `127.0.0.1:56635`.
-- Fresh Chromium through `http://192.168.79.5:41741` reached `Snapshot current` at 1440 × 1000 and 420 × 900, with 0 console errors, 0 warnings, no horizontal overflow, and no Inbox or Agent Command surfaces.
+- Fresh Chromium through `http://<PRIVATE_IPV4>:41741` reached `Snapshot current` at 1440 × 1000 and 420 × 900, with 0 console errors, 0 warnings, no horizontal overflow, and no Inbox or Agent Command surfaces.
 
 Transient screenshot digests:
 

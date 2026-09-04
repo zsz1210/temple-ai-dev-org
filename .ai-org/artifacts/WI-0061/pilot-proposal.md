@@ -6,8 +6,8 @@
 
 ## Exact local scope
 
-- Lab root: `/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-lab`
-- Synthetic repository: `/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-lab/instrumentation-pilot`
+- Lab root: `<LOCAL_HOME>/Documents/ChatGPT/temple-effectiveness-lab`
+- Synthetic repository: `<LOCAL_HOME>/Documents/ChatGPT/temple-effectiveness-lab/instrumentation-pilot`
 - Repository count: 1
 - Codex task count: 1 disposable provider-owned task
 - Model turns: 1

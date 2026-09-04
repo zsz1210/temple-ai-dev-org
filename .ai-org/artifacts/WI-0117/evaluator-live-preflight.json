@@ -4,6 +4,6 @@
   "owner_approval_present": true,
   "blind_packages_ready": true,
   "blind_package_count": 4,
-  "fixture_root": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org/.ai-org/artifacts/WI-0106/fixtures",
+  "fixture_root": "<LOCAL_HOME>/Documents/ChatGPT/temple-ai-dev-org/.ai-org/artifacts/WI-0106/fixtures",
   "model_generation_performed": false
 }

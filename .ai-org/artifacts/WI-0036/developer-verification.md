@@ -27,7 +27,7 @@ The focused tests prove exact private Host and identity classification, redacted
 
 ## Runtime evidence
 
-The installed Tailscale CLI is `1.98.8`, the node is online, its private DNS name is `mac-mini.tail54c6fc.ts.net`, and its initial Serve configuration is empty. Tailscale requires the account owner to approve first-time Serve enablement at its authenticated control-plane page. Until that approval is completed, the real tailnet HTTPS URL and tablet rendering remain unverified.
+The installed Tailscale CLI is `1.98.8`, the node is online, its private DNS name is `<PRIVATE_TAILNET_HOST>`, and its initial Serve configuration is empty. Tailscale requires the account owner to approve first-time Serve enablement at its authenticated control-plane page. Until that approval is completed, the real tailnet HTTPS URL and tablet rendering remain unverified.
 
 ## Remaining verification
 

@@ -49,7 +49,7 @@ The failure remained within the approved safety envelope:
 - no canonical phantom task;
 - no repository mutation by a model;
 - no network access by a model;
-- the regular home-LAN read-only Temple Workspace was restored at `http://192.168.79.5:41741/`;
+- the regular home-LAN read-only Temple Workspace was restored at `http://<PRIVATE_IPV4>:41741/`;
 - no push, deployment, publication, or release occurred.
 
 ## Next separately authorized slice

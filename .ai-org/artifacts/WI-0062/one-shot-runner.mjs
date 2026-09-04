@@ -16,7 +16,7 @@ import { readJson } from "../../../src/files.mjs";
 import { openTelemetryJournal } from "../../../src/telemetry.mjs";
 import { updateTask } from "../../../src/tasks.mjs";
 
-const target = "/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-lab/instrumentation-pilot";
+const target = "<LOCAL_HOME>/Documents/ChatGPT/temple-effectiveness-lab/instrumentation-pilot";
 const launchRevision = "402fb3e97dfba0fd6531752cc1a9c453830db5e0";
 const requestedModel = "gpt-5.6-luna";
 const reasoningEffort = "max";

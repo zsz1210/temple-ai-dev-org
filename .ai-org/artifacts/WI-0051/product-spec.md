@@ -8,7 +8,7 @@ Temple's usage surface can describe exact Work Item and task correlation, but th
 
 - Project name: Temple Instrumentation Pilot
 - Project ID: `temple-instrumentation-pilot`
-- Location: `/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-lab/instrumentation-pilot`
+- Location: `<LOCAL_HOME>/Documents/ChatGPT/temple-effectiveness-lab/instrumentation-pilot`
 - Data: synthetic only
 - Interface: none (`not-applicable`)
 

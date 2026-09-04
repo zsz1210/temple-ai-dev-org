@@ -29,7 +29,7 @@ Repository checks and documentation-link checks also passed.
 
 ## Live shutdown evidence
 
-The candidate started the real private Dashboard at `https://mac-mini.tail54c6fc.ts.net` with a loopback target on port `65191`. A single PTY `Ctrl-C` then produced:
+The candidate started the real private Dashboard at `https://<PRIVATE_TAILNET_HOST>` with a loopback target on port `65191`. A single PTY `Ctrl-C` then produced:
 
 ```text
 launcher exit status: 0

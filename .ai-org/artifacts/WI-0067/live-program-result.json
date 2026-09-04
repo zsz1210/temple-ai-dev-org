@@ -16,8 +16,8 @@
     "generation_performed": false
   },
   "manifest_digest": "68b89e28faab0c57624172226c34fdf0e1b9ec7474e26a7e523a29de2b0f0f6c",
-  "state_path": "/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-lab/commerce-coordinator/.ai-org/runtime/validation-program/commerce-rehearsal-2026-08-31/state.json",
-  "events_path": "/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-lab/commerce-coordinator/.ai-org/runtime/validation-program/commerce-rehearsal-2026-08-31/events.jsonl",
+  "state_path": "<LOCAL_HOME>/Documents/ChatGPT/temple-effectiveness-lab/commerce-coordinator/.ai-org/runtime/validation-program/commerce-rehearsal-2026-08-31/state.json",
+  "events_path": "<LOCAL_HOME>/Documents/ChatGPT/temple-effectiveness-lab/commerce-coordinator/.ai-org/runtime/validation-program/commerce-rehearsal-2026-08-31/events.jsonl",
   "resumed": false,
   "state": {
     "schema_version": "temple.validation-program-state/v1",

@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.runtime-observation/v1",
   "revision": "fbb6aa965baf1f7bbd6e4721e9735ddd4d882bbe",
-  "environment": "Temple self-host repository on the Mac Mini, live exact 192.168.79.5 home-LAN read-only listener, and fresh Chromium sessions",
+  "environment": "Temple self-host repository on the Mac Mini, live exact <PRIVATE_IPV4> home-LAN read-only listener, and fresh Chromium sessions",
   "scenario": "Render Dashboard Now on a private tablet viewport at 1024 by 1366 and mobile viewport at 420 by 900; verify grouped recovery priority and count, bounded attention, System navigation, underlying condition visibility, private-viewer redaction, console output, and horizontal overflow",
   "result": "pass",
   "provenance": "live",

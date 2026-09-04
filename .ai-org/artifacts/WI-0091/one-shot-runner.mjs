@@ -17,7 +17,7 @@ import { readJson } from "../../../src/files.mjs";
 import { openTelemetryJournal, resolveControlPlaneStateDirectory } from "../../../src/telemetry.mjs";
 import { updateTask } from "../../../src/tasks.mjs";
 
-const target = "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org";
+const target = "<LOCAL_HOME>/Documents/ChatGPT/temple-ai-dev-org";
 const projectId = "temple";
 const workItemId = "WI-0091";
 const positionId = "developer";

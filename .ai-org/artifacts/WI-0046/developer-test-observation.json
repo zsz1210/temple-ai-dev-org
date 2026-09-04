@@ -5,7 +5,7 @@
     "node --test test/control-plane-live.test.mjs test/control-plane-foundation.test.mjs test/control-plane-private-viewer.test.mjs",
     "node --test test/control-plane-inbox.test.mjs",
     "npm run verify",
-    "playwright-cli open http://192.168.79.5:41741/#organization and inspect Agent/Position modes at 1440x1000, 1024x1366, 768x1024, and 420x900"
+    "playwright-cli open http://<PRIVATE_IPV4>:41741/#organization and inspect Agent/Position modes at 1440x1000, 1024x1366, 768x1024, and 420x900"
   ],
   "result": "pass",
   "exit_code": 0,

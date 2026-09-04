@@ -2,7 +2,7 @@
   "schema_version": "temple.effectiveness-pilot-offline-observation/v1",
   "work_item_id": "WI-0130",
   "observed_at": "2026-09-03T06:39:23.000Z",
-  "lab_root": "/Users/zsz1210/Documents/ChatGPT/temple-effectiveness-pilot-wi0130",
+  "lab_root": "<LOCAL_HOME>/Documents/ChatGPT/temple-effectiveness-pilot-wi0130",
   "candidate_count": 6,
   "checks": {
     "clean_candidate_repositories": "pass",

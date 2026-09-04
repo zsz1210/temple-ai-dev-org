@@ -44,7 +44,7 @@ This confirms the documented limitation: a reactive threshold is not a hard cap.
 
 ## Repository and Dashboard
 
-The model produced no repository changes, and no `.ai-org`-external diff appeared after execution. Restarting the normal Control Plane exposed a separate telemetry append race: concurrent notifications produced repeated cursors in the 4,938-line journal. Temple's built-in rebuild archived that journal unchanged with SHA-256 `af32cd123e67beb0b0c128cc00306f13c128978c3e6e76cdf15eaae9d93da1`, rebuilt from 1,237 canonical events, and restored the home-LAN Dashboard at `http://192.168.79.5:41741/` with both Providers ready.
+The model produced no repository changes, and no `.ai-org`-external diff appeared after execution. Restarting the normal Control Plane exposed a separate telemetry append race: concurrent notifications produced repeated cursors in the 4,938-line journal. Temple's built-in rebuild archived that journal unchanged with SHA-256 `af32cd123e67beb0b0c128cc00306f13c128978c3e6e76cdf15eaae9d93da1`, rebuilt from 1,237 canonical events, and restored the home-LAN Dashboard at `http://<PRIVATE_IPV4>:41741/` with both Providers ready.
 
 The cursor race is a separate framework defect. It does not invalidate the archived live observations or authorize another model attempt.
 
