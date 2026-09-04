@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0167",
   "title": "Remediate Archify alerts and publish Alpha.30",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-04T18:36:14.342Z",
-  "updated_at": "2026-09-04T18:37:16.052Z",
+  "updated_at": "2026-09-04T18:48:58.322Z",
   "scope": [
     "Upgrade the optional Archify adapter to v2.16.0 with a transparent reviewed fast-uri 3.1.7 downstream security patch",
     "Requalify the exact Alpha.30 package, create a GitHub prerelease, and publish the same tarball to npm under the next dist-tag",
@@ -68,26 +68,32 @@
   "overlap_resolution": [],
   "claim": {
     "id": "claim-20260904183716-09efe11f",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "base_revision": "dfbb56fa3a61b7d71514a0f12e91111dbacb2677",
     "branch": "codex/wi-0167-alpha30-release",
     "worktree": null,
     "claimed_at": "2026-09-04T18:37:16.052Z",
-    "released_at": null
+    "released_at": "2026-09-04T18:48:58.083Z",
+    "release_reason": [
+      "Developer handoff and exact qualification evidence recorded"
+    ]
   },
   "claims": [
     {
       "id": "claim-20260904183716-09efe11f",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "dfbb56fa3a61b7d71514a0f12e91111dbacb2677",
       "branch": "codex/wi-0167-alpha30-release",
       "worktree": null,
       "claimed_at": "2026-09-04T18:37:16.052Z",
-      "released_at": null
+      "released_at": "2026-09-04T18:48:58.083Z",
+      "release_reason": [
+        "Developer handoff and exact qualification evidence recorded"
+      ]
     }
   ],
   "gate_evidence": {
@@ -105,6 +111,14 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0167/technical-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0167/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0167/developer-verification.md",
+      ".ai-org/artifacts/WI-0167/test-observation.json",
+      ".ai-org/artifacts/WI-0167/release-qualification-result.json"
     ]
   },
   "evidence": [
@@ -114,7 +128,11 @@
     ".ai-org/artifacts/WI-0167/handoff-002-product_manager-to-tech_lead.md",
     ".ai-org/artifacts/WI-0167/approved-scope.md",
     ".ai-org/artifacts/WI-0167/handoff-003-tech_lead-to-developer.md",
-    ".ai-org/artifacts/WI-0167/technical-design.md"
+    ".ai-org/artifacts/WI-0167/technical-design.md",
+    ".ai-org/artifacts/WI-0167/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0167/developer-verification.md",
+    ".ai-org/artifacts/WI-0167/test-observation.json",
+    ".ai-org/artifacts/WI-0167/release-qualification-result.json"
   ],
   "unresolved": [],
   "next_position": "quality_evaluator",
@@ -139,6 +157,14 @@
       "input_revision": "dfbb56fa3a61b7d71514a0f12e91111dbacb2677",
       "artifact": ".ai-org/artifacts/WI-0167/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-04T18:37:15.556Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "6a8760f9669c58085b069e91776b89d0a857fc83",
+      "artifact": ".ai-org/artifacts/WI-0167/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T18:48:57.815Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "6a8760f9669c58085b069e91776b89d0a857fc83"
 }
