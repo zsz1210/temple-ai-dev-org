@@ -1,0 +1,102 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0147",
+  "title": "Keep bounded CI within its declared runtime",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-04T07:26:12.616Z",
+  "updated_at": "2026-09-04T07:27:00.649Z",
+  "scope": [
+    "Prevent successful CI checks from being cancelled during runner cleanup when dependency installation is slow."
+  ],
+  "acceptance_criteria": [
+    "The workflow restores dependencies through the pinned npm lockfile, enables the built-in npm cache, keeps one bounded Node.js 24 gate, and allows enough bounded runtime for successful checks plus post-job cleanup.",
+    "A pull-request CI run completes successfully and no release or publication occurs."
+  ],
+  "affected_paths": [
+    ".github/workflows/ci.yml"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "One reversible workflow configuration change with existing local and hosted verification.",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-04T07:26:12.615Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "c8d5162c3d66123899d0a894c77fa01aff1561da",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260904072700-0ff86815",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "c8d5162c3d66123899d0a894c77fa01aff1561da",
+    "branch": "codex/wi-0146-readme-layers",
+    "worktree": null,
+    "claimed_at": "2026-09-04T07:27:00.649Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260904072700-0ff86815",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "c8d5162c3d66123899d0a894c77fa01aff1561da",
+      "branch": "codex/wi-0146-readme-layers",
+      "worktree": null,
+      "claimed_at": "2026-09-04T07:27:00.649Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0147/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0147/work-order.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0147/work-order.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0147/work-order.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0147/work-order.md"
+    ],
+    "profile_eligibility": [
+      ".ai-org/artifacts/WI-0147/work-order.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0147/work-order.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

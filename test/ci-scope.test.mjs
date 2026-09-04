@@ -20,8 +20,11 @@ test("CI is one bounded Node.js 24 repository gate", async () => {
 
   assert.deepEqual(jobNames, ["verify"]);
   assert.match(workflow, /name: Verify \(Node\.js 24\)/);
-  assert.match(workflow, /timeout-minutes: 5/);
+  assert.match(workflow, /timeout-minutes: 8/);
   assert.match(workflow, /node-version: 24/);
+  assert.match(workflow, /cache: npm/);
+  assert.match(workflow, /cache-dependency-path: package-lock\.json/);
+  assert.match(workflowStep(workflow, "install"), /npm ci --ignore-scripts/);
   assert.match(workflow, /fetch-depth: 0/);
   assert.doesNotMatch(workflow, /matrix:/);
   assert.doesNotMatch(workflow, /Node\.js 22|node-version:\s*22/);
