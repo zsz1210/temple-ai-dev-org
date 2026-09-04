@@ -1,0 +1,127 @@
+{
+  "report_version": "wi-0158-final-clean-room-result/v1",
+  "work_item_id": "WI-0158",
+  "protocol_sha256": "45aab90fa45b9502df0d886cf24bfb42a265a8cb684a9de70e143c6bdf6881e3",
+  "result": "pass_with_observed_friction",
+  "observed_at": "2026-09-04",
+  "source": {
+    "revision": "54d14f4e94a930719ca7674ebf1ad74be89de7ac",
+    "package": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.29",
+    "tarball_sha256": "43cefd40bcb5d21a3159419eb89d31d691f0ac81a9489a38a4b4824ad5cf2f0b",
+    "tarball_bytes": 804392,
+    "unpacked_bytes": 3192729,
+    "archive_entries": 374,
+    "published": false
+  },
+  "target": {
+    "project_name": "QueueKeep",
+    "path_disposition": "disposable local directory; absolute path omitted from retained public-facing evidence",
+    "work_item_id": "WI-0001",
+    "lifecycle_outcome": "accepted",
+    "implementation_revision": "f8ab903756b091c5b48643b972119dab03c5394e",
+    "tested_revision": "f8ab903756b091c5b48643b972119dab03c5394e",
+    "head_revision": "e2af608f4e6ab96c461b7d91a6322aee1ae34938",
+    "git_clean_after_delivery": true,
+    "git_clean_after_recovery": true,
+    "remote_configured": false,
+    "application_tests": {
+      "passed": 2,
+      "failed": 0
+    },
+    "doctor": {
+      "passed": 37,
+      "warnings": 0,
+      "failed": 0
+    },
+    "developer_identity": {
+      "agent_id": "agent-devon",
+      "display_name": "Devon"
+    },
+    "independent_qa_identity": {
+      "agent_id": "agent-elliot",
+      "display_name": "Elliot"
+    },
+    "closeout_identity": {
+      "agent_id": "agent-avery",
+      "display_name": "Avery"
+    }
+  },
+  "sessions": [
+    {
+      "name": "delivery",
+      "thread_id": "01a06cc2-2335-7e72-9d5d-3613fc8dc7ef",
+      "requested_model": "gpt-5.6-terra",
+      "effective_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "effective_reasoning_effort": "medium",
+      "elapsed_ms": 444325,
+      "completed": true,
+      "human_interventions": 0,
+      "setup_or_implementation_corrections": 1,
+      "product_rework_after_first_successful_verification": 0,
+      "encountered_command_or_test_errors": 2,
+      "model_retries": 0,
+      "token_usage": "unknown"
+    },
+    {
+      "name": "cold_recovery",
+      "thread_id": "01a06cc9-698f-7bd1-b4c7-6c5788fa9077",
+      "requested_model": "gpt-5.6-terra",
+      "effective_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "effective_reasoning_effort": "medium",
+      "elapsed_ms": 86210,
+      "completed": true,
+      "human_interventions": 0,
+      "encountered_command_or_test_errors": 0,
+      "model_retries": 0,
+      "token_usage": "unknown"
+    }
+  ],
+  "combined_elapsed_ms": 530535,
+  "matched_comparison": {
+    "wi_0155": {
+      "delivery_delta_ms": 9525,
+      "delivery_delta_percent": 2.19,
+      "cold_recovery_delta_ms": 387,
+      "cold_recovery_delta_percent": 0.45,
+      "combined_delta_ms": 9912,
+      "combined_delta_percent": 1.9
+    },
+    "wi_0156": {
+      "delivery_delta_ms": 7388,
+      "delivery_delta_percent": 1.69,
+      "cold_recovery_delta_ms": -18473,
+      "cold_recovery_delta_percent": -17.65,
+      "combined_delta_ms": -11085,
+      "combined_delta_percent": -2.05
+    },
+    "interpretation": "All three runs completed the bounded outcome without Human intervention. The third combined time is within about two percent of each prior run, so no speed improvement or regression is established."
+  },
+  "acceptance": {
+    "frozen_source_before_provider_execution": true,
+    "fresh_delivery_task": true,
+    "repository_visible_inputs_only": true,
+    "project_specific_identities": true,
+    "bounded_work_item_accepted": true,
+    "distinct_developer_and_independent_qa": true,
+    "healthy_status_and_doctor": true,
+    "separate_cold_recovery_task": true,
+    "neutral_recovery_title": true,
+    "read_only_recovery_preserved": true,
+    "coordinator_namespace_contamination": false,
+    "publication_or_external_release_performed": false
+  },
+  "observed_friction": [
+    "The generated product scaffold initially retained a duplicate CommonJS package setting and required one correction to the intended ESM configuration.",
+    "One lifecycle transition contained a placeholder Evidence ID and failed safely before mutation; the task then used the exact recorded Evidence ID.",
+    "Provider Token totals were not exposed and remain unknown."
+  ],
+  "claim_boundaries": [
+    "Three bounded runs of one small local CLI on one machine are descriptive evidence, not a statistical performance study.",
+    "The clean-room tasks test AI-assisted repository operation, not unaided first-time-human documentation usability.",
+    "No reliable Token telemetry was available, so cost or Token savings cannot be compared.",
+    "Passing organizational closeout does not authorize repository publication, a tag, a GitHub Release, npm publication, deployment, or announcement."
+  ],
+  "external_action_performed": false
+}

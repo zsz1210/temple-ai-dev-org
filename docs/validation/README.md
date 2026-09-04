@@ -33,6 +33,7 @@ Validation records preserve bounded evidence for framework capabilities. They id
 - [Greenfield cold-task recovery — passed with limits](greenfield-cold-task-recovery-result.md) ([test plan](greenfield-cold-task-recovery-test-plan.md))
 - [Fresh-session clean-room rehearsal v2 — onboarding friction improved; follow-up findings retained](fresh-session-clean-room-rehearsal-v2.md)
 - [Fresh-session clean-room rehearsal v2 erratum — generated-view writer attribution corrected](fresh-session-clean-room-rehearsal-v2-erratum.md)
+- [Final pre-Alpha clean-room rehearsal — AI-assisted Core Path passed; no general efficiency claim](final-pre-alpha-clean-room.md)
 - [Greenfield agent-led onboarding — deterministic path passed with provider limits](greenfield-agent-led-onboarding.md)
 - [Console-free core operating path audit — mechanics passed; human golden path needs consolidation](core-operating-path-audit.md)
 - [Wave 1 adoption evidence — local greenfield, cold-task, brownfield, and recovery baseline passed with limits](wave-1-adoption-evidence.md)

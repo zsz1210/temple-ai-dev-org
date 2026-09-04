@@ -17,7 +17,7 @@ Temple does **not** have a current public Alpha or an npm release.
 - The latest ordinary semantic version tag is `v0.1.0-alpha.27`.
 - `package.json` currently says `0.1.0-alpha.29`, but there is no matching `v0.1.0-alpha.29` tag or GitHub Release.
 - `@zsz1210/temple-ai-dev-org` does not exist in the public npm registry, and `private: true` prevents accidental publication.
-- No exact revision is currently frozen as the next release candidate.
+- No exact revision is currently frozen as the next release candidate. Revision `54d14f4e94a930719ca7674ebf1ad74be89de7ac` passed the pre-freeze clean-room rehearsal, but the later evidence reconciliation means it is not being declared the release commit.
 
 Because Temple has changed materially since the Alpha.29 candidate evidence was recorded, `v0.1.0-alpha.30` is the recommended next public candidate. This is a proposal, not an approved version change.
 
@@ -52,8 +52,10 @@ These foundations reduce release risk. They do not replace exact-candidate verif
 These observations describe the private repository before this refresh. They are useful preparation evidence, but they are not a frozen release record.
 
 - Required `main` CI run [`33854507459`](https://github.com/zsz1210/temple-ai-dev-org/actions/runs/33854507459) passed the Node.js 24 repository gate.
-- `npm pack --dry-run --json --ignore-scripts` reported 364 allowlisted files, 788,829 packed bytes, and 3,136,265 unpacked bytes.
+- The unpublished archive built from `54d14f4e94a930719ca7674ebf1ad74be89de7ac` contained 374 entries, 804,392 packed bytes, and 3,192,729 unpacked bytes; its SHA-256 was `43cefd40bcb5d21a3159419eb89d31d691f0ac81a9489a38a4b4824ad5cf2f0b`.
 - `npm audit --omit=dev --json` reported zero known vulnerabilities across all severities.
+- The WI-0158 fresh-session delivery and separate cold recovery completed without Human intervention. QueueKeep reached accepted closeout with distinct Developer and Independent QA identities, two passing application tests, Doctor 37/0/0, and a clean read-only recovery. Token totals remained unavailable.
+- A public-profile repository audit on the WI-0158 working candidate reported four blocked maintainer-path occurrences in retained WI-0155 and WI-0156 evidence, 330 retained-legacy findings, and 68 binary files requiring review. The package surface reported zero blocked or review-required files. Repository publication remains blocked until the four new path findings receive a provenance-preserving resolution and the review queues receive Human disposition.
 - The historical Alpha.29 work and its earlier package, installation, browser, upgrade, and hosted observations remain available in `WI-0086`. They are history, not qualification for a later candidate.
 
 Exact file bytes, digests, audit results, test counts, and hosting state must be captured again after the candidate revision is frozen.
@@ -72,8 +74,8 @@ Exact file bytes, digests, audit results, test counts, and hosting state must be
 | Clean consumer | Must be repeated | Install the real tarball in a clean Node.js 24 environment; run version, init, re-init, project launcher, status, and Doctor |
 | Upgrade safety | Prior Alpha.28-to-.29 rehearsal passed | Reconcile whether the candidate changes managed files or migration behavior; repeat only the affected upgrade path |
 | Dependency and secret review | Current dependency audit is clean; hosting controls not fully qualified | Repeat the locked audit and tracked-content review; verify hosting security controls after visibility changes |
-| Evidence publication boundary | Public profile implemented; retained legacy and binary evidence still require review | Run `publication audit` for repository and package at the exact candidate, review every retained-legacy and binary item, then record the Human disposition |
-| Fresh-session clean-room path | Not run | A new AI session with no Temple chat history uses only repository-visible instructions in a disposable new project, completes one bounded Work Item, recovers it from a second cold session, and reaches healthy Status and Doctor results without maintainer coaching |
+| Evidence publication boundary | Package surface clean; repository has four blocked maintainer-path findings plus retained-legacy and binary review queues | Resolve the four blocked paths without obscuring provenance, then review retained-legacy and binary items at the exact candidate and record the Human disposition |
+| Fresh-session clean-room path | Passed at the pre-freeze revision | WI-0158 completed one bounded Work Item and a separate repository-only recovery without maintainer coaching; repeat only if later candidate changes affect the Core Path |
 | Rollback | Earlier procedure exists | Bind withdrawal or superseding-release instructions to the approved immutable tag |
 | Publication authority | Not granted | Separate Human approval for visibility, tag, GitHub Release, and any later npm publication |
 
@@ -93,7 +95,7 @@ Approval of one item does not approve the later items.
 
 ## Recommended preparation sequence
 
-### Step 1 — rehearse the AI-assisted path in a clean room
+### Step 1 — rehearse the AI-assisted path in a clean room — completed
 
 - Start from a disposable new repository and a frozen Temple revision while the source repository remains private.
 - Open a fresh AI session with no prior Temple conversation, hidden fixture answer, or maintainer-only instruction.
@@ -102,6 +104,8 @@ Approval of one item does not approve the later items.
 - Start a second cold session and require it to recover the project, Position, Work Item result, evidence, and next safe action from repository state.
 - Retain completion, elapsed time, errors, rework, Human interventions, and documentation gaps. Token observation is optional, and unavailable values remain unknown.
 - Correct any hidden dependency or broken path before freezing a release candidate.
+
+WI-0158 completed this step at revision `54d14f4e94a930719ca7674ebf1ad74be89de7ac`. All three retained QueueKeep observations completed without Human intervention. The final run preserved a clean read-only recovery after the WI-0157 correction, while two recoverable delivery mistakes and unavailable Token telemetry remain explicitly recorded. See [Final pre-Alpha clean-room rehearsal](../validation/final-pre-alpha-clean-room.md).
 
 This rehearsal validates the AI-assisted operating path. It does not establish that an unaided first-time human finds every document intuitive, and the first Alpha must not make that stronger usability claim. An external human study may be run later when broader adoption evidence is useful; it is not a publication gate.
 
