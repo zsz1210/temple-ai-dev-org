@@ -235,6 +235,20 @@ test("generation-free preparation produces matched repositories and smaller stag
   assert.equal(mismatchValidation.valid, false);
   assert.ok(mismatchValidation.errors.includes("Provider contract mismatch"));
 
+  const mismatchedRepetition = structuredClone(prepared.protocol);
+  mismatchedRepetition.conditions.find((entry) => entry.id === "single-stage-aware-b").treatment.measured_source_bytes += 1;
+  mismatchedRepetition.protocol_sha256 = contextAblationProtocolDigest(mismatchedRepetition);
+  const repetitionValidation = validateContextAblationProtocol(mismatchedRepetition);
+  assert.equal(repetitionValidation.valid, false);
+  assert.ok(repetitionValidation.errors.includes("single-repository.stage-aware repetitions do not match"));
+
+  const mismatchedLimits = structuredClone(prepared.protocol);
+  mismatchedLimits.execution.condition_operational_token_limits["single-stage-aware-a"] -= 1;
+  mismatchedLimits.protocol_sha256 = contextAblationProtocolDigest(mismatchedLimits);
+  const limitValidation = validateContextAblationProtocol(mismatchedLimits);
+  assert.equal(limitValidation.valid, false);
+  assert.ok(limitValidation.errors.includes("condition token limits mismatch"));
+
   const template = contextAblationApprovalTemplate(prepared.protocol);
   assert.equal(validateContextAblationApproval(template, prepared.protocol).accepted, false);
   const approved = {
@@ -285,6 +299,9 @@ test("bounded acquisition evidence classifies safe reads without retaining comma
     successful(routedPath, "routed-body"),
     successful(offRoutePath, "off-route-body"),
     successful("coordinator/docs/product/escaped-link", "outside-body"),
+    successful("../outside", "traversal-body"),
+    successful("/tmp", "absolute-body"),
+    successful(`coordinator/${"x".repeat(acquisitionLimits.maximum_path_bytes + 1)}`, "oversized-body"),
     successful(routedPath, "multiple-body", [
       { type: "read", command: `sed -n '1,20p' ${routedPath}`, path: routedPath },
       { type: "read", command: `sed -n '1,20p' ${offRoutePath}`, path: offRoutePath }
@@ -299,12 +316,12 @@ test("bounded acquisition evidence classifies safe reads without retaining comma
   assert.ok(observation.counts.control >= 1);
   assert.ok(observation.counts.routed >= 1);
   assert.ok(observation.counts["off-route"] >= 1);
-  assert.ok(observation.counts.unknown >= 1);
+  assert.ok(observation.counts.unknown >= 4);
   assert.equal(observation.coverage_complete, false);
   assert.equal(observation.adherence_pass, false);
   assert.equal(observation.entries.filter((entry) => entry.reported_output_bytes === null).length >= 2, true);
   const retainedText = JSON.stringify(observation);
-  assert.doesNotMatch(retainedText, /sed -n|package-body|routed-body|off-route-body|outside-body|failed-secret|multiple-body/);
+  assert.doesNotMatch(retainedText, /sed -n|package-body|routed-body|off-route-body|outside-body|traversal-body|absolute-body|oversized-body|failed-secret|multiple-body/);
   assert.equal(observation.raw_commands_retained, false);
   assert.equal(observation.raw_output_retained, false);
 });

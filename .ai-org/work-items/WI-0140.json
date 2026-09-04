@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0140",
   "title": "Measure and enforce Context Capsule route adherence",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-04T02:17:43.020Z",
-  "updated_at": "2026-09-04T02:20:58.573Z",
+  "updated_at": "2026-09-04T02:38:48.035Z",
   "scope": [
     "Retain a bounded path-only manifest of successful context reads after routing without storing raw prompts, outputs, hidden reasoning, credentials, or temporary repository content.",
     "Measure total context acquisition and route adherence separately from initial package size, Provider Tokens, latency, and command counts for single-repository and coordinator multi-repository recovery.",
@@ -61,26 +61,32 @@
   "overlap_resolution": [],
   "claim": {
     "id": "claim-20260904022058-90276bb9",
-    "status": "active",
+    "status": "released",
     "principal_id": "principal-owner",
     "agent_id": "agent-rikku",
     "base_revision": "8c1d792a27c1a2386dc3d5f753b2ab7f4f7bcb8e",
     "branch": "codex/wi-0140-context-route-adherence",
     "worktree": null,
     "claimed_at": "2026-09-04T02:20:58.573Z",
-    "released_at": null
+    "released_at": "2026-09-04T02:38:41.905Z",
+    "release_reason": [
+      "Developer handoff recorded"
+    ]
   },
   "claims": [
     {
       "id": "claim-20260904022058-90276bb9",
-      "status": "active",
+      "status": "released",
       "principal_id": "principal-owner",
       "agent_id": "agent-rikku",
       "base_revision": "8c1d792a27c1a2386dc3d5f753b2ab7f4f7bcb8e",
       "branch": "codex/wi-0140-context-route-adherence",
       "worktree": null,
       "claimed_at": "2026-09-04T02:20:58.573Z",
-      "released_at": null
+      "released_at": "2026-09-04T02:38:41.905Z",
+      "release_reason": [
+        "Developer handoff recorded"
+      ]
     }
   ],
   "gate_evidence": {
@@ -98,6 +104,14 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0140/technical-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0140/handoff-003-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260904T023820Z-9B033B1C",
+      "EVID-20260904T023820Z-0005EAB2",
+      ".ai-org/artifacts/WI-0140/developer-verification.md"
     ]
   },
   "evidence": [
@@ -105,7 +119,11 @@
     ".ai-org/artifacts/WI-0140/handoff-001-product_manager-to-tech_lead.md",
     ".ai-org/artifacts/WI-0140/approved-scope.md",
     ".ai-org/artifacts/WI-0140/handoff-002-tech_lead-to-developer.md",
-    ".ai-org/artifacts/WI-0140/technical-design.md"
+    ".ai-org/artifacts/WI-0140/technical-design.md",
+    ".ai-org/artifacts/WI-0140/handoff-003-developer-to-quality_evaluator.md",
+    "EVID-20260904T023820Z-9B033B1C",
+    "EVID-20260904T023820Z-0005EAB2",
+    ".ai-org/artifacts/WI-0140/developer-verification.md"
   ],
   "unresolved": [],
   "next_position": "quality_evaluator",
@@ -123,6 +141,14 @@
       "input_revision": "1461cf6",
       "artifact": ".ai-org/artifacts/WI-0140/handoff-002-tech_lead-to-developer.md",
       "created_at": "2026-09-04T02:20:52.488Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "70a98b4a8d07bb27f1c2f91fa1cbbea06113adef",
+      "artifact": ".ai-org/artifacts/WI-0140/handoff-003-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T02:38:41.617Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "70a98b4a8d07bb27f1c2f91fa1cbbea06113adef"
 }
