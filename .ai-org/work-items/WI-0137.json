@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0137",
   "title": "Make context routing stage-aware and measurement-ready",
-  "state": "independent_qa",
-  "owner_position": "independent_qa",
-  "assigned_agent_id": "agent-lulu",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-03T23:55:06.667Z",
-  "updated_at": "2026-09-04T00:25:20.445Z",
+  "updated_at": "2026-09-04T00:26:42.408Z",
   "scope": [
     "Add stage- and purpose-bound Context Capsules that route only relevant sources without copying source bodies or expanding authority.",
     "Expose content-addressed source size and category measurements so context, cached-input, latency, and storage trade-offs can be analyzed without guessing.",
@@ -182,6 +182,9 @@
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0137/quality-evaluation.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260904T002620Z-DDECACBD"
     ]
   },
   "evidence": [
@@ -197,10 +200,13 @@
     ".ai-org/artifacts/WI-0137/developer-verification.md",
     ".ai-org/artifacts/WI-0137/developer-test-observation.json",
     "EVID-20260904T002514Z-F37EECEE",
-    ".ai-org/artifacts/WI-0137/quality-evaluation.md"
+    ".ai-org/artifacts/WI-0137/quality-evaluation.md",
+    ".ai-org/artifacts/WI-0137/handoff-004-independent_qa-to-release_manager.md",
+    "EVID-20260904T002620Z-DDECACBD",
+    ".ai-org/artifacts/WI-0137/independent-qa.md"
   ],
   "unresolved": [],
-  "next_position": "release_manager",
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "product_manager",
@@ -222,6 +228,13 @@
       "input_revision": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d",
       "artifact": ".ai-org/artifacts/WI-0137/handoff-003-developer-to-quality_evaluator.md",
       "created_at": "2026-09-04T00:15:59.342Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "acdb6b420b79436e05f436b9d6015113a468ef69",
+      "artifact": ".ai-org/artifacts/WI-0137/handoff-004-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-04T00:26:41.953Z"
     }
   ],
   "developer_candidate_revision": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d"

@@ -184,7 +184,7 @@
 | WI-0134 | Repair invalid historical evidence records | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ad1f06a5` | 0 | 18 | 0 |
 | WI-0135 | Run optimized Terra process confirmation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `00ea3a47` | 0 | 24 | 0 |
 | WI-0136 | Execute representative multi-Agent microservice comparison | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f76d2e7b` | 0 | 20 | 0 |
-| WI-0137 | Make context routing stage-aware and measurement-ready | independent_qa | Independent QA | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `94d8ceb9` | 0 | 13 | 0 |
+| WI-0137 | Make context routing stage-aware and measurement-ready | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `94d8ceb9` | 0 | 16 | 0 |
 
 ## Codex task registry
 
@@ -326,14 +326,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-04T00:26:42.408Z | work_item_transitioned | WI-0137 | agent-lulu |
+| 2026-09-04T00:26:41.953Z | handoff_created | WI-0137 | agent-lulu |
+| 2026-09-04T00:26:20.346Z | evidence_recorded | WI-0137 | human |
 | 2026-09-04T00:25:20.445Z | work_item_transitioned | WI-0137 | agent-lulu |
 | 2026-09-04T00:25:20.129Z | work_item_transitioned | WI-0137 | agent-lulu |
 | 2026-09-04T00:25:14.216Z | evidence_recorded | WI-0137 | human |
 | 2026-09-04T00:16:00.330Z | work_item_claimed | WI-0137 | human |
 | 2026-09-04T00:16:00.073Z | work_item_coordination_configured | WI-0137 | agent-lulu |
-| 2026-09-04T00:15:59.820Z | work_item_transitioned | WI-0137 | agent-rikku |
-| 2026-09-04T00:15:59.600Z | work_item_claim_released | WI-0137 | human |
-| 2026-09-04T00:15:59.342Z | handoff_created | WI-0137 | agent-rikku |
 
 ## Assignments
 
