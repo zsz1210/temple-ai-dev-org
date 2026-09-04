@@ -1,0 +1,21 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "149076c69d7ecc2af3ede76e1f3b8d7a88285334",
+  "command": [
+    "git worktree add --detach <temporary-path> 149076c69d7ecc2af3ede76e1f3b8d7a88285334",
+    "npm ci --ignore-scripts",
+    "npm run verify",
+    "node ./.ai-org/artifacts/WI-0166/audit-actions-logs.mjs <extracted-log-root> <runs.tsv> <temporary-output.json>",
+    "compare the value-free result to actions-log-audit.json",
+    "git worktree remove <temporary-path>"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T18:19:16.000Z",
+  "completed_at": "2026-09-04T18:20:32.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0166/actions-log-audit.json",
+    ".ai-org/artifacts/WI-0166/actions-log-review.md",
+    ".ai-org/artifacts/WI-0166/audit-actions-logs.mjs"
+  ]
+}
