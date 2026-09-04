@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.29`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 155 total, 0 active
+- Work items: 156 total, 1 active
 - Codex tasks: 8 registered, 8 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -203,6 +203,7 @@
 | WI-0153 | Label Temple Concept Layers as L1 through L6 | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `543c5cb8` | 0 | 7 | 0 |
 | WI-0154 | Review retained evidence for public readiness | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `d1434761` | 0 | 8 | 0 |
 | WI-0155 | Run fresh-session clean-room release rehearsal | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9d1d42b6` | 2 | 9 | 0 |
+| WI-0156 | Reduce fresh-session onboarding friction | build | Developer | Rikku | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260904130100-d8c8a8ec | `—` | 0 | 3 | 0 |
 
 ## Codex task registry
 
@@ -347,14 +348,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-04T13:01:00.705Z | work_item_claimed | WI-0156 | human |
+| 2026-09-04T13:01:00.425Z | work_item_transitioned | WI-0156 | agent-tidus |
+| 2026-09-04T13:01:00.164Z | work_item_transitioned | WI-0156 | agent-yuna |
+| 2026-09-04T13:00:59.863Z | work_item_transitioned | WI-0156 | agent-mog |
+| 2026-09-04T12:59:35.150Z | work_item_created | WI-0156 | agent-mog |
 | 2026-09-04T12:48:09.825Z | work_item_closed | WI-0155 | agent-lulu |
 | 2026-09-04T12:48:09.825Z | work_item_transitioned | WI-0155 | agent-lulu |
 | 2026-09-04T12:48:03.231Z | evidence_recorded | WI-0155 | human |
-| 2026-09-04T12:47:54.684Z | work_item_claimed | WI-0155 | human |
-| 2026-09-04T12:42:22.482Z | work_item_transitioned | WI-0155 | agent-rikku |
-| 2026-09-04T12:42:05.442Z | handoff_created | WI-0155 | agent-rikku |
-| 2026-09-04T12:41:40.834Z | evidence_recorded | WI-0155 | human |
-| 2026-09-04T12:41:40.583Z | evidence_recorded | WI-0155 | human |
 
 ## Assignments
 

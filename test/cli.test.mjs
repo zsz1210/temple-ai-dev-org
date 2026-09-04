@@ -8,6 +8,7 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { formatJson, sha256 } from "../src/files.mjs";
 import { executeInit, planInit } from "../src/install.mjs";
+import { validateInitConfig } from "../src/model.mjs";
 import { ensureTaskRegistry } from "../src/project.mjs";
 import { createShutdownSignalLatch } from "../src/cli.mjs";
 import {
@@ -82,6 +83,27 @@ test("version is available without dependencies", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /^0\.1\.0-alpha\.29/m);
+});
+
+test("package-visible init example is valid and non-interactive failure points to it", async (context) => {
+  const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-init-example-"));
+  const target = path.join(temporaryRoot, "sample-product");
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+
+  const examplePath = path.join(root, "docs/getting-started/temple-init.example.json");
+  const example = JSON.parse(await fs.readFile(examplePath, "utf8"));
+  const validated = await validateInitConfig(example);
+  assert.equal(validated.repository_integration.status, "unconfirmed");
+  assert.equal(validated.repository_integration.source, "not-inspected");
+
+  const dryRun = run(["init", target, "--config", examplePath, "--dry-run", "--json"]);
+  assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
+  assert.equal(JSON.parse(dryRun.stdout).plan.repository_integration, "unconfirmed");
+
+  const missingConfig = run(["init", target]);
+  assert.equal(missingConfig.status, 1, missingConfig.stdout);
+  assert.match(missingConfig.stderr, /docs\/getting-started\/temple-init\.example\.json/);
+  assert.match(missingConfig.stderr, /repository_integration is optional and defaults to unconfirmed/);
 });
 
 test("shutdown signal latch stays active through cleanup and accepts only the first signal", async () => {

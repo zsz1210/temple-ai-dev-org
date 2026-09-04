@@ -892,7 +892,7 @@ async function askWithDefault(interfaceInstance, prompt, defaultValue) {
 async function collectInteractiveConfig(target) {
   if (!input.isTTY || !output.isTTY) {
     throw new Error(
-      "Non-interactive init requires --config. Use $temple-init in Codex for AI-suggested names or provide a temple.init/v1 JSON file."
+      "Non-interactive init requires --config. Start with docs/getting-started/temple-init.example.json; repository_integration is optional and defaults to unconfirmed. Use $temple-init in Codex for an inspected, user-confirmed setup."
     );
   }
   const prompt = readline.createInterface({ input, output });
@@ -1684,6 +1684,7 @@ async function runEvidence(parsed) {
   printResult(parsed, entry, [
     `Recorded ${entry.id}: ${entry.kind} (${entry.outcome})`,
     `Scope revision: ${entry.scope_revision ?? "unbound"}`,
+    `Reusable gate reference (copy exactly): ${entry.id}`,
     `Lifecycle gate satisfied: no`,
     `External action: not performed`
   ]);
