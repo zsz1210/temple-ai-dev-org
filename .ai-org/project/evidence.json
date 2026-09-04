@@ -22174,6 +22174,67 @@
         "exit_code": 0,
         "started_at": "2026-09-04T01:49:43Z"
       }
+    },
+    {
+      "id": "EVID-20260904T020657Z-9A79B899",
+      "work_item_id": "WI-0139",
+      "recorded_at": "2026-09-04T02:06:57.671Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "WI-0139 approved live Context Capsule comparison",
+      "outcome": "pass",
+      "scope_revision": "65d2d5065c51a20618e81781dfdbd4987e870534",
+      "observed_at": "2026-09-04T02:04:06.910Z",
+      "summary": "Four authorized Terra medium conditions executed with 136,851 Operational Tokens, zero retries and zero fallback. The multi-repository pair was correct in both arms but stage-aware regressed 6.38% in tokens and 8.01% in latency; both single-repository arms were censored by the 40,000-token limit.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0139/live-runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0139/live-runtime-observation.json",
+          "sha256": "8f22a159661666c9e7193a6cf9d351f038ac2ea2b25913ea219e09228d3cfbed"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/account-approval.json",
+          "sha256": "edca68d8333d3ed2b6e08390082a00f686f0cf6cc7e7ea5d54a9ff66e83ec58a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/approved-preflight.json",
+          "sha256": "ee1c23e0bb8afd589ac80abb6c1c99af8b9000c42fd0d218248c7c98da7a4f3a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/live-protocol.json",
+          "sha256": "1dab5e0e09a9c49b8b5bffb6c39e133a1c6e8c416bb19c1f8b03b4bfc8f21641"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/live-observation.json",
+          "sha256": "61f1688e23d7b9b4dd1ce6292202f3572b135d1afc77a3e891fcbedd38109927"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/effectiveness-analysis.json",
+          "sha256": "3cac1e6250a7d80ca25eca999cb3eeeb138341dce5f3128598944db9c431922f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/effectiveness-report.md",
+          "sha256": "182c81f4973f9e356c5769c8a298a0aa897b8a878649a78a8a4365455f294cdf"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/live-evaluation.md",
+          "sha256": "c92caa7960ec124719bdcf46c0eb17b3c14b764a33ebe460be8a95987d89b81b"
+        }
+      ],
+      "details": {
+        "environment": "Codex App Server with isolated local repository fixtures",
+        "scenario": "Execute the approved four-condition typed Context Capsule comparison with fixed model, effort, token, retry, and fallback boundaries",
+        "provenance": "live"
+      }
     }
   ]
 }
